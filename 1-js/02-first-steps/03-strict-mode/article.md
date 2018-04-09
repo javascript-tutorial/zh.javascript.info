@@ -1,61 +1,67 @@
-# The modern mode, "use strict"
+# 新模式，"use strict"
 
-For a long time JavaScript was evolving without compatibility issues. New features were added to the language, but the old functionality did not change.
+很长的一段时间内，JavaScript 不断发展，但是没有兼容性问题。新特性已添加到该语言，但是旧的功能也没有改变。
 
-That had the benefit of never breaking existing code. But the downside was that any mistake or an imperfect decision made by JavaScript creators got stuck in the language forever.
+这有利于不破坏现有的规范，但缺点是 JavaScript 创造者的任何错误和不完美的考虑也永远地停留在语言中。
 
-It had been so until 2009 when ECMAScript 5 (ES5) appeared. It added new features to the language and modified some of the existing ones. To keep the old code working, most modifications are off by default. One needs to enable them explicitly with a special directive `"use strict"`.
+直到 2009 年 ECMAScript 5 (ES5) 的出现。ES5 规范增加了新的语言特性并且修改了一些已经存在的特性。为了保证旧的功能能够使用，大部分的修改是默认不生效的。你需要一个特殊的指令 `"use strict"` 来明确地使用这些特性。
+
+[cut]
 
 ## "use strict"
 
-The directive looks like a string: `"use strict"` or `'use strict'`. When it is located on the top of the script, then the whole script works the "modern" way.
+这个指令看上去是一个字符串 `"use strict"` 或者 `'use strict'`。当它处于脚本文件的顶部，则整个脚本文件都工作在 "现代" 的方式中。
 
-For example
+比如：
 
 ```js
 "use strict";
 
-// this code works the modern way
+// 代码以新模式工作
 ...
 ```
 
-We will learn functions (a way to group commands) soon.
+```warn header="没有办法取消 `use strict`"
+没有类似于 `"no use strict"` 这样的指令，这会返回原来的默认模式。
 
-Looking ahead let's just note that `"use strict"` can be put at the start of a function (most kinds of functions) instead of the whole script. Then strict mode is enabled in that function only. But usually people use it for the whole script.
+一旦进入了严格模式，就没有退路了。
+```
 
+````warn header="确保 'use strict' 处于顶部"
+请确保 `"use strict"` 处于脚本文件的顶部，否则严格模式不会开启。
 
-````warn header="Ensure that \"use strict\" is at the top"
-Please make sure that `"use strict"` is on the top of the script, otherwise the strict mode may not be enabled.
-
-There is no strict mode here:
+下面的代码就没有被严格模式覆盖：
 
 ```js no-strict
 alert("some code");
-// "use strict" below is ignored, must be on the top
+// 下面的 "use strict" 被忽略了，它应该处于顶部
 
 "use strict";
 
-// strict mode is not activated
+// 严格模式未被激活
 ```
 
-Only comments may appear above `"use strict"`.
+也仅有注释可以位于 `"use strict"` 之上.
 ````
 
-```warn header="There's no way to cancel `use strict`"
-There is no directive `"no use strict"` or alike, that would return the old behavior.
 
-Once we enter the strict mode, there's no return.
+```smart header="函数内使用 `use strict`"
+我们之后不久将会学到函数（一种组合命令的方式）。
+
+需要注意的是，我们可以把 `"use strict"` 放在函数的开头（大多数函数）而不是整个脚本文件。严格模式也只在函数中有效。但是通常情况，我们为整个脚本文件使用严格模式。
 ```
 
-## Always "use strict"
 
-The differences of `"use strict"` versus the "default" mode are still to be covered.
+## 开始使用 "use strict"
 
-In the next chapters, as we learn language features, we'll make notes about the differences of the strict mode. Luckily, there are not so many. And they actually make our life better.
+建议始终使用 `"use strict"` 启动脚本，原因如下：
 
-At this point in time it's enough to know about it in general:
+1. 首先，所有的现代浏览器都支持它，只有过时的 Internet Explorer 9 及其以下的版本无法使用。
+2. 其次，现代的 JavaScript 实际上会强制使用严格模式。一些新语言特性诸如 "classes" 和 "modules" 会自动开启严格模式。所以，很难去避免它。
 
-1. The `"use strict"` directive switches the engine to the "modern" mode, changing the behavior of some built-in features. We'll see the details as we study.
-2. The strict mode is enabled by `"use strict"` at the top. Also there are several language features like "classes" and "modules" that enable strict mode automatically.
-3. The strict mode is supported by all modern browsers.
-4. It's always recommended to start scripts with `"use strict"`. All examples in this tutorial assume so, unless (very rarely) specified otherwise.
+## 总结
+
+- `"use strict"` 指令将浏览器引擎转换为 “新” 模式，改变一些内建特性的行为。
+- 几个语言新特性会隐式开启 `"use strict"`，所以很难去避免它。
+
+建议始终使用 `"use strict"` 启动脚本。本教程的所有例子都默认采用严格模式，除非特别指定（非常少）。

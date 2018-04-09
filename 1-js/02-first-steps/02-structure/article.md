@@ -1,44 +1,46 @@
-# Code structure
+# 代码结构
 
-The first thing to study is the building blocks of the code.
+第一件事就是代码的构建块（building blocks）。
 
-## Statements
+[cut]
 
-Statements are syntax constructs and commands that perform actions.
+## 语句
 
-We've already seen a statement `alert('Hello, world!')`, which shows the message.
+语句是执行操作的语法结构和命令。
 
-We can have as many statements in the code as we want. Another statement can be separated with a semicolon.
+我们已经见过语句 `alert('Hello, world!')`， 它用来显示消息。
 
-For example, here we split the message into two:
+我们可以在代码中拥有尽可能多的语句。语句之间可以使用分号分割。
+
+例如，我们将 Hello World 这条信息一分为二：
 
 ```js run no-beautify
 alert('Hello'); alert('World');
 ```
 
-Usually each statement is written on a separate line -- thus the code becomes more readable:
+通常，每条语句在单独的一行书写 -- 这让代码更易阅读。
 
 ```js run no-beautify
 alert('Hello');
 alert('World');
 ```
 
-## Semicolons [#semicolon]
+## 分号 [#semicolon]
 
-A semicolon may be omitted in most cases when a line break exists.
+多数情况下，当一个分行符（line break）存在时，分号可以省略。
 
-This would also work:
+下面的代码也是可以的:
 
 ```js run no-beautify
 alert('Hello')
 alert('World')
 ```
 
-Here JavaScript interprets the line break as an "implicit" semicolon. That's also called an [automatic semicolon insertion](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion).
+此处，JavaScript 将分行符解释成“隐式”的分号。这也被称为[自动分号插入](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion)。
 
-**In most cases a newline implies a semicolon. But "in most cases" does not mean "always"!**
+**多数情况下，换行意味着一个分号。但是“多数情况”并不“总是”！**
 
-There are cases when a newline does not mean a semicolon, for example:
+有很多换行并不是分号的例子，比如：
 
 ```js run no-beautify
 alert(3 +
@@ -46,22 +48,22 @@ alert(3 +
 + 2);
 ```
 
-The code outputs `6`, because JavaScript does not insert semicolons here. It is intuitively obvious that if the line ends with a plus `"+"`, then it is an "incomplete expression", no semicolon required. And in this case that works as intended.
+代码输出 `6`，因为 JavaScript 并没有在这里插入分号。 显而易见的是，如果一行以加号 `"+"` 结尾，那么这是一个“不完整的表达式”，不需要分号。所以，这个例子得到了预期的结果。
 
-**But there are situations where JavaScript "fails" to assume a semicolon where it is really needed.**
+**但是也有当分号真正需要的时候， JavaScript无法假设一个分号的情况。**
 
-Errors which occur in such cases are quite hard to find and fix.
+这样的错误是很难被找到和解决的。
 
-````smart header="An example of an error"
-If you're curious to see a concrete example of such an error, check this code out:
+````smart header="一个错误的例子"
+如果你好奇于这种错误的一个具体的例子，看下面这段代码：
 
 ```js run
 [1, 2].forEach(alert)
 ```
 
-No need to think about the meaning of the brackets `[]` and `forEach` yet. We'll study them later, for now it does not matter. Let's just remember the result: it shows `1`, then `2`.
+不需要考虑方括号 `[]` 和 `forEach` 的含义，我们接下来会学习它们，现在它们并不重要。让我们记住最终结果：先显示 `1`，然后显示 `2`。
 
-Now let's add an `alert` before the code and *not* finish it with a semicolon:
+现在我们在代码前面加入一个 `alert`，并且不用分号结束它。
 
 ```js run no-beautify
 alert("There will be an error")
@@ -69,52 +71,52 @@ alert("There will be an error")
 [1, 2].forEach(alert)
 ```
 
-Now if we run it, only the first `alert` is shown, and then we have an error!
+现在，如果我们运行代码，仅仅第一个 `alert` 显示了文本，接着我们收到了一个错误！
 
-But everything is fine again if we add a semicolon after `alert`:
+但是，如果我们在第一个 `alert` 后加入一个分号，就工作正常了。
 ```js run
 alert("All fine now");
 
-[1, 2].forEach(alert)  
+[1, 2].forEach(alert)
 ```
 
-Now we have the "All fine now" message and then `1` and `2`.
+现在，我们能得到 "All fine now" ，然后是 `1` 和 `2`。
 
 
-The error in the no-semicolon variant occurs because JavaScript does not imply a semicolon before square brackets `[...]`.
+出现无分号变量的错误，是因为 JavaScript 并不在方括号 `[...]` 前添加一个*隐式*的分号。
 
-So, because the semicolon is not auto-inserted, the code in the first example is treated as a single statement. That's how the engine sees it:
+所以，因为分号并不会自动插入，第一个例子被视为一条简单的语句，我们从引擎看到的是这样子的：
 
 ```js run no-beautify
 alert("There will be an error")[1, 2].forEach(alert)
 ```
 
-But it should be two separate statements, not a single one. Such a merging in this case is just wrong, hence the error. There are other situations when such a thing happens.
+但它应该是两条语句，而不是一条。这种情况下的合并是不对的，所以才会造成错误。诸如此类，还有很多。
 ````
 
-It's recommended to put semicolons between statements even if they are separated by newlines. This rule is widely adopted by the community. Let's note once again -- *it is possible* to leave out semicolons most of the time. But it's safer -- especially for a beginner -- to use them.
+如果语句被换行分割，非常建议在语句之间添加分号。这个规则被社区广泛采纳。让我们再次强调 -- 大部分时候可以省略分号，但是最好是，尤其对于新手，加上它。
 
-## Comments
+## 注释
 
-As time goes on, the program becomes more and more complex. It becomes necessary to add *comments* which describe what happens and why.
+随着时间推移，程序变得越来越复杂。为代码添加*注释*来描述发生了什么（What happens）和为什么（Why），变得非常有必要了。
 
-Comments can be put into any place of the script. They don't affect the execution, because the engine simply ignores them.
+注释可以在脚本的任何地方添加，它们并不会影响代码的执行，因为引擎会简单地忽略它们。
 
-**One-line comments start with two forward slash characters `//`.**
+**单行注释以两个正斜杠字符 `//` 开始。**
 
-The rest of the line is a comment. It may occupy a full line of its own or follow a statement.
+这一行的剩余部分是注释。它可能占据它所拥有的整行或者跟随在一条语句的后面。
 
-Like here:
+就像这样:
 ```js run
-// This comment occupies a line of its own
+// 这行注释占据所拥有的整行
 alert('Hello');
 
-alert('World'); // This comment follows the statement
+alert('World'); // 这行注释跟随在语句后面
 ```
 
-**Multiline comments start with a forward slash and an asterisk <code>/&#42;</code> and end with an asterisk and a forward slash <code>&#42;/</code>.**
+**多行注释以一个正斜杠和星号开始 <code>"/&#42;"</code> 并以一个星号和正斜杆结束 <code>"&#42;/"</code>.**
 
-Like this:
+就像这样:
 
 ```js run
 /* An example with two messages.
@@ -124,9 +126,9 @@ alert('Hello');
 alert('World');
 ```
 
-The content of comments is ignored, so if we put code inside <code>/&#42; ... &#42;/</code> it won't execute.
+注释的内容被忽略了，所以如果我们在 <code>/&#42; ... &#42;/</code> 中放入代码，并不会执行。
 
-Sometimes it comes in handy to temporarily disable a part of code:
+有时候，可以很方便地临时禁用代码：
 
 ```js run
 /* Commenting out the code
@@ -135,14 +137,14 @@ alert('Hello');
 alert('World');
 ```
 
-```smart header="Use hotkeys!"
-In most editors a line of code can be commented out by `key:Ctrl+/` hotkey for a single-line comment and something like `key:Ctrl+Shift+/` -- for multiline comments (select a piece of code and press the hotkey). For Mac try `key:Cmd` instead of `key:Ctrl`.
+```smart header="使用热键！"
+在大多数的编辑器中，一行代码可以使用 `key:Ctrl+/` 热键进行单行注释，诸如 `key:Ctrl+Shift+/` 的热键可以进行多行注释（选择代码，然后按下热键）。对于 Mac 电脑，应使用 `key:Cmd` 而不是 `key:Ctrl`。
 ```
 
-````warn header="Nested comments are not supported!"
-There may not be `/*...*/` inside another `/*...*/`.
+````warn header="不支持注释嵌套！"
+没有 `/*...*/` 内嵌套另一个 `/*...*/`。
 
-Such code will die with an error:
+下面这段代码会死机、出错：
 
 ```js run no-beautify
 /*
@@ -152,8 +154,8 @@ alert( 'World' );
 ```
 ````
 
-Please, don't hesitate to comment your code.
+注释你的代码，请不要有任何迟疑。
 
-Comments increase the overall code footprint, but that's not a problem at all. There are many tools which minify the code before publishing to the production server. They remove comments, so they don't appear in the working scripts. Therefore comments do not have any negative effects on production at all.
+注释会增加代码总量，但这一点也不是问题。有很多工具可以在你部署到服务器之前缩减代码。这些工具会移除注释，所以注释不会出现在发布的脚本中。所以，注释对我们的生产没有任何负面影响。
 
-Further in the tutorial, there will be a chapter <info:coding-style> that also explains how to write better comments.
+在进一步的教程中，会有一章 <info:coding-style> 的内容解释如何书写更好的注释。
