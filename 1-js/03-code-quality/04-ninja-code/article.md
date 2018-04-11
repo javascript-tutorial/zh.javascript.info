@@ -1,184 +1,170 @@
-# Ninja code
+# 如何编写不良代码？
 
+过去的程序员忍者使用这些技巧来使代码维护者哭泣。代码审查大师在测试任务中寻找它们。一些新入门的开发者有时候使用它们甚至比程序员忍者更好。
 
-```quote author="Confucius"
-Learning without thought is labor lost; thought without learning is perilous.
+仔细阅读它们，找出你是谁 —— 一个忍者、一个新手、或者一个代码审查者？
+
+[cut]
+
+```warn header="检测到讽刺意味"
+这是一些编写不良代码的规则。只是... 你知道，有些人错过了这一点。
 ```
 
-Programmer ninjas of the past used these tricks to make sharpen the mind of code maintainers.
+## 简洁是智慧的灵魂
 
-Code review gurus look for them in test tasks.
+让代码尽可能地短一点。展示出你是多么的聪明啊。
 
-Novice developers sometimes use them even better than programmer ninjas.
+让一些巧妙的语言特性来指导你。
 
-Read them carefully and find out who you are -- a ninja, a novice, or maybe a code reviewer?
-
-
-```warn header="Irony detected"
-Many try to follow ninja paths. Few succeed.
-```
-
-
-## Brevity is the soul of wit
-
-Make the code as short as possible. Show how smart you are.
-
-Let subtle language features guide you.
-
-For instance, take a look at this ternary operator `'?'`:
+例如，看一下这个三元运算符 `'?'`：
 
 ```js
-// taken from a well-known javascript library
+// 从一个著名的 javascript 库中取到的代码
 i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 ```
 
-Cool, right? If you write like that, the developer who comes across this line and tries to understand what is the value of `i` is going to have a merry time. Then come to you, seeking for an answer.
+很酷，对吗？如果你这样写了，那些看到这一行代码并尝试去理解 `i` 的值是什么的开发者们就会有一个“快活的”的时光了。然后会来找你寻求答案。
 
-Tell him that shorter is always better. Initiate him into the paths of ninja.
+告诉他短一点总是更好的。引导他进入忍者之路。
 
-## One-letter variables
+## 一个字母的变量
 
-```quote author="Laozi (Tao Te Ching)"
-The Dao hides in wordlessness. Only the Dao is well begun and well
-completed.
+```quote author="老子（道德经）"
+道隐无名。夫唯道善贷且成。
 ```
 
-Another way to code faster is to use single-letter variable names everywhere. Like `a`, `b` or `c`.
+编码更快（也更糟糕）的另一种方式是到处使用单字母的变量名。像是 `a`、`b` 或 `c`。
 
-A short variable disappears in the code like a real ninja in the forest. No one will be able to find it using "search" of the editor. And even if someone does, he won't be able to "decipher" what the name `a` or `b` means.
+短变量会像森林中真正的忍者一样在代码中消失不见。没有人能够通过编辑器的“搜索”找到它。即使有人做到了，他也不能“破译”出变量名 `a` 或 `b` 意味着什么。
 
-...But there's an exception. A real ninja will never use `i` as the counter in a `"for"` loop. Anywhere, but not here. Look around, there are many more exotic letters. For instance, `x` or `y`.
+...但是有一个例外情况。一个真正的忍者绝不会在 `"for"` 循环中使用 `i` 作为计数器。在任何地方都可以，但是这里不会用。看一下四周吧，还有很多不常用的字母呢。例如 `x` 或 `y`。
 
-An exotic variable as a loop counter is especially cool if the loop body takes 1-2 pages (make it longer if you can). Then if someone looks deep inside the loop, he won't be able to quickly figure out that the variable named `x` is the loop counter.
+如果循环体能够达到 1-2 页（如果可以的话可以让它更长）那么长的话，使用一个不常用的变量作为循环的计数器就更酷了。如果某人看到循环内部的深处后，他就不能很快地找出哪一个变量是循环计数器啦。
 
-## Use abbreviations
+## 使用缩写
 
-If the team rules forbid the use of one-letter and vague names -- shorten them, make abbreviations.
+如果团队规则中禁止使用一个字母和模糊的名字，那就缩短他们，使用缩写吧。
 
-Like this:
+像这样：
 
 - `list` -> `lst`.
 - `userAgent` -> `ua`.
 - `browser` -> `brsr`.
-- ...etc
+- ...等等
 
-Only the one with truly good intuition will be able to understand such names. Try to shorten everything. Only a worthy person should be able to uphold the development of your code.
+只有具有真正良好直觉的人才能够理解所有的这些名字。尽量缩短一切。只有一个有价值的人才能够维护这种代码的开发。
 
-## Soar high. Be abstract.
+## Soar high. 抽象化。
 
-```quote author="Laozi (Tao Te Ching)"
-The great square is cornerless<br>
-The great vessel is last complete,<br>
-The great note is rarified sound,<br>
-The great image has no form.
+```quote author="老子（道德经）"
+大方无隅<br>
+大器晚成<br>
+大音希声<br>
+大象无形
 ```
 
-While choosing a name try to use the most abstract word. Like `obj`, `data`, `value`, `item`, `elem` and so on.
+当选择一个名字时尽可能尝试使用最抽象的词语。例如 `obj`、`data`、`value`、`item`、`elem` 等等。
 
-- **The ideal name for a variable is `data`.** Use it everywhere you can. Indeed, every variable holds *data*, right?
+- **一个变量的理想名称是 `data`。** 在任何能用的地方都使用它。的确，每个变量都持有 *data*，对吧？
 
-    ...But what to do if `data` is already taken? Try `value`, it's also universal. After all, a variable eventually gets a *value*.
+    ...但是 `data` 已经用过了怎么办？可以尝试一下 `value`，它也很普遍呢。一个变量总会有一个 *value*，对吧？
 
-- **Name a variable by its type: `str`, `num`...**
+- **根据变量的类型命名：`str`, `num`...**
 
-    Give them a try. A young initiate may wonder -- are such names really useful for a ninja? Indeed, they are!
+    ...但是会使代码更糟吗？事实上，是的！
 
-    Sure, the variable name still means something. It says what's inside the variable: a string, a number or something else. But when an outsider tries to understand the code, he'll be surprised to see that there's actually no information at all! And will ultimately fail to alter your well-thought code.
+    一方面，变量名仍然有着一些含义。它说明了变量内是什么：一个字符串、一个数字或是其他的东西。但是当一个局外人试图理解代码时，他会惊讶地发现实际上没有任何有效信息！
 
-    The value type is easy to find out by debugging. But what's the meaning of the variable? Which string/number does it store?
+    事实上，值的类型很容易就能通过调试看出来。但是变量名的含义呢？它存了哪一个字符串/数字？如果不深思是没有办法找出来的！
 
-    There's just no way to figure out without a good meditation!
+- **...但是如果找不到更多这样的名字呢？** 可以加一个字符：`item1, item2, elem5, data1`...
 
-- **...But what if there are no more such names?** Just add a number: `data1, item2, elem5`...
+## 注意测试
 
-## Attention test
+只有一个真正细心的程序员才能理解代码。但是怎么检查呢？
 
-Only a truly attentive programmer should be able to understand your code. But how to check that?
+**方式之一 -- 使用相似的变量名，像 `date` 和 `data`.**
 
-**One of the ways -- use similar variable names, like `date` and `data`.**
+尽你所能地将它们混合在一起。
 
-Mix them where you can.
+快速阅读这些代码是不可能的。并且如果有一个错别字时... (⊙v⊙)嗯...我们很久很久没有喝茶了。
 
-A quick read of such code becomes impossible. And when there's a typo... Ummm... We're stuck for long, time to drink tea.
-
-
-## Smart synonyms
+## 智能同义词
 
 ```quote author="Confucius"
-The hardest thing of all is to find a black cat in a dark room, especially if there is no cat.
+最难的事情是在黑暗的房间里找到一只黑猫，特别是如果没有猫。
 ```
+对于**同样的**事情使用**相同**的名字，可以使生活更有趣，并向公众展示出你的创意。
 
-Using *similar* names for *same* things makes life more interesting and shows your creativity to the public.
+例如，函数前缀。如果一个函数是在屏幕上展示一个消息 —— 可以以 `display…` 开始，例如 `displayMessage`。如果另一个函数展示别的东西，比如一个用户名，可以以 `show…` 开始（例如 `showName`）。
 
-For instance, consider function prefixes. If a function shows a message on the screen -- start it with `display…`, like `displayMessage`. And then if another function shows on the screen something else, like a user name, start it with `show…` (like `showName`).
+暗示这些函数之间有微妙的差异，实际上并没有。
 
-Insinuate that there's a subtle difference between such functions, while there is none.
-
-Make a pact with fellow ninjas of the team: if John starts "showing" functions with `display...` in his code, then Peter could use `render..`, and Ann -- `paint...`. Note how much more interesting and diverse the code became.
+与团队中的其他忍者们达成一个协议：如果 John 在他的代码中以 `display...` 来开始一个"显示"函数，那么 Peter 可以用 `render..`，Ann 可以使用 `paint...`。你可以发现代码变得多么的有趣多样呀。
 
 ...And now the hat trick!
 
-For two functions with important differences -- use the same prefix!
+对于有非常重要的差异的两个函数使用相同的前缀。
 
-For instance, the function `printPage(page)` will use a printer. And the function `printText(text)` will put the text on-screen. Let an unfamiliar reader think well over similarly named function `printMessage`: "Where does it put the message? To a printer or on the screen?". To make it really shine, `printMessage(message)` should output it in the new window!
+例如，`printPage(page) 函数会使用一个打印机。`printText(text)` 函数会将文字显示到屏幕上。让一个陌生的读者来思考一下：“`printMessage(message)` 会将消息放到哪里呢？打印机还是屏幕上？” 为了使它真正耀眼，`printMessage(message)`应该将消息输出在新窗口中！
 
-## Reuse names
+## 重用名字
 
-```quote author="Laozi (Tao Te Ching)"
-Once the whole is divided, the parts<br>
-need names.<br>
-There are already enough names.<br>
-One must know when to stop.
+```quote author="老子（道德经）"
+始制有名，<br>
+名亦既有，<br>
+夫亦将知止，<br>
+知止可以不殆。
 ```
 
-Add a new variable only when absolutely necessary.
+仅在绝对必要时才添加新变量。
 
-Instead, reuse existing names. Just write new values into them.
+否则，重用已经存在的名字。只需要将新值写进变量即可。
 
-In a function try to use only variables passed as parameters.
+在一个函数中，尝试仅使用作为参数传递的变量。
 
-That would make it really hard to identify what's exactly in the variable *now*. And also where it comes from. A person with weak intuition would have to analyze the code line-by-line and track the changes through every code branch.
+这样就无法确定这个变量现在是什么了。也不知道它是从哪里来的。一个弱直觉的人必须逐行分析代码，并通过每个代码分支跟踪变化
 
-**An advanced variant of the approach is to covertly (!) replace the value with something alike in the middle of a loop or a function.**
+**这个方法的一个进阶方案是在一个循环或函数中偷偷地替换掉它的值。**
 
-For instance:
+例如：
 
 ```js
 function ninjaFunction(elem) {
-  // 20 lines of code working with elem
+  // 基于变量 elem 进行工作的 20 行
 
   elem = clone(elem);
 
-  // 20 more lines, now working with the clone of the elem!
+  // 又 20 行，现在是使用 clone 后的 elem 变量。
 }
 ```
 
-A fellow programmer who wants to work with `elem` in the second half of the function will be surprised... Only during the debugging, after examining the code he will find out that he's working with a clone!
+想要在第二部分中使用 `elem` 的程序员会非常的诧异滴...只有在调试期间，在检查代码之后，他会发现他正在使用克隆过的变量！
 
-Deadly effective even against an experienced ninja. Seen in code regularly.
+经常看到这样的代码，对经验丰富的忍者也是致命的。
 
-## Underscores for fun
+## 下划线的乐趣
 
-Put underscores `_` and `__` before variable names. Like `_name` or `__value`. It would be great if only you knew their meaning. Or, better, add them just for fun, without particular meaning at all. Or different meanings in different places.
+在变量名前使用 `_` 和 `__`。例如 `_name` 和 `__value`。如果只有你知道他们的含义的话将会非常棒。或者，更棒的是，其实没有意义。
 
-You kill two rabbits with one shot. First, the code becomes longer and less readable, and the second, a fellow developer may spend a long time trying to figure out what the underscores mean.
+你一枪杀死了两只兔子。首先，代码变得更长降低了可读性；第二，你的开发者小伙伴可能会花费很长时间来弄清楚下划线是什么意思。
 
-A smart ninja puts underscores at one spot of code and evades them at other places. That makes the code even more fragile and increases the probability of future errors.
+一个聪明的忍者会在代码的一个地方使用下划线然后在其他地方刻意避免使用它们。这会使得代码变得更加脆弱，并增加未来出现错误的可能性。
 
-## Show your love
+## 展示你的爱
 
-Let everyone see how magnificent your entities are! Names like `superElement`, `megaFrame` and `niceItem` will definitely enlighten a reader.
+让大家看看你的实体是多么壮观！像 `superElement`、`megaFrame` 和 `niceItem` 这样的名字一定会启发读者。
 
-Indeed, from one hand, something is written: `super..`, `mega..`, `nice..` But from the other hand -- that brings no details. A reader may decide to look for a hidden meaning and meditate for an hour or two.
+事实上，从一方面来说，看似写了一些东西：`super..`、`mega..`、`nice..`，但是从另一方面来说 —— 并没有提供任何细节。读者可能要寻找一个隐藏的含义或深思一两个小时。
 
-## Overlap outer variables
+## 重叠外部变量
 
 ```quote author="Guan Yin Zi"
 When in the light, can't see anything in the darkness.<br>
 When in the darkness, can see everything in the light.
 ```
 
-Use same names for variables inside and outside a function. As simple. No efforts required.
+对函数内外的变量使用相同的名称。很简单，一点也不费劲。
 
 ```js
 let *!*user*/!* = authenticateUser();
@@ -188,52 +174,50 @@ function render() {
   ...
   ...many lines...
   ...
-  ... // <-- a programmer wants to work with user here and...
+  ... // <-- 某个程序员想要在这里使用 user 变量...
   ...
 }
 ```
 
-A programmer who jumps inside the `render` will probably fail to notice that there's a local `user` shadowing the outer one.
+跳过 `render` 的程序员可能不会注意到有一个本地 `user` 遮挡外部的 `user` 了。
 
-Then he'll try to work with `user` assuming that it's the external variable, the result of `authenticateUser()`... The trap is sprung! Hello, debugger...
+然后他会假设 `user` 仍然是外部的变量然后使用它，`authenticateUser()` 的结果... 陷阱出来啦！你好呀，调试器...
 
+## 无处不在的副作用！
 
-## Side-effects everywhere!
+有些函数看起来它们不会改变任何东西。例如 `isReady()`、`checkPermission()`、`findTags()`... 它们被假定为会执行计算，查找和返回数据，而不需要更改任何外部的数据。这被称为“无副作用”。
 
-There are functions that look like they don't change anything. Like `isReady()`, `checkPermission()`, `findTags()`... They are assumed to carry out calculations, find and return the data, without changing anything outside of them. In other words, without "side-effects".
+**一个非常好的技巧 - 除了主要任务之外，还要向它们添加一个“有用的”动作**
 
-**A really beautiful trick is to add a "useful" action to them, besides the main task.**
+当你的同事看到被命名为 `is..`、`check..` 或 `find...` 的函数改变了某些东西的时候，他的脸上肯定是一脸懵逼的状态。
 
-The expression of dazed surprise on the face of your colleague when he sees a function named `is..`, `check..` or `find...` changing something -- will definitely broaden your boundaries of reason.
+**另一种惊喜的方式是返回非标准的结果。**
 
-**Another way to surprise is to return a non-standard result.**
+展示你原来的想法！让调用 `checkPermission` 时返回的不是 `true/false`，而是一个包含检查结果的复杂对象。
 
-Show your original thinking! Let the call of `checkPermission` return not `true/false`, but a complex object with the results of the check.
+那些尝试写 `if (checkPermission(..))` 的开发者会怀疑为什么它不能工作。告诉他们：“去读文档吧”。然后给出这篇文章。
 
-Those developers who try to write `if (checkPermission(..))`, will wonder why it doesn't work. Tell them: "Read the docs!". And give this article.
+## 强大的函数！
 
-
-## Powerful functions!
-
-```quote author="Laozi (Tao Te Ching)"
-The great Tao flows everywhere,<br>
-both to the left and to the right.
+```quote author="老子（道德经）"
+大道泛兮，<br>
+其左可右。
 ```
 
-Don't limit the function by what's written in its name. Be broader.
+不要让函数受限于名字中写的那样。变得更宽泛一点吧。
 
-For instance, a function `validateEmail(email)` could (besides checking the email for correctness) show an error message and ask to re-enter the email.
+例如，函数 `validateEmail(email)` 可以（除了检查邮件的正确性之外）显示一个错误消息并要求重新输入邮件。
 
-Additional actions should not be obvious from the function name. A true ninja coder will make them not obvious from the code as well.
+额外的动作在函数名称中不应该很明显。一个真正的忍者也会使它们在代码中也不明显。
 
-**Joining several actions into one protects your code from reuse.**
+**将多个动作加入到一起可以保护您的代码避免重用。**
 
-Imagine, another developer wants only to check the email, and not output any message. Your function  `validateEmail(email)` that does both will not suit him. So he won't break your meditation by asking anything about it.
+想象一下，另一个开发者只想检查邮箱而不想输出任何信息。你的函数 `validateEmail(email)`对他而言就不合适啦。所以他不会找你问一些关于这些函数的事情从而打断你的思考。
 
-## Summary
+## 总结
 
-All "pieces of advice" above are from the real code... Sometimes, written by experienced developers. Maybe even more experienced than you are ;)
+上面的所有“建议”都是从真实的代码中提炼而来... 有时，这些代码是由有经验的开发人员写的。也许比你更有经验 ;）
 
-- Follow some of them, and your code will become full of surprises.
-- Follow many of them, and your code will become truly yours, no one would want to change it.
-- Follow all, and your code will become a valuable lesson for young developers looking for enlightenment.
+- 遵从其中的一丢丢，你的代码就会变得充满惊喜。
+- 遵从其中的一多部分，你的代码将真正成为你的代码，没有人会想改变它。
+- 遵从所有，你的代码将成为寻求启发的年轻开发人员的宝贵教训。
