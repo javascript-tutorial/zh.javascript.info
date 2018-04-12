@@ -24,9 +24,9 @@ JavaScript 在被创建的时候，它的名字叫 “LiveScript”。但是因�
 
 不同的引擎有不同的名字，例如：
 
-* [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- Chrome 和 Opera 中的 JavaScript 引擎 。
-* [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- Firefox 中的 JavaScript 引擎。
-* ... 也有一些其他的 JavaScript 引擎，例如，“Trident” 和 “Chakra” 是不同版本 IE 的 JavaScript 引擎，“ChakraCore” 是 Microsoft Edge 的 JavaScript 引擎 , “Nitro” 和 “SquirrelFish” 是 Safari 的 JavaScript 引擎，等等。
+- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- Chrome 和 Opera 中的 JavaScript 引擎 。
+- [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- Firefox 中的 JavaScript 引擎。
+- ... 也有一些其他的 JavaScript 引擎，例如，“Trident” 和 “Chakra” 是不同版本 IE 的 JavaScript 引擎，“ChakraCore” 是 Microsoft Edge 的 JavaScript 引擎 , “Nitro” 和 “SquirrelFish” 是 Safari 的 JavaScript 引擎，等等。
 
 上面这些很容易记忆，因为经常出现在网上关于开发的文章中。我们也会这样用。例如：某个新的功能，JavaScript 引擎 V8 是支持的，那么我们可以认为这个功能在 Chrome 和 Opera 中可以正常运行。
 
@@ -51,11 +51,11 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.JS](https://wik
 
 例如，浏览器中的 JavaScript 可以完成下面这些事：
 
-* 在网页中插入新的 HTML，修改现有的网页内容和网页的样式。
-* 响应用户的行为，响应鼠标的点击或移动、键盘的敲击。
-* 向远程服务器发送请求，使用 [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) 和 [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) 技术下载或上传文件。
-* 获取或修改 cookie，向用访问者提出问题、发送消息。
-* 记住客户端的数据（本地存储）。
+- 在网页中插入新的 HTML，修改现有的网页内容和网页的样式。
+- 响应用户的行为，响应鼠标的点击或移动、键盘的敲击。
+- 向远程服务器发送请求，使用 [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) 和 [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) 技术下载或上传文件。
+- 获取或修改 cookie，向用访问者提出问题、发送消息。
+- 记住客户端的数据（本地存储）。
 
 ## 浏览器中的 JavaScript 不能做什么？
 
@@ -95,6 +95,7 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.JS](https://wik
 
 当然，学习一项新技术的时候，最好先看一下它的前景。所以，接下来我们继续讨论包括新语言和浏览器功能在内的现代趋势。
 
+
 ## 比 JavaScript “好” 的语言
 
 不同的人喜欢不同的功能，JavaScript 的语法也不能够满足所有人。
@@ -107,14 +108,14 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.JS](https://wik
 
 这些语言的例子有：
 
-* [CoffeeScript](http://coffeescript.org/) 是 JavaScript 的语法糖，它语法简短，精确简捷。通常使用 Ruby 的人喜欢用。
-* [TypeScript](http://www.typescriptlang.org/) 主要是是添加了严格类型系统。这样就能简化开发，也能用于开发复杂的系统。TypeScript 是微软开发的。
-* [Dart](https://www.dartlang.org/) 是一门独立的语言。它拥有自己的引擎用于在非浏览器环境中运行（如：在手机应用中运行）。最开始是 Google 提供的用于替代 JavaScript 的，但是现在，浏览器也需要它和上面的语言一样需要被编译成 JavaScript 。
+- [CoffeeScript](http://coffeescript.org/) 是 JavaScript 的语法糖，它语法简短，精确简捷。通常使用 Ruby 的人喜欢用。
+- [TypeScript](http://www.typescriptlang.org/) 主要是是添加了严格类型系统。这样就能简化开发，也能用于开发复杂的系统。TypeScript 是微软开发的。
+- [Dart](https://www.dartlang.org/) 是一门独立的语言。它拥有自己的引擎用于在非浏览器环境中运行（如：在手机应用中运行）。最开始是 Google 提供的用于替代 JavaScript 的，但是现在，浏览器也需要它和上面的语言一样需要被编译成 JavaScript 。
 
 当然，还有更多其他的语言。即使我们在使用这些语言，我们也需要知道 JavaScript。因为学习 JavaScript 可以让我们真正明白我们自己在做什么。
 
 ## 总结
 
-* JavaScript 最开始是为浏览器设计的一门语言，但是现在也可以在其它的环境中运行。
-* 现在，JavaScript 是一门在浏览中使用最广、并且能够很好集成 HTML/CSS 的语言。
-* 有很多其他的语言可以编译成 JavaScript，这些语言还提供更多的功能。最好要了解一下这些语言，至少在掌握 JavaScript 之后，需要简单的看一下。
+- JavaScript 最开始是为浏览器设计的一门语言，但是现在也可以在其它的环境中运行。
+- 现在，JavaScript 是一门在浏览中使用最广、并且能够很好集成 HTML/CSS 的语言。
+- 有很多其他的语言可以编译成 JavaScript，这些语言还提供更多的功能。最好要了解一下这些语言，至少在掌握 JavaScript 之后，需要简单的看一下。
