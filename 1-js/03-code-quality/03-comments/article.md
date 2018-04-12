@@ -58,7 +58,7 @@ function showPrimes(n) {
 
 function isPrime(n) {
   for (let i = 2; i < n; i++) {
-    if ( n % i == 0) return false;
+    if (n % i == 0) return false;
   }
 
   return true;
