@@ -18,4 +18,4 @@ function min(a, b) {
 }
 ```
 
-P.S. In the case of an equality `a == b` it does not matter what to return.
+P.S. 在等式 `a == b` 的情况下，返回的结果是无关紧要的。
