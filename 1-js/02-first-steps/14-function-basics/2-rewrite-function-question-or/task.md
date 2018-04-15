@@ -1,12 +1,12 @@
-importance: 4
+重要性：4
 
 ---
 
-# Rewrite the function using '?' or '||'
+# 使用 '?' 或者 '||' 重写函数
 
-The following function returns `true` if the parameter `age` is greater than `18`.
+如果参数 `age` 大于是 `18`，则以下函数返回 `true`
 
-Otherwise it asks for a confirmation and returns its result.
+否则，它将请求确认并返回其结果。
 
 ```js
 function checkAge(age) {
@@ -18,9 +18,9 @@ function checkAge(age) {
 }
 ```
 
-Rewrite it, to perform the same, but without `if`, in a single line.
+重写它，以便在一行中执行相同的操作，但不使用 “if”。
 
-Make two variants of `checkAge`:
+制作 `checkAge`的两个遍体：
 
-1. Using a question mark operator `?`
-2. Using OR `||`
+1. 使用 `?` 运算符标记一个问题
+2.使用 OR `||`
