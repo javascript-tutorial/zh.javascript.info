@@ -1,4 +1,4 @@
-Using a question mark operator `'?'`:
+使用 `'?'` 操作符标记一个问题：
 
 ```js
 function checkAge(age) {
@@ -6,7 +6,7 @@ function checkAge(age) {
 }
 ```
 
-Using OR `||` (the shortest variant):
+使用 OR `||` (最短变体)：
 
 ```js
 function checkAge(age) {
@@ -14,4 +14,4 @@ function checkAge(age) {
 }
 ```
 
-Note that the parentheses around `age > 18` are not required here. They exist for better readabilty.
+请注意此处不需要 `age > 18` 附近的括号。它们的存在是为了更好的可读性。
