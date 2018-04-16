@@ -1,18 +1,18 @@
-# Functions
+# 函数
 
-Quite often we need to perform a similar action in many places of the script.
+我们经常需要在脚本的许多地方执行类似的操作。
 
-For example, we need to show a nice-looking message when a visitor logs in, logs out and maybe somewhere else.
+例如，当访问者登录、注销或者其他地方时，我们需要显示一条漂亮的信息。
 
-Functions are the main "building blocks" of the program. They allow the code to be called many times without repetition.
+函数是程序的主要“构建模块”，它们允许不重复地多次调用代码。
 
-We've already seen examples of built-in functions, like `alert(message)`, `prompt(message, default)` and `confirm(question)`. But we can create functions of our own as well.
+我们已经看到了内置函数的示例，如 `alert(message)`、 `prompt(message, default)` 和 `confirm(question)`。但我们也可以创建自己的函数。
 
-## Function Declaration
+## 函数说明
 
-To create a function we can use a *function declaration*.
+使用 **function declaration** 创建函数。
 
-It looks like this:
+看起来就象这样：
 
 ```js
 function showMessage() {
@@ -20,13 +20,13 @@ function showMessage() {
 }
 ```
 
-The `function` keyword goes first, then goes the *name of the function*, then a list of *parameters* between the parentheses (empty in the example above) and finally the code of the function, also named "the function body", between curly braces.
+ `function` 关键字首先出现，然后是**函数名**，然后是括号（在上诉示例中为空）之间的**参数**列表，最后是花括号之间的代码（即“函数体”）。
 
 ![](function_basics.png)
 
-Our new function can be called by its name: `showMessage()`.
+我们的新函数可以用名称调用 `showMessage()`.
 
-For instance:
+例如：
 
 ```js run
 function showMessage() {
@@ -39,22 +39,22 @@ showMessage();
 */!*
 ```
 
-The call `showMessage()` executes the code of the function. Here we will see the message two times.
+调用 `showMessage()` 执行函数的代码，这里我们会看到这个消息两次。
 
-This example clearly demonstrates one of the main purposes of functions: to avoid code duplication.
+这个例子清楚地显示了函数的主要目的之一是：避免代码重复。
 
 If we ever need to change the message or the way it is shown, it's enough to modify the code in one place: the function which outputs it.
 
-## Local variables
+## 局部变量
 
-A variable declared inside a function is only visible inside that function.
+在函数中声明的变量只在该函数内部可见。
 
-For example:
+例如：
 
 ```js run
 function showMessage() {
 *!*
-  let message = "Hello, I'm JavaScript!"; // local variable
+  let message = "Hello, I'm JavaScript!"; // 局部变量
 */!*
 
   alert( message );
@@ -62,12 +62,12 @@ function showMessage() {
 
 showMessage(); // Hello, I'm JavaScript!
 
-alert( message ); // <-- Error! The variable is local to the function
+alert( message ); // <-- 错误！变量是函数的局部变量
 ```
 
-## Outer variables
+## 外部变量
 
-A function can access an outer variable as well, for example:
+函数也可以访问外部变量，例如：
 
 ```js run no-beautify
 let *!*userName*/!* = 'John';
@@ -80,65 +80,65 @@ function showMessage() {
 showMessage(); // Hello, John
 ```
 
-The function has full access to the outer variable. It can modify it as well.
+函数可以访问外部变量，也可以修改它。
 
-For instance:
+例如：
 
 ```js run
 let *!*userName*/!* = 'John';
 
 function showMessage() {
-  *!*userName*/!* = "Bob"; // (1) changed the outer variable
+  *!*userName*/!* = "Bob"; // (1) 改变外部变量
 
   let message = 'Hello, ' + *!*userName*/!*;
   alert(message);
 }
 
-alert( userName ); // *!*John*/!* before the function call
+alert( userName ); // *!*John*/!* 在函数调用之前
 
 showMessage();
 
-alert( userName ); // *!*Bob*/!*, the value was modified by the function
+alert( userName ); // *!*Bob*/!*, 值被函数修改
 ```
 
-The outer variable is only used if there's no local one. So an occasional modification may happen if we forget `let`.
+只有在没有本地变量的情况下才会使用外部变量。因此如果我们忘记了 `let` ，可能偶尔会发生修改情况。
 
-If a same-named variable is declared inside the function then it *shadows* the outer one. For instance, in the code below the function uses the local `userName`. The outer one is ignored:
+如果在函数中声明了同名变量，那么它**遮蔽**外部变量。例如，在如下代码中，函数使用本地的 `userName`，外部部分被忽略：
 
 ```js run
 let userName = 'John';
 
 function showMessage() {
 *!*
-  let userName = "Bob"; // declare a local variable
+  let userName = "Bob"; // 声明一个局部变量
 */!*
 
   let message = 'Hello, ' + userName; // *!*Bob*/!*
   alert(message);
 }
 
-// the function will create and use its own userName
+//  函数会创建并使用它自己的 userName
 showMessage();
 
-alert( userName ); // *!*John*/!*, unchanged, the function did not access the outer variable
+alert( userName ); // *!*John*/!*, 未更改，函数没有访问外部变量。
 ```
 
 ```smart header="Global variables"
-Variables declared outside of any function, such as the outer `userName` in the code above, are called *global*.
+任何函数之外声明的变量，例如上诉代码中的外部 `userName` 都称为**全局**。
 
-Global variables are visible from any function (unless shadowed by locals).
+全局变量在任意函数中都是可见的(除非被局部变量遮蔽)。
 
-Usually, a function declares all variables specific to its task. Global variables only store project-level data, so when it's important that these variables are accesible from anywhere. Modern code has few or no globals. Most variables reside in their functions.
+通常，函数声明与任务相关的所有变量。全局变量只存储项目级的数据，所以这些变量从任何地方都可以访问是很重要的事情。现代的代码有很少或没有全局。大多数变量存在于它们的函数中。
 ```
 
-## Parameters
+## 参数
 
-We can pass arbitrary data to functions using parameters (also called *function arguments*) .
+我们可以使用参数（也称“函数参数”）来将任意数据传递给函数。
 
-In the example below, the function has two parameters: `from` and `text`.
+在如下示例中，函数有两个参数：`from` 和 `text`。
 
 ```js run
-function showMessage(*!*from, text*/!*) { // arguments: from, text
+function showMessage(*!*from, text*/!*) { // 参数：from，text
   alert(from + ': ' + text);
 }
 
@@ -148,16 +148,16 @@ showMessage('Ann', "What's up?"); // Ann: What's up? (**)
 */!*
 ```
 
-When the function is called in lines `(*)` and `(**)`, the given values are copied to local variables `from` and `text`. Then the function uses them.
+当在行 `(*)` 和 `(**)` 中调用函数时，将给定的值复制到局部变量 `from` 和 `text`。然后函数使用它们。
 
-Here's one more example: we have a variable `from` and pass it to the function. Please note: the function changes `from`, but the change is not seen outside, because a function always gets a copy of the value:
+这里有一个例子：我们有一个变量 `from` ，将它传递给函数。请注意：函数更改为 `from`，但在外部看不到更改，因为函数总是获取值的副本：
 
 
 ```js run
 function showMessage(from, text) {
 
 *!*
-  from = '*' + from + '*'; // make "from" look nicer
+  from = '*' + from + '*'; // 让 “from” 看起来更优雅
 */!*
 
   alert( from + ': ' + text );
@@ -167,48 +167,48 @@ let from = "Ann";
 
 showMessage(from, "Hello"); // *Ann*: Hello
 
-// the value of "from" is the same, the function modified a local copy
+// “from” 值相同，函数修改了本地副本。
 alert( from ); // Ann
 ```
 
-## Default values
+## 默认值
 
-If a parameter is not provided, then its value becomes `undefined`.
+如果未提供参数，则其值是 `undefined`。
 
-For instance, the aforementioned function `showMessage(from, text)` can be called with a single argument:
+例如，之前提到的函数 `showMessage(from, text)` 可以用一个参数调用：
 
 ```js
 showMessage("Ann");
 ```
 
-That's not an error. Such a call would output `"Ann: undefined"`. There's no `text`, so it's assumed that `text === undefined`.
+那不是错误，这样调用将输出 `"Ann: undefined"`。没有 `text` 所以假设 `text === undefined`。
 
-If we want to use a "default" `text` in this case, then we can specify it after `=`:
+如果我们想在本例中使用“默认” `text`,那么我们可以在 `=` 之后指定它：
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
   alert( from + ": " + text );
 }
 
-showMessage("Ann"); // Ann: no text given
+showMessage("Ann"); // Ann: 无文本
 ```
 
 Now if the `text` parameter is not passed, it will get the value `"no text given"`
 
-Here `"no text given"` is a string, but it can be a more complex expression, which is only evaluated and assigned if the parameter is missing. So, this is also possible:
+这里 `"no text given"` 是 string，但它可以是更复杂的表达式，只有在缺少参数时才会计算和分配改表达式。因此，这也是可能的：
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
-  // anotherFunction() only executed if no text given
-  // its result becomes the value of text
+  // anotherFunction() 仅在没有给定文本时执行
+  // 其结果变成文本值
 }
 ```
 
 
 ````smart header="Default parameters old-style"
-Old editions of JavaScript did not support default parameters. So there are alternative ways to support them, that you can find mostly in the old scripts.
+旧版本的 JavaScript 不支持默认参数。所以有其他的方法来支持它们，您可以在旧的脚本中找到。
 
-For instance, an explicit check for being `undefined`:
+例如，用于 `undefined` 的显式检查：
 
 ```js
 function showMessage(from, text) {
@@ -236,11 +236,11 @@ function showMessage(from, text) {
 ````
 
 
-## Returning a value
+## 返回值
 
-A function can return a value back into the calling code as the result.
+函数可以将一个值返回到调用代码中作为结果
 
-The simplest example would be a function that sums two values:
+最简单的例子是将两个值相加的函数：
 
 ```js run no-beautify
 function sum(a, b) {
@@ -251,9 +251,9 @@ let result = sum(1, 2);
 alert( result ); // 3
 ```
 
-The directive `return` can be in any place of the function. When the execution reaches it, the function stops, and the value is returned to the calling code (assigned to `result` above).
+指令 `return` 可以在函数的任意位置。当执行到达时，函数停止，并将值返回给调用代码（分配给上诉 `result`）。
 
-There may be many occurrences of `return` in a single function. For instance:
+在一个函数中可能会出现很多次 `return`。例如：
 
 ```js run
 function checkAge(age) {
@@ -277,9 +277,9 @@ if ( checkAge(age) ) {
 }
 ```
 
-It is possible to use `return` without a value. That causes the function to exit immediately.
+在没有值的情况下使用 `return` 可能会导致函数立即退出。
 
-For example:
+例如：
 
 ```js
 function showMovie(age) {
@@ -294,10 +294,10 @@ function showMovie(age) {
 }
 ```
 
-In the code above, if `checkAge(age)` returns `false`, then `showMovie` won't proceed to the `alert`.
+在上诉代码中，如果 `checkAge(age)` 返回 `false`，那么 `showMovie` 将不会进入 `alert`。
 
 ````smart header="A function with an empty `return` or without it returns `undefined`"
-If a function does not return a value, it is the same as if it returns `undefined`:
+如果函数无返回值，它就会想返回 `undefined` 一样：
 
 ```js run
 function doNothing() { /* empty */ }
@@ -305,7 +305,7 @@ function doNothing() { /* empty */ }
 alert( doNothing() === undefined ); // true
 ```
 
-An empty `return` is also the same as `return undefined`:
+空 `return` 也和 `return undefined` 一样：
 
 ```js run
 function doNothing() {
@@ -317,79 +317,79 @@ alert( doNothing() === undefined ); // true
 ````
 
 ````warn header="Never add a newline between `return` and the value"
-For a long expression in `return`, it might be tempting to put it on a separate line, like this:
+对于 `return` 的长表达式，可能会倾向于将其放在单独一行，如下所示：
 
 ```js
 return
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-That doesn't work, because JavaScript assumes a semicolon after `return`. That'll work the same as:
+这不起作用，因为 JavaScript 在 `return` 之后用分号表示。它的工作原理如下：
 
 ```js
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-So, it effectively becomes an empty return. We should put the value on the same line instead.
+因此它实际上变成了空返回。我们应该把值放在同一行。
 ````
 
-## Naming a function [#function-naming]
+## 函数命名 [#function-naming]
 
-Functions are actions. So their name is usually a verb. It should briefly, but as accurately as possible describe what the function does. So that a person who reads the code gets the right clue.
+函数是动作。所以它们的名字通常是动词。它应该简短且尽可能准确地描述函数的作用。这样读代码的人就能得到正确的线索。
 
-It is a widespread practice to start a function with a verbal prefix which vaguely describes the action. There must be an agreement within the team on the meaning of the prefixes.
+一种普遍的做法是用动词前缀来开始一个函数，这个前缀模糊地描述了这个动作。团队内部必须就前缀的含义达成一致。
 
-For instance, functions that start with `"show"` usually show something.
+例如，以 `"show"` 开头的函数通常会显示某些内容。
 
-Function starting with...
+函数开始...
 
-- `"get…"` -- return a value,
-- `"calc…"` -- calculate something,
-- `"create…"` -- create something,
-- `"check…"` -- check something and return a boolean, etc.
+- `"get…"` -- 返回值，
+- `"calc…"` -- 计算
+- `"create…"` -- 创建，
+- `"check…"` -- 检查并返回 boolean 值，等。
 
-Examples of such names:
+这类名字的示例：
 
 ```js no-beautify
-showMessage(..)     // shows a message
-getAge(..)          // returns the age (gets it somehow)
-calcSum(..)         // calculates a sum and returns the result
-createForm(..)      // creates a form (and usually returns it)
-checkPermission(..) // checks a permission, returns true/false
+showMessage(..)     // 显示信息
+getAge(..)          // 返回 age (gets it somehow)
+calcSum(..)         // 计算求和并返回结果
+createForm(..)      // 创建表格 (通常会返回它)
+checkPermission(..) // 检查权限并返回 true/false
 ```
 
-With prefixes in place, a glance at a function name gives an understanding what kind of work it does and what kind of value it returns.
+有了前缀，浏览一下函数名就可以了解它做了什么工作，返回什么样的值。
 
 ```smart header="One function -- one action"
-A function should do exactly what is suggested by its name, no more.
+一个函数应该完全按照它的名字来做，而不是做更多和自身无关的功能。
 
-Two independent actions usually deserve two functions, even if they are usually called together (in that case we can make a 3rd function that calls those two).
+两个独立的操作通常需要两个函数，即使它们通常被一起调用(在这种情况下，我们可以创建第三个函数来调用这两个函数)。
 
-A few examples of breaking this rule:
+有几个违反这一规则的例子：
 
-- `getAge` -- would be bad if it shows an `alert` with the age (should only get).
-- `createForm` -- would be bad if it modifies the document, adding a form to it (should only create it and return).
-- `checkPermission` -- would be bad if displays the `access granted/denied` message (should only perform the check and return the result).
+- `getAge` -- 如果它显示一个“警报”和这个 age（只应该得到），那就是有问题的。
+- `createForm` -- 如果它修改文档，向它添加一个表单(只应该创建它并返回)，那就是有问题的。
+- `checkPermission` -- 如果显示“授予访问/拒绝”消息(只应执行检查并返回结果)，那就是错误的。
 
-These examples assume common meanings of prefixes. What they mean for you is determined by you and your team. Maybe it's pretty normal for your code to behave differently. But you should have a firm understanding of what a prefix means, what a prefixed function can and cannot do. All same-prefixed functions should obey the rules. And the team should share the knowledge.
+这些例子具有前缀的共同含义。它们对您的意义取决于您和您的团队。也许您的代码行为不同是很正常的。但是您应该对前缀意味着什么，前缀函数能做什么和不能做什么有一个明确的理解。所有相同的前缀函数都应遵守规则。团队应该分享知识。
 ```
 
 ```smart header="Ultrashort function names"
-Functions that are used *very often* sometimes have ultrashort names.
+常用的函数有时会有**非常短**的名字。
 
-For example, the [jQuery](http://jquery.com) framework defines a function `$`. The [LoDash](http://lodash.com/) library has its core function named `_`.
+例如，[jQuery](http://jquery.com) 框架定义函数用 `$`。[LoDash](http://lodash.com/) 库的核心函数命名用 `_`。
 
-These are exceptions. Generally functions names should be concise, but descriptive.
+这些都是例外，一般而言，函数名应简明扼要且具有描述性。
 ```
 
-## Functions == Comments
+## 函数 == 注释
 
-Functions should be short and do exactly one thing. If that thing is big, maybe it's worth it to split the function into a few smaller functions. Sometimes following this rule may not be that easy, but it's definitely a good thing.
+函数应该简短且只有一个功能。如果函数太大，把该函数分成几个小的函数是值得的。有时候遵循这个规则并不是那么容易，但这绝对是件好事。
 
-A separate function is not only easier to test and debug -- its very existence is a great comment!
+一个单独的函数不仅更容易测试和调试 --它的存在本身就是一个很好的注释！
 
-For instance, compare the two functions `showPrimes(n)` below. Each one outputs [prime numbers](https://en.wikipedia.org/wiki/Prime_number) up to `n`.
+例如，比较如下两个函数 `showPrimes(n)`。输出到 `n` 的[素数](https://en.wikipedia.org/wiki/Prime_number) 。
 
-The first variant uses a label:
+第一个变体使用标签：
 
 ```js
 function showPrimes(n) {
@@ -404,7 +404,7 @@ function showPrimes(n) {
 }
 ```
 
-The second variant uses an additional function `isPrime(n)` to test for primality:
+第二个变体使用附加函数 `isPrime(n)` 来检验素数：
 
 ```js
 function showPrimes(n) {
@@ -424,13 +424,13 @@ function isPrime(n) {
 }
 ```
 
-The second variant is easier to understand, isn't it? Instead of the code piece we see a name of the action (`isPrime`). Sometimes people refer to such code as *self-describing*.
+第二个变体更容易理解，不是吗？我们看到的不是代码块，而是操作的名称（`isPrime`）。有时人们把这样的代码称为**自我描述**。
 
-So, functions can be created even if we don't intend to reuse them. They structure the code and make it readable.
+因此，即使我们不打算重用它们，也可以创建函数。它们构造代码并使其可读性强。
 
-## Summary
+## 总结
 
-A function declaration looks like this:
+函数声明像这样：
 
 ```js
 function name(parameters, delimited, by, comma) {
@@ -438,18 +438,18 @@ function name(parameters, delimited, by, comma) {
 }
 ```
 
-- Values passed to a function as parameters are copied to its local variables.
-- A function may access outer variables. But it works only from inside out. The code outside of the function doesn't see its local variables.
-- A function can return a value. If it doesn't, then its result is `undefined`.
+- 作为参数传递给函数，值被复制到其局部变量
+- 函数可以访问外部变量。但它只能从内到外起作用。函数外部的代码看不到它的局部变量。
+- 函数可以返回值。如果没有，则其结果是 `undefined`。
 
-To make the code clean and easy to understand, it's recommended to use mainly local variables and parameters in the function, not outer variables.
+为了使代码简洁易懂，建议在函数中主要使用局部变量和参数，而不是外部变量。
 
-It is always easier to understand a function which gets parameters, works with them and returns a result than a function which gets no parameters, but modifies outer variables as a side-effect.
+与不获取参数但作为副作用修改外部变量的函数相比，理解获取参数、与它们一起工作并返回结果的函数总是更容易理解。
 
-Function naming:
+函数命名：
 
-- A name should clearly describe what the function does. When we see a function call in the code, a good name instantly gives us an understanding what it does and returns.
-- A function is an action, so function names are usually verbal.
-- There exist many well-known function prefixes like `create…`, `show…`, `get…`, `check…` and so on. Use them to hint what a function does.
+- 名称应该清楚地描述函数的功能。当我们在代码中看到一个函数调用时，一个好的名称立即让我们了解它所做的和返回的事情。
+- 函数是一种动作，所以函数名通常是口头的。
+- 有许多优秀的函数前缀，如 `create…`, `show…`, `get…`, `check…` 等等。使用它们来暗示函数的作用。
 
-Functions are the main building blocks of scripts. Now we've covered the basics, so we actually can start creating and using them. But that's only the beginning of the path. We are going to return to them many times, going more deeply into their advanced features.
+函数是脚本的主要构建块。现在我们已经介绍了基本知识，这样我们就可以开始创建和使用它们了。但这只是道路的开始。我们将多次回到他们身上，更深入地研究他们的先进特征。
