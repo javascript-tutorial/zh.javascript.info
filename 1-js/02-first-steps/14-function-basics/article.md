@@ -8,7 +8,7 @@
 
 我们已经看到了内置函数的示例，如 `alert(message)`、 `prompt(message, default)` 和 `confirm(question)`。但我们也可以创建自己的函数。
 
-## 函数说明
+## 函数声明
 
 使用 **function declaration** 创建函数。
 
