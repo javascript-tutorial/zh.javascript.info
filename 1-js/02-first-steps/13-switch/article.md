@@ -1,16 +1,16 @@
-# The "switch" statement
+# “switch” 语句
 
-A `switch` statement can replace multiple `if` checks.
+`switch` 语句可以被多个 `if` 语句替代。
 
-It gives a more descriptive way to compare a value with multiple variants.
+`switch` 语句为多分支选择的情况提供了一个更具描述性的方式。
 
-## The syntax
+## 语法
 
-The `switch` has one or more `case` blocks and an optional default.
+`switch` 语句有至少一个 `case` 代码块和一个可选的 `default` 代码块。
 
-It looks like this:
+就像这样：
 
-```js no-beautify
+```js
 switch(x) {
   case 'value1':  // if (x === 'value1')
     ...
@@ -26,15 +26,16 @@ switch(x) {
 }
 ```
 
-- The value of `x` is checked for a strict equality to the value from the first `case` (that is, `value1`) then to the second (`value2`) and so on.
-- If the equality is found, `switch` starts to execute the code starting from the corresponding `case`, until the nearest `break` (or until the end of `switch`).
+- 比较 `x` 值与第一个 `case` （也就是 `value1`）是否严格相等，然后比较第二个 `case`（`value2`）以此类推。
+- 如果相等，`switch` 语句就执行相应 `case` 下的代码块，直到遇到最靠近的 `break` 语句（或者直到 `switch` 语句末尾）。
 - If no case is matched then the `default` code is executed (if it exists).
+- 如果没有符合的 case，`default` 代码块就会被执行（如果代码中有 `default`）。
 
-## An example
+## 举个例子
 
-An example of `switch` (the executed code is highlighted):
+`switch` 例子（ *!* 和 */!* 之间的代码会被执行）：
 
-```js run
+```js 
 let a = 2 + 2;
 
 switch (a) {
@@ -54,15 +55,15 @@ switch (a) {
 }
 ```
 
-Here the `switch` starts to compare `a` from the first `case` variant that is `3`. The match fails.
+这里的 `switch` 从第一个 `case` 分支比较 `a` 的值，值为 `3` 匹配失败。
 
-Then `4`. That's a match, so the execution starts from `case 4` until the nearest `break`.
+然后比较 `4`。匹配，所以从 `case 4` 开始执行直到遇到最近的 `break`。
 
-**If there is no `break` then the execution continues with the next `case` without any checks.**
+**如果没有 `break`，不经过任何检查就会继续执行下一个 `case`**
 
-An example without `break`:
+无 `break` 的例子：
 
-```js run
+```js
 let a = 2 + 2;
 
 switch (a) {
@@ -79,7 +80,7 @@ switch (a) {
 }
 ```
 
-In the example above we'll see sequential execution of three `alert`s:
+在上面的例子我们会看到连续执行的三个 `alert`：
 
 ```js
 alert( 'Exactly!' );
@@ -87,12 +88,13 @@ alert( 'Too big' );
 alert( "I don't know such values" );
 ```
 
-````smart header="Any expression can be a `switch/case` argument"
-Both `switch` and `case` allow arbitrary expressions.
+**任何表达式都可以作为 `switch/case` 的参数**
 
-For example:
+`switch` 和 `case` 都允许任意表达式。
 
-```js run
+比如：
+
+```js
 let a = "1";
 let b = 0;
 
@@ -107,16 +109,16 @@ switch (+a) {
     alert("this doesn't run");
 }
 ```
-Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the corresponding code is executed.
-````
 
-## Grouping of "case"
+`+a` 被赋值为字符串类型的 `1`，和 `b + 1` 的 `case` 比较，相应的代码被执行。
 
-Several variants of `case` which share the same code can be grouped.
+## “case” 分组
 
-For example, if we want the same code to run for `case 3` and `case 5`:
+共享同一段代码的 `case` 分支会被分在一组：
 
-```js run no-beautify
+比如，如果我们想让 `case 3` 和 `case 5` 执行同样的代码：
+
+```js
 let a = 2 + 2;
 
 switch (a) {
@@ -125,7 +127,7 @@ switch (a) {
     break;
 
 *!*
-  case 3:                    // (*) grouped two cases
+  case 3:                    // (*) 下面这两个 case 被分在一组
   case 5:
     alert('Wrong!');
     alert("Why don't you take a math class?");
@@ -137,17 +139,17 @@ switch (a) {
 }
 ```
 
-Now both `3` and `5` show the same message.
+现在 `3` 和 `5` 都显示相同的信息。
 
-The ability to "group" cases is a side-effect of how `switch/case` works without `break`. Here the execution of `case 3` starts from the line `(*)` and goes through `case 5`, because there's no `break`.
+“分组” case 的能力是 `switch / case` 在没有 `break` 的情况下的副作用。 因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
 
-## Type matters
+## 值类型
 
-Let's emphasize that the equality check is always strict. The values must be of the same type to match.
+强调一下，这里的相等是严格相等。被比较的值必须是相同类型的才能匹配。
 
-For example, let's consider the code:
+比如，我们来看下面的代码：
 
-```js run
+```js
 let arg = prompt("Enter a value?")
 switch (arg) {
   case '0':
@@ -167,6 +169,6 @@ switch (arg) {
 }
 ```
 
-1. For `0`, `1`, the first `alert` runs.
-2. For `2` the second `alert` runs.
-3. But for `3`, the result of the `prompt` is a string `"3"`, which is not strictly equal `===` to the number `3`. So we've got a dead code in `case 3`! The `default` variant will execute.
+1. 在 prompt 对话框输入 `0`、`1`，第一个 `alert` 弹出。
+2. 输入 `2`，第二个 `alert` 弹出。 
+3. 但是输入 `3`，因为 `prompt` 的结果是字符串类型的 `"3"`，不是严格相等于数字类型的 `3`，所以 `case 3` 不会执行！最后`default` 分支也会被执行。 
