@@ -6,7 +6,6 @@
 
 首先，让我们看看如何将脚本添加到网页上。对于服务器端环境，你只需要使用诸如 `"node my.js"` 的 Node.JS 的命令行来执行它。
 
-[cut]
 
 ## "script" 标签
 
@@ -20,7 +19,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 
 <body>
 
-  <p>Before the script...</p>
+  <p>script 标签之前...</p>
 
 *!*
   <script>
@@ -28,7 +27,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
   </script>
 */!*
 
-  <p>...After the script.</p>
+  <p>...script 标签之后</p>
 
 </body>
 
@@ -42,15 +41,16 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 `<script>` 标签中包裹了 JavaScript 代码，当浏览器遇到 `<script>` 标签，代码会自动运行。
 
 
-## 现在的标记
+## 现代的标记
 
  `<script>` 标签有一些现在很少用到的属性，但是我们可以在老代码中找到它们：
 
 `type` 属性: <code>&lt;script <u>type</u>=...&gt;</code>
 
- : 在老的 HTML4 标准中，`<script>` 标签有 type 属性。通常是 `type="text/javascript"` 。 现在的 HTML 标准已经默认存在该 `type` 属性。
+ : 在老的 HTML4 标准中，`<script>` 标签有 type 属性。通常是 `type="text/javascript"` 。 现在的 HTML 标准已经默认存在该 `type` 属性。该属性不是必须的。
 
 `language` 属性: <code>&lt;script <u>language</u>=...&gt;</code>
+: 这个属性是为了显示脚本使用的语言。就目前而言，这个属性没有任何意义，语言默认为 JavaScript。不再需要使用它了。
 
 脚本前后的注释。
 : 在非常古老的书籍和指南中， 可能会在 `<script>` 标签里面找到注释，就像这样：
@@ -61,7 +61,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
     //--></script>
     ```
 
-    这些注释被不知道什么是 `<script>` 标签的古老浏览器支持，用来隐藏代码。但是所有诞生在 15 年以前的浏览器都没有任何问题。只是因为它作为一个标志，所以我们在这里提到。如果你在某个地方看到了它，那么这些代码可能非常古老，也不值得我们去研究。
+    这些注释被不知道什么是 `<script>` 标签的古老浏览器支持，用来隐藏代码。但是所有在过去的 15+ 年中诞生的浏览器都没有任何问题。只是因为它作为一个标志，所以我们在这里提到。如果你在某个地方看到了它，那么这些代码可能非常古老，也不值得我们去研究。
 
 
 ## 外部脚本
