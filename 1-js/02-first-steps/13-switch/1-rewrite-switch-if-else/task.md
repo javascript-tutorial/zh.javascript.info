@@ -1,10 +1,10 @@
-importance: 5
+重要：5
 
 ---
 
-# Rewrite the "switch" into an "if"
+# 把 "switch" 重构为 "if" 结构
 
-Write the code using `if..else` which would correspond to the following `switch`:
+对应以下 `switch`，使用 `if..else` 编写代码：
 
 ```js
 switch (browser) {
