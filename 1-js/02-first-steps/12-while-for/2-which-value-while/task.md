@@ -1,20 +1,20 @@
-importance: 4
+重要性：4
 
 ---
 
-# Which values shows the while?
+# 哪个值才是 while？
 
-For every loop, write down which values it shows, in your opinion. And then compare with the answer.
+对于每次循环，写出你认为会显示的值，然后与答案进行比较。
 
-Both loops `alert` same values or not?
+两次循环的 `alert` 值 是否相同
 
-1. The prefix form `++i`:
+1. 前缀形式 `++i`:
 
     ```js
     let i = 0;
     while (++i < 5) alert( i );
     ```
-2. The postfix form `i++`
+2. 后缀形式 `i++`
 
     ```js
     let i = 0;
