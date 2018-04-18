@@ -1,4 +1,4 @@
-**The answer: from `0` to `4` in both cases.**
+**答案： from `0` to `4` in both cases.**
 
 ```js run
 for (let i = 0; i < 5; ++i) alert( i );
@@ -6,12 +6,12 @@ for (let i = 0; i < 5; ++i) alert( i );
 for (let i = 0; i < 5; i++) alert( i );
 ```
 
-That can be easily deducted from the algorithm of `for`:
+这可以很容易地从 `for` 算法中剔除：
 
-1. Execute once `i = 0` before everything (begin).
-2. Check the condition `i < 5`
-3. If `true` -- execute the loop body `alert(i)`, and then `i++`
+1. 在一切开始之前执行 `i = 0`。
+2. 检查 `i < 5` 条件
+3. 如果 `true` —— 执行循环体并 `alert(i)`，然后进行 `i++`
 
-The increment `i++` is separated from the condition check (2). That's just another statement.
+递增 `i++` 与检查条件（2）分开。这只是另一种说法。
 
-The value returned by the increment is not used here, so there's no difference between `i++` and `++i`.
+此处返回不使用递增值，因此 `i++` 和 `++i`之间没有区别。
