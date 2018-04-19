@@ -1,22 +1,22 @@
 
-Here's the explanations.
+这里是解释。
 
-1. That's a regular object method call.
+1. 它是一个常规的方法调用。
 
-2. The same, brackets do not change the order of operations here, the dot is first anyway.
+2. 同样，括号没有改变执行的顺序，点总是首先执行。
 
-3. Here we have a more complex call `(expression).method()`. The call works as if it were split into two lines:
+3. 这里我们有一个更复杂的 `(expression).method()` 调用。这个调用就像被分成了两行（代码）一样：
 
     ```js no-beautify
     f = obj.go; // calculate the expression
     f();        // call what we have
     ```
 
-    Here `f()` is executed as a function, without `this`.
+    这里的 `f()` 是作为一个没有（设定）`this` 的函数执行的。
 
-4. The similar thing as `(3)`, to the left of the dot `.` we have an expression.
+4. 与 `(3)` 相类似，在点 `.` 的左边也有一个表达式。
 
-To explain the behavior of `(3)` and `(4)` we need to recall that property accessors (dot or square brackets) return a value of the Reference Type.  
+要解释 `(3)` 和 `(4)` 的原因，我们需要回顾一下属性访问器（点或方括号）返回的值是引用类型的。
 
-Any operation on it except a method call (like assignment `=` or `||`) turns it into an ordinary value, which does not carry the information allowing to set `this`.
+除了方法调用之外的任何操作（如赋值 `=` 或 `||` 等）把它变为了一个没有设定 `this` 信息的普通值。
 
