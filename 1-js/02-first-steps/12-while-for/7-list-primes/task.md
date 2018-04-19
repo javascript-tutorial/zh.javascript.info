@@ -1,17 +1,17 @@
-importance: 3
+重要性:3
 
 ---
 
-# Output prime numbers
+# 输出素数
 
 An integer number greater than `1` is called a [prime](https://en.wikipedia.org/wiki/Prime_number) if it cannot be divided without a remainder by anything except `1` and itself.
 
-In other words, `n > 1` is a prime if it can't be evenly divided by anything except `1` and `n`.
+换句话说，`n > 1` 不能被除了 `1` 和 `n` 以外的任何数整除，则称为素数。
 
-For example, `5` is a prime, because it cannot be divided without a remainder by `2`, `3` and `4`.
+例如，`5` 是素数，因为它不能被 `2` ，`3` 和 `4` 整除，会产生余数。
 
-**Write the code which outputs prime numbers in the interval from `2` to `n`.**
+**编写可以将 `2` 到 `n` 之间的所有素数输出的代码。**
 
-For `n = 10` the result will be `2,3,5,7`.
+当`n = 10`，结果输出 `2,3,5,7`。
 
-P.S. The code should work for any `n`, not be hard-tuned for any fixed value.
+P.S. 代码应适用于任何 `n`，而不是对任何固定值进行硬性调整。
