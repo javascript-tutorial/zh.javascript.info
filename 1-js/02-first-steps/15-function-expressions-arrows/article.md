@@ -1,8 +1,8 @@
-# Function expressions and arrows
+# 函数表达式和箭头函数
 
-In JavaScript, a function is not a "magical language structure", but a special kind of value.
+JavaScript 中, 函数虽然不是万能的，却它却是一个特殊的值。
 
-The syntax that we used before is called a *Function Declaration*:
+下面的语法我们通常叫 *函数声明*:
 
 ```js
 function sayHi() {
@@ -10,9 +10,9 @@ function sayHi() {
 }
 ```
 
-There is another syntax for creating a function that is called a *Function Expression*.
+下面是另一种创建函数的方法叫 *函数表达式*.
 
-It looks like this:
+通常会写成这样：
 
 ```js
 let sayHi = function() {
@@ -20,12 +20,12 @@ let sayHi = function() {
 };
 ```
 
-Here, the function is created and assigned to the variable explicitly, like any other value. No matter how the function is defined, it's just a value stored in the variable `sayHi`.
+在这里，函数被创建并像其他赋值一样，明确的分配给了一个变量。不管函数如何定义，它只是一个存储在变量中的值 `sayHi`。
 
 
-The meaning of these code samples is the same: "create a function and put it into the variable `sayHi`".
+简单说就是 "创建一个函数并放进变量 `sayHi`"。
 
-We can even print out that value using `alert`:
+我们还可以用 `alert` 打印值。
 
 ```js run
 function sayHi() {
@@ -33,19 +33,19 @@ function sayHi() {
 }
 
 *!*
-alert( sayHi ); // shows the function code
+alert( sayHi ); // 查看函数代码
 */!*
 ```
 
-Please note that the last line does not run the function, because there are no parentheses after `sayHi`. There are programming languages where any mention of a function name causes its execution, but JavaScript is not like that.
+注意，最后并没有运行函数。在其他语言中函数调用就执行。但 JavaScript 可不是这样。`sayHi` 后没有括号函数是不会运行的。
 
-In JavaScript, a function is a value, so we can deal with it as a value. The code above shows its string representation, which is the source code.
+JavaScript 中，函数是一个值，所以我们可以把它当成值对待。上面代码显示了一段字符串值，即函数的源码。
 
-It is a special value of course, in the sense that we can call it like `sayHi()`.
+虽然我们可以这样调用 `sayHi()`，但它依然是一个特殊值。
 
-But it's still a value. So we can work with it like with other kinds of values.
+所以我们可以像使用其他类型的值一样使用它。
 
-We can copy a function to another variable:
+我们可以复制函数到其他变量
 
 ```js run no-beautify
 function sayHi() {   // (1) create
@@ -58,15 +58,15 @@ func(); // Hello     // (3) run the copy (it works)!
 sayHi(); // Hello    //     this still works too (why wouldn't it)
 ```
 
-Here's what happens above in detail:
+上段代码发生的细节:
 
-1. The Function Declaration `(1)` creates the function and puts it into the variable named `sayHi`.
-2. Line `(2)` copies it into the variable `func`.
+1. `(1)` 中声明创建了函数，并把它放入变量 `sayHi`。
+2. `(2)` 复制进变量 `func`。
 
-    Please note again: there are no parentheses after `sayHi`. If there were, then `func = sayHi()` would write  *the result of the call* `sayHi()` into `func`, not *the function* `sayHi` itself.
-3. Now the function can be called as both `sayHi()` and `func()`.
+    请注意：`sayHi` 旁边没有括号。 如果有括号， `func = sayHi()` 会把 `sayHi()` 的回调写进`func`, 而不是 `sayHi` *函数* 本身。
+3. 现在调用 `sayHi()` 和 `func()`。
 
-Note that we could also have used a Function Expression to declare `sayHi`, in the first line:
+注意这里的第一行我们用函数表达式声明 `sayHi`：
 
 ```js
 let sayHi = function() { ... };
@@ -75,11 +75,11 @@ let func = sayHi;
 // ...
 ```
 
-Everything would work the same. Even more obvious what's going on, right?
+这两种声明的函数是一样的，那么他们有什么不同的地方呢？
 
 
 ````smart header="Why there's a semicolon at the end?"
-There might be a question, why does Function Expression have a semicolon `;` at the end, and Function Declaration does not:
+ 问什么函数表达式结尾有一个 `;` ，而函数声明没有：
 
 ```js
 function sayHi() {
@@ -91,27 +91,27 @@ let sayHi = function() {
 }*!*;*/!*
 ```
 
-The answer is simple:
-- There's no need for `;` at the end of code blocks and syntax structures that use them like `if { ... }`, `for {  }`, `function f { }` etc.
-- A Function Expression is used inside the statement: `let sayHi = ...;`, as a value. It's not a code block. The semicolon `;` is recommended at the end of statements, no matter what is the value. So the semicolon here is not related to the Function Expression itself in any way, it just terminates the statement.
+答案很简答：
+- 在代码块的结尾是不需要 `;`，像 `if { ... }`， `for {  }`， `function f { }` 等语法结构后面都不用加。
+- 函数表达式通常这样声明： `let sayHi = ...;`，作为一个变量。 而不是代码块。不管什么值，建议在语句结尾处建议使用分号`;`。所以这里的分号与函数表达式本身没有任何关系，它只是终止了语句。
 ````
 
-## Callback functions
+## 回调函数
 
-Let's look at more examples of passing functions as values and using function expressions.
+我们看个例子，使用函数表达式传递函数。
 
-We'll write a function `ask(question, yes, no)` with three parameters:
+我们写一个包含三个参数的函数 `ask(question, yes, no)` ：
 
 `question`
-: Text of the question
+: question 文本
 
 `yes`
-: Function to run if the answer is "Yes"
+: 当回答 "Yes" 时候运行的脚本
 
 `no`
-: Function to run if the answer is "No"
+: 当回答 "No" 时候运行的脚本
 
-The function should ask the `question` and, depending on the user's answer, call `yes()` or `no()`:
+函数需要提出 `question` （问题），依赖用户的回答, 调用 `yes()` 或 `no()`：
 
 ```js run
 *!*
@@ -133,13 +133,13 @@ function showCancel() {
 ask("Do you agree?", showOk, showCancel);
 ```
 
-Before we explore how we can write it in a much shorter way, let's note that in the browser (and on the server-side in some cases) such functions are quite popular. The major difference between a real-life implementation and the example above is that real-life functions use more complex ways to interact with the user than a simple `confirm`. In the browser, such a function usually draws a nice-looking question window. But that's another story.
+在使用前，我们可以简写, 不过需要注意下浏览器需要时现代浏览器（和一些服务端问题）。现实生活中的实现与上述示例之间的主要区别在于，现实生活中的功能使用更复杂的方式与用户进行交互，而不是简单 `confirm`（确认）。在浏览器中，这样的功能通常会绘制一个漂亮的问题窗口。但这是另一回事。
 
-**The arguments of `ask` are called *callback functions* or just *callbacks*.**
+** `ask` 参数调用 *回调函数* 或只是 *毁掉*。**
 
-The idea is that we pass a function and expect it to be "called back" later if necessary. In our case, `showOk` becomes the callback for the "yes" answer, and `showCancel` for the "no" answer.
+我们的想法是，我们传递一个函数，并希望稍后在必要时“回调”它。在我们的例子中，`showOk` 回答 "yes"的回答，`showCancel` 回答“否”。
 
-We can use Function Expressions to write the same function much shorter:
+我们可以用函数表达式简写：
 
 ```js run no-beautify
 function ask(question, yes, no) {
@@ -157,27 +157,27 @@ ask(
 ```
 
 
-Here, functions are declared right inside the `ask(...)` call. They have no name, and so are called *anonymous*. Such functions are not accessible outside of `ask` (because they are not assigned to variables), but that's just what we want here.
+这里函数直接写在 `ask(...)` 调用。他们没有名字，叫 *匿名函数*。 在 `ask` 外无法访问（因为没有分配变量），不过我们就是想要这样。
 
-Such code appears in our scripts very naturally, it's in the spirit of JavaScript.
+这样看起来舒服, 这就是 JavaScript神奇的地方。
 
 
 ```smart header="A function is a value representing an \"action\""
-Regular values like strings or numbers represent the *data*.
+字符串或数字等常规值视为 *data*.
 
-A function can be perceived as an *action*.
+函数可以视为一个 *action*.
 
-We can pass it between variables and run when we want.
+我们可以在变量之间传递他们，并在需要时运行。
 ```
 
 
-## Function Expression vs Function Declaration
+## 函数表达式 vs 函数声明
 
-Let's formulate the key differences between Function Declarations and Expressions.
+让我们来阐述函数声明和表达式之间的关键区别。
 
-First, the syntax: how to see what is what in the code.
+首先是语法： 看下面代码
 
-- *Function Declaration:* a function, declared as a separate statement, in the main code flow.
+- *函数声明:* 函数在主代码流中单独声明。
 
     ```js
     // Function Declaration
@@ -185,7 +185,7 @@ First, the syntax: how to see what is what in the code.
       return a + b;
     }
     ```
-- *Function Expression:* a function, created inside an expression or inside another syntax construct. Here, the function is created at the right side of the "assignment expression" `=`:
+- *函数表达式:* 一个函数，在一个表达式中或另一个语法结构中创建。这里，该函数由“赋值表达式” `=` 右侧创建:
     
     ```js
     // Function Expression
@@ -194,23 +194,23 @@ First, the syntax: how to see what is what in the code.
     };
     ```
 
-The more subtle difference is *when* a function is created by the JavaScript engine.
+细微差别是在 JavaScript 引擎中在 *什么时候* 创建函数。
 
-**A Function Expression is created when the execution reaches it and is usable from then on.**
+**函数表达式在执行到达时创建并可用。**
 
-Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called etc) from now on.
+一旦执行到右侧分配 `let sum = function…`，就会创建并可以使用(复制, 调用等).
 
-Function Declarations are different.
+与函数表达式不同
 
-**A Function Declaration is usable in the whole script/code block.**
+**函数声明可用于整个脚本/代码块。**
 
-In other words, when JavaScript *prepares* to run the script or a code block, it first looks for Function Declarations in it and creates the functions. We can think of it as an "initialization stage".
+换句话说，当JavaScript *准备运行脚本或代码块时，它首先在其中查找函数声明并创建函数。我们可以将其视为 “初始化阶段”。
 
-And after all of the Function Declarations are processed, the execution goes on.
+在处理完所有函数声明后，执行继续。
 
-As a result, a function declared as a Function Declaration can be called earlier than it is defined.
+因此，声明为函数声明的函数可以比定义的更早调用。
 
-For example, this works:
+例如：
 
 ```js run refresh untrusted
 *!*
@@ -222,9 +222,9 @@ function sayHi(name) {
 }
 ```
 
-The Function Declaration `sayHi` is created when JavaScript is preparing to start the script and is visible everywhere in it.
+函数声明 `sayHi` 是在 JavaScript 准备启动脚本并在其中时创建的。
 
-...If it was a Function Expression, then it wouldn't work:
+...如果函数表达式就不会工作啦
 
 ```js run refresh untrusted
 *!*
@@ -236,15 +236,15 @@ let sayHi = function(name) {  // (*) no magic any more
 };
 ```
 
-Function Expressions are created when the execution reaches them. That would happen only in the line `(*)`. Too late.
+函数表达式执行到时才会创建，在这里为时已晚。
 
-**When a Function Declaration is made within a code block, it is visible everywhere inside that block. But not outside of it.**
+**当一个函数声明在一个代码块内运行时，它在该块内的任何地方都是可见的。**
 
-Sometimes that's handy to declare a local function only needed in that block alone. But that feature may also cause problems.
+有时候只需要在该块中声明本地函数就可以方便地运行。但是这个函数也可能会导致问题。
 
-For instance, let's imagine that we need to declare a function `welcome()` depending on the `age` variable that we get during runtime. And then we plan to use it some time later.
+例如，让我们想象我们需要声明一个函数 `welcome()` 依赖 `age` 这个我们在运行时获得的变量。
 
-The code below doesn't work:
+以下代码不能工作：
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -270,9 +270,9 @@ welcome(); // Error: welcome is not defined
 */!*
 ```
 
-That's because a Function Declaration is only visible inside the code block in which it resides.
+这是因为函数声明只在它所在的代码块中可见。
 
-Here's another example:
+又如：
 
 ```js run
 let age = 16; // take 16 as an example
@@ -283,8 +283,8 @@ if (age < 18) {
 */!*
                            //  |
   function welcome() {     //  |  
-    alert("Hello!");       //  |  Function Declaration is available
-  }                        //  |  everywhere in the block where it's declared
+    alert("Hello!");       //  |  函数声明可以在块内任意位置声明
+  }                        //  |  
                            //  |
 *!*
   welcome();               // /   (runs)
@@ -297,19 +297,19 @@ if (age < 18) {
   }
 }
 
-// Here we're out of curly braces,
-// so we can not see Function Declarations made inside of them.
+// 在这里，我们摆脱了花括号，
+// 所以我们看不到它们内部的函数声明。
 
 *!*
 welcome(); // Error: welcome is not defined
 */!*
 ```
 
-What can we do to make `welcome` visible outside of `if`?
+怎么样才能使 `welcome` 在 `if` 外可见？
 
-The correct approach would be to use a Function Expression and assign `welcome` to the variable that is declared outside of `if` and has the proper visibility.
+正确的做法是使用函数表达式并将 `welcome` 赋值给在 `if` 之外声明的变量，并具有正确的可见性.
 
-Now it works as intended:
+下面正常：
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -335,7 +335,7 @@ welcome(); // ok now
 */!*
 ```
 
-Or we could simplify it even further using a question mark operator `?`:
+或者我们可以使用问号运算符`？`来进一步简化它：
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -351,26 +351,26 @@ welcome(); // ok now
 
 
 ```smart header="When to choose Function Declaration versus Function Expression?"
-As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax, the one we used before. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+作为一个经验，当我们需要声明一个函数时，首先要考虑的是函数声明语法，这是我们之前使用的语法。它给如何组织我们的代码提供了更多的自由，因为我们可以在声明它们之前调用这些函数
 
-It's also a little bit easier to look up `function f(…) {…}` in the code than `let f = function(…) {…}`. Function Declarations are more "eye-catching".
+在代码中查找 `function f(…) {…}` 比 `let f = function(…) {…}` 更容易。
 
-...But if a Function Declaration does not suit us for some reason (we've seen an example above), then Function Expression should be used.
+...但是，如果函数声明由于某种原因不适合我们（我们已经看到上面的例子），那么应该使用函数表达式。
 ```
 
 
-## Arrow functions [#arrow-functions]
+## 箭头函数 [#箭头函数]
 
-There's one more very simple and concise syntax for creating functions, that's often better than Function Expressions. It's called "arrow functions", because it looks like this:
+创建函数还有一个非常简单和简洁的语法，通常比函数表达式更好。它被称为“箭头函数”，因为它看起来像这样：
 
 
 ```js
 let func = (arg1, arg2, ...argN) => expression
 ```
 
-...This creates a function `func` that has arguments `arg1..argN`, evaluates the `expression` on the right side with their use and returns its result.
+...这样会创建一个函数 `func` 参数是 `arg1..argN`, 运行右侧 `expression` 并返回结果。
 
-In other words, it's roughly the same as:
+换句话说，它大致与以下相同：
 
 ```js
 let func = function(arg1, arg2, ...argN) {
@@ -378,14 +378,14 @@ let func = function(arg1, arg2, ...argN) {
 }
 ```
 
-...But much more concise.
+...精简下。
 
-Let's see an example:
+例子：
 
 ```js run
 let sum = (a, b) => a + b;
 
-/* The arrow function is a shorter form of:
+/* 箭头函数更短：
 
 let sum = function(a, b) {
   return a + b;
@@ -396,7 +396,7 @@ alert( sum(1, 2) ); // 3
 
 ```
 
-If we have only one argument, then parentheses can be omitted, making that even shorter:
+如果我们只有一个参数，那么括号可以省略，甚至更短：
 
 ```js run
 // same as
@@ -408,7 +408,7 @@ let double = n => n * 2;
 alert( double(3) ); // 6
 ```
 
-If there are no arguments, parentheses should be empty (but they should be present):
+如果没有参数，括号应该是空的（但它们应该存在）：
 
 ```js run
 let sayHi = () => alert("Hello!");
@@ -416,9 +416,9 @@ let sayHi = () => alert("Hello!");
 sayHi();
 ```
 
-Arrow functions can be used in the same way as Function Expressions.
+箭头函数的使用方式与函数表达式相同。
 
-For instance, here's the rewritten example with `welcome()`:
+例如，这里是重写 `welcome()` 的例子:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -430,23 +430,23 @@ let welcome = (age < 18) ?
 welcome(); // ok now
 ```
 
-Arrow functions may appear unfamiliar and not very readable at first, but that quickly changes as the eyes get used to the structure.
+起初箭头功能可能看起来并不熟悉，也不易读，但随着人们习惯于，这种函数会迅速发生变化。
 
-They are very convenient for simple one-line actions, when we're just too lazy to write many words.
+当我们懒得写很多单词时，它们对于简单的单行动作非常方便。
 
 ```smart header="Multiline arrow functions"
 
-The examples above took arguments from the left of `=>` and evaluated the right-side expression with them.
+上面的例子是获取左边的参数 `=>` 并用它们运行右边的表达式。
 
-Sometimes we need something a little bit more complex, like multiple expressions or statements. It is also possible, but we should enclose them in curly braces. Then use a normal `return` within them.
+有时我们需要一些更复杂的东西，比如多个表达式或语句。这也是可能的，但我们应该把它们装在花括号里。然后在他们内部使用正常的 `return`。
 
-Like this:
+像这样
 
 ```js run
-let sum = (a, b) => {  // the curly brace opens a multiline function
+let sum = (a, b) => {  // 花括号打开多线功能
   let result = a + b;
 *!*
-  return result; // if we use curly braces, use return to get results
+  return result; // 如果我们使用花括号，使用返回来获得结果
 */!*
 };
 
@@ -454,25 +454,25 @@ alert( sum(1, 2) ); // 3
 ```
 
 ```smart header="More to come"
-Here we praised arrow functions for brevity. But that's not all! Arrow functions have other interesting features. We'll return to them later in the chapter <info:arrow-functions>.
+我们在这里简短地称赞了箭头功能。但那不是全部！箭头功能还有其他有趣的功能。稍后我们将在 <info：arrow-functions> 一章中学习它们。
 
-For now, we can already use them for one-line actions and callbacks.
+目前，我们已经可以将它们用于单行动作和回调。
 ```
 
-## Summary
+## 总结
 
-- Functions are values. They can be assigned, copied or declared in any place of the code.
-- If the function is declared as a separate statement in the main code flow, that's called a "Function Declaration".
-- If the function is created as a part of an expression, it's called a "Function Expression".
-- Function Declarations are processed before the code block is executed. They are visible everywhere in the block.
-- Function Expressions are created when the execution flow reaches them.
+- 函数是值。他们可以在代码的任何地方分配，复制或声明。
+- 如果函数在主代码流中声明为单独的语句，那就称为“函数声明”。
+- 如果该函数是作为表达式的一部分创建的，则称其为“函数表达式”。
+- 函数声明在代码块执行之前处理。它们在代码块中随处调用。
+- 函数表达式在执行流程到时创建。
 
 
-In most cases when we need to declare a function, a Function Declaration is preferable, because it is visible prior to the declaration itself. That gives us more flexibility in code organization, and is usually more readable.
+在大多数情况下，当我们需要声明一个函数时，函数声明是可取的，因为它在声明本身之前是可见的。这给了我们更多的代码组织的灵活性，并且通常更具可读性。
 
-So we should use a Function Expression only when a Function Declaration is not fit for the task. We've seen a couple of examples of that in this chapter, and will see more in the future.
+所以我们应该只在函数声明不适合任务时才使用函数表达式。在本章中我们已经看到了几个例子，并且将来会看到更多的例子
 
-Arrow functions are handy for one-liners. They come in two flavors:
+箭头函数非常适合单行调用，以下是其两个特点。
 
-1. Without curly braces: `(...args) => expression` -- the right side is an expression: the function evaluates it and returns the result.
-2. With curly braces: `(...args) => { body }` -- brackets allow us to write multiple statements inside the function, but we need an explicit `return` to return something.
+1. 没有大括号： `(...args) => expression` -- 右侧是一个表达式：该函数对其进行运行并返回结果
+2. 有大括号： `(...args) => { body }` -- 括号允许我们在函数中写入多个语句，但是我们需要一个显式的 `return` 来返回一些东西。
