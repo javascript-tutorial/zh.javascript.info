@@ -1,11 +1,11 @@
 
 # Symbol 类型
 
-根据规范，object 属性键只能是 string 类型或者 symbol 类型。不是 numbers，也不是 booleans，只有 string 或 symbol 这两种类型。
+根据规范，object 属性键只能是 string 类型或者 symbol 类型。不是 number，也不是 boolean，只有 string 或 symbol 这两种类型。
 
 到目前为止，我们只见过 string。现在我们来看看 symbol 能给我们带来什么好处。
 
-## Symbols
+## Symbol
 
 "Symbol" 值表示唯一的标识符
 
@@ -25,7 +25,7 @@ let id = Symbol("id");
 
 Symbol 保证是唯一的。即使我们创建了许多具有相同描述的 symbol，它们的值也是不同。描述只是一个不影响任何东西的标签。
 
-例如，这里有两个描述相同的 symbol -- 它们不相等：
+例如，这里有两个描述相同的 symbol —— 它们不相等：
 
 ```js run
 let id1 = Symbol("id");
