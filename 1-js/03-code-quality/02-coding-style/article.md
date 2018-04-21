@@ -319,7 +319,7 @@ function pow(x, n) {
 
 你也可以从网上下载一些风格规则然后扩展它们。查看 <http://eslint.org/docs/user-guide/getting-started> 以获得有关安装的更多详细信息。
 
-使用一个 linter 会有一些很棒的边际效用。Linters 可以捕捉错别字。例如，当一个 undefined 变量被访问时，linter 会检测出并把它高亮（如果和编辑器集成了）。在大多数情况下，这都是你打错啦。所以我们可以在一开始就解决它。
+使用一个 linter 会有一些很棒的副作用。Linters 可以捕捉错别字。例如，当一个 undefined 变量被访问时，linter 会检测出并把它高亮（如果和编辑器集成了）。在大多数情况下，这都是你打错啦。所以我们可以马上解决它。
 
 因此即使你不关心风格，也推荐你使用一个 linter。
 
