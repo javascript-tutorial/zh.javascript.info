@@ -106,7 +106,7 @@ user.id = "Their id value"
 // 砰！无意中重写了 id！他不是故意伤害同事的，而是这样做了！
 ```
 
-### 文字中的 Symbols
+### 字面量中的 Symbol
 
 如果我们要在 object 字面量中使用 symbol，则需要方括号。
 
@@ -179,7 +179,7 @@ alert( obj[0] ); // test （相同属性）
 ```
 ````
 
-## 全局 symbols
+## 全局 symbol
 
 正如我们所看到的，通常所有的 symbol 都是不同的，即使它们有相同的名字。但有时我们想要同一个名字的 symbol 是相同的实体。
 
@@ -237,7 +237,7 @@ alert( Symbol.keyFor(Symbol.for("name")) ); // name, 全局 symbol
 alert( Symbol.keyFor(Symbol("name2")) ); // undefined, 参数不是一个全局 symbol
 ```
 
-## 系统 symbols
+## 系统 symbol
 
 JavaScript 内部存在很多“系统” symbol，我们可以使用它们来微调对象的各个方面。 
 
