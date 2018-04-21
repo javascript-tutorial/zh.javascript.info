@@ -1,7 +1,7 @@
 
 # Symbol 类型
 
-根据规范，object 属性键可以是 string 类型，也可以是 symbol 类型。不是 numbers，也不是 booleans，只有 string 或 symbol 这两种类型。
+根据规范，object 属性键只能是 string 类型或者 symbol 类型。不是 numbers，也不是 booleans，只有 string 或 symbol 这两种类型。
 
 到目前为止，我们只见过 string。现在我们来看看 symbol 能给我们带来什么好处。
 
@@ -12,7 +12,7 @@
 可以使用 `Symbol()` 来创建这种类型的值：
 
 ```js
-// id 是一个新的 symbol
+// id 是 symbol 的一个实例化对象
 let id = Symbol();
 ```
 
@@ -23,7 +23,7 @@ let id = Symbol();
 let id = Symbol("id");
 ```
 
-Symbols 保证是唯一的。即使我们创建了许多具有相同描述的 symbol，它们的值也是不同。描述只是一个不影响任何东西的标签。
+Symbol 保证是唯一的。即使我们创建了许多具有相同描述的 symbol，它们的值也是不同。描述只是一个不影响任何东西的标签。
 
 例如，这里有两个描述相同的 symbol -- 它们不相等：
 
@@ -36,7 +36,7 @@ alert(id1 == id2); // false
 */!*
 ```
 
-If you are familiar with Ruby or another language that also has some sort of "symbols" -- please don't be misguided. JavaScript symbols are different.
+如果您熟悉 Ruby 或者其他有 "symbol" 的语言 —— 别被误导。JavaScript 的 symbol 与众不同。
 
 ````warn header="Symbols don't auto-convert to a string"
 Most values in JavaScript support implicit conversion to a string. For instance, we can `alert` almost any value, and it will work. Symbols are special. They don't auto-convert.
@@ -58,7 +58,7 @@ alert(id.toString()); // Symbol(id)，现在它起作用了
 */!*
 ```
 
-That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not occasionally convert one into another.
+这是一种防止混乱的“语言保护”，因为 string 和 symbol 有本质上的不同，而且不应该偶尔将它们相互转化。
 ````
 
 ## "Hidden" 属性
@@ -92,7 +92,7 @@ user[id] = "Their id value";
 
 不会冲突，因为 symbol 总是不同的，即使它们有相同的名称。
 
-现在请注意，如果我们使用 string `"id"` 而不是用于相同目的的 symbol，那么**就会**出现冲突：
+现在请注意，如果我们使用 string `"id"` 而不是用 symbol，那么**就会**出现冲突：
 
 ```js run
 let user = { name: "John" };
@@ -103,7 +103,7 @@ user.id = "ID Value";
 // ...如果之后另一个脚本为其目的使用“id”...
 
 user.id = "Their id value"
-// 砰！被重写了！他不是故意伤害同事的，而是这样做了！
+// 砰！无意中重写了 id！他不是故意伤害同事的，而是这样做了！
 ```
 
 ### 文字中的 Symbols
@@ -142,11 +142,11 @@ let user = {
 for (let key in user) alert(key); // name, age (no symbols)
 */!*
 
-// the direct access by the symbol works
+// 被 symbol 任务直接访问
 alert( "Direct: " + user[id] );
 ```
 
-这是一般 "hiding" 概念的一部分。如果另一个脚本或库在我们的对象上循环，它不会意外地访问一个符号属性。
+这是一般 "hiding" 概念的一部分。如果另一个脚本或库在我们的对象上循环，它不会访问一个 Symbol 类型的属性。
 
 相反，[Object.assign](mdn:js/Object/assign) 同时复制字符串和符号属性：
 
@@ -161,10 +161,10 @@ let clone = Object.assign({}, user);
 alert( clone[id] ); // 123
 ```
 
-这里没有矛盾。这是设计。我们的想法是当我们克隆一个 object 或合并 object时，我们通常希望 **all**属性被复制（包括想“id”这样的 symbol）。
+这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object时，我们通常希望**所有**属性被复制（包括想“id”这样的 symbol）。
 
 ````smart header="Property keys of other types are coerced to strings"
-我们智能在对象中使用 string 或 symbol 作为键，其它类型转换为 string。
+我们只能在对象中使用 string 或 symbol 作为键，其它类型转换为 string。
 
 例如，在作为属性键使用时，数字 `0`变成了字符串 `"0"` ：
 
@@ -173,7 +173,7 @@ let obj = {
   0: "test" // same as "0": "test"
 };
 
-//两个警报都访问相同的属性（number 0 被转换为 string “0”）
+//两个 alert 都访问相同的属性（number 0 被转换为 string “0”）
 alert( obj["0"] ); // test
 alert( obj[0] ); // test （相同属性）
 ```
@@ -183,9 +183,9 @@ alert( obj[0] ); // test （相同属性）
 
 正如我们所看到的，通常所有的 symbol 都是不同的，即使它们有相同的名字。但有时我们想要同一个名字的 symbol 是相同的实体。
 
-例如，我们应用程序的不同部分希望访问 symbol `"id"` -- 表示完全相同的属性。 
+比如，我们希望在应用程序的不同部分访问相同的 symbol "id" 属性。 
 
-为此，存在一个**全局 symbol 注册表**。我们可以在其中创建 symbol 并在稍后访问它们，它可以确保以相同名称重复访问返回完全相同的 symbol。
+为此，存在一个**全局 symbol 注册表**。我们可以在其中创建 symbol 并在稍后访问它们，它可以确保每次访问相同名称都会返回相同的 symbol。
 
 为了在注册表中创建或读取 symbol，请使用 `Symbol.for(key)`。
 
@@ -209,12 +209,12 @@ alert( id === idAgain ); // true
 ```smart header="That sounds like Ruby"
 在一些编程语言中，例如 Ruby，每个名称都有一个 symbol。
 
-在 JavaScript 中，我们可以看到对于全局 symbol 来说这是正确的。
+在 JavaScript 中，我们应该用全局 symbol。
 ```
 
 ### Symbol.keyFor
 
-对于全局 symbol，`Symbol.for(key)` 不仅按名称返回一个 symbol，而且还有一个反向调用：`Symbol.keyFor(sym)`，反过来：通过全局 symbol 返回一个 名称。
+对于全局 symbol，`Symbol.for(key)` 不仅按名称返回一个 symbol，而且还有一个反向调用：`Symbol.keyFor(sym)`，反过来：通过全局 symbol 返回一个名称。
 
 例如：
 
@@ -241,7 +241,7 @@ alert( Symbol.keyFor(Symbol("name2")) ); // undefined, 参数不是一个全局 
 
 JavaScript 内部存在很多 "系统" symbol ，我们可以使用它们来微调对象的各个方面。 
 
-它们列在[知名的 symbol](https://tc39.github.io/ecma262/#sec-well-known-symbols) 表的规范中：
+它们列在[熟悉的 symbol](https://tc39.github.io/ecma262/#sec-well-known-symbols) 表的规范中：
 
 - `Symbol.hasInstance`
 - `Symbol.isConcatSpreadable`
@@ -263,11 +263,11 @@ Symbols 总是不同的值，即使它们有相同的名称。如果我们希望
 
 Symbols 有两个主要的使用场景：
 
-1. "Hidden" object 属性：
-    如果要将属性添加到 “belongs” 另一个脚本或库的对象中，则可以创建 symbol 并将其用作属性键。symbol 属性不出现在 `for..in`中，因此不回偶尔列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会偶尔干预它的操作。
+1. "隐藏" object 属性。
+    如果需要将属性添加到 “belongs” 另一个脚本或库的对象中，则可以创建 symbol 并将其用作属性键。symbol 属性不出现在 `for..in`中，因此不回偶尔列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会偶尔干预它的操作。
 
     因此我们可以使用 symbol 属性“秘密地”将一些东西隐藏到我们需要的 object 中，但其他人不应该看到。
 
-2. JavaScript 使用了许多系统 symbol，这些 symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来该百年一些内置行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来 [迭代](info:iterable)， `Symbol.toPrimitive`来设置 [object 到原语的转换](info:object-toprimitive) 等等。
+2. JavaScript 使用了许多系统 symbol，这些 symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来改变一些内置行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来 [迭代](info:iterable)， `Symbol.toPrimitive`来设置 [object-to-primitive 的转换](info:object-toprimitive) 等等。
 
 从技术上说，symbol 不是 100% 隐藏的。有一个内置方面 [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) 允许我们获取所有的 symbol。还有一个名为 [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 返回**所有**键，包括 symbol。所以它们不是真正的隐藏。但是大多数库、内置方法和语法结构都遵循一个共同的协议。而明确调用上诉方法的人可能很清楚他在做什么。
