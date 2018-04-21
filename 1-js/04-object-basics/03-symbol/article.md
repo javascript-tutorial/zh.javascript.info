@@ -19,7 +19,7 @@ let id = Symbol();
 我们可以给 Symbol 一个描述（也称为 Symbol 名），这对于调试非常有用：
 
 ```js
-// id 是描述为 “id” 的 Symbol
+// id 是描述为 "id" 的 Symbol
 let id = Symbol("id");
 ```
 
@@ -61,7 +61,7 @@ alert(id.toString()); // Symbol(id)，现在它起作用了
 这是一种防止混乱的“语言保护”，因为 String 和 Symbol 有本质上的不同，而且不应该偶尔将它们相互转化。
 ````
 
-## "隐藏"属性
+## “隐藏”属性
 
 Symbol 允许我们创建对象的“隐藏”属性，代码的任何其他部分都不能偶尔访问或重写这些属性。
 
@@ -79,7 +79,7 @@ alert( user[id] ); // 我们可以使用 Symbol 作为键来访问数据。
 
 我们用更深入一点的示例来说明这一点。
 
-假设另一个脚本希望 `user` 中有它自己的 “id” 属性可以操作。这可能是另一个 JavaScript 库，所以这些脚本完全不知道对方是谁。
+假设另一个脚本希望 `user` 中有它自己的 "id" 属性可以操作。这可能是另一个 JavaScript 库，所以这些脚本完全不知道对方是谁。
 
 然后该脚本可以创建自己的 `Symbol("id")`，如下所示：
 
@@ -97,7 +97,7 @@ user[id] = "Their id value";
 ```js run
 let user = { name: "John" };
 
-//我们的脚本使用 “id” 属性。
+//我们的脚本使用 "id" 属性。
 user.id = "ID Value";
 
 // ...如果之后另一个脚本为其目的使用“id”...
@@ -146,7 +146,7 @@ for (let key in user) alert(key); // name, age (no symbols)
 alert( "Direct: " + user[id] );
 ```
 
-这是一般"隐藏"概念的一部分。如果另一个脚本或库在我们的对象上循环，它不会访问一个 Symbol 类型的属性。
+这是一般“隐藏”概念的一部分。如果另一个脚本或库在我们的对象上循环，它不会访问一个 Symbol 类型的属性。
 
 相反，[Object.assign](mdn:js/Object/assign) 同时复制字符串和符号属性：
 
@@ -161,12 +161,12 @@ let clone = Object.assign({}, user);
 alert( clone[id] ); // 123
 ```
 
-这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object 时，通常希望**所有**属性被复制（包括想 “id” 这样的 Symbol）。
+这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object 时，通常希望**所有**属性被复制（包括想 `id` 这样的 Symbol）。
 
 ````smart header="Property keys of other types are coerced to strings"
 我们只能在对象中使用 string 或 symbol 作为键，其它类型转换为 String。
 
-例如，在作为属性键使用时，数字 `0`变成了字符串 `"0"` ：
+例如，在作为属性键使用时，数字 `0`变成了字符串 `"0"`：
 
 ```js run
 let obj = {
@@ -183,7 +183,7 @@ alert( obj[0] ); // test （相同属性）
 
 正如我们所看到的，通常所有的 Symbol 都是不同的，即使它们有相同的名字。但有时我们想要同一个名字的 Symbol 是相同的实体。
 
-比如，我们希望在应用程序的不同部分访问相同的 Symbol "id" 属性。 
+比如，我们希望在应用程序的不同部分访问相同的 Symbol `id` 属性。 
 
 为此，存在一个**全局 symbol 注册表**。我们可以在其中创建 Symbol 并在稍后访问它们，它可以确保每次访问相同名称都会返回相同的 Symbol。
 
@@ -259,11 +259,11 @@ JavaScript 内部存在很多“系统” Symbol，我们可以使用它们来�
 
 Symbol 使用 `Symbol()` 创建的，调用带有一个可选的描述。
 
-Symbol 总是不同的值，即使它们有相同的名称。如果我们希望同名 Symbol 相等，那么我们应该使用全局注册表： `Symbol.for(key)` 返回（如果需要的话创建）一个以 `key` 作为名称的全局 Symbol。`Symbol.for` 的多次调用完全返回相同的 Symbol。
+Symbol 总是不同的值，即使它们有相同的名称。如果我们希望同名 Symbol 相等，那么我们应该使用全局注册表：`Symbol.for(key)` 返回（如果需要的话创建）一个以 `key` 作为名称的全局 Symbol。`Symbol.for` 的多次调用完全返回相同的 Symbol。
 
 Symbol 有两个主要的使用场景：
 
-1. "隐藏" object 属性。如果需要将属性添加到 “belongs” 另一个脚本或库的对象中，则可以创建 Symbol 并将其用作属性键。Symbol 属性不出现在 `for..in`中，因此不回偶尔列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会偶尔干预它的操作。
+1. “隐藏” object 属性。如果需要将属性添加到 “belongs” 另一个脚本或库的对象中，则可以创建 Symbol 并将其用作属性键。Symbol 属性不出现在 `for..in`中，因此不回偶尔列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会偶尔干预它的操作。
 
     因此我们可以使用 Symbol 属性“秘密地”将一些东西隐藏到我们需要的 object 中，但其他人不应该看到。
 
