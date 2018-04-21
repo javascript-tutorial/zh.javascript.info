@@ -267,6 +267,6 @@ Symbol 有两个主要的使用场景：
 
     因此我们可以使用 Symbol 属性“秘密地”将一些东西隐藏到我们需要的 object 中，但其他人不应该看到。
 
-2. JavaScript 使用了许多系统 Symbol，这些 Symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来改变一些内置行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来 [迭代](info:iterable)， `Symbol.toPrimitive`来设置 [object-to-primitive 的转换](info:object-toprimitive)等等。
+2. JavaScript 使用了许多系统 Symbol，这些 Symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来改变一些内置行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来[迭代](info:iterable)，`Symbol.toPrimitive` 来设置 [object-to-primitive 的转换](info:object-toprimitive)等等。
 
 从技术上说，Symbol 不是 100% 隐藏的。有一个内置方面 [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) 允许我们获取所有的 Symbol。还有一个名为 [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 返回**所有**键，包括 Symbol。所以它们不是真正的隐藏。但是大多数库、内置方法和语法结构都遵循一个共同的协议。而明确调用上诉方法的人可能很清楚他在做什么。
