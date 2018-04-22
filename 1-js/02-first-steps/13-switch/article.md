@@ -29,7 +29,7 @@ switch(x) {
 - 比较 `x` 值与第一个 `case` （也就是 `value1`）是否严格相等，然后比较第二个 `case`（`value2`）以此类推。
 - 如果相等，`switch` 语句就执行相应 `case` 下的代码块，直到遇到最靠近的 `break` 语句（或者直到 `switch` 语句末尾）。
 - If no case is matched then the `default` code is executed (if it exists).
-- 如果没有符合的 case，`default` 代码块就会被执行（如果代码中有 `default`）。
+- 如果没有符合的 case，`default` 代码块就会被执行（如果 `default` 存在）。
 
 ## 举个例子
 
@@ -80,7 +80,7 @@ switch (a) {
 }
 ```
 
-在上面的例子我们会看到连续执行的三个 `alert`：
+在上面的例子中我们会看到连续执行的三个 `alert`：
 
 ```js
 alert( 'Exactly!' );
@@ -114,7 +114,7 @@ switch (+a) {
 
 ## “case” 分组
 
-共享同一段代码的 `case` 分支会被分在一组：
+共享同一段代码的几个 `case` 分支会被分在一组：
 
 比如，如果我们想让 `case 3` 和 `case 5` 执行同样的代码：
 
@@ -171,4 +171,4 @@ switch (arg) {
 
 1. 在 prompt 对话框输入 `0`、`1`，第一个 `alert` 弹出。
 2. 输入 `2`，第二个 `alert` 弹出。 
-3. 但是输入 `3`，因为 `prompt` 的结果是字符串类型的 `"3"`，不是严格相等于数字类型的 `3`，所以 `case 3` 不会执行！最后`default` 分支也会被执行。 
+3. 但是输入 `3`，因为 `prompt` 的结果是字符串类型的 `"3"`，不是严格相等于数字类型的 `3`，所以 `case 3` 不会执行！最后`default` 分支会执行。 
