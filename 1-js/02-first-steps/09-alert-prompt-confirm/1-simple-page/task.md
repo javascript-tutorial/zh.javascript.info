@@ -1,9 +1,8 @@
-importance: 4
+重要：4
 
 ---
 
-# A simple page
+# 创建简单页面
 
-Create a web-page that asks for a name and outputs it.
-
+创建一页 web 页面，输入 name 并输出它。
 [demo]
