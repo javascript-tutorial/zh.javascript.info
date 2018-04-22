@@ -2,7 +2,7 @@
 
 我们一起来聊一下 JavaScript，用它能做什么，它有哪些特性，以及一些跟它配合使用的技术。
 
-## 什么是 JavaScript ？
+## 什么是 JavaScript？
 
 **JavaScript** 最初的目的是为了 **“让网页动起来”**。
 
