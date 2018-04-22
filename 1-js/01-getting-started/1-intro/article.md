@@ -4,13 +4,13 @@
 
 ## 什么是 JavaScript？
 
-**JavaScript** 最初的目的是为了 **“让网页动起来”**。
+**JavaScript** 最初的目的是为了**“让网页动起来”**。
 
 这种编程语言我们称之为**脚本**。它们可以写在 HTML 中，在页面加载的时候会自动执行。
 
 脚本作为纯文本存在和执行。它们不需要特殊的准备或编译即可运行。
 
-这方面， JavaScript 和 [Java](http://en.wikipedia.org/wiki/Java) 有很大的区别。
+这方面，JavaScript 和 [Java](http://en.wikipedia.org/wiki/Java) 有很大的区别。
 
 ```smart header="Why <u>Java</u>Script?"
 JavaScript 在刚诞生的时候，它的名字叫 “LiveScript”。但是因为当时 Java 很流行，所以决定将一种新语言定位为 Java 的“弟弟”会有所帮助。
@@ -26,7 +26,7 @@ JavaScript 在刚诞生的时候，它的名字叫 “LiveScript”。但是因�
 
 - [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- Chrome 和 Opera 中的 JavaScript 引擎。
 - [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- Firefox 中的 JavaScript 引擎。
-- ... 也有一些其他的 JavaScript 引擎，例如，“Trident” 和 “Chakra” 是不同版本 IE 的 JavaScript 引擎，“ChakraCore” 是 Microsoft Edge 的 JavaScript 引擎 , “Nitro” 和 “SquirrelFish” 是 Safari 的 JavaScript 引擎，等等。
+- ... 也有一些其他的 JavaScript 引擎，例如，“Trident” 和 “Chakra” 是不同版本 IE 的 JavaScript 引擎，“ChakraCore” 是 Microsoft Edge 的 JavaScript 引擎，“Nitro” 和 “SquirrelFish” 是 Safari 的 JavaScript 引擎，等等。
 
 上面这些很容易记忆，因为经常出现在网上关于开发的文章中。我们也会这样用。例如：某个新的功能，如果 JavaScript 引擎 V8 是支持的，那么我们可以认为这个功能在 Chrome 和 Opera 中可以正常运行。
 
