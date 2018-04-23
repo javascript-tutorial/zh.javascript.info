@@ -34,7 +34,7 @@ switch(x) {
 
 `switch` 例子（被执行的代码高亮）：
 
-```js 
+```js run
 let a = 2 + 2;
 
 switch (a) {
