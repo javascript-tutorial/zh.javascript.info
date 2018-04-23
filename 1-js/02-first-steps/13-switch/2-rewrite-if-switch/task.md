@@ -1,10 +1,11 @@
-重要：4
+重要程度：4
 
 ---
 
 # "if" 重构为 "switch" 结构
 
 用 `switch` 重写以下代码：
+
 ```js run
 let a = +prompt('a?', '');
 
