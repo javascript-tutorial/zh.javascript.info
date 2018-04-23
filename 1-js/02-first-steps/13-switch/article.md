@@ -116,7 +116,7 @@ Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the correspondi
 
 比如，如果我们想让 `case 3` 和 `case 5` 执行同样的代码：
 
--```js run no-beautify
+```js run no-beautify
 let a = 2 + 2;
 
 switch (a) {
