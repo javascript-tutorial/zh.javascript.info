@@ -148,7 +148,7 @@ switch (a) {
 
 比如，我们来看下面的代码：
 
-```js
+```js run
 let arg = prompt("Enter a value?")
 switch (arg) {
   case '0':
