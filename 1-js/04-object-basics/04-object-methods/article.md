@@ -194,8 +194,8 @@ user.f = sayHi;
 admin.f = sayHi;
 */!*
 
-// 它们调用时有不同的 this 值
-// 函数内部的 “this” 是点之前的这个对象
+// 它们调用时有不同的 this 值。
+// 函数内部的“this”是点之前的这个对象。
 user.f(); // John  (this == user)
 admin.f(); // Admin  (this == admin)
 
@@ -248,7 +248,7 @@ let user = {
 user.hi(); // John (the simple call works)
 
 *!*
-// 现在我们要判断 name 属性，来决定调用 user.hi 或是 user.bye
+// 现在我们要判断 name 属性，来决定调用 user.hi 或是 user.bye。
 (user.name == "John" ? user.hi : user.bye)(); // Error!
 */!*
 ```
@@ -287,7 +287,7 @@ let user = {
 }
 
 *!*
-// 将赋值和方法调用拆分为两行
+// 将赋值与方法调用拆分为两行
 let hi = user.hi;
 hi(); // 错误，因为 this 未定义
 */!*
