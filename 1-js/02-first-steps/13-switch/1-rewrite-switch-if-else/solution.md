@@ -2,7 +2,7 @@
 
 对于给定的字符串，一个简单的`'=='`也可以。
 
-```js 
+```js no-beautify
 if(browser == 'Edge') {
   alert("You've got the Edge!");
 } else if (browser == 'Chrome'
@@ -15,6 +15,6 @@ if(browser == 'Edge') {
 }
 ```
 
-请注意：`browser == 'Chrome' || browser == 'Firefox' …` 结构被分成多行会更易阅读。
+请注意：`browser == 'Chrome' || browser == 'Firefox' …` 结构分成多行更易阅读。
 
-但是 `switch` 结构更清晰明了。
+但 `switch` 结构更清晰明了。
