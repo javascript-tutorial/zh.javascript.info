@@ -18,7 +18,7 @@
 let message;
 ```
 
-现在，通过赋值操作符 `=` 为变量添加一些数据。
+现在，通过赋值操作符 `=` 为变量添加一些数据：
 
 ```js
 let message;
@@ -70,7 +70,7 @@ let user = 'John',
   message = 'Hello';
 ```
 
-...甚至使用 “逗号优先” 的形式：
+...甚至使用“逗号优先”的形式：
 
 ```js no-beautify
 let user = 'John'
@@ -197,7 +197,7 @@ let 我 = '...';
 ````warn header="保留字"
 有一长串的保留字无法用作变量命名，因为它们被语言本身采用了。
 
-比如，单词 `let`， `class`， `return`， `function` 被保留。
+比如，单词 `let`、`class`、`return`、`function` 被保留。
 
 下面的代码将会抛出一个语法错误：
 
@@ -239,7 +239,7 @@ num = 5; // error: num is not defined
 const myBirthday = '18.04.1982';
 ```
 
-使用 `const` 声明的变量称为 “常量”。它们不能被修改，尝试这样做就会造成错误：
+使用 `const` 声明的变量称为“常量”。它们不能被修改，尝试这样做就会造成错误：
 
 ```js run
 const myBirthday = '18.04.1982';
@@ -286,7 +286,7 @@ const pageLoadTime = /* time taken by a webpage to load */;
 
 `pageLoadTime` 的值在页面加载之前是未知的，所以采用常规命名。但是它仍然是个常量，因为赋值之后不会改变。
 
-换句话说，大写命名的常量仅用作 “硬编码” 值的别名。
+换句话说，大写命名的常量仅用作“硬编码”值的别名。
 
 ## 命名正确
 
@@ -303,9 +303,9 @@ const pageLoadTime = /* time taken by a webpage to load */;
 一些很好遵循的规则是：
 
 - 使用人类可读的命名，比如 `userName` 或者 `shoppingCart`。
-- 诸如`a`，`b`，`c` 的缩写和短名称，离它们远点，除非你真的知道你在干什么。
+- 诸如 `a`、`b`、`c` 的缩写和短名称，离它们远点，除非你真的知道你在干什么。
 - 名称最大限度地简洁描述。不好的例子就是 `data` 和 `value`，这样的名称等于什么都没说。如果能够非常明显地从上下文知道数据和值所表达的含义，这样使用它们也是可以的。
-- 脑海中的术语和团队保持一致。如果站点的访客称为 “用户”，则我们采用相关的变量命名，比如 `currentUser` 或者 `newUser`，而不要 `currentVisitor` 或者一个 `newManInTown`。
+- 脑海中的术语和团队保持一致。如果站点的访客称为“用户”，则我们采用相关的变量命名，比如 `currentUser` 或者 `newUser`，而不要 `currentVisitor` 或者一个 `newManInTown`。
 
 听上去很简单？确实如此，但是实践中创建一个简洁描述的名称并不并非如此。大胆试试吧。
 
@@ -325,8 +325,8 @@ const pageLoadTime = /* time taken by a webpage to load */;
 
 我们可以声明变量来存储数据。可以通过使用 `var`、`let` 或者 `const` 来完成。
 
-- `let` -- 新时代的变量声明方式。Chrome（V8） 中代码必须开启严格模式以使用 `let` 。
+- `let` -- 新时代的变量声明方式。Chrome（V8）中代码必须开启严格模式以使用 `let`。
 - `var` -- 旧时代的变量声明方式。一般情况下，我们不会使用它。但是，我们会在 <info:var> 章节介绍 `var` 和 `let` 的微妙差别，以防你需要它们。
-- `const` -- 类似于`let`, 但是变量的值无法被修改。
+- `const` -- 类似于`let`，但是变量的值无法被修改。
 
 变量应当以一种容易理解变量内部是什么的方式进行命名。
