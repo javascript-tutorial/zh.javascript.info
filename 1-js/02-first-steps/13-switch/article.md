@@ -10,7 +10,7 @@
 
 就像这样：
 
-```js
+```js no-beautify
 switch(x) {
   case 'value1':  // if (x === 'value1')
     ...
