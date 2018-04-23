@@ -108,8 +108,8 @@ switch (+a) {
     alert("this doesn't run");
 }
 ```
--Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the corresponding code is executed.
--````
+Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the corresponding code is executed.
+````
 
 ## "case" 分组
 
