@@ -48,12 +48,12 @@ let user = {
 };
 
 *!*
-// first, declare
+// 首先声明
 function sayHi() {
   alert("Hello!");
 };
 
-// then add as a method
+// 然后将其作为一个方法
 user.sayHi = sayHi;
 */!*
 
@@ -70,7 +70,7 @@ OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样�
 在对象字面量中，有一种更短的（声明）方法的语法：
 
 ```js
-// these objects do the same
+// 这些对象作用一样
 
 let user = {
   sayHi: function() {
@@ -78,10 +78,10 @@ let user = {
   }
 };
 
-// method shorthand looks better, right?
+// 方法简写看起来更好，对吧？
 let user = {
 *!*
-  sayHi() { // same as "sayHi: function()"
+  sayHi() { // 与 "sayHi: function()" 一样
 */!*
     alert("Hello");
   }
@@ -119,6 +119,7 @@ let user = {
 
 user.sayHi(); // John
 ```
+
 在这里 `user.sayHi()` 执行过程中，`this` 的值是 `user`。
 
 技术上讲，也可以在不使用 `this` 的情况下，通过外部变量名来引用它：
@@ -130,7 +131,7 @@ let user = {
 
   sayHi() {
 *!*
-    alert(user.name); // "user" instead of "this"
+    alert(user.name); // "user" 替代 "this"
 */!*
   }
 
@@ -148,7 +149,7 @@ let user = {
 
   sayHi() {
 *!*
-    alert( user.name ); // leads to an error
+    alert( user.name ); // 导致错误
 */!*
   }
 
@@ -156,14 +157,14 @@ let user = {
 
 
 let admin = user;
-user = null; // overwrite to make things obvious
+user = null; // 覆盖让其更易懂
 
-admin.sayHi(); // Whoops! inside sayHi(), the old name is used! error!
+admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的变量名。错误！
 ```
 
 如果在 `alert` 中以 `this.name` 替换 `user.name`，那么代码就会正常运行。
 
-## “this” 不受限制
+## “this”不受限制
 
 在 JavaScript 中，“this”关键字与大多数其他编程语言中的不同。首先，它可以用于任何函数。
 
@@ -188,17 +189,17 @@ function sayHi() {
 }
 
 *!*
-// use the same functions in two objects
+// 在两个对象中使用的是相同的函数
 user.f = sayHi;
 admin.f = sayHi;
 */!*
 
-// these calls have different this
-// "this" inside the function is the object "before the dot"
+// 它们调用时有不同的 this 值
+// 函数内部的 “this” 是点之前的这个对象
 user.f(); // John  (this == user)
 admin.f(); // Admin  (this == admin)
 
-admin['f'](); // Admin (dot or square brackets access the method – doesn't matter)
+admin['f'](); // Admin（使用点或方括号语法来访问这个方法，都没有关系。）
 ```
 
 实际上，我们可以在没有任何对象的情况下调用函数：
@@ -224,7 +225,7 @@ sayHi(); // undefined
 
 在运行时对 `this` 求值的这个想法有其优缺点。一方面，函数可以被重用于不同的对象。另一方面，更大的灵活性给错误留下了余地。
 
-这里我们的立场并不是要评判编程语言的这个想法的好坏。而是我们要了解怎样使用它，如何趋利避害。
+这里我们的立场并不是要评判编程语言的这个想法的好坏，而是要了解怎样使用它，如何趋利避害。
 ```
 
 ## 内部：引用类型
@@ -235,7 +236,7 @@ sayHi(); // undefined
 如果你想学得更快，这部分你可以跳过或过后来读。
 ```
 
-『复杂』的方法调用可能会失去 `this`，如例：
+『复杂』的方法调用可能会失去 `this`，比如：
 
 ```js run
 let user = {
@@ -247,7 +248,7 @@ let user = {
 user.hi(); // John (the simple call works)
 
 *!*
-// now let's call user.hi or user.bye depending on the name
+// 现在我们要判断 name 属性，来决定调用 user.hi 或是 user.bye
 (user.name == "John" ? user.hi : user.bye)(); // Error!
 */!*
 ```
@@ -265,7 +266,7 @@ user.hi();
 
 这样没有效果（对方法求值）：
 ```js
-(user.name == "John" ? user.hi : user.bye)(); // Error!
+(user.name == "John" ? user.hi : user.bye)(); // 错误！
 ```
 
 原因是什么？如果我们想了解为什么会这样，那么我们要深入理解 `obj.method()` 调用的原理。
@@ -286,9 +287,9 @@ let user = {
 }
 
 *!*
-// split getting and calling the method in two lines
+// 将赋值和方法调用拆分为两行
 let hi = user.hi;
-hi(); // Error, because this is undefined
+hi(); // 错误，因为 this 未定义
 */!*
 ```
 
@@ -307,7 +308,7 @@ hi(); // Error, because this is undefined
 `user.hi` 属性访问的值不是函数，而是引用类型的值。在严格模式下，`user.hi` 是：
 
 ```js
-// Reference Type value
+// 引用类型值
 (user, "hi", true)
 ```
 
@@ -317,7 +318,7 @@ hi(); // Error, because this is undefined
 
 所以如果直接使用点 `obj.method()` 或方括号语法 `obj[method]()`（它们在这里并无差别）调用函数，那么作为结果，`this` 值会以正确的方式进行传递。
 
-## 箭头函数没有自己的 "this"
+## 箭头函数没有自己的“this”
 
 箭头函数有些特别：它们没有自己的 `this`。如果我们在这样的函数中引用 `this`，`this` 值取决于外部『正常的』函数。
 
