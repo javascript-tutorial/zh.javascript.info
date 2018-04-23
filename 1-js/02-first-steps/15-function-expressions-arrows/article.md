@@ -368,7 +368,7 @@ welcome(); // ok now
 let func = (arg1, arg2, ...argN) => expression
 ```
 
-...这样会创建一个函数 `func` 参数是 `arg1..argN`, 运行右侧 `expression` 并返回结果。
+...这样会创建一个函数 `func` 参数是 `arg1..argN`, 运行右侧 `expression` 并返回结果。
 
 换句话说，它大致与以下相同：
 
