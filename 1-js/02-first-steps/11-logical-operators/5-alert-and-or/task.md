@@ -1,10 +1,10 @@
-importance: 5
+重要性：5
 
 ---
 
-# The result of OR AND OR
+# 或操作、与操作、或操作串联的结果
 
-What will be the result?
+结果将会是什么？
 
 ```js
 alert( null || 2 && 3 || 4 );
