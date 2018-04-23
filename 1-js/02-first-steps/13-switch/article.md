@@ -1,4 +1,4 @@
-# “switch” 语句
+# "switch" 语句
 
 `switch` 语句可以被多个 `if` 语句替代。
 
@@ -81,19 +81,19 @@ switch (a) {
 
 在上面的例子中我们会看到连续执行的三个 `alert`：
 
-```js
+```js run
 alert( 'Exactly!' );
 alert( 'Too big' );
 alert( "I don't know such values" );
 ```
 
-**任何表达式都可以作为 `switch/case` 的参数**
+````smart header="Any expression can be a `switch/case` argument"
 
 `switch` 和 `case` 都允许任意表达式。
 
 比如：
 
-```js
+```js run
 let a = "1";
 let b = 0;
 
@@ -108,16 +108,16 @@ switch (+a) {
     alert("this doesn't run");
 }
 ```
+-Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the corresponding code is executed.
+-````
 
-`+a` 被赋值为字符串类型的 `1`，和 `b + 1` 的 `case` 比较，相应的代码被执行。
-
-## “case” 分组
+## "case" 分组
 
 共享同一段代码的几个 `case` 分支会被分在一组：
 
 比如，如果我们想让 `case 3` 和 `case 5` 执行同样的代码：
 
-```js
+```js run no-beautify
 let a = 2 + 2;
 
 switch (a) {
