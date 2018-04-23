@@ -17,8 +17,7 @@ const age = someCode(birthday);
 对于 `birthday` 使用大写方式正确吗？那么 `age` 呢？或者两者？
 
 ```js
-const BIRTHDAY = '18.04.1982'; // 使用大写?
+const BIRTHDAY = '18.04.1982'; // 使用大写？
 
-const AGE = someCode(BIRTHDAY); // 使用大写?
+const AGE = someCode(BIRTHDAY); // 使用大写？
 ```
-
