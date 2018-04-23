@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 在对象字面量中使用 “this”
+# 在对象字面量中使用 "this"
 
 这里 `makeUser` 函数返回了一个对象。
 
