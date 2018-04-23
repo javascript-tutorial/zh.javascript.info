@@ -1,10 +1,10 @@
-importance: 3
+重要性：3
 
 ---
 
-# What's the result of OR'ed alerts?
+# 或运算和 alerts 的结果是什么？
 
-What the code below will output?
+下面的代码将会输出什么？
 
 ```js
 alert( alert(1) || 2 || alert(3) );
