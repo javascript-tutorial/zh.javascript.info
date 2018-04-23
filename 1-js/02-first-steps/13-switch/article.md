@@ -26,14 +26,13 @@ switch(x) {
 }
 ```
 
-- 比较 `x` 值与第一个 `case` （也就是 `value1`）是否严格相等，然后比较第二个 `case`（`value2`）以此类推。
+- 比较 `x` 值与第一个 `case`（也就是 `value1`）是否严格相等，然后比较第二个 `case`（`value2`）以此类推。
 - 如果相等，`switch` 语句就执行相应 `case` 下的代码块，直到遇到最靠近的 `break` 语句（或者直到 `switch` 语句末尾）。
-- If no case is matched then the `default` code is executed (if it exists).
 - 如果没有符合的 case，`default` 代码块就会被执行（如果 `default` 存在）。
 
 ## 举个例子
 
-`switch` 例子（ *!* 和 */!* 之间的代码会被执行）：
+`switch` 例子（被执行的代码高亮）：
 
 ```js 
 let a = 2 + 2;
@@ -141,7 +140,7 @@ switch (a) {
 
 现在 `3` 和 `5` 都显示相同的信息。
 
-“分组” case 的能力是 `switch / case` 在没有 `break` 的情况下的副作用。 因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
+在没有 `break` 的情况下，`switch / case` 会“分组” case。 因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
 
 ## 值类型
 
