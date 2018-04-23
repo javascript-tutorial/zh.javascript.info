@@ -61,9 +61,9 @@ user.sayHi(); // Hello!
 ```
 
 ```smart header="Object-oriented programming"
-当我们在代码中用对象表示实体时，这就是所谓的[面向对象编程](https://en.wikipedia.org/wiki/Object-oriented_programming)，简称为“OOP”。
+当我们在代码中用对象表示实体时，这就是所谓的[面向对象编程](https://en.wikipedia.org/wiki/Object-oriented_programming)，简称为 "OOP"。
 
-OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于此方面的书，例如 E.Gamma、R.Helm、R.Johnson 和 J.Vissides 所著的《设计模式：可复用面向对象软件的基础》、 G.Booch 所著的《面向对象分析与设计》 等等。在后面的 <info:object-oriented-programming> 一章中，我们将会触及这个主题的浅层内容。
+OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于此方面的书，例如 E.Gamma、R.Helm、R.Johnson 和 J.Vissides 所著的《设计模式：可复用面向对象软件的基础》、G.Booch 所著的《面向对象分析与设计》 等等。在后面的 <info:object-oriented-programming> 一章中，我们将会触及这个主题的浅层内容。
 ```
 ### 方法简写
 
@@ -88,11 +88,11 @@ let user = {
 };
 ```
 
-如所示，我们可以省略 `function` 只写了 `sayHi()`。
+如所示，我们可以省略 `"function"` 只写了 `sayHi()`。
 
 说实话，这种表示法还是有些不同。与对象集成有关的细微差别（稍后将会介绍），但现在它们无关紧要。在几乎所有的情况下，较短的语法是最好的。
 
-## 方法中的 “this”
+## 方法中的 "this"
 
 对象方法需要访问对象中的存储的信息完成其工作是很常见的。
 
