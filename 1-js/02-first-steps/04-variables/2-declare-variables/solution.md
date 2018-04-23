@@ -1,21 +1,21 @@
-First, the variable for the name of our planet.
+首先，声明变量代表我们星球的名字。
 
-That's simple:
+这很简单：
 
 ```js
 let ourPlanetName = "Earth";
 ```
 
-Note, we could use a shorter name `planet`, but it might be not obvious what planet it refers to. It's nice to be more verbose. At least until the variable isNotTooLong.
+注意，我们也可以用一个更短的名字 `planet`，但是它可能并不清楚它指的是什么行星。再啰嗦一点也是挺好的。至少直到这个变量“不太长”就行。
 
-Second, the name of the current visitor:
+第二，定义当前浏览者的名字：
 
 ```js
 let currentUserName = "John";
 ```
 
-Again, we could shorten that to `userName` if we know for sure that the user is current.
+还有，如果我们的确知道用户就是当前的用户的话，我们可以使用更短的 `userName`。
 
-Modern editors and autocomplete make long variable names easy to write. Don't save on them. A name with 3 words in it is fine.
+现代编辑器的自动补全可以让长变量名变得容易书写。不要浪费这个特性。一个名字中包含三个词就挺好的。
 
-And if your editor does not have proper autocompletion, get [a new one](/editors).
+如果你的编辑器没有合适的自动补全，换[一个新的吧](/editors)。

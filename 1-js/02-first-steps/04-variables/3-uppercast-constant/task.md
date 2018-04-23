@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Uppercase const?
+# 大写的常量？
 
-Examine the following code:
+检查下面的代码：
 
 ```js
 const birthday = '18.04.1982';
@@ -12,13 +12,12 @@ const birthday = '18.04.1982';
 const age = someCode(birthday);
 ```
 
-Here we have a constant `birthday` date and the `age` is calculated from `birthday` with the help of some code (it is not provided for shortness, and because details don't matter here).
+这里我们有一个 `birthday` 日期常量和通过一些有用的代码（为了保持简短这里没有提供，并且细节也无关紧要）从 `birthday` 计算出的 `age` 常量。
 
-Would it be right to use upper case for `birthday`? For `age`? Or even for both?
+对于 `birthday` 使用大写方式正确吗？那么 `age` 呢？或者两者？
 
 ```js
-const BIRTHDAY = '18.04.1982'; // make uppercase?
+const BIRTHDAY = '18.04.1982'; // 使用大写？
 
-const AGE = someCode(BIRTHDAY); // make uppercase?
+const AGE = someCode(BIRTHDAY); // 使用大写？
 ```
-
