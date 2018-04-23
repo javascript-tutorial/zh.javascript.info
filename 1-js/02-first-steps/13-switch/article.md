@@ -81,7 +81,7 @@ switch (a) {
 
 在上面的例子中我们会看到连续执行的三个 `alert`：
 
-```js run
+```js
 alert( 'Exactly!' );
 alert( 'Too big' );
 alert( "I don't know such values" );
