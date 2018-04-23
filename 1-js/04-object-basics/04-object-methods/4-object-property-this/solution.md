@@ -41,6 +41,6 @@ let user = makeUser();
 alert( user.ref().name ); // John
 ```
 
-现在正常了，因为 `user.ref()` 是一个方法。`this` 的值是点 `.` 之前的这个对象。
+现在正常了，因为 `user.ref()` 是一个方法。`this` 的值设置为点 `.` 之前的这个对象。
 
 
