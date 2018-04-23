@@ -62,7 +62,7 @@ switch (a) {
 
 无 `break` 的例子：
 
-```js
+```js run
 let a = 2 + 2;
 
 switch (a) {
