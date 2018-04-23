@@ -140,7 +140,7 @@ switch (a) {
 
 现在 `3` 和 `5` 都显示相同的信息。
 
-在没有 `break` 的情况下，`switch / case` 会“分组” case。 因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
+在没有 `break` 的情况下，`switch/case` 会“分组” case。 因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
 
 ## 值类型
 
