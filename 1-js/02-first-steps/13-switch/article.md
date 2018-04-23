@@ -88,7 +88,6 @@ alert( "I don't know such values" );
 ```
 
 ````smart header="Any expression can be a `switch/case` argument"
-
 `switch` 和 `case` 都允许任意表达式。
 
 比如：
