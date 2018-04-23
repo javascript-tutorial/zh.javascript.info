@@ -18,7 +18,7 @@ alert( user.ref.name ); // Error: Cannot read property 'name' of undefined
 
 这里 `makeUser()` 中的 `this` 值是 `undefined`，因为它是被作为函数调用的，而不是方法调用。
 
-对象字面量本身对于 `this` 没有影响。 `this` 的值是整个函数，代码段和对象字面量对它没有影响。
+对象字面量本身对于 `this` 没有影响。`this` 的值是整个函数，代码段和对象字面量对它没有影响。
 
 所以，`ref: this` 实际上取的是该函数当前的 `this`。
 
