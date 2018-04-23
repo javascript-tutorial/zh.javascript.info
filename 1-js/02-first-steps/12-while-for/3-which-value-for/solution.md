@@ -1,4 +1,4 @@
-**答案： from `0` to `4` in both cases.**
+**答案：在这两种情况下，从 `0` 到 `4`。**
 
 ```js run
 for (let i = 0; i < 5; ++i) alert( i );
