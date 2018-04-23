@@ -120,7 +120,7 @@ function showMessage() {
 //  函数会创建并使用它自己的 userName
 showMessage();
 
-alert( userName ); // *!*John*/!*, 未更改，函数没有访问外部变量。
+alert( userName ); // *!*John*/!*，未更改，函数没有访问外部变量。
 ```
 
 ```smart header="Global variables"
