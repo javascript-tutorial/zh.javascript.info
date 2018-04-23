@@ -63,7 +63,7 @@ user.sayHi(); // Hello!
 ```smart header="Object-oriented programming"
 当我们在代码中用对象表示实体时，这就是所谓的[面向对象编程](https://en.wikipedia.org/wiki/Object-oriented_programming)，简称为 "OOP"。
 
-OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于此方面的书，例如 E.Gamma、R.Helm、R.Johnson 和 J.Vissides 所著的《设计模式：可复用面向对象软件的基础》、G.Booch 所著的《面向对象分析与设计》 等等。在后面的 <info:object-oriented-programming> 一章中，我们将会触及这个主题的浅层内容。
+OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于此方面的书，例如 E.Gamma、R.Helm、R.Johnson 和 J.Vissides 所著的《设计模式：可复用面向对象软件的基础》、G.Booch 所著的《面向对象分析与设计》等等。在后面的 <info:object-oriented-programming> 一章中，我们将会触及这个主题的浅层内容。
 ```
 ### 方法简写
 
@@ -166,7 +166,7 @@ admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的变量名。错误！
 
 ## “this” 不受限制
 
-在 JavaScript 中，“this” 关键字与大多数其他编程语言中的不同。首先，它可以用于任何函数。
+在 JavaScript 中，"this" 关键字与大多数其他编程语言中的不同。首先，它可以用于任何函数。
 
 这样的代码没有语法错误：
 
@@ -178,7 +178,7 @@ function sayHi() {
 
 `this` 是在运行时求值的。它可以是任何值。
 
-例如，从不同的对象中调用同一个函数可能会有不同的 “this” 值：
+例如，从不同的对象中调用同一个函数可能会有不同的 "this" 值：
 
 ```js run
 let user = { name: "John" };
@@ -195,7 +195,7 @@ admin.f = sayHi;
 */!*
 
 // 它们调用时有不同的 this 值。
-// 函数内部的 “this” 是点之前的这个对象。
+// 函数内部的 "this" 是点之前的这个对象。
 user.f(); // John  (this == user)
 admin.f(); // Admin  (this == admin)
 
@@ -299,7 +299,7 @@ hi(); // 错误，因为 this 未定义
 
 引用类型是一种『规范中有的类型』。我们不能明确地指定它，但是可以在语言内部使用。
 
-引用类型的值是三点的结合 `(base, name, strict)` ，如下：
+引用类型的值是三点的结合 `(base, name, strict)`，如下：
 
 - `base` 是对象。
 - `name` 是属性。
