@@ -6,7 +6,7 @@
 
 语句是执行操作的语法结构和命令。
 
-我们已经见过语句 `alert('Hello, world!')`， 可以用来显示消息。
+我们已经见过语句 `alert('Hello, world!')`，可以用来显示消息。
 
 我们可以在代码中编写任意数量的语句。语句之间可以使用分号分割。
 
@@ -71,7 +71,7 @@ alert("There will be an error")
 
 现在，如果我们运行代码，仅仅第一个 `alert` 显示了文本，接着我们收到了一个错误！
 
-但是，如果我们在第一个 `alert` 后加入一个分号，就工作正常了。
+但是，如果我们在第一个 `alert` 后加入一个分号，就工作正常了：
 ```js run
 alert("All fine now");
 
@@ -104,7 +104,7 @@ alert("There will be an error")[1, 2].forEach(alert)
 
 这一行的剩余部分是注释。它可能占据它所拥有的整行或者跟随在一条语句的后面。
 
-就像这样:
+就像这样：
 ```js run
 // 这行注释占据所拥有的整行
 alert('Hello');
@@ -112,13 +112,13 @@ alert('Hello');
 alert('World'); // 这行注释跟随在语句后面
 ```
 
-**多行注释以一个正斜杠和星号开始 <code>"/&#42;"</code> 并以一个星号和正斜杆结束 <code>"&#42;/"</code>.**
+**多行注释以一个正斜杠和星号开始 <code>"/&#42;"</code> 并以一个星号和正斜杆结束 <code>"&#42;/"</code>。**
 
 就像这样:
 
 ```js run
-/* An example with two messages.
-This is a multiline comment.
+/* 两个消息的例子。
+这是一个多行注释。
 */
 alert('Hello');
 alert('World');
@@ -129,7 +129,7 @@ alert('World');
 有时候，可以很方便地临时禁用代码：
 
 ```js run
-/* Commenting out the code
+/* 注释代码
 alert('Hello');
 */
 alert('World');
@@ -146,7 +146,7 @@ alert('World');
 
 ```js run no-beautify
 /*
-  /* nested comment ?!? */
+  /* 嵌套注释 ?!? */
 */
 alert( 'World' );
 ```
