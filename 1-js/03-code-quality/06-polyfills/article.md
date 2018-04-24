@@ -1,7 +1,7 @@
 
 # Polyfills
 
-JavaScript 语言在稳步发展。对语言的新提议也会定期出现，它们会被分析讨论，如果认为有价值，就会被加入到 <https://tc39.github.io/ecma262/> 的列表中，然后进入 [规范](http://www.ecma-international.org/publications/standards/Ecma-262.htm)。
+JavaScript 语言在稳步发展。对语言的新提议也会定期出现，它们会被分析讨论，如果认为有价值，就会被加入到 <https://tc39.github.io/ecma262/> 的列表中，然后进入[规范](http://www.ecma-international.org/publications/standards/Ecma-262.htm)。
 
 JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想法。他们可能会决定实现草稿状态的提案，并推迟已经在标准中的东西，因为他们不感兴趣或者难以实现。
 
@@ -15,17 +15,17 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 
 这就是 Babel 来拯救的东西。
 
-[Babel](https://babeljs.io) 是一个 [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler)。它将新一代的 JavaScript 代码写入前一个标准中。
+[Babel](https://babeljs.io) 是一个 [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler)。它将现代的 JavaScript 代码转化为上一代的标准形式。
 
 实际上，Babel 包含了两部分：
 
 1. 第一，transpiler 程序，就是重写代码的那个。开发者在他自己的电脑上运行它。它将代码重写到旧的标准中。然后将代码交付给用户的网站。诸如 [webpack](http://webpack.github.io/) 或 [brunch](http://brunch.io/) 这样的现代项目构建系统提供了每当代码改变都会自动运行 transpiler 的方法，因此我们这边没有任何的时间损失。
 
-2. 第二，polyfill.
+2. 第二，polyfill。
 
-    transpiler 会重写代码，因此现有的语法特性都被覆盖了。但是对于新特性我们需要写一个特殊的脚本来实现它们。JavaScript 是一个高度动态化的语言。脚本可能不仅是添加一些新特性，还会修改一些内置特性，以便它们根据现代标准表现。
+    transpiler 会重写代码，因此现有的语法特性都被覆盖了。但是对于新特性我们需要写一个特殊的脚本来实现它们。JavaScript 是一个高度动态化的语言。脚本可能不仅是添加一些新特性，还会修改一些内置特性，以便于它们表现得符合现代标准。
 
-    脚本有一个术语 “polyfill” 表示用来“填补”缺口并添加缺少的实现。
+    脚本有一个术语 "polyfill" 表示用来“填补”缺口并添加缺少的实现。
 
     两个有意思的 polyfills 是：
     - [babel polyfill](https://babeljs.io/docs/usage/polyfill/) 支持很多，但是很大。
@@ -33,7 +33,7 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 
 因此，我们需要为那些旧引擎设置 transpiler 并添加 polyfill 来支持现代特性。
 
-如果我们朝着现代引擎进发，并且不使用那些除了任何地方都支持的特性之外的特性，那么我们就不需要使用 Babel。
+如果我们的目标是现代引擎，并且整个项目不使用其他地方不支持的特性，那么我们就不需要使用 Babel。
 
 ## 教程中的案例
 
@@ -44,8 +44,8 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 alert('Press the "Play" button in the upper-right corner to run');
 ```
 
-只有你的浏览器支持它才会工作的现代 JS 例子：
-```
+只有你的浏览器支持它才会工作的现代 JS 例子。
+````
 
 ```offline
 当你正在阅读离线版本时，例子是不可运行的。但是它们通常是可以工作的。:)
