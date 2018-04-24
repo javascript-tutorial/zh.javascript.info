@@ -149,7 +149,7 @@ family = null;
 
 ## 内部算法
 
-垃圾回收的基本算法被称为『mark-and-sweep』。
+垃圾回收的基本算法被称为 "mark-and-sweep"。
 
 定期执行以下“垃圾回收”步骤：
 
