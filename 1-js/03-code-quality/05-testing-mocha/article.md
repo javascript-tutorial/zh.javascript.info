@@ -8,7 +8,7 @@
 
 当我们在写一个函数时，我们通常可以想象出它应该做什么：哪些参数会给出哪些结果。
 
-在开发期间，我们可以通过运行程序来检查它并将结果与预期的果进行比较。例如，我们可以在控制台中这么做。
+在开发期间，我们可以通过运行程序来检查它并将结果与预期进行比较。例如，我们可以在控制台中这么做。
 
 如果出了问题 —— 那么我们会修复代码，然后再一次运行并检查结果 —— 直到它工作为止。
 
@@ -24,7 +24,7 @@
 
 ## 行为驱动开发（BDD）
 
-我们来使用一种名为 [行为驱动开发](http://en.wikipedia.org/wiki/Behavior-driven_development) 或简而言之 BDD 的技术。许多项目都采用这种方法。BDD 不仅仅是测试，还包含更多东西。
+我们来使用一种名为[行为驱动开发](http://en.wikipedia.org/wiki/Behavior-driven_development)或简而言之 BDD 的技术。许多项目都采用这种方法。BDD 不仅仅是测试，还包含更多东西。
 
 **BDD 包含了三部分：测试、文档和示例。**
 
@@ -53,10 +53,10 @@ describe("pow", function() {
 一个规范包含三个主要的模块，你可以在上面看到。
 
 `describe("title", function() { ... })`
-: 表示我们正在描述的功能是什么。 用于组织 "工人（workers）" -- `it` 代码块。在我们的例子中我们正在描述函数 `pow`.
+: 表示我们正在描述的功能是什么。用于组织 "工人（workers）" -- `it` 代码块。在我们的例子中我们正在描述函数 `pow`.
 
 `it("title", function() { ... })`
-: `it` 里面的 “title” 中我们可以以**人类可读**的方式描述特定的用例，第二个参数是一个测试它的函数。
+: `it` 里面的 “title” 中我们以**人类可读**的方式描述特定的用例，第二个参数是一个测试它的函数。
 
 `assert.equal(value1, value2)`
 : `it` 块中的代码。如果实现是正确的，它应该在执行的时候不产生任何错误。
@@ -79,14 +79,14 @@ describe("pow", function() {
 
 如此来看，开发是**迭代**的。我们写规范，实现它，确保测试通过，然后写更多的测试来确保它们工作等等。最后，我们有了一个能工作的实现和针对它的测试。
 
-在我们的案例中，第一步已经完成了：针对 `pow` 我们有一个初始规范。因此让我们来实现它吧。但在此之前，让我们做一个针对规范的“零”运行，只是为了看到测试正在运行（他们都会失败）。
+在我们的案例中，第一步已经完成了：针对 `pow` 我们有一个初始规范。因此让我们来实现它吧。但在此之前，让我们做一个针对规范的“零”运行，只是为了看到测试正在运行（它们都会失败）。
 
 ## 行为规范
 
 在本教程中，我们将使用以下 JavaScript 库进行测试：
 
 - [Mocha](http://mochajs.org/) -- 核心框架：提供了包括 `describe` 和 `it` 的通用型测试函数和运行测试的主函数。
-- [Chai](http://chaijs.com) -- 提供很多断言支持的库。它可以用很多不同的断言。现在我们只需要用`assert.equal`。
+- [Chai](http://chaijs.com) -- 提供很多断言支持的库。它可以用很多不同的断言。现在我们只需要用 `assert.equal`。
 - [Sinon](http://sinonjs.org/) -- 用于监视函数、模拟内置函数和其他函数的库，我们稍后会用到它。
 
 这些库都同时适用于浏览器端和服务器端。这里我们使用浏览器端。
@@ -136,7 +136,7 @@ function pow() {
 
 我们可以选择两种方式中的任意一种来组织测试代码：
 
-1. 第一种 -- 在同一个 `it` 中再添加一个 `assert`：
+1. 第一种 —— 在同一个 `it` 中再添加一个 `assert`：
 
     ```js
     describe("pow", function() {
@@ -150,7 +150,7 @@ function pow() {
 
     });
     ```
-2. 第二种 -- 写两个测试：
+2. 第二种 —— 写两个测试：
 
     ```js
     describe("pow", function() {
@@ -341,12 +341,12 @@ describe("pow", function() {
 
 在 Chai 中也有其他的断言，例如：
 
-- `assert.equal(value1, value2)` -- 检测相等  `value1 == value2`.
-- `assert.strictEqual(value1, value2)` -- 检测严格相等 `value1 === value2`.
-- `assert.notEqual`, `assert.notStrictEqual` -- 刚好和上面做相反的检查。
-- `assert.isTrue(value)` -- 检查 `value === true`
-- `assert.isFalse(value)` -- 检查 `value === false`
-- ...完整的列表在 [docs](http://chaijs.com/api/assert/)
+- `assert.equal(value1, value2)` —— 检测相等 `value1 == value2`。
+- `assert.strictEqual(value1, value2)` —— 检测严格相等 `value1 === value2`。
+- `assert.notEqual`, `assert.notStrictEqual` —— 刚好和上面做相反的检查。
+- `assert.isTrue(value)` —— 检查 `value === true`。
+- `assert.isFalse(value)` —— 检查 `value === false`。
+- ...完整的列表在 [docs](http://chaijs.com/api/assert/)。
 ```
 
 因此我们应该给 `pow` 再加几行：
@@ -381,8 +381,8 @@ function pow(x, n) {
 规范可以通过三种方式使用：
 
 1. **测试** 保证代码正确工作。
-2. **文档** -- `describe` 的标题以及 `it` 告诉我们函数做了什么。
-3. **案例** -- 测试实际工作的例子显示了一个函数可以怎样被使用。
+2. **文档** —— `describe` 的标题以及 `it` 告诉我们函数做了什么。
+3. **案例** —— 测试实际工作的例子显示了一个函数可以怎样被使用。
 
 有了规范，我们可以安全地改进、修改甚至重写函数，并确保它仍然正确地工作。
 
