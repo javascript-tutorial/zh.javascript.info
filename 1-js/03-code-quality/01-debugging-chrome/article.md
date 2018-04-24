@@ -26,9 +26,9 @@
 
 我们可以看到三个区域：
 
-1. **资源区域** 列出了 html、javascript、css 和包括图片在内的页面需要的其他文件。Chrome 扩展的资源也会出现在这。
-2. **源区域** 展示源码。
-3. **信息和控制区域** 是用来调试的，我们很快就会来探讨它。
+1. **资源区域**列出了 html、javascript、css 和包括图片在内的页面需要的其他文件。Chrome 扩展的资源也会出现在这。
+2. **源区域**展示源码。
+3. **信息和控制区域**是用来调试的，我们很快就会来探讨它。
 
 现在你可以再次点击切换按钮 <span class="devtools" style="background-position:-200px -76px"></span> 隐藏资源列表来给代码腾出更多的空间。
 
@@ -44,7 +44,7 @@
 
 ## Breakpoints（断点）
 
-我们来看看 [示例页面](debugging/index.html) 发生了什么。在 `hello.js` 中，点击第 `4` 行。是的，就点击数字 `"4"` 上，不是点击代码。
+我们来看看[示例页面](debugging/index.html)发生了什么。在 `hello.js` 中，点击第 `4` 行。是的，就点击数字 `"4"` 上，不是点击代码。
 
 恭喜你！你已经设置了一个断点。现在，请在第 `8` 行的数字上也点击一下。
 
@@ -52,18 +52,18 @@
 
 ![](chrome-sources-breakpoint.png)
 
-**断点** 是调试器会自动暂停 JavaScript 执行的地方。
+**断点**是调试器会自动暂停 JavaScript 执行的地方。
 
 当代码被暂停时，我们可以检查当前的变量、在控制台执行命令等等。换句话说，我们可以调试它。
 
 我们总是可以在右侧的面板中找到断点的列表。当我们在数个文件中有许多断点时，这是非常有用的。
-- 快速跳转至代码中的断点（通过点击右侧面板中的对应的断点）
+- 快速跳转至代码中的断点（通过点击右侧面板中的对应的断点）。
 - 通过取消选中来临时禁用。
 - 通过右键单击和选择移除来删除一个断点。
-- 等等
+- 等等。
 
 ```smart header="条件断点"
-在行号上 *右键单击* 允许你创建一个 *条件* 断点。 只有当给定的条件为真（即满足条件）时才会被触发。
+在行号上**右键单击**允许你创建一个**条件**断点。只有当给定的条件为真（即满足条件）时才会被触发。
 
 当我们在特定的变量值或参数的情况下需要停止程序执行时，这种调试方法就很有用了。
 ```
@@ -97,20 +97,20 @@ function hello(name) {
 
 请打开右侧的信息下拉列表（箭头指示出的地方）。这里允许你查看当前的代码状态：
 
-1. **`Watch` -- 显示各种表达式的当前值.**
+1. **`Watch` —— 显示各种表达式的当前值。**
 
     你可以点击加号 `+` 然后输入一个表达式。调试器将随时显示它的值，并在执行过程中自动重新计算。
 
-2. **`Call Stack（调用栈）` -- 显示嵌套的调用链。**
+2. **`Call Stack（调用栈）` —— 显示嵌套的调用链。**
 
     此时，调试器正在 `hello()` 的调用链中，被 `index.html` 中的一个脚本调用（这里没有函数，因此显示 "anonymous"）
 
     如果你点击了一个堆栈项，调试器将调到相应的代码那，并且还可以查看其所有的变量。
-3. **`Scope（作用域）` -- 显示当前的变量。**
+3. **`Scope（作用域）` —— 显示当前的变量。**
 
     `Local` 显示当前函数中的变量，你还可以在源代码中看到它们的值高亮显示了出来。
 
-    `Global` 显示全局变量（不在任何函数中）.
+    `Global` 显示全局变量（不在任何函数中）。
 
     还有一个 `this` 关键字目前我们还没有学到，不过我们很快就会讨论它了。
 
@@ -120,7 +120,7 @@ function hello(name) {
 
 在右侧面板的顶部有一些按钮。让我们来使用它们吧。
 
-<span class="devtools" style="background-position:-7px -76px"></span> -- 继续执行，快捷键 `key:F8`.
+<span class="devtools" style="background-position:-7px -76px"></span> —— 继续执行，快捷键 `key:F8`.
 : 继续执行。如果没有其他另外的断点，那么程序就会继续执行，并且调试器不会再控制程序。
 
     如果我们点击一下之后我们会看到这样的情况：
@@ -129,19 +129,19 @@ function hello(name) {
 
     执行器已经继续了，到了 `say()` 函数中的另外一个断点然后暂停在那里。看一下右边的 "Call stack（调用栈）"。它已经增加了一个调用信息。我们现在在 `say()` 里面。
 
-<span class="devtools" style="background-position:-137px -76px"></span> -- 下一步（运行下一个命令），但是**不会进入函数**，快捷键 `key:F10`。
-: 如果我们现在点击它，`alert` 会被显示出来。注意这里 `alert` 可以是任何函数，执行器会 "跨过（step over）"，跳过函数的内部。
+<span class="devtools" style="background-position:-137px -76px"></span> —— 下一步（运行下一个命令），但是**不会进入函数**，快捷键 `key:F10`。
+: 如果我们现在点击它，`alert` 会被显示出来。注意这里 `alert` 可以是任何函数，执行器会 “跨过（step over）”，跳过函数的内部。
 
-<span class="devtools" style="background-position:-72px -76px"></span> -- 下一步，快捷键 `key:F11`.
+<span class="devtools" style="background-position:-72px -76px"></span> —— 下一步，快捷键 `key:F11`。
 : 和前一个一样，但是 "跨进（step into）" 嵌套的函数。单击此操作将一步一步地执行所有脚本操作。
 
-<span class="devtools" style="background-position:-104px -76px"></span> -- 继续执行到当前函数的末尾。快捷键 `key:Shift+F11`.
+<span class="devtools" style="background-position:-104px -76px"></span> —— 继续执行到当前函数的末尾。快捷键 `key:Shift+F11`。
 : 执行器将会停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-72px -76px"></span> 偶然的进入到一个嵌套调用但是对我们并没有什么用，我们想要尽可能的继续执行到最后的时候是非常方便的。
 
-<span class="devtools" style="background-position:-7px -28px"></span> -- 启用 / 禁用所有的断点
-: 这个按钮不会影响程序的执行。只是一个对批量断点的 开/关。
+<span class="devtools" style="background-position:-7px -28px"></span> —— 启用/禁用所有的断点
+: 这个按钮不会影响程序的执行。只是一个对批量断点的开/关。
 
-<span class="devtools" style="background-position:-264px -4px"></span> -- 发生错误时启用 / 禁用自动暂停。
+<span class="devtools" style="background-position:-264px -4px"></span> —— 发生错误时启用/禁用自动暂停。
 : 当启动自动暂停功能并且开发者工具是打开着的时候，当脚本错误时会自动暂停执行。然后我们可以分析变量来看一下什么出错了。因此如果我们的脚本因为错误挂掉的时候，我们可以打开调试器，启用这个选项然后重载页面，查看一下哪里导致它挂掉了和当时的上下文是什么。
 
 ```smart header="继续到这"
@@ -163,7 +163,7 @@ for (let i = 0; i < 5; i++) {
 }
 ```
 
-普通用户看不到这个输出，它是在控制台里面的。要想看到它 —— 或者打开开发者工具中的 Console（控制台）选项卡，或者在一个其他的选项卡中按下 `key:Esc` ：这会在下面打开一个控制台。
+普通用户看不到这个输出，它是在控制台里面的。要想看到它 —— 或者打开开发者工具中的 Console（控制台）选项卡，或者在一个其他的选项卡中按下 `key:Esc`：这会在下面打开一个控制台。
 
 如果我们在代码中有足够的日志记录，那么我们可以从记录中看到刚刚发生了什么，而不需要借助调试器。
 
@@ -172,7 +172,7 @@ for (let i = 0; i < 5; i++) {
 我们可以看到，有 3 种方式来暂停一个脚本：
 1. 一个断点。
 2. `debugger` 声明。
-3. 一个错误（如果开发者工具是打开状态并且按钮 <span class="devtools" style="background-position:-264px -4px"></span> 是开启状态）
+3. 一个错误（如果开发者工具是打开状态并且按钮 <span class="devtools" style="background-position:-264px -4px"></span> 是开启状态）。
 
 然后我们就能检查变量，并逐步查看执行器在哪里走错路了。
 
