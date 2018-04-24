@@ -1,183 +1,183 @@
-# Debugging in Chrome
+# 在 Chrome 中调试
 
-Before writing more complex code, let's talk about debugging.
+在编写更复杂的代码前，让我们先来聊聊调试吧。
 
-All modern browsers and most other environments support "debugging" -- a special UI in developer tools that makes finding and fixing errors much easier.
+所有的现代浏览器和大多数其他环境都支持“调试” —— 开发者工具中的一个特殊的 UI，可以让你更容易地发现和修复错误。
 
-We'll be using Chrome here, because it's probably the most feature-rich in this aspect.
+在这里我们将会使用 Chrome（谷歌浏览器），因为在这方面它可能是功能最丰富的。
 
-## The "sources" pane
+## "sources（资源）" 面板
 
-Your Chrome version may look a little bit different, but it still should be obvious what's there.
+你的 Chrome 版本可能看起来有一点不同，但是应该还是很明显就能发现的。
 
-- Open the [example page](debugging/index.html) in Chrome.
-- Turn on developer tools with `key:F12` (Mac: `key:Cmd+Opt+I`).
-- Select the `sources` pane.
+- 在 Chrome 中打开[示例页面](debugging/index.html)。
+- 使用快捷键 `key:F12` (Mac: `key:Cmd+Opt+I`) 打开开发者工具。
+- 选择 `sources（资源）` 面板。
 
-Here's what you should see if you are doing it for the first time:
+如果你是第一次这么做，那你应该会看到下面这个样子：
 
 ![](chrome-open-sources.png)
 
-The toggler button <span class="devtools" style="background-position:-168px -76px"></span> opens the tab with files.
+切换按钮 <span class="devtools" style="background-position:-168px -76px"></span> 会打开文件列表的选项卡。
 
-Let's click it and select `index.html` and then `hello.js` in the tree view. Here's what should show up:
+让我们在预览树中点击和选择 `index.html` 和 `hello.js`。应该会出现这个视图：
 
 ![](chrome-tabs.png)
 
-Here we can see three zones:
+我们可以看到三个区域：
 
-1. The **Resources zone** lists HTML, JavaScript, CSS and other files, including images that are attached to the page. Chrome extensions may appear here too.
-2. The **Source zone** shows the source code.
-3. The **Information and control zone** is for debugging, we'll explore it soon.
+1. **资源区域**列出了 html、javascript、css 和包括图片在内的页面需要的其他文件。Chrome 扩展的资源也会出现在这。
+2. **源区域**展示源码。
+3. **信息和控制区域**是用来调试的，我们很快就会来探讨它。
 
-Now you could click the same toggler <span class="devtools" style="background-position:-200px -76px"></span> again to hide the resources list and give the code some space.
+现在你可以再次点击切换按钮 <span class="devtools" style="background-position:-200px -76px"></span> 隐藏资源列表来给代码腾出更多的空间。
 
-## Console
+## Console（控制台）
 
-If we press `Esc`, then a console opens below. We can type commands there and press `key:Enter` to execute.
+如果我们按下 `Esc`，下面会出现一个控制台，我们可以输入一些命令然后按下 `key:Enter` 来执行。
 
-After a statement is executed, its result is shown below.
+语句执行之后，会将其结果显示在下面。
 
-For example, here `1+2` results in `3`, and `hello("debugger")` returns nothing, so the result is `undefined`:
+例如，`1+2` 将会返回 `3`，`hello("debugger")` 函数什么也不返回，因此结果是 `undefined`：
 
 ![](chrome-sources-console.png)
 
-## Breakpoints
+## Breakpoints（断点）
 
-Let's examine what's going on within the code of the [example page](debugging/index.html). In `hello.js`, click at line number `4`. Yes, right on the `4` digit, not on the code.
+我们来看看[示例页面](debugging/index.html)发生了什么。在 `hello.js` 中，点击第 `4` 行。是的，就点击数字 `"4"` 上，不是点击代码。
 
-Congratulations! You've set a breakpoint. Please also click on the number for line `8`.
+恭喜你！你已经设置了一个断点。现在，请在第 `8` 行的数字上也点击一下。
 
-It should look like this (blue is where you should click):
+看起来应该是这样的（蓝色的是你应该点击的地方）：
 
 ![](chrome-sources-breakpoint.png)
 
-A *breakpoint* is a point of code where the debugger will automatically pause the JavaScript execution.
+**断点**是调试器会自动暂停 JavaScript 执行的地方。
 
-While the code is paused, we can examine current variables, execute commands in the console etc. In other words, we can debug it.
+当代码被暂停时，我们可以检查当前的变量、在控制台执行命令等等。换句话说，我们可以调试它。
 
-We can always find a list of breakpoints in the right pane. That's useful when we have many breakpoints in various files. It allows to:
-- Quickly jump to the breakpoint in the code (by clicking on it in the right pane).
-- Temporarily disable the breakpoint by unchecking it.
-- Remove the breakpoint by right-clicking and selecting Remove.
-- ...And so on.
+我们总是可以在右侧的面板中找到断点的列表。当我们在数个文件中有许多断点时，这是非常有用的。
+- 快速跳转至代码中的断点（通过点击右侧面板中的对应的断点）。
+- 通过取消选中来临时禁用。
+- 通过右键单击和选择移除来删除一个断点。
+- 等等。
 
-```smart header="Conditional breakpoints"
-*Right click* on the line number allows to create a *conditional* breakpoint. It only triggers when the given expression is truthy.
+```smart header="条件断点"
+在行号上**右键单击**允许你创建一个**条件**断点。只有当给定的条件为真（即满足条件）时才会被触发。
 
-That's handy when we need to stop only for a certain variable value or for certain function parameters.
+当我们在特定的变量值或参数的情况下需要停止程序执行时，这种调试方法就很有用了。
 ```
 
-## Debugger command
+## Debugger 命令
 
-We can also pause the code by using the `debugger` command, like this:
+我们也可以使用 `debugger` 命令来暂停代码，像这样：
 
 ```js
 function hello(name) {
   let phrase = `Hello, ${name}!`;
 
 *!*
-  debugger;  // <-- the debugger stops here
+  debugger;  // <-- 调试器会在这停止
 */!*
 
   say(phrase);
 }
 ```
 
-That's very convenient when we are in a code editor and don't want to switch to the browser and look up the script in developer tools to set the breakpoint.
+当我们在一个代码编辑器中并且不想切换到浏览器在开发者工具中查找脚本来设置断点时，这真的是非常方便啦。
 
 
-## Pause and look around
+## 暂停并查看
 
-In our example, `hello()` is called during the page load, so the easiest way to activate the debugger is to reload the page. So let's press `key:F5` (Windows, Linux) or `key:Cmd+R` (Mac).
+在我们的例子中，`hello()` 函数在页面加载期间被调用，因此激活调试器的最简单的方法就是 —— 重新加载页面。因此让我们按下 `key:F5` (Windows, Linux) 或 `key:Cmd+R` (Mac) 吧。
 
-As the breakpoint is set, the execution pauses at the 4th line:
+设置断点之后，程序会在第 4 行暂停执行：
 
 ![](chrome-sources-debugger-pause.png)
 
-Please open the informational dropdowns to the right (labeled with arrows). They allow you to examine the current code state:
+请打开右侧的信息下拉列表（箭头指示出的地方）。这里允许你查看当前的代码状态：
 
-1. **`Watch` -- shows current values for any expressions.**
+1. **`Watch` —— 显示各种表达式的当前值。**
 
-    You can click the plus `+` and input an expression. The debugger will show its value at any moment, automatically recalculating it in the process of execution.
+    你可以点击加号 `+` 然后输入一个表达式。调试器将随时显示它的值，并在执行过程中自动重新计算。
 
-2. **`Call Stack` -- shows the nested calls chain.**
+2. **`Call Stack（调用栈）` —— 显示嵌套的调用链。**
 
-    At the current moment the debugger is inside `hello()` call, called by a script in `index.html` (no function there, so it's called "anonymous").
+    此时，调试器正在 `hello()` 的调用链中，被 `index.html` 中的一个脚本调用（这里没有函数，因此显示 "anonymous"）
 
-    If you click on a stack item, the debugger jumps to the corresponding code, and all its variables can be examined as well.
-3. **`Scope` -- current variables.**
+    如果你点击了一个堆栈项，调试器将调到相应的代码那，并且还可以查看其所有的变量。
+3. **`Scope（作用域）` —— 显示当前的变量。**
 
-    `Local` shows local function variables. You can also see their values highlighted right over the source.
+    `Local` 显示当前函数中的变量，你还可以在源代码中看到它们的值高亮显示了出来。
 
-    `Global` has global variables (out of any functions).
+    `Global` 显示全局变量（不在任何函数中）。
 
-    There's also `this` keyword there that we didn't study yet, but we'll do that soon.
+    还有一个 `this` 关键字目前我们还没有学到，不过我们很快就会讨论它了。
 
-## Tracing the execution
+## 跟踪执行
 
-Now it's time to *trace* the script.
+现在是**跟踪**脚本的时候了。
 
-There are buttons for it at the top of the right pane. Let's engage them.
+在右侧面板的顶部有一些按钮。让我们来使用它们吧。
 
-<span class="devtools" style="background-position:-7px -76px"></span> -- continue the execution, hotkey `key:F8`.
-: Resumes the execution. If there are no additional breakpoints, then the execution just continues and the debugger loses control.
+<span class="devtools" style="background-position:-7px -76px"></span> —— 继续执行，快捷键 `key:F8`.
+: 继续执行。如果没有其他另外的断点，那么程序就会继续执行，并且调试器不会再控制程序。
 
-    Here's what we can see after a click on it:
+    如果我们点击一下之后我们会看到这样的情况：
 
     ![](chrome-sources-debugger-trace-1.png)
 
-    The execution has resumed, reached another breakpoint inside `say()` and paused there. Take a look at the "Call stack" at the right. It has increased by one more call. We're inside `say()` now.
+    执行器已经继续了，到了 `say()` 函数中的另外一个断点然后暂停在那里。看一下右边的 "Call stack（调用栈）"。它已经增加了一个调用信息。我们现在在 `say()` 里面。
 
-<span class="devtools" style="background-position:-137px -76px"></span> -- make a step (run the next command), but *don't go into the function*, hotkey `key:F10`.
-: If we click it now, `alert` will be shown. The important thing is that `alert` can be any function, the execution "steps over it", skipping the function internals.
+<span class="devtools" style="background-position:-137px -76px"></span> —— 下一步（运行下一个命令），但是**不会进入函数**，快捷键 `key:F10`。
+: 如果我们现在点击它，`alert` 会被显示出来。注意这里 `alert` 可以是任何函数，执行器会 “跨过（step over）”，跳过函数的内部。
 
-<span class="devtools" style="background-position:-72px -76px"></span> -- make a step, hotkey `key:F11`.
-: The same as the previous one, but "steps into" nested functions. Clicking this will step through all script actions one by one.
+<span class="devtools" style="background-position:-72px -76px"></span> —— 下一步，快捷键 `key:F11`。
+: 和前一个一样，但是 "跨进（step into）" 嵌套的函数。单击此操作将一步一步地执行所有脚本操作。
 
-<span class="devtools" style="background-position:-104px -76px"></span> -- continue the execution till the end of the current function, hotkey `key:Shift+F11`.
-: The execution would stop at the very last line of the current function. That's handy when we accidentally entered a nested call using <span class="devtools" style="background-position:-72px -76px"></span>, but it does not interest us, and we want to continue to its end as soon as possible.
+<span class="devtools" style="background-position:-104px -76px"></span> —— 继续执行到当前函数的末尾。快捷键 `key:Shift+F11`。
+: 执行器将会停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-72px -76px"></span> 偶然的进入到一个嵌套调用但是对我们并没有什么用，我们想要尽可能的继续执行到最后的时候是非常方便的。
 
-<span class="devtools" style="background-position:-7px -28px"></span> -- enable/disable all breakpoints.
-: That button does not move the execution. Just a mass on/off for breakpoints.
+<span class="devtools" style="background-position:-7px -28px"></span> —— 启用/禁用所有的断点
+: 这个按钮不会影响程序的执行。只是一个对批量断点的开/关。
 
-<span class="devtools" style="background-position:-264px -4px"></span> -- enable/disable automatic pause in case of an error.
-: When enabled, and the developer tools is open, a script error automatically pauses the execution. Then we can analyze variables to see what went wrong. So if our script dies with an error, we can open debugger, enable this option and reload the page to see where it dies and what's the context at that moment.
+<span class="devtools" style="background-position:-264px -4px"></span> —— 发生错误时启用/禁用自动暂停。
+: 当启动自动暂停功能并且开发者工具是打开着的时候，当脚本错误时会自动暂停执行。然后我们可以分析变量来看一下什么出错了。因此如果我们的脚本因为错误挂掉的时候，我们可以打开调试器，启用这个选项然后重载页面，查看一下哪里导致它挂掉了和当时的上下文是什么。
 
-```smart header="Continue to here"
-Right click on a line of code opens the context menu with a great option called "Continue to here".
+```smart header="继续到这"
+在代码中的某一行上右键打开一个带有 "Continue to here（继续到这）" 的非常有用的选项的菜单。
 
-That's handy when we want to move multiple steps forward, but we're too lazy to set a breakpoint.
+当你想要向前移动很多步但是又懒得设置一个断点时非常的方便。
 ```
 
-## Logging
+## 日志记录
 
-To output something to console, there's `console.log` function.
+想要输出一些东西到控制台上？有一个 `console.log` 可以满足你。
 
-For instance, this outputs values from `0` to `4` to console:
+例如：将从 `0` 到 `4`的值输出到控制台上：
 
 ```js run
-// open console to see
+// 打开控制台来查看
 for (let i = 0; i < 5; i++) {
   console.log("value", i);
 }
 ```
 
-Regular users don't see that output, it is in the console. To see it, either open the Console tab of developer tools or press `key:Esc` while in another tab: that opens the console at the bottom.
+普通用户看不到这个输出，它是在控制台里面的。要想看到它 —— 或者打开开发者工具中的 Console（控制台）选项卡，或者在一个其他的选项卡中按下 `key:Esc`：这会在下面打开一个控制台。
 
-If we have enough logging in our code, then we can see what's going on from the records, without the debugger.
+如果我们在代码中有足够的日志记录，那么我们可以从记录中看到刚刚发生了什么，而不需要借助调试器。
 
-## Summary
+## 总结
 
-As we can see, there are three main ways to pause a script:
-1. A breakpoint.
-2. The `debugger` statements.
-3. An error (if dev tools are open and the button <span class="devtools" style="background-position:-264px -4px"></span> is "on")
+我们可以看到，有 3 种方式来暂停一个脚本：
+1. 一个断点。
+2. `debugger` 声明。
+3. 一个错误（如果开发者工具是打开状态并且按钮 <span class="devtools" style="background-position:-264px -4px"></span> 是开启状态）。
 
-Then we can examine variables and step on to see where the execution goes wrong.
+然后我们就能检查变量，并逐步查看执行器在哪里走错路了。
 
-There are many more options in developer tools than covered here. The full manual is at <https://developers.google.com/web/tools/chrome-devtools>.
+开发者工具中还有比这篇文章中更多的选项。完整的手册在 <https://developers.google.com/web/tools/chrome-devtools>
 
-The information from this chapter is enough to begin debugging, but later, especially if you do a lot of browser stuff, please go there and look through more advanced capabilities of developer tools.
+本章节中的信息足够开始调试了，但是以后，尤其是你做了大量关于浏览器的东西后，请你去（上面的链接里）查看开发者工具的更高级功能。
 
-Oh, and also you can click at various places of dev tools and just see what's showing up. That's probably the fastest route to learn dev tools. Don't forget about the right click as well!
+对了，你也可以点击开发者工具中的其他地方来看一下会显示什么。这可能是你学习开发者工具的最快的路线了。不要忘了还有右键单击哟。
