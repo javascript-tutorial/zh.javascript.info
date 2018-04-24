@@ -61,14 +61,14 @@ let age = Number("an arbitrary string instead of a number");
 alert(age); // NaN, conversion failed
 ```
 
-number 类型转换规则:
+number 类型转换规则：
 
 | 值 |  变成... |
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
 |<code>true&nbsp;和&nbsp;false</code> | `1` and `0` |
-| `string` | 字符串开始和末尾的空白会被移除，剩下的如果是空字符串，结果为 `0`，否则--从字符串中读出数字。错误返回 `NaN`。 |
+| `string` | 字符串开始和末尾的空白会被移除，剩下的如果是空字符串，结果为 `0`，否则 —— 从字符串中读出数字。错误返回 `NaN`。 |
 
 例如：
 
@@ -82,7 +82,7 @@ alert( Number(false) );       // 0
 请注意 `null` 和 `undefined` 有点不同。`null` 变成数字 `0`，`undefined` 变成 `NaN`。
 
 ````smart header="加号'+' 连接字符串"
-几乎所有的算术运算符都将值转换为数字，加号 `+` 是个例外。如果加数或被加数是字符串，则另一个也会转换为字符串。
+几乎所有的算术运算符都将值转换为数字，加号 `+` 是个例外。如果其中一个运算元是字符串，则另一个也会转换为字符串。
 
 然后，连接两者：
 
@@ -129,7 +129,7 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 
 有三种常用的类型转换：转换为 string 类型、转换为 number 类型和转换为 boolean 类型。
 
-**`ToString`** -- 输出内容时 `ToString` 发生转换，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是可预见的。
+**`ToString`** —— 输出内容时 `ToString` 发生转换，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是可预见的。
 
 **`ToNumber`** -- 进行算术操作时发生 `ToNumber` 转换，或通过 `Number(value)` 进行显式转换。
 
@@ -155,6 +155,6 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 上述的大多数规则都容易理解和记忆。经常犯错的例外有：
 
 - `undefined` 进行 `ToNumber` 时变成 `NaN`，而非 `0`。
-- `"0"` 和只有空白的字符串(比如：`"   "` )在进行 `ToBoolean` 变成 `true`。
+- `"0"` 和只有空格的字符串(比如：`"   "` )在进行 `ToBoolean` 变成 `true`。
 
-对象的转换并未在此提及，我们会在章节<info:object-toprimitive>介绍，随后我们会学习 JavaScript 更多基础的细节。
+对象的转换并未在此提及，我们会在章节 <info:object-toprimitive> 介绍，随后我们会学习 JavaScript 更多基础的细节。
