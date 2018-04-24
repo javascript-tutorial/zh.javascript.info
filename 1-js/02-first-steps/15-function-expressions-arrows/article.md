@@ -2,7 +2,7 @@
 
 JavaScript 中, 函数虽然不是万能的，它却是一个特殊的值。
 
-下面的语法我们通常叫 **函数声明**:
+下面的语法我们通常叫 **函数声明**：
 
 ```js
 function sayHi() {
@@ -10,7 +10,7 @@ function sayHi() {
 }
 ```
 
-下面是另一种创建函数的方法叫 **函数表达式**。
+下面是另一种创建函数的方法叫**函数表达式**。
 
 通常会写成这样：
 
@@ -63,7 +63,7 @@ sayHi(); // Hello    //     this still works too (why wouldn't it)
 1. `(1)` 中声明创建了函数，并把它放入变量 `sayHi`。
 2. `(2)` 复制进变量 `func`。
 
-    请注意：`sayHi` 旁边没有括号。 如果有括号， `func = sayHi()` 会把 `sayHi()` 的调用结果写进`func`, 而不是 `sayHi` **函数** 本身。
+    请注意：`sayHi` 旁边没有括号。 如果有括号， `func = sayHi()` 会把 `sayHi()` 的调用结果写进`func`, 而不是 `sayHi` **函数**本身。
 3. 现在调用 `sayHi()` 和 `func()`。
 
 注意这里的第一行我们用函数表达式声明 `sayHi`：
@@ -79,7 +79,7 @@ let func = sayHi;
 
 
 ````smart header="Why there's a semicolon at the end?"
- 这里可能有个疑问，为什么函数表达式结尾有一个 `;` ，而函数声明没有：
+ 这里可能有个疑问，为什么函数表达式结尾有一个 `;`，而函数声明没有：
 
 ```js
 function sayHi() {
@@ -111,7 +111,7 @@ let sayHi = function() {
 `no`
 : 当回答 "No" 时候运行的脚本
 
-函数需要提出 `question` （问题），依赖用户的回答, 调用 `yes()` 或 `no()`：
+函数需要提出 `question`（问题），依赖用户的回答, 调用 `yes()` 或 `no()`：
 
 ```js run
 *!*
@@ -163,9 +163,9 @@ ask(
 
 
 ```smart header="A function is a value representing an \"action\""
-字符串或数字等常规值视为 *data*.
+字符串或数字等常规值视为 *data*。
 
-函数可以视为一个 *action*.
+函数可以视为一个 *action*。
 
 我们可以在变量之间传递他们，并在需要时运行。
 ```
@@ -177,7 +177,7 @@ ask(
 
 首先是语法：看下面代码
 
-- **函数声明:** 函数在主代码流中单独声明。
+- **函数声明：** 函数在主代码流中单独声明。
 
     ```js
     // Function Declaration
