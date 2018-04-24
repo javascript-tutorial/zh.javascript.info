@@ -119,7 +119,7 @@ i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 
 对于有非常重要的差异的两个函数使用相同的前缀。
 
-例如，`printPage(page) 函数会使用一个打印机。`printText(text)` 函数会将文字显示到屏幕上。让一个陌生的读者来思考一下：“`printMessage(message)` 会将消息放到哪里呢？打印机还是屏幕上？”，为了使它真正耀眼，`printMessage(message)`应该将消息输出在新窗口中！
+例如，`printPage(page) 函数会使用一个打印机。`printText(text)` 函数会将文字显示到屏幕上。让一个陌生的读者来思考一下：“`printMessage(message)` 会将消息放到哪里呢？打印机还是屏幕上？”，为了使它真正耀眼，`printMessage(message)` 应该将消息输出在新窗口中！
 
 ## 重用名字
 
