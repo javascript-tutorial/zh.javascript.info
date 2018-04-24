@@ -58,7 +58,7 @@ func(); // Hello     // (3) run the copy (it works)!
 sayHi(); // Hello    //     this still works too (why wouldn't it)
 ```
 
-上段代码发生的细节:
+上段代码发生的细节：
 
 1. `(1)` 中声明创建了函数，并把它放入变量 `sayHi`。
 2. `(2)` 复制进变量 `func`。
@@ -185,8 +185,8 @@ ask(
       return a + b;
     }
     ```
-- **函数表达式:** 一个函数，在一个表达式中或另一个语法结构中创建。这里，该函数由赋值表达式 `=` 右侧创建:
-    
+- **函数表达式：** 一个函数，在一个表达式中或另一个语法结构中创建。这里，该函数由赋值表达式 `=` 右侧创建：
+    
     ```js
     // Function Expression
     let sum = function(a, b) {
