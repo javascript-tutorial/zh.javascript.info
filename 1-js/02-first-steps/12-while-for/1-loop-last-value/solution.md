@@ -1,4 +1,4 @@
-The answer: `1`.
+答案是：`1` 。
 
 ```js run
 let i = 3;
@@ -8,9 +8,9 @@ while (i) {
 }
 ```
 
-Every loop iteration decreases `i` by `1`. The check `while(i)` stops the loop when `i = 0`.
+每次循环迭代都将 `i` 减  `1`。当 `i=0` 时，检查 `while(i)` 停止循环。
 
-Hence, the steps of the loop form the following sequence ("loop unrolled"):
+因此，循环的步骤形成以下序列（“循环展开”）：
 
 ```js
 let i = 3;

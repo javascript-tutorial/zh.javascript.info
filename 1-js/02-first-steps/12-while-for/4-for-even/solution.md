@@ -8,4 +8,4 @@ for (let i = 2; i <= 10; i++) {
 }
 ```
 
-We use the "modulo" operator `%` to get the remainder and check for the evenness here.
+我们使用 "modulo" 运算符 `%` 来获取余数，并检查奇偶性。
