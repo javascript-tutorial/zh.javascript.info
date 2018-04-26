@@ -5,17 +5,20 @@
 ## 代码结构
 
 语句用分号分隔：
+
 ```js run no-beautify
 alert('Hello'); alert('World');
 ```
 
 通常，换行符也被视为分隔符：
+
 ```js run no-beautify
 alert('Hello')
 alert('World')
 ```
 
 这就是所谓的“自动分号插入”。有时它不起作用，例如：
+
 ```js run
 alert("There will be an error after this message")
 
@@ -24,6 +27,7 @@ alert("There will be an error after this message")
 
 大多数代码风格指南都认为我们应该在每个语句后面加上分号。
 在代码块`{}`之后以及循环语句后不需要使用分号：
+
 ```js
 function f() {
   //函数声明后不需要分号
@@ -32,12 +36,15 @@ function f() {
 for(;;) {
   //循环语句后不需要分号
 }
+
 ```
 ...但即使我们可以在某处添加了“额外”分号，这也不是错误。它会被忽略的。
 更多信息：<info:structure>。
 
 ## 严格模式
+
 为了完全启用现代JavaScript的所有功能，我们应该使用`“use strict”`指令。
+
 ```js
 'use strict';
 
@@ -52,11 +59,13 @@ for(;;) {
 ## 变量
 
 可以使用以下方式声明变量：
+
 - `let`
 - `const` (固定的，不能被改变)
 - `var`（旧式的，稍后会看到）
 
 一个合格的变量名可以由以下组成：
+
 - 字符串和数字，但是第一个字符不能是数字。
 - 字符`$`和`_`是允许的，用法同字母。
 - 非拉丁字母和象形文字也是允许的，但通常不会使用。
@@ -70,20 +79,22 @@ x = "John";
 ```
 
 有7种数据类型：
-- `number` -- 可以是浮点数，也可以是整数，
-- `string` -- 字符串类型，
-- `boolean` -- 逻辑值: `true/false`,
-- `null` -- 具有单个值'null'的类型，表示“空”或“不存在”，
-- `undefined` -- 一个具有单个值'undefined'的类型，表示“未分配”，
-- `object`和`symbol` -- 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。
+
+- `number` —— 可以是浮点数，也可以是整数，
+- `string` —— 字符串类型，
+- `boolean` —— 逻辑值: `true/false`,
+- `null` —— 具有单个值'null'的类型，表示“空”或“不存在”，
+- `undefined` —— 一个具有单个值'undefined'的类型，表示“未分配”，
+- `object`和`symbol` —— 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。
 
 `typeof`运算符返回值的类型，但有两个例外：
+
 ```js
 typeof null == "object" // error in the language
 typeof function(){} == "function" // 函数特殊
 ```
 
-更多信息：<info:variables>和<info:types>。
+更多信息：<info:variables> 和 <info:types>。
 
 ## 交互
 
@@ -97,7 +108,7 @@ typeof function(){} == "function" // 函数特殊
 [`alert(message)`](mdn:api/Window/alert)
 ：输出一个`消息`。
 
-所有这些函数都会产生模态框，它们会暂停代码执行并阻止访问者与页面交互，直到他响应弹框。
+所有这些函数都会产生**模态框**，它们会暂停代码执行并阻止访问者与页面交互，直到用户输入内容。
 
 举个栗子：
 
@@ -118,9 +129,9 @@ JavaScript支持以下运算符：
 算数运算符
 ：常规的比如： `+ - * /`（加减乘除）,以及取余操作 `%` 和幂运算符 `**` 。
 
-    二进制加`+`连接字符串。如果任何一个操作数是一个字符串，另一个操作数也将转换为字符串：
+    二进制加`+`连接字符串。如果任何一个操作数是一个字符串，另一个操作数也将转换为字符串：
     ```js run
-    alert( '1' + 2 ); // '12', 字符串
+    alert( '1' + 2 ); // '12', 字符串
     alert( 1 + '2' ); // '12', 字符串
     ```
 
@@ -144,17 +155,16 @@ JavaScript支持以下运算符：
     其他比较也转换为数字。
 
     严格相等运算符`===`不会进行转换：不同的类型总是为其指定不同的值，因此：
-    值`null`和`undefined`是特殊的：它们只在`==`下相等。
+    值`null`和`undefined`是特殊的：它们只在`==`下相等。
+    字符串按照字符顺序逐一比较，其他类型转换为数字。
 
-    字符串按照字符顺序逐一比较，其他类型转换为数字。
-
-其他运算符
+逻辑运算符
 ：其他合规的运算符比较少，其中有逗号运算符。
 
 More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 更多信息：<info:operators>, <info:comparison>, <info:logical-operators>。
 
-##循环语句
+## 循环语句
 
 - 我们涵盖了3种类型的循环：
 
@@ -176,7 +186,7 @@ More in: <info:operators>, <info:comparison>, <info:logical-operators>.
     ```
 
 - 在`for(let...)`循环中声明的变量只在循环中可见。但是我们也可以省略`let`并重用现有的变量。
-- 指令`break / continue`允许退出整个循环/当前迭代。使用标签来打破嵌套循环。
+- 指令`break/continue`允许退出整个循环/当前迭代。使用标签来打破嵌套循环。
 
 详情参见：<info:while-for>。
 
@@ -187,6 +197,7 @@ More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 “switch”结构可以替代多个`if`检查，它内部使用`===`（严格相等）进行比较。
 
 例如：
+
 ```js run
 let age = prompt('Your age?', 18);
 
@@ -236,7 +247,7 @@ Details in: <info:switch>.
     //表达式在右侧
     let sum = (a, b) => a + b;
 
-    // 或带{...}的多行语法，需要此处返回：
+    // 或带{...}的多行语法，需要此处返回：
     let sum = (a, b) => {
       // ...
       return a + b;
@@ -249,11 +260,9 @@ Details in: <info:switch>.
     let double = n => n * 2;
     ```
 
-
 - 函数可能具有局部变量：在其内部声明的变量。这些变量只在函数内部可见。
 - 参数可以有默认值：`function sum(a = 1, b = 2) {...}`。
 - 函数总是返回一些东西。如果没有`return`语句，那么结果是'undefined`。
-
 
 |函数声明|函数表达式|
 |----------------------|---------------------|
@@ -262,6 +271,6 @@ Details in: <info:switch>.
 
 更多：参见<info:function-basics>, <info:function-expressions-arrows>。
 
-##更多
+## 更多
 
-这是JavaScript功能的简要概述。截至目前，我们只研究基础知识。在本教程中，您会发现更多特殊功能和JavaScript高级功能。
+这是JavaScript功能的简要概述。截至目前，我们只研究基础知识。随着教程的慎入，您会发现更多特殊功能和JavaScript高级功能。
