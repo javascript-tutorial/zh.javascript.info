@@ -100,7 +100,7 @@ let user = { name: "John" };
 //我们的脚本使用 "id" 属性。
 user.id = "ID Value";
 
-// ...如果之后另一个脚本为其目的使用“id”...
+// ...如果之后另一个脚本为其目的使用 "id"...
 
 user.id = "Their id value"
 // 砰！无意中重写了 id！他不是故意伤害同事的，而是这样做了！
@@ -118,11 +118,11 @@ let id = Symbol("id");
 let user = {
   name: "John",
 *!*
-  [id]: 123 // 不仅仅是 “id：123”
+  [id]: 123 // 不仅仅是 "id：123"
 */!*
 };
 ```
-这是因为我们需要变量 `id` 的值作为键，而不是 String “id”。
+这是因为我们需要变量 `id` 的值作为键，而不是 String "id"。
 
 ### Symbol 在 for..in 中被跳过
 
@@ -173,7 +173,7 @@ let obj = {
   0: "test" // same as "0": "test"
 };
 
-//两个 alert 都访问相同的属性（Number 0 被转换为 String “0”）
+//两个 alert 都访问相同的属性（Number 0 被转换为 String "0"）
 alert( obj["0"] ); // test
 alert( obj[0] ); // test （相同属性）
 ```
@@ -183,7 +183,7 @@ alert( obj[0] ); // test （相同属性）
 
 正如我们所看到的，通常所有的 Symbol 都是不同的，即使它们有相同的名字。但有时我们想要同一个名字的 Symbol 是相同的实体。
 
-比如，我们希望在应用程序的不同部分访问相同的 Symbol `id` 属性。 
+比如，我们希望在应用程序的不同部分访问相同的 Symbol `"id"` 属性。 
 
 为此，存在一个**全局 symbol 注册表**。我们可以在其中创建 Symbol 并在稍后访问它们，它可以确保每次访问相同名称都会返回相同的 Symbol。
 
