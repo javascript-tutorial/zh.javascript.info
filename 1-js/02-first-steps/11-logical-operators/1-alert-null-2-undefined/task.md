@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's the result of OR?
+# 或运算的结果是什么？
 
-What the code below is going to output?
+如下代码将会输出什么？
 
 ```js
 alert( null || 2 || undefined );
