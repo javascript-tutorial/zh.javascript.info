@@ -1,7 +1,7 @@
 
 
-```js run
-let value = prompt('Type a number', 0);
+```执行下面的 js
+let value = prompt('输入一个数字', 0);
 
 if (value > 0) {
   alert( 1 );
