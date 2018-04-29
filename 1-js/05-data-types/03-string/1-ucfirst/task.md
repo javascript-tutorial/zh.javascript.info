@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Uppercast the first character
+# 第一个字符大写
 
-Write a function `ucFirst(str)` that returns the string `str` with the uppercased first character, for instance:
+写一个函数 `ucFirst(str)`，并返回第一个字符大写的字符串` str`，例如：
 
 ```js
 ucFirst("john") == "John";
