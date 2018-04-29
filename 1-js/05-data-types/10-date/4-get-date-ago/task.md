@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Which day of month was many days ago?
+# 多天之前是哪一天？
 
-Create a function `getDateAgo(date, days)` to return the day of month `days` ago from the `date`.
+写一个函数 `getDateAgo(date, days)`，返回特定日期 `date` 往前 `days` 天数后，是当月的哪一天。
 
-For instance, if today is 20th, then `getDateAgo(new Date(), 1)` should be 19th and `getDateAgo(new Date(), 2)` should be 18th.
+举个例子，今天是 20 号，那么 `getDateAgo(new Date(), 1)` 应该是 19 号，`getDateAgo(new Date(), 2)` 应该是 18 号。
 
-Should also work over months/years reliably:
+跨越月、年应该也是正确输出：
 
 ```js
 let date = new Date(2015, 0, 2);
@@ -18,4 +18,4 @@ alert( getDateAgo(date, 2) ); // 31, (31 Dec 2014)
 alert( getDateAgo(date, 365) ); // 2, (2 Jan 2014)
 ```
 
-P.S. The function should not modify the given `date`.
+另：函数不能修改给定的 `date` 值。
