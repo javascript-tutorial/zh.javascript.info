@@ -1,19 +1,19 @@
-We can't "replace" the first character, because strings in JavaScript are immutable.
+我们不能“替换”第一个字符，因为在 JavaScript 中字符串是不可变的。
 
-But we can make a new string based on the existing one, with the uppercased first character:
+但是我们可以根据已有字符串创建一个新的字符串并大写第一个字符：
 
 ```js
 let newStr = str[0].toUpperCase() + str.slice(1);
 ```
 
-There's a small problem though. If `str` is empty, then `str[0]` is undefined, so we'll get an error.
+存在一个小问题，如果 `str` 是空的，那么 `str[0]` 是 undefined，因此我们会得到一个错误。
 
-There are two variants here:
+存在如下两种变体：
 
-1. Use `str.charAt(0)`, as it always returns a string (maybe empty).
-2. Add a test for an empty string.
+1. 使用 `str.charAt(0)`，因为它总是会返回一个字符串（可能为空）。
+2. 为空字符添加测试。
 
-Here's the 2nd variant:
+这是第二种变体：
 
 ```js run
 function ucFirst(str) {
