@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Extract the money
+# 取钱
 
-We have a cost in the form `"$120"`. That is: the dollar sign goes first, and then the number.
+我们的成本是 `"$120"`。意味着：美元符号先执行，然后才是数值。
 
-Create a function `extractCurrencyValue(str)` that would extract the numeric value from such string and return it. 
+创建函数 `extractCurrencyValue(str)` 从字符串中提取数值并返回。
 
-The example:
+比如：
 
 ```js
 alert( extractCurrencyValue('$120') === 120 ); // true
