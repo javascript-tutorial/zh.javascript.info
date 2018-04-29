@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Check for spam
+# 检查 spam
 
-Write a function `checkSpam(str)` that returns `true` if `str` contains 'viagra' or 'XXX', otherwise `false.
+写一个函数 `checkSpam(str)`，如果 `str` 包含 'viagra' 或 'XXX' 就返回 `true`，否则返回 `false`。
 
-The function must be case-insensitive:
+函数必须不区分大小写：
 
 ```js
 checkSpam('buy ViAgRA now') == true
