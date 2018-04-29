@@ -2,16 +2,16 @@ importance: 4
 
 ---
 
-# Format the relative date
+# 格式化日期
 
-Write a function `formatDate(date)` that should format `date` as follows:
+写一个函数 `formatDate(date)`，能够将 `date` 格式化如下：
 
-- If since `date` passed less than 1 second, then `"right now"`.
-- Otherwise, if since `date` passed less than 1 minute, then `"n sec. ago"`.
-- Otherwise, if less than an hour, then `"m min. ago"`.
-- Otherwise, the full date in the format `"DD.MM.YY HH:mm"`. That is: `"day.month.year hours:minutes"`, all in 2-digit format, e.g. `31.12.16 10:00`.
+- 如果 `date` 距离现在少于 1 秒，输出 `"刚刚"`。
+- 否则，如果少于 1 分钟，输出 `"n 秒之前"`。
+- 否则，如果少于 1 小时，输出 `"n 分钟之前"`。
+- 否则，输出完整日期，用格式`"DD.MM.YY HH:mm"`。即：`"day.month.year hours:minutes"`，所有的数都用两位数表示，例如：`31.12.16 10:00`。
 
-For instance:
+举个例子：
 
 ```js
 alert( formatDate(new Date(new Date - 1)) ); // "right now"
