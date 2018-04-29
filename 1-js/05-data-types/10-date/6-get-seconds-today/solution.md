@@ -1,13 +1,13 @@
-To get the number of seconds, we can generate a date using the current day and time 00:00:00, then substract it from "now".
+为或者秒数，我们可以创建一个日期，使用今天的日期和 00:00:00 这个时间，然后当前时间减去该时间。
 
-The difference is the number of milliseconds from the beginning of the day, that we should divide by 1000 to get seconds:
+不同之处在于，这样得到的今天之初的日期是毫秒计算，我们应该除以 1000，得到秒数：
 
 ```js run
 function getSecondsToday() {
   let now = new Date();
 
-  // create an object using the current day/month/year
-  let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  // 创建一个对象，使用当前的 day/month/year
+  let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   let diff = now - today; // ms difference
   return Math.round(diff / 1000); // make seconds
@@ -16,7 +16,7 @@ function getSecondsToday() {
 alert( getSecondsToday() );
 ```
 
-An alternative solution would be to get hours/minutes/seconds and convert them to seconds:
+另一种解决方法是得到 hours/minutes/seconds，然后把它们转化为秒数：
 
 ```js run
 function getSecondsToday() {
