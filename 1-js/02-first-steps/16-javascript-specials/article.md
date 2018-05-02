@@ -1,6 +1,6 @@
 # JavasScript 特性
 
-本章简要回顾我们到现在为止学到的JavaScript特性，特别注意一些细节。
+本章简要回顾我们到现在为止学到的 JavaScript 特性，特别注意一些细节。
 
 ## 代码结构
 
@@ -17,7 +17,7 @@ alert('Hello')
 alert('World')
 ```
 
-这就是所谓的“自动分号插入”。有时它不起作用，例如：
+这就是所谓的「自动分号插入"。有时它不起作用，例如：
 
 ```js run
 alert("There will be an error after this message")
@@ -38,12 +38,12 @@ for(;;) {
 }
 
 ```
-...但即使我们可以在某处添加了“额外”分号，这也不是错误。它会被忽略的。
+...但即使我们可以在某处添加了「额外」分号，这也不是错误。它会被忽略的。
 更多信息：<info:structure>。
 
 ## 严格模式
 
-为了完全启用现代JavaScript的所有功能，我们应该使用`“use strict”`指令。
+为了完全启用现代JavaScript的所有功能，我们应该使用`"use strict"`指令。
 
 ```js
 'use strict';
@@ -52,7 +52,7 @@ for(;;) {
 ```
 
 该指令必须位于js文件的顶部或函数的开头。
-如果没有使用严格模式，所有东西都可以正常工作，但是某些功能的表现方式与旧式“兼容”方式相同。我们通常喜欢更现代的方式。
+如果没有使用严格模式，所有东西都可以正常工作，但是某些功能的表现方式与旧式「兼容”方式相同。我们通常喜欢更现代的方式。
 语言的一些现代特征（比如我们将来要学习的类）会隐式地启用严格模式。
 更多信息：<info:strict-mode>。
 
@@ -83,8 +83,8 @@ x = "John";
 - `number` —— 可以是浮点数，也可以是整数，
 - `string` —— 字符串类型，
 - `boolean` —— 逻辑值: `true/false`,
-- `null` —— 具有单个值'null'的类型，表示“空”或“不存在”，
-- `undefined` —— 一个具有单个值'undefined'的类型，表示“未分配”，
+- `null` —— 具有单个值'null'的类型，表示「空」或「不存在」，
+- `undefined` —— 一个具有单个值'undefined'的类型，表示「未分配」，
 - `object`和`symbol` —— 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。
 
 `typeof`运算符返回值的类型，但有两个例外：
@@ -100,7 +100,7 @@ typeof function(){} == "function" // 函数特殊
 
 我们使用浏览器作为工作环境，所以基本的UI功能将是：
 [`prompt(question[, default])`](mdn:api/Window/prompt)
-：询问一个问题，并返回访问者输入的内容，如果他按下“取消”则返回'null'。
+：询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回'null'。
 
 [`confirm(question)`](mdn:api/Window/confirm)
 ：提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false`形式返回。
@@ -192,9 +192,9 @@ More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 
 稍后我们将学习更多类型的循环语句来处理事物。
 
-## “switch”结构
+## "switch"结构
 
-“switch”结构可以替代多个`if`检查，它内部使用`===`（严格相等）进行比较。
+「switch」结构可以替代多个`if`检查，它内部使用`===`（严格相等）进行比较。
 
 例如：
 
@@ -273,4 +273,4 @@ Details in: <info:switch>.
 
 ## 更多
 
-这是JavaScript功能的简要概述。截至目前，我们只研究基础知识。随着教程的慎入，您会发现更多特殊功能和JavaScript高级功能。
+这是 JavaScript 功能的简要概述。截至目前，我们只研究基础知识。随着教程的慎入，您会发现更多特殊功能和 JavaScript 高级功能。
