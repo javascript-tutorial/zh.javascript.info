@@ -78,7 +78,7 @@ let x = 5;
 x = "John";
 ```
 
-有7种数据类型：
+有 7 种数据类型：
 
 - `number` —— 可以是浮点数，也可以是整数，
 - `string` —— 字符串类型，
@@ -166,7 +166,7 @@ More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 
 ## 循环语句
 
-- 我们涵盖了3种类型的循环：
+- 我们涵盖了 3 种类型的循环：
 
     ```js
     // 1
