@@ -1,18 +1,18 @@
-# Methods of primitives
+# 基本类型的方法
 
-JavaScript allows us to work with primitives (strings, numbers etc) as if they were objects.
+JavaScript允许我们像对象一样使用基本类型（字符串，数字等）。
 
-They also provide methods to call and such. We will study those soon, but first we'll see how it works, because, of course, primitives are not objects (and here we will make it even more clear).
+基本类型还提供调用方法等。我们会尽快研究这些，但首先我们会看看它是如何工作的，毕竟基本类型不是对象（在这里我们会更加清楚）。
 
-Let's look at the key distinction between primitives and objects.
+我们来看看基本类型和对象之间的关键区别。
 
-A primitive
+基本类型
 
-An object
-: Is capable of storing multiple values as properties.
-Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript, e.g. functions are objects.
+对象
+：能够将多个值存储为属性。
+可以用`{}`创建，例如：`{name: "John", age: 30}`。JavaScript中还有其他种类的对象，例如函数就是对象。
 
-One of the best things about objects is that we can store a function as one of its properties:
+关于对象的最好的事情之一是我们可以存储一个函数作为它的一个属性：
 
 ```js run
 let john = {
@@ -25,15 +25,15 @@ let john = {
 john.sayHi(); // Hi buddy!
 ```
 
-So here we've made an object `john` with the method `sayHi`.
+所以我们在这里用 `sayHi` 方法创建了一个对象 `john`。
 
-Many built-in objects already exist, such as those that work with dates, errors, HTML elements etc. They have different properties and methods.
+许多内置对象已经存在，例如那些与日期，错误，HTML元素等一起工作的内置对象。它们具有不同的属性和方法。
 
-But, these features come with a cost!
+但是，这些特性都是有成本的！
 
-Objects are "heavier" than primitives. They require additional resources to support the internal machinery. But as properties and methods are very useful in programming, JavaScript engines try to optimize them to reduce the additional burden.
+对象比基本对象“更重”。他们需要额外的资源来支持运作。但是，由于属性和方法在编程中非常有用，JavaScript引擎会尝试优化它们以减少额外的负担。
 
-## A primitive as an object
+## 作为对象的基本类型
 
 Here's the paradox faced by the creator of JavaScript:
 
