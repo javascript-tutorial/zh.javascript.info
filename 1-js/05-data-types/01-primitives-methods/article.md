@@ -35,22 +35,22 @@ john.sayHi(); // Hi buddy!
 
 ## 作为对象的基本类型
 
-Here's the paradox faced by the creator of JavaScript:
+以下是 JavaScript 创建者面临的悖论：
 
-- There are many things one would want to do with a primitive like a string or a number. It would be great to access them as methods.
-- Primitives must be as fast and lightweight as possible.
+- 有很多事情需要用像字符串或数字这样的基本类型来完成。这样要比直接访问他们方法要好。
+- 基本类型必须尽可能的精简快速。
 
-The solution looks a little bit awkward, but here it is:
+该解决方案看起来有点尴尬，是：
 
-1. Primitives are still primitive. A single value, as desired.
-2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
-3. When this happens, a special "object wrapper" is created that provides the extra functionality, and then is destroyed.
+1. 基本类型仍然是原始数据。根据需要提供单个值。
+2. JavaScript 允许访问字符串，数字，布尔值和符号的方法和属性。
+3. 当触发这种情况时，会创建一个特殊的“包装对象”，它提供额外的功能，运行后即被销毁。
 
-The "object wrappers" are different for each primitive type and are called: `String`, `Number`, `Boolean` and `Symbol`. Thus, they provide different sets of methods.
+“包装对象”对于每种基本类型调用都是不同的，如`String`, `Number`, `Boolean` 和 `Symbol`。因此，他们提供了不同的方法。
 
-For instance, there exists a method [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) that returns a capitalized string.
+例如，方法 [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase)返回一个大写的字符串。
 
-Here's how it works:
+以下是它的工作原理：
 
 ```js run
 let str = "Hello";
@@ -58,17 +58,17 @@ let str = "Hello";
 alert( str.toUpperCase() ); // HELLO
 ```
 
-Simple, right? Here's what actually happens in `str.toUpperCase()`:
+很简单，对吧？以下是 `str.toUpperCase()` 实际发生的情况：
 
-1. The string `str` is a primitive. So in the moment of accessing its property, a special object is created that knows the value of the string, and has useful methods, like `toUpperCase()`.
-2. That method runs and returns a new string (shown by `alert`).
-3. The special object is destroyed, leaving the primitive `str` alone.
+1. 字符串 `str` 是一个基本类型。所以在访问它的属性时，会创建一个已知字符串值的特殊对象，并且具有有用的方法，例如 `toUpperCase()`。
+2. 该方法运行并返回一个新的字符串（由 `alert` 显示）。
+3. 特殊对象被破坏，只留下基本类型 `str`。
 
-So primitives can provide methods, but they still remain lightweight.
+所以基本类型可以提供方法，但它们依然是轻量级的。
 
-The JavaScript engine highly optimizes this process. It may even skip the creation of the extra object at all. But it must still adhere to the specification and behave as if it creates one.
+JavaScript引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创造了一样。
 
-A number has methods of its own, for instance, [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to the given precision:
+数字有其自己的方法，例如，[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)将数字四舍五入到给定的精度：
 
 ```js run
 let n = 1.23456;
@@ -76,15 +76,15 @@ let n = 1.23456;
 alert( n.toFixed(2) ); // 1.23
 ```
 
-We'll see more specific methods in chapters <info:number> and <info:string>.
+我们将在后面章节中看到更具体的方法 <info:number> 和 <info:string>。
 
 
 ````warn header="Constructors `String/Number/Boolean` are for internal use only"
-Some languages like Java allow us to create "wrapper objects" for primitives explicitly using a syntax like `new Number(1)` or `new Boolean(false)`.
+像 Java 这样的一些语言允许我们使用 `new Number(1)` 或 `new Boolean(false)` 等语法明确地为基本类型创建“包装对象”。
 
-In JavaScript, that's also possible for historical reasons, but highly **unrecommended**. Things will go crazy in several places.
+在 JavaScript 中，由于历史原因，这也是可以的，但高度**不推荐**。因为这样会出问题。
 
-For instance:
+例如：
 
 ```js run
 alert( typeof 1 ); // "number"
@@ -92,7 +92,7 @@ alert( typeof 1 ); // "number"
 alert( typeof new Number(1) ); // "object"!
 ```
 
-And because what follows, `zero`, is an object, the alert will show up:
+因为接下来的是，`zero`，是一个对象，alert 将显示出来：
 
 ```js run
 let zero = new Number(0);
@@ -102,9 +102,9 @@ if (zero) { // zero is true, because it's an object
 }
 ```
 
-On the other hand, using the same functions `String/Number/Boolean` without `new` is a totally sane and useful thing. They convert a value to the corresponding type: to a string, a number, or a boolean (primitive).
+另一方面，不使用 `new` 的 `String/Number/Boolean` without `new` 是一个明智的选择。它们将一个值转换为相应的类型：转成 string，number，或  boolean（原始类型）。
 
-For example, this is entirely valid:
+例如，下面完全是有效的：
 ```js
 let num = Number("123"); // convert a string to number
 ```
@@ -112,15 +112,15 @@ let num = Number("123"); // convert a string to number
 
 
 ````warn header="null/undefined have no methods"
-The special primitives `null` and `undefined` are exceptions. They have no corresponding "wrapper objects" and provide no methods. In a sense, they are "the most primitive".
+特殊的基本类型 `null` 和 `undefined` 是个例外。他们没有相应的“包装对象”，并没有提供任何方法。从某种意义上说，他们是“最原始的”。
 
-An attempt to access a property of such value would give the error:
+尝试访问这种值的属性会导致错误：
 
 ```js run
 alert(null.test); // error
 ````
 
-## Summary
+## 总结
 
-- Primitives except `null` and `undefined` provide many helpful methods. We will study those in the upcoming chapters.
-- Formally, these methods work via temporary objects, but JavaScript engines are well tuned to optimize that internally, so they are not expensive to call.
+- 除 `null` 和 `undefined` 以外的基本类型都提供了许多有用的方法。我们将在即将到来的章节中研究这些内容。
+- 从形式上讲，这些方法通过临时对象工作，但 JavaScript 引擎可以很好地调整以优化内部，因此调用它们运行成本并不昂贵。
