@@ -1,19 +1,19 @@
 
-# The "new Function" syntax
+# "new Function" 语法
 
-There's one more way to create a function. It's rarely used, but sometimes there's no alternative.
+JavaScript 有多种创建函数的方法，其中有一种方法虽然不太常用，但在一些情况下它是解决问题的不二法门。
 
-## Syntax
+## 语法介绍
 
-The syntax for creating a function:
+你可以这样创建一个函数：
 
 ```js
 let func = new Function ([arg1[, arg2[, ...argN]],] functionBody)
 ```
 
-In other words, function parameters (or, more precisely, names for them) go first, and the body is last. All arguments are strings.
+即在创建函数时，先传入函数所需的参数（准确地说是形参名），最后传入函数的函数体。传入的所有参数均为字符串。
 
-It's easier to understand by looking at an example. Here's a function with two arguments:
+下面这个例子可以帮助你理解创建语法，它创建了一个包含两个入参的函数：
 
 ```js run
 let sum = new Function('a', 'b', 'return a + b'); 
@@ -21,7 +21,7 @@ let sum = new Function('a', 'b', 'return a + b');
 alert( sum(1, 2) ); // 3
 ```
 
-If there are no arguments, then there's only a single argument, the function body:
+如果创建出的新函数没有任何入参，那么创建函数时你只需要传入一个参数，即描述新函数函数体的字符串：
 
 ```js run
 let sayHi = new Function('alert("Hello")');
@@ -29,11 +29,11 @@ let sayHi = new Function('alert("Hello")');
 sayHi(); // Hello
 ```
 
-The major difference from other ways we've seen is that the function is created literally from a string, that is passed at run time. 
+与已知方法相比这种方法最大的不同是，它是在运行时使用描述函数的字符串来创建函数的。 
 
-All previous declarations required us, programmers, to write the function code in the script.
+之前的各种声明方法都需要我们，程序员，在脚本中编写各个函数的代码。
 
-But `new Function` allows to turn any string into a function. For example, we can receive a new function from a server and then execute it:
+但是 `new Function` 允许我们把字符串变为函数，所以现在我们完全可以从服务器获取并执行一个新的函数：
 
 ```js
 let str = ... receive the code from a server dynamically ...
@@ -42,13 +42,13 @@ let func = new Function(str);
 func();
 ```
 
-It is used in very specific cases, like when we receive code from a server, or to dynamically compile a function from a template. The need for that usually arises at advanced stages of development.
+使用 `new Function` 创建函数的应用场景非常特殊，比如需要从服务器获取代码或者动态地按模板编译函数时才会使用，在一般的程序开发中很少使用。
 
-## Closure
+## 闭包
 
-Usually, a function remembers where it was born in the special property `[[Environment]]`. It references the Lexical Environment from where it's created.
+通常，函数会使用一个特殊的属性 `[[Environment]]` 来记录函数创建时的环境，它具体指向了函数创建时的词法空间。
 
-But when a function is created using `new Function`, its `[[Environment]]` references not the current Lexical Environment, but instead the global one.
+但是如果我们使用 `new Function` 创建函数，函数的 `[[Environment]]` 并不指向当前的词法空间，而是指向全局空间。
 
 ```js run
 
@@ -62,10 +62,10 @@ function getFunc() {
   return func;
 }
 
-getFunc()(); // error: value is not defined
+getFunc()(); // error：value 未定义
 ```
 
-Compare it with the regular behavior:
+与普通的函数创建相比较：
 
 ```js run 
 function getFunc() {
@@ -78,30 +78,30 @@ function getFunc() {
   return func;
 }
 
-getFunc()(); // *!*"test"*/!*, from the Lexical Environment of getFunc
+getFunc()(); // *!*"test"*/!*，变量值取自 getFunc 的词法空间
 ```
 
-This special feature of `new Function` looks strange, but appears very useful in practice.
+`new Function` 的这种特性看起来有点奇怪，不过在实战中却非常实用。
 
-Imagine that we must create a function from a string. The code of that function is not known at the time of writing the script (that's why we don't use regular functions), but will be known in the process of execution. We may receive it from the server or from another source.
+想象我们必须用字符串来创建一个函数。在编写脚本时我们不会知道新函数的代码（这也是为什么我们不用常规方法创建函数），我们只能在运行时从服务器或其他源获取代码的内容。
 
-Our new function needs to interact with the main script.
+我们的新函数需要和主脚本进行交互。
 
-Perhaps we want it to be able to access outer local variables?
+也许我们还希望新函数能够访问到外部作用域的变量？
 
-The problem is that before JavaScript is published to production, it's compressed using a *minifier* -- a special program that shrinks code by removing extra comments, spaces and -- what's important, renames local variables into shorter ones.
+我们还会遇到这种问题，当发布 JavaScript 代码到生产环境时，我们会使用 *minifier* 压缩代码 —— 这是一个特别的程序，它会移除代码中多余的注释、空格等以减小文件 —— 更重要的是，它会用更短的字符重命名所有的本地变量。
 
-For instance, if a function has `let userName`, minifier replaces it `let a` (or another letter if this one is occupied), and does it everywhere. That's usually a safe thing to do, because the variable is local, nothing outside the function can access it. And inside the function, minifier replaces every mention of it. Minifiers are smart, they analyze the code structure, so they don't break anything. They're not just a dumb find-and-replace.
+举个例子，如果一个函数包含了 `let userName`，minifier 会把它替换为 `let a`（如果 a 已被使用便换其他字符），剩余的本地变量也会做类似的替换。一般来说这样的替换是安全的，毕竟这些变量是函数内的本地变量，它们不能被函数以外的表达式访问。同时，minifier 会替换函数内部所有使用了变量的代码。minifier 很聪明，它会分析代码的结构，而不是呆板地查找然后替换，因此它不会“破坏”你的程序。
 
-But, if `new Function` could access outer variables, then it would be unable to find `userName`, since this is passed in as a string *after* the code is minified.
+但是在这种情况下，如果使 `new Function` 可以访问自身函数以外的变量，它也很有可能无法找到 `userName`，这是因为新函数的创建发生在代码压缩以后，变量名已经被替换了。
 
-**Even if we could access outer lexical environment in `new Function`, we would have problems with minifiers.**
+**即使我们可以在 `new Function` 中访问外部词法空间，我们也会受挫于 minifier。**
 
-The "special feature" of `new Function` saves us from mistakes.
+`new Function` 中这个不寻常的特性可以让我们少犯错误。
 
-And it enforces better code. If we need to pass something to a function created by `new Function`, we should pass it explicitly as an argument.
+它“强迫”我们写出更好的代码。当我们需要向 `new Function` 创建出的新函数传递数据时，我们必须显式地通过参数进行传递。
 
-Our "sum" function actually does that right:
+我们的 "sum" 函数就正是这样：
 
 ```js run 
 *!*
@@ -111,27 +111,27 @@ let sum = new Function('a', 'b', 'return a + b');
 let a = 1, b = 2;
 
 *!*
-// outer values are passed as arguments
+// 外部值以参数形式传入函数
 alert( sum(a, b) ); // 3
 */!*
 ```
 
-## Summary
+## 小结
 
-The syntax:
+语法：
 
 ```js
 let func = new Function(arg1, arg2, ..., body);
 ```
 
-For historical reasons, arguments can also be given as a comma-separated list. 
+由于历史原因，参数也可以按逗号分隔符的形式给出。 
 
-These three mean the same:
+以下三种形式表现一致：
 
 ```js 
-new Function('a', 'b', 'return a + b'); // basic syntax
-new Function('a,b', 'return a + b'); // comma-separated
-new Function('a , b', 'return a + b'); // comma-separated with spaces
+new Function('a', 'b', 'return a + b'); // 基础语法
+new Function('a,b', 'return a + b'); // 逗号分隔
+new Function('a , b', 'return a + b'); // 逗号和空格分隔
 ```
 
-Functions created with `new Function`, have `[[Environment]]` referencing the global Lexical Environment, not the outer one. Hence, they cannot use outer variables. But that's actually good, because it saves us from errors. Passing parameters explicitly is a much better method architecturally and causes no problems with minifiers.
+使用 `new Function` 创建出来的函数，它的 `[[Environment]]` 指向全局词法空间，而不是函数所在的外部词法空间。因此，我们不能在新函数中直接使用外部变量。不过这样也挺好，这有助于减少我们代码中可能出现的错误。同时使用参数显式地传值也有助于维护良好的代码结构且避免了因使用 minifier 带来的问题。
