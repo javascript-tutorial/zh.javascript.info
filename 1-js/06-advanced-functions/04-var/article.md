@@ -180,7 +180,6 @@ sayHi();
 1. 变量没有块作用域，它们在最小函数级可见；
 2. 变量声明在函数开头处理。
 
-There's one more minor difference related to the global object, we'll cover that in the next chapter.
 涉及全局对象时，还有一个小的区别，我们会在下一章讲解。
 
 这些区别实际上很多时候都不是好事。首先，我们无法创建块级局部变量。而且变量提升会造成更多的错误。所以，在新近的脚本里，`var` 就很少见了。
