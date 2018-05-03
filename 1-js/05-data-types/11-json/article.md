@@ -189,11 +189,11 @@ replacer
 : 要编码的属性数组或映射函数 `function(key, value)`。
 
 space
-: 要编码的属性数组或映射函数
+: 文本添加缩进、空格和换行符
 
 大部分情况，`JSON.stringify` 仅与第一个参数一起使用。但是，如果我们需要微调替换过程，比如过滤掉循环引用，我们可以使用 `JSON.stringify` 的第二个参数。
 
-如果我们传递一组属性给它，只有这些属性会被编码
+如果我们传递一组属性给它，只有这一组属性会被编码
 
 例如：
 
@@ -214,9 +214,9 @@ alert( JSON.stringify(meetup, *!*['title', 'participants']*/!*) );
 // {"title":"Conference","participants":[{},{}]}
 ```
 
-Here we are probably too strict. The property list is applied to the whole object structure. So participants are empty, because `name` is not in the list.
+这里挺严格。属性列表应用于整个对象结构。所以 participants 是空的，因为 `name` 不在列表中。
 
-Let's include every property except `room.occupiedBy` that would cause the circular reference:
+让我们包含除了会导致循环引用的 `room.occupiedBy` 之外的所有属性：
 
 ```js run
 let room = {
@@ -241,13 +241,13 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 */
 ```
 
-Now everything except `occupiedBy` is serialized. But the list of properties is quite long.
+现在，除 `occupiedBy` 之外的所有内容都会被序列化。但是 participants 的列表相当长。
 
-Fortunately, we can use a function instead of an array as the `replacer`.
+幸运的是，我们可以使用一个函数而不是一个数组作为 `replacer`.
 
-The function will be called for every `(key,value)` pair and should return the "replaced" value, which will be used instead of the original one.
+该函数将调用每个 `(key,value)` 对，并且返回 “replacement” 值，它将被用来代替原来的值。
 
-In our case, we can return `value` "as is" for everything except `occupiedBy`. To ignore `occupiedBy`, the code below returns `undefined`:
+在我们的例子中，除 `occupiedBy` 我们都可以按照原样返回 `value`。要忽略 `occupiedBy`，下面的代码返回 `undefined`：
 
 ```js run
 let room = {
@@ -280,7 +280,7 @@ number:       23
 */
 ```
 
-Please note that `replacer` function gets every key/value pair including nested objects and array items. It is applied recursively. The value of `this` inside `replacer` is the object that contains the current property.
+请注意 `replacer` 函数获取包括嵌套对象和数组项的每个键/值对。它被递归地应用。 `replacer` 里面 `this` 的值是包含当前属性的对象。
 
 The first call is special. It is made using a special "wrapper object": `{"": meetup}`. In other words, the first `(key,value)` pair has an empty key, and the value is the target object as a whole. That's why the first line is `":[object Object]"` in the example above.
 
