@@ -1,30 +1,30 @@
 
 
-# Global object
+# 全局对象
 
-When JavaScript was created, there was an idea of a "global object" that provides all global variables and functions. It was planned that multiple in-browser scripts would use that single global object and share variables through it.
+JavaScript初创时，存在一种借助「全局对象」提供全局变量和函数的思想。它的初衷是多个浏览器中的代码可以通过一个全局对象共享变量。
 
-Since then, JavaScript greatly evolved, and that idea of linking code through global variables became much less appealing. In modern JavaScript, the concept of modules took its place.
+从那之后，JavaScript发生了巨大的演进，那种通过全局变量来连通代码的想法不再受欢迎。在现代JavaScript中，模块化概念成为主流。
 
-But the global object still remains in the specification.
+但是全局对象仍然在规范中保留着。
 
-In a browser it is named "window", for Node.JS it is "global", for other environments it may have another name.
+浏览器中它被命名为「window」，对 Node.JS 而言是「global」，其它环境可能用的别的名字。
 
-It does two things:
+它做了两件事情：
 
-1. Provides access to built-in functions and values, defined by the specification and the environment.
-    For instance, we can call `alert` directly or as a method of `window`:
+1. 提供对由规范和环境定义的内建函数和值的访问。
+    比如，我们可以直接调用 `alert` 或者以 `window` 的方法的形式调用：
 
-    ```js run
+    ```js run
     alert("Hello");
 
-    // the same as
-    window.alert("Hello");
+    // 等同于
+    window.alert("Hello");
     ```
 
-    The same applies to other built-ins. E.g. we can use `window.Array` instead of `Array`.
+    同样的，也适用于其它内建的东西，比如，我们可以使用 `window.Array` 而不是 `Array`。
 
-2. Provides access to global Function Declarations and `var` variables. We can read and write them using its properties, for instance:
+2. 提供对全局声明和 `var` 变量的访问。我们可以使用全局对象的属性来读、写它们，比如：
 
     <!-- no-strict to move variables out of eval -->
     ```js untrusted run no-strict refresh
@@ -34,45 +34,45 @@ It does two things:
       alert(phrase);
     }
 
-    // can read from window
-    alert( window.phrase ); // Hello (global var)
-    alert( window.sayHi ); // function (global function declaration)
+    // 可以从 window 读取
+    alert( window.phrase ); // Hello（全局变量）
+    alert( window.sayHi ); // function（全局函数声明）
 
-    // can write to window (creates a new global variable)
+    // 可以写入 window（会生成新的全局变量）
     window.test = 5;
 
     alert(test); // 5
     ```
 
-...But the global object does not have variables declared with `let/const`!
+...但是全局对象里不会有 `let/const` 声明的变量！
 
 ```js untrusted run no-strict refresh
 *!*let*/!* user = "John";
 alert(user); // John
 
-alert(window.user); // undefined, don't have let
+alert(window.user); // undefined，不会有 let 声明的
 alert("user" in window); // false
 ```
 
-```smart header="The global object is not a global Environment Record"
-In versions of ECMAScript prior to ES-2015, there were no `let/const` variables, only `var`. And global object was used as a global Environment Record (wordings were a bit different, but that's the gist).
+```smart header="全局对象不是全局环境记录"
+在 ES-2015之前的 ECMAScript 版本中，还没有 `let/const` 变量，只有 `var`。而且全局对象被用作全局环境记录（文字有些不同，但是本质是一样的）。
 
-But starting from ES-2015, these entities are split apart. There's a global Lexical Environment with its Environment Record. And there's a global object that provides *some* of the global variables.
+但是从 ES-2015 开始，这些实体被分开了。全局的词法环境有了自己的环境记录。而且有了能够提供 **一些** 全局变量的全局对象。
 
-As a practical difference, global `let/const` variables are definitively properties of the global Environment Record, but they do not exist in the global object.
+在实际中的区别是，全局 `let/const` 变量是全局环境记录的属性，但是它们不在全局对象里。
 
-Naturally, that's because the idea of a global object as a way to access "all global things" comes from ancient times. Nowadays is not considered to be a good thing. Modern language features like `let/const` do not make friends with it, but old ones are still compatible.
+很自然地，那是因为全局对象作为访问「所有全局内容」的途径，这种思想来自于早期。如今，它已经不被看好。诸如 `let/const` 的现代语言特性无法与它为友，但是旧代码仍然是兼容的。
 ```
 
-## Uses of "window"
+## 使用「window」
 
-In server-side environments like Node.JS, the `global` object is used exceptionally rarely. Probably it would be fair to say "never".
+在如 Node.JS 的服务器环境，`global` 对象很少被使用。或者可以说几乎「从来没有」。
 
-In-browser `window` is sometimes used though.
+但在浏览器环境， `window` 有时会被使用。
 
-Usually, it's not a good idea to use it, but here are some examples you can meet.
+通常，使用全局对象并不是一个好主意，但是有时你会遇到一些下面的例子：
 
-1. To access exactly the global variable if the function has the local one with the same name.
+1. 为了访问与函数局部变量同名的全局变量。
 
     ```js untrusted run no-strict refresh
     var user = "Global";
@@ -87,16 +87,16 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
 
     sayHi();
     ```
+    
+    这是一个变通用法。最好不要这样写代码，而是使用不同名称的变量。而且注意 `user` 前的 `var`，这种方式对 `let` 不适用。
 
-    Such use is a workaround. Would be better to name variables differently, that won't require use to write the code it this way. And please note `"var"` before `user`. The trick doesn't work with `let` variables.
+2. 为了检测某个特定全局变量或内建函数是否存在。
+    
+    比如，我们想要检测全局函数 `XMLHttpRequest` 是否存在。
 
-2. To check if a certain global variable or a builtin exists.
+    我们不能用 `if (XMLHttpRequest)`，因为如果 `XMLHttpRequest` 不存在，会出错（变量没有定义）。
 
-    For instance, we want to check whether a global function `XMLHttpRequest` exists.
-
-    We can't write `if (XMLHttpRequest)`, because if there's no `XMLHttpRequest`, there will be an error (variable not defined).
-
-    But we can read it from `window.XMLHttpRequest`:
+    但我们可以从 `window.XMLHttpRequest` 里读取：
 
     ```js run
     if (window.XMLHttpRequest) {
@@ -104,9 +104,9 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     }
     ```
 
-    If there is no such global function then `window.XMLHttpRequest` is just a non-existing object property. That's `undefined`, no error, so it works.
+    如果没有全局函数，那么 `window.XMLHttpRequest` 只不过是不存在的对象属性，会得到 `undefined`，而不是错误，所以这种写法会生效。
 
-    We can also write the test without `window`:
+    我们也可以不用 `window` 来检测：
 
     ```js
     if (typeof XMLHttpRequest == 'function') {
@@ -114,28 +114,28 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     }
     ```
 
-    This doesn't use `window`, but is (theoretically) less reliable, because `typeof` may use a local XMLHttpRequest, and we want the global one.
+    这里没有使用 `window`，但是（理论上）它不够可靠，因为 `typeof` 可能会使用局部的 `XMLHttpRequest`，而我们想要的是全局的那个。
 
+3. 为了从正确的窗口中获取变量，这可能是最合理的使用场景了。
 
-3. To take the variable from the right window. That's probably the most valid use case.
+    浏览器可能会打开多个窗口或页签。一个窗口还可能嵌入了另一个 `<iframe>`。每一个浏览器窗口都有自己的 `window` 对象和全局变量。JavaScript允许来自相同站点（相同的协议、域名、端口）的窗口互相访问彼此的变量。
 
-    A browser may open multiple windows and tabs. A window may also embed another one in `<iframe>`. Every browser window has its own `window` object and global variables. JavaScript allows windows that come from the same site (same protocol, host, port) to access variables from each other.
-
-    That use is a little bit beyond our scope for now, but it looks like:
-    ```html run
+    这种用法已经有些超出我们这里的范围，但它大体是这样的：
+    
+    ```html run
     <iframe src="/" id="iframe"></iframe>
 
     <script>
-      alert( innerWidth ); // get innerWidth property of the current window (browser only)
-      alert( Array ); // get Array of the current window (javascript core builtin)
+      alert( innerWidth ); // 获取当前窗口的 innerWith 属性（仅在浏览器中）
+      alert( Array ); // 获取当前窗口的 Array（javascript 核心内建函数）
 
-      // when the iframe loads...
-      iframe.onload = function() {
-        // get width of the iframe window
+      // 当iframe加载后 ...
+      iframe.onload = function() {
+        // 获取 iframe 窗口的 innerWidth 属性
       *!*
         alert( iframe.contentWindow.innerWidth );
       */!*
-        // get the builtin Array from the iframe window
+        // 获取 iframe 窗口的内建 Array
       *!*
         alert( iframe.contentWindow.Array );
       */!*
@@ -143,29 +143,30 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     </script>
     ```
 
-    Here, first two alerts use the current window, and the latter two take variables from `iframe` window. Can be any variables if `iframe` originates from the same protocol/host/port.
+    这里，前两个 `alert` 使用当前窗口，后两个使用 `iframe` 窗口的变量。如果 `iframe` 来自相同协议、主机、端口，那么就可以访问到任何变量。
 
-## "this" and global object
+## 「this」和全局对象
 
-Sometimes, the value of `this` is exactly the global object. That's rarely used, but some scripts rely on that.
+有时候，`this` 的值恰好是全局对象。这很少用，但有些脚本是依赖它的。
 
-1. In the browser, the value of `this` in the global area is `window`:
+1. 在浏览器中，全局范围的 `this` 就是 `window`：
 
     ```js run
     // outside of functions
     alert( this === window ); // true
     ```
 
-    Other, non-browser environments, may use another value for `this` in such cases.
+    在这种场景下，其它非浏览器环境，可能使用其它的值来赋给 `this`。
 
-2. When a function with `this` is called in non-strict mode, it gets the global object as `this`:
-    ```js run no-strict
-    // not in strict mode (!)
+2. 当一个有 `this` 的函数在非严格模式下被调用时，全局对象会作为 `this`：
+
+    ```js run no-strict
+    // 不在严格模式下 (!)
     function f() {
       alert(this); // [object Window]
     }
 
-    f(); // called without an object
+    f(); // 没有通过对象来调用
     ```
 
-    By specification, `this` in this case must be the global object, even in non-browser environments like Node.JS. That's for compatibility with old scripts, in strict mode `this` would be `undefined`.
+    根据规范，这种场景下的 `this` 必须是全局对象，即使是在非浏览器环境，比如 Node.JS。这样是为了兼容旧的代码，在严格模式下，`this` 会是 `undefiend`。
