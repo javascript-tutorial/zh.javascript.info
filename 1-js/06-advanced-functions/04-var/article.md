@@ -162,7 +162,7 @@ function sayHi() {
   alert(phrase); // undefined
 
 *!*
-  phrase = "Hello"; // ...赋值 - 当执行到这里时。
+  phrase = "Hello"; // ...赋值 — 当执行到这里时。
 */!*
 }
 
