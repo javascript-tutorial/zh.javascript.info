@@ -2,7 +2,7 @@ importance: 4
 
 ---
 
-# 格式化日期
+# 格式化相对日期
 
 写一个函数 `formatDate(date)`，能够将 `date` 格式化如下：
 
