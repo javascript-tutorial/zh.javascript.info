@@ -3,7 +3,7 @@ function getLocalDay(date) {
 
   let day = date.getDay();
 
-  if (day == 0) { // 0，改为7
+  if (day == 0) { // 0，改为 7
     day = 7;
   }
 
