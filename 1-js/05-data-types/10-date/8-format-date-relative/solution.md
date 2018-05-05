@@ -21,7 +21,6 @@ function formatDate(date) {
 
   // 格式化日期
   // 在单个数值之前加 0 日/月/小时/分钟
-  // 在单个数值之前加 0 日/月/小时/分钟
   let d = date;
   d = [
     '0' + d.getDate(),
