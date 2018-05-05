@@ -2,9 +2,9 @@
 
 # 全局对象
 
-JavaScript初创时，存在一种借助「全局对象」提供全局变量和函数的思想。它的初衷是多个浏览器中的代码可以通过一个全局对象共享变量。
+JavaScript 初创时，存在一种借助「全局对象」提供全局变量和函数的思想。它的初衷是多个浏览器中的代码可以通过一个全局对象共享变量。
 
-从那之后，JavaScript发生了巨大的演进，那种通过全局变量来连通代码的想法不再受欢迎。在现代JavaScript中，模块化概念成为主流。
+从那之后，JavaScript 有了极大的发展，那种通过全局变量来连通代码的想法不再受欢迎。在现代 JavaScript 中，模块化概念成为主流。
 
 但是全局对象仍然在规范中保留着。
 
@@ -12,7 +12,7 @@ JavaScript初创时，存在一种借助「全局对象」提供全局变量和�
 
 它做了两件事情：
 
-1. 提供对由规范和环境定义的内建函数和值的访问。
+1. 提供对由规范和环境定义的内置函数和值的访问。
     比如，我们可以直接调用 `alert` 或者以 `window` 的方法的形式调用：
 
     ```js run
@@ -22,7 +22,7 @@ JavaScript初创时，存在一种借助「全局对象」提供全局变量和�
     window.alert("Hello");
     ```
 
-    同样的，也适用于其它内建的东西，比如，我们可以使用 `window.Array` 而不是 `Array`。
+    同样的，也适用于其它内置的东西，比如，我们可以使用 `window.Array` 而不是 `Array`。
 
 2. 提供对全局声明和 `var` 变量的访问。我们可以使用全局对象的属性来读、写它们，比如：
 
@@ -55,9 +55,9 @@ alert("user" in window); // false
 ```
 
 ```smart header="全局对象不是全局环境记录"
-在 ES-2015之前的 ECMAScript 版本中，还没有 `let/const` 变量，只有 `var`。而且全局对象被用作全局环境记录（文字有些不同，但是本质是一样的）。
+在 ES-2015 之前的 ECMAScript 版本中，还没有 `let/const` 变量，只有 `var`。而且全局对象被用作全局环境记录（文字有些不同，但是本质是一样的）。
 
-但是从 ES-2015 开始，这些实体被分开了。全局的词法环境有了自己的环境记录。而且有了能够提供 **一些** 全局变量的全局对象。
+但是从 ES-2015 开始，这些实体被分开了。全局的词法环境有了自己的环境记录。而且有了能够提供**一些**全局变量的全局对象。
 
 在实际中的区别是，全局 `let/const` 变量是全局环境记录的属性，但是它们不在全局对象里。
 
@@ -90,7 +90,7 @@ alert("user" in window); // false
     
     这是一个变通用法。最好不要这样写代码，而是使用不同名称的变量。而且注意 `user` 前的 `var`，这种方式对 `let` 不适用。
 
-2. 为了检测某个特定全局变量或内建函数是否存在。
+2. 为了检测某个特定全局变量或内置函数是否存在。
     
     比如，我们想要检测全局函数 `XMLHttpRequest` 是否存在。
 
@@ -110,7 +110,7 @@ alert("user" in window); // false
 
     ```js
     if (typeof XMLHttpRequest == 'function') {
-      /* is there a function XMLHttpRequest? */
+      /* 是否有函数 XMLHttpRequest？ */
     }
     ```
 
@@ -118,8 +118,8 @@ alert("user" in window); // false
 
 3. 为了从正确的窗口中获取变量，这可能是最合理的使用场景了。
 
-    浏览器可能会打开多个窗口或页签。一个窗口还可能嵌入了另一个 `<iframe>`。每一个浏览器窗口都有自己的 `window` 对象和全局变量。JavaScript允许来自相同站点（相同的协议、域名、端口）的窗口互相访问彼此的变量。
-
+    浏览器可能会打开多个窗口或页签。一个窗口还可能嵌入了另一个 `<iframe>`。每一个浏览器窗口都有自己的 `window` 对象和全局变量。JavaScript 允许来自相同站点（相同的协议、域名、端口）的窗口互相访问彼此的变量。
+    
     这种用法已经有些超出我们这里的范围，但它大体是这样的：
     
     ```html run
@@ -127,15 +127,15 @@ alert("user" in window); // false
 
     <script>
       alert( innerWidth ); // 获取当前窗口的 innerWith 属性（仅在浏览器中）
-      alert( Array ); // 获取当前窗口的 Array（javascript 核心内建函数）
+      alert( Array ); // 获取当前窗口的 Array（javascript 核心内置函数）
 
-      // 当iframe加载后 ...
+      // 当 iframe 加载后 ...
       iframe.onload = function() {
         // 获取 iframe 窗口的 innerWidth 属性
       *!*
         alert( iframe.contentWindow.innerWidth );
       */!*
-        // 获取 iframe 窗口的内建 Array
+        // 获取 iframe 窗口的内置 Array
       *!*
         alert( iframe.contentWindow.Array );
       */!*
