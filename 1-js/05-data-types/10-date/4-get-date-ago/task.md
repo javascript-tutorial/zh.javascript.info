@@ -2,7 +2,7 @@ importance: 4
 
 ---
 
-# 多天之前是哪一天？
+# 许多天之前是该月的哪一天？
 
 写一个函数 `getDateAgo(date, days)`，返回特定日期 `date` 往前 `days` 天数后，是当月的哪一天。
 
