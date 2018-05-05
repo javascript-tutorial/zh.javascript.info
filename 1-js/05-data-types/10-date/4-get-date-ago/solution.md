@@ -9,7 +9,7 @@ function getDateAgo(date, days) {
 
 ...但是函数不能修改 `date`。这一点很重要，因为外部环境不希望它被修改。
 
-要实现这一点，我们可以赋值这个日期，就像这样：
+要实现这一点，我们可以复制这个日期，就像这样：
 
 ```js run
 function getDateAgo(date, days) {
