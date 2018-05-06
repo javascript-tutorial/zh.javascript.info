@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Destructuring assignment
+# 解构赋值
 
-We have an object:
+有以下对象：
 
 ```js
 let user = {
@@ -13,18 +13,18 @@ let user = {
 };
 ```
 
-Write the destructuring assignment that reads:
+写一个解构赋值语句使得：
 
-- `name` property into the variable `name`.
-- `years` property into the variable `age`.
-- `isAdmin` property into the variable `isAdmin` (false if absent)
+- `name` 属性赋值给变量 `name`.
+- `years` 属性赋值给 `age`.
+- `isAdmin` 属性赋值给变量 `isAdmin`（如果属性缺失则赋值为 false）
 
-The values after the assignment should be:
+赋值语句后的值必须是：
 
 ```js
 let user = { name: "John", years: 30 };
 
-// your code to the left side:
+// 等号左侧是你的代码
 // ... = user
 
 alert( name ); // John
