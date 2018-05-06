@@ -1,40 +1,40 @@
-# Date and time
+# 日期和时间
 
-Let's meet a new built-in object: [Date](mdn:js/Date). It stores the date, time and provides methods for date/time management.
+让我一起探讨一个新的内置对象：[日期](mdn:js/Date)。该对象存储日期、时间以及提供管理它们的方法。
 
-For instance, we can use it to store creation/modification times, or to measure time, or just to print out the current date.
+举个例子，我们可以使用它来存储创建、修改事件的时间，或者用来度量时间开销，再或者用来打印当前时间。
 
-## Creation
+## 创建
 
-To create a new `Date` object call `new Date()` with one of the following arguments:
+创建一个新的 `Date` 对象，只需要调用 `new Date()`，附加下列参数中的其中一个：
 
 `new Date()`
-: Without arguments -- create a `Date` object for the current date and time:
+:不带参数 —— 创建一个表示当前日期和时间的 `Date` 对象：
 
     ```js run
     let now = new Date();
-    alert( now ); // shows current date/time
+    alert( now ); // 显示当前的日期/时间
     ```
 
 `new Date(milliseconds)`
-: Create a `Date` object with the time equal to number of milliseconds (1/1000 of a second) passed after the Jan 1st of 1970 UTC+0.
+:创建一个 `Date` 对象，参数是从 1970-01-01 00:00:00 UTC+0 开始所经过的毫秒（一秒的千分之一）数。
 
     ```js run
-    // 0 means 01.01.1970 UTC+0
+    // 0 表示 01.01.1970 UTC+0
     let Jan01_1970 = new Date(0);
     alert( Jan01_1970 );
 
-    // now add 24 hours, get 02.01.1970 UTC+0
+    // 增加 24 小时，得到 02.01.1970 UTC+0
     let Jan02_1970 = new Date(24 * 3600 * 1000);
     alert( Jan02_1970 );
     ```
 
-    The number of milliseconds that has passed since the beginning of 1970 is called a *timestamp*.
+    传入的参数是自 1970-01-01 00:00:00 开始计算的毫秒数，被称为**时间戳**。
 
-    It's a lightweight numeric representation of a date. We can always create a date from a timestamp using `new Date(timestamp)` and convert the existing `Date` object to a timestamp using the `date.getTime()` method (see below).
+    这是一种日期的轻量级表示方法。我们通常使用时间戳来创建一个日期，比如 `new Date(timestamp)`，以及使用 `date.getTime()` 来将现有的 `Date` 对象转化为时间戳（下面将提到）。
 
 `new Date(datestring)`
-: If there is a single argument, and it's a string, then it is parsed with the `Date.parse` algorithm (see below).
+:如果只有一个参数，并且是字符串，那么该参数会通过 `Date.parse` 算法解析（下面会提到）。
 
 
     ```js run
@@ -43,89 +43,89 @@ To create a new `Date` object call `new Date()` with one of the following argume
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
-: Create the date with the given components in the local time zone. Only two first arguments are obligatory.
+:创建一个 Date 对象，参数是当地时区的日期组合信息。只有前两个参数是必须的。
 
-    Note:
+    注意：
 
-    - The `year` must have 4 digits: `2013` is okay, `98` is not.
-    - The `month` count starts with `0` (Jan), up to `11` (Dec).
-    - The `date` parameter is actually the day of month, if absent then `1` is assumed.
-    - If `hours/minutes/seconds/ms` is absent, they are assumed to be equal `0`.
+    - `year` 必须是四位数：`2013` 是合法的，`98` 是不合法的。
+    - `month` 计数从 `0` （一月） 开始，到 `11` （12月）。
+    - `date` 是当月的具体某一天，如果缺失，默认是 `1`。
+    - 如果 `hours/minutes/seconds/ms` 缺失的话，它们默认值是 `0`。
 
-    For instance:
+    举个例子：
 
     ```js
     new Date(2011, 0, 1, 0, 0, 0, 0); // // 1 Jan 2011, 00:00:00
-    new Date(2011, 0, 1); // the same, hours etc are 0 by default
+    new Date(2011, 0, 1); // 同样，时分秒等默认为 0
     ```
 
-    The minimal precision is 1 ms (1/1000 sec):
+    时间度量最小精确到 1 毫秒（千分之一秒）：
 
     ```js run
     let date = new Date(2011, 0, 1, 2, 3, 4, 567);
     alert( date ); // 1.01.2011, 02:03:04.567
     ```
 
-## Access date components
+## 访问日期组件
 
-There are many methods to access the year, month and so on from the `Date` object. But they can be easily remembered when categorized.
+从 `Date` 对象中访问年、月等信息有很多种方式。通过分类可以很容易记忆。
 
 [getFullYear()](mdn:js/Date/getFullYear)
-: Get the year (4 digits)
+: 获取年份（4 位数）
 
 [getMonth()](mdn:js/Date/getMonth)
-: Get the month, **from 0 to 11**.
+: 获取月份**从 0 到 11**。
 
 [getDate()](mdn:js/Date/getDate)
-: Get the day of month, from 1 to 31, the name of the method does look a little bit strange.
+: 获取当月的日期，从 1 到 31，这个方法名称可能看起来有些令人疑惑。
 
 [getHours()](mdn:js/Date/getHours), [getMinutes()](mdn:js/Date/getMinutes), [getSeconds()](mdn:js/Date/getSeconds), [getMilliseconds()](mdn:js/Date/getMilliseconds)
-: Get the corresponding time components.
+: 获取相应的时间信息。
 
-```warn header="Not `getYear()`, but `getFullYear()`"
-Many JavaScript engines implement a non-standard method `getYear()`. This method is deprecated. It returns 2-digit year sometimes. Please never use it. There is `getFullYear()` for the year.
+```warn header="不是 `getYear()`，而是 `getFullYear()`"
+很多 JavaScript 引擎都实现了一个非标准化的方法 `getYear()`，这个方法不建议使用。它有可能返回 2 位的年份信息。请不要使用它。获取年份，使用 `getFullYear()`。
 ```
 
-Additionally, we can get a day of week:
+另外，我们还可以获取一周中的第几天：
 
 [getDay()](mdn:js/Date/getDay)
-: Get the day of week, from `0` (Sunday) to `6` (Saturday). The first day is always Sunday, in some countries that's not so, but can't be changed.
+: 获取一周中的第几天，从 `0`（星期天）到 `6` （星期六）。第一天始终是星期天，在某些国家可能不是这样的习惯，但是这不能被改变。
 
-**All the methods above return the components relative to the local time zone.**
+**以上所有的方法返回的信息都是基于当地时区的。**
 
-There are also their UTC-counterparts, that return day, month, year and so on for the time zone UTC+0: [getUTCFullYear()](mdn:js/Date/getUTCFullYear), [getUTCMonth()](mdn:js/Date/getUTCMonth), [getUTCDay()](mdn:js/Date/getUTCDay). Just insert the `"UTC"` right after `"get"`.
+当然，也有与之对应的 UTC 版本方法，它们会返回基于 UTC+0 时区的天数、月份、年份等等信息：[getUTCFullYear()](mdn:js/Date/getUTCFullYear)， [getUTCMonth()](mdn:js/Date/getUTCMonth)， [getUTCDay()](mdn:js/Date/getUTCDay)。只需要在 `"get"` 之后插入 `"UTC"`。
 
-If your local time zone is shifted relative to UTC, then the code below shows different hours:
+如果你当地时区相对于 UTC 有偏移，那么下面代码会显示不同的小时数：
 
 ```js run
-// current date
+//  当前日期
 let date = new Date();
 
-// the hour in your current time zone
+// 当地时区的小时数
 alert( date.getHours() );
 
-// the hour in UTC+0 time zone (London time without daylight savings)
+// 在 UTC+0 时区的小时数（非夏令时的伦敦时间）
 alert( date.getUTCHours() );
 ```
 
-Besides the given methods, there are two special ones, that do not have a UTC-variant:
+在以上给出的方法中，有两个与众不同的，它们没有 UTC 版本：
 
 [getTime()](mdn:js/Date/getTime)
-: Returns the timestamp for the date -- a number of milliseconds passed from the January 1st of 1970 UTC+0.
+: 返回日期的时间戳 —— 从 1970-1-1 00:00:00 UTC+0 开始的毫秒数。
 
 [getTimezoneOffset()](mdn:js/Date/getTimezoneOffset)
-: Returns the difference between the local time zone and UTC, in minutes:
+: 返回时区偏移数，以分钟为单位：
 
     ```js run
-    // if you are in timezone UTC-1, outputs 60
-    // if you are in timezone UTC+3, outputs -180
+    // 如果你在时区 UTC-1，输出 60
+    // 如果你在时区 UTC+3，输出 -180
     alert( new Date().getTimezoneOffset() );
 
     ```
 
-## Setting date components
+## 设置日期信息
 
-The following methods allow to set date/time components:
+以下方法可以设置日期/时间信息：
 
 - [`setFullYear(year [, month, date])`](mdn:js/Date/setFullYear)
 - [`setMonth(month [, date])`](mdn:js/Date/setMonth)
@@ -134,38 +134,38 @@ The following methods allow to set date/time components:
 - [`setMinutes(min [, sec, ms])`](mdn:js/Date/setMinutes)
 - [`setSeconds(sec [, ms])`](mdn:js/Date/setSeconds)
 - [`setMilliseconds(ms)`](mdn:js/Date/setMilliseconds)
-- [`setTime(milliseconds)`](mdn:js/Date/setTime) (sets the whole date by milliseconds since 01.01.1970 UTC)
+- [`setTime(milliseconds)`](mdn:js/Date/setTime) （使用自 1970-01-01 00:00:00 UTC+0 开始的毫秒数来设置整个日期对象）
 
-Every one of them except `setTime()` has a UTC-variant, for instance: `setUTCHours()`.
+以上方法除了 `setTime()` 都有 UTC 版本，比如 `setUTCHours()`。
 
-As we can see, some methods can set multiple components at once, for example `setHours`. The components that are not mentioned are not modified.
+我们可以看到，有些方法可以一次性设置多个信息，比如 `setHours`。另外，在这些方法中没有提到的信息将不会被修改。
 
-For instance:
+举个例子：
 
 ```js run
 let today = new Date();
 
 today.setHours(0);
-alert(today); // still today, but the hour is changed to 0
+alert(today); // 日期依然是今天，只不过小时数改为 0
 
 today.setHours(0, 0, 0, 0);
-alert(today); // still today, now 00:00:00 sharp.
+alert(today); // 日期依然是今天，时间为 00:00:00。
 ```
 
-## Autocorrection
+## 自动校准
 
-The *autocorrection* is a very handy feature of `Date` objects. We can set out-of-range values, and it will auto-adjust itself.
+**自动校准**是 `Date` 对象一个非常方便的特性。我们可以设置超范围的数值，它会自动校准。
 
-For instance:
+举个例子：
 
 ```js run
 let date = new Date(2013, 0, *!*32*/!*); // 32 Jan 2013 ?!?
-alert(date); // ...is 1st Feb 2013!
+alert(date); // ...是 1st Feb 2013!
 ```
 
-Out-of-range date components are distributed automatically.
+超出范围的日期信息会被自动分配。
 
-Let's say we need to increase the date "28 Feb 2016" by 2 days. It may be "2 Mar" or "1 Mar" in case of a leap-year. We don't need to think about it. Just add 2 days. The `Date` object will do the rest:
+假设我们要在日期「2016 年 2 月 28 日」上再加 2 天。结果可能是「3 月 2 日」或者「3 月 1 日」，原因是闰年的存在。但是我们不需要去考虑这些，直接加两天，剩下的 `Date` 对象会帮我们处理：
 
 ```js run
 let date = new Date(2016, 1, 28);
@@ -173,71 +173,71 @@ let date = new Date(2016, 1, 28);
 date.setDate(date.getDate() + 2);
 */!*
 
-alert( date ); // 1 Mar 2016
+alert( date ); // 2016 年 3 月 1 日
 ```
 
-That feature is often used to get the date after the given period of time. For instance, let's get the date for "70 seconds after now":
+这个特性经常被用来获取一段时间后的日期信息。举个例子，我们想得到「当前日期 70 秒之后的日期」：
 
 ```js run
 let date = new Date();
 date.setSeconds(date.getSeconds() + 70);
 
-alert( date ); // shows the correct date
+alert( date ); // 显示正确的日期信息
 ```
 
-We can also set zero or even negative values. For example:
+我们可以设置 0 甚至 负值。举个例子：
 
 ```js run
-let date = new Date(2016, 0, 2); // 2 Jan 2016
+let date = new Date(2016, 0, 2); // 2016 年 1 月 2 日
 
-date.setDate(1); // set day 1 of month
+date.setDate(1); // 设置为当月的第一天
 alert( date );
 
-date.setDate(0); // min day is 1, so the last day of the previous month is assumed
-alert( date ); // 31 Dec 2015
+date.setDate(0); // 天数最小可以设置为 1，所以这里设置为上一月的最后一天
+alert( date ); // 2015 年 12 月 31 日
 ```
 
-## Date to number, date diff
+## 日期转化为数字，日期差值
 
-When a `Date` object is converted to number, it becomes the timestamp same as `date.getTime()`:
+当 `Date` 对象转化为数字时，得到的是对应的时间戳，相当于 `date.getTime()`：
 
 ```js run
 let date = new Date();
-alert(+date); // the number of milliseconds, same as date.getTime()
+alert(+date); // 以毫秒为单位的数值，相当于 date.getTime()
 ```
 
-The important side effect: dates can be subtracted, the result is their difference in ms.
+有一个重要的副作用：日期可以相减，它们相减的结果是以毫秒为单位。
 
-That can be used for time measurements:
+这个作用可以用来做时间度量：
 
 ```js run
-let start = new Date(); // start counting
+let start = new Date(); // 起始时间
 
-// do the job
+// 做一些操作
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
-let end = new Date(); // done
+let end = new Date(); // 结束时间
 
 alert( `The loop took ${end - start} ms` );
 ```
 
 ## Date.now()
 
-If we only want to measure the difference, we don't need the `Date` object.
+如果我们仅仅想要度量时间间隔，我们不需要整个 `Date` 对象。
 
-There's a special method `Date.now()` that returns the current timestamp.
+有一个特殊的方法 `Date.now()`，它会返回当前的时间戳。
 
-It is semantically equivalent to `new Date().getTime()`, but it doesn't create an intermediate `Date` object. So it's faster and doesn't put pressure on garbage collection.
+它相当于  `new Date().getTime()`，但它不会在中间创建一个 `Date` 对象。因此它更快，而且不会对垃圾处理造成额外的压力。
 
-It is used mostly for convenience or when performance matters, like in games in JavaScript or other specialized applications.
+这种方法很多时候因为方便而被采用，又或者从性能上考虑，像 JavaScript 中的游戏以及其他的特殊应用。
 
-So this is probably better:
+因此这样做可能会更好：
 
 ```js run
 *!*
-let start = Date.now(); // milliseconds count from 1 Jan 1970
+let start = Date.now(); // 从 1979-01-01 00:00:00 开始至今的时间戳
 */!*
 
 // do the job
@@ -246,20 +246,20 @@ for (let i = 0; i < 100000; i++) {
 }
 
 *!*
-let end = Date.now(); // done
+let end = Date.now(); // 操作完成后，得到这一时刻的时间戳
 */!*
 
-alert( `The loop took ${end - start} ms` ); // subtract numbers, not dates
+alert( `The loop took ${end - start} ms` ); // 相减的是时间戳，而不是日期
 ```
 
-## Benchmarking
+## 基准
 
-If we want a reliable benchmark of CPU-hungry function, we should be careful.
+如果我们想要为一个很耗 CPU 性能的函数提供一个可靠的基准，我们应该小心一点。
 
-For instance, let's measure two functions that calculate the difference between two dates: which one is faster?
+举个例子：我们想判断两个计算日期差值的函数，那个更快？
 
 ```js
-// we have date1 and date2, which function faster returns their difference in ms?
+// 我们有 date1 和 date2，哪个函数会更快返回两者的时间差？
 function diffSubtract(date1, date2) {
   return date2 - date1;
 }
@@ -270,13 +270,13 @@ function diffGetTime(date1, date2) {
 }
 ```
 
-These two do exactly the same thing, but one of them uses an explicit `date.getTime()` to get the date in ms, and the other one relies on a date-to-number transform. Their result is always the same.
+两个函数做的事情完全相同，但是其中一个明确使用 `date.getTime()` 来获取毫秒形式的日期，另外一个依赖「日期-数字」的转化。它们的结果是一致的。
 
-So, which one is faster?
+那么，哪个更快呢？
 
-The first idea may be to run them many times in a row and measure the time difference. For our case, functions are very simple, so we have to do it around 100000 times.
+首先想到的方法是：分别运行它们很多次，然后计算各自的时间差。在我们的例子中，函数非常简单，所以我们需要运行 100000 次左右。
 
-Let's measure:
+让我们开始测量：
 
 ```js run
 function diffSubtract(date1, date2) {
@@ -300,19 +300,19 @@ alert( 'Time of diffSubtract: ' + bench(diffSubtract) + 'ms' );
 alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
 ```
 
-Wow! Using `getTime()` is so much faster! That's because there's no type conversion, it is much easier for engines to optimize.
+哇！使用 `getTime()` 这种方式快得多！原因是它没有类型转化，这样对引擎优化来说更加简单。
 
-Okay, we have something. But that's not a good benchmark yet.
+好，我们得到了结论，但是这并不是一个很好的基准例子。
 
-Imagine that at the time of running `bench(diffSubtract)` CPU was doing something in parallel, and it was taking resources. And by the time of running `bench(diffGetTime)` the work has finished.
+想象一下当运行 `bench(diffSubtract)` 的同时，CPU 还在并行处理其他事务。然而，运行 `bench(diffGetTime)` 的时候，并行处理的事务完成了。
 
-A pretty real scenario for a modern multi-process OS.
+这是一个对于现代多进程操作系统来说，毫不夸张的场景。
 
-As a result, the first benchmark will have less CPU resources than the second. That may lead to wrong results.
+结果就是，第一个函数相比于第二个，缺少 CPU 资源，这可能导致错误的结论。
 
-**For more reliable benchmarking, the whole pack of benchmarks should be rerun multiple times.**
+**为了得到更加可靠的基准，所有的时间间隔需要多次返回。**
 
-Here's the code example:
+下面是示范代码：
 
 ```js run
 function diffSubtract(date1, date2) {
@@ -336,7 +336,7 @@ let time1 = 0;
 let time2 = 0;
 
 *!*
-// run bench(upperSlice) and bench(upperLoop) each 10 times alternating
+// 交替运行 bench(upperSlice) 和 bench(upperLoop) 10 次
 for (let i = 0; i < 10; i++) {
   time1 += bench(diffSubtract);
   time2 += bench(diffGetTime);
@@ -347,50 +347,50 @@ alert( 'Total time for diffSubtract: ' + time1 );
 alert( 'Total time for diffGetTime: ' + time2 );
 ```
 
-Modern JavaScript engines start applying advanced optimizations only to "hot code" that executes many times (no need to optimize rarely executed things). So, in the example above, first executions are not well-optimized. We may want to add a heat-up run:
+现代的 JavaScript 引擎的先进优化策略只对执行很多次的 "hot code" 有效（对于执行很少次数的代码没有必要优化）。因此，以上的例子中，第一部分不会被优化，我们可能需要增加一个升温步骤：
 
 ```js
-// added for "heating up" prior to the main loop
+// 主循环中增加「升温」环节
 bench(diffSubtract);
 bench(diffGetTime);
 
-// now benchmark
+// 开始度量
 for (let i = 0; i < 10; i++) {
   time1 += bench(diffSubtract);
   time2 += bench(diffGetTime);
 }
 ```
 
-```warn header="Be careful doing microbenchmarking"
-Modern JavaScript engines perform many optimizations. They may tweak results of "artificial tests" compared to "normal usage", especially when we benchmark something very small. So if you seriously want to understand performance, then please study how the JavaScript engine works. And then you probably won't need microbenchmarks at all.
+```warn header="做微度量时请小心"
+现代的 JavaScript 引擎会做很多优化。相对于「正常情况」，它们可能会改变「人为测试」的结果，特别是我们度量的目标很细微。因此，如果你想好好了解一下性能，请学习 JavaScript 引擎的工作原理。在那之后，你可能再也不需要微度量了。
 
-The great pack of articles about V8 can be found at <http://mrale.ph>.
+关于 V8 引擎的大量文章，点击：<http://mrale.ph>.
 ```
 
-## Date.parse from a string
+## 对一个字符串使用 Date.parse
 
-The method [Date.parse(str)](mdn:js/Date/parse) can read a date from a string.
+[Date.parse(str)](mdn:js/Date/parse) 方法可以从一个字符串中读取日期。
 
-The string format should be: `YYYY-MM-DDTHH:mm:ss.sssZ`, where:
+字符串的格式是：`YYYY-MM-DDTHH:mm:ss.sssZ`，其中：
 
-- `YYYY-MM-DD` -- is the date: year-month-day.
-- The character `"T"` is used as the delimiter.
-- `HH:mm:ss.sss` -- is the time: hours, minutes, seconds and milliseconds.
-- The optional `'Z'` part denotes the time zone in the format `+-hh:mm`. A single letter `Z` that would mean UTC+0.
+- `YYYY-MM-DD` —— 日期：年-月-日。
+- 字符串 `"T"` 是一个分隔符。
+- `HH:mm:ss.sss` —— 时间：小时，分钟，秒，毫秒。
+- 可选字符 `'Z'` 代表时区。单个字符 `Z` 代表 UTC+0。
 
-Shorter variants are also possible, like `YYYY-MM-DD` or `YYYY-MM` or even `YYYY`.
+简短形式也是可以的，比如 `YYYY-MM-DD` 或者 `YYYY-MM` 又或者 `YYYY`。
 
-The call to `Date.parse(str)` parses the string in the given format and returns the timestamp (number of milliseconds from 1 Jan 1970 UTC+0). If the format is invalid, returns `NaN`.
+`Date.parse(str)` 方法会转化一个特定格式的字符串，返回一个时间戳（自 1970-01-01 00:00:00 起的毫秒数），如果格式不正确，返回 `NaN`。
 
-For instance:
+举个例子：
 
 ```js run
 let ms = Date.parse('2012-01-26T13:51:50.417-07:00');
 
-alert(ms); // 1327611110417  (timestamp)
+alert(ms); // 1327611110417  (时间戳)
 ```
 
-We can instantly create a `new Date` object from the timestamp:
+我们可以通过时间戳来立即创建一个 `new Date` 对象戳：
 
 ```js run
 let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
@@ -398,24 +398,24 @@ let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
 alert(date);  
 ```
 
-## Summary
+## 小结
 
-- Date and time in JavaScript are represented with the [Date](mdn:js/Date) object. We can't create "only date" or "only time": `Date` objects always carry both.
-- Months are counted from zero (yes, January is a zero month).
-- Days of week in `getDay()` are also counted from zero (that's Sunday).
-- `Date` auto-corrects itself when out-of-range components are set. Good for adding/subtracting days/months/hours.
-- Dates can be subtracted, giving their difference in milliseconds. That's because a `Date` becomes the timestamp when converted to a number.
-- Use `Date.now()` to get the current timestamp fast.
+- 在 JavaScript 中，日期和时间使用 [Date](mdn:js/Date) 对象来表示。不能只创建日期，或者只创建时间，`Date` 对象总是两个都创建。
+- 月份从 0 开始计数（对，一月是 0）。
+- 一周的某一天 `getDay()` 同样从 0 开始计算（0 代表星期天）。
+- 当超出范围的信息被设置时，`Date` 会做自我校准。这一点对于日/月/小时 的加减很有效。
+- 日期可以相减，得到的是两者的差值，用毫秒表示。因为当转化为数字时，`Date` 对象变为时间戳。
+- 使用 `Date.now()` 可以更快地得到当前时间的时间戳。
 
-Note that unlike many other systems, timestamps in JavaScript are in milliseconds, not in seconds.
+和其他语言不同，JavaScript 中时间戳是用毫秒表示，而不是秒。
 
-Also, sometimes we need more precise time measurements. JavaScript itself does not have a way to measure time in microseconds (1 millionth of a second), but most environments provide it. For instance, browser has [performance.now()](mdn:api/Performance/now) that gives the number of milliseconds from the start of page loading with microsecond precision (3 digits after the point):
+同样，有时候我们会需要更加精准的时间度量。JavaScript 自身并不能度量微秒（一秒的百万分之一），但很多环境会提供。举个例子：浏览器拥有 [performance.now()](mdn:api/Performance/now) 方法来提供页面加载的微秒数（毫秒的小数点再右移三位）：
 
 ```js run
 alert(`Loading started ${performance.now()}ms ago`);
-// Something like: "Loading started 34731.26000000001ms ago"
-// .26 is microseconds (260 microseconds)
-// more than 3 digits after the decimal point are precision errors, but only the first 3 are correct
+// 得到 "Loading started 34731.26000000001ms ago"
+// .26 is 微秒(260 微秒)
+// 小数点后超过 3 位是错误，只有前三位是正确的
 ```
 
-Node.JS has `microtime` module and other ways. Technically, any device and environment allows to get more precision, it's just not in `Date`.
+Node.JS 拥有 `microtime` 模块以及其他方法。从技术上来说，任何设备和环境都允许获取更精确的数值，不只是 `Date` 对象。
