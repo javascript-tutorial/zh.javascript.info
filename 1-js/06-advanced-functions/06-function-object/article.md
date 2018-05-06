@@ -1,20 +1,20 @@
 
-# Function object, NFE
+# 函数对象，NFE
 
-As we already know, functions in JavaScript are values.
+我们已经知道，在 JavaScript 中，函数就是值。
 
-Every value in JavaScript has a type. What type is a function?
+JavaScript 中的每个值都有一种类型，那么函数是什么类型呢？
 
-In JavaScript, functions are objects.
+在 JavaScript 里，函数是对象。
 
-A good way to imagine functions is as callable "action objects". We can not only call them, but also treat them as objects: add/remove properties, pass by reference etc.
+一个容易理解的方式是把函数想象成可被调用的「行动对象」。我们不仅可以调用它们，还能把它们当作对象来处理：增／删属性，引用传参等。
 
 
-## The "name" property
+## 属性「name」
 
-Function objects contain a few useable properties.
+函数对象包含一些便于使用的属性。
 
-For instance, a function's name is accessible as the "name" property:
+比如，一个函数的名字可以通过属性「name」来访问：
 
 ```js run
 function sayHi() {
@@ -24,29 +24,29 @@ function sayHi() {
 alert(sayHi.name); // sayHi
 ```
 
-What's more funny, the name-assigning logic is smart. It also assigns the correct name to functions that are used in assignments:
+更有趣的是，名称赋值的逻辑很智能。在函数被用于赋值时也能将正确的名字赋给它：
 
 ```js run
 let sayHi = function() {
   alert("Hi");
 }
 
-alert(sayHi.name); // sayHi (works!)
+alert(sayHi.name); // sayHi（生效了!）
 ```
 
-It also works if the assignment is done via a default value:
+当以默认值的方式赋值时，它也有效：
 
 ```js run
 function f(sayHi = function() {}) {
-  alert(sayHi.name); // sayHi (works!)
+  alert(sayHi.name); // sayHi （生效了！）
 }
 
 f();
 ```
 
-In the specification, this feature is called a "contextual name". If the function does not provide one, then in an assignment it is figured out from the context.
+规范中把这种特性叫做「上下文命名」。如果函数自己没有提供，那么在赋值中，会根据上下文来推测一个。
 
-Object methods have names too:
+对象方法也有名字：
 
 ```js run
 let user = {
@@ -65,21 +65,21 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
-There's no magic though. There are cases when there's no way to figure out the right name. In that case, the name property empty, like here:
+这没有什么神奇的。有时会出现无法推测名字的情况。此时，属性 `name` 会是空，比如：
 
 ```js
-// function created inside array
+// 函数在数组中创建
 let arr = [function() {}];
 
-alert( arr[0].name ); // <empty string>
-// the engine has no way to set up the right name, so there is none
+alert( arr[0].name ); // <空字符串>
+// 引擎无法得到正确的名字，所以没有值
 ```
 
-In practice, however, most functions do have a name.
+而实际上，大多数函数都是有名字的。
 
-## The "length" property
+## 属性「length」
 
-There is another built-in property "length" that returns the number of function parameters, for instance:
+还有另一个内置属性「length」，它返回函数入参的个数，比如：
 
 ```js run
 function f1(a) {}
@@ -91,20 +91,20 @@ alert(f2.length); // 2
 alert(many.length); // 2
 ```
 
-Here we can see that rest parameters are not counted.
+可以看到，余参不参与计数。
 
-The `length` property is sometimes used for introspection in functions that operate on other functions.
+属性 `length` 有时用于在函数中操作其它函数的内省。
 
-For instance, in the code below the `ask` function accepts a `question` to ask and an arbitrary number of `handler` functions to call.
+比如，下面的代码中函数 `ask` 接受一个询问的 `question` 和任意个会被调用的 `handler` 函数。
 
-Once a user provides their answer, the function calls the handlers. We can pass two kinds of handlers:
+当用户提供了自己的答案后，函数会调用那些 `handlers`。我们可以传入两种 `handler`：
 
-- A zero-argument function, which is only called when the user gives a positive answer.
-- A function with arguments, which is called in either case and returns an answer.
+- 一个无参函数，它在用户回答「是」时调用。
+- 一个有参函数，它在每种情况都会被调用，并且返回一个答案。
 
-The idea is that we have a simple, no-arguments handler syntax for positive cases (most frequent variant), but are able to provide universal handlers as well.
+我们的想法是，一个简单无参的处理程序处理正向情况（大多数情况），但也要能提供通用性的处理程序。
 
-To call `handlers` the right way, we examine the `length` property:
+为了正确的调用 `handlers`，我们检查属性 `length`：
 
 ```js run
 function ask(question, ...handlers) {
@@ -120,47 +120,47 @@ function ask(question, ...handlers) {
 
 }
 
-// for positive answer, both handlers are called
-// for negative answer, only the second one
+// 正向回答，两个 handler 都会被调用
+// 负向回答，只有个第二个被调用
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
-This is a particular case of so-called [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- treating arguments differently depending on their type or, in our case depending on the `length`. The idea does have a use in JavaScript libraries.
+这种特别的情况就是所谓的[多态性](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) —— 根据参数的类型，或者根据在我们这种情况下的 `length` 来做不同的处理。这种思想在 JavaScript 的库里有应用。
 
-## Custom properties
+## 自定义属性
 
-We can also add properties of our own.
+我们也可以添加我们自己的属性。
 
-Here we add the `counter` property to track the total calls count:
+这里我们增加了 `counter` 属性，用来跟踪总的调用次数：
 
 ```js run
 function sayHi() {
   alert("Hi");
 
   *!*
-  // let's count how many times we run
+  // 我们记录一下运行次数
   sayHi.counter++;
   */!*
 }
-sayHi.counter = 0; // initial value
+sayHi.counter = 0; // 初始值
 
 sayHi(); // Hi
 sayHi(); // Hi
 
-alert( `Called ${sayHi.counter} times` ); // Called 2 times
+alert( `调用了 ${sayHi.counter} 次` ); // 调用了 2 次
 ```
 
-```warn header="A property is not a variable"
-A property assigned to a function like `sayHi.counter = 0` does *not* define a local variable `counter` inside it. In other words, a property `counter` and a variable `let counter` are two unrelated things.
+```warn header="属性不是变量"
+一个被赋值的函数属性，比如 `sayHi.counter = 0` **没有**在函数内定义一个局部变量 `counter`。或者说，一个 `counter` 属性与一个 `let counter` 的变量是毫不相关的两个东西。
 
-We can treat a function as an object, store properties in it, but that has no effect on its execution. Variables never use function properties and vice versa. These are just parallel words.
+我们可以把函数当作对象，在它里面存储属性，但是这对它的执行没有任何影响。变量不会使用函数属性，反之亦然。它们是不相干的词。
 ```
 
-Function properties can replace closures sometimes. For instance, we can rewrite the counter function example from the chapter <info:closure> to use a function property:
+函数属性有时会用来替代闭包。比如，我们可以将 <info:closure> 章节中计数函数的例子改写为用函数属性实现：
 
 ```js run
 function makeCounter() {
-  // instead of:
+  // 不再用：
   // let count = 0
 
   function counter() {
@@ -177,11 +177,11 @@ alert( counter() ); // 0
 alert( counter() ); // 1
 ```
 
-The `count` is now stored in the function directly, not in its outer Lexical Environment.
+`count` 直接被存储在函数里，而不是它外部的词法环境。
 
-Is it better or worse than using a closure?
+那么它和闭包谁好谁赖？
 
-The main difference is that if the value of `count` lives in an outer variable, then external code is unable to access it. Only nested functions may modify it. And if it's bound to a function, then such a thing is possible:
+两者最大的不同就是如果 `count` 的值位于外层（函数）变量中，那么外部的代码无法访问到它，只有嵌套的函数可以修改它，而如果它是绑定给函数的，那么就很容易：
 
 ```js run
 function makeCounter() {
@@ -203,13 +203,13 @@ alert( counter() ); // 10
 */!*
 ```
 
-So the choice of implementation depends on our aims.
+所以，如何实现取决于我们的目标。
 
-## Named Function Expression
+## 命名函数表达式（NFE）
 
-Named Function Expression, or NFE, is a term for Function Expressions that have a name.
+命名函数表达式（NFE，Named Function Expression），指代有名字的函数表达式的术语。
 
-For instance, let's take an ordinary Function Expression:
+比如，我们看一个一般的函数表达式：
 
 ```js
 let sayHi = function(who) {
@@ -217,7 +217,7 @@ let sayHi = function(who) {
 };
 ```
 
-And add a name to it:
+然后给它加一个名字：
 
 ```js
 let sayHi = function *!*func*/!*(who) {
@@ -225,13 +225,13 @@ let sayHi = function *!*func*/!*(who) {
 };
 ```
 
-Did we achieve anything here? What's the purpose of that additional `"func"` name?
+我们这里得到了什么？为它添加一个 `"func"` 名字的目的是什么？
 
-First let's note, that we still have a Function Expression. Adding the name `"func"` after `function` did not make it a Function Declaration, because it is still created as a part of an assignment expression.
+首先注意，它仍然是一个函数表达式。在 `function` 后面的名字 `"func"` 没有使它成为函数声明，因为它仍然是作为赋值表达式中的一部分被创建的。
 
-Adding such a name also did not break anything.
+增加这个名字没有破坏任何东西。
 
-The function is still available as `sayHi()`:
+函数依然可以通过 `sayHi()` 来调用：
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -241,12 +241,12 @@ let sayHi = function *!*func*/!*(who) {
 sayHi("John"); // Hello, John
 ```
 
-There are two special things about the name `func`:
+关于名字 `func`，有两个特殊的地方：
 
-1. It allows the function to reference itself internally.
-2. It is not visible outside of the function.
+1. 它允许函数在内部引用自己。
+2. 它在函数外是不可见的。
 
-For instance, the function `sayHi` below calls itself again with `"Guest"` if no `who` is provided:
+比如，下面的函数 `sayHi` 会在没有入参 `who` 时，以 `"Guest"` 为入参调用自己：
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -254,21 +254,20 @@ let sayHi = function *!*func*/!*(who) {
     alert(`Hello, ${who}`);
   } else {
 *!*
-    func("Guest"); // use func to re-call itself
+    func("Guest"); // 使用 func 再次调用自己
 */!*
   }
 };
 
 sayHi(); // Hello, Guest
 
-// But this won't work:
-func(); // Error, func is not defined (not visible outside of the function)
+// 但这个无法生效
+func(); // Error, func is not defined（在函数外不可见）
 ```
 
-Why do we use `func`? Maybe just use `sayHi` for the nested call?
+我们为什么使用 `func` 呢？为什么不直接在嵌套调用里使用 `sayHi`？
 
-
-Actually, in most cases we can:
+事实上，大多数情况下我们可以：
 
 ```js
 let sayHi = function(who) {
@@ -282,7 +281,7 @@ let sayHi = function(who) {
 };
 ```
 
-The problem with that code is that the value of `sayHi` may change. The function may go to another variable, and the code will start to give errors:
+使用上面代码的问题在于 `sayHi` 的值可能会改变。那个函数可能会被赋给其它变量（译者注：这里主要是指原变量被修改），那么函数就会开始报错：
 
 ```js run
 let sayHi = function(who) {
@@ -298,14 +297,14 @@ let sayHi = function(who) {
 let welcome = sayHi;
 sayHi = null;
 
-welcome(); // Error, the nested sayHi call doesn't work any more!
+welcome(); // Error，嵌套调用 sayHi 不再有效！
 ```
 
-That happens because the function takes `sayHi` from its outer lexical environment. There's no local `sayHi`, so the outer variable is used. And at the moment of the call that outer `sayHi` is `null`.
+那是因为函数从它的外部词法环境获取 `sayHi`。没有局部的 `sayHi`，所以外部变量被使用。而当调用时，外部的 `sayHi` 是 `null`。
 
-The optional name which we can put into the Function Expression is meant to solve exactly these kinds of problems.
+我们给函数表达式增加的可选的名字正是用来解决这个问题的。
 
-Let's use it to fix our code:
+我们使用它来修复我们的代码：
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -313,7 +312,7 @@ let sayHi = function *!*func*/!*(who) {
     alert(`Hello, ${who}`);
   } else {
 *!*
-    func("Guest"); // Now all fine
+    func("Guest"); // 现在一切正常
 */!*
   }
 };
@@ -321,32 +320,32 @@ let sayHi = function *!*func*/!*(who) {
 let welcome = sayHi;
 sayHi = null;
 
-welcome(); // Hello, Guest (nested call works)
+welcome(); // Hello, Guest（嵌套调用有效）
 ```
 
-Now it works, because the name `"func"` is function-local. It is not taken from outside (and not visible there). The specification guarantees that it will always reference the current function.
+现在它可以正常运行了，因为名字 `func` 是函数局部域的。它不会从外部获取（而且在外部也不可见）。规范确保它只会引用当前函数。
 
-The outer code still has it's variable `sayHi` or `welcome`. And `func` is an "internal function name", how the function can call itself internally.
+外部代码仍然只有自己的 `sayHi` 或 `welcome` 变量。而且 `func` 是一个「内部函数名」，代表函数可以在其内部调用自己。
 
-```smart header="There's no such thing for Function Declaration"
-The "internal name" feature described here is only available for Function Expressions, not to Function Declarations. For Function Declarations, there's just no syntax possibility to add a one more "internal" name.
+```smart header="函数声明没有这个东西"
+这里所说的「内部名」特性只针对函数表达式，而不是函数声明。函数声明没有相应的语法来添加「内部」名。
 
-Sometimes, when we need a reliable internal name, it's the reason to rewrite a Function Declaration to Named Function Expression form.
+有时候，当我们需要一个可靠的内部名时，我们就会将函数声明重写为命名的函数表达式的形式。
 ```
 
-## Summary
+## 总结
 
-Functions are objects.
+函数就是对象。
 
-Here we covered their properties:
+我们介绍了它们的一些属性：
 
-- `name` -- the function name. Exists not only when given in the function definition, but also for assignments and object properties.
-- `length` -- the number of arguments in the function definition. Rest parameters are not counted.
+- `name` -- 函数的名字。不仅仅在函数定义指定时存在，而且在赋值或者对象属性中也会有。
+- `length` -- 函数定义时的入参个数。余参不参与计数。
 
-If the function is declared as a Function Expression (not in the main code flow), and it carries the name, then it is called a Named Function Expression. The name can be used inside to reference itself, for recursive calls or such.
+如果函数是通过函数表达式被声明的（不是在主代码流里），它附带了名字，那么它被称为命名的函数表达式。可以用来在函数内部引用自己，或者递归调用等诸如此类场景。
 
-Also, functions may carry additional properties. Many well-known JavaScript libraries make great use of this feature.
+而且，函数可以有额外的属性。很多知名的 JavaScript 库广泛使用了这个特点。
 
-They create a "main" function and attach many other "helper" functions to it. For instance, the [jquery](https://jquery.com) library creates a function named `$`. The [lodash](https://lodash.com) library creates a function `_`. And then adds `_.clone`, `_.keyBy` and other properties to (see the [docs](https://lodash.com/docs) when you want learn more about them). Actually, they do it to lessen their pollution of the global space, so that a single library gives only one global variable. That reduces the possibility of naming conflicts.
+它们创建一个「主」函数，然后给它附加很多其它「helper」函数。比如，[jquery](https://jquery.com) 库创建了一个名为 `$` 的函数。[lodash](https://lodash.com) 库创建一个 `_` 函数。然后添加了 `_.add`、`_.keyBy` 以及其它属性（欲了解详情，参见 [docs](https://lodash.com/docs)）。事实上，它们这么做是为了减少对全局空间的污染，这样一个库就只会产生一个全局变量。这样就降低了命名冲突的可能性。
 
-So, a function can do a useful job by itself and also carry a bunch of other functionality in properties.
+所以，一个函数除了自身可以做一些有用的工作外，还可以在属性里附带一些其它的功能。
