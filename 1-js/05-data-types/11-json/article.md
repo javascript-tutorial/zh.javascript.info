@@ -124,7 +124,7 @@ alert( JSON.stringify(user) ); // {} (empty object)
 
 最棒的是嵌套对象可以自动支持和转换。
 
-例如
+例如：
 
 ```js run
 let meetup = {
@@ -146,7 +146,7 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-重要的限制：不得有循环引用
+重要的限制：不得有循环引用。
 
 例如：
 
