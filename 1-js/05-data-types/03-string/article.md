@@ -1,14 +1,14 @@
-# Strings
+# 字符串
 
-In JavaScript, the textual data is stored as strings. There is no separate type for a single character.
+在 JavaScript 中，文本数据被作为字符串存储，字符没有单独的类型。
 
-The internal format for strings is always [UTF-16](https://en.wikipedia.org/wiki/UTF-16), it is not tied to the page encoding.
+字符串的内部格式总是 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)，它不会绑定到页面编码中。
 
 ## Quotes
 
-Let's recall the kinds of quotes.
+让我们回忆一下这些引语。
 
-Strings can be enclosed within either single quotes, double quotes or backticks:
+字符串可以包含在单引号、双引号或反引号中：
 
 ```js
 let single = 'single-quoted';
@@ -17,7 +17,7 @@ let double = "double-quoted";
 let backticks = `backticks`;
 ```
 
-Single and double quotes are essentially the same. Backticks, however, allow us to embed any expression into the string, including function calls:
+单引号和双引号本质上是一样的。但是，反引号允许我们将任何表达式嵌入到字符串中，包括函数调用：
 
 ```js run
 function sum(a, b) {
@@ -27,7 +27,7 @@ function sum(a, b) {
 alert(`1 + 2 = ${sum(1, 2)}.`); // 1 + 2 = 3.
 ```
 
-Another advantage of using backticks is that they allow a string to span multiple lines:
+使用反引号的另一个优点是它们允许字符串跨行：
 
 ```js run
 let guestList = `Guests:
@@ -36,23 +36,23 @@ let guestList = `Guests:
  * Mary
 `;
 
-alert(guestList); // a list of guests, multiple lines
+alert(guestList); // 客人清单，多行
 ```
 
-If we try to use single or double quotes in the same way, there will be an error:
+如果我们尝试以相同的方式使用单引号或双引号，则会出错：
 ```js run
 let guestList = "Guests:  // Error: Unexpected token ILLEGAL
   * John";
 ```
 
-Single and double quotes come from ancient times of language creation when the need for multiline strings was not taken into account. Backticks appeared much later and thus are more versatile.
+当不考虑多行字符串的需要时，单引号和双引号来自语言创建的古时代。反引号出现较晚，因此更通用。
 
-Backticks also allow us to specify a "template function" before the first backtick. The syntax is: <code>func&#96;string&#96;</code>. The function `func` is called automatically, receives the string and embedded expressions and can process them. You can read more about it in the [docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals). This is called "tagged templates". This feature makes it easier to wrap strings into custom templating or other functionality, but it is rarely used.
+反引号还允许我们在第一个反引号之前指定一个“模版函数”。语法是：<code>func&#96;string&#96;</code>。函数 `func` 被自动调用，接收字符串和嵌入式表达式，并处理它们。你可以在 [docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) 中阅读更多关于它们的信息。这叫做 "tagged templates"。此功能可以更轻松地将字符串包装到自定义模版或其他函数中，但这很少使用。
 
 
-## Special characters
+## 特殊字符
 
-It is still possible to create multiline strings with single quotes by using a so-called "newline character", written as `\n`, which denotes a line break:
+通过使用换行符 `\n` 来创建带有单引号的多行字符串，它表示中断：
 
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
@@ -60,7 +60,7 @@ let guestList = "Guests:\n * John\n * Pete\n * Mary";
 alert(guestList); // a multiline list of guests
 ```
 
-For example, these two lines describe the same:
+例如，这两行描述相同：
 
 ```js run
 alert( "Hello\nWorld" ); // two lines using a "newline symbol"
@@ -70,19 +70,19 @@ alert( `Hello
 World` );
 ```
 
-There are other, less common "special" characters as well. Here's the list:
+还有其他不常见的“特殊字符”，列表如下：
 
-| Character | Description |
+| 字符 | 描述 |
 |-----------|-------------|
 |`\b`|Backspace|
 |`\f`|Form feed|
 |`\n`|New line|
 |`\r`|Carriage return|
 |`\t`|Tab|
-|`\uNNNN`|A unicode symbol with the hex code `NNNN`, for instance `\u00A9` -- is a unicode for the copyright symbol `©`. It must be exactly 4 hex digits. |
-|`\u{NNNNNNNN}`|Some rare characters are encoded with two unicode symbols, taking up to 4 bytes. This long unicode requires braces around it.|
+|`\uNNNN`|16 进制的 `NNNN` 的unicode 符号，例如 `\u00A9`—— 是版权符号的 unicode `©`。它必须是 4 个16 进制数字。 |
+|`\u{NNNNNNNN}`|一些罕见字符使用两个 unicode 符号进行编码，最多占用 4 个字节。这个长的 unicode 需要它周围的括号。|
 
-Examples with unicode:
+unicode 示例：
 
 ```js run
 alert( "\u00A9" ); // ©
@@ -90,54 +90,54 @@ alert( "\u{20331}" ); // 佫, a rare chinese hieroglyph (long unicode)
 alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
 ```
 
-All special characters start with a backslash character `\`. It is also called an "escape character".
+所有的特殊字符都以反斜杠字符 `\` 开始。它也被称为“转义字符”。
 
-We would also use it if we want to insert a quote into the string.
+如果我们想要在字符串中插入一个引号，我们也会使用它。
 
-For instance:
+例如：
 
 ```js run
 alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 ```
 
-As you can see, we have to prepend the inner quote by the backslash `\'`, because otherwise it would indicate the string end.
+正如你所看到的，我们必须用反斜杠 `\'` 来预设值内部引号，否则就表示字符串结束。
 
-Of course, that refers only to the quotes that are same as the enclosing ones. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+当然，这只不过是指与上文相同的引文。因此，作为更优雅的解决方案，我们可以改用双引号或反引号。
 
 ```js run
 alert( `I'm the Walrus!` ); // I'm the Walrus!
 ```
 
-Note that the backslash `\` serves for the correct reading of the string by JavaScript, then disappears. The in-memory string has no `\`. You can clearly see that in `alert` from the examples above.
+注意反斜杠 `\` 在 JavaScript 中用于正确读取字符串，然后消失。内存中的字符串没有 `\`。从上述示例中的 `alert` 可以清楚地看到 。
 
-But what if we need to show an actual backslash `\` within the string?
+但是如果我们需要在字符串中显示一个实际的反斜杠 `\` 应该怎么做？
 
-That's possible, but we need to double it like `\\`:
+我们可以这样做，只需要将其书写两次 `\\`：
 
 ```js run
 alert( `The backslash: \\` ); // The backslash: \
 ```
 
-## String length
+## 字符串长度
 
 
-The `length` property has the string length:
+`length` 属性有字符串长度：
 
 ```js run
 alert( `My\n`.length ); // 3
 ```
 
-Note that `\n` is a single "special" character, so the length is indeed `3`.
+注意 `\n` 是一个单独的“特殊”字符，所以长度确实是 `3`
 
 ```warn header="`length` is a property"
-People with a background in some other languages sometimes mistype by calling `str.length()` instead of just `str.length`. That doesn't work.
+掌握其他语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
 
-Please note that `str.length` is a numeric property, not a function. There is no need to add brackets after it.
+请注意 `str.length` 是一个数字属性，而不是函数。之后不需要添加括号。
 ```
 
-## Accessing characters
+## 访问字符。
 
-To get a character at position `pos`, use square brackets `[pos]` or call the method [str.charAt(pos)](mdn:js/String/charAt). The first character starts from the zero position:
+在 `pos` 位置获取一个字符，可以使用方括号 `[pos]` 或者调用 [str.charAt(pos)](mdn:js/String/charAt) 方法。第一个字符从零位置开始：
 
 ```js run
 let str = `Hello`;
@@ -150,9 +150,9 @@ alert( str.charAt(0) ); // H
 alert( str[str.length - 1] ); // o
 ```
 
-The square brackets are a modern way of getting a character, while `charAt` exists mostly for historical reasons.
+方括号是获取字符的一种现代化方法，而 `charAt` 是历史原因才存在的。
 
-The only difference between them is that if no character is found, `[]` returns `undefined`, and `charAt` returns an empty string:
+它们之间的唯一区别是，如果没有找到字符， `[]` 返回 `undefined`，而 `charAt` 返回一个空字符串：
 
 ```js run
 let str = `Hello`;
@@ -161,7 +161,7 @@ alert( str[1000] ); // undefined
 alert( str.charAt(1000) ); // '' (an empty string)
 ```
 
-We can also iterate over characters using `for..of`:
+我们也可以使用 `for..of` 遍历字符：
 
 ```js run
 for (let char of "Hello") {
@@ -169,11 +169,11 @@ for (let char of "Hello") {
 }
 ```
 
-## Strings are immutable
+## 字符串不可变
 
-Strings can't be changed in JavaScript. It is impossible to change a character.
+在 JavaScript 中，字符串不可更改。改变字符是不可能的。
 
-Let's try it to show that it doesn't work:
+我们证明一下为什么不可能：
 
 ```js run
 let str = 'Hi';
@@ -182,9 +182,9 @@ str[0] = 'h'; // error
 alert( str[0] ); // doesn't work
 ```
 
-The usual workaround is to create a whole new string and assign it to `str` instead of the old one.
+通常的解决方法是创建一个新的字符串，并将其分配给 `str` 而不是以前的字符串。
 
-For instance:
+例如：
 
 ```js run
 let str = 'Hi';
@@ -194,47 +194,47 @@ str = 'h' + str[1];  // replace the string
 alert( str ); // hi
 ```
 
-In the following sections we'll see more examples of this.
+下面的文章，我们将看到跟多的示例。
 
-## Changing the case
+## 改变大小写
 
-Methods [toLowerCase()](mdn:js/String/toLowerCase) and [toUpperCase()](mdn:js/String/toUpperCase) change the case:
+[toLowerCase()](mdn:js/String/toLowerCase) 和 [toUpperCase()](mdn:js/String/toUpperCase) 可以改变大小写：
 
 ```js run
 alert( 'Interface'.toUpperCase() ); // INTERFACE
 alert( 'Interface'.toLowerCase() ); // interface
 ```
 
-Or, if we want a single character lowercased:
+或者我们想要一个小写字符：
 
 ```js
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
-## Searching for a substring
+## 查找子字符串
 
-There are multiple ways to look for a substring within a string.
+在字符串中查找子字符串有很多种方法。
 
 ### str.indexOf
 
-The first method is [str.indexOf(substr, pos)](mdn:js/String/indexOf).
+第一个方法是 [str.indexOf(substr, pos)](mdn:js/String/indexOf)。
 
-It looks for the `substr` in `str`, starting from the given position `pos`, and returns the position where the match was found or `-1` if nothing can be found.
+它从给定位置 `pos` 开始，在 `str` 中查找 `substr`，如果没有找到，则返回 `-1`，否则返回匹配成功的位置。
 
-For instance:
+例如：
 
 ```js run
 let str = 'Widget with id';
 
-alert( str.indexOf('Widget') ); // 0, because 'Widget' is found at the beginning
-alert( str.indexOf('widget') ); // -1, not found, the search is case-sensitive
+alert( str.indexOf('Widget') ); // 0，因为 'Widget' 一开始就被找到
+alert( str.indexOf('widget') ); // -1，没有找到，检索是大小写敏感的
 
-alert( str.indexOf("id") ); // 1, "id" is found at the position 1 (..idget with id)
+alert( str.indexOf("id") ); // 1，"id" 在位置 1 处（...idget 和 id）
 ```
 
-The optional second parameter allows us to search starting from the given position.
+可选的第二个参数允许我们从给定的起始位置开始检索
 
-For instance, the first occurrence of `"id"` is at position `1`. To look for the next occurrence, let's start the search from position `2`:
+例如，`"id"` 第一次出现的位置是 `1`。查询下一个存在位置时，我们从 `2` 开始检索：
 
 ```js run
 let str = 'Widget with id';
@@ -243,7 +243,7 @@ alert( str.indexOf('id', 2) ) // 12
 ```
 
 
-If we're interested in all occurrences, we can run `indexOf` in a loop. Every new call is made with the position after the previous match:
+如果我们对所以存在位置都感兴趣，可以在一个循环中使用 `indexOf`。每一次新的调用都发生在上一匹配位置之后：
 
 
 ```js run
@@ -261,7 +261,7 @@ while (true) {
 }
 ```
 
-The same algorithm can be layed out shorter:
+相同的算法可以简写：
 
 ```js run
 let str = "As sly as a fox, as strong as an ox";
@@ -276,12 +276,12 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 ```
 
 ```smart header="`str.lastIndexOf(pos)`"
-There is also a similar method [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+还有一个类似的方法 [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf)，他从字符串的末尾开始搜索。
 
-It would list the occurrences in the reverse order.
+它会以相反的顺序列出事件。
 ```
 
-There is a slight inconvenience with `indexOf` in the `if` test. We can't put it in the `if` like this:
+在 `if` 测试中 `indexOf` 有一点不方便。我们不可以把它放在这样的 `if` 中：
 
 ```js run
 let str = "Widget with id";
@@ -291,9 +291,9 @@ if (str.indexOf("Widget")) {
 }
 ```
 
-The `alert` in the example above doesn't show because `str.indexOf("Widget")` returns `0` (meaning that it found the match at the starting position). Right, but `if` considers `0` to be `false`.
+上述示例中的 `alert` 不会显示，因为 `str.indexOf("Widget")` 返回 `0`（意思是它在起始位置查找匹配）。是的，但是  `if` 认为 `0` 应该是 `false`。
 
-So, we should actually check for `-1`, like this:
+因此我们实际上是从 `-1` 开始的，就像这样：
 
 ```js run
 let str = "Widget with id";
@@ -306,11 +306,11 @@ if (str.indexOf("Widget") != -1) {
 ```
 
 ````smart header="The bitwise NOT trick"
-One of the old tricks used here is the [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` operator. It converts the number to a 32-bit integer (removes the decimal part if exists) and then reverses all bits in its binary representation.
+这里使用的一个老技巧是 [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` 运算符。它将该数字转换为 32-bit 整数（如果存在，则删除小数部分），然后反转其二进制表示中的所有位。
 
-For 32-bit integers the call `~n` means exactly the same as `-(n+1)` (due to IEEE-754 format).
+对于 32-bit 整数，调用 `~n` 的意思与 `-(n+1)` 完全一样（由于 IEEE-754 格式）。
 
-For instance:
+例如：
 
 ```js run
 alert( ~2 ); // -3, the same as -(2+1)
@@ -321,11 +321,11 @@ alert( ~-1 ); // 0, the same as -(-1+1)
 */!*
 ```
 
-As we can see, `~n` is zero only if `n == -1`.
+正如我们看到这样，只有当 `n == -1` 时，`~n` 才为零。
 
-So, the test `if ( ~str.indexOf("...") )` is truthy that the result of `indexOf` is not `-1`. In other words, when there is a match.
+因此，测试 `if ( ~str.indexOf("...") )` 真是 `indexOf` 的结果不是 `-1`。换句话说，当有匹配时。
 
-People use it to shorten `indexOf` checks:
+人们用它来简写 `indexOf` 检查：
 
 ```js run
 let str = "Widget";
@@ -335,16 +335,16 @@ if (~str.indexOf("Widget")) {
 }
 ```
 
-It is usually not recommended to use language features in a non-obvious way, but this particular trick is widely used in old code, so we should understand it.
+通常不建议以非显而易见的方式使用语言特性，但这种特殊技巧在旧代码中仍被广泛使用，所以我们应该理解它。
 
-Just remember: `if (~str.indexOf(...))` reads as "if found".
+只要记住：`if (~str.indexOf(...))` 读作 "if found"。
 ````
 
 ### includes, startsWith, endsWith
 
-The more modern method [str.includes(substr, pos)](mdn:js/String/includes) returns `true/false` depending on whether `str` contains `substr` within.
+更现在的方法 [str.includes(substr, pos)](mdn:js/String/includes) 取决于 `str` 是否包含 `substr` 来返回 `true/false`。
 
-It's the right choice if we need to test for the match, but don't need its position:
+如果我们需要测试匹配，这是正确的选择，但不需要它的位置：
 
 ```js run
 alert( "Widget with id".includes("Widget") ); // true
@@ -352,28 +352,28 @@ alert( "Widget with id".includes("Widget") ); // true
 alert( "Hello".includes("Bye") ); // false
 ```
 
-The optional second argument of `str.includes` is the position to start searching from:
+`str.includes` 的第二个可选参数从以下位置开始搜索位置：
 
 ```js run
 alert( "Midget".includes("id") ); // true
 alert( "Midget".includes("id", 3) ); // false, from position 3 there is no "id"
 ```
 
-The methods [str.startsWith](mdn:js/String/startsWith) and [str.endsWith](mdn:js/String/endsWith) do exactly what they say:
+方法 [str.startsWith](mdn:js/String/startsWith) 和 [str.endsWith](mdn:js/String/endsWith) 完全按照它们所说的执行：
 
 ```js run
 alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
 alert( "Widget".endsWith("get") );   // true, "Widget" ends with "get"
 ```
 
-## Getting a substring
+## 获取子字符串
 
-There are 3 methods in JavaScript to get a substring: `substring`, `substr` and `slice`.
+JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `slice`。
 
 `str.slice(start [, end])`
-: Returns the part of the string from `start` to (but not including) `end`.
+: 返回从 `start` 到（但不包括）`end` 的字符串部分。
 
-    For instance:
+    例如：
 
     ```js run
     let str = "stringify";
@@ -381,14 +381,14 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
     alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
     ```
 
-    If there is no second argument, then `slice` goes till the end of the string:
+    如果没有第二个参数，`slice` 运行到字符串末尾：
 
     ```js run
     let str = "st*!*ringify*/!*";
     alert( str.slice(2) ); // ringify, from the 2nd position till the end
     ```
 
-    Negative values for `start/end` are also possible. They mean the position is counted from the string end:
+    `start/end` 也有可能是负值。它们的意思是位置从字符串结尾计算：
 
     ```js run
     let str = "strin*!*gif*/!*y";
@@ -399,11 +399,11 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
 
 
 `str.substring(start [, end])`
-: Returns the part of the string *between* `start` and `end`.
+: 返回 `start` 和 `end` **之间**的字符串部分。
 
-    This is almost the same as `slice`, but it allows `start` to be greater than `end`.
+    这与 `slice` 几乎相同，但它允许 `start`大于 `end`。
 
-    For instance:
+    例如：
 
 
     ```js run
@@ -419,27 +419,27 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
 
     ```
 
-    Negative arguments are (unlike slice) not supported, they are treated as `0`.
+    否定参数（不像 slice）不支持，它们被视为 `0`。
 
 
 `str.substr(start [, length])`
-: Returns the part of the string from `start`, with the given `length`.
+:  从 `start` 开始返回给定 `length` 的字符串部分。
 
-    In contrast with the previous methods, this one allows us to specify the `length` instead of the ending position:
+    与以前的方法相比，这个允许我们指定 `length` 而不是结束位置：
 
     ```js run
     let str = "st*!*ring*/!*ify";
     alert( str.substr(2, 4) ); // ring, from the 2nd position get 4 characters
     ```
 
-    The first argument may be negative, to count from the end:
+    第一个参数可能是负数，从结尾算起：
 
     ```js run
     let str = "strin*!*gi*/!*fy";
     alert( str.substr(-4, 2) ); // gi, from the 4th position get 2 characters
     ```
 
-Let's recap these methods to avoid any confusion:
+我们回顾一下这些方法，以免混淆：
 
 | method | selects... | negatives |
 |--------|-----------|-----------|
@@ -449,59 +449,59 @@ Let's recap these methods to avoid any confusion:
 
 
 ```smart header="Which one to choose?"
-All of them can do the job. Formally, `substr` has a minor drawback: it is described not in the core JavaScript specification, but in Annex B, which covers browser-only features that exist mainly for historical reasons. So, non-browser environments may fail to support it. But in practice it works everywhere.
+他们可以完成这项工作，形式上，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中，它涵盖了主要由于历史原因而存在的浏览器特性。因此，非浏览器环境可能无法支持它。但实际上它在任何地方都有效。
 
-The author finds himself using `slice` almost all the time.
+作者发现自己几乎一直在使用 `slice`。
 ```
 
-## Comparing strings
+## 比较字符串
 
-As we know from the chapter <info:comparison>, strings are compared character-by-character in alphabetical order.
+正如我们从 <info:comparison> 一章中了解到的，字符串按字母顺序逐字比较。
 
-Although, there are some oddities.
+不过，也有一些奇怪的地方。
 
-1. A lowercase letter is always greater than the uppercase:
+1. 小写字母总是大于大写字母：
 
     ```js run
     alert( 'a' > 'Z' ); // true
     ```
 
-2. Letters with diacritical marks are "out of order":
+2. 带有指示性标记的字母“不正常”：
 
     ```js run
     alert( 'Österreich' > 'Zealand' ); // true
     ```
 
-    This may lead to strange results if we sort these country names. Usually people would expect `Zealand` to come after `Österreich` in the list.
+    如果我们对这些国名进行排序，可能会导致奇怪的结果。通常，人们会期望 `Zealand` 在名单中的 `Österreich` 之后出现。
 
-To understand what happens, let's review the internal representation of strings in JavaScript.
+为了明白发生了什么，我们回顾一下在 JavaScript 中字符串的内部表示。
 
-All strings are encoded using [UTF-16](https://en.wikipedia.org/wiki/UTF-16). That is: each character has a corresponding numeric code. There are special methods that allow to get the character for the code and back.
+所有的字符串都使用 [UTF-16](https://en.wikipedia.org/wiki/UTF-16) 编码。即：每个字符都有相应的数字代码。有特殊的方法可以获取代码的字符并返回。
 
 `str.codePointAt(pos)`
-: Returns the code for the character at position `pos`:
+: 返回在 `pos` 位置的字符代码 :
 
     ```js run
-    // different case letters have different codes
+    // 不同的字母有不同的代码
     alert( "z".codePointAt(0) ); // 122
     alert( "Z".codePointAt(0) ); // 90
     ```
 
 `String.fromCodePoint(code)`
-: Creates a character by its numeric `code`
+: 通过数字 `code` 创建字符
 
     ```js run
     alert( String.fromCodePoint(90) ); // Z
     ```
 
-    We can also add unicode characters by their codes using `\u` followed by the hex code:
+    我们还可以用
 
     ```js run
     // 90 is 5a in hexadecimal system
     alert( '\u005a' ); // Z
     ```
 
-Now let's see the characters with codes `65..220` (the latin alphabet and a little bit extra) by making a string of them:
+现在我们看一下代码 `65..220` 的字符（拉丁字母和一些额外的字符），方法是创建一个字符串：
 
 ```js run
 let str = '';
@@ -514,55 +514,55 @@ alert( str );
 // ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
 ```
 
-See? Capital characters go first, then a few special ones, then lowercase characters.
+看到？大写字符先走，然后是一些特殊字符，然后是小写字符。
 
-Now it becomes obvious why `a > Z`.
+现在很明显为什么 `a > Z`。
 
-The characters are compared by their numeric code. The greater code means that the character is greater. The code for `a` (97) is greater than the code for `Z` (90).
+字符通过数字代码进行比较。越大的代码意味着字符越大。`a`（97）的代码大于 `Z`（90）。
 
-- All lowercase letters go after uppercase letters because their codes are greater.
-- Some letters like `Ö` stand apart from the main alphabet. Here, it's code is greater than anything from `a` to `z`.
+- 所有小写字母都是大写字母，因为它们的代码更大。
+- 一些想 `Ö` 的字母与主要字母表不同。这里的代码比从 `a` 到 `z` 的代码都要大。
 
 
-### Correct comparisons
+### 正确的比较
 
-The "right" algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages. The same-looking letter may be located differently in different alphabets.
+执行字符串比较的“正确”算法比看起来更复杂，因为不同语言的字母都不想同。相同的字母可能位于不同的字母表中。
 
-So, the browser needs to know the language to compare.
+因此浏览器需要知道要比较的语言。
 
-Luckily, all modern browsers (IE10- requires the additional library [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) support the internationalization standard [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf).
+幸运地是，所有现代浏览器（IE-10 都需要额外的库 [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) 支持国际化标准 [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf)。
 
-It provides a special method to compare strings in different languages, following their rules.
+它提供了一种特殊的方法来比较不同语言的字符串，遵循它们的规则。
 
-The call [str.localeCompare(str2)](mdn:js/String/localeCompare):
+调用 [str.localeCompare(str2)](mdn:js/String/localeCompare)：
 
-- Returns `1` if `str` is greater than `str2` according to the language rules.
-- Returns `-1` if `str` is less than `str2`.
-- Returns `0` if they are equal.
+- 根据语言规则，如果 `str` 大于 `str2` 返回 `1`。
+- 如果if `str` 小于 `str2` 返回 `-1`。
+- 如果相等，返回 `0`。
 
-For instance:
+例如：
 
 ```js run
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```
 
-This method actually has two additional arguments specified in [the documentation](mdn:js/String/localeCompare), which allows it to specify the language (by default taken from the environment) and setup additional rules like case sensitivity or should `"a"` and `"á"` be treated as the same etc.
+这个方法实际上在[文档](mdn:js/String/localeCompare)中指定了两个额外的参数，它允许它指定语言（默认从环境中获取）并设置诸如区别大小之类的附加规则，或应该处理将 `"a"` 和 `"á"` 看作相等情况等。
 
-## Internals, Unicode
+## 内部，Unicode
 
 ```warn header="Advanced knowledge"
-The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical of hieroglyphs characters or other rare symbols.
+这部分会深入字符串内部。如果你计划处理表情符号、罕见的象形文字字符或其他罕见符号，这些知识会对你有用。
 
-You can skip the section if you don't plan to support them.
+如果你不打算支持它们，你可以跳过这一部分。
 ```
 
-### Surrogate pairs
+### 代理对
 
-Most symbols have a 2-byte code. Letters in most european languages, numbers, and even most hieroglyphs, have a 2-byte representation.
+大部分 symbol 都有一个 2 字节的代码。大多数欧洲语言，数字甚至大多数象形文字中的字母都有 2 字节的表示形式。
 
-But 2 bytes only allow 65536 combinations and that's not enough for every possible symbol. So rare symbols are encoded with a pair of 2-byte characters called "a surrogate pair".
+但 2 字节只允许 65536 个组合，这对于每个可能的符号都是不够的。所以稀有的符号被称为“代理对”的一对 2 字节符号编码。
 
-The length of such symbols is `2`:
+这些符号的长度是 `2`：
 
 ```js run
 alert( '𝒳'.length ); // 2, MATHEMATICAL SCRIPT CAPITAL X
@@ -570,24 +570,24 @@ alert( '😂'.length ); // 2, FACE WITH TEARS OF JOY
 alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
 ```
 
-Note that surrogate pairs did not exist at the time when JavaScript was created, and thus are not correctly processed by the language!
+注意，代理对在 JavaScript 被创建时并不存在，因此无法被语言正确代理。
 
-We actually have a single symbol in each of the strings above, but the `length` shows a length of `2`.
+我们实际上在上面的每个字符串中都有一个符号，但 `length` 显示长度为 `2`。
 
-`String.fromCodePoint` and `str.codePointAt` are few rare methods that deal with surrogate pairs right. They recently appeared in the language. Before them, there were only [String.fromCharCode](mdn:js/String/fromCharCode) and [str.charCodeAt](mdn:js/String/charCodeAt). These methods are actually the same as `fromCodePoint/codePointAt`, but don't work with surrogate pairs.
+`String.fromCodePoint` 和 `str.codePointAt` 是几种处理代理对的少数方法。它们最近在出现在语言中。在它们之前，只有 [String.fromCharCode](mdn:js/String/fromCharCode) 和 [str.charCodeAt](mdn:js/String/charCodeAt)。这些方法实际上与 `fromCodePoint/codePointAt` 相同，但是不适用于代理对。
 
-But, for instance, getting a symbol can be tricky, because surrogate pairs are treated as two characters:
+但是，例如，获取符号可能会非常麻烦，因为代理对被认为是两个字符：
 
 ```js run
 alert( '𝒳'[0] ); // strange symbols...
 alert( '𝒳'[1] ); // ...pieces of the surrogate pair
 ```
 
-Note that pieces of the surrogate pair have no meaning without each other. So the alerts in the example above actually display garbage.
+请注意，代理对的各部分没有任何意义。因此，上述示例中的 alert 显示实际上并没有用。
 
-Technically, surrogate pairs are also detectable by their codes: if a character has the code in the interval of `0xd800..0xdbff`, then it is the first part of the surrogate pair. The next character (second part) must have the code in interval `0xdc00..0xdfff`. These intervals are reserved exclusively for surrogate pairs by the standard.
+技术角度来说，代理对也是可以通过它们的代码检测到：如果一个字符的代码间隔为 `0xd800..0xdbff`，那么它是代理对的第一部分。下一个字符（第二部分）必须在时间间隔 `0xdc00..0xdfff` 中。这些间隔仅有标准的代理对保留。
 
-In the case above:
+在上述示例中：
 
 ```js run
 // charCodeAt is not surrogate-pair aware, so it gives codes for parts
@@ -596,35 +596,35 @@ alert( '𝒳'.charCodeAt(0).toString(16) ); // d835, between 0xd800 and 0xdbff
 alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, between 0xdc00 and 0xdfff
 ```
 
-You will find more ways to deal with surrogate pairs later in the chapter <info:iterable>. There are probably special libraries for that too, but nothing famous enough to suggest here.
+本章节后面的 <info:iterable> 中可以找到更多处理代理对的方法。也可能有特殊的库，这里没有什么足够好的建议。
 
-### Diacritical marks and normalization
+### 指示标志与规范化
 
-In many languages there are symbols that are composed of the base character with a mark above/under it.
+在许多语言中，有一些符号是由上面/下面有标记的基本字符组成的。
 
-For instance, the letter `a` can be the base character for: `àáâäãåā`. Most common "composite" character have their own code in the UTF-16 table. But not all of them, because there are too many possible combinations.
+例如，字母 `a` 可以是基本字符：`àáâäãåā`。最常见的“复合”字符在 UTF-16 表中有自己的代码。但不是全部，因为可能的组合太多。
 
-To support arbitrary compositions, UTF-16 allows us to use several unicode characters. The base character and one or many "mark" characters that "decorate" it.
+为了支持任意组合，UTF-16 允许我们使用多个 unicode 字符。基本字符和“装饰”它的一个或多个“标记”字符。
 
-For instance, if we have `S` followed by the special "dot above" character (code `\u0307`), it is shown as Ṡ.
+例如，如果我们 `S` 后跟有特殊的 "dot above" 字符（代码 `\u0307`），则显示 Ṡ。
 
 ```js run
 alert( 'S\u0307' ); // Ṡ
 ```
 
-If we need an additional mark above the letter (or below it) -- no problem, just add the necessary mark character.
+如果我们需要在字母上方（或下方）添加额外的标记 —— 没问题，只需要添加必要的标记字符即可。
 
-For instance, if we append a character "dot below" (code `\u0323`), then we'll have "S with dots above and below": `Ṩ`.
+例如，如果我们追加一个字符 "dot below" （代码 `\u0323`），那么我们将得到 “S 点以上和以下的”：`Ṩ`.
 
-For example:
+例如：
 
 ```js run
 alert( 'S\u0307\u0323' ); // Ṩ
 ```
 
-This provides great flexibility, but also an interesting problem: two characters may visually look the same, but be represented with different unicode compositions.
+这在提供良好灵活性的同时，也存在一个有趣的问题：两个视觉上看起来相同的字符，可以用不同的 unicode 组合表示。
 
-For instance:
+例如：
 
 ```js run
 alert( 'S\u0307\u0323' ); // Ṩ, S + dot above + dot below
@@ -633,15 +633,15 @@ alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
 alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false
 ```
 
-To solve this, there exists a "unicode normalization" algorithm that brings each string to the single "normal" form.
+为了解决这个问题，有一个 “unicode 规范化”算法，它将每个字符串都转化成单个“通用”格式。
 
-It is implemented by [str.normalize()](mdn:js/String/normalize).
+它由 [str.normalize()](mdn:js/String/normalize) 实现。
 
 ```js run
 alert( "S\u0307\u0323".normalize() == "S\u0323\u0307".normalize() ); // true
 ```
 
-It's funny that in our situation `normalize()` actually brings together a sequence of 3 characters to one: `\u1e68` (S with two dots).
+我们遇到的有趣现象是实际上 `normalize()` 将一个由 3 个字符组成的序列合并为一个：`\u1e68`（S 有两个点）。
 
 ```js run
 alert( "S\u0307\u0323".normalize().length ); // 1
@@ -649,26 +649,26 @@ alert( "S\u0307\u0323".normalize().length ); // 1
 alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 ```
 
-In reality, this is not always the case. The reason being that the symbol `Ṩ` is "common enough", so UTF-16 creators included it in the main table and gave it the code.
+事实上，情况并非总是如此，因为符号 `Ṩ` “常用”，所以 UTF-16 创建者把它包含在主表中并给了它代码。
 
-If you want to learn more about normalization rules and variants -- they are described in the appendix of the Unicode standard: [Unicode Normalization Forms](http://www.unicode.org/reports/tr15/), but for most practical purposes the information from this section is enough.
+如果你想了解更多关于规范化规则和变体的信息 —— 它们在 Unicode 标准附录中有详细描述：[Unicode 规范化形式](http://www.unicode.org/reports/tr15/)，但对于大多数实际目的来说，本文的内容就已经足够了。
 
 
-## Summary
+## 总结
 
-- There are 3 types of quotes. Backticks allow a string to span multiple lines and embed expressions.
-- Strings in JavaScript are encoded using UTF-16.
-- We can use special characters like `\n` and insert letters by their unicode using `\u...`.
-- To get a character, use: `[]`.
-- To get a substring, use: `slice` or `substring`.
-- To lowercase/uppercase a string, use: `toLowerCase/toUpperCase`.
-- To look for a substring, use: `indexOf`, or `includes/startsWith/endsWith` for simple checks.
-- To compare strings according to the language, use: `localeCompare`, otherwise they are compared by character codes.
+- 有 3 中类型的引号，反引号允许字符串跨越多行并嵌入表达式。
+- JavaScript 中的字符串使用 UTF-16 进行编码。
+- 我们可以使用像 `\n` 这样的特殊字符或通过使用 `\u...` 来操作它们的 unicode 进行字符插入。 
+- 获取字符时，使用 `[]`。
+- 获取子字符串，使用 `slice` 或 `substring`。
+- 字符串的大/小写转换，使用：`toLowerCase/toUpperCase`。
+- 查找子字符串时，使用 `indexOf` 或 `includes/startsWith/endsWith` 进行简单检查。
+- 根据语言比较字符串时使用 `localeCompare`，否则将按字符代码进行比较。
 
-There are several other helpful methods in strings:
+字符串还有其他几种有用的方法：
 
-- `str.trim()` -- removes ("trims") spaces from the beginning and end of the string.
-- `str.repeat(n)` -- repeats the string `n` times.
-- ...and more. See the [manual](mdn:js/String) for details.
+- `str.trim()` —— 删除字符串前后的空格 ("trims")。
+- `str.repeat(n)` —— 重复字符串 `n` 次。
+- ...更多内容细节参见[手册](mdn:js/String)。
 
-Strings also have methods for doing search/replace with regular expressions. But that topic deserves a separate chapter, so we'll return to that later.
+字符串还具有用正则表达式执行搜索/替换的方法。但这个话题值得拥有单独的一章，所以我们稍后再说。
