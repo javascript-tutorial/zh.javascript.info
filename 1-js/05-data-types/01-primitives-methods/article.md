@@ -1,6 +1,6 @@
 # 基本类型的方法
 
-JavaScript允许我们像对象一样使用基本类型（字符串，数字等）。
+JavaScript 允许我们像对象一样使用基本类型（字符串，数字等）。
 
 基本类型还提供调用方法等。我们会尽快研究这些，但首先我们会看看它是如何工作的，毕竟基本类型不是对象（在这里我们会更加清楚）。
 
@@ -10,7 +10,7 @@ JavaScript允许我们像对象一样使用基本类型（字符串，数字等�
 
 对象
 ：能够将多个值存储为属性。
-可以用`{}`创建，例如：`{name: "John", age: 30}`。JavaScript中还有其他种类的对象，例如函数就是对象。
+可以用 `{}` 创建，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
 
 关于对象的最好的事情之一是我们可以存储一个函数作为它的一个属性：
 
@@ -25,13 +25,13 @@ let john = {
 john.sayHi(); // Hi buddy!
 ```
 
-所以我们在这里用 `sayHi` 方法创建了一个对象 `john`。
+所以我们在这里创建了一个包含 `sayHi` 方法的对象 `john`。
 
-许多内置对象已经存在，例如那些与日期，错误，HTML元素等一起工作的内置对象。它们具有不同的属性和方法。
+许多内置对象已经存在，例如那些与日期，错误，HTML 元素等一起工作的内置对象。它们具有不同的属性和方法。
 
 但是，这些特性都是有成本的！
 
-对象比基本对象“更重”。他们需要额外的资源来支持运作。但是，由于属性和方法在编程中非常有用，JavaScript引擎会尝试优化它们以减少额外的负担。
+对象比基本对象“更重”。他们需要额外的资源来支持运作。但是，由于属性和方法在编程中非常有用，JavaScript 引擎会尝试优化它们以减少额外的负担。
 
 ## 作为对象的基本类型
 
@@ -48,7 +48,7 @@ john.sayHi(); // Hi buddy!
 
 “包装对象”对于每种基本类型调用都是不同的，如`String`, `Number`, `Boolean` 和 `Symbol`。因此，他们提供了不同的方法。
 
-例如，方法 [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase)返回一个大写的字符串。
+例如，方法 [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) 返回一个大写的字符串。
 
 以下是它的工作原理：
 
@@ -62,13 +62,13 @@ alert( str.toUpperCase() ); // HELLO
 
 1. 字符串 `str` 是一个基本类型。所以在访问它的属性时，会创建一个已知字符串值的特殊对象，并且具有有用的方法，例如 `toUpperCase()`。
 2. 该方法运行并返回一个新的字符串（由 `alert` 显示）。
-3. 特殊对象被破坏，只留下基本类型 `str`。
+3. 特殊对象被销毁，只留下基本类型 `str`。
 
 所以基本类型可以提供方法，但它们依然是轻量级的。
 
-JavaScript引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创造了一样。
+JavaScript 引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创造了一样。
 
-数字有其自己的方法，例如，[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)将数字四舍五入到给定的精度：
+数字有其自己的方法，例如，[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将数字四舍五入到给定的精度：
 
 ```js run
 let n = 1.23456;
@@ -82,7 +82,7 @@ alert( n.toFixed(2) ); // 1.23
 ````warn header="Constructors `String/Number/Boolean` are for internal use only"
 像 Java 这样的一些语言允许我们使用 `new Number(1)` 或 `new Boolean(false)` 等语法明确地为基本类型创建“包装对象”。
 
-在 JavaScript 中，由于历史原因，这也是可以的，但高度**不推荐**。因为这样会出问题。
+在 JavaScript 中，由于历史原因，这也是可以的，但极其**不推荐**。因为这样会出问题。
 
 例如：
 
@@ -92,7 +92,7 @@ alert( typeof 1 ); // "number"
 alert( typeof new Number(1) ); // "object"!
 ```
 
-因为接下来的是，`zero`，是一个对象，alert 将显示出来：
+同样的，`zero`，是一个对象，alert 将显示出来：
 
 ```js run
 let zero = new Number(0);
@@ -102,7 +102,7 @@ if (zero) { // zero is true, because it's an object
 }
 ```
 
-另一方面，不使用 `new` 的 `String/Number/Boolean` without `new` 是一个明智的选择。它们将一个值转换为相应的类型：转成 string，number，或  boolean（原始类型）。
+另一方面，不使用 `new` 的 `String/Number/Boolean` 是一个明智的选择。它们将一个值转换为相应的类型：转成 string，number，或  boolean（原始类型）。
 
 例如，下面完全是有效的：
 ```js
