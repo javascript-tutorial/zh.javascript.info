@@ -1,4 +1,4 @@
-重要性：3
+importance: 3
 
 ---
 
@@ -10,15 +10,15 @@
 
 密码的校验规则如下：
 
-- 如果输入的是 "TheMaster"，显示"Welcome!"，
-- 其他字符串 — 显示"Wrong password"，
-- 空字符串或取消了输入，显示"Canceled."。
+- 如果输入的是 "TheMaster"，显示 "Welcome!"，
+- 其他字符串 — 显示 "Wrong password"，
+- 空字符串或取消了输入，显示 "Canceled."。
 
 流程图：
 
 ![](ifelse_task.png)
 
-请使用潜逃的 `if` 块。注意代码整体的可读性。
+请使用嵌套的 `if` 块。注意代码整体的可读性。
 
 提示：将空字符串输入，prompt 会获取到一个空字符串 `''`。Prompt 运行过程中，按下 `key:ESC` 键会得到 `null`。
 
