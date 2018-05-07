@@ -1,4 +1,4 @@
-# JSON 方法和 toJSON
+# JSON 方法，toJSON
 
 假设我们有一个复杂的对象，我们希望将其转换为字符串，通过网络发送，或者只是为了日志输出它。
 
@@ -21,14 +21,13 @@ let user = {
 alert(user); // {name: "John", age: 30}
 ```
 
-...但在开发过程中，新增了一些属性，旧的属性被重命名并删除。每次更新这种 `toString` 都会变得很痛苦。 我们可以尝试循环其中的属性，
-但是如果对象很复杂，并且在属性中嵌套对象呢？我们也需要对他们进行转换。如，如果我们通过网络发送对象，那么我们还需要提供代码来在接收端“读取”我们的对象。
+...但在开发过程中，新增了一些属性，旧的属性被重命名并删除。每次更新这种 `toString` 都会变得很痛苦。我们可以尝试遍历其中的属性，但是如果对象很复杂，并且在属性中嵌套对象呢？我们也需要对它们进行转换。如，如果我们通过网络发送对象，那么我们还需要提供代码来在接收端“读取”我们的对象。
 
 幸运的是，不需要编写代码来处理所有这些。这项任务已经解决了。
 
 ## JSON.stringify
 
-[JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) 是表示值和对象的通用格式。它被描述为 [RFC 4627](http://tools.ietf.org/html/rfc4627)标准。最初它是为 JavaScript 编写的，但许多其他语言也有库来处理它。因此，当客户端使用 JavaScript 并且服务器使用 Ruby/PHP/Java/Whatever 编写时，使用 JSON 进行数据交换非常容易。
+[JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) 是表示值和对象的通用格式。它被描述为 [RFC 4627](http://tools.ietf.org/html/rfc4627) 标准。最初它是为 JavaScript 编写的，但许多其他语言也有库来处理它。因此，当客户端使用 JavaScript 而服务器使用 Ruby/PHP/Java/Whatever 编写时，使用 JSON 进行数据交换非常容易。
 
 JavaScript 提供方法：
 
@@ -67,7 +66,7 @@ alert(json);
 
 方法 `JSON.stringify(student)` 接受对象并将其转换为一个字符串。
 
-得到的 `json` 字符串是一个被称为**JSON 编码**或者**序列化**或者**字符串化**或者**编组**的对象。 我们准备通过网线传输或存储。
+得到的 `json` 字符串是一个被称为 **JSON 编码**或者**序列化**或者**字符串化**或者**编组**的对象。我们准备好通过网线传输或存储。
 
 
 请注意，JSON 编码的对象与对象字面量有几个重要的区别：
@@ -101,7 +100,7 @@ alert( JSON.stringify(true) ); // true
 alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
 ```
 
-JSON 是纯数据跨语言规范，因此一些特定于 JavaScript 的对象属性被 `JSON.stringify` 跳过。
+JSON 是跨语言的纯数据规范，因此一些特定于 JavaScript 的对象属性被 `JSON.stringify` 跳过。
 
 如：
 
@@ -214,7 +213,7 @@ alert( JSON.stringify(meetup, *!*['title', 'participants']*/!*) );
 // {"title":"Conference","participants":[{},{}]}
 ```
 
-这里挺严格。属性列表应用于整个对象结构。所以 participants 是空的，因为 `name` 不在列表中。
+这里我们可能过于严格了。属性列表应用于整个对象结构。所以 participants 是空的，因为 `name` 不在列表中。
 
 让我们包含除了会导致循环引用的 `room.occupiedBy` 之外的所有属性：
 
@@ -243,11 +242,11 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 
 现在，除 `occupiedBy` 之外的所有内容都会被序列化。但是 participants 的列表相当长。
 
-幸运的是，我们可以使用一个函数而不是一个数组作为 `replacer`.
+幸运的是，我们也可以使用一个函数作为 `replacer`。
 
 该函数将调用每个 `(key,value)` 对，并且返回 “replacement” 值，它将被用来代替原来的值。
 
-在我们的例子中，除 `occupiedBy` 我们都可以按照原样返回 `value`。要忽略 `occupiedBy`，下面的代码返回 `undefined`：
+在我们的例子中，除 `occupiedBy` 外我们都可以按照原样返回 `value`。要忽略 `occupiedBy`，下面的代码返回 `undefined`：
 
 ```js run
 let room = {
@@ -280,11 +279,11 @@ number:       23
 */
 ```
 
-请注意 `replacer` 函数获取包括嵌套对象和数组项的每个键/值对。它被递归地应用。 `replacer` 里面 `this` 的值是包含当前属性的对象。
+请注意 `replacer` 函数获取包括嵌套对象和数组项的每个键/值对。它被递归地应用。`replacer` 里面 `this` 的值是包含当前属性的对象。
 
 第一个调用很特别。它是使用特殊的“包装对象”制作的： `{"": meetup}`。换句话说，第一个 `(key,value)` 对是空键，并且该值是整个目标对象。这就是为什么上面的例子中第一行是 `":[object Object]"` 的原因。
 
-基于这个理念为 `replacer` 提供了更强大的功能： 如有必要，它有机会分析和替换/跳过整个对象。
+基于这个理念为 `replacer` 提供了更强大的功能：如有必要，它有机会分析和替换/跳过整个对象。
 
 
 ## 格式化：spacer
@@ -362,7 +361,7 @@ alert( JSON.stringify(meetup) );
 
 在这里我们可以看到 `date` `(1)` 变成了一个字符串。这是因为所有日期都有一个内置的 `toJSON` 方法来返回这种类型的字符串。
 
-现在让我们为对象 `room` 添加一个自定义的 `toJSON`：   
+现在让我们为对象 `room` 添加一个自定义的 `toJSON`：
 
 ```js run
 let room = {
@@ -399,7 +398,7 @@ alert( JSON.stringify(meetup) );
 
 ## JSON.parse
 
-要解码 JSON 字符串，我们需要另一个方法 [JSON.parse](mdn:js/JSON/parse).
+要解码 JSON 字符串，我们需要另一个方法 [JSON.parse](mdn:js/JSON/parse)。
 
 语法：
 ```js
@@ -449,7 +448,7 @@ let json = `{
 
 此外，JSON 不支持注释。向 JSON 添加注释无效。
 
-还有另一种名为 [JSON5](http://json5.org/)的格式，它允许未加引号的键，注释等。但这是一个独立的库，不在该语言的规范中。
+还有另一种名为 [JSON5](http://json5.org/)的格式，它允许未加引号的键、注释等。但这是一个独立的库，不在该语言的规范中。
 
 常规的 JSON 格式严格并不是因为它的开发者懒惰，而是为了实现简单，可靠和快速的解析算法。
 
@@ -464,9 +463,9 @@ let json = `{
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
 ```
 
-...现在我们需要 **反序列化它**，重新转换成 JavaScript 对象。
+...现在我们需要**反序列化它**，重新转换成 JavaScript 对象。
 
-让我们通过调用 `JSON.parse` 来完成:
+让我们通过调用 `JSON.parse` 来完成：
 
 ```js run
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
@@ -480,9 +479,9 @@ alert( meetup.date.getDate() ); // Error!
 
 哇！报错了！
 
-`meetup.date` 的值是一个字符串，而不是 `Date` 对象。 `JSON.parse` 如何知道它应该将该字符串转换为 `Date`？
+`meetup.date` 的值是一个字符串，而不是 `Date` 对象。`JSON.parse` 如何知道它应该将该字符串转换为 `Date`？
 
-让我们传递返回所有值的函数给 `JSON.parse`，但 `date` 将变成了 `Date`,正常运行：
+让我们传递返回所有值的函数给 `JSON.parse`，但 `date` 将变成了 `Date`，正常运行：
 
 ```js run
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
