@@ -179,7 +179,7 @@ for (let char of "Hello") {
 let str = 'Hi';
 
 str[0] = 'h'; // error
-alert( str[0] ); // doesn't work
+alert( str[0] ); // 无法运行
 ```
 
 通常的解决方法是创建一个新的字符串，并将其分配给 `str` 而不是以前的字符串。
@@ -189,7 +189,7 @@ alert( str[0] ); // doesn't work
 ```js run
 let str = 'Hi';
 
-str = 'h' + str[1];  // replace the string
+str = 'h' + str[1];  // 字符串替换
 
 alert( str ); // hi
 ```
@@ -249,7 +249,7 @@ alert( str.indexOf('id', 2) ) // 12
 ```js run
 let str = 'As sly as a fox, as strong as an ox';
 
-let target = 'as'; // let's look for it
+let target = 'as'; // 让我们查看一下
 
 let pos = 0;
 while (true) {
@@ -257,7 +257,7 @@ while (true) {
   if (foundPos == -1) break;
 
   alert( `Found at ${foundPos}` );
-  pos = foundPos + 1; // continue the search from the next position
+  pos = foundPos + 1; // 继续从下一个位置查找
 }
 ```
 
@@ -301,7 +301,7 @@ let str = "Widget with id";
 *!*
 if (str.indexOf("Widget") != -1) {
 */!*
-    alert("We found it"); // works now!
+    alert("We found it"); // 现在运行了！
 }
 ```
 
@@ -356,14 +356,14 @@ alert( "Hello".includes("Bye") ); // false
 
 ```js run
 alert( "Midget".includes("id") ); // true
-alert( "Midget".includes("id", 3) ); // false, from position 3 there is no "id"
+alert( "Midget".includes("id", 3) ); // false, 位置 3 没有 "id"
 ```
 
 方法 [str.startsWith](mdn:js/String/startsWith) 和 [str.endsWith](mdn:js/String/endsWith) 完全按照它们所说的执行：
 
 ```js run
-alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
-alert( "Widget".endsWith("get") );   // true, "Widget" ends with "get"
+alert( "Widget".startsWith("Wid") ); // true, "Widget" 以 "Wid" 开始
+alert( "Widget".endsWith("get") );   // true, "Widget" 以 "get" 结束
 ```
 
 ## 获取子字符串
@@ -377,15 +377,15 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
     ```js run
     let str = "stringify";
-    alert( str.slice(0, 5) ); // 'strin', the substring from 0 to 5 (not including 5)
-    alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
+    alert( str.slice(0, 5) ); // 'strin', 从 0 到 5 的子字符串（不包括 5）
+    alert( str.slice(0, 1) ); // 's', 从 0 到 1，但不包括 1，所以只有在 0 的字符
     ```
 
     如果没有第二个参数，`slice` 运行到字符串末尾：
 
     ```js run
     let str = "st*!*ringify*/!*";
-    alert( str.slice(2) ); // ringify, from the 2nd position till the end
+    alert( str.slice(2) ); // 从第二个位置直到结束
     ```
 
     `start/end` 也有可能是负值。它们的意思是位置从字符串结尾计算：
@@ -393,7 +393,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
     ```js run
     let str = "strin*!*gif*/!*y";
 
-    // start at the 4th position from the right, end at the 1st from the right
+    // 从右边的第四个位置开始，在右边的第一个位置结束
     alert( str.slice(-4, -1) ); // gif
     ```
 
@@ -409,12 +409,12 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
     ```js run
     let str = "st*!*ring*/!*ify";
 
-    // these are same for substring
+    // 这些对于子串是相同的
     alert( str.substring(2, 6) ); // "ring"
     alert( str.substring(6, 2) ); // "ring"
 
-    // ...but not for slice:
-    alert( str.slice(2, 6) ); // "ring" (the same)
+    // ...但除了 slice：
+    alert( str.slice(2, 6) ); // "ring" (the same)
     alert( str.slice(6, 2) ); // "" (an empty string)
 
     ```
@@ -429,14 +429,14 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
     ```js run
     let str = "st*!*ring*/!*ify";
-    alert( str.substr(2, 4) ); // ring, from the 2nd position get 4 characters
+    alert( str.substr(2, 4) ); // 环，从第二位获得4个字符
     ```
 
     第一个参数可能是负数，从结尾算起：
 
     ```js run
     let str = "strin*!*gi*/!*fy";
-    alert( str.substr(-4, 2) ); // gi, from the 4th position get 2 characters
+    alert( str.substr(-4, 2) ); // gi，从第4位获得2个字符
     ```
 
 我们回顾一下这些方法，以免混淆：
@@ -579,8 +579,8 @@ alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
 但是，例如，获取符号可能会非常麻烦，因为代理对被认为是两个字符：
 
 ```js run
-alert( '𝒳'[0] ); // strange symbols...
-alert( '𝒳'[1] ); // ...pieces of the surrogate pair
+alert( '𝒳'[0] ); // 奇怪的符号...
+alert( '𝒳'[1] ); // ...代理对的一块
 ```
 
 请注意，代理对的各部分没有任何意义。因此，上述示例中的 alert 显示实际上并没有用。
@@ -592,8 +592,8 @@ alert( '𝒳'[1] ); // ...pieces of the surrogate pair
 ```js run
 // charCodeAt is not surrogate-pair aware, so it gives codes for parts
 
-alert( '𝒳'.charCodeAt(0).toString(16) ); // d835, between 0xd800 and 0xdbff
-alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, between 0xdc00 and 0xdfff
+alert( '𝒳'.charCodeAt(0).toString(16) ); // d835, 在 0xd800 和 0xdbff 之间
+alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, 在 0xdc00 和 0xdfff 之间
 ```
 
 本章节后面的 <info:iterable> 中可以找到更多处理代理对的方法。也可能有特殊的库，这里没有什么足够好的建议。
