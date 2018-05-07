@@ -522,6 +522,6 @@ alert( schedule.meetups[1].date.getDate() ); // works!
 
 - JSON 是一种数据格式，对于大多数编程语言都有自己的独立标准和库。
 - JSON 支持 objects，arrays，strings，numbers，booleans 和 `null`。
-- JavaScript 提供序列化成 JSON 方法 [JSON.stringify](mdn:js/JSON/stringify)和解析 JSON 方法 [JSON.parse](mdn:js/JSON/parse)。
+- JavaScript 提供序列化成 JSON 的方法 [JSON.stringify](mdn:js/JSON/stringify)和解析 JSON 方法 [JSON.parse](mdn:js/JSON/parse)。
 - 这两种方法都支持用于智能读/写的转换函数。
 - 如果一个对象具有 `toJSON`，那么它可被 `JSON.stringify` 调用。
