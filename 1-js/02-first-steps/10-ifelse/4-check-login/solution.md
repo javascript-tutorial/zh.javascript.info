@@ -1,6 +1,6 @@
 
 
-```运行下面的 js 示例代码
+```js run demo
 let userName = prompt("Who's there?", '');
 
 if (userName == 'Admin') {
