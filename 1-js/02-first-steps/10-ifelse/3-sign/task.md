@@ -2,7 +2,7 @@ importance: 2
 
 ---
 
-# Show the sign
+# 显示符号
 
 使用 `if..else` 语句，实现通过 `prompt` 获取一个数字并用 `alert` 显示结果的代码。
 
