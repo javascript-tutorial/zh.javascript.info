@@ -55,7 +55,7 @@ for(;;) {
 
 该指令必须位于 JavaScript 文件的顶部或函数的开头。
 
-如果没有使用严格模式，所有东西都可以正常工作，但是某些功能的表现方式与旧式「兼容」方式相同。我们通常喜欢更现代的方式。
+如果没有使用严格模式，所有东西仍可以正常工作，但是某些特性的表现方式与旧式「兼容」方式相同。我们通常喜欢更现代的方式。
 
 语言的一些现代特征（比如我们将来要学习的类）会隐式地启用严格模式。
 
@@ -70,9 +70,8 @@ for(;;) {
 - `var`（旧式的，稍后会看到）
 
 一个合格的变量名可以由以下组成：
-
 - 字符串和数字，但是第一个字符不能是数字。
-- 字符`$`和`_`是允许的，用法同字母。
+- 字符 `$` 和 `_` 是允许的，用法同字母。
 - 非拉丁字母和象形文字也是允许的，但通常不会使用。
 
 
@@ -87,10 +86,10 @@ x = "John";
 
 - `number` —— 可以是浮点数，也可以是整数，
 - `string` —— 字符串类型，
-- `boolean` —— 逻辑值: `true/false`,
-- `null` —— 具有单个值`null`的类型，表示「空」或「不存在」，
-- `undefined` —— 一个具有单个值`undefined`的类型，表示「未分配」，
-- `object`和`symbol` —— 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。
+- `boolean` —— 逻辑值: `true/false`，
+- `null` —— 具有单个值 `null` 的类型，表示”空“或“不存在”，
+- `undefined` —— 一个具有单个值 `undefined` 的类型，表示「未分配」，
+- `object` 和 `symbol` —— 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。
 
 `typeof` 运算符返回值的类型，但有两个例外：
 
@@ -103,7 +102,7 @@ typeof function(){} == "function" // 函数特殊
 
 ## 交互
 
-我们使用浏览器作为工作环境，所以基本的UI功能将是：
+我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 [`prompt(question[, default])`](mdn:api/Window/prompt)
 ：询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
 
@@ -111,7 +110,7 @@ typeof function(){} == "function" // 函数特殊
 ：提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false` 形式返回。
 
 [`alert(message)`](mdn:api/Window/alert)
-：输出一个`消息`。
+：输出一个 `消息`。
 
 所有这些函数都会产生**模态框**，它们会暂停代码执行并阻止访问者与页面交互，直到用户输入内容。
 
@@ -129,10 +128,10 @@ alert( "Tea wanted: " + isTeaWanted ); // true
 
 ## 运算符
 
-JavaScript支持以下运算符：
+JavaScript 支持以下运算符：
 
 算数运算符
-：常规的比如：`+ - * /`（加减乘除）,以及取余操作 `%` 和幂运算符 `**` 。
+：常规的比如：`+ - * /`（加减乘除），以及取余操作 `%` 和幂运算符 `**` 。
 
     二进制加 `+` 连接字符串。如果任何一个操作数是一个字符串，另一个操作数也将转换为字符串：
     ```js run
@@ -144,7 +143,7 @@ JavaScript支持以下运算符：
 ：简单的赋值：`a = b` 和连续赋值：`a * = 2`。
 
 按位操作
-：位运算符在位级上使用整数：当需要时，请参阅[docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
+：位运算符在位级上使用整数：当需要时，请参阅 [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
 三元运算
 ：唯一具有三个参数的操作：`cond？ resultA：resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
 逻辑运算符
@@ -273,7 +272,7 @@ switch (age) {
 |在整个代码块中可见|在执行到达时创建|
 | - |可以有一个名字，只在函数内部可见|
 
-更多：参见<info:function-basics>, <info:function-expressions-arrows>。
+更多：参见<info:function-basics>，<info:function-expressions-arrows>。
 
 ## 更多
 
