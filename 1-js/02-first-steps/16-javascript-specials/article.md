@@ -104,13 +104,13 @@ typeof function(){} == "function" // 函数特殊
 
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 [`prompt(question[, default])`](mdn:api/Window/prompt)
-：询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
+: 询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
 
 [`confirm(question)`](mdn:api/Window/confirm)
-：提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false` 形式返回。
+: 提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false` 形式返回。
 
 [`alert(message)`](mdn:api/Window/alert)
-：输出一个 `消息`。
+: 输出一个 `消息`。
 
 所有这些函数都会产生**模态框**，它们会暂停代码执行并阻止访问者与页面交互，直到用户输入内容。
 
@@ -131,7 +131,7 @@ alert( "Tea wanted: " + isTeaWanted ); // true
 JavaScript 支持以下运算符：
 
 算数运算符
-：常规的比如：`+ - * /`（加减乘除），以及取余操作 `%` 和幂运算符 `**` 。
+: 常规的比如：`+ - * /`（加减乘除），以及取余操作 `%` 和幂运算符 `**` 。
 
     二进制加 `+` 连接字符串。如果任何一个操作数是一个字符串，另一个操作数也将转换为字符串：
     ```js run
@@ -140,17 +140,19 @@ JavaScript 支持以下运算符：
     ```
 
 赋值
-：简单的赋值：`a = b` 和连续赋值：`a * = 2`。
+: 简单的赋值：`a = b` 和连续赋值：`a * = 2`。
 
 按位操作
-：位运算符在位级上使用整数：当需要时，请参阅 [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
+: 位运算符在位级上使用整数：当需要时，请参阅 [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
+
 三元运算
-：唯一具有三个参数的操作：`cond？ resultA：resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
+: 唯一具有三个参数的操作：`cond？ resultA: resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
+
 逻辑运算符
-：逻辑与 `&&` 和或 `||` 执行短路评估，然后返回停止时的值。
+: 逻辑与 `&&` 和或 `||` 执行短路评估，然后返回停止时的值。
 
 比较运算符
-：运算符 `==` 将不同类型的值转换为一个数字（除了 `null` 和 `undefined`，它们彼此相等而没有别的情况），所以下面的例子是相等的：
+: 运算符 `==` 将不同类型的值转换为一个数字（除了 `null` 和 `undefined`，它们彼此相等而没有别的情况），所以下面的例子是相等的：
 
     ```js run
     alert( 0 == false ); // true
@@ -163,7 +165,7 @@ JavaScript 支持以下运算符：
     字符串按照字符顺序逐一比较，其他类型转换为数字。
 
 逻辑运算符
-：其他合规的运算符比较少，其中有逗号运算符。
+: 其他合规的运算符比较少，其中有逗号运算符。
 
 More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 更多信息：<info:operators>, <info:comparison>, <info:logical-operators>。
