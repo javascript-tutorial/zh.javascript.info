@@ -1,23 +1,23 @@
-# Array methods
+# 数组方法
 
-Arrays provide a lot of methods. To make things easier, in this chapter they are split into groups.
+因为数组提供的方法很多。为了方便起见，在本章中，我们将按组讲解。
 
-## Add/remove items
+## 添加/移除数组元素
 
-We already know methods that add and remove items from the beginning or the end:
+已知从开头或结尾添加删除元素的方法：
 
-- `arr.push(...items)` -- adds items to the end,
-- `arr.pop()` -- extracts an item from the end,
-- `arr.shift()` -- extracts an item from the beginning,
-- `arr.unshift(...items)` -- adds items to the beginning.
+- `arr.push(...items)` -- 从结尾添加元素，
+- `arr.pop()` -- 从结尾提取元素，
+- `arr.shift()` -- 从开头提取元素，
+- `arr.unshift(...items)` -- 从开头添加元素，
 
-Here are few others.
+这里还有其他几种方法。
 
 ### splice
 
-How to delete an element from the array?
+如何从数组中删除元素？
 
-The arrays are objects, so we can try to use `delete`:
+数组是对象，所以我们可以尝试使用 `delete`：
 
 ```js run
 let arr = ["I", "go", "home"];
@@ -30,25 +30,25 @@ alert( arr[1] ); // undefined
 alert( arr.length ); // 3
 ```
 
-The element was removed, but the array still has 3 elements, we can see that `arr.length == 3`.
+元素被删除，但数组仍然有3个元素，我们可以看到 `arr.length == 3`。
 
-That's natural, because `delete obj.key` removes a value by the `key`. It's all it does. Fine for objects. But for arrays we usually want the rest of elements to shift and occupy the freed place. We expect to have a shorter array now.
+这很正常，因为对于对象都是通过 `key` 移除 `delete obj.key` 一个值。但是对于数组，我们通常希望剩下的元素移除并释放占用的位置，得到一个更短的数组。
 
-So, special methods should be used.
+所以应该使用特殊的方法。
 
-The [arr.splice(str)](mdn:js/Array/splice) method is a swiss army knife for arrays. It can do everything: add, remove and insert elements.
+[arr.splice(str)](mdn:js/Array/splice) 方法是用于数组的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
 
-The syntax is:
+语法是：
 
 ```js
 arr.splice(index[, deleteCount, elem1, ..., elemN])
 ```
 
-It starts from the position `index`: removes `deleteCount` elements and then inserts `elem1, ..., elemN` at their place. Returns the array of removed elements.
+从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。
 
-This method is easy to grasp by examples.
+这个方法很容易通过例子来掌握。
 
-Let's start with the deletion:
+让我们从删除开始：
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
@@ -60,9 +60,9 @@ arr.splice(1, 1); // from index 1 remove 1 element
 alert( arr ); // ["I", "JavaScript"]
 ```
 
-Easy, right? Starting from the index `1` it removed `1` element.
+很简单？从索引 `1` 开始删除 `1` 个元素。
 
-In the next example we remove 3 elements and replace them with the other two:
+在下一个例子中，我们删除了 3 个元素，并用另外两个元素替换它们：
 
 ```js run
 let arr = [*!*"I", "study", "JavaScript",*/!* "right", "now"];
@@ -73,7 +73,7 @@ arr.splice(0, 3, "Let's", "dance");
 alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
-Here we can see that `splice` returns the array of removed elements:
+在这里我们可以看到 `splice` 返回已删除元素的数组：
 
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
@@ -84,7 +84,7 @@ let removed = arr.splice(0, 2);
 alert( removed ); // "I", "study" <-- array of removed elements
 ```
 
-The `splice` method is also able to insert the elements without any removals. For that we need to set `deleteCount` to `0`:
+我们可以将 `deleteCount` 设置为 `0`，`splice` 方法就能够插入元素而不用删除：
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
@@ -98,7 +98,7 @@ alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
 ````smart header="Negative indexes allowed"
-Here and in other array methods, negative indexes are allowed. They specify the position from the end of the array, like here:
+在这里和其他数组方法中，负向索引是允许的。它们从数组末尾计算位置，如下所示：
 
 ```js run
 let arr = [1, 2, 5];
@@ -114,9 +114,9 @@ alert( arr ); // 1,2,3,4,5
 
 ### slice
 
-The method [arr.slice](mdn:js/Array/slice) is much simpler than similar-looking `arr.splice`.
+[arr.slice](mdn:js/Array/slice) 方法比 `arr.splice` 简单得多。
 
-The syntax is:
+语法是：
 
 ```js
 arr.slice(start, end)
