@@ -1,4 +1,4 @@
-The sane choice here is a `WeakSet`:
+明智的选择是 `WeakSet`：
 
 ```js
 let messages = [
@@ -9,33 +9,33 @@ let messages = [
 
 let readMessages = new WeakSet();
 
-// two messages have been read
+// 两个信息已读
 readMessages.add(messages[0]);
 readMessages.add(messages[1]);
-// readMessages has 2 elements
+// readMessages 包含两个元素
 
-// ...let's read the first message again!
+// ...让我们再读一遍第一条信息！
 readMessages.add(messages[0]);
-// readMessages still has 2 unique elements
+// readMessages 仍然有两个不重复的元素
 
-// answer: was the message[0] read?
+// 回答：message[0] 已读？
 alert("Read message 0: " + readMessages.has(messages[0])); // true
 
 messages.shift();
-// now readMessages has 1 element (technically memory may be cleaned later)
+// 现在 readMessages 有一个元素（技术上来说内存可能稍后被清理）
 ```
 
-The `WeakSet` allows to store a set of messages and easily check for the existance of a message in it.
+`WeakSet` 允许存储一系列的信息并且很容易就能检查它包含的信息是否存在。
 
-It cleans up itself automatically. The tradeoff is that we can't iterate over it. We can't get "all read messages" directly. But we can do it by iterating over all messages and filtering those that are in the set.
+它会自动清理自身。但是作为交换，我们不能对它进行迭代。我们不能直接获取所有已读信息。但是我们可以通过迭代所有信息然后找出存在于 set 的那些信息来完成这个功能。
 
-P.S. Adding a property of our own to each message may be dangerous if messages are managed by someone else's code, but we can make it a symbol to evade conflicts.
+附：如果信息被其他代码管理，那么仅为了自己的功能给每个信息添加一个属性也许会很危险，但是我们可以将它改为 symbol 来规避冲突。
 
-Like this:
+像这样：
 ```js
 // the symbolic property is only known to our code
 let isRead = Symbol("isRead");
 messages[0][isRead] = true;
 ```
 
-Now even if someone else's code uses `for..in` loop for message properties, our secret flag won't appear.
+现在即使其他人的代码使用 `for..in` 循环信息的属性，我们的秘密标识也不会出现。
