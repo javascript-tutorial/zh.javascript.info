@@ -121,12 +121,11 @@ alert( arr ); // 1,2,3,4,5
 ```js
 arr.slice(start, end)
 ```
+它从所有元素的开始索引 `“start”` 复制到 `“end”` (不包括 `“end”`) 返回一个新的数组。`start` 和 `end` 都可以是负数，在这种情况下，从末尾计算索引。
 
-It returns a new array where it copies all items start index `"start"` to `"end"` (not including `"end"`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+它和字符串的 `str.slice` 有点像，就是把子字符串替换从子数组。
 
-It works like `str.slice`, but makes subarrays instead of substrings.
-
-For instance:
+例如：
 
 ```js run
 let str = "test";
@@ -141,21 +140,21 @@ alert( arr.slice(-2) ); // s,t
 
 ### concat
 
-The method [arr.concat](mdn:js/Array/concat) joins the array with other arrays and/or items.
+[arr.concat](mdn:js/Array/concat) 将数组与其他数组和/或元素结合在一起。
 
-The syntax is:
+语法：
 
 ```js
 arr.concat(arg1, arg2...)
 ```
 
-It accepts any number of arguments -- either arrays or values.
+它接受任意数量的参数 -- 数组或值。
 
-The result is a new array containing items from `arr`, then `arg1`, `arg2` etc.
+结果是一个包含`arr`，`arg1`，`arg2`等元素的新数组。
 
-If an argument is an array or has `Symbol.isConcatSpreadable` property, then all its elements are copied. Otherwise, the argument itself is copied.
+如果参数是一个数组或具有 `Symbol.isConcatSpreadable` 属性，则其所有元素都将被复制。否则，复制参数本身。
 
-For instance:
+例如：
 
 ```js run
 let arr = [1, 2];
@@ -170,7 +169,7 @@ alert( arr.concat([3, 4], [5, 6])); // 1,2,3,4,5,6
 alert( arr.concat([3, 4], 5, 6)); // 1,2,3,4,5,6
 ```
 
-Normally, it only copies elements from arrays ("spreads" them). Other objects, even if they look like arrays, added as a whole:
+通常，它只复制数组中的元素（“扩展”它们）。其他对象，即使它们看起来像数组一样，仍然作为一个整体添加：
 
 ```js run
 let arr = [1, 2];
@@ -184,7 +183,7 @@ alert( arr.concat(arrayLike) ); // 1,2,[object Object]
 //[1, 2, arrayLike]
 ```
 
-...But if an array-like object has `Symbol.isConcatSpreadable` property, then its elements are added instead:
+...但是，如果类似数组的对象具有 `Symbol.isConcatSpreadable` 属性，将替换其元素：
 
 ```js run
 let arr = [1, 2];
@@ -201,19 +200,19 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
-## Searching in array
+## 查询数组
 
-These are methods to search for something in an array.
+这些是在数组中查询某些内容的方法。
 
-### indexOf/lastIndexOf and includes
+### indexOf/lastIndexOf 和 includes
 
-The methods [arr.indexOf](mdn:js/Array/indexOf), [arr.lastIndexOf](mdn:js/Array/lastIndexOf) and [arr.includes](mdn:js/Array/includes) have the same syntax and do essentially the same as their string counterparts, but operate on items instead of characters:
+[arr.indexOf](mdn:js/Array/indexOf), [arr.lastIndexOf](mdn:js/Array/lastIndexOf) 和 [arr.includes](mdn:js/Array/includes) 方法与字符串操作具有相同的语法，只不过这里是对数组元素而不是字符进行操作：
 
-- `arr.indexOf(item, from)` looks for `item` starting from index `from`, and returns the index where it was found, otherwise `-1`.
-- `arr.lastIndexOf(item, from)` -- same, but looks from right to left.
-- `arr.includes(item, from)` -- looks for `item` starting from index `from`, returns `true` if found.
+- `arr.indexOf(item, from)` 从索引 `from` 查询 `item`，如果找到返回索引，否则返回 `-1`。
+- `arr.lastIndexOf(item, from)` -- 和上面相同，只是从尾部开始查询。
+- `arr.includes(item, from)` -- 从 索引 `from` 查询 `item`，如果找到则返回 `true`。
 
-For instance:
+例如：
 
 ```js run
 let arr = [1, 0, false];
@@ -225,32 +224,32 @@ alert( arr.indexOf(null) ); // -1
 alert( arr.includes(1) ); // true
 ```
 
-Note that the methods use `===` comparison. So, if we look for `false`, it finds exactly `false` and not the zero.
+请注意，这些方法使用 `===` 比较。所以如果我们查询 `false`，会精确到是 `false` 而不是零。
 
-If we want to check for inclusion, and don't want to know the exact index, then `arr.includes` is preferred.
+如果我们想检查是否包含需要的元素，并且不想知道确切的索引，那么 `arr.includes` 是首选。
 
-Also, a very minor difference of `includes` is that it correctly handles `NaN`, unlike `indexOf/lastIndexOf`:
+此外，`includes` 的一个非常小的差别是它能正确处理`NaN`，而不像 `indexOf/lastIndexOf`：
 
-```js run
+```js run 
 const arr = [NaN];
 alert( arr.indexOf(NaN) ); // -1 (should be 0, but === equality doesn't work for NaN)
 alert( arr.includes(NaN) );// true (correct)
 ```
 
-### find and findIndex
+### find 和 findIndex
 
-Imagine we have an array of objects. How do we find an object with the specific condition?
+想象一下，我们有一个对象数组。我们如何找到具有特定条件的对象？
 
-Here the [arr.find](mdn:js/Array/find) method comes in handy.
+这时可以用 [arr.find](mdn:js/Array/find) 方法。
 
-The syntax is:
+语法：
 ```js
 let result = arr.find(function(item, index, array) {
-  // should return true if the item is what we are looking for
+  // 如果查询到返回 true
 });
 ```
 
-The function is called repetitively for each element of the array:
+该函数对数组中的每个元素重复调用：
 
 - `item` is the element.
 - `index` is its index.
