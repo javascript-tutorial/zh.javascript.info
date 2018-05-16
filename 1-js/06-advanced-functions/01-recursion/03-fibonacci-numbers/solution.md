@@ -107,4 +107,4 @@ alert( fib(77) ); // 5527939700884757
 
 循环从 `i=3` 开始，因为前两个序列值被硬编码到变量 `a=1`，`b=1`。
 
-这种方式称为[自下而上的动态编程](https://en.wikipedia.org/wiki/Dynamic_programming)。
+这种方式称为[自下而上的动态规划](https://en.wikipedia.org/wiki/Dynamic_programming)。
