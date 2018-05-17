@@ -1,19 +1,19 @@
 
-# Iterables
+# Iterables（可迭代对象）
 
-*Iterable* objects is a generalization of arrays. That's a concept that allows to make any object useable in a `for..of` loop.
+**Iterable** （可迭代对象）是一般化的数组。根据这个概念，任何对象都允许参与到 `for..of` 循环中。
 
-Arrays by themselves are iterable. But not only arrays. Strings are iterable too, and many other built-in objects as well.
+数组本身就是可迭代的。但不仅仅是数组可迭代。字符串也可以迭代，很多其他内建对象也都可以迭代。
 
-Iterables are widely used by the core JavaScript. As we'll see many built-in operators and methods rely on them.
+在核心 JavaScript 中，可迭代对象用途广泛。我们将会看到，很多内建的操作和方法都依赖于它。
 
 ## Symbol.iterator
 
-We can easily grasp the concept of iterables by making one of our own.
+通过自己创建一个可迭代对象，我们就可以很容易的掌握它的概念。
 
-For instance, we have an object, that is not an array, but looks suitable for `for..of`.
+例如，我们有一个对象，它并不是数组，但是看上去很适合使用 `for..of` 循环。
 
-Like a `range` object that represents an interval of numbers:
+比如一个 `range` 对象，代表了一个数字范围：
 
 ```js
 let range = {
@@ -21,18 +21,18 @@ let range = {
   to: 5
 };
 
-// We want the for..of to work:
+// 我们希望 for..of 这样运作：
 // for(let num of range) ... num=1,2,3,4,5
 ```
 
-To make the `range` iterable (and thus let `for..of` work) we need to add a method to the object named `Symbol.iterator` (a special built-in symbol just for that).
+为了让 `range` 对象可迭代（也就让 `for..of` 可以运作）我们需要为对象添加一个名为 `Symbol.iterator` 的方法（一个特殊的内置符号）。
 
-- When `for..of` starts, it calls that method (or errors if not found).
-- The method must return an *iterator* -- an object with the method `next`.
-- When `for..of` wants the next value, it calls `next()` on that object.
-- The result of `next()` must have the form `{done: Boolean, value: any}`, where `done=true`  means that the iteration is finished, otherwise `value` must be the new value.
+- 当 `for..of` 循环开始，它将会调用这个方法（如果没找到，就会报错）。
+- 这个方法必须返回一个迭代器 —— 一个有 `next` 方法的对象。
+- 当 `for..of` 循环希望取得下一个数值，它就调用这个对象的 `next()` 方法。
+- `next()` 返回的结果必须依据格式 `{done: Boolean, value: any}`，当 `done=true` 时，表示迭代结束，否则 `value` 必须是一个未被迭代的新值。
 
-Here's the full implementation for `range`:
+这是 `range` 的全部实现：
 
 ```js run
 let range = {
@@ -40,17 +40,17 @@ let range = {
   to: 5
 };
 
-// 1. call to for..of initially calls this
+// 1. 使用 for..of 将会首先调用它：
 range[Symbol.iterator] = function() {
 
-  // 2. ...it returns the iterator:
+  // 2. ...它返回一个迭代器：
   return {
     current: this.from,
     last: this.to,      
 
-    // 3. next() is called on each iteration by the for..of loop
+    // 3. next() 将在 for..of 的每一轮循环迭代中被调用
     next() {
-      // 4. it should return the value as an object {done:.., value :...}
+      // 4. 它将会以对象 {done:.., value :...} 的方式返回值
       if (this.current <= this.last) {
         return { done: false, value: this.current++ };
       } else {
@@ -60,22 +60,22 @@ range[Symbol.iterator] = function() {
   };
 };
 
-// now it works!
+// 现在它可以运作了！
 for (let num of range) {
-  alert(num); // 1, then 2, 3, 4, 5
+  alert(num); // 1, 然后 2, 3, 4, 5
 }
 ```
 
-There is an important separation of concerns in this code:
+这段代码中有几点需要着重关注：
 
-- The `range` itself does not have the `next()` method.
-- Instead, another object, a so-called "iterator" is created by the call to `range[Symbol.iterator]()`, and it handles the iteration.
+- `range` 自身没有 `next()` 方法。
+- 相反的，另一个对象，一个所谓的“迭代器”，当调用 `range[Symbol.iterator]()` 时将会被创建。它将会处理迭代操作。
 
-So, the iterator object is separate from the object it iterates over.
+所以，迭代器对象和迭代的对象其实是分离的。
 
-Technically, we may merge them and use `range` itself as the iterator to make the code simpler.
+技术上说，我们可以将它们合并，用 `range` 自身作为迭代器来简化代码。
 
-Like this:
+就像这样：
 
 ```js run
 let range = {
@@ -97,54 +97,54 @@ let range = {
 };
 
 for (let num of range) {
-  alert(num); // 1, then 2, 3, 4, 5
+  alert(num); // 1, 然后 2, 3, 4, 5
 }
 ```
 
-Now `range[Symbol.iterator]()` returns the `range` object itself:  it has the necessary `next()` method and remembers the current iteration progress in `this.current`. Sometimes that's fine too. The downside is that now it's impossible to have two `for..of` loops running over the object simultaneously: they'll share the iteration state, because there's only one iterator -- the object itself.
+现在 `range[Symbol.iterator]()` 返回了 `range` 对象自身：它包括了必需的 `next()` 方法并通过 `this.current` 记忆了当前迭代进程。有时候，这样也可以。但缺点是，现在不可能同时在 `range` 上运行两个 `for..of` 循环了：这两个循环将会共享迭代状态，因为仅有一个迭代器 —— 也就是对象自身。
 
 ```smart header="Infinite iterators"
-Infinite iterators are also doable. For instance, the `range` becomes infinite for `range.to = Infinity`. Or we can make an iterable object that generates an infinite sequence of pseudorandom numbers. Also can be useful.
+无穷迭代也是可行的。例如，`range` 设置为 `range.to = Infinity` 则成为无穷迭代。或者我们可以创建一个可迭代对象，它生成一个伪随机数无穷序列。也是很有用的。
 
-There are no limitations on `next`, it can return more and more values, that's normal.
+`next` 没有什么限制，它可以返回更多更多的值，这也很常见。
 
-Of course, the `for..of` loop over such an iterable would be endless. But we can always stop it using `break`.
+当然，迭代这种对象的 `for..of` 循环将不会停止。但是我们可以通过使用 `break` 来打断它。
 ```
 
 
-## String is iterable
+## 字符串可迭代
 
-Arrays and strings are most widely used built-in iterables.
+数组和字符串是用途最广的内建可迭代对象。
 
-For a string, `for..of` loops over its characters:
+对于一个字符串，`for..of` 循环它的每个字符：
 
 ```js run
 for (let char of "test") {
-  alert( char ); // t, then e, then s, then t
+  alert( char ); // t，然后 e，然后 s，然后 t
 }
 ```
 
-And it works right with surrogate pairs!
+对于 UTF-16 的扩展字符，它也能正常工作！
 
 ```js run
 let str = '𝒳😂';
 for (let char of str) {
-    alert( char ); // 𝒳, and then 😂
+    alert( char ); // 𝒳，然后 😂
 }
 ```
 
-## Calling an iterator explicitly
+## 显式调用迭代器
 
-Normally, internals of iterables are hidden from the external code. There's a `for..of` loop, that works, that's all it needs to know.
+通常情况下，迭代器的内部函数对外部代码是隐藏的。`for..of` 循环可以工作，就是代码需要了解的所有内容了。
 
-But to understand things a little bit deeper let's see how to create an iterator explicitly.
+但是为了更深层的了解知识概念，我们来看看如何显式的创建迭代器。
 
-We'll iterate over a string the same way as `for..of`, but with direct calls. This code gets a string iterator and calls it "manually":
+我们将会采用 `for..of` 一样的方法迭代字符串，但是是直接的调用。这段代码将会获取字符串的迭代器，然后“手动”调用它。
 
 ```js run
 let str = "Hello";
 
-// does the same as
+// 和下面代码完成的功能一致
 // for (let char of str) alert(char);
 
 let iterator = str[Symbol.iterator]();
@@ -152,47 +152,47 @@ let iterator = str[Symbol.iterator]();
 while (true) {
   let result = iterator.next();
   if (result.done) break;
-  alert(result.value); // outputs characters one by one
+  alert(result.value); // 一个一个输出字符
 }
 ```
 
-That is rarely needed, but gives us more control over the process than `for..of`. For instance, we can split the iteration process: iterate a bit, then stop, do something else, and then resume later.
+很少需要我们这样做，但是却给我们比 `for..of` 对迭代过程更多的控制。例如，我们可以将迭代过程分散开：迭代一部分，然后停止，做一些其他处理，然后在稍后恢复迭代。
 
-## Iterables and array-likes [#array-like]
+## 可迭代对象和类数组对象 [#array-like]
 
-There are two official terms that look similar, but are very different. Please make sure you understand them well to avoid the confusion.
+有两个官方对象很相似，但是却非常不同。请你确保良好的掌握它们，并避免混淆。
 
-- *Iterables* are objects that implement the `Symbol.iterator` method, as described above.
-- *Array-likes* are objects that have indexes and `length`, so they look like arrays.
+- **Iterables** 是应用于 `Symbol.iterator` 方法的对象，像上文所述。
+- **Array-likes** 是有索引和 `length` 属性的对象，所以它们很像数组。
 
-Naturally, these properties can combine. For instance, strings are both iterable (`for..of` works on them) and array-like (they have numeric indexes and `length`).
+很自然的，这些属性都可以结合起来。例如，数组既是可迭代对象（`for..of` 可以迭代字符串）也是类数组对象（它们有数字索引也有 `length` 属性）。
 
-But an iterable may be not array-like. And vice versa an array-like may be not iterable.
+但是一个可迭代对象也许不是类数组对象。反之亦然，一个类数组对象可能也不可迭代。
 
-For example, the `range` in the example above is iterable, but not array-like, because it does not have indexed properties and `length`.
+例如，上面例子中的 `range` 是可迭代的，但并非类数组对象，因为它没有索引属性，也没有 `length` 属性。
 
-And here's the object that is array-like, but not iterable:
+这个对象则是类数组的，但是不可迭代：
 
 ```js run
-let arrayLike = { // has indexes and length => array-like
+let arrayLike = { // 有索引和长度 => 类数组对象
   0: "Hello",
   1: "World",
   length: 2
 };
 
 *!*
-// Error (no Symbol.iterator)
+// 错误（没有 Symbol.iterator）
 for (let item of arrayLike) {}
 */!*
 ```
 
-What do they have in common? Both iterables and array-likes are usually *not arrays*, they don't have `push`, `pop` etc. That's rather inconvenient if we have such an object and want to work with it as with an array.
+它们有什么共同点？可迭代对象和类数组对象通常都不是数组，他们没有 `push`，`pop` 等等方法。如果我们有一个这样的对象并且想像数组那样操作它，这就有些不方便了。
 
 ## Array.from
 
-There's a universal method [Array.from](mdn:js/Array/from) that brings them together. It takes an iterable or array-like value and makes a "real" `Array` from it. Then we can call array methods on it.
+有一个全局方法 [Array.from](mdn:js/Array/from) 可以把它们全都结合起来。它以一个可迭代对象或者类数组对象作为参数并返回一个真正的 `Array` 数组。然后我们就可以用该对象调用数组的方法了。
 
-For instance:
+例如：
 
 ```js run
 let arrayLike = {
@@ -204,43 +204,43 @@ let arrayLike = {
 *!*
 let arr = Array.from(arrayLike); // (*)
 */!*
-alert(arr.pop()); // World (method works)
+alert(arr.pop()); // World（pop 方法生效）
 ```
 
-`Array.from` at the line `(*)` takes the object, examines it for being an iterable or array-like, then makes a new array and copies there all items.
+在行 `(*)`，`Array.from` 方法以一个对象为参数，监测到它是一个可迭代对象或类数组对象，然后将它转化为一个新的数组并将所有元素拷贝进去。
 
-The same happens for an iterable:
+如果是可迭代对象，也是同样：
 
 ```js
-// assuming that range is taken from the example above
+// 假设 range 来自上文例子中
 let arr = Array.from(range);
-alert(arr); // 1,2,3,4,5 (array toString conversion works)
+alert(arr); // 1,2,3,4,5 （数组的 toString 转化函数生效）
 ```
 
-The full syntax for `Array.from` allows to provide an optional "mapping" function:
+`Array.from` 的完整语法允许提供一个可选的 "mapping"（映射）函数：
 ```js
 Array.from(obj[, mapFn, thisArg])
 ```
 
-The second argument `mapFn` should be the function to apply to each element before adding to the array, and `thisArg` allows to set `this` for it.
+第二个参数 `mapFn` 应是一个在元素被添加到数组前，施加于每个元素的方法，`thisArg` 允许设置方法的 `this` 对象。
 
-For instance:
+例如：
 
 ```js
-// assuming that range is taken from the example above
+// 假设 range 来自上文例子中
 
-// square each number
+// 求每个数的平方
 let arr = Array.from(range, num => num * num);
 
 alert(arr); // 1,4,9,16,25
 ```
 
-Here we use `Array.from` to turn a string into an array of characters:
+现在我们用 `Array.from` 将一个字符串转化为单个字符的数组：
 
 ```js run
 let str = '𝒳😂';
 
-// splits str into array of characters
+// 将 str 拆分为字符数组
 let chars = Array.from(str);
 
 alert(chars[0]); // 𝒳
@@ -248,14 +248,14 @@ alert(chars[1]); // 😂
 alert(chars.length); // 2
 ```
 
-Unlike `str.split`, it relies on the iterable nature of the string and so, just like `for..of`, correctly works with surrogate pairs.
+不像 `str.split` 方法，上文的方法依赖于字符串的可迭代特性，所以就像 `for..of` 一样，能正确的处理 UTF-16 扩展字符。
 
-Technically here it does the same as:
+技术上来说，它和下文做了同样的事：
 
 ```js run
 let str = '𝒳😂';
 
-let chars = []; // Array.from internally does the same loop
+let chars = []; // Array.from 内部完成了同样的循环
 for (let char of str) {
   chars.push(char);
 }
@@ -263,9 +263,9 @@ for (let char of str) {
 alert(chars);
 ```
 
-...But is shorter.    
+...但是精简很多。
 
-We can even build surrogate-aware `slice` on it:
+我们甚至可以基于 `Array.from` 创建能处理 UTF-16 扩展字符的 `slice` 方法：
 
 ```js run
 function slice(str, start, end) {
@@ -276,25 +276,25 @@ let str = '𝒳😂𩷶';
 
 alert( slice(str, 1, 3) ); // 😂𩷶
 
-// native method does not support surrogate pairs
-alert( str.slice(1, 3) ); // garbage (two pieces from different surrogate pairs)
+// 原生方法不支持识别 UTF-16 扩展字符
+alert( str.slice(1, 3) ); // garbage（两个不同  UTF-16 扩展字符碎片拼接的结果）
 ```
 
 
-## Summary
+## 总结
 
-Objects that can be used in `for..of` are called *iterable*.
+可以应用 `for..of` 的对象被称为**可迭代的**。
 
-- Technically, iterables must implement the method named `Symbol.iterator`.
-    - The result of `obj[Symbol.iterator]` is called an *iterator*. It handles the further iteration process.
-    - An iterator must have the method named `next()` that returns an object `{done: Boolean, value: any}`, here `done:true` denotes the iteration end, otherwise the `value` is the next value.
-- The `Symbol.iterator` method is called automatically by `for..of`, but we also can do it directly.
-- Built-in iterables like strings or arrays, also implement `Symbol.iterator`.
-- String iterator knows about surrogate pairs.
+- 技术上来说，可迭代对象必须实现方法 `Symbol.iterator`。
+    - `obj[Symbol.iterator]` 结果被称为**迭代器**。由它处理更深入的迭代过程。
+    - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}`, here `done:true` 对象，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
+- `Symbol.iterator` 方法会被 `for..of` 自动调用，但我们也可以直接调用。
+- 内建迭代器例如字符串和数组，都实现了 `Symbol.iterator`。
+- 字符串迭代器能够识别 UTF-16 扩展字符。
 
 
-Objects that have indexed properties and `length` are called *array-like*. Such objects may also have other properties and methods, but lack the built-in methods of arrays.
+有索引属性和 `length` 属性的对象被称为**类数组对象**。这种对象也许也有其他属性和方法，但是没有数组的内建方法。
 
-If we look inside the specification -- we'll see that most built-in methods assume that they work with iterables or array-likes instead of "real" arrays, because that's more abstract.
+如果我们深入了解规范 —— 我们将会发现大部分内建方法都假设它们需要处理可迭代对象或者类数组对象，而不是真正的数组，因为这样抽象度更高。
 
-`Array.from(obj[, mapFn, thisArg])` makes a real `Array` of an iterable or array-like `obj`, and we can then use array methods on it. The optional arguments `mapFn` and `thisArg` allow us to apply a function to each item.
+`Array.from(obj[, mapFn, thisArg])` 将可迭代对象或类数组对象 `obj` 转化为真正的 `Array` 数组，然后我们就可以对它应用数组的方法。可选参数 `mapFn` 和 `thisArg` 允许我们对每个元素施加以一个函数。
