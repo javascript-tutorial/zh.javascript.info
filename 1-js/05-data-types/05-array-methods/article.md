@@ -251,13 +251,13 @@ let result = arr.find(function(item, index, array) {
 
 该函数对数组中的每个元素重复调用：
 
-- `item` is the element.
-- `index` is its index.
-- `array` is the array itself.
+- `item` 是元素。
+- `index` 是它的索引。
+- `array` 是数组本身。
 
-If it returns `true`, the search is stopped, the `item` is returned. If nothing found, `undefined` is returned.
+如果它返回`true`，则查询停止，返回 `item`。如果没有查询到，则返回 `undefined`。
 
-For example, we have an array of users, each with the fields `id` and `name`. Let's find the one with `id == 1`:
+例如，我们有一组用户，每个用户都有 `id` 和 `name` 字段。让我们找到一个 `id == 1` ：
 
 ```js run
 let users = [
@@ -271,27 +271,27 @@ let user = users.find(item => item.id == 1);
 alert(user.name); // John
 ```
 
-In real life arrays of objects is a common thing, so the `find` method is very useful.
+在现实生活中，对象数组是很常见，所以`find` 方法非常有用。
 
-Note that in the example we provide to `find` a single-argument function `item => item.id == 1`. Other parameters of `find` are rarely used.
+注意在这个例子中我们传给了 `find` 一个单参数函数 `item => item.id == 1`。其他参数 `find` 很少使用。
 
-The [arr.findIndex](mdn:js/Array/findIndex) method is essentially the same, but it returns the index where the element was found instead of the element itself.
+与 [arr.findIndex](mdn:js/Array/findIndex) 方法本质上是相同的，但它返回找到元素的索引而不是元素本身。
 
 ### filter
 
-The `find` method looks for a single (first) element that makes the function return `true`.
+`find` 方法查询单个（第一个）元素并返回使函数为 `true` 的。
 
-If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
+如果需要匹配的有很多，我们可以使用 [arr.filter(fn)](mdn:js/Array/filter).
 
-The syntax is roughly the same as `find`, but it returns an array of matching elements:
+语法与 `find` 大致相同，但是它返回一个匹配元素的数组：
 
 ```js
 let results = arr.filter(function(item, index, array) {
-  // should return true if the item passes the filter
+  // 在元素通过过滤器时返回 true
 });
 ```
 
-For instance:
+例如：
 
 ```js run
 let users = [
@@ -300,22 +300,22 @@ let users = [
   {id: 3, name: "Mary"}
 ];
 
-// returns array of the first two users
+// 返回前两个用户的数组
 let someUsers = users.filter(item => item.id < 3);
 
 alert(someUsers.length); // 2
 ```
 
-## Transform an array
+## 转换数组
 
-This section is about the methods transforming or reordering the array.
+本节介绍转换或重新排序数组的方法。
 
 
 ### map
 
-The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
+[arr.map](mdn:js/Array/map) 方法是最有用和经常使用的方法之一。
 
-The syntax is:
+语法：
 
 ```js
 let result = arr.map(function(item, index, array) {
@@ -323,9 +323,9 @@ let result = arr.map(function(item, index, array) {
 })
 ```
 
-It calls the function for each element of the array and returns the array of results.
+它对数组中每个元素调用函数并返回符合结果的数组。
 
-For instance, here we transform each element into its length:
+例如，在这里我们将每个元素转换为它的字符串长度：
 
 ```js run
 let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length)
@@ -334,24 +334,24 @@ alert(lengths); // 5,7,6
 
 ### sort(fn)
 
-The method [arr.sort](mdn:js/Array/sort) sorts the array *in place*.
+[arr.sort](mdn:js/Array/sort) 方法对数组**进行排序**
 
-For instance:
+语法：
 
 ```js run
 let arr = [ 1, 2, 15 ];
 
-// the method reorders the content of arr (and returns it)
+// 该方法重新排列 arr 的内容（并返回它）
 arr.sort();
 
 alert( arr );  // *!*1, 15, 2*/!*
 ```
 
-Did you notice anything strange in the outcome?
+你有没有注意到结果有什么奇怪的地方？
 
-The order became `1, 15, 2`. Incorrect. But why?
+顺序变成了 `1, 15, 2`。不对，但为什么呢？
 
-**The items are sorted as strings by default.**
+**这些元素默认情况下按字符串排序。**
 
 Literally, all elements are converted to strings and then compared. So, the lexicographic ordering is applied and indeed `"2" > "15"`.
 
