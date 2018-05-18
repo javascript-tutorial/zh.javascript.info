@@ -353,11 +353,11 @@ alert( arr );  // *!*1, 15, 2*/!*
 
 **这些元素默认情况下按字符串排序。**
 
-Literally, all elements are converted to strings and then compared. So, the lexicographic ordering is applied and indeed `"2" > "15"`.
+从字面上看，所有元素都被转换为字符串，然后进行比较。因此，按照词典顺序排序，实际上应该是`"2" > "15"`。
 
-To use our own sorting order, we need to supply a function of two arguments as the argument of `arr.sort()`.
+要使用我们自己的排序顺序，我们需要提供带两个参数的函数作为 `arr.sort()` 的参数。
 
-The function should work like this:
+该函数像这样工作：
 ```js
 function compare(a, b) {
   if (a > b) return 1;
@@ -366,7 +366,7 @@ function compare(a, b) {
 }
 ```
 
-For instance:
+例如：
 
 ```js run
 function compareNumeric(a, b) {
@@ -384,7 +384,7 @@ arr.sort(compareNumeric);
 alert(arr);  // *!*1, 2, 15*/!*
 ```
 
-Now it works as intended.
+现在它按预期工作。
 
 Let's step aside and think what's happening. The `arr` can be array of anything, right? It may contain numbers or strings or html elements or whatever. We have a set of *something*. To sort it, we need an *ordering function* that knows how to compare its elements. The default is a string order.
 
