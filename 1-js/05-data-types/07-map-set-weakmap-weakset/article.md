@@ -3,14 +3,14 @@
 
 现在，我们已经学习了下面的比较复杂的数据结构：
 
-- 对象：存储键控集合。
+- 对象：存储键值对的集合。
 - 数组：存储有序集合。
 
 但是，实际应用时还是不够。这就是 `Map` 和 `Set` 存在的原因。
 
 ## Map
 
-[Map](mdn:js/Map) 是一个键控数据的集合，很像 `Object`。但主要的区别是，`Map` 允许所有数据类型作为键值。
+[Map](mdn:js/Map) 是一个键值对的集合，很像 `Object`。但主要的区别是，`Map` 允许所有数据类型作为键。
 
 主要的方法包括：
 
@@ -106,7 +106,7 @@ let map = new Map([
 ]);
 ```
 
-JavaScript 有一个内建方法 [Object.entries(obj)](mdn:js/Object/entries)，它可以返回一个对象的键值对数组，格式就和上面一样。
+有一个内建方法 [Object.entries(obj)](mdn:js/Object/entries)，它可以返回一个对象的键值对数组，格式就和上面一样。
 
 所以我们可以用一个对象来初始化一个 map，就像这样：
 
@@ -136,12 +136,12 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
-// 迭代键（蔬菜名）
+// 迭代键（vegetables）
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomatoes, onion
 }
 
-// 迭代值（数量）
+// 迭代值（amounts）
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
@@ -153,7 +153,7 @@ for (let entry of recipeMap) { // 和 recipeMap.entries() 一样
 ```
 
 ```smart header="The insertion order is used"
-迭代器的迭代顺序和值被插入的顺序一致，`Map` 会保留这个顺序，这也和普通 `Object` 不同。
+和普通 `Object` 不同，迭代器的迭代顺序和值被插入的顺序一致，`Map` 会保留这个顺序。
 ```
 
 另外，`Map` 有一个内建的 `forEach` 方法，和 `Array` 很像：
@@ -173,9 +173,9 @@ recipeMap.forEach( (value, key, map) => {
 
 - `new Set(iterable)` -- 创建 set，利用数组来创建是可选的（任何可迭代对象都可以）。
 - `set.add(value)` -- 添加值，返回 set 自身。
-- `set.delete(value)` -- 删除值，返回 `true` 如果该 `value` 在调用方法的时候存在，否则返回 `false`。
-- `set.has(value)` -- 返回 `true` 如果 set 中存在该值，否则返回 `false`。
-- `set.clear()` -- 将 set 中所有内容移除。
+- `set.delete(value)` -- 删除值，如果该 `value` 在调用方法的时候存在则返回 `true` ，否则返回 `false`。
+- `set.has(value)` -- 如果 set 中存在该值则返回 `true` ，否则返回 `false`。
+- `set.clear()` -- 清空 set。
 - `set.size` -- 元素个数。
 
 例如，我们有访客登门，我们希望记住所有人。但是重复来访者并不应该有两份记录。一个访客必须只记录一次。
@@ -287,7 +287,7 @@ let obj = {};
 weakMap.set(obj, "ok"); // 运行正常（对象作为键）
 
 *!*
-weakMap.set("test", "Whoops"); // 错误，因为“test”是基础类型值
+weakMap.set("test", "Whoops"); // 错误，因为“test”是原始类型
 */!*
 ```
 
@@ -301,7 +301,7 @@ weakMap.set(john, "...");
 
 john = null; // 覆盖引用
 
-// john 被从内存中移除了！
+// john 从内存中移除了！
 ```
 
 把它和上面普通 `Map` 的例子对比一下。现在，如果 `john` 仅作为 `WeakMap` 的键 —— 它将会被自动删除。
@@ -315,7 +315,7 @@ john = null; // 覆盖引用
 - `weakMap.delete(key, value)`
 - `weakMap.has(key)`
 
-为什么会有这些限制？这是处于一些技术原因。如果一个对象没有任何引用（就像上面代码中的 `john`），那么它将会被自动删除。但是从技术上讲，清理过程中并没有明确说明。
+为什么会有这些限制？这是处于一些技术原因。如果一个对象没有任何引用（就像上面代码中的 `john`），那么它将会被自动删除。但是从技术上讲，它没有完全指定**什么时候清理会发生**。
 
 JavaScript 引擎将会决定何时清理。它可能会选择马上清理内存或者等待：当更多需要删除操作发生的时候再删除。所以，技术上说，目前 `WeakMap` 中元素个数并不可知。引擎可能已经清理，也可能没有，也可能只进行了部分的清理。处于这个原因，允许访问 `WeakMap` 整体的方法并不支持。
 
@@ -429,4 +429,4 @@ messages.shift();
 
     - 同样不支持 `size/clear()` 和迭代器。
 
-`WeakMap` 和 `WeakSet` 会被用作次级数据结构，作为主要对象存储的补充。一旦对象从主存储移除，那么该对象只存在于 `WeakMap/WeakSet`，两者将会自动完成清除。
+`WeakMap` 和 `WeakSet` 被用作主要对象存储的次要数据结构补充。一旦对象从存储移除，那么存在于 `WeakMap/WeakSet` 的数据将会被自动清除。
