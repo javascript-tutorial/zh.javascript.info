@@ -386,11 +386,11 @@ alert(arr);  // *!*1, 2, 15*/!*
 
 现在它按预期工作。
 
-Let's step aside and think what's happening. The `arr` can be array of anything, right? It may contain numbers or strings or html elements or whatever. We have a set of *something*. To sort it, we need an *ordering function* that knows how to compare its elements. The default is a string order.
+让我们搁置一边，思考发生了什么。`arr` 可以是任何东西的数组。它可能包含数字或字符串或 html 元素或其他。我们对一组数据进行排序，我们需要一个**排序函数**，默认按字符串顺序比较。你也可以自定义如何比较它的元素。
 
-The `arr.sort(fn)` method has a built-in implementation of sorting algorithm. We don't need to care how it exactly works (an optimized [quicksort](https://en.wikipedia.org/wiki/Quicksort) most of the time). It will walk the array, compare its elements using the provided function and reorder them, all we need is to provide the `fn` which does the comparison.
+`arr.sort(fn)` 方法内置实现排序算法。我们不需要关心它是如何工作的(优化过的 [quicksort](https://en.wikipedia.org/wiki/Quicksort))。它将自动遍历数组，使用提供的函数比较它的元素并对它们重新排序，我们所需要的只是提供用于比较的函数 `fn`。
 
-By the way, if we ever want to know which elements are compared -- nothing prevents from alerting them:
+顺便说一句，如果我们想知道哪些元素进行了比较 - alert 是没有作用的：
 
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
@@ -398,13 +398,13 @@ By the way, if we ever want to know which elements are compared -- nothing preve
 });
 ```
 
-The algorithm may compare an element multiple times in the process, but it tries to make as few comparisons as possible.
+该算法可以在过程中多次比较元素，但它会尽可能少地进行比较。
 
 
 ````smart header="A comparison function may return any number"
-Actually, a comparison function is only required to return a positive number to say "greater" and a negative number to say "less".
+实际上，比较函数只需要返回一个正数表示更大，而负数表示更少。
 
-That allows to write shorter functions:
+通过这个原理我们可以编写更短的函数：
 
 ```js run
 let arr = [ 1, 2, 15 ];
@@ -416,20 +416,20 @@ alert(arr);  // *!*1, 2, 15*/!*
 ````
 
 ````smart header="Arrow functions for the best"
-Remember [arrow functions](info:function-expression#arrow-functions)? We can use them here for neater sorting:
+[箭头函数](info:function-expression#arrow-functions)？我们也可以使用箭头函数：
 
 ```js
 arr.sort( (a, b) => a - b );
 ```
 
-This works exactly the same as the other, longer, version above.
+这与其他写法完全相同。
 ````
 
 ### reverse
 
-The method [arr.reverse](mdn:js/Array/reverse) reverses the order of elements in `arr`.
+[arr.reverse](mdn:js/Array/reverse) 方法颠倒 `arr` 中元素的顺序。
 
-For instance:
+例如：
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -438,15 +438,15 @@ arr.reverse();
 alert( arr ); // 5,4,3,2,1
 ```
 
-It also returns the array `arr` after the reversal.
+它也在返回后返回数组 `arr`。
 
-### split and join
+### split 和 join
 
-Here's the situation from the real life. We are writing a messaging app, and the person enters the comma-delimited list of receivers: `John, Pete, Mary`. But for us an array of names would be much more comfortable than a single string. How to get it?
+在工作中。我们正在编写一个消息应用程序，并且该人员输入以逗号分隔的接收者列表：`John，Pete，Mary`。但对我们来说，数组比单个字符串更舒适。怎么做才能获得这个数组呢？
 
-The [str.split(delim)](mdn:js/String/split) method does exactly that. It splits the string into an array by the given delimiter `delim`.
+[str.split(delim)](mdn:js/String/split) 方法可以做到。它通过给定的分隔符 `delim` 将字符串分割成一个数组。
 
-In the example below, we split by a comma followed by space:
+在下面的例子中，我们用逗号分隔空格：
 
 ```js run
 let names = 'Bilbo, Gandalf, Nazgul';
@@ -458,7 +458,7 @@ for (let name of arr) {
 }
 ```
 
-The `split` method has an optional second numeric argument -- a limit on the array length. If it is provided, then the extra elements are ignored. In practice it is rarely used though:
+`split` 方法有一个可选的第二个数字参数 -- 对数组长度的限制。如果提供了，那么额外的元素将被忽略。但实际上它很少使用：
 
 ```js run
 let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
@@ -467,7 +467,7 @@ alert(arr); // Bilbo, Gandalf
 ```
 
 ````smart header="Split into letters"
-The call to `split(s)` with an empty `s` would split the string into an array of letters:
+调用空的参数 `split(s)` 会将字符串分成一个字母数组：
 
 ```js run
 let str = "test";
@@ -476,9 +476,9 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
-The call [arr.join(str)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items glued by `str` between them.
+[arr.join(str)](mdn:js/Array/join) 与 `split` 相反。它会在它们之间创建一串由 `str` 粘合的 `arr` 项。
 
-For instance:
+例如：
 
 ```js run
 let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
