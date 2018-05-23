@@ -490,13 +490,13 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
-When we need to iterate over an array -- we can use `forEach`.
+当我们需要遍历一个数组时 -- 我们可以使用 `forEach`。
 
-When we need to iterate and return the data for each element -- we can use `map`.
+当我们需要迭代并返回每个元素的数据时 -- 我们可以使用 `map`。
 
-The methods [arr.reduce](mdn:js/Array/reduce) and [arr.reduceRight](mdn:js/Array/reduceRight) also belong to that breed, but are a little bit more intricate. They are used to calculate a single value based on the array.
+[arr.reduce](mdn:js/Array/reduce) 和 [arr.reduceRight](mdn:js/Array/reduceRight) 和上面差不多，但有点复杂。它们用于根据数组计算单个值。
 
-The syntax is:
+语法是：
 
 ```js
 let value = arr.reduce(function(previousValue, item, index, arr) {
@@ -504,19 +504,19 @@ let value = arr.reduce(function(previousValue, item, index, arr) {
 }, initial);
 ```
 
-The function is applied to the elements. You may notice the familiar arguments, starting from the 2nd:
+该函数应用于元素。您可能会注意到从第二个参数很熟悉：
 
-- `item` -- is the current array item.
-- `index` -- is its position.
-- `arr` -- is the array.
+- `item` -- 当前的数组元素。
+- `index` -- 当前索引。
+- `arr` -- 数组本身。
 
-So far, like `forEach/map`. But there's one more argument:
+这很像 `forEach/map`。但还有一个参数不同就是：
 
-- `previousValue` -- is the result of the previous function call, `initial` for the first call.
+- `previousValue` -- 是前一个函数调用的结果，第一个调用是初始化。
 
-The easiest way to grasp that is by example.
+我们写个例子试试。
 
-Here we get a sum of array in one line:
+这里我们得到一行数组的总和：
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -526,19 +526,19 @@ let result = arr.reduce((sum, current) => sum + current, 0);
 alert(result); // 15
 ```
 
-Here we used the most common variant of `reduce` which uses only 2 arguments.
+在这里，我们使用了 `reduce` 的最常见类型，它只使用2个参数。
 
-Let's see the details of what's going on.
+让我们看看发生了什么的细节。
 
-1. On the first run, `sum` is the initial value (the last argument of `reduce`), equals `0`, and `current` is the first array element, equals `1`. So the result is `1`.
-2. On the second run, `sum = 1`, we add the second array element (`2`) to it and return.
-3. On the 3rd run, `sum = 3` and we add one more element to it, and so on...
+1. 在第一次运行时，`sum` 是初始值（`reduce` 的最后一个参数），等于 0，`current` 是第一个数组元素，等于 1。所以结果是 `1`。
+2. 在第二次运行时，`sum = 1`，我们添加第二个数组元素（`2`）并返回。
+3. 在第三次运行中，`sum = 3`，我们再添加一个元素，等等......
 
-The calculation flow:
+计算流程：
 
 ![](reduce.png)
 
-Or in the form of a table, where each row represents is a function call on the next array element:
+或者以表格的形式出现，每行代表的是下一个数组元素的函数调用：
 
 |   |`sum`|`current`|`result`|
 |---|-----|---------|---------|
@@ -549,60 +549,60 @@ Or in the form of a table, where each row represents is a function call on the n
 |the fifth call|`10`|`5`|`15`|
 
 
-As we can see, the result of the previous call becomes the first argument of the next one.
+正如我们所看到的，先前调用的结果成为下一个调用的第一个参数。
 
-We also can omit the initial value:
+我们也可以省略初始值：
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
 
-// removed initial value from reduce (no 0)
+// 删除初始值
 let result = arr.reduce((sum, current) => sum + current);
 
 alert( result ); // 15
 ```
 
-The result is the same. That's because if there's no initial, then `reduce` takes the first element of the array as the initial value and starts the iteration from the 2nd element.
+结果是一样的。这是因为如果没有初始值，那么 `reduce` 将数组的第一个元素作为初始值，并从第二个元素开始迭代。
 
-The calculation table is the same as above, minus the first row.
+计算表与上面相同，减去第一行
 
-But such use requires an extreme care. If the array is empty, then `reduce` call without initial value gives an error.
+但是这种使用需要非常小心。如果数组为空，那么在没有初始值的情况下调用 `reduce` 会导致错误。
 
-Here's an example:
+例如：
 
 ```js run
 let arr = [];
 
 // Error: Reduce of empty array with no initial value
-// if the initial value existed, reduce would return it for the empty arr.
+// 如果初始值存在，reduce 将返回空 arr。
 arr.reduce((sum, current) => sum + current);
 ```
 
 
-So it's advised to always specify the initial value.
+所以建议始终指定初始值。
 
-The method [arr.reduceRight](mdn:js/Array/reduceRight) does the same, but goes from right to left.
+[arr.reduceRight](mdn:js/Array/reduceRight) 也一样，但是遍历是从右到左。
 
 
 ## Iterate: forEach
 
-The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+[arr.forEach](mdn:js/Array/forEach) 方法允许为数组的每个元素运行一个函数。
 
-The syntax:
+语法：
 ```js
 arr.forEach(function(item, index, array) {
   // ... do something with item
 });
 ```
 
-For instance, this shows each element of the array:
+例如，这显示了数组的每个元素：
 
 ```js run
 // for each element call alert
 ["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
 ```
 
-And this code is more elaborate about their positions in the target array:
+而这段代码更详细地介绍了它们在数组中的位置
 
 ```js run
 ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
@@ -610,20 +610,20 @@ And this code is more elaborate about their positions in the target array:
 });
 ```
 
-The result of the function (if it returns any) is thrown away and ignored.
+该函数的结果（如果它返回的话）被抛弃并被忽略。
 
 ## Array.isArray
 
-Arrays do not form a separate language type. They are based on objects.
+数组基于对象。不构成单独的语言类型。
 
-So `typeof` does not help to distinguish a plain object from an array:
+所以 `typeof` 于区分数组中的普通对象：
 
 ```js run
 alert(typeof {}); // object
 alert(typeof []); // same
 ```
 
-...But arrays are used so often that there's a special method for that: [Array.isArray(value)](mdn:js/Array/isArray). It returns `true` if the `value` is an array, and `false` otherwise.
+......但是数组经常被使用，以至于有一种特殊的方法用于判断：[Array.isArray(value)](mdn:js/Array/isArray)。如果 `value` 是一个数组，则返回 `true` ;否则返回`false`。
 
 ```js run
 alert(Array.isArray({})); // false
@@ -631,25 +631,25 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
-## Most methods support "thisArg"
+## 大多数方法支持 "thisArg"
 
-Almost all array methods that call functions -- like `find`, `filter`, `map`, with a notable exception of `sort`, accept an optional additional parameter `thisArg`.
+几乎所有调用函数的数组方法 - 比如 `find`，`filter`，`map`，与带有 `sort` 的不同，他们接受一个可选的附加参数 `thisArg`。
 
-That parameter is not explained in the sections above, because it's rarely used. But for completeness we have to cover it.
+该参数在上面的部分没有解释，因为它很少使用。但为了完整性，我们不解释。
 
-Here's the full syntax of these methods:
+以下是这些方法的完整语法：
 
 ```js
 arr.find(func, thisArg);
 arr.filter(func, thisArg);
 arr.map(func, thisArg);
 // ...
-// thisArg is the optional last argument
+// thisArg 是可选的最后一个参数
 ```
 
-The value of `thisArg` parameter becomes `this` for `func`.
+`thisArg` 参数的值在 `func` 中变为 `this`。
 
-For instance, here we use an object method as a filter and `thisArg` comes in handy:
+例如，在这里我们使用一个对象方法作为过滤器，`thisArg` 派上用场：
 
 ```js run
 let user = {
@@ -666,46 +666,46 @@ let users = [
 ];
 
 *!*
-// find all users younger than user
+// 找到比 users 小的所有 user
 let youngerUsers = users.filter(user.younger, user);
 */!*
 
 alert(youngerUsers.length); // 2
 ```
 
-In the call above, we use `user.younger` as a filter and also provide `user` as the context for it. If we didn't provide the context, `users.filter(user.younger)` would call `user.younger` as a standalone function, with `this=undefined`. That would mean an instant error.
+在上面我们使用 `user.younger` 作为过滤器，并提供 `user` 作为它的上下文。如果我们没有提供上下文，`users.filter(user.younger)` 会调用`user.younger` 作为一个独立的函数，这时 `this=undefined`。即时错误。.
 
-## Summary
+## 总结
 
-A cheatsheet of array methods:
+数组方法备忘录：
 
-- To add/remove elements:
-  - `push(...items)` -- adds items to the end,
-  - `pop()` -- extracts an item from the end,
-  - `shift()` -- extracts an item from the beginning,
-  - `unshift(...items)` -- adds items to the beginning.
-  - `splice(pos, deleteCount, ...items)` -- at index `pos` delete `deleteCount` elements and insert `items`.
-  - `slice(start, end)` -- creates a new array, copies elements from position `start` till `end` (not inclusive) into it.
-  - `concat(...items)` -- returns a new array: copies all members of the current one and adds `items` to it. If any of `items` is an array, then its elements are taken.
+- 添加/删除元素：
+  - `push(...items)` -- 从结尾添加元素，
+  - `pop()` -- 从结尾提取元素，
+  - `shift()` -- 从开头提取元素，
+  - `unshift(...items)` -- 从开头添加元素，
+  - `splice(pos, deleteCount, ...items)` -- 从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入元素。
+  - `slice(start, end)` -- 它从所有元素的开始索引 `“start”` 复制到 `“end”` (不包括 `“end”`) 返回一个新的数组。
+  - `concat(...items)` -- 返回一个新数组：复制当前数组的所有成员并向其中添加 `items`。如果有任何` items` 是一个数组，那么就取其元素。
 
-- To search among elements:
-  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
+- 查询元素：
+  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
   - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
   - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
   - `findIndex` is like `find`, but returns the index instead of a value.
 
-- To transform the array:
+- 转换数组：
   - `map(func)` -- creates a new array from results of calling `func` for every element.
   - `sort(func)` -- sorts the array in-place, then returns it.
   - `reverse()` -- reverses the array in-place, then returns it.
   - `split/join` -- convert a string to array and back.
   - `reduce(func, initial)` -- calculate a single value over the array by calling `func` for each element and passing an intermediate result between the calls.
 
-- To iterate over elements:
+- 迭代元素：
   - `forEach(func)` -- calls `func` for every element, does not return anything.
 
-- Additionally:
-  - `Array.isArray(arr)` checks `arr` for being an array.
+- 其他：
+  - `Array.isArray(arr)` checks `arr` for being an array.
 
 Please note that methods `sort`, `reverse` and `splice` modify the array itself.
 
@@ -719,10 +719,10 @@ These methods are the most used ones, they cover 99% of use cases. But there are
 
 - [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).
 
-For the full list, see the [manual](mdn:js/Array).
+有关完整列表，请参阅[手册](mdn:js/Array)。
 
-From the first sight it may seem that there are so many methods, quite difficult to remember. But actually that's much easier than it seems.
+从第一眼看来，似乎有很多方法，很难记住。但实际上这比看起来要容易得多。
 
-Look through the cheatsheet just to be aware of them. Then solve the tasks of this chapter to practice, so that you have experience with array methods.
+为了您有数组方法的经验，请仔细查看备忘单了解它们。然后解决本章的任务练习。
 
-Afterwards whenever you need to do something with an array, and you don't know how -- come here, look at the cheatsheet and find the right method. Examples will help you to write it correctly. Soon you'll automatically remember the methods, without specific efforts from your side.
+以后，当你需要对某个数组操作，而无从下手 -- 可以来到这，查看备忘录并找到正确的方法。示例将帮助您正确编写它。很快你会自动记住这些方法，而无需你额外的努力。
