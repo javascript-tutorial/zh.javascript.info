@@ -584,7 +584,7 @@ arr.reduce((sum, current) => sum + current);
 [arr.reduceRight](mdn:js/Array/reduceRight) 也一样，但是遍历是从右到左。
 
 
-## Iterate: forEach
+## 迭代：forEach
 
 [arr.forEach](mdn:js/Array/forEach) 方法允许为数组的每个元素运行一个函数。
 
@@ -623,7 +623,7 @@ alert(typeof {}); // object
 alert(typeof []); // same
 ```
 
-......但是数组经常被使用，以至于有一种特殊的方法用于判断：[Array.isArray(value)](mdn:js/Array/isArray)。如果 `value` 是一个数组，则返回 `true` ;否则返回`false`。
+......但是数组经常被使用，以至于有一种特殊的方法用于判断：[Array.isArray(value)](mdn:js/Array/isArray)。如果 `value` 是一个数组，则返回 `true`；否则返回 `false`。
 
 ```js run
 alert(Array.isArray({})); // false
@@ -673,7 +673,7 @@ let youngerUsers = users.filter(user.younger, user);
 alert(youngerUsers.length); // 2
 ```
 
-在上面我们使用 `user.younger` 作为过滤器，并提供 `user` 作为它的上下文。如果我们没有提供上下文，`users.filter(user.younger)` 会调用`user.younger` 作为一个独立的函数，这时 `this=undefined`。即时错误。.
+在上面我们使用 `user.younger` 作为过滤器，并提供 `user` 作为它的上下文。如果我们没有提供上下文，`users.filter(user.younger)` 会调用`user.younger` 作为一个独立的函数，这时 `this=undefined`。
 
 ## 总结
 
@@ -689,35 +689,35 @@ alert(youngerUsers.length); // 2
   - `concat(...items)` -- 返回一个新数组：复制当前数组的所有成员并向其中添加 `items`。如果有任何` items` 是一个数组，那么就取其元素。
 
 - 查询元素：
-  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
-  - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
-  - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
-  - `findIndex` is like `find`, but returns the index instead of a value.
+  - `indexOf/lastIndexOf(item, pos)` --  从 `pos` 找到 `item`，则返回索引否则返回`-1`。
+  - `includes(value)` -- 如果数组有 `value`，则返回 `true`，否则返回 `false`。
+  - `find/filter(func)` -- 通过函数过滤元素，返回 `true` 条件的符合 find 函数的第一个值或符合 filter 函数的全部值。 
+  - `findIndex` 和 `find` 类似，但返回索引而不是值。
 
 - 转换数组：
-  - `map(func)` -- creates a new array from results of calling `func` for every element.
-  - `sort(func)` -- sorts the array in-place, then returns it.
-  - `reverse()` -- reverses the array in-place, then returns it.
-  - `split/join` -- convert a string to array and back.
-  - `reduce(func, initial)` -- calculate a single value over the array by calling `func` for each element and passing an intermediate result between the calls.
+  - `map(func)` -- 从每个元素调用 `func` 的结果创建一个新数组。
+  - `sort(func)` -- 将数组原地排序，然后返回。
+  - `reverse()` -- 在原地颠倒数组，然后返回它。
+  - `split/join` -- 将字符串转换为数组并返回。
+  - `reduce(func, initial)` -- 通过为每个元素调用 `func` 计算数组上的单个值并在调用之间传递中间结果。
 
 - 迭代元素：
-  - `forEach(func)` -- calls `func` for every element, does not return anything.
+  - `forEach(func)` -- 为每个元素调用 `func`，不返回任何东西。
 
 - 其他：
-  - `Array.isArray(arr)` checks `arr` for being an array.
+  - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
 
-Please note that methods `sort`, `reverse` and `splice` modify the array itself.
+请注意，`sort`，`reverse` 和 `splice` 方法修改数组本身。
 
-These methods are the most used ones, they cover 99% of use cases. But there are few others:
+这些方法是最常用的方法，它们覆盖 99％ 的用例。但是还有其他几个：
 
-- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) checks the array.
+- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) 检查数组。
 
-  The function `fn` is called on each element of the array similar to `map`. If any/all results are `true`, returns `true`, otherwise `false`.
+  在类似于 `map` 的数组的每个元素上调用函数 `fn` 。如果任何/所有结果为 `true`，则返回 `true`，否则返回 `false`。
 
-- [arr.fill(value, start, end)](mdn:js/Array/fill) -- fills the array with repeating `value` from index `start` to `end`.
+- [arr.fill(value, start, end)](mdn:js/Array/fill) -- 从 `start` 到 `end` 用 `value` 重复填充数组。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).将其元素从 `start` 到 `end` 在 `target`复制到**本身**（覆盖现有）。
 
 有关完整列表，请参阅[手册](mdn:js/Array)。
 
