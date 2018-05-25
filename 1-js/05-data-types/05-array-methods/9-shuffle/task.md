@@ -2,11 +2,11 @@ importance: 3
 
 ---
 
-# Shuffle an array
+# 随机排序
 
-Write the function `shuffle(array)` that shuffles (randomly reorders) elements of the array.
+编写函数 `shuffle(array)` 混洗（随机重新排序）数组的元素。
 
-Multiple runs of `shuffle` may lead to different orders of elements. For instance:
+多次运行 `shuffle` 可以导致不同的元素顺序。例如：
 
 ```js
 let arr = [1, 2, 3];
@@ -22,4 +22,5 @@ shuffle(arr);
 // ...
 ```
 
-All element orders should have an equal probability. For instance, `[1,2,3]` can be reordered as `[1,2,3]` or `[1,3,2]` or `[3,1,2]` etc, with equal probability of each case.
+所有元素顺序应该具有相等的概率。例如， `[1,2,3]` 可以重新排序为 `[1,2,3]` 或 `[1,3,2]` 或 `[3,1,2]` 等。每种情况的概率相等。
+
