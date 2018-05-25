@@ -1,4 +1,4 @@
-We can use `slice()` to make a copy and run the sort on it:
+我们可以使用 `slice()` 来创建一个副本并对其进行排序：
 
 ```js run
 function copySorted(arr) {
