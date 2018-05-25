@@ -52,7 +52,7 @@ alert(rabbit.jumps); // true
 我们可以利用 `Object.create` 来实现比 `for..in` 循环赋值属性方式更强大的对象复制功能：
 
 ```js
-// obj 对象的完全复制
+// obj 对象的浅复制
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
@@ -68,7 +68,7 @@ let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescr
 
 - 在上古时代 `prototype` 作为一个构造函数的属性来运行。
 - 之后在 2012 年： `Object.create` 出现在标准中。它允许利用给定的原型来创建对象，但是不能 get/set 原型。因此许多浏览器厂商实现了非标准属性  `__proto__`，允许任何时候 get/set 原型。
-- 之后在 2015 年： `Object.setPrototypeOf` 和 `Object.getPrototypeOf` 被加入到标准中。 `__proto__` 在几乎所有地方都得到实现，因此它成了标准以外的替代方案 B，在非浏览器环境下，它的支持性是不确定的。
+- 之后在 2015 年： `Object.setPrototypeOf` 和 `Object.getPrototypeOf` 被加入到标准中。 `__proto__` 在几乎所有地方都得到实现，因此它成了标准以外的替代方案 B，在非浏览器环境下，它的支持性是不确定的，可选的。
 
 目前为止，我们拥有了所有这些方式。
 
@@ -196,12 +196,12 @@ let rabbit = {
 };
 
 *!*
-// only own keys
+// 这里只有自身的键
 alert(Object.keys(rabbit)); // jumps
 */!*
 
 *!*
-// inherited keys too
+// 这里包含了继承得来的键
 for(let prop in rabbit) alert(prop); // jumps，然后 eats
 */!*
 ```
