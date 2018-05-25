@@ -1,9 +1,9 @@
 
 # Iterables（可迭代对象）
 
-**Iterable** （可迭代对象）是一般化的数组。根据这个概念，任何对象都允许参与到 `for..of` 循环中。
+**Iterable** （可迭代对象）是数组的泛化。这个概念是说任何对象都可在 `for..of` 循环中使用。
 
-数组本身就是可迭代的。但不仅仅是数组可迭代。字符串也可以迭代，很多其他内建对象也都可以迭代。
+数组本身就是可迭代的。但不仅仅是数组。字符串也可以迭代，很多其他内建对象也都可以迭代。
 
 在核心 JavaScript 中，可迭代对象用途广泛。我们将会看到，很多内建的操作和方法都依赖于它。
 
@@ -13,7 +13,7 @@
 
 例如，我们有一个对象，它并不是数组，但是看上去很适合使用 `for..of` 循环。
 
-比如一个 `range` 对象，代表了一个数字范围：
+比如一个 `range` 对象，代表了一个数字区间：
 
 ```js
 let range = {
@@ -21,16 +21,16 @@ let range = {
   to: 5
 };
 
-// 我们希望 for..of 这样运作：
+// 我们希望 for..of 这样运行：
 // for(let num of range) ... num=1,2,3,4,5
 ```
 
-为了让 `range` 对象可迭代（也就让 `for..of` 可以运作）我们需要为对象添加一个名为 `Symbol.iterator` 的方法（一个特殊的内置符号）。
+为了让 `range` 对象可迭代（也就让 `for..of` 可以运行）我们需要为对象添加一个名为 `Symbol.iterator` 的方法（一个特殊的内置标记）。
 
 - 当 `for..of` 循环开始，它将会调用这个方法（如果没找到，就会报错）。
 - 这个方法必须返回一个迭代器 —— 一个有 `next` 方法的对象。
 - 当 `for..of` 循环希望取得下一个数值，它就调用这个对象的 `next()` 方法。
-- `next()` 返回的结果必须依据格式 `{done: Boolean, value: any}`，当 `done=true` 时，表示迭代结束，否则 `value` 必须是一个未被迭代的新值。
+- `next()` 返回结果的格式必须是 `{done: Boolean, value: any}`，当 `done=true` 时，表示迭代结束，否则 `value` 必须是一个未被迭代的新值。
 
 这是 `range` 的全部实现：
 
@@ -50,7 +50,7 @@ range[Symbol.iterator] = function() {
 
     // 3. next() 将在 for..of 的每一轮循环迭代中被调用
     next() {
-      // 4. 它将会以对象 {done:.., value :...} 的方式返回值
+      // 4. 它将会返回 {done:.., value :...} 格式的对象
       if (this.current <= this.last) {
         return { done: false, value: this.current++ };
       } else {
@@ -60,7 +60,7 @@ range[Symbol.iterator] = function() {
   };
 };
 
-// 现在它可以运作了！
+// 现在它可以运行了！
 for (let num of range) {
   alert(num); // 1, 然后 2, 3, 4, 5
 }
@@ -69,7 +69,7 @@ for (let num of range) {
 这段代码中有几点需要着重关注：
 
 - `range` 自身没有 `next()` 方法。
-- 相反的，另一个对象，一个所谓的“迭代器”，当调用 `range[Symbol.iterator]()` 时将会被创建。它将会处理迭代操作。
+- 相反，是调用 `range[Symbol.iterator]()` 时将会被创建的另一个所谓的“迭代器”对象，将会处理迭代操作。
 
 所以，迭代器对象和迭代的对象其实是分离的。
 
@@ -104,9 +104,9 @@ for (let num of range) {
 现在 `range[Symbol.iterator]()` 返回了 `range` 对象自身：它包括了必需的 `next()` 方法并通过 `this.current` 记忆了当前迭代进程。有时候，这样也可以。但缺点是，现在不可能同时在 `range` 上运行两个 `for..of` 循环了：这两个循环将会共享迭代状态，因为仅有一个迭代器 —— 也就是对象自身。
 
 ```smart header="Infinite iterators"
-无穷迭代也是可行的。例如，`range` 设置为 `range.to = Infinity` 则成为无穷迭代。或者我们可以创建一个可迭代对象，它生成一个伪随机数无穷序列。也是很有用的。
+无穷迭代也是可行的。例如，`range` 设置为 `range.to = Infinity` 则成为无穷迭代。或者我们可以创建一个可迭代对象，它生成一个伪随机数无穷序列。也是可用的。
 
-`next` 没有什么限制，它可以返回更多更多的值，这也很常见。
+`next` 没有什么限制，它可以返回越来越多的值，这也很常见。
 
 当然，迭代这种对象的 `for..of` 循环将不会停止。但是我们可以通过使用 `break` 来打断它。
 ```
@@ -114,7 +114,7 @@ for (let num of range) {
 
 ## 字符串可迭代
 
-数组和字符串是用途最广的内建可迭代对象。
+数组和字符串是应用最广泛的内建可迭代对象。
 
 对于一个字符串，`for..of` 循环它的每个字符：
 
@@ -160,7 +160,7 @@ while (true) {
 
 ## 可迭代对象和类数组对象 [#array-like]
 
-有两个官方对象很相似，但是却非常不同。请你确保良好的掌握它们，并避免混淆。
+这两个正式的术语很相似，但是却非常不同。请你确保良好的掌握它们，并避免混淆。
 
 - **Iterables** 是应用于 `Symbol.iterator` 方法的对象，像上文所述。
 - **Array-likes** 是有索引和 `length` 属性的对象，所以它们很像数组。
@@ -287,9 +287,9 @@ alert( str.slice(1, 3) ); // garbage（两个不同  UTF-16 扩展字符碎片�
 
 - 技术上来说，可迭代对象必须实现方法 `Symbol.iterator`。
     - `obj[Symbol.iterator]` 结果被称为**迭代器**。由它处理更深入的迭代过程。
-    - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}`, here `done:true` 对象，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
+    - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}`，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
 - `Symbol.iterator` 方法会被 `for..of` 自动调用，但我们也可以直接调用。
-- 内建迭代器例如字符串和数组，都实现了 `Symbol.iterator`。
+- 内置的可迭代对象例如字符串和数组，都实现了 `Symbol.iterator`。
 - 字符串迭代器能够识别 UTF-16 扩展字符。
 
 
