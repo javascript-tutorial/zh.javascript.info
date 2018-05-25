@@ -25,9 +25,9 @@ alert( usersMapped[0].id ); // 1
 alert( usersMapped[0].fullName ); // John Smith
 ```
 
-Please note that in for the arrow functions we need to use additional brackets. 
+请注意，在箭头函数中，我们需要使用额外的括号。 
 
-We can't write like this:
+我们不能这样写：
 ```js
 let usersMapped = users.map(user => *!*{*/!*
   fullName: `${user.name} ${user.surname}`,
@@ -35,9 +35,9 @@ let usersMapped = users.map(user => *!*{*/!*
 });
 ```
 
-As we remember, there are two arrow functions: without body `value => expr` and with body `value => {...}`.
+我们记得，有两个箭头函数写法：直接返回值`value => expr` 和带主体的 `value => {...}`。
 
-Here JavaScript would treat `{` as the start of function body, not the start of the object. The workaround is to wrap them in the "normal" brackets:
+JavaScript 会把 `{` 作为函数体的开始，而不是对象的开始。解决方法是将它们包装在正常括号中：
 
 ```js
 let usersMapped = users.map(user => *!*({*/!*
@@ -46,6 +46,6 @@ let usersMapped = users.map(user => *!*({*/!*
 }));
 ```
 
-Now fine.
+也就是把 `value => {...}` 缓存 `value => ({...})`。
 
 
