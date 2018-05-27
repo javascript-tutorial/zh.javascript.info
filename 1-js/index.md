@@ -1,6 +1,5 @@
-# The JavaScript language
+# JavaScript 编程语言
 
-Here we learn JavaScript, starting from scratch and go on to advanced concepts like OOP.
+在这儿我们将从头开始学习 JavaScript，并会学习 OOP 等高级概念。
 
-We concentrate on the language itself here, with the minimum of environment-specific notes.
-
+我们在这里专注于语言本身，只有少量的关于特定环境的内容。
