@@ -119,7 +119,7 @@ for (let [key, value] of user.entries()) {
 ````
 ### 剩余的 '...'
 
-如果我们不仅要获得第一个值，还要将后续的所有元素也收集起来——我们可以使用三个点 `“...”` 加一个参数来接收“剩余的”元素：
+如果我们不仅要获得第一个值，还要将后续的所有元素也收集起来——我们可以使用三个点 `"..."` 加一个参数来接收“剩余的”元素：
 
 ```js run
 let [name1, name2, *!*...rest*/!*] = ["Julius", "Caesar", *!*"Consul", "of the Roman Republic"*/!*];
@@ -223,7 +223,7 @@ let options = {
 };
 
 *!*
-// { 原属性: 目标变量 }
+// { 原属性：目标变量 }
 let {width: w, height: h, title} = options;
 */!*
 
@@ -236,9 +236,9 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
-冒号表示了“什么值 : 赋值给谁”。以上的例子中就是属性 `width` 赋值给 `w`，属性 `height` 赋值给 `h`，属性 `title` 赋值给同名变量。
+冒号表示了“什么值：赋值给谁”。以上的例子中就是属性 `width` 赋值给 `w`，属性 `height` 赋值给 `h`，属性 `title` 赋值给同名变量。
 
-对于可能缺失的属性，我们可以使用 `“=”` 来指定默认值，如下：
+对于可能缺失的属性，我们可以使用 `"="` 来指定默认值，如下：
 
 ```js run
 let options = {
@@ -264,7 +264,7 @@ let options = {
 };
 
 *!*
-let {width = prompt("宽度?"), title = prompt("标题?")} = options;
+let {width = prompt("width?"), title = prompt("title?")} = options;
 */!*
 
 alert(title);  // Menu
@@ -385,7 +385,7 @@ alert(item2);  // Donut
 
 ![](destructuring-complex.png)
 
-最终，我们得到了 `width`、 `height`、 `item1`、 `item2` 和具有默认值的 `title` 变量。
+最终，我们得到了 `width`、`height`、`item1`、`item2` 和具有默认值的 `title` 变量。
 
 有一个拥有很多属性的复杂对象，我们只想要抽取我们所需要的其中某些属性。这在解构赋值语句中是很常见的。
 
@@ -407,7 +407,7 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
-现实情况下的问题就是你怎么记得住这么多参数的顺序，通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但…… 另一个问题就是当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
+现实情况下的问题就是你怎么记得住这么多参数的顺序，通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但… 另一个问题就是当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
 
 难道像这样？
 
@@ -498,11 +498,12 @@ showMenu(); // Menu 100 200
 
 - 解构赋值允许将对象或数组立即映射到多个变量上。
 - 解构对象的语法：
+
     ```js
     let {prop : varName = default, ...} = object
     ```
 
-	这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
+    这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
 
 - 解构数组的语法：
 
@@ -510,6 +511,6 @@ showMenu(); // Menu 100 200
     let [item1 = default, item2, ...rest] = array
     ```
 
-	数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
+    数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
 
 - 更多复杂的案例情况下，等号左侧必须和等号右侧有相同的结构。
