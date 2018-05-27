@@ -152,7 +152,7 @@ alert( str[str.length - 1] ); // o
 
 方括号是获取字符的一种现代化方法，而 `charAt` 是历史原因才存在的。
 
-它们之间的唯一区别是，如果没有找到字符， `[]` 返回 `undefined`，而 `charAt` 返回一个空字符串：
+它们之间的唯一区别是，如果没有找到字符，`[]` 返回 `undefined`，而 `charAt` 返回一个空字符串：
 
 ```js run
 let str = `Hello`;
@@ -429,14 +429,14 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
     ```js run
     let str = "st*!*ring*/!*ify";
-    alert( str.substr(2, 4) ); // 环，从第二位获得4个字符
+    alert( str.substr(2, 4) ); // 环，从第二位获得 4 个字符
     ```
 
     第一个参数可能是负数，从结尾算起：
 
     ```js run
     let str = "strin*!*gi*/!*fy";
-    alert( str.substr(-4, 2) ); // gi，从第4位获得2个字符
+    alert( str.substr(-4, 2) ); // gi，从第 4 位获得 2 个字符
     ```
 
 我们回顾一下这些方法，以免混淆：
@@ -614,7 +614,7 @@ alert( 'S\u0307' ); // Ṡ
 
 如果我们需要在字母上方（或下方）添加额外的标记 —— 没问题，只需要添加必要的标记字符即可。
 
-例如，如果我们追加一个字符 "dot below" （代码 `\u0323`），那么我们将得到 “S 点以上和以下的”：`Ṩ`.
+例如，如果我们追加一个字符 "dot below"（代码 `\u0323`），那么我们将得到“S 点以上和以下的”：`Ṩ`。
 
 例如：
 
