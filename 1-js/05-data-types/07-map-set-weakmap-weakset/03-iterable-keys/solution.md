@@ -1,7 +1,7 @@
 
-That's because `map.keys()` returns an iterable, but not an array.
+这是因为 `map.keys()` 返回的是迭代器而非数组。
 
-We can convert it into an array using `Array.from`:
+我们可以使用方法 `Array.from` 来将它转化为数组：
 
 
 ```js run
