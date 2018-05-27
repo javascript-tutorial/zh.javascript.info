@@ -1,5 +1,4 @@
-
-# Map，Set，WeakMap 和 WeakSet
+# Map、Set、WeakMap 和 WeakSet
 
 现在，我们已经学习了下面的比较复杂的数据结构：
 
