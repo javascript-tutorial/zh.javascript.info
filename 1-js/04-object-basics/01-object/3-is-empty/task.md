@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Check for emptiness
+# 检查空对象
 
-Write the function `isEmpty(obj)` which returns `true` if the object has no properties, `false` otherwise.
+写一个方法`isEmpty(obj)`，当对象没有属性的时候返回 `true`，否自返回`false`。
 
-Should work like that:
+应该像这样
 
 ```js
 let schedule = {};
