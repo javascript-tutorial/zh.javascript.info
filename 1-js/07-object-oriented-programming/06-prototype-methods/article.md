@@ -111,7 +111,7 @@ alert(obj[key]); // [object Object]，而不是 "some value"！
 
 ![](object-prototype-2.png)
 
-因此，如果  `obj.__proto__` 被读取或者赋值，那么对应的 getter/setter 从它的原型被调用，它会获取/设置 `[[Prototype]]`。
+因此，如果 `obj.__proto__` 被读取或者赋值，那么对应的 getter/setter 从它的原型被调用，它会获取/设置 `[[Prototype]]`。
 
 就像开头所说：`__proto__` 是访问 `[[Prototype]]` 的方式，而不是 `[[prototype]]` 本身。
 
@@ -148,7 +148,7 @@ alert(obj); // Error （没有 toString 方法）
 
 ...但是它们通常对关联数组而言还是很友好。
 
-请注意：和对象关系最密切的方法是 `Object.something(...)`，比如 `Object.keys(obj)` —— 它们不在 prototype 中，因此在极简对象中它们还是可以继续使用：
+请注意，和对象关系最密切的方法是 `Object.something(...)`，比如 `Object.keys(obj)` —— 它们不在 prototype 中，因此在极简对象中它们还是可以继续使用：
 
 
 ```js run
