@@ -1,60 +1,60 @@
 
-# Objects
+# 对象
 
-As we know from the chapter <info:types>, there are seven language types in JavaScript. Six of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
+正如我们从《引言：类型》中知道的那样 <info:types>, JS中有很多种类型。 有六种原始类型，因为他们只包含一种东西（字符串，数值或者什么之类）
 
-In contrast, objects are used to store keyed collections of various data and more complex entities. In JavaScript, objects penetrate almost every aspect of the language. So we must understand them first before going in-depth anywhere else.
+相反，对象用来存储键值对和更复杂的实体。在JS中，对象深入到这门语言的方方面面。所以在我们深入理解这门语言之前，我们必须理解对象。
 
-An object can be created with figure brackets `{…}` with an optional list of *properties*. A property is a "key: value" pair, where `key` is a string (also called a "property name"), and `value` can be anything.
+对象可以通过中括号`{…}`和其中包含一些可选的*属性*来创建。属性是一个键值对，键是一个字符串 （也叫做属性名）， 值可以任何的什么.
 
-We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
+我们可以把对象想象成存放文件的橱柜。 文件按照他们的名字来排列。这样根据文件名我们就很容易找到，添加或删除一个文件了。
 
 ![](object.png)
 
-An empty object ("empty cabinet") can be created using one of two syntaxes:
+我们可以额用下面的语法来创建一个空的对象（“空柜子”）：
 
 ```js
-let user = new Object(); // "object constructor" syntax
-let user = {};  // "object literal" syntax
+let user = new Object(); // “构造函数” 的语法
+let user = {};  // “对象文本” 的语法
 ```
 
 ![](object-user-empty.png)
 
-Usually, the figure brackets `{...}` are used. That declaration is called an *object literal*.
+通常，我们用中括号。这种方式我们叫做*对象文本*
 
-## Literals and properties
+## 文本和属性
 
-We can immediately put some properties into `{...}` as "key: value" pairs:
+我们可以在创建的时候立马给对象一些属性，在`{...}`里面放置一些键值对。
 
 ```js
-let user = {     // an object
-  name: "John",  // by key "name" store value "John"
-  age: 30        // by key "age" store value 30
+let user = {     // 一个对象
+  name: "John",  // 键“name”，值 "John"
+  age: 30        // 键“age”，值 30
 };
 ```
 
-A property has a key (also known as "name" or "identifier") before the colon `":"` and a value to the right of it.
+属相有键（或者也可以叫做名字，标识符），在冒号的前面`":"`，值在冒号的右边。
 
-In the `user` object, there are two properties:
+在 `user` 对象中, 有两个属性：
 
-1. The first property has the name `"name"` and the value `"John"`.
-2. The second one has the name `"age"` and the value `30`.
+1. 第一个的键是 `"name"` 值是 `"John"`.
+2. 第二个的键是 `"age"` 值是 `30`.
 
-The resulting `user` object can be imagined as a cabinet with two signed files labeled "name" and "age".
+你可以想想`user`对象是一个陈列着两个"name" 和 "age"签名文件的橱柜。
 
 ![user object](object-user.png)
 
-We can add, remove and read files from it any time.
+任何时候我们都可以添加，删除，读取文件。
 
-Property values are accessible using the dot notation:
+可以通过点语法来使用属性：
 
 ```js
-// get fields of the object:
+// 读取文件的属性：
 alert( user.name ); // John
 alert( user.age ); // 30
 ```
 
-The value can be of any type. Let's add a boolean one:
+属性的值可以是任意类型，让我们加个布尔类型：
 
 ```js
 user.isAdmin = true;
@@ -62,7 +62,7 @@ user.isAdmin = true;
 
 ![user object 2](object-user-isadmin.png)
 
-To remove a property, we can use `delete` operator:
+移除一个属性，我们用`delete`操作：
 
 ```js
 delete user.age;
@@ -70,31 +70,31 @@ delete user.age;
 
 ![user object 3](object-user-delete.png)
 
-We can also use multiword property names, but then they must be quoted:
+我们也可以用多个但是来作为属性名，但是他们必须被包在一起：
 
 ```js
 let user = {
   name: "John",
   age: 30,
-  "likes birds": true  // multiword property name must be quoted
+  "likes birds": true  // 两个单词被包在一起
 };
 ```
 
 ![](object-user-props.png)
 
 
-The last property in the list may end with a comma:
+最后一个属性后面可以加一个逗号：
 ```js
 let user = {
   name: "John",
   age: 30*!*,*/!*
 }
 ```
-That is called a "trailing" or "hanging" comma. Makes it easier to add/remove/move around properties, because all lines become alike.
+这叫做尾逗号，或者悬挂逗号。这样无论我们添加，删除，移动属性，所有的行都是一样的。
 
-## Square brackets
+## 方括号
 
-For multiword properties, the dot access doesn't work:
+对于多个单词的属性，点操作就不能用啦。
 
 ```js run
 // this would give a syntax error
