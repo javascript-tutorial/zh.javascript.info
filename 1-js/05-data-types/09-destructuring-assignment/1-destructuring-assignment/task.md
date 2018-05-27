@@ -15,9 +15,9 @@ let user = {
 
 写一个解构赋值语句使得：
 
-- `name` 属性赋值给变量 `name`.
-- `years` 属性赋值给 `age`.
-- `isAdmin` 属性赋值给变量 `isAdmin`（如果属性缺失则赋值为 false）
+- `name` 属性赋值给变量 `name`。
+- `years` 属性赋值给 `age`。
+- `isAdmin` 属性赋值给变量 `isAdmin`（如果属性缺失则赋值为 false）。
 
 赋值语句后的值必须是：
 
