@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's wrong in the test?
+# 测试代码中有什么错误？
 
-What's wrong in the test of `pow` below?
+下面测试代码中的 `pow` 有什么错误？
 
 ```js
 it("Raises x to the power n", function() {
@@ -21,4 +21,4 @@ it("Raises x to the power n", function() {
 });
 ```
 
-P.S. Syntactically the test is correct and passes.
+附：从语法上来说这些测试代码是挣钱和能通过的。

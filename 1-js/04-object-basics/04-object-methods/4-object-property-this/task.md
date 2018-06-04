@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Using "this" in object literal
+# 在对象字面量中使用 "this"
 
-Here the function `makeUser` returns an object.
+这里 `makeUser` 函数返回了一个对象。
 
-What is the result of accessing its `ref`? Why?
+访问 `ref` 的结果是什么？为什么？
 
 ```js
 function makeUser() {

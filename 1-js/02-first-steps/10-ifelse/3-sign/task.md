@@ -2,14 +2,14 @@ importance: 2
 
 ---
 
-# Show the sign
+# 显示符号
 
-Using `if..else`, write the code which gets a number via `prompt` and then shows in `alert`:
+使用 `if..else` 语句，实现通过 `prompt` 获取一个数字并用 `alert` 显示结果的代码。
 
-- `1`, if the value is greater than zero,
-- `-1`, if less than zero,
-- `0`, if equals zero.
+- 如果这个数字大于 0，就显示 `1`，
+- 如果这个数字小于 0，就显示 `-1`，
+- 如果这个数字等于 0，就显示 `0`。
 
-In this task we assume that the input is always a number.
+在这个任务中，假设输入永远是一个数字。
 
-[demo src="if_sign"]
+[示例 src="if_sign"]

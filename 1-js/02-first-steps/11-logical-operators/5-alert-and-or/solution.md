@@ -1,16 +1,16 @@
-The answer: `3`.
+答案：`3`。
 
 ```js run
 alert( null || 2 && 3 || 4 );
 ```
 
-The precedence of AND `&&` is higher than `||`, so it executes first.
+与运算 `&&` 的优先级比 `||` 高，所以它第一个被执行。
 
-The result of `2 && 3 = 3`, so the expression becomes:
+结果是 `2 && 3 = 3`，所以表达式变成了：
 
 ```
 null || 3 || 4
 ```
 
-Now the result if the first truthy value: `3`.
+现在的结果就是第一个真值：`3`。
 

@@ -2,8 +2,8 @@ importance: 3
 
 ---
 
-# Check the range between
+# 检查值是否位于范围区间内
 
-Write an "if" condition to check that `age` is between `14` and `90` inclusively.
+写一个“if”条件句来检查 `age` 是否位于 `14` 到 `90` 的闭区间。
 
-"Inclusively" means that `age` can reach the edges `14` or `90`.
+“闭区间”意味着，`age` 的值可以取 `14` 或 `90`。

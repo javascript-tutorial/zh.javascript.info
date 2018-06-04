@@ -2,7 +2,7 @@ importance: 3
 
 ---
 
-# Giving the right name
+# 给出正确的名字
 
-1. Create the variable with the name of our planet. How would you name such a variable?
-2. Create the variable to store the name of the current visitor. How would you name that variable?
+1. 使用我们的星球的名字创建一个变量。你会怎么命名这个变量？
+2. 创建一个变量来存储当前浏览者的名字。你会怎么命名这个变量？

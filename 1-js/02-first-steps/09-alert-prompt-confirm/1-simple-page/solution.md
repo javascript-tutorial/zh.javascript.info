@@ -1,11 +1,11 @@
-JavaScript-code:
+JavaScript 代码：
 
 ```js demo run
 let name = prompt("What is your name?", "");
 alert(name);
 ```
 
-The full page:
+整个页面的代码：
 
 ```html
 <!DOCTYPE html>

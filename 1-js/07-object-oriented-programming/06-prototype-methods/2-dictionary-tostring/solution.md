@@ -1,13 +1,13 @@
 
-The method can take all enumerable keys using `Object.keys` and output their list.
+可以使用 `Object.keys` 列出所有可枚举键值，然后输出。
 
-To make `toString` non-enumerable, let's define it using a property descriptor. The syntax of `Object.create` allows to provide an object with property descriptors as the second argument.
+为了使 `toString` 不可枚举，我们使用属性描述器来定义它。`Object.create` 语法允许我们为一个对象提供属性描述器作为第二参数。
 
 ```js run
 *!*
 let dictionary = Object.create(null, {
-  toString: { // define toString property
-    value() { // the value is a function
+  toString: { // 定义 toString 方法
+    value() { // value 是一个函数
       return Object.keys(this).join();
     }
   }
@@ -17,13 +17,13 @@ let dictionary = Object.create(null, {
 dictionary.apple = "Apple";
 dictionary.__proto__ = "test";
 
-// apple and __proto__ is in the loop
+// apple 和 __proto__ 在循环内
 for(let key in dictionary) {
-  alert(key); // "apple", then "__proto__"
+  alert(key); // "apple"，然后 "__proto__"
 }  
 
-// comma-separated list of properties by toString
+// 通过 toString 得到逗号分隔的属性值
 alert(dictionary); // "apple,__proto__"
 ```
 
-When we create a property using a descriptor, its flags are `false` by default. So in the code above, `dictionary.toString` is non-enumerable.
+当我们使用描述器创建一个属性，它的标识默认是 `false`。因此在以上代码中，`dictonary.toString` 是不可枚举的。

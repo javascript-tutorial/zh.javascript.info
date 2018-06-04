@@ -2,8 +2,8 @@ importance: 3
 
 ---
 
-# Check the range outside
+# 检测值是否位于范围之外
 
-Write an `if` condition to check that `age` is NOT between 14 and 90 inclusively.
+写一个 `if` 条件句，检查 `age` 是否不位于 14 到 90 的闭区间。
 
-Create two variants: the first one using NOT `!`, the second one -- without it.
+创建两个表达式：第一个用非运算 `!`，第二个不用。

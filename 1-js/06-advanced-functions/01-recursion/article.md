@@ -1,18 +1,18 @@
-# Recursion and stack
+# 递归和堆栈
 
-Let's return to functions and study them more in-depth.
+我们回到函数，深入研究一下。
 
-Our first topic will be *recursion*.
+我们的第一个主题是**递归**。
 
-If you are not new to programming, then it is probably familiar and you could skip this chapter.
+如果你不是刚接触编程，那么你可能已经很熟悉它，可以跳过这一章了。
 
-Recursion is a programming pattern that is useful in situations when a task can be naturally split into several tasks of the same kind, but simpler. Or when a task can be simplified into an easy action plus a simpler variant of the same task. Or, as we'll see soon, to deal with certain data structures.
+递归是一种编程模式，用于一个任务可以被分割为多个相似的更简单的任务的场景。或者用于一个任务可以被简化为一个容易的行为加上更简单的任务变体。或者像我们随后会看到的，用来处理特定类型的数据结构。
 
-When a function solves a task, in the process it can call many other functions. A partial case of this is when a function calls *itself*. That's called *recursion*.
+当一个函数解决一个任务时，在该过程中它可以调用很多其它函数。那么当一个函数调用**自身**时，就称其为**递归**。
 
-## Two ways of thinking
+## 两种思考方式
 
-For something simple to start with -- let's write a function `pow(x, n)` that raises `x` to a natural power of `n`. In other words, multiplies `x` by itself `n` times.
+简单起见，我们写一个函数 `pow(x, n)`，它可以计算 `x` 的 `n` 次方，即用 `x` 乘以自身 `n` 次。
 
 ```js
 pow(2, 2) = 4
@@ -20,15 +20,15 @@ pow(2, 3) = 8
 pow(2, 4) = 16
 ```
 
-There are two ways to implement it.
+有两种实现方式。
 
-1. Iterative thinking: the `for` loop:
+1. 迭代思路：`for` 循环：
 
     ```js run
     function pow(x, n) {
       let result = 1;
 
-      // multiply result by x n times in the loop
+      // 在循环中用 x 乘以 result
       for (let i = 0; i < n; i++) {
         result *= x;
       }
@@ -39,7 +39,7 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-2. Recursive thinking: simplify the task and call self:
+2. 递归思路：简化任务，调用自身：
 
     ```js run
     function pow(x, n) {
@@ -53,9 +53,9 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-Please note how the recursive variant is fundamentally different.
+注意递归方式完全不相同。
 
-When `pow(x, n)` is called, the execution splits into two branches:
+当 `pow(x, n)` 被调用时，执行分为两个分支：
 
 ```js
               if n==1  = x
@@ -65,27 +65,27 @@ pow(x, n) =
               else     = x * pow(x, n - 1)
 ```
 
-1. If `n == 1`, then everything is trivial. It is called *the base* of recursion, because it immediately produces the obvious result: `pow(x, 1)` equals `x`.
-2. Otherwise, we can represent `pow(x, n)` as `x * pow(x, n - 1)`. In maths, one would write <code>x<sup>n</sup> = x * x<sup>n-1</sup></code>. This is called *a recursive step*: we transform the task into a simpler action (multiplication by `x`) and a simpler call of the same task (`pow` with lower `n`). Next steps simplify it further and further until `n` reaches `1`.
+1. 如果 `n == 1`，所有事情都会很简单，这叫做递归的**基础**，因为它立即得到显而易见的结果：`pow(x, 1)` 等于 `x`。
+2. 否则，我们可以用 `x * pow(x, n - 1)` 表示 `pow(x, n)`。在数学里，可能会这么写 <code>x<sup>n</sup> = x * x<sup>n-1</sup></code>。这叫做**一个递归步骤**：我们将任务转变为更简单的行为（`x` 的乘法）和更简单的同类任务调用（更小的 `n` 给 `pow`）。后面步骤继续简化直到 `n` 等于 `1`。
 
-We can also say that `pow` *recursively calls itself* till `n == 1`.
+我们也可以说 `pow` **递归的调用自身** 直到 `n == 1`。
 
 ![recursive diagram of pow](recursion-pow.png)
 
 
-For example, to calculate `pow(2, 4)` the recursive variant does these steps:
+比如，为了计算 `pow(2, 4)`，递归变体经过了下面几个步骤：
 
 1. `pow(2, 4) = 2 * pow(2, 3)`
 2. `pow(2, 3) = 2 * pow(2, 2)`
 3. `pow(2, 2) = 2 * pow(2, 1)`
 4. `pow(2, 1) = 2`
 
-So, the recursion reduces a function call to a simpler one, and then -- to even more simpler, and so on, until the result becomes obvious.
+所以，递归生成了更简单的函数调用，然后 —— 更加简单，继续，直到结果变得很明显。
 
-````smart header="Recursion is usually shorter"
-A recursive solution is usually shorter than an iterative one.
+````smart header="递归一般更简洁"
+递归解决方案一般比迭代更简洁。
 
-Here we can rewrite the same using the ternary `?` operator instead of `if` to make `pow(x, n)` more terse and still very readable:
+这里我们可以使用三元运算符 `?` 来替换 `if` 语句，从而让 `pow(x, n)` 更简洁并且可读性依然很高：
 
 ```js run
 function pow(x, n) {
@@ -94,36 +94,36 @@ function pow(x, n) {
 ```
 ````
 
-The maximal number of nested calls (including the first one) is called *recursion depth*. In our case, it will be exactly `n`.
+最大的嵌套调用次数（包括首次）称为**递归深度**。在我们的例子中，它正好等于 `n`。
 
-The maximal recursion depth is limited by JavaScript engine. We can make sure about 10000, some engines allow more, but 100000 is probably out of limit for the majority of them. There are automatic optimizations that help alleviate this ("tail calls optimizations"), but they are not yet supported everywhere and work only in simple cases.
+最大递归深度受限于 JavaScript 引擎。我们可以确信基本是 10000，有些引擎可能允许更大，但是 100000 很可能就超过了限制。有一些自动优化能够缓解这个（「尾部调用优化」），但是它们还没有被完全支持，只能用于简单场景。
 
-That limits the application of recursion, but it still remains very wide. There are many tasks where recursive way of thinking gives simpler code, easier to maintain.
+这就限制了递归的应用，但是递归仍然被广泛使用。有很多任务使用递归思路会让代码更简单，更容易维护。
 
-## The execution stack
+## 执行堆栈
 
-Now let's examine how recursive calls work. For that we'll look under the hood of functions.
+现在我们来研究下递归调用如何工作的。为此，我们会先看看函数底层工作原理。
 
-The information about a function run is stored in its *execution context*.
+一个函数运行的信息被存储在它的**执行上下文**里。
 
-The [execution context](https://tc39.github.io/ecma262/#sec-execution-contexts) is an internal data structure that contains details about the execution of a function: where the control flow is now, the current variables, the value of `this` (we don't use it here) and few other internal details.
+[执行上下文](https://tc39.github.io/ecma262/#sec-execution-contexts)是一个内部数据结构，它包含一个函数执行时的细节：当前工作流在哪里，当前的变量，`this` 的值（这里我们不使用它），以及其它一些内部细节。
 
-One function call has exactly one execution context associated with it.
+每个函数调用都有与其相关联的执行上下文。
 
-When a function makes a nested call, the following happens:
+当一个函数有嵌套调用时，下面的事情会发生：
 
-- The current function is paused.
-- The execution context associated with it is remembered in a special data structure called *execution context stack*.
-- The nested call executes.
-- After it ends, the old execution context is retrieved from the stack, and the outer function is resumed from where it stopped.
+- 当前函数被暂停；
+- 与它关联的执行上下文被一个叫做**执行上下文堆栈**的特殊数据结构保存；
+- 执行嵌套调用；
+- 嵌套调用结束后，之前的执行上下文从堆栈中恢复，外部函数从停止的地方继续执行。
 
-Let's see what happens during the `pow(2, 3)` call.
+我们看看调用 `pow(2, 3)` 都发生了什么。
 
 ### pow(2, 3)
 
-In the beginning of the call `pow(2, 3)` the execution context will store variables: `x = 2, n = 3`, the execution flow is at line `1` of the function.
+在调用 `pow(2, 3)` 的开始，执行上下文会存储变量：`x = 2, n = 3`，执行流程在函数的第 `1` 行。
 
-We can sketch it as:
+我们将其描绘如下：
 
 <ul class="function-execution-context-list">
   <li>
@@ -132,7 +132,7 @@ We can sketch it as:
   </li>
 </ul>
 
-That's when the function starts to execute. The condition `n == 1` is false, so the flow continues into the second branch of `if`:
+这是函数开始执行的时候。条件 `n == 1` 结果为否，所以流程进入 `if` 的第二分支。
 
 ```js run
 function pow(x, n) {
@@ -149,7 +149,7 @@ alert( pow(2, 3) );
 ```
 
 
-The variables are same, but the line changes, so the context is now:
+变量相同，但是函数变化了，所以现在上下文是：
 
 <ul class="function-execution-context-list">
   <li>
@@ -158,19 +158,19 @@ The variables are same, but the line changes, so the context is now:
   </li>
 </ul>
 
-To calculate `x * pow(x, n - 1)`, we need to make a subcall of `pow` with new arguments `pow(2, 2)`.
+为了计算 `x * pow(x, n - 1)`，我们需要用新的参数 `pow(2, 2)` 子调用 `pow`。
 
-### pow(2, 2)
+### pow（2, 2)
 
-To do a nested call, JavaScript remembers the current execution context in the *execution context stack*.
+为了执行嵌套调用，JavaScript 会记住**执行上下文堆栈**中的当前执行上下文。
 
-Here we call the same function `pow`, but it absolutely doesn't matter. The process is the same for all functions:
+这里我们调用相同的函数 `pow`，但是没关系。所有函数的处理都是一样的：
 
-1. The current context is "remembered" on top of the stack.
-2. The new context is created for the subcall.
-3. When the subcall is finished -- the previous context is popped from the stack, and its execution continues.
+1. 当前上下文被「记录」在堆栈的顶部；
+2. 为子调用创建新上下文；
+3. 当子调用结束后 —— 前一上下文从堆栈弹出，继续执行。
 
-Here's the context stack when we entered the subcall `pow(2, 2)`:
+下面是进入子调用 `pow(2, 2)` 的上下文堆栈：
 
 <ul class="function-execution-context-list">
   <li>
@@ -183,15 +183,15 @@ Here's the context stack when we entered the subcall `pow(2, 2)`:
   </li>
 </ul>
 
-The new current execution context is on top (and bold), and previous remembered contexts are below.
+新的当前执行上下文位于顶部（加粗），前面的在下方。
 
-When we finish the subcall -- it is easy to resume the previous context, because it keeps both variables and the exact place of the code where it stopped. Here in the picture we use the word "line", but of course it's more precise.
+当我们完成子调用后 —— 很容恢复前面的上下文，因为它保留这变量和代码停止时的准确位置。图中我们使用了单词「行」，但实际比这更精确。
 
 ### pow(2, 1)
 
-The process repeats: a new subcall is made at line `5`, now with arguments `x=2`, `n=1`.
+重复该过程：在第 `5` 行生成新的子调用，现在使用参数 `x=2`，`n=1`。
 
-A new execution context is created, the previous one is pushed on top of the stack:
+新的执行上下文被创建，前一个被压入堆栈顶部：
 
 <ul class="function-execution-context-list">
   <li>
@@ -208,11 +208,11 @@ A new execution context is created, the previous one is pushed on top of the sta
   </li>
 </ul>
 
-There are 2 old contexts now and 1 currently running for `pow(2, 1)`.
+此时，有 2 个旧的上下文和 1 个当前正在运行的给 `pow(2, 1)` 的上下文。
 
-### The exit
+### 出口
 
-During the execution of `pow(2, 1)`, unlike before, the condition `n == 1` is truthy, so the first branch of `if` works:
+在 `pow(2, 1)` 时，不像之前，条件 `n == 1` 成了是，所以 `if` 的第一分支生效：
 
 ```js
 function pow(x, n) {
@@ -226,9 +226,9 @@ function pow(x, n) {
 }
 ```
 
-There are no more nested calls, so the function finishes, returning `2`.
+此时不再有嵌套调用，所以函数结束，返回 `2`。
 
-As the function finishes, its execution context is not needed anymore, so it's removed from the memory. The previous one is restored off the top of the stack:
+函数结束后，它的执行上下文不再有用，会从内存中移除。前一上下文从栈顶恢复：
 
 
 <ul class="function-execution-context-list">
@@ -242,9 +242,9 @@ As the function finishes, its execution context is not needed anymore, so it's r
   </li>
 </ul>
 
-The execution of `pow(2, 2)` is resumed. It has the result of the subcall `pow(2, 1)`, so it also can finish the evaluation of `x * pow(x, n - 1)`, returning `4`.
+恢复执行 `pow(2, 2)`，它有子调用 `pow(2, 1)` 的结果，所以它也可以结束 `x * pow(x, n - 1)` 的执行，返回 `4`。
 
-Then the previous context is restored:
+然后前一上下文被恢复：
 
 <ul class="function-execution-context-list">
   <li>
@@ -253,15 +253,15 @@ Then the previous context is restored:
   </li>
 </ul>
 
-When it finishes, we have a result of `pow(2, 3) = 8`.
+当它结束后，我们得到结果 `pow(2, 3) = 8`。
 
-The recursion depth in this case was: **3**.
+递归深度是：**3**。
 
-As we can see from the illustrations above, recursion depth equals the maximal number of context in the stack.
+从上面的图解可以看到，递归深度等于堆栈中上下文的最大个数。
 
-Note the memory requirements. Contexts take memory. In our case, raising to the power of `n` actually requires the memory for `n` contexts, for all lower values of `n`.
+注意内存要求。上下文消耗内存，在我们的例子中，求 `n` 次方需要存储 `n` 个上下文，以便减一后的 `n` 使用。
 
-A loop-based algorithm is more memory-saving:
+而循环算法更省内存：
 
 ```js
 function pow(x, n) {
@@ -275,19 +275,19 @@ function pow(x, n) {
 }
 ```
 
-The iterative `pow` uses a single context changing `i` and `result` in the process. Its memory requirements are small, fixed and do not depend on `n`.
+迭代 `pow` 仅使用一个上下文，在处理中修改 `i` 和 `result`。它的内存要求比较小，且固定不依赖 `n`。
 
-**Any recursion can be rewritten as a loop. The loop variant usually can be made more effective.**
+**任何递归都可以用循环来重写。循环变体一般更加有效。**
 
-...But sometimes the rewrite is non-trivial, especially when function uses different recursive subcalls depending on conditions and merges their results or when the branching is more intricate. And the optimization may be unneeded and totally not worth the efforts.
+...但有时重写很难，尤其是函数根据条件使用不同的子调用，然后合并它们的结果，或者分支比较复杂。而且有些优化可能没有必要，完全不值得。
 
-Recursion can give a shorter code, easier to understand and support. Optimizations are not required in every place, mostly we need a good code, that's why it's used.
+递归能提供更简洁的代码，容易理解和维护。优化并不是处处需要，大多数时候我们需要一个好代码，这就是它被使用的原因。
 
-## Recursive traversals
+## 递归遍历
 
-Another great application of the recursion is a recursive traversal.
+递归另一个重要应用就是递归遍历。
 
-Imagine, we have a company. The staff structure can be presented as an object:
+设想，有一家公司。职员结构可以用这个对象描述：
 
 ```js
 let company = {
@@ -316,34 +316,34 @@ let company = {
 };
 ```
 
-In other words, a company has departments.
+或者说，一家公司有很多部门。
 
-- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
-- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has the own staff.
-- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+- 一个部门有员工列表，比如，`销售`部有 2 名员工：John 和 Alice。
+- 或者一个部门可能划分为几个子部门，比如`开发`有两个分支：`网站`和`内部`，它们都有自己的员工。
+- 当一个子部门增长时，它可能会划分为子部门（或者团队）。
 
-    For instance, the `sites` department in the future may be split into teams for `siteA` and `siteB`. And they, potentially, can split even more. That's not on the picture, just something to have in mind.
+    比如，`网站`部门在未来可能会分为`网站 A` 和 `网站 B`。它们可能还会再分，没有图示，脑补一下吧。
 
-Now let's say we want a function to get the sum of all salaries. How can we do that?
+现在，如果我们需要获得所有薪酬总数，我们该如何做？
 
-An iterative approach is not easy, because the structure is not simple. The first idea may be to make a `for` loop over `company` with nested subloop over 1st level departments. But then we need more nested subloops to iterate over the staff in 2nd level departments like `sites`. ...And then another subloop inside those for 3rd level departments that might appear in the future? Should we stop on level 3 or make 4 levels of loops? If we put 3-4 nested subloops in the code to traverse a single object, it becomes rather ugly.
+迭代方式并不容易，因为结构比较复杂。首先想到是使用 `for` 循环 `公司`，然后嵌套子循环第 1 层部门。然后我们需要更多嵌套子循环来迭代第 2 层部门，比如 `网站`。...然后另一个嵌套子循环给将来会有的第 3 层部门？我们应该在第 3 或第 4 层循环停止吗？如果我们将 3-4 嵌套子循环放到代码里来遍历单个对象，它会变得很丑。
 
-Let's try recursion.
+我们试试递归。
 
-As we can see, when our function gets a department to sum, there are two possible cases:
+可以看到，当函数计算一个部门的和时，有两种可能情况：
 
-1. Either it's a "simple" department with an *array of people* -- then we can sum the salaries in a simple loop.
-2. Or it's *an object with `N` subdepartments* -- then we can make `N` recursive calls to get the sum for each of the subdeps and combine the results.
+1. 这个部门是有**一组人**的『简单』部门 —— 这样我们就可以使用简单循环来求薪酬总额。
+2. 或者它是**一个有 `N` 个子部门的对象** —— 这样我们可以用 `N` 个递归调用来求每一个子部门的总额然后合并它们。
 
-The (1) is the base of recursion, the trivial case.
+(1) 是递归的基础，简单的情况。
 
-The (2) is the recursive step. A complex task is split into subtasks for smaller departments. They may in turn split again, but sooner or later the split will finish at (1).
+(2) 是递归步骤。复杂的任务被划分为适于更小部门的子任务。它们可能还会在划分，但是最终都会在 (1) 那里完成。
 
-The algorithm is probably even easier to read from the code:
+算法从代码来看会更简单些：
 
 
 ```js run
-let company = { // the same object, compressed for brevity
+let company = { // 是同样的对象，简洁起见做了压缩
   sales: [{name: 'John', salary: 1000}, {name: 'Alice', salary: 600 }],
   development: {
     sites: [{name: 'Peter', salary: 2000}, {name: 'Alex', salary: 1800 }],
@@ -351,15 +351,15 @@ let company = { // the same object, compressed for brevity
   }
 };
 
-// The function to do the job
+// 用来完成作业的函数
 *!*
 function sumSalaries(department) {
-  if (Array.isArray(department)) { // case (1)
-    return department.reduce((prev, current) => prev + current.salary, 0); // sum the array
-  } else { // case (2)
+  if (Array.isArray(department)) { // 情况 (1)
+    return department.reduce((prev, current) => prev + current.salary, 0); // 求数组的和
+  } else { // 情况 (2)
     let sum = 0;
     for (let subdep of Object.values(department)) {
-      sum += sumSalaries(subdep); // recursively call for subdepartments, sum the results
+      sum += sumSalaries(subdep); // 递归调用子部门，对结果求和
     }
     return sum;
   }
@@ -369,62 +369,62 @@ function sumSalaries(department) {
 alert(sumSalaries(company)); // 6700
 ```
 
-The code is short and easy to understand (hopefully?). That's the power of recursion. It also works for any level of subdepartment nesting.
+代码很短也容易理解（希望是这样）。这就是递归的能力。它对任何层次的子部门嵌套都有效。
 
-Here's the diagram of calls:
+以下是调用图：
 
 ![recursive salaries](recursive-salaries.png)
 
-We can easily see the principle: for an object `{...}` subcalls are made, while arrays `[...]` are the "leaves" of the recursion tree, they give immediate result.
+很容易可以看到原理：对对象 `{...}` 会生成子调用，而数组 `[...]` 因为是递归树的「叶子」，它们会立即得到结果。
 
-Note that the code uses smart features that we've covered before:
+注意这段代码使用了我们之前讲过的便利特性：
 
-- Method `arr.reduce` explained in the chapter <info:array-methods> to get the sum of the array.
-- Loop `for(val of Object.values(obj))` to iterate over object values: `Object.values` returns an array of them.
+- 章节 <info:array-methods> 中的 `arr.reduce` 方法做数组求和。
+- 循环 `for(val of Object.values(obj))` 迭代对象的（属性）值：`Object.values` 返回它们组成的数组。
 
 
-## Recursive structures
+## 递归结构
 
-A recursive (recursively-defined) data structure is a structure that replicates itself in parts.
+递归（递归定义的）数据结构是一种复制自身的结构。
 
-We've just seen it in the example of a company structure above.
+我们在上面公司结构的例子中已经见过。
 
-A company *department* is:
-- Either an array of people.
-- Or an object with *departments*.
+一个公司的**部门**是：
+- 不是一组人。
+- 就是一个**部门**对象。
 
-For web-developers there are much better-known examples: HTML and XML documents.
+对 web 开发者而言，有更熟知的例子：HTML 和 XML 文档。
 
-In the HTML document, an *HTML-tag* may contain a list of:
-- Text pieces.
-- HTML-comments.
-- Other *HTML-tags* (that in turn may contain text pieces/comments or other tags etc).
+在 HTML 文档中，一个 **HTML 标签**可能包括一组：
+- 文本片段。
+- HTML 注释。
+- 其它 **HTML 标签**（它有可能又包括文本片段、注释或其它标签等等）
 
-That's once again a recursive definition.
+那就是一个递归定义。
 
-For better understanding, we'll cover one more recursive structure named "Linked list" that might be a better alternative for arrays in some cases.
+为了更好的理解，我们会再讲一个递归结构的例子「链表」，在某些情况下，它是优于数组的选择。
 
-### Linked list
+### 链表
 
-Imagine, we want to store an ordered list of objects.
+想象一下，我们要存储一个有序的对象列表。
 
-The natural choice would be an array:
+自然选择将是一个数组：
 
 ```js
 let arr = [obj1, obj2, obj3];
 ```
 
-...But there's a problem with arrays. The "delete element" and "insert element" operations are expensive. For instance, `arr.unshift(obj)` operation has to renumber all elements to make room for a new `obj`, and if the array is big, it takes time. Same with `arr.shift()`.
+...但是用数组有个问题。「删除元素」和「插入元素」操作代价非常大。例如，`arr.unshift(obj)` 操作必须对所有元素重新编号以便为新的元素 `obj` 腾出空间，而且如果数组很大，会很耗时。`arr.shift()` 同理。
 
-The only structural modifications that do not require mass-renumbering are those that operate with the end of array: `arr.push/pop`. So an array can be quite slow for big queues.
+唯一对数组结构做修改而不需要大量重排的操作就是在数组的两端：`arr.push/pop`。所以对大队列来说，数组会很慢。
 
-Alternatively, if we really need fast insertion/deletion, we can choose another data structure called a [linked list](https://en.wikipedia.org/wiki/Linked_list).
+如果我们真的需要快速插入、删除的话，我们可以选择另一种叫做[链表](https://en.wikipedia.org/wiki/Linked_list)的数据结构。
 
-The *linked list element* is recursively defined as an object with:
-- `value`.
-- `next` property referencing the next *linked list element* or `null` if that's the end.
+**链表元素**是一个被递归定义的对象，它有：
+- `value`。
+- `next` 属性引用下一个**链表元素**或者代表末尾的 `null`。
 
-For instance:
+举个例子：
 
 ```js
 let list = {
@@ -442,11 +442,11 @@ let list = {
 };
 ```
 
-Graphical representation of the list:
+列表的图形表示：
 
 ![linked list](linked-list.png)
 
-An alternative code for creation:
+一段用来创建的代码：
 
 ```js no-beautify
 let list = { value: 1 };
@@ -455,9 +455,9 @@ list.next.next = { value: 3 };
 list.next.next.next = { value: 4 };
 ```
 
-Here we can even more clearer see that there are multiple objects, each one has the `value` and `next` pointing to the neighbour. The `list` variable is the first object in the chain, so following `next` pointers from it we can reach any element.
+这里我们清楚的看到有很多个对象，每一个都有 `value` 和 指向邻居的 `next`。`list` 是链条的第一个对象，顺着 `next` 指针，我们可以抵达任何元素。
 
-The list can be easily split into multiple parts and later joined back:
+列表可以很容易被分为几个部分，然后重新组装回去：
 
 ```js
 let secondList = list.next.next;
@@ -466,15 +466,15 @@ list.next.next = null;
 
 ![linked list split](linked-list-split.png)
 
-To join:
+合并：
 
 ```js
 list.next.next = secondList;
 ```
 
-And surely we can insert or remove items in any place.
+当然我们可以在任何位置插入或移除元素。
 
-For instance, to prepend a new value, we need to update the head of the list:
+比如，为了在前面增加一个新值，我们需要更新列表的头：
 
 ```js
 let list = { value: 1 };
@@ -483,14 +483,14 @@ list.next.next = { value: 3 };
 list.next.next.next = { value: 4 };
 
 *!*
-// prepend the new value to the list
+// 将新值添加到列表头部
 list = { value: "new item", next: list };
 */!*
 ```
 
 ![linked list](linked-list-0.png)
 
-To remove a value from the middle, change `next` of the previous one:
+为了移除中间的一个值，修改前一个元素的 `next`：
 
 ```js
 list.next = list.next.next;
@@ -498,35 +498,35 @@ list.next = list.next.next;
 
 ![linked list](linked-list-remove-1.png)
 
-We made `list.next` jump over `1` to value `2`. The value `1` is now excluded from the chain. If it's not stored anywhere else, it will be automatically removed from the memory.
+我们让 `list.next` 从 `1` 跳到值 `2`。值 `1` 就从链上被去除。如果没有被存储在其它地方，那么它会自动的从内存中被移除。
 
-Unlike arrays, there's no mass-renumbering, we can easily rearrange elements.
+与数组不同，没有大规模重排，我们可以很容易的重新排列元素。
 
-Naturally, lists are not always better than arrays. Otherwise everyone would use only lists.
+当然，列表不总是优于数组。不然大家都去使用列表了。
 
-The main drawback is that we can't easily access an element by its number. In an array that's easy: `arr[n]` is a direct reference. But in the list we need to start from the first item and go `next` `N` times to get the Nth element.
+主要的不足就是我们无法轻易通过它的编号获取元素。在数组中却很容易：`arr[n]` 是一个直接引用。而在列表中，我们需要从起点元素顺着 `next` 找 `N` 次才能获取到第 N 个元素。
 
-...But we don't always need such operations. For instance, when we need a queue or even a [deque](https://en.wikipedia.org/wiki/Double-ended_queue) -- the ordered structure that must allow very fast adding/removing elements from both ends.
+...但是我们并不总需要这样的操作。比如，当我们需要一个队列或者甚至一个[双向队列](https://en.wikipedia.org/wiki/Double-ended_queue) —— 有序结构必须可以快速的从两端添加、移除元素。
 
-Sometimes it's worth to add another variable named `tail` to track the last element of the list (and update it when adding/removing elements from the end). For large sets of elements the speed difference versus arrays is huge.
+有时也值的添加一个名为 `tail` 的变量来跟踪列表的末尾元素（并且当从尾部添加、删除元素时更新它）。对大型数据集来说，它与数组的速度差异巨大。
 
-## Summary
+## 总结
 
-Terms:
-- *Recursion*  is a programming term that means a "self-calling" function. Such functions can be used to solve certain tasks in elegant ways.
+术语：
+- **递归**是函数「自调用」的编程术语。这种函数可以被用来优雅解决特定的任务。
 
-    When a function calls itself, that's called a *recursion step*. The *basis* of recursion is function arguments that make the task so simple that the function does not make further calls.
+    当一个函数调用自身时，我们称其为**递归步骤**。递归**基础**是函数参数使得任务很简单，不需要其它更进一步调用。
 
-- A [recursively-defined](https://en.wikipedia.org/wiki/Recursive_data_type) data structure is a data structure that can be defined using itself.
+- 一个[递归定义](https://en.wikipedia.org/wiki/Recursive_data_type)的数据结构是指可以使用自身来定义的数据结构。
 
-    For instance, the linked list can be defined as a data structure consisting of an object referencing a list (or null).
+    比如，链表可以被定义为由对象引用一个列表（或 `null`）的组成的数据结构。
 
     ```js
     list = { value, next -> list }
     ```
 
-    Trees like HTML elements tree or the department tree from this chapter are also naturally recursive: they branch and every branch can have other branches.
+    像 HTML 元素树或者本章的部门树等树结构本质上也是递归：它们有分支，而且分支又可以有分支。
 
-    Recursive functions can be used to walk them as we've seen in the `sumSalary` example.
+    如我们在例子 `sumSalary` 中看到的，递归函数可以被用来遍历它们。
 
-Any recursive function can be rewritten into an iterative one. And that's sometimes required to optimize stuff. But for many tasks a recursive solution is fast enough and easier to write and support.
+任何递归函数都可以被重写为迭代形式。这是优化时做的事情。对多数任务，递归解决方式足够快且容易编写和维护。

@@ -1,3 +1,3 @@
-# An introduction
+# 一个简介
 
-About the JavaScript language and the environment to develop with it.
+介绍 JavaScript 语言及其开发环境。

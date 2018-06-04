@@ -1,4 +1,4 @@
-The solution is to return the object itself from every call.
+解决方案就是在每次调用后返回这个对象本身。
 
 ```js run
 let ladder = {
@@ -26,7 +26,7 @@ let ladder = {
 ladder.up().up().down().up().down().showStep(); // 1
 ```
 
-We also can write a single call per line. For long chains it's more readable:
+我们也可以每行一个调用。对于长链接它更具可读性：
 
 ```js 
 ladder

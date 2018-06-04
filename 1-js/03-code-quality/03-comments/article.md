@@ -1,30 +1,30 @@
-# Comments
+# 注释
 
-As we know from the chapter <info:structure>, comments can be single-line: starting with `//` and multiline: `/* ... */`.
+正如我们在 <info:structure> 这一章所了解到的那样，注释可以是以 `//` 开始的单行注释，或是 `/* ... */` 结构的多行注释。
 
-We normally use them to describe how and why the code works.
+我们通常使用它们来描述代码怎样工作和为什么工作。
 
-From the first sight, commenting might be obvious, but novices in programming usually get it wrong.
+从第一眼看，注释代表的东西可能是显而易见的，但编程中的新手通常会弄错。
 
-## Bad comments
+## 糟糕的注释
 
-Novices tend to use comments to explain "what is going on in the code". Like this:
+新手倾向于使用注释来解释“代码中发生了什么”。就像这样：
 
 ```js
-// This code will do this thing (...) and that thing (...)
-// ...and who knows what else...
+// 这里的代码会先做这件事(...) 然后做那件事 (...)
+// ...谁知道还有什么...
 very;
 complex;
 code;
 ```
 
-But in good code the amount of such "explanatory" comments should be minimal. Seriously, code should be easy to understand without them.
+但在良好的代码中，这种“解释性”评论的数量应该是最小的。严肃的说，就算没有它们，代码也应该很容易理解。
 
-There's a great rule about that: "if the code is so unclear that it requires a comment, then maybe it should be rewritten instead".
+关于这一点有一个很棒的原则：“如果代码不够清晰以至于需要一个注释，那么或许它应该被重写。”
 
-### Recipe: factor out functions
+### 配方：分解函数
 
-Sometimes it's beneficial to replace a code piece with a function, like here:
+有时候，用一个函数来代替一个代码片段是更好的，就像这样：
 
 ```js
 function showPrimes(n) {
@@ -32,7 +32,7 @@ function showPrimes(n) {
   for (let i = 2; i < n; i++) {
 
 *!*
-    // check if i is a prime number
+    // 检测 i 是否是一个质数（素数）
     for (let j = 2; j < i; j++) {
       if (i % j == 0) continue nextPrime;
     }
@@ -43,7 +43,7 @@ function showPrimes(n) {
 }
 ```
 
-The better variant, with a factored out function `isPrime`:
+更好的变体，使用一个分解出来的函数 `isPrime`：
 
 
 ```js
@@ -52,7 +52,7 @@ function showPrimes(n) {
   for (let i = 2; i < n; i++) {
     *!*if (!isPrime(i)) continue;*/!*
 
-    alert(i);  
+    alert(i);
   }
 }
 
@@ -65,21 +65,21 @@ function isPrime(n) {
 }
 ```
 
-Now we can understand the code easily. The function itself becomes the comment. Such code is called *self-descriptive*.
+现在我们可以很容易的理解代码了。函数自己变成了注释。这种代码被称之为**自我描述型**代码。
 
-### Recipe: create functions
+### 配方：创建函数
 
-And if we have a long "code sheet" like this:
+如果我们有一个像下面这样很长的代码块：
 
 ```js
-// here we add whiskey
+// 我们在这里添加威士忌（译者注：国外的一种酒）
 for(let i = 0; i < 10; i++) {
   let drop = getWhiskey();
   smell(drop);
   add(drop, glass);
 }
 
-// here we add juice
+// 我们在这里添加果汁
 for(let t = 0; t < 3; t++) {
   let tomato = getTomato();
   examine(tomato);
@@ -90,7 +90,7 @@ for(let t = 0; t < 3; t++) {
 // ...
 ```
 
-Then it might be a better variant to refactor it into functions like:
+我们像下面这样将它重构成函数可能会是一个更好的变体：
 
 ```js
 addWhiskey(glass);
@@ -111,70 +111,70 @@ function addJuice(container) {
 }
 ```
 
-Once again, functions themselves tell what's going on. There's nothing to comment. And also the code structure is better when split. It's clear what every function does, what it takes and what it returns.
+再一次，函数本身就可以告诉我们发生了什么。没有什么地方需要注释。并且分割了之后代码的结构更好了。每一个函数做什么、需要什么和返回什么都非常的清晰。
 
-In reality, we can't totally avoid "explanatory" comments. There are complex algorithms. And there are smart "tweaks" for purposes of optimization. But generally we should try to keep the code simple and self-descriptive.
+实际上，我们不能完全避免“解释型”注释。在那些复杂的算法中，会有一些处于优化的目的而机智的“调整”。但是通常情况下，我们应该尽可能地保持代码的简单和“自我描述”。
 
-## Good comments
+## 好的注释
 
-So, explanatory comments are usually bad. Which comments are good?
+因此，解释性注释通常来说都是不好的，那么哪一种注释才是好的呢？
 
-Describe the architecture
-: Provide a high-level overview of components, how they interact, what's the control flow in various situations... In short -- the bird's eye view of the code. There's a special diagram language [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) for high-level architecture diagrams. Definitely worth studying.
+描述架构
+：提供组件的一个高层次的概况，它们如何相互作用、各种情况下的控制流程是什么样的... 简而言之 —— 『代码的鸟瞰图』。有一个专门为高层次架构图而设计的图表语言 [UML](http://wikipedia.org/wiki/Unified_Modeling_Language)，绝对值得学习。
 
-Document a function usage
-: There's a special syntax [JSDoc](http://en.wikipedia.org/wiki/JSDoc) to document a function: usage, parameters, returned value.
+记录函数的用法
+：有一个专门的语法 [JSDoc](http://en.wikipedia.org/wiki/JSDoc) 来记录函数: 用法、参数和返回值。
 
-    For instance:
+    例如：
     ```js
     /**
-     * Returns x raised to the n-th power.
+     * 返回 x 提高到 n 次幂之后的值。
      *
-     * @param {number} x The number to raise.
-     * @param {number} n The power, must be a natural number.
-     * @return {number} x raised to the n-th power.
+     * @param {number} x 要改变的值。
+     * @param {number} n 幂数，必须是一个自然数。
+     * @return {number} x 提高到 n 次幂之后的值。
      */
     function pow(x, n) {
       ...
     }
     ```
 
-    Such comments allow us to understand the purpose of the function and use it the right way without looking in its code.
+    这种注释允许你理解函数的目的，并在不需要看它的代码的情况下正确的使用它。
 
-    By the way, many editors like [WebStorm](https://www.jetbrains.com/webstorm/) can understand them as well and use them to provide autocomplete and some automatic code-checking.
+    顺便说一句，很多诸如 [WebStorm](https://www.jetbrains.com/webstorm/) 这样的编辑器都可以很好的理解和使用这些注释来提供自动完成和一些自动化代码检查工作。
 
-    Also, there are tools like [JSDoc 3](https://github.com/jsdoc3/jsdoc) that can generate HTML-documentation from the comments. You can read more information about JSDoc at <http://usejsdoc.org/>.
+    当然了，也有一些像是 [JSDoc 3](https://github.com/jsdoc3/jsdoc) 这样的工具可以从注释中直接生成 HTML 文档。你可以在 <http://usejsdoc.org/> 阅读关于 JSDoc 的更多信息。
 
-Why is the task solved this way?
-: What's written is important. But what's *not* written may be even more important to understand what's going on. Why is the task solved exactly this way? The code gives no answer.
+为什么任务以这种方式解决？
+: 写了什么代码很重要。但是什么代码**不**写对于理解发生了什么或许更重要。为什么任务恰好用这种方式解决了？代码并没有给出答案。
 
-    If there are many ways to solve the task, why this one? Especially when it's not the most obvious one.
+    如果有很多种方法都可以解决这个问题，为什么偏偏是这一种？尤其当它不是最显而易见的时候。
 
-    Without such comments the following situation is possible:
-    1. You (or your colleague) open the code written some time ago, and see that it's "suboptimal".
-    2. You think: "How stupid I was then, and how much smarter I'm now", and rewrite using the "more obvious and correct" variant.
-    3. ...The urge to rewrite was good. But in the process you see that the "more obvious" solution is actually lacking. You even dimly remember why, because you already tried it long ago. You revert to the correct variant, but the time was wasted.
+    没有这样的注释的话，就可能会发生下面的情况：
+    1. 你（或者你的同事）打开了前一段时间写的代码，看到它不是最理想的实现。
+    2. 你认为：“我当时是有多蠢啊，现在我多么的聪明”，然后用“更显而易见而且正确的”方式重写了一遍。
+    3. 重写的这股冲动劲是好的。但是在重写的过程中你发现“更显而易见”的解决方案实际上是不足的。你甚至依稀地想起了为什么会这样，因为你很久之前就已经尝试这样做了。于是你还原到了那个正确的实现。但是时间已经浪费了。
 
-    Comments that explain the solution are very important. They help to continue development the right way.
+    解释解决方案的注释非常的重要。它们可以帮助你以正确的方式继续开发。
 
-Any subtle features of the code? Where they are used?
-: If the code has anything subtle and counter-intuitive, it's definitely worth commenting.
+代码有哪些巧妙的特性？它们被用在什么地方？
+: 如果代码存在任何巧妙和不显而易见的方法，那绝对需要注释。
 
-## Summary
+## 总结
 
-An important sign of a good developer is comments: their presence and even their absense.
+一个好的开发者的标志之一就是他的注释：它们的存在甚至它们的缺席。
 
-Good comments allow us to maintain the code well, come back to it after a delay and use it more effectively.
+好的注释可以使我们更好的维护代码，并且在很长时间之后依然可以更高效地回到代码中和使用其功能。
 
-**Comment this:**
+**注释这些内容**
 
-- Overall architecture, high-level view.
-- Function usage.
-- Important solutions, especially when not immediately obvious.
+- 整体架构，高层次的观点。
+- 函数的用法。
+- 重要的解决方案，特别是在不是很明显时。
 
-**Avoid comments:**
+**避免注释**
 
-- That tell "how code works" and "what it does".
-- Put them only if it's impossible to make the code so simple and self-descriptive that it doesn't require those.
+- 阐述“代码如何工作”或“它做了什么”。
+- 只有在没有这些就不可能使代码变得如此简单和自我描述的情况下才可以使用它们。
 
-Comments are also used for auto-documenting tools like JSDoc3: they read them and generate HTML-docs (or docs in another format).
+注释也被用于一些自动文档工具（比如 JSDoc3）：他们读取注释然后构建出 HTML 文档（或者其他格式的文档）。
