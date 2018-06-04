@@ -1,42 +1,42 @@
-# Class checking: "instanceof"
+# 类型检测：“instanceof”
 
-The `instanceof` operator allows to check whether an object belongs to a certain class. It also takes inheritance into account.
+`instanceof` 操作符用于检测对象是否属于某个 class，同时，检测过程中也会将继承关系考虑在内。
 
-Such a check may be necessary in many cases, here we'll use it for building a *polymorphic* function, the one that treats arguments differently depending on their type.
+这种检测在多数情况下还是比较有用的，下面，我们就用它来构建一个具备 **多态** 性的函数，这个函数能识别出参数类型，从而作出不同的处理。
 
-## The instanceof operator [#ref-instanceof]
+## instanceof [#ref-instanceof]
 
-The syntax is:
+用法：
 ```js
 obj instanceof Class
 ```
 
-It returns `true` if `obj` belongs to the `Class` (or a class inheriting from it).
+如果 `obj` 隶属于 `Class` 类（或者是 `Class` 类的衍生类），表达式将返回 `true`。
 
-For instance:
+举例说明：
 
 ```js run
 class Rabbit {}
 let rabbit = new Rabbit();
 
-// is it an object of Rabbit class?
+// rabbit 是 Rabbit 类的实例对象吗?
 *!*
 alert( rabbit instanceof Rabbit ); // true
 */!*
 ```
 
-It also works with constructor functions:
+使用构造函数结果也是一样的：
 
 ```js run
 *!*
-// instead of class
+// 构造函数而非 class
 function Rabbit() {}
 */!*
 
 alert( new Rabbit() instanceof Rabbit ); // true
 ```
 
-...And with built-in classes like `Array`:
+...再来看看内置类型 `Array`：
 
 ```js run
 let arr = [1, 2, 3];
@@ -44,29 +44,29 @@ alert( arr instanceof Array ); // true
 alert( arr instanceof Object ); // true
 ```
 
-Please note that `arr` also belongs to the `Object` class. That's because `Array` prototypally inherits from `Object`.
+有一点需要留意，`arr` 同时还隶属于 `Object` 类。因为从原型上来讲，`Array` 是继承自 `Object` 类的。
 
-The `instanceof` operator examines the prototype chain for the check, and is also fine-tunable using the static method `Symbol.hasInstance`.
+`instanceof` 在检测中会将原型链考虑在内，此外，还能借助静态方法 `Symbol.hasInstance` 来改善检测效果。
 
-The algorithm of `obj instanceof Class` works roughly as follows:
+`obj instanceof Class` 语句的大致执行过程如下：
 
-1. If there's a static method `Symbol.hasInstance`, then use it. Like this:
+1. 如果提供了静态方法 `Symbol.hasInstance`，那就直接用这个方法进行检测：
 
     ```js run
-    // assume anything that canEat is an animal
+    // 假设能吃东西的玩意都是动物
     class Animal {
       static [Symbol.hasInstance](obj) {
         if (obj.canEat) return true;
       }
     }
-
+    
     let obj = { canEat: true };
-    alert(obj instanceof Animal); // true: Animal[Symbol.hasInstance](obj) is called
+    alert(obj instanceof Animal); // 返回 true：调用 Animal[Symbol.hasInstance](obj)
     ```
 
-2. Most classes do not have `Symbol.hasInstance`. In that case, check if `Class.prototype` equals to one of prototypes in the `obj` prototype chain.
+2. 大部分的类是没有 `Symbol.hasInstance` 方法的，这时会检查 `Class.prototype` 是否等于 `obj` 的原型链中的任何一个原型。
 
-    In other words, compare:
+    简而言之，是这么比较的：
     ```js
     obj.__proto__ === Class.prototype
     obj.__proto__.__proto__ === Class.prototype
@@ -74,14 +74,14 @@ The algorithm of `obj instanceof Class` works roughly as follows:
     ...
     ```
 
-    In the example above `Rabbit.prototype === rabbit.__proto__`, so that gives the answer immediately.
+    在上一个例子中有 `Rabbit.prototype === rabbit.__proto__` 成立，所以结果是显然的。
 
-    In the case of an inheritance, `rabbit` is an instance of the parent class as well:
+    再比如下面一个继承的例子，`rabbit` 对象同时也是父类的一个实例：
 
     ```js run
     class Animal {}
     class Rabbit extends Animal {}
-
+    
     let rabbit = new Rabbit();
     *!*
     alert(rabbit instanceof Animal); // true
@@ -90,72 +90,72 @@ The algorithm of `obj instanceof Class` works roughly as follows:
     // rabbit.__proto__.__proto__ === Animal.prototype (match!)
     ```
 
-Here's the illustration of what `rabbit instanceof Animal` compares with `Animal.prototype`:
+下图展示了 `rabbit instanceof Animal` 的执行过程中，`Animal.prototype` 是如何参与比较的：
 
 ![](instanceof.png)
 
-By the way, there's also a method [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf), that returns `true` if `objA` is somewhere in the chain of prototypes for `objB`. So the test of `obj instanceof Class` can be rephrased as `Class.prototype.isPrototypeOf(obj)`.
+这里还要提到一个方法 [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf)，如果 `objA` 处在 `objB` 的原型链中，调用结果为 `true`。所以，`obj instanceof Class` 也可以被视作为是调用 `Class.prototype.isPrototypeOf(obj)`。
 
-That's funny, but the `Class` constructor itself does not participate in the check! Only the chain of prototypes and `Class.prototype` matters.
+虽然有点奇葩，其实 `Class` 的构造器自身是不参与检测的！检测过程只和原型链以及 `Class.prototype` 有关。
 
-That can lead to interesting consequences when `prototype` is changed.
+所以，当 `prototype` 改变时，会产生意想不到的结果。
 
-Like here:
+就像这样：
 
 ```js run
 function Rabbit() {}
 let rabbit = new Rabbit();
 
-// changed the prototype
+// 修改其 prototype
 Rabbit.prototype = {};
 
-// ...not a rabbit any more!
+// ...再也不是只兔子了！
 *!*
 alert( rabbit instanceof Rabbit ); // false
 */!*
 ```
 
-That's one of the reasons to avoid changing `prototype`. Just to keep safe.
+所以，为了谨慎起见，最好避免修改 `prototype`。
 
-## Bonus: Object toString for the type
+## 福利：使用 Object 的 toString 方法来揭示类型
 
-We already know that plain objects are converted to string as `[object Object]`:
+大家都知道，一个普通对象被转化为字符串时为 `[object Object]`：
 
 ```js run
 let obj = {};
 
 alert(obj); // [object Object]
-alert(obj.toString()); // the same
+alert(obj.toString()); // 同上
 ```
 
-That's their implementation of `toString`. But there's a hidden feature that makes `toString` actually much more powerful than that. We can use it as an extended `typeof` and an alternative for `instanceof`.
+这也是它们的 `toString` 方法的实现如此。但是，`toString` 自有其潜质，可以让它变得更实用一点。甚至可以用来替代 `instanceof`，也可以视作为 `typeof` 的增强版。
 
-Sounds strange? Indeed. Let's demystify.
+听起来挺不可思议？那是自然，精彩马上揭晓。
 
-By [specification](https://tc39.github.io/ecma262/#sec-object.prototype.tostring), the built-in `toString` can be extracted from the object and executed in the context of any other value. And its result depends on that value.
+照 [规范](https://tc39.github.io/ecma262/#sec-object.prototype.tostring) 上所讲，内置的 `toString` 方法可以从对象中提取出来，以其他值作为上下文（context）对象进行调用，调用结果取决于传入的上下文对象。
 
-- For a number, it will be `[object Number]`
-- For a boolean, it will be `[object Boolean]`
-- For `null`: `[object Null]`
-- For `undefined`: `[object Undefined]`
-- For arrays: `[object Array]`
-- ...etc (customizable).
+- 如果传入的是 number 类型，返回 `[object Number]`
+- 如果传入的是 boolean 类型，返回 `[object Boolean]`
+- 如果传入 `null`，返回 `[object Null]`
+- 传入 `undefined`，返回 `[object Undefined]`
+- 传入数组，返回 `[object Array]`
+- ...等等（例如一些自定义类型）
 
-Let's demonstrate:
+下面进行阐述：
 
 ```js run
-// copy toString method into a variable for convenience
+// 保存 toString 方法的引用，方便后面使用
 let objectToString = Object.prototype.toString;
 
-// what type is this?
+// 猜猜是什么类型？
 let arr = [];
 
 alert( objectToString.call(arr) ); // [object Array]
 ```
 
-Here we used [call](mdn:js/function/call) as described in the chapter [](info:call-apply-decorators) to execute the function `objectToString` in the context `this=arr`.
+这里用到了章节 [](info:call-apply-decorators) 里提到的 [call](mdn:js/function/call) 方法来调用上下文 `this=arr` 的方法 `objectToString`。
 
-Internally, the `toString` algorithm examines `this` and returns the corresponding result. More examples:
+`toString` 的内部算法会检查 `this` 对象，返回对应的结果。再来几个例子：
 
 ```js run
 let s = Object.prototype.toString;
@@ -167,9 +167,9 @@ alert( s.call(alert) ); // [object Function]
 
 ### Symbol.toStringTag
 
-The behavior of Object `toString` can be customized using a special object property `Symbol.toStringTag`.
+对象的 `toString` 方法可以使用 `Symbol.toStringTag` 这个特殊的对象属性进行自定义输出。
 
-For instance:
+举例说明：
 
 ```js run
 let user = {
@@ -179,10 +179,10 @@ let user = {
 alert( {}.toString.call(user) ); // [object User]
 ```
 
-For most environment-specific objects, there is such a property. Here are few browser specific examples:
+大部分和环境相关的对象也有这个属性。以下输出可能因浏览器不同而异：
 
 ```js run
-// toStringTag for the envinronment-specific object and class:
+// 环境相关对象和类的 toStringTag：
 alert( window[Symbol.toStringTag]); // window
 alert( XMLHttpRequest.prototype[Symbol.toStringTag] ); // XMLHttpRequest
 
@@ -190,22 +190,22 @@ alert( {}.toString.call(window) ); // [object Window]
 alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 ```
 
-As you can see, the result is exactly `Symbol.toStringTag` (if exists), wrapped into `[object ...]`.
+输出结果和 `Symbol.toStringTag` （前提是这个属性存在）一样，只不过被包裹进了 `[object ...]` 里。
 
-At the end we have "typeof on steroids" that not only works for primitive data types, but also for built-in objects and even can be customized.
+这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检测基本数据类型，就是内置对象类型也不在话下，更可贵的是还支持自定义。
 
-It can be used instead of `instanceof` for built-in objects when we want to get the type as a string rather than just to check.
+所以，如果希望以字符串的形式获取内置对象类型信息，而不仅仅只是检测类型的话，可以用这个方法来替代 `instanceof`。
 
-## Summary
+## 总结
 
-Let's recap the type-checking methods that we know:
+下面，来总结下大家学到的类型检测方式：
 
-|               | works for   |  returns      |
+|               | 用于 |  返回      |
 |---------------|-------------|---------------|
-| `typeof`      | primitives  |  string       |
-| `{}.toString` | primitives, built-in objects, objects with `Symbol.toStringTag`   |       string |
-| `instanceof`  | objects     |  true/false   |
+| `typeof`      | 基本数据类型 |  string       |
+| `{}.toString` | 基本数据类型、内置对象以及包含 `Symbol.toStringTag` 属性的对象 |       string |
+| `instanceof`  | 任意对象     |  true/false   |
 
-As we can see, `{}.toString` is technically a "more advanced" `typeof`.
+看样子，`{}.toString` 基本就是一增强版  `typeof`。
 
-And `instanceof` operator really shines when we are working with a class hierarchy and want to check for the class taking into account inheritance.
+`instanceof` 在涉及多层类结构的场合中比较实用，这种情况下需要将类的继承关系考虑在内。
