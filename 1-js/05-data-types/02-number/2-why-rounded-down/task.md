@@ -1,22 +1,22 @@
-importance: 4
+重要性: 4
 
 ---
 
-# Why 6.35.toFixed(1) == 6.3?
+# 为什么 6.35.toFixed(1) == 6.3?
 
-According to the documentation `Math.round` and `toFixed` both round to the nearest number: `0..4` lead down while `5..9` lead up.
+根据文档`Math.round`和`toFixed`，最近的数字四舍五入：`0..4`会被舍去，而`5..9`会前进一位。
 
-For instance:
+例如:
 
 ```js run
 alert( 1.35.toFixed(1) ); // 1.4
 ```
 
-In the similar example below, why is `6.35` rounded to `6.3`, not `6.4`?
+在下面的类似例子中，为什么6.35被四舍五入为6.3而不是6.4？
 
 ```js run
 alert( 6.35.toFixed(1) ); // 6.3
 ```
 
-How to round `6.35` the right way?
+如何以正确的方式来四舍五入“6.35”？
 
