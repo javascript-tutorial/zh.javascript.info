@@ -1,11 +1,11 @@
-We need to "map" all values from the interval 0..1 into values from `min` to `max`.
+我们需要将区间0..1中的所有值“映射”为从最小值到最大值的值。
 
-That can be done in two stages:
+这可以分两个阶段完成:
 
-1. If we multiply a random number from 0..1 by `max-min`, then it the interval of possible values increases `0..1` to `0..max-min`.
-2. Now if we add `min`, the possible interval becomes from `min` to `max`.
+1. 如果我们将0..1的随机数乘以`max-min`，则可能值的间隔从0..1增加到0..`max-min`。
+2. 现在，如果我们添加`最小值`，则可能的间隔将从最小值变为`最大值`。
 
-The function:
+函数实现:
 
 ```js run
 function random(min, max) {
