@@ -1,10 +1,10 @@
-importance: 5
+重要程度：5
 
 ---
 
-# Strange instanceof
+# 不按套路出牌的 instanceof
 
-Why `instanceof` below returns `true`? We can easily see that `a` is not created by `B()`.
+下面代码中，`instanceof` 为什么会返回 `true`？很显然，`a` 并不是通过 `B()` 创建的。
 
 ```js run
 function A() {}
