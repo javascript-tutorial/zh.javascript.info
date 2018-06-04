@@ -1,6 +1,6 @@
-# The simple but wrong solution
+# 简单但错误的解决方案
 
-The simplest, but wrong solution would be to generate a value from `min` to `max` and round it:
+最简单但错误的解决方案是从`min`到`max`生成一个值并取它四舍五入的值：
 
 ```js run
 function randomInteger(min, max) {
@@ -11,11 +11,11 @@ function randomInteger(min, max) {
 alert( randomInteger(1, 3) );
 ```
 
-The function works, but it is incorrect. The probability to get edge values `min` and `max` is two times less than any other.
+这个函数是能起作用的，但不正确。获得边缘值`min`和`max`的概率是其他值的两倍
 
-If you run the example above many times, you would easily see that `2` appears the most often.
+如果你多次运行这个例子，你会很容易看到`2`出现的频率最高。
 
-That happens because `Math.round()` gets random numbers from the interval `1..3` and rounds them as follows:
+发生这种情况是因为`Math.round（）`从间隔`1..3`获得随机数并按如下所示进行四舍五入：
 
 ```js no-beautify
 values from 1    ... to 1.4999999999  become 1
@@ -23,11 +23,11 @@ values from 1.5  ... to 2.4999999999  become 2
 values from 2.5  ... to 2.9999999999  become 3
 ```
 
-Now we can clearly see that `1` gets twice less values than `2`. And the same with `3`.
+现在我们可以清楚地看到`1`的值比`2`少两倍。和`3`一样。
 
-# The correct solution
+# 正确的解决方案
 
-There are many correct solutions to the task. One of them is to adjust interval borders. To ensure the same intervals, we can generate values from `0.5 to 3.5`, thus adding the required probabilities to the edges:
+这项任务有很多正确的解决方案。其中之一是调整间隔边界。为了确保相同的时间间隔，我们可以生成从0.5到3.5的值，从而将所需的概率添加到边缘：
 
 ```js run
 *!*
@@ -41,7 +41,7 @@ function randomInteger(min, max) {
 alert( randomInteger(1, 3) );
 ```
 
-An alternative way could be to use `Math.floor` for a random number from `min` to `max+1`:
+另一种方法是使用`Math.floor`作为从`min`到`max + 1`的随机数：
 
 ```js run
 *!*
@@ -55,7 +55,7 @@ function randomInteger(min, max) {
 alert( randomInteger(1, 3) );
 ```
 
-Now all intervals are mapped this way:
+现在所有间隔都以这种方式映射：
 
 ```js no-beautify
 values from 1  ... to 1.9999999999  become 1
@@ -63,4 +63,4 @@ values from 2  ... to 2.9999999999  become 2
 values from 3  ... to 3.9999999999  become 3
 ```
 
-All intervals have the same length, making the final distribution uniform.
+所有间隔的长度相同，所以最终能够均匀分配。所有整数出现的概率都相同了
