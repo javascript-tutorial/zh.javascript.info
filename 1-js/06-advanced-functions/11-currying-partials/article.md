@@ -1,23 +1,23 @@
-libs:
-  - lodash
+库：
+  —— lodash
 
 ---
 
-# Currying and partials
+# 柯里化和偏函数
 
-Until now we have only been talking about binding `this`. Let's take it a step further.
+到目前为止，对于 bind 我们只讨论过 bind `this`。让我们深入探讨一下 bind。
 
-We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+我们能够绑定的不只是 `this`，还有参数。尽管很少这样做，但是有时候却很方便。
 
-The full syntax of `bind`:
+`bind` 的完整语法：
 
 ```js
 let bound = func.bind(context, arg1, arg2, ...);
 ```
 
-It allows to bind context as `this` and starting arguments of the function.
+可以看出，它允许将上下文绑定到 `this`，以及函数的前几个参数。
 
-For instance, we have a multiplication function `mul(a, b)`:
+举个例子，我们有一个做乘法运算的函数 `mul(a,b)`：
 
 ```js
 function mul(a, b) {
@@ -25,7 +25,7 @@ function mul(a, b) {
 }
 ```
 
-Let's use `bind` to create a function `double` on its base:
+基于它，我们利用 `bind` 创造一个新函数 `double`：
 
 ```js run
 *!*
@@ -37,13 +37,13 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
-The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+`mul.bind(null, 2)` 创造了一个新函数 `double`，传递调用到 `mul` 函数，以 `null` 为上下文，`2` 为第一个参数。之后的参数等待传入。
 
-That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+这就是 [偏函数应用](https://en.wikipedia.org/wiki/Partial_application) —— 我们创造了一个新函数，同时将部分参数替换成特定值。
 
-Please note that here we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+请注意通常我们不在这里使用 `this`，但是 `bind` 需要一个值，我们必须传入，那么可以是 `null` 这样的值。
 
-The function `triple` in the code below triples the value:
+以下代码中的 `triple` 函数对一个值做三次方运算：
 
 ```js run
 *!*
@@ -55,23 +55,23 @@ alert( triple(4) ); // = mul(3, 4) = 12
 alert( triple(5) ); // = mul(3, 5) = 15
 ```
 
-Why do we usually make a partial function?
+为什么我们经常会创建一个偏函数？
 
-Here our benefit is that we created an independent function with a readable name (`double`, `triple`). We can use it and don't write the first argument of every time, cause it's fixed with `bind`.
+这里，我们从中受益的是我们创建了一个独立的非匿名函数（`double`，`triple`）。我们可以使用它，而不需要每次都传入第一个参数，因为 `bind` 帮我们搞定了。
 
-In other cases, partial application is useful when we have a very generic function, and want a less universal variant of it for convenience.
+在其他的场景中，当我们有一个非常通用的函数，并且想要方便地获取它的特定变体，偏函数也是非常有用。
 
-For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+举个例子，我们拥有函数 `send(from, to, text)`。然后，在 `user` 对象中，我们想要使用它的偏函数变体：`sendTo(to, text)`，该函数表明发送自一个当前的用户。
 
-## Going partial without context
+## 无上下文使用偏函数
 
-What if we'd like to fix some arguments, but not bind `this`?
+如果我们想要输入一些参数，但是不想绑定 `this`，该怎么做？
 
-The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+原生的 `bind` 不允许这样。我们不能忽略上下文，直接跳到参数。
 
-Fortunately, a `partial` function for binding only arguments can be easily implemented.
+幸运的是，一个只绑定参数的 `偏函数` 很容易实现。
 
-Like this:
+就像这样：
 
 ```js run
 *!*
@@ -82,7 +82,7 @@ function partial(func, ...argsBound) {
 }
 */!*
 
-// Usage:
+// 用法：
 let user = {
   firstName: "John",
   say(time, phrase) {
@@ -90,30 +90,30 @@ let user = {
   }
 };
 
-// add a partial method that says something now by fixing the first argument
+// 添加一个偏函数方法，现在 say 这个函数可以作为第一个函数
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
-// Something like:
+// 结果就像这样：
 // [10:00] John: Hello!
 ```
 
-The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
-- Same `this` as it gets (for `user.sayNow` call it's `user`)
-- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
-- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+`partial(func[, arg1, arg2...])` 调用的结果是一个基于 `func` 的封装函数，以及：
+- 和它传入的函数一致的 `this` (对于 `user.sayNow` 调用是 `user`)
+- 然后传入 `...argsBound` —— 来自偏函数调用传入的参数（`"10:00"`）
+- 然后传入 `...args` —— 传入封装函数的参数（`Hello`）
 
-So easy to do it with the spread operator, right?
+利用扩展操作符，一切都是那么简单，不是吗？
 
-Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
+同样这里有一个 lodash 库实现的偏函数[_.partial](https://lodash.com/docs#partial)
 
-## Currying
+## 柯里化
 
-Sometimes people mix up partial function application mentioned above with another thing named "currying". That's another interesting technique of working with functions that we just have to mention here.
+有时候人们会把偏函数应用和另一个名为「柯里化」的东西混淆。那是另一个和函数有关的有趣的技术，我们在这里不得不提。
 
-[Currying](https://en.wikipedia.org/wiki/Currying) is translating a function from callable as `f(a, b, c)` into callable as `f(a)(b)(c)`.
+[Currying](https://en.wikipedia.org/wiki/Currying) 是一项将一个调用形式为 `f(a, b, c)` 的函数转化为调用形式为 `f(a)(b)(c)` 的技术。
 
-Let's make `curry` function that performs currying for binary functions. In other words, it translates `f(a, b)` into `f(a)(b)`:
+接下来让我们创建将两个函数连接起来的「柯里」函数。换句话说，它将 `f(a, b)` 转化为 `f(a)(b)`：
 
 ```js run
 *!*
@@ -126,7 +126,7 @@ function curry(func) {
 }
 */!*
 
-// usage
+// 用法
 function sum(a, b) {
   return a + b;
 }
@@ -136,29 +136,29 @@ let carriedSum = curry(sum);
 alert( carriedSum(1)(2) ); // 3
 ```
 
-As you can see, the implementation is a series of wrappers.
+你可以看到，它的实现就是一系列的封装。
 
-- The result of `curry(func)` is a wrapper `function(a)`.
-- When it is called like `sum(1)`, the argument is saved in the Lexical Environment, and a new wrapper is returned `function(b)`.
-- Then `sum(1)(2)` finally calls `function(b)` providing `2`, and it passes the call to the original multi-argument `sum`.
+- `curry(func)` 的结果就是一层封装 `function(a)`。
+- 当它被调用，就像 `sum(1)` 这样，它的参数被保存在词法环境中，然后返回一层新的封装 `function(b)`。
+- 然后 `sum(1)(2)` 最后调用 `function(b)`，传入参数 `2`，它将调用传递给初始的多参数函数 `sum`。
 
-More advanced implementations of currying like [_.curry](https://lodash.com/docs#curry) from lodash library do something more sophisticated. They return a wrapper that allows a function to be called normally when all arguments are supplied *or* returns a partial otherwise.
+关于柯里函数更多高级的实现，比如 lodash 库 [_.curry](https://lodash.com/docs#curry) 所做的那样，它们更加复杂。它们会返回一个封装，允许函数提供所有的参数时被正常调用**或者**返回一个偏函数。
 
 ```js
 function curry(f) {
   return function(...args) {
-    // if args.length == f.length (as many arguments as f has),
-    //   then pass the call to f
-    // otherwise return a partial function that fixes args as first arguments
+    // 如果 args.length == f.length (args 和 f 的参数数量相同)
+    // 那么调用 f
+    // 否则的话返回一个偏函数，将 args 作为第一个参数      
   };
 }
 ```
 
-## Currying? What for?
+## 柯里化？目的是什么？
 
-Advanced currying allows both to keep the function callable normally and to get partials easily. To understand the benefits we definitely need a worthy real-life example.
+高级的柯里化同时允许函数正常调用和获取偏函数。为了理解这样的好处，我们确实需要一个好的现实例子。
 
-For instance, we have the logging function `log(date, importance, message)` that formats and outputs the information. In real projects such functions also have many other useful features like: sending it over the network or filtering:
+举个例子，我们有一个打印函数 `log(date, importance, message)` 格式化和输出信息。在真实的项目中，这样的函数有很多有用的特性，比如：通过网络传输或者筛选：
 
 ```js
 function log(date, importance, message) {
@@ -166,35 +166,35 @@ function log(date, importance, message) {
 }
 ```
 
-Let's curry it!
+让我们开始柯里化！
 
 ```js
 log = _.curry(log);
 ```
 
-After that `log` still works the normal way:
+操作之后 `log` 依然正常运行：
 
 ```js
 log(new Date(), "DEBUG", "some debug");
 ```
 
-...But also can be called in the curried form:
+但是也可以用柯里化格式调用：
 
 ```js
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 ```
 
-Let's get a convenience function for today's logs:
+让我们来创建一个获取今天的日志的简易函数：
 
 ```js
-// todayLog will be the partial of log with fixed first argument
+// todayLog 会是一个首个参数确定的偏函数
 let todayLog = log(new Date());
 
-// use it
+// 使用它
 todayLog("INFO", "message"); // [HH:mm] INFO message
 ```
 
-And now a convenience function for today's debug messages:
+接下来是提供今天的调试信息的简便函数：
 
 ```js
 let todayDebug = todayLog("DEBUG");
@@ -202,13 +202,13 @@ let todayDebug = todayLog("DEBUG");
 todayDebug("message"); // [HH:mm] DEBUG message
 ```
 
-So:
-1. We didn't lose anything after currying: `log` is still callable normally.
-2. We were able to generate partial functions that are convenient in many cases.
+那么：
+1. 柯里化之后我们没有丢失任何东西：`log` 依然可以被正常调用。
+2. 在很多情况下我们可以很方便生成偏函数。
 
-## Advanced curry implementation
+## 高级柯里化实现
 
-In case you're interested, here's the "advanced" curry implementation that we could use above.
+由于你可能感兴趣，下面是我们可以使用的「高级」柯里化实现
 
 ```js run
 function curry(func) {
@@ -231,22 +231,22 @@ function sum(a, b, c) {
 
 let curriedSum = curry(sum);
 
-// still callable normally
+// 依然可以被正常调用
 alert( curriedSum(1, 2, 3) ); // 6
 
-// get the partial with curried(1) and call it with 2 other arguments
+// 得到 curried(1) 的偏函数，然后用另外两个参数调用它
 alert( curriedSum(1)(2,3) ); // 6
 
-// full curried form
+// 完全柯里化形式
 alert( curriedSum(1)(2)(3) ); // 6
 ```
 
-The new `curry` may look complicated, but it's actually pretty easy to understand.
+新的「柯里函数」看上去有点复杂，但是它很容易理解。
 
-The result of `curry(func)` is the wrapper `curried` that looks like this:
+`curry(func)` 的结果是 `curried` 函数的封装，结果如下：
 
 ```js
-// func is the function to transform
+// func 是被转化的函数
 function curried(...args) {
   if (args.length >= func.length) { // (1)
     return func.apply(this, args);
@@ -258,39 +258,39 @@ function curried(...args) {
 };
 ```
 
-When we run it, there are two branches:
+当我们运行它的时候，有两种结果：
 
-1. Call now: if passed `args` count is the same as the original function has in its definition (`func.length`) or longer, then just pass the call to it.
-2. Get a partial: otherwise, `func` is not called yet. Instead, another wrapper `pass` is returned, that will re-apply `curried` providing previous arguments together with the new ones. Then on a new call, again, we'll get either a new partial (if not enough arguments) or, finally, the result.
+1. 立刻执行：当传入的 `args` 的长度和初始函数中所定义的（`func.length`）相同或者更长，那么直接将它传入需要执行的函数。
+2. 得到一个偏函数：否则，`func` 暂时不被调用。相反，返回另外一层封装 `pass`，其中，将之前传入的参数合并新传入的参数一起应用于 `curried` 函数。虽然再次调用。我们要么得到一个新的偏函数（如果参数数量不够），要么，最终得到结果。
 
-For instance, let's see what happens in the case of `sum(a, b, c)`. Three arguments, so `sum.length = 3`.
+举个例子，让我们看看用例 `sum(a, b, c)` 中发生了什么。三个参数，那么 `sum.lenght = 3`。
 
-For the call `curried(1)(2)(3)`:
+执行 `curried(1)(2)(3)`
 
-1. The first call `curried(1)` remembers `1` in its Lexical Environment, and returns a wrapper `pass`.
-2. The wrapper `pass` is called with `(2)`: it takes previous args (`1`), concatenates them with what it got `(2)` and calls `curried(1, 2)` with them together.
+1. 首先调用 `curried(1)` 将 `1` 保存在词法环境中，然后返回一层封装 `pass`。
+2. 封装函数 `pass` 被调用，参数为 `(2)`：它会获取之前的参数 `(1)`，将它与 `(2)` 合并，一起调用 `curried(1, 2)`。
 
-    As the argument count is still less than 3, `curry` returns `pass`.
-3. The wrapper `pass` is called again with `(3)`,  for the next call `pass(3)` takes previous args (`1`, `2`) and adds `3` to them, making the call `curried(1, 2, 3)` -- there are `3` arguments at last, they are given to the original function.
+    由于参数数量依然少于 3，`curry` 函数依然返回 `pass`。
+3. `pass` 再次被调用，参数为 `(3)`, 在接下去的调用中 `pass(3)` 获取之前的参数 (`1`, `2`) 并将 `3` 与之合并，执行调用 `curried(1, 2, 3)` —— 最终有 `3` 个参数，它们被传入最原始的函数中。
 
-If that's still not obvious, just trace the calls sequence in your mind or on the paper.
+如果这还不够清楚，那么将函数调用依次在你脑海中或者纸上过一遍。
 
-```smart header="Fixed-length functions only"
-The currying requires the function to have a known fixed number of arguments.
+```smart header="只允许确定参数长度的函数"
+柯里化要求对应的函数，拥有已知确定数量的参数。
 ```
 
-```smart header="A little more than currying"
-By definition, currying should convert `sum(a, b, c)` into `sum(a)(b)(c)`.
+```smart header="柯里化深入一点"
+根据定义，柯里化应该将 `sum(a, b, c)` 转化为 `sum(a)(b)(c)`。
 
-But most implementations of currying in JavaScript are advanced, as described: they also keep the function callable in the multi-argument variant.
+但是在 JavaScript 中大多数的实现更加高级，就像所描述的那样：它们使得函数可以被多种形式的参数调用。
 ```
 
-## Summary
+## 总结
 
-- When we fix some arguments of an existing function, the resulting (less universal) function is called *a partial*. We can use `bind` to get a partial, but there are other ways also.
+- 当我们确定一个函数的一些参数时，返回的函数（更加特定）被称为**偏函数**。
 
-    Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
+    当我们不想一遍又一遍重复相同的参数时，偏函数很方便。比如我们有函数 `send(from, to)`，并且在我们的任务中 `from` 始终是相同的，那么我们可以构造一个偏函数然后对它进行操作。
 
-- *Currying* is a transform that makes `f(a,b,c)` callable as `f(a)(b)(c)`. JavaScript implementations usually both keep the function callable normally and return the partial if arguments count is not enough.
+- **柯里化**是将 `f(a,b,c)` 可以被以 `f(a)(b)(c)` 的形式被调用的转化。JavaScript 实现版本通常保留函数被正常调用和在参数数量不够的情况下返回偏函数这两个特性。
 
-    Currying is great when we want easy partials. As we've seen in the logging example: the universal function `log(date, importance, message)` after currying gives us partials when called with one argument like `log(date)` or two arguments `log(date, importance)`.  
+    当我们想要简单偏函数的时候，柯里化很棒。正如我们在 logging 例子中所看到的那样：通用函数 `log(date, importance, message)` 在柯里化之后，当我们在调用它的时候传入一个参数如 `log(date)` 或者两个参数 `log(date, importance)` 的时候，返回了偏函数。
