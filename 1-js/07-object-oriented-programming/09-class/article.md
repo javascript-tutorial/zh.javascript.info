@@ -1,7 +1,7 @@
 
 # class
 
-"class" 结构允许你通过一种干净、整洁的语法来定义基于 prototype 的类。
+"class" 结构允许你使用一种干净、整洁的语法来定义基于 prototype 的类。
 
 ## "class" 语法
 
@@ -43,12 +43,12 @@ user.sayHi();
 
 我们可以很容易地看出两个示例的功能是相似的。值得注意的是，我们并不需要使用逗号隔开定义在 class 中的方法。初学者经常会忘记这点，错误地在类方法间添加逗号只会让代码停止工作。我们需要正确地区分字面量 Object 和 class 语法。
 
-所以，`class` 究竟做了什么呢？我们可能会猜想它定义了一个全新的语言级的实体，不过这样的猜想并不正确。
+所以，`class` 究竟做了什么呢？我们可能会猜想它定义了一个全新的语言级实体，不过这样的猜想并不正确。
 
 `class User {...}` 在这里实际上完成了两件事：
 
-1. 声明了一个名为 `User` 的变量，并将它的值指向了名为 `"constructor"` 的函数。
-2. 把所有类中定义的方法放到 `User.prototype` 上。这里便包含了 `sayHi` 和 `constructor` 两个方法。
+1. 声明了一个名为 `User` 的变量，并将它的值指向了 `"constructor"` 函数。
+2. 把所有类中定义的方法“挂”到 `User.prototype` 上。如示例中的 `sayHi` 和 `constructor` 两个方法。
 
 下面将通过代码来实验以上说法是否正确：
 
@@ -69,7 +69,7 @@ alert(User === User.prototype.constructor); // true
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
 
-下图表示了使用 `class User` 进行创建的结果：
+下图展示了如何使用 `class User` 声明类：
 
 ![](class-user.png)
 
@@ -77,7 +77,7 @@ alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 
 综上可以发现 `class` 是一个特殊的语法，它可以同时定义类的构造函数和它原型链上的方法。
 
-...不过与传统定义类的方法进行比较，它们还是存在一些细微的差别：
+...不过它与传统定义方法间还是存在一些细微差别：
 
 构造器必须与 `new` 关键字一同使用
 ：不同于普通的函数，class 的 `constructor` 虽然是函数，却只能与 `new` 一同使用：
@@ -88,13 +88,13 @@ class User {
 }
 
 alert(typeof User); // function
-User(); // Error：构造器 User 不能被调用
+User(); // Error：构造器 User 不能被直接调用
 ```
 
 不同的字符串输出结果
 ：如果我们像这样 `alert(User)` 打印 User，一些运行时的结果会是 `"class User..."`，而另一些可能是 `"function User..."`。
 
-请不要被这种现象迷惑：虽然 class 表现为字符串的结果可能多样，但它本质上仍然是一个函数，在 JavaScript 中不存在一个独立的 "class" 实体。
+请不要被这种现象迷惑：虽然 class 表现为字符串时结果可能多样，但它本质上仍然是一个函数，在 JavaScript 中不存在一个独立的 "class" 实体。
 
 class 中的方法是 non-enumerable（不可枚举）的
 ：在 class 中，所有 `"prototype"` 上的方法，其 `enumerable` 标志会被自动设置为 `false`。这很棒，因为当我们使用 `for..in` 遍历 object 的属性时，我们通常不希望结果中包含有类上的方法。
@@ -141,7 +141,7 @@ alert(user.name); // John
 user = new User(""); // Name too short.
 ```
 
-在 JavaScript 内部，getter 和 setter 的实现都是如下在 `User` prototype 上创建对应的方法：
+在 JavaScript 内部，getter 和 setter 的实现都是在 `User` prototype 上创建相应的方法：
 
 ```js
 Object.defineProperties(User.prototype, {
@@ -158,7 +158,7 @@ Object.defineProperties(User.prototype, {
 
 ### Only methods
 
-与字面量 object 不同，`class` 内部不允许出现形如 `property:value` 的赋值，它的内部只能出现普通方法或 getter/setter。class 的部分规范还在进一步讨论，新的规范有可能打破当前的使用限制。
+与字面量 Object 不同，`class` 内部不允许出现形如 `property:value` 的赋值，它的内部只能出现普通方法或 getter/setter。class 的最新规范还在进一步讨论，新的规范有可能打破当前的使用限制。
 
 如果我们确实需要在原型链上定义一些非函数类型的取值，我们可以像这样手动更改 `prototype`：
 
@@ -170,7 +170,7 @@ User.prototype.test = 5;
 alert( new User().test ); // 5
 ```
 
-因此增加原型链上的属性在技术上完全可行，只是我们需要清楚为什么这样做。这些属性会被所有由此类实例化的实体所继承。
+因此，增加原型链上的属性在技术上是完全可行的，只是我们需要清楚自己为什么这样做。定义的属性会被此类实例化的所有实体继承。
 
 如果非要在 class 结构中增加属性，可以变通地使用 getter 实现：
 
@@ -184,7 +184,7 @@ class User {
 alert( new User().test ); // 5
 ```
 
-由上述两种方法增加的属性，在使用上别无二致，深究起来 getter 的实现方式效率略低。
+由上述两种方法增加的属性，在使用上别无二致，深究起来 getter 的实现方式效率会略低一点。
 
 ## class 表达式
 
