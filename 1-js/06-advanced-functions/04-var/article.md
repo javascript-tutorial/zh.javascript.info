@@ -1,53 +1,53 @@
 
-# The old "var"
+# 旧时的 "var"
 
-In the very first chapter about [variables](info:variables), we mentioned three ways of variable declaration:
+在第一章关于[变量](info:variables)那部分，我们提到了变量声明的三种方式：
 
 1. `let`
 2. `const`
 3. `var`
 
-`let` and `const` behave exactly the same way in terms of Lexical Environments.
+`let` 和 `const` 在词法环境中的行为完全一样。
 
-But `var` is a very different beast, that originates from very old times. It's generally not used in modern scripts, but still lurks in the old ones.
+但是 `var` 却是一头源自旧时代的怪兽。在现代脚本中一般不再使用，但它仍存在于陈旧的脚本里。
 
-If you don't plan meeting such scripts you may even skip this chapter or postpone it, but then there's a chance that it bites you later.
+如果你不打算见识这样的脚本，你可以跳过或推迟阅读这一章，但是你有可能会踩到它的坑。
 
-From the first sight, `var` behaves similar to `let`. That is, declares a variable:
+乍看之下，`var` 和 `let` 的行为相似，即声明变量：
 
 ```js run
 function sayHi() {
-  var phrase = "Hello"; // local variable, "var" instead of "let"
+  var phrase = "Hello"; // 局部变量，使用 "var"，而不是 "let"
 
   alert(phrase); // Hello
 }
 
 sayHi();
 
-alert(phrase); // Error, phrase is not defined
+alert(phrase); // 报错：phrase is not defined
 ```
 
-...But here are the differences.
+...但两者存在区别。
 
-## "var" has no block scope
+## "var" 没有块级作用域
 
-`var` variables are either function-wide or global, they are visible through blocks.
+用 `var` 声明的变量，不是函数范围就是全局的，它们在块内是可见的。
 
-For instance:
+举个例子：
 
 ```js
 if (true) {
-  var test = true; // use "var" instead of "let"
+  var test = true; // 用 "var" 而不是 "let"
 }
 
 *!*
-alert(test); // true, the variable lives after if
+alert(test); // true，变量在 if 结束后仍存在
 */!*
 ```
 
-If we used `let test` on the 2nd line, then it wouldn't be visible to `alert`. But `var` ignores code blocks, so we've got a global `test`.
+如果我们在第二行使用 `let test`，那么 `alert` 就无法访问到它。因为 `var` 忽略块级代码，所以我们得到了一个全局的 `test`。
 
-The same thing for loops: `var` cannot be block- or loop-local:
+循环也是这样，`var` 无法成为块级或循环的局部变量：
 
 ```js
 for (var i = 0; i < 10; i++) {
@@ -55,11 +55,11 @@ for (var i = 0; i < 10; i++) {
 }
 
 *!*
-alert(i); // 10, "i" is visible after loop, it's a global variable
+alert(i); // 10, "i" 在循环结束后仍然可见，它会成为一个全局变量
 */!*
 ```
 
-If a code block is inside a function, then `var` becomes a function-level variable:
+如果一段代码块位于函数内部，那么 `var` 会成为一个函数级的变量：
 
 ```js
 function sayHi() {
@@ -71,18 +71,18 @@ function sayHi() {
 }
 
 sayHi();
-alert(phrase); // Error: phrase is not defined
+alert(phrase); // 报错：phrase is not defined
 ```
 
-As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript blocks had no Lexical Environments. And `var` is a reminiscence of that.
+可以看到，`var` 穿透了 `if`、`for` 或其它块级代码。这是因为在早期的 JavaScript 里，块没有词法环境。而 `var` 就是对它的一个回忆。
 
-## "var" are processed at the function start
+## "var" 在函数开头被处理
 
-`var` declarations are processed when the function starts (or script starts for globals).
+`var` 声明在函数开始时处理（或者全局声明之于脚本开始）。
 
-In other words, `var` variables are defined from the beginning of the function, no matter where the definition is (assuming that the definition is not in the nested function).
+换言之，`var` 变量会在函数开头被定义，与它在代码里定义的位置无关（这里不考虑定义在嵌套函数里的场景）。
 
-So this code:
+如下代码：
 
 ```js
 function sayHi() {
@@ -96,7 +96,7 @@ function sayHi() {
 }
 ```
 
-...Is technically the same as this (moved `var phrase` above):
+...它完全等同于这个（`var phrase` 被上提到函数开头）：
 
 ```js
 function sayHi() {
@@ -110,7 +110,7 @@ function sayHi() {
 }
 ```
 
-...Or even as this (remember, code blocks are ignored):
+...甚至是这种的（记住，代码块是会被忽略的）：
 
 ```js
 function sayHi() {
@@ -126,13 +126,13 @@ function sayHi() {
 }
 ```
 
-People also call such behavior "hoisting" (raising), because all `var` are "hoisted" (raised) to the top of the function.
+这种行为一般称为「提升」，因为所有的 `var` 都会被「提升」到函数的顶部。
 
-So in the example above, `if (false)` branch never executes, but that doesn't matter. The `var` inside it is processed in the beginning of the function, so at the moment of `(*)` the variable exists.
+所以在上面的例子中，`if (false)` 分支永远都不会执行，但没关系，它里面的 `var` 会在函数开始时被处理，所以在执行 `(*)` 那行代码时，变量是存在的。
 
-**Declarations are hoisted, but assignments are not.**
+**声明会被提升，但是赋值不会。**
 
-That's better to demonstrate with an example, like this:
+我们最好用例子来说明：
 
 ```js run
 function sayHi() {
@@ -146,40 +146,40 @@ function sayHi() {
 sayHi();
 ```
 
-The line `var phrase = "Hello"` has two actions in it:
+`var phrase = "Hello"` 这行包含两个步骤：
 
-1. Variable declaration `var`
-2. Variable assignment `=`.
+1. 使用 `var` 声明变量；
+2. 使用 `=` 给变量赋值。
 
-The declaration is processed at the start of function execution ("hoisted"), but the assignment always works at the place where it appears. So the code works essentially like this:
+声明在函数执行的开始进行（「提升」），但是赋值是在它出现的地方，所以代码实际上是这样工作的：
 
 ```js run
 function sayHi() {
 *!*
-  var phrase; // declaration works at the start...
+  var phrase; // 声明在开头工作……
 */!*
 
   alert(phrase); // undefined
 
 *!*
-  phrase = "Hello"; // ...assignment - when the execution reaches it.
+  phrase = "Hello"; // ...赋值 — 当执行到这里时。
 */!*
 }
 
 sayHi();
 ```
 
-Because all `var` declarations are processed at the function start, we can reference them at any place. But variables are undefined until the assignments.
+因为所有的 `var` 声明都是在函数开头处理的，我们可以在任何地方引用它们，但是在它们被赋值之前都是 undefined。
 
-In both examples above `alert` runs without an error, because the variable `phrase` exists. But its value is not yet assigned, so it shows `undefined`.
+上面两个例子中 `alert` 运行不会报错，因为变量 `phrase` 是存在的，但是它还没有被赋值，所以它表现为 `undefiend`。
 
-## Summary
+## 总结
 
-There are two main differences of `var`:
+`var` 声明变量有两点主要区别：
 
-1. Variables have no block scope, they are visible minimum at the function level.
-2. Variable declarations are processed at function start.
+1. 变量没有块作用域，它们在最小函数级可见；
+2. 变量声明在函数开头处理。
 
-There's one more minor difference related to the global object, we'll cover that in the next chapter.
+涉及全局对象时，还有一个小的区别，我们会在下一章讲解。
 
-These differences are actually a bad thing most of the time. First, we can't create block-local variables. And hoisting just creates more space for errors. So, for new scripts `var` is used exceptionally rarely.
+这些区别实际上很多时候都不是好事。首先，我们无法创建块级局部变量。而且变量提升会造成更多的错误。所以，在新近的脚本里，`var` 就很少见了。

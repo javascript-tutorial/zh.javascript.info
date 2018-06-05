@@ -80,6 +80,7 @@ alert( n.toFixed(2) ); // 1.23
 
 
 ````warn header="构造函数 `String/Number/Boolean` 仅供内部使用"
+
 像 Java 这样的一些语言允许我们使用 `new Number(1)` 或 `new Boolean(false)` 等语法明确地为基本类型创建“包装对象”。
 
 在 JavaScript 中，由于历史原因，这也是可以的，但极其**不推荐**。因为这样会出问题。
@@ -123,4 +124,6 @@ alert(null.test); // error
 ## 总结
 
 - 除 `null` 和 `undefined` 以外的基本类型都提供了许多有用的方法。我们将在即将到来的章节中研究这些内容。
+
 - 从形式上讲，这些方法通过临时对象工作，但 JavaScript 引擎可以很好地调整以优化内部，因此调用它们并不需要太高的成本。
+
