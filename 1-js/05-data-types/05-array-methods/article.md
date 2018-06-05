@@ -32,11 +32,11 @@ alert( arr.length ); // 3
 
 元素被删除，但数组仍然有3个元素，我们可以看到 `arr.length == 3`。
 
-这很正常，因为对于对象都是通过 `key` 移除 `delete obj.key` 一个值。但是对于数组，我们通常希望剩下的元素移除并释放占用的位置，得到一个更短的数组。
+这很正常，因为 `delete obj.key` 是通过 `key` 来移除对应的值。但是对于数组，我们通常希望剩下的元素移除并释放占用的位置，得到一个更短的数组。
 
 所以应该使用特殊的方法。
 
-[arr.splice(str)](mdn:js/Array/splice) 方法是用于数组的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
+[arr.splice(str)](mdn:js/Array/splice) 方法可以说是数组界的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
 
 语法是：
 
@@ -81,7 +81,7 @@ let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
 // remove 2 first elements
 let removed = arr.splice(0, 2);
 
-alert( removed ); // "I", "study" <-- array of removed elements
+alert( removed ); // "I", "study" <-- 被删除元素的数组
 ```
 
 我们可以将 `deleteCount` 设置为 `0`，`splice` 方法就能够插入元素而不用删除：
@@ -97,7 +97,7 @@ arr.splice(2, 0, "complex", "language");
 alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
-````smart header="Negative indexes allowed"
+````smart header="允许负向索引"
 在这里和其他数组方法中，负向索引是允许的。它们从数组末尾计算位置，如下所示：
 
 ```js run
@@ -121,9 +121,10 @@ alert( arr ); // 1,2,3,4,5
 ```js
 arr.slice(start, end)
 ```
+
 它从所有元素的开始索引 `“start”` 复制到 `“end”` (不包括 `“end”`) 返回一个新的数组。`start` 和 `end` 都可以是负数，在这种情况下，从末尾计算索引。
 
-它和字符串的 `str.slice` 有点像，就是把子字符串替换从子数组。
+它和字符串的 `str.slice` 有点像，就是把子字符串替换成子数组。
 
 例如：
 
@@ -279,11 +280,11 @@ alert(user.name); // John
 
 ### filter
 
-`find` 方法查询单个（第一个）元素并返回使函数为 `true` 的。
+`find` 方法查询的是使函数返回 `true` 的第一个元素。
 
 如果需要匹配的有很多，我们可以使用 [arr.filter(fn)](mdn:js/Array/filter).
 
-语法与 `find` 大致相同，但是它返回一个匹配元素的数组：
+语法与 `find` 大致相同，但是它返回的是所有匹配元素组成的数组：
 
 ```js
 let results = arr.filter(function(item, index, array) {
@@ -384,11 +385,11 @@ arr.sort(compareNumeric);
 alert(arr);  // *!*1, 2, 15*/!*
 ```
 
-现在它按预期工作。
+现在结果符合预期了。
 
-让我们搁置一边，思考发生了什么。`arr` 可以是任何东西的数组。它可能包含数字或字符串或 html 元素或其他。我们对一组数据进行排序，我们需要一个**排序函数**，默认按字符串顺序比较。你也可以自定义如何比较它的元素。
+让我们搁置一边，思考发生了什么。`arr` 可以是由任何东西组成的数组。它可能包含数字或字符串或 html 元素或其他。我们对一组数据进行排序时，需要一个**排序函数**来确认如何比较这些元素。默认是按字符串排序的。
 
-`arr.sort(fn)` 方法内置实现排序算法。我们不需要关心它是如何工作的(优化过的 [quicksort](https://en.wikipedia.org/wiki/Quicksort))。它将自动遍历数组，使用提供的函数比较它的元素并对它们重新排序，我们所需要的只是提供用于比较的函数 `fn`。
+`arr.sort(fn)` 方法内置实现排序算法。我们不需要关心它是如何工作的(大多数情况下是优化过的[快速排序](https://en.wikipedia.org/wiki/Quicksort))算法。它将自动遍历数组，使用提供的函数比较它的元素并对它们重新排序，我们所需要的只是提供用于比较的函数 `fn`。
 
 顺便说一句，如果我们想知道哪些元素进行了比较 - alert 是没有作用的：
 
@@ -401,7 +402,7 @@ alert(arr);  // *!*1, 2, 15*/!*
 该算法可以在过程中多次比较元素，但它会尽可能少地进行比较。
 
 
-````smart header="A comparison function may return any number"
+````smart header="比较函数可以返回任何数字"
 实际上，比较函数只需要返回一个正数表示更大，而负数表示更少。
 
 通过这个原理我们可以编写更短的函数：
@@ -415,8 +416,8 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
-````smart header="Arrow functions for the best"
-[箭头函数](info:function-expression#arrow-functions)？我们也可以使用箭头函数：
+````smart header="箭头函数最好"
+[箭头函数](info:function-expression#arrow-functions)还记得吗？这里使用箭头函数会更加简洁：
 
 ```js
 arr.sort( (a, b) => a - b );
@@ -466,7 +467,7 @@ let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
 alert(arr); // Bilbo, Gandalf
 ```
 
-````smart header="Split into letters"
+````smart header="拆分为字母"
 调用空的参数 `split(s)` 会将字符串分成一个字母数组：
 
 ```js run
@@ -504,7 +505,7 @@ let value = arr.reduce(function(previousValue, item, index, arr) {
 }, initial);
 ```
 
-该函数应用于元素。您可能会注意到从第二个参数很熟悉：
+该函数应用于元素。从第二个参数开始你可能就会觉得很眼熟了：
 
 - `item` -- 当前的数组元素。
 - `index` -- 当前索引。
@@ -512,7 +513,7 @@ let value = arr.reduce(function(previousValue, item, index, arr) {
 
 这很像 `forEach/map`。但还有一个参数不同就是：
 
-- `previousValue` -- 是前一个函数调用的结果，第一个调用是初始化。
+- `previousValue` -- 是前一个函数调用的结果，第一次调用是初始化。
 
 我们写个例子试试。
 
@@ -598,7 +599,7 @@ arr.forEach(function(item, index, array) {
 例如，这显示了数组的每个元素：
 
 ```js run
-// for each element call alert
+// 为每个元素调用 alert
 ["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
 ```
 
@@ -616,7 +617,7 @@ arr.forEach(function(item, index, array) {
 
 数组基于对象。不构成单独的语言类型。
 
-所以 `typeof` 于区分数组中的普通对象：
+所以 `typeof` 无法从对象中区分出数组来：
 
 ```js run
 alert(typeof {}); // object
@@ -635,7 +636,7 @@ alert(Array.isArray([])); // true
 
 几乎所有调用函数的数组方法 - 比如 `find`，`filter`，`map`，与带有 `sort` 的不同，他们接受一个可选的附加参数 `thisArg`。
 
-该参数在上面的部分没有解释，因为它很少使用。但为了完整性，我们不解释。
+该参数在上面的部分没有解释，因为它很少使用。但为了完整性，我们还需要解释下。
 
 以下是这些方法的完整语法：
 
@@ -696,7 +697,7 @@ alert(youngerUsers.length); // 2
 
 - 转换数组：
   - `map(func)` -- 从每个元素调用 `func` 的结果创建一个新数组。
-  - `sort(func)` -- 将数组原地排序，然后返回。
+  - `sort(func)` -- 将数组倒序排列，然后返回。
   - `reverse()` -- 在原地颠倒数组，然后返回它。
   - `split/join` -- 将字符串转换为数组并返回。
   - `reduce(func, initial)` -- 通过为每个元素调用 `func` 计算数组上的单个值并在调用之间传递中间结果。
@@ -717,7 +718,7 @@ alert(youngerUsers.length); // 2
 
 - [arr.fill(value, start, end)](mdn:js/Array/fill) -- 从 `start` 到 `end` 用 `value` 重复填充数组。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).将其元素从 `start` 到 `end` 在 `target`复制到**本身**（覆盖现有）。
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).将其元素从 `start` 到 `end` 在 `target` 位置复制到 **本身**（覆盖现有）。
 
 有关完整列表，请参阅[手册](mdn:js/Array)。
 
