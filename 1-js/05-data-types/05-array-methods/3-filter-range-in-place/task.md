@@ -4,7 +4,7 @@ importance: 4
 
 # 范围过滤
 
-写一个函数 `filterRangeInPlace(arr, a, b)` 获取一个数组 `arr`，并从中除去 `a` 和 `b` 之间的所有值。测试：`a ≤ arr[i] ≤ b`。
+写一个函数 `filterRangeInPlace(arr, a, b)` 获取一个数组 `arr`，并从中除去 `a` 和 `b` 区间以外的所有值。测试：`a ≤ arr[i] ≤ b`。
 
 该函数只应修改数组。它不应该返回任何东西。
 
