@@ -4,9 +4,9 @@
 
 #从最小到最大的随机整数
 
-创建一个函数`randomInteger（min，max）`，该函数从`min`到`max`生成随机整数，包括`min`和`max`作为可能值。
+创建一个函数 `randomInteger(min，max)`，该函数从 `min` 到 `max` 生成随机整数，包括 `min` 和 `max` 作为可能值。
 
-来自间隔`min..max`的任何数字必须以相同的概率出现。
+来自间隔 `min..max` 的任何数字必须以相同的概率出现。
 
 
 功能示例:
