@@ -1,6 +1,6 @@
 # 数字类型
 
-JavaScript中的所有数字都以64位格式[IEEE-754]（http://en.wikipedia.org/wiki/IEEE_754-1985）存储，也称为“双精度”。
+JavaScript中的所有数字都以64位格式[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)存储，也称为“双精度”。
 
 让我们回顾一下并展开我们目前了解的内容。
 
@@ -56,7 +56,7 @@ let ms = 1e-6; // six zeroes to the left from 1
 
 ### 十六进制，二进制和八进制数字
 
-[十六进制]（https://en.wikipedia.org/wiki/Hexadecimal）数字在JavaScript中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法：`0x`然后是数字。
+[十六进制](https://en.wikipedia.org/wiki/Hexadecimal)数字在JavaScript中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法：`0x`然后是数字。
 
 例如:
 
@@ -152,7 +152,7 @@ alert( num.toString(2) );   // 11111111
     alert( Math.floor(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
-2. 函数[toFixed（n）]（https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed）将点数后的数字四舍五入到`n`个数字并返回结果的字符串表示。
+2. 函数[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)将点数后的数字四舍五入到`n`个数字并返回结果的字符串表示。
         
     ```js run
     let num = 12.34;
@@ -177,7 +177,7 @@ alert( num.toString(2) );   // 11111111
 
 ## 不精确计算
 
-在js内部，一个数字以64位格式[IEEE-754]（http://en.wikipedia.org/wiki/IEEE_754-1985）表示，所以正好有64位可以存储一个数字：其中52个被使用存储这些数字，其中11个存储小数点的位置（它们对于整数为零），1位用于符号。
+在js内部，一个数字以64位格式[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)表示，所以正好有64位可以存储一个数字：其中52个被使用存储这些数字，其中11个存储小数点的位置（它们对于整数为零），1位用于符号。
 
 如果一个数字太大，它会溢出64位存储，可能会输出无穷大：
 
@@ -232,7 +232,7 @@ PHP, Java, C, Perl, Ruby 给出完全相同的结果，因为它们基于相同�
 
 我们能解决这个问题吗？当然，有很多方法：
 
-1. 我们可以在特定函数的帮助下对结果进行四舍五入[toFixed（n）]（https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed）：
+1. 我们可以在特定函数的帮助下对结果进行四舍五入[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)：
 
     ```js run
     let sum = 0.1 + 0.2;
@@ -324,32 +324,32 @@ alert( isFinite(num) );
 
 ```聪明的标题="与Object.is进行比较"
 
-有一种特殊的内置方法[Object.is]（mdn：js / Object / is），它可以比较`===`等值，但对于两种边缘情况更可靠： 
+有一种特殊的内置方法[Object.is](mdn:js/Object/is)，它可以比较`===`等值，但对于两种边缘情况更可靠： 
 
 1. 它适用于`NaN`：`Object.is（NaN，NaN）=== true`，这是件好事。
 2. 值`0`和`-0`是不同的：`Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。
 
 在所有其他情况下，`Object.is（a，b）`与`a === b`相同。
 
-这种比较方式经常用于JavaScript规范。当内部算法需要比较两个值完全相同时，它使用Object.is（内部称为[SameValue]（https://tc39.github.io/ecma262/#sec-samevalue））。
+这种比较方式经常用于JavaScript规范。当内部算法需要比较两个值完全相同时，它使用Object.is(内部称为[SameValue](https://tc39.github.io/ecma262/#sec-samevalue))。
 ```
 
 
-## parseInt and parseFloat
+## parseInt 和 parseFloat
 
-Numeric conversion using a plus `+` or `Number()` is strict. If a value is not exactly a number, it fails:
+使用加号`+`或`Number()`的数字转换是严格的。如果一个值不完全是一个数字，就会失败：
 
 ```js run
 alert( +"100px" ); // NaN
 ```
 
-The sole exception is spaces at the beginning or at the end of the string, as they are ignored.
+唯一的例外是字符串开头或结尾的空格，因为它们会被忽略。
 
-But in real life we often have values in units, like `"100px"` or `"12pt"` in CSS. Also in many countries the currency symbol goes after the amount, so we have `"19€"` and would like to extract a numeric value out of that.
+但在现实生活中，我们经常以单位表示值，比如CSS中的`"100px"`或`"100px"`。在许多国家，货币符号也超过了金额，所以我们有`"19€"`，并希望从中提取一个数值。
 
-That's what `parseInt` and `parseFloat` are for.
+这就是`parseInt`和`parseFloat`的作用。
 
-They "read" a number from a string until they can. In case of an error, the gathered number is returned. The function `parseInt` returns an integer, whilst `parseFloat` will return a floating-point number:
+他们从字符串中“读出”一个数字，直到他们可以。如果发生错误，则返回收集的数字。函数`parseInt`返回一个整数，而`parseFloat`将返回一个浮点数：
 
 ```js run
 alert( parseInt('100px') ); // 100
@@ -359,14 +359,14 @@ alert( parseInt('12.3') ); // 12, only the integer part is returned
 alert( parseFloat('12.3.4') ); // 12.3, the second point stops the reading
 ```
 
-There are situations when `parseInt/parseFloat` will return `NaN`. It happens when no digits could be read:
+有时候`parseInt / parseFloat`会返回`NaN`。一般发生在没有数字可读的情况下：
 
 ```js run
 alert( parseInt('a123') ); // NaN, the first symbol stops the process
 ```
 
-````smart header="The second argument of `parseInt(str, radix)`"
-The `parseInt()` function has an optional second parameter. It specifies the base of the numeral system, so `parseInt` can also parse strings of hex numbers, binary numbers and so on:
+````smart header=“parseInt（str，radix）`的第二个参数"
+`parseInt()`函数有一个可选的第二个参数。它指定了数字系统的基础，因此`parseInt`还可以解析十六进制数字，二进制数字等字符串：
 
 ```js run
 alert( parseInt('0xff', 16) ); // 255
@@ -376,14 +376,14 @@ alert( parseInt('2n9c', 36) ); // 123456
 ```
 ````
 
-## Other math functions
+## 其他数学函数
 
-JavaScript has a built-in [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object which contains a small library of mathematical functions and constants.
+JavaScript有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,包含一个数学函数和常量的小型库的对象。
 
-A few examples:
+几个例子：
 
 `Math.random()`
-: Returns a random number from 0 to 1 (not including 1)
+: 返回从0到1的随机数（不包括1）
 
     ```js run
     alert( Math.random() ); // 0.1234567894322
@@ -392,7 +392,7 @@ A few examples:
     ```
 
 `Math.max(a, b, c...)` / `Math.min(a, b, c...)`
-: Returns the greatest/smallest from the arbitrary number of arguments.
+: 从任意数量的参数中返回最大/最小值。
 
     ```js run
     alert( Math.max(3, 5, -10, 0, 1) ); // 5
@@ -400,38 +400,38 @@ A few examples:
     ```
 
 `Math.pow(n, power)`
-: Returns `n` raised the given power
+: 返回经过`n`进制转换的power值
 
     ```js run
     alert( Math.pow(2, 10) ); // 2 in power 10 = 1024
     ```
 
-There are more functions and constants in `Math` object, including trigonometry, which you can find in the [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object.
+这里有`Math`对象中的更多函数和常量，包括三角函数，你可以在这里找到它 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) .
 
-## Summary
+## 总结
 
-To write big numbers:
+写非常大的数字：
 
-- Append `"e"` with the zeroes count to the number. Like: `123e6` is `123` with 6 zeroes.
-- A negative number after `"e"` causes the number to be divided by 1 with given zeroes. That's for one-millionth or such.
+- 附加`“e”`来省略0,e后面的数字就是零的个数。就像：`123e6`是`123`后面接6个零。
+- ``e“后面的负数将导致数字除以1后面接着给定数量的零。e-6那是一百万分之一。
 
-For different numeral systems:
+对于不同的进制:
 
-- Can write numbers directly in hex (`0x`), octal (`0o`) and binary (`0b`) systems
-- `parseInt(str, base)` parses an integer from any numeral system with base: `2 ≤ base ≤ 36`.
-- `num.toString(base)` converts a number to a string in the numeral system with the given `base`.
+- 可以在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中直接写入数字
+- `parseInt(str，base)`解析来自任何数字系统的整数，其基数为：`2≤base≤36`。
+- `num.toString(base)` 将数字转换为数字系统中具有给定`base`的字符串。
 
-For converting values like `12pt` and `100px` to a number:
+将`12pt`和`100px`等值转换为数字：
 
-- Use `parseInt/parseFloat` for the "soft" conversion, which reads a number from a string and then returns the value they could read before the error. 
+- 使用`parseInt / parseFloat`进行`软`转换，它从字符串中读取一个数字，然后返回错误发生前可以读取的值。
 
-For fractions:
+分数:
 
-- Round using `Math.floor`, `Math.ceil`, `Math.trunc`, `Math.round` or `num.toFixed(precision)`.
-- Make sure to remember there's a loss of precision when working with fractions.
+- 使用`Math.floor`，`Math.ceil`，`Math.trunc`，`Math.round`或`num.toFixed(precision)`循环。
+- 请记住，使用分数时会损失精度。
 
-More mathematical functions:
+更多的数学函数：
 
-- See the [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object when you need them. The library is very small, but can cover basic needs.
+- 需要时请参阅[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,虽然这个文档非常小,但是它可以满足基础的要求
 
 
