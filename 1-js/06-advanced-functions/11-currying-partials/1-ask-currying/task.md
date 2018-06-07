@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 偏函数在登陆中的应用
+# 偏函数在登录中的应用
 
 这个任务是比 <info:task/question-use-bind> 略微复杂的变体。
 
