@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Array operations.
+# 数组操作。
 
-Let's try 5 array operations.
+我们试试5个数组操作。
 
-1. Create an array `styles` with items "Jazz" and "Blues".
-2. Append "Rock-n-Roll" to the end.
-3. Replace the value in the middle by "Classics". Your code for finding the middle value should work for any arrays with odd length.
-4. Strip off the first value of the array and show it.
-5. Prepend `Rap` and `Reggae` to the array.
+1. 创建一个数组 `styles`，里面有两项 "Jazz" 和 "Blues".
+2. 将 "Rock-n-Roll" 从数组末端添加进去.
+3. 将 "Classics" 替换掉数组最中间的元素。你的查找数组最中间的元素的代码应该适用于任何奇数长度的数组。
+4. 去掉数组的第一个值并显示它。
+5. 在数组前面添加 `Rap` and `Reggae`.
 
-The array in the process:
+处理中的数组:
 
 ```js no-beautify
 Jazz, Blues

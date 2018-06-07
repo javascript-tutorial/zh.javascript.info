@@ -2,14 +2,14 @@ importance: 4
 
 ---
 
-# Sum input numbers
+# 输入数字求和
 
-Write the function `sumInput()` that:
+写出函数 `sumInput()`，要求如下：
 
-- Asks the user for values using `prompt` and stores the values in the array.
-- Finishes asking when the user enters a non-numeric value, an empty string, or presses "Cancel".
-- Calculates and returns the sum of array items.
+- 使用 `prompt` 向用户索要值，存在数组中。
+- 当用户输入了非数字、空字符串或者点击“取消”按钮的时候，问询结束。
+- 计算并返回数组各项的总和。
 
-P.S. A zero `0` is a valid number, please don't stop the input on zero.
+P.S. `0`是有效的数字，不要因为是0就停止问询。
 
 [demo]
