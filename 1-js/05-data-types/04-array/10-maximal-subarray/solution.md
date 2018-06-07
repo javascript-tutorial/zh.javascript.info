@@ -59,13 +59,13 @@ alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 
 该方案的时间复杂度是[O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation)。也就是说，如果我们把数组大小增加2倍，那么算法的运行时间将会延长4倍。
 
-For big arrays (1000, 10000 or more items) such algorithms can lead to a seroius sluggishness.对于大型数组（1000，10000或者更多项）这种算法会导致严重的延缓。
+对于大型数组（1000，10000或者更多项）这种算法会导致严重的时间消耗。
 
 # 快的解决方案
 
 让我们遍历数组，将当前局部元素的和保存为变量 `s`。如果 `s` 在某一点变成负数了，就重新分配 `s=0`。所有 `s` 中的最大值就是答案。
 
-如果描述不太好理解，就直接看下面的代码吧，真的很短：
+如果文字描述不太好理解，就直接看下面的代码吧，真的很短：
 
 ```js run
 function getMaxSubSum(arr) {
