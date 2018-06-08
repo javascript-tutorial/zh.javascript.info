@@ -11,11 +11,11 @@ function randomInteger(min, max) {
 alert( randomInteger(1, 3) );
 ```
 
-这个函数是能起作用的，但不正确。获得边缘值 `min` 和 `max` 的概率是其他值的两倍
+这个函数是能起作用的，但不正确。获得边缘值 `min` 和 `max` 的概率是其他值的两倍。
 
-如果你多次运行这个例子，你会很容易看到`2`出现的频率最高。
+如果你多次运行这个例子，你会很容易看到 `2`出现的频率最高。
 
-发生这种情况是因为`Math.round（）`从间隔 `1..3` 获得随机数并按如下所示进行四舍五入：
+发生这种情况是因为 `Math.round()` 从间隔 `1..3` 获得随机数并按如下所示进行四舍五入：
 
 ```js no-beautify
 values from 1    ... to 1.4999999999  become 1
@@ -41,7 +41,7 @@ function randomInteger(min, max) {
 alert( randomInteger(1, 3) );
 ```
 
-另一种方法是使用 `Math.floor` 作为从 `min` 到 `max + 1` 的随机数：
+另一种方法是使用 `Math.floor` 作为从 `min` 到 `max+1` 的随机数：
 
 ```js run
 *!*
