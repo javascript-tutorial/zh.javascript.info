@@ -9,7 +9,7 @@ importance: 2
 来自间隔 `min..max` 的任何数字必须以相同的概率出现。
 
 
-功能示例:
+功能示例：
 
 ```js
 alert( random(1, 5) ); // 1

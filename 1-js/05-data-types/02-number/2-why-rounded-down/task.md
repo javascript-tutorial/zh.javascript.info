@@ -6,7 +6,7 @@ importance: 4
 
 根据文档 `Math.round` 和 `toFixed`，最近的数字四舍五入： `0..4` 会被舍去，而 `5..9` 会前进一位。
 
-例如:
+例如：
 
 ```js run
 alert( 1.35.toFixed(1) ); // 1.4
