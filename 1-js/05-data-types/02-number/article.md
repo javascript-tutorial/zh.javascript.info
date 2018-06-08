@@ -1,20 +1,20 @@
 # 数字类型
 
-JavaScript中的所有数字都以64位格式[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)存储，也称为“双精度”。
+JavaScript 中的所有数字都以 64 位格式 [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)存储，也称为“双精度”。
 
 让我们回顾一下并展开我们目前了解的内容。
 
 ## 编写数字的更多方法
 
-想象一下，我们需要写10亿。显而易见的方法是：
+想象一下，我们需要写 10 亿。显而易见的方法是：
 
 ```js
 let billion = 1000000000;
 ```
 
-但在现实生活中，我们通常避免写一长串零，因为它很容易输入错误。另外，我们很懒。我们通常会为十亿或七十三亿写一些类似于`1bn`的数字，为`7.3bn`。对于大多数人来说也是如此。
+但在现实生活中，我们通常避免写一长串零，因为它很容易输入错误。另外，我们很懒。我们通常会为十亿或七十三亿写一些类似于 `1bn` 的数字，为 `7.3bn`。对于大多数人来说也是如此。
 
-在JavaScript中，我们通过在数字后附加字母“e”来缩短数字，并指定零的数量来计数：
+在 JavaScript 中，我们通过在数字后附加字母 “e” 来缩短数字，并指定零的数量来计数：
 
 ```js run
 let billion = 1e9;  // 1 billion, literally: 1 and 9 zeroes
@@ -35,14 +35,14 @@ alert( 7.3e9 );  // 7.3 billions (7,300,000,000)
 let ms = 0.000001;
 ```
 
-就像以前一样，使用`“e”`可以提供帮助。如果我们想避免明确地写零，我们可以说：
+就像以前一样，使用 `“e”` 可以提供帮助。如果我们想避免明确地写零，我们可以说：
 
 ```js
 let ms = 1e-6; // six zeroes to the left from 1 
 ```
 
 
-如果我们计算`0.000001`中的零，则有6个。所以自然是`1e-6`。
+如果我们计算 `0.000001` 中的零，则有 6 个。所以自然是 `1e-6`。
 
 换句话说， `e` 后面的负数表示除以1后面跟着给定数量的0：
 
@@ -56,7 +56,7 @@ let ms = 1e-6; // six zeroes to the left from 1
 
 ### 十六进制，二进制和八进制数字
 
-[十六进制](https://en.wikipedia.org/wiki/Hexadecimal)数字在JavaScript中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法： `0x` 然后是数字。
+[十六进制](https://en.wikipedia.org/wiki/Hexadecimal)数字在 JavaScript 中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法： `0x` 然后是数字。
 
 例如：
 
@@ -104,7 +104,7 @@ alert( num.toString(2) );   // 11111111
 ```需要注意的标题 =“调用方法的两个点”
 请注意 `123456..toString(36)` 中的两个点不是拼写错误。如果我们想直接在一个数字上调用一个方法，比如上面例子中的 `toString`，那么我们需要在它后面放置两个点 `..`。
 
-如果我们放置一个点： `123456.toString(36)` ，那么会出现错误，因为JavaScript语法暗示了第一个点之后的小数部分。如果我们再放一个点，那么JavaScript知道小数部分是空的，现在进入方法。
+如果我们放置一个点： `123456.toString(36)` ，那么会出现错误，因为 JavaScript 语法暗示了第一个点之后的小数部分。如果我们再放一个点，那么 JavaScript 知道小数部分是空的，现在进入方法。
 
 也可以写 `(123456).toString(36)`。
 ```
@@ -139,20 +139,20 @@ alert( num.toString(2) );   // 11111111
 
 这些函数涵盖处理数字小数部分的所有可能方法。但是如果我们想在十进制后将数字四舍五入到 `n` 位呢？
 
-例如，我们有`1.2345`，并且想把它舍入到2位数，只得到`1.23`。
+例如，我们有 `1.2345`，并且想把它舍入到2位数，只得到 `1.23`。
 
 有两种方法可以这样做：
 
 1. 乘法和除法
 
-    例如，要将数字四舍五入到小数点后的第二个数字，我们可以将数字乘以100，调用舍入函数，然后再将其除回100。
+    例如，要将数字四舍五入到小数点后的第二个数字，我们可以将数字乘以 100，调用舍入函数，然后再将其除回 100。
     ```js run
     let num = 1.23456;
 
     alert( Math.floor(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
-2. 函数[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)将点数后的数字四舍五入到 `n` 个数字并返回结果的字符串表示。
+2. 函数 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)将点数后的数字四舍五入到 `n` 个数字并返回结果的字符串表示。
         
     ```js run
     let num = 12.34;
@@ -224,7 +224,7 @@ alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 
 这就是为什么 `0.1 + 0.2` 不等于 `0.3` 的原因。
 
-```聪明的标题=“不仅仅是JavaScript”
+```聪明的标题 = “不仅仅是 JavaScript”
 许多其他编程语言也存在同样的问题。
 
 PHP, Java, C, Perl, Ruby 给出完全相同的结果，因为它们基于相同的数字格式。
@@ -232,7 +232,7 @@ PHP, Java, C, Perl, Ruby 给出完全相同的结果，因为它们基于相同�
 
 我们能解决这个问题吗？当然，有很多方法：
 
-1. 我们可以在特定函数的帮助下对结果进行四舍五入[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)：
+1. 我们可以在特定函数的帮助下对结果进行四舍五入 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)：
 
     ```js run
     let sum = 0.1 + 0.2;
@@ -266,10 +266,10 @@ alert( 9999999999999999 ); // shows 10000000000000000
 
 出现了同样的问题：精度的损失。该号码有 64 位，其中 52 位可用于存储数字，但这还不够。所以最不重要的数字就消失了。
 
-JavaScript在这种事件中不会触发错误。它尽最大努力使数字符合所需的格式，但不幸的是，这种格式不够大到满足需求。
+JavaScript 在这种事件中不会触发错误。它尽最大努力使数字符合所需的格式，但不幸的是，这种格式不够大到满足需求。
 ```
 
-```聪明的标题=“两个零”
+```聪明的标题 = “两个零”
 数字内部表示的另一个有趣结果是存在两个零： `0` 和 `-0` 。
 
 这是因为一个符号由一个位表示，所以每个数字可以是正数或负数，包括零。 
@@ -322,16 +322,16 @@ alert( isFinite(num) );
 
 请注意，所有数字函数（包括 `isFinite`）中的空字符串或空格字符串均被视为 `0`。
 
-```聪明的标题="与Object.is进行比较"
+```聪明的标题="与 Object.is进行比较"
 
 有一种特殊的内置方法[Object.is](mdn:js/Object/is)，它可以比较`===`等值，但对于两种边缘情况更可靠： 
 
 1. 它适用于 `NaN` ： `Object.is（NaN，NaN）=== true`， 这是件好事。
-2. 值 `0` 和 `-0` 是不同的：`Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。
+2. 值 `0` 和 `-0` 是不同的： `Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。
 
 在所有其他情况下， `Object.is(a，b)` 与 `a === b` 相同。
 
-这种比较方式经常用于JavaScript规范。当内部算法需要比较两个值完全相同时，它使用Object.is(内部称为[SameValue](https://tc39.github.io/ecma262/#sec-samevalue))。
+这种比较方式经常用于 JavaScript 规范。当内部算法需要比较两个值完全相同时，它使用 Object.is (内部称为[SameValue](https://tc39.github.io/ecma262/#sec-samevalue))。
 ```
 
 
@@ -345,7 +345,7 @@ alert( +"100px" ); // NaN
 
 唯一的例外是字符串开头或结尾的空格，因为它们会被忽略。
 
-但在现实生活中，我们经常以单位表示值，比如CSS中的 `"100px"` 或 `"12pt"` 。在许多国家，货币符号也超过了金额，所以我们有 `"19€"` ，并希望从中提取一个数值。
+但在现实生活中，我们经常以单位表示值，比如 CSS 中的 `"100px"` 或 `"12pt"` 。在许多国家，货币符号也超过了金额，所以我们有 `"19€"` ，并希望从中提取一个数值。
 
 这就是 `parseInt` 和 `parseFloat` 的作用。
 
@@ -378,7 +378,7 @@ alert( parseInt('2n9c', 36) ); // 123456
 
 ## 其他数学函数
 
-JavaScript有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,包含一个数学函数和常量的小型库的对象。
+JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,包含一个数学函数和常量的小型库的对象。
 
 几个例子：
 
