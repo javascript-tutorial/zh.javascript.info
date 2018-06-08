@@ -1,12 +1,12 @@
-importance: 4
+重要性：4
 
 ---
 
-# Rewrite setTimeout with setInterval
+# 用 setInterval 重写 setTimeout
 
-Here's the function that uses nested `setTimeout` to split a job into pieces.
+下面的函数用嵌套 `setTimeout` 将任务分成多个部分。
 
-Rewrite it to `setInterval`:
+试试用 `setInterval` 进行重写：
 
 ```js run
 let i = 0;
@@ -21,7 +21,7 @@ function count() {
     setTimeout(count, 0);
   }
 
-  // a piece of heavy job
+  // 任务的一部分
   for(let j = 0; j < 1000000; j++) {
     i++;
   }
