@@ -147,7 +147,7 @@ alert( carriedSum(1)(2) ); // 3
 ```js
 function curry(f) {
   return function(...args) {
-    // 如果 args.length == f.length (args 和 f 的参数数量相同)
+    // 如果 args.length == f.length（args 和 f 的参数数量相同）
     // 那么调用 f
     // 否则的话返回一个偏函数，将 args 作为第一个参数      
   };
