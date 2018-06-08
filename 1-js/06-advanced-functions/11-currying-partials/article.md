@@ -1,5 +1,5 @@
-库：
-  —— lodash
+libs:
+  - lodash
 
 ---
 
