@@ -1,36 +1,36 @@
-# Scheduling: setTimeout and setInterval
+# 调度：setTimeout 和 setInterval
 
-We may decide to execute a function not right now, but at a certain time later. That's called "scheduling a call".
+有时我们并不想立即执行一个函数，而是等待特定一段时间之后再执行，这种做法也叫“计划调用”。
 
-There are two methods for it:
+目前有两种方式可以实现：
 
-- `setTimeout` allows to run a function once after the interval of time.
-- `setInterval` allows to run a function regularly with the interval between the runs.
+- `setTimeout` 将函数的执行推迟到一段时间之后再执行。
+- `setInterval` 让函数间隔一定时间周期性执行。
 
-These methods are not a part of JavaScript specification. But most environments have the internal scheduler and provide these methods. In particular, they are supported in all browsers and Node.JS.
+这两个方法并不存在于 JavaScript 的规范中。但是大多数运行环境都有内置的调度器，而且也提供了这两个方法的实现。目前来讲，所有浏览器，包括 Node.js 都支持这两个方法。
 
 
 ## setTimeout
 
-The syntax:
+用法：
 
 ```js
 let timerId = setTimeout(func|code, delay[, arg1, arg2...])
 ```
 
-Parameters:
+参数说明：
 
 `func|code`
-: Function or a string of code to execute.
-Usually, that's a function. For historical reasons, a string of code can be passed, but that's not recommended.
+：想要执行的函数或代码字符串。
+一般传入的都是函数，介于某些历史原因，代码字符串也支持，但是不建议使用这种方式。
 
 `delay`
-: The delay before run, in milliseconds (1000 ms = 1 second).
+：执行前的延时，以毫秒为单位（1000 毫秒 = 1 秒）；
 
-`arg1`, `arg2`...
-: Arguments for the function (not supported in IE9-)
+`arg1`，`arg2`...
+：要传入被执行函数（或代码字符串）的参数列表（IE9 以下不支持）
 
-For instance, this code calls `sayHi()` after one second:
+在下面这个示例中，`sayHi()` 方法会在 1 秒后执行：
 
 ```js run
 function sayHi() {
@@ -42,7 +42,7 @@ setTimeout(sayHi, 1000);
 */!*
 ```
 
-With arguments:
+带参数的情况：
 
 ```js run
 function sayHi(phrase, who) {
@@ -54,93 +54,93 @@ setTimeout(sayHi, 1000, "Hello", "John"); // Hello, John
 */!*
 ```
 
-If the first argument is a string, then JavaScript creates a function from it.
+如果第一个参数位传入的是字符串，JavaScript 会自动为其创建一个函数。
 
-So, this will also work:
+所以这么写也是可以的：
 
 ```js run no-beautify
 setTimeout("alert('Hello')", 1000);
 ```
 
-But using strings is not recommended, use functions instead of them, like this:
+但是，毕竟这种方式并不推崇，所以建议还是用函数格式：
 
 ```js run no-beautify
 setTimeout(() => alert('Hello'), 1000);
 ```
 
 ````smart header="Pass a function, but don't run it"
-Novice developers sometimes make a mistake by adding brackets `()` after the function:
+新手有时候会误将一对括号 `()` 加在函数后面：
 
-```js
-// wrong!
+​```js
+// 这样是不对的！
 setTimeout(sayHi(), 1000);
-```
-That doesn't work, because `setTimeout` expects a reference to function. And here `sayHi()` runs the function, and the *result of its execution* is passed to `setTimeout`. In our case the result of `sayHi()` is `undefined` (the function returns nothing), so nothing is scheduled.
+​```
+为什么不行呢，因为 `setTimeout` 需要的是函数的引用。而这里的 `sayHi()` 很明显是在执行函数，所以实际上传入 `setTimeout` 的是 *函数的执行结果*。在这个例子中，`sayHi()` 的执行结果是 `undefined`（也就是说函数没有返回任何结果），所以实际上没有调度任何东西。
 ````
 
-### Canceling with clearTimeout
+### 用 clearTimeout 来取消调度
 
-A call to `setTimeout` returns a "timer identifier" `timerId` that we can use to cancel the execution.
+`setTimeout` 在调用时会返回一个“定时器 id”，接下来使用变量 `timerId` 来取消调度。
 
-The syntax to cancel:
+取消调度的语法：
 
 ```js
 let timerId = setTimeout(...);
 clearTimeout(timerId);
 ```
 
-In the code below, we schedule the function and then cancel it (changed our mind). As a result, nothing happens:
+在上面的代码中，我们对一个函数进行了调度，紧接着取消了这次调度（中途反悔了）。所以最后啥也没发生：
 
 ```js run no-beautify
 let timerId = setTimeout(() => alert("never happens"), 1000);
-alert(timerId); // timer identifier
+alert(timerId); // 定时器 id
 
 clearTimeout(timerId);
-alert(timerId); // same identifier (doesn't become null after canceling)
+alert(timerId); // 还是那个 id 没变（并没有因为调度被取消了而变成 null）
 ```
 
-As we can see from `alert` output, in a browser the timer identifier is a number. In other environments, this can be something else. For instance, Node.JS returns a timer object with additional methods.
+从 `alert` 的输出来看，定时器 id 在浏览器中是一串数字，然而在其他运行环境下可能是别的东西。就比如 Node.JS 返回的是一个定时器对象，这个对象包含一系列方法。
 
-Again, there is no universal specification for these methods, so that's fine.
+我再重申一遍，这俩方法没有统一的规范定义，反正也无伤大雅就是了。
 
-For browsers, timers are described in the [timers section](https://www.w3.org/TR/html5/webappapis.html#timers) of HTML5 standard.
+针对浏览器环境，定时器在 HTML5 的标准中有详细描述，详见 [timers section](https://www.w3.org/TR/html5/webappapis.html#timers)。
 
 ## setInterval
 
-The `setInterval` method has the same syntax as `setTimeout`:
+`setInterval` 方法和 `setTimeout` 的用法是相同的：
 
 ```js
 let timerId = setInterval(func|code, delay[, arg1, arg2...])
 ```
 
-All arguments have the same meaning. But unlike `setTimeout` it runs the function not only once, but regularly after the given interval of time.
+所有参数的意义也是相同的，不过相对于 `setTimeout` 只执行一次，`setInterval` 是每间隔一定时间周期性执行。
 
-To stop further calls, we should call `clearInterval(timerId)`.
+想要阻止后续调用，我们需要调用 `clearInterval(timerId)`。
 
-The following example will show the message every 2 seconds. After 5 seconds, the output is stopped:
+下面的例子中，每间隔 2 秒就会输出一条消息。5 秒之后，输出停止：
 
 ```js run
-// repeat with the interval of 2 seconds
+// 每 2 秒重复一次
 let timerId = setInterval(() => alert('tick'), 2000);
 
-// after 5 seconds stop
+// 5 秒之后停止
 setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
 ```
 
 ```smart header="Modal windows freeze time in Chrome/Opera/Safari"
-In browsers IE and Firefox the internal timer continues "ticking" while showing `alert/confirm/prompt`, but in Chrome, Opera and Safari the internal timer becomes "frozen".
+在众多浏览器中，IE 和 Firefox 在显示 `alert/confirm/prompt` 时，内部的定时器仍旧会继续滴答，但是像 Chrome、Opera 和 Safari 这几个，内部的定时器会暂停/冻结。
 
-So if you run the code above and don't dismiss the `alert` window for some time, then in Firefox/IE next `alert` will be shown immediately as you do it (2 seconds passed from the previous invocation), and in Chrome/Opera/Safari -- after 2 more seconds (timer did not tick during the `alert`).
+所以，在执行以上代码时，如果在一定时间内没有关掉 `alert` 弹窗，那么在你关闭弹窗后，Firefox/IE 会立即显示下一个 `alert` 弹窗（前提是距离上一次执行超过了 2 秒），而 Chrome/Opera/Safari 这三个则需要再等待 2 秒以上的时间才会再显示（因为在 `alert` 弹窗期间，定时器并没有滴答）。
 ```
 
-## Recursive setTimeout
+## 递归版 setTimeout
 
-There are two ways of running something regularly.
+周期性调度有有种方式。
 
-One is `setInterval`. The other one is a recursive `setTimeout`, like this:
+一种是使用 `setInterval`，另外一种就是递归版的 `setTimeout`，就像这样：
 
 ```js
-/** instead of:
+/** 这是一种：
 let timerId = setInterval(() => alert('tick'), 2000);
 */
 
@@ -152,13 +152,13 @@ let timerId = setTimeout(function tick() {
 }, 2000);
 ```
 
-The `setTimeout` above schedules the next call right at the end of the current one `(*)`.
+`setTimeout` 在这一次函数执行完时，立即安排下一次调用`(*)`。
 
-The recursive `setTimeout` is a more flexible method than `setInterval`. This way the next call may be scheduled differently, depending on the results of the current one.
+递归版的 `setTimeout` 其实要比 `setInterval` 灵活的多，采用这种方式可以根据当前执行结果来安排下一次调用。
 
-For instance, we need to write a service that sends a request to the server every 5 seconds asking for data, but in case the server is overloaded, it should increase the interval to 10, 20, 40 seconds...
+譬如，我们需要实现一个服务，每间隔 5 秒向服务器请求数据，如果服务器过载了，那么就要降低请求频率，比如将间隔增加到 10, 20, 40 秒等。
 
-Here's the pseudocode:
+以下是伪代码：
 ```js
 let delay = 5000;
 
@@ -166,7 +166,7 @@ let timerId = setTimeout(function request() {
   ...send request...
 
   if (request failed due to server overload) {
-    // increase the interval to the next run
+    // 下一次执行的间隔是当前的 2 倍
     delay *= 2;
   }
 
@@ -176,11 +176,11 @@ let timerId = setTimeout(function request() {
 ```
 
 
-And if we regularly have CPU-hungry tasks, then we can measure the time taken by the execution and plan the next call sooner or later.
+如果不时有一些占用 CPU 的任务，我们可以通过衡量执行时间来安排下次调用是应该提前还是推迟。
 
-**Recursive `setTimeout` guarantees a delay between the executions, `setInterval` -- does not.**
+**递归版 `setTimeout` 能保证每次执行间的延时都是准确的，`setInterval` 却是不能够。**
 
-Let's compare two code fragments. The first one uses `setInterval`:
+下面来比较两段代码，一个是用 `setInterval`：
 
 ```js
 let i = 1;
@@ -189,7 +189,7 @@ setInterval(function() {
 }, 100);
 ```
 
-The second one uses recursive `setTimeout`:
+另一个用递归版 `setTimeout`：
 
 ```js
 let i = 1;
@@ -199,52 +199,52 @@ setTimeout(function run() {
 }, 100);
 ```
 
-For `setInterval` the internal scheduler will run `func(i)` every 100ms:
+对 `setInterval` 而言，内部的调度器会每间隔100 毫秒执行一次 `func(i)`：
 
 ![](setinterval-interval.png)
 
-Did you notice?
+注意到了？
 
-**The real delay between `func` calls for `setInterval` is less than in the code!**
+**使用 `setInterval` 时，`func` 函数的实际调用间隔要比代码给出的间隔时间要短**
 
-That's normal, because the time taken by `func`'s execution "consumes" a part of the interval.
+这也是无可厚非，因为`func` 的执行时间抵消掉了一部分间隔时间。
 
-It is possible that `func`'s execution turns out to be longer than we expected and takes more than 100ms.
+还有一种可能，如果 `func` 的执行时间超出了 100 毫秒呢？
 
-In this case the engine waits for `func` to complete, then checks the scheduler and if the time is up, runs it again *immediately*.
+这时候，JavaScript 引擎会等待 `func` 执行完，然后向调度器询问是否到点，如果是，那么 **立马** 再执行一次
 
-In the edge case, if the function always executes longer than `delay` ms, then the calls will happen without a pause at all.
+极端情况下，如果函数每次执行时间都超过 `delay` 设置的时间，那么每次调用之间将毫无停顿。
 
-And here is the picture for the recursive `setTimeout`:
+再来看递归版 `setTimeout`：
 
 ![](settimeout-interval.png)
 
-**The recursive `setTimeout` guarantees the fixed delay (here 100ms).**
+**递归的 `setTimeout` 就能确保延时的固定（这里用的是 100 毫秒）。**
 
-That's because a new call is planned at the end of the previous one.
+这是因为下一次调用是在前一次调用完成时再安排的。
 
 ````smart header="Garbage collection"
-When a function is passed in `setInterval/setTimeout`, an internal reference is created to it and saved in the scheduler. It prevents the function from being garbage collected, even if there are no other references to it.
+当一个函数传入 `setInterval/setTimeout` 时，内部会为其创建一个引用，保存在调度器中。这样，即使这个函数没有被引用，也能防止垃圾回收器（GC）将其回收。
 
-```js
-// the function stays in memory until the scheduler calls it
+​```js
+// 在调度器调用这个函数之前，这个函数将一直存在于内存中
 setTimeout(function() {...}, 100);
-```
+​```
 
-For `setInterval` the function stays in memory until `clearInterval` is called.
+对于 `setInterval`，其函数也是存在于内存中，直到 `clearInterval` 被调用。
 
-There's a side-effect. A function references the outer lexical environment, so, while it lives, outer variables live too. They may take much more memory than the function itself. So when we don't need the scheduled function anymore, it's better to cancel it, even if it's very small.
+这里还要提到一个副作用。如果函数引用了外部变量（译者注：闭包），那么只要这个函数还存活着，外部变量也会随之存活，这样就可能会占用多于方法自身所需要的内存。所以，如果某个函数不需要再调度，即使是个很小的函数，最好也将其取消。
 ````
 
 ## setTimeout(...,0)
 
-There's a special use case: `setTimeout(func, 0)`.
+还有一种特殊的用法：`setTimeout(func, 0)`。
 
-This schedules the execution of `func` as soon as possible. But scheduler will invoke it only after the current code is complete.
+这样安排可以让 `func` 尽快执行，但是只有在当前代码执行完后，调度器才会对其进行调用。
 
-So the function is scheduled to run "right after" the current code. In other words, *asynchronously*.
+也就是说，函数是在刚好当前代码执行完后执行，简而言之，就是 **异步**。
 
-For instance, this outputs "Hello", then immediately "World":
+下面例子中，代码会先输出“Hello”，然后紧接着输出“World”：
 
 ```js run
 setTimeout(() => alert("World"), 0);
@@ -252,19 +252,19 @@ setTimeout(() => alert("World"), 0);
 alert("Hello");
 ```
 
-The first line "puts the call into calendar after 0ms". But the scheduler will only "check the calendar" after the current code is complete, so `"Hello"` is first, and `"World"` -- after it.
+第一行代码“将调用安排到日程 0 毫秒处”，但是调度器只有在当前代码执行完毕时才会去“检查日程”，所以`"Hello"`先输出，然后才输出`"World"`。
 
-### Splitting CPU-hungry tasks
+### 分割 CPU 高占用的任务
 
-There's a trick to split CPU-hungry tasks using `setTimeout`.
+下面讲一个用 `setTimeout` 分割 CPU 高占用任务的技巧。
 
-For instance, a syntax-highlighting script (used to colorize code examples on this page) is quite CPU-heavy. To highlight the code, it performs the analysis, creates many colored elements, adds them to the document -- for a big text that takes a lot. It may even cause the browser to "hang", which is unacceptable.
+譬如，一个语法高亮脚本（用来给页面代码加点颜色）会占用非常大的 CPU 资源。为了给代码进行高亮显示，它首先要进行代码分析，然后创建一堆着色后的元素，再将其添加到页面文档中 —— 文本量很大时，耗费时间也会很长。这样就可能导致浏览器“挂起”，让人受不了。
 
-So we can split the long text into pieces. First 100 lines, then plan another 100 lines using `setTimeout(...,0)`, and so on.
+所以，我们不妨将长文本分割成一块块的处理。首先处理前 100 行，然后用 `setTimeout(...,0)` 安排接下来 100 行的处理，以此类推。
 
-For clarity, let's take a simpler example for consideration. We have a function to count from `1` to `1000000000`.
+为了方便理解，来考虑一个稍微简单点的例子。比如我们有个函数，从 `1` 数到 `1000000000`。
 
-If you run it, the CPU will hang. For server-side JS that's clearly noticeable, and if you are running it in-browser, then try to click other buttons on the page -- you'll see that whole JavaScript actually is paused, no other actions work until it finishes.
+运行时，会观察到 CPU 挂起，特别是服务器端 JS 尤为明显。如果在浏览器下运行，试试点击页面的其他按钮，然后你会发现整个 JavaScript 的执行都暂停了，除非等这段代码运行完，否则啥也做不了。
 
 ```js run
 let i = 0;
@@ -273,7 +273,7 @@ let start = Date.now();
 
 function count() {
 
-  // do a heavy job
+  // 执行一个艰巨的任务
   for (let j = 0; j < 1e9; j++) {
     i++;
   }
@@ -284,9 +284,9 @@ function count() {
 count();
 ```
 
-The browser may even show "the script takes too long" warning (but hopefully it won't, because the number is not very big).
+机会好的话，浏览器还会显示“the script takes too long（页面脚本执行时间过长）”这样的警告（实际上不太可能，毕竟给的数字也不是特别大）。
 
-Let's split the job using the nested `setTimeout`:
+下面用 `setTimeout` 分割任务：
 
 ```js run
 let i = 0;
@@ -295,7 +295,7 @@ let start = Date.now();
 
 function count() {
 
-  // do a piece of the heavy job (*)
+  // 先完成一部分任务(*)
   do {
     i++;
   } while (i % 1e6 != 0);
@@ -303,7 +303,7 @@ function count() {
   if (i == 1e9) {
     alert("Done in " + (Date.now() - start) + 'ms');
   } else {
-    setTimeout(count, 0); // schedule the new call (**)
+    setTimeout(count, 0); // 安排下一次任务 (**)
   }
 
 }
@@ -311,23 +311,23 @@ function count() {
 count();
 ```
 
-Now the browser UI is fully functional during the "counting" process.
+现在，浏览器的 UI 界面即使在“计数”正在进行的情况下也能正常工作了。
 
-We do a part of the job `(*)`:
+`(*)` 处代码是这么一步步完成任务的：
 
-1. First run: `i=1...1000000`.
-2. Second run: `i=1000001..2000000`.
-3. ...and so on, the `while` checks if `i` is evenly divided by `1000000`.
+1. 第一次做：`i=1...1000000` 的计数。
+2. 第二次做：`i=1000001..2000000` 的计数。
+3. ...等等，其中 `while` 检查 `i` 是否刚好能被 `1000000` 整除。
 
-Then the next call is scheduled in `(*)` if we're not done yet.
+如果任务还没完成，在代码 `(**)` 处安排下一次调用。
 
-Pauses between `count` executions provide just enough "breath" for the JavaScript engine to do something else, to react to other user actions.
+`count` 函数调用的间隙足以让 JavaScript 引擎“缓口气了”，（浏览器）趁这段时间可以对用户的操作作出回应。
 
-The notable thing is that both variants -- with and without splitting the job by `setTimeout` -- are comparable in speed. There's no much difference in the overall counting time.
+用 `setTimeout` 进行分割和没用这两种做法在速度方面平分秋色，总的计数过程所花的时间几乎没什么差别。
 
-To make them closer, let's make an improvement.
+为了进一步阐述，下面做一下改进。
 
-We'll move the scheduling in the beginning of the `count()`:
+将调度代码挪到 `count()` 函数开头位置：
 
 ```js run
 let i = 0;
@@ -336,9 +336,9 @@ let start = Date.now();
 
 function count() {
 
-  // move the scheduling at the beginning
+  // 现在将调度放在开头
   if (i < 1e9 - 1e6) {
-    setTimeout(count, 0); // schedule the new call
+    setTimeout(count, 0); // 安排下一次调用
   }
 
   do {
@@ -354,44 +354,44 @@ function count() {
 count();
 ```
 
-Now when we start to `count()` and know that we'll need to `count()` more, we schedule that immediately, before doing the job.
+因为大家知道 `count()` 不会只执行一次，所以这一次在计数开始前就安排好下一次计数任务。
 
-If you run it, it's easy to notice that it takes significantly less time.
+如果你自己跑一遍，会观察到这次的耗时要短上不少。
 
 ````smart header="Minimal delay of nested timers in-browser"
-In the browser, there's a limitation of how often nested timers can run. The [HTML5 standard](https://www.w3.org/TR/html5/webappapis.html#timers) says: "after five nested timers, the interval is forced to be at least four milliseconds.".
+在浏览器环境下，嵌套定时器的运行频率是受限制的。根据 [HTML5 标准](https://www.w3.org/TR/html5/webappapis.html#timers) 所言：“经过 5 重嵌套之后，定时器运行间隔强制要求至少达到 4 毫秒”。
 
-Let's demonstrate what it means with the example below. The `setTimeout` call in it re-schedules itself after `0ms`. Each call remembers the real time from the previous one in the `times` array. What do the real delays look like? Let's see:
+下面用具体示例来阐述。其中 `setTimeout` 每次都在 `0ms` 后就再安排一次递归，每次调用都会在 `times` 数组中记录下上一次调用的实际时间。所以，最终延时如何？下面来揭晓：
 
-```js run
+​```js run
 let start = Date.now();
 let times = [];
 
 setTimeout(function run() {
-  times.push(Date.now() - start); // remember delay from the previous call
+  times.push(Date.now() - start); // 保存上次调用的延时
 
-  if (start + 100 < Date.now()) alert(times); // show the delays after 100ms
-  else setTimeout(run, 0); // else re-schedule
+  if (start + 100 < Date.now()) alert(times); // 100 毫秒之后，显示延时信息
+  else setTimeout(run, 0); // 没超过 100 毫秒则再进行调度
 }, 0);
 
-// an example of the output:
+// 示例输出：
 // 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
-```
+​```
 
-First timers run immediately (just as written in the spec), and then the delay comes into play and we see `9, 15, 20, 24...`.
+第一次，定时器是立即执行的（正如规范里所描述的那样），接下来延时就出现了，像 `9, 15, 20, 24...`。(译者注：这里作者没说清楚，timer 数组里存放的是每次定时器运行的时刻与 start 的差值，所以数字只会越来越大，实际上前后调用的延时是数组值的差值。示例中前几次都是 1，所以延时为 0)
 
-That limitation comes from ancient times and many scripts rely on it, so it exists for historical reasons.
+这个限制也是因为历史原因以及很多脚本都依赖于这个机制才得以存在至今。
 
-For server-side JavaScript, that limitation does not exist, and there exist other ways to schedule an immediate asynchronous job, like [process.nextTick](https://nodejs.org/api/process.html) and [setImmediate](https://nodejs.org/api/timers.html) for Node.JS. So the notion is browser-specific only.
+服务端 JavaScript 就没这个限制了，而且除此之外还有其他办法来调度这种即时异步任务，例如 Node.JS 的 [process.nextTick](https://nodejs.org/api/process.html) 和 [setImmediate](https://nodejs.org/api/timers.html)。所以这个提醒也只是针对浏览器环境。
 ````
 
-### Allowing the browser to render
+### 给浏览器渲染的机会
 
-Another benefit for in-browser scripts is that they can show a progress bar or something to the user. That's because the browser usually does all "repainting" after the script is complete.
+行间脚本还有个益处，可以用来向用户展示进度条等。因为浏览器在脚本执行完后，就会开始所有的 “repainting” 过程。
 
-So if we do a single huge function then even if it changes something, the changes are not reflected in the document till it finishes.
+所以，如果运行一个非常耗时的函数，即便在这个函数中改变了文档内容，除非这个函数执行完，那么变化是不会立刻反映到页面上的。
 
-Here's the demo:
+以下是一个示例：
 ```html run
 <div id="progress"></div>
 
@@ -401,8 +401,8 @@ Here's the demo:
   function count() {
     for (let j = 0; j < 1e6; j++) {
       i++;
-      // put the current i into the <div>
-      // (we'll talk more about innerHTML in the specific chapter, should be obvious here)
+      // 将当前 i 值放到 <div> 内
+      // （innerHTML 在以后具体章节会讲到，这行代码看懂应该没问题）
       progress.innerHTML = i;
     }
   }
@@ -411,9 +411,9 @@ Here's the demo:
 </script>
 ```
 
-If you run it, the changes to `i` will show up after the whole count finishes.
+运行后会发现，`i` 值只在整个计数过程完成后才显示。
 
-And if we use `setTimeout` to split it into pieces then changes are applied in-between the runs, so this looks better:
+接下来用 `setTimeout` 对任务进行分割，这样就能在每一轮运行的间隙观察到变化了，效果要好得多：
 
 ```html run
 <div id="progress"></div>
@@ -423,7 +423,7 @@ And if we use `setTimeout` to split it into pieces then changes are applied in-b
 
   function count() {
 
-    // do a piece of the heavy job (*)
+    // 每次只完成一部分 (*)
     do {
       i++;
       progress.innerHTML = i;
@@ -439,24 +439,24 @@ And if we use `setTimeout` to split it into pieces then changes are applied in-b
 </script>
 ```
 
-Now the `<div>` shows increasing values of `i`.
+现在就可以观察到 `<div>` 里 `i` 值的增长过程了。
 
-## Summary
+## 总结
 
-- Methods `setInterval(func, delay, ...args)` and `setTimeout(func, delay, ...args)` allow to run the `func` regularly/once after `delay` milliseconds.
-- To cancel the execution, we should call `clearInterval/clearTimeout` with the value returned by `setInterval/setTimeout`.
-- Nested `setTimeout` calls is a more flexible alternative to `setInterval`. Also they can guarantee the minimal time *between* the executions.
-- Zero-timeout scheduling `setTimeout(...,0)` is used to schedule the call "as soon as possible, but after the current code is complete".
+- `setInterval(func, delay, ...args)` 和 `setTimeout(func, delay, ...args)` 可以让 `func` 在经历一段延时后周期性/一次性执行。
+- 要取消函数的执行需要调用 `clearInterval/clearTimeout`，只需将 `setInterval/setTimeout` 返回的值传入即可。
+- 嵌套 `setTimeout` 比 `setInterval` 用起来更加灵活，同时也能保证每一轮执行的最小时间间隔。
+- 0 延时调度 `setTimeout(...,0)` 用来安排在当前代码执行完时，需要尽快执行的函数。
 
-Some use cases of `setTimeout(...,0)`:
-- To split CPU-hungry tasks into pieces, so that the script doesn't "hang"
-- To let the browser do something else while the process is going on (paint the progress bar).
+`setTimeout(...,0)` 的一些用法示例：
+- 将耗费的 CPU 任务分割成多块，这样脚本运行不会进入“挂起”状态。
+- 进程繁忙时也能让浏览器抽身做其他事（例如绘制进度条）。
 
-Please note that all scheduling methods do not *guarantee* the exact delay. We should not rely on that in the scheduled code.
+有一点需要注意，所有的调度方法都不能 **保证** 延时的准确性，所以在调度代码中，万不可依赖它。
 
-For example, the in-browser timer may slow down for a lot of reasons:
-- The CPU is overloaded.
-- The browser tab is in the background mode.
-- The laptop is on battery.
+浏览器内部的定时器会因各种原因而出现延迟，譬如：
+- CPU 过载。
+- 浏览器页签切换到了后台模式。
+- 笔记本电脑用的是电池供电（译者注：使用电池会以降低性能为代价提升续航）
 
-All that may increase the minimal timer resolution (the minimal delay) to 300ms or even 1000ms depending on the browser and settings.
+如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。
