@@ -1,6 +1,6 @@
 # 数字类型
 
-JavaScript 中的所有数字都以 64 位格式 [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)存储，也称为“双精度”。
+JavaScript 中的所有数字都以 64 位格式 [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985) 存储，也称为“双精度”。
 
 让我们回顾一下并展开我们目前了解的内容。
 
@@ -22,7 +22,7 @@ let billion = 1e9;  // 1 billion, literally: 1 and 9 zeroes
 alert( 7.3e9 );  // 7.3 billions (7,300,000,000)
 ```
 
-换句话说，`“e“`把数字乘以 `1` 后面跟着指定数量的 0 。
+换句话说，`“e“`把数字乘以 `1` 后面跟着指定数量的 0。
 
 ```js
 1e3 = 1 * 1000
@@ -44,7 +44,7 @@ let ms = 1e-6; // six zeroes to the left from 1
 
 如果我们计算 `0.000001` 中的零，则有 6 个。所以自然是 `1e-6`。
 
-换句话说， `e` 后面的负数表示除以1后面跟着给定数量的0：
+换句话说，`e` 后面的负数表示除以 1 后面跟着给定数量的 0：
 
 ```js
 // -3 divides by 1 with 3 zeroes
@@ -56,7 +56,7 @@ let ms = 1e-6; // six zeroes to the left from 1
 
 ### 十六进制，二进制和八进制数字
 
-[十六进制](https://en.wikipedia.org/wiki/Hexadecimal)数字在 JavaScript 中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法： `0x` 然后是数字。
+[十六进制](https://en.wikipedia.org/wiki/Hexadecimal)数字在 JavaScript 中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法：`0x` 然后是数字。
 
 例如：
 
@@ -75,7 +75,7 @@ let b = 0o377; // octal form of 255
 alert( a == b ); // true, the same number 255 at both sides
 ```
 
-只有这三种进制支持这种写法。对于其他进制，我们应该使用函数 `parseInt` （我们将在本章后面看到）。
+只有这三种进制支持这种写法。对于其他进制，我们应该使用函数 `parseInt`（我们将在本章后面看到）。
 
 ## toString(base)
 
@@ -89,7 +89,7 @@ alert( num.toString(16) );  // ff
 alert( num.toString(2) );   // 11111111
 ```
 
-`base` 可以从 `2` 变到 `36` 。默认情况下它是 `10` 
+`base` 可以从 `2` 变到 `36`。默认情况下它是 `10`。
 
 常见的用例如下：
 
@@ -101,7 +101,7 @@ alert( num.toString(2) );   // 11111111
     alert( 123456..toString(36) ); // 2n9c
     ```
 
-```需要注意的标题 =“调用方法的两个点”
+```需要注意的标题="调用方法的两个点"
 请注意 `123456..toString(36)` 中的两个点不是拼写错误。如果我们想直接在一个数字上调用一个方法，比如上面例子中的 `toString`，那么我们需要在它后面放置两个点 `..`。
 
 如果我们放置一个点： `123456.toString(36)` ，那么会出现错误，因为 JavaScript 语法暗示了第一个点之后的小数部分。如果我们再放一个点，那么 JavaScript 知道小数部分是空的，现在进入方法。
@@ -432,6 +432,4 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 更多的数学函数：
 
-- 需要时请参阅[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,虽然这个文档非常小,但是它可以满足基础的要求
-
-
+- 需要时请参阅[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,虽然这个文档非常小,但是它可以满足基础的要求。
