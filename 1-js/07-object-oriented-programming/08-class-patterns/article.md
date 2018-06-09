@@ -223,7 +223,7 @@ rabbit.eat(); // 兔子也可以吃了
 rabbit.jump();
 ```
 
-`(*)` 行设置了原型链。以至于 `rabbit` 首先从 `Rabbit.prototype` 中查找方法，然后从 `Animal.prototype` 查找。而后为了完整起见，让我们注意一下如果在 `Animal.prototype` 中找不到该方法，那么则继续在 `Object.prototype` 中查找，因为 `Animal.prototype` 是简单对象，所以继承自它
+`(*)` 行设置了原型链。以至于 `rabbit` 首先从 `Rabbit.prototype` 中查找方法，然后从 `Animal.prototype` 查找。而后为了完整起见，让我们注意一下如果在 `Animal.prototype` 中找不到该方法，那么则继续在 `Object.prototype` 中查找，因为 `Animal.prototype` 是简单对象，所以继承自它。
 
 这里是完整的关系：
 
