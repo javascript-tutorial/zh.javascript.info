@@ -16,4 +16,4 @@ camelize("list-style-image") == 'listStyleImage';
 camelize("-webkit-transition") == 'WebkitTransition';
 ```
 
-附：提示：使用 `split` 将字符串拆分成数组，然后将其转换 `join` 并返回。
+提示：使用 `split` 将字符串拆分成数组，然后将其转换 `join` 并返回。
