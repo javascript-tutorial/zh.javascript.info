@@ -60,14 +60,14 @@ for (let key in count) {
 
 JavaScript 引擎的代码结果可能会有所不同，但我们已经可以看到这种方法是不可靠的。
 
-为什么它不起作用？一般来说，`sort` 是一个“黑匣子”： 我们向其中抛出一个数组和一个比较函数，并期望数组被排序。由于比较的完全随机性，黑盒子变得复杂，它究竟发生了什么取决于引擎之间的具体实现。
+为什么它不起作用？一般来说，`sort` 是一个“黑匣子”：我们向其中抛出一个数组和一个比较函数，并期望数组被排序。由于比较的完全随机性，黑盒子变得复杂，它究竟发生了什么取决于引擎之间的具体实现。
 
 还有其他很好的方法来完成这项任务。例如，有一个很好的算法叫做 [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle). The idea is to walk the array in the reverse order and swap each element with a random one before it:
 
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // r从0到i的随机索引
+    let j = Math.floor(Math.random() * (i + 1)); // r 从 0 到 i 的随机索引
     [array[i], array[j]] = [array[j], array[i]]; // 交换元素
   }
 }
@@ -118,4 +118,4 @@ for (let key in count) {
 
 现在看起来不错：所有排列都以相同的概率出现。
 
-另外，性能方面 Fisher - Yates 算法要好得多，没有排序开销。
+另外，性能方面 Fisher — Yates 算法要好得多，没有排序开销。
