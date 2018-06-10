@@ -1,9 +1,9 @@
-importance: 5
+重要性：5
 
 ---
 
-# Rewrite to prototypes
+# 重写原型
 
-The `Clock` class is written in functional style. Rewrite it using prototypes.
+类 `Clock` 是使用函数式写的。使用原型的方式重写它。
 
-P.S. The clock ticks in the console, open it to see.
+附： 时钟在控制台中输出，打开它看。
