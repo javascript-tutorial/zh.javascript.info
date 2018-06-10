@@ -9,7 +9,7 @@
 ```js
 let fruits = ["Apples", "Pear", "Orange"];
 
-// 在“副本”里 push了一个新的值
+// 在“副本”里 push 了一个新的值
 let shoppingCart = fruits;
 shoppingCart.push("Banana");
 

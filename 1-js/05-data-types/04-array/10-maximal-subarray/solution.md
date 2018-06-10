@@ -37,7 +37,7 @@
 
 ```js run
 function getMaxSubSum(arr) {
-  let maxSum = 0; // 如果没有取到任何元素，就返回0
+  let maxSum = 0; // 如果没有取到任何元素，就返回 0
 
   for (let i = 0; i < arr.length; i++) {
     let sumFixedStart = 0;
@@ -57,9 +57,9 @@ alert( getMaxSubSum([1, 2, 3]) ); // 6
 alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 ```
 
-该方案的时间复杂度是[O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation)。也就是说，如果我们把数组大小增加2倍，那么算法的运行时间将会延长4倍。
+该方案的时间复杂度是 [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation)。也就是说，如果我们把数组大小增加2倍，那么算法的运行时间将会延长4倍。
 
-对于大型数组（1000，10000或者更多项）这种算法会导致严重的时间消耗。
+对于大型数组（1000，10000 或者更多项）这种算法会导致严重的时间消耗。
 
 # 快的解决方案
 
@@ -73,9 +73,9 @@ function getMaxSubSum(arr) {
   let partialSum = 0;
 
   for (let item of arr) { // arr 中的每个 item
-    partialSum += item; // 将其添加到partialSum
+    partialSum += item; // 将其添加到 partialSum
     maxSum = Math.max(maxSum, partialSum); // 记住最大值
-    if (partialSum < 0) partialSum = 0; // 如果是负数就置为0
+    if (partialSum < 0) partialSum = 0; // 如果是负数就置为 0
   }
 
   return maxSum;
