@@ -31,7 +31,7 @@ Rabbit.prototype.walk = function() {
 
 *!*
 let animal = new Animal("pig");
-animal.walk(); // pig bounces!
+animal.walk(); // 猪跳！
 */!*
 ```
 
