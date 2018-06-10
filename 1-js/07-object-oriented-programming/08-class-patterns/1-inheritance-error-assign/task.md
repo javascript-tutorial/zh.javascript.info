@@ -1,12 +1,12 @@
-importance: 5
+重要性：5
 
 ---
 
-# An error in the inheritance
+# 继承中的错误
 
-Find an error in the prototypal inheritance below.
+在下面的原型继承中找到一个错误。
 
-What's wrong? What are consequences going to be?
+怎么了？后果将是什么？
 
 ```js
 function Animal(name) {
