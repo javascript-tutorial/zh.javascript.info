@@ -320,7 +320,7 @@ alert(someUsers.length); // 2
 
 ```js
 let result = arr.map(function(item, index, array) {
-  // returns the new value instead of item
+  // 返回新值而不是当前元素
 })
 ```
 
