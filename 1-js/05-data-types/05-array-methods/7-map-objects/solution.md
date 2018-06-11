@@ -46,6 +46,6 @@ let usersMapped = users.map(user => *!*({*/!*
 }));
 ```
 
-也就是把 `value => {...}` 缓存 `value => ({...})`。
+现在就好了。
 
 
