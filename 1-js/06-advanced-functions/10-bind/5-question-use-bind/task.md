@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# Ask losing this
+# Ask 丢失了 this
 
 下面代码中对 `askPassword()` 的调用将会检查密码然后基于结果调用 `user.loginOk/loginFail`。
 
