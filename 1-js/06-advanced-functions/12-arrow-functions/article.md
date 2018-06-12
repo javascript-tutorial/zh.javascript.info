@@ -123,4 +123,4 @@ function defer(f, ms) {
 - 不能使用 `new`。
 - (他们也没有 `super`，我们将在这一章 <info:class-inheritance> 研究)。
 
-That's because they are meant for short pieces of code that do not have their own "context", but rather works in the current one. And they really shine in that use case.
+所以它们适用于没有自己的“上下文”的短代码片段，比如在当前的代码大放光彩。
