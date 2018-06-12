@@ -208,7 +208,7 @@ alert(user + 500); // toString -> John500
     alert(obj + 2); // 3 (ToPrimitive 返回布尔值，非字符串=>ToNumber)
     ```
 
-```smart header="历史笔记"
+```smart header="Historical notes"
 由于历史原因，`toString` 或 `valueOf` 方法*应该*返回一个原始值：如果它们中的任何一个返回了一个对象，虽然不会报错，但是该对象被忽略（就像该方法不存在一样）。
 
 相反，`Symbol.toPrimitive` *必须*返回一个原始值，否则会出现错误。
