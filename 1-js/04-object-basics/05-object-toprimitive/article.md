@@ -68,12 +68,12 @@
 
 请注意 —— 只有三种暗示。就这么简单。没有"boolean"暗示（所有对象在布尔上下文中都是 `true`）或其他任何东西。如果我们将`"default"`和`"number"`视为相同，就像大多数内置函数一样，那么只有两种转换了。
 
-**为了进行转换，JavaScript尝试查找并调用三个对象方法：**
+**为了进行转换，JavaScript 尝试查找并调用三个对象方法：**
 
 1. 调用 `obj[Symbol.toPrimitive](hint)`如果这个方法存在的话，
 2. 否则如果暗示是`"string"`
     - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
-3. 否则，如果暗示`"number"` 或者 `"default"`
+3. 否则，如果暗示 `"number"` 或者 `"default"`
     - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
 
 ## Symbol.toPrimitive
@@ -111,7 +111,7 @@ alert(user + 500); // hint: default -> 1500
 
 ## toString/valueOf
 
-方法`toString`和`valueOf`来自上古时代。它们不是符号（那时候还没有符号这个概念），而是“常规的”字符串命名的方法。它们提供了一种可替换的“老派”的方式来实现转换。
+方法 `toString` 和 `valueOf` 来自上古时代。它们不是符号（那时候还没有符号这个概念），而是“常规的”字符串命名的方法。它们提供了一种可替换的“老派”的方式来实现转换。
 
 如果没有 `Symbol.toPrimitive` 那么 JavaScript 尝试找到它们并且按照下面的顺序进行尝试：
 
@@ -164,7 +164,7 @@ alert(user + 500); // toString -> John500
 
 关于所有原始转换方法，有一个重要的点需要知道，就是它们不一定会返回“暗示的”原始值。
 
-没有限制 `toString()` 是否返回字符串，或 `Symbol.toPrimitive` 方法是否为"number"暗示返回数字。
+没有限制 `toString()` 是否返回字符串，或 `Symbol.toPrimitive` 方法是否为 "number" 暗示返回数字。
 
 **唯一强制性的事情是：这些方法必须返回一个原始值。**
 
@@ -209,9 +209,9 @@ alert(user + 500); // toString -> John500
     ```
 
 ```smart header="Historical notes"
-由于历史原因，`toString` 或 `valueOf` 方法*应该*返回一个原始值：如果它们中的任何一个返回了一个对象，虽然不会报错，但是该对象被忽略（就像该方法不存在一样）。
+由于历史原因，`toString` 或 `valueOf` 方法**应该**返回一个原始值：如果它们中的任何一个返回了一个对象，虽然不会报错，但是该对象被忽略（就像该方法不存在一样）。
 
-相反，`Symbol.toPrimitive` *必须*返回一个原始值，否则会出现错误。
+相反，`Symbol.toPrimitive` **必须**返回一个原始值，否则会出现错误。
 ```
 
 ## 概要
@@ -223,7 +223,7 @@ alert(user + 500); // toString -> John500
 - `"number"` (对于 `maths`)
 - `"default"` (少数操作)
 
-规范明确描述了哪个操作符使用哪个暗示。极少数操作者“不知道期望什么”并使用`"default"`暗示。通常对于内置对象，`"default"`暗示的处理方式与`"number"`相同，因此在实践中最后两个通常合并在一起。
+规范明确描述了哪个操作符使用哪个暗示。极少数操作者“不知道期望什么”并使用 `"default"` 暗示。通常对于内置对象，`"default"` 暗示的处理方式与 `"number"` 相同，因此在实践中最后两个通常合并在一起。
 
 转换算法是：
 
