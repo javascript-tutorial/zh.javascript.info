@@ -99,12 +99,12 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 最复杂的事情放生在字符串、数字和布尔值上。
 
-正如我们记忆中的那样，它们并不是对象。但是如果我们试图访问它们的属性，那么临时的包裹对象将会被内置的构造函数`String`、 `Number` 或 `Boolean`创建，它们提供给我们操作字符串、数字和布尔值的方法然后藏匿起来。（译者注：这里的“隐匿起来”应该是指我们在打印这些值的时候看不到对象的方法）
+正如我们记忆中的那样，它们并不是对象。但是如果我们试图访问它们的属性，那么临时的包装对象将会被内置的构造函数`String`、 `Number` 或 `Boolean`创建，它们提供给我们操作字符串、数字和布尔值的方法然后藏匿起来。（译者注：这里的“隐匿起来”应该是指我们在打印这些值的时候看不到对象的方法）
 
 这些对象对我们来说是被无形的创造出来的且大多数引擎优化了它们，而规范精准的描述了这种方式。这些对象的方法也驻留在它们的原型 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 中。
 
-```注意=“值 `null` 和 `undefined` 没有对象包裹”
-特殊值 `null` 和 `undefined` 要被区分看待。它们没有对象包裹，所以它们没有自己的方法和属性。并且它们没有相应的原型。
+```注意=“值 `null` 和 `undefined` 没有对象包装”
+特殊值 `null` 和 `undefined` 要被区分看待。它们没有对象包装，所以它们没有自己的方法和属性。并且它们没有相应的原型。
 ```
 
 ## 更改原生原型 [#原生-原型-更改]
@@ -176,5 +176,5 @@ function showArgs() {
 - 所有的内置对象都遵循一样的模式：
     - 方法都存储在原型对象上（`Array.prototype`、`Object.prototype`、`Date.prototype` 等)。
     - 对象本身只存储数据（数组元素、对象属性、日期）。
-- 基本数据类型同样在包裹对象的原型上存储方法：`Number.prototype`、`String.prototype`、`Boolean.prototype`。只有 `undefined` 和 `null` 没有包裹对象。
+- 基本数据类型同样在包装对象的原型上存储方法：`Number.prototype`、`String.prototype`、`Boolean.prototype`。只有 `undefined` 和 `null` 没有包装对象。
 - 内置对象的原型可以被修改或者被新的方法填充。但是这样做是不被推荐的。只有当添加一个还没有被 JavaScript 引擎支持的新方法的时候才可能允许这样做。
