@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 二次绑定
+# 二次 bind
 
 我们可以通过附加的 bind 改变 `this` 吗？
 
