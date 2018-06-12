@@ -1,9 +1,9 @@
 
-The error occurs because `ask` gets functions `loginOk/loginFail` without the object.
+发生了错误是因为 `ask` 的参数是没有绑定对象的 `loginOk/loginFail` 函数。
 
-When it calls them, they naturally assume `this=undefined`.
+当它调用这两个函数，它们自然的会认定 `this=undefined`。
 
-Let's `bind` the context:
+让我们 `bind` 上下文：
 
 ```js run
 function askPassword(ok, fail) {
@@ -30,14 +30,14 @@ askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
 */!*
 ```
 
-Now it works.
+现在它能正常工作了。
 
-An alternative solution could be:
+另一个可以用来替换的解决办法是：
 ```js
 //...
 askPassword(() => user.loginOk(), () => user.loginFail());
 ```
 
-Usually that also works, but may fail in more complex situations where `user` has a chance of being overwritten between the moments of asking and running `() => user.loginOk()`. 
+通常情况下它也能正常运行，但是可能会在更复杂的场景下失效，例如在 asking 到运行 `() => user.loginOk()` 之间， `user` 可能会被重写。
 
 
