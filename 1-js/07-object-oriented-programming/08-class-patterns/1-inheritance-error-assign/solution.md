@@ -6,7 +6,7 @@ Rabbit.prototype = Animal.prototype;
 
 这里 `Rabbit.prototype` 和 `Animal.prototype` 变成了同样的对象。所以这两个类的方法都混合在了这个对象中。
 
-结果， `Rabbit.prototype.walk` 重写了 `Animal.prototype.walk`，所以所有动物都开始跳：
+结果，`Rabbit.prototype.walk` 重写了 `Animal.prototype.walk`，所以所有动物都开始跳：
 
 ```js run
 function Animal(name) {
