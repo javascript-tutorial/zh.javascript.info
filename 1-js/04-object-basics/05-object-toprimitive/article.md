@@ -5,7 +5,7 @@
 
 在对象中有特殊的方法用来做转换。
 
-在 <info:type-conversions> 一章中，我们已经看到了数值，字符串和布尔转换的规则。但是我没给对象留了一个空隙。正如我们所知道的方法和符号一样，现在我们可以关闭它。
+在 <info:type-conversions> 一章中，我们已经看到了数值，字符串和布尔转换的规则。但是我们给对象留了一个空隙。正如我们所知道的方法和符号一样，现在我们可以关闭它。
 
 对于对象，不存在 to-boolean 转换，因为所有对象在布尔上下文中都是 `true`。所以只有字符串和数值转换。
 
@@ -62,7 +62,7 @@
     if (user == 1) { ... };
     ```
 
-    大于/小于运算符`<>`可以同时用于字符串和数字。不过，它使用“number”暗示，而不是“default”。这是历史原因。
+    大于/小于运算符`<>`也可以同时用于字符串和数字。不过，它使用“number”暗示，而不是“default”。这是历史原因。
 
     实际上，除了一种情况（`Date` 对象，我们稍后会学到它）之外，所有内置对象都实现了一个和`"number"`一样的`"default"`转换。可能我们也应该这样做。
 
@@ -72,9 +72,9 @@
 
 1. 调用 `obj[Symbol.toPrimitive](hint)`如果这个方法存在的话，
 2. 否则如果暗示是`"string"`
-    - 尝试 `obj.toString()` 和 `obj.valueOf()`， 无论哪个存在。
+    - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
 3. 否则，如果暗示`"number"` 或者 `"default"`
-    - 尝试 `obj.valueOf()` 和 `obj.toString()`， 无论哪个存在。
+    - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
 
 ## Symbol.toPrimitive
 
@@ -83,7 +83,7 @@
 ```js
 obj[Symbol.toPrimitive] = function(hint) {
   // 返回一个原始值
-  // hint = one of "string", "number", "default"
+  // hint = “string”，“number”和“default”中的一个
 }
 ```
 
@@ -111,9 +111,9 @@ alert(user + 500); // hint: default -> 1500
 
 ## toString/valueOf
 
-方法`toString`和`valueOf`来自上古时代。它们不是符号（那么久之前还没有符号这个概念），而是“常规的”字符串命名的方法。它们提供了一种可替换的“老派”的方式来实现转换。
+方法`toString`和`valueOf`来自上古时代。它们不是符号（那时候还没有符号这个概念），而是“常规的”字符串命名的方法。它们提供了一种可替换的“老派”的方式来实现转换。
 
-如果没有 `Symbol.toPrimitive` 那么 JavaScript尝试找到它们并且按照下面的顺序尝试：
+如果没有 `Symbol.toPrimitive` 那么 JavaScript 尝试找到它们并且按照下面的顺序进行尝试：
 
 - 对于"string"暗示，`toString -> valueOf`。
 - 其他情况，`valueOf -> toString`。
@@ -162,13 +162,13 @@ alert(user + 500); // toString -> John500
 
 ## ToPrimitive 和 ToString/ToNumber
 
-了解所有原始转换方法的重要之处在于它们不一定会返回“暗示的”原始值。
+关于所有原始转换方法，有一个重要的点需要知道，就是它们不一定会返回“暗示的”原始值。
 
 没有限制 `toString()` 是否返回字符串，或 `Symbol.toPrimitive` 方法是否为"number"暗示返回数字。
 
 **唯一强制性的事情是：这些方法必须返回一个原始值。**
 
-启动转换的操作获取该原始值，然后继续使用该原始值，并在必要时应用进一步的转换。
+发起转换的操作获取该原始值，然后继续使用该原始值，并在必要时应用进一步的转换。
 
 例如：
 
@@ -181,10 +181,10 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj * 2); // 4, ToPrimitive输出"2",然后就变成了 2
+    alert(obj * 2); // 4, ToPrimitive 输出"2",然后就变成了 2
     ```
 
-- 二进制加法会检查原始值 —— 如果它是一个字符串，那么它会进行连接，否则它会执行 `ToNumber` 并使用数字。
+- 二进制加法会检查原始值 —— 如果它是一个字符串，那么它会进行级联，否则它会执行 `ToNumber` 并使用数字。
 
     字符串例子：
     ```js run
@@ -208,15 +208,15 @@ alert(user + 500); // toString -> John500
     alert(obj + 2); // 3 (ToPrimitive 返回布尔值，非字符串=>ToNumber)
     ```
 
-```smart header="Historical notes"
+```smart header="历史笔记"
 由于历史原因，`toString` 或 `valueOf` 方法*应该*返回一个原始值：如果它们中的任何一个返回了一个对象，虽然不会报错，但是该对象被忽略（就像该方法不存在一样）。
 
-相反，Symbol.toPrimitive必须返回一个原始值，否则会出现错误。
+相反，`Symbol.toPrimitive` *必须*返回一个原始值，否则会出现错误。
 ```
 
 ## 概要
 
-对象到原始值的转换是由把一个原始值作为返回值的许多内置函数和操作符自动调用的。
+对象到原始值的转换，是由许多内置函数和操作符自动调用的，这些函数使用一个原始值作为返回值的
 
 它有三种类型（暗示）：
 - `"string"` (对于 `alert` 和其他字符串转换)
@@ -229,8 +229,8 @@ alert(user + 500); // toString -> John500
 
 1. 调用 `obj[Symbol.toPrimitive](hint)`如果这个方法存在的话，
 2. 否则如果暗示是`"string"`
-    - 尝试 `obj.toString()` 和 `obj.valueOf()`， 无论哪个存在。
+    - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
 3. 否则，如果暗示`"number"` 或者 `"default"`
-    - 尝试 `obj.valueOf()` 和 `obj.toString()`， 无论哪个存在。
+    - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
 
-在实践中，为了记录或调试目的，仅实现 `obj.toString()` 作为“全捕获"方法，对于一个对象的所有转换返回一个“人类可读”的形式，就足够了。  
+在实践中，为了记录或调试目的，仅实现 `obj.toString()` 作为“全捕获"方法通常就够了，这样所有转换都能返回一种“人类可读”的对象表达形式。  
