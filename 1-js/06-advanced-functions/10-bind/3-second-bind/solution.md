@@ -1,4 +1,4 @@
-The answer: **John**.
+答案：**John**.
 
 ```js run no-beautify
 function f() {
@@ -10,6 +10,6 @@ f = f.bind( {name: "John"} ).bind( {name: "Pete"} );
 f(); // John
 ```
 
-The exotic [bound function](https://tc39.github.io/ecma262/#sec-bound-function-exotic-objects) object returned by `f.bind(...)` remembers the context (and arguments if provided) only at creation time. 
+`f.bind(...)` 返回的奇特的 [bound function](https://tc39.github.io/ecma262/#sec-bound-function-exotic-objects) 对象仅在创建的时候记忆上下文（以及可能提供了的参数）。
 
-A function cannot be re-bound.
+一个函数不能作为重复边界。
