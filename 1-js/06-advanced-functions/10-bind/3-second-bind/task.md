@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Second bind
+# 二次绑定
 
-Can we change `this` by additional binding?
+我们可以通过附加的 bind 改变 `this` 吗？
 
-What will be the output?
+输出将会是什么？
 
 ```js no-beautify
 function f() {
