@@ -4,7 +4,7 @@
 
 但是有些时候这种设定（译者注：单继承）会让人感到受限制。比如说我有一个 `StreetSweeper` 类和一个 `Bicycle` 类，现在我想要一个 `StreetSweepingBicycle` 类（译者注：实现两个父类的功能）。
 
-或者，在谈论编程的时候，我们有一个实现模板的 `Renderer` 类和一个实现事件处理的 `EventEmitter` 类，现在想要把这两个功能合并到一个 `Page` 类上以使得一个页面可以同时使用模板和发射事件。
+或者，在谈论编程的时候，我们有一个实现模板的 `Renderer` 类和一个实现事件处理的 `EventEmitter` 类，现在想要把这两个功能合并到一个 `Page` 类上以使得一个页面可以同时使用模板和触发事件。
 
 有一个概念可以帮助我们，叫做“mixins”。
 
@@ -73,7 +73,7 @@ let sayHiMixin = {
 
   sayHi() {
     *!*
-    // 调用父类中的方法。
+    // 调用父类中的方法
     */!*
     super.say(`Hello ${this.name}`);
   },
@@ -88,10 +88,10 @@ class User {
   }
 }
 
-// 拷贝方法。
+// 拷贝方法
 Object.assign(User.prototype, sayHiMixin);
 
-// 现在 User 可以说 hi 了。
+// 现在 User 可以说 hi 了
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
@@ -146,7 +146,7 @@ let eventMixin = {
   },
 
   /**
-   * 触发事件并传递参数。
+   * 触发事件并传递参数
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
@@ -154,7 +154,7 @@ let eventMixin = {
       return; // 对应事件名没有事件处理函数。
     }
 
-    // 调用事件处理函数。
+    // 调用事件处理函数
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
@@ -170,13 +170,13 @@ let eventMixin = {
 用法:
 
 ```js run
-// 新建一个 class：
+// 新建一个 class
 class Menu {
   choose(value) {
     this.trigger("select", value);
   }
 }
-// 添加 mixin。
+// 添加 mixin
 Object.assign(Menu.prototype, eventMixin);
 
 let menu = new Menu();
@@ -186,8 +186,8 @@ let menu = new Menu();
 menu.on("select", value => alert(`Value selected: ${value}`));
 */!*
 
-// 触发事件 => 展示被选中的值：123。
-menu.choose("123"); // 被选中的值。
+// 触发事件 => 展示被选中的值：123
+menu.choose("123"); // 被选中的值
 ```
 
 现在如果我们已经有了针对用户选择事件做出具体反应的代码，可以将代码使用 `menu.on(...)` 进行绑定。
