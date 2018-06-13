@@ -52,7 +52,7 @@
 `"default"`
 : 在少数情况下发生，当操作者“不确定”期望的类型时。
 
-    例如，二进制加 `+` 可以和字符串（连接）和数字（相加）发生作用，所以类型是字符串和数字都可以。或者当一个对象用'=='与一个字符串、数字或符号进行比较时。
+    例如，二进制加`+`可以和字符串（连接）和数字（相加）发生作用，所以类型是字符串和数字都可以。或者当一个对象用'=='与一个字符串、数字或符号进行比较时。
 
     ```js
     // 二进制加
@@ -70,7 +70,7 @@
 
 **为了进行转换，JavaScript 尝试查找并调用三个对象方法：**
 
-1. 调用 `obj[Symbol.toPrimitive](hint)`如果这个方法存在的话，
+1. 调用 `obj[Symbol.toPrimitive](hint)` 如果这个方法存在的话，
 2. 否则如果暗示是`"string"`
     - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
 3. 否则，如果暗示 `"number"` 或者 `"default"`
@@ -118,7 +118,7 @@ alert(user + 500); // hint: default -> 1500
 - 对于"string"暗示，`toString -> valueOf`。
 - 其他情况，`valueOf -> toString`。
 
-例如，在这里 `user` 使用 `toString` 和`valueOf` 的组合，上面的效果相同：
+例如，在这里 `user` 使用 `toString` 和 `valueOf` 的组合，上面的效果相同：
 
 ```js run
 let user = {
@@ -194,7 +194,7 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj + 2); // 22 (ToPrimitive 返回字符串=> 级联操作)
+    alert(obj + 2); // 22 (ToPrimitive 返回字符串=>级联操作)
     ```
 
     数值例子：
@@ -208,7 +208,7 @@ alert(user + 500); // toString -> John500
     alert(obj + 2); // 3 (ToPrimitive 返回布尔值，非字符串=>ToNumber)
     ```
 
-```smart header="Historical notes"
+```smart header="历史笔记"
 由于历史原因，`toString` 或 `valueOf` 方法**应该**返回一个原始值：如果它们中的任何一个返回了一个对象，虽然不会报错，但是该对象被忽略（就像该方法不存在一样）。
 
 相反，`Symbol.toPrimitive` **必须**返回一个原始值，否则会出现错误。
@@ -223,14 +223,14 @@ alert(user + 500); // toString -> John500
 - `"number"` (对于 `maths`)
 - `"default"` (少数操作)
 
-规范明确描述了哪个操作符使用哪个暗示。极少数操作者“不知道期望什么”并使用 `"default"` 暗示。通常对于内置对象，`"default"` 暗示的处理方式与 `"number"` 相同，因此在实践中最后两个通常合并在一起。
+规范明确描述了哪个操作符使用哪个暗示。极少数操作者“不知道期望什么”并使用`"default"`暗示。通常对于内置对象，`"default"`暗示的处理方式与 `"number"`相同，因此在实践中最后两个通常合并在一起。
 
 转换算法是：
 
-1. 调用 `obj[Symbol.toPrimitive](hint)`如果这个方法存在的话，
+1. 调用 `obj[Symbol.toPrimitive](hint)` 如果这个方法存在的话，
 2. 否则如果暗示是`"string"`
     - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
-3. 否则，如果暗示`"number"` 或者 `"default"`
+3. 否则，如果暗示`"number"`或者`"default"`
     - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
 
 在实践中，为了记录或调试目的，仅实现 `obj.toString()` 作为“全捕获"方法通常就够了，这样所有转换都能返回一种“人类可读”的对象表达形式。  
