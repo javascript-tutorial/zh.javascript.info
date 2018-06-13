@@ -28,15 +28,15 @@ let eventMixin = {
   },
 
   /**
-   * 触发事件并传递参数：
+   * 触发事件并传递参数
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
-      return; // 对应事件名没有事件处理函数。
+      return; // 对应事件名没有事件处理函数
     }
 
-    // 调用事件处理函数。
+    // 调用事件处理函数
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
