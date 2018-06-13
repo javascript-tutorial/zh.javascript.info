@@ -64,7 +64,7 @@ class User {
 alert(User === User.prototype.constructor); // true
 
 *!*
-// 证明："prototype" 挂载了两个方法
+// 证明：在 "prototype" 上挂载了两个方法
 */!*
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
@@ -88,7 +88,7 @@ class User {
 }
 
 alert(typeof User); // function
-User(); // Error：构造器 User 不能被直接调用
+User(); // Error：构造器 User 不能直接以 'new' 的方式被调用
 ```
 
 不同的字符串输出结果
@@ -226,7 +226,7 @@ new User().sayHi(); // 可以成功打印 MyClass 的定义
 alert(MyClass); // 这样会报错，MyClass 在 class 外部并不可见
 ```
 
-## Static methods
+## 静态方法
 
 我们可以在 class 函数上新增方法，这种新增在函数上而非 `"prototype"` 上的方法，我们称为 *静态方法*。
 
