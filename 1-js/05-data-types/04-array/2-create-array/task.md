@@ -1,16 +1,16 @@
-重要程度: 5
+importance: 5
 
 ---
 
 # 数组操作。
 
-我们试试下面的5个数组操作。
+我们试试下面的 5 个数组操作。
 
-1. 创建一个数组 `styles`，里面有两项“Jazz”和“Blues”.
-2. 将“Rock-n-Roll”从数组末端添加进去.
-3. 用“Classics”替换掉数组最中间的元素。你的查找数组最中间的元素的代码应该适用于任何奇数长度的数组。
+1. 创建一个数组 `styles`，里面有两项 "Jazz" 和 "Blues".
+2. 将 "Rock-n-Roll" 从数组末端添加进去.
+3. 用 "Classics" 替换掉数组最中间的元素。你的查找数组最中间的元素的代码应该适用于任何奇数长度的数组。
 4. 去掉数组的第一个值并显示它。
-5. 在数组前面添加 `Rap` and `Reggae`.
+5. 在数组前面添加 `Rap` 和 `Reggae`。
 
 处理中的数组:
 
@@ -21,4 +21,3 @@ Jazz, Classics, Rock-n-Roll
 Classics, Rock-n-Roll
 Rap, Reggae, Classics, Rock-n-Roll
 ```
-
