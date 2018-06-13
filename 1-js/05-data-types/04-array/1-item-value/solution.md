@@ -1,4 +1,4 @@
-The result is `4`:
+结果是 `4`:
 
 
 ```js run
@@ -13,5 +13,5 @@ alert( fruits.length ); // 4
 */!*
 ```
 
-That's because arrays are objects. So both `shoppingCart` and `fruits` are the references to the same array.
+这是因为数组是对象。所以 `shoppingCart` 和 `fruits` 是同一数组的引用。
 
