@@ -1,4 +1,4 @@
-重要程度: 3
+importance: 3
 
 ---
 
@@ -16,4 +16,3 @@ shoppingCart.push("Banana");
 // fruits 里面是什么？
 alert( fruits.length ); // ?
 ```
-
