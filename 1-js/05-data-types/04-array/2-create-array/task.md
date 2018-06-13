@@ -12,7 +12,7 @@ importance: 5
 4. 去掉数组的第一个值并显示它。
 5. 在数组前面添加 `Rap` 和 `Reggae`。
 
-处理中的数组:
+处理中的数组：
 
 ```js no-beautify
 Jazz, Blues
