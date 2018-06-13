@@ -2,28 +2,28 @@ importance: 5
 
 ---
 
-# Add toString to the dictionary
+# 给字典对象添加 toString 方法
 
-There's an object `dictionary`, created as `Object.create(null)`, to store any `key/value` pairs.
+有一个对象 `dictionary`，通过 `Object.create(null)` 创建，用来存储任意键值对。
 
-Add method `dictionary.toString()` into it, that should return a comma-delimited list of keys. Your `toString` should not show up in `for..in` over the object.
+为该对象添加方法 `dictionary.toString()`，返回所有键的列表，用逗号隔开。你的 `toString` 方法不能对该对象使用 `for...in`。
 
-Here's how it should work:
+以下是它的运行例子：
 
 ```js
 let dictionary = Object.create(null);
 
 *!*
-// your code to add dictionary.toString method
+// 添加 dictionary.toString 方法的代码
 */!*
 
-// add some data
+// 添加一些数据
 dictionary.apple = "Apple";
-dictionary.__proto__ = "test"; // __proto__ is a regular property key here
+dictionary.__proto__ = "test"; // __proto__ 在这里是正常参数
 
-// only apple and __proto__ are in the loop
+// 只有 apple 和 __proto__ 在循环内
 for(let key in dictionary) {
-  alert(key); // "apple", then "__proto__"
+  alert(key); // "apple"，然后 "__proto__"
 }  
 
 // your toString in action

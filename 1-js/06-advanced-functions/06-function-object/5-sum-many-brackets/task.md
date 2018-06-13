@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Sum with an arbitrary amount of brackets
+# 任意多个括号求和
 
-Write function `sum` that would work like this:
+写一个函数 `sum`，它有这样的功能：
 
 ```js
 sum(1)(2) == 3; // 1 + 2
@@ -14,4 +14,4 @@ sum(6)(-1)(-2)(-3) == 0
 sum(0)(1)(2)(3)(4)(5) == 15
 ```
 
-P.S. Hint: you may need to setup custom object to primitive conversion for your function.
+P.S. 提示：你可能需要创建自定义对象来为你的函数提供基本类型转换。

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Rewrite 'if..else' into '?'
+# 使用 '?' 重写 'if..else' 语句
 
-Rewrite `if..else` using multiple ternary operators `'?'`.
+使用多个三元运算符 `'?'` 重写下面的 `if..else` 语句。
 
-For readability, it's recommended to split the code into multiple lines.
+为了增强代码可读性，建议将代码分成多行。
 
 ```js
 let message;

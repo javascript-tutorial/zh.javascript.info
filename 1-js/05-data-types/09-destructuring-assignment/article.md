@@ -1,21 +1,21 @@
-# Destructuring assignment
+# 解构赋值
 
-The two most used data structures in JavaScript are `Object` and `Array`.
+JavaScript 中最常用的两种数据结构是 `Object`（对象）和 `Array`（数组）。
 
-Objects allow us to pack many pieces of information into a single entity and arrays allow us to store ordered collections. So we can make an object or an array and handle it as a single entity, or maybe pass it to a function call.
+对象让我们能够把许多信息打包到一个单一的实体中，数组则让我们能够存放有序的集合。所以我们可以创建一个对象或一个数组，把它当作一个实体进行处理，或者把它当作参数传递给一个函数调用。
 
-*Destructuring assignment* is a special syntax that allows us to "unpack" arrays or objects into a bunch of variables, as sometimes they are more convenient. Destructuring also works great with complex functions that have a lot of parameters, default values, and soon we'll see how these are handled too.
+**解构赋值**是一种特殊的语法，它让我们可以将数组或对象进行“拆包”，存放到一系列的变量中，因为有时候使用变量更加方便。解构操作在那些具有很多参数和默认参数值的函数中也很奏效，很快我们就会看到这些都是怎么处理的。
 
-## Array destructuring
+## 数组解构
 
-An example of how the array is destructured into variables:
+以下是将数组解构到变量中的一个例子：
 
 ```js
-// we have an array with the name and surname
+// 有一个存放了名字和姓氏的数组
 let arr = ["Ilya", "Kantor"]
 
 *!*
-// destructuring assignment
+// 解构赋值
 let [firstName, surname] = arr;
 */!*
 
@@ -23,18 +23,18 @@ alert(firstName); // Ilya
 alert(surname);  // Kantor
 ```
 
-Now we can work with variables instead of array members.
+现在我们就可以针对这些变量进行操作，而不是针对原来的数组元素。
 
-It looks great when combined with `split` or other array-returning methods:
+当与 `split` 函数（或其他返回值是数组的函数）结合使用时，看起来就更优雅了：
 
 ```js
 let [firstName, surname] = "Ilya Kantor".split(' ');
 ```
 
-````smart header="\"Destructuring\" does not mean \"destructive\""
-It's called "destructuring assignment", because it "destructurizes" by copying items into variables. But the array itself is not modified.
+````smart header="\"解构\"并不意味着\"破坏\""
+这种语法叫做“解构赋值”，因为它通过将结构中的各元素复制到变量中来达到“解构”的目的。但数组本身是没有被修改的。
 
-It's just a shorter way to write:
+也就是以下代码的更精简写法而已：
 ```js
 // let [firstName, surname] = arr;
 let firstName = arr[0];
@@ -42,24 +42,24 @@ let surname = arr[1];
 ```
 ````
 
-````smart header="Ignore first elements"
-Unwanted elements of the array can also be thrown away via an extra comma:
+````smart header="忽略第一个元素"
+数组中不想要的元素也可以通过添加额外的逗号来把它丢弃：
 
 ```js run
 *!*
-// first and second elements are not needed
+// 不需要第一个和第二个元素
 let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
 */!*
 
 alert( title ); // Consul
 ```
 
-In the code above, although the first and second elements of the array are skipped, the third one is assigned to `title`, and the rest are also skipped.
+在以上的代码中，数组的第一个和第二个元素被跳过，第三个元素被赋值给了 `title` 变量，剩下的元素也被跳过了。
 ````
 
-````smart header="Works with any iterable on the right-side"
+````smart header="用于等号右侧的任何可迭代对象"
 
-...Actually, we can use it with any iterable, not only arrays:
+...事实上我们也可以在任何可迭代对象中使用，不仅仅是数组：
 
 ```js
 let [a, b, c] = "abc"; // ["a", "b", "c"]
@@ -69,11 +69,11 @@ let [one, two, three] = new Set([1, 2, 3]);
 ````
 
 
-````smart header="Assign to anything at the left-side"
+````smart header="赋值给等号左侧的任何类型"
 
-We can use any "assignables" at the left side.
+我们可以在等号左侧使用任何“可以被赋值的”变量。
 
-For instance, an object property:
+例如，一个对象的属性：
 ```js run
 let user = {};
 [user.name, user.surname] = "Ilya Kantor".split(' ');
@@ -83,11 +83,11 @@ alert(user.name); // Ilya
 
 ````
 
-````smart header="Looping with .entries()"
+````smart header="使用 .entries() 循环"
 
-In the previous chapter we saw the [Object.entries(obj)](mdn:js/Object/entries) method.
+在前面的章节中我们已经见过了 [Object.entries(obj)](mdn:js/Object/entries) 方法。
 
-We can use it with destructuring to loop over keys-and-values of an object:
+我们可以使用 .entries() 方法和解构语法来遍历一个对象的键-值对：
 
 ```js run
 let user = {
@@ -95,7 +95,7 @@ let user = {
   age: 30
 };
 
-// loop over keys-and-values
+// 循环遍历键-值对
 *!*
 for (let [key, value] of Object.entries(user)) {
 */!*
@@ -103,7 +103,7 @@ for (let [key, value] of Object.entries(user)) {
 }
 ```
 
-...And the same for a map:
+...对于 map 对象也类似：
 
 ```js run
 let user = new Map();
@@ -117,9 +117,9 @@ for (let [key, value] of user.entries()) {
 }
 ```
 ````
-### The rest '...'
+### 剩余的 '...'
 
-If we want not just to get first values, but also to gather all that follows -- we can add one more parameter that gets "the rest" using three dots `"..."`:
+如果我们不仅要获得第一个值，还要将后续的所有元素也收集起来——我们可以使用三个点 `"..."` 加一个参数来接收“剩余的”元素：
 
 ```js run
 let [name1, name2, *!*...rest*/!*] = ["Julius", "Caesar", *!*"Consul", "of the Roman Republic"*/!*];
@@ -134,11 +134,11 @@ alert(rest.length); // 2
 */!*
 ```
 
-The value of `rest` is the array of the remaining array elements. We can use any other variable name in place of `rest`, just make sure it has three dots before it and goes last in the destructuring assignment.
+`rest` 变量的值就是数组中剩下的元素组成的数组。不一定要使用变量名 `rest`，我们也可以使用其他的变量名，只要确保它前面有三个点，并且在解构赋值的最后一个参数位置上就行了。
 
-### Default values
+### 默认值
 
-If there are fewer values in the array than variables in the assignment, there will be no error. Absent values are considered undefined:
+如果赋值语句中变量的数量多于数组中实际元素的数量，赋值不会报错。未赋值的变量被当作 `undifined`：
 
 ```js run
 *!*
@@ -148,45 +148,45 @@ let [firstName, surname] = [];
 alert(firstName); // undefined
 ```
 
-If we want a "default" value to replace the missing one, we can provide it using `=`:
+如果我们想要提供一个“默认值”给未赋值的变量，我们可以使用 `=` 来提供：
 
 ```js run
 *!*
-// default values
+// 默认值
 let [name = "Guest", surname = "Anonymous"] = ["Julius"];
 */!*
 
-alert(name);    // Julius (from array)
-alert(surname); // Anonymous (default used)
+alert(name);    // Julius (来自数组的值)
+alert(surname); // Anonymous (默认值被使用了)
 ```
 
-Default values can be more complex expressions or even function calls. They are evaluated only if the value is not provided.
+默认值可以是更加复杂的表达式甚至可以是函数调用，这些表达式或函数只会在这个变量未被赋值的时候才会被计算。
 
-For instance, here we use the `prompt` function for two defaults. But it will run only for the missing one:
+举个例子，我们使用了 `prompt` 函数来提供两个默认值，但它只会在未被赋值的那个变量上进行调用：
 
 ```js run
-// runs only prompt for surname
+// 只会提示输入姓氏
 let [name = prompt('name?'), surname = prompt('surname?')] = ["Julius"];
 
-alert(name);    // Julius (from array)
-alert(surname); // whatever prompt gets
+alert(name);    // Julius (来自数组)
+alert(surname); // 你输入的值
 ```
 
 
 
-## Object destructuring
+## 对象解构
 
-The destructuring assignment also works with objects.
+解构赋值同样适用于对象。
 
-The basic syntax is:
+基本的语法是：
 
 ```js
 let {var1, var2} = {var1:…, var2…}
 ```
 
-We have an existing object at the right side, that we want to split into variables. The left side contains a "pattern" for corresponding properties. In the simple case, that's a list of variable names in `{...}`.
+在等号右侧有一个已经存在的对象，我们想把它拆开到变量中。等号左侧包含了对象相应属性的一个“模式”。以下简单例子中就是 `{...}` 中一系列变量。
 
-For instance:
+举个例子：
 
 ```js run
 let options = {
@@ -204,16 +204,16 @@ alert(width);  // 100
 alert(height); // 200
 ```
 
-Properties `options.title`, `options.width` and `options.height` are assigned to the corresponding variables. The order does not matter. This works too:
+属性 `options.title`、`options.width` 和 `options.height` 的值被赋给了对应的变量。变量的顺序并不重要，以下的代码也奏效：
 
 ```js
-// changed the order of properties in let {...}
+// 改变 let {...} 中属性的顺序
 let {height, width, title} = { title: "Menu", height: 200, width: 100 }
 ```
 
-The pattern on the left side may be more complex and specify the mapping between properties and variables.
+等号左侧的模式可以更加复杂，并给属性和变量之间指定一个映射关系。
 
-If we want to assign a property to a variable with another name, for instance, `options.width` to go into the variable named `w`, then we can set it using a colon:
+如果我们想把一个属性赋值给不同名字的变量，比如把 `options.width` 属性赋值给变量 `w`，那可以使用冒号来指定：
 
 ```js run
 let options = {
@@ -223,7 +223,7 @@ let options = {
 };
 
 *!*
-// { sourceProperty: targetVariable }
+// { 原属性：目标变量 }
 let {width: w, height: h, title} = options;
 */!*
 
@@ -236,9 +236,9 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
-The colon shows "what : goes where". In the example above the property `width` goes to `w`, property `height` goes to `h`, and `title` is assigned to the same name.
+冒号表示了“什么值：赋值给谁”。以上的例子中就是属性 `width` 赋值给 `w`，属性 `height` 赋值给 `h`，属性 `title` 赋值给同名变量。
 
-For potentially missing properties we can set default values using `"="`, like this:
+对于可能缺失的属性，我们可以使用 `"="` 来指定默认值，如下：
 
 ```js run
 let options = {
@@ -254,9 +254,9 @@ alert(width);  // 100
 alert(height); // 200
 ```
 
-Just like with arrays or function parameters, default values can be any expressions or even function calls. They will be evaluated if the value is not provided.
+就像数组或函数参数一样，默认值可以是表达式甚至是函数调用。只会在这个变量未被赋值的时候才会被计算/调用。
 
-The code below asks for width, but not the title.
+以下的代码提示输入宽度 width，但不会提示输入标题 title。
 
 ```js run
 let options = {
@@ -268,10 +268,10 @@ let {width = prompt("width?"), title = prompt("title?")} = options;
 */!*
 
 alert(title);  // Menu
-alert(width);  // (whatever you the result of prompt is)
+alert(width);  // 你输入的宽度值
 ```
 
-We also can combine both the colon and equality:
+我们也可以结合冒号和等号一起使用：
 
 ```js run
 let options = {
@@ -287,13 +287,13 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
-### The rest operator
+### 剩余操作符
 
-What if the object has more properties than we have variables? Can we take some and then assign the "rest" somewhere?
+如果对象拥有的属性数量比我们提供的变量数量还多怎么办？我们可以只取其中的某一些属性然后把“剩余的”赋值到其他地方吗？
 
-The specification for using the rest operator (three dots) here is almost in the standard, but most browsers do not support it yet.
+关于剩余操作符（即三个点）的文档几乎已经要被列为标准了，但大部分的浏览器还尚未支持。
 
-It looks like this:
+看起来就像这样：
 
 ```js run
 let options = {
@@ -313,34 +313,34 @@ alert(rest.width);   // 100
 
 
 
-````smart header="Gotcha without `let`"
-In the examples above variables were declared right before the assignment: `let {…} = {…}`. Of course, we could use existing variables too. But there's a catch.
+````smart header="不使用 `let` 的疑难病症"
+在以上的例子中，变量都是在赋值前才被声明的：`let {…} = {…}`。当然，我们也可以使用已有的变量。但这里有一个问题需要注意。
 
-This won't work:
+以下代码无法正常运行：
 ```js run
 let title, width, height;
 
-// error in this line
+// 这一行发生错误
 {title, width, height} = {title: "Menu", width: 200, height: 100};
 ```
 
-The problem is that JavaScript treats `{...}` in the main code flow (not inside another expression) as a code block. Such code blocks can be used to group statements, like this:
+问题在于 JavaScript 把主代码流（即不在其他表达式中）的 `{...}` 当做一个代码块，这样的代码块可以被用来组织语句，如下：
 
 ```js run
 {
-  // a code block
+  // 一个代码块
   let message = "Hello";
   // ...
   alert( message );
 }
 ```
 
-To show JavaScript that it's not a code block, we can wrap the whole assignment in brackets `(...)`:
+为了告诉 JavaScript 这不是一个代码块，我们可以把整个赋值表达式用括号 `(...)` 包起来：
 
 ```js run
 let title, width, height;
 
-// okay now
+// 现在就正确了
 *!*(*/!*{title, width, height} = {title: "Menu", width: 200, height: 100}*!*)*/!*;
 
 alert( title ); // Menu
@@ -348,11 +348,11 @@ alert( title ); // Menu
 
 ````
 
-## Nested destructuring
+## 嵌套解构
 
-If an object or an array contain other objects and arrays, we can use more complex left-side patterns to extract deeper portions.
+如果一个对象或数组包含了其他的对象和数组，我们可以在等号左侧使用更复杂的模式来抽取深层的数据。
 
-In the code below `options` has another object in the property `size` and an array in the property `items`. The pattern at the left side of the assignment has the same structure:
+在以下代码中 `options` 的属性 `size` 是另一个对象，属性 `items` 是另一个数组。赋值语句中等号左侧的模式拥有相同的结构：
 
 ```js run
 let options = {
@@ -361,17 +361,17 @@ let options = {
     height: 200
   },
   items: ["Cake", "Donut"],
-  extra: true    // something extra that we will not destruct
+  extra: true    // 一些不会被解构的额外属性
 };
 
-// destructuring assignment on multiple lines for clarity
+// 为了清晰起见，解构赋值语句被写成多行
 let {
-  size: { // put size here
+  size: { // 把 size 赋值到这里
     width,
     height
   },
-  items: [item1, item2], // assign items here
-  title = "Menu" // not present in the object (default value is used)
+  items: [item1, item2], // 把 items 赋值到这里
+  title = "Menu" // 在对象中不存在的属性（会使用默认值）
 } = options;
 
 alert(title);  // Menu
@@ -381,25 +381,25 @@ alert(item1);  // Cake
 alert(item2);  // Donut
 ```
 
-The whole `options` object except `extra` that was not mentioned, is assigned to corresponding variables.
+除了 `extra` 属性的整个 `options` 对象都能被赋值给对应的变量。
 
 ![](destructuring-complex.png)
 
-Finally, we have `width`, `height`, `item1`, `item2` and `title` from the default value.
+最终，我们得到了 `width`、`height`、`item1`、`item2` 和具有默认值的 `title` 变量。
 
-That often happens with destructuring assignments. We have a complex object with many properties and want to extract only what we need.
+有一个拥有很多属性的复杂对象，我们只想要抽取我们所需要的其中某些属性。这在解构赋值语句中是很常见的。
 
-Even here it happens:
+甚至还可能是这样的情况：
 ```js
-// take size as a whole into a variable, ignore the rest
+// 将 size 作为一个整体取出赋值给一个变量，忽略剩下的所有
 let { size } = options;
 ```
 
-## Smart function parameters
+## 智能函数参数
 
-There are times when a function may have many parameters, most of which are optional. That's especially true for user interfaces. Imagine a function that creates a menu. It may have a width, a height, a title, items list and so on.
+有时候一个函数可能有很多参数，大部分的参数是可选的，对用户界面来说就尤其如此。想象一下这种情况：有一个创建菜单的函数，可能有宽度参数，高度参数，标题参数和菜单中的菜单项等等。
 
-Here's a bad way to write such function:
+以下是这种函数的一个不好的写法：
 
 ```js
 function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
@@ -407,31 +407,31 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
-In real-life the problem is how to remember the order of arguments. Usually IDEs try to help us, especially if the code is well-documented, but still... Another problem is how to call a function when most parameters are ok by default.
+现实情况下的问题就是你怎么记得住这么多参数的顺序，通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但… 另一个问题就是当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
 
-Like this?
+难道像这样？
 
 ```js
 showMenu("My Menu", undefined, undefined, ["Item1", "Item2"])
 ```
 
-That's ugly. And becomes unreadable when we deal with more parameters.
+这太难看了。而且当我们处理更多参数的时候可读性还会变得更差。
 
-Destructuring comes to the rescue!
+解构赋值语法前来救援！
 
-We can pass parameters as an object, and the function immediately destructurizes them into variables:
+我们可以把所有参数当作一个对象来传递，然后函数马上把这个对象解构成多个变量：
 
 ```js run
-// we pass object to function
+// 我们传递一个对象给函数
 let options = {
   title: "My menu",
   items: ["Item1", "Item2"]
 };
 
-// ...and it immediately expands it to variables
+// ...然后函数马上把对象展开成变量
 function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}*/!*) {
-  // title, items – taken from options,
-  // width, height – defaults used
+  // title, items – 从 options 参数提取出来,
+  // width, height – 使用默认值
   alert( `${title} ${width} ${height}` ); // My Menu 200 100
   alert( items ); // Item1, Item2
 }
@@ -439,7 +439,7 @@ function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}
 showMenu(options);
 ```
 
-We can also use more complex destructuring with nested objects and colon mappings:
+我们同样可以对含有嵌套对象的对象使用更加复杂的结构语句和冒号映射：
 
 ```js run
 let options = {
@@ -450,9 +450,9 @@ let options = {
 *!*
 function showMenu({
   title = "Untitled",
-  width: w = 100,  // width goes to w
-  height: h = 200, // height goes to h
-  items: [item1, item2] // items first element goes to item1, second to item2
+  width: w = 100,  // width 赋值给 w
+  height: h = 200, // height 赋值给 h
+  items: [item1, item2] // items 第一个元素赋值给 item1, 第二个元素赋值给 item2
 }) {
 */!*
   alert( `${title} ${w} ${h}` ); // My Menu 100 200
@@ -463,7 +463,7 @@ function showMenu({
 showMenu(options);
 ```
 
-The syntax is the same as for a destructuring assignment:
+语法和解构赋值是一样的：
 ```js
 function({
   incomingProperty: parameterName = defaultValue
@@ -471,20 +471,20 @@ function({
 })
 ```
 
-Please note that such destructuring assumes that `showMenu()` does have an argument. If we want all values by default, then we should specify an empty object:
+请注意，这种解构假定了调用 `showMenu()` 函数时传递了一个参数，如果我们想让所有的参数都使用默认值，那我们应该传递一个空的对象：
 
 ```js
 showMenu({});
 
 
-showMenu(); // this would give an error
+showMenu(); // 这样会导致错误
 ```
 
-We can fix this by making `{}` the default value for the whole destructuring thing:
+我们可以通过指定空对象 `{}` 为整个函数参数的默认值：
 
 
 ```js run
-// simplified parameters a bit for clarity
+// 清晰起见，精简了部分参数
 function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
   alert( `${title} ${width} ${height}` );
 }
@@ -492,24 +492,25 @@ function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
 showMenu(); // Menu 100 200
 ```
 
-In the code above, the whole arguments object is `{}` by default, so there's always something to destructurize.
+在以上的代码中，整个参数对象默认就是 `{}`，因此总会有对象可以用来解构。
 
-## Summary
+## 总结
 
-- Destructuring assignment allows for instantly mapping an object or array onto many variables.
-- The object syntax:
+- 解构赋值允许将对象或数组立即映射到多个变量上。
+- 解构对象的语法：
+
     ```js
     let {prop : varName = default, ...} = object
     ```
 
-    This means that property `prop` should go into the variable `varName` and, if no such property exists, then `default` value should be used.
+    这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
 
-- The array syntax:
+- 解构数组的语法：
 
     ```js
     let [item1 = default, item2, ...rest] = array
     ```
 
-    The first item goes to `item1`, the second goes into `item2`, all the rest makes the array `rest`.
+    数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
 
-- For more complex cases, the left side must have the same structure as the right one.
+- 更多复杂的案例情况下，等号左侧必须和等号右侧有相同的结构。

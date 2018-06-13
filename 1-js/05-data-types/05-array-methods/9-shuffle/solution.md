@@ -1,4 +1,4 @@
-The simple solution could be:
+简单的解决方案可以是：
 
 ```js run
 *!*
@@ -12,18 +12,18 @@ shuffle(arr);
 alert(arr);
 ```
 
-That somewhat works, because `Math.random() - 0.5` is a random number that may be positive or negative, so the sorting function reorders elements randomly.
+这样是可以的，因为 `Math.random() - 0.5` 是一个可能是正数或负数的随机数，所以排序函数会随机地重新排序元素。
 
-But because the sorting function is not meant to be used this way, not all permutations have the same probability.
+但是因为排序函数并不意味着以这种方式使用，所以并不是所有的排列都具有相同的概率。
 
-For instance, consider the code below. It runs `shuffle` 1000000 times and counts appearances of all possible results:
+例如，请考虑下面的代码。它运行 100 万次 `shuffle` 并计算所有可能结果：
 
 ```js run
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-// counts of appearances for all possible permutations
+// 出现所有可能排列的次数
 let count = {
   '123': 0,
   '132': 0,
@@ -39,13 +39,13 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// show counts of all possible permutations
+// 显示所有可能的排列的数量
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
 ```
 
-An example result (for V8, July 2017):
+示例结果（V8，2017年七月）：
 
 ```js
 123: 250706
@@ -56,24 +56,24 @@ An example result (for V8, July 2017):
 321: 125223
 ```
 
-We can see the bias clearly: `123` and `213` appear much more often than others.
+我们可以清楚地看到这种偏见：`123` 和 `213` 比其他人更频繁出现。
 
-The result of the code may vary between JavaScript engines, but we can already see that the approach is unreliable.
+JavaScript 引擎的代码结果可能会有所不同，但我们已经可以看到这种方法是不可靠的。
 
-Why it doesn't work? Generally speaking, `sort` is a "black box": we throw an array and a comparison function into it and expect the array to be sorted. But due to the utter randomness of the comparison the black box goes mad, and how exactly it goes mad depends on the concrete implementation that differs between engines.
+为什么它不起作用？一般来说，`sort` 是一个“黑匣子”：我们向其中抛出一个数组和一个比较函数，并期望数组被排序。由于比较的完全随机性，黑盒子变得复杂，它究竟发生了什么取决于引擎之间的具体实现。
 
-There are other good ways to do the task. For instance, there's a great algorithm called [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle). The idea is to walk the array in the reverse order and swap each element with a random one before it:
+还有其他很好的方法来完成这项任务。例如，有一个很好的算法叫做 [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle). The idea is to walk the array in the reverse order and swap each element with a random one before it:
 
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-    [array[i], array[j]] = [array[j], array[i]]; // swap elements
+    let j = Math.floor(Math.random() * (i + 1)); // r 从 0 到 i 的随机索引
+    [array[i], array[j]] = [array[j], array[i]]; // 交换元素
   }
 }
 ```
 
-Let's test it the same way:
+让我们以相同的方式测试它：
 
 ```js run
 function shuffle(array) {
@@ -83,7 +83,7 @@ function shuffle(array) {
   }
 }
 
-// counts of appearances for all possible permutations
+// 出现所有可能排列的次数
 let count = {
   '123': 0,
   '132': 0,
@@ -99,13 +99,13 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// show counts of all possible permutations
+// 出现所有可能排列的次数
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
 ```
 
-The example output:
+示例输出：
 
 ```js
 123: 166693
@@ -116,6 +116,6 @@ The example output:
 321: 166316
 ```
 
-Looks good now: all permutations appear with the same probability.
+现在看起来不错：所有排列都以相同的概率出现。
 
-Also, performance-wise the Fisher-Yates algorithm is much better, there's no "sorting" overhead.
+另外，性能方面 Fisher — Yates 算法要好得多，没有排序开销。

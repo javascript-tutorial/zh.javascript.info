@@ -2,13 +2,13 @@ importance: 2
 
 ---
 
-# A random number from min to max
+# 从最小到最大的随机数
 
-The built-in function `Math.random()` creates a random value from `0` to `1` (not including `1`).
+用内置函数Math.random() 创建一个从 0 到 1 的随机值（不包括 1 ）。
 
-Write the function `random(min, max)` to generate a random floating-point number from `min` to `max` (not including `max`).
+编写随机函数（min，max）以生成从最小到最大（不包括最大值）的随机浮点数。
 
-Examples of its work:
+实例：
 
 ```js
 alert( random(1, 5) ); // 1.2345623452
