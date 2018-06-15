@@ -118,38 +118,38 @@ alert(john.name); // John
 
 这种方法有时用在库中以使语法更加灵活。但因为省略 `new` 使得它不易阅读，这可不是一件好事。 而通过 `new` 我们可以都知道这个新对象正在创建。
 
-## Return from constructors
+## 构造函数 Return
 
 通常，构造函数没有 `return` 语句。他们的任务是将所有必要的东西写入 `this`，并自动转换。
 
 但是，如果有 `return` 语句，那么规则很简单：
 
-- If `return` is called with object, then it is returned instead of `this`.
-- If `return` is called with a primitive, it's ignored.
+- 如果 `return` 对象，则返回它，而不是 `this`。
+- 如果 `return` 一个原函数，则忽略。
 
-In other words, `return` with an object returns that object, in all other cases `this` is returned.
+换一种说法，带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
 
-For instance, here `return` overrides `this` by returning an object:
+例如，这里 `return` 通过返回一个对象覆盖 `this`：
 
 ```js run
 function BigUser() {
 
   this.name = "John";
 
-  return { name: "Godzilla" };  // <-- returns an object
+  return { name: "Godzilla" };  // <-- returns 一个 object
 }
 
-alert( new BigUser().name );  // Godzilla, got that object ^^
+alert( new BigUser().name );  // 哇哦，得到了 object ^^
 ```
 
-And here's an example with an empty `return` (or we could place a primitive after it, doesn't matter):
+这里有一个 `return` 空的例子（或者我们可以在它之后放置一个原函数）：
 
 ```js run
 function SmallUser() {
 
   this.name = "John";
 
-  return; // finishes the execution, returns this
+  return; // 完成执行，returns this
 
   // ...
 
@@ -158,10 +158,10 @@ function SmallUser() {
 alert( new SmallUser().name );  // John
 ```
 
-Usually constructors don't have a `return` statement. Here we mention the special behavior with returning objects mainly for the sake of completeness.
+通常构造函数没有 `return` 语句。这里我们主要为了完整性而提及返回对象的特殊行为。
 
 ````smart header="Omitting parentheses"
-By the way, we can omit parentheses after `new`, if it has no arguments:
+顺便说一下，如果没有参数我们 `new` 可以省略括号：
 
 ```js
 let user = new User; // <-- no parentheses
@@ -169,16 +169,16 @@ let user = new User; // <-- no parentheses
 let user = new User();
 ```
 
-Omitting parentheses here is not considered a "good style", but the syntax is permitted by specification.
+这里省略括号不被认为是一种“好风格”，但是规范允许使用该语法。
 ````
 
-## Methods in constructor
+## 构造函数中的方法
 
-Using constructor functions to create objects gives a great deal of flexibility. The constructor function may have parameters that define how to construct the object, and what to put in it.
+使用构造函数来创建对象会带来很大的灵活性。通过构造函数的参数传递定义构造对象。
 
-Of course, we can add to `this` not only properties, but methods as well.
+当然，我们不仅可以将 this 添加到属性中，而且还添加到方法中。
 
-For instance, `new User(name)` below creates an object with the given `name` and the method `sayHi`:
+例如，`new User(name)` 下面用给定的 `name` 和方法 `sayHi` 创建一个对象：
 
 ```js run
 function User(name) {
@@ -203,17 +203,18 @@ john = {
 */
 ```
 
-## Summary
+## 总结
 
-- Constructor functions or, briefly, constructors, are regular functions, but there's a common agreement to name them with capital letter first.
-- Constructor functions should only be called using `new`. Such a call implies a creation of empty `this` at the start and returning the populated one at the end.
+- 构造函数或简言之，就是常规函数，但构造函数有个共同的约定，命名它们首字母要大写。
 
-We can use constructor functions to make multiple similar objects.
+- 构造函数只能使用 `new` 来调用。这样的调用意味着在开始时创建空的 `this`，并在最后返回填充的。
 
-JavaScript provides constructor functions for many built-in language objects: like `Date` for dates, `Set` for sets and others that we plan to study.
+我们可以使用构造函数来创建多个类似的对象。
+
+JavaScript 为许多内置的对象提供了构造函数：比如日期 Date，设置集合 Set 以及其他我们计划学习的内容。
 
 ```smart header="Objects, we'll be back!"
-In this chapter we only cover the basics about objects and constructors. They are essential for learning more about data types and functions in the next chapters.
+在本章中，我们只介绍关于对象和构造函数的基础知识。它们对于在下一章中更多地了解数据类型和功能非常重要。
 
-After we learn that, in the chapter <info:object-oriented-programming> we return to objects and cover them in-depth, including inheritance and classes.
+在我们了解了这一章之后 <info:object-oriented-programming> 我们返回到对象并深入其中，包括继承和类。
 ```
