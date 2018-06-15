@@ -8,7 +8,7 @@ importance: 5
 
 该任务由两部分组成。
 
-1. 首先，实现 `calculate(str)` 方法，“NUMBER operator NUMBER”（空格分隔），其格式为“1 + 2”，并返回结果。所有弄明白 加`+`和减```。
+1. 首先，实现 `calculate(str)` 方法，“NUMBER operator NUMBER”（空格分隔），其格式为“1 + 2”，并返回结果。所以要实现加`+`和减`-`。
 
     用法示例：
 
