@@ -19,7 +19,7 @@ importance: 5
     ```
 2. 然后添加 calculate 新操作的方法 `addOperator(name, func)`。它需要运算符 `name` 和实现它的双参数函数 `func(a,b)`。
 
-    例如，我们添加乘法`*`，除法`/`和电源`**`：
+    例如，我们添加乘法`*`，除法`/`和求幂`**`：
 
     ```js
     let powerCalc = new Calculator;
