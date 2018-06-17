@@ -59,7 +59,7 @@ Object.assign(User.prototype, sayHiMixin);
 
 Mixin 可以在自己内部使用继承。
 
-比如，这里的 `sayHiMixin` 继承于 `sayMixin`： 
+比如，这里的 `sayHiMixin` 继承于 `sayMixin`：
 
 ```js run
 let sayMixin = {
@@ -113,7 +113,7 @@ new User("Dude").sayHi(); // Hello Dude!
 
 比如说，一个 `user` 对象能够在访问者登录时产生`“login”`事件。另一个 `calendar` 对象可能在等待着接受一个这样的事件以便为登录后的用户加载日历。
 
-或者，`menu` 在菜单选项被选择之后会产生`“select”`事件，并且其它对象可能在等待着接受事件的信息并且对事件做出反应。
+或者，`menu` 在菜单选项被选择之后会产生 `"select"` 事件，并且其它对象可能在等待着接受事件的信息并且对事件做出反应。
 
 事件是一种与任何想要得到信息的人分享信息的方式。它在任何类中都可以使用，因此现在为它构造一个 mixin。
 
@@ -162,12 +162,11 @@ let eventMixin = {
 
 有三个方法：
 
-1. `.on(eventName, handler)`——指定函数 `handler` 在具有对应事件名的事件发生时运行。这些事件处理函数存储在 `_eventHandlers` 属性中.
-2. `.off(eventName, handler)`——在事件处理函数列表中移除指定的函数。
-3. `.trigger(eventName, ...args)`——触发事件：所有被指定到对应事件的事件处理函数都会被调用并且 `args` 会被作为参数传递给它们。
+1. `.on(eventName, handler)` — 指定函数 `handler` 在具有对应事件名的事件发生时运行。这些事件处理函数存储在 `_eventHandlers` 属性中。
+2. `.off(eventName, handler)` — 在事件处理函数列表中移除指定的函数。
+3. `.trigger(eventName, ...args)` — 触发事件：所有被指定到对应事件的事件处理函数都会被调用并且 `args` 会被作为参数传递给它们。
 
-
-用法:
+用法：
 
 ```js run
 // 新建一个 class
@@ -196,7 +195,7 @@ menu.choose("123"); // 被选中的值
 
 ## 总结
 
-*Mixin*——是一个通用的面向对象编程术语：一个包含其他类的方法的类。
+*Mixin* — 是一个通用的面向对象编程术语：一个包含其他类的方法的类。
 
 一些其它语言比如 python 允许通过多继承实现 mixin。JavaScript 不支持多继承，但是可以通过拷贝多个类中的方法到某个类的原型中实现 mixin。
 
