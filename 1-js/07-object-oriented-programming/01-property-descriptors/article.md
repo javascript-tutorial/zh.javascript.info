@@ -1,38 +1,38 @@
 
-# Property flags and descriptors
+# 属性的标志和描述符
 
-As we know, objects can store properties.
+我们知道，对象可以存储属性。
 
-Till now, a property was a simple "key-value" pair to us. But an object property is actually more complex and tunable thing.
+到目前为止，属性对我们来说是一个简单的“key-value”对。 但对象属性实际上是更复杂可变的东西。
 
-## Property flags
+## 属性的标志
 
-Object properties, besides a **`value`**, have three special attributes (so-called "flags"):
+对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）：
 
-- **`writable`** -- if `true`, can be changed, otherwise it's read-only.
-- **`enumerable`** -- if `true`, then listed in loops, otherwise not listed.
-- **`configurable`** -- if `true`, the property can be deleted and these attributes can be modified, otherwise not.
+- **`writable`** - 如果为`true`，则可以修改，否则它是只读的。
+- **`enumerable`** - 如果是`true`，则可在循环中列出，否则不列出。
+- **`configurable`**  - 如果是`true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
 
-We didn't see them yet, because generally they do not show up. When we create a property "the usual way", all of them are `true`. But we also can change them anytime.
+我们看不到它们，因为它们通常不会出现。当我们用“常用的方式”创建一个属性时，它们都是`true`。但我们也可以随时更改它们。
 
-First, let's see how to get those flags.
+首先，让我们看看如何获得这些标志。
 
-The method [Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) allows to query the *full* information about a property.
+[Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的完整信息。
 
-The syntax is:
+语法是：
 ```js
 let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
 ```
 
 `obj`
-: The object to get information from.
+：需要获取信息的对象。
 
 `propertyName`
-: The name of the property.
+：属性的名称。
 
-The returned value is a so-called "property descriptor" object: it contains the value and all the flags.
+返回值是一个所谓的“属性描述符”对象：它包含值和所有的标志。
 
-For instance:
+例如：
 
 ```js run
 let user = {
@@ -52,23 +52,23 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
-To change the flags, we can use [Object.defineProperty](mdn:js/Object/defineProperty).
+为了修改标志，我们可以使用 [Object.defineProperty](mdn:js/Object/defineProperty).
 
-The syntax is:
+语法是：
 
 ```js
 Object.defineProperty(obj, propertyName, descriptor)
 ```
 
 `obj`, `propertyName`
-: The object and property to work on.
+: 要处理的对象和属性。
 
 `descriptor`
-: Property descriptor to apply.
+: 要应用的属性描述符。
 
-If the property exists, `defineProperty` updates its flags. Otherwise, it creates the property with the given value and flags; in that case, if a flag is not supplied, it is assumed `false`.
+如果该属性存在，则 `defineProperty` 更新其标志。 否则，它会创建具有给定值和标志的属性; 在这种情况下，如果没有提供标志，则会假定它是`false`。
 
-For instance, here a property `name` is created with all falsy flags:
+这里使用所有的伪造标志创建一个属性 `name`：
 
 ```js run
 let user = {};
@@ -94,13 +94,13 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
-Compare it with "normally created" `user.name` above: now all flags are falsy. If that's not what we want then we'd better set them to `true` in `descriptor`.
+将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志都是假定的。 如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为`true`。
 
-Now let's see effects of the flags by example.
+现在让我们通过示例来看看标志的效果。
 
-## Read-only
+## 只读
 
-Let's make `user.name` read-only by changing `writable` flag:
+我们通过修改 `writable` 标志来把 `user.name` 设置为只读：
 
 ```js run
 let user = {
@@ -118,9 +118,9 @@ user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
 */!*
 ```
 
-Now no one can change the name of our user, unless he applies his own `defineProperty` to override ours.
+现在没有人可以改变我们的用户名称，除非他用自己的 `defineProperty` 来覆盖我们的用户。
 
-Here's the same operation, but for the case when a property doesn't exist:
+以下是相同的操作，但针对的是属性不存在的情况：
 
 ```js run
 let user = { };
@@ -139,11 +139,11 @@ user.name = "Alice"; // Error
 ```
 
 
-## Non-enumerable
+## 不可枚举
 
-Now let's add a custom `toString` to `user`.
+现在让我们向 `user` 添加一个自定义的 `toString`。
 
-Normally, a built-in `toString` for objects is non-enumerable, it does not show up in `for..in`. But if we add `toString` of our own, then by default it shows up in `for..in`, like this:
+通常，对象的内置`toString`是不可枚举的，它不会显示在` for..in` 中。 但是如果我们添加我们自己的`toString`，那么默认情况下它将显示在`for..in`中，如下所示：
 
 ```js run
 let user = {
@@ -157,7 +157,7 @@ let user = {
 for (let key in user) alert(key); // name, toString
 ```
 
-If we don't like it, then we can set `enumerable:false`. Then it won't appear in `for..in` loop, just like the built-in one:
+如果我们不喜欢它，那么我们可以设置 `enumerable：false`。 然后它不会出现在 `for..in` 循环中，就像内置循环一样：
 
 ```js run
 let user = {
@@ -179,19 +179,19 @@ Object.defineProperty(user, "toString", {
 for (let key in user) alert(key); // name
 ```
 
-Non-enumerable properties are also excluded from `Object.keys`:
+不可枚举的属性也会从`Object.keys`中排除：
 
 ```js
 alert(Object.keys(user)); // name
 ```
 
-## Non-configurable
+## 不可配置
 
-The non-configurable flag (`configurable:false`) is sometimes preset for built-in objects and properties.
+不可配置标志（`configurable：false`）有时会预设在内置对象和属性中。
 
-A non-configurable property can not be deleted or altered with `defineProperty`.
+一个不可配置的属性不能被 `defineProperty` 删除或修改。
 
-For instance, `Math.PI` is both read-only, non-enumerable and non-configurable:
+例如，`Math.PI`是只读的，不可枚举和不可配置的：
 
 ```js run
 let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
@@ -206,7 +206,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 }
 */
 ```
-So, a programmer is unable to change the value of `Math.PI` or overwrite it.
+因此，程序员无法改变 `Math.PI` 的值或覆盖它。
 
 ```js run
 Math.PI = 3; // Error
@@ -214,9 +214,9 @@ Math.PI = 3; // Error
 // delete Math.PI won't work either
 ```
 
-Making a property non-configurable is a one-way road. We cannot change it back, because `defineProperty` doesn't work on non-configurable properties.
+使属性不可配置是一条单行道。 我们不把它改回去，因为 `defineProperty` 不适用于不可配置的属性。
 
-Here we are making `user.name` a "forever sealed" constant:
+在这里，我们将 user.name 设置为“永久封闭”的常量：
 
 ```js run
 let user = { };
@@ -238,14 +238,14 @@ Object.defineProperty(user, "name", {writable: true}); // Error
 ```
 
 ```smart header="Errors appear only in use strict"
-In the non-strict mode, no errors occur when writing to read-only properties and such. But the operation still won't succeed. Flag-violating actions are just silently ignored in non-strict.
+在非严格模式下，写入只读属性等时不会发生错误。 但操作仍然不会成功。 非严格模式下违反标志的行为只是默默地被忽略。
 ```
 
 ## Object.defineProperties
 
-There's a method [Object.defineProperties(obj, descriptors)](mdn:js/Object/defineProperties) that allows to define many properties at once.
+有一个方法[Object.defineProperties(obj, descriptors)](mdn:js/Object/defineProperties)，允许一次定义多个属性。
 
-The syntax is:
+语法是：
 
 ```js
 Object.defineProperties(obj, {
@@ -255,7 +255,7 @@ Object.defineProperties(obj, {
 });
 ```
 
-For instance:
+例如：
 
 ```js
 Object.defineProperties(user, {
@@ -265,19 +265,19 @@ Object.defineProperties(user, {
 });
 ```
 
-So, we can set many properties at once.
+因此，我们可以一次性设置多个属性。
 
 ## Object.getOwnPropertyDescriptors
 
-To get all property descriptors at once, we can use the method [Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors).
+要一次获取所有属性描述符，我们可以使用[Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors)方法。
 
-Together with `Object.defineProperties` it can be used as a "flags-aware" way of cloning an object:
+与`Object.defineProperties`一起，它可以用作克隆对象的“标志感知”方式：
 
 ```js
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 ```
 
-Normally when we clone an object, we use an assignment to copy properties, like this:
+通常，当我们克隆一个对象时，我们使用赋值的方式来复制属性，如下所示：
 
 ```js
 for (let key in user) {
@@ -285,34 +285,34 @@ for (let key in user) {
 }
 ```
 
-...But that does not copy flags. So if we want a "better" clone then `Object.defineProperties` is preferred.
+但是，这并不能复制标志。 所以如果我们想要一个“更好”的克隆，那么`Object.defineProperties` 是首选。
 
-Another difference is that `for..in` ignores symbolic properties, but `Object.getOwnPropertyDescriptors` returns *all* property descriptors including symbolic ones.
+另一个区别是`for..in`忽略了 symbolic 属性，但是`Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的所有属性描述符。
 
-## Sealing an object globally
+## 设定一个全局的封闭对象
 
-Property descriptors work at the level of individual properties.
+属性描述符可以在各个属性的级别上工作。
 
-There are also methods that limit access to the *whole* object:
+还有一些限制访问**整个**对象的方法：
 
 [Object.preventExtensions(obj)](mdn:js/Object/preventExtensions)
-: Forbids to add properties to the object.
+：禁止向对象添加属性。
 
 [Object.seal(obj)](mdn:js/Object/seal)
-: Forbids to add/remove properties, sets for all existing properties `configurable: false`.
+：禁止添加/删除属性，为所有存在的属性设置 `configurable: false`。
 
 [Object.freeze(obj)](mdn:js/Object/freeze)
-: Forbids to add/remove/change properties, sets for all existing properties `configurable: false, writable: false`.
+：禁止添加/删除/更改属性，为所有现有属性设置`configurable: false, writable: false`。
 
-And also there are tests for them:
+还有对他们的测试：
 
 [Object.isExtensible(obj)](mdn:js/Object/isExtensible)
-: Returns `false` if adding properties is forbidden, otherwise `true`.
+：如果添加属性被禁止，则返回`false`，否则返回`true`。
 
 [Object.isSealed(obj)](mdn:js/Object/isSealed)
-: Returns `true` if adding/removing properties is forbidden, and all existing properties have `configurable: false`.
+：如果禁止添加/删除属性，则返回“true”，并且所有现有属性都具有`configurable: false`。
 
 [Object.isFrozen(obj)](mdn:js/Object/isFrozen)
-: Returns `true` if adding/removing/changing properties is forbidden, and all current properties are `configurable: false, writable: false`.
+：如果禁止添加/删除/更改属性，则返回“true”，并且所有当前属性都是`configurable: false, writable: false`。
 
-These methods are rarely used in practice.
+这些方法在实践中很少使用。
