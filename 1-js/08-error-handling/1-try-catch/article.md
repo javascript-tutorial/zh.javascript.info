@@ -4,11 +4,11 @@
 
 通常，一段代码会在出错的时候“死掉”（停止执行）并在控制台将异常打印出来。
 
-但是有一种更为合理的语法结构 `try..catch` ，它会在捕捉到异常的同时不会使得代码停止执行而是可以做一些更为合理的操作。
+但是有一种更为合理的语法结构 `try..catch`，它会在捕捉到异常的同时不会使得代码停止执行而是可以做一些更为合理的操作。
 
-## try..catch 语法
+## "try..catch" 语法
 
-try..catch 结构由两部分组成：try 和 catch ：
+`try..catch` 结构由两部分组成：`try` 和` catch`：
 
 ```js
 try {
@@ -30,18 +30,18 @@ try {
 
 ![](try-catch-flow.png)
 
-所以，发生在 `try{...}` 代码块的异常不会使代码停止执行：我们可以在 `catch` 里面处理异常。
+所以，发生在 `try {…}` 代码块的异常不会使代码停止执行：我们可以在 `catch` 里面处理异常。
 
 让我们来看更多的例子。
 
-- 没有异常的例子：显示下面（1）和（2）中 alert 的内容
+- 没有异常的例子：显示下面（1）和（2）中 alert 的内容：
 
-  ```js run
+    ```js run
     try {
 
       alert('Start of try runs');  // *!*(1) <--*/!*
 
-      // ... 这里没有异常
+      // ...这里没有异常
 
       alert('End of try runs');   // *!*(2) <--*/!*
 
@@ -53,7 +53,7 @@ try {
 
     alert("...Then the execution continues");
     ```
-- 包含异常的例子：显示下面（1）和（3）中 `alert` 的内容
+- 包含异常的例子：显示下面（1）和（3）中 `alert` 的内容：
 
     ```js run
     try {
@@ -61,7 +61,7 @@ try {
       alert('Start of try runs');  // *!*(1) <--*/!*
 
     *!*
-      lalala; // 异常, 变量未定义!
+      lalala; // 异常, 变量未定义！
     */!*
 
       alert('End of try (never reached)');  // (2)
@@ -79,7 +79,7 @@ try {
 ````warn header="`try..catch` only works for runtime errors"
 要使得 `try..catch` 能工作，代码必须是可执行的，换句话说，它必须是有效的 JavaScript 代码。
 
-如果代码包含语法错误，那么 try..catch 不能正常工作，例如含有未闭合的花括号：
+如果代码包含语法错误，那么 `try..catch` 不能正常工作，例如含有未闭合的花括号：
 
 ```js run
 try {
@@ -89,9 +89,9 @@ try {
 }
 ```
 
-JavaScript 引擎读取然后执行代码。发生在读取代码阶段的异常被称为 "parse-time" 异常，它们不会被 try..catch 覆盖到（包括那之间的代码）。这是因为引擎读不懂这段代码。
+JavaScript 引擎读取然后执行代码。发生在读取代码阶段的异常被称为 "parse-time" 异常，它们不会被 `try..catch` 覆盖到（包括那之间的代码）。这是因为引擎读不懂这段代码。
 
-所以，try..catch 只能处理有效代码之中的异常。这类异常被称为 "runtime errors"，有时候也称为"exceptions"。
+所以，`try..catch` 只能处理有效代码之中的异常。这类异常被称为 "runtime errors"，有时候也称为 "exceptions"。
 ````
 
 
@@ -114,7 +114,7 @@ try {
 ```js run
 setTimeout(function() {
   try {
-    noSuchVariable; // try..catch 处理异常!
+    noSuchVariable; // try..catch 处理异常！
   } catch (e) {
     alert( "error is caught here!" );
   }
@@ -124,12 +124,12 @@ setTimeout(function() {
 
 ## Error 对象
 
-当一个异常发生之后，JavaScript 生成一个包含异常细节的对象。这个对象会作为一个参数传递给 `catch` ：
+当一个异常发生之后，JavaScript 生成一个包含异常细节的对象。这个对象会作为一个参数传递给 `catch`：
 
 ```js
 try {
   // ...
-} catch(err) { // <-- "异常对象"，可以用其他参数名代替 err
+} catch(err) { // <-- “异常对象”，可以用其他参数名代替 err
   // ...
 }
 ```
@@ -137,15 +137,15 @@ try {
 对于所有内置的异常，`catch` 代码块捕捉到的相应的异常的对象都有两个属性：
 
 `name`
-：异常名称，对于一个未定义的变量，名称是 `"ReferenceError`
+: 异常名称，对于一个未定义的变量，名称是 `"ReferenceError"`
 
 `message`
-：异常详情的文字描述。
+: 异常详情的文字描述。
 
 还有很多非标准的属性在绝大多数环境中可用。其中使用最广泛并且被广泛支持的是：
 
 `stack`
-：当前的调用栈：用于调试的,一个包含引发异常的嵌套调用序列的字符串。
+: 当前的调用栈：用于调试的,一个包含引发异常的嵌套调用序列的字符串。
 
 例如：
 
@@ -196,7 +196,7 @@ alert( user.age );  // 30
 
 如果这样做，当拿到的数据出错，用户就不会知道（除非他们打开开发者控制台）。代码执行失败却没有提示信息会导致糟糕的用户体验。
 
-让我们来用 `try..catch` 来处理这个错误。
+让我们来用 `try..catch` 来处理这个错误：
 
 ```js run
 let json = "{ bad json }";
@@ -257,7 +257,7 @@ throw <error object>
 
 技术上讲，我们可以使用任何东西来作为一个异常对象。甚至可以是基础类型，比如数字或者字符串。但是更好的方式是用对象，尤其是有 `name` 和 `message` 属性的对象（某种程度上和内置的异常有可比性）。
 
-JavaScript 有很多标准异常的内置的构造器：`Error`， `SyntaxError`， `ReferenceError`，`TypeError` 和其他的。我们也可以用他们来创建异常对象。
+JavaScript 有很多标准异常的内置的构造器：`Error`、 `SyntaxError`、`ReferenceError`、`TypeError` 和其他的。我们也可以用他们来创建异常对象。
 
 他们的语法是：
 
@@ -306,7 +306,7 @@ try {
 
   let user = JSON.parse(json); // <-- 没有异常
 
-  if (!user.ename) {
+  if (!user.name) {
 *!*
     抛出 new SyntaxError("Incomplete data: no name"); // (*)
 */!*
@@ -325,7 +325,7 @@ try {
 
 ## 再次抛出异常
 
-上面的例子中，我们用 `try..catch` 处理没有被正确返回的数据，但是也有可能在 `try{..}` 代码块内发生*另一个预料之外的*异常，例如变量未定义或者其他不是返回的数据不正确的异常。
+上面的例子中，我们用 `try..catch` 处理没有被正确返回的数据，但是也有可能在 `try {...}` 代码块内发生**另一个预料之外的**异常，例如变量未定义或者其他不是返回的数据不正确的异常。
 
 例如：
 
@@ -342,9 +342,9 @@ try {
 }
 ```
 
-当然，一切皆有可能。程序员也是会犯错的。即使是一些开源的被数百万人用了几十年的项目 -- 一个严重的 bug 因为他引发的严重的黑客事件被发现（比如发生在 `ssh` 工具上的黑客事件）。
+当然，一切皆有可能。程序员也是会犯错的。即使是一些开源的被数百万人用了几十年的项目 —— 一个严重的 bug 因为他引发的严重的黑客事件被发现（比如发生在 `ssh` 工具上的黑客事件）。
 
-对我们来说，`try..catch` 是用来捕捉 "数据错误" 的异常，但是 catch 本身会捕捉到**所有**来自于 `try` 的异常。这里，我们遇到了预料之外的错误，但是仍然抛出了 `"JSON Error"` 的信息，这是不正确的，同时也会让我们的代码变得更难调试。
+对我们来说，`try..catch` 是用来捕捉“数据错误”的异常，但是 catch 本身会捕捉到**所有**来自于 `try` 的异常。这里，我们遇到了预料之外的错误，但是仍然抛出了 `"JSON Error"` 的信息，这是不正确的，同时也会让我们的代码变得更难调试。
 
 幸运的是，我们可以通过其他方式找出这个异常，例如通过它的 `name` 属性：
 
@@ -412,13 +412,13 @@ function readData() {
   try {
     // ...
 *!*
-    blabla(); // 异常!
+    blabla(); // 异常！
 */!*
   } catch (e) {
     // ...
     if (e.name != 'SyntaxError') {
 *!*
-      throw e; // 重新抛出 (不知道如何处理它)
+      throw e; //  重新抛出（不知道如何处理它）
 */!*
     }
   }
@@ -428,7 +428,7 @@ try {
   readData();
 } catch (e) {
 *!*
-  alert( "External catch got: " + e ); // 捕获到!
+  alert( "External catch got: " + e ); // 捕获到！
 */!*
 }
 ```
@@ -444,7 +444,7 @@ try {
 如果它有被使用，那么，所有条件下都会执行：
 
 - `try` 之后，如果没有异常。
-- `catch`之后，如果没有异常。
+- `catch` 之后，如果没有异常。
 
 该扩展语法如下所示：
 
@@ -513,19 +513,19 @@ alert(result || "error occured");
 alert( `execution took ${diff}ms` );
 ```
 
-你可以通过后面的不同的输入来检验上面代码的执行：先在 `prompt` 弹框中先输入 `35` -- 它会正常执行，`try` 代码执行后执行 `finally` 里面的代码。然后再输入 `-1`，会立即捕获一个异常，执行时间将会是 `0ms` 。两次的测量结果都是正确的。
+你可以通过后面的不同的输入来检验上面代码的执行：先在 `prompt` 弹框中先输入 `35` —— 它会正常执行，`try` 代码执行后执行 `finally` 里面的代码。然后再输入 `-1`，会立即捕获一个异常，执行时间将会是 `0ms`。两次的测量结果都是正确的。
 
-换句话说，有两种方式退出这个函数的执行：`return` 或是 `throw`，finally 语法都能处理。
+换句话说，有两种方式退出这个函数的执行：`return` 或是 `throw`，`finally` 语法都能处理。
 
 
 ```smart header="Variables are local inside `try..catch..finally`"
-请注意：上面代码中的 `result` 和 `diff` 变量，都需要在 `try..catch` *之前*声明。
+请注意：上面代码中的 `result` 和 `diff` 变量，都需要在 `try..catch` **之前**声明。
 
-否则，如果用 `let` 在 `{..}` 代码块里声明，那么只能在该代码块访问到。
+否则，如果用 `let` 在 `{...}` 代码块里声明，那么只能在该代码块访问到。
 ```
 
 ````smart header="`finally` and `return`"
-`finally` 语法支持*任何*的结束 `try..catch` 执行的方式，包括明确的 `return`。
+`finally` 语法支持**任何**的结束 `try..catch` 执行的方式，包括明确的 `return`。
 
 下面就是 `try` 代码块包含 `return` 的例子。在代码执行的控制权转移到外部代码之前，`finally` 代码块会被执行。
 
@@ -552,11 +552,11 @@ alert( func() ); // 先 alert "finally" 里面的内容，再执行这里
 
 ````smart header="`try..finally`"
 
-'try..finally' 结构也很有用，当我们希望确保代码执行完成不想在这里处理异常时，我们会使用这种结构。
+`try..finally` 结构也很有用，当我们希望确保代码执行完成不想在这里处理异常时，我们会使用这种结构。
 
 ```js
 function func() {
-  // 开始做需要被完成的操作 (比如测量)
+  // 开始做需要被完成的操作（比如测量）
   try {
     // ...
   } finally {
@@ -564,7 +564,7 @@ function func() {
   }
 }
 ```
-上面的代码中，由于没有 `catch`，`try` 代码块中的异常会跳出这块代码的执行。但是，在跳出之前 `finally` 里面的代码会被执行
+上面的代码中，由于没有 `catch`，`try` 代码块中的异常会跳出这块代码的执行。但是，在跳出之前 `finally` 里面的代码会被执行。
 ````
 
 ## 全局 catch
@@ -588,16 +588,16 @@ window.onerror = function(message, url, line, col, error) {
 ```
 
 `message`
-：异常信息。
+: 异常信息。
 
 `url`
-：发生异常的代码的 URL。
+: 发生异常的代码的 URL。
 
 `line`, `col`
 : 错误发生的代码的行号和列号。
 
 `error`
-：异常对象。
+: 异常对象。
 
 例如：
 
@@ -617,7 +617,7 @@ window.onerror = function(message, url, line, col, error) {
 </script>
 ```
 
-`window.onerror` 的目的不是去处理整个代码的执行中的所有异常 -- 这几乎是不可能的，这只是为了给开发者提供异常信息。
+`window.onerror` 的目的不是去处理整个代码的执行中的所有异常 —— 这几乎是不可能的，这只是为了给开发者提供异常信息。
 
 也有针对这种情况提供异常日志的 web 服务，比如 <https://errorception.com> 或者 <http://www.muscula.com>。
 
@@ -641,7 +641,7 @@ try {
   // 如果发生异常，跳到这里
   // err 是一个异常对象
 } finally {
-  //  不管 try/catch 怎样都会执行
+  // 不管 try/catch 怎样都会执行
 }
 ```
 
@@ -649,9 +649,9 @@ try {
 
 异常对象包含下列属性：
 
-- `message` -- 我们能阅读的异常提示信息。
-- `name` -- 异常名称（异常对象的构造函数的名称）。
-- `stack` （没有标准） -- 异常发生时的调用栈。
+- `message` —— 我们能阅读的异常提示信息。
+- `name` —— 异常名称（异常对象的构造函数的名称）。
+- `stack` （没有标准） —— 异常发生时的调用栈。
 
 我们也可以通过使用 `throw` 运算符来生成自定义的异常。技术上来讲，`throw` 的参数没有限制，但是通常它是一个继承自内置的 `Error` 类的异常对象。更对关于异常的扩展，请看下个章节。
 
