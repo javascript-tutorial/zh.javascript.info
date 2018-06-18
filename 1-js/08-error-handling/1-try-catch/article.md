@@ -319,7 +319,7 @@ try {
 }
 ```
 
-在 `(*)` 标记的这一行，'throw'  操作符生成了包含着我们所给的 `message` 的 `SyntaxError`，就如同 JavaScript 自己生成的一样。try 里面的代码执行停止，控制权转交到 catch 代码块。
+在 `(*)` 标记的这一行，`throw` 操作符生成了包含着我们所给的 `message` 的 `SyntaxError`，就如同 JavaScript 自己生成的一样。try 里面的代码执行停止，控制权转交到 catch 代码块。
 
 现在 catch 代码块成为了处理包括 `JSON.parse` 在内和其他所有异常的地方。
 
