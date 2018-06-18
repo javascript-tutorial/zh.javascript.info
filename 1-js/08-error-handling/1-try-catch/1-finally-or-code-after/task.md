@@ -6,7 +6,7 @@ importance: 5
 
 比较下面两个代码片段。
 
-1. 用 finally 执行 `try..catch` 之后的代码：
+1. 用 `finally` 执行 `try..catch` 之后的代码：
 
     ```js
     try {
