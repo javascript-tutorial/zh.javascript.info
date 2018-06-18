@@ -15,7 +15,7 @@
 
 ## ToPrimitive
 
-当一个对象被用在需要原始值的上下文中时，例如，在 `alert` 或数学运算中，它会使用 `ToPrimitive` 算法转换为原始值 ([标准](https://tc39.github.io/ecma262/#sec-toprimitive)).
+当一个对象被用在需要原始值的上下文中时，例如，在 `alert` 或数学运算中，它会使用 `ToPrimitive` 算法转换为原始值（[标准](https://tc39.github.io/ecma262/#sec-toprimitive)）。
 
 该算法允许我们使用特殊的对象方法自定义转换。
 
@@ -41,7 +41,7 @@
     // 显式转换
     let num = Number(obj);
 
-    // maths （除了二进制加法）
+    // maths（除了二进制加法）
     let n = +obj; // 一元加法
     let delta = date1 - date2;
 
@@ -52,7 +52,7 @@
 `"default"`
 : 在少数情况下发生，当操作者“不确定”期望的类型时。
 
-    例如，二进制加`+`可以和字符串（连接）和数字（相加）发生作用，所以类型是字符串和数字都可以。或者当一个对象用'=='与一个字符串、数字或符号进行比较时。
+    例如，二进制加 `+` 可以和字符串（连接）和数字（相加）发生作用，所以类型是字符串和数字都可以。或者当一个对象用 `==` 与一个字符串、数字或符号进行比较时。
 
     ```js
     // 二进制加
@@ -62,16 +62,16 @@
     if (user == 1) { ... };
     ```
 
-    大于/小于运算符`<>`也可以同时用于字符串和数字。不过，它使用“number”暗示，而不是“default”。这是历史原因。
+    大于/小于运算符 `<>` 也可以同时用于字符串和数字。不过，它使用 "number" 暗示，而不是 "default"。这是历史原因。
 
-    实际上，除了一种情况（`Date` 对象，我们稍后会学到它）之外，所有内置对象都实现了一个和`"number"`一样的`"default"`转换。可能我们也应该这样做。
+    实际上，除了一种情况（`Date` 对象，我们稍后会学到它）之外，所有内置对象都实现了一个和 `"number"` 一样的 `"default"` 转换。可能我们也应该这样做。
 
-请注意 —— 只有三种暗示。就这么简单。没有"boolean"暗示（所有对象在布尔上下文中都是 `true`）或其他任何东西。如果我们将`"default"`和`"number"`视为相同，就像大多数内置函数一样，那么只有两种转换了。
+请注意 —— 只有三种暗示。就这么简单。没有 "boolean" 暗示（所有对象在布尔上下文中都是 `true`）或其他任何东西。如果我们将 `"default"` 和 `"number"`  视为相同，就像大多数内置函数一样，那么只有两种转换了。
 
 **为了进行转换，JavaScript 尝试查找并调用三个对象方法：**
 
 1. 调用 `obj[Symbol.toPrimitive](hint)` 如果这个方法存在的话，
-2. 否则如果暗示是`"string"`
+2. 否则如果暗示是 `"string"`
     - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
 3. 否则，如果暗示 `"number"` 或者 `"default"`
     - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
@@ -83,7 +83,7 @@
 ```js
 obj[Symbol.toPrimitive] = function(hint) {
   // 返回一个原始值
-  // hint = “string”，“number”和“default”中的一个
+  // hint = "string"，"number" 和 "default" 中的一个
 }
 ```
 
@@ -181,7 +181,7 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj * 2); // 4, ToPrimitive 输出"2",然后就变成了 2
+    alert(obj * 2); // 4，ToPrimitive 输出 "2"，然后就变成了 2。
     ```
 
 - 二进制加法会检查原始值 —— 如果它是一个字符串，那么它会进行级联，否则它会执行 `ToNumber` 并使用数字。
@@ -194,7 +194,7 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj + 2); // 22 (ToPrimitive 返回字符串=>级联操作)
+    alert(obj + 2); // 22 (ToPrimitive 返回字符串 => 级联操作)
     ```
 
     数值例子：
@@ -205,7 +205,7 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj + 2); // 3 (ToPrimitive 返回布尔值，非字符串=>ToNumber)
+    alert(obj + 2); // 3 (ToPrimitive 返回布尔值，非字符串 => ToNumber)
     ```
 
 ```smart header="历史笔记"
@@ -216,21 +216,21 @@ alert(user + 500); // toString -> John500
 
 ## 概要
 
-对象到原始值的转换，是由许多内置函数和操作符自动调用的，这些函数使用一个原始值作为返回值的
+对象到原始值的转换，是由许多内置函数和操作符自动调用的，这些函数使用一个原始值作为返回值的。
 
 它有三种类型（暗示）：
-- `"string"` (对于 `alert` 和其他字符串转换)
-- `"number"` (对于 `maths`)
-- `"default"` (少数操作)
+- `"string"`（对于 `alert` 和其他字符串转换）
+- `"number"`（对于 `maths`）
+- `"default"`（少数操作）
 
-规范明确描述了哪个操作符使用哪个暗示。极少数操作者“不知道期望什么”并使用`"default"`暗示。通常对于内置对象，`"default"`暗示的处理方式与 `"number"`相同，因此在实践中最后两个通常合并在一起。
+规范明确描述了哪个操作符使用哪个暗示。极少数操作者“不知道期望什么”并使用 `"default"` 暗示。通常对于内置对象，`"default"` 暗示的处理方式与 `"number"` 相同，因此在实践中最后两个通常合并在一起。
 
 转换算法是：
 
 1. 调用 `obj[Symbol.toPrimitive](hint)` 如果这个方法存在的话，
-2. 否则如果暗示是`"string"`
+2. 否则如果暗示是 `"string"`
     - 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
-3. 否则，如果暗示`"number"`或者`"default"`
+3. 否则，如果暗示 `"number"` 或者 `"default"`
     - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
 
 在实践中，为了记录或调试目的，仅实现 `obj.toString()` 作为“全捕获"方法通常就够了，这样所有转换都能返回一种“人类可读”的对象表达形式。  
