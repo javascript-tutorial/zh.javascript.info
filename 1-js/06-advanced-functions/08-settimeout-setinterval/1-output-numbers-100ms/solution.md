@@ -14,7 +14,7 @@ function printNumbers(from, to) {
   }, 1000);
 }
 
-// 用例:
+// 用例：
 printNumbers(5, 10);
 ```
 
@@ -34,7 +34,7 @@ function printNumbers(from, to) {
   }, 1000);
 }
 
-// 用例:
+// 用例：
 printNumbers(5, 10);
 ```
 
