@@ -1,15 +1,16 @@
 
-Any `setTimeout` will run only after the current code has finished.
+`setTimeout` 只在当前代码运行完毕之后才会执行。
 
-The `i` will be the last one: `100000000`.
+所以 `i` 的取值为：`100000000`。
 
 ```js run
 let i = 0;
 
 setTimeout(() => alert(i), 100); // 100000000
 
-// assume that the time to execute this function is >100ms
+// 假设这段代码运行时间超过 100 毫秒
 for(let j = 0; j < 100000000; j++) {
   i++; 
 }
 ```
+
