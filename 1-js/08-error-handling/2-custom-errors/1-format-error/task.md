@@ -18,5 +18,5 @@ alert( err.name ); // FormatError
 alert( err.stack ); // stack
 
 alert( err instanceof FormatError ); // true
-alert( err instanceof SyntaxError ); // true (因为它继承自 SyntaxError)
-``` 
+alert( err instanceof SyntaxError ); // true（因为它继承自 SyntaxError）
+```
