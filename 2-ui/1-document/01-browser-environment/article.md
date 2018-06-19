@@ -1,21 +1,21 @@
-# Browser environment, specs
+# 浏览器环境，规格
 
-The JavaScript language was initially created for web browsers. Since then, it has evolved and become a language with many uses and platforms.
+JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为一种有多种用途和平台的语言。
 
-A platform may be a browser, or a web-server, or a washing machine, or another *host*. Each of them provides platform-specific functionality. The JavaScript specification calls that a *host environment*.
+平台可以是一个浏览器，一台网络服务器，一台洗衣机或其他**主机**。它们每个都提供特定于平台的功能。JavaScript 规范调用了**主机环境**。
 
-A host environment provides platform-specific objects and functions additional to the language core. Web browsers give a means to control web pages. Node.JS provides server-side features, and so on.
+主机环境提供语言核心以外的平台特定对象和功能。Web浏览器提供了一种控制网页的手段。Node.JS 提供了服务器端功能，等等。
 
-Here's a bird's-eye view of what we have when JavaScript runs in a web-browser:
+以下是浏览器在 JavaScript 中运行时的一个鸟瞰图：
 
 ![](windowObjects.png)
 
-There's a "root" object called `window`. It has two roles:
+有一个叫做 `window` 的“根”对象。它有两个角色：
 
-1. First, it is a global object for JavaScript code, as described in the chapter <info:global-object>.
-2. Second, it represents the "browser window" and provides methods to control it.
+1.首先，它是JavaScript代码的全局对象，如 <info：global-object>一章所述。
+2.其次，它代表“浏览器窗口”并提供控制它的方法。
 
-For instance, here we use it as a global object:
+例如，在这里我们将其用作全局对象：
 
 ```js run
 function sayHi() {
@@ -26,19 +26,19 @@ function sayHi() {
 window.sayHi();
 ```
 
-And here we use it as a browser window, to see the window height:
+在这里，我们将它用作浏览器窗口，以查看窗口高度：
 
 ```js run
 alert(window.innerHeight); // inner window height
 ```
 
-There are more window-specific methods and properties, we'll cover them later.
+还有更多窗口特定的方法和属性，我们稍后会介绍它们。
 
-## Document Object Model (DOM)
+## 文档对象模型(DOM)
 
-The `document` object gives access to the page content. We can change or create anything on the page using it.
+`document` 对象可以访问页面内容。我们可以使用它在页面上更改或创建任何内容。
 
-For instance:
+例如：
 ```js run
 // change the background color to red
 document.body.style.background = "red";
@@ -48,11 +48,12 @@ setTimeout(() => document.body.style.background = "", 1000);
 ```
 
 Here we used `document.body.style`, but there's much, much more. Properties and methods are described in the specification. There happen to be two working groups who develop it:
+这里我们使用了`document.body.style`，但还有很多很多其他的东西。 规范中描述了属性和方法。 正好有两个工作组在研发：
 
-1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) -- the documentation is at <https://www.w3.org/TR/dom>.
-2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG), publishing at <https://dom.spec.whatwg.org>.
+1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) -- 其文档位于 <https://www.w3.org/TR/dom>.
+2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG), 发布在 ß <https://dom.spec.whatwg.org>.
 
-As it happens, the two groups don't always agree, so it's like we have two sets of standards. But they are very similar and eventually things merge. The documentation that you can find on the given resources is very similar, with about a 99% match. There are very minor differences that you probably won't notice.
+巧的是，这两个工作组并不总是统一意见，所以我们有两套标准。 但它们非常相似，并最终融合在一起。您在给定资源上找到的文档非常相似，约有99％的相似度。 有很小的差异你可能并不会注意到。
 
 Personally, I find <https://dom.spec.whatwg.org> more pleasant to use.
 
