@@ -1,7 +1,7 @@
 
-Surely it will work just fine.
+当然行得通。
 
-Both nested functions are created within the same outer Lexical Environment, so they share access to the same `count` variable:
+嵌套函数都是在同一个词法环境中创建的，所以它们可以访问同一个词法环境，所以它们访问的同一个 `count` 变量：
 
 ```js run
 function Counter() {

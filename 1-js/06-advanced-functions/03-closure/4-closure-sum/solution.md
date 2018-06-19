@@ -1,12 +1,12 @@
-For the second brackets to work, the first ones must return a function.
+为了第二个括号有效，第一个（括号）必须返回一个函数。
 
-Like this:
+就像这样：
 
 ```js run
 function sum(a) {
 
   return function(b) {
-    return a + b; // takes "a" from the outer lexical environment
+    return a + b; // 从外部词法环境获得"a"
   };
 
 }

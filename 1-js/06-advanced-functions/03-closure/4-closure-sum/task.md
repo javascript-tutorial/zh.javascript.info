@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Sum with closures
+# 用闭包的 sum（函数）
 
-Write function `sum` that works like this: `sum(a)(b) = a+b`.
+编写一个像 `sum(a)(b) = a+b` 这样工作的 `sum` 函数。
 
-Yes, exactly this way, via double brackets (not a mistype).
+是的，就是这种通过双括号的方式（并不是错误）。
 
-For instance:
+举个例子：
 
 ```js
 sum(1)(2) = 3
