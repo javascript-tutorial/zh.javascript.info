@@ -2,7 +2,7 @@
 
 当我们在进行开发的时候，通常需要属于我们自己的错误类来反映任务中可能出现的特殊情况。对于网络操作错误，我们需要 `HttpError`，对于数据库操作错误，我们需要 `DbError`，对于搜索操作错误，我们需要 `NotFoundError`，等等。
 
-我们自定义的错误应该具有基本的错误属性，例如 `message`，`name` 以及更加详细的 `stack`。但是它们也会有属于自己的属性。举个例子，`HttpError`对象会有一个 `statusCode` 属性，取值可能为 `404`、`403` 或 `500` 等。
+我们自定义的错误应该具有基本的错误属性，例如 `message`，`name` 以及更加详细的 `stack`。但是它们也会有属于自己的属性。举个例子，`HttpError` 对象会有一个 `statusCode` 属性，取值可能为 `404`、`403` 或 `500` 等。
 
 JavaScript 允许我们在使用 `throw` 时带任何参数，所以从技术层面上说，我们自定义的错误不需要继承 `Error` 类，但如果我们继承了这个类，就能使用 `obj instanceof Error` 来鉴别错误对象，所以我们最好继承它。
 
@@ -25,7 +25,7 @@ let json = `{ "name": "John", "age": 30 }`;
 
 我们的 `ValidationError` 类应该继承自内置的 `Error` 类。
 
- `Error` 类是内置的，但是我们需要看一下大致的代码，来理解我们需要扩展什么。
+`Error` 类是内置的，但是我们需要看一下大致的代码，来理解我们需要扩展什么。
 
 代码如下：
 
@@ -124,13 +124,13 @@ try {
 // ...
 ```  
 
-使用 `instanceof` 的做法会好很多，因为我们在以后会扩展 `ValidationError`，创造一个它的子类型，例如  `PropertyRequiredError`。而 `instanceof` 对于新的继承类也适用。所以这是个长远的保证。
+使用 `instanceof` 的做法会好很多，因为我们在以后会扩展 `ValidationError`，创造一个它的子类型，例如 `PropertyRequiredError`。而 `instanceof` 对于新的继承类也适用。所以这是个长远的保证。
 
 还有一点很重要，在 `catch` 语句捕捉到未知的错误时，它会在抛出行 `(**)` 处重新抛出，`catch` 语句仅仅知道如何处理验证和语法错误，而其他错误（代码中的打印错误等）不应该被捕获。
 
 ## 更进一步的继承
 
- `ValidationError` 类是十分通用的。因此可能会在某些方面出错。属性可能缺失，格式可能发生错误（例如 `age` 属性的值为一个字符串）。让我们来创造一个更加具体的类 `PropertyRequiredError`，为属性缺失的错误而量身定做的。它将会承载属性缺失的相关信息。
+`ValidationError` 类是十分通用的。因此可能会在某些方面出错。属性可能缺失，格式可能发生错误（例如 `age` 属性的值为一个字符串）。让我们来创造一个更加具体的类 `PropertyRequiredError`，为属性缺失的错误而量身定做的。它将会承载属性缺失的相关信息。
 
 ```js run
 class ValidationError extends Error {
@@ -164,7 +164,7 @@ function readUser(json) {
   return user;
 }
 
-// try..catch实例
+// try..catch 实例
 
 try {
   let user = readUser('{ "age": 25 }');
@@ -172,7 +172,7 @@ try {
   if (err instanceof ValidationError) {
 *!*
     alert("Invalid data: " + err.message); // 无效的数据：缺失属性：name
-    alert(err.name); // 必有属性错误
+    alert(err.name); // PropertyRequiredError
     alert(err.property); // name
 */!*
   } else if (err instanceof SyntaxError) {
@@ -211,7 +211,7 @@ class PropertyRequiredError extends ValidationError {
 }
 
 // name is correct
-alert( new PropertyRequiredError("field").name ); // 必有属性错误
+alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 ```
 
 现在的自定义错误更加的简洁，特别是 `ValidationError`，我们在其构造器中删除了 `"this.name = ..."` 这一行。
@@ -285,7 +285,7 @@ try {
   if (e instanceof ReadError) {
 *!*
     alert(e);
-    // 原错误：语法错误：在位置1处不应有 b
+    // 原错误：语法错误：在位置 1 处不应有 b
     alert("Original error: " + e.cause);
 */!*
   } else {
@@ -294,7 +294,7 @@ try {
 }
 ```
 
-上述代码中， `readUser` 正如描述的一样正常工作 —— 捕获语法以及验证的异常并且抛出 `ReadError` 异常用来代替之前的行为（未知的异常依旧重新抛出）。
+上述代码中，`readUser` 正如描述的一样正常工作 —— 捕获语法以及验证的异常并且抛出 `ReadError` 异常用来代替之前的行为（未知的异常依旧重新抛出）。
 
 所以外部代码负责检测 `instanceof ReadError`，不必列出所有可能的异常类型。
 
