@@ -1,6 +1,6 @@
-Let's walk the array items:
-- For each item we'll check if the resulting array already has that item.
-- If it is so, then ignore, otherwise add to results.
+遍历数组
+- 对于每个元素，我们将检查结果数组是否已经有该元素。
+- 如果有，则忽略，否则添加结果。
 
 ```js run
 function unique(arr) {
@@ -22,18 +22,18 @@ let strings = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(strings) ); // Hare, Krishna, :-O
 ```
 
-The code works, but there's a potential performance problem in it.
+代码有效，但其中存在潜在的性能问题。
 
-The method `result.includes(str)` internally walks the array `result` and compares each element against `str` to find the match.
+方法 `result.includes(str)` 在内部遍历数组 `result` 并将每个元素与 `str` 进行比较以找到匹配项。
 
-So if there are `100` elements in `result` and no one matches `str`, then it will walk the whole `result` and do exactly `100` comparisons. And if `result` is large, like `10000`, then there would be `10000` comparisons.
+所以如果 `result` 中有 `100` 个元素，并且没有一个匹配上 `str`，那么它将遍历整个 `result` 并进行完全的 `100` 比较。如果 `result` 很大，比如 `10000`，那么会有 `10000` 次的比较。
 
-That's not a problem by itself, because JavaScript engines are very fast, so walk `10000` array is a matter of microseconds.
+这本身并不是问题，因为 JavaScript 引擎速度非常快，所以遍历 10000 次就是几微秒的事。
 
-But we do such test for each element of `arr`, in the `for` loop.
+但是我们在 `for `循环中为 `arr` 的每个元素做了这样的测试。
 
-So if `arr.length` is `10000` we'll have something like `10000*10000` = 100 millions of comparisons. That's a lot.
+所以如果 `arr.length` 是 `10000`，我们会有 `10000 * 10000` = 100 百万的比较。好多啊。
 
-So the solution is only good for small arrays.
+所以该解决方案仅适用于小型数组。
 
-Further in the chapter <info:map-set-weakmap-weakset> we'll see how to optimize it.
+进一步，在 <info:map-set-weakmap-weakset> 我们将看到如何优化它。

@@ -11,7 +11,7 @@ let arr = [ john, pete, mary ];
 
 sortByName(arr);
 
-// now sorted is: [john, mary, pete]
+// 现在排序是：[john, mary, pete]
 alert(arr[1].name); // Mary
 ```
 

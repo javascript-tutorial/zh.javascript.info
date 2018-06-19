@@ -1,23 +1,23 @@
-# Array methods
+# 数组方法
 
-Arrays provide a lot of methods. To make things easier, in this chapter they are split into groups.
+因为数组提供的方法很多。为了方便起见，在本章中，我们将按组讲解。
 
-## Add/remove items
+## 添加/移除数组元素
 
-We already know methods that add and remove items from the beginning or the end:
+已知从开头或结尾添加删除元素的方法：
 
-- `arr.push(...items)` -- adds items to the end,
-- `arr.pop()` -- extracts an item from the end,
-- `arr.shift()` -- extracts an item from the beginning,
-- `arr.unshift(...items)` -- adds items to the beginning.
+- `arr.push(...items)` — 从结尾添加元素，
+- `arr.pop()` — 从结尾提取元素，
+- `arr.shift()` — 从开头提取元素，
+- `arr.unshift(...items)` — 从开头添加元素，
 
-Here are few others.
+这里还有其他几种方法。
 
 ### splice
 
-How to delete an element from the array?
+如何从数组中删除元素？
 
-The arrays are objects, so we can try to use `delete`:
+数组是对象，所以我们可以尝试使用 `delete`：
 
 ```js run
 let arr = ["I", "go", "home"];
@@ -30,25 +30,25 @@ alert( arr[1] ); // undefined
 alert( arr.length ); // 3
 ```
 
-The element was removed, but the array still has 3 elements, we can see that `arr.length == 3`.
+元素被删除，但数组仍然有 3 个元素，我们可以看到 `arr.length == 3`。
 
-That's natural, because `delete obj.key` removes a value by the `key`. It's all it does. Fine for objects. But for arrays we usually want the rest of elements to shift and occupy the freed place. We expect to have a shorter array now.
+这很正常，因为 `delete obj.key` 是通过 `key` 来移除对应的值。但是对于数组，我们通常希望剩下的元素移除并释放占用的位置，得到一个更短的数组。
 
-So, special methods should be used.
+所以应该使用特殊的方法。
 
-The [arr.splice(str)](mdn:js/Array/splice) method is a swiss army knife for arrays. It can do everything: add, remove and insert elements.
+[arr.splice(str)](mdn:js/Array/splice) 方法可以说是数组界的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
 
-The syntax is:
+语法是：
 
 ```js
 arr.splice(index[, deleteCount, elem1, ..., elemN])
 ```
 
-It starts from the position `index`: removes `deleteCount` elements and then inserts `elem1, ..., elemN` at their place. Returns the array of removed elements.
+从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。
 
-This method is easy to grasp by examples.
+这个方法很容易通过例子来掌握。
 
-Let's start with the deletion:
+让我们从删除开始：
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
@@ -60,9 +60,9 @@ arr.splice(1, 1); // from index 1 remove 1 element
 alert( arr ); // ["I", "JavaScript"]
 ```
 
-Easy, right? Starting from the index `1` it removed `1` element.
+简单，对吧？从索引 `1` 开始删除 `1` 个元素。
 
-In the next example we remove 3 elements and replace them with the other two:
+在下一个例子中，我们删除了 3 个元素，并用另外两个元素替换它们：
 
 ```js run
 let arr = [*!*"I", "study", "JavaScript",*/!* "right", "now"];
@@ -73,7 +73,7 @@ arr.splice(0, 3, "Let's", "dance");
 alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
-Here we can see that `splice` returns the array of removed elements:
+在这里我们可以看到 `splice` 返回已删除元素的数组：
 
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
@@ -81,10 +81,10 @@ let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
 // remove 2 first elements
 let removed = arr.splice(0, 2);
 
-alert( removed ); // "I", "study" <-- array of removed elements
+alert( removed ); // "I", "study" <-- 被删除元素的数组
 ```
 
-The `splice` method is also able to insert the elements without any removals. For that we need to set `deleteCount` to `0`:
+我们可以将 `deleteCount` 设置为 `0`，`splice` 方法就能够插入元素而不用删除：
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
@@ -97,8 +97,8 @@ arr.splice(2, 0, "complex", "language");
 alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
-````smart header="Negative indexes allowed"
-Here and in other array methods, negative indexes are allowed. They specify the position from the end of the array, like here:
+````smart header="允许负向索引"
+在这里和其他数组方法中，负向索引是允许的。它们从数组末尾计算位置，如下所示：
 
 ```js run
 let arr = [1, 2, 5];
@@ -114,19 +114,19 @@ alert( arr ); // 1,2,3,4,5
 
 ### slice
 
-The method [arr.slice](mdn:js/Array/slice) is much simpler than similar-looking `arr.splice`.
+[arr.slice](mdn:js/Array/slice) 方法比 `arr.splice` 简单得多。
 
-The syntax is:
+语法是：
 
 ```js
 arr.slice(start, end)
 ```
 
-It returns a new array where it copies all items start index `"start"` to `"end"` (not including `"end"`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。`start` 和 `end` 都可以是负数，在这种情况下，从末尾计算索引。
 
-It works like `str.slice`, but makes subarrays instead of substrings.
+它和字符串的 `str.slice` 有点像，就是把子字符串替换成子数组。
 
-For instance:
+例如：
 
 ```js run
 let str = "test";
@@ -141,21 +141,21 @@ alert( arr.slice(-2) ); // s,t
 
 ### concat
 
-The method [arr.concat](mdn:js/Array/concat) joins the array with other arrays and/or items.
+[arr.concat](mdn:js/Array/concat) 将数组与其他数组和/或元素结合在一起。
 
-The syntax is:
+语法：
 
 ```js
 arr.concat(arg1, arg2...)
 ```
 
-It accepts any number of arguments -- either arrays or values.
+它接受任意数量的参数 — 数组或值。
 
-The result is a new array containing items from `arr`, then `arg1`, `arg2` etc.
+结果是一个包含`arr`，`arg1`，`arg2`等元素的新数组。
 
-If an argument is an array or has `Symbol.isConcatSpreadable` property, then all its elements are copied. Otherwise, the argument itself is copied.
+如果参数是一个数组或具有 `Symbol.isConcatSpreadable` 属性，则其所有元素都将被复制。否则，复制参数本身。
 
-For instance:
+例如：
 
 ```js run
 let arr = [1, 2];
@@ -170,7 +170,7 @@ alert( arr.concat([3, 4], [5, 6])); // 1,2,3,4,5,6
 alert( arr.concat([3, 4], 5, 6)); // 1,2,3,4,5,6
 ```
 
-Normally, it only copies elements from arrays ("spreads" them). Other objects, even if they look like arrays, added as a whole:
+通常，它只复制数组中的元素（“扩展”它们）。其他对象，即使它们看起来像数组一样，仍然作为一个整体添加：
 
 ```js run
 let arr = [1, 2];
@@ -184,7 +184,7 @@ alert( arr.concat(arrayLike) ); // 1,2,[object Object]
 //[1, 2, arrayLike]
 ```
 
-...But if an array-like object has `Symbol.isConcatSpreadable` property, then its elements are added instead:
+...但是，如果类似数组的对象具有 `Symbol.isConcatSpreadable` 属性，将替换其元素：
 
 ```js run
 let arr = [1, 2];
@@ -201,19 +201,19 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
-## Searching in array
+## 查询数组
 
-These are methods to search for something in an array.
+这些是在数组中查询某些内容的方法。
 
-### indexOf/lastIndexOf and includes
+### indexOf/lastIndexOf 和 includes
 
-The methods [arr.indexOf](mdn:js/Array/indexOf), [arr.lastIndexOf](mdn:js/Array/lastIndexOf) and [arr.includes](mdn:js/Array/includes) have the same syntax and do essentially the same as their string counterparts, but operate on items instead of characters:
+[arr.indexOf](mdn:js/Array/indexOf)、[arr.lastIndexOf](mdn:js/Array/lastIndexOf) 和 [arr.includes](mdn:js/Array/includes) 方法与字符串操作具有相同的语法，只不过这里是对数组元素而不是字符进行操作：
 
-- `arr.indexOf(item, from)` looks for `item` starting from index `from`, and returns the index where it was found, otherwise `-1`.
-- `arr.lastIndexOf(item, from)` -- same, but looks from right to left.
-- `arr.includes(item, from)` -- looks for `item` starting from index `from`, returns `true` if found.
+- `arr.indexOf(item, from)` 从索引 `from` 查询 `item`，如果找到返回索引，否则返回 `-1`。
+- `arr.lastIndexOf(item, from)` — 和上面相同，只是从尾部开始查询。
+- `arr.includes(item, from)` — 从索引 `from` 查询 `item`，如果找到则返回 `true`。
 
-For instance:
+例如：
 
 ```js run
 let arr = [1, 0, false];
@@ -225,11 +225,11 @@ alert( arr.indexOf(null) ); // -1
 alert( arr.includes(1) ); // true
 ```
 
-Note that the methods use `===` comparison. So, if we look for `false`, it finds exactly `false` and not the zero.
+请注意，这些方法使用 `===` 比较。所以如果我们查询 `false`，会精确到是 `false` 而不是零。
 
-If we want to check for inclusion, and don't want to know the exact index, then `arr.includes` is preferred.
+如果我们想检查是否包含需要的元素，并且不想知道确切的索引，那么 `arr.includes` 是首选。
 
-Also, a very minor difference of `includes` is that it correctly handles `NaN`, unlike `indexOf/lastIndexOf`:
+此外，`includes` 的一个非常小的差别是它能正确处理`NaN`，而不像 `indexOf/lastIndexOf`：
 
 ```js run
 const arr = [NaN];
@@ -237,28 +237,28 @@ alert( arr.indexOf(NaN) ); // -1 (should be 0, but === equality doesn't work for
 alert( arr.includes(NaN) );// true (correct)
 ```
 
-### find and findIndex
+### find 和 findIndex
 
-Imagine we have an array of objects. How do we find an object with the specific condition?
+想象一下，我们有一个对象数组。我们如何找到具有特定条件的对象？
 
-Here the [arr.find](mdn:js/Array/find) method comes in handy.
+这时可以用 [arr.find](mdn:js/Array/find) 方法。
 
-The syntax is:
+语法：
 ```js
 let result = arr.find(function(item, index, array) {
-  // should return true if the item is what we are looking for
+  // 如果查询到返回 true
 });
 ```
 
-The function is called repetitively for each element of the array:
+该函数对数组中的每个元素重复调用：
 
-- `item` is the element.
-- `index` is its index.
-- `array` is the array itself.
+- `item` 是元素。
+- `index` 是它的索引。
+- `array` 是数组本身。
 
-If it returns `true`, the search is stopped, the `item` is returned. If nothing found, `undefined` is returned.
+如果它返回`true`，则查询停止，返回 `item`。如果没有查询到，则返回 `undefined`。
 
-For example, we have an array of users, each with the fields `id` and `name`. Let's find the one with `id == 1`:
+例如，我们有一组用户，每个用户都有 `id` 和 `name` 字段。让我们找到一个 `id == 1`：
 
 ```js run
 let users = [
@@ -272,27 +272,27 @@ let user = users.find(item => item.id == 1);
 alert(user.name); // John
 ```
 
-In real life arrays of objects is a common thing, so the `find` method is very useful.
+在现实生活中，对象数组是很常见，所以`find` 方法非常有用。
 
-Note that in the example we provide to `find` a single-argument function `item => item.id == 1`. Other parameters of `find` are rarely used.
+注意在这个例子中我们传给了 `find` 一个单参数函数 `item => item.id == 1`。其他参数 `find` 很少使用。
 
-The [arr.findIndex](mdn:js/Array/findIndex) method is essentially the same, but it returns the index where the element was found instead of the element itself.
+与 [arr.findIndex](mdn:js/Array/findIndex) 方法本质上是相同的，但它返回找到元素的索引而不是元素本身。
 
 ### filter
 
-The `find` method looks for a single (first) element that makes the function return `true`.
+`find` 方法查询的是使函数返回 `true` 的第一个元素。
 
-If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
+如果需要匹配的有很多，我们可以使用 [arr.filter(fn)](mdn:js/Array/filter)。
 
-The syntax is roughly the same as `find`, but it returns an array of matching elements:
+语法与 `find` 大致相同，但是它返回的是所有匹配元素组成的数组：
 
 ```js
 let results = arr.filter(function(item, index, array) {
-  // should return true if the item passes the filter
+  // 在元素通过过滤器时返回 true
 });
 ```
 
-For instance:
+例如：
 
 ```js run
 let users = [
@@ -301,32 +301,32 @@ let users = [
   {id: 3, name: "Mary"}
 ];
 
-// returns array of the first two users
+// 返回前两个用户的数组
 let someUsers = users.filter(item => item.id < 3);
 
 alert(someUsers.length); // 2
 ```
 
-## Transform an array
+## 转换数组
 
-This section is about the methods transforming or reordering the array.
+本节介绍转换或重新排序数组的方法。
 
 
 ### map
 
-The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
+[arr.map](mdn:js/Array/map) 方法是最有用和经常使用的方法之一。
 
-The syntax is:
+语法：
 
 ```js
 let result = arr.map(function(item, index, array) {
-  // returns the new value instead of item
+  // 返回新值而不是当前元素
 })
 ```
 
-It calls the function for each element of the array and returns the array of results.
+它对数组中每个元素调用函数并返回符合结果的数组。
 
-For instance, here we transform each element into its length:
+例如，在这里我们将每个元素转换为它的字符串长度：
 
 ```js run
 let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length)
@@ -335,30 +335,30 @@ alert(lengths); // 5,7,6
 
 ### sort(fn)
 
-The method [arr.sort](mdn:js/Array/sort) sorts the array *in place*.
+[arr.sort](mdn:js/Array/sort) 方法对数组**进行排序**
 
-For instance:
+语法：
 
 ```js run
 let arr = [ 1, 2, 15 ];
 
-// the method reorders the content of arr (and returns it)
+// 该方法重新排列 arr 的内容（并返回它）
 arr.sort();
 
 alert( arr );  // *!*1, 15, 2*/!*
 ```
 
-Did you notice anything strange in the outcome?
+你有没有注意到结果有什么奇怪的地方？
 
-The order became `1, 15, 2`. Incorrect. But why?
+顺序变成了 `1, 15, 2`。不对，但为什么呢？
 
-**The items are sorted as strings by default.**
+**这些元素默认情况下按字符串排序。**
 
-Literally, all elements are converted to strings and then compared. So, the lexicographic ordering is applied and indeed `"2" > "15"`.
+从字面上看，所有元素都被转换为字符串，然后进行比较。因此，按照词典顺序排序，实际上应该是`"2" > "15"`。
 
-To use our own sorting order, we need to supply a function of two arguments as the argument of `arr.sort()`.
+要使用我们自己的排序顺序，我们需要提供带两个参数的函数作为 `arr.sort()` 的参数。
 
-The function should work like this:
+该函数像这样工作：
 ```js
 function compare(a, b) {
   if (a > b) return 1;
@@ -367,7 +367,7 @@ function compare(a, b) {
 }
 ```
 
-For instance:
+例如：
 
 ```js run
 function compareNumeric(a, b) {
@@ -385,13 +385,13 @@ arr.sort(compareNumeric);
 alert(arr);  // *!*1, 2, 15*/!*
 ```
 
-Now it works as intended.
+现在结果符合预期了。
 
-Let's step aside and think what's happening. The `arr` can be array of anything, right? It may contain numbers or strings or html elements or whatever. We have a set of *something*. To sort it, we need an *ordering function* that knows how to compare its elements. The default is a string order.
+让我们搁置一边，思考发生了什么。`arr` 可以是由任何东西组成的数组。它可能包含数字或字符串或 html 元素或其他。我们对一组数据进行排序时，需要一个**排序函数**来确认如何比较这些元素。默认是按字符串排序的。
 
-The `arr.sort(fn)` method has a built-in implementation of sorting algorithm. We don't need to care how it exactly works (an optimized [quicksort](https://en.wikipedia.org/wiki/Quicksort) most of the time). It will walk the array, compare its elements using the provided function and reorder them, all we need is to provide the `fn` which does the comparison.
+`arr.sort(fn)` 方法内置实现排序算法。我们不需要关心它是如何工作的(大多数情况下是优化过的[快速排序](https://en.wikipedia.org/wiki/Quicksort)算法)。它将自动遍历数组，使用提供的函数比较它的元素并对它们重新排序，我们所需要的只是提供用于比较的函数 `fn`。
 
-By the way, if we ever want to know which elements are compared -- nothing prevents from alerting them:
+顺便说一句，如果我们想知道哪些元素进行了比较 — alert 是没有作用的：
 
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
@@ -399,13 +399,13 @@ By the way, if we ever want to know which elements are compared -- nothing preve
 });
 ```
 
-The algorithm may compare an element multiple times in the process, but it tries to make as few comparisons as possible.
+该算法可以在过程中多次比较元素，但它会尽可能少地进行比较。
 
 
-````smart header="A comparison function may return any number"
-Actually, a comparison function is only required to return a positive number to say "greater" and a negative number to say "less".
+````smart header="比较函数可以返回任何数字"
+实际上，比较函数只需要返回一个正数表示更大，而负数表示更少。
 
-That allows to write shorter functions:
+通过这个原理我们可以编写更短的函数：
 
 ```js run
 let arr = [ 1, 2, 15 ];
@@ -416,21 +416,21 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
-````smart header="Arrow functions for the best"
-Remember [arrow functions](info:function-expression#arrow-functions)? We can use them here for neater sorting:
+````smart header="箭头函数最好"
+[箭头函数](info:function-expression#arrow-functions)还记得吗？这里使用箭头函数会更加简洁：
 
 ```js
 arr.sort( (a, b) => a - b );
 ```
 
-This works exactly the same as the other, longer, version above.
+这与上面的那些更长的其它写法是完全相同的。
 ````
 
 ### reverse
 
-The method [arr.reverse](mdn:js/Array/reverse) reverses the order of elements in `arr`.
+[arr.reverse](mdn:js/Array/reverse) 方法颠倒 `arr` 中元素的顺序。
 
-For instance:
+例如：
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -439,15 +439,15 @@ arr.reverse();
 alert( arr ); // 5,4,3,2,1
 ```
 
-It also returns the array `arr` after the reversal.
+它也在返回后返回数组 `arr`。
 
-### split and join
+### split 和 join
 
-Here's the situation from the real life. We are writing a messaging app, and the person enters the comma-delimited list of receivers: `John, Pete, Mary`. But for us an array of names would be much more comfortable than a single string. How to get it?
+举一个现实生活的场景的例子，我们正在编写一个消息应用程序，并且该人员输入以逗号分隔的接收者列表：`John，Pete，Mary`。但对我们来说，数组比单个字符串更舒适。怎么做才能获得这个数组呢？
 
-The [str.split(delim)](mdn:js/String/split) method does exactly that. It splits the string into an array by the given delimiter `delim`.
+[str.split(delim)](mdn:js/String/split) 方法可以做到。它通过给定的分隔符 `delim` 将字符串分割成一个数组。
 
-In the example below, we split by a comma followed by space:
+在下面的例子中，我们用逗号分隔空格：
 
 ```js run
 let names = 'Bilbo, Gandalf, Nazgul';
@@ -459,7 +459,7 @@ for (let name of arr) {
 }
 ```
 
-The `split` method has an optional second numeric argument -- a limit on the array length. If it is provided, then the extra elements are ignored. In practice it is rarely used though:
+`split` 方法有一个可选的第二个数字参数 — 对数组长度的限制。如果提供了，那么额外的元素将被忽略。但实际上它很少使用：
 
 ```js run
 let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
@@ -467,8 +467,8 @@ let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
 alert(arr); // Bilbo, Gandalf
 ```
 
-````smart header="Split into letters"
-The call to `split(s)` with an empty `s` would split the string into an array of letters:
+````smart header="拆分为字母"
+调用空的参数 `split(s)` 会将字符串分成一个字母数组：
 
 ```js run
 let str = "test";
@@ -477,9 +477,9 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
-The call [arr.join(str)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items glued by `str` between them.
+[arr.join(str)](mdn:js/Array/join) 与 `split` 相反。它会在它们之间创建一串由 `str` 粘合的 `arr` 项。
 
-For instance:
+例如：
 
 ```js run
 let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
@@ -491,13 +491,13 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
-When we need to iterate over an array -- we can use `forEach`.
+当我们需要遍历一个数组时 — 我们可以使用 `forEach`。
 
-When we need to iterate and return the data for each element -- we can use `map`.
+当我们需要迭代并返回每个元素的数据时 — 我们可以使用 `map`。
 
-The methods [arr.reduce](mdn:js/Array/reduce) and [arr.reduceRight](mdn:js/Array/reduceRight) also belong to that breed, but are a little bit more intricate. They are used to calculate a single value based on the array.
+[arr.reduce](mdn:js/Array/reduce) 和 [arr.reduceRight](mdn:js/Array/reduceRight) 和上面差不多，但有点复杂。它们用于根据数组计算单个值。
 
-The syntax is:
+语法是：
 
 ```js
 let value = arr.reduce(function(previousValue, item, index, arr) {
@@ -505,19 +505,19 @@ let value = arr.reduce(function(previousValue, item, index, arr) {
 }, initial);
 ```
 
-The function is applied to the elements. You may notice the familiar arguments, starting from the 2nd:
+该函数应用于元素。从第二个参数开始你可能就会觉得很眼熟了：
 
-- `item` -- is the current array item.
-- `index` -- is its position.
-- `arr` -- is the array.
+- `item` — 当前的数组元素。
+- `index` — 当前索引。
+- `arr` — 数组本身。
 
-So far, like `forEach/map`. But there's one more argument:
+目前为止，这很像 `forEach/map`。但还有一个参数不同就是：
 
-- `previousValue` -- is the result of the previous function call, `initial` for the first call.
+- `previousValue` — 是前一个函数调用的结果，第一次调用是初始化。
 
-The easiest way to grasp that is by example.
+我们写个例子试试。
 
-Here we get a sum of array in one line:
+这里我们得到一行数组的总和：
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -527,19 +527,19 @@ let result = arr.reduce((sum, current) => sum + current, 0);
 alert(result); // 15
 ```
 
-Here we used the most common variant of `reduce` which uses only 2 arguments.
+在这里，我们使用了 `reduce` 的最常见类型，它只使用 2 个参数。
 
-Let's see the details of what's going on.
+让我们看看发生了什么的细节。
 
-1. On the first run, `sum` is the initial value (the last argument of `reduce`), equals `0`, and `current` is the first array element, equals `1`. So the result is `1`.
-2. On the second run, `sum = 1`, we add the second array element (`2`) to it and return.
-3. On the 3rd run, `sum = 3` and we add one more element to it, and so on...
+1. 在第一次运行时，`sum` 是初始值（`reduce` 的最后一个参数），等于 0，`current` 是第一个数组元素，等于 1。所以结果是 `1`。
+2. 在第二次运行时，`sum = 1`，我们添加第二个数组元素（`2`）并返回。
+3. 在第三次运行中，`sum = 3`，我们再添加一个元素，等等......
 
-The calculation flow:
+计算流程：
 
 ![](reduce.png)
 
-Or in the form of a table, where each row represents is a function call on the next array element:
+或者以表格的形式出现，每行代表的是下一个数组元素的函数调用：
 
 |   |`sum`|`current`|`result`|
 |---|-----|---------|---------|
@@ -550,60 +550,60 @@ Or in the form of a table, where each row represents is a function call on the n
 |the fifth call|`10`|`5`|`15`|
 
 
-As we can see, the result of the previous call becomes the first argument of the next one.
+正如我们所看到的，先前调用的结果成为下一个调用的第一个参数。
 
-We also can omit the initial value:
+我们也可以省略初始值：
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
 
-// removed initial value from reduce (no 0)
+// 删除初始值
 let result = arr.reduce((sum, current) => sum + current);
 
 alert( result ); // 15
 ```
 
-The result is the same. That's because if there's no initial, then `reduce` takes the first element of the array as the initial value and starts the iteration from the 2nd element.
+结果是一样的。这是因为如果没有初始值，那么 `reduce` 将数组的第一个元素作为初始值，并从第二个元素开始迭代。
 
-The calculation table is the same as above, minus the first row.
+计算表与上面相同，减去第一行
 
-But such use requires an extreme care. If the array is empty, then `reduce` call without initial value gives an error.
+但是这种使用需要非常小心。如果数组为空，那么在没有初始值的情况下调用 `reduce` 会导致错误。
 
-Here's an example:
+例如：
 
 ```js run
 let arr = [];
 
 // Error: Reduce of empty array with no initial value
-// if the initial value existed, reduce would return it for the empty arr.
+// 如果初始值存在，reduce 将返回空 arr。
 arr.reduce((sum, current) => sum + current);
 ```
 
 
-So it's advised to always specify the initial value.
+所以建议始终指定初始值。
 
-The method [arr.reduceRight](mdn:js/Array/reduceRight) does the same, but goes from right to left.
+[arr.reduceRight](mdn:js/Array/reduceRight) 也一样，但是遍历是从右到左。
 
 
-## Iterate: forEach
+## 迭代：forEach
 
-The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+[arr.forEach](mdn:js/Array/forEach) 方法允许为数组的每个元素运行一个函数。
 
-The syntax:
+语法：
 ```js
 arr.forEach(function(item, index, array) {
   // ... do something with item
 });
 ```
 
-For instance, this shows each element of the array:
+例如，这显示了数组的每个元素：
 
 ```js run
-// for each element call alert
+// 为每个元素调用 alert
 ["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
 ```
 
-And this code is more elaborate about their positions in the target array:
+而这段代码更详细地介绍了它们在数组中的位置
 
 ```js run
 ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
@@ -611,20 +611,20 @@ And this code is more elaborate about their positions in the target array:
 });
 ```
 
-The result of the function (if it returns any) is thrown away and ignored.
+该函数的结果（如果它返回的话）被抛弃并被忽略。
 
 ## Array.isArray
 
-Arrays do not form a separate language type. They are based on objects.
+数组基于对象。不构成单独的语言类型。
 
-So `typeof` does not help to distinguish a plain object from an array:
+所以 `typeof` 无法从对象中区分出数组来：
 
 ```js run
 alert(typeof {}); // object
 alert(typeof []); // same
 ```
 
-...But arrays are used so often that there's a special method for that: [Array.isArray(value)](mdn:js/Array/isArray). It returns `true` if the `value` is an array, and `false` otherwise.
+......但是数组经常被使用，以至于有一种特殊的方法用于判断：[Array.isArray(value)](mdn:js/Array/isArray)。如果 `value` 是一个数组，则返回 `true`；否则返回 `false`。
 
 ```js run
 alert(Array.isArray({})); // false
@@ -632,25 +632,25 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
-## Most methods support "thisArg"
+## 大多数方法支持 "thisArg"
 
-Almost all array methods that call functions -- like `find`, `filter`, `map`, with a notable exception of `sort`, accept an optional additional parameter `thisArg`.
+几乎所有调用函数的数组方法 - 比如 `find`，`filter`，`map`，与带有 `sort` 的不同，他们接受一个可选的附加参数 `thisArg`。
 
-That parameter is not explained in the sections above, because it's rarely used. But for completeness we have to cover it.
+该参数在上面的部分没有解释，因为它很少使用。但为了完整性，我们还需要解释下。
 
-Here's the full syntax of these methods:
+以下是这些方法的完整语法：
 
 ```js
 arr.find(func, thisArg);
 arr.filter(func, thisArg);
 arr.map(func, thisArg);
 // ...
-// thisArg is the optional last argument
+// thisArg 是可选的最后一个参数
 ```
 
-The value of `thisArg` parameter becomes `this` for `func`.
+`thisArg` 参数的值在 `func` 中变为 `this`。
 
-For instance, here we use an object method as a filter and `thisArg` comes in handy:
+例如，在这里我们使用一个对象方法作为过滤器，`thisArg` 派上用场：
 
 ```js run
 let user = {
@@ -667,63 +667,63 @@ let users = [
 ];
 
 *!*
-// find all users younger than user
+// 找到比 users 小的所有 user
 let youngerUsers = users.filter(user.younger, user);
 */!*
 
 alert(youngerUsers.length); // 2
 ```
 
-In the call above, we use `user.younger` as a filter and also provide `user` as the context for it. If we didn't provide the context, `users.filter(user.younger)` would call `user.younger` as a standalone function, with `this=undefined`. That would mean an instant error.
+在上面我们使用 `user.younger` 作为过滤器，并提供 `user` 作为它的上下文。如果我们没有提供上下文，`users.filter(user.younger)` 会调用`user.younger` 作为一个独立的函数，这时 `this=undefined`。
 
-## Summary
+## 总结
 
-A cheatsheet of array methods:
+数组方法备忘录：
 
-- To add/remove elements:
-  - `push(...items)` -- adds items to the end,
-  - `pop()` -- extracts an item from the end,
-  - `shift()` -- extracts an item from the beginning,
-  - `unshift(...items)` -- adds items to the beginning.
-  - `splice(pos, deleteCount, ...items)` -- at index `pos` delete `deleteCount` elements and insert `items`.
-  - `slice(start, end)` -- creates a new array, copies elements from position `start` till `end` (not inclusive) into it.
-  - `concat(...items)` -- returns a new array: copies all members of the current one and adds `items` to it. If any of `items` is an array, then its elements are taken.
+- 添加/删除元素：
+  - `push(...items)` — 从结尾添加元素，
+  - `pop()` — 从结尾提取元素，
+  - `shift()` — 从开头提取元素，
+  - `unshift(...items)` — 从开头添加元素，
+  - `splice(pos, deleteCount, ...items)` — 从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入元素。
+  - `slice(start, end)` — 它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。
+  - `concat(...items)` — 返回一个新数组：复制当前数组的所有成员并向其中添加 `items`。如果有任何` items` 是一个数组，那么就取其元素。
 
-- To search among elements:
-  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
-  - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
-  - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
-  - `findIndex` is like `find`, but returns the index instead of a value.
+- 查询元素：
+  - `indexOf/lastIndexOf(item, pos)` —  从 `pos` 找到 `item`，则返回索引否则返回 `-1`。
+  - `includes(value)` — 如果数组有 `value`，则返回 `true`，否则返回 `false`。
+  - `find/filter(func)` — 通过函数过滤元素，返回 `true` 条件的符合 find 函数的第一个值或符合 filter 函数的全部值。 
+  - `findIndex` 和 `find` 类似，但返回索引而不是值。
 
-- To transform the array:
-  - `map(func)` -- creates a new array from results of calling `func` for every element.
-  - `sort(func)` -- sorts the array in-place, then returns it.
-  - `reverse()` -- reverses the array in-place, then returns it.
-  - `split/join` -- convert a string to array and back.
-  - `reduce(func, initial)` -- calculate a single value over the array by calling `func` for each element and passing an intermediate result between the calls.
+- 转换数组：
+  - `map(func)` — 从每个元素调用 `func` 的结果创建一个新数组。
+  - `sort(func)` — 将数组倒序排列，然后返回。
+  - `reverse()` — 在原地颠倒数组，然后返回它。
+  - `split/join` — 将字符串转换为数组并返回。
+  - `reduce(func, initial)` — 通过为每个元素调用 `func` 计算数组上的单个值并在调用之间传递中间结果。
 
-- To iterate over elements:
-  - `forEach(func)` -- calls `func` for every element, does not return anything.
+- 迭代元素：
+  - `forEach(func)` — 为每个元素调用 `func`，不返回任何东西。
 
-- Additionally:
-  - `Array.isArray(arr)` checks `arr` for being an array.
+- 其他：
+  - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
 
-Please note that methods `sort`, `reverse` and `splice` modify the array itself.
+请注意，`sort`，`reverse` 和 `splice` 方法修改数组本身。
 
-These methods are the most used ones, they cover 99% of use cases. But there are few others:
+这些方法是最常用的方法，它们覆盖 99％ 的用例。但是还有其他几个：
 
-- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) checks the array.
+- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) 检查数组。
 
-  The function `fn` is called on each element of the array similar to `map`. If any/all results are `true`, returns `true`, otherwise `false`.
+  在类似于 `map` 的数组的每个元素上调用函数 `fn`。如果任何/所有结果为 `true`，则返回 `true`，否则返回 `false`。
 
-- [arr.fill(value, start, end)](mdn:js/Array/fill) -- fills the array with repeating `value` from index `start` to `end`.
+- [arr.fill(value, start, end)](mdn:js/Array/fill) — 从 `start` 到 `end` 用 `value` 重复填充数组。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) — copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).将其元素从 `start` 到 `end` 在 `target` 位置复制到 **本身**（覆盖现有）。
 
-For the full list, see the [manual](mdn:js/Array).
+有关完整列表，请参阅[手册](mdn:js/Array)。
 
-From the first sight it may seem that there are so many methods, quite difficult to remember. But actually that's much easier than it seems.
+从第一眼看来，似乎有很多方法，很难记住。但实际上这比看起来要容易得多。
 
-Look through the cheatsheet just to be aware of them. Then solve the tasks of this chapter to practice, so that you have experience with array methods.
+为了您有数组方法的经验，请仔细查看备忘单了解它们。然后解决本章的任务练习。
 
-Afterwards whenever you need to do something with an array, and you don't know how -- come here, look at the cheatsheet and find the right method. Examples will help you to write it correctly. Soon you'll automatically remember the methods, without specific efforts from your side.
+以后，当你需要对某个数组操作，而无从下手 — 可以来到这，查看备忘录并找到正确的方法。示例将帮助您正确编写它。很快你会自动记住这些方法，而无需你额外的努力。

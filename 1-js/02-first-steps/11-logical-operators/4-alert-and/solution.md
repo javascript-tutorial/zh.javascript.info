@@ -1,10 +1,10 @@
-The answer: `1`, and then `undefined`.
+答案：`1`，然后 `undefined`。
 
 ```js run
 alert( alert(1) && alert(2) );
 ```
 
-The call to `alert` returns `undefined` (it just shows a message, so there's no meaningful return).
+调用 `alert` 返回了 `undefined`（它只展示消息，所以没有有意义的返回值）。
 
-Because of that, `&&` evaluates the left operand (outputs `1`), and immediately stops, because `undefined` is a falsy value. And `&&` looks for a falsy value and returns it, so it's done.
+因此，`&&` 计算了它左边的操作数（显示 `1`），然后立即停止了，因为 `undefined` 是一个假值。并且 `&&` 就是寻找假值然后返回它，所以运算结束。
 

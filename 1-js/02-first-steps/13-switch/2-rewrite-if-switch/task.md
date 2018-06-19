@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Rewrite "if" into "switch"
+# "if" 重构为 "switch" 结构
 
-Rewrite the code below using a single `switch` statement:
+用 `switch` 重写以下代码：
 
 ```js run
 let a = +prompt('a?', '');

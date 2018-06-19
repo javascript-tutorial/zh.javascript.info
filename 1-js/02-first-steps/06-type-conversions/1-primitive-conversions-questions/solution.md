@@ -16,7 +16,7 @@ null + 1 = 1 // (3)
 undefined + 1 = NaN // (4)
 ```
 
-1. The addition with a string `"" + 1` converts `1` to a string: `"" + 1 = "1"`, and then we have `"1" + 0`, the same rule is applied.
-2. The subtraction `-` (like most math operations) only works with numbers, it converts an empty string `""` to `0`.
-3. `null` becomes `0` after the numeric conversion.
-4. `undefined` becomes `NaN` after the numeric conversion.
+1. 字符串的加法 `"" + 1` 会将 `1` 转换为一个字符串：`"" + 1 = "1"`，然后我们得到了 `"1" + 0`，再次应用同样的规则。
+2. 减法 `-` （就像大多数数学操作那样）只能用于数字，它会将空字符串 `""` 转换为 `0`。
+3. `null` 经过数字化转换之后会变为 `0`。
+4. `undefined` 经过数字化转换之后会变为 `NaN`。

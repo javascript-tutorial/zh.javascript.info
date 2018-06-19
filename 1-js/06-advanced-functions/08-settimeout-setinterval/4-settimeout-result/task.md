@@ -2,25 +2,25 @@ importance: 5
 
 ---
 
-# What will setTimeout show?
+# setTimeout 会显示什么？
 
-In the code below there's a `setTimeout` call scheduled, then a heavy calculation is run, that takes more than 100ms to finish.
+下面代码中安排了一个 `setTimeout` 的调用，然后运行一个耗时的计算过程，且耗时超过 100 毫秒。
 
-When will the scheduled function run?
+被调度的函数会在何时运行？
 
-1. After the loop.
-2. Before the loop.
-3. In the beginning of the loop.
+1. 循环执行后。
+2. 循环执行前。
+3. 循环开始时。
 
 
-What is `alert` going to show?
+`alert` 会在何时出现？
 
 ```js
 let i = 0;
 
 setTimeout(() => alert(i), 100); // ?
 
-// assume that the time to execute this function is >100ms
+// 假设这段代码运行时间超过 100 毫秒
 for(let j = 0; j < 100000000; j++) {
   i++; 
 }

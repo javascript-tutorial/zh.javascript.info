@@ -1,5 +1,4 @@
-Please note the subtle, but important detail of the solution. We don't convert `value` to number instantly after `prompt`, because after `value = +value` we would not be able to tell an empty string (stop sign) from the zero (valid number). We do it later instead.
-
+请注意一些微妙的但是很重要的处理细节。我们没有在 `prompt` 输入后立即把 `value` 转换成数字，因为在执行 `value = +value` 之后，就没办法区分出空字符串（中断标志）和数字 0（合法输入）了，所以要放到后面再处理。
 
 ```js run demo
 function sumInput() {
@@ -10,7 +9,7 @@ function sumInput() {
 
     let value = prompt("A number please?", 0);
 
-    // should we cancel?
+    // 应该结束吗?
     if (value === "" || value === null || !isFinite(value)) break;
 
     numbers.push(+value);

@@ -1,33 +1,32 @@
-Internally the decimal fraction `6.35` is an endless binary. As always in such cases, it is stored with a precision loss.
+在 `6.35` 内部，小数部分是一个无限的二进制。在这种情况下，它存储的时候有一个精度的缺失。
 
-Let's see:
+让我们来看看：
 
 ```js run
 alert( 6.35.toFixed(20) ); // 6.34999999999999964473
 ```
 
-The precision loss can cause both increase and decrease of a number. In this particular case the number becomes a tiny bit less, that's why it rounded down.
+精度缺失可能会导致数字的增加和减小。在这种特殊情况下，数字可能会变小了一点，这就是为什么它减小了。
 
-And what's for `1.35`?
+那么 `1.35` 是怎样样的呢？
 
 ```js run
 alert( 1.35.toFixed(20) ); // 1.35000000000000008882
 ```
 
-Here the precision loss made the number a little bit greater, so it rounded up.
+在这里，精度缺失使得这个数字更大一些，所以这个数字变大了一些。
 
-**How can we fix the problem with `6.35` if we want it to be rounded the right way?**
+**如果我们希望以正确的方式四舍五入，我们如何使用 `6.35` 为例来解决这个问题？**
 
-We should bring it closer to an integer prior to rounding:
+在四舍五入之前，我们应该把它接近整数：
 
 ```js run
 alert( (6.35 * 10).toFixed(20) ); // 63.50000000000000000000
 ```
 
-Note that `63.5` has no precision loss at all. That's because the decimal part `0.5` is actually `1/2`. Fractions divided by powers of `2` are exactly represented in the binary system, now we can round it:
+请注意 `63.5` 完全没有精度缺失。这是因为小数部分 `0.5` 实际上是 `1 / 2`。除以2的幂的分数在二进制系统中被精确地表示，现在我们可以围绕它来解决问题：
 
 
 ```js run
 alert( Math.round(6.35 * 10) / 10); // 6.35 -> 63.5 -> 64(rounded) -> 6.4
 ```
-

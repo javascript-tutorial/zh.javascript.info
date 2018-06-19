@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Truncate the text
+# 缩短文本
 
-Create a function `truncate(str, maxlength)` that checks the length of the `str` and, if it exceeds `maxlength` -- replaces the end of `str` with the ellipsis character `"…"`, to make its length equal to `maxlength`.
+创建函数 `truncate(str, maxlength)` 来检查 `str` 的长度，如果超过 `maxlength`—— 应使用 `"…"` 来代替 `str` 的皆为部分，长度仍然等于 `maxlength`。
 
-The result of the function should be the truncated (if needed) string.
+函数的结果应该是缩短的文本（如果有需要的话）。
 
-For instance:
+例如：
 
 ```js
 truncate("What I'd like to tell on this topic is:", 20) = "What I'd like to te…"

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Show an alert
+# 显示一个提示语
 
-Create a page that shows a message "I'm JavaScript!".
+创建一个页面，然后显示一个消息 “I'm JavaScript!”。
 
-Do it in a sandbox, or on your hard drive, doesn't matter, just ensure that it works.
+在沙箱中或者在你的硬盘上做这件事都无所谓，只要确保它有效。
 
 [demo src="solution"]
 

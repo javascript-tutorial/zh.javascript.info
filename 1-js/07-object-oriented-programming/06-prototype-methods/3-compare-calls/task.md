@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The difference beteeen calls
+# 调用方式的差异
 
-Let's create a new `rabbit` object:
+让我们创建一个新的 `rabbit` 对象：
 
 ```js
 function Rabbit(name) {
@@ -17,7 +17,7 @@ Rabbit.prototype.sayHi = function() {
 let rabbit = new Rabbit("Rabbit");
 ```
 
-These calls do the same thing or not?
+以下调用得到的结果是否相同？
 
 ```js
 rabbit.sayHi();

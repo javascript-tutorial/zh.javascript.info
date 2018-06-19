@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Working with variables
+# 使用变量
 
-1. Declare two variables: `admin` and `name`.
-2. Assign the value `"John"` to `name`.
-3. Copy the value from `name` to `admin`.
-4. Show the value of `admin` using `alert` (must output "John").
+1. 声明两个变量：`admin` 和 `name`。
+2. 将值 `"John"` 赋给 `name`。
+3. 从 `name` 变量中拷贝其值给 `admin`。
+4. 使用 `alert` 显示 `admin` 的值（一定会输出 "John"）。

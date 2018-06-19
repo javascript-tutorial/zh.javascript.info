@@ -1,17 +1,17 @@
 # Hello, world!
 
-The tutorial that you're reading is about core JavaScript, which is platform-independent. Further on, you will learn Node.JS and other platforms that use it.
+你现在所阅读的这个教程是 JavaScript 的核心内容，这部分内容是平台无关的。接下来，你将会学习 Node.js 以及使用 Node.js 的其他平台。
 
-But, we need a working environment to run our scripts, and, just because this book is online, the browser is a good choice. We'll keep the amount of browser-specific commands (like `alert`) to a minimum, so that you don't spend time on them if you plan to concentrate on another environment like Node.JS. On the other hand, browser details are explained in detail in the [next part](/ui) of the tutorial.
+但是，我们需要一个工作环境来运行代码，由于本书是在线的，所以浏览器是一个不错的选择。我们会尽可能少地使用浏览器特定的命令（比如 `alert` ），所以如果你打算使用如 Node.js 的其他环境，你不必多花时间来关心这些特定指令。另一方面，浏览器的具体细节我们会在教程的[下一部分](/ui)介绍。
 
-So first, let's see how to attach a script to a webpage. For server-side environments, you can just execute it with a command like `"node my.js"` for Node.JS.
+首先，让我们看看如何将脚本添加到网页上。对于服务器端环境，你只需要使用诸如 `"node my.js"` 的 Node.js 的命令行来执行它。
 
 
-## The "script" tag
+## "script" 标签
 
-JavaScript programs can be inserted in any part of an HTML document with the help of the `<script>` tag.
+JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 
-For instance:
+比如：
 
 ```html run height=100
 <!DOCTYPE HTML>
@@ -19,7 +19,7 @@ For instance:
 
 <body>
 
-  <p>Before the script...</p>
+  <p>script 标签之前...</p>
 
 *!*
   <script>
@@ -27,7 +27,7 @@ For instance:
   </script>
 */!*
 
-  <p>...After the script.</p>
+  <p>...script 标签之后</p>
 
 </body>
 
@@ -35,25 +35,25 @@ For instance:
 ```
 
 ```online
-You can run the example by clicking on the "Play" button in its right-top corner.
+你可以通过点击右上角的“播放”按钮来运行这个例子。
 ```
 
-The `<script>` tag contains JavaScript code which is automatically executed when the browser meets the tag.
+`<script>` 标签中包裹了 JavaScript 代码，当浏览器遇到 `<script>` 标签，代码会自动运行。
 
 
-## The modern markup
+## 现代的标记
 
-The `<script>` tag has a few attributes that are rarely used nowadays, but we can find them in old code:
+ `<script>` 标签有一些现在很少用到的属性，但是我们可以在老代码中找到它们：
 
- The `type` attribute: <code>&lt;script <u>type</u>=...&gt;</code>
+`type` 属性: <code>&lt;script <u>type</u>=...&gt;</code>
 
- : The old standard HTML4 required a script to have a type. Usually it was `type="text/javascript"`. The modern HTML standard assumes this `type` by default. No attribute is required.
+ : 在老的 HTML4 标准中，`<script>` 标签有 type 属性。通常是 `type="text/javascript"` 。 现在的 HTML 标准已经默认存在该 `type` 属性。该属性不是必须的。
 
- The `language` attribute: <code>&lt;script <u>language</u>=...&gt;</code>
-  : This attribute was meant to show the language of the script. As of now, this attribute makes no sense, the language is JavaScript by default. No need to use it.
+`language` 属性: <code>&lt;script <u>language</u>=...&gt;</code>
+: 这个属性是为了显示脚本使用的语言。就目前而言，这个属性没有任何意义，语言默认为 JavaScript。不再需要使用它了。
 
-Comments before and after scripts.
-: In really ancient books and guides, one may find comments inside `<script>`, like this:
+脚本前后的注释。
+: 在非常古老的书籍和指南中， 可能会在 `<script>` 标签里面找到注释，就像这样：
 
     ```html no-beautify
     <script type="text/javascript"><!--
@@ -61,30 +61,30 @@ Comments before and after scripts.
     //--></script>
     ```
 
-    These comments were supposed to hide the code from an old browser that didn't know about a `<script>` tag. But all browsers born in the past 15+ years don't have any issues. We mention it here, because such comments serve as a sign. If you see that somewhere -- that code is probably really old and not worth looking into.
+    这些注释是给不支持 <script> 标签的古老浏览器用来隐藏代码的。但是所有在过去的 15+ 年中诞生的浏览器都没有任何问题。只是因为它作为一个标志，所以我们在这里提到。如果你在某个地方看到了它，那么这些代码可能非常古老，也不值得我们去研究。
 
 
-## External scripts
+## 外部脚本
 
-If we have a lot of JavaScript code, we can put it into a separate file.
+如果你有大量的 JavaScript 代码，我们可以将它放入一个单独的文件。
 
-The script file is attached to HTML with the `src` attribute:
+脚本文件可以通过 `src` 属性添加到 HTML 文件中。
 
 ```html
 <script src="/path/to/script.js"></script>
 ```
 
-Here `/path/to/script.js` is an absolute path to the file with the script (from the site root).
+这里 ，`/path/to/script.js` 是脚本文件的绝对路径（从站点根目录开始）。
 
-It is also possible to provide a path relative to the current page. For instance, `src="script.js"` would mean a file `"script.js"` in the current folder.
+也可以提供相对于当前页面的相对路径。比如，`src="script.js"` 意思是来自当前文件夹的 `"script.js"` 文件。
 
-We can give a full URL as well, for instance:
+我们还可以提供一个完整的 URL 地址，例如：
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
 ```
 
-To attach several scripts, use multiple tags:
+附加多个脚本，使用多个标签：
 
 ```html
 <script src="/js/script1.js"></script>
@@ -93,19 +93,19 @@ To attach several scripts, use multiple tags:
 ```
 
 ```smart
-As a rule, only the simplest scripts are put into HTML. More complex ones reside in separate files.
+一般来说，只有最简单的脚本才嵌入到 HTML。 更复杂的脚本存放在单独的文件中。
 
-The benefit of a separate file is that the browser will download it and then store in its [cache](https://en.wikipedia.org/wiki/Web_cache).
+使用独立文件的好处是浏览器会下载它，然后将它保存到浏览器的[缓存](https://en.wikipedia.org/wiki/Web_cache)中。
 
-After this, other pages that want the same script will take it from the cache instead of downloading it. So the file is actually downloaded only once.
+之后，其他页面想要相同的脚本就会从缓存中获取，而不是下载它。所以文件实际上只会下载一次。
 
-That saves traffic and makes pages faster.
+这可以节省流量，并使得页面更快。
 ```
 
-````warn header="If `src` is set, the script content is ignored."
-A single `<script>` tag can't have both the `src` attribute and the code inside.
+````warn header="如果设置了 `src`属性，`script` 标签内容将会忽略。"
+单独的一个 <script> 标签不能同时有 src 属性以及内部包裹代码。
 
-This won't work:
+这将不会工作：
 
 ```html
 <script *!*src*/!*="file.js">
@@ -113,9 +113,9 @@ This won't work:
 </script>
 ```
 
-We must choose: either it's an external `<script src="…">` or a regular `<script>` with code.
+我们必须选择，要么外部的 `<script src="…">`，要么正常包裹代码的 `<script>`。
 
-The example above can be split into two scripts to work:
+为了让上面的例子工作，我们将它分成两个 `<script>`标签。
 
 ```html
 <script src="file.js"></script>
@@ -125,11 +125,11 @@ The example above can be split into two scripts to work:
 ```
 ````
 
-## Summary
+## 总结
 
-- We can use a `<script>` tag to add JavaScript code to the page.
-- The `type` and `language` attributes are not required.
-- A script in an external file can be inserted with `<script src="path/to/script.js"></script>`.
+- 我们可以使用一个 `<script>` 标签将 JavaScript 代码添加到页面中。
+- `type` 和 `language` 属性不是必需的。
+- 外部的脚本可以通过 `<script src="path/to/script.js"></script>` 这种方式插入。
 
 
-There is much more to learn about browser scripts and their interaction with the web-page. But let's keep in mind that this part of the tutorial is devoted to the JavaScript language, so we shouldn't distract ourselves from it. We'll be using a browser as a way to run JavaScript, which is very convenient for online reading, but yet one of many.
+有关浏览器脚本以及它们和网页的关系，还有很多可学的。但是请记住，这部分教程主要是针对 JavaScript 语言的，所以我们不该分散自己的注意力。我们使用浏览器作为运行 JavaScript 的一种方式，非常便于我们在线阅读。

@@ -1,10 +1,10 @@
-# JSON methods, toJSON
+# JSON 方法，toJSON
 
-Let's say we have a complex object, and we'd like to convert it into a string, to send it over a network, or just to output it for logging purposes.
+假设我们有一个复杂的对象，我们希望将其转换为字符串，通过网络发送，或者只是为了日志输出它。
 
-Naturally, such a string should include all important properties.
+当然，这样的字符串应该包含所有重要的属性。
 
-We could implement the conversion like this:
+我们可以像这样实现转换：
 
 ```js run
 let user = {
@@ -21,20 +21,20 @@ let user = {
 alert(user); // {name: "John", age: 30}
 ```
 
-...But in the process of development, new properties are added, old properties are renamed and removed. Updating such `toString` every time can become a pain. We could try to loop over properties in it, but what if the object is complex and has nested objects in properties? We'd need to implement their conversion as well. And, if we're sending the object over a network, then we also need to supply the code to "read" our object on the receiving side.
+...但在开发过程中，新增了一些属性，旧的属性被重命名并删除。每次更新这种 `toString` 都会变得很痛苦。我们可以尝试遍历其中的属性，但是如果对象很复杂，并且在属性中嵌套对象呢？我们也需要对它们进行转换。如，如果我们通过网络发送对象，那么我们还需要提供代码来在接收端“读取”我们的对象。
 
-Luckily, there's no need to write the code to handle all this. The task has been solved already.
+幸运的是，不需要编写代码来处理所有这些。这项任务已经解决了。
 
 ## JSON.stringify
 
-The [JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) is a general format to represent values and objects. It is described as in [RFC 4627](http://tools.ietf.org/html/rfc4627) standard. Initially it was made for JavaScript, but many other languages have libraries to handle it as well.  So it's easy to use JSON for data exchange when the client uses JavaScript and the server is written on Ruby/PHP/Java/Whatever.
+[JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) 是表示值和对象的通用格式。它被描述为 [RFC 4627](http://tools.ietf.org/html/rfc4627) 标准。最初它是为 JavaScript 编写的，但许多其他语言也有库来处理它。因此，当客户端使用 JavaScript 而服务器使用 Ruby/PHP/Java/Whatever 编写时，使用 JSON 进行数据交换非常容易。
 
-JavaScript provides methods:
+JavaScript 提供方法：
 
-- `JSON.stringify` to convert objects into JSON.
-- `JSON.parse` to convert JSON back into an object.
+- `JSON.stringify` 将对象转换为 JSON。
+- `JSON.parse` 将 JSON 转换回对象。
 
-For instance, here we `JSON.stringify` a student:
+例如，在这里我们 `JSON.stringify` 一名学生：
 ```js run
 let student = {
   name: 'John',
@@ -64,19 +64,19 @@ alert(json);
 */!*
 ```
 
-The method `JSON.stringify(student)` takes the object and converts it into a string.
+方法 `JSON.stringify(student)` 接受对象并将其转换为一个字符串。
 
-The resulting `json` string is a called *JSON-encoded* or *serialized* or *stringified* or *marshalled* object. We are ready to send it over the wire or put into plain data store.
+得到的 `json` 字符串是一个被称为 **JSON 编码**或者**序列化**或者**字符串化**或者**编组**的对象。我们准备好通过网线传输或存储。
 
 
-Please note that JSON-encoded object has several important differences from the object literal:
+请注意，JSON 编码的对象与对象字面量有几个重要的区别：
 
-- Strings use double quotes. No single quotes or backticks in JSON. So `'John'` becomes `"John"`.
-- Object property names are double-quoted also. That's obligatory. So `age:30` becomes `"age":30`.
+- 字符串使用双引号。JSON 中没有单引号或反引号。所以 `'John'` 转成 `"John"`。
+- 对象属性名称也是双引号的。这是强制性的。所以 `age:30` 转成 `"age":30`。
 
-`JSON.stringify` can be applied to primitives as well.
+`JSON.stringify` 也可以应用于基本类型。
 
-Natively supported JSON types are:
+原生支持的 JSON 类型是：
 
 - Objects `{ ... }`
 - Arrays `[ ... ]`
@@ -86,7 +86,7 @@ Natively supported JSON types are:
     - boolean values `true/false`,
     - `null`.
 
-For instance:
+例如：
 
 ```js run
 // a number in JSON is just a number
@@ -100,13 +100,13 @@ alert( JSON.stringify(true) ); // true
 alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
 ```
 
-JSON is data-only cross-language specification, so some JavaScript-specific object properties are skipped by `JSON.stringify`.
+JSON 是跨语言的纯数据规范，因此一些特定于 JavaScript 的对象属性被 `JSON.stringify` 跳过。
 
-Namely:
+如：
 
-- Function properties (methods).
-- Symbolic properties.
-- Properties that store `undefined`.
+- 函数属性（方法）。
+- Symbolic 属性。
+- 存储 `undefined` 的属性。
 
 ```js run
 let user = {
@@ -120,11 +120,11 @@ let user = {
 alert( JSON.stringify(user) ); // {} (empty object)
 ```
 
-Usually that's fine. If that's not what we want, then soon we'll see how to customize the process.
+通常这很好。但有时候这也不是我们想要的，很快就会看到如何定制转换。
 
-The great thing is that nested objects are supported and converted automatically.
+最棒的是嵌套对象可以自动支持和转换。
 
-For instance:
+例如：
 
 ```js run
 let meetup = {
@@ -146,9 +146,9 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-The important limitation: there must be no circular references.
+重要的限制：不得有循环引用。
 
-For instance:
+例如：
 
 ```js run
 let room = {
@@ -168,33 +168,33 @@ JSON.stringify(meetup); // Error: Converting circular structure to JSON
 */!*
 ```
 
-Here, the conversion fails, because of circular reference: `room.occupiedBy` references `meetup`, and `meetup.place` references `room`:
+在这里，转换失败，因为循环引用：`room.occupiedBy` 引用 `meetup`，`meetup.place` 引用 `room`：
 
 ![](json-meetup.png)
 
 
-## Excluding and transforming: replacer
+## 排除和替换：replacer
 
-The full syntax of `JSON.stringify` is:
+`JSON.stringify` 完整语法是：
 
 ```js
 let json = JSON.stringify(value[, replacer, space])
 ```
 
 value
-: A value to encode.
+: 要编码的值。
 
 replacer
-: Array of properties to encode or a mapping function `function(key, value)`.
+: 要编码的属性数组或映射函数 `function(key, value)`。
 
 space
-: Amount of space to use for formatting
+: 文本添加缩进、空格和换行符
 
-Most of time, `JSON.stringify` is used with first argument only. But if we need to fine-tune the replacement process, like to filter out circular references, we can use the second argument of `JSON.stringify`.
+大部分情况，`JSON.stringify` 仅与第一个参数一起使用。但是，如果我们需要微调替换过程，比如过滤掉循环引用，我们可以使用 `JSON.stringify` 的第二个参数。
 
-If we pass an array of properties to it, only these properties will be encoded.
+如果我们传递一组属性给它，只有这一组属性会被编码
 
-For instance:
+例如：
 
 ```js run
 let room = {
@@ -213,9 +213,9 @@ alert( JSON.stringify(meetup, *!*['title', 'participants']*/!*) );
 // {"title":"Conference","participants":[{},{}]}
 ```
 
-Here we are probably too strict. The property list is applied to the whole object structure. So participants are empty, because `name` is not in the list.
+这里我们可能过于严格了。属性列表应用于整个对象结构。所以 participants 是空的，因为 `name` 不在列表中。
 
-Let's include every property except `room.occupiedBy` that would cause the circular reference:
+让我们包含除了会导致循环引用的 `room.occupiedBy` 之外的所有属性：
 
 ```js run
 let room = {
@@ -240,13 +240,13 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 */
 ```
 
-Now everything except `occupiedBy` is serialized. But the list of properties is quite long.
+现在，除 `occupiedBy` 之外的所有内容都会被序列化。但是 participants 的列表相当长。
 
-Fortunately, we can use a function instead of an array as the `replacer`.
+幸运的是，我们也可以使用一个函数作为 `replacer`。
 
-The function will be called for every `(key,value)` pair and should return the "replaced" value, which will be used instead of the original one.
+该函数将调用每个 `(key,value)` 对，并且返回 “replacement” 值，它将被用来代替原来的值。
 
-In our case, we can return `value` "as is" for everything except `occupiedBy`. To ignore `occupiedBy`, the code below returns `undefined`:
+在我们的例子中，除 `occupiedBy` 外我们都可以按照原样返回 `value`。要忽略 `occupiedBy`，下面的代码返回 `undefined`：
 
 ```js run
 let room = {
@@ -279,20 +279,20 @@ number:       23
 */
 ```
 
-Please note that `replacer` function gets every key/value pair including nested objects and array items. It is applied recursively. The value of `this` inside `replacer` is the object that contains the current property.
+请注意 `replacer` 函数获取包括嵌套对象和数组项的每个键/值对。它被递归地应用。`replacer` 里面 `this` 的值是包含当前属性的对象。
 
-The first call is special. It is made using a special "wrapper object": `{"": meetup}`. In other words, the first `(key,value)` pair has an empty key, and the value is the target object as a whole. That's why the first line is `":[object Object]"` in the example above.
+第一个调用很特别。它是使用特殊的“包装对象”制作的： `{"": meetup}`。换句话说，第一个 `(key,value)` 对是空键，并且该值是整个目标对象。这就是为什么上面的例子中第一行是 `":[object Object]"` 的原因。
 
-The idea is to provide as much power for `replacer` as possible: it has a chance to analyze and replace/skip the whole object if necessary.
+基于这个理念为 `replacer` 提供了更强大的功能：如有必要，它有机会分析和替换/跳过整个对象。
 
 
-## Formatting: spacer
+## 格式化：spacer
 
-The third argument of `JSON.stringify(value, replacer, spaces)` is the number of spaces to use for pretty formatting.
+`JSON.stringify(value, replacer, spaces)` 的第三个参数是用于优化格式的空格数量。
 
-Previously, all stringified objects had no indents and extra spaces. That's fine if we want to send an object over a network. The `spacer` argument is used exclusively for a nice output.
+以前，所有字符串化的对象都没有缩进和额外的空格。现在，如果我们想通过网络发送一个对象。`spacer` 参数可以更好的输出。
 
-Here `spacer = 2` tells JavaScript to show nested objects on multiple lines, with indentation of 2 spaces inside an object:
+这里 `spacer = 2` 告诉 JavaScript 在多行上显示嵌套对象，并在对象中缩进2个空格：
 
 ```js run
 let user = {
@@ -328,13 +328,13 @@ alert(JSON.stringify(user, null, 2));
 */
 ```
 
-The `spaces` parameter is used solely for logging and nice-output purposes.
+`spaces` 参数仅用于记录和输出。
 
-## Custom "toJSON"
+## 定制 "toJSON"
 
-Like `toString` for a string conversion, an object may provide method `toJSON` for to-JSON conversion. `JSON.stringify` automatically calls it if available.
+像 `toString` 进行字符串转换，对象可以提供 `toJSON` 方法来进行 JSON 转换。如果可用，`JSON.stringify` 会自动调用它。
 
-For instance:
+例如：
 
 ```js run
 let room = {
@@ -359,9 +359,9 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-Here we can see that `date` `(1)` became a string. That's because all dates have a built-in `toJSON` method which returns such kind of string.
+在这里我们可以看到 `date` `(1)` 变成了一个字符串。这是因为所有日期都有一个内置的 `toJSON` 方法来返回这种类型的字符串。
 
-Now let's add a custom `toJSON` for our object `room`:
+现在让我们为对象 `room` 添加一个自定义的 `toJSON`：
 
 ```js run
 let room = {
@@ -393,25 +393,25 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-As we can see, `toJSON` is used both for the direct call `JSON.stringify(room)` and for the nested object.
+正如我们所看到的，`toJSON` 既用于直接调用 `JSON.stringify(room)` 也可以用于嵌套对象。
 
 
 ## JSON.parse
 
-To decode a JSON-string, we need another method named [JSON.parse](mdn:js/JSON/parse).
+要解码 JSON 字符串，我们需要另一个方法 [JSON.parse](mdn:js/JSON/parse)。
 
-The syntax:
+语法：
 ```js
 let value = JSON.parse(str[, reviver]);
 ```
 
 str
-: JSON-string to parse.
+: JSON 字符串解析。
 
 reviver
-: Optional function(key,value) that will be called for each `(key,value)` pair and can transform the value.
+: 将为每个 `(key,value)` 对调用的可选函数（键，值）进行转换。
 
-For instance:
+例如：
 
 ```js run
 // stringified array
@@ -422,7 +422,7 @@ numbers = JSON.parse(numbers);
 alert( numbers[1] ); // 1
 ```
 
-Or for nested objects:
+对于嵌套对象：
 
 ```js run
 let user = '{ "name": "John", "age": 35, "isAdmin": false, "friends": [0,1,2,3] }';
@@ -432,9 +432,9 @@ user = JSON.parse(user);
 alert( user.friends[1] ); // 1
 ```
 
-The JSON may be as complex as necessary, objects and arrays can include other objects and arrays. But they must obey the format.
+JSON 可能非常复杂，对象和数组可以包含其他对象和数组。但他们必须遵守这一格式。
 
-Here are typical mistakes in hand-written JSON (sometimes we have to write it for debugging purposes):
+以下是手写 JSON 中的典型错误（有时为了调试我们必须将其编写这样）：
 
 ```js
 let json = `{
@@ -446,26 +446,26 @@ let json = `{
 }`;
 ```
 
-Besides, JSON does not support comments. Adding a comment to JSON makes it invalid.
+此外，JSON 不支持注释。向 JSON 添加注释无效。
 
-There's another format named [JSON5](http://json5.org/), which allows unquoted keys, comments etc. But this is a standalone library, not in the specification of the language.
+还有另一种名为 [JSON5](http://json5.org/)的格式，它允许未加引号的键、注释等。但这是一个独立的库，不在该语言的规范中。
 
-The regular JSON is that strict not because its developers are lazy, but to allow easy, reliable and very fast implementations of the parsing algorithm.
+常规的 JSON 格式严格并不是因为它的开发者懒惰，而是为了实现简单，可靠和快速的解析算法。
 
-## Using reviver
+## reviver 用法
 
-Imagine, we got a stringified `meetup` object from the server.
+想象一下，我们从服务器上获得了一个 `meetup` 字符串对象。
 
-It looks like this:
+它看起来像这样：
 
 ```js
 // title: (meetup title), date: (meetup date)
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
 ```
 
-...And now we need to *deserialize* it, to turn back into JavaScript object.
+...现在我们需要**反序列化它**，重新转换成 JavaScript 对象。
 
-Let's do it by calling `JSON.parse`:
+让我们通过调用 `JSON.parse` 来完成：
 
 ```js run
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
@@ -477,11 +477,11 @@ alert( meetup.date.getDate() ); // Error!
 */!*
 ```
 
-Whoops! An error!
+哇！报错了！
 
-The value of `meetup.date` is a string, not a `Date` object. How could `JSON.parse` know that it should transform that string into a `Date`?
+`meetup.date` 的值是一个字符串，而不是 `Date` 对象。`JSON.parse` 如何知道它应该将该字符串转换为 `Date`？
 
-Let's pass to `JSON.parse` the reviving function that returns all values "as is", but `date` will become a `Date`:
+让我们传递返回所有值的函数给 `JSON.parse`，但 `date` 将变成了 `Date`，正常运行：
 
 ```js run
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
@@ -496,7 +496,7 @@ let meetup = JSON.parse(str, function(key, value) {
 alert( meetup.date.getDate() ); // now works!
 ```
 
-By the way, that works for nested objects as well:
+顺便说一下，这也适用于嵌套对象：
 
 ```js run
 let schedule = `{
@@ -518,10 +518,10 @@ alert( schedule.meetups[1].date.getDate() ); // works!
 
 
 
-## Summary
+## 总结
 
-- JSON is a data format that has its own independent standard and libraries for most programming languages.
-- JSON supports plain objects, arrays, strings, numbers, booleans and `null`.
-- JavaScript provides methods [JSON.stringify](mdn:js/JSON/stringify) to serialize into JSON and [JSON.parse](mdn:js/JSON/parse) to read from JSON.
-- Both methods support transformer functions for smart reading/writing.
-- If an object has `toJSON`, then it is called by `JSON.stringify`.
+- JSON 是一种数据格式，对于大多数编程语言都有自己的独立标准和库。
+- JSON 支持 objects，arrays，strings，numbers，booleans 和 `null`。
+- JavaScript 提供序列化成 JSON 的方法 [JSON.stringify](mdn:js/JSON/stringify)和解析 JSON 方法 [JSON.parse](mdn:js/JSON/parse)。
+- 这两种方法都支持用于智能读/写的转换函数。
+- 如果一个对象具有 `toJSON`，那么它可被 `JSON.stringify` 调用。
