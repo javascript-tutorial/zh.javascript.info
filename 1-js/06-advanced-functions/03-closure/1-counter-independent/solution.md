@@ -1,5 +1,5 @@
-The answer: **0,1.**
+答案是： **0,1.**
 
-Functions `counter` and `counter2` are created by different invocations of `makeCounter`.
+函数 `counter`  和 `counter2` 是通过 `makeCounter` 的不同调用创建的。
 
-So they have independent outer Lexical Environments, each one has its own `count`.
+所以它们都有独立的外部词法环境，每一个都有自己的 `count`。
