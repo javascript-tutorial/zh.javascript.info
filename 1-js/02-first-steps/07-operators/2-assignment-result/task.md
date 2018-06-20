@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Assignment result
+# 赋值结果
 
-What are the values of `a` and `x` after the code below?
+以下代码中 `a` 和 `x` 的值是多少
 
 ```js
 let a = 2;

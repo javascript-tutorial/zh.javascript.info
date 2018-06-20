@@ -1,9 +1,9 @@
 
-1. For the whole thing to work *anyhow*, the result of `sum` must be function.
-2. That function must keep in memory the current value between calls.
-3. According to the task, the function must become the number when used in `==`. Functions are objects, so the conversion happens as described in the chapter <info:object-toprimitive>, and we can provide our own method that returns the number.
+1. **无论**整体如何工作，`sum` 的结果必须是函数。
+2. 这个函数必须在内存里保留调用之间的当前值。
+3. 根据任务，当函数被用在 `==` 左右时，它必须返回数字。函数是对象，所以转换如 <info:object-toprimitive> 章节所述，我们可以提供自己的方法来返回数字。
 
-Now the code:
+代码如下：
 
 ```js run
 function sum(a) {
@@ -28,28 +28,28 @@ alert( sum(6)(-1)(-2)(-3) ); // 0
 alert( sum(0)(1)(2)(3)(4)(5) ); // 15
 ```
 
-Please note that the `sum` function actually works only once. It returns function `f`.
+请注意 `sum` 函数只工作一次，它返回了函数 `f`。
 
-Then, on each subsequent call, `f` adds its parameter to the sum `currentSum`, and returns itself.
+然后，接下来的每一次调用，`f` 都会把自己的参数加到求和 `currentSum` 上，然后返回自己。
 
-**There is no recursion in the last line of `f`.**
+**在 `f` 的最后一行没有递归。**
 
-Here is what recursion looks like:
-
-```js
-function f(b) {
-  currentSum += b;
-  return f(); // <-- recursive call
-}
-```
-
-And in our case, we just return the function, without calling it:
+递归是这样子的：
 
 ```js
 function f(b) {
   currentSum += b;
-  return f; // <-- does not call itself, returns itself
+  return f(); // <-- 递归调用
 }
 ```
 
-This `f` will be used in the next call, again return itself, so many times as needed. Then, when used as a number or a string -- the `toString` returns the `currentSum`. We could also use `Symbol.toPrimitive` or `valueOf` here for the conversion.
+在我们的例子里，只是返回了函数，并没有调用它：
+
+```js
+function f(b) {
+  currentSum += b;
+  return f; // <-- 没有调用自己，只是返回了自己
+}
+```
+
+这个 `f` 会被用于下一次调用，然后再次返回自己，按照需要重复。然后，当它被用做数字或字符串时 —— `toString` 返回 `currentSum`。我们也可以使用 `Symbol.toPrimitive` 或者 `valueOf` 来实现转换。

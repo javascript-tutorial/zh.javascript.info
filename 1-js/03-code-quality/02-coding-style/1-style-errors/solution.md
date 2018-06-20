@@ -1,29 +1,29 @@
 
-You could note the following:
+你可以注意到以下几点：
 
 ```js no-beautify
-function pow(x,n)  // <- no space between arguments
-{  // <- figure bracket on a separate line
-  let result=1;   // <- no spaces to the both sides of =
-  for(let i=0;i<n;i++) {result*=x;}   // <- no spaces
-  // the contents of { ... } should be on a new line
+function pow(x,n)  // <- 参数之间没有空格
+{  // <- 大括号单独一行
+  let result=1;   // <- = 号两边没有空格
+  for(let i=0;i<n;i++) {result*=x;}   // <- 没有空格
+  // { ... } 里面的内容应该在一个新行上
   return result;
 }
 
-let x=prompt("x?",''), n=prompt("n?",'') // <-- technically possible,
-// but better make it 2 lines, also there's no spaces and ;
-if (n<0)  // <- no spaces inside (n < 0), and should be extra line above it
-{   // <- figure bracket on a separate line
-  // below - a long line, may be worth to split into 2 lines
+let x=prompt("x?",''), n=prompt("n?",'') // <-- 从技术角度来看是可以的，
+// 但是拆分成 2 行会更好，并且也没有空格和 ;
+if (n<0)  // <- (n < 0) 里面没有空格，并且应该在前面加一个空行
+{   // <- 大括号单独一行
+  // 下面的一行太长了，或许拆分成 2 行更好
   alert(`Power ${n} is not supported, please enter an integer number greater than zero`);
 }
-else // <- could write it on a single line like "} else {"
+else // <- 可以像 "} else {" 这样写在一行上
 {
-  alert(pow(x,n))  // no spaces and ;
+  alert(pow(x,n))  // 没有空格和 ;
 }
 ```
 
-The fixed variant:
+修复的版本：
 
 ```js
 function pow(x, n) {

@@ -1,3 +1,3 @@
-# Objects, classes, inheritance
+# 对象、类和继承
 
-In this section we return to objects and learn them even more in-depth.
+在本节中，我们返回到对象并更深入地学习它们。

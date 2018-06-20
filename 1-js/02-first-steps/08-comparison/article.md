@@ -1,41 +1,41 @@
-# Comparisons
+# 值的比较
 
-Many comparison operators we know from maths:
+在 JavaScript 中，我们可以使用一些熟知的数学符号进行值的比较：
 
-- Greater/less than: <code>a &gt; b</code>, <code>a &lt; b</code>.
-- Greater/less than or equals: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
-- Equality check is written as `a == b` (please note the double equation sign `=`. A single symbol `a = b` would mean an assignment).
-- Not equals. In maths the notation is <code>&ne;</code>, in JavaScript it's written as an assignment with an exclamation sign before it: <code>a != b</code>.
+- 大于 / 小于：<code>a &gt; b</code>，<code>a &lt; b</code>。
+- 大于等于 / 小于等于：<code>a &gt;= b</code>，<code>a &lt;= b</code>。
+- 检测两个值的相等写为 `a == b`（注意表达式中是两个等号 `=`，若写为单个等号 `a = b` 则表示赋值）。
+- 检测两个值的不等，在数学中使用 <code>&ne;</code> 符号，而在 JavaScript 中则通过在赋值符号前增加叹号表示：<code>a != b</code>。
 
-## Boolean is the result
+## 比较结果为 Boolean 类型
 
-Just as all other operators, a comparison returns a value. The value is of the boolean type.
+和其他操作符一样，比较操作符也会有返回值，其类型为布尔值（Boolean）。
 
-- `true` -- means "yes", "correct" or "the truth".
-- `false` -- means "no", "wrong" or "a lie".
+- `true` —— 表示“yes（是）”，“correct（正确）”或“the truth（真理）”。
+- `false` ——  表示“no（否）”，“wrong（错误）”或“a lie（谎言）”。
 
-For example:
+示例：
 
 ```js run
-alert( 2 > 1 );  // true (correct)
-alert( 2 == 1 ); // false (wrong)
-alert( 2 != 1 ); // true (correct)
+alert( 2 > 1 );  // true（正确）
+alert( 2 == 1 ); // false（错误）
+alert( 2 != 1 ); // true（正确）
 ```
 
-A comparison result can be assigned to a variable, just like any value:
+和其他类型的值一样，比较的结果可以被赋值给任意变量：
 
 ```js run
-let result = 5 > 4; // assign the result of the comparison
+let result = 5 > 4; // 把比较的结果赋值给 result
 alert( result ); // true
 ```
 
-## String comparison
+## 字符串间的比较
 
-To see which string is greater than the other, the so-called "dictionary" or "lexicographical" order is used.
+在比较字符串的大小时，会使用“字典”或“词典”顺序进行判定。
 
-In other words, strings are compared letter-by-letter.
+换言之，字符串是按字符（母）逐个进行比较的。
 
-For example:
+示例：
 
 ```js run
 alert( 'Z' > 'A' ); // true
@@ -43,53 +43,53 @@ alert( 'Glow' > 'Glee' ); // true
 alert( 'Bee' > 'Be' ); // true
 ```
 
-The algorithm to compare two strings is simple:
+字符串间的比较算法非常简单：
 
-1. Compare first characters of both strings.
-2. If the first one is greater(or less), then the first string is greater(or less) than the second. We're done.
-3. Otherwise if first characters are equal, compare the second characters the same way.
-4. Repeat until the end of any string.
-5. If both strings ended simultaneously, then they are equal. Otherwise the longer string is greater.
+1. 首先比较两个字符串的首位字符大小。
+2. 如果一方字符较大（或较小），则该字符串大于（或小于）另一个字符串。算法结束。
+3. 否则，两个字符串中的字符相等，继续取出各自的后一位字符进行比较。
+4. 重复上述步骤进行比较，直到某字符串率先用完所有字符。
+5. 如果两个字符串同时用完字符，那么它们被判定为相等，否则未结束（还有未比较的字符）的字符串更大。
 
-In the example above, the comparison `'Z' > 'A'` gets the result at the first step.
+在上面的例子中，`'Z' > 'A'` 在算法的第 1 步就得到了返回结果。
 
-Strings `"Glow"` and `"Glee"` are compared character-by-character:
+字符串 `"Glow"` 和 `"Glee"` 会按字符逐个进行比较：
 
-1. `G` is the same as `G`.
-2. `l` is the same as `l`.
-3. `o` is greater than `e`. Stop here. The first string is greater.
+1. `G` 和 `G` 相等。
+2. `l` 和 `l` 相等。
+3. `o` 比 `e` 大，算法停止，第一个字符串大于第二个。
 
-```smart header="Not a real dictionary, but Unicode order"
-The comparison algorithm given above is roughly equivalent to the one used in book dictionaries or phone books. But it's not exactly the same.
+```smart header="非真正的字典顺序，而是 Unicode 编码顺序"
+在上面的算法中，比较大小的逻辑与字典或电话簿中的排序很像，但也不完全相同。
 
-For instance, case matters. A capital letter `"A"` is not equal to the lowercase `"a"`. Which one is greater? Actually, the lowercase `"a"` is. Why? Because the lowercase character has a greater index in the internal encoding table (Unicode). We'll get back to specific details and consequences in the chapter <info:string>.
+比如说，算法中的比较对大小写是敏感的。大写的 `"A"` 并不等于小写的 `"a"`。哪一个更大呢？实际上小写的 `"a"` 更大。至于原因嘛，这是因为在内部的编码表中（Unicode），小写字母的字符索引更大。我们会在 <info:string> 这章讨论更多关于字符串的细节。
 ```
 
-## Comparison of different types
+## 不同类型间的比较
 
-When compared values belong to different types, they are converted to numbers.
+当不同类型的值进行比较时，它们会首先被转为数字（number）再判定大小。
 
-For example:
+示例：
 
 ```js run
-alert( '2' > 1 ); // true, string '2' becomes a number 2
-alert( '01' == 1 ); // true, string '01' becomes a number 1
+alert( '2' > 1 ); // true，字符串 '2' 会被转为数字 2
+alert( '01' == 1 ); // true，字符串 '01' 会被转为数字 1
 ```
 
-For boolean values, `true` becomes `1` and `false` becomes `0`, that's why:
+对于布尔类型，`true` 会被转为 `1`、`false` 转为 `0`，即有：
 
 ```js run
 alert( true == 1 ); // true
 alert( false == 0 ); // true
 ```
 
-````smart header="A funny consequence"
-It is possible that at the same time:
+````smart header="一个有趣的现象"
+有时候，以下两种情况会同时发生：
 
-- Two values are equal.
-- One of them is `true` as a boolean and the other one is `false` as a boolean.
+- 若直接比较两个值，其结果是相等的。
+- 若把两个值转为布尔值，它们可能得出完全相反的结果，即 `true` 和 `false`。
 
-For example:
+示例：
 
 ```js run
 let a = 0;
@@ -101,70 +101,70 @@ alert( Boolean(b) ); // true
 alert(a == b); // true!
 ```
 
-From JavaScript's standpoint that's quite normal. An equality check converts using the numeric conversion (hence `"0"` becomes `0`), while `Boolean` conversion uses another set of rules.
+对于 JavaScript 而言这种现象蛮正常的，因为它会把待比较的值转为数字后再做比较（因此 `"0"` 变成了 `0` ）。若只是将一个变量转为 `Boolean`，则会使用其他的类型转换规则。
 ````
 
-## Strict equality
+## 严格相等
 
-A regular equality check `==` has a problem. It cannot differ `0` from `false`:
+普通的相等性检查 `==` 存在一个问题，它不能区分出 `0` 和 `false`：
 
 ```js run
 alert( 0 == false ); // true
 ```
 
-The same thing with an empty string:
+也同样无法区分空字符串和 `false`：
 
 ```js run
 alert( '' == false ); // true
 ```
 
-That's because operands of different types are converted to a number by the equality operator `==`. An empty string, just like `false`, becomes a zero.
+这是因为在比较不同类型的值时，处于相等判断符号 `==` 两侧的值会被转换为数字的原因。空字符串和 `false` 也是如此，转换后它们都等于 0。
 
-What to do if we'd like to differentiate `0` from `false`?
+如果我们需要区分 `0` 和 `false`，该怎么做呢？
 
-**A strict equality operator `===` checks the equality without type conversion.**
+**严格相等操作符 `===` 在进行比较时不会做任何的类型转换。**
 
-In other words, if `a` and `b` are of different types, then `a === b` immediately returns `false` without an attempt to convert them.
+换句话说，如果 `a` 和 `b` 属于不同的数据类型，那么 `a === b` 不会做任何的类型转换而立刻返回 `false`。
 
-Let's try it:
+让我们试试：
 
 ```js run
-alert( 0 === false ); // false, because the types are different
+alert( 0 === false ); // false，比较不同类型的值
 ```
 
-There also exists a "strict non-equality" operator `!==`, as an analogy for `!=`.
+同样的，与“不相等”符号 `!=` 类似，“严格不相等”表示为 `!==`。
 
-The strict equality check operator is a bit longer to write, but makes it obvious what's going on and leaves less space for errors.
+严格相等的操作符虽然略为冗长，但是它很清楚地显示了比较的意图，降低你犯错的可能性。
 
-## Comparison with null and undefined
+## 涉及 null 和 undefined 的比较
 
-Let's see more edge cases.
+让我们看看更多的边缘案例。
 
-There's a non-intuitive behavior when `null` or `undefined` are compared with other values.
+当使用 `null` 或 `undefined` 与其他值进行比较时，其返回结果常常出乎你的意料。
 
 
-For a strict equality check `===`
-: These values are different, because each of them belongs to a separate type of its own.
+当使用严格相等 `===` 比较二者时：
+它们是不相等的，因为它们属于不同的类型。
 
     ```js run
     alert( null === undefined ); // false
     ```
 
-For a non-strict check `==`
-: There's a special rule. These two are a "sweet couple": they equal each other (in the sense of `==`), but not any other value.
+当使用非严格相等 `==` 比较二者时：
+JavaScript 存在一个专属的规则，会判定它们互等。而它们就像“一对恋人”，仅仅等于（非严格相等下）对方而不等于其他任何的值。
 
     ```js run
     alert( null == undefined ); // true
     ```
 
-For maths and other comparisons `< > <= >=`
-: Values `null/undefined` are converted to a number: `null` becomes `0`, while `undefined` becomes `NaN`.
+当使用数学式或其他比较方法 `< > <= >=` 时：
+`null/undefined` 的值会被转换为数字：`null` 转为 `0`，`undefined` 转为 `NaN`。
 
-Now let's see funny things that happen when we apply those rules. And, what's more important, how to not fall into a trap with these features.
+下面让我们看看，这些规则会带来什么有趣的现象。同时更重要的是，我们需要从中学会如何远离这些特性带来的“陷阱”。
 
-### Strange result: null vs 0
+### 奇怪的结果：null vs 0
 
-Let's compare `null` with a zero:
+通过比较 `null` 和 0 可得：
 
 ```js run
 alert( null > 0 );  // (1) false
@@ -172,15 +172,15 @@ alert( null == 0 ); // (2) false
 alert( null >= 0 ); // (3) *!*true*/!*
 ```
 
-Yeah, mathematically that's strange. The last result states that "`null` is greater than or equal to zero". Then one of the comparisons above must be correct, but they are both false.
+是的，上面的结果完全打破了你对数学的认识。在最后一行代码显示“`null` 大于等于 0”的情况下，前两行代码中一定会有一个是正确的，然而事实表明它们的结果都是 false。
 
-The reason is that an equality check `==` and comparisons `> < >= <=` work differently. Comparisons convert `null` to a number, hence treat it as `0`. That's why (3) `null >= 0` is true and (1) `null > 0` is false.
+为什么会出现这种反常结果，这是因为相等性检测 `==` 和普通比较符 `> < >= <=` 的代码逻辑是相互独立的。进行值的比较会把 `null` 转为数字，因此它被转为了 `0`。这就是为什么（3）中 `null >= 0` 返回 true，（1）中 `null > 0` 返回 false。
 
-On the other hand, the equality check `==` for `undefined` and `null` works by the rule, without any conversions. They equal each other and don't equal anything else. That's why (2) `null == 0` is false.
+另一方面，`undefined` 和 `null` 在相等性检测 `==` 中不会进行任何的类型转换，它们有自己独立的比较规则，所以除了它们之间互等外不会等于任何其他的值。这就解释了为什么（2）中 `null == 0` 会返回 false。
 
-### An incomparable undefined
+###“拒不合作”的 undefined
 
-The value `undefined` shouldn't participate in comparisons at all:
+`undefined` 不应该参与任何值的比较：
 
 ```js run
 alert( undefined > 0 ); // false (1)
@@ -188,25 +188,25 @@ alert( undefined < 0 ); // false (2)
 alert( undefined == 0 ); // false (3)
 ```
 
-Why does it dislike a zero so much? Always false!
+为何它看起来如此厌恶 0？无论怎么比较双方其结果总是返回 false！
 
-We've got these results because:
+原因如下：
 
-- Comparisons `(1)` and `(2)` return `false` because `undefined` gets converted to `NaN`. And `NaN` is a special numeric value which returns `false` for all comparisons.
-- The equality check `(3)` returns `false`, because `undefined` only equals `null` and no other value.
+- `(1)` 和 `(2)` 中返回 `false` 是因为 `undefined` 在比较中被转换为了 `NaN`，而 `NaN` 是一个特殊的数值型取值，它与任何值进行比较都会返回 `false`。
+- `(3)` 中返回 `false` 是因为这是一个相等性检测，而 `undefined` 只与 `null` 相等。
 
-### Evade problems
+### 规避错误
 
-Why did we observe these examples? Should we remember these peculiarities all the time? Well, not really. Actually, these tricky things will gradually become familiar over time, but there's a solid way to evade any problems with them.
+我们为何要研究以上示例？我们需要时刻记得这些古怪的规则吗？不，并不需要。虽然这些规则随着使用都会烂熟于胸，但是我们需要遵循更为可靠的方法来避免潜在的问题。
 
-Just treat any comparison with `undefined/null` except the strict equality `===` with exceptional care.
+除了严格相等 `===` 外，其他凡是有 `undefined/null` 参与的比较，我们都需要额外 “关照”。
 
-Don't use comparisons `>= > < <=` with a variable which may be `null/undefined`, unless you are really sure what you're doing. If a variable can have such values, then check for them separately.
+除非你非常清楚自己在做什么，否则永远不要使用 `>= > < <=` 去比较一个可能为 `null/undefined` 的变量。对于取值可能是 `null/undefined` 的变量，请按需要分别检查它的取值情况。
 
-## Summary
+## 小结
 
-- Comparison operators return a logical value.
-- Strings are compared letter-by-letter in the "dictionary" order.
-- When values of different types are compared, they get converted to numbers (with the exclusion of a strict equality check).
-- Values `null` and `undefined` equal `==` each other and do not equal any other value.
-- Be careful when using comparisons like `>` or `<` with variables that can occasionally be `null/undefined`. Making a separate check for `null/undefined` is a good idea.
+- 比较操作符始终返回逻辑值。
+- 字符串间按“词典”顺序逐字符比较大小。
+- 当待比较的值类型不同时，它们会被转为数字（不包括严格相等检测）进行比较。
+- 在非严格相等 `==` 下，`null` 和 `undefined` 相等且各自不等于任何其他的值。
+- 在使用 `>` 或 `<` 进行比较时，需要注意变量可能为 `null/undefined` 的情况。比较好的方法是单独检查变量是否等于 `null/undefined`。

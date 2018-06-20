@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Comparisons
+# 值的比较
 
-What will be the result for expressions?
+以下表达式的执行结果是？
 
 ```js no-beautify
 5 > 4

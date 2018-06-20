@@ -1,6 +1,5 @@
-To get the number of milliseconds till tomorrow, we can from "tomorrow 00:00:00" substract the current date.
-
-First, we generate that "tomorrow", and then do it:
+为获取距离明天的毫秒数，我们可以用「第二天 00:00:00」这个对象减去当前的日期。
+首先我们生成「第二天」，然后对它做操作：
 
 ```js run
 function getSecondsToTomorrow() {
@@ -14,7 +13,7 @@ function getSecondsToTomorrow() {
 }
 ```
 
-Alternative solution:
+另一种解法：
 
 ```js run
 function getSecondsToTomorrow() {
@@ -29,4 +28,4 @@ function getSecondsToTomorrow() {
 }
 ```
 
-Please note that many countries have Daylight Savings Time (DST), so there may be days with 23 or 25 hours. We may want to treat such days separately.
+请注意，很多国家有夏令时（DST），因此他们可能一天有 23 小时或者 25 小时。我们对这些天数要区别对待。

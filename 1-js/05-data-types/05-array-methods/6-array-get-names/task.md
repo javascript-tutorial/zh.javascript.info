@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Map to names
+# 映射到 names
 
-You have an array of `user` objects, each one has `user.name`. Write the code that converts it into an array of names.
+你有一个 `user` 对象数组，每个对象都有 `user.name `。编写将其转换为 names 数组的代码。
 
-For instance:
+例如：
 
 ```js no-beautify
 let john = { name: "John", age: 25 };

@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# How many seconds has passed today?
+# 今天过去了多少秒？
 
-Write a function `getSecondsToday()` that returns the number of seconds from the beginning of today.
+写一个函数 `getSecondsToday()`，返回今天已经过去了多少秒？
 
-For instance, if now `10:00 am`, and there was no daylight savings shift, then:
+举个例子：如果现在是`10:00 am`，并且没有夏令时转移，那么：
 
 ```js
 getSecondsToday() == 36000 // (3600 * 10)
 ```
 
-The function should work in any day. That is, it should not have a hard-coded value of "today".
+该函数应该在任意一天都能正确运行。那意味着，不应该有一个「今天」这个参数不能有意外值。

@@ -2,14 +2,14 @@ importance: 2
 
 ---
 
-# A random integer from min to max
+#从最小到最大的随机整数
 
-Create a function `randomInteger(min, max)` that generates a random *integer* number from `min` to `max` including both `min` and `max` as possible values.
+创建一个函数 `randomInteger(min，max)`，该函数从 `min` 到 `max` 生成随机整数，包括 `min` 和 `max` 作为可能值。
 
-Any number from the interval `min..max` must appear with the same probability.
+来自间隔 `min..max` 的任何数字必须以相同的概率出现。
 
 
-Examples of its work:
+功能示例：
 
 ```js
 alert( random(1, 5) ); // 1
@@ -17,4 +17,4 @@ alert( random(1, 5) ); // 3
 alert( random(1, 5) ); // 5
 ```
 
-You can use the solution of the [previous task](info:task/random-min-max) as the base.
+您可以使用[上一个任务](info:task/random-min-max)的解决方案作为基础。

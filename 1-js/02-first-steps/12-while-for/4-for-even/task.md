@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Output even numbers in the loop
+# 在循环中输出偶数
 
-Use the `for` loop to output even numbers from `2` to `10`.
+使用 `for` 循环输出从 `2` 到 `10` 的偶数。
 
-[demo]
+[演示]

@@ -1,1 +1,1 @@
-Please note that properties that were internal in functional style (`template`, `timer`) and the internal method `render` are marked private with the underscore `_`.
+请注意函数式内部的属性（`template`， `timer`）和内部的方法 `render` 被下划线 `_` 标记为私有的。

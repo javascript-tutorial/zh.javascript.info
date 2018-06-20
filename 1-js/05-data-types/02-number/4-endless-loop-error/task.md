@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# An occasional infinite loop
+#一个偶发的无限循环
 
-This loop is infinite. It never ends. Why?
+这个循环是无限的。它永远不会结束。为什么？
 
 ```js
 let i = 0;

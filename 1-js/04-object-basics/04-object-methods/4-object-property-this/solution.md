@@ -1,6 +1,6 @@
-**Answer: an error.**
+**答案：一个错误。**
 
-Try it:
+试一下：
 ```js run
 function makeUser() {
   return {
@@ -14,15 +14,15 @@ let user = makeUser();
 alert( user.ref.name ); // Error: Cannot read property 'name' of undefined
 ```
 
-That's because rules that set `this` do not look at object literals. 
+这是因为设置的 `this` 的规则并没有找到对象字面量。
 
-Here the value of `this` inside `makeUser()` is `undefined`, because it is called as a function, not as a method.
+这里 `makeUser()` 中的 `this` 值是 `undefined`，因为它是被作为函数调用的，而不是方法调用。
 
-And the object literal itself has no effect on `this`. The value of `this` is one for the whole function, code blocks and object literals do not affect it.
+对象字面量本身对于 `this` 没有影响。`this` 的值是整个函数，代码段和对象字面量对它没有影响。
 
-So `ref: this` actually takes current `this` of the function.
+所以，`ref: this` 实际上取的是该函数当前的 `this`。
 
-Here's the opposite case:
+这里有个反例：
 
 ```js run
 function makeUser() {
@@ -41,6 +41,6 @@ let user = makeUser();
 alert( user.ref().name ); // John
 ```
 
-Now it works, because `user.ref()` is a method. And the value of `this` is set to the object before dot `.`.
+现在正常了，因为 `user.ref()` 是一个方法。`this` 的值设置为点 `.` 之前的这个对象。
 
 

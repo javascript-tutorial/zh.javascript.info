@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# Set and decrease for counter
+# 为 `counter` 添加 `set` 和 `decrease` 方法
 
-Modify the code of `makeCounter()` so that the counter can also decrease and set the number:
+修改 `makeCounter()` 代码，使得 counter 可以减一和赋值：
 
-- `counter()` should return the next number (as before).
-- `counter.set(value)` should set the `count` to `value`.
-- `counter.decrease(value)` should decrease the `count` by 1.
+- `counter()` 应该返回下一个数字（同以前逻辑）。
+- `counter.set(value)` 应该设置 `count` 为 `value`。
+- `counter.decrease(value)` 应该把 `count` 减 1。
 
-See the sandbox code for the complete usage example.
+查看沙箱代码获取完整使用示例。
 
-P.S. You can use either a closure or the function property to keep the current count. Or write both variants.
+P.S. 你也可以使用闭包或者函数属性来保持当前的计数，或者两者的变体。

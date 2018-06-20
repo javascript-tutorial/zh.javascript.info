@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# Which values get shown by the "for" loop?
+# "for" 循环显示哪些值？
 
-For each loop write down which values it is going to show. Then compare with the answer.
+对于每次循环，写下它将显示的值。然后与答案进行比较。
 
-Both loops `alert` same values or not?
+两次循环 `alert` 值是否相同？
 
-1. The postfix form:
+1. 后缀形式：
 
     ```js
     for (let i = 0; i < 5; i++) alert( i );
     ```
-2. The prefix form:
+2. 前缀形式：
 
     ```js
     for (let i = 0; i < 5; ++i) alert( i );
