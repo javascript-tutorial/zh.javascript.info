@@ -226,7 +226,7 @@ alert(obj.__proto__); // [object Object]，这样不行
 比如，访问者可能选择 "__proto__" 作为键，这个赋值的逻辑就失败了（像上面那样）。
 
 有一种让对象把 `__proto__` 作为属性的方法，我们随后会讲到，现在我们再来学习对象的更多知识。
-还有另外一种数据结构[Map](info:map-set-weakmap-weakset)，我们会在后面章节chapter<info:map-set-weakmap-weakset>学到，它支持任意的键值。
+还有另外一种数据结构[Map](info:map-set-weakmap-weakset)，我们会在后面章节学到，它支持任意的键值。
 ````
 
 ## 便利的对象属性名
