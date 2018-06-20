@@ -1,42 +1,42 @@
 
-# Object.keys, values, entries
+# 对象的键、值、项
 
-Let's step away from the individual data structures and talk about the iterations over them. 
+单个数据结构告一段落，下面我们让讨论如何迭代它们。
 
-In the previous chapter we saw methods `map.keys()`, `map.values()`, `map.entries()`.
+在前面的章节中，我们认识了 `map.keys()`，`map.value()`，`map.entries()`。
 
-These methods are generic, there is a common agreement to use them for data structures. If we ever create a data structure of our own, we should implement them too. 
+这些方法是广义的，对于数据结构，我们约定俗成使用它们。如果我们曾经自己创建过数据结构，我们也应该实现过它们。
 
-They are supported for:
+它们支持：
 
 - `Map`
 - `Set`
-- `Array` (except `arr.values()`)
+- `Array` （除了 `arr.values()`）
 
-Plain objects also support similar methods, but the syntax is a bit different.
+纯对象也支持这些方法，但是语法上有一些不同
 
-## Object.keys, values, entries
+## Object.keys、values、entries 三个方法
 
-For plain objects, the following methods are available:
+对于纯对象，下列方法是可用的：
 
-- [Object.keys(obj)](mdn:js/Object/keys) -- returns an array of keys.
-- [Object.values(obj)](mdn:js/Object/values) -- returns an array of values.
-- [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of `[key, value]` pairs.
+- [Object.keys(obj)](mdn:js/Object/keys) —— 返回包含所有键的数组。
+- [Object.values(obj)](mdn:js/Object/values) —— 返回包含所有值的数组。
+- [Object.entries(obj)](mdn:js/Object/entries) —— 返回包含所有 `[key, value]` 键值对的数组。
 
-...But please note the distinctions (compared to map for example):
+... 但是请注意区别（比如说跟 map 的区别）：
 
 |             | Map              | Object       |
 |-------------|------------------|--------------|
-| Call syntax | `map.keys()`  | `Object.keys(obj)`, but not `obj.keys()` |
-| Returns     | iterable    | "real" Array                     |
+| 调用语法     | `map.keys()`  | `Object.keys(obj)`，而不是 `obj.keys()` |
+| 返回值      | 可迭代项 |「真正的」数组   
 
-The first difference is that we have to call `Object.keys(obj)`, and not `obj.keys()`.
+第一个区别是在对象中我们的调用语法是 `Object.key(obj)`，而不是 `obj.key()`。
 
-Why so? The main reason is flexibility. Remember, objects are a base of all complex structures in JavaScript. So we may have an object of our own like `order` that implements its own `order.values()` method. And we still can call `Object.values(order)` on it.
+为什么会这样？主要原因是弹性化。请记住，在 JavaScript 中对象是所有复杂数据结构的基础。因此我们可能自己创建一个对象，比如 `order`，然后实现它自己的方法 `order.values()`。那么，我们依然可以对它调用 `Object.values(order)` 方法。
 
-The second difference is that `Object.*` methods return "real" array objects, not just an iterable. That's mainly for historical reasons.
+第二个区别是 `Object.*` 方法返回的是「真正的」数组对象，而不是可迭代项。这主要是历史原因。
 
-For instance:
+举个例子：
 
 ```js
 let user = {
@@ -49,7 +49,7 @@ let user = {
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
-Here's an example of using `Object.values` to loop over property values:
+下面这个例子中，使用了 `Object.values` 在属性值上做循环操作：
 
 ```js run
 let user = {
@@ -57,14 +57,14 @@ let user = {
   age: 30
 };
 
-// loop over values
+// 循环所有的值
 for (let value of Object.values(user)) {
   alert(value); // John, then 30
 }
 ```
 
-## Object.keys/values/entries ignore symbolic properties
+## Object.keys/values/entries 忽略 Symbol 类型的属性
 
-Just like a `for..in` loop, these methods ignore properties that use `Symbol(...)` as keys.
+就像 `for..in` 循环，这些方法会忽略使用 `Symbol(...)` 作为键的属性。
 
-Usually that's convenient. But if we want symbolic keys too, then there's a separate method [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) that returns an array of only symbolic keys. Also, the method [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) returns *all* keys.
+通常这很方便。但是如果我们也想要获得 Symbol 类型的键，那么有另外不同的方法 [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) 它会返回一个只包含 Symbol 类型的键的数组。同样，[Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 返回「所有」键。
