@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Are counters independent?
+# counters 是独立的吗？
 
-Here we make two counters: `counter` and `counter2` using the same `makeCounter` function.
+这里我们创建了两个计数器（counters）：`counter` 和 `counter2` 用同样的 `makeCounter` 函数（创建的）。
 
-Are they independent? What is the second counter going to show? `0,1` or `2,3` or something else?
+它们是独立的吗？第二个 counter 要显示什么？`0,1` 或 `2,3` 还是其他？
 
 ```js
 function makeCounter() {
