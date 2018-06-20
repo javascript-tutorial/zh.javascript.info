@@ -1,5 +1,5 @@
 
-# class
+# Class
 
 "class" 结构允许你使用一种干净、整洁的语法来定义基于 prototype 的类。
 
@@ -80,7 +80,7 @@ alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ...不过它与传统定义方法间还是存在一些细微差别：
 
 构造器必须与 `new` 关键字一同使用
-：不同于普通的函数，class 的 `constructor` 虽然是函数，却只能与 `new` 一同使用：
+: 不同于普通的函数，class 的 `constructor` 虽然是函数，却只能与 `new` 一同使用：
 
 ```js run
 class User {
@@ -92,22 +92,22 @@ User(); // Error：构造器 User 不能直接以 'new' 的方式被调用
 ```
 
 不同的字符串输出结果
-：如果我们像这样 `alert(User)` 打印 User，一些运行时的结果会是 `"class User..."`，而另一些可能是 `"function User..."`。
+: 如果我们像这样 `alert(User)` 打印 User，一些运行时的结果会是 `"class User..."`，而另一些可能是 `"function User..."`。
 
 请不要被这种现象迷惑：虽然 class 表现为字符串时结果可能多样，但它本质上仍然是一个函数，在 JavaScript 中不存在一个独立的 "class" 实体。
 
 class 中的方法是 non-enumerable（不可枚举）的
-：在 class 中，所有 `"prototype"` 上的方法，其 `enumerable` 标志会被自动设置为 `false`。这很棒，因为当我们使用 `for..in` 遍历 object 的属性时，我们通常不希望结果中包含有类上的方法。
+: 在 class 中，所有 `"prototype"` 上的方法，其 `enumerable` 标志会被自动设置为 `false`。这很棒，因为当我们使用 `for..in` 遍历 object 的属性时，我们通常不希望结果中包含有类上的方法。
 
 class 拥有一个默认的 `constructor() {}`
-：如果在 `class` 结构中没有定义 `constructor`，那么 JavaScript 会生成一个默认的空构造函数，这和手写一个 `constructor() {}` 是一样的效果。
+: 如果在 `class` 结构中没有定义 `constructor`，那么 JavaScript 会生成一个默认的空构造函数，这和手写一个 `constructor() {}` 是一样的效果。
 
 class 永远是 `use strict` 的
-：所有 class 结构中的代码，都自动开启了严格模式。
+: 所有 class 结构中的代码，都自动开启了严格模式。
 
-### getter/setter
+### Getter/Setter
 
-在 class 中也可以使用 getter/setter 方法，下面是一个简单的利用 getter/setter 操作 `user.name` 属性的例子：
+在 Class 中也可以使用 getter/setter 方法，下面是一个简单的利用 getter/setter 操作 `user.name` 属性的例子：
 
 ```js run
 class User {
@@ -156,7 +156,7 @@ Object.defineProperties(User.prototype, {
 });
 ```
 
-### Only methods
+### Class 中只能定义方法
 
 与字面量 Object 不同，`class` 内部不允许出现形如 `property:value` 的赋值，它的内部只能出现普通方法或 getter/setter。class 的最新规范还在进一步讨论，新的规范有可能打破当前的使用限制。
 
@@ -186,9 +186,9 @@ alert( new User().test ); // 5
 
 由上述两种方法增加的属性，在使用上别无二致，深究起来 getter 的实现方式效率会略低一点。
 
-## class 表达式
+## Class 表达式
 
-与 function 一样，class 可以定义在其他表达式中，也同样可以被当作参数传递、作为返回值返回等。
+与 function 一样，Class 可以定义在其他表达式中，也同样可以被当作参数传递、作为返回值返回等。
 
 下列代码展示了一个返回值是 class 的函数（“class 工厂”）：
 
@@ -211,7 +211,7 @@ new User().sayHi(); // Hello
 
 如果我们还记得 `class` 只是一个定义 prototype 的语法糖函数，那么上面的代码行为理解起来毫无压力了。
 
-与命名函数一样，我们也可以为 class 取名，自定义的别名只在 class 内可见：
+与命名函数一样，我们也可以为 Class 取名，自定义的别名只在 Class 内可见：
 
 ```js run
 // "Named Class Expression"（这是我自定义的术语，当前还没有官方术语来描述这个命名行为）
@@ -228,7 +228,7 @@ alert(MyClass); // 这样会报错，MyClass 在 class 外部并不可见
 
 ## 静态方法
 
-我们可以在 class 函数上新增方法，这种新增在函数上而非 `"prototype"` 上的方法，我们称为 *静态方法*。
+我们可以在 class 函数上新增方法，这种新增在函数上而非 `"prototype"` 上的方法，我们称为**静态方法**。
 
 举个例子：
 
@@ -352,4 +352,4 @@ class MyClass {
 
 无论如何请记得，所有在 class 中定义的方法都会被添加到 `prototype` 上。只有静态方法是个例外，它们会被添加为 class 自身的属性，通过 `MyClass.staticMethod()` 的形式进行调用。静态方法通常都与 class 自身有关，而不是 class 实例化的对象。
 
-在下一章中，我们会学习更多关于 classe 的只是，包括如何进行类间的继承。
+在下一章中，我们会学习更多关于 Class 的知识，包括如何进行类间的继承。
