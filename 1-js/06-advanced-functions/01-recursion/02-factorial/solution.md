@@ -1,6 +1,6 @@
-By definition, a factorial is `n!` can be written as `n * (n-1)!`.
+根据定义，一个阶乘 `n!` 可以被写成 `n * (n-1)!`。
 
-In other words, the result of `factorial(n)` can be calculated as `n` multiplied by the result of `factorial(n-1)`. And the call for `n-1` can recursively descend lower, and lower, till `1`.
+换句话说，`factorial(n)` 的结果可以用 `n` 乘以 `factorial(n-1)` 来获得。`n-1` 同理，直到 `1`。
 
 ```js run
 function factorial(n) {
@@ -10,7 +10,7 @@ function factorial(n) {
 alert( factorial(5) ); // 120
 ```
 
-The basis of recursion is the value `1`. We can also make `0` the basis here, doesn't matter much, but gives one more recursive step:
+递归的基础是 `1`。我们也可以用 `0` 作为基础，不影响，除了多一次递归步骤：
 
 ```js run
 function factorial(n) {

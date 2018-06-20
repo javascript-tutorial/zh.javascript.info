@@ -2,13 +2,12 @@ importance: 5
 
 ---
 
-# Repeat until the input is a number
+# 重复检测，直到输入是一个数字
 
-Create a function `readNumber` which prompts for a number until the visitor enters a valid numeric value.
+创建一个函数 `readNumber`，它提示输入一个数字，直到访问者输入一个有效的数字。
 
-The resulting value must be returned as a number.
+结果值必须作为数字返回。
 
-The visitor can also stop the process by entering an empty line or pressing "CANCEL". In that case, the function should return `null`.
+访问者也可以通过输入空行或按“取消”来停止该过程。在这种情况下，函数应该返回 `null`。
 
 [demo]
-

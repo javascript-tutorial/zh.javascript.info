@@ -7,6 +7,6 @@ let b = +prompt("The second number?", "");
 alert( a + b );
 ```
 
-Note the unary plus `+` before `prompt`. It immediately converts the value to a number.
+注意一元符号 `+` 在 `prompt` 前面。它会把获取的值转换成数字。
 
-Otherwise, `a` and `b` would be string their sum would be their concatenation, that is: `"1" + "2" = "12"`.
+否则，`a` 和 `b` 会是字符串，它们的总和就是它们的连接，即：`“1”+“2”=“12”`。

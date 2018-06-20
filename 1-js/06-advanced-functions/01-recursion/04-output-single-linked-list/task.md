@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Output a single-linked list
+# 输出一个单链表
 
-Let's say we have a single-linked list (as described in the chapter <info:recursion>):
+假设我们有一个单链表（在 <info:recursion> 那章有讲过）：
 
 ```js
 let list = {
@@ -22,8 +22,8 @@ let list = {
 };
 ```
 
-Write a function `printList(list)` that outputs list items one-by-one.
+编写一个可以逐个输出链表元素的函数 `printList(list)`。
 
-Make two variants of the solution: using a loop and using recursion.
+使用两种方式实现：循环和递归。
 
-What's better: with recursion or without it?
+哪个更好：用递归还是不用递归的？

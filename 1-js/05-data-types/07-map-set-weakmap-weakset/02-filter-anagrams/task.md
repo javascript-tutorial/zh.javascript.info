@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# Filter anagrams
+# 过滤 anagrams
 
-[Anagrams](https://en.wikipedia.org/wiki/Anagram) are words that have the same number of same letters, but in different order.
+[Anagrams](https://en.wikipedia.org/wiki/Anagram) 是有相同数量相同字母但是顺序不同的单词。
 
-For instance:
+例如：
 
 ```
 nap - pan
@@ -14,9 +14,9 @@ ear - are - era
 cheaters - hectares - teachers
 ```
 
-Write a function `aclean(arr)` that returns an array cleaned from anagrams.
+写一个函数 `aclean(arr)`，它返回的数组中 anagrams 被删除。
 
-For instance:
+例如：
 
 ```js
 let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
@@ -24,5 +24,5 @@ let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 alert( aclean(arr) ); // "nap,teachers,ear" or "PAN,cheaters,era"
 ```
 
-From every anagram group should remain only one word, no matter which one.
+对于所有的 anagram 组，需要保留任意一个单词。
 

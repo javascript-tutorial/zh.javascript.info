@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Output a single-linked list in the reverse order
+# 反向输出单链表
 
-Output a single-linked list from the previous task <info:task/output-single-linked-list> in the reverse order.
+反向输出前一个任务 <info:task/output-single-linked-list> 中的单链表。
 
-Make two solutions: using a loop and using a recursion.
+使用两种解法：循环和递归。

@@ -1,14 +1,14 @@
 
 
-1. Either use a wrapper function, an arrow to be concise:
+1. 使用封装函数，箭头函数很简洁
 
     ```js 
     askPassword(() => user.login(true), () => user.login(false)); 
     ```
 
-    Now it gets `user` from outer variables and runs it the normal way.
+    现在它从外部变量中获得 `user`，正常运行。
 
-2. Or create a partial function from `user.login` that uses `user` as the context and has the correct first argument:
+2. 从 `user.login` 中创建偏函数，使用 `user` 作为上下文，并确定第一个参数：
 
 
     ```js 

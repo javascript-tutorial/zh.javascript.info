@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Partial application for login
+# 偏函数在登录中的应用
 
-The task is a little more complex variant of <info:task/question-use-bind>. 
+这个任务是比 <info:task/question-use-bind> 略微复杂的变体。
 
-The `user` object was modified. Now instead of two functions `loginOk/loginFail`, it has a single function `user.login(true/false)`.
+`user` 对象被修改了。现在不是两个函数 `loginOk/loginFail`，现在只有一个函数 `user.login(true/false)`。
 
-What to pass `askPassword` in the code below, so that it calls `user.login(true)` as `ok` and `user.login(false)` as `fail`?
+以下代码中，向 `askPassword` 传入什么参数，使得 `user.login(true)` 结果是 `ok`，`user.login(fasle)` 结果是 `fail`？
 
 ```js
 function askPassword(ok, fail) {
@@ -30,5 +30,5 @@ askPassword(?, ?); // ?
 */!*
 ```
 
-Your changes should only modify the highlighted fragment.
+你只能更改高亮部分代码。
 
