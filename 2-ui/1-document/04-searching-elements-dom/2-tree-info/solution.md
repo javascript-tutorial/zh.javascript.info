@@ -1,4 +1,4 @@
-Let's make a loop over `<li>`:
+我们在 `<li>` 中使用循环：
 
 ```js
 for (let li of document.querySelectorAll('li')) {
@@ -6,7 +6,7 @@ for (let li of document.querySelectorAll('li')) {
 }
 ```
 
-In the loop we need to get the text inside every `li`. We can read it directly from the first child node, that is the text node:
+循环时，我们需要获取每个 `li` 的文本下标。我们可以直接从第一个节点开始读取，这就是文本节点：
 
 ```js
 for (let li of document.querySelectorAll('li')) {
@@ -16,4 +16,4 @@ for (let li of document.querySelectorAll('li')) {
 }
 ```
 
-Then we can get the number of descendants `li.getElementsByTagName('li')`.
+之后我们就可以获取子节点 `li.getElementsByTagName('li')` 的数目。
