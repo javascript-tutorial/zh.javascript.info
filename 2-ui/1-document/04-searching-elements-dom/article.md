@@ -1,13 +1,13 @@
-# Searching: getElement* and querySelector*
+# 搜索： getElement* 和 querySelector*
 
-DOM navigation properties are great when elements are close to each other. What if they are not? How to get an arbitrary element of the page?
+当元素关联较密切时，DOM 导航属性是最好的。万一不是这样该怎么办？如何去获取页面上的任意一个元素？ 
 
-There are additional searching methods for that.
-## document.getElementById or just id
+还有其他的搜索方法。
+## document.getElementById 或者只使用 id
 
-If an element has the `id` attribute, then there's a global variable by the name from that `id`.
+如果元素有 `id` 属性，那么该 `id` 也会有一个同名全局变量。
 
-We can use it to access the element, like this:
+我们可以用以下方式来访问元素：
 
 ```html run
 <div id="*!*elem*/!*">
@@ -24,7 +24,7 @@ We can use it to access the element, like this:
 </script>
 ```
 
-That's unless we declare the same-named variable by our own:
+除非我们自己声明同名变量：
 
 ```html run untrusted height=0
 <div id="elem"></div>
@@ -36,11 +36,11 @@ That's unless we declare the same-named variable by our own:
 </script>
 ```
 
-The behavior is described [in the specification](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), but it is supported mainly for compatibility. The browser tries to help us by mixing namespaces of JS and DOM. Good for very simple scripts, but there may be name conflicts. Also, when we look in JS and don't have HTML in view, it's not obvious where the variable comes from.
+[在规范中](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem) 描述了这种行为，对主要是考虑到兼容性才对它进行了支持。浏为了帮助我们，浏览器尝试了混合 JS 和 DOM 的命名空间。但这仅仅对简单脚本有效，因为它们可能会产生命名冲突。同时，当我们在 JS 中查看时，因为无法在视图中查看 HTML，所以变量的来源可能不会那么清楚。
 
-The better alternative is to use a special method `document.getElementById(id)`.
+选择特殊的方法，才是最好的选择：`document.getElementById(id)`。
 
-For instance:
+例如：
 
 ```html run
 <div id="elem">
@@ -56,7 +56,7 @@ For instance:
 </script>
 ```
 
-Here in the tutorial we'll often use `id` to directly reference an element, but that's only to keep things short. In real life `document.getElementById` is the preferred method.
+本教程中，我们经常使用 `id` 来直接引用属性，但这仅仅是为了简化。实际开发中，使用 `document.getElementById` 才是最佳选择。
 
 ```smart header="There can be only one"
 The `id` must be unique. There can be only one element in the document with the given `id`.
@@ -70,19 +70,19 @@ The method `getElementById` that can be called only on `document` object. It loo
 
 ## getElementsBy*
 
-There are also other methods to look for nodes:
+也有其他的方法来搜索节点：
 
-- `elem.getElementsByTagName(tag)` looks for elements with the given tag and returns the collection of them. The `tag` parameter can also be a star `"*"` for "any tags".
+- `elem.getElementsByTagName(tag)` 用给定的标签来查找元素，并返回它们的集合。`tag` 参数也可以是“任何标签” 的 `"*"`。
 
-For instance:
+例如：
 ```js
-// get all divs in the document
+// 获取所有在文档中 div
 let divs = document.getElementsByTagName('div');
 ```
 
-This method is callable in the context of any DOM element.
+此方法可以在任意 DOM 元素的上下文中调用。
 
-Let's find all `input` tags inside the table:
+让我们找出在表格中的所有 `input` 标签：
 
 ```html run height=50
 <table id="table">
@@ -124,26 +124,26 @@ The `"s"` letter is absent in `getElementById`, because it returns a single elem
 Another widespread novice mistake is to write:
 
 ```js
-// doesn't work
+// 无法运行
 document.getElementsByTagName('input').value = 5;
 ```
 
-That won't work, because it takes a *collection* of inputs and assigns the value to it rather than to elements inside it.
+这无法运行，因为它接受输入的 *collection*，然后将值赋给它，而不是它里面的元素。
 
-We should either iterate over the collection or get an element by its index, and then assign, like this:
+我们应该迭代集合或者按给定索引来获取元素，然后赋值，就像下述所示：
 
 ```js
-// should work (if there's an input)
+// 应该可以运行（如果有输入）
 document.getElementsByTagName('input')[0].value = 5;
 ```
 ````
 
-There are also other rarely used methods of this kind:
+还有其他很少使用的方法：
 
-- `elem.getElementsByClassName(className)` returns elements that have the given CSS class. Elements may have other classes too.
-- `document.getElementsByName(name)` returns elements with the given `name` attribute, document-wide. Exists for historical reasons, very rarely used, we mention it here only for completeness.
+- `elem.getElementsByClassName(className)` 返回具有给定 CSS 类的元素。元素也可能含有其他的类。
+- `document.getElementsByName(name)` 返回具有给定 `name` 属性的元素，文档范围。因为历史原因而很少使用。在这里提出，只是考虑到了完整性。
 
-For instance:
+例如：
 
 ```html run height=50
 <form name="my-form">
@@ -152,10 +152,10 @@ For instance:
 </form>
 
 <script>
-  // find by name attribute
+  // 按 name 查找属性
   let form = document.getElementsByName('my-form')[0];
 
-  // find by class inside the form
+  // 按在表单中的类查找
   let articles = form.getElementsByClassName('article');
   alert(articles.length); // 2, found two elements with class "article"
 </script>
@@ -163,11 +163,11 @@ For instance:
 
 ## querySelectorAll [#querySelectorAll]
 
-Now goes the heavy artillery.
+现在将进行重要的内容
 
-The call to `elem.querySelectorAll(css)` returns all elements inside `elem` matching the given CSS selector. That's the most often used and powerful method.
+`elem.querySelectorAll(css)` 的调用将返回与给定 CSS 选择器匹配 `elem` 中的所有元素。这是最常用和最有力的方法。
 
-Here we look for all `<li>` elements that are last children:
+我们将查找所有为最后一个子元素的  `<li>` 元素：
 
 ```html run
 <ul>
@@ -189,35 +189,35 @@ Here we look for all `<li>` elements that are last children:
 </script>
 ```
 
-This method is indeed powerful, because any CSS selector can be used.
+因为可以使用任何 CSS 选择器，所有这种方法很有用。
 
 ```smart header="Can use pseudo-classes as well"
-Pseudo-classes in the CSS selector like `:hover` and `:active` are also supported. For instance, `document.querySelectorAll(':hover')` will return the collection with elements that the pointer is  over now (in nesting order: from the outermost `<html>` to the most nested one).
+CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例如，`document.querySelectorAll(':hover')` 将会返回指针现在已经结束的集合（按嵌套顺序：从最外层 `<html>` 到嵌套最多的元素）。
 ```
 
 
 ## querySelector [#querySelector]
 
-The call to `elem.querySelector(css)` returns the first element for the given CSS selector.
+调用 `elem.querySelector(css)` 后，它会返回给定 CSS 选择器的第一个元素。
 
-In other words, the result is the same as `elem.querySelectorAll(css)[0]`, but the latter is looking for *all* elements and picking one, while `elem.querySelector` just looks for one. So it's faster and shorter to write.
+换句话说，结果与 `elem.querySelectorAll(css)[0]` 相同，但是后者会从**所有**找到的元素中选取一个，而 `elem.querySelector` 只会查找一个。因此编写会更快更简洁。
 
 ## matches
 
-Previous methods were searching the DOM.
+之前的方法正在搜索 DOM。
 
-The [elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) does not look for anything, it merely checks if `elem` matches the given CSS-selector. It returns `true` or `false`.
+[elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) 不回查找任何内容，它只会检查 `elem` 是否匹配给定的 CSS 选择器。它返回 `true` 或者 `false`。
 
-The method comes handy when we are iterating over elements (like in array or something) and trying to filter those that interest us.
+当我们迭代元素（例如数组或者一些其他内容）并试图过滤那些我们感兴趣的元素时，这个方法会很方便。
 
-For instance:
+例如：
 
 ```html run
 <a href="http://example.com/file.zip">...</a>
 <a href="http://ya.ru">...</a>
 
 <script>
-  // can be any collection instead of document.body.children
+  // 不一定是 document.body.children，也可以是任何集合
   for (let elem of document.body.children) {
 *!*
     if (elem.matches('a[href$="zip"]')) {
@@ -230,15 +230,15 @@ For instance:
 
 ## closest
 
-All elements that are directly above the given one are called its *ancestors*.
+所有直接在给定元素之上的元素都被称为它的“祖先”。
 
-In other words, ancestors are: parent, the parent of parent, its parent and so on. The ancestors together form the chain of parents from the element to the top.
+换句话说，祖先是：父类，父类的父类，它的父类等。祖先们一起组成了从元素到顶端的父类链。
 
-The method `elem.closest(css)` looks the nearest ancestor that matches the CSS-selector. The `elem` itself is also included in the search.
+`elem.closest(css)` 方法会查找与 CSS 选择器匹配的最接近的祖先。`elem` 自己也会被搜索。
 
-In other words, the method `closest` goes up from the element and checks each of parents. If it matches the selector, then the search stops, and the ancestor is returned.
+换句话说，方法 `closest` 在元素中得到了提升，并检查每个父类。如果与选择器匹配，则停止搜索并返回祖先。
 
-For instance:
+例如：
 
 ```html run
 <h1>Contents</h1>
@@ -256,18 +256,18 @@ For instance:
   alert(chapter.closest('.book')); // UL
   alert(chapter.closest('.contents')); // DIV
 
-  alert(chapter.closest('h1')); // null (because h1 is not an ancestor)
+  alert(chapter.closest('h1')); // null（因为 h1 不是祖先）
 </script>
 ```
 
-## Live collections
+## Live 集合
 
-All methods `"getElementsBy*"` return a *live* collection. Such collections always reflect the current state of the document and "auto-update" when it changes.
+所有的 `"getElementsBy*"` 方法都会返回 *live* 集合。这类集合总是可以反映出文档的当前状态而且在文档变化时，可以自动更新。
 
-In the example below, there are two scripts.
+下面的实例中，有两个脚本。
 
-1. The first one creates a reference to the collection of `<div>`. As of now, it's length is `1`.
-2. The second scripts runs after the browser meets one more `<div>`, so it's length is `2`.
+1. 第一个方法创建了对集合 `<div>` 的引用。到目前为止，它的长度是 `1`。
+2. 第二个脚本在浏览器再遇到一个 `<div>` 时，它的长度会变成 `2`。
 
 ```html run
 <div>First div</div>
@@ -286,9 +286,9 @@ In the example below, there are two scripts.
 </script>
 ```
 
-In contrast, `querySelectorAll` returns a *static* collection. It's like a fixed array of elements.
+相反，`querySelectorAll` 会返回一个 *static* 集合。就像一个固定的元素数字。
 
-If we use it instead, then both scripts output `1`:
+如果我们使用它，那么两个脚本都会输出 `1`：
 
 
 ```html run
@@ -308,13 +308,13 @@ If we use it instead, then both scripts output `1`:
 </script>
 ```
 
-Now we can easily see the difference. The static collection did not increase after the appearance of a new `div` in the document.
+现在我们可以很容易地看到不同之处。在文档中出现一个新的 `div` 后，静态集合并没有增加。
 
-Here we used separate scripts to illustrate how the element addition affects the collection, but any DOM manipulations affect them. Soon we'll see more of them.
+我们在这里使用独立的脚本来说明元素添加是如何影响集合的，但是在此之后的任何 DOM 操作都会影响它们。很快我们就可以看到更多的细节。
 
-## Summary
+## 总结
 
-There are 6 main methods to search for nodes in DOM:
+有 6 种主要的方法，可以在 DOM 中进行搜素：
 
 <table>
 <thead>
@@ -365,14 +365,14 @@ There are 6 main methods to search for nodes in DOM:
 </tbody>
 </table>
 
-Please note that methods `getElementById` and `getElementsByName` can only be called in the context of the document: `document.getElementById(...)`. But not on an element: `elem.getElementById(...)` would cause an error.
+请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用`getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 回报错。
 
-Other methods can be called on elements too. For instance `elem.querySelectorAll(...)` will search inside `elem` (in the DOM subtree).
+也可以在元素上调用其他方法，例如 `elem.querySelectorAll(...)` 将会在 `elem`（在 DOM 子树中）内部进行搜素。
 
-Besides that:
+除此以外：
 
-- There is `elem.matches(css)` to check if `elem` matches the given CSS selector.
-- There is `elem.closest(css)` to look for the nearest ancestor that matches the given CSS-selector. The `elem` itself is also checked.
+- `elem.matches(css)` 用于检查 `elem` 与给定的 CSS 选择器是否匹配。
+- `elem.closest(css)` 用于查找与给定 CSS 选择器相匹配的最近的祖先。`elem` 本身也会被检查。
 
-And let's mention one more method here to check for the child-parent relationship:
--  `elemA.contains(elemB)` returns true if `elemB` is inside `elemA` (a descendant of `elemA`) or when `elemA==elemB`.
+最后我们在提一种检查父子关系的方法：
+-  如果 `elemB` 在 `elemA`（`elemA` 的后代） 中或者当 `elemA==elemB` 时 `elemA.contains(elemB)` 将返回 true。
