@@ -16,4 +16,4 @@ for (let li of document.querySelectorAll('li')) {
 }
 ```
 
-之后我们就可以获取子节点 `li.getElementsByTagName('li')` 的数目。
+之后我们就可以获取后代 `li.getElementsByTagName('li')` 的数目。
