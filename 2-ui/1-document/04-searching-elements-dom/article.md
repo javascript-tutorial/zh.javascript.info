@@ -286,7 +286,7 @@ CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例
 </script>
 ```
 
-相反，`querySelectorAll` 会返回一个 **static** 集合。就像一个固定的元素数字。
+相反，`querySelectorAll` 会返回一个**static**集合。就像一个固定的元素数字。
 
 如果我们使用它，那么两个脚本都会输出 `1`：
 
@@ -375,4 +375,4 @@ CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例
 - `elem.closest(css)` 用于查找与给定 CSS 选择器相匹配的最近的祖先。`elem` 本身也会被检查。
 
 最后我们在提一种检查父子关系的方法：
--  如果 `elemB` 在 `elemA`（`elemA` 的后代） 中或者当 `elemA==elemB` 时 `elemA.contains(elemB)` 将返回 true。
+-  如果 `elemB` 在 `elemA`（`elemA` 的后代）中或者当 `elemA==elemB` 时 `elemA.contains(elemB)` 将返回 true。
