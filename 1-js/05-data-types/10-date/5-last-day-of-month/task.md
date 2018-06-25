@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Last day of month?
+# 某月的最后一天？
 
-Write a function `getLastDayOfMonth(year, month)` that returns the last day of month. Sometimes it is 30th, 31st or even 28/29th for Feb.
+写一个函数 `getLastDayOfMonth(year, month)`，返回某月的最后一天，有时候是 30，有时是31，甚至是二月的 28/29。
 
-Parameters:
+参数：
 
-- `year` -- four-digits year, for instance 2012.
-- `month` -- month, from 0 to 11.
+- `year` —— 四位数的年份，比如 2012。
+- `month` —— 月份，从 0 到 11。
 
-For instance, `getLastDayOfMonth(2012, 1) = 29` (leap year, Feb).
+举个例子，`getLastDayOfMonth(2012, 1) = 29`

@@ -1,48 +1,48 @@
-# Interaction: alert, prompt, confirm
+# 交互：alert、prompt、confirm
 
-This part of the tutorial aims to cover JavaScript "as is", without environment-specific tweaks.
+本部分旨在覆盖 JavaScript “原生”，而无需针对特定环境进行调整。
 
-But still we use a browser as the demo environment. So we should know at least a few user-interface functions. In this chapter we'll get familiar with the browser functions `alert`, `prompt` and `confirm`.
+但我们仍然使用浏览器作为演示环境。所以我们至少应该知道一些用户界面函数。在本章节我们将会熟悉函数 `alert`、`prompt` 和 `confirm` 的用法。
 
 ## alert
 
-Syntax:
+语法：
 
 ```js
 alert(message);
 ```
 
-This shows a message and pauses the script execution until the user presses "OK".
+浏览器会弹出一段信息并暂停脚本，直到用户点击了“确定”。
 
-For example:
+举个例子：
 
 ```js run
 alert("Hello");
 ```
 
-The mini-window with the message is called a *modal window*. The word "modal" means that the visitor can't interact with the rest of the page, press other buttons etc, until they have dealt with the window. In this case -- until they press "OK".
+这个小窗口被称为 **模态窗**。"modal" 意味着用户不能与页面的其他部分进行交互，点击其他按钮等，直到他们处理完窗口。在这种情况下 - 直到他们按下“确定”。
 
 ## prompt
 
-Function `prompt` accepts two arguments:
+`prompt` 函数接收两个参数：
 
 ```js no-beautify
 result = prompt(title[, default]);
 ```
 
-It shows a modal window with a text message, an input field for the visitor and buttons OK/CANCEL.
+浏览器会显示一个带有文本消息的模态窗口，还有 input 框和确定/取消按钮。
 
 `title`
-: The text to show to the visitor.
+: 显示给用户的文本
 
 `default`
-: An optional second parameter, the initial value for the input field.
+: 可选的第二个参数，指定 input 框的初始值。
 
-The visitor may type something in the prompt input field and press OK. Or they can cancel the input by pressing the CANCEL button or hitting the `key:Esc` key.
+用户在 prompt 对话框的 input 框输入文本并点击确定。不然就点击取消按钮或敲击 `key:Esc` 键来取消。
 
-The call to `prompt` returns the text from the field or `null` if the input was canceled.
+`prompt` 返回输入的文本；如果取消输入就返回 `null`。
 
-For instance:
+举个例子：
 
 ```js run
 let age = prompt('How old are you?', 100);
@@ -51,15 +51,15 @@ alert(`You are ${age} years old!`); // You are 100 years old!
 ```
 
 ````warn header="IE: always supply a `default`"
-The second parameter is optional. But if we don't supply it, Internet Explorer would insert the text `"undefined"` into the prompt.
+第二个参数可选。但是如果我们不提供的话，Internet Explorer 会把 `"undefined"` 插入到 prompt。
 
-Run this code in Internet Explorer to see that:
+在 Internet Explorer 中运行将会看到：
 
 ```js run
 let test = prompt("Test");
 ```
 
-So, to look good in IE, it's recommended to always provide the second argument:
+所以，在 IE 中看起来很好，建议始终提供第二个参数：
 
 ```js run
 let test = prompt("Test", ''); // <-- for IE
@@ -68,17 +68,17 @@ let test = prompt("Test", ''); // <-- for IE
 
 ## confirm
 
-The syntax:
+语法：
 
 ```js
 result = confirm(question);
 ```
 
-Function `confirm` shows a modal window with a `question` and two buttons: OK and CANCEL.
+`confirm` 函数显示一个带有 `question` 和两个按钮的模态窗口：确定和取消。
 
-The result is `true` if OK is pressed and `false` otherwise.
+点击确定返回 `true`，点击取消返回 `false`。
 
-For example:
+举一个例子：
 
 ```js run
 let isBoss = confirm("Are you the boss?");
@@ -86,24 +86,24 @@ let isBoss = confirm("Are you the boss?");
 alert( isBoss ); // true if OK is pressed
 ```
 
-## Summary
+## 总结
 
-We covered 3 browser-specific functions to interact with the visitor:
+我们探讨了与用户交互的 3 个浏览器指定的函数：
 
 `alert`
-: shows a message.
+: 显示信息。
 
 `prompt`
-: shows a message asking the user to input text. It returns the text or, if CANCEL or `key:Esc` is clicked, all browsers return `null`.
+: 显示信息要求用户输入文本。点击确定返回文本，或者点击取消或按下 `key:Esc` 键，对于所有浏览器来说，其返回值都是。
 
 `confirm`
-: shows a message and waits for the user to press "OK" or "CANCEL". It returns `true` for OK and `false` for CANCEL/`key:Esc`.
+: 显示信息等待用户点击确定或取消。点击确定返回 `true`，点击取消或 `key:Esc` 键返回 `false`。
 
-All these methods are modal: they pause the script execution and don't allow the visitor to interact with the rest of the page until the message has been dismissed.
+这些方法都是模态的：它们暂停脚本执行，并且不允许用户与该页面的其余部分交互，直到消息被解除。
 
-There are two limitations shared by all the methods above:
+上述所有方法共有两个限制：
 
-1. The exact location of the modal window is determined by the browser. Usually it's in the center.
-2. The exact look of the window also depends on the browser. We can't modify it.
+1. 模态窗口的确切位置由浏览器决定。通常在页面中心。
+2. 窗口的确切外观还取决于浏览器。我们不能修改它。
 
-That is the price for simplicity. There are other ways to show nicer windows and richer interaction with the visitor, but if "bells and whistles" do not matter much, these methods work just fine.
+这是简单的代价。还有其他一些方法可以显示更漂亮的窗口，并与用户进行更丰富的交互，但如果“花里胡哨”不是非常重要，这些方法也可以工作的很好。

@@ -26,5 +26,5 @@ alert( JSON.stringify(meetup, function replacer(key, value) {
 */
 ```
 
-Here we also need to test `key==""` to exclude the first call where it is normal that `value` is `meetup`.
+这里我们也需要判断 `key==""` 以排除第一个调用时 `value` 是 `meetup` 的情况。
 

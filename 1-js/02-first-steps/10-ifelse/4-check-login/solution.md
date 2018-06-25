@@ -22,4 +22,4 @@ if (userName == 'Admin') {
 }
 ```
 
-Note the vertical indents inside the `if` blocks. They are technically not required, but make the code more readable.
+请注意 `if` 块中水平方向的缩进。技术上是非必需的，但会增加代码的可读性。

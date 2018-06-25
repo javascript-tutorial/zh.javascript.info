@@ -1,19 +1,19 @@
-The answer: the first and the third will execute.
+答案：第一个和第三个将会被执行。
 
-Details:
+详解：
 
 ```js run
-// Runs.
-// The result of -1 || 0 = -1, truthy
+// 执行。
+// -1 || 0 的结果为 -1，真值
 if (-1 || 0) alert( 'first' );
 
-// Doesn't run
-// -1 && 0 = 0, falsy
+// 不执行。
+// -1 && 0 = 0，假值
 if (-1 && 0) alert( 'second' );
 
-// Executes
-// Operator && has a higher precedence than ||
-// so -1 && 1 executes first, giving us the chain:
+// 执行
+// && 运算的优先级比 || 高
+// 所以 -1 && 1 先执行，给出如下运算链：
 // null || -1 && 1  ->  null || 1  ->  1
 if (null || -1 && 1) alert( 'third' );
 ```

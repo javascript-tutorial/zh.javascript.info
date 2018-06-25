@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Sort objects
+# 排序对象
 
-Write the function `sortByName(users)` that gets an array of objects with property `name` and sorts it.
+编写函数 `sortByName(users)` 获得对象数组 property的属性 `name` 并对它进行排序。
 
-For instance:
+例如：
 
 ```js no-beautify
 let john = { name: "John", age: 25 };

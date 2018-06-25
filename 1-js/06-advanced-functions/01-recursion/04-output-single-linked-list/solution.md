@@ -1,6 +1,6 @@
-# Loop-based solution
+# 循环解法
 
-The loop-based variant of the solution:
+基于循环的解法：
 
 ```js run
 let list = {
@@ -30,7 +30,7 @@ function printList(list) {
 printList(list);
 ```
 
-Please note that we use a temporary variable `tmp` to walk over the list. Technically, we could use a function parameter `list` instead:
+请注意，我们使用了一个临时变量 `tmp` 来遍历链表，严格来讲，我们可以使用函数入参 `list` 来代替：
 
 ```js
 function printList(list) {
@@ -43,15 +43,15 @@ function printList(list) {
 }
 ```
 
-...But that would be unwise. In the future we may need to extend a function, do something else with the list. If we change `list`, then we loose such ability.
+...但是这不够明智。未来我们可能想要扩展这个函数，使用这个链表做些事情，如果我们修改了 `list`，那么我们就失去这个能力。
 
-Talking about good variable names, `list` here is the list itself. The first element of it. And it should remain like that. That's clear and reliable.
+说到好的变量命名，`list` 在这里是链表本身。它的第一个元素。它应该保持原样，这是清晰可靠的。
 
-From the other side, the role of `tmp` is exclusively a list traversal, like `i` in the `for` loop.
+从另方面来说，`tmp` 是充当了完全遍历链表的角色，就像 `for` 循环中的 `i`。
 
-# Recursive solution
+# 递归解法
 
-The recursive variant of `printList(list)` follows a simple logic: to output a list we should output the current element `list`, then do the same for `list.next`:
+`printList(list)` 的递归实现遵循一个简单的逻辑：为了输出链表，我们应该输出 `list` 的当前的元素，`list.next` 同理：
 
 ```js run
 let list = {
@@ -70,10 +70,10 @@ let list = {
 
 function printList(list) {
 
-  alert(list.value); // output the current item
+  alert(list.value); // 输出当前元素
 
   if (list.next) {
-    printList(list.next); // do the same for the rest of the list
+    printList(list.next); // 链表中其余部分同理
   }
 
 }
@@ -81,8 +81,8 @@ function printList(list) {
 printList(list);
 ```
 
-Now what's better?
+哪个更好呢？
 
-Technically, the loop is more effective. These two variants do the same, but the loop does not spend resources for nested function calls.
+从技术上讲，循环更有效。这两个解法的做了同样的事情，但循环不会为嵌套函数调用消耗资源。
 
-From the other side, the recursive variant is shorter and sometimes easier to understand.
+另一方面，递归解法更简洁，有时更容易理解。

@@ -1,44 +1,44 @@
-# Automated testing with mocha
+# 使用 mocha 进行自动化测试
 
-Automated testing will be used in further tasks.
+自动化测试在任务中将会被进一步使用。
 
-It's actually a part of the "educational minimum" of a developer.
+它实际上是一个开发者的“教育最低限度”的一部分。
 
-## Why we need tests?
+## 为什么我们需要测试？
 
-When we write a function, we can usually imagine what it should do: which parameters give which results.
+当我们在写一个函数时，我们通常可以想象出它应该做什么：哪些参数会给出哪些结果。
 
-During development, we can check the function by running it and comparing the outcome with the expected one. For instance, we can do it in the console.
+在开发期间，我们可以通过运行程序来检查它并将结果与预期进行比较。例如，我们可以在控制台中这么做。
 
-If something is wrong -- then we fix the code, run again, check the result -- and so on till it works.
+如果出了问题 —— 那么我们会修复代码，然后再一次运行并检查结果 —— 直到它工作为止。
 
-But such manual "re-runs" are imperfect.
+但这样的手动“重新运行”是不完美的。
 
-**When testing a code by manual re-runs, it's easy to miss something.**
+**当通过手动重新运行来测试代码时，很容易漏掉一些东西。**
 
-For instance, we're creating a function `f`. Wrote some code, testing: `f(1)` works, but `f(2)` doesn't work. We fix the code and now `f(2)` works. Looks complete? But we forgot to re-test `f(1)`. That may lead to an error.
+例如，我们要创建一个函数 `f`。写一写代码，然后测试：`f(1)` 可以执行，但是 `f(2)` 不执行。我们修复了一下代码，现在 `f(2)` 可以执行了。看起来已经搞定了？但是我们忘了重新测试 `f(1)`。这样有可能会导致一个错误。
 
-That's very typical. When we develop something, we keep a lot of possible use cases in mind. But it's hard to expect a programmer to check all of them manually after every change. So it becomes easy to fix one thing and break another one.
+这是非常典型的。当我们在开发一些东西时，我们会保留很多可能需要的用例和想法。但是不要想着程序员在每一次改变之后都去检查所有的案例。所以很容易造成修复了一个问题却造成另一个问题的情况。
 
-**Automated testing means that tests are written separately, in addition to the code. They can be executed easily and check all the main use cases.**
+**自动化测试意味着除了代码之外，测试是单独写的。它们可以很容易地执行，并检查所有的主要用例。**
 
-## Behavior Driven Development (BDD)
+## 行为驱动开发（BDD）
 
-Let's use a technique named [Behavior Driven Development](http://en.wikipedia.org/wiki/Behavior-driven_development) or, in short, BDD. That approach is used among many projects. BDD is not just about testing. That's more.
+我们来使用一种名为[行为驱动开发](http://en.wikipedia.org/wiki/Behavior-driven_development)或简而言之 BDD 的技术。许多项目都采用这种方法。BDD 不仅仅是测试，还包含更多东西。
 
-**BDD is three things in one: tests AND documentation AND examples.**
+**BDD 包含了三部分：测试、文档和示例。**
 
-Enough words. Let's see the example.
+说的已经足够了，让我们来看一下例子吧。
 
-## Development of "pow": the spec
+## 开发中的 “pow”：规范
 
-Let's say we want to make a function `pow(x, n)` that raises `x` to an integer power `n`. We assume that `n≥0`.
+我们想要创建一个函数 `pow(x, n)` 来计算 `x` 的整数 `n` 次幂。我们假设 `n≥0`。
 
-That task is just an example: there's the `**` operator in JavaScript that can do that, but here we concentrate on the development flow that can be applied to more complex tasks as well.
+这个任务只是一个例子：JavaScript 中有一个 `**` 操作符可以做到。但是在这里我们专注于可以很好的应用于更复杂任务的开发流程上。
 
-Before creating the code of `pow`, we can imagine what the function should do and describe it.
+在创建函数 `pow` 的代码之前，我们可以想象函数应该做什么并且描述出来。
 
-Such description is called a *specification* or, in short, a spec, and looks like this:
+这样的描述被称作**规范**，看起来像这样：
 
 ```js
 describe("pow", function() {
@@ -50,93 +50,93 @@ describe("pow", function() {
 });
 ```
 
-A spec has three main building blocks that you can see above:
+一个规范包含三个主要的模块，你可以在上面看到。
 
 `describe("title", function() { ... })`
-: What functionality we're describing. Uses to group "workers" -- the `it` blocks. In our case we're describing the function `pow`.
+: 表示我们正在描述的功能是什么。用于组织 "工人（workers）" -- `it` 代码块。在我们的例子中我们正在描述函数 `pow`。
 
 `it("title", function() { ... })`
-: In the title of `it` we *in a human-readable way* describe the particular use case, and the second argument is a function that tests it.
+: `it` 里面的 "title" 中我们以**人类可读**的方式描述特定的用例，第二个参数是一个测试它的函数。
 
 `assert.equal(value1, value2)`
-: The code inside `it` block, if the implementation is correct, should execute without errors.
+: `it` 块中的代码。如果实现是正确的，它应该在执行的时候不产生任何错误。
 
-    Functions `assert.*` are used to check whether `pow` works as expected. Right here we're using one of them -- `assert.equal`, it compares arguments and yields an error if they are not equal. Here it checks that the result of `pow(2, 3)` equals `8`.
+    `assert.*` 函数用于检查 `pow` 是否按照预期工作。在这里我们使用了其中之一 —— `assert.equal`，它会比较参数，如果它们不相等则会抛出一个错误。这里它检查了 `pow(2, 3)` 的值是否等于 `8`。
 
-    There are other types of comparisons and checks that we'll see further.
+    还有其他类型的比较和检查方法，我们以后将会了解到。
 
-## The development flow
+## 开发流程
 
-The flow of development usually looks like this:
+开发流程通常看起来像这样：
 
-1. An initial spec is written, with tests for the most basic functionality.
-2. An initial implementation is created.
-3. To check whether it works, we run the testing framework [Mocha](http://mochajs.org/) (more details soon) that runs the spec. Errors are displayed. We make corrections until everything works.
-4. Now we have a working initial implementation with tests.
-5. We add more use cases to the spec, probably not yet supported by the implementations. Tests start to fail.
-6. Go to 3, update the implementation till tests give no errors.
-7. Repeat steps 3-6 till the functionality is ready.
+1. 编写初始规范，测试最基本的功能。
+2. 创建一个最初始实现。
+3. 检查它是否工作，我们运行测试框架 [Mocha](http://mochajs.org/)（很快会有更多细节）来运行测试。错误会被显示出来。我们持续修正直到一切都能工作。
+4. 现在我们有一个基于测试的能工作的初步实现。
+5. 我们增加更多的用例到规范中，或许目前的程序实现还不支持。测试从失败开始。
+6. 进行第 3 步，更新程序直到测试不会抛出错我。
+7. 重复第 3 步到第 6 步，直到功能完善。
 
-So, the development is *iterative*. We write the spec, implement it, make sure tests pass, then write more tests, make sure they work etc. At the end we have both a working implementation and tests for it.
+如此来看，开发是**迭代**的。我们写规范，实现它，确保测试通过，然后写更多的测试来确保它们工作等等。最后，我们有了一个能工作的实现和针对它的测试。
 
-In our case, the first step is complete: we have an initial spec for `pow`. So let's make an implementation. But before that let's make a "zero" run of the spec, just to see that tests are working (they will all fail).
+在我们的案例中，第一步已经完成了：针对 `pow` 我们有一个初始规范。因此让我们来实现它吧。但在此之前，让我们做一个针对规范的“零”运行，只是为了看到测试正在运行（它们都会失败）。
 
-## The spec in action
+## 行为规范
 
-Here in the tutorial we'll be using the following JavaScript libraries for tests:
+在本教程中，我们将使用以下 JavaScript 库进行测试：
 
-- [Mocha](http://mochajs.org/) -- the core framework: it provides common testing functions including `describe` and `it` and the main function that runs tests.
-- [Chai](http://chaijs.com) -- the library with many assertions. It allows to use a lot of different assertions, for now we need only `assert.equal`.
-- [Sinon](http://sinonjs.org/) -- a library to spy over functions, emulate built-in functions and more, we'll need it much later.
+- [Mocha](http://mochajs.org/) —— 核心框架：提供了包括 `describe` 和 `it` 的通用型测试函数和运行测试的主函数。
+- [Chai](http://chaijs.com) —— 提供很多断言支持的库。它可以用很多不同的断言。现在我们只需要用 `assert.equal`。
+- [Sinon](http://sinonjs.org/) —— 用于监视函数、模拟内置函数和其他函数的库，我们稍后会用到它。
 
-These libraries are suitable for both in-browser and server-side testing. Here we'll consider the browser variant.
+这些库都同时适用于浏览器端和服务器端。这里我们使用浏览器端。
 
-The full HTML page with these frameworks and `pow` spec:
+包含这些框架和 `pow` 规范的完整的 HTML 页面：
 
 ```html src="index.html"
 ```
 
-The page can be divided into four parts:
+该页面可分为四部分：
 
-1. The `<head>` -- add third-party libraries and styles for tests.
-2. The `<script>` with the function to test, in our case -- with the code for `pow`.
-3. The tests -- in our case an external script `test.js` that has `describe("pow", ...)` from above.
-4. The HTML element `<div id="mocha">` will be used by Mocha to output results.
-5. The tests are started by the command `mocha.run()`.
+1. `<head>` -- 为测试添加第三方库和样式文件。
+2. `<script>` 包含测试函数，在我们的例子中 --和 `pow` 相关的代码。
+3. 测试代码 -- 我们的案例中包含上面 `describe("pow", ...)` 那些代码的 `test.js`。
+4. HTML 元素 `<div id="mocha">` 将会被 Mocha 用来输出结果。
+5. 测试将以 `mocha.run()` 命令开始。
 
-The result:
+结果：
 
 [iframe height=250 src="pow-1" border=1 edit]
 
-As of now, the test fails, there's an error. That's logical: we have an empty function code in `pow`, so `pow(2,3)` returns `undefined` instead of `8`.
+到目前为止，测试失败了，出现了一个错误。这是合乎逻辑的：我们在 `pow` 是一个空函数，因此 `pow(2,3)` 返回了 `undefined` 而不是 `8`。
 
-For the future, let's note that there are advanced test-runners, like [karma](https://karma-runner.github.io/) and others. So it's generally not a problem to setup many different tests.
+未来，我们会注意到有更高级的测试工具，像是 [karma](https://karma-runner.github.io/) 或其他的。因此设置很多不同的测试通常来说不是一个问题。
 
-## Initial implementation
+## 初始实现
 
-Let's make a simple implementation of `pow`, for tests to pass:
+为了可以通过测试，让我们来简单的实现一下 `pow`：
 
 ```js
 function pow() {
-  return 8; // :) we cheat!
+  return 8; // :) 我们作弊啦！
 }
 ```
 
-Wow, now it works!
+哇哦，现在它可以工作了。
 
 [iframe height=250 src="pow-min" border=1 edit]
 
-## Improving the spec
+## 改进规范
 
-What we've done is definitely a cheat. The function does not work: an attempt to calculate `pow(3,4)` would give an incorrect result, but tests pass.
+我们所做的这些 —— 绝对是在作弊。函数是不起作用的：尝试计算 `pow(3,4)` 的话就会得到一个不正确的结果，但是测试却通过了。
 
-...But the situation is quite typical, it happens in practice. Tests pass, but the function works wrong. Our spec is imperfect. We need to add more use cases to it.
+...但是这个情况却是相当典型的，在实际中有可能会发生的。测试通过了，但是函数却是错误的。我们的规范是不完善的。我们需要给它添加更多的测试用例。
 
-Let's add one more test to see if `pow(3, 4) = 81`.
+这里我们又加了一个测试来看看是否是 `pow(3, 4) = 81`。
 
-We can select one of two ways to organize the test here:
+我们可以选择两种方式中的任意一种来组织测试代码：
 
-1. The first variant -- add one more `assert` into the same `it`:
+1. 第一种 —— 在同一个 `it` 中再添加一个 `assert`：
 
     ```js
     describe("pow", function() {
@@ -150,7 +150,7 @@ We can select one of two ways to organize the test here:
 
     });
     ```
-2. The second -- make two tests:
+2. 第二种 —— 写两个测试：
 
     ```js
     describe("pow", function() {
@@ -166,27 +166,27 @@ We can select one of two ways to organize the test here:
     });
     ```
 
-The principal difference is that when `assert` triggers an error, the `it` block immediately terminates. So, in the first variant if the first `assert` fails, then we'll never see the result of the second `assert`.
+主要的区别是，当 `assert` 触发一个错误时，`it` 代码块会立即终止。因此，在第一种方式中如果第一个 `assert` 失败了，我们将永远不会看到第二个 `assert` 的结果。
 
-Making tests separate is useful to get more information about what's going on, so the second variant is better.
+保持测试代码的分离有助于获得更多关于正在发生的事情的信息，因此第二种方式更好一点。
 
-And besides that, there's one more rule that's good to follow.
+除此之外，还有一个规范值得遵循。
 
-**One test checks one thing.**
+**一个测试检测一个东西。**
 
-If we look at the test and see two independent checks in it, it's better to split it into two simpler ones.
+如果我们检查一下测试代码发现在其中有两个相互独立的检测 —— 最好将它拆分成两个更简单的。
 
-So let's continue with the second variant.
+因此让我们继续使用第二种方式：
 
-The result:
+结果：
 
 [iframe height=250 src="pow-2" edit border="1"]
 
-As we could expect, the second test failed. Sure, our function always returns `8`, while the `assert` expects `27`.
+我们可以猜想出，第二条测试失败了。当然啦，我们的函数总会返回 `8`，而 `assert` 期望的是 `27`。
 
-## Improving the implementation
+## 改进实现
 
-Let's write something more real for tests to pass:
+让我们写一些更加真实的代码来通过测试吧：
 
 ```js
 function pow(x, n) {
@@ -200,7 +200,7 @@ function pow(x, n) {
 }
 ```
 
-To be sure that the function works well, let's test it for more values. Instead of writing `it` blocks manually, we can generate them in `for`:
+为了确保函数可以很好地工作，我们来使用更多值测试它吧。除了手动的编写 `it` 代码块，我们可以使用 `for` 来生成他们：
 
 ```js
 describe("pow", function() {
@@ -219,15 +219,15 @@ describe("pow", function() {
 });
 ```
 
-The result:
+结果：
 
 [iframe height=250 src="pow-3" edit border="1"]
 
-## Nested describe
+## 嵌套描述
 
-We're going to add even more tests. But before that let's note that the helper function `makeTest` and `for` should be grouped together. We won't need `makeTest` in other tests, it's needed only in `for`: their common task is to check how `pow` raises into the given power.
+我们打算添加更多的测试。但在此之前，我们需要注意到辅助函数 `makeTest` 和 `for` 应该被组合到一起。我们在其他代码中不需要 `makeTest`，它是在 `for` 中需要：他们公共的任务就是 `pow` 怎么提高给定的数值。
 
-Grouping is done with a nested `describe`:
+使用嵌套的 `describe` 来进行分组：
 
 ```js
 describe("pow", function() {
@@ -251,20 +251,20 @@ describe("pow", function() {
   });
 */!*
 
-  // ... more tests to follow here, both describe and it can be added
+  // ...可以在这里写更多的测试代码，describe 和 it 都可以添加。
 });
 ```
 
-The nested `describe` defines a new "subgroup" of tests. In the output we can see the titled indentation:
+嵌套的 `describe` 为测试代码定义了一个新的 "subgroup"。 在输出中我们可以看到带有标题的缩进：
 
 [iframe height=250 src="pow-4" edit border="1"]
 
-In the future we can add more `it` and `describe` on the top level with helper functions of their own, they won't see `makeTest`.
+在未来我们可以在顶级域中添加更多的 `it` 和 `describe` 以及它们自身的辅助函数，它们不会看到 `makeTest`。
 
 ````smart header="`before/after` and `beforeEach/afterEach`"
-We can setup `before/after` functions that execute before/after running tests, and also `beforeEach/afterEach` functions that execute before/after *every* `it`.
+我们可以设置 `before/after` 函数来在运行测试之前/之后执行。也可以使用 `beforeEach/afterEach` 在执行**每一个** `it` 之前/之后执行。
 
-For instance:
+例如：
 
 ```js no-beautify
 describe("test", function() {
@@ -281,7 +281,7 @@ describe("test", function() {
 });
 ```
 
-The running sequence will be:
+运行顺序将为：
 
 ```
 Testing started – before all tests (before)
@@ -296,18 +296,18 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
-Usually, `beforeEach/afterEach` (`before/each`) are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+通常地，`beforeEach/afterEach` (`before/each`) 用于初始化，清零计数器或做一些介于每个测试（或测试组）之间的事情。
 ````
 
-## Extending the spec
+## 延伸的规范
 
-The basic functionality of `pow` is complete. The first iteration of the development is done. When we're done celebrating and drinking champagne -- let's go on and improve it.
+`pow` 的基础功能已经完成了。第一次迭代开发完成啦。当我们庆祝和喝香槟之后，让我们继续改进它吧。
 
-As it was said, the function `pow(x, n)` is meant to work with positive integer values `n`.
+正如它所说，函数 `pow(x, n)` 意味着使用正整数 `n` 来执行的。
 
-To indicate a mathematical error, JavaScript functions usually return `NaN`. Let's do the same for invalid values of `n`.
+如果要表示一个数学错误，JavaScript 函数通常会返回 `NaN`。让我们对于无效的 `n` 做同样的事情吧。
 
-Let's first add the behavior to the spec(!):
+让我们首先将这个行为加到规范中(!)：
 
 ```js
 describe("pow", function() {
@@ -322,34 +322,34 @@ describe("pow", function() {
 
   it("for non-integer n the result is NaN", function() {
 *!*
-    assert.isNaN(pow(2, 1.5));    
+    assert.isNaN(pow(2, 1.5));
 */!*
   });
 
 });
 ```
 
-The result with new tests:
+新测试的结果：
 
 [iframe height=530 src="pow-nan" edit border="1"]
 
-The newly added tests fail, because our implementation does not support them. That's how BDD is done: first we write failing tests, and then make an implementation for them.
+新加的测试失败了，因为我们的实现方式是不支持它们的。这就是 BDD 的做法：我们首先写一些失败的测试，然后去实现它们。
 
 ```smart header="Other assertions"
 
-Please note the assertion `assert.isNaN`: it checks for `NaN`.
+请注意断言语句 `assert.isNaN`：它用来检测 `NaN`。
 
-There are other assertions in Chai as well, for instance:
+在 Chai 中也有其他的断言，例如：
 
-- `assert.equal(value1, value2)` -- checks the equality  `value1 == value2`.
-- `assert.strictEqual(value1, value2)` -- checks the strict equality `value1 === value2`.
-- `assert.notEqual`, `assert.notStrictEqual` -- inverse checks to the ones above.
-- `assert.isTrue(value)` -- checks that `value === true`
-- `assert.isFalse(value)` -- checks that `value === false`
-- ...the full list is in the [docs](http://chaijs.com/api/assert/)
+- `assert.equal(value1, value2)` —— 检测相等 `value1 == value2`。
+- `assert.strictEqual(value1, value2)` —— 检测严格相等 `value1 === value2`。
+- `assert.notEqual`, `assert.notStrictEqual` —— 刚好和上面做相反的检查。
+- `assert.isTrue(value)` —— 检查 `value === true`。
+- `assert.isFalse(value)` —— 检查 `value === false`。
+- ...完整的列表在 [docs](http://chaijs.com/api/assert/)。
 ```
 
-So we should add a couple of lines to `pow`:
+因此我们应该给 `pow` 再加几行：
 
 ```js
 function pow(x, n) {
@@ -368,45 +368,45 @@ function pow(x, n) {
 }
 ```
 
-Now it works, all tests pass:
+现在它可以工作了，所有的测试也都通过了：
 
 [iframe height=300 src="pow-full" edit border="1"]
 
 [edit src="pow-full" title="Open the full final example in the sandbox."]
 
-## Summary
+## 总结
 
-In BDD, the spec goes first, followed by implementation. At the end we have both the spec and the code.
+在 BDD 中，规范先行，实现在后。最后我们同时拥有了规范和代码。
 
-The spec can be used in three ways:
+规范可以通过三种方式使用：
 
-1. **Tests** guarantee that the code works correctly.
-2. **Docs** -- the titles of `describe` and `it` tell what the function does.
-3. **Examples** -- the tests are actually working examples showing how a function can be used.
+1. **测试** 保证代码正确工作。
+2. **文档** —— `describe` 的标题以及 `it` 告诉我们函数做了什么。
+3. **案例** —— 测试实际工作的例子显示了一个函数可以怎样被使用。
 
-With the spec, we can safely improve, change, even rewrite the function from scratch and make sure it still works right.
+有了规范，我们可以安全地改进、修改甚至重写函数，并确保它仍然正确地工作。
 
-That's especially important in large projects when a function is used in many places. When we change such a function, there's just no way to manually check if every place that uses it still works right.
+这在一个函数会在多个地方使用的大型项目中尤其重要。当我们改变这样一个函数时，没有办法手动检查每个使用它们的地方是否仍旧正确。
 
-Without tests, people have two ways:
+如果没有测试，人们有两个办法：
 
-1. To perform the change, no matter what. And then our users meet bugs and report them. If we can afford that.
-2. Or people become afraid to modify such functions, if the punishment for errors is harsh. Then it becomes old, overgrown with cobwebs, no one wants to get into it, and that's not good.
+1. 进行改变，不管其他的东西。然后我们的用户会发现 bug 并将其报告。如果我们能负担得起的话。
+2. 如果错误比较严重，人们会变得害怕修改这样的函数。然后它就会越来越陈旧，长满了蜘蛛网，没有人会去触碰它，这样很不好。
 
-**Automatically tested code is contrary to that!**
+**自动化测试过的代码刚好与其相反！**
 
-If the project is covered with tests, there's just no such problem. We can run tests and see a lot of checks made in a matter of seconds.
+如果这个项目被测试代码覆盖了，就不会出现这种问题。我们可以运行测试，并在几秒钟内看到大量的检查。
 
-**Besides, a well-tested code has better architecture.**
+**另外，一个有良好测试的代码通常都有更好的架构。**
 
-Naturally, that's because it's easier to change and improve it. But not only that.
+当然了，这是因为很容易可以修改和改进它。但不仅如此。
 
-To write tests, the code should be organized in such a way that every function has a clearly described task, well-defined input and output. That means a good architecture from the beginning.
+为了编写测试，代码应该以这样一种方式被组织起来 —— 每一个函数都有一个可被明确描述的任务，定义良好的输入和输出。这意味着从一开始就是一个好的架构。
 
-In real life that's sometimes not that easy. Sometimes it's difficult to write a spec before the actual code, because it's not yet clear how it should behave. But in general writing tests makes development faster and more stable.
+在现实生活中有时候可能并不容易。有时很难在实际代码之前编写规范，因为还不清楚它应该如何表现。但一般来说，编写测试使得开发更快更稳定。
 
-## What now?
+## 现在是什么？
 
-Later in the tutorial you will meet many tasks with tests baked-in. So you'll see more practical examples.
+在本教程后面，您将遇到许多包含了测试的任务。所以你会看到更多实用的例子。
 
-Writing tests requires good JavaScript knowledge. But we're just starting to learn it. So, to settle down everything, as of now you're not required to write tests, but you should already be able to read them even if they are a little bit more complex than in this chapter.
+编写测试需要良好的 JavaScript 知识。但我们刚刚开始学习它。因此，为了解决所有问题，现在您不需要编写测试，但是你应该已经能够阅读它们，即使它们比本章中的更复杂一些。

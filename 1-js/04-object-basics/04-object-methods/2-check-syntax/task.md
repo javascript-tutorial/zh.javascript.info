@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Syntax check
+# 检查语法
 
-What is the result of this code?
+这段代码的结果是什么？
 
 
 ```js no-beautify
@@ -16,4 +16,4 @@ let user = {
 (user.go)()
 ```
 
-P.S. There's a pitfall :)
+提示：有一个陷阱哦 :)

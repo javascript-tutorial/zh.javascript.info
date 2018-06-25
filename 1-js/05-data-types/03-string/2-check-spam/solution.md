@@ -1,4 +1,4 @@
-To make the search case-insensitive, let's bring the stirng to lower case and then search:
+为了使搜索不区分大小写，我们将字符串改为小写，然后搜索：
 
 ```js run
 function checkSpam(str) {

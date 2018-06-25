@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Rewrite 'if' into '?'
+# 使用 '?' 重写 'if' 语句
 
-Rewrite this `if` using the ternary operator `'?'`:
+使用三元运算符 `'?'` 重写下面的 `if` 语句：
 
 ```js
 if (a + b < 4) {
