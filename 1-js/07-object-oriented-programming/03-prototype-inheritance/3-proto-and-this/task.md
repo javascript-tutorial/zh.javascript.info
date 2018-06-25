@@ -4,9 +4,9 @@ importance: 5
 
 # Where it writes?
 
-We have `rabbit` inheriting from `animal`.
+`rabbit` 继承自 `animal`。
 
-If we call `rabbit.eat()`, which object receives the `full` property: `animal` or `rabbit`? 
+如果我们调用 `rabbit.eat()`，哪一个对象会接收到 `full` 属性：`animal` 还是 `rabbit`？ 
 
 ```js
 let animal = {
