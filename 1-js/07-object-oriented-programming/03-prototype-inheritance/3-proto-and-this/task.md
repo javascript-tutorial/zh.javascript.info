@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# Where it writes?
+# 写在哪里？
 
 `rabbit` 继承自 `animal`。
 
