@@ -1,20 +1,20 @@
-# Attributes and properties
+# 特性和属性
 
-When the browser loads the page, it "reads" (another word: "parses") HTML text and generates DOM objects from it. For element nodes most standard HTML attributes automatically become properties of DOM objects.
+当浏览器加载页面时, 它会 “读取”（或者称之为：“解析”） HTML 文本并生成 DOM 对象。对于大多数元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
 
-For instance, if the tag is `<body id="page">`, then the DOM object has `body.id="page"`.
+在这个例子中, 如果标签是 `<body id="page">`, 那么 DOM 对象会生成这样一个特性 `body.id="page"`。
 
-But the attribute-property mapping is not one-to-one! In this chapter we'll pay attention to separate these two notions, to see how to work with them, when they are the same, and when they are different.
+但是特性-属性并不总是一一对应的！在这一篇文章中将带领你一起分清楚这两个概念，了解它们的具体作用，明白它们什么时候会相同什么时候会不同。
 
-## DOM properties
+## DOM 属性
 
-We've already seen built-in DOM properties. There's a lot. But technically no one limits us, and if it's not enough -- we can add our own.
+我们已经见过内置的 DOM 属性了。它的数量很庞大，但是 DOM 技术实现上没有限制我们对这个对象进行添加 -- 如果我们需要额外的属性的话。
 
-DOM nodes are regular JavaScript objects. We can alter them.
+DOM 节点是一个标准的 JavaScript 对象。我们可以 alert 它
 
-For instance, let's create a new property in `document.body`:
+在这个例子中, 让我们在 `document.body` 创建一个新的属性：
 
-```js run
+```js
 document.body.myData = {
   name: 'Caesar',
   title: 'Imperator'
@@ -23,19 +23,19 @@ document.body.myData = {
 alert(document.body.myData.title); // Imperator
 ```
 
-We can add a method as well:
+我们也能像下面这样添加一个方法：
 
-```js run
+```js
 document.body.sayTagName = function() {
   alert(this.tagName);
 };
 
-document.body.sayTagName(); // BODY (the value of "this" in the method is document.body)
+document.body.sayTagName(); // BODY (这个方法中的 "this" 指 document.body)
 ```
 
-We can also modify built-in prototypes like `Element.prototype` and add new methods to all elements:
+我们还可以修改内置属性的原型，比如修改 `Element.prototype` 会给所有元素添加一个方法：
 
-```js run
+```js
 Element.prototype.sayHi = function() {
   alert(`Hello, I'm ${this.tagName}`);
 };
@@ -44,61 +44,61 @@ document.documentElement.sayHi(); // Hello, I'm HTML
 document.body.sayHi(); // Hello, I'm BODY
 ```
 
-So, DOM properties and methods behave just like those of regular JavaScript objects:
+所以， DOM 上的属性和方法其实就像是一个标准的 Javascript 对象：
 
-- They can have any value.
-- They are case-sensitive (write `elem.nodeType`, not `elem.NoDeTyPe`).
+- 它有一些值
+- 它是大小写敏感的 (要写成 `elem.nodeType`, 而不是 `elem.NoDeTyPe`)。
 
-## HTML attributes
+## HTML 特性
 
-In HTML language, tags may have attributes. When the browser reads HTML text and creates DOM objects for tags, it recognizes *standard* attributes and creates DOM properties from them.
+在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别 *标准化* 特性然后以此创建 DOM 属性。
 
-So when an element has `id` or another *standard* attribute, the corresponding property gets created. But that doesn't happen if the attribute is non-standard.
+因此当一个元素有 `id` 或其他 *标准化* 特性，会生相应的 DOM 属性。但是非 *标准化* 的特性则会被忽略。
 
-For instance:
-```html run
+例如：
+```html
 <body id="test" something="non-standard">
   <script>
     alert(document.body.id); // test
 *!*
-    // non-standard attribute does not yield a property
+    // 非标准特性不会生成相应属性
     alert(document.body.something); // undefined
 */!*
   </script>
 </body>
 ```
 
-Please note that a standard attribute for one element can be unknown for another one. For instance, `"type"` is standard for `<input>` ([HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)), but not for `<body>` ([HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)). Standard attributes are described in the specification for the corresponding element class.
+请留意不是每一个元素的标准化特性都是相同的， `"type"` 是 `<input>` 的一个标准化属性([HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement))，但是 `<body>` 则没有([HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement))。每一个元素的标准化特性都有确切的规范描述。
 
-Here we can see it:
-```html run
+以下我们可以看到：
+```html
 <body id="body" type="...">
   <input id="input" type="text">
   <script>
     alert(input.type); // text
 *!*
-    alert(body.type); // undefined: DOM property not created, because it's non-standard
+    alert(body.type); // undefined: DOM 属性不存在，因为这不是一个标准化的特性。
 */!*
   </script>
 </body>
 ```
 
-So, if an attribute is non-standard, there won't be DOM-property for it. Is there a way to access such attributes?
+如果一个特性不是标准化的，DOM 属性就不存在这个特性。那我们有没办法获取到这个特性？
 
-Sure. All attributes are accessible using following methods:
+答案是肯定的。以下几个方法是针对元素特性的操作：
 
-- `elem.hasAttribute(name)` -- checks for existence.
-- `elem.getAttribute(name)` -- gets the value.
-- `elem.setAttribute(name, value)` -- sets the value.
-- `elem.removeAttribute(name)` -- removes the attribute.
+- `elem.hasAttribute(name)` -- 检验是否拥这个特性。
+- `elem.getAttribute(name)` -- 获取到这个特性。
+- `elem.setAttribute(name, value)` -- 设置这个特性。
+- `elem.removeAttribute(name)` -- 移除这个特性。
 
-These methods operate exactly with what's written in HTML.
+以上的几个方法实际上也是 HTML 的原生方法。
 
-Also one can read all attributes using `elem.attributes`: a collection of objects that belong to a built-in [Attr](https://dom.spec.whatwg.org/#attr) class, with `name` and `value` properties.
+我们可以通过 `elem.attributes` 读取到该元素的所有特性：这些特性都被一个名为 [Attr](https://dom.spec.whatwg.org/#attr) 的内置类以 `name` 和 `value` 这样的键-值对收集起来。
 
-Here's a demo of reading a non-standard property:
+下面是一个如何读取非标准化特性的 demo ：
 
-```html run
+```html
 <body something="non-standard">
   <script>
 *!*
@@ -108,14 +108,14 @@ Here's a demo of reading a non-standard property:
 </body>
 ```
 
-HTML attributes have the following features:
+HTML 特性有几个特征
 
-- Their name is case-insensitive (`id` is same as `ID`).
-- Their values are always strings.
+- 它们的书写是大小写不敏感的 (`id` 也可以写作 `ID`)。
+- 他们的值只能是字符串。
 
-Here's an extended demo of working with attributes:
+下面是一个延伸出来的 demo ，它描述了 attributes 是怎么工作的。
 
-```html run
+```html
 <body>
   <div id="elem" about="Elephant"></div>
 
@@ -133,145 +133,145 @@ Here's an extended demo of working with attributes:
 </body>
 ```
 
-Please note:
+请注意：
 
-1. `getAttribute('About')` -- the first letter is uppercase here, and in HTML it's all lowercase. But that doesn't matter: attribute names are case-insensitive.
-2. We can assign anything to an attribute, but it becomes a string. So here we have `"123"` as the value.
-3. All attributes including ones that we set are visible in `outerHTML`.
-4. The `attributes` collection is iterable and has all attributes with `name` and `value`.
+1. `getAttribute('About')` -- 这里是第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
+2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
+3. 所有 attributes 都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
+4.  `attributes` 以 `name` 和 `value` 这样的键-值对收集在一个可迭代对象里。
 
-## Property-attribute synchronization
+## 属性-特性的同步
 
-When a standard attribute changes, the corresponding property is auto-updated, and (with some exceptions) vice versa.
+当一个标准化的特性被改变，相应的属性随之改变（有极个别除外），反之亦然。
 
-In the example below `id` is modified as an attribute, and we can see the property changed too. And then the same backwards:
+下面这个例子中 `id` 这个特性被改变了，我们可以看到属性也被改变了。反过来也是同样的效果。
 
-```html run
+```html
 <input>
 
 <script>
   let input = document.querySelector('input');
 
-  // attribute => property
+  // 特性 => 属性
   input.setAttribute('id', 'id');
-  alert(input.id); // id (updated)
+  alert(input.id); // id (更新了)
 
-  // property => attribute
+  // 属性 => 特性
   input.id = 'newId';
-  alert(input.getAttribute('id')); // newId (updated)
+  alert(input.getAttribute('id')); // newId (更新了)
 </script>
 ```
 
-But there are exclusions, for instance `input.value` synchronizes only from attribute -> to property, but not back:
+这里有一些特殊情况下的例子， `input.value` 只能从特性同步到属性，反过来则不行：
 
-```html run
+```html
 <input>
 
 <script>
   let input = document.querySelector('input');
 
-  // attribute => property
+  // 特性 => 属性
   input.setAttribute('value', 'text');
   alert(input.value); // text
 
 *!*
-  // NOT property => attribute
+  // 这操作无效 属性 => 特性
   input.value = 'newValue';
-  alert(input.getAttribute('value')); // text (not updated!)
+  alert(input.getAttribute('value')); // text (没有更新！)
 */!*
 </script>
 ```
 
-In the example above:
-- Changing the attribute `value` updates the property.
-- But the property change does not affect the attribute.
+通过这两个例子可以看出：
+- 改变特性值 `value` 会更新到属性上。
+- 但是直接改变属性的值却不会作用在特性的值上。
 
-That "feature" may actually come in handy, because the user may modify `value`, and then after it, if we want to recover the "original" value from HTML, it's in the attribute.
+这种 “特征” 是相当便利的，因为用户可能会经常修改 `value` ，假设我们想要覆盖 HTML上 “原始值” ，只需要修改特性的值。
 
-## DOM properties are typed
+## DOM 属性的类型
 
-DOM properties are not always strings. For instance, the `input.checked` property (for checkboxes) is a boolean:
+DOM 并不总是字符串。例如 `input.checked` 属性 (多选框) 是一个布尔类型的值。
 
-```html run
+```html
 <input id="input" type="checkbox" checked> checkbox
 
 <script>
-  alert(input.getAttribute('checked')); // the attribute value is: empty string
-  alert(input.checked); // the property value is: true
+  alert(input.getAttribute('checked')); // 特性值是：空字符串
+  alert(input.checked); // 属性的值是： true
 </script>
 ```
 
-There are other examples. The `style` attribute is a string, but the `style` property is an object:
+类似的例子还有，  `style` 特性值是一个字符串，但 `style` 属性是一个对象：
 
-```html run
+```html
 <div id="div" style="color:red;font-size:120%">Hello</div>
 
 <script>
-  // string
+  // 字符串
   alert(div.getAttribute('style')); // color:red;font-size:120%
 
-  // object
+  // 对象
   alert(div.style); // [object CSSStyleDeclaration]
   alert(div.style.color); // red
 </script>
 ```
 
-That's an important difference. But even if a DOM property type is a string, it may differ from the attribute!
+还有一个非常重要的不同点。DOM 属性的字符串可能跟特性值的字符串所表示的不是同一个东西！
 
-For instance, the `href` DOM property is always a *full* URL, even if the attribute contains a relative URL or just a `#hash`.
+例如 `href` DOM 属性总是一个绝对路径的，而特性值只包含相对路径或者只包含 `#hash` 这一部分。
 
-Here's an example:
+这里有一个例子：
 
-```html height=30 run
+```html
 <a id="a" href="#hello">link</a>
 <script>
-  // attribute
+  // 特性
   alert(a.getAttribute('href')); // #hello
 
-  // property
-  alert(a.href ); // full URL in the form http://site.com/page#hello
+  // 属性
+  alert(a.href ); // 绝对路径 http://site.com/page#hello
 </script>
 ```
 
-If we need the value of `href` or any other attribute exactly as written in the HTML, we can use `getAttribute`.
+如果我们需要 HTML 中展示的 `href` ，可以用 `getAttribute` 获取到。
 
 
-## Non-standard attributes, dataset
+## 非标准化的特性， dataset
 
-When writing HTML, we use a lot of standard attributes. But what about non-standard, custom ones? First, let's see whether they are useful or not? What for?
+当我们编写 HTML ，会用到很多标准特性。但是哪些是标准化的哪些不是，怎么区分它们？首先，看看它们是否起作用？
 
-Sometimes non-standard attributes are used to pass custom data from HTML to JavaScript, or to "mark" HTML-elements for JavaScript.
+有时候非标准化特性常常用于在 HTML 中定义一些 JavaScript 数据，或者是给 HTML 元素打上 “标记” 。
 
-Like this:
+像这样：
 
-```html run
-<!-- mark the div to show "name" here -->
+```html
+<!-- 标记这个 div 中要显示 "name"  -->
 <div *!*show-info="name"*/!*></div>
-<!-- and age here -->
+<!-- 这里要显示 "age"  -->
 <div *!*show-info="age"*/!*></div>
 
 <script>
-  // the code finds an element with the mark and shows what's requested
+  // 这段代码是找到该元素并且按照给定数据展示到页面上
   let user = {
     name: "Pete",
     age: 25
   };
 
   for(let div of document.querySelectorAll('[show-info]')) {
-    // insert the corresponding info into the field
+    // 插入相应的数据
     let field = div.getAttribute('show-info');
-    div.innerHTML = user[field]; // Pete, then age
+    div.innerHTML = user[field]; // Pete, 25
   }
 </script>
 ```
 
-Also they can be used to style an element.
+我们还可以应用在元素的样式上。
 
-For instance, here for the order state the attribute `order-state` is used:
+例如，我们通过 `order-state` 设置不同状态下的颜色：
 
-```html run
+```html
 <style>
-  /* styles rely on the custom attribute "order-state" */
+  /* 按照 "order-state" 的设定产生对应样式 */
   .order[order-state="new"] {
     color: green;
   }
@@ -298,37 +298,37 @@ For instance, here for the order state the attribute `order-state` is used:
 </div>
 ```
 
-Why the attribute may be preferable to classes like `.order-state-new`, `.order-state-pending`, `order-state-canceled`?
+为什么使用特性值比使用 `.order-state-new`， `.order-state-pending`， `order-state-canceled` 这些样式类要好？
 
-That's because an attribute is more convenient to manage. The state can be changed as easy as:
+因为特性值更容易管理，我们可以轻易的通过特性值的改变切换样式，比如下面这样：
 
 ```js
-// a bit simpler than removing old/adding a new class
+// 可以轻易的移除或者添加一个新你的类名。
 div.setAttribute('order-state', 'canceled');
 ```
 
-But there may be a possible problem with custom attributes. What if we use a non-standard attribute for our purposes and later the standard introduces it and makes it do something? The HTML language is alive, it grows, more attributes appear to suit the needs of developers. There may be unexpected effects in such case.
+但是自定义的特性也存在问题。如果我们使用了一个非标准化的特性，之后却变成了一个标准化的值并用来做其他事情， HTML 语言一直在发展，越来越多的标准化特性解决了开发者的开发需求。这就是一个不可控的例子。
 
-To avoid conflicts, there exist [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) attributes.
+为了解决这个冲突产生了 [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) 这个特性。
 
-**All attributes starting with "data-" are reserved for programmers' use. They are available in the `dataset` property.**
+**所有以 "data-" 开头的特性值可以给编程人员正常使用，同时它还是 `dataset` 合法值。**
 
-For instance, if an `elem` has an attribute named `"data-about"`, it's available as `elem.dataset.about`.
+例如, 如果一个 `elem` 有一个键名是 `"data-about"` 的特性，那么可以通过 `elem.dataset.about` 取到这个合法值。
 
-Like this:
+像这样：
 
-```html run
+```html
 <body data-about="Elephants">
 <script>
   alert(document.body.dataset.about); // Elephants
 </script>
 ```
 
-Multiword attributes like `data-order-state` become camel-cased: `dataset.orderState`.
+像 `data-order-state` 的多字特性键名可以写成驼峰式 `dataset.orderState`。
 
-Here's a rewritten "order state" example:
+这里是一个 "order state" 重构版：
 
-```html run
+```html
 <style>
   .order[data-order-state="new"] {
     color: green;
@@ -348,39 +348,39 @@ Here's a rewritten "order state" example:
 </div>
 
 <script>
-  // read
+  // 读取
   alert(order.dataset.orderState); // new
 
-  // modify
+  // 修改
   order.dataset.orderState = "pending"; // (*)
 </script>
 ```
 
-Using `data-*` attributes is a valid, safe way to pass custom data.
+使用 `data-*` 的特性值是一个合法值，保存着自定义数据。
 
-Please note that we can not only read, but also modify data-attributes. Then CSS updates the view accordingly: in the example above the last line `(*)` changes the color to blue.
+请注意我们不但可以读取，还能修改 data-attributes。 上面这个例子的最后一行： `(*)` 会变成蓝色。
 
-## Summary
+## 总结
 
-- Attributes -- is what's written in HTML.
-- Properties -- is what's in DOM objects.
+- Attributes -- 写在 HTML 中。
+- Properties -- 是一个 DOM 对象
 
-A small comparison:
+简略的对比：
 
 |            | Properties | Attributes |
 |------------|------------|------------|
-|Type|Any value, standard properties have types described in the spec|A string|
-|Name|Name is case-sensitive|Name is not case-sensitive|
+|类型|一些值，标准化的属性值在规范中有类型描述|字符串|
+|名字|键名是大小写敏感|键名是大小写不敏感|
 
-Methods to work with attributes are:
+attributes 的一些方法
 
-- `elem.hasAttribute(name)` -- to check for existence.
-- `elem.getAttribute(name)` -- to get the value.
-- `elem.setAttribute(name, value)` -- to set the value.
-- `elem.removeAttribute(name)` -- to remove the attribute.
-- `elem.attributes` is a collection of all attributes.
+- `elem.hasAttribute(name)` -- 检查是否存在这个特性
+- `elem.getAttribute(name)` -- 获取这个特性
+- `elem.setAttribute(name, value)` -- 把这个特性设置为 name 值
+- `elem.removeAttribute(name)` -- 移除这个特性
+- `elem.attributes` 所有特性的集合
 
-For most needs, DOM properties can serve us well. We should refer to attributes only when DOM properties do not suit us, when we need exactly attributes, for instance:
+对于大多数需求, DOM 属性已经可以给予很好的支持。应当在 DOM 属性实在无法满足开发需求的情况下才使用特性，比如以下情况：
 
-- We need a non-standard attribute. But if it starts with `data-`, then we should use `dataset`.
-- We want to read the value "as written" in HTML. The value of the DOM property may be different, for instance the `href` property is always a full URL, and we may want to get the "original" value.
+- 我们需要一个非标准化的特性。但是如果我们用 `data-` 来设置特性值，那就要使用 `dataset` 来获取属性值。
+- 我们想要读取到 HTML 的展示内容。比如 `href` 属性总是一个绝对路径，但是我们只想要相对路径。
