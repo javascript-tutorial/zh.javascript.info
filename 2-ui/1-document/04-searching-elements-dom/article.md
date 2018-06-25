@@ -18,9 +18,9 @@
   alert(elem); // DOM-element with id="elem"
   alert(window.elem); // accessing global variable like this also works
 
-  // for elem-content things are a bit more complex
-  // that has a dash inside, so it can't be a variable name
-  alert(window['elem-content']); // ...but accessible using square brackets [...]
+  // 对于 elem-content 会稍微有些复杂
+  // 因为里面有破折号，所有不是一个变量名
+  alert(window['elem-content']); // ...但可以使用方括号[...]
 </script>
 ```
 
@@ -36,7 +36,7 @@
 </script>
 ```
 
-[在规范中](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem) 描述了这种行为，对主要是考虑到兼容性才对它进行了支持。浏为了帮助我们，浏览器尝试了混合 JS 和 DOM 的命名空间。但这仅仅对简单脚本有效，因为它们可能会产生命名冲突。同时，当我们在 JS 中查看时，因为无法在视图中查看 HTML，所以变量的来源可能不会那么清楚。
+[在规范中](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem)描述了这种行为，主要是考虑到兼容性才对它进行了支持。为了帮助我们，浏览器尝试了混合 JS 和 DOM 的命名空间。但这仅仅对简单脚本有效，因为它们可能会产生命名冲突。同时，当我们在 JS 中查看时，因为无法在视图中查看 HTML，所以变量的来源可能会很模糊。
 
 选择特殊的方法，才是最好的选择：`document.getElementById(id)`。
 
@@ -59,20 +59,20 @@
 本教程中，我们经常使用 `id` 来直接引用属性，但这仅仅是为了简化。实际开发中，使用 `document.getElementById` 才是最佳选择。
 
 ```smart header="There can be only one"
-The `id` must be unique. There can be only one element in the document with the given `id`.
+`id` 必须唯一，文档中给定的 `id` 只能有唯一一个元素。
 
-If there are multiple elements with the same `id`, then the behavior of corresponding methods is unpredictable. The browser may return any of them at random. So please stick to the rule and keep `id` unique.
+如果有多个元素具有同名 `id`，那么对应方法的行为将不可预测。浏览器将随机返回其他的一个。因此未来保证 `id` 的唯一性，请严格遵守规则。
 ```
 
 ```warn header="Only `document.getElementById`, not `anyNode.getElementById`"
-The method `getElementById` that can be called only on `document` object. It looks for the given `id` in the whole document.
+`getElementById` 只能在 `document` 对象上调用。它会在整个文档中查找给定的 `id`。
 ```
 
 ## getElementsBy*
 
 也有其他的方法来搜索节点：
 
-- `elem.getElementsByTagName(tag)` 用给定的标签来查找元素，并返回它们的集合。`tag` 参数也可以是“任何标签” 的 `"*"`。
+- `elem.getElementsByTagName(tag)` 用给定的标签来查找元素，并返回它们的集合。`tag` 参数也可以是“任何标签”的 `"*"`。
 
 例如：
 ```js
@@ -115,20 +115,20 @@ let divs = document.getElementsByTagName('div');
 ```
 
 ```warn header="Don't forget the `\"s\"` letter!"
-Novice developers sometimes forget the letter `"s"`. That is, they try to call `getElementByTagName` instead of <code>getElement<b>s</b>ByTagName</code>.
+初级开发者会忽略字符 `"s"`。也就是说，它们会调用 `getElementByTagName` 而不是 <code>getElement<b>s</b>ByTagName</code>。
 
-The `"s"` letter is absent in `getElementById`, because it returns a single element. But `getElementsByTagName` returns a collection of elements, so there's `"s"` inside.
+`"s"` 字符并不存在于 `getElementById`，因为它只返回单个元素。但是 `getElementsByTagName` 返回的是一个元素集合，所以 `"s"` 包含在内。
 ```
 
 ````warn header="It returns a collection, not an element!"
-Another widespread novice mistake is to write:
+另一个普遍存在的错误写法是：
 
 ```js
 // 无法运行
 document.getElementsByTagName('input').value = 5;
 ```
 
-这无法运行，因为它接受输入的 *collection*，然后将值赋给它，而不是它里面的元素。
+这无法运行，因为它接受输入的**集合**然后将值赋给它，而不是它里面的元素。
 
 我们应该迭代集合或者按给定索引来获取元素，然后赋值，就像下述所示：
 
@@ -262,7 +262,7 @@ CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例
 
 ## Live 集合
 
-所有的 `"getElementsBy*"` 方法都会返回 *live* 集合。这类集合总是可以反映出文档的当前状态而且在文档变化时，可以自动更新。
+所有的 `"getElementsBy*"` 方法都会返回 **live** 集合。这类集合总是可以反映出文档的当前状态而且在文档变化时，可以自动更新。
 
 下面的实例中，有两个脚本。
 
@@ -286,7 +286,7 @@ CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例
 </script>
 ```
 
-相反，`querySelectorAll` 会返回一个 *static* 集合。就像一个固定的元素数字。
+相反，`querySelectorAll` 会返回一个 **static** 集合。就像一个固定的元素数字。
 
 如果我们使用它，那么两个脚本都会输出 `1`：
 
