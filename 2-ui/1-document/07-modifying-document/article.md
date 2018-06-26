@@ -120,7 +120,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
     下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
 
-    ```html run height=100
+    ```html
     <ol id="list">
       <li>0</li>
       <li>1</li>
@@ -393,11 +393,11 @@ after
 
 ## 聊一聊 "document.write"
 
-`document.write` 有事一个很老的方法，用来为 web 页面添加内容。
+`document.write` 是一个很老的方法，用来为 web 页面添加内容。
 
 语法如下：
 
-```html run
+```html
 <p>Somewhere in the page...</p>
 *!*
 <script>
@@ -436,7 +436,7 @@ after
 
 从技术上讲，当调用 `document.write` ，如果浏览器仍然在解析 HTML，该方法会添加一些内容，浏览器会把添加进来的内容替换掉原来接收到内容，解析后展示在窗口中。
 
-反过来说这也是一个优势 -- 它性能出奇的块，因为它不用 **修改 DOM 结构**。它直接在 DOM 结构构建之前，对整个页面直接进行重写，再交给浏览器去构建 DOM 结构。
+反过来说这也是一个优势 -- 它性能出奇的快，因为它不用 **修改 DOM 结构**。它直接在 DOM 结构构建之前，对整个页面直接进行重写，再交给浏览器去构建 DOM 结构。
 
 所以如果我们需要在 HTML 加载阶段动态的添加很多文本，它会很高效。不过能用到的机会不多就是了。在一些很老的脚本里倒是能经常看到。
 
