@@ -4,9 +4,9 @@ importance: 5
 
 # 属性求和 Sum the properties
 
-有一个 `salaries` 对象，包含了薪水的值。 
+有一个 salaries 对象，包含了任意数量的薪水。
 
-写一个 `sumSalaries(salaries)` 函数，使用 `Object.values` 和 `for..of` 循环语句返回所有薪水的和。
+使用 Object.values 和 for..of 循环语句写一个可以返回所有薪水的和的函数sumSalaries(salaries)。
 
 如果 `salaries` 是空对象，那么结果必须是 `0`。
 
