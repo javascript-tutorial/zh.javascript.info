@@ -5,7 +5,7 @@
 
 在前面的章节中，我们认识了 `map.keys()`，`map.value()`，`map.entries()`。
 
-这些方法是广义的，对于数据结构，我们约定俗成使用它们。如果我们曾经自己创建过数据结构，我们也应该实现过它们。
+这些方法是通用的，有一个共同的约定来将它们用于各种数据结构。如果我们创建一个我们自己的数据结构，我们也应该实现这些方法。
 
 它们支持：
 
@@ -19,9 +19,9 @@
 
 对于纯对象，下列方法是可用的：
 
-- [Object.keys(obj)](mdn:js/Object/keys) —— 返回包含所有键的数组。
-- [Object.values(obj)](mdn:js/Object/values) —— 返回包含所有值的数组。
-- [Object.entries(obj)](mdn:js/Object/entries) —— 返回包含所有 `[key, value]` 键值对的数组。
+- [Object.keys(obj)](mdn:js/Object/keys) —— 返回一个包含该对象全部的键的数组。
+- [Object.values(obj)](mdn:js/Object/values) —— 返回一个包含该对象全部的值的数组。
+- [Object.entries(obj)](mdn:js/Object/entries) ——返回一个包含该对象全部 [key, value] 键值对的数组。
 
 ... 但是请注意区别（比如说跟 map 的区别）：
 
@@ -32,7 +32,7 @@
 
 第一个区别是在对象中我们的调用语法是 `Object.key(obj)`，而不是 `obj.key()`。
 
-为什么会这样？主要原因是弹性化。请记住，在 JavaScript 中对象是所有复杂数据结构的基础。因此我们可能自己创建一个对象，比如 `order`，然后实现它自己的方法 `order.values()`。那么，我们依然可以对它调用 `Object.values(order)` 方法。
+为什么会这样？主要原因是保持灵活。请记住，在 JavaScript 中对象是所有复杂数据结构的基础。所以我们可能有一个我们自己创建的对象，比如 `order`，它实现了自己的方法 `order.values()`。同时，我们依然可以对它调用 `Object.values(order)` 方法。
 
 第二个区别是 `Object.*` 方法返回的是「真正的」数组对象，而不是可迭代项。这主要是历史原因。
 
@@ -49,7 +49,7 @@ let user = {
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
-下面这个例子中，使用了 `Object.values` 在属性值上做循环操作：
+这里有一个使用 `Object.valuesa` 来遍历属性值的例子：
 
 ```js run
 let user = {
@@ -57,14 +57,15 @@ let user = {
   age: 30
 };
 
-// 循环所有的值
+// 遍历所有的值
 for (let value of Object.values(user)) {
   alert(value); // John, then 30
 }
 ```
 
+
 ## Object.keys/values/entries 忽略 Symbol 类型的属性
 
 就像 `for..in` 循环，这些方法会忽略使用 `Symbol(...)` 作为键的属性。
 
-通常这很方便。但是如果我们也想要获得 Symbol 类型的键，那么有另外不同的方法 [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) 它会返回一个只包含 Symbol 类型的键的数组。同样，[Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 返回「所有」键。
+通常这很方便。但是如果我们也想要获得 Symbol 类型的键，那么有另外不同的方法 [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols)， 它会返回一个只包含 Symbol 类型的键的数组。同样，[Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 方法会返回「所有」键。
