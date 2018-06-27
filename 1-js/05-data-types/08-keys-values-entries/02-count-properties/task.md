@@ -4,7 +4,7 @@ importance: 5
 
 # 计算属性数量
 
-写一个 `count(obj)` 函数返回一个对象的属性数量：
+写一个可以返回对象的属性数量的函数 count(obj) ：
 
 ```js
 let user = {
