@@ -13,7 +13,7 @@
 - `Set`
 - `Array` （除了 `arr.values()`）
 
-纯对象也支持这些方法，但是语法上有一些不同
+纯对象也支持类似的方法，但是语法上有一些不同
 
 ## Object.keys、values、entries 三个方法
 
