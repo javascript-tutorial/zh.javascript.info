@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Create a notification
+# 创建通知
 
-Write a function `showNotification(options)` that a notification: `<div class="notification">` with the given content. The notification should automatically disappear after 1.5 seconds.
+编写 `showNotification(options)` 通知函数： `<div class="notification">` 包含给定内容。通知应该在 1.5 秒后自动消失。
 
-The options are:
+备选方案：
 
 ```js
 // shows an element with the text "Hello" near the right-top of the window
@@ -21,4 +21,4 @@ showNotification({
 [demo src="solution"]
 
 
-Use CSS positioning to show the element at given top/right coordinates. The source document has the necessary styles.
+使用 CSS 定位在给定 top/right 坐标处显示元素。源文档必须具有样式。
