@@ -4,7 +4,7 @@ importance: 3
 
 # 数值属性都乘以2
 
-穿件一个`multiplyNumeric(obj)`方法，把`obj`所有的数值属性都乘以`2`。
+创建一个`multiplyNumeric(obj)`方法，把`obj`所有的数值属性都乘以`2`。
 
 例如：
 
