@@ -403,9 +403,9 @@ for(let code in codes) {
 
 ```js run
 // Math.trunc 是内置的去除小数点的方法。
-alert( String(Math.trunc(Number("49"))) ); // "49", same, integer property
-alert( String(Math.trunc(Number("+49"))) ); // "49", not same "+49" ⇒ not integer property
-alert( String(Math.trunc(Number("1.2"))) ); // "1", not same "1.2" ⇒ not integer property
+alert( String(Math.trunc(Number("49"))) ); // “49”，同样，数字属性
+alert( String(Math.trunc(Number("+49"))) ); // “49”， 不同于“+49” ⇒ 不是数字属性
+alert( String(Math.trunc(Number("1.2"))) ); // “1”， 不同于“1.2” ⇒ 不是数字属性
 ```
 ````
 
