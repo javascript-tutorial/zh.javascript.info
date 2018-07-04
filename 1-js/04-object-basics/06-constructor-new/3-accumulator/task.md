@@ -9,7 +9,6 @@ importance: 5
 它创建的对象应该：
 
 - 将“当前 value” 存储在属性 `value` 中。起始值被设置为构造函数 `startingValue` 的参数。
-
 - `read()` 方法应该使用 `prompt` 来读取一个新的数字并将其添加到 `value` 中。
 
 换句话说，`value` 属性是所有用户输入值与初始值 `startingValue` 的总和。
