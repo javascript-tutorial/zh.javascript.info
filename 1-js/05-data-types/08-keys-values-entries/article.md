@@ -30,7 +30,7 @@
 | 调用语法     | `map.keys()`  | `Object.keys(obj)`，而不是 `obj.keys()` |
 | 返回值      | 可迭代项 |「真正的」数组   
 
-第一个区别是在对象中我们的调用语法是 `Object.key(obj)`，而不是 `obj.key()`。
+第一个区别是在对象中我们的调用语法是 `Object.keys(obj)`，而不是 `obj.keys()`。
 
 为什么会这样？主要原因是保持灵活。请记住，在 JavaScript 中对象是所有复杂数据结构的基础。所以我们可能有一个我们自己创建的对象，比如 `order`，它实现了自己的方法 `order.values()`。同时，我们依然可以对它调用 `Object.values(order)` 方法。
 
