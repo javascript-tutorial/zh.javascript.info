@@ -12,8 +12,8 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为�
 
 有一个叫做 `window` 的“根”对象。它有两个角色：
 
-1.首先，它是JavaScript代码的全局对象，如 <info：global-object>一章所述。
-2.其次，它代表“浏览器窗口”并提供控制它的方法。
+1. 首先，它是JavaScript代码的全局对象，如 <info：global-object>一章所述。
+2. 其次，它代表“浏览器窗口”并提供控制它的方法。
 
 例如，在这里我们将其用作全局对象：
 
@@ -34,7 +34,7 @@ alert(window.innerHeight); // inner window height
 
 还有更多窗口特定的方法和属性，我们稍后会介绍它们。
 
-## 文档对象模型(DOM)
+## 文档对象模型（DOM）
 
 `document` 对象可以访问页面内容。我们可以使用它在页面上更改或创建任何内容。
 
@@ -48,31 +48,31 @@ document.body.style.background = "red";
 setTimeout(() => document.body.style.background = "", 1000);
 ```
 
-这里我们使用了`document.body.style`，但还有很多很多其他的东西。 规范中描述了属性和方法。 正好有两个工作组在研发：
+这里我们使用了`document.body.style`，但还有很多很多其他的东西。规范中描述了属性和方法。正好有两个工作组在研发：
 
 1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) -- 其文档位于 <https://www.w3.org/TR/dom>.
-2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG), 发布在 ß <https://dom.spec.whatwg.org>.
+2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG)，发布在 <https://dom.spec.whatwg.org>.
 
-巧的是，这两个工作组并不总是统一意见，所以我们有两套标准。 但它们非常相似，并最终融合在一起。您在给定资源上找到的文档非常相似，约有99％的相似度。你可能并不会注意到其中很小的差异。
+巧的是，这两个工作组并不总是统一意见，所以我们有两套标准。但它们非常相似，并最终融合在一起。您在给定资源上找到的文档非常相似，约有 99％ 的相似度。你可能并不会注意到其中很小的差异。
 
 我个人认为 <https://dom.spec.whatwg.org> 更适合使用。
 
-在过去，根本没有任何标准 —— 每个浏览器都去实现它需要的东西。不同的浏览器对同一事物有不同的配置、方法和属性，开发人员必须为每个浏览器编写不同的代码。 那是昏暗、混乱的时代。
+在过去，根本没有任何标准 —— 每个浏览器都去实现它需要的东西。不同的浏览器对同一事物有不同的配置、方法和属性，开发人员必须为每个浏览器编写不同的代码。那是昏暗、混乱的时代。
 
 即使现在我们有时可以遇到使用浏览器特定属性的旧代码，并且需要解决不兼容的问题。但是，在本教程中，我们将使用现代化的东西：除非迫不得已，否则不需要学习旧的东西。
 
-后来出现了DOM标准，试图让每个浏览器都达成协议。第一个版本是“DOM Level 1”，然后它被 DOM Level 2 扩展，后来扩展到 DOM Level 3，现在它已经达到了 DOM Level 4. WhatWG 组的人厌倦了版本号，并将其称为“DOM”， 没有号码。 所以我们也会这样做。
+后来出现了 DOM 标准，试图让每个浏览器都达成协议。第一个版本是“DOM Level 1”，然后它被 DOM Level 2 扩展，后来扩展到 DOM Level 3，现在它已经达到了 DOM Level 4. WhatWG 组的人厌倦了版本号，并将其称为“DOM”，没有号码。所以我们也会这样做。
 
 ```smart header="DOM is not only for browsers"
 DOM 规范解释了文档的结构并提供了对其进行操作的对象。有的非浏览器设备也在使用它。
 
-例如，下载并处理 HTML 页面的服务器端工具使用DOM。 尽管如此，他们可能只支持部分规范。
+例如，下载并处理 HTML 页面的服务器端工具使用DOM。尽管如此，他们可能只支持部分规范。
 ```
 
 ```smart header="CSSOM for styling"
 CSS 规则和样式表的结构不像 HTML。有一个单独的规范[CSSOM]（https://www.w3.org/TR/cssom-1/）解释了如何将 CSS 表示为对象，以及如何读写它们。
 
-当我们修改文档的样式规则时，CSSOM 与 DOM一起使用。 但实际上，很少需要 CSSOM，因为通常 CSS 规则是静态的。 我们很少需要从 JavaScript 中添加/删除 CSS 规则，所以我们现在不会介绍它。
+当我们修改文档的样式规则时，CSSOM 与 DOM一起使用。但实际上，很少需要 CSSOM，因为通常 CSS 规则是静态的。我们很少需要从 JavaScript 中添加/删除 CSS 规则，所以我们现在不会介绍它。
 ```
 
 ## BOM（HTML 规范的一部分）
@@ -113,7 +113,7 @@ CSSOM 标准
 : 介绍样式表和样式规则，对它们的操作及其对文档的绑定，参见 <https://www.w3.org/TR/cssom-1/>.
 
 HTML 标准
-: 介绍 HTML 语言（例如标签）以及 BOM（浏览器对象模型）—— 各种浏览器函数：`setTimeout`、`alert`、 `location`等等，请参阅https://html.spec.whatwg.org。 它采用了 DOM 规范并为其扩展了许多属性和方法。
+: 介绍 HTML 语言（例如标签）以及 BOM（浏览器对象模型）—— 各种浏览器函数：`setTimeout`、`alert`、 `location`等等，请参阅https://html.spec.whatwg.org。它采用了 DOM 规范并为其扩展了许多属性和方法。
 
 现在我们开始学习 DOM，因为文档在 UI 中扮演着重要角色。
 

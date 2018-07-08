@@ -55,11 +55,11 @@ drawHtmlTree(node1, 'div.domtree', 690, 320);
 - 换行符：`↵`（在 JavaScript 中称为`\ n`）
 - 一个空格：`␣`
 
-空格和换行符是完全有效的字符，它们形成文本节点并成为 DOM 的一部分。 因此，在上面的例子中，`<head>` 标签在 `<title>` 之前包含了一些空格，并且该文本变成了一个 `＃text` 节点（它只包含换行符和一些空格）。
+空格和换行符是完全有效的字符，它们形成文本节点并成为 DOM 的一部分。因此，在上面的例子中，`<head>` 标签在 `<title>` 之前包含了一些空格，并且该文本变成了一个 `＃text` 节点（它只包含换行符和一些空格）。
 
 只有两个顶级排除项目：
-1.由于历史原因，`<head>` 之前的空格和换行符被忽略，
-2.如果我们在 `</body>` 之后放置了一些东西，那么它会自动移动到 `body` 内部，因为HTML规范要求所有内容必须位于<body>内。 所以 `</body>` 后面可能没有空格。
+1. 由于历史原因，`<head>` 之前的空格和换行符被忽略，
+2. 如果我们在 `</body>` 之后放置了一些东西，那么它会自动移动到 `body` 内部，因为HTML规范要求所有内容必须位于<body>内。所以 `</body>` 后面可能没有空格。
 
 在其他情况下，一切都很简单 —— 如果文档中有空格（就像任何字符一样），那么它们将成为 DOM 中的文本节点，如果我们删除它们，则不会有任何内容。
 
@@ -126,7 +126,7 @@ drawHtmlTree(node4, 'div.domtree', 690, 360);
 </script>
 
 ````warn header="Tables always have `<tbody>`"
-表格是一个有趣的“特例”。 按照 DOM 规范，它们必须具有 `<tbody>`，但 HTML 文本可能（官方的）忽略它。 然后浏览器自动在 DOM 中创建 `<tbody>`。
+表格是一个有趣的“特例”。按照 DOM 规范，它们必须具有 `<tbody>`，但 HTML 文本可能（官方的）忽略它。然后浏览器自动在 DOM 中创建 `<tbody>`。
 
 对于 HTML:
 
@@ -143,8 +143,8 @@ let node5 = {"name":"TABLE","nodeType":1,"children":[{"name":"TBODY","nodeType":
 drawHtmlTree(node5,  'div.domtree', 600, 200);
 </script>
 
-看到了吗？`<tbody>` 出现了。 在使用表格时，应该牢记这一点以避免意外。
-``
+看到了吗？`<tbody>` 出现了。在使用表格时，应该牢记这一点以避免意外。
+
 
 ## 其他节点类型
 
@@ -174,13 +174,13 @@ let node6 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,
 drawHtmlTree(node6, 'div.domtree', 690, 500);
 </script>
 
-在这里我们看到一个新的树节点类型 —— *comment node*，标记为 `＃comment`。
+在这里我们看到一个新的树节点类型 —— *comment node*，标记为 `#comment`。
 
-我们可能会想 —— 为什么要将评论添加到 DOM 中？ 它不会以任何方式影响视觉表示。 但是有一条规则 —— 如果HTML中有东西，那么它也必须在 DOM 树中。
+我们可能会想 —— 为什么要将评论添加到 DOM 中？它不会以任何方式影响视觉表示。但是有一条规则 —— 如果HTML中有东西，那么它也必须在 DOM 树中。
 
 **HTML中的所有内容甚至注释都成为DOM的一部分。**
 
-甚至HTML开头的 `<！DOCTYPE ...>` 指令也是一个 DOM 节点。 它在 `<html>` 之前的 DOM 树中。 我们不会触及那个节点，我们甚至不会因为那个原因在图表上绘制它，但它就在那里。
+甚至HTML开头的 `<！DOCTYPE ...>` 指令也是一个 DOM 节点。它在 `<html>` 之前的 DOM 树中。我们不会触及那个节点，我们甚至不会因为那个原因在图表上绘制它，但它就在那里。
 
 表示整个文档的 `document` 对象在形式上也是一个 DOM 节点。
 
@@ -193,7 +193,7 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 ## 自行查看
 
-要实时查看 DOM 结构，请尝试 [Live DOM Viewer](http://software.hixie.ch/utilities/js/live-dom-viewer/)。 只需输入文档，它就会立即显示DOM。
+要实时查看 DOM 结构，请尝试 [Live DOM Viewer](http://software.hixie.ch/utilities/js/live-dom-viewer/)。只需输入文档，它就会立即显示DOM。
 
 ## 在浏览器中检查
 
@@ -232,8 +232,8 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 现在最后选中的元素可以用 `$0` 来进行操作，以前选择的是 `$1`，如此等等。
 
-我们可以在它们之上运行命令。 例如，
-`$0.style.background = 'red'`使选定的列表项变成红色，如下所示：
+我们可以在它们之上运行命令。例如，`$0.style.background = 'red'`使选定的列表项变成红色，如下所示：
+
 ![](domconsole0.png)
 
 另一方面，如果我们处在控制台中，并且有一个引用 DOM 节点的变量，那么我们可以使用命令 `inspect（node）`在元素窗格中查看它。
@@ -256,6 +256,6 @@ HTML/XML 文档在浏览器内表示为 DOM 树。
 
 我们可以使用开发者工具来检查 DOM 并手动修改它。
 
-在这里，我们介绍了基本知识，入门最常用和最重要的操作。 在 https://developers.google.com/web/tools/chrome-devtools 上有大量有关 Chrome 开发者工具的文档。 学习这些工具的最佳方式是四处点击，阅读菜单：大多数选项都很明显。而后，当你差不多了解它们时，阅读文档并学习其余的部分。
+在这里，我们介绍了基本知识，入门最常用和最重要的操作。在 https://developers.google.com/web/tools/chrome-devtools 上有大量有关 Chrome 开发者工具的文档。学习这些工具的最佳方式是四处点击，阅读菜单：大多数选项都很明显。而后，当你差不多了解它们时，阅读文档并学习其余的部分。
 
 DOM 节点具有在它们之间传递数据，修改、移动页面等功能的属性和方法。我们将在接下来的章节中讨论他们。
