@@ -4,7 +4,7 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为�
 
 平台可以是一个浏览器，一台网络服务器，一台洗衣机或其他**主机**。它们每个都提供特定于平台的功能。JavaScript 规范调用了**主机环境**。
 
-主机环境提供语言核心以外的平台特定对象和功能。Web浏览器提供了一种控制网页的手段。Node.JS 提供了服务器端功能，等等。
+主机环境提供语言核心以外的平台特定对象和功能。Web 浏览器提供了一种控制网页的手段。Node.JS 提供了服务器端功能，等等。
 
 以下是浏览器在 JavaScript 中运行时的一个鸟瞰图：
 
@@ -12,7 +12,7 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为�
 
 有一个叫做 `window` 的“根”对象。它有两个角色：
 
-1. 首先，它是JavaScript代码的全局对象，如 <info：global-object>一章所述。
+1. 首先，它是 JavaScript 代码的全局对象，如 <info:global-object> 一章所述。
 2. 其次，它代表“浏览器窗口”并提供控制它的方法。
 
 例如，在这里我们将其用作全局对象：
@@ -48,10 +48,10 @@ document.body.style.background = "red";
 setTimeout(() => document.body.style.background = "", 1000);
 ```
 
-这里我们使用了`document.body.style`，但还有很多很多其他的东西。规范中描述了属性和方法。正好有两个工作组在研发：
+这里我们使用了 `document.body.style`，但还有很多很多其他的东西。规范中描述了属性和方法。正好有两个工作组在研发：
 
-1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) -- 其文档位于 <https://www.w3.org/TR/dom>.
-2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG)，发布在 <https://dom.spec.whatwg.org>.
+1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) — 其文档位于 <https://www.w3.org/TR/dom>。
+2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG)，发布在 <https://dom.spec.whatwg.org>。
 
 巧的是，这两个工作组并不总是统一意见，所以我们有两套标准。但它们非常相似，并最终融合在一起。您在给定资源上找到的文档非常相似，约有 99％ 的相似度。你可能并不会注意到其中很小的差异。
 
@@ -66,13 +66,13 @@ setTimeout(() => document.body.style.background = "", 1000);
 ```smart header="DOM is not only for browsers"
 DOM 规范解释了文档的结构并提供了对其进行操作的对象。有的非浏览器设备也在使用它。
 
-例如，下载并处理 HTML 页面的服务器端工具使用DOM。尽管如此，他们可能只支持部分规范。
+例如，下载并处理 HTML 页面的服务器端工具使用 DOM。尽管如此，他们可能只支持部分规范。
 ```
 
 ```smart header="CSSOM for styling"
-CSS 规则和样式表的结构不像 HTML。有一个单独的规范[CSSOM]（https://www.w3.org/TR/cssom-1/）解释了如何将 CSS 表示为对象，以及如何读写它们。
+CSS 规则和样式表的结构不像 HTML。有一个单独的规范 [CSSOM](https://www.w3.org/TR/cssom-1/) 解释了如何将 CSS 表示为对象，以及如何读写它们。
 
-当我们修改文档的样式规则时，CSSOM 与 DOM一起使用。但实际上，很少需要 CSSOM，因为通常 CSS 规则是静态的。我们很少需要从 JavaScript 中添加/删除 CSS 规则，所以我们现在不会介绍它。
+当我们修改文档的样式规则时，CSSOM 与 DOM 一起使用。但实际上，很少需要 CSSOM，因为通常 CSS 规则是静态的。我们很少需要从 JavaScript 中添加/删除 CSS 规则，所以我们现在不会介绍它。
 ```
 
 ## BOM（HTML 规范的一部分）
@@ -82,7 +82,7 @@ CSS 规则和样式表的结构不像 HTML。有一个单独的规范[CSSOM]（h
 例如：
 
 - [navigator](mdn:api/Window/navigator) 对象提供有关浏览器和操作系统的背景信息。navigator 有许多属性，但是最广为人知的两个属性是：`navigator.userAgent` —— 关于当前浏览器和`navigator.platform` —— 关于平台（可以帮助区分 Windows / Linux / Mac等）。
-- [location]（mdn:api/Window/navigator）对象允许我们读取当前URL并将浏览器重定向到新的URL。
+- [location](mdn:api/Window/navigator) 对象允许我们读取当前URL并将浏览器重定向到新的URL。
 
 以下是我们如何使用 `location` 对象：
 
@@ -97,9 +97,9 @@ if (confirm("Go to wikipedia?")) {
 
 
 ```smart header="HTML specification"
-BOM是通用[HTML规范]（https://html.spec.whatwg.org）的一部分。
+BOM 是通用 [HTML 规范](https://html.spec.whatwg.org)的一部分。
 
-<https://html.spec.whatwg.org> 中的HTML规范不仅是关于“ HTML 语言”（标签，属性），还涵盖了一堆对象、方法和浏览器特定的DOM扩展。这就是“广义的HTML”。
+<https://html.spec.whatwg.org> 中的 HTML 规范不仅是关于“HTML 语言”（标签，属性），还涵盖了一堆对象、方法和浏览器特定的DOM扩展。这就是“广义的HTML”。
 ```
 
 ## 总结
@@ -107,16 +107,16 @@ BOM是通用[HTML规范]（https://html.spec.whatwg.org）的一部分。
 说到标准，我们有：
 
 DOM 标准
-: 描述文档的结构、操作和事件，参见 <https://dom.spec.whatwg.org>.
+: 描述文档的结构、操作和事件，参见 <https://dom.spec.whatwg.org>。
 
 CSSOM 标准
 : 介绍样式表和样式规则，对它们的操作及其对文档的绑定，参见 <https://www.w3.org/TR/cssom-1/>.
 
 HTML 标准
-: 介绍 HTML 语言（例如标签）以及 BOM（浏览器对象模型）—— 各种浏览器函数：`setTimeout`、`alert`、 `location`等等，请参阅https://html.spec.whatwg.org。它采用了 DOM 规范并为其扩展了许多属性和方法。
+: 介绍 HTML 语言（例如标签）以及 BOM（浏览器对象模型）—— 各种浏览器函数：`setTimeout`、`alert`、`location`等等，请参阅https://html.spec.whatwg.org。它采用了 DOM 规范并为其扩展了许多属性和方法。
 
 现在我们开始学习 DOM，因为文档在 UI 中扮演着重要角色。
 
-请注意上面的链接，因为有太多东西需要学习，所以在这里不可能掌握和记住所有内容。
+请注意上面的链接，因为有太多东西需要学习，所以在这里不可能掌握和记住所有内容。
 
-当您想要了解某个属性或方法时，Mozilla 手册<https://developer.mozilla.org/en-US/search> 是一个很好的资源，但阅读相应的规范可能会更好：它需要更复杂和更长的时间来阅读，但会使你的基本知识变得健全和完整。
+当您想要了解某个属性或方法时，Mozilla 手册 <https://developer.mozilla.org/en-US/search> 是一个很好的资源，但阅读相应的规范可能会更好：它需要更复杂和更长的时间来阅读，但会使你的基本知识变得健全和完整。
