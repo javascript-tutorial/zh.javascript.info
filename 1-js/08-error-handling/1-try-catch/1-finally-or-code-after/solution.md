@@ -21,7 +21,7 @@ function f() {
 f(); // cleanup!
 ```
 
-...或者当有 `throw` 的时候，如下:
+...或者当有 `throw` 的时候，如下：
 
 ```js run
 function f() {
