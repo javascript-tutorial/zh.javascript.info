@@ -1,8 +1,8 @@
 # 特性和属性
 
-当浏览器加载页面时, 它会 “读取”（或者称之为：“解析”） HTML 文本并生成 DOM 对象。对于大多数元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
+当浏览器加载页面时, 它会 “读取”（或者称之为：“解析”） HTML 文本并生成 DOM 对象。对于元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
 
-在这个例子中, 如果标签是 `<body id="page">`, 那么 DOM 对象会生成这样一个特性 `body.id="page"`。
+在这个例子中, 如果标签是 `<body id="page">`, 那么 DOM 对象会生成这样一个属性 `body.id="page"`
 
 但是特性-属性并不总是一一对应的！在这一篇文章中将带领你一起分清楚这两个概念，了解它们的具体作用，明白它们什么时候会相同什么时候会不同。
 
@@ -46,7 +46,7 @@ document.body.sayHi(); // Hello, I'm BODY
 
 所以， DOM 上的属性和方法其实就像是一个标准的 Javascript 对象：
 
-- 它有一些值
+- 它可以有很多值
 - 它是大小写敏感的 (要写成 `elem.nodeType`, 而不是 `elem.NoDeTyPe`)。
 
 ## HTML 特性
@@ -68,7 +68,7 @@ document.body.sayHi(); // Hello, I'm BODY
 </body>
 ```
 
-请留意不是每一个元素的标准化特性都是相同的， `"type"` 是 `<input>` 的一个标准化属性([HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement))，但是 `<body>` 则没有([HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement))。每一个元素的标准化特性都有确切的规范描述。
+请留意不是每一个元素的标准化特性都是相同的， `"type"` 是 `<input>` 的一个标准化特性([HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement))，但是 `<body>` 则没有([HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement))。每一个元素的标准化特性都有确切的规范描述。
 
 以下我们可以看到：
 ```html
@@ -88,8 +88,8 @@ document.body.sayHi(); // Hello, I'm BODY
 答案是肯定的。以下几个方法是针对元素特性的操作：
 
 - `elem.hasAttribute(name)` -- 检验是否拥这个特性。
-- `elem.getAttribute(name)` -- 获取到这个特性。
-- `elem.setAttribute(name, value)` -- 设置这个特性。
+- `elem.getAttribute(name)` -- 获取到这个特性值。
+- `elem.setAttribute(name, value)` -- 设置这个特性值。
 - `elem.removeAttribute(name)` -- 移除这个特性。
 
 以上的几个方法实际上也是 HTML 的原生方法。
@@ -113,7 +113,7 @@ HTML 特性有几个特征
 - 它们的书写是大小写不敏感的 (`id` 也可以写作 `ID`)。
 - 他们的值只能是字符串。
 
-下面是一个延伸出来的 demo ，它描述了 attributes 是怎么工作的。
+下面是一个延伸出来的 demo ，它描述了 attributes 是怎么工作的：
 
 ```html
 <body>
@@ -135,7 +135,7 @@ HTML 特性有几个特征
 
 请注意：
 
-1. `getAttribute('About')` -- 这里是第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
+1. `getAttribute('About')` -- 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
 2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
 3. 所有 attributes 都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
 4.  `attributes` 以 `name` 和 `value` 这样的键-值对收集在一个可迭代对象里。
@@ -233,7 +233,7 @@ DOM 并不总是字符串。例如 `input.checked` 属性 (多选框) 是一个�
 </script>
 ```
 
-如果我们需要 HTML 中展示的 `href` ，可以用 `getAttribute` 获取到。
+如果我们需要 HTML 中的 `href` 的值 ，可以用 `getAttribute` 获取到。
 
 
 ## 非标准化的特性， dataset
@@ -303,7 +303,7 @@ DOM 并不总是字符串。例如 `input.checked` 属性 (多选框) 是一个�
 因为特性值更容易管理，我们可以轻易的通过特性值的改变切换样式，比如下面这样：
 
 ```js
-// 可以轻易的移除或者添加一个新你的类名。
+// 可以轻易的移除或者添加一个新的类名。
 div.setAttribute('order-state', 'canceled');
 ```
 
@@ -363,14 +363,14 @@ div.setAttribute('order-state', 'canceled');
 ## 总结
 
 - Attributes -- 写在 HTML 中。
-- Properties -- 是一个 DOM 对象
+- Properties -- 是一个 DOM 对象。
 
 简略的对比：
 
 |            | Properties | Attributes |
 |------------|------------|------------|
 |类型|一些值，标准化的属性值在规范中有类型描述|字符串|
-|名字|键名是大小写敏感|键名是大小写不敏感|
+|名字|键名大小写敏感|键名大小写不敏感|
 
 attributes 的一些方法
 
