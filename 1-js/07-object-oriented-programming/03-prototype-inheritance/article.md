@@ -64,9 +64,9 @@ alert( rabbit.jumps ); // true
 
 我们可以说 "`animal` 是 `rabbit`" 的原型或者说 "`rabbit` 的原型继承自 `animal`"。
 
-因此如果 `animal` 有许多有用的属性和方法，那么它们会自动出现在 `rabbit` 中。这些属性称为“继承”。
+因此如果 `animal` 有许多有用的属性和方法，那么它们在 `rabbit` 中会自动变为可用的。这种属性行为称为“继承”。
 
-如果我们在 `animal` 中有一种方法，它可以被称为是 `rabbit`：
+如果我们在 `animal` 中有一种方法，它可以在 `rabbit` 中被调用：
 
 ```js run
 let animal = {
