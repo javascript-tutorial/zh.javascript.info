@@ -11,7 +11,7 @@
 
 - `Map`
 - `Set`
-- `Array` （除了 `arr.values()`）
+- `Array`（除了 `arr.values()`）
 
 纯对象也支持类似的方法，但是语法上有一些不同
 
@@ -21,7 +21,7 @@
 
 - [Object.keys(obj)](mdn:js/Object/keys) —— 返回一个包含该对象全部的键的数组。
 - [Object.values(obj)](mdn:js/Object/values) —— 返回一个包含该对象全部的值的数组。
-- [Object.entries(obj)](mdn:js/Object/entries) ——返回一个包含该对象全部 [key, value] 键值对的数组。
+- [Object.entries(obj)](mdn:js/Object/entries) —— 返回一个包含该对象全部 [key, value] 键值对的数组。
 
 ... 但是请注意区别（比如说跟 map 的区别）：
 
