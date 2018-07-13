@@ -8,7 +8,7 @@
 
 ## "try..catch" 语法
 
-`try..catch` 结构由两部分组成：`try` 和` catch`：
+`try..catch` 结构由两部分组成：`try` 和 `catch`：
 
 ```js
 try {
@@ -61,7 +61,7 @@ try {
       alert('Start of try runs');  // *!*(1) <--*/!*
 
     *!*
-      lalala; // 异常, 变量未定义！
+      lalala; // 异常，变量未定义！
     */!*
 
       alert('End of try (never reached)');  // (2)
@@ -439,7 +439,7 @@ try {
 
 然而，这并不是全部。
 
-`try..catch` 还有另外的语法：`finally`
+`try..catch` 还有另外的语法：`finally`。
 
 如果它有被使用，那么，所有条件下都会执行：
 
@@ -651,7 +651,7 @@ try {
 
 - `message` —— 我们能阅读的异常提示信息。
 - `name` —— 异常名称（异常对象的构造函数的名称）。
-- `stack` （没有标准） —— 异常发生时的调用栈。
+- `stack`（没有标准） —— 异常发生时的调用栈。
 
 我们也可以通过使用 `throw` 运算符来生成自定义的异常。技术上来讲，`throw` 的参数没有限制，但是通常它是一个继承自内置的 `Error` 类的异常对象。更对关于异常的扩展，请看下个章节。
 
