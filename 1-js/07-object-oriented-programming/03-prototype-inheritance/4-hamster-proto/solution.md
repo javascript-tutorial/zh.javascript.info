@@ -1,14 +1,14 @@
 我们仔细研究一下在调用 `speedy.eat("apple")` 的时候，发生了什么。
 
-1. 在原型（`=hamster`）中找到 `speedy.eat` 方法，然后执行 `this=speedy`（在点之前的对象）。
+1.  `speedy.eat` 方法在原型（`=hamster`）中被发现，然后执行 `this=speedy`（在点之前的对象）。
 
-2. `this.stomach.push()` 需要查找到 `stomach` 属性，然后调用 `push` 来处理。在 `this` (`=speedy`) 中查找 `stomach`，但并没有找到。
+2. `this.stomach.push()` 需要查找到 `stomach` 属性，然后调用 `push` 来处理。它在 `this` (`=speedy`) 中查找 `stomach`，但并没有找到。
 
-3. 然后顺着原型链，在 `hamster` 中找到 `stomach`。
+3. 然后它顺着原型链，在 `hamster` 中找到 `stomach`。
 
 4. 然后它调用 `push` ，将食物添加到**胃的原型链**中。
 
-因此所有的仓鼠都有一个胃！
+因此所有的仓鼠都有共享一个胃！
 
 每次 `stomach` 从原型中获取，然后 `stomach.push` 修改它的“位置”。
 
