@@ -4,7 +4,7 @@ importance: 2
 
 # Two functions – one object
 
-是否可以创建函数 `A` 和 `B`，如 `new A()==new B()`?
+是否可以创建函数 `A` 和 `B`，如 `new A()==new B()`？
 
 ```js no-beautify
 function A() { ... }
