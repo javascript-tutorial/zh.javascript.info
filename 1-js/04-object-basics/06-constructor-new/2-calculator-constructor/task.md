@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Create new Calculator
+# 创建 new Calculator
 
-Create a constructor function `Calculator` that creates objects with 3 methods:
+创建一个构造函数使用3种方法创建对象的 `Calculator`：
 
-- `read()` asks for two values using `prompt` and remembers them in object properties.
-- `sum()` returns the sum of these properties.
-- `mul()` returns the multiplication product of these properties.
+- `read()` 使用 `prompt` 请求两个值并在对象属性中记住它们。
+- `sum()` 返回这些属性的总和。
+- `mul()` 返回这些属性的乘积。
 
-For instance:
+例如：
 
 ```js
 let calculator = new Calculator();
