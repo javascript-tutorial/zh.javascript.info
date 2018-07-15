@@ -162,7 +162,7 @@ let bag = {
 */!*
 };
 
-alert( bag.apple ); // 5 if fruit="apple"
+alert( bag.apple ); // 5 如果 fruit="apple"
 ```
 
 计算属性的含义很简单： `[fruit]` 含义是这个值从 `fruit` 变量中获取。
@@ -239,7 +239,7 @@ function makeUser(name, age) {
   return {
     name: name,
     age: age
-    // ...other properties
+    // 其他的属性
   };
 }
 
@@ -255,8 +255,8 @@ alert(user.name); // John
 function makeUser(name, age) {
 *!*
   return {
-    name, // same as name: name
-    age   // same as age: age
+    name, // 与 name: name 相同
+    age   // 与 age: age 相同
     // ...
   };
 */!*
@@ -267,7 +267,7 @@ function makeUser(name, age) {
 
 ```js
 let user = {
-  name,  // same as name:name
+  name,  // 与 name:name 相同
   age: 30
 };
 ```
@@ -279,12 +279,12 @@ let user = {
 ```js run
 let user = {};
 
-alert( user.noSuchProperty === undefined ); // true means "no such property"
+alert( user.noSuchProperty === undefined ); // true 意思是没有这个属性
 ```
 
 同样也有一个特别的操作符 `"in"` 来检查是否属性存在。
 
-The syntax is:
+语法是：
 ```js
 "key" in object
 ```
@@ -294,8 +294,8 @@ The syntax is:
 ```js run
 let user = { name: "John", age: 30 };
 
-alert( "age" in user ); // true, user.age exists
-alert( "blabla" in user ); // false, user.blabla doesn't exist
+alert( "age" in user ); // true，user.age 存在
+alert( "blabla" in user ); // false，user.blabla 不存在。
 ```
 
 注意 `in` 的左边必须是*属性名*。通常是一个字符串，如果不用字符串，那就是一个字符串变量。
@@ -304,10 +304,10 @@ alert( "blabla" in user ); // false, user.blabla doesn't exist
 let user = { age: 30 };
 
 let key = "age";
-alert( *!*key*/!* in user ); // true, takes the name from key and checks for such property
+alert( *!*key*/!* in user ); // true，获取键的名字和检查这个键的属性 
 ```
 
-````smart header="Using \"in\" for properties that store `undefined`"
+````smart header="Using \"in\"  属性中存储 `undefined`"
 通常，严格比较 `"=== undefined"` 就够用，但是也有一些特殊情况，`"in"` 就可以胜任。
 
 那就是属性存在，但是存储 `undefined` ：
@@ -317,9 +317,9 @@ let obj = {
   test: undefined
 };
 
-alert( obj.test ); // it's undefined, so - no such property?
+alert( obj.test ); //  它是 undefined，所以难道它不存在吗？
 
-alert( "test" in obj ); // true, the property does exist!
+alert( "test" in obj ); // true， 属性不存在！
 ```
 
 
@@ -337,7 +337,7 @@ alert( "test" in obj ); // true, the property does exist!
 
 ```js
 for(key in object) {
-  // executes the body for each key among object properties
+  // 各个属性键值的执行区
 }
 ```
 
@@ -353,7 +353,7 @@ let user = {
 for(let key in user) {
   // keys
   alert( key );  // name, age, isAdmin
-  // values for the keys
+  // 属性键的值
   alert( user[key] ); // John, 30, true
 }
 ```
@@ -487,7 +487,7 @@ let user = {
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; // copy the reference
+let admin = user; //  复制引用
 ```
 
 现在我们有了两个变量，但是都指向同一个对象：
@@ -502,7 +502,7 @@ let user = { name: 'John' };
 let admin = user;
 
 *!*
-admin.name = 'Pete'; // changed by the "admin" reference
+admin.name = 'Pete'; //  改变 "admin" 的引用
 */!*
 
 alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
@@ -520,9 +520,9 @@ alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
 
 ```js run
 let a = {};
-let b = a; // copy the reference
+let b = a; // 复制引用
 
-alert( a == b ); // true, both variables reference the same object
+alert( a == b ); // true， 两个变量指向同一个对象
 alert( a === b ); // true
 ```
 
@@ -530,7 +530,7 @@ alert( a === b ); // true
 
 ```js run
 let a = {};
-let b = {}; // two independent objects
+let b = {}; // 两个独立的对象
 
 alert( a == b ); // false
 ```
@@ -565,7 +565,7 @@ const user = {
 };
 
 *!*
-// Error (can't reassign user)
+// 错误（不能再给 User 赋值）
 */!*
 user = {
   name: "Pete"
@@ -630,7 +630,7 @@ let permissions2 = { canEdit: true };
 Object.assign(user, permissions1, permissions2);
 */!*
 
-// now user = { name: "John", canView: true, canEdit: true }
+// 现在 user = { name: "John", canView: true, canEdit: true }
 ```
 
 如果接收的对象（`user`）已经有了同样属性名的属性，前面的会被覆盖：
@@ -638,10 +638,10 @@ Object.assign(user, permissions1, permissions2);
 ```js
 let user = { name: "John" };
 
-// overwrite name, add isAdmin
+// 重新 name，增加 isAdmin
 Object.assign(user, { name: "Pete", isAdmin: true });
 
-// now user = { name: "Pete", isAdmin: true }
+// 现在 user = { name: "Pete", isAdmin: true }
 ```
 
 我们可以用 `Object.assign` 来代理简单的复制方法：
@@ -688,11 +688,11 @@ let user = {
 
 let clone = Object.assign({}, user);
 
-alert( user.sizes === clone.sizes ); // true, same object
+alert( user.sizes === clone.sizes ); // true，同一个对象
 
 // user 和 clone 共享 sizes 对象
-user.sizes.width++;       // change a property from one place
-alert(clone.sizes.width); // 51, see the result from the other one
+user.sizes.width++;       // 在这里改变一个属性的值
+alert(clone.sizes.width); // 51，在这里查看属性的值
 ```
 
 为了解决上面的的问题，我们在复制的时候应该检查 `user[key]` 的每一个值，如果是一个对象，我们再复制一遍这个对象，这叫做深拷贝。
