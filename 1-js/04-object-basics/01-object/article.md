@@ -1,11 +1,10 @@
 
 # 对象
 
-正如我们从《引言：类型》那章中知道的那样，JS中有很多种类型。 有六种原始类型，因为他们只包含一种东西（字符串，数值或者什么之类）
+正如我们从《引言：类型》那章中知道的那样，JavaScript 中有很多种类型。 有六种原始类型，因为他们只包含一种东西（字符串，数值或者什么之类）。
+相反，对象用来存储键值对和更复杂的实体。在 JavaScript 中，对象深入到这门语言的方方面面。所以在我们深入理解这门语言之前，我们必须理解对象。
 
-相反，对象用来存储键值对和更复杂的实体。在JS中，对象深入到这门语言的方方面面。所以在我们深入理解这门语言之前，我们必须理解对象。
-
-对象可以通过中括号`{…}`和其中包含一些可选的*属性*来创建。属性是一个键值对，键是一个字符串 （也叫做属性名），值可以是任何类型.
+对象可以通过中括号`{…}`和其中包含一些可选的*属性*来创建。属性是一个键值对，键是一个字符串 （也叫做属性名），值可以是任何类型。
 
 我们可以把对象想象成存放文件的橱柜。 文件按照他们的名字来排列。这样根据文件名我们就很容易找到，添加或删除一个文件了。
 
@@ -37,10 +36,10 @@ let user = {     // 一个对象
 
 在 `user` 对象中, 有两个属性：
 
-1. 第一个的键是 `"name"` 值是 `"John"`.
-2. 第二个的键是 `"age"` 值是 `30`.
+1. 第一个的键是 `"name"` 值是 `"John"`。
+2. 第二个的键是 `"age"` 值是 `30`。
 
-是一个陈列着标记有两个"name" 和 "age"签名文件的橱柜。
+是一个陈列着标记有两个 "name" 和 "age" 签名文件的橱柜。
 
 ![user object](object-user.png)
 
@@ -62,7 +61,7 @@ user.isAdmin = true;
 
 ![user object 2](object-user-isadmin.png)
 
-移除一个属性，我们用`delete`操作：
+移除一个属性，我们用 `delete` 操作：
 
 ```js
 delete user.age;
@@ -121,7 +120,7 @@ delete user["likes birds"];
 
 现在一切都很可行了。注意中括号中的字符串要放在引号中，单引号双引号都可以的。
 
-中括号同样提供了通过其他表达式来获取属性名的方式 -- 跟语义上的字符串不同 -- 比如像下面一样的变量：
+中括号同样提供了通过其他表达式来获取属性名的方式 —— 跟语义上的字符串不同 —— 比如像下面一样的变量：
 
 ```js
 let key = "likes birds";
@@ -131,7 +130,7 @@ user[key] = true;
 ```
 
 
-在这里， 变量`key`根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
+在这里， 变量 `key` 根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
 
 例如：
 
@@ -144,13 +143,13 @@ let user = {
 let key = prompt("What do you want to know about the user?", "name");
 
 // 获取变量
-alert( user[key] ); // John (如果输入"name")
+alert( user[key] ); // John (如果输入 "name" )
 ```
 
 
 ### 计算属性
 
-我们可以用中括号包裹一个属性语法。这叫做 *计算属性*。
+我们可以用中括号包裹一个属性语法。这叫做*计算属性*。
 
 例如:
 
@@ -159,7 +158,7 @@ let fruit = prompt("Which fruit to buy?", "apple");
 
 let bag = {
 *!*
-  [fruit]: 5, // 属性名从fruit变量中计算
+  [fruit]: 5, // 属性名从 fruit 变量中计算
 */!*
 };
 
@@ -168,14 +167,14 @@ alert( bag.apple ); // 5 if fruit="apple"
 
 计算属性的含义很简单： `[fruit]` 含义是这个值从 `fruit` 变量中获取。
 
-所以，如果一个人输入 `"apple"`, `bag` 将是 `{apple: 5}`.
+所以，如果一个人输入 `"apple"`， `bag` 将是 `{apple: 5}`。
 
 本质上，这跟下面的语法相同：
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
 let bag = {};
 
-// 从fruit变量中获取值
+// 从 fruit 变量中获取值
 bag[fruit] = 5;
 ```
 
@@ -221,7 +220,7 @@ alert(obj.__proto__); // [object Object]，这样不行
 
 我们从代码中可以看出来，把它赋值成 `5` 被忽略了。
 
-如果我们蓄意去存储随机的键值对或者允许一个访问者去指定键，那可能就会产生很多bug并且使对象变得危险。
+如果我们蓄意去存储随机的键值对或者允许一个访问者去指定键，那可能就会产生很多 bug 并且使对象变得危险。
 
 比如，访问者可能选择 "__proto__" 作为键，这个赋值的逻辑就失败了（像上面那样）。
 
@@ -275,7 +274,7 @@ let user = {
 
 ## 存在值检查
 
-对象的一个显著的特点就是可以访问任何属性，如果这个属性名没有值也不会有错误。访问一个不存在的属性会返回`undefined`。它提供一种普遍的方法去检查属性是否存在 -- 获得值来与undefined比较：
+对象的一个显著的特点就是可以访问任何属性，如果这个属性名没有值也不会有错误。访问一个不存在的属性会返回 `undefined`。它提供一种普遍的方法去检查属性是否存在 —— 获得值来与 undefined 比较：
 
 ```js run
 let user = {};
@@ -283,7 +282,7 @@ let user = {};
 alert( user.noSuchProperty === undefined ); // true means "no such property"
 ```
 
-同样也有一个特别的操作符`"in"`来检查是否属性存在。
+同样也有一个特别的操作符 `"in"` 来检查是否属性存在。
 
 The syntax is:
 ```js
@@ -299,7 +298,7 @@ alert( "age" in user ); // true, user.age exists
 alert( "blabla" in user ); // false, user.blabla doesn't exist
 ```
 
-注意 `in`的左边必须是 *属性名*。通常是一个字符串，如果不用字符串，那就是一个字符串变量。
+注意 `in` 的左边必须是*属性名*。通常是一个字符串，如果不用字符串，那就是一个字符串变量。
 
 ```js run
 let user = { age: 30 };
@@ -309,9 +308,9 @@ alert( *!*key*/!* in user ); // true, takes the name from key and checks for suc
 ```
 
 ````smart header="Using \"in\" for properties that store `undefined`"
-通常，严格比较`"=== undefined"`就够用，但是也有一些特殊情况，`"in"`就可以胜任。
+通常，严格比较 `"=== undefined"` 就够用，但是也有一些特殊情况，`"in"` 就可以胜任。
 
-那就是属性存在，但是存储`undefined` ：
+那就是属性存在，但是存储 `undefined` ：
 
 ```js run
 let obj = {
@@ -326,13 +325,13 @@ alert( "test" in obj ); // true, the property does exist!
 
 在上面的代码中，属性 `obj.test` 事实上是存在的，所以 `in` 操作符可以。
 
-这种情况很少发生，因为undefined通常情况下是不会被赋值到对象的，我们经常会用`null`来表示未知的或者空的值。
+这种情况很少发生，因为 undefined 通常情况下是不会被赋值到对象的，我们经常会用 `null` 来表示未知的或者空的值。
 ````
 
 
 ## "for..in" 循环
 
-为了使用对象所有的属性，就可以利用`for..in`循环。这跟`for(;;)`是完全不一样的东西。
+为了使用对象所有的属性，就可以利用 `for..in` 循环。这跟 `for(;;)` 是完全不一样的东西。
 
 语法：
 
@@ -342,7 +341,7 @@ for(key in object) {
 }
 ```
 
-例如，我们列出 `user`所有的属性值：
+例如，我们列出 `user` 所有的属性值：
 
 ```js run
 let user = {
@@ -359,9 +358,9 @@ for(let key in user) {
 }
 ```
 
-注意，所有的"for"都允许我们在循环中定义变量，像`let key`这样。
+注意，所有的"for"都允许我们在循环中定义变量，像 `let key` 这样。
 
-同样，我们可以用其他属性名来代替`key`。例如`"for(let prop in obj)"`也很常用。
+同样，我们可以用其他属性名来代替 `key`。例如 `"for(let prop in obj)"` 也很常用。
 
 ### 像对象一样排序
 
@@ -387,7 +386,7 @@ for(let code in codes) {
 */!*
 ```
 
-对象会给用户一些建议，如果我们是为德国用户使用的网站，我们可能想`49`来当做第一个。
+对象会给用户一些建议，如果我们是为德国用户使用的网站，我们可能想 `49` 来当做第一个。
 
 然而如果我们执行代码，我们会看到完全不同的景象：
 
@@ -459,7 +458,7 @@ let message = "Hello!";
 let phrase = message;
 ```
 
-结果是我们得到了不同的值，每个存的都是`"Hello!"`。
+结果是我们得到了不同的值，每个存的都是 `"Hello!"`。
 
 ![](variable-copy-value.png)
 
@@ -477,7 +476,7 @@ let user = {
 
 ![](variable-contains-reference.png)
 
-在这里，对象存在内存里面。`user`有一个对它的引用。
+在这里，对象存在内存里面。`user` 有一个对它的引用。
 
 **当对象被复制的时候 -- 引用被复制了一份, 对象并没有被复制**
 
@@ -536,11 +535,11 @@ let b = {}; // two independent objects
 alert( a == b ); // false
 ```
 
-如果比较两个对象`obj1 > obj2`或者用一个对象比较原始值`obj == 5`，对象被转换成原始值。我们不久就会学习到对象的转化是如何实现的，但是事实上，上面的比较真的没用，要不就是你代码写错了。
+如果比较两个对象 `obj1 > obj2` 或者用一个对象比较原始值 `obj == 5`，对象被转换成原始值。我们不久就会学习到对象的转化是如何实现的，但是事实上，上面的比较真的没用，要不就是你代码写错了。
 
 ### 常量对象
 
-一个被`const`修饰的对象*可以*修改
+一个被 `const` 修饰的对象*可以*修改
 
 例如：
 
@@ -556,9 +555,9 @@ user.age = 25; // (*)
 alert(user.age); // 25
 ```
 
-看起来好像`(*)`这行会报错，但是不是的，这根本没问题。这是因为`const`仅仅修饰`user`。在这里`user`存的是一个对象的引用。引用的地址没有变，只是引用的对象被修改了。
+看起来好像 `(*)` 这行会报错，但是不是的，这根本没问题。这是因为 `const` 仅仅修饰 `user`。在这里 `user` 存的是一个对象的引用。引用的地址没有变，只是引用的对象被修改了。
 
-如果你想把`user`赋值给其他的什么，那就会报错了，例如：
+如果你想把 `user` 赋值给其他的什么，那就会报错了，例如：
 
 ```js run
 const user = {
@@ -645,7 +644,7 @@ Object.assign(user, { name: "Pete", isAdmin: true });
 // now user = { name: "Pete", isAdmin: true }
 ```
 
-我们可以用`Object.assign`来代理简单的复制方法：
+我们可以用 `Object.assign` 来代理简单的复制方法：
 
 ```js
 let user = {
@@ -675,7 +674,7 @@ let user = {
 alert( user.sizes.height ); // 182
 ```
 
-现在，并不能拷贝`clone.sizes = user.sizes`，因为`user.sizes`是一个对象，它按引用拷贝。所以`clone` 和 `user`共享了一个对象。
+现在，并不能拷贝 `clone.sizes = user.sizes`，因为 `user.sizes` 是一个对象，它按引用拷贝。所以 `clone` 和 `user` 共享了一个对象。
 
 像这样：
 ```js run
@@ -696,7 +695,7 @@ user.sizes.width++;       // change a property from one place
 alert(clone.sizes.width); // 51, see the result from the other one
 ```
 
-为了解决上面的的问题，我们在复制的时候应该检查`user[key]`的每一个值，如果是一个对象，我们再复制一遍这个对象，这叫做深拷贝。
+为了解决上面的的问题，我们在复制的时候应该检查 `user[key]` 的每一个值，如果是一个对象，我们再复制一遍这个对象，这叫做深拷贝。
 
 有一个标准的深拷贝算法，解决上面和一些更复杂的情况，叫做[Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm)。为了不重复造轮子，我们使用它的一个JS实现的库 [lodash](https://lodash.com), 方法名叫做 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
 
@@ -709,19 +708,19 @@ alert(clone.sizes.width); // 51, see the result from the other one
 - 值可以是任何类型。
 
 我们可以用下面的方法获取属性：
-- 点符号: `obj.property`.
-- 中括号 `obj["property"]`. 中括号中可以使用变量 `obj[varWithKey]`.
+- 点符号: `obj.property`。
+- 中括号 `obj["property"]`， 中括号中可以使用变量 `obj[varWithKey]`。
 
 其他操作：
-- 删除属性： `delete obj.prop`。
-- 检查属性是否存在： `"key" in obj`。
-- 枚举属性： `for(let key in obj)` 循环。
+- 删除属性：`delete obj.prop`。
+- 检查属性是否存在：`"key" in obj`。
+- 枚举属性：`for(let key in obj)` 循环。
 
 对象根据引用来赋值或者复制。换句话说，对象中不存 "值", 而是 "引用" (内存地址)。 
 所以复制变量或者传递变量到方法中只是复制了对象的引用。
 所有的引用操作（像增加，删除属性）都作用于同一个对象。
 
-深拷贝的话我们用`Object.assign` 或者 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+深拷贝的话我们用 `Object.assign` 或者 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
 
 我们在这里学到的叫做“基本对象” -- 对象。
 
@@ -734,4 +733,4 @@ alert(clone.sizes.width); // 51, see the result from the other one
 
 他们有一些特别的特性，我们将在后面学习到。有时候大家说“数组类型”，“时间类型”，他们都属于对象类型的一种，都对对象类型做了一些延伸。
 
-对象在JS中是很强大的，我们仅仅抓住庞然大物的表面一点谈了谈。我们将在后面的章节更进一步学习。
+对象在 JavaScript 中是很强大的，我们仅仅抓住庞然大物的表面一点谈了谈。我们将在后面的章节更进一步学习。
