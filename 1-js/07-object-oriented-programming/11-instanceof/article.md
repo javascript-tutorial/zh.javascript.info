@@ -53,7 +53,7 @@ alert( arr instanceof Object ); // true
 1. 如果提供了静态方法 `Symbol.hasInstance`，那就直接用这个方法进行检测：
 
     ```js run
-    // 假设能吃东西的玩意都是动物
+    // 假设具有 canEat 属性的对象为动物类
     class Animal {
       static [Symbol.hasInstance](obj) {
         if (obj.canEat) return true;
@@ -64,7 +64,7 @@ alert( arr instanceof Object ); // true
     alert(obj instanceof Animal); // 返回 true：调用 Animal[Symbol.hasInstance](obj)
     ```
 
-2. 大部分的类是没有 `Symbol.hasInstance` 方法的，这时会检查 `Class.prototype` 是否等于 `obj` 的原型链中的任何一个原型。
+2. 大部分的类是没有 `Symbol.hasInstance` 方法的，这时会检查 `Class.prototype` 是否与 `obj` 的原型链中的任何一个原型相等。
 
     简而言之，是这么比较的：
     ```js
@@ -132,7 +132,7 @@ alert(obj.toString()); // 同上
 
 听起来挺不可思议？那是自然，精彩马上揭晓。
 
-照 [规范](https://tc39.github.io/ecma262/#sec-object.prototype.tostring) 上所讲，内置的 `toString` 方法可以从对象中提取出来，以其他值作为上下文（context）对象进行调用，调用结果取决于传入的上下文对象。
+按照 [规范](https://tc39.github.io/ecma262/#sec-object.prototype.tostring) 上所讲，内置的 `toString` 方法可以从对象中提取出来，以其他值作为上下文（context）对象进行调用，调用结果取决于传入的上下文对象。
 
 - 如果传入的是 number 类型，返回 `[object Number]`
 - 如果传入的是 boolean 类型，返回 `[object Boolean]`
