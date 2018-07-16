@@ -178,13 +178,13 @@ sayHi(); // Pete
 3. 当函数 `say()` 执行时，它从外部获得 `name`。它取自全局词法环境，它已经变为 `"Pete"` 了。
 
 
-```smart header="One call -- one Lexical Environment"
+```smart header="一次调用 —— 一个词法环境"
 请记住，每次函数运行会都会创建一个新的函数词法环境。
 
 如果一个函数被调用多次，那么每次调用也都会此创建一个拥有指定局部变量和参数的词法环境。
 ```
 
-```smart header="Lexical Environment is a specification object"
+```smart header="词法环境是一个规范对象"
 『词法环境』是一个规范对象。我们不能在代码中获取或直接操作该对象。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等，但显性行为应该是和上述的无差。
 ```
 
@@ -257,9 +257,9 @@ alert( counter() ); // 2
 
 ![](lexical-search-order.png)
 
-1. 内部函数的本地...
-2. 外部函数的变量...
-3. 以此类推直到到达全局变量...
+1. 内部函数的本地。
+2. 外部函数的变量。
+3. 以此类推直到到达全局变量。
 
 在这个例子中，`count` 在第二步中被找到。当外部变量被修改时，在找到它的地方被修改。因此 `count++` 找到该外部变量并在它从属的词法环境中进行修改。好像我们有 `let count = 1` 一样。
 
@@ -377,7 +377,7 @@ alert( counter2() ); // 0 （独立的）
 
 但如果 `makeWorker()` 中没有 `let name` 的话，那么搜索会进行到外部，直到到达链未的全局环境。在这个例子，它应该会变成 `"John"`。
 
-```smart header="Closures"
+```smart header="闭包"
 开发者应该有听过『闭包』这个编程术语。
 
 函数保存其外部的变量并且能够访问它们称之为[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming))。在某些语言中，是没有闭包的，或是以一种特别方式来实现。但正如上面所说的，在 JavaScript 中函数都是天生的闭包（只有一个例外，请参考 <info:new-function>）。
@@ -636,7 +636,7 @@ let g = f();
 g();
 ```
 
-```warn header="See ya!"
+```warn header="再见！"
 V8 的这个特性了解一下也不错。如果用 Chrome/Opera 调试的话，迟早你会遇到。
 
 这并不是调试器的 bug ，而是 V8 的一个特别的特性。或许以后会进行修改。
