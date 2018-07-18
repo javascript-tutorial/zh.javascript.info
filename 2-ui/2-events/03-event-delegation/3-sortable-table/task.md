@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# Sortable table
+# 可排序表
 
-Make the table sortable: clicks on `<th>` elements should sort it by corresponding column.
+对表进行排序：单击 `<th>` 元素应该按照相应的列对其排序。
 
-Each `<th>` has the type in the attribute, like this:
+每个 `<th>` 都有属性中的类型，如下所示：
 
 ```html
 <table id="grid">
@@ -32,12 +32,12 @@ Each `<th>` has the type in the attribute, like this:
 </table>
 ```
 
-In the example above the first column has numbers, and the second one -- strings. The sorting function should handle sort according to the type.
+在上面的例子中，第一列有数字，第二列有字符串。排序函数应根据类型处理排序。
 
-Only `"string"` and `"number"` types should be supported.
+只有 `"string"` 和 `"number"` 类型应该被支持。
 
-The working example:
+运行示例：
 
 [iframe border=1 src="solution" height=190]
 
-P.S. The table can be big, with any number of rows and columns.
+P.S. 表可以很大，有任意数量的行和列。
