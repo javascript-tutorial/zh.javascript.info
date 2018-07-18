@@ -1,56 +1,56 @@
-# Node properties: type, tag and contents
+# 节点属性：type、tag 和 contents
 
-Let's get a more in-depth look at DOM nodes.
+让我们深入了解一下 DOM 节点。
 
-In this chapter we'll see more into what they are and their most used properties.
+在本章中，我们将更多地了解它们是什么以及它们最常用的属性。
 
-## DOM node classes
+## DOM 节点类
 
-DOM nodes have different properties depending on their class. For instance, an element node corresponding to tag `<a>` has link-related properties, and the one corresponding to `<input>` has input-related properties and so on. Text nodes are not the same as element nodes. But there are also common properties and methods between all of them, because all classes of DOM nodes form a single hierarchy.
+DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相对应的元素节点具有链接相关的属性，标记 `<input>` 对应元素节点具有的输入相关的属性等。文本节点不同于元素节点，但是它们之间也存在共有的属性和方法，因为所有的 DOM 节点都形成一个单一层次的结构。
 
-Each DOM node belongs to the corresponding built-in class.
+每个 DOM 节点都有与之对应的内置类。
 
-The root of the hierarchy is [EventTarget](https://dom.spec.whatwg.org/#eventtarget), that is inherited by  [Node](http://dom.spec.whatwg.org/#interface-node), and other DOM nodes inherit from it.
+层次的根节点是 [EventTarget](https://dom.spec.whatwg.org/#eventtarget)，它继承自 [Node](http://dom.spec.whatwg.org/#interface-node)，而且其他 DOM 节点也继承自它。
 
-Here's the picture, explanations to follow:
+下图做了进一步解释：
 
 ![](dom-class-hierarchy.png)
 
-The classes are:
+类如下所示：
 
-- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) -- is the root "abstract" class. Objects of that class are never created. It serves as a base, so that all DOM nodes support so-called "events", we'll study them later.
-- [Node](http://dom.spec.whatwg.org/#interface-node) -- is also an "abstract" class, serving as a base  for DOM nodes. It provides the core tree functionality: `parentNode`, `nextSibling`, `childNodes` and so on (they are getters). Objects of `Node` class are never created. But there are concrete node classes that inherit from it, namely: `Text` for text nodes, `Element` for element nodes and more exotic ones like `Comment` for comment nodes.
-- [Element](http://dom.spec.whatwg.org/#interface-element) -- is a base class for DOM elements. It provides element-level navigation like `nextElementSibling`, `children` and searching methods like `getElementsByTagName`, `querySelector`. In the browser there may be not only HTML, but also XML and SVG documents. The `Element` class serves as a base for more specific classes: `SVGElement`, `XMLElement` and `HTMLElement`.
-- [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) -- is finally the basic class for all HTML elements. It is inherited by various HTML elements:
-    - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) -- the class for `<input>` elements,
-    - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) -- the class for `<body>` elements,
-    - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) -- the class for `<a>` elements
-    - ...and so on, each tag has its own class that may provide specific properties and methods.
+- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) —— 是根的“抽象”类。该类的对象从未被创建。它作为一个基础，为了让所有 DOM 节点都支持所谓的“事件”，我们会在之后对它进行学习。
+- [Node](http://dom.spec.whatwg.org/#interface-node) —— 也是一个 "abstract" 类，充当 DOM 节点的基础。它提供了树的核心功能：`parentNode`、`nextSibling`、`childNodes` 等（它们都是 getter）。`Node` 类的对象从未被创建。但是一些具体的节点类却继承自它，例如：`Text` 表示文本节点，`Element` 用于元素节点，以及更多外来的类（如注释节点 `Comment`）。
+- [Element](http://dom.spec.whatwg.org/#interface-element) —— 是 DOM 元素的基类。它提供了元素级的导航，比如 `nextElementSibling`、`children` 以及像 `getElementsByTagName`、`querySelector` 这样的搜索方法。浏览器中不仅有 HTML，还会有 XML 和SVG 文档。`Element` 类充当更具体类的基类：`SVGElement`、`XMLElement` 和 `HTMLElement`。
+- [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) —— 最终会成为所有 HTML 元素的基类。由各种 HTML 元素继承：
+    - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) ——  `<input>` 元素的类，
+    - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) —— `<body>` 元素的类，
+    - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) ——  `<a>` 元素的类，
+    - 等等，每个标记都有可以为自己提供特定属性和方法的类。
 
-So, the full set of properties and methods of a given node comes as the result of the inheritance.
+因此，给定节点的全部属性和方法都是继承的结果。
 
-For example, let's consider the DOM object for an `<input>` element. It belongs to [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) class. It gets properties and methods as a superposition of:
+例如，我们考虑一下 `<input>` 元素的 DOM 对象。它属于 [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) 类。它将属性和方法作为以下内容的叠加：
 
-- `HTMLInputElement` -- this class provides input-specific properties, and inherits from...
-- `HTMLElement` -- it provides common HTML element methods (and getters/setters) and inherits from...
-- `Element` -- provides generic element methods and inherits from...
-- `Node` -- provides common DOM node properties and inherits from...
-- `EventTarget` -- gives the support for events (to be covered),
-- ...and finally it inherits from `Object`, so "pure object" methods like `hasOwnProperty` are also available.
+- `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承自其他属性。
+- `HTMLElement` —— 它提供了通用 HTML 元素方法（getter 和setter），而且可以继承自其它属性。
+- `Element` —— 提供泛型元素方法，而且可以继承自其它属性。
+- `Node` —— 提供通用 DOM 节点属性，而且可以继承自其它属性。
+- `EventTarget` —— 为事件（包括事件本身）提供支持，
+- 最后，它继承了 `Object`，因为像 `hasOwnProperty` 的“纯对象”方法也是可用的。
 
-To see the DOM node class name, we can recall that an object usually has the `constructor` property. It references to the class constructor, and `constructor.name` is its name:
+要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类构造器， `constructor.name` 就是它的名称：
 
 ```js run
 alert( document.body.constructor.name ); // HTMLBodyElement
 ```
 
-...Or we can just `toString` it:
+...或者我们可以使用 `toString` 方法：
 
 ```js run
 alert( document.body ); // [object HTMLBodyElement]
 ```
 
-We also can use `instanceof` to check the inheritance:
+我们还可以使用 `instanceof` 来检查继承：
 
 ```js run
 alert( document.body instanceof HTMLBodyElement ); // true
@@ -60,38 +60,38 @@ alert( document.body instanceof Node ); // true
 alert( document.body instanceof EventTarget ); // true
 ```
 
-As we can see, DOM nodes are regular JavaScript objects. They use prototype-based classes for inheritance.
+正如我们所看到的，DOM 节点是规则的 JavaScript 对象。它们使用基于原型的类来继承。
 
-That's also easy to see by outputting an element with `console.dir(elem)` in a browser. There in the console you can see `HTMLElement.prototype`, `Element.prototype` and so on.
+在浏览器中用 `console.dir(elem)`输出元素来查看也是非常容易的。在控制台中，你可以看到 `HTMLElement.prototype`和 `Element.prototype` 等。
 
 ```smart header="`console.dir(elem)` versus `console.log(elem)`"
-Most browsers support two commands in their developer tools: `console.log` and `console.dir`. They output their arguments to the console. For JavaScript objects these commands usually do the same.
+大多数浏览器在其开发者工具中都支持这两个命令：`console.log` 和 `console.dir`。它们向控制台输出参数。对于 JavaScript 对象，这些命令也是如此。
 
-But for DOM elements they are different:
+但对于 DOM 元素却并非如此：
 
-- `console.log(elem)` shows the element DOM tree.
-- `console.dir(elem)` shows the element as a DOM object, good to explore its properties.
+- `console.log(elem)` 显示 DOM 元素树。
+- `console.dir(elem)` 将元素视为 DOM 对象，以便更好地发现它的属性。
 
-Try it on `document.body`.
+尝试 `document.body`。
 ```
 
 ````smart header="IDL in the spec"
-In the specification, classes are described not using JavaScript, but a special [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL), that is usually easy to understand.
+在规范中，类不是用 JavaScript 描述的，而是一个特殊的[接口描述语言](https://en.wikipedia.org/wiki/Interface_description_language) (IDL)，它很容易理解。
 
-In IDL all properties are prepended with their types. For instance, `DOMString`, `boolean` and so on.
+在 IDL 中，所有的属性都有它们的类型。比如，`DOMString` 和 `boolean` 等待。
 
-Here's an excerpt from it, with comments:
+以下是附有评论的摘录：
 
 ```js
-// Define HTMLInputElement
+// 定义 HTMLInputElement
 *!*
-// The colon ":" means that HTMLInputElement inherits from HTMLElement
+// 冒号 ":"意思是 HTMLInputElement 继承自 HTMLElement
 */!*
 interface HTMLInputElement: HTMLElement {
-  // here go properties and methods of <input> elements
+  // 下面是 <input> 元素的属性和方法
 
 *!*
-  // "DOMString" means that these properties are strings
+  // "DOMString" 意思是这些属性都是字符串
 */!*
   attribute DOMString accept;
   attribute DOMString alt;
@@ -99,75 +99,75 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
-  // boolean property (true/false)
+  // 布尔属性(true/false)
   attribute boolean autofocus;
 */!*
   ...
 *!*
-  // now the method: "void" means that that returns no value
+  //方法 "void" 意思是无返回值
 */!*
   void select();
   ...
 }
 ```
 
-Other classes are somewhat similar.
+其他类也大抵如此。
 ````
 
-## The "nodeType" property
+## "nodeType" 属性
 
-The `nodeType` property provides an old-fashioned way to get the "type" of a DOM node.
+`nodeType` 属性提供了一个获取 DOM 节点类型的旧方法。
 
-It has a numeric value:
-- `elem.nodeType == 1` for element nodes,
-- `elem.nodeType == 3` for text nodes,
-- `elem.nodeType == 9` for the document object,
-- there are few other values in [the specification](https://dom.spec.whatwg.org/#node).
+它有一个数值：
+- `elem.nodeType == 1` 是元素节点，
+- `elem.nodeType == 3` 是文本节点，
+- `elem.nodeType == 9` 是 document 对象，
+- 在[规范](https://dom.spec.whatwg.org/#node)中几乎没有其他值。
 
-For instance:
+例如：
 
 ```html run
 <body>
   <script>  
   let elem = document.body;
 
-  // let's examine what it is?
+  // 让我们检查一下它是什么？
   alert(elem.nodeType); // 1 => element
 
-  // and the first child is...
+  // 第一个孩子是
   alert(elem.firstChild.nodeType); // 3 => text
 
-  // for the document object, the type is 9
+  // 对于文档对象，类型是 9
   alert( document.nodeType ); // 9
   </script>
 </body>
 ```
 
-In modern scripts, we can use `instanceof` and other class-based tests to see the node type, but sometimes `nodeType` may be simpler. We can only read `nodeType`, not change it.
+在现代脚本中，我们可以使用 `instanceof` 和其他基于类的测试来查看节点类型，但有时 `nodeType` 可能会更简单。我们只能读取 `nodeType` 而不能修改它。
 
-## Tag: nodeName and tagName
+## 标签：nodeName 和 tagName
 
-Given a DOM node, we can read its tag name from `nodeName` or `tagName` properties:
+给定一个 DOM 节点，我们可以从 `nodeName` 或者 `tagName` 属性中读取它的标记名：
 
-For instance:
+例如：
 
 ```js run
 alert( document.body.nodeName ); // BODY
 alert( document.body.tagName ); // BODY
 ```
 
-Is there any difference between tagName and nodeName?
+tagName 和 nodeName 之间有何不同？
 
-Sure, the difference is reflected in their names, but is indeed a bit subtle.
+当然，差异反映在它们的名字上，但是确实有些微妙。
 
-- The `tagName` property exists only for `Element` nodes.
-- The `nodeName` is defined for any `Node`:
-    - for elements it means the same as `tagName`.
-    - for other node types (text, comment, etc.) it has a string with the node type.
+- `tagName` 属性仅用于 `Element` 节点。
+- `nodeName` 是为任意 `Node` 定义的：
+    - 对于元素，它的意义与 `tagName` 相同。
+    - 对其他节点类型（text、comment 等），则是拥有一个字符串的节点类型。
 
-In other words, `tagName` is only supported by element nodes (as it originates from `Element` class), while `nodeName` can say something about other node types.
+换句话说，`tagName` 只被元素节点支持（因为它起源于 `Element` 类），而 `nodeName` 则可以说明其他节点类型。
 
-For instance, let's compare `tagName` and `nodeName` for the `document` and a comment node:
+例如，我们比较一下 `document` 的 `tagName` 和 `nodeName`，以及一个注释节点：
 
 
 ```html run
@@ -185,25 +185,25 @@ For instance, let's compare `tagName` and `nodeName` for the `document` and a co
 </body>
 ```
 
-If we only deal with elements, then `tagName` is the only thing we should use.
+如果我们只处理元素，那么 `tagName` 是我们唯一应该使用的。
 
 
 ```smart header="The tag name is always uppercase except XHTML"
-The browser has two modes of processing documents: HTML and XML. Usually the HTML-mode is used for webpages. XML-mode is enabled when the browser receives an XML-document with the header: `Content-Type: application/xml+xhtml`.
+浏览器有两种处理 document 的模式：HTML 和 XML。通常，HTML 模式用于网页，只有浏览器接受带有 `Content-Type: application/xml+xhtml` 报头的 XML-document 时，我们才会使用 XML 模式。
 
-In HTML mode `tagName/nodeName` is always uppercased: it's `BODY` either for `<body>` or `<BoDy>`.
+在 HTML 模式中，`tagName/nodeName` 总是大写的：它是 `BODY`，而不是 `<body>` 或 `<BoDy>`。
 
-In XML mode the case is kept "as is". Nowadays XML mode is rarely used.
+在 XML 模式中，大小写保持为原样。目前，XML 模式很少被使用。
 ```
 
 
 ## innerHTML: the contents
 
-The [innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) property allows to get the HTML inside the element as a string.
+[innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) 属性允许将元素中的 HTML 作为字符串来获取。
 
-We can also modify it. So it's one of most powerful ways to change the page.
+我们也可以修改它。因此，这是改变页面最有效的方法之一。
 
-The example shows the contents of `document.body` and then replaces it completely:
+该示例显示了 `document.body` 的内容，然后完全替换它：
 
 ```html run
 <body>
@@ -218,7 +218,7 @@ The example shows the contents of `document.body` and then replaces it completel
 </body>
 ```
 
-We can try to insert invalid HTML, the browser will fix our errors:
+我们可以尝试插入无效的 HTML，因为浏览器会为我们修复错误：
 
 ```html run
 <body>
@@ -232,25 +232,25 @@ We can try to insert invalid HTML, the browser will fix our errors:
 ```
 
 ```smart header="Scripts don't execute"
-If `innerHTML` inserts a `<script>` tag into the document -- it doesn't execute.
+如果 `innerHTML` 将 `<script>` 标签插入到 document 中——它不会被执行。 -- it doesn't execute.
 
-It becomes a part of HTML, just as a script that has already run.
+它会被变成 HTML 的一部分，就像已经运行的脚本一样。
 ```
 
-### Beware: "innerHTML+=" does a full overwrite
+### 小心："innerHTML+=" 会完全重写
 
-We can append "more HTML" by using `elem.innerHTML+="something"`.
+我们可以通过使用 `elem.innerHTML+="something"` 来添加“更多的 HTML”。
 
-Like this:
+就像这样：
 
 ```js
 chatDiv.innerHTML += "<div>Hello<img src='smile.gif'/> !</div>";
 chatDiv.innerHTML += "How goes?";
 ```
 
-But we should be very careful about doing it, because what's going on is *not* an addition, but a full overwrite.
+但我们必须非常谨慎地使用，因为我们所做的**不是**附加内容，而且完整的重写。
 
-Technically, these two lines do the same:
+从技术上来说，这两行的作用相同：
 
 ```js
 elem.innerHTML += "...";
@@ -260,24 +260,24 @@ elem.innerHTML = elem.innerHTML + "..."
 */!*
 ```
 
-In other words, `innerHTML+=` does this:
+换句话说，`innerHTML+=` 做了以下内容：
 
-1. The old contents is removed.
-2. The new `innerHTML` is written instead (a concatenation of the old and the new one).
+1. 移除旧的内容。
+2. 新的 `innerHTML` 被书写（旧的和新的相连接）。
 
-**As the content is "zeroed-out" and rewritten from the scratch, all images and other resources will be reloaded**.
+**因为内容“零输出”而且被从头重写，所有的图片和其他资源都会被重写加载。**
 
-In the `chatDiv` example above the line `chatDiv.innerHTML+="How goes?"` re-creates the HTML content and reloads `smile.gif` (hope it's cached). If `chatDiv` has a lot of other text and images, then the reload becomes clearly visible.
+在上面的 `chatDiv` 示例中，`chatDiv.innerHTML+="How goes?"` 重建了 HTML 内容并重新加载了 `smile.gif`（希望它是缓存的）。如果 `chatDiv` 有许多其他文本和图片，那么重新加载就变得清晰可见。
 
-There are other side-effects as well. For instance, if the existing text was selected with the mouse, then most browsers will remove the selection upon rewriting `innerHTML`. And if there was an `<input>` with a text entered by the visitor, then the text will be removed. And so on.
+也会有其他副作用。例如，如果用鼠标选定现有文本，那么大多数浏览器都会在重写 `innerHTML` 时删除选定内容。如果浏览着输入的文本有一个 `<input>`，那么文本将被移除。诸如此类。
 
-Luckily, there are other ways to add HTML besides `innerHTML`, and we'll study them soon.
+幸运的是，除了 `innerHTML`，还有其他的可以添加 HTML 的方法，我们很快就会了解到。
 
-## outerHTML: full HTML of the element
+## outerHTML：元素的完整 HTML
 
-The `outerHTML` property contains the full HTML of the element. That's like `innerHTML` plus the element itself.
+`outerHTML` 属性包含元素的完整 HTML。就像是 `innerHTML` 加上元素本身。
 
-Here's an example:
+下面是一个示例：
 
 ```html run
 <div id="elem">Hello <b>World</b></div>
@@ -287,11 +287,11 @@ Here's an example:
 </script>
 ```
 
-**Beware: unlike `innerHTML`, writing to `outerHTML` does not change the element. Instead, it replaces it as a whole in the outer context.**
+**注意：与 `innerHTML`不同，写入到 `outerHTML` 后，不会改变元素。相反，它在外部环境中作为一个整体取代了它。**
 
-Yeah, sounds strange, and strange it is, that's why we make a separate note about it here. Take a look.
+是的，虽然听起来很奇怪，更奇怪的是为什么我们在这里做一个单独的注释。看一下。
 
-Consider the example:
+考虑这个实例：
 
 ```html run
 <div>Hello, world!</div>
@@ -311,23 +311,23 @@ Consider the example:
 </script>
 ```
 
-In the line `(*)` we take the full HTML of `<div>...</div>` and replace it by `<p>...</p>`. In the outer document we can see the new content instead of the `<div>`. But the old `div` variable is still the same.
+在 `(*)` 行，我们取出 `<div>...</div>` 的完整 HTML，用 `<p>...</p>` 将其替换。在外部文档中，我们可以看到新的内容而不是 `<div>`。但是旧的 `div` 变量仍然是相同的。
 
-The `outerHTML` assignment does not modify the DOM element, but extracts it from the outer context and inserts a new piece of HTML instead of it.
+`outerHTML` 赋值时不会修改 DOM 元素。而是从外部上下文中提取它，并插入一个新的 HTML 片段来替代它。
 
-Novice developers sometimes make an error here: they modify `div.outerHTML` and then continue to work with `div` as if it had the new content in it.
+新手有时会在这里犯错：他们修改 `div.outerHTML` 然后继续使用 `div`，就好像其中包含了新内容一样。
 
-That's possible with `innerHTML`, but not with `outerHTML`.
+在 `innerHTML` 中是可能的，但在 `outerHTML` 中却不行。
 
-We can write to `outerHTML`, but should keep in mind that it doesn't change the element we're writing to. It creates the new content on its place instead. We can get a reference to new elements by querying DOM.
+我们可以写入 `outerHTML`，但请记住它不会改变我们所写的元素。它会在其位置上创建新内容。我们可以通过查询 DOM 来获取对新元素的引用。
 
-## nodeValue/data: text node content
+## nodeValue/data：文本节点内容
 
-The `innerHTML` property is only valid for element nodes.
+`innerHTML` 属性仅对元素节点有效。
 
-Other node types have their counterpart: `nodeValue` and `data` properties. These two are almost the same for practical use, there are only minor specification differences. So we'll use `data`, because it's shorter.
+其他节点类型具有它们的对应项：`nodeValue` 和 `data` 属性。这两个在实际开发中作用几乎相同，只有细微的差异。所以我们使用 `data`，因为它更短。
 
-We can read it, like this:
+我们可以像这样读它：
 
 ```html run height="50"
 <body>
@@ -347,7 +347,7 @@ We can read it, like this:
 </body>
 ```
 
-For text nodes we can imagine a reason to read or modify them, but why comments? Usually, they are not interesting at all, but sometimes developers embed information into HTML in them, like this:
+对于文本节点，我们可以想象一个读取或修改它们的理由，但是为什么是注释呢？通常它们一点都不有趣，但有时开发者会将信息嵌入到 HTML 中，如下所示：
 
 ```html
 <!-- if isAdmin -->
@@ -355,13 +355,13 @@ For text nodes we can imagine a reason to read or modify them, but why comments?
 <!-- /if -->
 ```
 
-...Then JavaScript can read it and process embedded instructions.
+...然后 JavaScript 可以读取它并出入嵌入式指令。
 
-## textContent: pure text
+## textContent：纯文本
 
-The `textContent` provides access to the *text* inside the element: only text, minus all `<tags>`.
+`textContent` 提供对元素中的 **text** 的访问权限：只提供文本，去掉所有的 `<tags>`。
 
-For instance:
+例如：
 
 ```html run
 <div id="news">
@@ -375,18 +375,18 @@ For instance:
 </script>
 ```
 
-As we can see, only text is returned, as if all `<tags>` were cut out, but the text in them remained.
+正如我们所看到，只返回文本，就像是所有的 `<tags>` 都被删除了一样，但实际上它们的文本仍然存在。
 
-In practice, reading such text is rarely needed.
+实际上，这样的文本读取场景很少。
 
-**Writing to `textContent` is much more useful, because it allows to write text the "safe way".**
+**写入 `textContent` 显然要有用得多，因为它允许以“安全方式”编辑文本。**
 
-Let's say we have an arbitrary string, for instance entered by a user, and want to show it.
+比如我们有一个用户输入的字符串，我们希望将内容显示出了。
 
-- With `innerHTML` we'll have it inserted "as HTML", with all HTML tags.
-- With `textContent` we'll have it inserted "as text", all symbols are treated literally.
+- 使用 `innerHTML`，我们将其“作为 HTML” 插入，包含所有 HTML标记。
+- 在 `textContent`中，我们将其“作为文本”插入，所有字符都当做字面量处理。
 
-Compare the two:
+比较两者：
 
 ```html run
 <div id="elem1"></div>
@@ -400,16 +400,16 @@ Compare the two:
 </script>
 ```
 
-1. The first `<div>` gets the name "as HTML": all tags become tags, so we see the bold name.
-2. The second `<div>` gets the name "as text", so we literally see `<b>Winnie-the-pooh!</b>`.
+1. 第一个 `<div>` 获取名字“作为 HTML”：所有的标记都被标记，因为我们可以看到粗体名字。
+2. 第二个 `<div>` 获取名字“作为文本”，因此我们可以从字面上看到 `<b>Winnie-the-pooh!</b>`。
 
-In most cases, we expect the text from a user, and want to treat it as text. We don't want unexpected HTML in our site. An assignment to `textContent` does exactly that.
+在大多数情况下，我们期望用户提供文本，并希望将其视为文本。我们不想在我们的网站中出现预想不到的 HTML 属性。`textContent` 的赋值恰恰可以做到我们所期望的。
 
-## The "hidden" property
+## "hidden" 属性
 
-The "hidden" attribute and the DOM property specifies whether the element is visible or not.
+"hidden" 属性和 DOM 属性指定元素是否可见。
 
-We can use it in HTML or assign using JavaScript, like this:
+我们可以在 HTML 使用它，或者使用 JavaScript 进行分配，就像这些：
 
 ```html run height="80"
 <div>Both divs below are hidden</div>
@@ -423,9 +423,9 @@ We can use it in HTML or assign using JavaScript, like this:
 </script>
 ```
 
-Technically, `hidden` works the same as `style="display:none"`. But it's shorter to write.
+从技术上来说，`hidden` 与 `style="display:none"` 的运行方式相似。但写法更简洁。
 
-Here's a blinking element:
+这里有一个 blinking 元素：
 
 
 ```html run height=50
@@ -436,16 +436,16 @@ Here's a blinking element:
 </script>
 ```
 
-## More properties
+## 更多属性
 
-DOM elements also have additional properties, many of them provided by the class:
+DOM 元素还具有其他属性，其中许多属性由类提供：
 
 - `value` -- the value for `<input>`, `<select>` and `<textarea>` (`HTMLInputElement`, `HTMLSelectElement`...).
 - `href` -- the "href" for `<a href="...">` (`HTMLAnchorElement`).
 - `id` -- the value of "id" attribute, for all elements (`HTMLElement`).
 - ...and much more...
 
-For instance:
+例如：
 
 ```html run height="80"
 <input type="text" id="elem" value="value">
@@ -457,39 +457,39 @@ For instance:
 </script>
 ```
 
-Most standard HTML attributes have the corresponding DOM property, and we can access it like that.
+大部分标准 HTML 属性都具有与之对应的 DOM 属性，我们可以这样访问它。
 
-If we want to know the full list of supported properties for a given class, we can find them in the specification. For instance, HTMLInputElement is documented at <https://html.spec.whatwg.org/#htmlinputelement>.
+如果我们想知道给定类的支持属性的完整列表，我们可以在规范中找到它们。例如，<https://html.spec.whatwg.org/#htmlinputelement> 记录了 HTMLInputElement。
 
-Or if we'd like to get them fast or are interested in a concrete browser specification -- we can always output the element using `console.dir(elem)` and read the properties. Or explore "DOM properties" in the Elements tab of the browser developer tools.
+或者，如果我们想要快速获取它们，或者对具体的浏览器规范感兴趣 —— 我们总是可以使用 `console.dir(elem)` 输出元素并读取这些属性。或者在浏览器的开发者工具的功能选择中打开 "DOM properties"。
 
-## Summary
+## 总结
 
-Each DOM node belongs to a certain class. The classes form a hierarchy. The full set of properties and methods come as the result of inheritance.
+每个 DOM 节点都属于某个类。这些类形成层次结构。完整的属性和方法集是继承的结果。
 
-Main DOM node properties are:
+DOM 节点的属性主要有：
 
 `nodeType`
-: We can get `nodeType` from the DOM object class, but often we need just to see if it is a text or element node. The `nodeType` property is good for that. It has numeric values, most important are: `1` -- for elements,`3` -- for text nodes. Read-only.
+: 我们可以从 DOM 对象类中获取 `nodeType`，但我们通常只需要查看它是文本节点还是元素节点。`nodeType` 属性就可以我们的需求。它有数值，最重要的是：`1` —— 是元素，`3` —— 是文本。只读。
 
 `nodeName/tagName`
-: For elements, tag name (uppercased unless XML-mode). For non-element nodes `nodeName` describes what it is. Read-only.
+: 对于元素来说，标记名（除了 XML 模式外都要大写）。对于非元素节点，`nodeName` 则描述了它是什么。只读。
 
 `innerHTML`
-: The HTML content of the element. Can be modified.
+: HTML 的元素内容。可以被修改。
 
 `outerHTML`
-: The full HTML of the element. A write operation into `elem.outerHTML` does not touch `elem` itself. Instead it gets replaced with the new HTML in the outer context.
+: 元素的完整 HTML。写入 `elem.outerHTML` 的操作不会涉及 `elem` 自身。相反，它会在外部上下文中被替换成新的 HTML。
 
 `nodeValue/data`
-: The content of a non-element node (text, comment). These two are almost the same, usually we use `data`. Can be modified.
+: 非元素节点（文本、注释）内容。两者几乎一样，我们通常使用 `data`。允许被修改。
 
 `textContent`
-: The text inside the element, basically HTML minus all `<tags>`. Writing into it puts the text inside the element, with all special characters and tags treated exactly as text. Can safely insert user-generated text and protect from unwanted HTML insertions.
+: 元素中的文本，基本上是 HTML 减去所有 `<tags>`。将文本写入元素中，并把所有特殊字符和标记完全视为文本。可以安全地插入用户生成的文本，防止不必要的 HTML 插入。
 
 `hidden`
-: When set to `true`, does the same as CSS `display:none`.
+: 当设置为 `true` 时，执行与 CSS `display:none` 相同的操作。
 
-DOM nodes also have other properties depending on their class. For instance, `<input>` elements (`HTMLInputElement`) support `value`, `type`, while `<a>` elements (`HTMLAnchorElement`) support `href` etc. Most standard HTML attributes have a corresponding DOM property.
+DOM 节点还具有其他属性，具体内容则取决于它们的类。例如，`<input>`元素（`HTMLInputElement`）支持 `value`、`type`，而 `<a>` 元素（`HTMLAnchorElement`）则支持 `href` 等。大多数标准 HTML 属性都具有相应的 DOM 属性。
 
-But HTML attributes and DOM properties are not always the same, as we'll see in the next chapter.
+但是 HTML 属性和 DOM 属性并不总是一致的，我们会在下一章中看到这点。
