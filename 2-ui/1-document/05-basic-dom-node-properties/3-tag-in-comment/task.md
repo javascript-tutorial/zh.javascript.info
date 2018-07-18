@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Tag in comment
+# 注释中的标记
 
-What does this code show?
+这个代码会显示什么？
 
 ```html
 <script>
