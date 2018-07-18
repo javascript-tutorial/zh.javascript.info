@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Tree menu
+# 树目录
 
-Create a tree that shows/hides node children on click:
+创建显示/隐藏节点子节点的树，单击：
 
 [iframe border=1 src="solution"]
 
-Requirements:
+请求：
 
-- Only one event handler (use delegation)
-- A click outside the node title (on an empty space) should not do anything.
+- 只有一个事件处理器（使用委托）
+- 在节点标题外单击（在空格上）不应该做任何事情。
