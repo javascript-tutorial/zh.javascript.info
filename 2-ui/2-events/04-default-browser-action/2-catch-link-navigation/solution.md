@@ -1,5 +1,4 @@
-That's a great use of the event delegation pattern.
+这是一个使用事件委托模式的案例。
 
-In real life instead of asking we can send a "logging" request to the server that saves the information about where the visitor left. Or we can load the content and show it right in the page (if allowable).
-
-All we need is to catch the `contents.onclick` and use `confirm` to ask the user. A good idea would be to use `link.getAttribute('href')` instead of `link.href` for the URL. See the solution for details.
+在现实中，我们可以向服务器发送一个 "logging" 请求而不是询问，以保存访问者离开位置的信息。或者我们可以加载内容并将其显示在页面中（如果允许的话）。 
+我们只需要捕捉 `contents.onclick` 然后使用 `confirm` 来询问用户。一个好主意是使用 `link.getAttribute('href')` 来代替 `link.href`。详情请参阅解决方案。
