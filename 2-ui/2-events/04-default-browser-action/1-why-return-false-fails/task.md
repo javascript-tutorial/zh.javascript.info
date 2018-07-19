@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Why "return false" doesn't work?
+# 为什么 "return false" 不起作用？
 
-Why in the code below `return false` doesn't work at all?
+为什么下述代码 `return false` 不起作用？
 
 ```html autorun run
 <script>
@@ -17,6 +17,6 @@ Why in the code below `return false` doesn't work at all?
 <a href="http://w3.org" onclick="handler()">the browser will go to w3.org</a>
 ```
 
-The browser follows the URL on click, but we don't want it.
+浏览器再单击时遵循 URL，但是我们不想要它。
 
-How to fix?
+如何修复？
