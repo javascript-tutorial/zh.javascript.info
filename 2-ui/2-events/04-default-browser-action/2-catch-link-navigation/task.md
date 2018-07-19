@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Catch links in the element
+# 在元素中捕获链接
 
-Make all links inside the element with `id="contents"` ask the user if he really wants to leave. And if he doesn't then don't follow.
+使用 `id="contents"` 创建元素中的所有链接，询问用户是否真的想离开。如果他不这么做，就不用继续跟踪。
 
-Like this:
+就像这样：
 
 [iframe height=100 border=1 src="solution"]
 
-Details:
+细节：
 
-- HTML inside the element may be loaded or regenerated dynamically at any time, so we can't find all links and put handlers on them. Use the event delegation.
-- The content may have nested tags. Inside links too, like `<a href=".."><i>...</i></a>`.
+- 元素中的 HTML 可以随时动态加载或者重新生成，因此我们无法找到所有链接并将处理器放在它们身上。只有使用事件委托可以。 s
+- 内容可能有嵌套标记。内部链接也是这样，比如 `<a href=".."><i>...</i></a>`。
