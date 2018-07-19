@@ -1,23 +1,23 @@
-# Browser default actions
+# 浏览器默认动作
 
-Many events automatically lead to browser actions.
+许多事件会自动导致浏览器动作。
 
-For instance:
+例如：
 
-- A click on a link -- initiates going to its URL.
-- A click on submit button inside a form -- initiates its submission to the server.
-- Pressing a mouse button over a text and moving it -- selects the text.
+- 单击一个链接 —— 启动到它的 URL。
+- 单击表单中的提交按钮 —— 启动提交到服务器的动作。
+- 在文本上下文按下鼠标按钮 —— 选中文本。
 
-If we handle an event in JavaScript, often we don't want browser actions. Fortunately, it can be prevented.
+如果我们用 JavaScript 处理一个事件，我们通常不需要浏览器动作。幸运的是，它是可以阻止的。
 
-## Preventing browser actions
+## 阻止浏览器动作
 
-There are two ways to tell the browser we don't want it to act:
+有两种方法可以告诉浏览器我们不希望它执行动作：
 
-- The main way is to use the `event` object. There's a method `event.preventDefault()`.
-- If the handler is assigned using `on<event>` (not by `addEventListener`), then we can just return `false` from it.
+- 主要的方法是使用 `event` 对象。有一个 `event.preventDefault()` 方法。
+- 如果使用 `on<event>`（而不是 `addEventListener`）分发处理器，那么我们就只会从它那得到 `false` 返回值。
 
-In the example below there a click to links don't lead to URL change:
+在下面的示例中，单击链接不会导致 URL 改变：
 
 ```html autorun height=60 no-beautify
 <a href="/" onclick="return false">Click here</a>
@@ -26,16 +26,16 @@ or
 ```
 
 ```warn header="Not necessary to return `true`"
-The value returned by an event handler is usually ignored.
+事件处理器返回的值通常会被忽略。
+ 
+唯一的异常 —— 是从使用 `on<event>` 分发的处理器中 `return false`。
 
-The only exception -- is `return false` from a handler assigned using `on<event>`.
-
-In all other cases, the return is not needed and it's not processed anyhow.
+在所有其他情况下，返回都是不需要的，也不需要被处理。
 ```
 
-### Example: the menu
+### 示例：菜单
 
-Consider a site menu, like this:
+考虑一个站点菜单：如下所示：
 
 ```html
 <ul id="menu" class="menu">
@@ -45,18 +45,18 @@ Consider a site menu, like this:
 </ul>
 ```
 
-Here's how it looks with some CSS:
+下面是一些 CSS 的外观：
 
 [iframe height=70 src="menu" link edit]
 
-Menu items are links `<a>`, not buttons. There are several benefits, for instance:
+菜单项是 `<a>` 链接，而不是按钮。这有几个好处，比如：
 
-- Many people like to use "right click" -- "open in a new window". If we use `<button>` or `<span>`, that doesn't work.
-- Search engines follow `<a href="...">` links while indexing.
+- 许多人喜欢使用“右键” —— “打开一个新窗口”。如果我们使用 `<button>` 或者 `<span>`，这些动作都会失效。
+- 搜索引擎在索引时遵循 `<a href="...">`。
 
-So we use `<a>` in the markup. But normally we intend to handle clicks in JavaScript. So we should prevent the default browser action.
+因为我们在标记中使用 `<a>`。但通常我们打算用 JavaScript 处理单击。因此我们应该阻止浏览器默认动作。
 
-Like here:
+就像这样：
 
 ```js
 menu.onclick = function(event) {
@@ -71,42 +71,42 @@ menu.onclick = function(event) {
 };
 ```
 
-If we omit `return false`, then after our code executes the browser will do its "default action" -- following to the URL in `href`.
+如果我们省略 `return false`，那么在我们的代码执行后，浏览器将执行它的“默认动作” —— 在  `href` 中跟踪 URL。
 
-By the way, using event delegation here makes our menu flexible. We can add nested lists and style them using CSS to "slide down".
+顺便说一句，这里使用事件委托会使我们的菜单更灵活。我们可以添加嵌套列表并使用 CSS 对其样式设置 "slide down"。
 
 
-## Prevent further events
+## 阻止事件的进一步发展
 
 Certain events flow one into another. If we prevent the first event, there will be no second.
 
-For instance, `mousedown` on an `<input>` field leads to focusing in it, and the `focus` event. If we prevent the `mousedown` event, there's no focus.
+例如，在 `<input>` 上的 `mousedown` 会导致在其中获得焦点，也就是 `focus` 事件。如果我们阻止 `mousedown` 事件，就不会有焦点。
 
-Try to click on the first `<input>` below -- the `focus` event happens. That's normal.
+尝试点击以下的 `<input>` ——  `focus` 事件会发生。这很正常。
 
-But if you click the second one, there's no focus.
+但是如果你点击第二个，就会失去焦点。
 
 ```html run autorun
 <input value="Focus works" onfocus="this.value=''">
 <input *!*onmousedown="return false"*/!* onfocus="this.value=''" value="Click me">
 ```
 
-That's because the browser action is canceled on `mousedown`. The focusing is still possible if we use another way to enter the input. For instance, the `key:Tab` key to switch from the 1st input into the 2nd. But not with the mouse click any more.
+这是因为浏览器动作在 `mousedown` 上被取消。如果我们用另一种方式进行输入，焦点仍然有用。例如，`key:Tab` 键用于从第一个输入切换到第二个输入。但不要再用鼠标单击了。
 
 
 ## event.defaultPrevented
 
-The property `event.defaultPrevented` is `true` if the default action was prevented, and `false` otherwise.
+如果默认动作被阻止，那么 `event.defaultPrevented` 属性为 `true`，否则为 `false`。
 
-There's an interesting use case for it.
+还有一个有趣的用例。
 
-You remember in the chapter <info:bubbling-and-capturing> we talked about `event.stopPropagation()`  and why stopping bubbling is bad?
+你还记得在 <info:bubbling-and-capturing> 章节中，我们讨论的关于为什么 `event.stopPropagation()` 停止冒泡是不好的么？
 
-Sometimes we can use `event.defaultPrevented` instead.
+有时我们可以使用 `event.defaultPrevented` 来代替。
 
-Let's see a practical example where stopping the bubbling looks necessary, but actually we can do well without it.
+我们来看一个实际的例子，停止冒泡看起来是必须的，但实际上没有它我们也可以做的很好。
 
-By default the browser on `contextmenu` event (right mouse click) shows a context menu with standard options. We can prevent it and show our own, like this:
+默认情况下，`contextmenu` 事件（鼠标右击）上的浏览器显示一个带有标准选项的上下文菜单。我们可以阻止它并显示我们自己的，就像这样：
 
 ```html autorun height=50 no-beautify run
 <button>Right-click for browser context menu</button>
@@ -116,7 +116,7 @@ By default the browser on `contextmenu` event (right mouse click) shows a contex
 </button>
 ```
 
-Now let's say we want to implement our own document-wide context menu, with our options. And inside the document we may have other elements with their own context menus:
+现在，假设我们用我们自己的选项实现我们自己文档范围的上下文菜单。在文档中，我们可能有其他元素和它们自己的上下文菜单：
 
 ```html autorun height=80 no-beautify run
 <p>Right-click here for the document context menu</p>
@@ -135,9 +135,9 @@ Now let's say we want to implement our own document-wide context menu, with our 
 </script>
 ```
 
-The problem is that when we click on `elem`, we get two menus: the button-level and (the event bubbles up) the document-level menu.
+问题是当我们点击 `elem` 时，我们得到两个菜单：按钮级别（事件冒泡）和文档级别的菜单。
 
-How to fix it? One of solutions is to think like: "We fully handle the event in the button handler, let's stop it" and use `event.stopPropagation()`:
+如何修复呢？其中一个解决方案是：“我们在处理按钮处理器时全部去处理事件，然后停止它。”还要使用 `event.stopPropagation()`：
 
 ```html autorun height=80 no-beautify run
 <p>Right-click for the document menu</p>
@@ -159,9 +159,9 @@ How to fix it? One of solutions is to think like: "We fully handle the event in 
 </script>
 ```
 
-Now the button-level menu works as intended. But the price is high. We forever deny access to information about right-clicks for any outer code, including counters that gather statistics and so on. That's quite unwise.
+现在按钮级别的菜单如期工作。但是代价太大，我们会永远拒绝访问任何外部代码的右击信息，包括收集统计信息的计数器等等。这很不可取。
 
-An alternative solution would be to check in the `document` handler if the default action was prevented? If it is so, then the event was handled, and we don't need to react on it.
+另一个替代方案是，如果阻止了默认动作，那么就可以检查 `document` 的处理器么？如果是这样的话，那么事件就被处理了，我们不需要对它做出反应。
 
 
 ```html autorun height=80 no-beautify run
@@ -185,44 +185,44 @@ An alternative solution would be to check in the `document` handler if the defau
 </script>
 ```
 
-Now everything also works correctly. If we have nested elements, and each of them has a context menu of its own, that would also work. Just make sure to check for `event.defaultPrevented` in each `contextmenu` handler.
+现在一切都可以正常工作了。如果我们有嵌套元素，并且每个元素都有自己的上下文菜单，那么这也是可行的。只需确保检查每个 `contextmenu` 处理器中的 `event.defaultPrevented`。
 
 ```smart header="event.stopPropagation() and event.preventDefault()"
-As we can clearly see, `event.stopPropagation()` and `event.preventDefault()` (also known as `return false`) are two different things. They are not related to each other.
+正如我们所看到的那样，`event.stopPropagation()` 和 `event.preventDefault()`（`return false`）是两种不同的事情。它们之间毫无联系。
 ```
 
 ```smart header="Nested context menus architecture"
-There are also alternative ways to implement nested context menus. One of them is to have a special global object with a method that handles `document.oncontextmenu`, and also methods that allow to store various "lower-level" handlers in it.
+还有一些实现嵌套上下文菜单的替代方法。其中一个是拥有一个特殊的全局对象，它具有处理 `document.oncontextmenu` 的方法，还允许在其中存储各种“低级”处理器方法。
 
-The object will catch any right-click, look through stored handlers and run the appropriate one.
+对象将捕获任何右击，查看存储的处理器并运行适当的处理器。
 
-But then each piece of code that wants a context menu should know about that object and use its help instead of the own `contextmenu` handler.
+但每一段需要上下文菜单的代码都应该了解该对象，并使用它的帮助，而不是使用自己的 `contextmenu` 处理器。
 ```
 
-## Summary
+## 总结
 
-There are many default browser actions:
+有许多默认浏览器动作：
 
-- `mousedown` -- starts the selection (move the mouse to select).
-- `click` on `<input type="checkbox">` -- checks/unchecks the `input`.
-- `submit` -- clicking an `<input type="submit">` or hitting `key:Enter` inside a form field causes this event to happen, and the browser submits the form after it.
-- `wheel` -- rolling a mouse wheel event has scrolling as the default action.
-- `keydown` -- pressing a key may lead to adding a character into a field, or other actions.
-- `contextmenu` -- the event happens on a right-click, the action is to show the browser context menu.
-- ...there are more...
+- `mousedown` —— 开始选择（移动鼠标进行选择）。
+- 在 `<input type="checkbox">` 上 `click` —— 检查/取消选中的 `input`。
+- `submit` ——  单击 `<input type="submit">` 或在表单字段中输入 `key:Enter` 会导致此事件发生，浏览器会提交表单。
+- `wheel` —— 鼠标滚轮事件的滚动将作为默认动作。
+- `keydown` —— 按下键可能会导致将字符添加到字段或者其他动作中。
+- `contextmenu` —— 事件发生在右击时，动作是显示浏览器上下文菜单。
+- ...还有更多...
 
-All the default actions can be prevented if we want to handle the event exclusively by JavaScript.
+如果我们想要通过 JavaScript 来处理事件，那么所有的默认动作都可以被阻止。
 
-To prevent a default action -- use either `event.preventDefault()` or  `return false`. The second method works only for handlers assigned with `on<event>`.
+想要阻止默认行为 —— 可以使用 `event.preventDefault()` 或者 `return false`。第二个方法只适用于分发了 `on<event>` 的处理器。
 
-If the default action was prevented, the value of `event.defaultPrevented` becomes `true`, otherwise it's `false`.
+如果默认动作被阻止，`event.defaultPrevented` 的值就会变成 `true`，否则会变成 `false`。
 
 ```warn header="Stay semantic, don't abuse"
-Technically, by preventing default actions and adding JavaScript we can customize the behavior of any elements. For instance, we can make a link `<a>` work like a button, and a button `<button>` behave as a link (redirect to another URL or so).
+从技术上来说，通过阻止默认动作和添加 JavaScript，我们可以定制任何元素的行为。例如，我们可以使链接 `<a>` 像按钮一样工作，而按钮 `<button>` 也可以作为链接运行（重定向到另一个 URL 等）。
 
-But we should generally keep the semantic meaning of HTML elements. For instance, `<a>` should preform navigation, not a button.
+但我们通常应该保留 HTML 元素的语义含义。例如 `<a>` 应该预置导航，而不是按钮。
 
-Besides being "just a good thing", that makes your HTML better in terms of accessibility.
+除了“是一件好事”，这使你的 HTML 在可访问性方便表现得更好。
 
-Also if we consider the example with `<a>`, then please note: a browser allows to open such links in a new window (by right-clicking them and other means). And people like that. But if we make a button behave as a link using JavaScript and even look like a link using CSS, then `<a>`-specific browser features still won't work for it.
+另外，如果我们考虑 `<a>` 的示例，那么请注意：浏览器允许在一个新窗口中打开这样的链接（右击它们以及其他方法）。大家都喜欢这么做。但如果我们适用 JavaScript 让按钮行为表现得像链接，甚至看起来像 CSS 的链接，那么 `<a>` 特定于浏览器的特性将仍然不会适用于它。
 ```
