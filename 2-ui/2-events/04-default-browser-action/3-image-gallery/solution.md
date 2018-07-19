@@ -1,1 +1,1 @@
-The solution is to assign the handler to the container and track clicks. If a click is on the `<a>` link, then change `src` of `#largeImg` to the `href` of the thumbnail.
+解决方案是将处理器分发给容器并追踪点击。如果单击 `<a>` 上的链接，则将 `#largeImg` 的 `src` 修改位缩略图的 `href`。
