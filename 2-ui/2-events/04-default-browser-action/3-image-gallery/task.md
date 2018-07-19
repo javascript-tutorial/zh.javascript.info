@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Image gallery
+# 图像库
 
-Create an image gallery where the main image changes by the click on a thumbnail.
+创建一个图像库，通过单击缩略图来更改主图像。
 
-Like this:
+就像这样：
 
 [iframe src="solution" height=600]
 
-P.S. Use event delegation.
+P.S. 使用事件委托。
