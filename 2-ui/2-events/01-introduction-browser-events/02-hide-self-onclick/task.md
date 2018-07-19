@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Hide self
+# 隐藏自己
 
-Create a button that hides itself on click.
+创建一个按钮，在单击时，隐藏自己。
 
 ```online
 Like this:
