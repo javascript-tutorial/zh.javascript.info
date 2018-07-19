@@ -1,3 +1,3 @@
-# Introduction into Events
+# 事件简介
 
-An introduction to browser events, event properties and handling patterns.
+浏览器事件、事件属性和处理模式简介。
