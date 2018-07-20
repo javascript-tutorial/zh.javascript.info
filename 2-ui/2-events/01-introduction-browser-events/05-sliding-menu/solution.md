@@ -1,12 +1,12 @@
 
 # HTML/CSS
-First let's create HTML/CSS.
+首先，我们创建 HTML/CSS。
 
-A menu is a standalone graphical component on the page, so its better to put it into a single DOM element.
+菜单是页面上的一个独立的图形组件，所以最好把它放在一个 DOM 元素中。
 
-A list of menu items can be layed out as a list `ul/li`.
+菜单项列表可以分层为列表 `ul/li`。
 
-Here's the example structure:
+下面是示例的结构：
 
 ```html
 <div class="menu">
@@ -19,29 +19,29 @@ Here's the example structure:
 </div>
 ```
 
-We use `<span>` for the title, because `<div>` has an implicit `display:block` on it, and it will occupy 100% of the horizontal width.
+我们的标题使用 `<span>`，因为 `<div>` 有一个隐式的 `display:block`，它会 100% 的占据水平宽度。
 
-Like this:
+就像这样：
 
 ```html autorun height=50
 <div style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</div>
 ```
 
-So if we set `onclick` on it, then it will catch clicks to the right of the text.
+因此如果我们在它上面设置 `onclick`，就会在文本的右边捕获点击动作。
 
-...but `<span>` has an implicit `display: inline`, so it occupies exactly enough place to fit all the text:
+...但`<span>` h有一个隐式 `display: inline`，因此它会占据足够的位置来适应所有的文本：
 
 ```html autorun height=50
 <span style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</span>
 ```
 
-# Toggling the menu
+  # 切换菜单
 
-Toggling the menu should change the arrow and show/hide the menu list.
+切换菜单应更改箭头并显示/隐藏菜单列表。
 
-All these changes are perfectly handled by CSS. In JavaScript we should label the current state of the menu by adding/removing the class `.open`.
+所以这些更改都被 CSS 完美处理。在 JavaScript 中，我们应该通过添加/移除 `.open` 类来标记菜单的当前状态。
 
-Without it, the menu will be closed:
+没有它，菜单就会关闭：
 
 ```css
 .menu ul {
@@ -58,7 +58,7 @@ Without it, the menu will be closed:
 }
 ```
 
-...And with `.open` the arrow changes and the list shows up:
+...使用`.open` 后，箭头会改变，就像下面列表显示的一样：
 
 ```css
 .menu.open .title::before {
