@@ -1,8 +1,9 @@
-# Outer corners
+# 外角
 
-Outer corners are basically what we get from  [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect).
+外角坐标基本上就是我们从 [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect) 方法获取的值。
 
 Coordinates of the upper-left corner `answer1` and the bottom-right corner `answer2`:
+左上角坐标的答案是 `answer1`，右下角坐标的答案是 `answer2`。
 
 ```js
 let coords = elem.getBoundingClientRect();
@@ -11,19 +12,19 @@ let answer1 = [coords.left, coords.top];
 let answer2 = [coords.right, coords.bottom];
 ```
 
-# Left-upper inner corner
+# 左上内角坐标
 
-That differs from the outer corner by the border width. A reliable way to get the distance is `clientLeft/clientTop`:
+内角与外角主要的不同在于边框的宽度。获取边框距离一个可靠的方法是 `clientLeft/clientTop`：
 
 ```js
 let answer3 = [coords.left + field.clientLeft, coords.top + field.clientTop];
 ```
 
-# Right-bottom inner corner
+# 右下内角坐标
 
-In our case we need to substract the border size from the outer coordinates.
+在这个情况下我们需要把外部坐标减去边框大小。
 
-We could use CSS way:
+我们可以使用 CSS 的方式：
 
 ```js
 let answer4 = [
@@ -32,7 +33,7 @@ let answer4 = [
 ];
 ```
 
-An alternative way would be to add `clientWidth/clientHeight` to coordinates of the left-upper corner. That's probably even better:
+另一种方式是把 `clientWidth/clientHeight` 和左上角的坐标相加。这个方式相较于上一个或许更好：
 
 ```js
 let answer4 = [
