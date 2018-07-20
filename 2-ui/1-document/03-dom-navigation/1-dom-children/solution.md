@@ -1,27 +1,26 @@
-There are many ways, for instance:
+这里有很多方法，比方说：
 
-
-The `<div>` DOM node:
+获取 `<div>` DOM 节点：
 
 ```js
 document.body.firstElementChild
-// or
+// 或者
 document.body.children[0]
-// or (the first node is space, so we take 2nd)
+// 或者（第一个节点是空格，所有我们拿第二个）
 document.body.childNodes[1]
 ```
 
-The `<ul>` DOM node:
+获取 `<ul>` DOM 节点：
 
 ```js
 document.body.lastElementChild
-// or
+// 或者
 document.body.children[1]
 ```
 
-The second `<li>` (with Pete):
+获取第二个 `<li>`（内容里有 Pete）
 
 ```js
-// get <ul>, and then get its last element child
+// 获取 <ul>, 然后拿它的最后一个子元素
 document.body.lastElementChild.lastElementChild
 ```

@@ -1,10 +1,10 @@
-importance: 5
+重要度：5
 
 ---
 
-# DOM children
+# DOM 子元素
 
-For the page:
+对于这个页面：
 
 ```html
 <html>
@@ -18,7 +18,7 @@ For the page:
 </html>
 ```
 
-How to access:
-- The `<div>` DOM node?
-- The `<ul>` DOM node?
-- The second `<li>` (with Pete)?
+如何能访问到以下内容：
+- `<div>` DOM 节点？
+-  `<ul>` DOM 节点？
+-  第二个 `<li>` 节点（即包含 Pete 的节点）？

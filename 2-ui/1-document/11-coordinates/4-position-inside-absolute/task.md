@@ -1,28 +1,28 @@
-importance: 5
+重要度：5
 
 ---
 
-# Position the note inside (absolute)
+# 把注释放在元素内部（使用绝对坐标）
 
-Extend the previous task <info:task/position-at-absolute>: teach the function  `positionAt(anchor, position, elem)` to insert `elem` inside the `anchor`.
+扩展上一个任务 <info:task/position-at-absolute>：把函数 `positionAt(anchor, position, elem)` 改为在 `anchor` 内部插入 `elem` 元素。
 
-New values for `position`:
+`position` 的新值：
 
-- `top-out`, `right-out`, `bottom-out` -- work the same as before, they insert the `elem` over/right/under `anchor`.
-- `top-in`, `right-in`, `bottom-in` -- insert `elem` inside the `anchor`: stick it to the upper/right/bottom edge.
+- `top-out`，`right-out`，`bottom-out` -- 和之前一样工作，它们把 `elem` 插入 `anchor` 的上/中/下。
+- `top-in`，`right-in`，`bottom-in` -- 把 `elem` 插入 `anchor` 元素内部：将之放在内部的上/中/下边界。
 
-For instance:
+比如说：
 
 ```js
-// shows the note above blockquote
+// 在 blockquote 上面显示注释
 positionAt(blockquote, "top-out", note);
 
-// shows the note inside blockquote, at the top
+// 在 blockquote 内部的上边界显示注释
 positionAt(blockquote, "top-in", note);
 ```
 
-The result:
+结果是：
 
 [iframe src="solution" height="310" border="1" link]
 
-As the source code, take the solution of the task <info:task/position-at-absolute>.
+可以使用任务 <info:task/position-at-absolute> 的解决方案作为源代码。
