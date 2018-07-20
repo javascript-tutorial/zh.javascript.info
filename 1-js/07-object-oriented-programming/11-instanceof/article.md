@@ -1,4 +1,4 @@
-# 类型检测：“instanceof”
+# 类型检测："instanceof"
 
 `instanceof` 操作符用于检测对象是否属于某个 class，同时，检测过程中也会将继承关系考虑在内。
 
@@ -59,7 +59,7 @@ alert( arr instanceof Object ); // true
         if (obj.canEat) return true;
       }
     }
-    
+
     let obj = { canEat: true };
     alert(obj instanceof Animal); // 返回 true：调用 Animal[Symbol.hasInstance](obj)
     ```
@@ -81,7 +81,7 @@ alert( arr instanceof Object ); // true
     ```js run
     class Animal {}
     class Rabbit extends Animal {}
-    
+
     let rabbit = new Rabbit();
     *!*
     alert(rabbit instanceof Animal); // true
@@ -153,7 +153,7 @@ let arr = [];
 alert( objectToString.call(arr) ); // [object Array]
 ```
 
-这里用到了章节 [](info:call-apply-decorators) 里提到的 [call](mdn:js/function/call) 方法来调用上下文 `this=arr` 的方法 `objectToString`。
+这里用到了章节 [](info:call-apply-decorators) 里提到的 [call](mdn:js/function/call) 方法来调用 `this=arr` 上下文的方法 `objectToString`。
 
 `toString` 的内部算法会检查 `this` 对象，返回对应的结果。再来几个例子：
 
@@ -190,7 +190,7 @@ alert( {}.toString.call(window) ); // [object Window]
 alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 ```
 
-输出结果和 `Symbol.toStringTag` （前提是这个属性存在）一样，只不过被包裹进了 `[object ...]` 里。
+输出结果和 `Symbol.toStringTag`（前提是这个属性存在）一样，只不过被包裹进了 `[object ...]` 里。
 
 这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检测基本数据类型，就是内置对象类型也不在话下，更可贵的是还支持自定义。
 
