@@ -1,24 +1,25 @@
-importance: 5
+重要度：5
 
 ---
 
-# Find window coordinates of the field
+# 查找 field 的窗口坐标
 
-In the iframe below you can see a document with the green "field".
+在下面的 iframe 中你可以看到一个带有绿色 ”field“ 元素的文档。
 
-Use JavaScript to find window coordinates of corners pointed by with arrows.
+使用 JavaScript 来找到箭头指向角落的坐标。
 
-There's a small feature implemented in the document for convenience. A click at any place shows coordinates there.
+为了方便起见，已经在文档中实现了一个小的功能。在任何地方点击都会显示那里的坐标。
 
 [iframe border=1 height=360 src="source" link edit]
 
-Your code should use DOM to get window coordinates of:
+你的代码应该使用 DOM 来获取到以下窗口坐标：
 
-1. Left-upper outer corner (that's simple).
-2. Right-bottom outer corner (simple too).
-3. Left-upper inner corner (a bit harder).
-4. Right-bottom inner corner (there are several ways, choose one).
+1. 左上的外角（这很简单）。
+2. 右下的外角（这也挺简单）。
+3. 左上的内角（这有点难）。
+4. 右下的内角（有几种方式，选择其中一种）。
 
-The coordinates that you calculate should be the same as those returned by the mouse click.
+你计算得到的坐标应该和鼠标单击返回的坐标相同。
 
-P.S. The code should also work if the element has another size or border, not bound to any fixed values.
+
+附：如果元素有其他大小和边框，并且没有绑定到任何固定的值这代码也应该起作用。
