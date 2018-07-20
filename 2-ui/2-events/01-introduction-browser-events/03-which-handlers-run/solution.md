@@ -1,8 +1,8 @@
-The answer: `1` and `2`.
+The answer: `1` 和 `2`。
 
-The first handler triggers, because it's not removed by `removeEventListener`. To remove the handler we need to pass exactly the function that was assigned. And in the code a new function is passed, that looks the same, but is still another function.
+第一个处理器会触发，因为它没有被 `removeEventListener` 移除。要移除处理器，我们需要传递正确分发的函数。在代码中，传递一个新的函数，看起来相同，但仍然是另一个函数。
 
-To remove a function object, we need to store a reference to it, like this:
+要移除函数对象，我们需要存储对它的引用，就像这样：
 
 ```js
 function handler() {
@@ -13,4 +13,4 @@ button.addEventListener("click", handler);
 button.removeEventListener("click", handler);
 ```
 
-The handler `button.onclick` works independently and in addition to `addEventListener`.
+处理器 `button.onclick` 除了 `addEventListener` 以外，应该独立工作。
