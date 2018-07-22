@@ -1,7 +1,7 @@
 
 # 对象
 
-正如我们从《引言：类型》那章中知道的那样，JavaScript 中有很多种类型。 有六种原始类型，因为他们只包含一种东西（字符串，数值或者什么之类）。
+正如我们从《引言：类型》那章中知道的那样，JavaScript 中有很多种类型。有六种原始类型，因为他们只包含一种东西（字符串，数值或者什么之类）。
 相反，对象用来存储键值对和更复杂的实体。在 JavaScript 中，对象深入到这门语言的方方面面。所以在我们深入理解这门语言之前，我们必须理解对象。
 
 对象可以通过中括号 `{…}` 和其中包含一些可选的**属性**来创建。属性是一个键值对，键是一个字符串（也叫做属性名），值可以是任何类型。
@@ -130,7 +130,7 @@ user[key] = true;
 ```
 
 
-在这里， 变量 `key` 根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
+在这里，变量 `key` 根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
 
 例如：
 
@@ -151,7 +151,7 @@ alert( user[key] ); // John (如果输入 "name" )
 
 我们可以用中括号包裹一个属性语法。这叫做**计算属性**。
 
-例如:
+例如：
 
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
@@ -210,7 +210,7 @@ let obj = {
 alert( obj.for + obj.let + obj.return );  // 6
 ```
 
-基本上，什么都可以，只有一个特殊的: `"__proto__"` 因为历史原因要特别对待。比如，我们不能把它设置为非对象的值：
+基本上，什么都可以，只有一个特殊的：`"__proto__"` 因为历史原因要特别对待。比如，我们不能把它设置为非对象的值：
 
 ```js run
 let obj = {};
@@ -225,7 +225,7 @@ alert(obj.__proto__); // [object Object]，这样不行
 比如，访问者可能选择 "__proto__" 作为键，这个赋值的逻辑就失败了（像上面那样）。
 
 有一种让对象把 `__proto__` 作为属性的方法，我们随后会讲到，现在我们再来学习对象的更多知识。
-还有另外一种数据结构[Map](info:map-set-weakmap-weakset)，我们会在后面章节学到，它支持任意的键值。
+还有另外一种数据结构 [Map](info:map-set-weakmap-weakset)，我们会在后面章节学到，它支持任意的键值。
 ````
 
 ## 便利的对象属性名
@@ -255,8 +255,8 @@ alert(user.name); // John
 function makeUser(name, age) {
 *!*
   return {
-    name, // 与 name:name 相同
-    age   // 与 age:age 相同
+    name, // 与 name: name 相同
+    age   // 与 age: age 相同
     // ...
   };
 */!*
@@ -307,7 +307,7 @@ let key = "age";
 alert( *!*key*/!* in user ); // true，获取键的名字和检查这个键的属性 
 ```
 
-````smart header="Using \"in\"  属性中存储 `undefined`"
+````smart header="Using \"in\" 属性中存储 `undefined`"
 通常，严格比较 `"=== undefined"` 就够用，但是也有一些特殊情况，`"in"` 就可以胜任。
 
 那就是属性存在，但是存储 `undefined`：
@@ -319,7 +319,7 @@ let obj = {
 
 alert( obj.test ); //  它是 undefined，所以难道它不存在吗？
 
-alert( "test" in obj ); // true， 属性不存在！
+alert( "test" in obj ); // true，属性不存在！
 ```
 
 
@@ -358,7 +358,7 @@ for(let key in user) {
 }
 ```
 
-注意，所有的"for"都允许我们在循环中定义变量，像 `let key` 这样。
+注意，所有的 "for" 都允许我们在循环中定义变量，像 `let key` 这样。
 
 同样，我们可以用其他属性名来代替 `key`。例如 `"for(let prop in obj)"` 也很常用。
 
@@ -398,7 +398,7 @@ for(let code in codes) {
 ````smart header="数字属性？那是啥？"
 数字属性这里代表一个表示属性的字符串能不做改变的转换成整数。
 
-所以，"49"是一个数字属性名，因为我们把它转换成整数，再转换回来，它还是一样。但是 "+49" 和 "1.2" 就不行了：
+所以，"49" 是一个数字属性名，因为我们把它转换成整数，再转换回来，它还是一样。但是 "+49" 和 "1.2" 就不行了：
 
 ```js run
 // Math.trunc 是内置的去除小数点的方法。
@@ -487,7 +487,7 @@ let user = {
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; //  复制引用
+let admin = user; // 复制引用
 ```
 
 现在我们有了两个变量，但是都指向同一个对象：
@@ -522,7 +522,7 @@ alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
 let a = {};
 let b = a; // 复制引用
 
-alert( a == b ); // true， 两个变量指向同一个对象
+alert( a == b ); // true，两个变量指向同一个对象
 alert( a === b ); // true
 ```
 
@@ -572,7 +572,7 @@ user = {
 };
 ```
 
-...那么我们应该怎么样创建不可变的对象属性呢？如果想让 `user.age = 25` 这样的赋值报错呢。这也是可以的，我们会在<info:property-descriptors>这章讲解。
+...那么我们应该怎么样创建不可变的对象属性呢？如果想让 `user.age = 25` 这样的赋值报错呢。这也是可以的，我们会在 <info:property-descriptors> 这章讲解。
 
 ## 复制和合并，Object.assign
 
@@ -709,7 +709,7 @@ alert(clone.sizes.width); // 51，在这里查看属性的值
 
 我们可以用下面的方法获取属性：
 - 点符号: `obj.property`。
-- 中括号 `obj["property"]`， 中括号中可以使用变量 `obj[varWithKey]`。
+- 中括号 `obj["property"]`，中括号中可以使用变量 `obj[varWithKey]`。
 
 其他操作：
 - 删除属性：`delete obj.prop`。
