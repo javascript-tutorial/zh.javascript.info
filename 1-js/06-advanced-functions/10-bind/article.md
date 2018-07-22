@@ -11,7 +11,7 @@ libs:
 
 ## 丢失 "this"
 
-我们已经知道，在 JavaScript 中，`this` 很容易就会丢失。一旦一个方法被传递到另一个与对象分离的地方——`this` 就丢失了。
+我们已经知道，在 JavaScript 中，`this` 很容易就会丢失。一旦一个方法被传递到另一个与对象分离的地方 —— `this` 就丢失了。
 
 下面是使用 `setTimeout` 时 `this` 时如何丢失的：
 
@@ -141,7 +141,7 @@ function func(phrase) {
 let funcUser = func.bind(user);
 
 *!*
-funcUser("Hello"); // Hello, John (参数 "Hello" 被传递了，并且 this=user)
+funcUser("Hello"); // Hello, John（参数 "Hello" 被传递了，并且 this=user）
 */!*
 ```
 
@@ -165,7 +165,7 @@ sayHi(); // Hello, John!
 setTimeout(sayHi, 1000); // Hello, John!
 ```
 
-在 `(*)` 之间的行中，我们取得了方法 `user.sayHi` 然后将它和 `user` 绑定。`sayHi` 是一个“边界”方法，它可以单独调用或者传递给 `setTimeout`—— 都没关系，函数上下文都将会是正确的。
+在 `(*)` 之间的行中，我们取得了方法 `user.sayHi` 然后将它和 `user` 绑定。`sayHi` 是一个“边界”方法，它可以单独调用或者传递给 `setTimeout` —— 都没关系，函数上下文都将会是正确的。
 
 这里我们能够看到参数都被像正常调用原函数一样被传递了进去，但是 `this` 被 `bind` 方法固定了：
 
