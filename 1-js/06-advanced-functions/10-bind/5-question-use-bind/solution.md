@@ -38,6 +38,6 @@ askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
 askPassword(() => user.loginOk(), () => user.loginFail());
 ```
 
-通常情况下它也能正常运行，但是可能会在更复杂的场景下失效，例如在 asking 到运行 `() => user.loginOk()` 之间， `user` 可能会被重写。
+通常情况下它也能正常运行，但是可能会在更复杂的场景下失效，例如在 asking 到运行 `() => user.loginOk()` 之间，`user` 可能会被重写。
 
 
