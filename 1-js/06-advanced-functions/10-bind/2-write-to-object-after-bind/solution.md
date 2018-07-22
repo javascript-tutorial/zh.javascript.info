@@ -1,4 +1,4 @@
-The answer: `null`.
+答案：`null`。
 
 
 ```js run
@@ -13,6 +13,6 @@ let user = {
 user.g();
 ```
 
-The context of a bound function is hard-fixed. There's just no way to further change it.
+边界函数的上下文是硬绑定的。没有办法继续修改。
 
-So even while we run `user.g()`, the original function is called with `this=null`.
+所以即使我们执行 `user.g()`，源方法调用时还是 `this=null`。
