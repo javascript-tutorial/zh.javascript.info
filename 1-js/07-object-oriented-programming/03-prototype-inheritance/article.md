@@ -56,7 +56,7 @@ alert( rabbit.eats ); // true (**)
 alert( rabbit.jumps ); // true
 ```
 
-这里的 `(*)` 行将 `animal` 设置为 `rabbit`的原型。
+这里的 `(*)` 行将 `animal` 设置为 `rabbit` 的原型。
 
 当 `alert` 试图读取 `rabbit.eats` `(**)` 时，因为它不存在于 `rabbit`，JavaScript 会遵循 `[[Prototype]]` 引用，并在 `animal` 中查找（自顶向下）：
 
@@ -93,7 +93,7 @@ rabbit.walk(); // Animal walk
 
 ![](proto-animal-rabbit-walk.png)
 
-原型链可以很长:
+原型链可以很长：
 
 
 ```js run
@@ -194,7 +194,7 @@ admin.fullName = "Alice Cooper"; // (**)
 
 ## "this" 的值
 
-在上面的例子中可能会出现一个有趣的现象：在 `set fullName(value)` 中 `this` 的值是什么？属性 `this.name` 和 `this.surname` 写在哪里： `user`  还是 `admin`？
+在上面的例子中可能会出现一个有趣的现象：在 `set fullName(value)` 中 `this` 的值是什么？属性 `this.name` 和 `this.surname` 写在哪里： `user` 还是 `admin`？
 
 答案很简单：`this` 根本不受原型的影响。
 
