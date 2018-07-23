@@ -1,4 +1,4 @@
-**答案： `rabbit`。**
+**答案：`rabbit`。**
 
 这是因为 `this` 是“点”之前对象，因此 `rabbit.eat()` 修改了 `rabbit`。
 
