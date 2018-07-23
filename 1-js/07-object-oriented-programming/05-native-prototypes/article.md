@@ -36,7 +36,7 @@ alert(obj.__proto__ === Object.prototype); // true
 // obj.toString === obj.__proto__.toString == Object.prototype.toString
 ```
 
-请注意在 `Object.prototype` 上没有额外的 `[[Prototype]]` 属性。
+请注意在 `Object.prototype` 上没有额外的 `[[Prototype]]` 属性：
 
 ```js run
 alert(Object.prototype.__proto__); // null
@@ -69,7 +69,7 @@ alert( arr.__proto__.__proto__ === Object.prototype ); // true
 alert( arr.__proto__.__proto__.__proto__ ); // null
 ```
 
-一些方法可能在原型上发生重叠，例如，`Array.prototype` 有自己的 `toString` 方法来列举出来数组的所有元素并用都好分隔每一个元素。
+一些方法可能在原型上发生重叠，例如，`Array.prototype` 有自己的 `toString` 方法来列举出来数组的所有元素并用逗号分隔每一个元素。
 
 ```js run
 let arr = [1, 2, 3]
@@ -86,7 +86,7 @@ alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
 
 ![](console_dir_array.png)
 
-其他内置对象以同样的方式运行。即使是函数。他们是内置构造函数 `Function` 创建出来的对象，并且他们的方法：`call/apply` 和其他方法都来自 `Function.prototype`。函数也有自己的 `toString` 方法。
+其他内置对象以同样的方式运行。即使是函数。它们是内置构造函数 `Function` 创建出来的对象，并且他们的方法：`call/apply` 和其他方法都来自 `Function.prototype`。函数也有自己的 `toString` 方法。
 
 ```js run
 function f() {}
@@ -103,7 +103,7 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 这些对象对我们来说是被无形的创造出来的且大多数引擎优化了它们，而规范精准的描述了这种方式。这些对象的方法也驻留在它们的原型 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 中。
 
-```注意=“值 `null` 和 `undefined` 没有对象包装”
+```注意头部=“值 `null` 和 `undefined` 没有对象包装”
 特殊值 `null` 和 `undefined` 要被区分看待。它们没有对象包装，所以它们没有自己的方法和属性。并且它们没有相应的原型。
 ```
 
@@ -169,7 +169,7 @@ function showArgs() {
 }
 ```
 
-这样事更有效率的，因为它避免了一个额外数组对象 `[]` 的创建。另一方面，这样写的时间更长。
+这样是更有效率的，因为它避免了一个额外数组对象 `[]` 的创建。另一方面，这样做，需要更长的时间来编写。
 
 ## 总结
 
