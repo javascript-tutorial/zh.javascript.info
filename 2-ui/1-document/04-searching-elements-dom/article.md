@@ -19,7 +19,7 @@
   alert(window.elem); // accessing global variable like this also works
 
   // 对于 elem-content 会稍微有些复杂
-  // 因为里面有破折号，所有不是一个变量名
+  // 因为里面有破折号，所以不是一个变量名
   alert(window['elem-content']); // ...但可以使用方括号[...]
 </script>
 ```
@@ -76,7 +76,7 @@
 
 例如：
 ```js
-// 获取所有在文档中 div
+// 获取所有在文档中的 div
 let divs = document.getElementsByTagName('div');
 ```
 
@@ -189,10 +189,10 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-因为可以使用任何 CSS 选择器，所有这种方法很有用。
+因为可以使用任何 CSS 选择器，所以这种方法很有用。
 
 ```smart header="Can use pseudo-classes as well"
-CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例如，`document.querySelectorAll(':hover')` 将会返回指针现在已经结束的集合（按嵌套顺序：从最外层 `<html>` 到嵌套最多的元素）。
+CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如，`document.querySelectorAll(':hover')` 将会返回指针现在已经结束的集合（按嵌套顺序：从最外层 `<html>` 到嵌套最多的元素）。
 ```
 
 
@@ -204,9 +204,9 @@ CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例
 
 ## matches
 
-之前的方法正在搜索 DOM。
+之前的方法是搜索 DOM 的。
 
-[elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) 不回查找任何内容，它只会检查 `elem` 是否匹配给定的 CSS 选择器。它返回 `true` 或者 `false`。
+[elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) 不会查找任何内容，它只会检查 `elem` 是否匹配给定的 CSS 选择器。它返回 `true` 或者 `false`。
 
 当我们迭代元素（例如数组或者一些其他内容）并试图过滤那些我们感兴趣的元素时，这个方法会很方便。
 
@@ -365,7 +365,7 @@ CSS 选择器总的伪类，如l `:hover` 和 `:active` 都是被支持的。例
 </tbody>
 </table>
 
-请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用`getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 回报错。
+请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用 `getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 回报错。
 
 也可以在元素上调用其他方法，例如 `elem.querySelectorAll(...)` 将会在 `elem`（在 DOM 子树中）内部进行搜素。
 
