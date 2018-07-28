@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Spy decorator
+# 间谍装饰
 
-Create a decorator `spy(func)` that should return a wrapper that saves all calls to function in its `calls` property.
+创建一个装饰器 `spy(func)`，它应该返回一个包装器，它在 `calls` 属性中保存所有函数调用。 
 
-Every call is saved as an array of arguments.
+每个调用都保存为一个参数数组。
 
-For instance:
+例如：
 
 ```js
 function work(a, b) {
-  alert( a + b ); // work is an arbitrary function or method
+  alert( a + b ); // work 是一种任意的函数或方法
 }
 
 *!*
@@ -27,4 +27,4 @@ for (let args of work.calls) {
 }
 ```
 
-P.S. That decorator is sometimes useful for unit-testing, it's advanced form is `sinon.spy` in [Sinon.JS](http://sinonjs.org/) library.
+附：该装饰器有时用于单元测试，它的高级形式是 [Sinon.JS](http://sinonjs.org/) 库中的 `sinon.spy`。
