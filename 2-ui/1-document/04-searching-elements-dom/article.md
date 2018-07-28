@@ -20,7 +20,7 @@
 
   // 对于 elem-content 会稍微有些复杂
   // 因为里面有破折号，所以不是一个变量名
-  alert(window['elem-content']); // ...但可以使用方括号[...]
+  alert(window['elem-content']); // ...但可以使用方括号 [...]
 </script>
 ```
 
