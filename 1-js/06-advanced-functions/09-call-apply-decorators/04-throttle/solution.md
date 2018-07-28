@@ -30,10 +30,10 @@ function throttle(func, ms) {
 }
 ```
 
-A call to `throttle(func, ms)` returns `wrapper`.
+调用 `throttle(func, ms)` 返回 `wrapper`。
 
-1. During the first call, the `wrapper` just runs `func` and sets the cooldown state (`isThrottled = true`).
-2. In this state all calls memorized in `savedArgs/savedThis`. Please note that both the context and the arguments are equally important and should be memorized. We need them simultaneously to reproduce the call.
-3. ...Then after `ms` milliseconds pass, `setTimeout` triggers. The cooldown state is removed (`isThrottled = false`). And if we had ignored calls, then `wrapper` is executed with last memorized arguments and context.
+1. 在第一次调用期间，`wrapper` 只运行 `func` 并设置冷却状态  (`isThrottled = true`)。
+2. 在这种状态下，所有调用都记忆在  `savedArgs/savedThis` 中。请注意，上下文和参数都同样重要，应该记住。我们需要他们同时重现这个调用。
+3. ...然后在 `ms` 毫秒过后，`setTimeout` 触发。冷却状态被删除  (`isThrottled = false`)。如果我们忽略了调用，则使用最后记忆的参数和上下文执行 `wrapper`
 
-The 3rd step runs not `func`, but `wrapper`, because we not only need to execute `func`, but once again enter the cooldown state and setup the timeout to reset it.
+第3步不是 `func`，而是 `wrapper`，因为我们不仅需要执行 `func`，而是再次进入冷却状态并设置超时以重置它。
