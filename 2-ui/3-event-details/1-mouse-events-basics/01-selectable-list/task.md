@@ -2,16 +2,16 @@ importance: 5
 
 ---
 
-# Selectable list
+# 可选列表
 
-Create a list where elements are selectable, like in file-managers.
+比如在文件管理者中新建一个可选元素的列表。
 
-- A click on a list element selects only that element (adds the class `.selected`), deselects all others.
-- If a click is made with `key:Ctrl` (`key:Cmd` for Mac), then the selection is toggled on the element, but other elements are not modified.
+- 单击列表元素，只选择某个元素（添加 `.selected` 类），取选剩余元素。
+- 如果使用 `key:Ctrl`（Mac 上为 `key:Cmd`）进行单击，则选择将切换到元素上，但其他元素不会被修改。
 
-The demo:
+示例：
 
 [iframe border="1" src="solution" height=180]
 
-P.S. For this task we can assume that list items are text-only. No nested tags.
-P.P.S. Prevent the native browser selection of the text on clicks.
+P.S. 对于此任务，我们可以假设列表选择仅仅是文本。不存在嵌套标签。
+P.P.S. 防止本地浏览器在单击时选择文本。
