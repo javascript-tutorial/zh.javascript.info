@@ -18,13 +18,14 @@ function debounce(f, ms) {
 }
 ```
 
-The call to `debounce` returns a wrapper. There may be two states:
+对 `debounce` 的调用返回一个包装器。可能有两种状态
 
 - `isCooldown = false` -- ready to run.
 - `isCooldown = true` -- waiting for the timeout.
 
-In the first call `isCooldown` is falsy, so the call proceeds, and the state changes to `true`.
+在第一次调用 `isCooldown` 是假的，所以调用继续进行，状态变为 `true`。
 
-While `isCooldown` is true, all other calls are ignored.
+当 `isCooldown` 为真时，所有其他调用都被忽略。
 
-Then `setTimeout` reverts it to `false` after the given delay.
+然后 `setTimeout` 在给定的延迟后将其恢复为 `false`。
+
