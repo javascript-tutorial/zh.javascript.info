@@ -1,6 +1,6 @@
 # 原生的原型
 
-`”prototype“` 属性在 JavaScript 自身的核心模块中被广泛应用。所有的内置构造函数都用到了它。
+`"prototype"` 属性在 JavaScript 自身的核心模块中被广泛应用。所有的内置构造函数都用到了它。
 
 我们将会首先看到原型对于简单对象是什么样的，然后对于更多的复杂对象又是什么样的。
 
@@ -13,7 +13,7 @@ let obj = {};
 alert( obj ); // "[object Object]" ?
 ```
 
-生成字符串 `“[object Object]”` 的代码在哪里？那就是内置的一个 `toString` 方法，但是它在哪里呢？`obj` 是空的！
+生成字符串 `"[object Object]"` 的代码在哪里？那就是内置的一个 `toString` 方法，但是它在哪里呢？`obj` 是空的！
 
 ...然而简短的表达式 `obj = {}` 和 `obj = new Object()` 是一个意思，其中 `Object` 是一个内置的对象构造函数。并且这个方法有一个 `Object.prototype` 属性，这个属性引用了一个庞大的对象，这个庞大的对象有 `toString` 方法和其他的一些方法。
 
@@ -50,7 +50,7 @@ alert(Object.prototype.__proto__); // null
 
 按照规范，所有的内置原型顶端都是 `Object.prototype`。有些时候人们说“一切都从对象上继承而来”。
 
-下面是完整的示意图（3个内置对象）：
+下面是完整的示意图（3 个内置对象）：
 
 ![](native-prototypes-classes.png)
 
@@ -82,7 +82,7 @@ alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
 ![](native-prototypes-array-tostring.png)
 
 
-像Chrome开发者控制台这样的浏览器内置工具也显示继承关系的（可能需要对内置对象使用 `console.dir`）：
+像 Chrome 开发者控制台这样的浏览器内置工具也显示继承关系的（可能需要对内置对象使用 `console.dir`）：
 
 ![](console_dir_array.png)
 
@@ -103,7 +103,7 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 这些对象对我们来说是被无形的创造出来的且大多数引擎优化了它们，而规范精准的描述了这种方式。这些对象的方法也驻留在它们的原型 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 中。
 
-```注意头部=“值 `null` 和 `undefined` 没有对象包装”
+warn header="值 `null` 和 `undefined` 没有对象包装"
 特殊值 `null` 和 `undefined` 要被区分看待。它们没有对象包装，所以它们没有自己的方法和属性。并且它们没有相应的原型。
 ```
 
@@ -144,7 +144,7 @@ if (!String.prototype.repeat) { //假设没有这个方法
 alert( "La".repeat(3) ); // LaLaLa
 ```
 
-## 从原型借用
+## 从原型中借用
 
 在 <info:call-apply-decorators#method-borrowing> 章节中我们讨论的方法借用：
 
@@ -174,7 +174,7 @@ function showArgs() {
 ## 总结
 
 - 所有的内置对象都遵循一样的模式：
-    - 方法都存储在原型对象上（`Array.prototype`、`Object.prototype`、`Date.prototype` 等)。
+    - 方法都存储在原型对象上（`Array.prototype`、`Object.prototype`、`Date.prototype` 等）。
     - 对象本身只存储数据（数组元素、对象属性、日期）。
-- 基本数据类型同样在包装对象的原型上存储方法：`Number.prototype`、`String.prototype`、`Boolean.prototype`。只有 `undefined` 和 `null` 没有包装对象。
+- 基本数据类型同样在包装对象的原型上存储方法：`Number.prototype`、`String.prototype` 和 `Boolean.prototype`。只有 `undefined` 和 `null` 没有包装对象。
 - 内置对象的原型可以被修改或者被新的方法填充。但是这样做是不被推荐的。只有当添加一个还没有被 JavaScript 引擎支持的新方法的时候才可能允许这样做。
