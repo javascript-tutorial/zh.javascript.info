@@ -61,7 +61,7 @@
 
 注意与 `this` (=`event.currentTarget`) 之间的区别：
 
-- `event.target` ——  是引发事件的目标元素，它不会在冒泡过程中发生变化。。
+- `event.target` ——  是引发事件的目标元素，它在冒泡过程中不会发生变化。。
 - `this` —— 是 "current" 元素，其中有一个当前正在运行的处理器。
 
 例如，如果我们有一个 `form.onclick` 处理器，那么它可以“抓”到所有表单内部元素上的点击事件。无论点击发生在哪里，它都会冒泡到 `<form>` 然后运行处理器。
@@ -85,7 +85,7 @@
 
 方法是 `event.stopPropagation()`。
 
-例如，如果你单击 `<button>` 这里的 `body.onclick` 不会起作用：
+例如，如果你单击 `<button>` 这里的 `body.onclick` 是无效的：
 
 ```html run autorun height=60
 <body onclick="alert(`the bubbling doesn't reach here`)">
@@ -98,11 +98,11 @@
 
 换句话说，`event.stopPropagation()` 停止向上移动，但是当前元素上的其他处理器都会继续运行。
 
-为了停止事件冒泡并阻止当前元素上的处理器运行，有一个 `event.stopImmediatePropagation()` 方法。使用之后，就不会有其他处理器会被执行。
+为了停止事件冒泡并阻止当前元素上的处理器运行，有一个 `event.stopImmediatePropagation()` 方法。使用之后，其他处理器就不会被执行。
 ```
 
 ```warn header="Don't stop bubbling without a need!"
-冒泡很方便。不要在没有真正需求的时候阻止它：显而易见的，或者是在架构上经过深思熟虑后。
+冒泡很方便。不要在没有真正需求的时候阻止它：除非是显而易见的，或者是在架构上经过深思熟虑后。
 
 有时 `event.stopPropagation()` 会产生隐藏的陷阱，这可能会成为以后的问题。
 
@@ -171,7 +171,7 @@
 </script>
 ```
 
-代码为文档中的**每个**元素设置点击处理程序，以查看哪些元素上的点击事件处理器生效了。
+代码为文档中的**每个**元素设置点击处理器，以查看哪些元素上的点击事件处理器生效了。
 
 如果你点击了 `<p>`，那么顺序是：
 
