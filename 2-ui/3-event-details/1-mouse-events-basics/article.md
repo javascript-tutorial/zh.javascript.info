@@ -26,7 +26,7 @@
 ### 复杂事件
 
 `click`
-: 如果使用鼠标左键，则在 `mousedown` 后触发，然后在相同的元素上使用 `mouseup`。
+: 如果使用鼠标左键，则在 `mousedown` 及 `mouseup` 相继触发后触发该事件。
 
 `contextmenu`
 : 如果使用鼠标右键，则在 `mousedown` 后触发。
@@ -40,9 +40,9 @@
 
 一个动作可能会触发多个事件。
 
-比如，在按下按钮时，单击会首先触发 `mousedown`，然后释放按钮时，会触发 `mouseup` 和 `click`。
+比如，在按下鼠标按钮时，单击会首先触发 `mousedown`，然后释放鼠标按钮时，会触发 `mouseup` 和 `click`。
 
-在单个动作开始复制事件时，它们的顺序是固定的。也就是说会遵循 `mousedown` -> `mouseup` -> `click` 的顺序。事件按照相同的顺序被处理：`onmouseup` 在 `onclick` 运行之前完成。
+在单个动作触发多个事件时，它们的顺序是固定的。也就是说会遵循 `mousedown` -> `mouseup` -> `click` 的顺序。事件按照相同的顺序被处理：`onmouseup` 在 `onclick` 运行之前完成。
 
 ```online
 单击以下按钮，你会看到事件。也可以尝试双击。
@@ -60,7 +60,7 @@
 
 它不用于 `click`和 `contextmenu` 事件，因为前者只发生在左键，而后者只发生在右击。
 
-但如果我们跟踪 `mousedown` 和 `mouseup`，那么我们就需要它，因为这些事件在任意按钮都会触发，所以 `which` 允许区分 "right-mousedown" 和 "left-mousedown"。
+但如果我们跟踪 `mousedown` 和 `mouseup`，那么我们就需要它，因为这些事件在任意鼠标按钮按下时都会触发，所以 `which` 允许区分 "right-mousedown" 和 "left-mousedown"。
 
 有三个可能的值：
 
@@ -70,9 +70,9 @@
 
 中间按钮现在有些特殊，所有很少被使用。
 
-## 修改键: shift、alt、ctrl 和 meta
+## 组合键: shift、alt、ctrl 和 meta
 
-所有的鼠标事件都包含有关按下的修改键信息。
+所有的鼠标事件都包含有关按下的组合键信息。
 
 属性：
 
@@ -106,24 +106,24 @@
 
 即使我们想迫使 Mac 用户使用 `key:Ctrl`+click —— 也非常困难。问题在于：Mac 上左击 `key:Ctrl` 被解释为**右击**，它会生成 `contextmenu` 事件，而不是像 Windows/Linxu 的 `click` 事件。
 
-因此如果我们想让所有操作系统用户感觉舒适，那么我们应该和 `ctrlKey` 一起使用 `metaKey`。
+因此如果我们想让所有操作系统的用户感觉舒适，那么我们应该和 `ctrlKey` 一起使用 `metaKey`。
 
 对于 JS 代码，这意味着我们应该检查 `if (event.ctrlKey || event.metaKey)`。
 ```
 
 ```warn header="There are also mobile devices"
-键盘组合是工作流的一个补充。所以如果访问时通过键盘的 —— 它也能工作。
+键盘组合是工作流的一个补充。所以如果用户使用键盘操作 —— 它也能工作。
 如果你的设备没有 —— 那么还有另一个方法也可以实现。
 ```
 
-## 协调：clientX/Y，pageX/Y
+## 坐标：clientX/Y，pageX/Y
 
-所有的鼠标事件都有两种形式的协调：
+所有的鼠标事件都有两种形式的坐标：
 
 1. 对于窗口而言：`clientX` 和 `clientY`。
 2. 对于文档而言：`pageX` 和 `pageY`。
 
-比如，如果我们有一个 500 x 500 的窗口，鼠标在左上方，那么 `clientX` 和 `clientY` 都是 `0`。如果鼠标在中间，那么 `clientX` 和 `clientY` 就是  `250`。和它在文档中的位置无关。它们类似于 `position:fixed`。
+比如，如果我们有一个 500 x 500 的窗口，鼠标在左上方，那么 `clientX` 和 `clientY` 都是 `0`。如果鼠标在中间，那么 `clientX` 和 `clientY` 就是 `250`。和它在文档中的位置无关。它们类似于 `position:fixed`。
 
 ````online
 将鼠标移动到输入字段上，可以看到 `clientX/clientY`（它在 `iframe` 中，因此坐标是相对于 `iframe` 而言的）：
@@ -138,13 +138,13 @@
 
 你可以在本章中阅读到更多关于坐标的内容 <info:coordinates>。
 
-## 鼠标向下没有选择
+## Mousedown 没有选择
 
 鼠标点击有一个让人不安的副作用。双击可以选择文本。
 
 如果我们想自己处理点击事件，那么“额外”的选择就显得多余了。
 
-比如，对下面的文本双击，除了我们的处理器之外，还会选择它：
+比如，对下面的文本双击，除了我们的触发事件之外，还会选择文本：
 
 ```html autorun height=50
 <b ondblclick="alert('dblclick')">Double-click me</b>
@@ -191,7 +191,7 @@ Before...
 
 现在，在双击时不选择粗体元素。
 
-内部文字仍然可以被选中。但选择缺不应该从文本自身开始，而是应该在文字之前或之后开始。通常情况下，都是正常的。
+内部文字仍然可以被选中。但选择却不应该从文本自身开始，而是应该在文字之前或之后开始。通常情况下，都是正常的。
 
 ````smart header="Canceling the selection"
 我们可以在事件处理器中用 "post-factum" 取消它，而不是**阻止**选择它。
