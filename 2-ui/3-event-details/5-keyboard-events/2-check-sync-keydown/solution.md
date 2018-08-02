@@ -1,6 +1,6 @@
 
-We should use two handlers: `document.onkeydown` and `document.onkeyup`.
+我们应该使用两个处理器：`document.onkeydown` 和 `document.onkeyup`。
 
-The set `pressed` should keep currently pressed keys.
+`pressed` 应该保持当前按下的键。
 
-The first handler adds to it, while the second one removes from it. Every time on `keydown` we check if we have enough keys pressed, and run the function if it is so.
+第一个处理器添加到它，而第二个处理器会将它移除。我们每一次会在 `keydown` 上检查按压的时间是否充足，如果充足，就会运行该函数。
