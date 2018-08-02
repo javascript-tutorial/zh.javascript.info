@@ -1,17 +1,17 @@
-# Resource loading: onload and onerror
+# 资源价值：onload 和 onerror
 
-The browser allows to track the loading of external resources -- scripts, iframes, pictures and so on.
+浏览器允许跟踪外部资源的加载 —— 脚本、iframes、图像等。
 
-There are two events for it:
+有两个事件
 
-- `onload` -- successful load,
-- `onerror` -- an error occurred.
+- `onload` —— 成功加载，
+- `onerror` —— 发生异常。
 
-## Loading a script
+## 加载脚本
 
-Let's say we need to call a function that resides in an external script.
+假设我们需要调用属于外部脚本的函数。
 
-We can load it dynamically, like this:
+我们可以像这样动态加载：
 
 ```js
 let script = document.createElement('script');
@@ -20,72 +20,72 @@ script.src = "my.js";
 document.head.append(script);
 ```
 
-...But how to run the function that is declared inside that script? We need to wait until the script loads, and only then we can call it.
+...但如何运行声明在脚本中的函数？我们需要等到脚本被加载后才能调用它。
 
 ### script.onload
 
-The main helper is the `load` event. It triggers after the script was loaded and executed.
+主要得力于 `load` 事件。它在脚本被加载和执行后才被触发。
 
-For instance:
+例如：
 
 ```js run untrusted
 let script = document.createElement('script');
 
-// can load any script, from any domain
+// 可以从任意地方加载脚本
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
 *!*
 script.onload = function() {
-  // the script creates a helper function "_"
-  alert(_); // the function is available
+  // 脚本创建了一个辅助函数 "_"
+  alert(_); // 函数可用
 };
 */!*
 ```
 
-So in `onload` we can use script variables, run functions etc.
+因此，在 `onload` 中我们使用脚本变量来运行函数等。
 
-...And what if the loading failed? For instance, there's no such script (error 404) or the server or the server is down (unavailable).
+...如果加载失败怎么办？比如，没有这样的脚本（错误 404）或者服务器宕机（不可用）。
 
 ### script.onerror
 
-Errors that occur during the loading (but not execution) of the script can be tracked on `error` event.
+发生在脚本（不是执行）期间的错误可以在 `error` 事件上进行追踪。
 
-For instance, let's request a script that doesn't exist:
+比如，我们请求一个不存在的脚本：
 
 ```js run
 let script = document.createElement('script');
-script.src = "https://example.com/404.js"; // no such script
+script.src = "https://example.com/404.js"; // 没有这样的脚本
 document.head.append(script);
 
 *!*
 script.onerror = function() {
-  alert("Error loading " + this.src); // Error loading https://example.com/404.js
+  alert("Error loading " + this.src); // 加载 https://example.com/404.js 发生错误
 };
 */!*
 ```
 
-Please note that we can't get error details here. We don't know was it error 404 or 500 or something else. Just that the loading failed.
+请注意，我们无法再这获取错误的更多细节。我们不知道错误是 404 还是 500 或者其他情况，只知道是加载失败了。
 
-## Other resources
+## 其他资源
 
-The `load` and `error` events also work for other resources. There may be minor differences though.
+`load` 和 `error` 事件也适用于其他资源。但是也存在细微的差别。
 
-For instance:
+例如：
 
-`<img>`, `<link>` (external stylesheets)
-: Both `load` and `error` events work as expected.
+`<img>`，`<link>`（外部样式表）
+: `load` 和 `error` 事件都如期运行。
 
 `<iframe>`
-: Only `load` event when the iframe loading finished. It triggers both for successful load and in case of an error. That's for historical reasons.
+: 当 iframe 加载完成时会发生 `load` 事件。在成功或失败的情况下，都会触发它。这是历史原因。
 
-## Summary
+## 总结
 
-Pictures `<img>`, external styles, scripts and other resources provide `load` and `error` events to track their loading:
+`<img>` 图像、外部样式表、脚本和其他资源都提供了 `load` 和 `error` 事件来追踪它们的加载：
 
-- `load` triggers on a successful load,
-- `error` triggers on a failed load.
+- `load` 在成功加载时被触发。
+- `error` 在加载失败时被触发。
 
-The only exception is `<iframe>`: for historical reasons it always triggers `load`, for any load completion, even if the page is not found.
+只有 `<iframe>` 特殊：出于历史原因，既是页面没有被找到，它也会触发 `load` 来完成任何加载。
 
-The `readystatechange` event also works for resources, but is rarely used, because `load/error` events are simpler.
+`readystatechange` 事件也适用于资源，但很少被使用，因为 `load/error` 事件更简单。
