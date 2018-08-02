@@ -1,10 +1,10 @@
-importance: 5
+重点：5
 
 ---
 
-# Clear the element
+# 清除元素
 
-Create a function `clear(elem)` that removes everything from the element.
+创建一个函数 `clear(elem)` 用来移除元素里的内容
 
 ```html run height=60
 <ol id="elem">
@@ -13,8 +13,8 @@ Create a function `clear(elem)` that removes everything from the element.
 </ol>
 
 <script>
-  function clear(elem) { /* your code */ }
+  function clear(elem) { /* 你的代码 */ }
 
-  clear(elem); // clears the list
+  clear(elem); // 清除列表
 </script>
 ```

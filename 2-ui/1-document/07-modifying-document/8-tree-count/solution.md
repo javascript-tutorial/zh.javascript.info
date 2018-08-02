@@ -1,1 +1,1 @@
-To append text to each `<li>` we can alter the text node `data`.
+为每个 `<li>` 插入文本，我们可以改变文本节点 `data`。

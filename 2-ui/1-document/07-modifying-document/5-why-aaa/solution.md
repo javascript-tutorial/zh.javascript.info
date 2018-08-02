@@ -1,9 +1,9 @@
-The HTML in the task is incorrect. That's the reason of the odd thing.
+HTML 在这个任务中是错误的，这也是造成怪异的原因所在。
 
-The browser has to fix it automatically. But there may be no text inside the `<table>`: according to the spec only table-specific tags are allowed. So the browser adds `"aaa"` *before* the `<table>`.
+浏览器会自动修复它。但 `<table>` 可能会没有文本：根据 table 的特殊规范，这是允许的。所以浏览器会在 `<table>` **前面**添加 `“aaa”`。
 
-Now it's obvious that when we remove the table, it remains.
+现在当我们移除 table 时，它就被保留下来了。
 
-The question can be easily answered by exploring the DOM using the browser tools. It shows `"aaa"` before the `<table>`.
+通过浏览器开发者工具很容易就能在 DOM 找到答案。它显示出 `“aaa”` 在 `<table>` 前面。
 
-The HTML standard specifies in detail how to process bad HTML, and such behavior of the browser is correct.
+HTML 标准规范详细描述了对于异常的 HTML 会如何处理，以及浏览器的行为是否合乎规范。

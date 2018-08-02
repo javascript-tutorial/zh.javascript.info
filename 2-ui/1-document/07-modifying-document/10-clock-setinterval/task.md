@@ -1,9 +1,9 @@
-importance: 4
+重点：4
 
 ---
 
-# Colored clock with setInterval
+# 有 setInterval 的彩色时钟
 
-Create a colored clock like here:
+创建一个彩色时钟：
 
 [iframe src="solution" height=60]
