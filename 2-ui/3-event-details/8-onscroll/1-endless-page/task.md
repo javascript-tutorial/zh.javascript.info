@@ -2,19 +2,19 @@ importance: 5
 
 ---
 
-# Endless page
+# 无限的页面
 
-Create an endless page. When a visitor scrolls it to the end, it auto-appends current date-time to the text (so that a visitor can scroll more).
+新建一个无限页面。当访问者滚动到底部时，它会自动将当期日期时间附加到文本中（以便访问者能滚动更多内容）。
 
-Like this:
+就像这样：
 
 [iframe src="solution" height=200]
 
-Please note two important features of the scroll:
+请注意滚动的两个重要特性：
 
-1. **The scroll is "elastic".** We can scroll a little beyond the document start or end in some browsers/devices (empty space below is shown, and then the document will automatically "bounces back" to normal).
-2. **The scroll is imprecise.** When we scroll to page end, then we may be in fact like 0-50px away from the real document bottom.
+1. **滚动是 "elastic"。**在一些浏览器/设备中，我们可以稍微超出文档的开始或结束（下面显示的是空格，然后文档将自动“反弹”到正常状态）。
+2. **滚动并不精确。** 当我们滚动到页面结束时，实际上我们可能与真正的文档底部相差 0-50px。
 
-So, "scrolling to the end" should mean that the visitor is no more than 100px away from the document end.
+因此“滚动到结束”就意味着访问者离文档结束的距离不超过 100px。
 
-P.S. In real life we may want to show "more messages" or "more goods".
+P.S. 在现实生活中，我们可能希望显示“更多的信息”或者“更多的商品”。I
