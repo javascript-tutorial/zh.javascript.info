@@ -1,12 +1,12 @@
-importance: 5
+重点：5
 
 ---
 
-# Create a tree from the object
+# 利用对象创建节点树
 
-Write a function `createTree` that creates a nested `ul/li` list from the nested object.
+编写一个函数 `createTree` 将嵌套的对象生成 `ul/li` 的嵌套列表。
 
-For instance:
+例如：
 
 ```js
 let data = {
@@ -28,24 +28,24 @@ let data = {
 };
 ```
 
-The syntax:
+语句：
 
 ```js
 let container = document.getElementById('container');
 *!*
-createTree(container, data); // creates the tree in the container
+createTree(container, data); // 在 container 中创建树。
 */!*
 ```
 
-The result (tree) should look like this:
+结果（树）看起来像这样：
 
 [iframe border=1 src="build-tree-dom"]
 
-Choose one of two ways of solving this task:
+选择其中一种方式来完成这个任务：
 
-1. Create the HTML for the tree and then assign to `container.innerHTML`.
-2. Create tree nodes and append with DOM methods.
+1. 通过树创建 HTML 然后派发给 `container.innerHTML`。
+2. 创建节点树然后插入到 DOM 中。
 
-Would be great if you could do both.
+如果两种方式都尝试一下就更好。
 
-P.S. The tree should not have "extra" elements like empty `<ul></ul>` for the leaves.
+P.S. 树应该没有“额外”的元素，像空的 `<ul></ul>` 没有列表项。

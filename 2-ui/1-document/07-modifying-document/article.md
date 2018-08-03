@@ -1,18 +1,18 @@
-# Modifying the document
+# 修改文档内容
 
-DOM modifications is the key to create "live" pages.
+DOM（document object model 文档对象模型，此文中全部以缩写 DOM 表示）的可修改性是网页能“实时”刷新的关键。
 
-Here we'll see how to create new elements "on the fly" and modify the existing page content.
+以下的例子向我们展示如何创建一个“弹幕”新元素并且修改它在页面中展示的内容。
 
-First we'll see a simple example and then explain the methods.
+这里我们先展示出一个建单的例子，随后会逐一向你说明。
 
-## Example: show a message
+## 例子：展示一条信息
 
-For a start, let's see how to add a message on the page that looks nicer than `alert`.
+首先，我们可以看到一条信息，它看起来像是一个美化版的 `alert`。
 
-Here's how it will look:
+这里是它的样式：
 
-```html autorun height="80"
+```html
 <style>
 .alert {
   padding: 15px;
@@ -30,30 +30,30 @@ Here's how it will look:
 */!*
 ```
 
-That was an HTML example. Now let's create the same `div` with JavaScript (assuming that the styles are still in the HTML or an external CSS file).
+在上面这个 HTML 例子中，使用JavaScript创建一个像 `div` 一样的元素（假定 CSS 样式是 HTML 中的内联样式或者是从外部引用 CSS 文件）。
 
-## Creating an element
+## 生成一个元素
 
 
-To create DOM nodes, there are two methods:
+这两种方法都可以创建 DOM 节点：
 
 `document.createElement(tag)`
-: Creates a new element with the given tag:
+：用给定的标签创建一个新元素：
 
     ```js
     let div = document.createElement('div');
     ```
 
 `document.createTextNode(text)`
-: Creates a new *text node* with the given text:
+：用给定的文本创建一个**文本节点**
 
     ```js
     let textNode = document.createTextNode('Here I am');
     ```
 
-### Creating the message
+### 生成一条信息
 
-In our case we want to make a `div` with given classes and the message in it:
+在这个例子中，我们想要为 `div` 设定我们需要的类名和文字信息：
 
 ```js
 let div = document.createElement('div');
@@ -61,17 +61,17 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
-After that, we have a ready DOM element. Right now it's in the variable, but can not be seen, because it's not been inserted into the page yet.
+之后，我们就有拥有一个 DOM 元素。现在这个元素已经有一个保存类名的变量和一个保存文字信息的变量，但是在页面上依然看不到我们想要的内容，因为它还没有被插入到页面中。
 
-## Insertion methods
+## 插值方法
 
-To make the `div` show up, we need to insert it somewhere into `document`. For instance, in `document.body`.
+为了让 `div` 显示我们想要的内容，我们需要在 `document` 中找个合适的位置插值，这里我们选择 `document.body`。
 
-There's a special method for that: `document.body.appendChild(div)`.
+这里有一个特定的插值方法：`document.body.appendChild(div)`。
 
-Here's the full code:
+这里是完整代码：
 
-```html run height="80"
+```html
 <style>
 .alert {
   padding: 15px;
@@ -93,14 +93,14 @@ Here's the full code:
 </script>
 ```
 
-Here's a brief list of methods to insert a node into a parent element (`parentElem` for short):
+这里有一个简短的列表，我们把一个节点插入到父元素中（用 `parentElem` 指代父元素）：
 
 `parentElem.appendChild(node)`
-: Appends `node` as the last child of `parentElem`.
+：将 `node` 作为 `parentElem` 最后一个子元素。
 
-    The following example adds a new `<li>` to the end of `<ol>`:
+    可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾。
 
-    ```html run height=100
+    ```html
     <ol id="list">
       <li>0</li>
       <li>1</li>
@@ -116,11 +116,11 @@ Here's a brief list of methods to insert a node into a parent element (`parentEl
     ```
 
 `parentElem.insertBefore(node, nextSibling)`
-: Inserts `node` before `nextSibling` into `parentElem`.
+：在 `parentElem` 的 `nextSibling` 插入 `node`
 
-    The following code inserts a new list item before the second `<li>`:
+    下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
 
-    ```html run height=100
+    ```html
     <ol id="list">
       <li>0</li>
       <li>1</li>
@@ -135,36 +135,36 @@ Here's a brief list of methods to insert a node into a parent element (`parentEl
     */!*
     </script>
     ```
-    To insert `newLi` as the first element, we can do it like this:
+    如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
     
     ```js
     list.insertBefore(newLi, list.firstChild);
     ```
 
 `parentElem.replaceChild(node, oldChild)`
-: Replaces `oldChild` with `node` among children of `parentElem`.
+: 将 `parentElem` 的 `oldChild` 替换为 `node`。
 
-All these methods return the inserted node. In other words, `parentElem.appendChild(node)` returns `node`. But usually the returned value is not used, we just run the method.
+所有这些插入节点的操作都会返回节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常返回的节点都没有用，只是插入方法的默认返回值。
 
-These methods are "old school": they exist from the ancient times and we can meet them in many old scripts. Unfortunately, there are some tasks that are hard to solve with them.
+以上方法都是 “旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸，它们已经没法很好的处理现在的需求了。
 
-For instance, how to insert *html* if we have it as a string? Or, given a node, how to insert another node *before* it? Of course, all that is doable, but not in an elegant way.
+例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，你怎样插入到**节点**之前？虽然也能完成需求开发，总归不是那么优雅的解决方式。
 
-So there exist two other sets of insertion methods to handle all cases easily.
+所以诞生了两种优雅插入方法来代替这些繁琐的插入操作。
 
-### prepend/append/before/after
+### 在开头插入/在末尾插入/在前面插入/在后面插入
 
 This set of methods provides more flexible insertions:
 
-- `node.append(...nodes or strings)` -- append nodes or strings at the end of `node`,
-- `node.prepend(...nodes or strings)` -- insert nodes or strings into the beginning of `node`,
-- `node.before(...nodes or strings)` –- insert nodes or strings before the `node`,
-- `node.after(...nodes or strings)` –- insert nodes or strings after the `node`,
-- `node.replaceWith(...nodes or strings)` –- replaces `node` with the given nodes or strings.
+- `node.append(...nodes or strings)` —— 在 `node` 末尾插入节点或者字符串，
+- `node.prepend(...nodes or strings)` —— 在 `node` 开头插入节点或者字符串，
+- `node.before(...nodes or strings)` —— 在 `node` 前面插入节点或者字符串，
+- `node.after(...nodes or strings)` —— 在 `node` 后面插入节点或者字符串，
+- `node.replaceWith(...nodes or strings)` —— 将 `node` 替换为节点或者字符串。
 
-Here's an example of using these methods to add more items to a list and the text before/after it:
+下面例子是使用以上提到的方法在列表项前面或后面插入文本：
 
-```html autorun
+```html
 <ol id="ol">
   <li>0</li>
   <li>1</li>
@@ -185,11 +185,11 @@ Here's an example of using these methods to add more items to a list and the tex
 </script>
 ```
 
-Here's a small picture what methods do:
+这张图片展示插入方法的工作方式：
 
 ![](before-prepend-append-after.png)
 
-So the final list will be:
+列表最后表现为：
 
 ```html
 before
@@ -203,22 +203,22 @@ before
 after
 ```
 
-These methods can insert multiple lists of nodes and text pieces in a single call.
+这些方法通过简单的调用就能插入多个节点或者字符串。
 
-For instance, here a string and an element are inserted:
+例如，这里将字符串和一个元素插入到 `div` 前面：
 
-```html run
+```html
 <div id="div"></div>
 <script>
   div.before('<p>Hello</p>', document.createElement('hr'));
 </script>
 ```
 
-All text is inserted *as text*.
+所有字符串都会作为“文本”插入
 
-So the final HTML is:
+所以最后的 HTML 表现为：
 
-```html run
+```html
 *!*
 &lt;p&gt;Hello&lt;/p&gt;
 */!*
@@ -226,28 +226,28 @@ So the final HTML is:
 <div id="div"></div>
 ```
 
-In other words, strings are inserted in a safe way, like `elem.textContent` does it.
+换句话说，字符串以安全的方式插入到页面中，就像调用 `elem.textContent` 方法一样。
 
-So, these methods can only be used to insert DOM nodes or text pieces.
+所以这些方法只能用来插入 DOM 节点或者文本块
 
-But what if we want to insert HTML "as html", with all tags and stuff working, like `elem.innerHTML`?
+如果我们想在 HTML 页面中插入一个标签，有没有这样的方法，就像调用 `elem.innerHTML` 方法一样？
 
-### insertAdjacentHTML/Text/Element
+### 在相邻的 HTML 标签中插入/文本/元素
 
-There's another, pretty versatile method: `elem.insertAdjacentHTML(where, html)`.
+接下来登场的这个方法就可以做到：`elem.insertAdjacentHTML(where, html)`。
 
-The first parameter is a string, specifying where to insert, must be one of the following:
+该方法第一个参数是字符串，指定插值的位置，必须是以下四个值之一：
 
-- `"beforebegin"` -- insert `html` before `elem`,
-- `"afterbegin"` -- insert `html` into `elem`, at the beginning,
-- `"beforeend"` -- insert `html` into `elem`, at the end,
-- `"afterend"` -- insert `html` after `elem`.
+- `"beforebegin"` —— 在 `html` 开头位置前插入 `elem`，
+- `"afterbegin"` —— 在 `html` 开头位置后插入 `elem`，
+- `"beforeend"` —— 在 `html` 结束位置前插入 `elem`，
+- `"afterend"` —— 在 `html` 结束位置后插入 `elem`。
 
-The second parameter is an HTML string, inserted "as is".
+第二个参数是 HTML 字符串，会作为标签插入到页面中
 
-For instance:
+例如：
 
-```html run
+```html
 <div id="div"></div>
 <script>
   div.insertAdjacentHTML('beforebegin', '<p>Hello</p>');
@@ -255,32 +255,32 @@ For instance:
 </script>
 ```
 
-...Would lead to:
+...将会表现为：
 
-```html run
+```html
 <p>Hello</p>
 <div id="div"></div>
 <p>Bye</p>
 ```
 
-That's how we can append an arbitrary HTML to our page.
+通过这个方法我们可以随意在 HTML任何位置插入值。
 
-Here's the picture of insertion variants:
+这里有一张图片描述插入方式：
 
 ![](insert-adjacent.png)
 
-We can easily notice similarities between this and the previous picture. The insertion points are actually the same, but this method inserts HTML.
+通过跟前面的图片做比较可以看出，两个方法的插入方式是一样的，只不过后者是插入 HTML 标签。
 
-The method has two brothers:
+这个方法还有两个变种：
 
-- `elem.insertAdjacentText(where, text)` -- the same syntax, but a string of `text` in inserted "as text" instead of HTML,
-- `elem.insertAdjacentElement(where, elem)` -- the same syntax, but inserts an element.
+- `elem.insertAdjacentText(where, text)` —— 一样的语法，只不过把 `text` 作为“文本”直接插入到 HTML 中，
+- `elem.insertAdjacentElement(where, elem)` —— 一样的语法，只不过插入的是一个元素。
 
-They exist mainly to make the syntax "uniform". In practice, most of the time only `insertAdjacentHTML` is used, because for elements and text we have methods `append/prepend/before/after` -- they are shorter to write and can insert nodes/text pieces.
+他们存在的意义更多是为了使语法“整齐划一”，在实践中，通常只使用 `insertAdjacentHTML`，因为插入文本和元素的方法可以使用 `append/prepend/before/after` —— 同样的效果这样写起来更简洁。
 
-So here's an alternative variant of showing a message:
+这里有一个展示一条信息的变种写法：
 
-```html run
+```html
 <style>
 .alert {
   padding: 15px;
@@ -298,19 +298,19 @@ So here's an alternative variant of showing a message:
 </script>
 ```
 
-## Cloning nodes: cloneNode
+## 克隆节点：cloneNode
 
-How to insert one more similar message?
+怎么插入多条相同的信息？
 
-We could make a function and put the code there. But the alternative way would be to *clone* the existing `div` and modify the text inside it (if needed).
+我们可以声明一个函数来实现这个方法。但是怎样通过**克隆**的方式来替换掉那些原本存在的 `div` 并且更改里面的文本（如果有这样一个需求）。
 
-Sometimes when we have a big element, that may be faster and simpler.
+如果我们有一个很大的元素，克隆的方式要远比创建后插入来的更简单，性能也更好。
 
-- The call `elem.cloneNode(true)` creates a "deep" clone of the element -- with all attributes and subelements. If we call `elem.cloneNode(false)`, then the clone is made without child elements.
+- `elem.cloneNode(true)` 方法用来对一个元素进行“深”克隆 —— 包括所有特性和子元素。`elem.cloneNode(false)` 方法只克隆该元素本身，不对子元素进行克隆。
 
-An example of copying the message:
+一个复制信息的例子：
 
-```html run height="120"
+```html
 <style>
 .alert {
   padding: 15px;
@@ -335,39 +335,39 @@ An example of copying the message:
 </script>
 ```
 
-## Removal methods
+## 移除
 
-To remove nodes, there are the following methods:
+想要移除节点，可以通过以下方法：
 
 
 `parentElem.removeChild(node)`
-: Removes `elem` from  `parentElem` (assuming it's a child).
+：从  `parentElem` 中移除 `elem`(假设它是元素中的子元素)。
 
 `node.remove()`
-: Removes the `node` from its place.
+：从当前位置移除 `node`。
 
-We can easily see that the second method is much shorter. The first one exists for historical reasons.
+能看出第二个方法更加简洁，第一个方法的存在是有其历史原因的。
 
 ````smart
-If we want to *move* an element to another place -- there's no need to remove it from the old one.
+如果我们想要**移动**一个元素到另一个地方 —— 不需要移除旧的元素。
 
-**All insertion methods automatically remove the node from the old place.**
+**所有插入操作都会从节点原来的位置把节点移除掉**
 
-For instance, let's swap elements:
+例如，这里有一些嵌套的元素：
 
-```html run height=50
+```html
 <div id="first">First</div>
 <div id="second">Second</div>
 <script>
-  // no need to call remove
-  second.after(first); // take #second and after it - insert #first
+  //没有用到移除方法
+  second.after(first); //在 id 为 #second 的元素后插入id为 #first 的元素
 </script>
 ```
 ````
 
-Let's make our message disappear after a second:
+使信息一秒后消失：
 
-```html run untrusted
+```html
 <style>
 .alert {
   padding: 15px;
@@ -391,13 +391,13 @@ Let's make our message disappear after a second:
 </script>
 ```
 
-## A word about "document.write"
+## 聊一聊 “document.write”
 
-There's one more, very ancient method of adding something to a web-page: `document.write`.
+`document.write` 是一个很老的方法，用来为 web 页面添加内容。
 
-The syntax:
+语法如下：
 
-```html run
+```html
 <p>Somewhere in the page...</p>
 *!*
 <script>
@@ -407,76 +407,76 @@ The syntax:
 <p>The end</p>
 ```
 
-The call to `document.write(html)` writes the `html` into page "right here and now". The `html` string can be dynamically generated, so it's kind of flexible. We can use JavaScript to create a full-fledged webpage and write it.
+调动 `document.write(html)` 时意味着将 `html` “就地并马上” 放入到页面中。`html` 字符串会动态的创建，所以它以自动伸缩的方式放入到页面中。我们可以通过 JavaScript 创建一个完整的 HTML 页面并写入浏览器窗口中。
 
-The method comes from times when there were no DOM, no standards... Really old times. It still lives, because there are scripts using it.
+这个方法的起源于没有 DOM ， 没有 Web 标准的上古时期……，但是这个方法依旧保留了下来，因为很多的脚本使用它来实现一些功能。
 
-In modern scripts we can rarely see it, because of the following important limitation:
+现代的脚本已经很少再看到这个方法，因为使用它有一个很重要的局限性：
 
-**The call to `document.write` only works while the page is loading.**
+**只能在页面加载的时候调用 `document.write`**
 
-If we call it afterwards, the existing document content is erased.
+如果在加载完成以后，渲染好的页面会被擦除。
 
-For instance:
+例如：
 
-```html run
+```html
 <p>After one second the contents of this page will be replaced...</p>
 *!*
 <script>
-  // document.write after 1 second
-  // that's after the page loaded, so it erases the existing content
+  // 在一秒后调用 document.write
+  // 页面已经加载完毕，所以会被擦除。
   setTimeout(() => document.write('<b>...By this.</b>'), 1000);
 </script>
 */!*
 ```
 
-So it's kind of unusable at "after loaded" stage, unlike other DOM methods we covered above.
+所以，不像其他 DOM 操作一样，一旦页面 “加载完毕” 最好就不使用 document.write 方法。
 
-That was the downside.
+这是它的缺陷。
 
-Technically, when `document.write` is called while the browser is still reading HTML, it appends something to it, and the browser consumes it just as it were initially there.
+从技术上讲，当调用 `document.write` ，如果浏览器仍然在解析 HTML，该方法会添加一些内容，浏览器会把添加进来的内容替换掉原来接收到内容，解析后展示在窗口中。
 
-That gives us the upside -- it works blazingly fast, because there's *no DOM modification*. It writes directly into the page text, while the DOM is not yet built, and the browser puts it into DOM at generation-time.
+反过来说这也是一个优势 —— 它性能出奇的快，因为它不用 **修改 DOM 结构**。它直接在 DOM 结构构建之前，对整个页面直接进行重写，再交给浏览器去构建 DOM 结构。
 
-So if we need to add a lot of text into HTML dynamically, and we're at page loading phase, and the speed matters, it may help. But in practice these requirements rarely come together. And usually we can see this method in scripts just because they are old.
+所以如果我们需要在 HTML 加载阶段动态的添加很多文本，它会很高效。不过能用到的机会不多就是了。在一些很老的脚本里倒是能经常看到。
 
-## Summary
+## 总结
 
-Methods to create new nodes:
+创建节点的方法：
 
-- `document.createElement(tag)` -- creates an element with the given tag,
-- `document.createTextNode(value)` -- creates a text node (rarely used),
-- `elem.cloneNode(deep)` -- clones the element, if `deep==true` then with all descendants.  
+- `document.createElement(tag)` —— 用给定标签创建一个节点，
+- `document.createTextNode(value)` —— 创建一个文本节点（很少使用），
+- `elem.cloneNode(deep)` —— 如果参数 `deep==true` 将元素及后代子元素进行克隆。  
 
-Insertion and removal of nodes:
+插入和移除节点的方法：
 
-- From the parent:
+- 从 parent
   - `parent.appendChild(node)`
   - `parent.insertBefore(node, nextSibling)`
   - `parent.removeChild(node)`
   - `parent.replaceChild(newElem, node)`
 
-  All these methods return `node`.
+  这些方法都返回 `node`.
 
-- Given a list of nodes and strings:
-  - `node.append(...nodes or strings)` -- insert into `node`, at the end,
-  - `node.prepend(...nodes or strings)` -- insert into `node`, at the beginning,
-  - `node.before(...nodes or strings)` –- insert right before `node`,
-  - `node.after(...nodes or strings)` –- insert right after `node`,
-  - `node.replaceWith(...nodes or strings)` –- replace `node`.
-  - `node.remove()` –- remove the `node`.
+- 添加一些节点和字符串
+  - `node.append(...nodes or strings)` —— 在 `node` 末尾位置增加，
+  - `node.prepend(...nodes or strings)` —— 在 `node`开头位置增加 ，
+  - `node.before(...nodes or strings)` —— 在 `node` 之前位置增加，
+  - `node.after(...nodes or strings)` —— 在 `node` 之后位置增加，
+  - `node.replaceWith(...nodes or strings)` —— 替换 `node` 。
+  - `node.remove()` —— 移除 `node`。
 
-  Text strings are inserted "as text".
+  把字符串当成“文本”插入
 
-- Given a piece of HTML: `elem.insertAdjacentHTML(where, html)`, inserts depending on where:
-  - `"beforebegin"` -- insert `html` right before `elem`,
-  - `"afterbegin"` -- insert `html` into `elem`, at the beginning,
-  - `"beforeend"` -- insert `html` into `elem`, at the end,
-  - `"afterend"` -- insert `html` right after `elem`.
+- 在 HTML 中添加内容 `elem.insertAdjacentHTML(where, html)`，在 where 位置进行操作：
+  - `"beforebegin"` —— 将 `html` 插入 `elem` 到开头的前面位置，
+  - `"afterbegin"` —— 将 `html` 插入 `elem` 到开头的后面位置，
+  - `"beforeend"` —— 将 `html` 插入 `elem` 到结尾的前面位置，
+  - `"afterend"` —— 将 `html` 插入 `elem` 到结尾的后面位置。
 
-  Also there are similar methods `elem.insertAdjacentText` and `elem.insertAdjacentElement`, they  insert text strings and elements, but they are rarely used.
+   `elem.insertAdjacentText` 和 `elem.insertAdjacentElement` 跟 `elem.insertAdjacentHTML` 很相似，只不过他们一个用来插入字符串，一个用来插入元素，但是很少使用这两个方法。
 
-- To append HTML to the page before it has finished loading:
+- 在页面加载完成之前添加 HTML 到页面中：
   - `document.write(html)`
 
-  After the page is loaded such a call erases the document. Mostly seen in old scripts.
+  如果是在页面加载完成以后调用会擦除加载完毕的内容。通常在很老的脚本才会使用这个方法了。

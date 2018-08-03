@@ -1,10 +1,10 @@
-importance: 5
+重点：5
 
 ---
 
-# Insert the HTML in the list
+# HTML 中插入列表
 
-Write the code to insert `<li>2</li><li>3</li>` between two `<li>` here:
+编写需要插入的文本代码 `<li>2</li><li>3</li>`，插入到两个 `<li>` 之中：
 
 ```html
 <ul id="ul">

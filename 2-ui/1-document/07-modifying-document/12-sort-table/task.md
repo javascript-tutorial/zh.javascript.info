@@ -1,8 +1,8 @@
-importance: 5
+重点：5
 
 ---
 
-# Sort the table
+# 排序 table
 
 There's a table:
 
@@ -34,6 +34,6 @@ There's a table:
 </tr>
 </table>
 
-There may be more rows in it.
+可能会有更多的行数
 
-Write the code to sort it by the `"name"` column.
+编写代码对 `“name”` 列进行排序。

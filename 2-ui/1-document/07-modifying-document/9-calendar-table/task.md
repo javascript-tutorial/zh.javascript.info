@@ -1,17 +1,17 @@
-importance: 4
+重点：4
 
 ---
 
-# Create a calendar
+# 创建一个日历
 
-Write a function `createCalendar(elem, year, month)`.
+编写一个函数 `createCalendar(elem, year, month)`。
 
-The call should create a calendar for the given year/month and put it inside `elem`.
+调用后会创建一个日历并添加到 `elem`。
 
-The calendar should be a table, where a week is `<tr>`, and a day is `<td>`. The table top should be `<th>` with weekday names: the first day should be Monday, and so on till Sunday.
+日历应该是一个 table，周用 `<tr>` 表示，天用 `<td>` 表示。table 顶部是 `<th>` 表示周几：第一天应该是星期一，直到星期日。
 
-For instance, `createCalendar(cal, 2012, 9)` should generate in element `cal` the following calendar:
+例如，`createCalendar(cal, 2012, 9)` 应该在 `cal` 生成一个日历，如下：
 
 [iframe height=210 src="solution"]
 
-P.S. For this task it's enough to generate the calendar, should not yet be clickable.
+P.S. 这里只要生成一个展示日历就好，不需要点击交互功能。
