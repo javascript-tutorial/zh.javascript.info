@@ -1,3 +1,3 @@
-# Events in details
+# 事件细节
 
-Here we cover most important events and details of working with them.
+这里我们介绍最重要的事和它们运行的细节。
