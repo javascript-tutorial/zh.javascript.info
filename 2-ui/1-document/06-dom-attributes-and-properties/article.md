@@ -1,28 +1,16 @@
 # 特性和属性
 
-<<<<<<< HEAD
-当浏览器加载页面时, 它会 “读取”（或者称之为：“解析”）HTML 文本并生成 DOM 对象。对于元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
-
-在这个例子中, 如果标签是 `<body id="page">`, 那么 DOM 对象会生成这样一个属性 `body.id="page"`。
-=======
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 文本并生成 DOM 对象。对于元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
 
 在这个例子中，如果标签是 `<body id="page">`，那么 DOM 对象会生成这样一个属性 `body.id="page"`。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 但是特性 — 属性并不总是一一对应的！在这一篇文章中将带领你一起分清楚这两个概念，了解它们的具体作用，明白它们什么时候会相同什么时候会不同。
 
 ## DOM 属性
 
-<<<<<<< HEAD
 我们已经见过内置的 DOM 属性了。它的数量很庞大，但是 DOM 技术实现上没有限制我们对这个对象进行添加 —— 如果我们需要额外的属性的话。
 
 DOM 节点是一个标准的 JavaScript 对象。我们可以 alert 它。
-=======
-我们已经见过内置的 DOM 属性了。它的数量很庞大，但是 DOM 技术实现上没有限制我们对这个对象进行添加 — 如果我们需要额外的属性的话。
-
-DOM 节点是一个标准的 JavaScript 对象。我们可以 alert 它们。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 在这个例子中，让我们在 `document.body` 创建一个新的属性：
 
@@ -42,11 +30,7 @@ document.body.sayTagName = function() {
   alert(this.tagName);
 };
 
-<<<<<<< HEAD
 document.body.sayTagName(); // BODY (这个方法中的 “this” 指 document.body)
-=======
-document.body.sayTagName(); // BODY（这个方法中的 "this" 指 document.body）
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 ```
 
 我们还可以修改内置属性的原型，比如修改 `Element.prototype` 会给所有元素添加一个方法：
@@ -67,15 +51,9 @@ document.body.sayHi(); // Hello, I'm BODY
 
 ## HTML 特性
 
-<<<<<<< HEAD
 在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别**标准化**特性然后以此创建 DOM 属性。
 
 因此当一个元素有 `id` 或其他**标准化**特性，会生相应的 DOM 属性。但是非**标准化**的特性则会被忽略。
-=======
-在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别 **标准化** 特性然后以此创建 DOM 属性。
-
-因此当一个元素有 `id` 或其他 **标准化** 特性，会生相应的 DOM 属性。但是非 **标准化** 的特性则会被忽略。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 例如：
 ```html run
@@ -90,11 +68,7 @@ document.body.sayHi(); // Hello, I'm BODY
 </body>
 ```
 
-<<<<<<< HEAD
 请留意不是每一个元素的标准化特性都是相同的，`“type”` 是 `<input>` 的一个标准化特性（[HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)），但是 `<body>` 则没有（[HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)）。每一个元素的标准化特性都有确切的规范描述。
-=======
-请留意不是每一个元素的标准化特性都是相同的，`"type"` 是 `<input>` 的一个标准化特性（[HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)），但是 `<body>` 则没有（[HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)）。每一个元素的标准化特性都有确切的规范描述。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 以下我们可以看到：
 ```html run
@@ -113,17 +87,10 @@ document.body.sayHi(); // Hello, I'm BODY
 
 答案是肯定的。以下几个方法是针对元素特性的操作：
 
-<<<<<<< HEAD
 - `elem.hasAttribute(name)` —— 检验是否拥这个特性。
 - `elem.getAttribute(name)` —— 获取到这个特性值。
 - `elem.setAttribute(name, value)` —— 设置这个特性值。
 - `elem.removeAttribute(name)` —— 移除这个特性。
-=======
-- `elem.hasAttribute(name)` — 检验是否拥这个特性。
-- `elem.getAttribute(name)` — 获取到这个特性值。
-- `elem.setAttribute(name, value)` — 设置这个特性值。
-- `elem.removeAttribute(name)` — 移除这个特性。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 以上的几个方法实际上也是 HTML 的原生方法。
 
@@ -168,13 +135,8 @@ HTML 特性有几个特征：
 
 请注意：
 
-<<<<<<< HEAD
 1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
 2. 我们可以赋予它任何值，这里我们把 `“123”` 作为它的值。
-=======
-1. `getAttribute('About')` — 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
-2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 3. 所有 attributes 都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
 4. `attributes` 以 `name` 和 `value` 这样的键—值对收集在一个可迭代对象里。
 
@@ -224,11 +186,7 @@ HTML 特性有几个特征：
 - 改变特性值 `value` 会更新到属性上。
 - 但是直接改变属性的值却不会作用在特性的值上。
 
-<<<<<<< HEAD
 这种“特征”是相当便利的，因为用户可能会经常修改 `value`，假设我们想要覆盖 HTML上 “原始值”，只需要修改特性的值。
-=======
-这种“特征”是相当便利的，因为用户可能会经常修改 `value`，假设我们想要覆盖 HTML 上“原始值”，只需要修改特性的值。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 ## DOM 属性的类型
 
@@ -400,21 +358,12 @@ div.setAttribute('order-state', 'canceled');
 
 使用 `data-*` 的特性值是一个合法值，保存着自定义数据。
 
-<<<<<<< HEAD
 请注意我们不但可以读取，还能修改 data-attributes。上面这个例子的最后一行：`(*)` 会变成蓝色。
 
 ## 总结
 
 - Attributes —— 写在 HTML 中。
 - Properties —— 是一个 DOM 对象。
-=======
-请注意我们不但可以读取，还能修改 data-attributes。上面这个例子的最后一行： `(*)` 会变成蓝色。
-
-## 总结
-
-- Attributes — 写在 HTML 中。
-- Properties — 是一个 DOM 对象。
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 
 简略的对比：
 
@@ -425,17 +374,10 @@ div.setAttribute('order-state', 'canceled');
 
 attributes 的一些方法：
 
-<<<<<<< HEAD
 - `elem.hasAttribute(name)` —— 检查是否存在这个特性
 - `elem.getAttribute(name)` —— 获取这个特性
 - `elem.setAttribute(name, value)` —— 把这个特性设置为 name 值
 - `elem.removeAttribute(name)` —— 移除这个特性
-=======
-- `elem.hasAttribute(name)` — 检查是否存在这个特性
-- `elem.getAttribute(name)` — 获取这个特性
-- `elem.setAttribute(name, value)` — 把这个特性设置为 name 值
-- `elem.removeAttribute(name)` — 移除这个特性
->>>>>>> 2dc9cbc143ea3ed473c30698b74ecb27ae56841a
 - `elem.attributes` 所有特性的集合
 
 对于大多数需求，DOM 属性已经可以给予很好的支持。应当在 DOM 属性实在无法满足开发需求的情况下才使用特性，比如以下情况：
