@@ -15,7 +15,7 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 
 ![](dom-links.png)
 
-让我们更详细的讨论这些。
+让我们更详细地讨论这些。
 
 ## 在最顶上的：documentElement 和 body
 
@@ -30,7 +30,7 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 `<head>` = `document.head`
 ：`<head>` 标签可以通过 `document.head` 访问。
 
-````warn header="这里有个问题：`document.body` 的值不能是 `null`"
+````warn header="这里有个问题：`document.body` 的值可能是 `null`"
 脚本无法访问在运行时不存在的元素。
 
 特别要注意的是，如果一个脚本是在 `<head>` 标签中，那么脚本中是访问不到 `document.body` 元素的，因为浏览器还没有读到其中的内容。
@@ -59,8 +59,8 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 ```
 ````
 
-​```smart header="在 DOM 世界中 `null` 就意味着”不存在“”
-在 DOM 中，`null` 值就意味着“不存在”或者”没有这样的节点“。 
+​```smart header="在 DOM 世界中 `null` 就意味着”不存在“"
+在 DOM 中，`null` 值就意味着“不存在”或者“没有这样的节点”。 
 ​```
 
 
@@ -68,7 +68,7 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 
 从现在开始，我们将使用下面这两个术语：
 
-- **子节点（或者子元素）** -- 对应的是直系的子元素。换句话说，它们完全嵌套在指定的一个元素中。举个例子，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
+- **子节点（或者叫做子）** -- 对应的是直系的子元素。换句话说它们会完全嵌套在指定的一个元素中。举个例子，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
 - **子系元素** -- 对应的是所有嵌套在一个指定元素中的元素，包括这些元素的子元素，以此类推得到的所有元素。
 
 比如说，在这里 `<body>` 有子元素 `<div>` 和 `<ul>`（以及一些空白的文本节点）：
@@ -87,7 +87,7 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 </html>
 ​```
 
-。。。如果我们要找的是 `<body>` 的子系元素，那我们可以先得到它直系子元素 `<div>`，`<ul>` 以及像 `<li>`（`<ul>` 的子元素）和 `<b>`（`<li>` 的子元素）这样嵌套更深的元素 -- 这就是 `<body>` 元素包含的整个子树。
+…… 如果我们要找的是 `<body>` 的子系元素，那我们可以先得到它直系子元素 `<div>`，`<ul>` 以及像 `<li>`（`<ul>` 的子元素）和 `<b>`（`<li>` 的子元素）这样嵌套更深的元素 -- 这就是 `<body>` 元素包含的整个子树。
 
 **`childNodes` 集合提供了对所有子节点包括其中文本节点的访问。**
 
@@ -156,7 +156,7 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 ​```warn header="DOM 集合是只读的"
 DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的。
 
-我们不能通过类型 `childNodes[i] = ...` 的操作来替换一个子节点。
+我们不能通过类似 `childNodes[i] = ...` 的操作来替换一个子节点。
 
 修改子节点需要使用其它的方法，我们将会在下一章中看到它们。
 ​```
@@ -175,7 +175,7 @@ DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的
 ​```html run
 <body>
 <script>
-  // 显示 0，1，length，item，values 以及其它值。
+  // 显示 0、1、length、item、values 以及其它值。
   for (let prop in document.body.childNodes) alert(prop);
 </script>
 </body>
@@ -196,10 +196,10 @@ DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的
 
 ​```html run
 <html><head></head><body><script>
-  //  html 是“密集”的来避免额外的“空白”文本节点。
+  //  HTML 代码是“密集”的用来避免额外的“空白”文本节点。
   HTML is "dense" to evade extra "blank" text nodes.
 
-  // <body> 的 父节点是 <html>
+  // <body> 的父节点是 <html>
   alert( document.body.parentNode === document.documentElement ); // true
 
   // <head> 的下一个兄弟节点是  <body>
@@ -212,20 +212,19 @@ DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的
 
 ## 只在元素中导航
 
-上面列出的导航属性涉及到**所有**节点。比如说，在 `childNodes` 中我们可以看到文本节点，元素节点，甚至如果评论节点存在也能访问到。 
+上面列出的导航属性涉及到**所有**节点。比如说，在 `childNodes` 中我们可以看到文本节点，元素节点，甚至如果存在评论节点的话，也能访问到。 
 
 但是对于很多任务来说，我们并不想要文本或者评论节点。我们希望可以操纵代表标签的元素节点以及构建整个页面的结构。
 
-So let's see more navigation links that only take *element nodes* into account:
-所以让我们更多看看当只考虑**元素节点**时的导航链接：
+所以让我们看看当只考虑**元素节点**时更多的导航链接：
 
 ![](dom-links-elements.png)
 
 这些链接和之前上面的相似，只是在词中间加了 `Element`。
 
 - `children` -- 只获取类型为元素节点的子节点。
-- `firstElementChild`，`lastElementChild` -- 第一个元素和最后一个子元素。
-- `previousElementSibling`，`nextElementSibling` -- 邻居元素。
+- `firstElementChild`，`lastElementChild` -- 第一个和最后一个子元素。
+- `previousElementSibling`，`nextElementSibling` -- 兄弟元素。
 - `parentElement` -- 父元素。
 
 ​````smart header="为什么是 `parentElement`? 父节点可以不是一个元素吗？"
@@ -272,18 +271,17 @@ alert( document.documentElement.parentElement ); // null
 
 到现在为止我们描述了基本的导航属性。
 
-Certain types of DOM elements may provide additional properties, specific to their type, for convenience.
 为了方便起见，某些类型的 DOM 元素会提供特定于其类型的额外属性。
 
 Tables 是其中一个很好也是很重要的例子。
 
 **`<table>`** 元素支持 (除了上面给出的之外) 以下这些属性:
 - `table.rows` -- 用于表示表中 `<tr>` 元素的集合。
-- `table.caption/tHead/tFoot` -- 用于访问元素 `<caption>`，`<thead>`，`<tfoot>`。
+- `table.caption/tHead/tFoot` -- 用于访问元素 `<caption>`、`<thead>`、`<tfoot>`。
 - `table.tBodies` -- `<tbody>` 元素的集合（根据标准该元素数量可以很多）。
 
-**`<thead>`，`<tfoot>`，`<tbody>`** 元素提供了 `rows` 属性：
-- `tbody.rows` -- 表示 `<tr>` 元素内部的集合。
+**`<thead>`、`<tfoot>`、`<tbody>`** 元素提供了 `rows` 属性：
+- `tbody.rows` -- 表内部 `<tr>` 元素的集合。
 
 **`<tr>`：**
 - `tr.cells` -- 在给定 `<tr>` 元素下 `<td>` 和 `<th>` 单元格的集合。
@@ -306,7 +304,7 @@ Tables 是其中一个很好也是很重要的例子。
 </table>
 
 <script>
-  // 获取第一行的内容中第二个的单元格
+  // 获取第一行中第二个单元格的内容
   alert( table.*!*rows[0].cells[1]*/!*.innerHTML ) // "two"
 </script>
 ​```
@@ -317,7 +315,7 @@ HTML 表单还有其它额外的导航属性。我们稍后会在开始使用表
 
 # 总结
 
-给一个 DOM 节点，我们可以使用导航属性来立即访问它临近的节点。
+给一个 DOM 节点，我们可以使用导航属性来立即访问和它直接相邻的节点。
 
 这些属性主要分两组：
 
@@ -325,9 +323,3 @@ HTML 表单还有其它额外的导航属性。我们稍后会在开始使用表
 - 仅用于元素节点：`parentElement`，`children`，`firstElementChild`，`lastElementChild`，`previousElementSibling`，`nextElementSibling`。
 
 某些类型的 DOM 元素，比如说像 tables，提供了额外的属性和集合用于访问其内容。
-
-````
-
-````
-
-````
