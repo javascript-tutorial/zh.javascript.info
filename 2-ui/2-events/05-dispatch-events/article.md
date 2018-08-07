@@ -2,13 +2,13 @@
 
 我们不仅可以分发事件，还可以从 JavaScript 中生成事件
 
-自定义事件可以用于创建  "graphical components". For instance, a root element of the menu may trigger events telling what happens with the menu: `open` (menu open),  `select` (an item is selected) and so on.
+自定义事件可以用于创建“图形组件”。例如，菜单组件的根元素可以通过触发 `open`（打开菜单）、`select`（有一项被选中）等事件告诉菜单发生了什么。
 
-Also we can generate built-in events like `click`, `mousedown` etc, that may be good for testing.
+我们也可以生成一些像 `click`、`mousedown` 此类的内置事件，这些都有利于测试。
 
 ## 事件构造器
 
-事件形成层次结构，就像 DOM 元素类一样。根是内置的[事件](http://www.w3.org/TR/dom/#event)类。
+事件会像 DOM 元素类一样形成层次结构。事件的底层是内置的 [Event](http://www.w3.org/TR/dom/#event) 类。
 
 我们可以像这样创建 `Event` 对象：
 
@@ -18,12 +18,12 @@ let event = new Event(event type[, options]);
 
 参数：
 
-- **event type** —— 可能是像 `"click"` 或者我们自己喜欢的 `"hey-ho!"`这样的任意字符串。
+- **event type** —— 可以是任何字符串，比如 `"click"` 或者我们自己喜欢的 `"hey-ho!"`。
 - **options** —— 具有两个可选属性的对象：
   - `bubbles: true/false` —— 如果是 `true`，那么事件冒泡。
   - `cancelable: true/false` —— 如果 `true`，那么“默认动作”就会被阻止。之后我们会看到对于自定义事件，这些意味着什么。
 
-  默认情况下，它们都是：`{bubbles: false, cancelable: false}`。
+  默认情况下，它们都是 false：`{bubbles: false, cancelable: false}`。
 
 ## dispatchEvent
 
@@ -31,7 +31,7 @@ let event = new Event(event type[, options]);
 
 然后处理器对其作出反应，就好像它是一个正常的内置事件。如果事件是使用 `bubbles` 标志创建的，那么它就会冒泡。
 
-在下面示例中，`click` 事件是用 JavaScript 启动的。处理器的工作方式与单击按钮的方式一样：
+在下面示例中，`click` 事件是用 JavaScript 初始化生成的。处理器执行效果和单击按钮的效果一样：
 
 ```html run no-beautify
 <button id="elem" onclick="alert('Click!');">Autoclick</button>
@@ -43,14 +43,14 @@ let event = new Event(event type[, options]);
 ```
 
 ```smart header="event.isTrusted"
-有一个可以区分“真实”用户和事件是否生成自脚本的方法。T
+有一个可以区分 “真实”用户事件和 script 生成事件的方法。
 
 `event.isTrusted` 属性为 `true`，则事件来自真实用户的动作，为 `false` ，则说明事件由脚本生成。
 ```
 
 ## 冒泡示例
 
-我们可以创建一个名为 `"hello"` 的冒泡事件，并在 `document` 捕获它。
+我们可以创建一个名为 `"hello"` 的冒泡事件，并在 `document` 上捕获它。
 
 我们需要做的就是将 `bubbles` 设置为 `true`：
 
@@ -71,14 +71,14 @@ let event = new Event(event type[, options]);
 
 注意：
 
-1. 我们应该对自定义用户使用 `addEventListener`，因为 `on<event>` 仅存在于内置事件中，`document.onhello` 则无法运行。
-2. 必须设置 `bubbles:true`，否则事件不会冒泡。
+1. 我们应该使用 `addEventListener` 定义我们的事件，因为 `on<event>` 仅存在于内置事件中，`document.onhello` 则无法运行。
+2. 必须设置 `bubbles:true`，否则事件不会向上冒泡。
 
 对于内置 (`click`) 和自定义 (`hello`) 的事件，冒泡机制是一样的。也有捕获和冒泡阶段。
 
-## MouseEvent, KeyboardEvent and others
+## 鼠标事件，键盘事件和其他
 
-Here's a short list of classes for UI Events from the [UI Event specification](https://www.w3.org/TR/uievents):
+这里有一个 [UI 事件说明](https://www.w3.org/TR/uievents) 上的 UI 事件类简单列表：
 
 - `UIEvent`
 - `FocusEvent`
@@ -125,13 +125,13 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 从技术上讲，我们可以通过在创建后直接分发 `event.clientX=100` 来解决这个问题。所以这是一个方便和遵守规则的问题。浏览器生成的事件总是具有正确的类型。
 
-不同 UI 事件在全部属性列表规范中，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
+不同 UI 事件的所有属性列表在说明书中，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
 
 ## 自定义事件
 
-对于我们自己的自定义事件，像 `"hello"`，我们应该使用 `new CustomEvent`。从技术上来说，[CustomEvent](https://dom.spec.whatwg.org/#customevent) 和 `Event` 一样。但是也会有例外。
+对于我们自己的自定义事件，像 `"hello"`，我们应该使用 `new CustomEvent`。从技术上来说，[CustomEvent](https://dom.spec.whatwg.org/#customevent) 和 `Event` 一样。除了一点不同之外。
 
-在第二个参数（对象）中，我们可以为我们想要传递的任何自定义信息添加一个附加的属性 `detail`。
+在第二个参数（对象）中，我们可以在事件中为我们想要传递的任何自定义信息添加一个附加的属性 `detail`。
 
 
 例如：
@@ -163,15 +163,15 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 当然，如果事件有一个非标准的名称，那么浏览器就不知道它，而且它也没有“默认浏览器动作”。
 
-但是事件生成代码可能会在 `dispatchEvent` 之后。
+但是事件生成代码可能会在 `dispatchEvent` 之后安排一些动作。
 
 调用 `event.preventDefault()` 是处理器发送不应该执行这些操作的信号的一种方法。
 
 在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件生成代码知道处理器不应该继续。
 
-例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上生成 `"hide"` 事件。通知所有的感兴趣的各种兔子隐藏起来。
+例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上生成 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
 
-由 `rabbit.addEventListener('hide',...)` 设置的处理器知道这些，如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
+由 `rabbit.addEventListener('hide',...)` 设置的处理器将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
 
 ```html run refresh
 <pre id="rabbit">
@@ -210,11 +210,11 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 ## Events-in-events 同步
 
-事件通常都是同步处理的。也就是说：如果浏览器正在处理  `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待 `onclick` 处理完成。
+事件通常都是同步处理的。也就是说：如果浏览器正在处理  `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
 
 异常情况是一个事件从另一个事件中启动。
 
-然后，控制跳到嵌套的事件处理器中，最后返回。
+然后控制器会跳到嵌套事件处理器中，并且（执行完成）之后返回。
 
 例如，这里的 `menu-open` 嵌套事件在 `onclick` 期间被同步处理：
 
@@ -238,9 +238,9 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 </script>
 ```    
 
-请注意 `menu-open` 嵌套事件会冒泡，而且是在 `document` 被处理。嵌套事件的传播实在处理返回到外部代码 (`onclick`) 之前就已经全部完成的。
+请注意 `menu-open` 嵌套事件会冒泡，而且是在 `document` 被处理。嵌套事件的传播是在处理返回到外部代码 (`onclick`) 之前就已经全部完成的。
 
-这不仅仅是 `dispatchEvent`，还有其他案例。JavaScript 在事件处理时可以调用导致其他事件的方法 —— 它们都是被同步处理的。
+这不仅仅是 `dispatchEvent`，还有其他案例。JavaScript 在事件处理时可以调用导致其他事件的方法 —— 它们也是被同步处理的。
 
 如果我们不喜欢，可以将 `dispatchEvent`（或者其他事件触发器调用）放在 `onclick` 结束，或者如果不方便，可以将其包装在 `setTimeout(...,0)` 中：
 
@@ -274,7 +274,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件 `clientX`。
 
-对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定于时间的数据分发给它。然后处理器可以以 `event.detail` 的形式访问它。
+对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定事件的数据指派给它。然后处理器可以以 `event.detail` 的形式访问它。
 
 尽管技术上有可能产生像 `click` 或者 `keydown` 这样的浏览器事件，但我们还是该谨慎使用。
 
@@ -282,7 +282,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 可以生成原生事件：
 
-- 如果第三方库不提供其他交互方式，那么让第三方库以所需的方式工作就是一种黑客行为。
+- 如果他们不提供其他的交互方式，脏黑客行为可以制作第三方库操作所需的方式。
 - 对于自动化测试，要在脚本中“单击按钮”并查看接口是否正确反应。
 
-使用我们自己的名字来自定义的事件通常是为架构目的产生的，用来指示菜单、滑块、传送带等内部发送的情况。
+使用我们自己的名字来自定义的事件通常是为架构目的产生的，用来指示菜单、滑块、轮播等内部发生什么。
