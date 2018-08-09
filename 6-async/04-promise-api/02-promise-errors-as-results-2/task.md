@@ -1,8 +1,8 @@
-# Fault-tolerant fetch with JSON
+# 用 JSON 获取错误
 
-Improve the solution of the previous task <info:task/promise-errors-as-results>. Now we need not just to call `fetch`, but to load the JSON objects from given URLs.
+改进之前 <info:task/promise-errors-as-results> 任务的解决方案。我们现在只需要调用 `fetch`，但要从给定的 URL 中加载 JSON。
 
-Here's the example code to do that:
+这是改进后的代码：
 
 ```js run
 let urls = [
@@ -25,10 +25,10 @@ Promise.all(urls.map(url => fetch(url)))
   });
 ```
 
-The problem is that if any of requests fails, then `Promise.all` rejects with the error, and we loose results of all the other requests. So the code above is not fault-tolerant, just like the one in the previous task.
+问题是如果任何请求都失败了，那么 `Promise.all` 就会与错误一起 rejects，而且会丢失其他所有请求的结果。因此上述代码并不是容错的，而是和之前任务中的代码一样。
 
-Modify the code so that the array in the line `(*)` would include parsed JSON for successful requests and error for errored ones.
+因此在修改代码后 `(*)` 中的数组包含成功请求的解析 JSON 和错误的 JSON。
 
-Please note that the error may occur both in `fetch` (if the network request fails) and in `response.json()` (if the response is invalid JSON). In both cases the error should become a member of the results object.
+请注意，错误可能同时发生在 `fetch`（如果请求失败） 和 `response.json()`（如果响应的是无效 JSON）中。在这两种情况下，错误都会成为结果对象的成员。
 
-The sandbox has both of these cases.
+这两种情况沙箱都有。
