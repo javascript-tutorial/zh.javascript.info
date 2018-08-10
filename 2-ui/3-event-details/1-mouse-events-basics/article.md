@@ -97,7 +97,7 @@
 </script>
 ```
 
-```warn header="Attention: on Mac it's usually `Cmd` instead of `Ctrl`"
+```warn header="注意：在 Mac 上我们通常使用 `Cmd` 而不是 `Ctrl`"
 在 Windows 和 Linux 上修改键是 `key:Alt`、`key:Shift` 和 `key:Ctrl`。在 Mac 上还有：`key:Cmd`，它对应于属性 `metaKey`。
 
 在大多数情况下，当 Windows/Linux 使用 `key:Ctrl` 时，Mac 的用户会使用 `key:Cmd`。因此当 Windows 用户按下 `key:Ctrl+Enter` 或 `key:Ctrl+A` 时，Mac 用户会按下 `key:Cmd+Enter` 或 `key:Cmd+A` 等，大多数 app 使用 `key:Cmd` 而不是 `key:Ctrl`。
@@ -111,7 +111,7 @@
 对于 JS 代码，这意味着我们应该检查 `if (event.ctrlKey || event.metaKey)`。
 ```
 
-```warn header="There are also mobile devices"
+```warn header="还有移动设备"
 键盘组合是工作流的一个补充。所以如果用户使用键盘操作 —— 它也能工作。
 如果你的设备没有 —— 那么还有另一个方法也可以实现。
 ```
@@ -193,7 +193,7 @@ Before...
 
 内部文字仍然可以被选中。但选择却不应该从文本自身开始，而是应该在文字之前或之后开始。通常情况下，都是正常的。
 
-````smart header="Canceling the selection"
+````smart header="取消选择"
 我们可以在事件处理器中用 "post-factum" 取消它，而不是**阻止**选择它。
 
 这是方法：
@@ -209,7 +209,7 @@ Before...
 如果你双击粗体元素，则会出现所选内容，然后立即删除，不过看起来不太好。
 ````
 
-````smart header="Preventing copying"
+````smart header="防止复制"
 如果我们想要禁用选择以保护内容不被复制粘贴，那么我们可以使用另一个事件：`oncopy`。
 
 ```html autorun height=80 no-beautify
