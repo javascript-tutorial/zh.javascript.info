@@ -28,7 +28,7 @@ elem.style.top = top; // e.g '456px'
 
 在以前，JavaScript 有一个限制：像 `"class"` 这样的保留字不能作为对象属性。这一限制现在已经不存在了，但当时并不存在像 `elem.class` 这样的 `"class"` 属性。
 
-因此对于类，引入了类似的属性 `"className"`： `elem.className` 对应于 `"class"` 属性。
+因此对于类，引入了类似的属性 `"className"`： `elem.className` 对应于 `"class"` 特性。
 
 例如：
 
@@ -116,7 +116,7 @@ button.style.WebkitBorderRadius = '5px';
 
 例如，为了隐藏一个元素，我们可以设置 `elem.style.display = "none"`。
 
-然后，我们可能要移除 `style.display`，就像它没有被设置一样。与 `delete elem.style.display` 相反，我们应该为它分配一个空行：`elem.style.display = ""`。
+然后，我们可能要移除 `style.display`，就像它没有被设置一样。这里不应该使用 `delete elem.style.display`，而应该使用 `elem.style.display = ""` 并将其赋值为空。
 
 ```js run
 // if we run this code, the <body> "blinks"
@@ -299,4 +299,4 @@ JavaScript 中我们看不到 `:visited` 应用的样式。此外，CSS 中也�
 
 获取已经解析的样式（对应于所有类，在应用所有 CSS 并计算最终值后）：
 
-- `getComputedStyle(elem[, pseudo])` 与它们一起返回类样式的对象。只读的。
+- `getComputedStyle(elem[, pseudo])` 返回与 `style` 对象类似且包含了所有类的对象，是只读的。
