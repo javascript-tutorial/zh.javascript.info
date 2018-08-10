@@ -21,4 +21,4 @@ showNotification({
 [demo src="solution"]
 
 
-使用 CSS 定位在给定 top/right 坐标处显示元素。源文档必须具有样式。
+使用 CSS 定位在给定 top/right 坐标处显示元素。源文档已经提供了必要的样式。
