@@ -6,7 +6,7 @@ importance: 5
 
 编写 `showNotification(options)` 通知函数： `<div class="notification">` 包含给定内容。通知应该在 1.5 秒后自动消失。
 
-备选方案：
+参数：
 
 ```js
 // shows an element with the text "Hello" near the right-top of the window
