@@ -71,20 +71,20 @@ alert( "Again: " + slow(2) ); // 也是一样
 例如，在下面的代码中，`worker.slow()`  装饰后停止工作：
 
 ```js run
-// we'll make worker.slow caching
+// 我们将让 work 缓存一个 slow 起来
 let worker = {
   someMethod() {
     return 1;
   },
 
   slow(x) {
-    // actually, there can be a scary CPU-heavy task here  
+    // 显然, 这里会有一个 CPU 重负载的任务
     alert("Called with " + x);
     return x * this.someMethod(); // (*)
   }
 };
 
-// same code as before
+// 和之前一样的代码
 function cachingDecorator(func) {
   let cache = new Map();
   return function(x) {
@@ -101,7 +101,7 @@ function cachingDecorator(func) {
 
 alert( worker.slow(1) ); // the original method works
 
-worker.slow = cachingDecorator(worker.slow); // now make it caching
+worker.slow = cachingDecorator(worker.slow); // 现在让它缓存起来
 
 *!*
 alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of undefined
