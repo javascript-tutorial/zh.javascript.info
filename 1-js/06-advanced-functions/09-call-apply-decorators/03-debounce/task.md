@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# Debounce decorator
+# 去抖装饰器
 
 `debounce(f, ms)`装饰器的结果应该是一个包装器，它每隔几毫秒调用一次 `f`。
 
@@ -13,12 +13,12 @@ importance: 5
 ```js no-beautify
 let f = debounce(alert, 1000);
 
-f(1); // runs immediately
-f(2); // ignored
+f(1); // 立即执行
+f(2); // 忽略
 
-setTimeout( () => f(3), 100); // ignored ( only 100 ms passed )
-setTimeout( () => f(4), 1100); // runs
-setTimeout( () => f(5), 1500); // ignored (less than 1000 ms from the last run)
+setTimeout( () => f(3), 100); // 忽略 ( 只过去了12 ms )
+setTimeout( () => f(4), 1100); // 运行
+setTimeout( () => f(5), 1500); // 忽略 (离最后一次执行不超过1000 ms)
 ```
 
 实际上，当我们知道在如此短的时间内无法完成任何事情时，`debounce` 对于检索/更新某些功能非常有用，因此最好不要浪费资源。
