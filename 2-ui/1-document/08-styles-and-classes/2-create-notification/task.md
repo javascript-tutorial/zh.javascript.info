@@ -4,7 +4,7 @@ importance: 5
 
 # 创建通知
 
-编写 `showNotification(options)` 通知函数： `<div class="notification">` 包含给定内容。通知应该在 1.5 秒后自动消失。
+编写 `showNotification(options)` 通知函数：`<div class="notification">` 包含给定内容。通知应该在 1.5 秒后自动消失。
 
 参数：
 
