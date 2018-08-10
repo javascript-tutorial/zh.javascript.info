@@ -9,7 +9,7 @@ Published:
 - Russian: [https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
 
 In progress:
-- Chinese: the ongoing translation at [https://github.com/iliakan/javascript-tutorial-cn](https://github.com/iliakan/javascript-tutorial-cn), go ahead and join if you know Chinese.
+- Chinese: the ongoing translation at [https://github.com/xitu/javascript-tutorial-zh](https://github.com/xitu/javascript-tutorial-zh), go ahead and join if you know Chinese.
 - Spanish: https://github.com/lmauromb/javascript-tutorial-es
 - German: https://github.com/MartinEls/javascript-tutorial-de
 
