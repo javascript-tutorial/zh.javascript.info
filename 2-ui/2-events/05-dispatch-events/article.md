@@ -1,6 +1,6 @@
 # 生成自定义事件
 
-我们不仅可以分发事件，还可以从 JavaScript 中生成事件
+我们不仅可以分发事件，还可以从 JavaScript 中生成事件。
 
 自定义事件可以用于创建“图形组件”。例如，菜单组件的根元素可以通过触发 `open`（打开菜单）、`select`（有一项被选中）等事件告诉菜单发生了什么。
 
@@ -78,13 +78,13 @@ let event = new Event(event type[, options]);
 
 ## 鼠标事件，键盘事件和其他
 
-这里有一个 [UI 事件说明](https://www.w3.org/TR/uievents) 上的 UI 事件类简单列表：
+这里有一个在 [UI Event specification](https://www.w3.org/TR/uievents) 上的 UI 事件类短列表：
 
-- `UIEvent`
-- `FocusEvent`
-- `MouseEvent`
-- `WheelEvent`
-- `KeyboardEvent`
+ - `UIEvent`（UI 事件）
+ - `FocusEvent`（焦点事件）
+ - `MouseEvent`（鼠标事件）
+ - `WheelEvent`（滚轮事件）
+- `KeyboardEvent`（键盘事件）
 - ...
 
 如果我们想要创建这样的事件，我们应该使用它们而不是“新事件”。例如，`new MouseEvent("click")`。
@@ -153,7 +153,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 </script>
 ```
 
-`detail` 属性可以有任何数据。从技术上讲，我们可以不用，因为我们可以在创建后将任何属性分配到常规的 `new Event` 对象中。 但是 `CustomEvent` 为它提供了特殊的 `detail` 字段，以避免与其他事件属性的冲突。
+`detail` 属性可以有任何数据。从技术上讲，我们可以不用，因为我们可以在创建后将任何属性分配到常规的 `new Event` 对象中。但是 `CustomEvent` 为它提供了特殊的 `detail` 字段，以避免与其他事件属性的冲突。
 
 事件类告诉一些关于“是什么类型的事件”的信息，如果事件是自定义的，那么我们应该使用 `CustomEvent` 来明确它是什么。
 
@@ -210,7 +210,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 ## Events-in-events 同步
 
-事件通常都是同步处理的。也就是说：如果浏览器正在处理  `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
+事件通常都是同步处理的。也就是说：如果浏览器正在处理 `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
 
 异常情况是一个事件从另一个事件中启动。
 
@@ -272,7 +272,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
   - `bubbles: true` ，如果事件应该冒泡的话。
   - `cancelable: true` 则 `event.preventDefault()` 应该有效。
 
-其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件 `clientX`。
+其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 
 对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定事件的数据指派给它。然后处理器可以以 `event.detail` 的形式访问它。
 
