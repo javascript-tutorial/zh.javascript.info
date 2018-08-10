@@ -116,7 +116,7 @@ button.style.WebkitBorderRadius = '5px';
 
 例如，为了隐藏一个元素，我们可以设置 `elem.style.display = "none"`。
 
-然后，我们可能要移除 `style.display`，就像它没有被设置一样。这里不应该使用 `delete elem.style.display`，而应该使用 `elem.style.display = ""` 并将其赋值为空。
+然后，我们可能要移除 `style.display`，就像它没有被设置一样。这里不应该使用 `delete elem.style.display`，而应该使用 `elem.style.display = ""` 将其赋值为空。
 
 ```js run
 // if we run this code, the <body> "blinks"
@@ -223,7 +223,7 @@ element
 pseudo
 : 假如给定一个伪元素，例如：`::before`。空字符串或无参意味着元素本身。
 
-结果是一个具有样式属性的对象，像 `elem.style`，但现在 but now with respect to all CSS classes.
+结果是一个具有样式属性的对象，像 `elem.style`，但现在对于所有的 CSS 类来说都是如此。
 
 例如：
 
@@ -245,7 +245,7 @@ pseudo
 </body>
 ```
 
-```smart header="计算并解决值"
+```smart header="计算值和解析值"
 以下是 [CSS](https://drafts.csswg.org/cssom/#resolved-values) 中的两个概念：
 
 1. **computed** 样式值是应用所有 CSS 规则和 CSS 继承之后的值，这是 CSS 级联的结果。它可以是 `height:1em` 或者 `font-size:125%`。
