@@ -8,13 +8,13 @@ JavaScript在处理函数时提供了非凡的灵活性。它们可以被传递�
 
 如果经常调用该函数，我们可能希望缓存（记住）不同 `x` 的结果，以避免在重新计算上花费额外的时间。
 
-但是我们不是将这个功能添加到 `slow()` 中，而是创建一个包装器。正如我们所看到的，这样做有很多好处。
+但是我们不是将这个功能添加到 `slow()` 中，而是创建一个包装器。正如我们将要看到的，这样做有很多好处。
 
-这是代码，解释如下：
+下面是代码和解释：
 
 ```js run
 function slow(x) {
-  // 这里可能会有大量的CPU密集型工作
+  // 这里可能会有重负载的CPU密集型工作
   alert(`Called with ${x}`);
   return x;
 }
@@ -23,35 +23,35 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
-    if (cache.has(x)) { // if the result is in the map
-      return cache.get(x); // return it
+    if (cache.has(x)) { // 如果结果在 map 里
+      return cache.get(x); // 返回它
     }
 
-    let result = func(x); // otherwise call func
+    let result = func(x); // 否则就调用函数
 
-    cache.set(x, result); // and cache (remember) the result
+    cache.set(x, result); // 然后把结果缓存起来
     return result;
   };
 }
 
 slow = cachingDecorator(slow);
 
-alert( slow(1) ); // slow(1) is cached
-alert( "Again: " + slow(1) ); // the same
+alert( slow(1) ); // slow(1) 被缓存起来了
+alert( "Again: " + slow(1) ); // 一样的
 
-alert( slow(2) ); // slow(2) is cached
-alert( "Again: " + slow(2) ); // the same as the previous line
+alert( slow(2) ); // slow(2) 被缓存起来了
+alert( "Again: " + slow(2) ); // 也是一样
 ```
 
 在上面的代码中，`cachingDecorator` 是一个*装饰器*：一个特殊的函数，它接受另一个函数并改变它的行为。
 
-我们的想法是，我们可以为任何函数调用 `cachingDecorator` ，它将返回缓存包装器。这很好，因为我们可以使用许多可以使用这种功能的函数，而我们需要做的就是将 `cachingDecorator` 应用于它们。
+我们的想法是，我们可以为任何函数调用 `cachingDecorator` ，它将返回缓存包装器。这很好，因为我们有很多函数可以使用这样的特性，而我们需要做的就是将 `cachingDecorator` 应用于它们。
 
 通过将缓存与主函数代码分开，我们还可以使主函数代码变得更简单。
 
 现在让我们详细了解它的工作原理吧。
 
-`cachingDecorator(func)` 的结果是一个“包装器”： `function(x)`  "包装"  `func(x)`的调用到缓存逻辑中：
+`cachingDecorator(func)` 的结果是一个“包装器”： `function(x)` 将  `func(x)`的调用 "包装" 到缓存逻辑中：
 
 ![](decorator-makecaching-wrapper.png)
 
@@ -59,9 +59,9 @@ alert( "Again: " + slow(2) ); // the same as the previous line
 
 总而言之，使用单独的 `cachingDecorator` 而不是改变 `slow` 本身的代码有几个好处：
 
-- `cachingDecorator` 是可重用的。我们可以将它应用于另一个功能。
+- `cachingDecorator` 是可重用的。我们可以将它应用于另一个函数。
 - 缓存逻辑是独立的，它没有增加 `slow` 本身的复杂性（如果有的话）。
-- 如果需要，我们可以组合多个装饰器（其他装饰器将遵循）。
+- 如果需要，我们可以组合多个装饰器（其他装饰器将遵循同样的逻辑）。
 
 
 ## 使用 “func.call” 作为上下文
