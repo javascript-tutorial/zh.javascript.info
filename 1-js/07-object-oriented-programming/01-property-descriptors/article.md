@@ -3,21 +3,21 @@
 
 我们知道，对象可以存储属性。
 
-到目前为止，属性对我们来说是一个简单的“key-value”对。 但对象属性实际上是更复杂可变的东西。
+到目前为止，属性对我们来说是一个简单的“键-值”对。但对象属性实际上是更复杂可变的东西。
 
 ## 属性的标志
 
-对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）：
+对象属性除 ** `value` ** 外还有三个特殊属性（所谓的“标志”）：
 
-- **`writable`** - 如果为`true`，则可以修改，否则它是只读的。
-- **`enumerable`** - 如果是`true`，则可在循环中列出，否则不列出。
-- **`configurable`**  - 如果是`true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
+- ** `writable` ** - 如果为 `true`，则可以修改，否则它是只读的。
+- ** `enumerable` ** - 如果是 `true`，则可在循环中列出，否则不列出。
+- ** `configurable` **  - 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
 
-我们看不到它们，因为它们通常不会出现。当我们用“常用的方式”创建一个属性时，它们都是`true`。但我们也可以随时更改它们。
+我们还没看到它们，是因为它们通常不会出现当我们用“常用的方式”创建一个属性时，它们都是 `true`。但我们也可以随时更改它们。
 
 首先，让我们看看如何获得这些标志。
 
-[Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的完整信息。
+[Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的**完整**信息。
 
 语法是：
 ```js
@@ -60,13 +60,11 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 Object.defineProperty(obj, propertyName, descriptor)
 ```
 
-`obj`, `propertyName`
-: 要处理的对象和属性。
+`obj`，`propertyName`：要处理的对象和属性。
 
-`descriptor`
-: 要应用的属性描述符。
+`descriptor`：要应用的属性描述符。
 
-如果该属性存在，则 `defineProperty` 更新其标志。 否则，它会创建具有给定值和标志的属性; 在这种情况下，如果没有提供标志，则会假定它是`false`。
+如果该属性存在，则 `defineProperty` 更新其标志。否则，它会创建具有给定值和标志的属性；在这种情况下，如果没有提供标志，则会假定它是 `false`。
 
 这里使用所有的伪造标志创建一个属性 `name`：
 
@@ -94,7 +92,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
-将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志都是假定的。 如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为`true`。
+将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志都是假定的。如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为 `true`。
 
 现在让我们通过示例来看看标志的效果。
 
@@ -114,7 +112,7 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
-user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
+user.name = "Pete"; // 错误：不能设置只读属性‘name’...
 */!*
 ```
 
@@ -143,7 +141,7 @@ user.name = "Alice"; // Error
 
 现在让我们向 `user` 添加一个自定义的 `toString`。
 
-通常，对象的内置`toString`是不可枚举的，它不会显示在` for..in` 中。 但是如果我们添加我们自己的`toString`，那么默认情况下它将显示在`for..in`中，如下所示：
+通常，对象的内置 `toString` 是不可枚举的，它不会显示在 ` for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in`中，如下所示：
 
 ```js run
 let user = {
@@ -157,7 +155,7 @@ let user = {
 for (let key in user) alert(key); // name, toString
 ```
 
-如果我们不喜欢它，那么我们可以设置 `enumerable：false`。 然后它不会出现在 `for..in` 循环中，就像内置循环一样：
+如果我们不喜欢它，那么我们可以设置 `enumerable：false`。然后它不会出现在 `for..in` 循环中，就像内置循环一样：
 
 ```js run
 let user = {
@@ -174,12 +172,12 @@ Object.defineProperty(user, "toString", {
 });
 
 *!*
-// Now our toString disappears:
+// 现在 toString 消失了：
 */!*
 for (let key in user) alert(key); // name
 ```
 
-不可枚举的属性也会从`Object.keys`中排除：
+不可枚举的属性也会从 `Object.keys`中排除：
 
 ```js
 alert(Object.keys(user)); // name
@@ -214,7 +212,7 @@ Math.PI = 3; // Error
 // delete Math.PI won't work either
 ```
 
-使属性不可配置是一条单行道。 我们不把它改回去，因为 `defineProperty` 不适用于不可配置的属性。
+使属性不可配置是一条单行道。我们不把它改回去，因为 `defineProperty` 不适用于不可配置的属性。
 
 在这里，我们将 user.name 设置为“永久封闭”的常量：
 
@@ -238,7 +236,7 @@ Object.defineProperty(user, "name", {writable: true}); // Error
 ```
 
 ```smart header="Errors appear only in use strict"
-在非严格模式下，写入只读属性等时不会发生错误。 但操作仍然不会成功。 非严格模式下违反标志的行为只是默默地被忽略。
+在非严格模式下，写入只读属性等时不会发生错误。但操作仍然不会成功。非严格模式下违反标志的行为只是默默地被忽略。
 ```
 
 ## Object.defineProperties
@@ -285,7 +283,7 @@ for (let key in user) {
 }
 ```
 
-但是，这并不能复制标志。 所以如果我们想要一个“更好”的克隆，那么`Object.defineProperties` 是首选。
+但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么`Object.defineProperties` 是首选。
 
 另一个区别是`for..in`忽略了 symbolic 属性，但是`Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的所有属性描述符。
 
