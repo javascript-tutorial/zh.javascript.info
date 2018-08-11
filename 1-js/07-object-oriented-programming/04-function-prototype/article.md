@@ -1,20 +1,20 @@
 # 函数原型
 
-在现代JavaScript中，我们可以使用`__proto__`设置一个原型，如前一篇文章中所述。但事情并非如此。
+在现代 JavaScript 中，我们可以使用 `__proto__` 设置一个原型，如前一篇文章中所述。但事情并非如此。
 
-JavaScript从一开始就有了原型继承。这是该语言的核心特征之一。
+JavaScript 从一开始就有了原型继承。这是该语言的核心特征之一。
 
-但在过去，有另一种（也是唯一的）设置方法：使用构造函数的`"prototype"`属性。而且现在还有很多使用它的脚本。
+但在过去，有另一种（也是唯一的）设置方法：使用构造函数的 `"prototype"`属性。而且现在还有很多使用它的脚本。
 
-## The "prototype" property
+## "prototype" 原型
 
-正如我们已经知道的那样，`new F（）`创建一个新对象。
+正如我们已经知道的那样，`new F()` 创建一个新对象。
 
-当用new F（）创建一个新对象时，该对象的[[Prototype]]被设置为`F.prototype`。
+当用 `new F()` 创建一个新对象时，该对象的 `[[Prototype]]` 被设置为 `F.prototype`。
 
-换句话说，如果`F`有一个`prototype`属性，该属性具有一个对象类型的值，那么`new`运算符就会使用它为新对象设置`[[Prototype]]`。
+换句话说，如果 `F` 有一个 `prototype` 属性，该属性具有一个对象类型的值，那么 `new` 运算符就会使用它为新对象设置 `[[Prototype]]`。
 
-请注意，`F.prototype`意味着在 `F` 上有一个名为`"prototype"`的常规属性。 这听起来与“原型”这个术语很相似，但在这里我们的意思是值有这个名字的常规属性。
+请注意，`F.prototype` 意味着在 `F` 上有一个名为 `"prototype"` 的常规属性。这听起来与“原型”这个术语很相似，但在这里我们的意思是值有这个名字的常规属性。
 
 这是一个例子：
 
@@ -42,14 +42,14 @@ alert( rabbit.eats ); // true
 
 ![](proto-constructor-animal-rabbit.png)
 
-在图片上，`"prototype"`是一个水平箭头，它是一个常规属性，`[[Prototype]]`是垂直的，意味着是继承自`animal`的`rabbit`。
+在图片上，`"prototype"` 是一个水平箭头，它是一个常规属性，`[[Prototype]]` 是垂直的，意味着是继承自 `animal` 的 `rabbit`。
 
 
 ##  默认的函数原型，构造函数属性
 
 每个函数都有 `"prototype"` 属性，即使我们不设置它，。
 
-默认的 `"prototype"` 是一个只有属性`constructor`的对象，它指向函数本身。
+默认的 `"prototype"` 是一个只有属性 `constructor` 的对象，它指向函数本身。
 
 像这样：
 
@@ -108,9 +108,9 @@ let rabbit2 = new rabbit.constructor("Black Rabbit");
 
 但关于 `"constructor"` 最重要的是......
 
-**...JavaScript本身并不能确保正确的构造函数值。**
+**...JavaScript本身并不能确保正确的 `"constructor"` 函数值。**
 
-是的，它存在于函数的默认 `"prototype"` 中，但仅此而已。 之后会发生什么 —— 完全取决于我们自己。
+是的，它存在于函数的默认 `"prototype"` 中，但仅此而已。之后会发生什么 —— 完全取决于我们自己。
 
 特别是，如果我们将整个默认原型替换掉，那么其中就不会有构造函数。
 
@@ -128,7 +128,7 @@ alert(rabbit.constructor === Rabbit); // false
 */!*
 ```
 
-因此，为了确保正确的`"constructor"` ，我们可以选择添加/删除属性到默认 `"prototype"` 而不是将其整个覆盖：
+因此，为了确保正确的 `"constructor"` ，我们可以选择添加/删除属性到默认 `"prototype"` 而不是将其整个覆盖：
 
 ```js
 function Rabbit() {}
@@ -155,11 +155,11 @@ Rabbit.prototype = {
 
 ## 总结
 
-在本章中，我们简要介绍了如何为通过构造函数创建的对象设置一个`[[Prototype]]` 。 稍后我们将看到更多依赖于它的高级编程模式。
+在本章中，我们简要介绍了如何为通过构造函数创建的对象设置一个 `[[Prototype]]` 。稍后我们将看到更多依赖于它的高级编程模式。
 
 一切都很简单，只需要几条笔记就能说清楚：
 
-- `F.prototype` 属性与 `[[Prototype]]` 不同。 `F.prototype` 唯一的作用是：当 `new F()` 被调用时，它设置新对象的 `[[Prototype]]`。
+- `F.prototype` 属性与 `[[Prototype]]` 不同。`F.prototype` 唯一的作用是：当 `new F()` 被调用时，它设置新对象的 `[[Prototype]]`。
 - `F.prototype` 的值应该是一个对象或 null：其他值将不起作用。
 - `"prototype"` 属性在设置为构造函数时仅具有这种特殊效果，并且用 `new` 调用。
 
