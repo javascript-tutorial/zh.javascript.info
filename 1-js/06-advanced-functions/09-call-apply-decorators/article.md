@@ -1,6 +1,6 @@
 # 装饰和转发，call/apply
 
-JavaScript在处理函数时提供了非凡的灵活性。它们可以被传递，用作对象，现在我们将看到如何在它们之间*转发*并*装饰*它们。
+JavaScript在处理函数时提供了非凡的灵活性。它们可以被传递，用作对象，现在我们将看到如何在它们之间**转发**并**装饰**它们。
 
 ## 透明缓存
 
@@ -43,7 +43,7 @@ alert( slow(2) ); // slow(2) 被缓存起来了
 alert( "Again: " + slow(2) ); // 也是一样
 ```
 
-在上面的代码中，`cachingDecorator` 是一个*装饰器*：一个特殊的函数，它接受另一个函数并改变它的行为。
+在上面的代码中，`cachingDecorator` 是一个**装饰器**：一个特殊的函数，它接受另一个函数并改变它的行为。
 
 我们的想法是，我们可以为任何函数调用 `cachingDecorator` ，它将返回缓存包装器。这很好，因为我们有很多函数可以使用这样的特性，而我们需要做的就是将 `cachingDecorator` 应用于它们。
 
@@ -99,7 +99,7 @@ function cachingDecorator(func) {
   };
 }
 
-alert( worker.slow(1) ); // the original method works
+alert( worker.slow(1) ); // 之前的函数起作用了
 
 worker.slow = cachingDecorator(worker.slow); // 现在让它缓存起来
 
@@ -112,7 +112,7 @@ alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of 
 
 原因是包装器将原始函数调用为 `(**)` 行中的 `func(x)` 。并且，当这样调用时，函数得到 `this = undefined`。
 
-如果我们试图运行，我们会观察到类似的症状：
+如果我们试图运行下面的代码，会观察到类似的问题：
 
 ```js
 let func = worker.slow;
@@ -123,7 +123,7 @@ func(2);
 
 我们来解决这个问题 。
 
-有一个特殊的内置函数方法 [func.call(context, ...args)](mdn:js/Function/call)  允许调用一个显式设置 `this` 的函数。
+有一个特殊的内置函数方法 [func.call(context, ...args)](mdn:js/Function/call)，允许调用一个显式设置 `this` 的函数。
 
 语法如下：
 
@@ -131,7 +131,7 @@ func(2);
 func.call(context, arg1, arg2, ...)
 ```
 
-它运行 `func`，第一个参数为 `this`，下一个为参数。
+它运行 `func`，提供的第一个参数作为 `this`，后面的作为参数。
 
 简单地说，这两个调用几乎相同：
 ```js
@@ -139,7 +139,7 @@ func(1, 2, 3);
 func.call(obj, 1, 2, 3)
 ```
 
-他们都用 `1`，`2` 和 `3` 来调用 `func`。唯一的区别是 `func.call` 也将 `this` 设置为 `obj`。
+他们都调用的是 `func`，参数是 `1`，`2` 和 `3`。唯一的区别是 `func.call` 也将 `this` 设置为 `obj`。
 
 例如，在下面的代码中，我们在不同对象的上下文中调用 `sayHi`：`sayHi.call(user)` 运行 `sayHi` 提供 `this = user`，下一行设置 `this = admin`：
 
@@ -193,30 +193,30 @@ function cachingDecorator(func) {
       return cache.get(x);
     }
 *!*
-    let result = func.call(this, x); // "this" is passed correctly now
+    let result = func.call(this, x); // "this" 现在被正确的传递了
 */!*
     cache.set(x, result);
     return result;
   };
 }
 
-worker.slow = cachingDecorator(worker.slow); // now make it caching
+worker.slow = cachingDecorator(worker.slow); // 现在让他缓存起来
 
-alert( worker.slow(2) ); // works
-alert( worker.slow(2) ); // works, doesn't call the original (cached)
+alert( worker.slow(2) ); // 生效了
+alert( worker.slow(2) ); // 生效了, 不会调用原始的函数了。被缓存起来了
 ```
 
 现在一切都很好。
 
-为了清楚地说明，让我们更深入地了解 `this` 是如何传递的
+为了清楚地说明，让我们更深入地了解 `this` 是如何传递的：
 
-1. 在装饰 `worker.slow` 之后现在是包装 `function (x) { ... }`。
+1. 在经过装饰之后， `worker.slow` 现在是包装器 `function (x) { ... }`。
 2. 因此，当执行 `worker.slow(2)` 时，包装器将`2`作为参数并且 `this = worker`（它是点之前的对象）。
 3. 在包装器内部，假设结果尚未缓存，`func.call(this, x)` 将当前的  `this` (`=worker`) 和当前参数 (`=2`) 传递给原始方法。
 
 ## 使用 “func.apply” 来传递多参数
 
-现在让我们让 `cachingDecorator` 变得更加普遍。直到现在它只使用单参数函数。
+现在让我们让 `cachingDecorator` 变得更加通用。直到现在它只使用单参数函数。
 
 现在如何缓存多参数 `worker.slow` 方法？
 
@@ -231,7 +231,7 @@ let worker = {
 worker.slow = cachingDecorator(worker.slow);
 ```
 
-我们这里有两个要解决的问题。
+我们这里有两个要解决的任务。
 
 首先是如何在 `cache`  map 中使用参数 `min` 和 `max` 作为键。以前，对于单个参数 `x`，我们可以只使用  `cache.set(x, result)` 来保存结果，并使用 `cache.get(x)` 来检索它。但是现在我们需要记住参数组合 * `(min,max)` 的结果。原生 `Map` 仅将单个值作为键。
 
@@ -239,7 +239,7 @@ worker.slow = cachingDecorator(worker.slow);
 
 1. 实现一个新的（或使用第三方）类似 map 的数据结构，它更通用并允许多键。
 2. 使用嵌套映射：`cache.set(min)`  将是一个存储对 `(max, result)` 的 `Map`。所以我们可以将 `result` 改为  `cache.get(min).get(max)`。
-3. 将两个值合并为一个。在我们的特定情况下，我们可以使用字符串 “min，max” 作为 `Map` 键。为了灵活性，我们可以允许为装饰器提供 *散列函数*，它知道如何从多个中创建一个值。
+3. 将两个值合并为一个。在我们的特定情况下，我们可以使用字符串 “min，max” 作为 `Map` 键。为了灵活性，我们可以允许为装饰器提供**散列函数**，它知道如何从多个中创建一个值。
 
 
 对于许多实际应用，第三种方式已经足够好，所以我们就用这个吧。
@@ -264,7 +264,7 @@ func(1, 2, 3);
 func.apply(context, [1, 2, 3])
 ```
 
-两个都运行 `func` 给它参数 `1,2,3`。但是 `apply` 也设置了 `this = context`。
+两个都运行 `func` 给定的参数是 `1,2,3`。但是 `apply` 也设置了 `this = context`。
 
 例如，这里 `say` 用 `this = user` 和 `messageData` 作为参数列表调用：
 
@@ -275,17 +275,17 @@ function say(time, phrase) {
 
 let user = { name: "John" };
 
-let messageData = ['10:00', 'Hello']; // become time and phrase
+let messageData = ['10:00', 'Hello']; // 成为时间和短语
 
 *!*
-// user becomes this, messageData is passed as a list of arguments (time, phrase)
+//user 成为 this，messageData 作为参数列表传递 (time, phrase)
 say.apply(user, messageData); // [10:00] John: Hello (this=user)
 */!*
 ```
 
-`call` 和 `apply` 之间唯一的语法区别是 `call` 需要一个参数列表，而 `apply` 则带有一个类似数组的对象。
+`call` 和 `apply` 之间唯一的语法区别是 `call` 接受一个参数列表，而 `apply` 则接受带有一个类似数组的对象。
 
-我们已经知道了 <info:rest-parameters-spread-operator> 一章中的扩展运算符 `...`，它可以将数组（或任何可迭代的）作为参数列表传递。因此，如果我们将它与 `call` 一起使用，我们可以实现与 `apply` 几乎相同的功能。
+我们已经知道了 <info:rest-parameters-spread-operator> 一章中的扩展运算符 `...`，它可以将数组（或任何可迭代的）作为参数列表传递。因此，如果我们将它与 `call` 一起使用，就可以实现与 `apply` 几乎相同的功能。
 
 这两个调用结果几乎相同：
 
@@ -293,15 +293,15 @@ say.apply(user, messageData); // [10:00] John: Hello (this=user)
 let args = [1, 2, 3];
 
 *!*
-func.call(context, ...args); // pass an array as list with spread operator
-func.apply(context, args);   // is same as using apply
+func.call(context, ...args); // 使用 spread 运算符将数组作为参数列表传递
+func.apply(context, args);   // 与使用 apply 相同
 */!*
 ```
 
 如果我们仔细观察，那么 `call` 和 `apply` 的使用会有一些细微的差别。
 
-- 扩展运算符 `...` 允许将 * 可迭代的 *`参数列表` 作为列表传递给 `call`。
-- `apply` 只接受 * 类似数组一样的 * `参数列表`。
+- 扩展运算符 `...` 允许将 **可迭代的**`参数列表` 作为列表传递给 `call`。
+- `apply` 只接受 **类似数组一样的** `参数列表`。
 
 所以，这些调用方式相互补充。我们期望有一个可迭代的 `call` 实现，我们也期望有一个类似数组，`apply` 的实现。
 
@@ -315,7 +315,7 @@ let wrapper = function() {
 };
 ```
 
-这叫做 *呼叫转移*。 `wrapper` 传递它获得的所有内容：上下文 `this` 和 `anotherFunction` 的参数并返回其结果。
+这叫做 **呼叫转移**。 `wrapper` 传递它获得的所有内容：上下文 `this` 和 `anotherFunction` 的参数并返回其结果。
 
 当外部代码调用这样的 `wrapper` 时，它与原始函数的调用无法区分。
 
@@ -393,7 +393,7 @@ function hash(args) {
 ```js run
 function hash() {
 *!*
-  alert( arguments.join() ); // Error: arguments.join is not a function
+  alert( arguments.join() ); // 误：arguments.join 不是函数
 */!*
 }
 
@@ -412,13 +412,13 @@ function hash() {
 hash(1, 2);
 ```
 
-这个技巧被称为 *方法借用*。
+这个技巧被称为 **方法借用**。
 
 我们从常规数组  `[].join` 中获取（借用）连接方法。并使用 `[].join.call` 在 `arguments` 的上下文中运行它。
 
 它为什么有效？
 
-那是因为本机方法  `arr.join(glue)`  的内部算法非常简单。
+那是因为本地方法  `arr.join(glue)`  的内部算法非常简单。
 
 从规范中得出几乎“原样”：
 
@@ -434,9 +434,9 @@ hash(1, 2);
 
 ## 总结
 
-* Decorator *是一个改变其行为的函数的包装器。主要工作仍由该功能执行。
+** 装饰器 **是一个改变函数行为的包装器。主要工作仍由该函数来完成。
 
-除了一件小东西之外，用装饰的功能或方法替换功能或方法通常是安全的。如果原始函数具有属性，例如 `func.calledCount` 或者其他什么，则装饰的函数将不提供它们。因为那是一个包装器。因此，如果使用它们，需要小心。一些装饰器提供它们自己的属性。
+除了一件小事，使用装饰器来替代函数或方法通常都是安全的。如果原始函数具有属性，例如 `func.calledCount` 或者其他什么，则装饰的函数将不提供它们。因为那是一个包装器。因此，如果使用它们，需要小心。一些装饰器提供它们自己的属性。
 
 装饰器可以被视为可以添加到函数中的“特征”或“方面”。我们可以添加一个或添加许多。而这一切都没有改变它的代码！
 
@@ -445,7 +445,7 @@ hash(1, 2);
 - [func.call(context, arg1, arg2...)](mdn:js/Function/call) -- 用给定的上下文和参数调用 `func`。
 - [func.apply(context, args)](mdn:js/Function/apply) -- 调用 `func` 将 `context` 作为 `this` 和类似数组的 `args` 传递给参数列表。
 
-通用 *呼叫转移* 通常使用 `apply` 完成：
+通用 **呼叫转移** 通常使用 `apply` 完成：
 
 ```js
 let wrapper = function() {
@@ -453,7 +453,7 @@ let wrapper = function() {
 }
 ```
 
-当我们从一个对象中获取一个方法并在另一个对象的上下文中“调用”它时，我们也看到了一个 *方法借用* 的例子。采用数组方法并将它们应用于参数是很常见的。另一种方法是使用静态参数对象，它是一个真正的数组。
+当我们从一个对象中获取一个方法并在另一个对象的上下文中“调用”它时，我们也看到了一个 **方法借用** 的例子。采用数组方法并将它们应用于参数是很常见的。另一种方法是使用静态参数对象，它是一个真正的数组。
 
 
-在 js 领域里有很多装饰者的使用方法 。快通过解决本章的任务来检查你掌握它们的程度吧。
+在 js 领域里有很多装饰器的使用方法 。快通过解决本章的任务来检查你掌握它们的程度吧。
