@@ -126,7 +126,7 @@ let user = { };
 Object.defineProperty(user, "name", {
 *!*
   value: "Pete",
-  // for new properties need to explicitly list what's true
+  // 对于新的属性，需要明确的列出那些为真
   enumerable: true,
   configurable: true
 */!*
@@ -141,7 +141,7 @@ user.name = "Alice"; // Error
 
 现在让我们向 `user` 添加一个自定义的 `toString`。
 
-通常，对象的内置 `toString` 是不可枚举的，它不会显示在 ` for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in`中，如下所示：
+通常，对象的内置 `toString` 是不可枚举的，它不会显示在 ` for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in` 中，如下所示：
 
 ```js run
 let user = {
@@ -151,7 +151,7 @@ let user = {
   }
 };
 
-// By default, both our properties are listed:
+// 默认情况下，我们的两个属性都会列出：
 for (let key in user) alert(key); // name, toString
 ```
 
@@ -177,7 +177,7 @@ Object.defineProperty(user, "toString", {
 for (let key in user) alert(key); // name
 ```
 
-不可枚举的属性也会从 `Object.keys`中排除：
+不可枚举的属性也会从 `Object.keys` 中排除：
 
 ```js
 alert(Object.keys(user)); // name
@@ -189,7 +189,7 @@ alert(Object.keys(user)); // name
 
 一个不可配置的属性不能被 `defineProperty` 删除或修改。
 
-例如，`Math.PI`是只读的，不可枚举和不可配置的：
+例如，`Math.PI`是只读的、不可枚举和不可配置的：
 
 ```js run
 let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
@@ -204,15 +204,15 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 }
 */
 ```
-因此，程序员无法改变 `Math.PI` 的值或覆盖它。
+因此，开发人员无法改变 `Math.PI` 的值或覆盖它。
 
 ```js run
-Math.PI = 3; // Error
+Math.PI = 3; // 错误
 
-// delete Math.PI won't work either
+// 删除 Math.PI 也不会起作用
 ```
 
-使属性不可配置是一条单行道。我们不把它改回去，因为 `defineProperty` 不适用于不可配置的属性。
+使属性不可配置是一条单行道。我们不能把它改回去，因为 `defineProperty` 不适用于不可配置的属性。
 
 在这里，我们将 user.name 设置为“永久封闭”的常量：
 
@@ -226,12 +226,12 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
-// won't be able to change user.name or its flags
-// all this won't work:
+// 不能修改 user.name 或 它的标志
+// 下面的所有操作都不起作用：
 //   user.name = "Pete"
 //   delete user.name
 //   defineProperty(user, "name", ...)
-Object.defineProperty(user, "name", {writable: true}); // Error
+Object.defineProperty(user, "name", {writable: true}); // 错误
 */!*
 ```
 
@@ -283,9 +283,9 @@ for (let key in user) {
 }
 ```
 
-但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么`Object.defineProperties` 是首选。
+但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
 
-另一个区别是`for..in`忽略了 symbolic 属性，但是`Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的所有属性描述符。
+另一个区别是 `for..in` 忽略了 symbolic 属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的**所有**属性描述符。
 
 ## 设定一个全局的封闭对象
 
@@ -300,17 +300,17 @@ for (let key in user) {
 ：禁止添加/删除属性，为所有存在的属性设置 `configurable: false`。
 
 [Object.freeze(obj)](mdn:js/Object/freeze)
-：禁止添加/删除/更改属性，为所有现有属性设置`configurable: false, writable: false`。
+：禁止添加/删除/更改属性，为所有现有属性设置 `configurable: false, writable: false`。
 
 还有对他们的测试：
 
 [Object.isExtensible(obj)](mdn:js/Object/isExtensible)
-：如果添加属性被禁止，则返回`false`，否则返回`true`。
+：如果添加属性被禁止，则返回 `false`，否则返回 `true`。
 
 [Object.isSealed(obj)](mdn:js/Object/isSealed)
-：如果禁止添加/删除属性，则返回“true”，并且所有现有属性都具有`configurable: false`。
+：如果禁止添加/删除属性，则返回 `true`，并且所有现有属性都具有 `configurable: false`。
 
 [Object.isFrozen(obj)](mdn:js/Object/isFrozen)
-：如果禁止添加/删除/更改属性，则返回“true”，并且所有当前属性都是`configurable: false, writable: false`。
+：如果禁止添加/删除/更改属性，并且所有当前属性都是 `configurable: false, writable: false`，则返回 `true`。
 
 这些方法在实践中很少使用。
