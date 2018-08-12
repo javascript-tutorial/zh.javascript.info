@@ -35,10 +35,10 @@ alert( user2.name ); // undefined
 
 为什么 `user2.name` 是 `undefined`？
 
- `new user.constructor('Pete')` 的工作原理是：
+`new user.constructor('Pete')` 的工作原理是：
 
 1. 首先，它在 `user` 中寻找 `constructor`。什么也没有。
 2. 然后它追溯原型链。`user` 的原型是 `User.prototype`，它也什么都没有。
 3. `User.prototype` 的值是一个普通对象 `{}`，其原型是 `Object.prototype`。还有 `Object.prototype.constructor == Object`。所以就用它了。
 
-最后，我们有 `let user2 = new Object（'Pete'）`。内置的 `Object` 构造函数忽略参数，它总是创建一个空对象 —— 这就是我们在 `user2` 中所拥有的东西。
+最后，我们有 `let user2 = new Object('Pete')`。内置的 `Object` 构造函数忽略参数，它总是创建一个空对象 —— 这就是我们在 `user2` 中所拥有的东西。
