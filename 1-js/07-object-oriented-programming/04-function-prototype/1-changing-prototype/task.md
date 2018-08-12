@@ -71,7 +71,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-4. 最后一种情况
+4. 最后一种情况：
 
     ```js
     function Rabbit() {}
