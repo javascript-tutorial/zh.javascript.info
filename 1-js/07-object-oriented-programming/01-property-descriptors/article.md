@@ -7,11 +7,11 @@
 
 ## 属性的标志
 
-对象属性除 ** `value` ** 外还有三个特殊属性（所谓的“标志”）：
+对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）：
 
-- ** `writable` ** - 如果为 `true`，则可以修改，否则它是只读的。
-- ** `enumerable` ** - 如果是 `true`，则可在循环中列出，否则不列出。
-- ** `configurable` **  - 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
+- **`writable`** - 如果为 `true`，则可以修改，否则它是只读的。
+- **`enumerable`** - 如果是 `true`，则可在循环中列出，否则不列出。
+- **`configurable`**  - 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
 
 我们还没看到它们，是因为它们通常不会出现当我们用“常用的方式”创建一个属性时，它们都是 `true`。但我们也可以随时更改它们。
 
@@ -52,7 +52,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
-为了修改标志，我们可以使用 [Object.defineProperty](mdn:js/Object/defineProperty).
+为了修改标志，我们可以使用 [Object.defineProperty](mdn:js/Object/defineProperty)。
 
 语法是：
 
@@ -112,7 +112,7 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
-user.name = "Pete"; // 错误：不能设置只读属性‘name’...
+user.name = "Pete"; // 错误：不能设置只读属性'name'...
 */!*
 ```
 
@@ -141,7 +141,7 @@ user.name = "Alice"; // Error
 
 现在让我们向 `user` 添加一个自定义的 `toString`。
 
-通常，对象的内置 `toString` 是不可枚举的，它不会显示在 ` for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in` 中，如下所示：
+通常，对象的内置 `toString` 是不可枚举的，它不会显示在 `for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in` 中，如下所示：
 
 ```js run
 let user = {
@@ -185,11 +185,11 @@ alert(Object.keys(user)); // name
 
 ## 不可配置
 
-不可配置标志（`configurable：false`）有时会预设在内置对象和属性中。
+不可配置标志（`configurable:false`）有时会预设在内置对象和属性中。
 
 一个不可配置的属性不能被 `defineProperty` 删除或修改。
 
-例如，`Math.PI`是只读的、不可枚举和不可配置的：
+例如，`Math.PI` 是只读的、不可枚举和不可配置的：
 
 ```js run
 let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
@@ -235,13 +235,13 @@ Object.defineProperty(user, "name", {writable: true}); // 错误
 */!*
 ```
 
-```smart header="Errors appear only in use strict"
+```smart header="只在使用严格模式时才会出现错误"
 在非严格模式下，写入只读属性等时不会发生错误。但操作仍然不会成功。非严格模式下违反标志的行为只是默默地被忽略。
 ```
 
 ## Object.defineProperties
 
-有一个方法[Object.defineProperties(obj, descriptors)](mdn:js/Object/defineProperties)，允许一次定义多个属性。
+有一个方法 [Object.defineProperties(obj, descriptors)](mdn:js/Object/defineProperties)，允许一次定义多个属性。
 
 语法是：
 
@@ -267,9 +267,9 @@ Object.defineProperties(user, {
 
 ## Object.getOwnPropertyDescriptors
 
-要一次获取所有属性描述符，我们可以使用[Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors)方法。
+要一次获取所有属性描述符，我们可以使用 [Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors) 方法。
 
-与`Object.defineProperties`一起，它可以用作克隆对象的“标志感知”方式：
+与 `Object.defineProperties` 一起，它可以用作克隆对象的“标志感知”方式：
 
 ```js
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
@@ -297,7 +297,7 @@ for (let key in user) {
 ：禁止向对象添加属性。
 
 [Object.seal(obj)](mdn:js/Object/seal)
-：禁止添加/删除属性，为所有存在的属性设置 `configurable: false`。
+：禁止添加/删除属性，为所有现有的属性设置 `configurable: false`。
 
 [Object.freeze(obj)](mdn:js/Object/freeze)
 ：禁止添加/删除/更改属性，为所有现有属性设置 `configurable: false, writable: false`。

@@ -23,7 +23,7 @@ let obj = {
 };
 ```
 
-当读取 `obj.propName` 时，使用 getter，当设置值时，使用 setter 。
+当读取 `obj.propName` 时，使用 getter，当设置值时，使用 setter。
 
 例如，我们有一个具有 `name` 和 `surname` 属性的 `user` 对象：
 
@@ -34,7 +34,7 @@ let user = {
 };
 ```
 
-现在我们要添加一个 “fullName” 属性，该属性是 “John Smith” 。当然，我们不想复制粘贴现有信息，因此我们可以用访问器来实现：
+现在我们要添加一个 “fullName” 属性，该属性是 “John Smith”。当然，我们不想复制粘贴现有信息，因此我们可以用访问器来实现：
 
 ```js run
 let user = {
@@ -53,7 +53,7 @@ alert(user.fullName); // John Smith
 */!*
 ```
 
-从外表看，访问器属性看起来像一个普通的属性。这是访问器属性的设计思想。我们不以函数的方式**调用** `user.fullName` ，我们通常**读取**它：getter 在幕后运行。
+从外表看，访问器属性看起来像一个普通的属性。这是访问器属性的设计思想。我们不以函数的方式**调用** `user.fullName`，我们通常**读取**它：getter 在幕后运行。
 
 截至目前，`fullName` 只有一个 getter。如果我们尝试赋值操作 `user.fullName =`，将会出现错误。
 
@@ -84,7 +84,7 @@ alert(user.surname); // Cooper
 
 现在我们有一个“虚拟”属性。它是可读写的，但实际上并不存在。
 
-```smart header="Accessor properties are only accessible with get/set"
+```smart header="访问器属性只能访问 get/set"
 属性可以是“数据属性”或“访问器属性”，但不能同时属于两者。
 
 一旦使用 `get prop()` 或 `set prop()` 定义了一个属性，它就是一个访问器属性。所以必须有一个getter来读取它，如果我们对它赋值，它必须是一个 setter。
@@ -102,8 +102,8 @@ alert(user.surname); // Cooper
 所以访问器描述符可能有：
 
 - **`get`** —— 一个没有参数的函数，在读取属性时工作，
-- **`set` ** —— 带有一个参数的函数，当属性被设置时调用，
-- **`enumerable` ** —— 与数据属性相同，
+- **`set`** —— 带有一个参数的函数，当属性被设置时调用，
+- **`enumerable`** —— 与数据属性相同，
 - **`configurable`** —— 与数据属性相同。
 
 例如，要使用 `defineProperty` 创建 `fullName` 的访问器，我们可以使用 `get` 和 `set` 来传递描述符：
@@ -148,9 +148,9 @@ Object.defineProperty({}, 'prop', {
 });
 ```
 
-## 更聪明的 getter / setters
+## 更聪明的 getter/setters
 
-Getter / setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
+Getter/setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
 
 例如，如果我们想禁止为 `user` 设置太短的名称，我们可以将 `name` 存储在一个特殊的 `_name` 属性中。并在 setter 中过滤赋值操作：
 
@@ -175,7 +175,7 @@ alert(user.name); // Pete
 user.name = ""; // Name is too short...
 ```
 
-从技术上讲，外部代码仍然可以通过使用 `user._name` 直接访问该名称。但是有一个众所周知的协议，即以下划线“_”开头的属性是内部的，不应该从对象外部访问。
+从技术上讲，外部代码仍然可以通过使用 `user._name` 直接访问该名称。但是有一个众所周知的协议，即以下划线 `"_"` 开头的属性是内部的，不应该从对象外部访问。
 
 ## 兼容性
 
@@ -195,7 +195,7 @@ alert( john.age ); // 25
 ```
 
 ...But sooner or later, things may change. Instead of `age` we may decide to store `birthday`, because it's more precise and convenient:
-但迟早，情况可能会发生变化。我们可能决定存储 `birthday`，而不是 `age` ，因为它更加精确和方便：
+但迟早，情况可能会发生变化。我们可能决定存储 `birthday`，而不是 `age`，因为它更加精确和方便：
 
 ```js
 function User(name, birthday) {
