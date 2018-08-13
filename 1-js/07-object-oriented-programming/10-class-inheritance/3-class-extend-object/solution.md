@@ -49,7 +49,6 @@ alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // a,b
 */!*
 ```
 
-But if we don't have `extends Object`, then `Rabbit.__proto__` is not set to `Object`.
 但是如果我们没有声明 `extends Object`，那么 `Rabbit.__proto__` 将不会被设置为 `Object`。
 
 这里有个示例：
