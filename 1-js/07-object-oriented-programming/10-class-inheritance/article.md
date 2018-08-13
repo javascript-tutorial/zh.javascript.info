@@ -38,8 +38,8 @@ class Rabbit extends Animal {
 
 let rabbit = new Rabbit("White Rabbit");
 
-rabbit.run(5); // 白色兔子会以速度 5 奔跑.
-rabbit.hide(); // 白色兔子藏了起来!
+rabbit.run(5); // 白色兔子会以速度 5 奔跑。
+rabbit.hide(); // 白色兔子藏了起来！
 ```
 
 就如你期望的那样，也正如我们之前所见，`extends` 关键字实际上是给 `Rabbit.prototype` 添加了一个属性 `[[Prototype]]`，并且它会指向 `Animal.prototype`。
@@ -136,7 +136,7 @@ rabbit.stop(); // White Rabbit stopped. White rabbit hides!
 现在，`Rabbit` 有自己的 `stop` 函数，并且在执行过程中会调用父类的 `super.stop()`。
 
 ````smart header="Arrow functions have no `super`"
-就像在箭头函数那一章节所提到的，箭头函数没有 `super`。
+就像在箭头函数 <info:arrow-functions> 那一章节所提到的，箭头函数没有 `super`。
 
 如果被访问，它将从外部函数获取。举个例子：
 
