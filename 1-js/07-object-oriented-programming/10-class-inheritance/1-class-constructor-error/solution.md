@@ -1,6 +1,6 @@
-That's because the child constructor must call `super()`.
+这是因为子类的构造函数必须调用 `super()`。
 
-Here's the corrected code:
+这里是正确的代码：
 
 ```js run
 class Animal {
@@ -25,3 +25,5 @@ let rabbit = new Rabbit("White Rabbit"); // ok now
 */!*
 alert(rabbit.name); // White Rabbit
 ```
+
+
