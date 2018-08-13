@@ -163,7 +163,7 @@ setTimeout(function() { super.stop() }, 1000);
 
 到目前为止，`Rabbit` 还没有自己的 `constructor`。
 
-根据[规范](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)，如果一个类继承了另一个类并且没有构造函数，那么将生成以下构造函数
+根据[规范](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)，如果一个类继承了另一个类并且没有构造函数，那么将生成以下构造函数：
 
 ```js
 class Rabbit extends Animal {
@@ -203,7 +203,7 @@ class Rabbit extends Animal {
 }
 
 *!*
-// 不生效！！
+// 不生效！
 let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 */!*
 ```
@@ -267,8 +267,7 @@ alert(rabbit.earLength); // 10
 
 的确是这样，让我们问问自己，在技术上它是如何实现的？当一个对象方法运行时，它会将当前对象作为 `this`。如果之后我们调用 `super.method()`，那么如何检索 `method`？我们想当然地认为需要从当前对象的原型中获取 `method`。但是从技术上讲，我们（或者 JavaScript 的引擎）可以做到这一点吗？
 
-也许我们可以从 `this` 的 `[[Prototype]]` 上获得方法，就像
-`this.__proto__.method`？不幸的是，这样是行不通的。
+也许我们可以从 `this` 的 `[[Prototype]]` 上获得方法，就像 `this.__proto__.method`？不幸的是，这样是行不通的。
 
 让我们尝试去这么做看看。简单起见，我们不使用类，只使用普通对象。
 
@@ -296,7 +295,7 @@ let rabbit = {
 rabbit.eat(); // Rabbit eats.
 ```
 
-在 `(*)` 这一行，我们从 `animal` 的原型上获取 `eat`，并在当前对象的上下文中调用它。请注意，`.call(this)` 在这里非常重要，因为简单的调用 `this.__proto__.eat()` 将在原型的上下文中执行 `eat` ，而非当前对象
+在 `(*)` 这一行，我们从 `animal` 的原型上获取 `eat`，并在当前对象的上下文中调用它。请注意，`.call(this)` 在这里非常重要，因为简单的调用 `this.__proto__.eat()` 将在原型的上下文中执行 `eat`，而非当前对象
 
 在上述的代码中，它按照期望运行：我们获得了正确的 `alert`。
 
@@ -362,7 +361,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
     rabbit.eat.call(this);
     ```
 
-3. 所以 `rabbit.eat` 不停地循环调用自己，因此它无法进一步地往原型链的更高层调用
+3. ...所以 `rabbit.eat` 不停地循环调用自己，因此它无法进一步地往原型链的更高层调用
 
 这个问题没法单独使用 `this` 来解决。
 
@@ -407,9 +406,7 @@ longEar.eat();  // Long Ear eats.
 */!*
 ```
 
-
 每个方法都会在内部的 `[[HomeObject]]` 属性上标记它的对象。然后 `super` 利用它来解析父级原型。
-
 
 `[[HomeObject]]` 是为类和简单对象中定义的方法定义的。但是对于对象，方法必须按照给定的方式定义：使用 `method()`，而不是 `"method: function()"`。
 
@@ -417,7 +414,7 @@ longEar.eat();  // Long Ear eats.
 
 ```js run
 let animal = {
-  eat: function() { // 应该使用简短语法: eat() {...}
+  eat: function() { // 应该使用简短语法：eat() {...}
     // ...
   }
 };
@@ -430,7 +427,7 @@ let rabbit = {
 };
 
 *!*
-rabbit.eat();  // 调用 super 报错（因为没有 [[HomeObject]]） 
+rabbit.eat();  // 调用 super 报错（因为没有 [[HomeObject]]）
 */!*
 ```
 
@@ -438,7 +435,7 @@ rabbit.eat();  // 调用 super 报错（因为没有 [[HomeObject]]）
 
 `class` 语法也支持静态属性的继承。
 
-例如:
+例如：
 
 ```js run
 class Animal {
@@ -580,6 +577,3 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 ```
 
 在一些高级的场景中，我们可以使用它从结果值中剔除一些不需要的扩展功能。又或者可以进一步扩展它。
-
-
-
