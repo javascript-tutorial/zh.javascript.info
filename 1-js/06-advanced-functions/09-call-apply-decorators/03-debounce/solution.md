@@ -20,8 +20,8 @@ function debounce(f, ms) {
 
 对 `debounce` 的调用返回一个包装器。可能有两种状态：
 
-- `isCooldown = false` -- 准备好执行
-- `isCooldown = true` -- 等待时间结束
+- `isCooldown = false` —— 准备好执行
+- `isCooldown = true` —— 等待时间结束
 
 在第一次调用 `isCooldown` 是假的，所以调用继续进行，状态变为 `true`。
 
