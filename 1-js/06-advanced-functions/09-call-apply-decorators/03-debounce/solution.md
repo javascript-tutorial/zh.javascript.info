@@ -18,7 +18,7 @@ function debounce(f, ms) {
 }
 ```
 
-对 `debounce` 的调用返回一个包装器。可能有两种状态
+对 `debounce` 的调用返回一个包装器。可能有两种状态：
 
 - `isCooldown = false` -- 准备好执行
 - `isCooldown = true` -- 等待时间结束
