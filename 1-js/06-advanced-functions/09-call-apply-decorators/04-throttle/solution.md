@@ -34,6 +34,6 @@ function throttle(func, ms) {
 
 1. 在第一次调用期间，`wrapper` 只运行 `func` 并设置冷却状态 （`isThrottled = true`）。
 2. 在这种状态下，所有调用都记忆在  `savedArgs/savedThis` 中。请注意，上下文和参数都同样重要，应该记住。我们需要他们同时重现这个调用。
-3. ...然后在 `ms` 毫秒过后，`setTimeout` 触发。冷却状态被删除  (`isThrottled = false`)。如果我们忽略了调用，则使用最后记忆的参数和上下文执行 `wrapper`
+3. ...然后在 `ms` 毫秒过后，`setTimeout` 触发。冷却状态被删除 （`isThrottled = false`）。如果我们忽略了调用，则使用最后记忆的参数和上下文执行 `wrapper`
 
 第3步不是 `func`，而是 `wrapper`，因为我们不仅需要执行 `func`，而是再次进入冷却状态并设置超时以重置它。
