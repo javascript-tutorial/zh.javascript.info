@@ -6,7 +6,7 @@ importance: 5
 
 这里有一份代码，是 `Rabbit` 继承 `Animal`。
 
-不幸的是，`Rabbit` 对象无法被创建，是哪里出错了呢？请解决这个问题
+不幸的是，`Rabbit` 对象无法被创建，是哪里出错了呢？请解决这个问题。
 
 ```js run
 class Animal {
