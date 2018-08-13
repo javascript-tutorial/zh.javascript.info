@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# Class extends Object?
+# 类继承自对象?
 
 正如我们所知道的那样，所有的对象通常都继承自 `Object.prototype`，并且可以访问像 `hasOwnProperty` 那样的通用方法。
 

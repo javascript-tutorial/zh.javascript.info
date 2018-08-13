@@ -75,7 +75,7 @@ new User().sayHi(); // Hello
 
 现在让我们继续前进并尝试重写一个方法。到目前为止，`Rabbit` 继承了 `Animal` 的 `stop` 方法，该方法设置了 `this.speed = 0`。
 
-如果我们在 `Rabbit` 中定义了我们自己的  `stop` 方法，那么他将被用来代替 `Animal` 的 `stop` 方法：
+如果我们在 `Rabbit` 中定义了我们自己的  `stop` 方法，那么它将被用来代替 `Animal` 的 `stop` 方法：
 
 ```js
 class Rabbit extends Animal {
@@ -85,7 +85,7 @@ class Rabbit extends Animal {
 }
 ```
 
-但是通常来说，我们不希望完全替换父类的方法，而是希望基于它做一些调整或者扩展。我们在我们的方法中做一些事情，但是在它之前/之后或在执行过程中调用父类的方法。
+...但是通常来说，我们不希望完全替换父类的方法，而是希望基于它做一些调整或者扩展。我们在我们的方法中做一些事情，但是在它之前/之后或在执行过程中调用父类的方法。
 
 为此，类提供了 `"super"` 关键字。
 
@@ -212,7 +212,7 @@ let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 
 简短的解释下原因：继承类的构造函数必须调用 `super(...)`，并且一定要在使用 `this` 之前调用。
 
-但这是为什么呢？这里发生了什么？这个要求确实看起来很奇怪。
+...但这是为什么呢？这里发生了什么？这个要求确实看起来很奇怪。
 
 当然，本文会给出一个解释。让我们深入细节，这样你就可以真正的理解发生了什么。
 
@@ -313,7 +313,7 @@ let animal = {
 let rabbit = {
   __proto__: animal,
   eat() {
-    // 新建一个兔子并调用父类的方法
+    // ...新建一个兔子并调用父类的方法
     this.__proto__.eat.call(this); // (*)
   }
 };
@@ -321,7 +321,7 @@ let rabbit = {
 let longEar = {
   __proto__: rabbit,
   eat() {
-    // 用长耳朵做一些事情，并调用父类（rabbit）的方法
+    // ...用长耳朵做一些事情，并调用父类（rabbit）的方法
     this.__proto__.eat.call(this); // (**)
   }
 };
@@ -411,7 +411,7 @@ longEar.eat();  // Long Ear eats.
 每个方法都会在内部的 `[[HomeObject]]` 属性上标记它的对象。然后 `super` 利用它来解析父级原型。
 
 
-`[[HomeObject]]` 是为类和纯对象中定义的方法定义的。但是对于对象，方法必须按照给定的方式定义：使用 `method()`，而不是 `"method: function()"`。
+`[[HomeObject]]` 是为类和简单对象中定义的方法定义的。但是对于对象，方法必须按照给定的方式定义：使用 `method()`，而不是 `"method: function()"`。
 
 在下面的例子中，使用非方法语法来进行对比。`[[HomeObject]]` 属性没有被设置，并且此时继承没有生效：
 
@@ -430,7 +430,7 @@ let rabbit = {
 };
 
 *!*
-rabbit.eat();  // 调用报错（因为没有 [[HomeObject]]） 
+rabbit.eat();  // 调用 super 报错（因为没有 [[HomeObject]]） 
 */!*
 ```
 
