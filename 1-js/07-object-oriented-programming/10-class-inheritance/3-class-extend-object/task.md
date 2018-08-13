@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 类继承自对象?
+# 类继承自对象？
 
 正如我们所知道的那样，所有的对象通常都继承自 `Object.prototype`，并且可以访问像 `hasOwnProperty` 那样的通用方法。
 
@@ -28,7 +28,7 @@ alert( rabbit.hasOwnProperty('name') ); // true
 
 如果有的话，不同之处又在哪？
 
-这里是示例代码：（它确实无法运行了，原因是什么？请解决它）
+这里是示例代码（它确实无法运行了，原因是什么？请解决它）：
 
 ```js
 class Rabbit extends Object {
