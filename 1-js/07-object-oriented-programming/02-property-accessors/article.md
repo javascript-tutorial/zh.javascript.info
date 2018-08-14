@@ -9,7 +9,7 @@
 
 ## Getter 和 setter
 
-访问器属性由 “getter” 和 “setter” 方法表示。在对象字面量中，它们用 `get` 和 `set` 表示：
+访问器属性由 "getter" 和 "setter" 方法表示。在对象字面量中，它们用 `get` 和 `set` 表示：
 
 ```js
 let obj = {
@@ -34,7 +34,7 @@ let user = {
 };
 ```
 
-现在我们要添加一个 “fullName” 属性，该属性是 “John Smith”。当然，我们不想复制粘贴现有信息，因此我们可以用访问器来实现：
+现在我们要添加一个 "fullName" 属性，该属性是 "John Smith"。当然，我们不想复制粘贴现有信息，因此我们可以用访问器来实现：
 
 ```js run
 let user = {
@@ -55,7 +55,7 @@ alert(user.fullName); // John Smith
 
 从外表看，访问器属性看起来像一个普通的属性。这是访问器属性的设计思想。我们不以函数的方式**调用** `user.fullName`，我们通常**读取**它：getter 在幕后运行。
 
-截至目前，`fullName` 只有一个 getter。如果我们尝试赋值操作 `user.fullName =`，将会出现错误。
+截至目前，`fullName` 只有一个 getter。如果我们尝试赋值操作 `user.fullName=`，将会出现错误。
 
 我们通过为 `user.fullName` 添加一个 setter 来修复它：
 
@@ -97,7 +97,7 @@ alert(user.surname); // Cooper
 
 访问器属性的描述符与数据属性相比是不同的。
 
-对于访问器属性，没有 `value` 和 `writable` ，但是有 `get` 和 `set` 函数。
+对于访问器属性，没有 `value` 和 `writable`，但是有 `get` 和 `set` 函数。
 
 所以访问器描述符可能有：
 
@@ -131,7 +131,7 @@ alert(user.fullName); // John Smith
 for(let key in user) alert(key); // name, surname
 ```
 
-请再次注意，属性可以要么是访问器，要么是数据属性，而不能两者都是。
+请再次注意，属性可以要么是访问器，要么是数据属性，而不能两者都是。
 
 如果我们试图在同一个描述符中提供 `get` 和 `value`，则会出现错误：
 
@@ -194,8 +194,7 @@ let john = new User("John", 25);
 alert( john.age ); // 25
 ```
 
-...But sooner or later, things may change. Instead of `age` we may decide to store `birthday`, because it's more precise and convenient:
-但迟早，情况可能会发生变化。我们可能决定存储 `birthday`，而不是 `age`，因为它更加精确和方便：
+...但迟早，情况可能会发生变化。我们可能决定存储 `birthday`，而不是 `age`，因为它更加精确和方便：
 
 ```js
 function User(name, birthday) {
@@ -234,4 +233,4 @@ alert( john.birthday ); // birthday 是可访问的
 alert( john.age );      // ...age 也是可访问的
 ```
 
-现在旧的代码也可以工作，而且我们拥有了一个很好的附加属性。
+现在旧的代码也可以工作，而且我们拥有了一个很好的附加属性。
