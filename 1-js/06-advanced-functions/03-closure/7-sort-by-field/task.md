@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Sort by field
+# 按字段排序
 
-We've got an array of objects to sort:
+我们有一组要排序的对象：
 
 ```js
 let users = [
@@ -14,23 +14,23 @@ let users = [
 ];
 ```
 
-The usual way to do that would be:
+通常的做法应该是这样的：
 
 ```js
-// by name (Ann, John, Pete)
+// 通过 name (Ann, John, Pete)
 users.sort((a, b) => a.name > b.name ? 1 : -1);
 
-// by age (Pete, Ann, John)
+// 通过 age (Pete, Ann, John)
 users.sort((a, b) => a.age > b.age ? 1 : -1);
 ```
 
-Can we make it even less verbose, like this?
+我们可以让它更加简洁吗，比如这样？
 
 ```js
 users.sort(byField('name'));
 users.sort(byField('age'));
 ```
 
-So, instead of writing a function, just put `byField(fieldName)`.
+那么，我们只需要写 `byField(fieldName)`，而不是写一个函数。
 
-Write the function `byField` that can be used for that.
+编写可用于此目的的函数 `byField`。

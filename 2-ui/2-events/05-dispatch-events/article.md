@@ -1,37 +1,37 @@
-# Dispatching custom events
+# 生成自定义事件
 
-We can not only assign handlers, but also generate events from JavaScript.
+我们不仅可以分发事件，还可以从 JavaScript 中生成事件。
 
-Custom events can be used to create "graphical components". For instance, a root element of the menu may trigger events telling what happens with the menu: `open` (menu open),  `select` (an item is selected) and so on.
+自定义事件可以用于创建“图形组件”。例如，菜单组件的根元素可以通过触发 `open`（打开菜单）、`select`（有一项被选中）等事件告诉菜单发生了什么。
 
-Also we can generate built-in events like `click`, `mousedown` etc, that may be good for testing.
+我们也可以生成一些像 `click`、`mousedown` 此类的内置事件，这些都有利于测试。
 
-## Event constructor
+## 事件构造器
 
-Events form a hierarchy, just like DOM element classes. The root is the built-in [Event](http://www.w3.org/TR/dom/#event) class.
+事件会像 DOM 元素类一样形成层次结构。事件的底层是内置的 [Event](http://www.w3.org/TR/dom/#event) 类。
 
-We can create `Event` objects like this:
+我们可以像这样创建 `Event` 对象：
 
 ```js
 let event = new Event(event type[, options]);
 ```
 
-Arguments:
+参数：
 
-- *event type* -- may be any string, like `"click"` or our own like `"hey-ho!"`.
-- *options* -- the object with two optional properties:
-  - `bubbles: true/false` -- if `true`, then the event bubbles.
-  - `cancelable: true/false` -- if `true`, then the "default action"  may be prevented. Later we'll see what it means for custom events.
+- **event type** —— 可以是任何字符串，比如 `"click"` 或者我们自己喜欢的 `"hey-ho!"`。
+- **options** —— 具有两个可选属性的对象：
+  - `bubbles: true/false` —— 如果是 `true`，那么事件冒泡。
+  - `cancelable: true/false` —— 如果 `true`，那么“默认动作”就会被阻止。之后我们会看到对于自定义事件，这些意味着什么。
 
-  By default both are false: `{bubbles: false, cancelable: false}`.
+  默认情况下，它们都是 false：`{bubbles: false, cancelable: false}`。
 
 ## dispatchEvent
 
-After an event object is created, we should "run" it on an element using the call  `elem.dispatchEvent(event)`.
+事件对象被创建后，我们应该调用 `elem.dispatchEvent(event)` 在元素上“运行”它。
 
-Then handlers react on it as if it were a regular built-in event. If the event was created with the `bubbles` flag, then it bubbles.
+然后处理器对其作出反应，就好像它是一个正常的内置事件。如果事件是使用 `bubbles` 标志创建的，那么它就会冒泡。
 
-In the example below the `click` event is initiated in JavaScript. The handler works same way as if the button was clicked:
+在下面示例中，`click` 事件是用 JavaScript 初始化生成的。处理器执行效果和单击按钮的效果一样：
 
 ```html run no-beautify
 <button id="elem" onclick="alert('Click!');">Autoclick</button>
@@ -43,16 +43,16 @@ In the example below the `click` event is initiated in JavaScript. The handler w
 ```
 
 ```smart header="event.isTrusted"
-There is a way to tell a "real" user event from a script-generated one.
+有一个可以区分 “真实”用户事件和 script 生成事件的方法。
 
-The property `event.isTrusted` is `true` for events that come from real user actions and `false` for script-generated events.
+`event.isTrusted` 属性为 `true`，则事件来自真实用户的动作，为 `false` ，则说明事件由脚本生成。
 ```
 
-## Bubbling example
+## 冒泡示例
 
-We can create a bubbling event with the name `"hello"` and catch it on `document`.
+我们可以创建一个名为 `"hello"` 的冒泡事件，并在 `document` 上捕获它。
 
-All we need is to set `bubbles` to `true`:
+我们需要做的就是将 `bubbles` 设置为 `true`：
 
 ```html run no-beautify
 <h1 id="elem">Hello from the script!</h1>
@@ -69,29 +69,29 @@ All we need is to set `bubbles` to `true`:
 </script>
 ```
 
-Notes:
+注意：
 
-1. We should use `addEventListener` for our custom events, because `on<event>` only exists for built-in events, `document.onhello` doesn't work.
-2. Must set `bubbles:true`, otherwise the event won't bubble up.
+1. 我们应该使用 `addEventListener` 定义我们的事件，因为 `on<event>` 仅存在于内置事件中，`document.onhello` 则无法运行。
+2. 必须设置 `bubbles:true`，否则事件不会向上冒泡。
 
-The bubbling mechanics is the same for built-in (`click`) and custom (`hello`) events. There are also capturing and bubbling stages.
+对于内置 (`click`) 和自定义 (`hello`) 的事件，冒泡机制是一样的。也有捕获和冒泡阶段。
 
-## MouseEvent, KeyboardEvent and others
+## 鼠标事件，键盘事件和其他
 
-Here's a short list of classes for UI Events from the [UI Event specification](https://www.w3.org/TR/uievents):
+这里有一个在 [UI Event specification](https://www.w3.org/TR/uievents) 上的 UI 事件类短列表：
 
-- `UIEvent`
-- `FocusEvent`
-- `MouseEvent`
-- `WheelEvent`
-- `KeyboardEvent`
+ - `UIEvent`（UI 事件）
+ - `FocusEvent`（焦点事件）
+ - `MouseEvent`（鼠标事件）
+ - `WheelEvent`（滚轮事件）
+- `KeyboardEvent`（键盘事件）
 - ...
 
-We should use them instead of `new Event` if we want to create such events. For instance, `new MouseEvent("click")`.
+如果我们想要创建这样的事件，我们应该使用它们而不是“新事件”。例如，`new MouseEvent("click")`。
 
-The right constructor allows to specify standard properties for that type of event.
+正确的构造函数允许为该类型的事件指定标准属性。
 
-Like `clientX/clientY` for a mouse event:
+就像鼠标事件 `clientX/clientY` 一样：
 
 ```js run
 let event = new MouseEvent("click", {
@@ -106,9 +106,9 @@ alert(event.clientX); // 100
 */!*
 ```
 
-Please note: the generic `Event` constructor does not allow that.
+请注意：通用 `Event` 构造器不允许这样做。
 
-Let's try:
+让我们试试：
 
 ```js run
 let event = new Event("click", {
@@ -123,17 +123,18 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 */!*
 ```
 
-Technically, we can work around that by assigning directly `event.clientX=100` after creation. So that's a matter of convenience and following the rules. Browser-generated events always have the right type.
+从技术上讲，我们可以通过在创建后直接分发 `event.clientX=100` 来解决这个问题。所以这是一个方便和遵守规则的问题。浏览器生成的事件总是具有正确的类型。
 
-The full list of properties for different UI events is in the specification, for instance  [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent).
+不同 UI 事件的所有属性列表在说明书中，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
 
-## Custom events
+## 自定义事件
 
-For our own, custom events like `"hello"` we should use `new CustomEvent`. Technically [CustomEvent](https://dom.spec.whatwg.org/#customevent) is the same as `Event`, with one exception.
+对于我们自己的自定义事件，像 `"hello"`，我们应该使用 `new CustomEvent`。从技术上来说，[CustomEvent](https://dom.spec.whatwg.org/#customevent) 和 `Event` 一样。除了一点不同之外。
 
-In the second argument (object) we can add an additional property `detail` for any custom information that we want to pass with the event.
+在第二个参数（对象）中，我们可以在事件中为我们想要传递的任何自定义信息添加一个附加的属性 `detail`。
 
-For instance:
+
+例如：
 
 ```html run refresh
 <h1 id="elem">Hello for John!</h1>
@@ -152,25 +153,25 @@ For instance:
 </script>
 ```
 
-The `detail` property can have any data. Technically we could live without, because we can assign any properties into a regular `new Event` object after its creation. But `CustomEvent` provides the special `detail` field for it to evade conflicts with other event properties.
+`detail` 属性可以有任何数据。从技术上讲，我们可以不用，因为我们可以在创建后将任何属性分配到常规的 `new Event` 对象中。但是 `CustomEvent` 为它提供了特殊的 `detail` 字段，以避免与其他事件属性的冲突。
 
-The event class tells something about "what kind of event" it is, and if the event is custom, then we should use `CustomEvent` just to be clear about what it is.
+事件类告诉一些关于“是什么类型的事件”的信息，如果事件是自定义的，那么我们应该使用 `CustomEvent` 来明确它是什么。
 
 ## event.preventDefault()
 
-We can call `event.preventDefault()` on a script-generated event if `cancelable:true` flag is specified.
+如果 `cancelable:true` 被指定，那么我们可以在脚本生成的事件上调用 `event.preventDefault()`。
 
-Of course, if the event has a non-standard name, then it's not known to the browser, and there's no "default browser action" for it.
+当然，如果事件有一个非标准的名称，那么浏览器就不知道它，而且它也没有“默认浏览器动作”。
 
-But the event-generating code may plan some actions after `dispatchEvent`.
+但是事件生成代码可能会在 `dispatchEvent` 之后安排一些动作。
 
-The call of `event.preventDefault()` is a way for the handler to send a signal that those actions shouldn't be performed.
+调用 `event.preventDefault()` 是处理器发送不应该执行这些操作的信号的一种方法。
 
-In that case the call to `elem.dispatchEvent(event)` returns `false`. And the event-generating code knows that the processing shouldn't continue.
+在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件生成代码知道处理器不应该继续。
 
-For instance, in the example below there's a `hide()` function. It generates the `"hide"` event on the element `#rabbit`, notifying all interested parties that the rabbit is going to hide.
+例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上生成 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
 
-A handler set by `rabbit.addEventListener('hide',...)` will learn about that and, if it wants, can prevent that action by calling `event.preventDefault()`. Then the rabbit won't hide:
+由 `rabbit.addEventListener('hide',...)` 设置的处理器将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
 
 ```html run refresh
 <pre id="rabbit">
@@ -207,15 +208,15 @@ A handler set by `rabbit.addEventListener('hide',...)` will learn about that and
 ```
 
 
-## Events-in-events are synchronous
+## Events-in-events 同步
 
-Usually events are processed asynchronously. That is: if the browser is processing `onclick` and in the process a new event occurs, then it awaits till `onclick` processing is finished.
+事件通常都是同步处理的。也就是说：如果浏览器正在处理 `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
 
-The exception is when one event is initiated from within another one.
+异常情况是一个事件从另一个事件中启动。
 
-Then the control jumps to the nested event handler, and after it goes back.
+然后控制器会跳到嵌套事件处理器中，并且（执行完成）之后返回。
 
-For instance, here the nested `menu-open` event is processed synchronously, during the `onclick`:
+例如，这里的 `menu-open` 嵌套事件在 `onclick` 期间被同步处理：
 
 ```html run
 <button id="menu">Menu (click me)</button>
@@ -237,11 +238,11 @@ For instance, here the nested `menu-open` event is processed synchronously, duri
 </script>
 ```    
 
-Please note that the nested event `menu-open` bubbles up and is handled on the `document`. The propagation of the nested event is fully finished before the processing gets back to the outer code (`onclick`).
+请注意 `menu-open` 嵌套事件会冒泡，而且是在 `document` 被处理。嵌套事件的传播是在处理返回到外部代码 (`onclick`) 之前就已经全部完成的。
 
-That's not only about `dispatchEvent`, there are other cases. JavaScript in an event handler can call methods that lead to other events -- they are too processed synchronously.
+这不仅仅是 `dispatchEvent`，还有其他案例。JavaScript 在事件处理时可以调用导致其他事件的方法 —— 它们也是被同步处理的。
 
-If we don't like it, we can either put the `dispatchEvent` (or other event-triggering call) at the end of `onclick` or, if inconvenient, wrap it in `setTimeout(...,0)`:
+如果我们不喜欢，可以将 `dispatchEvent`（或者其他事件触发器调用）放在 `onclick` 结束，或者如果不方便，可以将其包装在 `setTimeout(...,0)` 中：
 
 ```html run
 <button id="menu">Menu (click me)</button>
@@ -263,25 +264,25 @@ If we don't like it, we can either put the `dispatchEvent` (or other event-trigg
 </script>
 ```    
 
-## Summary
+## 总结
 
-To generate an event, we first need to create an event object.
+要生成一个事件，我们首先需要创建一个事件对象。
 
-The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
-  - `bubbles: true` if the event should bubble.
-  - `cancelable: true` is the `event.preventDefault()` should work.
+泛型 `Event(name, options)` 构造器接受任意事件名，`options` 对象具有两个属性：
+  - `bubbles: true` ，如果事件应该冒泡的话。
+  - `cancelable: true` 则 `event.preventDefault()` 应该有效。
 
-Other constructors of native events like `MouseEvent`, `KeyboardEvent` and so on accept properties specific to that event type. For instance, `clientX` for mouse events.
+其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 
-For custom events we should use `CustomEvent` constructor. It has an additional option named `detail`, we should assign the event-specific data to it. Then all handlers can access it as `event.detail`.
+对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定事件的数据指派给它。然后处理器可以以 `event.detail` 的形式访问它。
 
-Despite the technical possibility to generate browser events like `click` or `keydown`, we should use with the great care.
+尽管技术上有可能产生像 `click` 或者 `keydown` 这样的浏览器事件，但我们还是该谨慎使用。
 
-We shouldn't generate browser events as it's a hacky way to run handlers. That's a bad architecture most of the time.
+我们不应该生成浏览器事件，因为这是运行处理器的一种 hacky 方式。大多数来说，这都是一种糟糕的架构。
 
-Native events might be generated:
+可以生成原生事件：
 
-- As a dirty hack to make 3rd-party libraries work the needed way, if they don't provide other means of interaction.
-- For automated testing, to "click the button" in the script and see if the interface reacts correctly.
+- 如果他们不提供其他的交互方式，脏黑客行为可以制作第三方库操作所需的方式。
+- 对于自动化测试，要在脚本中“单击按钮”并查看接口是否正确反应。
 
-Custom events with our own names are often generated for architectural purposes, to signal what happens inside our menus, sliders, carousels etc.
+使用我们自己的名字来自定义的事件通常是为架构目的产生的，用来指示菜单、滑块、轮播等内部发生什么。

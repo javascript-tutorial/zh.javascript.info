@@ -14,7 +14,7 @@ IDE 加载项目（通常包含多个文件），并且允许在不同文件之�
 
 - 专为前端开发而生的 [WebStorm](http://www.jetbrains.com/webstorm/)，如果你需要额外的语言支持也可以选择这家公司的其他编辑器。
 - 如果你是一个 .NET 开发者，Visual Studio 也是一个好的选择，还有一个免费版 —— ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
-- [Netbeans](http://netbeans.org/).
+- [Netbeans](http://netbeans.org/)。
 
 除了 Visual Studio，以上这些 IDE 都是跨平台的。Visual Studio 无法在 Linux 上使用。
 
@@ -30,7 +30,7 @@ IDE 加载项目（通常包含多个文件），并且允许在不同文件之�
 
 实际上，“轻量编辑器”一般都有各种各样的插件，这些插件可以做语法分析和补全代码。所以 “轻量编辑器” 和 IDE 也没有严格的界限。
 
-下面是一些流行的 “轻量编辑器”:
+下面是一些流行的 “轻量编辑器”：
 
 - [Visual Studio Code](https://code.visualstudio.com/)（跨平台、免费）。
 - [Atom](https://atom.io/)（跨平台、免费）。
@@ -49,7 +49,7 @@ IDE 加载项目（通常包含多个文件），并且允许在不同文件之�
 
 ## 不要争吵
 
-上面列表中的编辑都是那些我或我的朋友（他们都是我认为很优秀的开发人员）已经使用了很长时间并且很满意的。
+上面列表中的编辑器都是我或我的朋友（他们都是我认为很优秀的开发人员）已经使用了很长时间并且很满意的。
 
 世上还有很多其他的很好的编辑器，你们可以选择一个自己最喜欢的。
 

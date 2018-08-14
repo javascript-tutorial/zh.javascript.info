@@ -1,6 +1,6 @@
-There are many ways to do it.
+实现的方式有很多种。
 
-Here are some of them:
+以下是列举的一些方法：
 
 ```js
 // 1. The table with `id="age-table"`.

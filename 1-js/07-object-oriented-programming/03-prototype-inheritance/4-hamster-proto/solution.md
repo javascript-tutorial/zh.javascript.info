@@ -1,18 +1,18 @@
-Let's look carefully at what's going on in the call `speedy.eat("apple")`.
+我们仔细研究一下在调用 `speedy.eat("apple")` 的时候，发生了什么。
 
-1. The method `speedy.eat` is found in the prototype (`=hamster`), then executed with `this=speedy` (the object before the dot).
+1.  `speedy.eat` 方法在原型（`=hamster`）中被发现，然后执行 `this=speedy`（在点之前的对象）。
 
-2. Then `this.stomach.push()` needs to find `stomach` property and call `push` on it. It looks for `stomach` in `this` (`=speedy`), but nothing found.
+2. `this.stomach.push()` 需要查找到 `stomach` 属性，然后调用 `push` 来处理。它在 `this` (`=speedy`) 中查找 `stomach`，但并没有找到。
 
-3. Then it follows the prototype chain and finds `stomach` in `hamster`.
+3. 然后它顺着原型链，在 `hamster` 中找到 `stomach`。
 
-4. Then it calls `push` on it, adding the food into *the stomach of the prototype*.
+4. 然后它调用 `push` ，将食物添加到**胃的原型链**中。
 
-So all hamsters share a single stomach!
+因此所有的仓鼠都有共享一个胃！
 
-Every time the `stomach` is taken from the prototype, then `stomach.push` modifies it "at place".
+每次 `stomach` 从原型中获取，然后 `stomach.push` 修改它的“位置”。
 
-Please note that such thing doesn't happen in case of a simple assignment `this.stomach=`:
+请注意，这种情况在 `this.stomach=` 进行简单的赋值情况下不会发生：
 
 ```js run
 let hamster = {
@@ -42,9 +42,9 @@ alert( speedy.stomach ); // apple
 alert( lazy.stomach ); // <nothing>
 ```
 
-Now all works fine, because `this.stomach=` does not perform a lookup of `stomach`. The value is written directly into `this` object.
+现在，所有的都在正常运行，因为 `this.stomach=` 不会在 `stomach` 中执行查找。该值会被直接写入 `this` 对象。
 
-Also we can totally evade the problem by making sure that each hamster has his own stomach:
+此外，我们还可以通过确保每只仓鼠都有自己的胃来完全回避这个问题：
 
 ```js run
 let hamster = {
@@ -77,4 +77,4 @@ alert( speedy.stomach ); // apple
 alert( lazy.stomach ); // <nothing>
 ```
 
-As a common solution, all properties that describe the state of a particular object, like `stomach` above, are usually written into that object. That prevents such problems.
+作为一种常见的解决方案，描述特定对象状态的所有属性，如上述的 `stomach`，通常都被写入到该对象中。这防止了类似问题的出现。
