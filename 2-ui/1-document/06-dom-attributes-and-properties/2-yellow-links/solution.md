@@ -27,7 +27,7 @@ for (let link of links) {
 ……除此之外，有一个更简便的方式是利用 CSS 选择器的伪类选择器：
 
 ```js
-// 查找所有 href 中包含 :// 的链接
+// 查找所有 href 中包含：// 的链接
 // 但 href 不是以 http://internal.com 开头
 let selector = 'a[href*="://"]:not([href^="http://internal.com"])';
 let links = document.querySelectorAll(selector);
