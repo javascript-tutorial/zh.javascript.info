@@ -7,11 +7,11 @@
 
 ## 属性的标志
 
-对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）：
+对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）：
 
-- **`writable`** - 如果为 `true`，则可以修改，否则它是只读的。
-- **`enumerable`** - 如果是 `true`，则可在循环中列出，否则不列出。
-- **`configurable`**  - 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
+- **`writable`** — 如果为 `true`，则可以修改，否则它是只读的。
+- **`enumerable`** — 如果是 `true`，则可在循环中列出，否则不列出。
+- **`configurable`** — 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
 
 我们还没看到它们，是因为它们通常不会出现当我们用“常用的方式”创建一个属性时，它们都是 `true`。但我们也可以随时更改它们。
 
@@ -25,10 +25,10 @@ let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
 ```
 
 `obj`
-：需要获取信息的对象。
+: 需要获取信息的对象。
 
 `propertyName`
-：属性的名称。
+: 属性的名称。
 
 返回值是一个所谓的“属性描述符”对象：它包含值和所有的标志。
 
@@ -52,7 +52,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
-为了修改标志，我们可以使用 [Object.defineProperty](mdn:js/Object/defineProperty)。
+为了修改标志，我们可以使用 [Object.defineProperty](mdn:js/Object/defineProperty)。
 
 语法是：
 
@@ -60,9 +60,11 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 Object.defineProperty(obj, propertyName, descriptor)
 ```
 
-`obj`，`propertyName`：要处理的对象和属性。
+`obj`，`propertyName`
+: 要处理的对象和属性。
 
-`descriptor`：要应用的属性描述符。
+`descriptor`
+: 要应用的属性描述符。
 
 如果该属性存在，则 `defineProperty` 更新其标志。否则，它会创建具有给定值和标志的属性；在这种情况下，如果没有提供标志，则会假定它是 `false`。
 
@@ -98,7 +100,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 
 ## 只读
 
-我们通过修改 `writable` 标志来把 `user.name` 设置为只读：
+我们通过修改 `writable` 标志来把 `user.name` 设置为只读：
 
 ```js run
 let user = {
@@ -126,7 +128,7 @@ let user = { };
 Object.defineProperty(user, "name", {
 *!*
   value: "Pete",
-  // 对于新的属性，需要明确的列出那些为真
+  // 对于新的属性，需要明确的列出哪些为 true
   enumerable: true,
   configurable: true
 */!*
@@ -155,7 +157,7 @@ let user = {
 for (let key in user) alert(key); // name, toString
 ```
 
-如果我们不喜欢它，那么我们可以设置 `enumerable：false`。然后它不会出现在 `for..in` 循环中，就像内置循环一样：
+如果我们不喜欢它，那么我们可以设置 `enumerable:false`。然后它不会出现在 `for..in` 循环中，就像内置循环一样：
 
 ```js run
 let user = {
@@ -235,7 +237,7 @@ Object.defineProperty(user, "name", {writable: true}); // 错误
 */!*
 ```
 
-```smart header="只在使用严格模式时才会出现错误"
+```smart header="只在使用严格模式时才会出现错误"
 在非严格模式下，写入只读属性等时不会发生错误。但操作仍然不会成功。非严格模式下违反标志的行为只是默默地被忽略。
 ```
 
@@ -283,7 +285,7 @@ for (let key in user) {
 }
 ```
 
-但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
+...但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
 
 另一个区别是 `for..in` 忽略了 symbolic 属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的**所有**属性描述符。
 
@@ -294,23 +296,23 @@ for (let key in user) {
 还有一些限制访问**整个**对象的方法：
 
 [Object.preventExtensions(obj)](mdn:js/Object/preventExtensions)
-：禁止向对象添加属性。
+: 禁止向对象添加属性。
 
 [Object.seal(obj)](mdn:js/Object/seal)
-：禁止添加/删除属性，为所有现有的属性设置 `configurable: false`。
+: 禁止添加/删除属性，为所有现有的属性设置 `configurable: false`。
 
 [Object.freeze(obj)](mdn:js/Object/freeze)
-：禁止添加/删除/更改属性，为所有现有属性设置 `configurable: false, writable: false`。
+: 禁止添加/删除/更改属性，为所有现有属性设置 `configurable: false, writable: false`。
 
 还有对他们的测试：
 
 [Object.isExtensible(obj)](mdn:js/Object/isExtensible)
-：如果添加属性被禁止，则返回 `false`，否则返回 `true`。
+: 如果添加属性被禁止，则返回 `false`，否则返回 `true`。
 
 [Object.isSealed(obj)](mdn:js/Object/isSealed)
-：如果禁止添加/删除属性，则返回 `true`，并且所有现有属性都具有 `configurable: false`。
+: 如果禁止添加/删除属性，则返回 `true`，并且所有现有属性都具有 `configurable: false`。
 
 [Object.isFrozen(obj)](mdn:js/Object/isFrozen)
-：如果禁止添加/删除/更改属性，并且所有当前属性都是 `configurable: false, writable: false`，则返回 `true`。
+: 如果禁止添加/删除/更改属性，并且所有当前属性都是 `configurable: false, writable: false`，则返回 `true`。
 
 这些方法在实践中很少使用。
