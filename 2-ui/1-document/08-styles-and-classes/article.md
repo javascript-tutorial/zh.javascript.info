@@ -22,13 +22,13 @@ elem.style.top = top; // e.g '456px'
 
 对于其他情况，比如文本变红色，添加一个背景图标 —— 在 CSS 中描述这个图标，然后应用这个类。这更加灵活，更容易支持。
 
-## 类名和类列表
+## className and classList
 
 更改类在脚本中是最常见的一个操作。
 
 在以前，JavaScript 有一个限制：像 `"class"` 这样的保留字不能作为对象属性。这一限制现在已经不存在了，但当时并不存在像 `elem.class` 这样的 `"class"` 属性。
 
-因此对于类，引入了类似的属性 `"className"`： `elem.className` 对应于 `"class"` 特性。
+因此对于类，引入了类似的属性 `"className"`： `elem.className` 对应于 `"class"` 特性:
 
 例如：
 
