@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# createTextNode vs innerHTML vs textContent
+# 对比 createTextNode，innerHTML，textContent
 
-We have an empty DOM element `elem` and a string `text`.
+我们有一个空的 DOM 元素 `elem` 和一个字符串 `text`。
 
-Which of these 3 commands do exactly the same?
+以下这三个命令行的结果是一样的吗？
 
 1. `elem.append(document.createTextNode(text))`
 2. `elem.innerHTML = text`

@@ -1,8 +1,8 @@
-Answer: **1 and 3**.
+回答：**1 和 3**。
 
-Both commands result in adding the `text` "as text" into the `elem`.
+所有命令行都是将 `text` “作为文本”添加到 `elem`。
 
-Here's an example:
+这里有个简单的例子：
 
 ```html run height=80
 <div id="elem1"></div>
