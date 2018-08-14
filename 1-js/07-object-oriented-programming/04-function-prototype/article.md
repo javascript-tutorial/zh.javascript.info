@@ -108,7 +108,7 @@ let rabbit2 = new rabbit.constructor("Black Rabbit");
 
 但关于 `"constructor"` 最重要的是......
 
-**...JavaScript本身并不能确保正确的 `"constructor"` 函数值。**
+**...JavaScript 本身并不能确保正确的 `"constructor"` 函数值。**
 
 是的，它存在于函数的默认 `"prototype"` 中，但仅此而已。之后会发生什么 —— 完全取决于我们自己。
 
