@@ -8,9 +8,9 @@
 
 ## DOM 属性
 
-我们已经见过内置的 DOM 属性了。它的数量很庞大，但是 DOM 技术实现上没有限制我们对这个对象进行添加 — 如果我们需要额外的属性的话。
+我们已经见过内置的 DOM 属性了。它的数量很庞大，但是 DOM 技术实现上没有限制我们对这个对象进行添加 —— 如果我们需要额外的属性的话。
 
-DOM 节点是一个标准的 JavaScript 对象。我们可以 alert 它们。
+DOM 节点是一个标准的 JavaScript 对象。我们可以 alert 它。
 
 在这个例子中，让我们在 `document.body` 创建一个新的属性：
 
@@ -51,9 +51,9 @@ document.body.sayHi(); // Hello, I'm BODY
 
 ## HTML 特性
 
-在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别 **标准化** 特性然后以此创建 DOM 属性。
+在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别**标准化**特性然后以此创建 DOM 属性。
 
-因此当一个元素有 `id` 或其他 **标准化** 特性，会生相应的 DOM 属性。但是非 **标准化** 的特性则会被忽略。
+因此当一个元素有 `id` 或其他**标准化**特性，会生相应的 DOM 属性。但是非**标准化**的特性则会被忽略。
 
 例如：
 ```html run
@@ -87,10 +87,10 @@ document.body.sayHi(); // Hello, I'm BODY
 
 答案是肯定的。以下几个方法是针对元素特性的操作：
 
-- `elem.hasAttribute(name)` — 检验是否拥这个特性。
-- `elem.getAttribute(name)` — 获取到这个特性值。
-- `elem.setAttribute(name, value)` — 设置这个特性值。
-- `elem.removeAttribute(name)` — 移除这个特性。
+- `elem.hasAttribute(name)` —— 检验是否拥这个特性。
+- `elem.getAttribute(name)` —— 获取到这个特性值。
+- `elem.setAttribute(name, value)` —— 设置这个特性值。
+- `elem.removeAttribute(name)` —— 移除这个特性。
 
 以上的几个方法实际上也是 HTML 的原生方法。
 
@@ -108,7 +108,7 @@ document.body.sayHi(); // Hello, I'm BODY
 </body>
 ```
 
-HTML 特性有几个特征
+HTML 特性有几个特征：
 
 - 它们的书写是大小写不敏感的（`id` 也可以写作 `ID`）。
 - 他们的值只能是字符串。
@@ -135,7 +135,7 @@ HTML 特性有几个特征
 
 请注意：
 
-1. `getAttribute('About')` — 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
+1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
 2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
 3. 所有 attributes 都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
 4. `attributes` 以 `name` 和 `value` 这样的键—值对收集在一个可迭代对象里。
@@ -186,7 +186,7 @@ HTML 特性有几个特征
 - 改变特性值 `value` 会更新到属性上。
 - 但是直接改变属性的值却不会作用在特性的值上。
 
-这种“特征”是相当便利的，因为用户可能会经常修改 `value`，假设我们想要覆盖 HTML 上“原始值”，只需要修改特性的值。
+这种“特征”是相当便利的，因为用户可能会经常修改 `value`，假设我们想要覆盖 HTML上“原始值”，只需要修改特性的值。
 
 ## DOM 属性的类型
 
@@ -358,12 +358,12 @@ div.setAttribute('order-state', 'canceled');
 
 使用 `data-*` 的特性值是一个合法值，保存着自定义数据。
 
-请注意我们不但可以读取，还能修改 data-attributes。上面这个例子的最后一行： `(*)` 会变成蓝色。
+请注意我们不但可以读取，还能修改 data-attributes。上面这个例子的最后一行：`(*)` 会变成蓝色。
 
 ## 总结
 
-- Attributes — 写在 HTML 中。
-- Properties — 是一个 DOM 对象。
+- Attributes —— 写在 HTML 中。
+- Properties —— 是一个 DOM 对象。
 
 简略的对比：
 
@@ -374,13 +374,13 @@ div.setAttribute('order-state', 'canceled');
 
 attributes 的一些方法：
 
-- `elem.hasAttribute(name)` — 检查是否存在这个特性
-- `elem.getAttribute(name)` — 获取这个特性
-- `elem.setAttribute(name, value)` — 把这个特性设置为 name 值
-- `elem.removeAttribute(name)` — 移除这个特性
-- `elem.attributes` 所有特性的集合
+- `elem.hasAttribute(name)` —— 检查是否存在这个特性
+- `elem.getAttribute(name)` —— 获取这个特性
+- `elem.setAttribute(name, value)` —— 把这个特性设置为 name 值
+- `elem.removeAttribute(name)` —— 移除这个特性
+- `elem.attributes` —— 所有特性的集合
 
-对于大多数需求, DOM 属性已经可以给予很好的支持。应当在 DOM 属性实在无法满足开发需求的情况下才使用特性，比如以下情况：
+对于大多数需求，DOM 属性已经可以给予很好的支持。应当在 DOM 属性实在无法满足开发需求的情况下才使用特性，比如以下情况：
 
 - 我们需要一个非标准化的特性。但是如果我们用 `data-` 来设置特性值，那就要使用 `dataset` 来获取属性值。
 - 我们想要读取到 HTML 的展示内容。比如 `href` 属性总是一个绝对路径，但是我们只想要相对路径。
