@@ -2,9 +2,9 @@ importance: 1
 
 ---
 
-# Why does "aaa" remain?
+# 为什么留下 "aaa"？
 
-Run the example. Why does `table.remove()` not delete the text `"aaa"`?
+运行下面例子，为什么 `table.remove()` 没有删除 `"aaa"` 文本？
 
 ```html height=100 run
 <table id="table">
@@ -15,9 +15,9 @@ Run the example. Why does `table.remove()` not delete the text `"aaa"`?
 </table>
 
 <script>
-  alert(table); // the table, as it should be
+  alert(table); // table 应该显示出的样子
 
   table.remove();
-  // why there's still aaa in the document?
+  // 为什么 aaa 依旧在文档中
 </script>
 ```

@@ -1,1 +1,1 @@
-Please note the usage of `textContent` to assign the `<li>` content.
+请留意 `textContent` 复制 `<li>` 内容的用法。
