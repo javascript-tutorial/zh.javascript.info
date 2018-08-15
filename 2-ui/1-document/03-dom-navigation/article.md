@@ -63,13 +63,12 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 在 DOM 中，`null` 值就意味着“不存在”或者“没有这样的节点”。 
 ​```
 
-
 ## 子元素：childNodes, firstChild, lastChild
 
 从现在开始，我们将使用下面这两个术语：
 
-- **子节点（或者叫做子）** -- 对应的是直系的子元素。换句话说它们会完全嵌套在指定的一个元素中。举个例子，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
-- **子系元素** -- 对应的是所有嵌套在一个指定元素中的元素，包括这些元素的子元素，以此类推得到的所有元素。
+- **子节点（或者叫做子）** —— 对应的是直系的子元素。换句话说它们会完全嵌套在指定的一个元素中。举个例子，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
+- **子系元素** —— 对应的是所有嵌套在一个指定元素中的元素，包括这些元素的子元素，以此类推得到的所有元素。
 
 比如说，在这里 `<body>` 有子元素 `<div>` 和 `<ul>`（以及一些空白的文本节点）：
 
@@ -130,7 +129,7 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 
 ### DOM 集合
 
-正如我们看到的那样，`childNodes` 看起来就像一个数组。但是它实际上并不是一个数组，而是一个**集合** -- 一个类似数组的可迭代对象。
+正如我们看到的那样，`childNodes` 看起来就像一个数组。但是它实际上并不是一个数组，而是一个**集合** —— 一个类似数组的可迭代对象。
 
 这个性质会导致两个重要的结果：
 
@@ -220,12 +219,12 @@ DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的
 
 ![](dom-links-elements.png)
 
-这些链接和之前上面的相似，只是在词中间加了 `Element`。
+这些链接和之前上面的相似，只是在词中间加了 `Element`：
 
-- `children` -- 只获取类型为元素节点的子节点。
-- `firstElementChild`，`lastElementChild` -- 第一个和最后一个子元素。
-- `previousElementSibling`，`nextElementSibling` -- 兄弟元素。
-- `parentElement` -- 父元素。
+- `children` —— 只获取类型为元素节点的子节点。
+- `firstElementChild`，`lastElementChild` —— 第一个和最后一个子元素。
+- `previousElementSibling`，`nextElementSibling` —— 兄弟元素。
+- `parentElement` —— 父元素。
 
 ​````smart header="为什么是 `parentElement`? 父节点可以不是一个元素吗？"
 `parentElement` 属性返回的是“元素”父节点，而 `parentNode` 返回的是“任何类型”的父节点。这些属性通常来说是一样的：它们都获取父节点。
@@ -323,3 +322,4 @@ HTML 表单还有其它额外的导航属性。我们稍后会在开始使用表
 - 仅用于元素节点：`parentElement`，`children`，`firstElementChild`，`lastElementChild`，`previousElementSibling`，`nextElementSibling`。
 
 某些类型的 DOM 元素，比如说像 tables，提供了额外的属性和集合用于访问其内容。
+````

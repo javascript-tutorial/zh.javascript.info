@@ -9,7 +9,6 @@
 
 理解这两种方式的区别以及在哪里用哪种类型是很重要的。
 
-
 ## 窗口坐标：getBoundingClientRect
 
 窗口的坐标是从窗口的左上角开始计算的。
@@ -23,14 +22,11 @@
 
 如下所示：
 
-
 ![](coords.png)
 
 
 窗口坐标并不会考虑到文档滚动，它们就是基于窗口的左上角计算出来的。
 
-
-In other words, when we scroll the page, the element goes up or down, *its window coordinates change*. That's very important.
 换句话说，当我们滚动这个页面，这个元素就会上升或者下降，**它的窗口坐标改变了**。这很重要。
 
 ```online
@@ -56,8 +52,6 @@ function showRect(elem) {
 
 ​```warn header="坐标的右/底部和 CSS 中的属性是不同的"
 
-
-If we compare window coordinates versus CSS positioning, then there are obvious similarities to `position:fixed` -- also the position relative to the viewport.
 如果我们把窗口的坐标和 CSS 中的位置相对照，那么其和 `position:fixed` 有明显的相似之处 -- 也是相对于 viewport 的位置。
 
 但是在 CSS 中 `right` 属性表示的是到右边界的距离，而且 `bottom` 是到底部边界的距离。
@@ -89,7 +83,6 @@ alert(elem.tagName);
 
 因为它使用的是窗口坐标，基于现在滚动的位置会显示不同的元素。
 
-
 ````warn header="对于在窗口之外的坐标 `elementFromPoint` 返回 `null`"
 方法 `document.elementFromPoint(x,y)` 只有在 `(x,y)` 坐标位于可是范围内才能正常调用。
 
@@ -98,7 +91,6 @@ alert(elem.tagName);
 在大多数情况下，这种行为并不是一个问题，但是我们应该记住这一点。
 
 这里就是一个典型的错误，如果我们不检查，它就可能会发生。
-
 
 ```js
 let elem = document.elementFromPoint(x, y);
@@ -185,7 +177,6 @@ setTimeout(() => message.remove(), 5000);
 - 包含 `"From today's featured article"` 的 header 元素 `clientY` 变成 0，因为这个元素现在在窗口的顶部。
 - `clientX` 并没有改变，因为我们没有水平滚动。
 - 元素的 `pageX` 和 `pageY` 坐标始终保持一致，因为它们是相对于文档计算的。
-
 
 ## 获取文档坐标 [#getCoords]
 
