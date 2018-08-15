@@ -5,7 +5,7 @@
 如果我们把它放在 `<body>` 底部，那么它会在页面内容被加载时运行。
 
 ```js
-// ...the page content is above...
+// ...页面内容如上所述...
 
 function isVisible(elem) {
 
