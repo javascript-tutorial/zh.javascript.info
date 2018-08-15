@@ -1,6 +1,6 @@
 # 移动：mouseover/out，mouseenter/leave
 
-我们将深入研究鼠标在元素之间移动时发生的事件的更多细节。
+我们将深入研究鼠标在元素之间移动时所发生事件的更多细节。
 
 ## Mouseover/mouseout，relatedTarget
 
@@ -28,8 +28,8 @@
 [codetabs src="mouseoverout" height=280]
 ```
 
-```warn header="`relatedTarget` can be `null`"
-The `relatedTarget` property can be `null`.
+```warn header="`relatedTarget` 可以为 `null`"
+`relatedTarget` 属性可以为 `null`。
 
 这很正常，而且意味着鼠标不是来源于另一个元素，而是窗口以外。或者是离开了窗口。
 
@@ -38,7 +38,7 @@ The `relatedTarget` property can be `null`.
 
 ## 事件频率
 
-当有鼠标移动时，`mousemove` 事件就会被触发。但是这不意味着每个像素都会导致一个事件。
+当有鼠标移动时，`mousemove` 事件就会被触发。但是这不意味着每个像素都会产生一个事件。
 
 浏览器会一直检查鼠标的位置。如果它注意到鼠标变化了，那么就会触发相应的事件。
 
@@ -70,9 +70,9 @@ HTML 是两个嵌套的 `<div>` 元素。如果你将鼠标快速通过它们，
 [codetabs height=360 src="mouseoverout-fast"]
 ```
 
-## 离开子代时的 “额外” mouseout
+## 离开子代时的“额外” mouseout
 
-想象一下 —— 鼠标指针进入一个元素。`mouseover` 被触发。然后光标进入一个子元素。有趣的事实是 `mouseout` 在这种情况下呗触发。光标仍然在元素中，但我们有一个来自它的 `mouseout`！
+想象一下 —— 鼠标指针进入一个元素。`mouseover` 被触发。然后光标进入一个子元素。有趣的事实是 `mouseout` 在这种情况下被触发。光标仍然在元素中，但我们有一个来自它的 `mouseout`！
 
 ![](mouseover-to-child.png)
 
@@ -94,11 +94,11 @@ HTML 是两个嵌套的 `<div>` 元素。如果你将鼠标快速通过它们，
 2. 之后从蓝色移动红色时 —— 我们获取到了 `mouseout [target: blue]`（离开父元素）。
 3. ...然后立即获取到的是 `mouseover [target: red]`。
 
-因此，对于不考虑 `target` 的处理器，这看起来就像是我们将父元素留在 `(2)` 的 `mouseout` 中然后在 `(3)` 中返回给`mouseover`。
+因此，对于不考虑 `target` 的处理器，这看起来就像是我们将父元素留在 `(2)` 的 `mouseout` 中然后在 `(3)` 中返回给 `mouseover`。
 
-如果我们在进入/离开元素时执行一些动作，那么就会得到许多额外 “错误” 运行。对于简单的事情可能不引人注目。但对于复制事情来说，会带来不必要的副作用。
+如果我们在进入/离开元素时执行一些动作，那么就会得到许多额外“错误”运行。对于简单的事情可能不引人注目。但对于复制事情来说，会带来不必要的副作用。
 
-我们可以通过使用`mouseenter/mouseleave` 事件来修复。
+我们可以通过使用 `mouseenter/mouseleave` 事件来修复。
 
 ## Mouseenter 和 mouseleave 事件
 
@@ -121,7 +121,7 @@ HTML 是两个嵌套的 `<div>` 元素。如果你将鼠标快速通过它们，
 
 `mouseenter/leave` 事件非常简单，也非常容易使用。但它们不会冒泡。因此我们不能用它们来进行事件委托。
 
-想象我们想要为表单元来处理鼠标的移入/移除。有几百个表单元。=
+想象我们想要为表单元来处理鼠标的移入/移除。有几百个表单元。
 
 通常的解决方案是 —— 在 `<table>` 中设置处理器，并在那里处理事件。但 `mouseenter/leave` 不会冒泡。因此如果类似事件发生在 `<td>` 上，那么只有 `<td>` 上的处理器才能捕获到它。
 
