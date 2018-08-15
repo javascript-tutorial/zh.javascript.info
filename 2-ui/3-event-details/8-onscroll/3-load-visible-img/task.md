@@ -12,7 +12,7 @@ importance: 4
 <img *!*src="placeholder.svg"*/!* width="128" height="128" *!*data-src="real.jpg"*/!*>
 ```
 
-因此，起初的所有图像都是 `placeholder.svg`。当页面滚动到用户可以看到图像位置时 —— 我们就会将 `src` 更改为 `data-src`的 `src`，然后加载图像。
+因此，起初的所有图像都是 `placeholder.svg`。当页面滚动到用户可以看到图像位置时 —— 我们就会将 `src` 更改为 `data-src` 的 `src`，然后加载图像。
 
 这是 `iframe` 中的一个示例：
 
