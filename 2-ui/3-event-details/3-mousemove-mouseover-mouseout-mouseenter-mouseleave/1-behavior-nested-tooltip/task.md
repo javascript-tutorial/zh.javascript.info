@@ -4,9 +4,9 @@ importance: 5
 
 # 改进工具提示行为
 
-编写一个带有 data-tooltip`属性的元素提示工具的 JavaScript 函数。
+编写一个带有 `data-tooltip` 属性元素提示工具的 JavaScript 函数。
 
-就像任务 k <info:task/behavior-tooltip>，但这里可以嵌套带有注释的元素。下面显示了嵌套最深的工具提示。
+就像任务 <info:task/behavior-tooltip>，但这里可以嵌套带有注释的元素。下面显示了嵌套最深的工具提示。
 
 比如：
 
