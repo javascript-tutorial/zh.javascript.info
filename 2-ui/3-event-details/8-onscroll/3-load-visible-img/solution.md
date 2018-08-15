@@ -28,4 +28,4 @@ window.onscroll = showVisible;
 
 对于可视化图像，我们可以使用 `img.dataset.src` 并将其赋值 `img.src`（如果还没有这样做）。
 
-P.S. 解决方案还有一个 `isVisible` 的变体，即位于 1 个页面上方/下方的 “预加载”图像（页面高度是 `document.documentElement.clientHeight`）。
+P.S. 解决方案还有一个 `isVisible` 的变体，即位于 1 个页面上方/下方的“预加载”图像（页面高度是 `document.documentElement.clientHeight`）。
