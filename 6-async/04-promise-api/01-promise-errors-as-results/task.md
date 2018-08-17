@@ -1,8 +1,8 @@
-# Fault-tolerant Promise.all
+# 容错机制 Promise.all
 
-We'd like to fetch multiple URLs in parallel.
+我们想要并行获取多个 URL。
 
-Here's the code to do that:
+这是方法：
 
 ```js run
 let urls = [
@@ -20,13 +20,13 @@ Promise.all(urls.map(url => fetch(url)))
   ));
 ```
 
-The problem is that if any of requests fails, then `Promise.all` rejects with the error, and we loose results of all the other requests.
+问题是如果任何请求都失败了，那么 `Promise.all` 就会带有 error 被 reject，而且所有的其他请求结果都会丢失。
 
-That's not good.
+这并不好。
 
-Modify the code so that the array `responses` in the line `(*)` would include the response objects for successful fetches and error objects for failed ones.
+修改代码会导致 `(*)` 行的 `responses` 数组包含成功响应的对象和失败时获取的 error 对象。
 
-For instance, if one of URLs is bad, then it should be like:
+例如，如果其中一个 URL 失效，那么就会变成这样：
 
 ```js
 let urls = [
@@ -45,4 +45,4 @@ Promise.all(...) // your code to fetch URLs...
   });
 ```
 
-P.S. In this task you don't have to load the full response using `response.text()` or `response.json()`. Just handle fetch errors the right way.
+P.S. 在这个任务中，你无需使用 `response.text()` 或 `response.json()` 来加载完整的请求。只要正确处理获取的 error 即可。
