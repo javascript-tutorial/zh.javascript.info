@@ -1,25 +1,25 @@
-# Focusing: focus/blur
+# 聚焦：focus/blur
 
-An element receives a focus when the user either clicks on it or uses the `key:Tab` key on the keyboard. There's also an `autofocus` HTML attribute that puts the focus into an element by default when a page loads and other means of getting a focus.
+当用户点击一个元素或者使用键盘上的`key:Tab`键，它会获得一个焦点。当网页加载时HTML 属性`autofocus`也会让一个焦点落在元素上，不仅如此，还有其它途径可以获取焦点。
 
-Focusing generally means: "prepare to accept the data here", so that's the moment when we can run the code to initialize or load something.
+聚焦通常表示：“这里准备好接受数据了”，所以那个时候我们可以运行代码来初始化或者加载一些东西。
 
-The moment of losing the focus ("blur") can be even more important. That's when a user clicks somewhere else or presses `key:Tab` to go to the next form field, or there are other means as well.
+失去焦点的时刻会是更重要的。发生在用户点击网页其它地方或者点击`key:Tab`跳转到下一个表单域，亦或是其它途径的时候。
 
-Losing the focus generally means: "the data has been entered", so we can run the code to check it or even to save it to the server and so on.
+失去焦点通常表示：“数据已经完成输入了”，所以我们可以运行代码来检查它，甚至可以是保存到服务器上。
 
-There are important peculiarities when working with focus events. We'll do the best to cover them here.
+当操作聚焦事件的时候有一些重要的特性需要注意。我们最好去掌握他们在这里。
 
-## Events focus/blur
+## focus/blur的事件
 
-The `focus` event is called on focusing, and `blur` -- when the element loses the focus.
+当元素聚焦时`focus`事件被触发，还有当元素失去焦点的时候`blur`事件被触发。
 
-Let's use them for validation of an input field.
+让我们使用它们去校验一个输入域。
 
-In the example below:
+在下面的例子：
 
-- The `blur` handler checks if the field the email is entered, and if not -- shows an error.
-- The `focus` handler hides the error message (on `blur` it will be checked again):
+- `blur`事件处理器会检查这个域有没有输入邮箱，如果没有的话 -- 显示一个错误。
+- `focus`事件处理器隐藏错误信息（当失去焦点的时候`blur`事件处理器还会再检查一遍）：
 
 ```html run autorun height=60
 <style>
@@ -49,14 +49,13 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value on the server if it's correct.
+现代 HTML 允许通过使用属性：包括但不限于`required`、`pattern`去做很多的表单校验。而且有时它们刚好是我们需要的。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
 
+## focus/blur 的方法
 
-## Methods focus/blur
+方法 ``和``可以设置和移除元素上的焦点。
 
-Methods `elem.focus()` and `elem.blur()` set/unset the focus on the element.
-
-For instance, let's make the visitor unable to leave the input if the value is invalid:
+举个例子，如果输入值无效，我们可以让焦点一直保留在这个输入域上：
 
 ```html run autorun height=80
 <style>
@@ -84,46 +83,46 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-It works in all browsers except Firefox ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)).
+除了火狐 ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)) 其它浏览器都可以正常工作。
 
-If we enter something into the input and then try to use `key:Tab` or click away from the `<input>`, then `onblur` returns the focus back.
+如果我们输入一些无效数据到这个输入域里，或者当我们尝试使用`key:Tab`和点击其它远离`<input>`的地方，那么`onblur`事件处理器会把焦点重新设置到这个输入域里。
 
-Please note that we can't "prevent losing focus" by calling `event.preventDefault()` in `onblur`, because `onblur` works *after* the element lost the focus.
+请注意，我们不可以通过在`onblur`事件处理器里调用`event.preventDefault()`来“阻止失去焦点”，因为`onblur`事件处理器是在元素失去焦点的*之后*被运行的。
 
 ```warn header="JavaScript-initiated focus loss"
-A focus loss can occur for many reasons.
+很多种原因可以导致失去焦点。
 
-One of them is when the visitor clicks somewhere else. But also JavaScript itself may cause it, for instance:
+其中之一是用户点击了其它的地方。当然，JavaScript它自己也可以导致发生，举个例子：
 
-- An `alert` moves focus to itself, so it causes the focus loss at the element (`blur` event), and when the `alert` is dismissed, the focus comes back (`focus` event).
-- If an element is removed from DOM, then it also causes the focus loss. If it is reinserted later, then the focus doesn't return.
+- 一个`alert`对话框会争夺焦点，所以这会导致元素失去焦点（触发`blur`事件），还有当这个`alert`对话框消失的时候，焦点重新回到原元素上（触发`focus`事件）。
+- 如果一个元素被移出DOM，那么它会导致焦点丢失。就算它被重新添加到DOM，焦点也不会回到它身上。
 
-These features sometimes cause `focus/blur` handlers to misbehave -- to trigger when they are not needed.
+有时候这些特性导致发生的`focus/blur`事件处理器会让人苦恼 -- 它们在不被需要的时候发生。
 
-The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should evade causing it by ourselves.
+最好的秘诀就是当使用这些事件的时候小心点。如果我们想要捕获用户引起的去焦事件，那么我们自己应该避免去触发它们。
 ```
-## Allow focusing on any element: tabindex
+## 允许在如何元素上聚焦：tabindex
 
-By default many elements do not support focusing.
+默认情况下，很多元素不支持获取焦点。
 
-The list varies between browsers, but one thing is always correct: `focus/blur` support is guaranteed for elements that a visitor can interact with: `<button>`, `<input>`, `<select>`, `<a>` and so on.
+list标签在不同的浏览器表现不同，但有一件事总是正确的：`focus/blur`保证支持那些用户可以交互的元素：比如`<button>`、`<input>`、`<select>`、`<a>`等等。
 
-From the other hand, elements that exist to format something like `<div>`, `<span>`, `<table>` -- are unfocusable by default. The method `elem.focus()` doesn't work on them, and `focus/blur` events are never triggered.
+从另一方面说，为了格式化某些东西而存在的元素像`<div>`、`<span>`、`<table>` -- 默认是不能被聚焦的。`elem.focus()`方法不会在它们身上运行，还有`focus/blur`事件绝不会被触发。
 
-This can be changed using HTML-attribute `tabindex`.
+使用 HTML 属性 `tabindex`可以改变。
 
-The purpose of this attribute is to specify the order number of the element when `key:Tab` is used to switch between them.
+这个属性的目的是当使用`key:Tab`在元素之间切换的时候指定它们的排列顺序。
 
-That is: if we have two elements, the first has `tabindex="1"`, and the second has `tabindex="2"`, then pressing `key:Tab` while in the first element -- moves us to the second one.
+也就是说：如果我们有两个元素，第一个有属性`tabindex="1"`，第二个有`tabindex="2"`，然后当焦点在第一个元素的时候，按下`key:Tab`键，会让焦点移动到第二个元素身上。
 
-There are two special values:
+这里有两个特别的值：
 
-- `tabindex="0"` makes the element the last one.
-- `tabindex="-1"` means that `key:Tab` should ignore that element.
+- `tabindex="0"`让元素成为最后一个。
+- `tabindex="-1"意味着`key:Tab`应该忽略这个元素。
 
-**Any element supports focusing if it has `tabindex`.**
+**任何元素如果有属性`tabindex`，它将会支持聚焦。**
 
-For instance, here's a list. Click the first item and press `key:Tab`:
+举个例子，这里有个列表。点击第一个项目然后按下`key:Tab`:
 
 ```html autorun no-beautify
 Click the first item and press Tab. Keep track of the order. Please note that many subsequent Tabs can move the focus out of the iframe with the example.
@@ -140,17 +139,17 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 </style>
 ```
 
-The order is like this: `1 - 2 - 0` (zero is always the last). Normally, `<li>` does not support focusing, but `tabindex` full enables it, along with events and styling with `:focus`.
+顺序就像这样：`1 - 2 - 0`（0 总是最后一个）。正常情况下，`<li>`元素不支持被聚焦，但`tabindex`使这成为可能，顺带还会触发事件和使`:focus`样式生效。
 
-```smart header="`elem.tabIndex` works too"
-We can add `tabindex` from JavaScript by using the `elem.tabIndex` property. That has the same effect.
+```
+我们可以通过JavaScript使用`elem.tabIndex`来添加`tabindex`属性。效果是一样的。
 ```
 
-## Delegation: focusin/focusout
+## 委托：focus/blur
 
-Events `focus` and `blur` do not bubble.
+`focus` 和 `blur`事件是不会向上冒泡的。
 
-For instance, we can't put `onfocus` on the `<form>` to highlight it, like this:
+举个例子，我们不可以为了高亮`<form>`而把`onfocus`事件处理器放在它身上，像这样：
 
 ```html autorun height=80
 <!-- on focusing in the form -- add the class -->
@@ -162,13 +161,13 @@ For instance, we can't put `onfocus` on the `<form>` to highlight it, like this:
 <style> .focused { outline: 1px solid red; } </style>
 ```
 
-The example above doesn't work, because when user focuses on an `<input>`, the `focus` event triggers on that input only. It doesn't bubble up. So `form.onfocus` never triggers.
+上面的例子并不如意，因为当用户使`<input>`元素聚焦的时候，这个`focus`事件只会在这个input元素上触发。它不会向上冒泡。所以`form.onfocus`绝不会触发。
 
-There are two solutions.
+有两个解决方案。
 
-First, there's a funny historical feature: `focus/blur` do not bubble up, but propagate down on the capturing phase.
+首先，有一个遗留下来的有趣的特性：`focus/blur`不会向上冒泡，但是在捕获阶段会向下传播。
 
-This will work:
+这样可以生效：
 
 ```html autorun height=80
 <form id="form">
@@ -187,11 +186,11 @@ This will work:
 </script>
 ```
 
-Second, there are `focusin` and `focusout` events -- exactly the same as `focus/blur`, but they bubble.
+其次，有`focusin` 和 `focusout`事件可以使用 -- 恰好和`focus/blur`事件很像，只不过它们会向上冒泡。
 
-Note that they must be assigned using `elem.addEventListener`, not `on<event>`.
+值得注意的是它们必须使用`elem.addEventListener`来指定，而不是`on<event>`。
 
-So here's another working variant:
+所以这里有另一个可以实现的变体：
 
 ```html autorun height=80
 <form id="form">
@@ -210,12 +209,13 @@ So here's another working variant:
 </script>
 ```
 
-## Summary
+## 总结
 
-Events `focus` and `blur` trigger on focusing/losing focus on the element.
+元素获得/失去焦点会触发`focus` 和 `blur`事件。
 
-Their specials are:
-- They do not bubble. Can use capturing state instead or `focusin/focusout`.
-- Most elements do not support focus by default. Use `tabindex` to make anything focusable.
+它们的特性是：
+- 它们不向上冒泡。但是可以在捕获阶段触发或者使用`focusin/focusout`。
+- 大多数元素默认不支持聚焦。使用`tabindex`可以让它们变成可聚焦的。
 
-The current focused element is available as `document.activeElement`.
+正在被聚焦的元素可以通过`document.activeElement`来访问。
+来源： https://raw.githubusercontent.com/xitu/javascript-tutorial-zh/zh-hans/2-ui/4-forms-controls/2-focus-blur/article.md
