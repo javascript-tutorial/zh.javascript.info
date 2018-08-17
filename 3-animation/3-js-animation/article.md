@@ -54,9 +54,9 @@ function draw(timePassed) {
 
 假设我们有几个同时运行的动画。
 
-如果我们单独运行它们，每个都有自己的 `setInterval（...，20）`，那么浏览器必须以比 `20ms` 更频繁的速度地重绘。
+如果我们单独运行它们，每个都有自己的 `setInterval（...，20）`，那么浏览器必须以比 `20ms` 更频繁的速度重绘。
 
-每个 `setInterval` 每 `20ms` 触发一次，但它们相互独立，因此 `20ms` 内将有多个独立的运行。
+每个 `setInterval` 每 `20ms` 触发一次，但它们相互独立，因此 `20ms` 内将有多个独立运行的重绘。
 
 这几个独立的重绘应该组合在一起，以使浏览器更加容易处理。
 
@@ -78,11 +78,11 @@ setInterval(animate2, 20);
 setInterval(animate3, 20);
 ```
 
-还有一件事需要记住。有时当 CPU 过载时，或者有其他原因需要降低重绘频率。例如，如果浏览器选项卡被隐藏，那么绘图中完全没有意义。
+还有一件事需要记住。有时当 CPU 过载时，或者有其他原因需要降低重绘频率。例如，如果浏览器选项卡被隐藏，那么绘图完全没有意义。
 
 有一个标准[动画时序](http://www.w3.org/TR/animation-timing/) 提供了 `requestAnimationFrame` 函数。
 
-它解决了所有这些问题，甚至更多其它问题。
+它解决了所有这些问题，甚至更多其它的问题。
 
 语法：
 ```js
@@ -99,7 +99,7 @@ let requestId = requestAnimationFrame(callback);
 cancelAnimationFrame(requestId);
 ```
 
-`callback` 得到一个参数——从页面加载开始经过的毫秒数。这个时间也可通过调用 [performance.now()](mdn:api/Performance/now) 得到。
+`callback` 得到一个参数 —— 从页面加载开始经过的毫秒数。这个时间也可通过调用 [performance.now()](mdn:api/Performance/now) 得到。
 
 通常 `callback` 很快就会运行，除非 CPU 过载或笔记本电量消耗殆尽，或者其他原因。
 
@@ -182,6 +182,7 @@ function animate({timing, draw, duration}) {
 
     ……或者做任何其他事情，我们可以以任何方式为任何事物制作动画。
 
+
 让我们使用我们的函数将元素的 `width` 从 `0` 变化为 `100%`。
 
 点击演示元素
@@ -226,7 +227,7 @@ function quad(timeFraction) {
 
 ![](quad.png)
 
-看看实际效果（点击激活）
+看看实际效果（点击激活）：
 
 [iframe height=40 src="quad" link]
 
@@ -260,7 +261,7 @@ function circ(timeFraction) {
 
 此函数执行“弓箭射击”。首先，我们“拉弓弦”，然后“射击”。
 
-与以前的函数不同，它取决于附加参数 `x`，即“弹性系数”。 “拉弓弦”的距离由它定义。
+与以前的函数不同，它取决于附加参数 `x`，即“弹性系数”。“拉弓弦”的距离由它定义。
 
 代码如下：
 
@@ -270,11 +271,11 @@ function back(x, timeFraction) {
 }
 ```
 
-**`x = 1.5` 时的图像**
+**`x = 1.5` 时的图像：**
 
 ![](back.png)
 
-在动画中我们使用特定的 `x` 值。下面是 `x = 1.5` 的例子：
+在动画中我们使用特定的 `x` 值。下面是 `x = 1.5` 时的例子：
 
 [iframe height=40 src="back" link]
 
@@ -354,12 +355,12 @@ let bounceEaseOut = makeEaseOut(bounce);
 
 ![](bounce-inout.png)
 
-如果在开始时有动画效果，比如弹跳——将在最后显示。
+如果在开始时有动画效果，比如弹跳 —— 那么它将在最后显示。
 
 上图中<span style="color:#EE6B47">常规弹跳</span>为红色，<span style="color:#62C0DC">easeOut 弹跳</span>为蓝色。
 
-- 常规弹跳——物体在底部弹跳，然后突然跳到顶部。
-- `easeOut` 之后——物体跳到顶部之后，在那里弹跳。
+- 常规弹跳 —— 物体在底部弹跳，然后突然跳到顶部。
+- `easeOut` 变换之后 —— 物体跳到顶部之后，在那里弹跳。
 
 ### easeInOut
 
@@ -400,15 +401,15 @@ bounceEaseInOut = makeEaseInOut(bounce);
 
 ![](circ-ease.png)
 
-- <span style="color:#EE6B47">红色</span>是 `circ`（`easeIn`） 的常规变体。
-- <span style="color:#8DB173">绿色</span>——`easeOut`。
-- <span style="color:#62C0DC">蓝色</span>——`easeInOut`。
+- <span style="color:#EE6B47">红色</span>是 `circ`（`easeIn`）的常规变体。
+- <span style="color:#8DB173">绿色</span> —— `easeOut`。
+- <span style="color:#62C0DC">蓝色</span> —— `easeInOut`。
 
 正如我们所看到的，动画前半部分的图形是缩小的“easeIn”，后半部分是缩小的“easeOut”。结果是动画以相同的效果开始和结束。
 
 ## 更有趣的 "draw"
 
-除了移动元素，我们还可以做其他事情。 我们所需要的只是写出正确的 `draw`。
+除了移动元素，我们还可以做其他事情。我们所需要的只是写出正确的 `draw`。
 
 这是动画形式的“弹跳”文字输入：
 
@@ -416,9 +417,9 @@ bounceEaseInOut = makeEaseInOut(bounce);
 
 ## 总结
 
-JavaScript 动画应该通过 `requestAnimationFrame` 实现。 该内置方法允许设置回调函数，以便在浏览器准备重绘时运行。 那通常很快，但确切的时间取决于浏览器。
+JavaScript 动画应该通过 `requestAnimationFrame` 实现。该内置方法允许设置回调函数，以便在浏览器准备重绘时运行。那通常很快，但确切的时间取决于浏览器。
 
-当页面在后台时，根本没有重绘，因此回调将不会运行：动画将被暂停并且不会消耗资源。 那很棒。
+当页面在后台时，根本没有重绘，因此回调将不会运行：动画将被暂停并且不会消耗资源。那很棒。
 
 这是设置大多数动画的 helper 函数 `animate`：
 
@@ -447,12 +448,12 @@ function animate({timing, draw, duration}) {
 
 参数：
 
-- `duration` —— 动画运行的总的毫秒数。
+- `duration` —— 动画运行的总毫秒数。
 - `timing` —— 计算动画进度的函数。获取从 0 到 1 的小数时间，返回动画进度，通常也是从 0 到 1。
 - `draw` —— 绘制动画的函数。
 
-当然我们可以改进它，增加更多的花里胡哨的东西，但 JavaScript 动画不是经常用到。它们用于做一些有趣和不标准的事情。 因此，您大可在需要时添加所需的功能。
+当然我们可以改进它，增加更多花里胡哨的东西，但 JavaScript 动画不是经常用到。它们用于做一些有趣和不标准的事情。因此，您大可在必要时再添加所需的功能。
 
-JavaScript 动画可以使用任何时序函数。 我们介绍了很多例子和变换，使它们更加通用。 与 CSS 不同，我们不仅限于 Bezier 曲线。
+JavaScript 动画可以使用任何时序函数。我们介绍了很多例子和变换，使它们更加通用。与 CSS 不同，我们不仅限于 Bezier 曲线。
 
 `draw` 也是如此：我们可以将任何东西动画化，而不仅仅是 CSS 属性。

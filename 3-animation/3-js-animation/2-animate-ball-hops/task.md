@@ -8,6 +8,6 @@ importance: 5
 
 [iframe height=250 src="solution"]
 
-编写动画代码。 终止时球到右边的距离是 `100px`。
+编写动画代码。 终止时球到左侧的距离是 `100px`。
 
 从前一个任务 <info：task / animate-ball> 的答案开始。

@@ -4,7 +4,7 @@
 
 我们可以为它多写一个 `animate`。
 
-作为时间函数，我们可以使用 `linear`，但像 `makeEaseOut（quad）`这样的函数看起来要好得多。
+作为时间函数，我们可以使用 `linear`，但像 `makeEaseOut(quad)` 这样的函数看起来要好得多。
 
 代码：
 
