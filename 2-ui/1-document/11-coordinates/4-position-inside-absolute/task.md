@@ -1,4 +1,4 @@
-importance：5
+importance: 5
 
 ---
 
@@ -8,8 +8,8 @@ importance：5
 
 `position` 的新值：
 
-- `top-out`，`right-out`，`bottom-out` -- 和之前一样工作，它们把 `elem` 插入 `anchor` 的上/中/下。
-- `top-in`，`right-in`，`bottom-in` -- 把 `elem` 插入 `anchor` 元素内部：将之放在内部的上/中/下边界。
+- `top-out`，`right-out`，`bottom-out` — 和之前一样工作，它们把 `elem` 插入 `anchor` 的上/中/下。
+- `top-in`，`right-in`，`bottom-in` — 把 `elem` 插入 `anchor` 元素内部：将之放在内部的上/中/下边界。
 
 比如说：
 
