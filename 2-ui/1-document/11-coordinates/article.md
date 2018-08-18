@@ -15,10 +15,10 @@
 
 `elem.getBoundingClientRect()` 方法返回一个 `elem` 的窗口坐标对象，这个对象有以下这些属性：
 
-- `top` -- 元素顶部边缘的 Y 坐标
-- `left` -- 元素左边边缘的 X 坐标
-- `right` -- 元素右边边缘的 X 坐标
-- `bottom` -- 元素底部边缘的 Y 坐标
+- `top` — 元素顶部边缘的 Y 坐标
+- `left` — 元素左边边缘的 X 坐标
+- `right` — 元素右边边缘的 X 坐标
+- `bottom` — 元素底部边缘的 Y 坐标
 
 如下所示：
 
@@ -52,7 +52,7 @@ function showRect(elem) {
 
 ​```warn header="坐标的右/底部和 CSS 中的属性是不同的"
 
-如果我们把窗口的坐标和 CSS 中的位置相对照，那么其和 `position:fixed` 有明显的相似之处 -- 也是相对于 viewport 的位置。
+如果我们把窗口的坐标和 CSS 中的位置相对照，那么其和 `position:fixed` 有明显的相似之处 — 也是相对于 viewport 的位置。
 
 但是在 CSS 中 `right` 属性表示的是到右边界的距离，而且 `bottom` 是到底部边界的距离。
 
@@ -65,7 +65,7 @@ function showRect(elem) {
 
 语法如下所示：
 
-​```js
+```js
 let elem = document.elementFromPoint(x, y);
 ```
 
@@ -110,7 +110,7 @@ elem.style.background = ''; // Error!
 For instance, the function `createMessageUnder(elem, html)` below shows the message under `elem`:
 比如说，下面的 `createMessageUnder(elem, html)` 函数在 `elem` 元素下面显示了消息：
 
-​```js
+```js
 let elem = document.getElementById("coords-show-mark");
 
 function createMessageUnder(elem, html) {
@@ -137,13 +137,13 @@ function createMessageUnder(elem, html) {
 let message = createMessageUnder(elem, 'Hello, world!');
 document.body.append(message);
 setTimeout(() => message.remove(), 5000);
-​```
+```
 
-​```online
+```online
 按这个按钮来执行它：
 
 <button id="coords-show-mark">Button with id="coords-show-mark", the message will appear under it</button>
-​```
+```
 
 我们可以修改代码从而在元素左边，右边或者下面显示消息，也可以应用 CSS 动画来营造“淡入淡出”效果等等。这很简单，因为我们有该元素所有的坐标和大小。
 
@@ -157,7 +157,7 @@ setTimeout(() => message.remove(), 5000);
 
 文档相对坐标是从文档的左上角开始计算，而不是窗口。
 
-在 CSS 中，窗口坐标对应的是 `position:fixed`， 而文档坐标则类似顶部的 position:absolute`。
+在 CSS 中，窗口坐标对应的是 `position:fixed`，而文档坐标则类似顶部的 position:absolute`。
 
 我们可以使用 `position:absolute` 和 `top/left` 来把一些东西放到文档中的固定位置，以便在页面滚动时元素仍能保留在那里。但是我们首先需要正确的坐标。
 
@@ -188,7 +188,7 @@ setTimeout(() => message.remove(), 5000);
 
 函数 `getCoords(elem)` 将从 `elem.getBoundingClientRect()` 获取到窗口坐标然后加上当前滚动的长度：
 
-​```js
+```js
 // 获取元素的文档坐标
 function getCoords(elem) {
   let box = elem.getBoundingClientRect();
@@ -198,7 +198,7 @@ function getCoords(elem) {
     left: box.left + pageXOffset
   };
 }
-​```
+```
 
 ## 总结
 
@@ -210,5 +210,3 @@ function getCoords(elem) {
 窗口坐标非常适合和 `position:fixed` 一起使用，文档坐标非常适合和 `position:absolute` 一起使用。
 
 这两个坐标系统有它们各自的“优点”和“缺点”，有些时候我们需要使用其中一个或另一个，就像 CSS `position` 中的 `absolute` 和 `fixed` 那样。
-
-````
