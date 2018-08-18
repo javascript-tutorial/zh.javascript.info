@@ -1,4 +1,4 @@
-importance：5
+importance: 5
 
 ---
 
@@ -12,4 +12,4 @@ importance：5
 
 [iframe src="solution" height="350" border="1" link]
 
-附：在这个任务中注释元素应该会有 `position:fixed` CSS 配置
+附：在这个任务中注释元素应该会有 `position:fixed` CSS 配置。
