@@ -1,16 +1,16 @@
-# CSS-animations
+# CSS 动画
 
-CSS animations allow to do simple animations without JavaScript at all.
+CSS 动画允许你在完全不使用 JavaScript 的情况下做一些简单的动效。
 
-JavaScript can be used to control CSS animation and make them even better with a little of code.
+JavaScript 可以被用来控制 CSS 动画，并且通过少量的代码让动画表现更出色。
 
-## CSS transitions [#css-transition]
+## CSS 过渡（transition） [#css-transition]
 
-The idea of CSS transitions is simple. We describe a property and how its changes should be animated. When the property changes, the browser paints the animation.
+CSS 过渡的理念非常简单，我们只需要定义某一个属性以及如何动态地表现其变化。当属性变化时，浏览器将会绘制出相应的过渡动画。
 
-That is: all we need is to change the property. And the fluent transition is made by the browser.
+也就是说：我们只需要改变某个属性，然后所有流畅的动画都由浏览器生成。
 
-For instance, the CSS below animates changes of `background-color` for 3 seconds:
+举个例子，以下 CSS 会为 `backgroud-color` 的变化生成一个 3 秒的过渡动画：
 
 ```css
 .animated {
@@ -19,9 +19,9 @@ For instance, the CSS below animates changes of `background-color` for 3 seconds
 }
 ```
 
-Now if an element has `.animated` class, any change of `background-color` is animated during 3 seconds.
+现在，只要一个元素拥有名为 `.animated` 的类，那么任何背景颜色的变化都会被渲染为 3 秒钟的动画。
 
-Click the button below to animate the background:
+单击以下按钮以演示动画：
 
 ```html run autorun height=60
 <button id="color">Click me</button>
@@ -40,16 +40,16 @@ Click the button below to animate the background:
 </script>
 ```
 
-There are 5 properties to describe CSS transitions:
+CSS 提供了五个属性来描述一个过渡：
 
 - `transition-property`
 - `transition-duration`
 - `transition-timing-function`
 - `transition-delay`
 
-We'll cover them in a moment, for now let's note that the common `transition` property allows to declare them together in the order: `property duration timing-function delay`, and also animate multiple properties at once.
+之后我们会详细介绍它们，目前我们需要知道，我们可以在 `transition` 中以 `property duration timing-function delay` 的顺序一次性定义它们，并且可以同时为多个属性设置过渡动画。
 
-For instance, this button animates both `color` and `font-size`:
+请看以下例子，点击按钮生成 `color` 和 `font-size` 的过渡动画：
 
 ```html run height=80 autorun no-beautify
 <button id="growing">Click me</button>
@@ -70,29 +70,29 @@ growing.onclick = function() {
 </script>
 ```
 
-Now let's cover animation properties one by one.
+现在让我们一个一个展开看这些属性。
 
 ## transition-property
 
-In `transition-property` we write a list of property to animate, for instance: `left`, `margin-left`, `height`, `color`.
+在 `transition-property` 中我们可以列举要设置动画的所有属性，如：`left, margin-left, height, color`。
 
-Not all properties can be animated, but [many of them](http://www.w3.org/TR/css3-transitions/#animatable-properties-). The value `all` means "animate all properties".
+不是所有的 CSS 属性都可以应用过渡，但是它们中的[大多数](http://www.w3.org/TR/css3-transitions/#animatable-properties-)都是可以的。`all` 表示应用在所有属性上。
 
 ## transition-duration
 
-In `transition-duration` we can specify how long the animation should take. The time should be in [CSS time format](http://www.w3.org/TR/css3-values/#time): in seconds `s` or milliseconds `ms`.
+`transition-duration` 允许我们指定动画持续的时间。时间的格式参照 [CSS 时间格式](http://www.w3.org/TR/css3-values/#time)：单位为秒 `s` 或者毫秒 `ms`。
 
 ## transition-delay
 
-In `transition-delay` we can specify the delay *before* the animation. For instance, if  `transition-delay: 1s`, then animation starts after 1 second after the change.
+`transition-delay` 允许我们设定动画**开始前**的延迟时间。例如，对于 `transition-delay: 1s`，动画将会在属性变化发生 1 秒后开始渲染。
 
-Negative values are also possible. Then the animation starts from the middle. For instance, if `transition-duration` is `2s`, and the delay is `-1s`, then the animation takes 1 second and starts from the half.
+你也可以提供一个负值。那么动画将会从整个过渡的中间时刻开始渲染。例如，对于 `transition-duration: 2s`，同时把 `delay` 设置为 `-1s`，那么这个动画将会持续 1 秒钟，并且从正中间开始渲染。
 
-Here's the animation shifts numbers from `0` to `9` using CSS `translate` property:
+这里演示了数字从 `0` 到 `9` 的动画，使用了 CSS `translate` 方法：
 
 [codetabs src="digits"]
 
-The `transform` property is animated like this:
+`tranform` 设置如下：
 
 ```css
 #stripe.animate {
@@ -102,19 +102,19 @@ The `transform` property is animated like this:
 }
 ```
 
-In the example above JavaScript adds the class `.animate` to the element -- and the animation starts:
+在以上的例子中，JavaScript 把 `.animate` 类添加到了元素上，由此触发了动画：
 
 ```js
 stripe.classList.add('animate');
 ```
 
-We can also start it "from the middle", from the exact number, e.g. corresponding to the current second, using the negative `transition-delay`.
+我们也可以『从中间』开始，也就是说从某个特定数字开始，比方说，从当前的时间的秒数开始。这就要用到负的 `transition-delay`。
 
-Here if you click the digit -- it starts the animation from the current second:
+此处，如果你单击这个数字，那么它会从当前的秒数开始渲染：
 
 [codetabs src="digits-negative-delay"]
 
-JavaScript does it by an extra line:
+只需添加一行 JavaScript 代码：
 
 ```js
 stripe.onclick = function() {
@@ -129,40 +129,40 @@ stripe.onclick = function() {
 
 ## transition-timing-function
 
-Timing function describes how the animation process is distributed along the time. Will it start slowly and then go fast or vise versa.
+时间函数描述了动画进程在时间上的分布。它是先慢后快还是先快后慢？
 
-That's the most complicated property from the first sight. But it becomes very simple if we devote a bit time to it.
+乍一看，这可能是最复杂的属性了，但是稍微花点时间，你就会发现其实也很简单。
 
-That property accepts two kinds of values: a Bezier curve or steps. Let's start from the curve, as it's used more often.
+这个属性接受两种值：一个贝塞尔曲线（Bezier curve）或者步调函数（steps）。我们先从贝塞尔曲线开始，这也是较为常用的。
 
-### Bezier curve
+### 贝塞尔曲线（Bezier curve）
 
-The timing function can be set as a [Bezier curve](/bezier-curve) with 4 control points that satisfies the conditions:
+时间函数可以用[贝塞尔曲线](/bezier-curve)描述，通过设置四个满足以下条件的控制点：
 
-1. First control point: `(0,0)`.
-2. Last control point: `(1,1)`.
-3. For intermediate points values of `x` must be in the interval `0..1`, `y` can be anything.
+1. 第一个应为：`(0,0)`。
+2. 最后一个应为：`(1,1)`。
+3. 对于中间值，`x` 必须位于 `0..1` 之间，`y` 可以为任意值。
 
-The syntax for a Bezier curve in CSS: `cubic-bezier(x2, y2, x3, y3)`. Here we need to specify only 2nd and 3rd control points, because the 1st one is fixed to `(0,0)` and the 4th one is `(1,1)`.
+CSS 中设置一贝塞尔曲线的语法为：`cubic-bezier(x2, y2, x3, y3)`. 这里我们只需要设置第二个和第三个值，因为第一个被固定为 `(0,0)` ，第四个被固定为 `(1,1)`.
 
-The timing function describes how fast the animation process goes in time.
+时间函数描述了动画进行的快慢。
 
-- The `x` axis is the time: `0` -- the starting moment, `1` -- the last moment of `transition-duration`.
-- The `y` axis specifies the completion of the process: `0` -- the starting value of the property, `1` -- the final value.
+- `x` 轴表示时间：`0` —— 开始时刻，`1` —— `transition-duration`的结束时刻。
+- `y` 轴表示过程的完成度：`0` —— 属性的起始值，`1` —— 属性的最终值。
 
-The simplest variant is when the animation goes uniformly, with the same linear speed. That can be specified by the curve `cubic-bezier(0, 0, 1, 1)`.
+最简单的一种情况就是动画匀速进行，可以通过设置曲线为 `cubic-bezier(0, 0, 1, 1)` 来实现。
 
-Here's how that curve looks:
+看上去就像这样：
 
 ![](bezier-linear.png)
 
-...As we can see, it's just a straight line. As the time (`x`) passes, the completion (`y`) of the animation steadily goes from `0` to `1`.
+...正如我们所见，这就是条直线。随着时间 `x` 推移，完成度 `y` 稳步从 `0` 增长到 `1`。
 
-The train in the example below goes from left to right with the permanent speed (click it):
+例子中的列车匀速地从左侧移动到右侧：
 
 [codetabs src="train-linear"]
 
-The CSS `transition` is based on that curve:
+这个里面的 CSS 就是基于刚才那条曲线的：
 
 ```css
 .train {
@@ -172,21 +172,21 @@ The CSS `transition` is based on that curve:
 }
 ```
 
-...And how can we show a train slowing down?
+...那么，我们如果表现出减速行驶的列车呢？
 
-We can use another Bezier curve: `cubic-bezier(0.0, 0.5, 0.5 ,1.0)`.
+我们可以使用另一条贝塞尔曲线：`cubic-bezier(0.0, 0.5, 0.5 ,1.0)`.
 
-The graph:
+图像如下：
 
 ![](train-curve.png)
 
-As we can see, the process starts fast: the curve soars up high, and then slower and slower.
+正如我们所见，这个过程起初很快：曲线开始迅速升高，然后越来越慢。
 
-Here's the timing function in action (click the train):
+这是实际的效果演示：
 
 [codetabs src="train"]
 
-CSS:
+CSS：
 ```css
 .train {
   left: 0;
@@ -195,20 +195,20 @@ CSS:
 }
 ```
 
-There are several built-in curves: `linear`, `ease`, `ease-in`, `ease-out` and `ease-in-out`.
+CSS 提供几条内置的曲线：`linear`、`ease`、`ease-in`、`ease-out` 和 `ease-in-out`。
 
-The `linear` is a shorthand for `cubic-bezier(0, 0, 1, 1)` -- a straight line, we saw it already.
+`linear` 其实就是 `cubic-bezier(0, 0, 1, 1)` 的简写 —— 一条直线，刚刚我们已经看过了。 
 
-Other names are shorthands for the following `cubic-bezier`:
+其它的名称是以下贝塞尔曲线的简写：
 
 | <code>ease</code><sup>*</sup> | <code>ease-in</code> | <code>ease-out</code> | <code>ease-in-out</code> |
 |-------------------------------|----------------------|-----------------------|--------------------------|
 | <code>(0.25, 0.1, 0.25, 1.0)</code> | <code>(0.42, 0, 1.0, 1.0)</code> | <code>(0, 0, 0.58, 1.0)</code> | <code>(0.42, 0, 0.58, 1.0)</code> |
 | ![ease, figure](ease.png) | ![ease-in, figure](ease-in.png) | ![ease-out, figure](ease-out.png) | ![ease-in-out, figure](ease-in-out.png) |
 
-`*` -- by default, if there's no timing function, `ease` is used.
+`*` —— 默认值，如果没有指定时间函数，那么将使用 `ease` 作为默认值。
 
-So we could use `ease-out` for our slowing down train:
+所以，我们可以使用 `ease-out` 来表现减速行驶的列车：
 
 
 ```css
@@ -219,13 +219,13 @@ So we could use `ease-out` for our slowing down train:
 }
 ```
 
-But it looks a bit differently.
+但是这看起来有点怪怪的。
 
-**A Bezier curve can make the animation "jump out" of its range.**
+**贝塞尔曲线可以使动画『跳脱出』其原本的范围。**
 
-The control points on the curve can have any `y` coordinates: even negative or huge. Then the Bezier curve would also jump very low or high, making the animation go beyond its normal range.
+曲线上的控制点的 `y` 值可以使任意的：不管是负值还是一个很大的值。如此，贝塞尔曲线就会变得很矮或者很高，让动画跳出其普通的范围。
 
-In the example below the animation code is:
+在一下的例子中使用的代码：
 ```css
 .train {
   left: 100px;
@@ -234,13 +234,13 @@ In the example below the animation code is:
 }
 ```
 
-The property `left` should animate from `100px` to `400px`.
+`left` 本该在 `100px` 到 `400px` 之间变化。
 
-But if you click the train, you'll see that:
+但是如果你点击列车，你会发现：
 
-- First, the train goes *back*: `left` becomes less than `100px`.
-- Then it goes forward, a little bit farther than `400px`.
-- And then back again -- to `400px`.
+- 起初，列车会**反向**运动：`left` 会变得小于 `100px`。
+- 然后，它会变回往前运动，并且超过 `400px`。
+- 最后再回来 —— 回到 `400px`。
 
 [codetabs src="train-over"]
 
