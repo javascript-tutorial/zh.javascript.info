@@ -1,14 +1,14 @@
 
-# Attribution-NonCommercial-ShareAlike 4.0
+# 署名 - 非商业性使用 - 相同方式共享 4.0
 
-The full license text is at <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>.
+完整的许可证文本位于 <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>。
 
-You are free to:
-- **Share** – copy and redistribute the tutorial in any medium or material.
-- **Adapt** – remix, transform, and build upon the material.
+你可以：
+- **分享** —— 在任何媒体或材料中复制并扩散这些教程。
+- **合作** —— 在材料上进行重新编写或进行修改。
+- 
+根据以下条款：
 
-Under the following terms:
-
-- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-- **NonCommercial** — You may not use the material for commercial purposes.
-- **ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+- **署名** —— 你必须提供适当的信用担保，提供许可证的链接，并表明是否进行了更改。你可以以任何合理的方式这么做，但这不代表许可证所有者认可你或你的行为。
+- **非商业化** —— 你不能将材料用于商业用途。
+- **相同方式共享** —— 如果你在材料上进行重新编写或进行修改，你必须对你的贡献使用与原来相同的许可证。
