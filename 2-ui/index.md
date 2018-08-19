@@ -1,3 +1,3 @@
-# Browser: Document, Events, Interfaces 
+# 浏览器：文档，事件，界面
 
-Learning how to manage the browser page: add elements, manipulate their size and position, dynamically create interfaces and interact with the visitor.
+学习如何管理浏览器页面：增加元素，操纵元素的大小和位置，动态创建界面以及和访问者交互。

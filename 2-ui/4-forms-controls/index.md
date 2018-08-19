@@ -1,3 +1,3 @@
-# Forms, controls
+# 表单，控件
 
-Special properties and events for forms `<form>` and controls: `<input>`, `<select>` and other.
+表单 `<form>` 和控件特殊的属性和事件：包括 `<input>`，`<select>` 等等。
