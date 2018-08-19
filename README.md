@@ -29,7 +29,7 @@
 
   - `index.md` 代表一个章节
   - `article.md` 代表一篇文章
-  - `task.md` 代表一个任务（解答也必须出现在 `solution.md` 文件中）
+  - `task.md` 代表一个任务（解答必须也出现在 `solution.md` 文件中）
 
 每个文件都从 `# Main header` 开始。
 
