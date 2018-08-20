@@ -1,7 +1,7 @@
 
-# Function in if
+# if 内的函数
 
-Look at the code. What will be result of the call at the last line?
+查看这个代码。最后一行执行的结果是什么？
 
 ```js run
 let phrase = "Hello";

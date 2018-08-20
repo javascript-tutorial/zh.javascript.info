@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Bound function as a method
+# 作为方法的边界函数
 
-What will be the output?
+输出将会是什么？
 
 ```js
 function f() {

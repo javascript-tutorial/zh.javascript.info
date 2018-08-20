@@ -4,9 +4,9 @@ importance: 5
 
 # Changing "prototype"
 
-In the code below we create `new Rabbit`, and then try to modify its prototype.
+在下面的代码中，我们创建了 `new Rabbit`，然后尝试修改其原型。
 
-In the start, we have this code:
+一开始，我们有这样的代码：
 
 ```js run
 function Rabbit() {}
@@ -20,7 +20,7 @@ alert( rabbit.eats ); // true
 ```
 
 
-1. We added one more string (emphasized), what `alert` shows now?
+1. 我们增加了一个字符串（强调），`alert` 现在会显示什么？
 
     ```js
     function Rabbit() {}
@@ -37,7 +37,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-2. ...And if the code is like this (replaced one line)?
+2. ...如果代码是这样的（换了一行）？
 
     ```js
     function Rabbit() {}
@@ -54,7 +54,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-3. Like this (replaced one line)?
+3. 像这样呢（换了一行）？
 
     ```js
     function Rabbit() {}
@@ -71,7 +71,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-4. The last variant:
+4. 最后一种情况：
 
     ```js
     function Rabbit() {}

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Counter object
+# Counter 对象
 
-Here a counter object is made with the help of the constructor function.
+这里通过构造器函数创建了一个 counter 对象。
 
-Will it work? What will it show?
+行得通？它会显示什么呢？
 
 ```js
 function Counter() {

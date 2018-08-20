@@ -1,14 +1,14 @@
 
-Let's examine what's done inside `makeArmy`, and the solution will become obvious.
+如果让我们看一下 `makeArmy` 内做了些什么，那么解答就会变得显而易见。
 
-1. It creates an empty array `shooters`:
+1. 它创建了一个空数组 `shooters`：
 
     ```js
     let shooters = [];
     ```
-2. Fills it in the loop via `shooters.push(function...)`.
+2. 在循环中，通过 `shooters.push(function...)` 填充它（数组）。
 
-    Every element is a function, so the resulting array looks like this:
+    每个元素都是函数，所以数组看起来是这样的：
 
     ```js no-beautify
     shooters = [
@@ -25,25 +25,25 @@ Let's examine what's done inside `makeArmy`, and the solution will become obviou
     ];
     ```
 
-3. The array is returned from the function.
+3. 该数组返回自函数。
 
-Then, later, the call to `army[5]()` will get the element `army[5]` from the array (it will be a function) and call it.
+随后，`army[5]()` 从数组中获得元素 `army[5]`（函数）并调用。
 
-Now why all such functions show the same?
+为什么现在全部的函数都显示一样呢？
 
-That's because there's no local variable `i` inside `shooter` functions. When such a function is called, it takes `i` from its outer lexical environment.
+这是因为 `shooter` 函数内没有局部变量 `i`。当调用一个这样的函数时，`i` 是来自于外部词法环境的。
 
-What will be the value of `i`?
+`i` 的值是什么呢？
 
-If we look at the source:
+如果我们查看一下源头：
 
 ```js
 function makeArmy() {
   ...
   let i = 0;
   while (i < 10) {
-    let shooter = function() { // shooter function
-      alert( i ); // should show its number
+    let shooter = function() { // shooter 函数
+      alert( i ); // 应该显示它自己的数字
     };
     ...
   }
@@ -51,11 +51,11 @@ function makeArmy() {
 }
 ```
 
-...We can see that it lives in the lexical environment associated with the current `makeArmy()` run. But when `army[5]()` is called, `makeArmy` has already finished its job, and `i` has the last value: `10` (the end of `while`).
+...我们可以看到它存在于当前 `makeArmy()` 运行相关的词法环境中。但调用 `army[5]()` 时，`makeArmy` 已经完成它的工作，`i` 已经为结束的值：`10`（`while` 结束后）。
 
-As a result, all `shooter` functions get from the outer lexical envrironment the same, last value `i=10`.
+作为结果，所有的 `shooter` 都是从外部词法环境获得同样一个值最后的 `i=10`。
 
-The fix can be very simple:
+修改起来是很简单的：
 
 ```js run
 function makeArmy() {
@@ -65,8 +65,8 @@ function makeArmy() {
 *!*
   for(let i = 0; i < 10; i++) {
 */!*
-    let shooter = function() { // shooter function
-      alert( i ); // should show its number
+    let shooter = function() { // shooter 函数
+      alert( i ); // 应该显示它自己的数字
     };
     shooters.push(shooter);
   }
@@ -80,15 +80,15 @@ army[0](); // 0
 army[5](); // 5
 ```
 
-Now it works correctly, because every time the code block in `for (..) {...}` is executed, a new Lexical Environment is created for it, with the corresponding value of `i`.
+现在正常工作了，因为`for (..) {...}` 内的代码块每次执行都会创建一个新的词法环境，其中具有对应的 `i` 的值。
 
-So, the value of `i` now lives a little bit closer. Not in `makeArmy()` Lexical Environment, but in the Lexical Environment that corresponds the current loop iteration. A `shooter` gets the value exactly from the one where it was created.
+所以，现在 `i` 值的距离（显示数字的地方更近了。现在它不是在 `makeArmy()` 词法环境中，而是在对应的当前循环迭代的词法环境中。`shooter` 从它创建的位置获得值。
 
 ![](lexenv-makearmy.png)
 
-Here we rewrote `while` into `for`.
+这里我们把 `while` 改写为了 `for`。
 
-Another trick could be possible, let's see it for better understanding of the subject:
+其他技巧也是可以的，让我们了解一下，以便让我们更好地理解这个问题：
 
 
 ```js run
@@ -100,8 +100,8 @@ function makeArmy() {
 *!*
     let j = i;
 */!*
-    let shooter = function() { // shooter function
-      alert( *!*j*/!* ); // should show its number
+    let shooter = function() { // shooter 函数
+      alert( *!*j*/!* ); // 应该显示它自己的数字
     };
     shooters.push(shooter);
     i++;
@@ -116,6 +116,6 @@ army[0](); // 0
 army[5](); // 5
 ```
 
-The `while` loop, just like `for`, makes a new Lexical Environment for each run. So here we make sure that it gets the right value for a `shooter`.
+`while` 和 `for` 循环差不多，每次运行都会创建了一个新的词法环境。所以在这里它能确保 `shooter` 能获得正确的值。
 
-We copy `let j = i`. This makes a loop body local `j` and copies the value of `i` to it. Primitives are copied "by value", so we actually get a complete independent copy of `i`, belonging to the current loop iteration.
+我们复制 `let j = i`。复制 `i` 的值给循环体内的局部（变量）`j`。基本值是按值传递的，所以实际上，我们获得了属于当前循环迭代的完全独立的副本 `i`。

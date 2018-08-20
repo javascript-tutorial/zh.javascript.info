@@ -2,24 +2,24 @@ importance: 5
 
 ---
 
-# Filter through function
+# 通过函数筛选
 
-We have a built-in method `arr.filter(f)` for arrays. It filters all elements through the function `f`. If it returns `true`, then that element is returned in the resulting array.
+数组中有个内建的 `arr.filter(f)` 方法。它通过函数 `f` 过滤元素。如果元素返回 `true` 的，那么该元素会被返回到结果数组中。
 
-Make a set of "ready to use" filters:
+制造一系列『马上能用』的过滤器：
 
-- `inBetween(a, b)` -- between `a` and `b` or equal to them (inclusively).
-- `inArray([...])` -- in the given array.
+- `inBetween(a, b)` —— 在 `a` 和 `b` 之间或与它们相等（包括）。
+- `inArray([...])` —— 包含在给定的数组中。
 
-The usage must be like this:
+用法如下所示：
 
-- `arr.filter(inBetween(3,6))` -- selects only values between 3 and 6.
-- `arr.filter(inArray([1,2,3]))` -- selects only elements matching with one of the members of `[1,2,3]`.
+- `arr.filter(inBetween(3,6))` —— 只挑选 3 和 6 之间的值。
+- `arr.filter(inArray([1,2,3]))` —— 只挑选与 `[1,2,3]` 其中成员匹配的元素。
 
-For instance:
+举个例子：
 
 ```js
-/* .. your code for inBetween and inArray */
+/* .. inBetween 和 inArray 的代码 */
 let arr = [1, 2, 3, 4, 5, 6, 7];
 
 alert( arr.filter(inBetween(3, 6)) ); // 3,4,5,6

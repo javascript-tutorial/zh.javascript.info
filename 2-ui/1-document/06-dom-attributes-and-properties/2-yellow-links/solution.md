@@ -1,9 +1,9 @@
 
-First, we need to find all external references.
+首先，我们需要找到所有外部引用。
 
-There are two ways.
+这里有两种办法。
 
-The first is to find all links using `document.querySelectorAll('a')` and then filter out what we need:
+第一种是使用 `document.querySelectorAll('a')` 然后过滤出我们需要的那部分：
 
 ```js
 let links = document.querySelectorAll('a');
@@ -22,13 +22,13 @@ for (let link of links) {
 }
 ```
 
-Please note: we use `link.getAttribute('href')`. Not `link.href`, because we need the value from HTML.
+请注意：我们用的是 `link.getAttribute('href')`。而不是 `link.href`，因为我们需要的是 HTML 上的值。
 
-...Another, simpler way would be to add the checks to CSS selector:
+……除此之外，有一个更简便的方式是利用 CSS 选择器的伪类选择器：
 
 ```js
-// look for all links that have :// in href
-// but href doesn't start with http://internal.com
+// 查找所有 href 中包含：// 的链接
+// 但 href 不是以 http://internal.com 开头
 let selector = 'a[href*="://"]:not([href^="http://internal.com"])';
 let links = document.querySelectorAll(selector);
 

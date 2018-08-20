@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Working with prototype
+# 与原型一起工作
 
-Here's the code that creates a pair of objects, then modifies them.
+如下创建一对对象的代码，然后对它们进行修改。
 
-Which values are shown in the process?
+过程中显示了哪些值？
 
 ```js
 let animal = {
@@ -28,4 +28,4 @@ delete animal.jumps;
 alert( rabbit.jumps ); // ? (3)
 ```
 
-There should be 3 answers.
+应该有 3 个答案。

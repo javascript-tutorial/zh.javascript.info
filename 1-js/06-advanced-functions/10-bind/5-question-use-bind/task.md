@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Ask losing this
+# 为什么 this 会丢失
 
-The call to `askPassword()` in the code below should check the password and then call `user.loginOk/loginFail` depending on the answer.
+下面代码中对 `askPassword()` 的调用将会检查密码然后基于结果调用 `user.loginOk/loginFail`。
 
-But it leads to an error. Why?
+但是它导致了一个错误。为什么？
 
-Fix the highlighted line for everything to start working right (other lines are not to be changed).
+修改高亮的行来让一切开始正常运行（其它行不用修改）。
 
 ```js run
 function askPassword(ok, fail) {

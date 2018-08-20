@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Why two hamsters are full?
+# 为什么两只仓鼠都饱了？
 
-We have two hamsters: `speedy` and `lazy` inheriting from the general `hamster` object. 
+我们有两只仓鼠：`speedy` 和 `lazy` 都继承自普通的 `hamster` 对象。 
 
-When we feed one of them, the other one is also full. Why? How to fix it?
+当我们喂一只的同时，另一只也吃饱了。为什么？如何修复这件事？
 
 ```js run
 let hamster = {

@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Get the attribute
+# 获取一个特性
 
-Write the code to select the element with `data-widget-name` attribute from the document and to read its value.
+编写代码从文档中获取一个包含 `data-widget-name` 特性的元素，并且读取它的值。
 
 ```html run
 <!DOCTYPE html>

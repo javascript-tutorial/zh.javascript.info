@@ -1,4 +1,4 @@
-In this task we only need to accuracely calculate the coorindates. See the code for details.
+在这个任务中我们只需要精确计算坐标。具体细节可以在代码中查看。
 
-Please note: the elements must be in the document to read `offsetHeight` and other properties.
-A hidden (`display:none`) or out of the document element has no size.
+请注意：元素必须位于在文档中才能读取 `offsetHeight` 和其它属性。
+一个元素如果有隐藏的（`display:none`）样式或者坐标范围超出文档是得不到大小的。

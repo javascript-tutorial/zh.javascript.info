@@ -6,7 +6,6 @@
 
 首先，让我们看看如何将脚本添加到网页上。对于服务器端环境，你只需要使用诸如 `"node my.js"` 的 Node.js 的命令行来执行它。
 
-
 ## "script" 标签
 
 JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
@@ -43,17 +42,17 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 
 ## 现代的标记
 
- `<script>` 标签有一些现在很少用到的属性，但是我们可以在老代码中找到它们：
+`<script>` 标签有一些现在很少用到的属性，但是我们可以在老代码中找到它们：
 
-`type` 属性: <code>&lt;script <u>type</u>=...&gt;</code>
+`type` 属性：<code>&lt;script <u>type</u>=...&gt;</code>
 
- : 在老的 HTML4 标准中，`<script>` 标签有 type 属性。通常是 `type="text/javascript"` 。 现在的 HTML 标准已经默认存在该 `type` 属性。该属性不是必须的。
+: 在老的 HTML4 标准中，`<script>` 标签有 type 属性。通常是 `type="text/javascript"`。现在的 HTML 标准已经默认存在该 `type` 属性。该属性不是必须的。
 
-`language` 属性: <code>&lt;script <u>language</u>=...&gt;</code>
+`language` 属性：<code>&lt;script <u>language</u>=...&gt;</code>
 : 这个属性是为了显示脚本使用的语言。就目前而言，这个属性没有任何意义，语言默认为 JavaScript。不再需要使用它了。
 
 脚本前后的注释。
-: 在非常古老的书籍和指南中， 可能会在 `<script>` 标签里面找到注释，就像这样：
+: 在非常古老的书籍和指南中，可能会在 `<script>` 标签里面找到注释，就像这样：
 
     ```html no-beautify
     <script type="text/javascript"><!--
@@ -61,7 +60,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
     //--></script>
     ```
 
-    这些注释是给不支持 <script> 标签的古老浏览器用来隐藏代码的。但是所有在过去的 15+ 年中诞生的浏览器都没有任何问题。只是因为它作为一个标志，所以我们在这里提到。如果你在某个地方看到了它，那么这些代码可能非常古老，也不值得我们去研究。
+    这些注释是给不支持 `<script>` 标签的古老浏览器用来隐藏代码的。但是所有在过去的 15+ 年中诞生的浏览器都没有任何问题。只是因为它作为一个标志，所以我们在这里提到。如果你在某个地方看到了它，那么这些代码可能非常古老，也不值得我们去研究。
 
 
 ## 外部脚本
@@ -74,7 +73,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 <script src="/path/to/script.js"></script>
 ```
 
-这里 ，`/path/to/script.js` 是脚本文件的绝对路径（从站点根目录开始）。
+这里，`/path/to/script.js` 是脚本文件的绝对路径（从站点根目录开始）。
 
 也可以提供相对于当前页面的相对路径。比如，`src="script.js"` 意思是来自当前文件夹的 `"script.js"` 文件。
 
@@ -93,7 +92,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 ```
 
 ```smart
-一般来说，只有最简单的脚本才嵌入到 HTML。 更复杂的脚本存放在单独的文件中。
+一般来说，只有最简单的脚本才嵌入到 HTML。更复杂的脚本存放在单独的文件中。
 
 使用独立文件的好处是浏览器会下载它，然后将它保存到浏览器的[缓存](https://en.wikipedia.org/wiki/Web_cache)中。
 

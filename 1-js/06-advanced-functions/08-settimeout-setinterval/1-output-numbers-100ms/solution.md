@@ -1,5 +1,5 @@
 
-Using `setInterval`:
+使用 `setInterval`：
 
 ```js run
 function printNumbers(from, to) {
@@ -14,11 +14,11 @@ function printNumbers(from, to) {
   }, 1000);
 }
 
-// usage:
+// 用例：
 printNumbers(5, 10);
 ```
 
-Using recursive `setTimeout`:
+使用递归 `setTimeout`：
 
 
 ```js run
@@ -34,9 +34,9 @@ function printNumbers(from, to) {
   }, 1000);
 }
 
-// usage:
+// 用例：
 printNumbers(5, 10);
 ```
 
-Note that in both solutions, there is an initial delay before the first output. Sometimes we need to add a line to make the first output immediately, that's easy to do.
+这两种解法在首次输出时都有一个初始的延时，需要的话可以加一行让其立即输出，这并不难。
 

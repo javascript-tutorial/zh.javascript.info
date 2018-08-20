@@ -1,1 +1,1 @@
-We'll be using `rows` and `cells` properties to access diagonal table cells.
+我们将使用 `rows` 和 `cells` 属性来获取表格中的对角单元格。

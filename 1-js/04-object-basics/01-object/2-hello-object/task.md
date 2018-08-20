@@ -2,13 +2,12 @@ importance: 5
 
 ---
 
-# Hello, object
+# 你好，对象
 
-Write the code, one line for each action:
+按下面的要求写代码：
 
-1. Create an empty object `user`.
-2. Add the property `name` with the value `John`.
-3. Add the property `surname` with the value `Smith`.
-4. Change the value of the `name` to `Pete`.
-5. Remove the property `name` from the object.
-
+1. 创建一个空的 `user` 对象.
+2. 为这个对象增加一个属性，键是 `name` 值是 `John`。
+3. 再增加一个属性键`surname`值 `Smith`。
+4. 把 `name` 属性的值改成 `Pete`。
+5. 从对象中删除 `name` 属性。

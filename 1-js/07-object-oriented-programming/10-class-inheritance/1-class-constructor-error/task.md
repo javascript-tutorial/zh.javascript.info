@@ -2,11 +2,12 @@ importance: 5
 
 ---
 
-# Error creating an instance
+# 创建实例时出错
 
-Here's the code with `Rabbit` extending `Animal`.
+这里有一份代码，是 `Rabbit` 继承 `Animal`。
 
-Unfortunately, `Rabbit` objects can't be created. What's wrong? Fix it.
+不幸的是，`Rabbit` 对象无法被创建，是哪里出错了呢？请解决这个问题。
+
 ```js run
 class Animal {
 
@@ -28,3 +29,5 @@ let rabbit = new Rabbit("White Rabbit"); // Error: this is not defined
 */!*
 alert(rabbit.name);
 ```
+
+
