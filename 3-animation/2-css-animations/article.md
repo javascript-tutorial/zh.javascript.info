@@ -4,7 +4,7 @@ CSS 动画允许你在完全不使用 JavaScript 的情况下做一些简单的�
 
 JavaScript 可以被用来控制 CSS 动画，并且通过少量的代码让动画表现更出色。
 
-## (CSS 过渡（transition）)[#css-transition]
+## CSS 过渡（transition）[#css-transition]
 
 CSS 过渡的理念非常简单，我们只需要定义某一个属性以及如何动态地表现其变化。当属性变化时，浏览器将会绘制出相应的过渡动画。
 
