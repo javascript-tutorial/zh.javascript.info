@@ -133,7 +133,7 @@ stripe.onclick = function() {
 
 乍一看，这可能是最复杂的属性了，但是稍微花点时间，你就会发现其实也很简单。
 
-这个属性接受两种值：一个贝塞尔曲线（Bezier curve）或者步调函数（steps）。我们先从贝塞尔曲线开始，这也是较为常用的。
+这个属性接受两种值：一个贝塞尔曲线（Bezier curve）或者阶跃函数（steps）。我们先从贝塞尔曲线开始，这也是较为常用的。
 
 ### 贝塞尔曲线（Bezier curve）
 
@@ -240,29 +240,29 @@ CSS 提供几条内置的曲线：`linear`、`ease`、`ease-in`、`ease-out` 和
 
 - 起初，列车会**反向**运动：`left` 会变得小于 `100px`。
 - 然后，它会变回往前运动，并且超过 `400px`。
-- 最后再回来 —— 回到 `400px`。
+- 最后再返回 —— 回到 `400px`。
 
 [codetabs src="train-over"]
 
-Why it happens -- pretty obvious if we look at the graph of the given Bezier curve:
+为什么会这样？看一眼给定的贝塞尔曲线的图像你就会明白了。
 
 ![](bezier-train-over.png)
 
-We moved the `y` coordinate of the 2nd point below zero, and for the 3rd point we made put it over `1`, so the curve goes out of the "regular" quadrant. The `y` is out of the "standard" range `0..1`.
+我们把第二个点的 `y` 坐标移动到了小于 `0` 的位置，同时把第三个点的 `y` 坐标移动到了大于 `1` 的位置，因此曲线已经不再像一个四分之一圆了。`y` 坐标超出了常规的 `0..1` 的范围。
 
-As we know, `y` measures "the completion of the animation process". The value `y = 0` corresponds to the starting property value and `y = 1` -- the ending value. So values `y<0` move the property lower than the starting `left` and `y>1` -- over the final `left`.
+正如我们所知，`y` 表示『动画进程的完成度』。`y = 0` 表示属性的初始值，`y = 1` 则表示属性的最终值。因此，`y < 0` 意味着属性值要比初始值小，而`y > 1` 则表明属性值要比最终值大。
 
-That's a "soft" variant for sure. If we put `y` values like `-99` and `99` then the train would jump out of the range much more.
+当然了，`-1` 和 `2` 还是比较缓和的值。如果我们把 `y` 设为 `-99` 和 `99`，那么列车将会偏离地更远。
 
-But how to make the Bezier curve for a specific task? There are many tools. For instance, we can do it on the site <http://cubic-bezier.com/>.
+但是，如何针对特定的任务寻找到合适的贝塞尔曲线呢？事实上，有很多工具可以帮到你。比方说，我们可以利用这个网站：<http://cubic-bezier.com/>。
 
-### Steps
+### 阶跃函数（Steps）
 
-Timing function `steps(number of steps[, start/end])` allows to split animation into steps.
+时间函数 `steps(number of steps[, start/end])` 允许你让动画分段进行，`number of steps` 表示需要拆分为多少段。
 
-Let's see that in an example with digits. We'll make the digits change not in a smooth, but in a discrete way.
+让我们通过一个数字的例子来演示一下。我们将会让数字以离散的方式变化，而不是以连续的方式。
 
-For that we split the animation into 9 steps:
+为了达到效果，我们把动画拆分为 9 段：
 
 ```css
 #stripe.animate  {
@@ -271,58 +271,58 @@ For that we split the animation into 9 steps:
 }
 ```
 
-In action `step(9, start)`:
+`step(9, start)` 生效时:
 
 [codetabs src="step"]
 
-The first argument of `steps` is the number of steps. The transform will be split into 9 parts (10% each). The time interval is divided as well: 9 seconds split into 1 second intervals.
+`steps` 的第一个参数表示段数。这个过渡动画将会被拆分为 9 个部分（每个占 10%）。时间间隔也会以同样的方式被拆分：9 秒会被分割为多个时长 1 秒的间隔。
 
-The second argument is one of two words: `start` or `end`.
+第二个参数可以取 `start` 或 `end` 两者其一.
 
-The `start` means that in the beginning of animation we need to do make the first step immediately.
+`start` 表示在动画开始时，我们需要立即开始第一段的动画。
 
-We can observe that during the animation: when we click on the digit it changes to `1` (the first step) immediately, and then changes in the beginning of the next second.
+可以观察到，在动画过程中：当我们单击数字之后，它会立马变为 `1`（即第一段），然后在小一秒开始的时候继续变化。
 
-The process is progressing like this:
+具体的流程如下：
 
-- `0s` -- `-10%` (first change in the beginning of the 1st second, immediately)
-- `1s` -- `-20%`
+- `0s` —— `-10%` （在第一秒开始的时候立即变化）
+- `1s` —— `-20%`
 - ...
 - `8s` -- `-80%`
-- (the last second shows the final value).
+- （最后一秒，显示最终值）
 
-The alternative value `end` would mean that the change should be applied not in the beginning, but at the end of each second.
+另一个值 `end` 表示：改变不应该在最开始的时候发生，而是发生在每一段的最后时刻。
 
-So the process would go like this:
+其流程如下：
 
-- `0s` -- `0`
-- `1s` -- `-10%` (first change at the end of the 1st second)
-- `2s` -- `-20%`
+- `0s` —— `0`
+- `1s` —— `-10%` （在第一秒结束时第一次变化）
+- `2s` —— `-20%`
 - ...
-- `9s` -- `-90%`
+- `9s` —— `-90%`
 
-In action `step(9, end)`:
+`step(9, end)` 生效时：
 
 [codetabs src="step-end"]
 
-There are also shorthand values:
+另外还有一些简写值：
 
-- `step-start` -- is the same as `steps(1, start)`. That is, the animation starts immediately and takes 1 step. So it starts and finishes immediately, as if there were no animation.
-- `step-end` -- the same as `steps(1, end)`: make the animation in a single step at the end of `transition-duration`.
+- `step-start` —— 等同于 `steps(1, start)`。即：动画立刻开始，并且只有一段。也就是说，会立刻开始，紧接着就结束了，宛如没有动画一样。
+- `step-end` —— 等同于 `steps(1, end)`。即：在 `transition-duration` 结束时生成一段动画。
 
-These values are rarely used, because that's not really animation, but rather a single-step change.
+这些值很少会被用到，因为它们并不算是真正的动画，而是单步的变化。
 
-## Event transitionend
+## transitionend 事件
 
-When the CSS animation finishes the `transitionend` event triggers.
+CSS 动画完成后，会触发 `transitionend` 事件。
 
-It is widely used to do an action after the animation is done. Also we can join animations.
+这被广泛用于在动画结束后执行某种操作。我们也可以用它来串联动画。
 
-For instance, the ship in the example below starts to swim there and back on click, each time farther and farther to the right:
+举例来说，下面的小船会在点击后向右浮动，然后再回来。而且，每一次都会向右移动地更远一点：
 
 [iframe src="boat" height=300 edit link]
 
-The animation is initiated by the function `go` that re-runs each time when the transition finishes and flips the direction:
+这个动画通过 `go` 函数初始化，并且在每次动画完成后都会重复执行，并转变方向：
 
 ```js
 boat.onclick = function() {
@@ -331,11 +331,11 @@ boat.onclick = function() {
 
   function go() {
     if (times % 2) {
-      // swim to the right
+      // 向右移动
       boat.classList.remove('back');
       boat.style.marginLeft = 100 * times + 200 + 'px';
     } else {
-      // swim to the left
+      // 向左移动
       boat.classList.add('back');
       boat.style.marginLeft = 100 * times - 200 + 'px';
     }
@@ -351,40 +351,40 @@ boat.onclick = function() {
 };
 ```
 
-The event object for `transitionend` has few specific properties:
+`transitionend` 的事件对象有几个特定的属性：
 
 `event.propertyName`
-: The property that has finished animating. Can be good if we animate multiple properties simultaneously.
+：当前完成动画的属性，这在我们同时为多个属性加上动画时会很有用。
 
 `event.elapsedTime`
-: The time (in seconds) that the animation took, without `transition-delay`.
+：动画完成的时间（按秒计算），不包括 `transition-delay`。
 
-## Keyframes
+## 关键帧动画（Keyframes）
 
-We can join multiple simple animations together using the `@keyframes` CSS rule.
+我们可以通过 CSS 提供的 `@keyframes` 规则整合多个简单的动画。
 
-It specifies the "name" of the animation and rules: what, when and where to animate. Then using the `animation` property we attach the animation to the element and specify additional parameters for it.
+它会指定某个动画的名称以及相应的规则：哪个属性，何时以及何地渲染动画。然后使用 `animation` 属性把动画绑定到相应的元素上，并为其添加额外的参数。
 
-Here's an example with explanations:
+这里有个详细的例子：
 
 ```html run height=60 autorun="no-epub" no-beautify
 <div class="progress"></div>
 
 <style>
 *!*
-  @keyframes go-left-right {        /* give it a name: "go-left-right" */
-    from { left: 0px; }             /* animate from left: 0px */
-    to { left: calc(100% - 50px); } /* animate to left: 100%-50px */
+  @keyframes go-left-right {        /* 指定一个名字："go-left-right" */
+    from { left: 0px; }             /* 从 left: 0px 开始 */
+    to { left: calc(100% - 50px); } /* 移动至 left: 100%-50px */
   }
 */!*
 
   .progress {
 *!*
     animation: go-left-right 3s infinite alternate;
-    /* apply the animation "go-left-right" to the element
-       duration 3 seconds
-       number of times: infinite
-       alternate direction every time
+    /* 把动画 "go-left-right" 应用到元素上
+       持续 3 秒
+       持续次数： infinite
+       每次都改变方向
     */
 */!*
 
@@ -397,25 +397,25 @@ Here's an example with explanations:
 </style>
 ```
 
-There are many articles about `@keyframes` and a [detailed specification](https://drafts.csswg.org/css-animations/).
+有许多关于 `@keyframes` 的文章以及一个[详细的规范说明](https://drafts.csswg.org/css-animations/)。
 
-Probably you won't need `@keyframes` often, unless everything is in the constant move on your sites.
+很可能你并不需要经常用到 `@keyframes`，除非你的网站上有一直在运动的元素。
 
-## Summary
+## 总结
 
-CSS animations allow to smoothly (or not) animate changes of one or multiple CSS properties.
+CSS 动画允许你为一个或者多个属性的变化创建丝滑流畅（也可能不是）的过渡动画。
 
-They are good for most animation tasks. We're also able to use JavaScript for animations, the next chapter is devoted to that.
+它们适用于大多数的动画需求。我们也可以使用 JavaScript 创建动画，下一章将会详细讲解相关内容。
 
-Limitations of CSS animations compared to JavaScript animations:
+相对于 JavaScript 动画，CSS 动画存在的特点如下：
 
 ```compare plus="CSS animations" minus="JavaScript animations"
-+ Simple things done simply.
-+ Fast and lightweight for CPU.
-- JavaScript animations are flexible. They can implement any animation logic, like an "explosion" of an element.
-- Not just property changes. We can create new elements in JavaScript for purposes of animation.
++ 简单的事，简单地做。
++ 快速，而且对 CPU 造成的压力很小。
+- JavaScript 动画更加灵活。它们可以实现任何动画逻辑，比如某个元素的爆炸效果。
+- 不仅仅只是属性的变化。我们还可以在 JavaScript 中生成新元素用于动画。
 ```
 
-The majority of animations can be implemented using CSS as described in this chapter. And  `transitionend` event allows to run JavaScript after the animation, so it integrates fine with the code.
+本节已经介绍了可以使用 CSS 实现的主要动画类型，而且 `transitionend` 还允许在动画结束后执行 JavaScript 代码，因此它可以方便得与代码结合起来。
 
-But in the next chapter we'll do some JavaScript animations to cover more complex cases.
+但是在下一节，我们将会学习一些 JavaScript 动画来实现更加复杂的效果。
