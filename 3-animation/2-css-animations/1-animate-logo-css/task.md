@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Animate a plane (CSS)
+# 让飞机动起来（CSS）
 
-Show the animation like on the picture below (click the plane):
+生成如下图的动画（点击显示）：
 
 [iframe src="solution" height=300]
 
-- The picture grows on click from `40x24px` to `400x240px` (10 times larger).
-- The animation takes 3 seconds.
-- At the end output: "Done!".
-- During the animation process, there may be more clicks on the plane. They shouldn't "break" anything.
+- 点击后，图片会从 `40x24px` 变为 `400x240px` （十倍）。
+- 动画持续三秒。
+- 在动画结束后，输出："Done!"。
+- 动画过程中，如果飞机被点击，这些操作不应该打断动画。
