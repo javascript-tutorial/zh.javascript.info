@@ -65,15 +65,14 @@
 从技术上来讲，我们可以拷贝/粘贴任何东西。例如，我们可以从资源管理器中拷贝一份文件，然后粘贴进来。
 
 这里有一系列[特殊的方法](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)可以作用于不同的数据类型，读取/写入剪贴板。
-But please note that clipboard is a "global" OS-level thing. Most browsers allow read/write access to the clipboard only in the scope of certain user actions for the safety. Also it is forbidden to create "custom" clipboard events in all browsers except Firefox.
-但是请注意剪贴板是“全局”操作系统级别的。大多数浏览器
+但是请注意剪贴板是“全局”操作系统级别的。为了安全起见，大多数浏览器只在一些特定的用户行为允许读写到剪贴板。除了火狐浏览器，其它也都是禁止创建“自定义”剪贴板事件的。
 
-## Summary
+## 总结
 
-Data change events:
+数据变化事件:
 
-| Event | Description | Specials |
+| 事件 | 描述 | 特性 |
 |---------|----------|-------------|
-| `change`| A value was changed. | For text inputs triggers on focus loss. |
-| `input` | For text inputs on every change. | Triggers immediately unlike `change`. |
-| `cut/copy/paste` | Cut/copy/paste actions. | The action can be prevented. The `event.clipboardData` property gives read/write access to the clipboard. |
+| `change`| 值被改变。 | 对于文本输入框当失去焦点时触发。 |
+| `input` | 文本输入框的每次变化. | 立即触发，与 `change` 不同. |
+| `cut/copy/paste` | 剪贴/拷贝/粘贴行为。 | 行为可以被阻止。`event.clipboardData` 属性可以读/写剪贴板。 |
