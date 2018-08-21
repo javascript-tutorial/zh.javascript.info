@@ -31,7 +31,7 @@ document.head.append(script);
 ```js run untrusted
 let script = document.createElement('script');
 
-// 可以从任意地方加载脚本
+// 可以从任意域名加载脚本
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
@@ -43,7 +43,7 @@ script.onload = function() {
 */!*
 ```
 
-因此，在 `onload` 中我们使用脚本变量来运行函数等。
+因此，在 `onload` 中我们使用脚本变量、运行函数等。
 
 ...如果加载失败怎么办？比如，没有这样的脚本（错误 404）或者服务器宕机（不可用）。
 
@@ -77,7 +77,7 @@ script.onerror = function() {
 : `load` 和 `error` 事件都如期运行。
 
 `<iframe>`
-: 当 iframe 加载完成时会发生 `load` 事件。在成功或失败的情况下，都会触发它。这是历史原因。
+: 只有当 iframe 加载完成时会发生 `load` 事件。在成功或失败的情况下，都会触发它。这是历史原因。
 
 ## 总结
 
@@ -86,6 +86,6 @@ script.onerror = function() {
 - `load` 在成功加载时被触发。
 - `error` 在加载失败时被触发。
 
-只有 `<iframe>` 特殊：出于历史原因，既是页面没有被找到，它也会触发 `load` 来完成任何加载。
+只有 `<iframe>` 特殊：出于历史原因，即使页面没有被找到，它总会触发 `load` 来完成任何加载。
 
 `readystatechange` 事件也适用于资源，但很少被使用，因为 `load/error` 事件更简单。
