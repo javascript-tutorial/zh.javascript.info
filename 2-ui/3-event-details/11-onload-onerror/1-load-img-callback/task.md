@@ -13,7 +13,7 @@ let img = document.createElement('img');
 img.src = 'my.jpg';
 ```
 
-浏览器开始加载图像然后保存在缓存中。之后，当相同图像出现在文档中时（无论何时），它会立即显示。
+浏览器开始加载图像然后保存在缓存中。之后，当相同图像出现在文档中时（无论怎样），它会立即显示。
 
 **创建一个从 `source` 数组中加载所有图像，并在准备就绪时运行 `callback` 的 `preloadImages(sources, callback)` 函数。**
 
