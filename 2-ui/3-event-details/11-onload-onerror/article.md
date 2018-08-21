@@ -1,4 +1,4 @@
-# 资源价值：onload 和 onerror
+# 资源加载：onload 和 onerror
 
 浏览器允许跟踪外部资源的加载 —— 脚本、iframes、图像等。
 
