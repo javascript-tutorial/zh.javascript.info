@@ -2,20 +2,20 @@ importance: 5
 
 ---
 
-# Deposit calculator
+# 存款计算器
 
-Create an interface that allows to enter a sum of bank deposit and percentage, then calculates how much it will be after given periods of time.
+创建一个界面，允许输入银行存款的总和以及利率，然后计算一段时间后会达到多少钱。
 
-Here's the demo:
+这里是例子：
 
 [iframe src="solution" height="350" border="1"]
 
-Any input change should be processed immediately.
+任何输入的变化都应该立即被处理
 
-The formula is:
+公式如下：
 ```js
-// initial: the initial money sum
-// interest: e.g. 0.05 means 5% per year
-// years: how many years to wait
+// initial: 总存款的初始值
+// interest: e.g. 0.05 意味着每年涨幅 5% 
+// years: 需要等待多少年
 let result = Math.round(initial * (1 + interest * years));
 ```

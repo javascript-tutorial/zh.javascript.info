@@ -1,19 +1,20 @@
-# Form submission: event and method submit
+# 表单提交：事件和方法提交
 
-The `submit` event triggers when the form is submitted, it is usually used to validate the form before sending it to the server or to abort the submission and process it in JavaScript.
+当提交表单时，`submit` 事件就会触发，它通常用于在将结果发送到服务器之前进行表单校验，或者中断提交，然后用 JavaScript 来处理。
 
-The method `form.submit()` allows to initiate form sending from JavaScript. We can use it to dynamically create and send our own forms to server.
+`form.submit()` 方法允许从 JavaScript 里开始发送表单。使用此方法，我们可以动态地创建和向服务器发送属于我们自己的表单。
 
-Let's see more details of them.
+接下来我们看看更多的细节。
 
-## Event: submit
+## 事件：submit
 
-There are two main ways to submit a form:
+提交表单有两种方法：
 
-1. The first -- to click `<input type="submit">` or `<input type="image">`.
-2. The second -- press `key:Enter` on an input field.
+1. 第一种 -- 点击 `<input type="submit">` 或者 `<input type="image">`。
+2. 第二种 -- 在输入区域按下 `key:Enter` 按键。
 
 Both actions lead to `submit` event on the form. The handler can check the data, and if there are errors, show them and call `event.preventDefault()`, then the form won't be sent to the server.
+两种行为都可以触发表单的 `submit` 事件。处理器可以检查数据，如果有错误，就显示出来，并且调用 `event.preventDefault()`，然后表单就不会再提交给服务端了。
 
 In the form below:
 1. Go into the text field and press `key:Enter`.
