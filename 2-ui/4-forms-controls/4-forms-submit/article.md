@@ -63,5 +63,3 @@ document.body.append(form);
 
 form.submit();
 ​```
-
-````
