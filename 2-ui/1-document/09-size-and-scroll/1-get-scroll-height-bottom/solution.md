@@ -1,7 +1,7 @@
-The solution is:
+解决方式：
 
 ```js
 let scrollBottom = elem.scrollHeight - elem.scrollTop - elem.clientHeight;
 ```
 
-In other words: (full height) minus (scrolled out top part) minus (visible part) -- that's exactly the scrolled out bottom part.
+换句话说：（完全高度）减去（已滚动的高度）减去（可见部分的高度）--得到的结果就是下方隐藏部分的高度。
