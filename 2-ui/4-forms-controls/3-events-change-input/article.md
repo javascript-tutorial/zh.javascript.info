@@ -6,20 +6,20 @@
 
 [change](http://www.w3.org/TR/html5/forms.html#event-input-change) 事件是在元素变化结束之后触发的。
 
-对于文本输入框来说，就是当其失去焦点的时候就会触发 change 事件。
+对于文本输入框来说，当其失去焦点的时候就会触发 change 事件。
 
-例如，当我们在下面的文本区域中打字的时候，`change` 事件不会被触发。但是当我们将焦点移到别处时，例如点击按钮，就会触发 `change` 事件：
+例如，当我们在下面的文本区域中输入的时候，`change` 事件不会被触发。但是当我们将焦点移到别处时，例如点击按钮，就会触发 `change` 事件：
 
 ```html autorun height=40 run
 <input type="text" onchange="alert(this.value)">
 <input type="button" value="Button">
 ```
 
-对于其它元素：`select`，`input type=checkbox/radio`，则会在选项变化后立即触发。
+对于其它元素：`select`，`input type=checkbox/radio`，`change` 事件会在选项变化后立即触发。
 
 ## 事件：input
 
-每当输入值发生改变，就会触发`input` 事件。
+每当输入的值发生改变时，就会触发 `input` 事件。
 
 例如：
 
@@ -34,12 +34,12 @@
 
 如果我们想要处理 `<input>` 的每次变化，那么使用该事件就是最好的选择。
 
-和键盘事件不同，它作用于任何值的改变的情形，即使是那些不是用键盘触发的操作：使用鼠标粘贴或者使用语音识别来输入文字。
+和键盘事件不同， `input` 事件适用于任何值的改变的情形，甚至是那些不使用键盘的操作：使用鼠标粘贴或者使用语音识别来输入文字。
 
 ```smart header="`oninput` 不能阻止任何事件"
-当值变化之后，`input` 事件就会触发。
+当输入值变化之后，`input` 事件就会触发。
 
-所以在这里我们不能使用 `event.preventDefault()` -- 已经太迟了，不会有任何作用的。
+所以在这里我们不能使用 `event.preventDefault()` -- 已经太迟了，不会有任何作用了。
 ```
 
 ## 事件：cut、copy、paste
@@ -52,7 +52,7 @@
 
 例如，下面的代码阻止了所有的这样的事件，然后展示出了我们尝试剪切/拷贝/粘贴的内容：
 
-```html autorun height=40 run
+​```html autorun height=40 run
 <input type="text" id="input">
 <script>
   input.oncut = input.oncopy = input.onpaste = function(event) {
@@ -64,8 +64,8 @@
 
 从技术上来讲，我们可以拷贝/粘贴任何东西。例如，我们可以从资源管理器中拷贝一份文件，然后粘贴进来。
 
-这里有一系列[特殊的方法](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)可以作用于不同的数据类型，读取/写入剪贴板。
-但是请注意剪贴板是“全局”操作系统级别的。为了安全起见，大多数浏览器只在一些特定的用户行为允许读写到剪贴板。除了火狐浏览器，其它也都是禁止创建“自定义”剪贴板事件的。
+这里有一系列[特殊的方法](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)可以作用于不同的数据类型，对剪贴板进行读写。
+但是请注意，剪贴板是“全局”操作系统级别的。为了安全起见，大多数浏览器只在一些特定的用户行为下允许读写剪贴板。除了火狐浏览器，其它浏览器也都是禁止创建“自定义”剪贴板事件的。
 
 ## 总结
 
@@ -73,6 +73,6 @@
 
 | 事件 | 描述 | 特性 |
 |---------|----------|-------------|
-| `change`| 值被改变。 | 对于文本输入框当失去焦点时触发。 |
-| `input` | 文本输入框的每次变化. | 立即触发，与 `change` 不同. |
-| `cut/copy/paste` | 剪贴/拷贝/粘贴行为。 | 行为可以被阻止。`event.clipboardData` 属性可以读/写剪贴板。 |
+| `change`| 值被改变。 | 对于文本输入框，是当失去焦点时触发。 |
+| `input` | 文本输入框的每次变化。 | 立即触发，与 `change` 不同。 |
+| `cut/copy/paste` | 剪贴/拷贝/粘贴行为。 | 行为可以被阻止。`event.clipboardData` 属性可以读写剪贴板。 |

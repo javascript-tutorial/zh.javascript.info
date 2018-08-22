@@ -1,4 +1,4 @@
-A modal window can be implemented using a half-transparent `<div id="cover-div">` that covers the whole window, like this:
+模态框窗口可以使用一个半透明的 `<div id="cover-div">` 来覆盖整个窗口， 就像这样：
 
 ```css
 #cover-div {
@@ -13,8 +13,8 @@ A modal window can be implemented using a half-transparent `<div id="cover-div">
 }
 ```
 
-Because the `<div>` covers everything, it gets all clicks, not the page below it.
+由于 `<div>` 遮盖了所有的元素，所以它能获取到所有的点击事件，而它下面的页面就不能了。
 
-Also we can prevent page scroll by setting `body.style.overflowY='hidden'`.
+我们也可以设置 `body.style.overflowY='hidden'` 来阻止页面的滚动。
 
-The form should be not in the `<div>`, but next to it, because we don't want it to have `opacity`.
+表单元素不应该在 `<div>` 内部，而应是并列关系，因为我们不想让表单也有遮罩层所在的 `opacity` 透明度。
