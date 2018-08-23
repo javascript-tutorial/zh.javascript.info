@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Slider
+# 滚动条
 
-Create a slider:
+创建一个滚动条
 
 [iframe src="solution" height=60 border=1]
 
-Drag the blue thumb with the mouse and move it.
+用鼠标拖动蓝色 thumb 并移动它。
 
-Important details:
+重要的细节：
 
-- When the mouse button is pressed, during the dragging the mouse may go over or below the slider. The slider will still work (convenient for the user).
-- If the mouse moves very fast to the left or to the right, the thumb should stop exactly at the edge.
+- 在按住鼠标时，鼠标可能会滑过滚动条的上方或下方，滑动套应该仍然可以运行（对用户来说，这非常方便）。
+- 如果鼠标在移动到左边或右边的速度非常快，那么 thumb 应该完全停在边缘。
