@@ -1,5 +1,5 @@
-To drag the element we can use `position:fixed`, it makes coordinates easier to manage. At the end we should switch it back to `position:absolute`.
+我们可以使用 `position:fixed` 来拖动它，它让坐标管理更简单。最后，我们应该使用 `position:absolute`。
 
-Then, when coordinates are at window top/bottom, we use `window.scrollTo` to scroll it.
+然后，当坐标位于窗口顶部/底部时，我们使用 `window.scroll to` 滚动它。
 
-More details in the code, in comments.
+代码中的更多细节都在注释中已被提及。
