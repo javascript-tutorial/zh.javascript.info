@@ -50,7 +50,6 @@ document.domain = 'site.com';
 
 嵌入的窗口有它单独的 `document` 和 `window` 对象。
 
-We can access them like using the properties:
 我们可以使用以下属性访问他们：
 
 - `iframe.contentWindow` 是对 `<iframe>` 里窗口的引用。
@@ -96,7 +95,8 @@ We can access them like using the properties:
 - 修改它的 `location`
 
 ```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
-`iframe.onload` 时间实际上与 `iframe.contentWindow.onload` 相同，当嵌入的窗口内所有资源全部加载完后触发。
+
+`iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
 
 ...但是 `iframe.onload` 时钟是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
 ```
