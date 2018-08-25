@@ -1,1 +1,1 @@
-Here we can use `calls.push(args)` to store all arguments in the log and `f.apply(this, args)` to forward the call.
+在这里，我们可以使用 `calls.push(args)` 来存储日志中的所有参数，并使用 `f.apply(this, args)` 来转发调用。

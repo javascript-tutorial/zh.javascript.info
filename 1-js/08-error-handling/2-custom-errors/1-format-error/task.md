@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Inherit from SyntaxError
+# 继承 SyntaxError
 
-Create a class `FormatError` that inherits from the built-in `SyntaxError` class.
+创造一个继承自内置类 `SyntaxError` 的 `FormatError` 类。
 
-It should support `message`, `name` and `stack` properties.
+它应该支持 `message`，`name` 和 `stack` 属性。
 
-Usage example:
+用例：
 
 ```js
 let err = new FormatError("formatting error");
@@ -18,5 +18,5 @@ alert( err.name ); // FormatError
 alert( err.stack ); // stack
 
 alert( err instanceof FormatError ); // true
-alert( err instanceof SyntaxError ); // true (because inherits from SyntaxError)
+alert( err instanceof SyntaxError ); // true（因为它继承自 SyntaxError）
 ```

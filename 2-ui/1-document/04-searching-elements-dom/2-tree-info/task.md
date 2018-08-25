@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Count descendants
+# 计算后代
 
-There's a tree structured as nested `ul/li`.
+构造用于嵌套 `ul/li` 的树结构。
 
-Write the code that for each `<li>` shows:
+为显示每个 `<li>` 而编写代码：
 
-1. What's the text inside it (without the subtree)
-2. The number of nested `<li>` -- all descendants, including the deeply nested ones.
+1. 文本内容是什么（没有子树）。
+2. 嵌套 `<li>` 的数量 —— 所有的后代，包括嵌套的后代。
 
 [demo src="solution"]

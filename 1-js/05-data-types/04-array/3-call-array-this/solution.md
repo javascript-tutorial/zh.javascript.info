@@ -1,6 +1,6 @@
-The call `arr[2]()` is syntactically the good old `obj[method]()`, in the role of `obj` we have `arr`, and in the role of `method` we have `2`.
+`arr[2]()` 调用从句法来看可以类比于 `obj[method]()`，与 `obj` 对应的是 `arr`，与 `method` 对应的是 `2`。
 
-So we have a call of the function `arr[2]` as an object method. Naturally, it receives `this` referencing the object `arr` and outputs the array:
+所以调用 `arr[2]` 函数也就是调用对象函数。自然地，它接收 `this` 引用的对象 `arr` 然后输出该数组：
 
 ```js run
 let arr = ["a", "b"];
@@ -12,4 +12,4 @@ arr.push(function() {
 arr[2](); // "a","b",function
 ```
 
-The array has 3 values: initially it had two, plus the function. 
+该数组有3项：最开始有两个，后来添加进来一个函数。

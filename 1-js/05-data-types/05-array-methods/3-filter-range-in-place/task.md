@@ -2,17 +2,17 @@ importance: 4
 
 ---
 
-# Filter range "in place"
+# 范围过滤
 
-Write a function `filterRangeInPlace(arr, a, b)` that gets an array `arr` and removes from it all values except those that are between `a` and `b`. The test is: `a ≤ arr[i] ≤ b`.
+写一个函数 `filterRangeInPlace(arr, a, b)` 获取一个数组 `arr`，并从中除去 `a` 和 `b` 区间以外的所有值。测试：`a ≤ arr[i] ≤ b`。
 
-The function should only modify the array. It should not return anything.
+该函数只应修改数组。它不应该返回任何东西。
 
-For instance:
+例如：
 ```js
 let arr = [5, 3, 8, 1];
 
-filterRangeInPlace(arr, 1, 4); // removed the numbers except from 1 to 4
+filterRangeInPlace(arr, 1, 4); // 删除了从 1 到 4 之外的数字
 
 alert( arr ); // [3, 1]
 ```
