@@ -94,8 +94,8 @@ document.domain = 'site.com';
 - 通过 `iframe.contentWindow` 获取内部窗口的 window
 - 修改它的 `location`
 
-```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
 
+```
 `iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
 
 ...但是 `iframe.onload` 时钟是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
