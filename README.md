@@ -3,7 +3,7 @@
 
 这个仓库托管现代 JavaScript 教程的内容，发布于 [https://javascript.info](https://javascript.info)。
 
-## 翻译
+## 译文
 
 已发布:
 - 俄语版： [https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
@@ -13,7 +13,7 @@
 - 西班牙语版： https://github.com/lmauromb/javascript-tutorial-es
 - 德语版: https://github.com/MartinEls/javascript-tutorial-de
 
-如果你想将它翻译至你使用的语言，就 fork 英文版教程并开始你的翻译。我能将它发布在域名 fr.javascript.info 下并署上你的名字，或由你发布在自己的域名下。
+如果你想将它翻译至你使用的语言的话，就 fork 英文版教程并开始你的翻译吧。我可以将它发布在域名 fr.javascript.info 下并署上你的名字，或由你发布在自己的域名下。
 
 你也可以对此文件发 PR 来表示工作正在进行中。
 
@@ -29,7 +29,7 @@
 
   - `index.md` 代表一个章节
   - `article.md` 代表一篇文章
-  - `task.md` 代表一个任务（解答必须也出现在 `solution.md` 文件中）
+  - `task.md` 代表一个任务（解答也一定会出现在 solution.md 文件中）
 
 每个文件都从 `# Main header` 开始。
 
