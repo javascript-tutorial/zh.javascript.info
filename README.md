@@ -9,7 +9,7 @@
 - 俄语版：[https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
 
 进行中：
-- 中文版：在 [https://github.com/iliakan/javascript-tutorial-cn](https://github.com/iliakan/javascript-tutorial-cn) 进行翻译，如果你懂中文，欢迎加入。
+- 中文版：在 [https://github.com/xitu/javascript-tutorial-zh](https://github.com/xitu/javascript-tutorial-zh) 进行翻译，如果你懂中文，欢迎加入。
 - 西班牙语版：https://github.com/lmauromb/javascript-tutorial-es
 - 德语版：https://github.com/MartinEls/javascript-tutorial-de
 
