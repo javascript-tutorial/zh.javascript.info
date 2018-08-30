@@ -5,13 +5,13 @@
 
 ## 译文
 
-已发布:
-- 俄语版： [https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
+已发布：
+- 俄语版：[https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
 
-进行中:
-- 中文版： 在 [https://github.com/iliakan/javascript-tutorial-cn](https://github.com/iliakan/javascript-tutorial-cn) 进行翻译，如果你懂中文，欢迎加入。
-- 西班牙语版： https://github.com/lmauromb/javascript-tutorial-es
-- 德语版: https://github.com/MartinEls/javascript-tutorial-de
+进行中：
+- 中文版：在 [https://github.com/iliakan/javascript-tutorial-cn](https://github.com/iliakan/javascript-tutorial-cn) 进行翻译，如果你懂中文，欢迎加入。
+- 西班牙语版：https://github.com/lmauromb/javascript-tutorial-es
+- 德语版：https://github.com/MartinEls/javascript-tutorial-de
 
 如果你想将它翻译至你使用的语言的话，就 fork 英文版教程并开始你的翻译吧。我可以将它发布在域名 fr.javascript.info 下并署上你的名字，或由你发布在自己的域名下。
 
