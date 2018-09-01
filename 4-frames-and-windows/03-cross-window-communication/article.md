@@ -2,24 +2,24 @@
 
 "同源"策略限制了窗口之间的互相访问。
 
-这个想法出于这样的考虑，如果我们打开了两个窗口：一个窗口来自 `john-smith.com`，另一个是 `gmail.com`，那么我们就不希望 `john-smith.com` 的脚本可以阅读我们的邮件
+这个想法出于这样的考虑，如果我们打开了两个窗口：一个窗口来自 `john-smith.com`，另一个是 `gmail.com`，那么我们就不希望 `john-smith.com` 的脚本可以阅读我们的邮件。
 
 ## 同源
 
 如果两个 URL 具有相同的协议，域名和端口，则称它们是"同源"的。
 
-以下的几个 URL 都是同源的:
+以下的几个 URL 都是同源的：
 
 - `http://site.com`
 - `http://site.com/`
 - `http://site.com/my/page.html`
 
-但是下面几个不是:
+但是下面几个不是：
 
 - <code>http://<b>www.</b>site.com</code> (`www.` 域名与其他不同)
 - <code>http://<b>site.org</b></code> (`.org` 域名与其他不同)
 - <code><b>https://</b>site.com</code> (协议与其他不同: `https`)
-- <code>http://site.com:<b>8080</b></code> (端口与其他不同: `8080`)
+- <code>http://site.com:<b>8080</b></code> (端口与其他不同：`8080`)
 
 如果我们有另外一个窗口（一个弹出窗口或者 iframe）的引用，并且这个窗口是同源的，那么我们可以使用它做任何事情。
 
@@ -95,7 +95,7 @@ document.domain = 'site.com';
 - 修改它的 `location`
 
 
-```
+```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
 `iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
 ...但是 `iframe.onload` 始终是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
 
@@ -129,7 +129,7 @@ document.domain = 'site.com';
   iframe.onload = function() {
     let newDoc = iframe.contentDocument;
 *!*
-    // 加载完后，document 和之前的已经不同了
+    // 加载完后，document 和之前的已经不同了！
     alert(oldDoc == newDoc); // false
 */!*
   };
@@ -169,8 +169,8 @@ document.domain = 'site.com';
 
 获取 `<iframe>` 窗口对象的另一个方式是从命名集合 `window.frames` 上获取：
 
-- 通过索引获取： `window.frames[0]` —— 当前文档里第一个 iframe 的窗口。
-- 通过名称获取： `window.frames.iframeName` —— 获取 `name="iframeName"` 的 iframe 窗口。
+- 通过索引获取：`window.frames[0]` —— 当前文档里第一个 iframe 的窗口。
+- 通过名称获取：`window.frames.iframeName` —— 获取 `name="iframeName"` 的 iframe 窗口。
 
 举个例子：
 
@@ -187,8 +187,8 @@ document.domain = 'site.com';
 
 可以通过以下方式获取引用：
 
-- `window.frames` ——  子窗口的集合（用于嵌套的 iframe ）
-- `window.parent` —— 对"父"（外部）窗口的引用
+- `window.frames` —— 子窗口的集合（用于嵌套的 iframe）。
+- `window.parent` —— 对"父"（外部）窗口的引用。
 - `window.top` —— 对最顶级父窗口的引用。
 
 举例：
@@ -219,13 +219,17 @@ if (window == top) { // current window == window.top?
 
 `allow-same-origin`： 默认情况下，`"sandbox"` 在 iframe 上强制执行"不同来源"的策略。换句话说，即使 `iframe` 的 `src` 是同源的，它也会其作为非同源的站点来处理，并且对脚本添加所有隐含的限制。添加此选项后会移除这些限制。
 
-`allow-top-navigation`： 允许 `iframe` 修改父窗口的地址。
+`allow-top-navigation`
+: 允许 `iframe` 修改父窗口的地址。
 
-`allow-forms`：允许在 `iframe` 内提交表单。
+`allow-forms`
+: 允许在 `iframe` 内提交表单。
 
-`allow-scripts`： 允许在 `iframe` 内运行脚本。
+`allow-scripts`
+: 允许在 `iframe` 内运行脚本。
 
-`allow-popups`： 允许来自 `iframe` 的 `window.open` 弹出窗口。
+`allow-popups`
+: 允许来自 `iframe` 的 `window.open` 弹出窗口。
 
 
 查看 [官方手册](mdn:/HTML/Element/iframe) 以获取更多内容。
@@ -253,9 +257,11 @@ if (window == top) { // current window == window.top?
 
 这个接口有以下参数：
 
-`data`：要发送的数据。可以是任何对象，接口内部会使用"结构化克隆算法"将数据克隆一份。IE 只支持字符串，因此我们需要对复杂对象调用 `JSON.stringify` 以支持该浏览器
+`data`
+: 要发送的数据。可以是任何对象，接口内部会使用"结构化克隆算法"将数据克隆一份。IE 只支持字符串，因此我们需要对复杂对象调用 `JSON.stringify` 以支持该浏览器
 
-`targetOrigin`：指定目标窗口的源，以确保只有来自指定源的窗口才能获得该消息。
+`targetOrigin`
+: 指定目标窗口的源，以确保只有来自指定源的窗口才能获得该消息。
 
 `targetOrigin` 是一种安全措施。请记住，如果目标窗口是非同源的，我们无法读取它的 `location`，因此我们就无法确认当前在预期的窗口中打开的是哪个站点：因为用户随时可以跳转走。
 
@@ -294,11 +300,14 @@ if (window == top) { // current window == window.top?
 
 这个事件的 event 对象有一些特殊属性：
 
-`data`：从 `postMessage` 传递来的数据。
+`data`
+: 从 `postMessage` 传递来的数据。
 
-`origin`： 发送方的源，举个例子： `http://javascript.info`。
+`origin`
+: 发送方的源，举个例子： `http://javascript.info`。
 
-`source`： 对发送方窗口的引用。如果我们需要的话可以立即回复 `postMessage`。
+`source`
+: 对发送方窗口的引用。如果我们需要的话可以立即回复 `postMessage`。
 
 为了处理这个事件，我们需要使用 `addEventListener`，简单使用 `window.onmessage` 不起作用。
 
