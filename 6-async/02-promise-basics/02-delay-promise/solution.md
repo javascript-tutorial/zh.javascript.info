@@ -6,4 +6,4 @@ function delay(ms) {
 delay(3000).then(() => alert('runs after 3 seconds'));
 ```
 
-Please note that in this task `resolve` is called without arguments. We don't return any value from `delay`, just ensure the delay.
+请注意，在此任务中 `resolve` 是无参调用。我们不应该从 `delay` 中返回任何值。只要确保会延迟即可。
