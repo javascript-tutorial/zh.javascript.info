@@ -96,9 +96,11 @@ document.domain = 'site.com';
 
 
 ```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
+
 `iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
 
 ...但是 `iframe.onload` 时钟是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
+
 ```
 
 现在有一个同源窗口的例子，我们可以对嵌入的窗口做任何事：
