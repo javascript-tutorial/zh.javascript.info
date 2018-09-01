@@ -6,7 +6,7 @@
 
 ## 同源
 
-如果两个 URL 具有相同的协议，域名和端口，则称他们是"同源"的。
+如果两个 URL 具有相同的协议，域名和端口，则称它们是"同源"的。
 
 以下的几个 URL 都是同源的:
 
@@ -23,7 +23,7 @@
 
 如果我们有另外一个窗口（一个弹出窗口或者 iframe）的引用，并且这个窗口是同源的，那么我们可以使用它做任何事情。
 
-如果它不是同源的，那么我们只能改变它的地址。请注意：不是*读取*地址，而是*改变*它，将其重定向到另外一个地址。因为 URL 可能包含一些敏感的参数，所以为了安全，禁止从一个非同源的站点获取地址，但是可以更改它。
+如果它不是同源的，那么我们只能改变它的地址。请注意：不是**读取**地址，而是**改变**它，将其重定向到另外一个地址。因为 URL 可能包含一些敏感的参数，所以为了安全，禁止从一个非同源的站点获取地址，但是可以更改它。
 
 当然这些窗口也可以互通信息，后面我们很快会讲到这一点。
 
@@ -52,7 +52,7 @@ document.domain = 'site.com';
 
 我们可以使用以下属性访问他们：
 
-- `iframe.contentWindow` 是对 `<iframe>` 里窗口的引用。
+- `iframe.contentWindow` 是对 `<iframe>` 里 window 的引用。
 - `iframe.contentDocument` 是对 `<iframe>` 里的 document 对象的引用。
 
 当我们访问嵌入式窗口时，浏览器会检查 iframe 是否具有相同的来源，如果不是这样会拒绝访问（除了上述提到的排除项）。
@@ -95,7 +95,7 @@ document.domain = 'site.com';
 - 修改它的 `location`
 
 
-```
+```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
 `iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
 
 ...但是 `iframe.onload` 时钟是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
@@ -356,4 +356,4 @@ window.addEventListener("message", function(event) {
     - `source` —— 对发送窗口的引用
     - `data` —— 数据，除 IE 只支持字符串意外，其余浏览器都是对象。
 
-我们应该使用 `addEventListener` 在目标窗口监听这个事件。
+    我们应该使用 `addEventListener` 在目标窗口监听这个事件。
