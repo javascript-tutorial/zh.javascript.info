@@ -27,7 +27,7 @@
 
 当然这些窗口也可以互通信息，后面我们很快会讲到这一点。
 
-````warn header="Exclusion: subdomains may be same-origin"
+````warn header="排除：子域可能是同源的"
 
 在同源策略里有一个很重要的排除项。
 
