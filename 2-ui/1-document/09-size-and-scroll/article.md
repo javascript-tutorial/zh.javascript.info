@@ -32,21 +32,21 @@ JavaScript中存在许多属性让我们能够读取元素的宽度、高度或�
 
 你可以 [在sandbox中打开文档](sandbox:metric).
 
-```smart header="Mind the scrollbar"
-上例图片演示了当元素有滚动条时最复杂的情况，一些浏览器（不是全部）通过从内容中获取显示空间来保留它。
+```smart header=" 注意滚动条 "
+上例图片演示了当元素有滚动条时最复杂的情况，一些浏览器（不是全部）通过牺牲内容空间来保留滚动条。
 
-因此，没有滚动条时，内容宽度将是 “300 px”，但是如果滚动条宽度是 “16px”（宽度可以在设备和浏览器之间变化），那么只有“300 - 16＝280px”仍然存在，这是我们必须考虑到的事。这就是为什么本章的例子总是假设有滚动条的原因。如果没有滚动条，那么事情就有点简单了。
+因此，没有滚动条时，内容宽度将是 `300 px`，但是如果滚动条宽度是 `16px`（不同的设备和浏览器，宽度可能会不一样），那么还剩下`300 - 16＝280px`，这是我们必须考虑到的事。这就是为什么本章的例子总是假设有滚动条的原因。如果没有滚动条，那么事情就会更简单一些。
 ```
 
-```smart header="The `padding-bottom` may be filled with text"
-内填充通常在插图中显示的是空的，但是如果元素中有很多文本，并且它溢出，那么浏览器在“下填充”显示“溢出”文本，这可以在示例中看到。但是填充物仍然存在，除非另有说明。
+```smart header=" 文本可能会溢出到 `padding-bottom` 中 "
+内填充通常在插图中显示的是空的，但是如果元素中有很多文本，并且溢出，那么浏览器在 `padding-bottom` 中显示 “溢出” 文本，这可以在示例中看到。但是填充物仍然存在，除非另有说明。
 ```
 
 ## 几何学
 
 提供宽度、高度和其他几何形状的元素属性通过数值来计算。它们被假定为像素。
 
-一下是显示总体情况的图片：
+以下是显示总体情况的图片：
 
 ![](metric-all.png)
 
@@ -60,9 +60,9 @@ JavaScript中存在许多属性让我们能够读取元素的宽度、高度或�
 
  `offsetParent` 是最近的祖先元素:
 
-1. CSS定位 (`position` 为 `absolute`, `relative` 为 `fixed`),
-2. 或者`<td>`, `<th>`, `<table>`,
-2. 或者`<body>`.
+1. CSS定位 (`position` 为 `absolute`、`relative` 或 `fixed`),
+2. 或者 `<td>`、 `<th>`、 `<table>`,
+2. 或者 `<body>`.
 
 在大多数实际情况下，我们可以使用 `offsetParent` 来获得最近的CSS定位祖先。`offsetLeft/offsetTop` 提供相对于元素左上角的x/y坐标。
 
@@ -94,7 +94,7 @@ JavaScript中存在许多属性让我们能够读取元素的宽度、高度或�
 
 现在让我们关注元素本身。
 
-这两个属性是最简单的。它们提供元素的 “外部” 宽度/高度。换句话说，它的完整大小包括边界。
+这两个属性是最简单的。它们提供元素的 “外部” 宽度/高度。换句话说，它的完整大小包括边框。
 
 ![](metric-offset-width-height.png)
 
@@ -103,8 +103,8 @@ JavaScript中存在许多属性让我们能够读取元素的宽度、高度或�
 - `offsetWidth = 390` -- 外部宽度，计算方法是内部css宽度 (`300px`) 加上内填充 (`2 * 20px`) 和边框宽度 (`2 * 25px`).
 - `offsetHeight = 290` -- 外部高度.
 
-````smart header="Geometry properties for not shown elements are zero/null"
-几何属性仅为所示元素计算。
+````smart header=" 未显示的几何元素的属性值为 0/null "
+几何属性仅为显示出来的元素计算。
 
 如果元素（或其任何祖先）在文档中显示为 `display:none` 或本身不在文档中，则所有几何属性都是 0 或者值为 `null`，这取决于它是什么。
 
@@ -123,7 +123,7 @@ function isHidden(elem) {
 
 ## clientTop/Left
 
-在元素内部，我们有边界。
+在元素内部，我们有边框。
 
 要测量它们，可使用 `clientTop` 和 `clientLeft`.
 
@@ -134,11 +134,11 @@ function isHidden(elem) {
 
 ![](metric-client-left-top.png)
 
-...但确切地说，它们不是边界，而是内侧与外侧的相对坐标。
+...但确切地说，它们不是边框，而是内侧与外侧的相对坐标。
 
 有什么区别？
 
-当文档是从右往左渲染这没什么区别（操作系统是阿拉伯语或希伯来语），滚动条不在右边，而是在左边，`clientLeft` 包含滚动条宽度。
+当文档是从右往左渲染这没什么区别（操作系统是阿拉伯语或希伯来语）此时滚动条不在右边，而是在左边，而 `clientLeft` 则包含了滚动条的宽度。
 
 在这种情况下， `clientLeft` 的值将不是 `25`, 而是加上滚动条的宽度 `25 + 16 = 41`:
 
@@ -152,7 +152,7 @@ function isHidden(elem) {
 
 ![](metric-client-width-height.png)
 
-在上面的图片中，我们首先考虑 `clientHeight`： 这很容易计算。 没有水平滚动条，所以它正好是边界内的总和：CSS高度 `200px` 加上顶部和底部的内填充宽度（`2 * 20px`），总计 `240px`。
+在上面的图片中，我们首先考虑 `clientHeight`：这很容易计算。没有水平滚动条，所以它正好是边界内的总和：CSS高度 `200px` 加上顶部和底部的内填充宽度（`2 * 20px`），总计 `240px`。
 
 这种情况下的 `clientWidth` -- 这里的内容宽度不是 `300px`, 而是`284px`, 因为 `16px` 是滚动条的宽度。所以加起来就是 `284px` 加上左右内间距，总和 `324px`.
 
@@ -179,7 +179,7 @@ function isHidden(elem) {
 就像这样：
 
 ```js
-// expand the element to the full content height
+// 扩展元素高度到完全高度
 element.style.height = `${element.scrollHeight}px`;
 ```
 
@@ -201,8 +201,8 @@ element.style.height = `${element.scrollHeight}px`;
 
 换种说法，`scrollTop`就是 “滚动了多少” 的意思。
 
-````smart header="`scrollLeft/scrollTop` can be modified"
-大多数几何属性是只读的，但是 `scrollLeft/scrollTop` 可以改变，浏览器会自动计算元素的滚动高度。
+````smart header="`scrollLeft/scrollTop` 可修改 "
+大多数几何属性是只读的，但是 `scrollLeft/scrollTop` 可以改变，浏览器将会直接滚动元素。
 
 ```online
 如果单击下面的元素，代码 `elem.scrollTop += 10` 将会执行，这使得元素向下滚动 `10px`。 
@@ -213,7 +213,7 @@ element.style.height = `${element.scrollHeight}px`;
 将 `scrollTop` 设置为 `0` 或 `Infinity` 将使元素分别滚动到顶部/底部。
 ````
 
-## 不要从CSS中获取宽高
+## 不要从 CSS 中获取宽高
 
 我们刚刚介绍了DOM元素的几何属性。它们通常用于获得宽度、高度和计算距离。
 
@@ -242,11 +242,11 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
     </script>
     ```
 
-    从CSS的观点来看，`width:auto` 是完全正常的，但是在JavaScript中，我们需要一个精确的 `px` 大小，我们可以在计算过程中使用它，所以CSS宽度根本没用。
+    从CSS的观点来看，`width:auto` 是完全正常的，但是在JavaScript中，我们需要一个精确的 `px` 大小，以便我们在计算过程中使用它，所以CSS宽度根本没用。
 
-还有一个原因：滚动条。有时，没有滚动条的代码工作得很好，因为它在一些浏览器中通过内容获取空间尺寸。因此，内容的实际宽度比CSS宽度要小。`clientWidth/clientHeight` 考虑到这一点。
+还有一个原因：滚动条。有时，没有滚动条的代码工作得很好，因为它在一些浏览器中占据了内容的一部分空间。因此，内容的实际宽度比CSS宽度要小。而 `clientWidth/clientHeight` 考虑到这一点。
 
-但是，`getComputedStyle(elem).width` 的情况是不同的。一些浏览器（例如Chrome）返回真正的内部宽度，这种情况不考虑滚动条，以及其中一些（例如Firefox）-CSS宽度（忽略滚动条）。这样的跨浏览器差异是不使用 `getComputedStyle` 样式的原因，而是依赖于几何属性。
+但是，`getComputedStyle(elem).width` 的情况是不同的。一些浏览器（例如Chrome）返回真正的内部宽度，这种情况不考虑滚动条，以及其中一些（例如Firefox）-- CSS宽度（忽略滚动条）。这样的跨浏览器差异是不使用 `getComputedStyle` 样式的原因，而是依赖于几何属性。
 
 ```online
 如果浏览器保留滚动条的空间（大多数Windows中的浏览器），那么你可以在下面测试它。
@@ -255,19 +255,19 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 
 包含文本的元素有这样的样式 `width:300px`.
 
-在桌面Windows操作系统上，Firefox、Chrome、Edgy 都为滚动条保留空间，但Firefox显示 `300px`，而 Chrome 和 Edgy 显示较少。这是因为Firefox返回CSS宽度，其他浏览器返回 “真实” 宽度。
+在桌面 Windows 操作系统上，Firefox、Chrome、Edgy 都为滚动条保留空间，但 Firefox 显示 `300px`，而 Chrome 和 Edgy 显示较少。这是因为 Firefox 返回 CSS 宽度，其他浏览器返回 “真实” 宽度。
 ```
 
 请注意，所描述的差异只是关于从JavaScript读取的 `getComputedStyle(...).width`，而视觉上一切都是正确的。
 
 ## 总结
 
-元素具有以下几何特性：
+元素具有以下几何属性：
 
 - `offsetParent` -- 是最近的有定位属性的祖先元素 ，或者是 `td`, `th`, `table`, `body`。
 - `offsetLeft/offsetTop` -- 是相对于 `offsetParent`的左上角边缘坐标。
 - `offsetWidth/offsetHeight` -- 元素的 "外部" 宽/高 ，边框尺寸计算在内。
-- `clientLeft/clientTop` -- 从元素左上角外部到内部的距离，对于从左到右渲染元素的操作系统，它始终是左/顶部边界的宽度，而相反的操作系统中，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
+- `clientLeft/clientTop` -- 从元素左上角外部到内部的距离，对于从左到右渲染元素的操作系统，它始终是左/顶部边界的宽度，而对于从右到左的操作系统，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
 - `clientWidth/clientHeight` -- 内容的宽度/高度，包括内间距，但没有滚动条。
 - `scrollWidth/scrollHeight` -- 内容的宽度/高度，包括可滚动的可视区域外的尺寸，也包括内间距，但不包括滚动条。
 - `scrollLeft/scrollTop` -- 从左上角开始的元素的滚动部分的宽度/高度。
