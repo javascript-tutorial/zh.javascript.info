@@ -1,27 +1,31 @@
-# Methods of RegExp and String
+# RegExp 和 String 的方法
 
-There are two sets of methods to deal with regular expressions.
+有两组方法可以处理正则表达式。
 
-1. First, regular expressions are objects of the built-in [RegExp](mdn:js/RegExp) class, it provides many methods.
+1. 首先，正则表达式是内置的 [RegExp](mdn:js/RegExp) 类的对象，它提供了许多方法。
 2. Besides that, there are methods in regular strings can work with regexps.
+2. 除此之外，正则字符串中的一些方法可以与regexp一起工作。
 
 The structure is a bit messed up, so we'll first consider methods separately, and then -- practical recipes for common tasks.
+由于结构有些混乱，所以我们首先会单独讨论一些方法，然后再讨论通用任务的使用方法。
 
 ## str.search(reg)
 
-We've seen this method already. It returns the position of the first match or `-1` if none found:
+在上一章节中我们已经见过这个方法了。它返回第一个匹配项的位置，如果没有找到则返回 `-1`。
 
 ```js run
 let str = "A drop of ink may make a million think";
 
-alert( str.search( *!*/a/i*/!* ) ); // 0 (the first position)
+alert( str.search( *!*/a/i*/!* ) ); // 0（最开始的位置）
 ```
 
 **The important limitation: `search` always looks for the first match.**
+**重要提示：`search` 总是查找第一个匹配项**
 
 We can't find next positions using `search`, there's just no syntax for that. But there are other methods that can.
+我们不能使用 `search` 来查找下一个匹配项的位置，没有这样的语法。但是还有其它方法可以做到。
 
-## str.match(reg), no "g" flag
+## str.match(reg), 在没有”g“修饰符的情况下
 
 The method `str.match` behavior varies depending on the `g` flag. First let's see the case without it.
 
