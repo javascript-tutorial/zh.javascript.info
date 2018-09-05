@@ -3,10 +3,8 @@
 有两组方法可以处理正则表达式。
 
 1. 首先，正则表达式是内置的 [RegExp](mdn:js/RegExp) 类的对象，它提供了许多方法。
-2. Besides that, there are methods in regular strings can work with regexps.
 2. 除此之外，正则字符串中的一些方法可以与regexp一起工作。
 
-The structure is a bit messed up, so we'll first consider methods separately, and then -- practical recipes for common tasks.
 由于结构有些混乱，所以我们首先会单独讨论一些方法，然后再讨论通用任务的使用方法。
 
 ## str.search(reg)
@@ -19,71 +17,69 @@ let str = "A drop of ink may make a million think";
 alert( str.search( *!*/a/i*/!* ) ); // 0（最开始的位置）
 ```
 
-**The important limitation: `search` always looks for the first match.**
 **重要提示：`search` 总是查找第一个匹配项**
 
-We can't find next positions using `search`, there's just no syntax for that. But there are other methods that can.
 我们不能使用 `search` 来查找下一个匹配项的位置，没有这样的语法。但是还有其它方法可以做到。
 
-## str.match(reg), 在没有”g“修饰符的情况下
+## 没有”g“修饰符情况下的 str.match(reg)
 
-The method `str.match` behavior varies depending on the `g` flag. First let's see the case without it.
+`str.match` 方法的表现取决于是否有 `g` 修饰符。首先我们来看一下没有修饰符的情况。
 
-Then `str.match(reg)` looks for the first match only.
+`str.match(reg)` 只会查找第一个匹配项。
 
-The result is an array with that match and additional properties:
+结果是一个数组，里面有该匹配项和额外的属性：
 
-- `index` -- the position of the match inside the string,
-- `input` -- the subject string.
+- `index` -- 匹配项在字符串中所处在的位置，
+- `input` -- 原始字符串。
 
-For instance:
+例如：
 
 ```js run
 let str = "Fame is the thirst of youth";
 
 let result = str.match( *!*/fame/i*/!* );
 
-alert( result[0] );    // Fame (the match)
-alert( result.index ); // 0 (at the zero position)
-alert( result.input ); // "Fame is the thirst of youth" (the string)
+alert( result[0] );    // Fame（匹配项）
+alert( result.index ); // 0（在最开始的位置0）
+alert( result.input ); // “Fame is the thirst of youth”（字符串本身）
 ```
 
-The array may have more than one element.
+该数组可能有不止一项元素。
 
-**If a part of the pattern is delimited by parentheses `(...)`, then it becomes a separate element of the array.**
+**如果模式的一部分被括号 `(...)` 括起来了，那么它将成为数组的单独元素。**
 
-For instance:
+例如：
 
 ```js run
 let str = "JavaScript is a programming language";
 
 let result = str.match( *!*/JAVA(SCRIPT)/i*/!* );
 
-alert( result[0] ); // JavaScript (the whole match)
-alert( result[1] ); // script (the part of the match that corresponds to the parentheses)
+alert( result[0] ); // JavaScript（整个匹配项）
+alert( result[1] ); // script（对应括号里的匹配项）
 alert( result.index ); // 0
 alert( result.input ); // JavaScript is a programming language
 ```
 
-Due to the `i` flag the search is case-insensitive, so it finds `match:JavaScript`. The part of the match that corresponds to `pattern:SCRIPT` becomes a separate array item.
+由于 `i` 修饰符，搜索不区分大小写，因此它会找到 `match:JavaScript`。与 `pattern:SCRIPT` 相对应的匹配部分成为了一个单独的数组项。
 
-We'll be back to parentheses later in the chapter <info:regexp-groups>. They are great for search-and-replace.
+稍后我们会在 <info:regexp-groups> 章节回到括号这部分。括号非常适合搜索和替换。
 
-## str.match(reg) with "g" flag
+## 使用“g”修饰符的 str.match(reg)
 
-When there's a `"g"` flag, then `str.match` returns an array of all matches. There are no additional properties in that array, and parentheses do not create any elements.
+当使用 `"g"` 修饰符的时候，`str.match` 就会返回由所有匹配项组成的数组。在数组中没有额外的属性，而且括号也不会创建任何元素。
 
-For instance:
+例如：
 
 ```js run
 let str = "HO-Ho-ho!";
 
 let result = str.match( *!*/ho/ig*/!* );
 
-alert( result ); // HO, Ho, ho (all matches, case-insensitive)
+alert( result ); // HO, Ho, ho（所有的匹配项，大小写不敏感）
 ```
 
-With parentheses nothing changes, here we go:
+使用括号也不会有什么改变：
 
 ```js run
 let str = "HO-Ho-ho!";
@@ -93,14 +89,14 @@ let result = str.match( *!*/h(o)/ig*/!* );
 alert( result ); // HO, Ho, ho
 ```
 
-So, with `g` flag the `result` is a simple array of matches. No additional properties.
+所以，使用 `g` 修饰符，`result` 就仅仅是一个由匹配项组成的数组。没有额外的属性。
 
-If we want to get information about match positions and use parentheses then we should use  [RegExp#exec](mdn:js/RegExp/exec) method that we'll cover below.
+如果我们想获取匹配项位置的更多信息，并且使用括号，那么我们应该使用下面将要提到的 [RegExp#exec](mdn:js/RegExp/exec) 方法。
 
-````warn header="If there are no matches, the call to `match` returns `null`"
-Please note, that's important. If there were no matches, the result is not an empty array, but `null`.
+````warn header="如果没有匹配项，那么调用 `match` 会返回 `null`"
+请注意，这很重要。如果没有匹配项，结果不是一个空数组，而是 `null`。
 
-Keep that in mind to evade pitfalls like this:
+记住这一点，避免发生下面的错误：
 
 ```js run
 let str = "Hey-hey-hey!";
@@ -111,15 +107,15 @@ alert( str.match(/ho/gi).length ); // error! there's no length of null
 
 ## str.split(regexp|substr, limit)
 
-Splits the string using the regexp (or a substring) as a delimiter.
+使用 regexp（或子字符串）作为分隔符分隔字符串。
 
-We already used `split` with strings, like this:
+我们之前已经使用过 `split` 的字符串形式，像下面这样：
 
 ```js run
 alert('12-34-56'.split('-')) // [12, 34, 56]
 ```
 
-But we can also pass a regular expression:
+但是我们也可以传入一个正则表达式：
 
 ```js run
 alert('12-34-56'.split(/-/)) // [12, 34, 56]
@@ -127,47 +123,47 @@ alert('12-34-56'.split(/-/)) // [12, 34, 56]
 
 ## str.replace(str|reg, str|func)
 
-The swiss army knife for search and replace in strings.
+这简直是搜索和替换字符串的利器。
 
-The simplest use -- search and replace a substring, like this:
+最简单的使用 -- 搜索和替换子字符串，就像下面这样：
 
 ```js run
-// replace a dash by a colon
+// 把横线替换成冒号
 alert('12-34-56'.replace("-", ":")) // 12:34-56
 ```
 
-When the first argument of `replace` is a string, it only looks for the first match.
+当 `replace` 的第一个参数是字符串时，它只会查找第一个匹配项。
 
-To find all dashes, we need to use not the string `"-"`, but a regexp `pattern:/-/g`, with an obligatory `g` flag:
+如果要找到所有的横线，我们不能使用字符串 `"-"`，而是 regexp `pattern:/-/g`，带上 `g` 修饰符。
 
 ```js run
-// replace all dashes by a colon
+// 用冒号替换所有的横线
 alert( '12-34-56'.replace( *!*/-/g*/!*, ":" ) )  // 12:34:56
 ```
 
-The second argument is a replacement string.
+第二个参数是要替换的字符串。
 
-We can use special characters in it:
+我们可以在里面使用特殊符号：
 
-| Symbol | Inserts |
+| 符号 | 插入 |
 |--------|--------|
 |`$$`|`"$"` |
-|`$&`|the whole match|
-|<code>$&#096;</code>|a part of the string before the match|
-|`$'`|a part of the string after the match|
-|`$n`|if `n` is a 1-2 digit number, then it means the contents of n-th parentheses counting from left to right|
+|`$&`|整个匹配项|
+|<code>$&#096;</code>|匹配项前面的字符串部分|
+|`$'`|匹配项后面的字符串部分|
+|`$n`|如果 `n` 是一个1-2位的数字，那么这表示从左到右数第n个括号的内容|
 
-For instance let's use `$&` to replace all entries of `"John"` by `"Mr.John"`:
+在下面的例子中，使用 `$&` 将所有的 `"John"` 替换成 `"Mr.John"`：
 
 ```js run
 let str = "John Doe, John Smith and John Bull.";
 
-// for each John - replace it with Mr. and then John
+// 对于每个 John - 替换成 Mr.John
 alert(str.replace(/John/g, 'Mr.$&'));
 // "Mr.John Doe, Mr.John Smith and Mr.John Bull.";
 ```
 
-Parentheses are very often used together with `$1`, `$2`, like this:
+圆括号通常与 `$1`, `$2` 一起使用，就像下面的例子：
 
 ```js run
 let str = "John Smith";
@@ -175,36 +171,36 @@ let str = "John Smith";
 alert(str.replace(/(John) (Smith)/, '$2, $1')) // Smith, John
 ```
 
-**For situations that require "smart" replacements, the second argument can be a function.**
+**对于那些需要“智能”替换的场景，第二个参数可以是函数。**
 
-It will be called for each match, and its result will be inserted as a replacement.
+它会被每个匹配项所调用，并且其结果会被作为替换插入进来。
 
-For instance:
+例如：
 
 ```js run
 let i = 0;
 
-// replace each "ho" by the result of the function
+// 将每个“ho”都替换成函数所返回的结果
 alert("HO-Ho-ho".replace(/ho/gi, function() {
   return ++i;
 })); // 1-2-3
 ```
 
-In the example above the function just returns the next number every time, but usually the result is based on the match.
+在上面的示例中，函数每次只返回下一个数字，但通常结果是基于匹配的。
 
-The function is called with arguments `func(str, p1, p2, ..., pn, offset, s)`:
+调用该函数 `func(str, p1, p2, ..., pn, offset, s)` 的参数是：
 
-1. `str` -- the match,
-2. `p1, p2, ..., pn` -- contents of parentheses (if there are any),
-3. `offset` -- position of the match,
-4. `s` -- the source string.
+1. `str` -- 匹配项，
+2. `p1, p2, ..., pn` -- 圆括号里的内容（如果有的话），
+3. `offset` -- 匹配项所在的位置，
+4. `s` -- 源字符串。
 
-If there are no parentheses in the regexp, then the function always has 3 arguments: `func(str, offset, s)`.
+如果在 regexp 中没有圆括号，那么该函数始终有3个参数：`func(str, offset, s)`。
 
-Let's use it to show full information about matches:
+下面的代码展示了匹配的所有信息：
 
 ```js run
-// show and replace all matches
+// 显示并且替换所有的匹配项
 function replacer(str, offset, s) {
   alert(`Found ${str} at position ${offset} in string ${s}`);
   return str.toLowerCase();
@@ -219,7 +215,7 @@ alert( 'Result: ' + result ); // Result: ho-ho-ho
 // Found ho at position 6 in string HO-Ho-ho
 ```
 
-In the example below there are two parentheses, so `replacer` is called with 5 arguments: `str` is the full match, then parentheses, and then `offset` and `s`:
+在下面的例子中，有两个圆括号，所以 `replacer` 有 5 个参数：`str` 是完全匹配项，然后是圆括号，然后是 `offset` 和 `s`：
 
 ```js run
 function replacer(str, name, surname, offset, s) {
@@ -232,25 +228,25 @@ let str = "John Smith";
 alert(str.replace(/(John) (Smith)/, replacer)) // Smith, John
 ```
 
-Using a function gives us the ultimate replacement power, because it gets all the information about the match, has access to outer variables and can do everything.
+使用函数赋予了我们终极替换大招，因为这能获取所有的匹配信息，并且能够访问外部变量，可以做任何事情。
 
 ## regexp.test(str)
 
-Let's move on to the methods of `RegExp` class, that are callable on regexps themselves.
+让我们继续研究 `RegExp` 类的方法，它们可以被 regexp 自身调用。
 
-The `test` method looks for any match and returns `true/false` whether he found it.
+`test` 方法查找任何符合的匹配，无论是否找到，都会返回 `true/false`。
 
-So it's basically the same as `str.search(reg) != -1`, for instance:
+所以这基本上和 `str.search(reg) != -1` 一样，例如：
 
 ```js run
 let str = "I love JavaScript";
 
-// these two tests do the same
+// 这两条语句是一样的
 alert( *!*/love/i*/!*.test(str) ); // true
 alert( str.search(*!*/love/i*/!*) != -1 ); // true
 ```
 
-An example with the negative answer:
+结果是 false 的例子：
 
 ```js run
 let str = "Bla-bla-bla";
@@ -261,24 +257,24 @@ alert( str.search(*!*/love/i*/!*) != -1 ); // false
 
 ## regexp.exec(str)
 
-We've already seen these searching methods:
+我们已经见过这些搜索的方法：
 
-- `search` -- looks for the position of the match,
-- `match` -- if there's no `g` flag, returns the first match with parentheses,
-- `match` -- if there's a `g` flag -- returns all matches, without separating parentheses.
+- `search` -- 查找匹配项所在的位置，
+- `match` -- 如果没有 `g` 修饰符，返回圆括号的第一个匹配项，
+- `match` -- 如果有 `g` 修饰符，返回所有匹配项，圆括号在此不生效。
 
-The `regexp.exec` method is a bit harder to use, but it allows to search all matches with parentheses and positions.
+`regexp.exec` 方法有点难用，但是它允许搜索所有的匹配项，包括圆括号和位置。
 
-It behaves differently depending on whether the regexp has the `g` flag.
+它的行为取决于 regexp 是否具有“g”修饰符。
 
-- If there's no `g`, then `regexp.exec(str)` returns the first match, exactly as `str.match(reg)`.
-- If there's `g`, then `regexp.exec(str)` returns the first match and *remembers* the position after it in `regexp.lastIndex` property. The next call starts to search from `regexp.lastIndex` and returns the next match. If there are no more matches then `regexp.exec` returns `null` and `regexp.lastIndex` is set to `0`.
+- 如果没有 `g`，那么 `regexp.exec(str)` 返回第一个匹配项，也就是 `str.match(reg)`。
+- 如果有 `g`，那么 `regexp.exec(str)` 返回第一个匹配项，然后在 `regexp.lastIndex` 里 **记住** 该匹配项结束的的位置。下一次调用从 `regexp.lastIndex` 开始搜索，并且返回下一个匹配项。如果再没有匹配项了，则 `regexp.exec` 返回 `null`，`regexp.lastIndex` 置为 `0`。
 
-As we can see, the method gives us nothing new if we use it without the `g` flag, because `str.match` does exactly the same.
+正如我们所见的，如果我们不使用 `g` 修饰符，则与 `str.match` 没有什么区别。
 
-But the `g` flag allows to get all matches with their positions and parentheses groups.
+但是使用 `g` 修饰符，能够获取所有的匹配项，带着其位置和圆括号组的信息。
 
-Here's the example how subsequent `regexp.exec` calls return matches one by one:
+下面的代码展示了 `regexp.exec` 是如何一个接一个进行调用的：
 
 ```js run
 let str = "A lot about JavaScript at https://javascript.info";
@@ -286,39 +282,39 @@ let str = "A lot about JavaScript at https://javascript.info";
 let regexp = /JAVA(SCRIPT)/ig;
 
 *!*
-// Look for the first match
+// 查找第一个匹配项
 */!*
 let matchOne = regexp.exec(str);
 alert( matchOne[0] ); // JavaScript
 alert( matchOne[1] ); // script
-alert( matchOne.index ); // 12 (the position of the match)
-alert( matchOne.input ); // the same as str
+alert( matchOne.index ); // 12（匹配项所在的位置）
+alert( matchOne.input ); // 和 str 一样
 
-alert( regexp.lastIndex ); // 22 (the position after the match)
+alert( regexp.lastIndex ); // 22（匹配项结束的位置）
 
 *!*
-// Look for the second match
+// 查找第二个匹配项
 */!*
-let matchTwo = regexp.exec(str); // continue searching from regexp.lastIndex
+let matchTwo = regexp.exec(str); // 继续从 regexp.lastIndex 开始搜索
 alert( matchTwo[0] ); // javascript
 alert( matchTwo[1] ); // script
-alert( matchTwo.index ); // 34 (the position of the match)
-alert( matchTwo.input ); // the same as str
+alert( matchTwo.index ); // 34（匹配项所在的位置）
+alert( matchTwo.input ); // 和 str 一样
 
-alert( regexp.lastIndex ); // 44 (the position after the match)
+alert( regexp.lastIndex ); // 44（匹配项结束的位置）
 
 *!*
-// Look for the third match
+// 查找第三个匹配项
 */!*
-let matchThree = regexp.exec(str); // continue searching from regexp.lastIndex
-alert( matchThree ); // null (no match)
+let matchThree = regexp.exec(str); // 继续从 regexp.lastIndex 开始搜索
+alert( matchThree ); // null（没有匹配项）
 
-alert( regexp.lastIndex ); // 0 (reset)
+alert( regexp.lastIndex ); // 0（重置）
 ```
 
-As we can see, each `regexp.exec` call returns the match in a "full format": as an array with parentheses, `index` and `input` properties.
+可见，每个 `regexp.exec` 调用都以”完整的格式“返回匹配项：一个由圆括号、`index`和 `input` 属性组成的数组。
 
-The main use case for `regexp.exec` is to find all matches in a loop:
+`regexp.exec` 的主要用例就是在循环中查找所有的匹配：
 
 ```js run
 let str = 'A lot about JavaScript at https://javascript.info';
@@ -333,9 +329,10 @@ while (result = regexp.exec(str)) {
 ```
 
 The loop continues until `regexp.exec` returns `null` that means "no more matches".
+循环直到 `regexp.exec` 返回 `null` 时结束，也就意味着“没有更多的匹配项了”。
 
-````smart header="Search from the given position"
-We can force `regexp.exec` to start searching from the given position by setting `lastIndex` manually:
+````smart header="从指定位置开始搜索"
+我们可以强制 `regexp.exec` 从给定的位置开始搜索，只需要手动设置 `lastIndex`：
 
 ```js run
 let str = 'A lot about JavaScript at https://javascript.info';
@@ -343,32 +340,32 @@ let str = 'A lot about JavaScript at https://javascript.info';
 let regexp = /javascript/ig;
 regexp.lastIndex = 30;
 
-alert( regexp.exec(str).index ); // 34, the search starts from the 30th position
+alert( regexp.exec(str).index ); // 34, 搜索从位置30开始
 ```
 ````
 
-## The "y" flag [#y-flag]
+## “y”修饰符 [#y-flag]
 
-The `y` flag means that the search should find a match exactly at the position specified by the property `regexp.lastIndex` and only there.
+`y` 修饰符意味着搜索应该在属性 `regexp.lastIndex` 指定的位置查找匹配项，并且只能是这个位置。
 
-In other words, normally the search is made in the whole string: `pattern:/javascript/` looks for "javascript" everywhere in the string.
+也就是说，通常搜索是在整个字符串里搜索字符串 `pattern:/javascript/`的。
 
-But when a regexp has the `y` flag, then it only looks for the match at the position specified in `regexp.lastIndex` (`0` by default).
+但是当有了 `y` 修饰符，则只会在 `regexp.lastIndex`（默认是 `0`）指定的位置开始查找。
 
-For instance:
+例如：
 
 ```js run
 let str = "I love JavaScript!";
 
 let reg = /javascript/iy;
 
-alert( reg.lastIndex ); // 0 (default)
-alert( str.match(reg) ); // null, not found at position 0
+alert( reg.lastIndex ); // 0（默认）
+alert( str.match(reg) ); // null, 但是不位置0
 
 reg.lastIndex = 7;
-alert( str.match(reg) ); // JavaScript (right, that word starts at position 7)
+alert( str.match(reg) ); // JavaScript（搜索正确，该单词确实在位置7）
 
-// for any other reg.lastIndex the result is null
+// 对于其它 reg.lastIndex，结果都为 null
 ```
 
 The regexp `pattern:/javascript/iy` can only be found if we set `reg.lastIndex=7`, because due to `y` flag the engine only tries to find it in the single place within a string -- from the `reg.lastIndex` position.
