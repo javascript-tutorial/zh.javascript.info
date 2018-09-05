@@ -138,7 +138,7 @@ function isHidden(elem) {
 
 有什么区别？
 
-当文档是从右往左渲染这没什么区别（操作系统是阿拉伯语或希伯来语）此时滚动条不在右边，而是在左边，而 `clientLeft` 则包含了滚动条的宽度。
+当文档是从右向左渲染时就会显现出来（操作系统是阿拉伯语或希伯来语）。此时滚动条不在右边，而是在左边，而 `clientLeft` 则包含了滚动条的宽度。
 
 在这种情况下， `clientLeft` 的值将不是 `25`, 而是加上滚动条的宽度 `25 + 16 = 41`:
 
@@ -246,7 +246,7 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 
 还有一个原因：滚动条。有时，没有滚动条的代码工作得很好，因为它在一些浏览器中占据了内容的一部分空间。因此，内容的实际宽度比CSS宽度要小。而 `clientWidth/clientHeight` 考虑到这一点。
 
-但是，`getComputedStyle(elem).width` 的情况是不同的。一些浏览器（例如Chrome）返回真正的内部宽度，这种情况不考虑滚动条，以及其中一些（例如Firefox）-- CSS宽度（忽略滚动条）。这样的跨浏览器差异是不使用 `getComputedStyle` 样式的原因，而是依赖于几何属性。
+但是，`getComputedStyle(elem).width` 的情况是不同的。一些浏览器（例如Chrome）返回真正的内部宽度，这种情况不考虑滚动条，以及其中一些（例如Firefox）— CSS宽度（忽略滚动条）。这样的跨浏览器差异是不使用 `getComputedStyle` 样式的原因，而是依赖于几何属性。
 
 ```online
 如果浏览器保留滚动条的空间（大多数Windows中的浏览器），那么你可以在下面测试它。
@@ -264,12 +264,12 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 
 元素具有以下几何属性：
 
-- `offsetParent` -- 是最近的有定位属性的祖先元素 ，或者是 `td`, `th`, `table`, `body`。
-- `offsetLeft/offsetTop` -- 是相对于 `offsetParent`的左上角边缘坐标。
-- `offsetWidth/offsetHeight` -- 元素的 "外部" 宽/高 ，边框尺寸计算在内。
-- `clientLeft/clientTop` -- 从元素左上角外部到内部的距离，对于从左到右渲染元素的操作系统，它始终是左/顶部边界的宽度，而对于从右到左的操作系统，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
-- `clientWidth/clientHeight` -- 内容的宽度/高度，包括内间距，但没有滚动条。
-- `scrollWidth/scrollHeight` -- 内容的宽度/高度，包括可滚动的可视区域外的尺寸，也包括内间距，但不包括滚动条。
-- `scrollLeft/scrollTop` -- 从左上角开始的元素的滚动部分的宽度/高度。
+- `offsetParent` — 是最近的有定位属性的祖先元素 ，或者是 `td`、`th`、`table`、`body`。
+- `offsetLeft/offsetTop` — 是相对于 `offsetParent`的左上角边缘坐标。
+- `offsetWidth/offsetHeight` — 元素的“外部”宽/高 ，边框尺寸计算在内。
+- `clientLeft/clientTop` — 从元素左上角外部到内部的距离，对于从左到右渲染元素的操作系统，它始终是左/顶部边界的宽度，而对于从右到左的操作系统，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
+- `clientWidth/clientHeight` — 内容的宽度/高度，包括内间距，但没有滚动条。
+- `scrollWidth/scrollHeight` — 内容的宽度/高度，包括可滚动的可视区域外的尺寸，也包括内间距，但不包括滚动条。
+- `scrollLeft/scrollTop` — 从左上角开始的元素的滚动部分的宽度/高度。
 
 除了 `scrollLeft/scrollTop` 之外，所有属性都是只读的。如果更改，浏览器会使元素滚动。
