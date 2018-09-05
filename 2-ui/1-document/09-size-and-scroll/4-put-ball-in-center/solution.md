@@ -1,4 +1,4 @@
-为小球设置 `position:absolute`。这意味着它的 `left/top` 坐标根据相对它最近的并且设置了定位的元素来测量，这个元素的有效范围就是 `#field`（因为它有 `position:relative`）。  
+为小球设置 `position:absolute`。这意味着它的 `left/top` 坐标根据相对它最近的并且设置了定位的元素来测量，这个元素的有效范围就是 `#field`（因为它有 `position:relative`）。
 
 坐标从设置了相对定位的最近的元素的左上角开始：
 
