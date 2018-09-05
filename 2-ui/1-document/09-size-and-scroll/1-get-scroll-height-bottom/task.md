@@ -2,10 +2,10 @@ importance: 5
 
 ---
 
-# What's the scroll from the bottom?
+# 相对于底部滚动了多少？
 
-The `elem.scrollTop` property is the size of the scrolled out part from the top. How to get "`scrollBottom`" -- the size from the bottom?
+ `elem.scrollTop` 属性是从顶部滚动出来的部分的大小，何获得 `scrollBottom` —— 从底部滚动的尺寸？
 
-Write the code that works for an arbitrary `elem`.
+编写适用于任意元素的代码。
 
-P.S. Please check your code: if there's no scroll or the element is fully scrolled down, then it should return `0`.
+P.S. 请检查您的代码：如果没有滚动条或元素完全向下滚动，那么它应该返回 “0”。
