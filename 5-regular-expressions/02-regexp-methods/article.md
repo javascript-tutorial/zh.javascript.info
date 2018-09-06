@@ -5,11 +5,11 @@
 1. 首先，正则表达式是内置的 [RegExp](mdn:js/RegExp) 类的对象，它提供了许多方法。
 2. 除此之外，正则字符串中的一些方法可以与regexp一起工作。
 
-由于结构有些混乱，所以我们首先会单独讨论一些方法，然后再讨论通用任务的使用方法。
+为了避免结构混乱，我们首先会单独讨论一些方法，然后再讨论通用任务的使用方法。
 
 ## str.search(reg)
 
-在上一章节中我们已经见过这个方法了。它返回第一个匹配项的位置，如果没有找到则返回 `-1`。
+在上一章节中我们已经见过这个方法了。它返回第一个匹配项所在的位置，如果没有找到则返回 `-1`。
 
 ```js run
 let str = "A drop of ink may make a million think";
@@ -21,7 +21,7 @@ alert( str.search( *!*/a/i*/!* ) ); // 0（最开始的位置）
 
 我们不能使用 `search` 来查找下一个匹配项的位置，没有这样的语法。但是还有其它方法可以做到。
 
-## 没有”g“修饰符情况下的 str.match(reg)
+## 没有“g”修饰符情况下的 str.match(reg)
 
 `str.match` 方法的表现取决于是否有 `g` 修饰符。首先我们来看一下没有修饰符的情况。
 
@@ -63,11 +63,11 @@ alert( result.input ); // JavaScript is a programming language
 
 由于 `i` 修饰符，搜索不区分大小写，因此它会找到 `match:JavaScript`。与 `pattern:SCRIPT` 相对应的匹配部分成为了一个单独的数组项。
 
-稍后我们会在 <info:regexp-groups> 章节回到括号这部分。括号非常适合搜索和替换。
+稍后我们会在 <info:regexp-groups> 章节继续讲述圆括号这部分。圆括号非常适合搜索和替换。
 
 ## 使用“g”修饰符的 str.match(reg)
 
-当使用 `"g"` 修饰符的时候，`str.match` 就会返回由所有匹配项组成的数组。在数组中没有额外的属性，而且括号也不会创建任何元素。
+当使用 `"g"` 修饰符的时候，`str.match` 就会返回由所有匹配项组成的数组。在数组中没有额外的属性，而且圆括号也不会创建任何元素。
 
 例如：
 
@@ -270,9 +270,9 @@ alert( str.search(*!*/love/i*/!*) != -1 ); // false
 - 如果没有 `g`，那么 `regexp.exec(str)` 返回第一个匹配项，也就是 `str.match(reg)`。
 - 如果有 `g`，那么 `regexp.exec(str)` 返回第一个匹配项，然后在 `regexp.lastIndex` 里 **记住** 该匹配项结束的的位置。下一次调用从 `regexp.lastIndex` 开始搜索，并且返回下一个匹配项。如果再没有匹配项了，则 `regexp.exec` 返回 `null`，`regexp.lastIndex` 置为 `0`。
 
-正如我们所见的，如果我们不使用 `g` 修饰符，则与 `str.match` 没有什么区别。
+正如我们所见的，如果不使用 `g` 修饰符，则与 `str.match` 没有什么区别。
 
-但是使用 `g` 修饰符，能够获取所有的匹配项，带着其位置和圆括号组的信息。
+但是使用 `g` 修饰符，就能够获取所有的匹配项，带着其位置和圆括号组的信息。
 
 下面的代码展示了 `regexp.exec` 是如何一个接一个进行调用的：
 
@@ -328,7 +328,6 @@ while (result = regexp.exec(str)) {
 }
 ```
 
-The loop continues until `regexp.exec` returns `null` that means "no more matches".
 循环直到 `regexp.exec` 返回 `null` 时结束，也就意味着“没有更多的匹配项了”。
 
 ````smart header="从指定位置开始搜索"
@@ -368,41 +367,41 @@ alert( str.match(reg) ); // JavaScript（搜索正确，该单词确实在位置
 // 对于其它 reg.lastIndex，结果都为 null
 ```
 
-The regexp `pattern:/javascript/iy` can only be found if we set `reg.lastIndex=7`, because due to `y` flag the engine only tries to find it in the single place within a string -- from the `reg.lastIndex` position.
+regexp `pattern:/javascript/iy` 只有在我们设置 `reg.lastIndex=7` 的时候被找到，因为由于 `y` 修饰符，引擎只会尝试在 `reg.lastIndex` 这个特定的位置开始查找。
 
-So, what's the point? Where do we apply that?
+所以，这样做有何意义？我们在什么情况下会用到呢？
 
-The reason is performance.
+答案就是性能。
 
-The `y` flag works great for parsers -- programs that need to "read" the text and build in-memory syntax structure or perform actions from it. For that we move along the text and apply regular expressions to see what we have next: a string? A number? Something else?
+`y` 修饰符非常适合解析器 -- 一种需要“读取”文本、构建内存语法结构或者从中执行操作的程序。为此，我们沿着文本移动，应用正则表达式，来看下一个是字符串、数字还是其它。
 
-The `y` flag allows to apply a regular expression (or many of them one-by-one) exactly at the given position and when we understand what's there, we can move on -- step by step examining the text.
+`y` 修饰符在给定位置应用一个正则表达式（或者会有很多，逐个进行），当我们理解了其中的内容后，就可以继续一步步检查文本。
 
-Without the flag the regexp engine always searches till the end of the text, that takes time, especially if the text is large. So our parser would be very slow. The `y` flag is exactly the right thing here.
+在没有该修饰符的情况下，引擎总是会检查到文本的末尾，这需要花费时间，尤其是文本很大的时候，所以解析器可能会很慢。`y` 修饰符在这里使用则恰到好处。
 
-## Summary, recipes
+## 总结，方法
 
-Methods become much easier to understand if we separate them by their use in real-life tasks.
+如果我们把这些方法通过实际任务中的使用进行拆解，就会更容易理解。
 
-To search for the first match only:
-: - Find the position of the first match -- `str.search(reg)`.
-- Find the full match -- `str.match(reg)`.
-- Check if there's a match -- `regexp.test(str)`.
-- Find the match from the given position -- `regexp.exec(str)`, set `regexp.lastIndex` to position.
+只查找第一个匹配项的：
+: - 找到第一个匹配项的位置 -- `str.search(reg)`。
+- 找到完全匹配 -- `str.match(reg)`。
+- 检查是否有符合条件的匹配 -- `regexp.test(str)`。
+- 从指定位置查找匹配 -- `regexp.exec(str)`，设置 `regexp.lastIndex` 位置。
 
-To search for all matches:
-: - An array of matches -- `str.match(reg)`, the regexp with `g` flag.
-- Get all matches with full information about each one -- `regexp.exec(str)` with `g` flag in the loop.
+查找全匹配：
+: - 由匹配项组成的数组 -- `str.match(reg)`, 使用 `g` 修饰符。
+- 获取所有匹配项的完整信息 -- `regexp.exec(str)`，在循环中使用 `g` 修饰符。
 
-To search and replace:
-: - Replace with another string or a function result -- `str.replace(reg, str|func)`
+搜索然后替换：
+: - 替换成另一个字符串或者函数返回的结果 -- `str.replace(reg, str|func)`
 
-To split the string:
+拆分字符串：
 : - `str.split(str|reg)`
 
-We also covered two flags:
+我们还讨论了两个修饰符：
 
-- The `g` flag to find all matches (global search),
-- The `y` flag to search at exactly the given position inside the text.
+- `g` 修饰符查找所有的匹配项（全局搜索），
+- `y` 修饰符在文本中的指定位置查找。
 
-Now we know the methods and can use regular expressions. But we need to learn their syntax, so let's move on.
+现在我们知道了这些方法，并且可以使用正则表达式了。但是我们需要学习它们的语法，所以我们继续下一章节。

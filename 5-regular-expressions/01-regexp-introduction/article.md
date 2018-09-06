@@ -8,7 +8,7 @@
 
 ## 正则表达式
 
-正则表达式（可叫作”regexp“或者”reg“）包含 **模式** 和可选的 **修饰符**。
+正则表达式（可叫作“regexp”或者“reg”）包含 **模式** 和可选的 **修饰符**。
 
 创建一个正则表达式对象有两种语法。
 
@@ -18,14 +18,14 @@
 regexp = new RegExp("pattern", "flags");
 ```
 
-...较短一点的使用斜杠 `"/"`:
+...较短一点的语法，使用斜杠 `"/"`:
 
 ```js
 regexp = /pattern/; // 没有修饰符
 regexp = /pattern/gmi; // 伴随修饰符 g、m 和 i (后面会讲到)
 ```
 
-斜杠会 `"/"` 告诉 JavaScript 我们正在创建一个正则表达式。它的作用类似于字符串的引号。
+斜杠 `"/"` 会告诉 JavaScript 我们正在创建一个正则表达式。它的作用类似于字符串的引号。
 
 ## 用法
 
@@ -34,7 +34,7 @@ regexp = /pattern/gmi; // 伴随修饰符 g、m 和 i (后面会讲到)
 下面是示例：
 
 ```js run
-let str = "I love JavaScript!"; // 会在这里搜索
+let str = "I love JavaScript!"; // 将在这里搜索
 
 let regexp = /love/;
 alert( str.search(regexp) ); // 2
@@ -45,7 +45,7 @@ alert( str.search(regexp) ); // 2
 上面的代码等同于：
 
 ```js run
-let str = "I love JavaScript!"; // 会在这里搜索
+let str = "I love JavaScript!"; // 将在这里搜索
 
 let substr = 'love';
 alert( str.search(substr) ); // 2
@@ -88,10 +88,10 @@ alert( "I love JavaScript".search(regexp));
 在 JavaScript 中，有5个修饰符：
 
 `i`
-: 使用此修饰符后，搜索的大小写不敏感: `A` 和 `a` 没有区别 (具体看下面的例子).
+: 使用此修饰符后，搜索时不区分大小写: `A` 和 `a` 没有区别 (具体看下面的例子).
 
 `g`
-: 使用此修饰符后，搜索会查找所有的匹配项，而不只是第一个（在下一章会讲到）
+: 使用此修饰符后，搜索时会查找所有的匹配项，而不只是第一个（在下一章会讲到）
 
 `m`
 : 多行模式（详见 章节 <info:regexp-multiline>）
@@ -103,21 +103,21 @@ alert( "I love JavaScript".search(regexp));
 : 粘滞模式（详见 [下一章节](info:regexp-methods#y-flag)）
 
 
-## ”i“修饰符
+## “i”修饰符
 
 最简单的修饰符就是 `i` 了。
 
 示例代码如下：
 
-```js run
+​```js run
 let str = "I love JavaScript!";
 
-alert( str.search(/LOVE/) ); // -1 (not found)
+alert( str.search(/LOVE/) ); // -1（没找到）
 alert( str.search(/LOVE/i) ); // 2
-```
+​```
 
-1. 第一个搜索返回的是 `-1`（也就是没找到），因为搜索默认是大小写敏感的。
-2. 使用修饰符 `pattern:/LOVE/i`，搜索结果为位置为 2 的 `match:love`。
+1. 第一个搜索返回的是 `-1`（也就是没找到），因为搜索默认是区分大小写的。
+2. 使用修饰符 `pattern:/LOVE/i`，搜索结果是索引为 2 的 `match:love`。
 
 相比与简单的子字符串查找，`i` 修饰符已经让正则表达式变得更加强大了。但是这还不够。我们会在下一章节讲述其它修饰符和特性。
 
@@ -127,3 +127,5 @@ alert( str.search(/LOVE/i) ); // 2
 - 一个正则表达式包含模式和可选修饰符： `g`、`i`、`m`、`u`、`y`。
 - 如果不使用后面所学的修饰符和特殊标志，正则表达式的搜索就等同于子字符串查找。
 - `str.search(regexp)` 方法返回的是找到的匹配项的索引位置，如果没找到则返回 `-1`。
+
+````
