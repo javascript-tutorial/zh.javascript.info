@@ -1,15 +1,14 @@
+# unicode 标记
 
-# The unicode flag
+unicide 标记 `/.../u` 可以正确支持 UTF16 编码代理对。
 
-The unicode flag `/.../u` enables the correct support of surrogate pairs.
+代理对在章节 <info:string> 已经做了解释。
 
-Surrogate pairs are explained in the chapter <info:string>.
+让我们在这里简单回忆下它们。简而言之，普通的字符通常使用两个字节作为编码。这让我们最多只能表示 65536 个字符。但是在这个世界中要表示的字符比这个数量要多得多。
 
-Let's briefly remind them here. In short, normally characters are encoded with 2 bytes. That gives us 65536 characters maximum. But there are more characters in the world.
+所以某些罕见的字符是用 4 个字节作为编码的，就像 `𝒳`（数学意义上的 x）或者 `😄`（一个微笑）。
 
-So certain rare characters are encoded with 4 bytes, like `𝒳` (mathematical X) or `😄` (a smile).
-
-Here are the unicode values to compare:
+这里是用来比较的 unicode 编码值：
 
 | Character  | Unicode | Bytes  |
 |------------|---------|--------|
@@ -19,51 +18,51 @@ Here are the unicode values to compare:
 |`𝒴`| 0x1d4b4 | 4 |
 |`😄`| 0x1f604 | 4 |
 
-So characters like `a` and `≈` occupy 2 bytes, and those rare ones take 4.
+所以类似 `a` 和 `≈` 字符会占据两个字节，表中其它的则会用 4 个字节。
 
-The unicode is made in such a way that the 4-byte characters only have a meaning as a whole.
+对于 unicode 编码来说只有 4 个字节的字符作为一个整体时才会表示特定的意义。
 
-In the past JavaScript did not know about that, and many string methods still have problems. For instance, `length` thinks that here are two characters:
+在过去 JavaScript 并不知道这些，所以很多字符串方法仍然有问题。比如说，`length` 方法会认为这些 unicode 编码的字符会相当于两个字符。
 
 ```js run
 alert('😄'.length); // 2
 alert('𝒳'.length); // 2
 ```
 
-...But we can see that there's only one, right? The point is that `length` treats 4 bytes as two 2-byte characters. That's incorrect, because they must be considered only together (so-called "surrogate pair").
+。。。但是我们看到的只有一个字符，对吗？这里的考虑点在于 `length` 方法把 4 个字节当作两个 2 字节的字符。这是不对的，因为这 4 个字节必须被当作一个整体考虑（所以叫做“代理对”）。
 
-Normally, regular expressions also treat "long characters" as two 2-byte ones.
+通常来说，正则表达式也会把上面“长字节的字符”当作两个 2 字节的字符。
 
-That leads to odd results, for instance let's try to find `pattern:[𝒳𝒴]` in the string `subject:𝒳`:
+这会导致奇怪的结果，比如说，让我们尝试在字符串 `subject:𝒳` 中查找 `pattern:[𝒳𝒴]`。
 
 ```js run
-alert( '𝒳'.match(/[𝒳𝒴]/) ); // odd result
+alert( '𝒳'.match(/[𝒳𝒴]/) ); // 奇怪的结果
 ```
 
-The result would be wrong, because by default the regexp engine does not understand surrogate pairs. It thinks that `[𝒳𝒴]` are not two, but four characters: the left half of `𝒳` `(1)`, the right half of `𝒳` `(2)`, the left half of `𝒴` `(3)`, the right half of `𝒴` `(4)`.
+这个表达式得到的结果将会是错的，因为在默认情况下正则引擎并不理解代理对。它会认为 `[𝒳𝒴]` 并不是两个字符，而是四个：包括 `𝒳` 的左边一半 `(1)`，`𝒳` 的右边一半 `(2)`，以及 `𝒴` 的左边一半 `(3)`，`𝒴` 的右边一半 `(4)`。
 
-So it finds the left half of `𝒳` in the string `𝒳`, not the whole symbol.
+所以它找到了在字符串 `𝒳` 中的左边一半，而不是整个符号。
 
-In other words, the search works like `'12'.match(/[1234]/)` -- the `1` is returned (left half of `𝒳`).
+换句话说，这种情况类似在 `'12'.match(/[1234]/)` 的查询中 —— 其结果会返回 `1`（相当于 `𝒳` 的左边一半）。
 
-The `/.../u` flag fixes that. It enables surrogate pairs in the regexp engine, so the result is correct:
+使用 `/.../u` 标记可以修复这个问题。它可以在正则引擎中增加对引用对的支持，所以这样得到的结果就是对的。
 
 ```js run
 alert( '𝒳'.match(/[𝒳𝒴]/u) ); // 𝒳
 ```
 
-There's an error that may happen if we forget the flag:
+如果我们忘记了这个标记，就可能会出现一个错误：
 
 ```js run
 '𝒳'.match(/[𝒳-𝒴]/); // SyntaxError: invalid range in character class
 ```
 
-Here the regexp `[𝒳-𝒴]` is treated as `[12-34]` (where `2` is the right part of `𝒳` and `3` is the left part of `𝒴`), and the range between two halves `2` and `3` is unacceptable.
+在这里正则查询 `[𝒳-𝒴]` 被当作 `[12-34]`（在其中 `2` 是 `𝒳` 右边的部分，`3` 是 `𝒴` 中左边的部分），而在这两个 `2` 和 `3` 范围之间内的字符是不可接受的。
 
-Using the flag would make it work right:
+使用下面的标记这个函数就可以正常工作：
 
 ```js run
 alert( '𝒴'.match(/[𝒳-𝒵]/u) ); // 𝒴
 ```
 
-To finalize, let's note that if we do not deal with surrogate pairs, then the flag does nothing for us. But in the modern world we often meet them.
+最后，请注意，如果我们不处理代理对，那么这个标记对我们来说并没有任何作用。但是在现代世界中，我们经常会遇到这些 unicode 字符。
