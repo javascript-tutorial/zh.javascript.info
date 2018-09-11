@@ -161,7 +161,7 @@ let clone = Object.assign({}, user);
 alert( clone[id] ); // 123
 ```
 
-这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object 时，通常希望**所有**属性被复制（包括想 `id` 这样的 Symbol）。
+这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object 时，通常希望**所有**属性被复制（包括像 `id` 这样的 Symbol）。
 
 ````smart header="Property keys of other types are coerced to strings"
 我们只能在对象中使用 string 或 symbol 作为键，其它类型转换为 String。
