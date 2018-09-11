@@ -249,7 +249,7 @@ JavaScript 内部存在很多“系统” Symbol，我们可以使用它们来�
 - `Symbol.toPrimitive`
 - ...等等。
 
-例如，`Symbol.toPrimitive` 允许我们将对象描述为原语转换，我们很快就会看到她它的使用。
+例如，`Symbol.toPrimitive` 允许我们将对象描述为原语转换，我们很快就会看到它的使用。
 
 当我们研究相应的语言特征时，其他 Symbol 也会变得熟悉起来。
 
