@@ -1,13 +1,13 @@
 
 # Symbol 类型
 
-根据规范，object 属性键只能是 String 类型或者 Symbol 类型。不是 Number，也不是 Boolean，只有 String 或 Symbol 这两种类型。
+根据规范，对象的属性键只能是 String 类型或者 Symbol 类型。不是 Number，也不是 Boolean，只有 String 或 Symbol 这两种类型。
 
 到目前为止，我们只见过 String。现在我们来看看 Symbol 能给我们带来什么好处。
 
 ## Symbol
 
-"Symbol" 值表示唯一的标识符
+"Symbol" 值表示唯一的标识符。
 
 可以使用 `Symbol()` 来创建这种类型的值：
 
