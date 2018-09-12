@@ -118,7 +118,7 @@ alert(numbers); // 7,903,123,45,67
     alert( "<h1>Hi!</h1>".match(/<\/?[a-z][a-z0-9]*>/gi) ); // <h1>, </h1>
     ```
 
-```smart header="More precise means more complex"
+```smart header=“更精确意味着更复杂”
 我们能够从这些例子中看到一个共同的规则：正则表达式越精确 —— 它就越长且越复杂。
 
 例如，HTML 标记能用一个简单的正则表达式：`pattern:<\w+>`。
