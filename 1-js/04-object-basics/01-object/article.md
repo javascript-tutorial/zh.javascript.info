@@ -200,7 +200,7 @@ let bag = {
 
 对于对象的属性，没有这些限制，都可以的：
 
-​```js run
+```js run
 let obj = {
   for: 1,
   let: 2,
@@ -235,7 +235,7 @@ alert(obj.__proto__); // [object Object]，这样不行
 
 例如：
 
-​```js run
+```js run
 function makeUser(name, age) {
   return {
     name: name,
@@ -246,13 +246,13 @@ function makeUser(name, age) {
 
 let user = makeUser("John", 30);
 alert(user.name); // John
-​```
+```
 
 在上面的例子中，属性名跟变量名一样。这种应用场景很常见，所以提供一种很便利的方式来定义对象的属性值。
 
 可以用 `name` 来代替 `name:name` 像下面那样：
 
-​```js
+```js
 function makeUser(name, age) {
 *!*
   return {
@@ -262,58 +262,58 @@ function makeUser(name, age) {
   };
 */!*
 }
-​```
+```
 
 我们可以把简写方式和正常方式混用：
 
-​```js
+```js
 let user = {
   name,  // 与 name:name 相同
   age: 30
 };
-​```
+```
 
 ## 存在值检查
 
 对象的一个显著的特点就是可以访问任何属性，如果这个属性名没有值也不会有错误。访问一个不存在的属性会返回 `undefined`。它提供一种普遍的方法去检查属性是否存在 —— 获得值来与 undefined 比较：
 
-​```js run
+```js run
 let user = {};
 
 alert( user.noSuchProperty === undefined ); // true 意思是没有这个属性
-​```
+```
 
 同样也有一个特别的操作符 `"in"` 来检查是否属性存在。
 
 语法是：
-​```js
+```js
 "key" in object
-​```
+```
 
 例如：
 
-​```js run
+```js run
 let user = { name: "John", age: 30 };
 
 alert( "age" in user ); // true，user.age 存在
 alert( "blabla" in user ); // false，user.blabla 不存在。
-​```
+```
 
 注意 `in` 的左边必须是**属性名**。通常是一个字符串，如果不用字符串，那就是一个字符串变量。
 
-​```js run
+```js run
 let user = { age: 30 };
 
 let key = "age";
 alert( *!*key*/!* in user ); // true，获取键的名字和检查这个键的属性 
-​```
+```
 
-​````smart header="Using \"in\" 属性中存储 `undefined`"
+````smart header="Using \"in\" 属性中存储 `undefined`"
 通常，严格比较 `"=== undefined"` 就够用，但是也有一些特殊情况，`"in"` 就可以胜任。
 
 那就是属性存在，但是存储 `undefined`：
 
-​```js run
+```js run
 let obj = {
   test: undefined
 };
@@ -321,7 +321,7 @@ let obj = {
 alert( obj.test ); //  它是 undefined，所以难道它不存在吗？
 
 alert( "test" in obj ); // true，属性不存在！
-​```
+```
 
 
 在上面的代码中，属性 `obj.test` 事实上是存在的，所以 `in` 操作符可以。
@@ -401,12 +401,12 @@ for(let code in codes) {
 
 所以，"49" 是一个整数属性名，因为我们把它转换成整数，再转换回来，它还是一样。但是 "+49" 和 "1.2" 就不行了：
 
-​```js run
+```js run
 // Math.trunc 是内置的去除小数点的方法。
 alert( String(Math.trunc(Number("49"))) ); // "49"，同样，整数属性
 alert( String(Math.trunc(Number("+49"))) ); // "49"，不同于 "+49" ⇒ 不是整数属性
 alert( String(Math.trunc(Number("1.2"))) ); // "1"，不同于 "1.2" ⇒ 不是整数属性
-​```
+```
 ````
 
 ...另外一边，如果属性名不是整数，那它们就按照创建时候的顺序来排序：
@@ -616,7 +616,7 @@ alert( user.name ); // 原对象属性值不变
 Object.assign(dest[, src1, src2, src3...])
 ```
 
-- 参数 `dest` 和 `src1, ..., srcN` （可以有很多个）是对象。
+- 参数 `dest` 和 `src1, ..., srcN`（可以有很多个）是对象。
 - 这个方法复制了 `src1, ..., srcN` 的所有对象到 `dest`。换句话说，从第二个参数开始，所有对象的属性都复制给了第一个参数对象，然后返回 `dest`。
 
 例如，我们可以用这个方法来把几个对象合并成一个：
@@ -717,13 +717,13 @@ alert(clone.sizes.width); // 51，在这里查看属性的值
 - 检查属性是否存在：`"key" in obj`。
 - 遍历对象：`for(let key in obj)` 循环。
 
-对象根据引用来赋值或者复制。换句话说，变量存的不是对象的"值"，而是值的 "引用" (内存地址)。 
+对象根据引用来赋值或者复制。换句话说，变量存的不是对象的"值"，而是值的 "引用"（内存地址）。 
 所以复制变量或者传递变量到方法中只是复制了对象的引用。
 所有的引用操作（像增加，删除属性）都作用于同一个对象。
 
 深拷贝的话我们可以使用 `Object.assign` 或者 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
 
-我们在这一章学习的叫做“基本对象” -- 对象。
+我们在这一章学习的叫做“基本对象” — 对象。
 
 JavaScript 中还有很多其他类型的对象：
 
