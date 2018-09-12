@@ -9,6 +9,6 @@ importance: 5
 来一探究竟：
 
 ```js
-let reg = /your regexp/g;
+let reg = /你的正则表达式/g;
 alert( "Hello!... How goes?.....".match(reg) ); // ..., .....
 ```
