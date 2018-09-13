@@ -3,7 +3,7 @@
 
 你可以从 <info:promise-chaining> 章节中找到 "rethrow" 示例。使用 `async/await` 替换 `.then/catch` 并重写。
 
-为了支持 `demoGithubUser` 中的循环，我们消除了递归：使用 `async/await` 会很容易做到。
+为了支持 `demoGithubUser` 中的循环，我们消除了递归：使用 `async/await` 会很容易实现。
 
 ```js run
 class HttpError extends Error {
