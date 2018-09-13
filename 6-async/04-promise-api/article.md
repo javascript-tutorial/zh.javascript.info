@@ -18,7 +18,7 @@ let promise = Promise.resolve(value);
 let promise = new Promise(resolve => resolve(value));
 ```
 
-当我们已经有一个值的时候，就会使用该方法，但希望将它“封装”进 promise。
+当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。
 
 例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返回：
 
@@ -73,7 +73,7 @@ let promise = Promise.all(iterable);
 
 它需要一个带有 promise 的 `iterable` 对象，技术上来说，它是可以迭代的，但通常情况下，它只是一个数组，而且会返回一个新的 promise。新的 promise 是在所有 promise 都被解决并拥有一个存放结果的数组之后才出现的。
 
-例如下面的 `Promise.all` 在 3 秒之后被处理，然后它的结果就是一个 `[1, 2, 3]` 数组：
+例如，下面的 `Promise.all` 在 3 秒之后被处理，然后它的结果就是一个 `[1, 2, 3]` 数组：
 
 ```js run
 Promise.all([
@@ -143,7 +143,7 @@ Promise.all([
 ]).catch(alert); // 错误：喔！
 ```
 
-这里的第二个 promise 在两秒内为 reject。这立即导致了对 `Promise.all` 的 reject。因此 `.catch` 被执行：拒绝的错误成为整个 `Promise.all` 的结果。
+这里的第二个 promise 在两秒内为 reject。这立即导致了对 `Promise.all` 的 reject。因此 `.catch` 被执行：避免 error 成为整个 `Promise.all` 的结果。
 
 重要的细节是 promise 没有提供 "cancel" 或 "abort" 执行方法。因此，其他 promise 会继续执行，并最终为 settle，但它们的结果会被忽略。
 
@@ -164,7 +164,7 @@ Promise.all([
 ]).then(alert); // 1, 2, 3
 ```
 
-因此我们可以在方便的时候将无 promise 值传递给 `Promise.all`。
+因此我们可以在方便的时候将非 promise 值传递给 `Promise.all`。
 
 ````
 
