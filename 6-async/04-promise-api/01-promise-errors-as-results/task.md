@@ -2,7 +2,7 @@
 
 我们想要并行获取多个 URL。
 
-这是方法：
+执行此操作代码如下：
 
 ```js run
 let urls = [
@@ -20,7 +20,7 @@ Promise.all(urls.map(url => fetch(url)))
   ));
 ```
 
-问题是如果任何请求都失败了，那么 `Promise.all` 就会带有 error 被 reject，而且所有的其他请求结果都会丢失。
+问题是如果任何请求都失败了，那么 `Promise.all` 就会 reject error，而且所有的其他请求结果都会丢失。
 
 这并不好。
 
@@ -45,4 +45,4 @@ Promise.all(...) // your code to fetch URLs...
   });
 ```
 
-P.S. 在这个任务中，你无需使用 `response.text()` 或 `response.json()` 来加载完整的请求。只要正确处理获取的 error 即可。
+P.S. 在这个任务中，你无需使用 `response.text()` 或 `response.json()` 来加载完整的请求。只要正确处理 fetch 的 error 即可。
