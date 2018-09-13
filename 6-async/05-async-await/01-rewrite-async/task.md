@@ -1,7 +1,7 @@
 
 # 使用 async/await 重写
 
-重写 <info:promise-chaining> 章节的一个示例，使用 `async/await` 来替换 `.then/catch`：
+使用 `async/await` 来替换 `.then/catch` 重写 <info:promise-chaining> 章节的一个示例：
 
 ```js run
 function loadJson(url) {
