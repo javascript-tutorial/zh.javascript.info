@@ -1,5 +1,5 @@
 
-下述代码的笔记：
+注释在代码的下面：
 
 ```js run
 async function loadJson(url) { // (1)
@@ -17,7 +17,7 @@ loadJson('no-such-user.json')
   .catch(alert); // Error: 404 (4)
 ```
 
-笔记：
+注释：
 
 1. 函数 `loadUrl` 变成了 `async`。
 2. 所有内部 `.then` 都用 `await` 进行替换。
@@ -29,5 +29,5 @@ loadJson('no-such-user.json')
     }
     ```
 
-    那么外部代码必须 `await` 所有 promise 状态为 resolve。在我们的情况中，这并不重要。
-4. `loadJson` 产生的错误由 `.catch` 处理。我们不能使用 `await loadJson(…)`，因为我们不在 `async` 函数中。
+    那么外部代码必须 `await` 所有 promise 状态为 resolve。在我们的例子中这没关系。。
+4. `loadJson` 抛出的错误由 `.catch` 处理。我们不能使用 `await loadJson(…)`，因为我们不在 `async` 函数中。
