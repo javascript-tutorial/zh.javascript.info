@@ -1,4 +1,4 @@
-# 用 JSON 获取错误
+# 用 JSON fetch 的容错处理
 
 改进之前 <info:task/promise-errors-as-results> 任务的解决方案。我们现在只需要调用 `fetch`，但要从给定的 URL 中加载 JSON。
 
@@ -25,7 +25,7 @@ Promise.all(urls.map(url => fetch(url)))
   });
 ```
 
-问题是如果任何请求都失败了，那么 `Promise.all` 就会与错误一起 rejects，而且会丢失其他所有请求的结果。因此上述代码并不是容错的，而是和之前任务中的代码一样。
+问题是如果任意请求都失败了，那么 `Promise.all` 就会 reject error，而且会丢失其他所有请求的结果。因此上述代码并不是容错的，而是和之前任务中的代码一样。
 
 因此在修改代码后 `(*)` 中的数组包含成功请求的解析 JSON 和错误的 JSON。
 
