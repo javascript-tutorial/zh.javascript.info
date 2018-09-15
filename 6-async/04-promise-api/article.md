@@ -128,7 +128,7 @@ Promise.all(requests)
   .then(users => users.forEach(user => alert(user.name)));
 ```
 
-如果任何 promise 为 rejected,`Promise.all` 就会立即以 error reject。
+如果任何 promise 为 rejected，`Promise.all` 就会立即以 error reject。
 
 例如：
 
@@ -152,7 +152,7 @@ Promise.all([
 ````smart header="`Promise.all(iterable)` 允许在 `iterable` 中无 promise"
 通常 `Promise.all(iterable)` 接受可迭代的 promise（大多数情况是数组）。但如果这些对象中的任何一个不是 promise，它就会被封装进 `Promise.resolve`。
 
-例如。这里的结果是  `[1, 2, 3]`：
+例如。这里的结果是 `[1, 2, 3]`：
 
 ```js run
 Promise.all([
@@ -178,7 +178,7 @@ Promise.all([
 let promise = Promise.race(iterable);
 ```
 
-例如，这里的结果回事 `1`:
+例如，这里的结果回事 `1`：
 
 ```js run
 Promise.race([
