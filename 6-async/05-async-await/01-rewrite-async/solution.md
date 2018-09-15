@@ -29,5 +29,5 @@ loadJson('no-such-user.json')
     }
     ```
 
-    那么外部代码必须 `await` 所有 promise 状态为 resolve。在我们的例子中这没关系。。
+    那么外部代码必须 `await` 所有 promise 状态为 resolve。在我们的例子中这没关系。
 4. `loadJson` 抛出的错误由 `.catch` 处理。我们不能使用 `await loadJson(…)`，因为我们不在 `async` 函数中。
