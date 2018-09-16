@@ -35,7 +35,7 @@ setTimeout(() => window.open('http://google.com'), 3000);
 setTimeout(() => window.open('http://google.com'), 1000);
 ```
 
-不同之处在于 Firefox 可以接受 2000 毫秒或更短的延迟，但是超过这个时间 -- Firefox 就会取消“信任”，认为这“不属于用户操作”。所以第一个弹窗被禁止，而第二个却没有。
+不同之处在于 Firefox 可以接受 2000 毫秒或更短的延迟，但是超过这个时间 — Firefox 就会取消“信任”，认为这“不属于用户操作”。所以第一个弹窗被禁止，而第二个却没有。
 
 ## 现代用法
 
@@ -54,31 +54,30 @@ setTimeout(() => window.open('http://google.com'), 1000);
 打开弹窗的语法是：`window.open(url, name, params)`：
 
 url
-：要在新窗口中加载的 URL。
+: 要在新窗口中加载的 URL。
 
 name
-：新窗口的名称。每个窗口都有一个 `window.name` 的属性，在这里我们可以指定哪个窗口用于弹窗。如果已经有一个这样名字的窗口 -- 给定的 URL 将在其中打开，否则会打开一个新窗口。
+: 新窗口的名称。每个窗口都有一个 `window.name` 的属性，在这里我们可以指定哪个窗口用于弹窗。如果已经有一个这样名字的窗口 — 给定的 URL 将在其中打开，否则会打开一个新窗口。
 
 params
-：新窗口的配置字符串。它包括设置，由逗号分隔开来。参数之间必须没有空格，例如：`width:200,height=100`。
+: 新窗口的配置字符串。它包括设置，由逗号分隔开来。参数之间必须没有空格，例如：`width:200,height=100`。
 
-`params` 的设置项:
+`params` 的设置项：
 
 - 位置:
-  - `left/top`（数字）-- 距离屏幕左上角的坐标。这有一个限制：新窗口不能脱离屏幕。
-  - `width/height`（数字）-- 新窗口的宽高。有一个宽/高的最小值，所以不可能创建一个不可见的窗口。
-- 窗口特征:
-  - `menubar`（yes/no）-- 显示或隐藏新窗口中的浏览器菜单。
-  - `toolbar`（yes/no）-- 在新窗口中显示或隐藏浏览器导航栏（后退，前进，重新加载等）。
-  - `location`（yes/no）-- 在新窗口中显示或隐藏 URL 字段。FF 和 IE 默认是不允许隐藏的。
-  - `status`（yes/no）-- 显示或隐藏状态栏。同样，大多数浏览器强制它显示。
-  - `resizable`（yes/no）-- 允许禁用新窗口调整大小。不建议使用。
-  - `scrollbars`（yes/no）-- 允许禁用新窗口的滚动条。不建议使用。
-
+  - `left/top`（数字）— 距离屏幕左上角的坐标。这有一个限制：新窗口不能脱离屏幕。
+  - `width/height`（数字）— 新窗口的宽高。有一个宽/高的最小值，所以不可能创建一个不可见的窗口。
+- 窗口特征：
+  - `menubar`（yes/no）— 显示或隐藏新窗口中的浏览器菜单。
+  - `toolbar`（yes/no）— 在新窗口中显示或隐藏浏览器导航栏（后退、前进和重新加载等）。
+  - `location`（yes/no）— 在新窗口中显示或隐藏 URL 字段。FF 和 IE 默认是不允许隐藏的。
+  - `status`（yes/no）— 显示或隐藏状态栏。同样，大多数浏览器强制它显示。
+  - `resizable`（yes/no）— 允许禁用新窗口调整大小。不建议使用。
+  - `scrollbars`（yes/no）— 允许禁用新窗口的滚动条。不建议使用。
 
 还有一些不太受支持的，浏览器特有的功能。通常不使用这些功能。详情请看 <a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a>。
 
-## 示例: 一个简单的窗口
+## 示例：一个简单的窗口
 
 让我们打开一设置尽可能少的窗口，来看看哪些特性是浏览器允许禁用的：
 
@@ -91,7 +90,7 @@ open('/', 'test', params);
 
 这里大多数的“窗口特征”都被禁用而且窗口的位置脱离屏幕。执行看看究竟会发生什么。大多数浏览器修复了像零 `width/height` 和脱离屏幕的 `left/top` 的奇怪设置。例如，Chrome 打开这样一个全 width/height 的窗口，使其占满整个屏幕。
 
-让我们添加正常的定位选项和合理的 `width`，`height`，`left`，`top` 坐标：
+让我们添加正常的定位选项和合理的 `width`、`height`、`left` 和 `top` 坐标：
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -127,7 +126,7 @@ newWindow.onload = function() {
 };
 ```
 
-请注意，外部的 `document` 内容仅可被同源（相同的 协议://域名:端口）的 window 访问。
+请注意，外部的 `document` 内容仅可被同源（相同的协议：//域名：端口）的 window 访问。
 
 对于具有来自其他站点的 URL 的窗口，我们可以通过指定 `newWindow.location=...` 来改变地址，但是我们无法读取地址或者访问内容。这是为了用户安全，这样一来恶意网站就无法打开 `http://gmail.com` 并获取数据。我们将在稍后进一步讨论。
 
@@ -157,9 +156,9 @@ newWindow.onload = function() {
 
 ## 弹窗的聚焦/失焦
 
-理论上, 用 `window.focus()` 或 `window.blur()` 方法可以使窗口获得或失去焦点。此外还有 `focus/blur` 事件，可以聚焦窗口并捕捉访问者切换到其他地方的时机。
+理论上，用 `window.focus()` 或 `window.blur()` 方法可以使窗口获得或失去焦点。此外还有 `focus/blur` 事件，可以聚焦窗口并捕捉访问者切换到其他地方的时机。
 
-它们曾被恶意网站所滥用。例如, 看这段代码:
+它们曾被恶意网站所滥用。例如，看这段代码:
 
 ```js run
 window.onblur = () => window.focus();
