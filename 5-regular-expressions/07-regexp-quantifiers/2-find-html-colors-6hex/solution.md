@@ -14,7 +14,7 @@ let str = "color:#121212; background-color:#AA00ef bad-colors:f#fddee #fd2"
 alert( str.match(reg) );  // #121212,#AA00ef
 ```
 
-问题是它找到了更长序列的颜色值：
+问题是匹配到颜色值过长：
 
 ```js run
 alert( "#12345678".match( /#[a-f0-9]{6}/gi ) ) // #12345678
