@@ -17,7 +17,7 @@ let str = "A drop of ink may make a million think";
 alert( str.search( *!*/a/i*/!* ) ); // 0（最开始的位置）
 ```
 
-**重要提示：`search` 总是查找第一个匹配项**
+**重要提示：`search` 总是查找第一个匹配项。**
 
 我们不能使用 `search` 来查找下一个匹配项的位置，没有这样的语法。但是还有其它方法可以做到。
 
@@ -40,7 +40,7 @@ let str = "Fame is the thirst of youth";
 let result = str.match( *!*/fame/i*/!* );
 
 alert( result[0] );    // Fame（匹配项）
-alert( result.index ); // 0（在最开始的位置0）
+alert( result.index ); // 0（在最开始的位置 0）
 alert( result.input ); // “Fame is the thirst of youth”（字符串本身）
 ```
 
@@ -125,7 +125,7 @@ alert('12-34-56'.split(/-/)) // [12, 34, 56]
 
 这简直是搜索和替换字符串的利器。
 
-最简单的用处 -- 搜索和替换子字符串，就像下面这样：
+最简单的用处 — 搜索和替换子字符串，就像下面这样：
 
 ```js run
 // 把横线替换成冒号
@@ -158,12 +158,12 @@ alert( '12-34-56'.replace( *!*/-/g*/!*, ":" ) )  // 12:34:56
 ```js run
 let str = "John Doe, John Smith and John Bull.";
 
-// 对于每个 John - 替换成 Mr.John
+// 对于每个 John — 替换成 Mr.John
 alert(str.replace(/John/g, 'Mr.$&'));
 // "Mr.John Doe, Mr.John Smith and Mr.John Bull.";
 ```
 
-圆括号通常与 `$1`, `$2` 一起使用，就像下面的例子：
+圆括号通常与 `$1`，`$2` 一起使用，就像下面的例子：
 
 ```js run
 let str = "John Smith";
@@ -190,10 +190,10 @@ alert("HO-Ho-ho".replace(/ho/gi, function() {
 
 调用该函数 `func(str, p1, p2, ..., pn, offset, s)` 的参数是：
 
-1. `str` -- 匹配项，
-2. `p1, p2, ..., pn` -- 圆括号里的内容（如果有的话），
-3. `offset` -- 匹配项所在的位置，
-4. `s` -- 源字符串。
+1. `str` — 匹配项，
+2. `p1, p2, ..., pn` — 圆括号里的内容（如果有的话），
+3. `offset` — 匹配项所在的位置，
+4. `s` — 源字符串。
 
 如果在 regexp 中没有圆括号，那么该函数总是有 3 个参数：`func(str, offset, s)`。
 
@@ -259,9 +259,9 @@ alert( str.search(*!*/love/i*/!*) != -1 ); // false
 
 我们已经见过这些搜索的方法：
 
-- `search` -- 查找匹配项所在的位置，
-- `match` -- 如果没有 `g` 修饰符，返回圆括号的第一个匹配项，
-- `match` -- 如果有 `g` 修饰符，返回所有匹配项，圆括号在此不生效。
+- `search` — 查找匹配项所在的位置，
+- `match` — 如果没有 `g` 修饰符，返回圆括号的第一个匹配项，
+- `match` — 如果有 `g` 修饰符，返回所有匹配项，圆括号在此不生效。
 
 `regexp.exec` 方法有点难用，但是它允许搜索所有的匹配项，包括圆括号和位置。
 
@@ -312,7 +312,7 @@ alert( matchThree ); // null（没有匹配项）
 alert( regexp.lastIndex ); // 0（重置）
 ```
 
-可见，每个 `regexp.exec` 调用都以”完整的格式“返回匹配项：一个由圆括号、`index`和 `input` 属性组成的数组。
+可见，每个 `regexp.exec` 调用都以”完整的格式“返回匹配项：一个由圆括号、`index` 和 `input` 属性组成的数组。
 
 `regexp.exec` 的主要用例就是在循环中查找所有的匹配：
 
@@ -339,7 +339,7 @@ let str = 'A lot about JavaScript at https://javascript.info';
 let regexp = /javascript/ig;
 regexp.lastIndex = 30;
 
-alert( regexp.exec(str).index ); // 34, 搜索从位置30开始
+alert( regexp.exec(str).index ); // 34，搜索从位置 30 开始
 ```
 ````
 
@@ -362,7 +362,7 @@ alert( reg.lastIndex ); // 0（默认）
 alert( str.match(reg) ); // null, 没有在位置 0 上找到匹配项
 
 reg.lastIndex = 7;
-alert( str.match(reg) ); // JavaScript（搜索正确，该单词确实在位置 7 ）
+alert( str.match(reg) ); // JavaScript（搜索正确，该单词确实在位置 7）
 
 // 对于其它 reg.lastIndex，结果都为 null
 ```
@@ -373,7 +373,7 @@ regexp `pattern:/javascript/iy` 只有在我们设置 `reg.lastIndex=7` 的时�
 
 答案就是性能。
 
-`y` 修饰符非常适合解析器 -- 一种需要“读取”文本、构建内存语法结构或者从中执行操作的程序。为此，我们沿着文本移动，应用正则表达式，来看下一个是字符串、数字还是其它。
+`y` 修饰符非常适合解析器 — 一种需要“读取”文本、构建内存语法结构或者从中执行操作的程序。为此，我们沿着文本移动，应用正则表达式，来看下一个是字符串、数字还是其它。
 
 `y` 修饰符在给定位置应用一个正则表达式（或者会有很多，逐个进行），当我们理解了其中的内容后，就可以继续一步步检查文本。
 
@@ -384,17 +384,17 @@ regexp `pattern:/javascript/iy` 只有在我们设置 `reg.lastIndex=7` 的时�
 如果我们按照这些方法在实际任务中的用途进行划分，则会更容易理解。
 
 只查找第一个匹配项的：
-: - 找到第一个匹配项的位置 -- `str.search(reg)`。
-- 找到完全匹配 -- `str.match(reg)`。
-- 检查是否有符合条件的匹配 -- `regexp.test(str)`。
-- 从指定位置查找匹配 -- `regexp.exec(str)`，设置 `regexp.lastIndex` 位置。
+: - 找到第一个匹配项的位置 — `str.search(reg)`。
+- 找到完全匹配 — `str.match(reg)`。
+- 检查是否有符合条件的匹配 — `regexp.test(str)`。
+- 从指定位置查找匹配 — `regexp.exec(str)`，设置 `regexp.lastIndex` 位置。
 
 查找全匹配：
-: - 由匹配项组成的数组 -- `str.match(reg)`, 使用 `g` 修饰符。
-- 获取所有匹配项的完整信息 -- `regexp.exec(str)`，在循环中使用 `g` 修饰符。
+: - 由匹配项组成的数组 — `str.match(reg)`, 使用 `g` 修饰符。
+- 获取所有匹配项的完整信息 — `regexp.exec(str)`，在循环中使用 `g` 修饰符。
 
 搜索然后替换：
-: - 替换成另一个字符串或者函数返回的结果 -- `str.replace(reg, str|func)`
+: - 替换成另一个字符串或者函数返回的结果 — `str.replace(reg, str|func)`
 
 拆分字符串：
 : - `str.split(str|reg)`
