@@ -1,4 +1,5 @@
-solution:
+
+Solution:
 
 ```js run
 let reg = /\.{3,}/g;
