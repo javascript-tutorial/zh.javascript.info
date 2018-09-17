@@ -2,7 +2,7 @@
 
 正则表达式是搜索和替换字符串的一种强大方式。
 
-在JavaScript中，正则表达式通过内置的“RegExp”类的对象来实现，并与字符串集成。
+在 JavaScript 中，正则表达式通过内置的“RegExp”类的对象来实现，并与字符串集成。
 
 请注意，在各编程语言之间，正则表达式是有所不同的。在本教程中，我们只专注于 JavaScript。当然，它们有很多共同点，但在 Perl、Ruby 和 PHP 等语言下会有所不同。
 
@@ -18,11 +18,11 @@
 regexp = new RegExp("pattern", "flags");
 ```
 
-...较短一点的语法，使用斜杠 `"/"`:
+...较短一点的语法，使用斜杠 `"/"`：
 
 ```js
 regexp = /pattern/; // 没有修饰符
-regexp = /pattern/gmi; // 伴随修饰符 g、m 和 i (后面会讲到)
+regexp = /pattern/gmi; // 伴随修饰符 g、m 和 i（后面会讲到）
 ```
 
 斜杠 `"/"` 会告诉 JavaScript 我们正在创建一个正则表达式。它的作用类似于字符串的引号。
@@ -56,10 +56,10 @@ alert( str.search(substr) ); // 2
 但这只是暂时的。很快我们就会接触更复杂的正则表达式，其搜索功能将更强大。
 
 ```smart header="配色"
-本文中的配色方案如下:
+本文中的配色方案如下：
 
 - regexp -- `pattern:red`
-- string（我们要搜索的） -- `subject:blue`
+- string（我们要搜索的）-- `subject:blue`
 - result -- `match:green`
 ```
 
@@ -88,13 +88,13 @@ alert( "I love JavaScript".search(regexp));
 在 JavaScript 中，有 5 个修饰符：
 
 `i`
-: 使用此修饰符后，搜索时不区分大小写: `A` 和 `a` 没有区别 (具体看下面的例子).
+: 使用此修饰符后，搜索时不区分大小写: `A` 和 `a` 没有区别（具体看下面的例子）。
 
 `g`
-: 使用此修饰符后，搜索时会查找所有的匹配项，而不只是第一个（在下一章会讲到）
+: 使用此修饰符后，搜索时会查找所有的匹配项，而不只是第一个（在下一章会讲到）。
 
 `m`
-: 多行模式（详见章节 <info:regexp-multiline>）
+: 多行模式（详见章节 <info:regexp-multiline>）。
 
 `u`
 : 开启完整的 unicode 支持。该修饰符能够修正对于代理对的处理。更详细的内容见章节 <info:regexp-unicode>。
@@ -109,12 +109,12 @@ alert( "I love JavaScript".search(regexp));
 
 示例代码如下：
 
-​```js run
+```js run
 let str = "I love JavaScript!";
 
 alert( str.search(/LOVE/) ); // -1（没找到）
 alert( str.search(/LOVE/i) ); // 2
-​```
+```
 
 1. 第一个搜索返回的是 `-1`（也就是没找到），因为搜索默认是区分大小写的。
 2. 使用修饰符 `pattern:/LOVE/i`，在字符串的第 2 个位置上搜索到了 `match:love`。
@@ -124,6 +124,6 @@ alert( str.search(/LOVE/i) ); // 2
 
 ## 总结
 
-- 一个正则表达式包含模式和可选修饰符： `g`、`i`、`m`、`u`、`y`。
+- 一个正则表达式包含模式和可选修饰符：`g`、`i`、`m`、`u`、`y`。
 - 如果不使用我们在后面将要学到的修饰符和特殊标志，正则表达式的搜索就等同于子字符串查找。
 - `str.search(regexp)` 方法返回的是找到的匹配项的索引位置，如果没找到则返回 `-1`。
