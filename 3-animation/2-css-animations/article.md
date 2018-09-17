@@ -1,8 +1,8 @@
 # CSS 动画
 
-CSS 动画允许你在完全不使用 JavaScript 的情况下做一些简单的动效。
+CSS 动画可以在不借助 Javascript 的情况下做出一些简单的动画效果。
 
-JavaScript 可以被用来控制 CSS 动画，并且通过少量的代码让动画表现更出色。
+你也可以通过 Javascript 控制 CSS 动画，使用少量的代码，就能让动画表现更加出色。
 
 ## CSS 过渡（transition）[#css-transition]
 
@@ -76,7 +76,7 @@ growing.onclick = function() {
 
 在 `transition-property` 中我们可以列举要设置动画的所有属性，如：`left, margin-left, height, color`。
 
-不是所有的 CSS 属性都可以应用过渡，但是它们中的[大多数](http://www.w3.org/TR/css3-transitions/#animatable-properties-)都是可以的。`all` 表示应用在所有属性上。
+不是所有的 CSS 属性都可以使用过渡动画，但是它们中的[大多数](http://www.w3.org/TR/css3-transitions/#animatable-properties-)都是可以的。`all` 表示应用在所有属性上。
 
 ## transition-duration
 
@@ -92,7 +92,7 @@ growing.onclick = function() {
 
 [codetabs src="digits"]
 
-`tranform` 设置如下：
+如下在 `tranform` 属性上应用动画：
 
 ```css
 #stripe.animate {
@@ -143,7 +143,7 @@ stripe.onclick = function() {
 2. 最后一个应为：`(1,1)`。
 3. 对于中间值，`x` 必须位于 `0..1` 之间，`y` 可以为任意值。
 
-CSS 中设置一贝塞尔曲线的语法为：`cubic-bezier(x2, y2, x3, y3)`. 这里我们只需要设置第二个和第三个值，因为第一个被固定为 `(0,0)` ，第四个被固定为 `(1,1)`.
+CSS 中设置一贝塞尔曲线的语法为：`cubic-bezier(x2, y2, x3, y3)`. 这里我们只需要设置第二个和第三个值，因为第一个点固定为 `(0,0)` ，第四个点固定为 `(1,1)`.
 
 时间函数描述了动画进行的快慢。
 
@@ -221,9 +221,9 @@ CSS 提供几条内置的曲线：`linear`、`ease`、`ease-in`、`ease-out` 和
 
 但是这看起来有点怪怪的。
 
-**贝塞尔曲线可以使动画『跳脱出』其原本的范围。**
+**贝塞尔曲线可以使动画『超出』其原本的范围。**
 
-曲线上的控制点的 `y` 值可以使任意的：不管是负值还是一个很大的值。如此，贝塞尔曲线就会变得很矮或者很高，让动画跳出其普通的范围。
+曲线上的控制点的 `y` 值可以使任意的：不管是负值还是一个很大的值。如此，贝塞尔曲线就会变得很低或者很高，让动画超出其正常的范围。
 
 在一下的例子中使用的代码：
 ```css
@@ -281,7 +281,7 @@ CSS 提供几条内置的曲线：`linear`、`ease`、`ease-in`、`ease-out` 和
 
 `start` 表示在动画开始时，我们需要立即开始第一段的动画。
 
-可以观察到，在动画过程中：当我们单击数字之后，它会立马变为 `1`（即第一段），然后在小一秒开始的时候继续变化。
+可以观察到，在动画过程中：当我们单击数字之后，它会立马变为 `1`（即第一段），然后在下一秒开始的时候继续变化。
 
 具体的流程如下：
 
