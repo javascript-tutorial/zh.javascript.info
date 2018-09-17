@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 会动的圆
+# 圆圈动画
 
 创建一个函数：`showCircle(cx, cy, radius)`，来显示一个不断变大的圆。
 
