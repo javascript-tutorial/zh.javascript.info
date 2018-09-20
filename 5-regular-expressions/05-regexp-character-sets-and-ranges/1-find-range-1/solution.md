@@ -6,7 +6,7 @@
     alert( "Java".match(/Java[^script]/) ); // null
     ```
 
-- 是的，因为这个正则表达是大小写敏感的，`pattern:[^script]` 部分匹配到了字符 `"S"`。
+- 是的，因为正则表达式是大小写不敏感的，`pattern:[^script]` 部分匹配到了字符 `"S"`。
 
     ```js run
     alert( "JavaScript".match(/Java[^script]/) ); // "JavaS"

@@ -1,5 +1,4 @@
 # unicode 标记
-
 unicide 标记 `/.../u` 可以正确支持 UTF16 编码代理对。
 
 代理对在章节 <info:string> 已经做了解释。
