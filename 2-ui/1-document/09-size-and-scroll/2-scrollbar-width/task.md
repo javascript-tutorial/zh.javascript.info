@@ -2,10 +2,10 @@ importance: 3
 
 ---
 
-# What is the scrollbar width?
+# 怎样计算滚动条宽度？
 
-Write the code that returns the width of a standard scrollbar.
+编写返回标准滚动条宽度的代码。
 
-For Windows it usually varies between `12px` and `20px`. If the browser doesn't reserves any space for it, then it may be `0px`.
+对于Windows，它通常在 `12px` 和 `20px` 之间变化。如果浏览器不为它保留任何空间，那么它可能是 `0px`。
 
-P.S. The code should work for any HTML document, do not depend on its content.
+P.S. 代码应该适用于任何HTML文档，且不依赖于它的内容元素。

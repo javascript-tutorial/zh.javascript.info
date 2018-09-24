@@ -1,13 +1,13 @@
 
 # Symbol 类型
 
-根据规范，object 属性键只能是 String 类型或者 Symbol 类型。不是 Number，也不是 Boolean，只有 String 或 Symbol 这两种类型。
+根据规范，对象的属性键只能是 String 类型或者 Symbol 类型。不是 Number，也不是 Boolean，只有 String 或 Symbol 这两种类型。
 
 到目前为止，我们只见过 String。现在我们来看看 Symbol 能给我们带来什么好处。
 
 ## Symbol
 
-"Symbol" 值表示唯一的标识符
+"Symbol" 值表示唯一的标识符。
 
 可以使用 `Symbol()` 来创建这种类型的值：
 
@@ -161,7 +161,7 @@ let clone = Object.assign({}, user);
 alert( clone[id] ); // 123
 ```
 
-这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object 时，通常希望**所有**属性被复制（包括想 `id` 这样的 Symbol）。
+这里并不矛盾，就是这样设计的。我们的想法是当我们克隆一个 object 或合并 object 时，通常希望**所有**属性被复制（包括像 `id` 这样的 Symbol）。
 
 ````smart header="Property keys of other types are coerced to strings"
 我们只能在对象中使用 string 或 symbol 作为键，其它类型转换为 String。
@@ -249,7 +249,7 @@ JavaScript 内部存在很多“系统” Symbol，我们可以使用它们来�
 - `Symbol.toPrimitive`
 - ...等等。
 
-例如，`Symbol.toPrimitive` 允许我们将对象描述为原语转换，我们很快就会看到她它的使用。
+例如，`Symbol.toPrimitive` 允许我们将对象描述为原始值转换，我们很快就会看到它的使用。
 
 当我们研究相应的语言特征时，其他 Symbol 也会变得熟悉起来。
 
@@ -263,10 +263,10 @@ Symbol 总是不同的值，即使它们有相同的名称。如果我们希望�
 
 Symbol 有两个主要的使用场景：
 
-1. “隐藏” object 属性。如果需要将属性添加到 “belongs” 另一个脚本或库的对象中，则可以创建 Symbol 并将其用作属性键。Symbol 属性不出现在 `for..in`中，因此不回偶尔列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会偶尔干预它的操作。
+1. “隐藏” object 属性。如果需要将属性添加到 “属于” 另一个脚本或库的对象中，则可以创建 Symbol 并将其用作属性键。Symbol 属性不出现在 `for..in`中，因此不回偶尔列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会偶尔干预它的操作。
 
     因此我们可以使用 Symbol 属性“秘密地”将一些东西隐藏到我们需要的 object 中，但其他人不应该看到。
 
-2. JavaScript 使用了许多系统 Symbol，这些 Symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来改变一些内置行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来[迭代](info:iterable)，`Symbol.toPrimitive` 来设置 [object-to-primitive 的转换](info:object-toprimitive)等等。
+2. JavaScript 使用了许多系统 Symbol，这些 Symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来改变一些内置行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来[迭代](info:iterable)，`Symbol.toPrimitive` 来设置[对象原始值的转换](info:object-toprimitive)等等。
 
-从技术上说，Symbol 不是 100% 隐藏的。有一个内置方面 [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) 允许我们获取所有的 Symbol。还有一个名为 [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 返回**所有**键，包括 Symbol。所以它们不是真正的隐藏。但是大多数库、内置方法和语法结构都遵循一个共同的协议。而明确调用上诉方法的人可能很清楚他在做什么。
+从技术上说，Symbol 不是 100% 隐藏的。有一个内置方法 [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) 允许我们获取所有的 Symbol。还有一个名为 [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 返回**所有**键，包括 Symbol。所以它们不是真正的隐藏。但是大多数库、内置方法和语法结构都遵循一个共同的协议。而明确调用上述方法的人可能很清楚他在做什么。

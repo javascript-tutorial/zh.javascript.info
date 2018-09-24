@@ -49,7 +49,7 @@ let user = {
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
-这里有一个使用 `Object.valuesa` 来遍历属性值的例子：
+这里有一个使用 `Object.values` 来遍历属性值的例子：
 
 ```js run
 let user = {
