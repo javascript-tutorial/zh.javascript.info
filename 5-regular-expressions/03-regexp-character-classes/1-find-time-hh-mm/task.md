@@ -1,8 +1,8 @@
-# Find the time
+# 查找时间
 
-The time has a format: `hours:minutes`. Both hours and minutes has two digits, like `09:00`.
+时间的格式是：`时:分`。小时和分钟都是两位数，如 `09:00`。
 
-Make a regexp to find time in the string: `subject:Breakfast at 09:00 in the room 123:456.`
+编写正则表达式在字符串 `条目：09:00 在房间 123:456 吃早餐。` 中查找时间。
 
-P.S. In this task there's no need to check time correctness yet, so `25:99` can also be a valid result.
-P.P.S. The regexp shouldn't match `123:456`.
+附言：在这个任务里没有必要校验时间的正确性，所以 `25:99` 也可算做有效的结果。
+再附言：正则表达式不能匹配 `123:456` 。
