@@ -2,29 +2,29 @@ importance: 5
 
 ---
 
-# "Smart" tooltip
+# "Smart" 工具提示
 
-Write a function that shows a tooltip over an element only if the visitor moves the mouse *over it*, but not *through it*.
+编写一个仅在有访问者将鼠标**移动到**而不是**通过**时，才会显示元素上的工具提示的函数。
 
-In other words, if the visitor moves the mouse on the element and stopped -- show the tooltip. And if he just moved the mouse through fast, then no need, who wants extra blinking?
+换句话说，如果访问者在元素上移动鼠标并停止 —— 显示工具提示。如果我访问者移动鼠标太快，那就不需要显示，谁想要多余的内容呢？
 
-Technically, we can measure the mouse speed over the element, and if it's slow then we assume that it comes "over the element" and show the tooltip, if it's fast -- then we ignore it.
+从技术上说，我们可以测量鼠标在元素上的经过速度，如果速度很慢，那么我们假设它**超过元素**并显示工具提示，如果速度太快 —— 那么我们就忽略它。
 
-Make a universal object `new HoverIntent(options)` for it. With `options`:
+为它创建一个通用对象 `new HoverIntent(options)`，加上 `options`：
 
-- `elem` -- element to track.
-- `over` -- a function to call if the mouse is slowly moving the element.
-- `out` -- a function to call when the mouse leaves the element (if `over` was called).
+- `elem` —— 元素跟踪
+- `over` —— 如果鼠标缓慢地移动元素，则调用一个函数。
+- `out` —— 当鼠标离开元素时，调用函数（如果 `over` 被调用的haul）。
 
-An example of using such object for the tooltip:
+在工具提示中使用此类对象的示例：
 
 ```js
-// a sample tooltip
+// 工具提示样本
 let tooltip = document.createElement('div');
 tooltip.className = "tooltip";
 tooltip.innerHTML = "Tooltip";
 
-// the object will track mouse and call over/out
+// 对象将跟踪鼠标，并调用 over/out
 new HoverIntent({
   elem,
   over() {
@@ -38,10 +38,10 @@ new HoverIntent({
 });
 ```
 
-The demo:
+示例：
 
 [iframe src="solution" height=140]
 
-If you move the mouse over the "clock" fast then nothing happens, and if you do it slow or stop on them, then there will be a tooltip.
+如果鼠标移动速度超过 "clock"，那么不会发生任何事件，如果如果速度很慢或者在它们上面停下来，那么就会有一个工具提示。
 
-Please note: the tooltip doesn't "blink" when the cursor moves between the clock subelements.
+请注意：当光标在 clock 子元素之间移动时，工具提示不会 "blink"。
