@@ -152,7 +152,7 @@ function animate({timing, draw, duration}) {
 : 动画总时间，比如 `1000`。
 
 `timing(timeFraction)`
-: 时间函数，类似 CSS 属性 `transition-timing-function`，传入已过去的时间比（`0` 代表开始、`1` 代表结束），返回动画完成度（类似 Bezier 曲线中的 `y`）。
+: 时序函数，类似 CSS 属性 `transition-timing-function`，传入一个已过去的时间与总时间之比的小数（`0` 代表开始、`1` 代表结束），返回动画完成度（类似 Bezier 曲线中的 `y`）。
 
     例如，线性函数意味着动画以相同的速度均匀地进行：
 
@@ -330,7 +330,7 @@ function elastic(x, timeFraction) {
 timingEaseOut(timeFraction) = 1 - timing(1 - timeFraction);
 ```
 
-换句话说，我们有一个“变换”函数 `makeEaseOut`，它接受一个“常规”时序函数 `timing` 并返回一个封装器，内面封装了 `timing` 函数：
+换句话说，我们有一个“变换”函数 `makeEaseOut`，它接受一个“常规”时序函数 `timing` 并返回一个封装器，里面封装了 `timing` 函数：
 
 ```js
 // 接受时序函数，返回变换后的变体
