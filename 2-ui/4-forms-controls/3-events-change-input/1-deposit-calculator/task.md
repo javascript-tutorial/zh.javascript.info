@@ -10,7 +10,7 @@ importance: 5
 
 [iframe src="solution" height="350" border="1"]
 
-任何输入的变化都应该立即被处理
+当输入有变化时，应立即进行处理。
 
 公式如下：
 ```js

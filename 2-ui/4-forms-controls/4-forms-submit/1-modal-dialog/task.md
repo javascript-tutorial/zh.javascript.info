@@ -4,9 +4,9 @@ importance: 5
 
 # 模态框表单
 
-创建一个函数 `showPrompt(html, callback)`，展示一个表单，里面有消息 `html`，一个文本输入框和 `OK/CANCEL` 按钮。
+创建一个函数 `showPrompt(html, callback)`，展示一个表单，里面有消息 `html`、一个文本输入框和 `OK/CANCEL` 按钮。
 
-- 用户应在文本输入框中输入一些东西，然后按下 `key:Enter` 回车键或者点击 OK 按钮，然后 `callback(value)` 就会被调用，参数是输入的值。
+- 让用户在文本输入框中输入一些东西，然后按下 `key:Enter` 回车键或者点击 OK 按钮，然后 `callback(value)` 就会被调用，参数是输入的值。
 - 另外，如果用户按下 `key:Esc` 按键或者点击 CANCEL 按钮，那么 `callback(null)` 就会被调用。
 
 在这两种情况下，都结束了输入过程并移除了表单。
@@ -30,4 +30,4 @@ showPrompt("Enter something<br>...smart :)", function(value) {
 
 [iframe src="solution" height=160 border=1]
 
-P.S. 源文件中的表单是 fixed 定位的，但是做成模态框的方式取决于你。
+P.S. 源文件中使用 HTML/CSS 给表单设定了固定位置，但是做成模态框的方式取决于你。
