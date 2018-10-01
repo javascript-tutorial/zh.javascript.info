@@ -1,48 +1,48 @@
-# Infinite backtracking problem
+# 无限回溯问题
 
-Some regular expressions are looking simple, but can execute veeeeeery long time, and even "hang" the JavaScript engine.
+有些正则表达式看起来简单，但会执行很长很长的时间，甚至会 “挂起” JavaScript 引擎。
 
-Sooner or later most developers occasionally face such behavior.
+绝大多数开发者迟早会遇到这种行为。
 
-The typical situation -- a regular expression works fine sometimes, but for certain strings it "hangs"  consuming 100% of CPU.
+典型的情况 —— 一个正则表达式有时候工作正常，但对于特定的字符串它会 “挂起” 占用 100% 的 CPU。
 
-That may even be a vulnerability. For instance, if JavaScript is on the server, and it uses regular expressions to process user data, then such an input may cause denial of service. The author personally saw and reported such vulnerabilities even for well-known and widely used programs.
+这甚至可能是一个漏洞。例如，如果 JavaScript 运行在服务器上，并且它使用正则表达式来处理用户数据，那么这样的输入可能会导致服务的拒绝。笔者亲自看到并报告过这些漏洞，即使对于众所周知且广泛使用的程序也是如此。
 
-So the problem is definitely worth to deal with.
+所以这个问题是绝对值得解决的。
 
-## Example
+## 实例
 
-The plan will be like this:
+计划将会是这样的：
 
-1. First we see the problem how it may occur.
-2. Then we simplify the situation and see why it occurs.
-3. Then we fix it.
+1. 首先我们观察问题是如何出现的。
+2. 然后我们简化场景分析问题为什么会出现。
+3. 然后我们修复它。
 
-For instance let's consider searching tags in HTML.
+例如，让我们考虑在 HTML 中查找标签。
 
-We want to find all tags, with or without attributes -- like `subject:<a href="..." class="doc" ...>`. We need the regexp to work reliably, because HTML comes from the internet and can be messy.
+我们想要查找所有的标签，有或者没有属性 —— 比如 `<a href="..." class="doc" ...>`。我们需要正则表达式可靠的工作，因为 HMTL 是来自网络的并可能会很混乱。
 
-In particular, we need it to match tags like `<a test="<>" href="#">` -- with `<` and `>` in attributes. That's allowed by [HTML standard](https://html.spec.whatwg.org/multipage/syntax.html#syntax-attributes).
+特别的，我们需要匹配像 `<a test="<>" href="#">` —— 属性里有 `<` 和 `>` 的标签。这在 [HTML standard](https://html.spec.whatwg.org/multipage/syntax.html#syntax-attributes) 中是允许的。
 
-Now we can see that a simple regexp like `pattern:<[^>]+>` doesn't work, because it stops at the first `>`, and we need to ignore `<>` inside an attribute.
+现在我们可以看到像 `<[^>]+>` 这样简单的正则表达式不起作用，因为它停在了第一个 `>`，我们需要忽略属性里的 `<>`。
 
 ```js run
-// the match doesn't reach the end of the tag - wrong!
+// 匹配不能抵达标签的末尾 —— 错误！
 alert( '<a test="<>" href="#">'.match(/<[^>]+>/) ); // <a test="<>
 ```
 
-We need the whole tag.
+我们需要整个标签。
 
-To correctly handle such situations we need a more complex regular expression. It will have the form  `pattern:<tag (key=value)*>`.
+要正确处理这种情况我们需要一个更复杂的正则表达式。它将有 `<tag (key=value)*>` 这样的形式。
 
-In the regexp language that is: `pattern:<\w+(\s*\w+=(\w+|"[^"]*")\s*)*>`:
+在正则表达式语言中是 `<\w+(\s*\w+=(\w+|"[^"]*")\s*)*>` ：
 
-1. `pattern:<\w+` -- is the tag start,
-2. `pattern:(\s*\w+=(\w+|"[^"]*")\s*)*` -- is an arbitrary number of pairs `word=value`, where the value can be either a word `pattern:\w+` or a quoted string `pattern:"[^"]*"`.
+1. `<\w+` —— 是标签的开始,
+2. `(\s*\w+=(\w+|"[^"]*")\s*)*` —— 是一个任意数量的 `word=value` 对，其中值可以是单词 `\w+` 或者一个带引号的字符串 `"[^"]*"`
 
-That doesn't yet support few details of HTML grammar, for instance strings in 'single' quotes, but they can be added later, so that's somewhat close to real life. For now we want the regexp to be simple.
+这还不支持 HTML 语法的一些细节，例如在 “单个” 引号中的字符串，但它们可以以后添加，因此它们和现实生活有些接近。目前我想要简单正则表达式。
 
-Let's try it in action:
+让我们实际操作一下：
 
 ```js run
 let reg = /<\w+(\s*\w+=(\w+|"[^"]*")\s*)*>/g;
@@ -52,11 +52,11 @@ let str='...<a test="<>" href="#">... <b>...';
 alert( str.match(reg) ); // <a test="<>" href="#">, <b>
 ```
 
-Great, it works! It found both the long tag `match:<a test="<>" href="#">` and the short one `match:<b>`.
+很好，它生效了。它找到了长标签 `<a test="<>" href="#">` 和短标签 `<b>` 。
 
-Now let's see the problem.
+现在让我们看看问题。
 
-If you run the example below, it may hang the browser (or whatever JavaScript engine runs):
+如果你运行下面的示例，它可能会挂起浏览器（或任何运行的 JavaScript 引擎）：
 
 ```js run
 let reg = /<\w+(\s*\w+=(\w+|"[^"]*")\s*)*>/g;
@@ -65,63 +65,63 @@ let str = `<tag a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b
   a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b`;
 
 *!*
-// The search will take a long long time
+// 查询会耗费很长很长的时间
 alert( str.match(reg) );
 */!*
 ```
 
-Some regexp engines can handle that search, but most of them don't.
+一些正则表达式引擎可以处理该搜索，但大多数都不行。
 
-What's the matter? Why a simple regular expression on such a small string "hangs"?
+这是怎么回事？为什么在这么小的字符串上一个简单的正则表达式会 “挂起” ？
 
-Let's simplify the situation by removing the tag and quoted strings.
+让我们通过删除标记和引用的字符串来简化场景。
 
-Here we look only for attributes:
+这里我们只查看属性：
 
 ```js run
-// only search for space-delimited attributes
+// 只查找用空格分隔的属性
 let reg = /<(\s*\w+=\w+\s*)*>/g;
 
 let str = `<a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b
   a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b  a=b`;
 
 *!*
-// the search will take a long, long time
+// 查询会耗费很长很长的时间
 alert( str.match(reg) );
 */!*
 ```
 
-The same problem persists.
+同样的问题仍然存在。
 
-Here we end the demo of the problem and start looking into what's going on and why it hangs.
+在这里，我们结束问题的演示，并开始研究发生了什么以及它为什么会挂起。
 
-## Backtracking
+## 回溯
 
-To make an example even simpler, let's consider `pattern:(\d+)*$`.
+为了使问题更简单，我们考虑一下 `(\d+)*$`。
 
-This regular expression also has the same problem. In most regexp engines that search takes a very long time (careful -- can hang):
+这个正则表达式也有同样的问题。在大多数正则表达式引擎中，搜索需要很长时间（小心 - 会挂起）：
 
 ```js run
 alert( '12345678901234567890123456789123456789z'.match(/(\d+)*$/) );
 ```
 
-So what's wrong with the regexp?
+那么正则表达式有什么问题？
 
-First, one may notice that the regexp is a little bit strange. The quantifier `pattern:*` looks extraneous. If we want a number, we can use `pattern:\d+$`.
+首先，有人可能注意到这个正则表达式有一点奇怪。量词 `*` 看起来是多余的。如果我们需要一个数字，我们可以使用 `\d+$`。
 
-Indeed, the regexp is artificial. But the reason why it is slow is the same as those we saw above. So let's understand it, and then return to the real-life examples.
+实际上，正则表达式是人写的。但它缓慢的原因与我们上面看到的相同。所以让我们理解它，然后回到现实生活中的例子。
 
-What happen during the search of `pattern:(\d+)*$` in the line `subject:123456789z`?
+在线路 `123456789z` 中搜索 `(\d+)*$`期间发生了什么？
 
-1. First, the regexp engine tries to find a number `pattern:\d+`. The plus `pattern:+` is greedy by default, so it consumes all digits:
+1. 首先，regexp 引擎试图找到一个数字 `\d+`。默认情况下，加号 `+` 是贪婪的，所以它消耗所有数字：
 
     ```
     \d+.......
     (123456789)z
     ```
-2. Then it tries to apply the star around the parentheses `pattern:(\d+)*`, but there are no more digits, so it the star doesn't give anything.
+2. 然后它试图在括号周围应用星号 `(\d+)*`，但没有更多的数字，所以星号没有给出任何东西。
 
-    Then the pattern has the string end anchor `pattern:$`, and in the text we have `subject:z`.
+    然后该模式具有字符串结束锚 `$`，并且在文本中我们有 `z`。
 
     ```
                X
@@ -129,17 +129,17 @@ What happen during the search of `pattern:(\d+)*$` in the line `subject:12345678
     (123456789)z
     ```
 
-    No match!
-3. There's no match, so the greedy quantifier `pattern:+` decreases the count of repetitions (backtracks).
+    没有匹配！
+3. 没有匹配，所以贪婪的量词 `+` 会减少重复次数（回溯）。
 
-    Now `\d+` is not all digits, but all except the last one:
+    现在 `\d+` 就不是所有数字了，而是除最后一个之外的所有数字：
     ```
     \d+.......
     (12345678)9z
     ```
-4. Now the engine tries to continue the search from the new position (`9`).
+4. 现在引擎尝试从新位置（`9`）继续搜索。
 
-    The start `pattern:(\d+)*` can now be applied -- it gives the number `match:9`:
+    起始的 `(\d+)*` 可以被应用上 —— 它给出了数字 `9`：
 
     ```
 
@@ -147,7 +147,7 @@ What happen during the search of `pattern:(\d+)*$` in the line `subject:12345678
     (12345678)(9)z
     ```
 
-    The engine tries to match `$` again, but fails, because meets `subject:z`:
+    引擎再次尝试匹配 `$`，但失败了，因为遇到 `z`：
 
     ```
                  X
@@ -155,8 +155,8 @@ What happen during the search of `pattern:(\d+)*$` in the line `subject:12345678
     (12345678)(9)z
     ```
 
-    There's no match, so the engine will continue backtracking.
-5. Now the first number `pattern:\d+` will have 7 digits, and the rest of the string `subject:89` becomes the second `pattern:\d+`:
+    没有匹配，因此引擎将继续回溯。
+5. 现在第一个数字 `\d+` 将会有 7 位数，字符串的其余部分 `89` 是第二个数字 `\d+`：
 
     ```
                  X
@@ -164,16 +164,16 @@ What happen during the search of `pattern:(\d+)*$` in the line `subject:12345678
     (1234567)(89)z
     ```
 
-    ...Still no match for `pattern:$`.
+    。。。仍然无法匹配 `$`。
 
-    The search engine backtracks again. Backtracking generally works like this: the last greedy quantifier decreases the number of repetitions until it can. Then the previous greedy quantifier decreases, and so on. In our case the last greedy quantifier is the second `pattern:\d+`, from `subject:89` to `subject:8`, and then the star takes `subject:9`:
-
+    搜索引擎会再次回溯。回溯通常是这样工作的：只要可以最后一个贪心量词会减少重复次数。然后先前的贪心量词减少，依此类推。在我们的例子中，最后一个贪心量词是第二个 `\d+`，从 `89` 变为 `8`，星号匹配到 `9`：
+	
     ```
                    X
     \d+......\d+\d+
     (1234567)(8)(9)z
     ```
-6. ...Fail again. The second and third `pattern:\d+` backtracked to the end, so the first quantifier shortens the match to `subject:123456`, and the star takes the rest:
+6. 。。。再次失败。第二个和第三个 `\d+` 回溯到最后，所以第一个量词缩短为匹配 `123456`，然后星号匹配剩余部分：
 
     ```
                  X
@@ -181,35 +181,35 @@ What happen during the search of `pattern:(\d+)*$` in the line `subject:12345678
     (123456)(789)z
     ```
 
-    Again no match. The process repeats: the last greedy quantifier releases one character (`9`):
-
+    再次失败。重复该过程：最后一个贪心量词释放一个字符（`9`）：
+	
     ```
                    X
     \d+.....\d+ \d+
     (123456)(78)(9)z
     ```
-7. ...And so on.
+7. 。。。然后继续
 
-The regular expression engine goes through all combinations of `123456789` and their subsequences. There are a lot of them, that's why it takes so long.
+正则表达式引擎遍历了 `123456789` 子序列的所有组合。它们是有很多的，这就是为什么它会花费这么长时间。
 
-A smart guy can say here: "Backtracking? Let's turn on the lazy mode -- and no more backtracking!".
+一个聪明的家伙可能在这里会说：“回溯？让我们打开懒惰模式 —— 不再有回溯！“。
 
-Let's replace `pattern:\d+` with `pattern:\d+?` and see if it works (careful, can hang the browser)
+让我们用 `\d+?` 代替 `\d+`，看它是否生效（小心，会引起浏览器挂起）
 
 ```js run
-// sloooooowwwwww
+// 非非非常慢
 alert( '12345678901234567890123456789123456789z'.match(/(\d+?)*$/) );
 ```
 
-No, it doesn't.
+不，它没有（生效）。
 
-Lazy quantifiers actually do the same, but in the reverse order. Just think about how the search engine would work in this case.
+惰性量词实际上是一样的，只是顺序相反。试想一下搜索引擎在这种情况下会怎么工作。
 
-Some regular expression engines have tricky built-in checks to detect infinite backtracking or other means to work around them, but there's no universal solution.
+有些正则表达式引擎具有复杂的内置检查来检测无限回溯或其他方法来解决它们，但是没有通用的解决方案。
 
-In the example above, when we search `pattern:<(\s*\w+=\w+\s*)*>` in the string `subject:<a=b  a=b  a=b  a=b` -- the similar thing happens.
+在上面的例子中，当我们在字符串 `<a=b  a=b  a=b  a=b` 中查找 `<(\s*\w+=\w+\s*)*>` 时 —— 类似的情况发生了。
 
-The string has no `>` at the end, so the match is impossible, but the regexp engine does not know about it. The search backtracks trying different combinations of `pattern:(\s*\w+=\w+\s*)`:
+字符串最后没有 `>`，所以匹配是不可能的，但正则表达式引擎不知道这些。搜索回溯尝试 `(\s*\w+=\w+\s*)` 的不同组合：
 
 ```
 (a=b a=b a=b) (a=b)
@@ -217,13 +217,13 @@ The string has no `>` at the end, so the match is impossible, but the regexp eng
 ...
 ```
 
-## How to fix?
+## 如何修复？
 
-The problem -- too many variants in backtracking even if we don't need them.
+问题 —— 即便我们不需要它们，回溯也有很多变种。
 
-For instance, in the pattern `pattern:(\d+)*$` we (people) can easily see that `pattern:(\d+)` does not need to backtrack.
+例如，在模式 `(\d+)*$` 中，我们（人类）可以轻易的看到 `(\d+)` 不需要回溯。
 
-Decreasing the count of `pattern:\d+` can not help to find a match, there's no matter between these two:
+减少 `\d+` 的计数对匹配没有帮助，这两者没有区别：
 
 ```
 \d+........
@@ -233,29 +233,29 @@ Decreasing the count of `pattern:\d+` can not help to find a match, there's no m
 (1234)(56789)z
 ```
 
-Let's get back to more real-life example: `pattern:<(\s*\w+=\w+\s*)*>`. We want it to find pairs `name=value` (as many as it can). There's no need in backtracking here.
+让我们回到更现实生活中的例子：`<(\s*\w+=\w+\s*)*>`。我们想要查找键值对 `name=value` （尽可能多）。这里没有必要回溯。
 
-In other words, if it found many `name=value` pairs and then can't find `>`, then there's no need to decrease the count of repetitions. Even if we match one pair less, it won't give us the closing `>`:
+换而言之，如果它找到很多 `name=value` 对然后找不到 `>`，那就没有必要减少重复次数。即使我们少匹配一对，它也不会给我们闭合的 `>` ：
 
-Modern regexp engines support so-called "possessive" quantifiers for that. They are like greedy, but don't backtrack at all. Pretty simple, they capture whatever they can, and the search continues. There's also another tool called "atomic groups" that forbid backtracking inside parentheses.
+现代的正则表达式引擎支持所谓的 “占有” 量词。它们就像贪婪，但根本不回溯。很简单的，它们抓取尽可能多的东西，然后继续搜索。还有另一种叫做 ”原子组“ 的工具用来禁止括号内部的回溯。
 
-Unfortunately, but both these features are not supported by JavaScript.
+不幸的是，JavaScript 对这两项功能都不支持。
 
-Although we can get a similar affect using lookahead. There's more about the relation between possessive quantifiers and lookahead in articles [Regex: Emulate Atomic Grouping (and Possessive Quantifiers) with LookAhead](http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead) and [Mimicking Atomic Groups](http://blog.stevenlevithan.com/archives/mimic-atomic-groups).
+虽然我们可以使用前瞻来获得类似的效果。在文章 [正则表达式: 使用前瞻模拟原子分组（和占有量词）](http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead) 和 [模拟原子组](http://blog.stevenlevithan.com/archives/mimic-atomic-groups) 中更多关于占有量词和前瞻之间的关系。
 
-The pattern to take as much repetitions as possible without backtracking is: `pattern:(?=(a+))\1`.
+在没有回溯的前提下尽可能多重复使用的模式是：`(?=(a+))\1`。
 
-In other words, the lookahead `pattern:?=` looks for the maximal count `pattern:a+` from the current position. And then they are "consumed into the result" by the backreference `pattern:\1`.
+换句话说，前瞻 `?=` 从当前位置查找最大 `a+` 的计数。然后他们被 `\1` 反向引用 “消耗在结果中“。
 
-There will be no backtracking, because lookahead does not backtrack. If it found like 5 times of `pattern:a+` and the further match failed, then it doesn't go back to 4.
+这里没有回溯，因为前瞻不会回溯。如果它检索了 5 次 `a+` 并且进一步匹配失败，那么它不会回到 4。
 
-Let's fix the regexp for a tag with attributes from the beginning of the chapter`pattern:<\w+(\s*\w+=(\w+|"[^"]*")\s*)*>`. We'll use lookahead to prevent backtracking of `name=value` pairs:
+让我们修复本章开头的带有属性标签的正则表达式 `<\w+(\s*\w+=(\w+|"[^"]*")\s*)*>` 。我们将使用前瞻来防止 `name=value` 对的回溯：
 
 ```js run
-// regexp to search name=value
+// 搜索 name=value 的正则表达式
 let attrReg = /(\s*\w+=(\w+|"[^"]*")\s*)/
 
-// use it inside the regexp for tag
+// 在标签正则表达式中使用
 let reg = new RegExp('<\\w+(?=(' + attrReg.source + '*))\\1>', 'g');
 
 let good = '...<a test="<>" href="#">... <b>...';
@@ -267,6 +267,6 @@ alert( good.match(reg) ); // <a test="<>" href="#">, <b>
 alert( bad.match(reg) ); // null (no results, fast!)
 ```
 
-Great, it works! We found a long tag  `match:<a test="<>" href="#">` and a small one `match:<b>` and didn't hang the engine.
+很好，它起作用了。我们找到一个长标签 `<a test="<>" href="#">` 和一个小标签 `<b>` ，并且没有挂起引擎。
 
-Please note the `attrReg.source` property. `RegExp` objects provide access to their source string in it. That's convenient when we want to insert one regexp into another.
+请留意 `attrReg.source` 属性。`RegExp` 对象提供对其源字符串的访问。当我们想要将一个正则表达式插入另一个正则表达式时，这很方便。
