@@ -1,4 +1,4 @@
-# 事件：change，input，cut，copy，paste
+# 事件：change、input、cut、copy 和 paste
 
 下面让我们来讨论一下伴随数据更新的各种事件。
 
@@ -39,10 +39,10 @@
 ```smart header="`oninput` 不能阻止任何事件"
 当输入值变化之后，`input` 事件就会触发。
 
-所以在这里我们无法使用 `event.preventDefault()` -- 已经太迟了，不会有任何作用了。
+所以在这里我们无法使用 `event.preventDefault()` — 已经太迟了，不会有任何作用了。
 ```
 
-## 事件：cut、copy、paste
+## 事件：cut、copy 和 paste
 
 这些事件发生于剪切/拷贝/粘贴一个值的时候。
 
@@ -52,7 +52,7 @@
 
 例如，下面的代码阻止了所有的这样的事件，然后展示出了我们尝试剪切/拷贝/粘贴的内容：
 
-​```html autorun height=40 run
+```html autorun height=40 run
 <input type="text" id="input">
 <script>
   input.oncut = input.oncopy = input.onpaste = function(event) {
@@ -64,7 +64,7 @@
 
 从技术上来讲，我们可以拷贝/粘贴任何东西。例如，我们可以从资源管理器中拷贝一份文件，然后粘贴进来。
 
-在 [设计规范](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer) 中有一系列的方法，可以作用于不同的数据类型，对剪贴板进行读写。
+在[设计规范](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)中有一系列的方法，可以作用于不同的数据类型，对剪贴板进行读写。
 
 但是请注意，剪贴板是“全局”操作系统级别的。安全起见，大多数浏览器只在一些特定的用户行为下允许读写剪贴板。除了火狐浏览器，其它浏览器也都是禁止创建“自定义”剪贴板事件的。
 
