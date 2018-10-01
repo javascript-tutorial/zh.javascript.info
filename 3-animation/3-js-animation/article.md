@@ -54,7 +54,7 @@ function draw(timePassed) {
 
 假设我们有几个同时运行的动画。
 
-如果我们单独运行它们，每个都有自己的 `setInterval（...，20）`，那么浏览器必须以比 `20ms` 更频繁的速度重绘。
+如果我们单独运行它们，每个都有自己的 `setInterval(..., 20)`，那么浏览器必须以比 `20ms` 更频繁的速度重绘。
 
 每个 `setInterval` 每 `20ms` 触发一次，但它们相互独立，因此 `20ms` 内将有多个独立运行的重绘。
 
@@ -166,7 +166,7 @@ function animate({timing, draw, duration}) {
 
     ![](linear.png)
 
-    它类似于 `transition-timing-function: linear`. 后文有更多有趣的变体。
+    它类似于 `transition-timing-function: linear`。后文有更多有趣的变体。
 
 `draw(progress)`
 : 获取动画完成状态并绘制的函数。值 `progress = 0` 表示开始动画状态，`progress = 1` 表示结束状态。
@@ -185,7 +185,7 @@ function animate({timing, draw, duration}) {
 
 让我们使用我们的函数将元素的 `width` 从 `0` 变化为 `100%`。
 
-点击演示元素
+点击演示元素：
 
 [codetabs height=60 src="width"]
 
