@@ -10,8 +10,8 @@
 
 提交表单有两种方法：
 
-1. 第一种 -- 点击 `<input type="submit">` 或者 `<input type="image">`。
-2. 第二种 -- 在输入框内按下 `key:Enter` 回车键。
+1. 第一种 — 点击 `<input type="submit">` 或者 `<input type="image">`。
+2. 第二种 — 在输入框内按下 `key:Enter` 回车键。
 
 两种行为都可以触发表单的 `submit` 事件。处理器可以检查数据，如果有错误，就显示出来，并且调用 `event.preventDefault()`，这样表单就不会再提交给服务端了。
 
@@ -51,7 +51,7 @@
 
 该方法有时被用来手动创建和发送表单，如下所示：
 
-​```js run
+```js run
 let form = document.createElement('form');
 form.action = 'https://google.com/search';
 form.method = 'GET';
@@ -62,4 +62,4 @@ form.innerHTML = '<input name="q" value="test">';
 document.body.append(form);
 
 form.submit();
-​```
+```
