@@ -2,7 +2,7 @@
 
 怎么找到浏览器窗口的宽度呢？如何获得包括滚动窗口外部分的文档总高度呢？如何通过 JavaScript 滚动页面呢？
 
-在 DOM 里，文档的根元素是 `document.documentElement`。与之相对应的标签是 `<html>` ，同时它具备了[前一章](info:size-and-scroll)的几何属性。只有在某些情景下，我们可以使用到它，但还有其他方法和特性需要我们特别考虑得。
+在 DOM 里，文档的根元素是 `document.documentElement`。与之相对应的标签是 `<html>` ，同时它具备了[前一章](info:size-and-scroll)的几何属性。只有在某些情景下，我们可以使用到它，但还有其他方法和特性需要我们去特别考虑的。
 
 ## 窗口的宽度/高度
 
@@ -11,7 +11,7 @@
 ![](document-client-width-height.png)
 
 ```online
-例如，这个按钮能显示窗口的高度:
+例如，这个按钮能显示窗口的高度：
 
 <button onclick="alert(document.documentElement.clientHeight)">alert(document.documentElement.clientHeight)</button>
 ```
@@ -21,7 +21,7 @@
 
 在滚动条占用一部分空间的情况下, `clientWidth/clientHeight` 提供了它内部空间的宽度/高度. 换言之, 它们返回文档可见部分（可用内容）的宽高。
 
-而 `window.innerWidth/innerHeight` 是忽略滚动条.
+而 `window.innerWidth/innerHeight` 是忽略滚动条。
 
 如果有一条滚动条，它占用了一些空间，那么这两行代码会得到不同的值：
 ```js run
@@ -33,7 +33,7 @@ alert( document.documentElement.clientWidth ); // 窗口减去滚动条的宽度
 ````
 
 ```warn header="`DOCTYPE` 很重要"
-请注意:  HTML文件里如果没有`<!DOCTYPE HTML>`，顶层几何属性可能就有点不同了，稀奇古怪的情况可能就发生了。
+请注意：HTML文件里如果没有`<!DOCTYPE HTML>`，顶层几何属性可能就有点不同了，稀奇古怪的情况可能就发生了。
 
 现代的html我们都会写 `DOCTYPE`。总言之，那不是一个JavaScript的问题，但也会影响到JavaScript。
 
@@ -41,11 +41,11 @@ alert( document.documentElement.clientWidth ); // 窗口减去滚动条的宽度
 
 ## 文档的宽度/高度
 
-理论上，文档元素的宽高是 `documentElement.clientWidth/Height` ,并且包含了全部内容，我们可以依据 'documentElement.scrollWidth/scrollHeight' 测量它的最大值.
+理论上，文档元素的宽高是 `documentElement.clientWidth/Height` ,并且包含了全部内容，我们可以依据 'documentElement.scrollWidth/scrollHeight' 测量它的最大值。
 
 这几个属性对常规元素能起作用，但面对整个页面它们会失去它们应有的作用了。在 Chrome/Safari/Opera 浏览器，如果这里没有滚动条，`documentElement.scrollHeight` 甚至比 `documentElement.clientHeight` 小! 这对常规元素来讲是不可能出现的情况。
 
-要获得可靠的窗口大小，我们应该采用这些属性的最大值:
+要获得可靠的窗口大小，我们应该采用这些属性的最大值：
 
 ```js run
 let scrollHeight = Math.max(
@@ -63,9 +63,9 @@ alert('Full document height, with scrolled out part: ' + scrollHeight);
 
 常规元素有它们自己的滚动状态 `elem.scrollLeft/scrollTop`。
 
-那页面的呢？差不多所有浏览器为文档滚动提供了`documentElement.scrollLeft/Top`, 但是 Chrome/Safari/Opera 有bugs (像 [157855](https://code.google.com/p/chromium/issues/detail?id=157855), [106133](https://bugs.webkit.org/show_bug.cgi?id=106133)) 我们应该用`document.body` 代替`document.documentElement` 
+那页面的呢？差不多所有浏览器为文档滚动提供了`documentElement.scrollLeft/Top`, 但是 Chrome/Safari/Opera 有 bugs (像 [157855](https://code.google.com/p/chromium/issues/detail?id=157855), [106133](https://bugs.webkit.org/show_bug.cgi?id=106133)) 我们应该用`document.body` 代替`document.documentElement` 
 
-幸运的是，由于特殊属性 `window.pageXOffset/pageYOffset`，我们根本不必记住这些特性:
+幸运的是，由于特殊属性 `window.pageXOffset/pageYOffset`，我们根本不必记住这些特性：
 
 ```js run
 alert('Current scroll from the top: ' + window.pageYOffset);
@@ -85,19 +85,19 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 可以通过更改 `scrollTop / scrollLeft` 来滚动常规元素。
 
 我们可以对页面执行相同的操作：
-- 在 Chrome/Safari/Opera 外的所有浏览器： 修改  `document.documentElement.scrollTop/Left`.
-- 在 Chrome/Safari/Opera 浏览器: 使用 `document.body.scrollTop/Left`.
+- 在 Chrome/Safari/Opera 外的所有浏览器： 修改  `document.documentElement.scrollTop/Left`。
+- 在 Chrome/Safari/Opera 浏览器：使用 `document.body.scrollTop/Left`。
 
 不好！这个操作虽然能工作了，但似乎在跨浏览器上不兼容。幸运的是, 有一个更简单，更通用的解决方案  [window.scrollBy(x,y)](mdn:api/Window/scrollBy) 和 [window.scrollTo(pageX,pageY)](mdn:api/Window/scrollTo).
 
-- 方法 `scrollBy(x,y)` 滚动页面至相对于现在位置的 (x, y) 位置。 例如， `scrollBy(0,10)` 页面向下滚动 `10px` 。
+- 方法 `scrollBy(x,y)` 滚动页面至相对于现在位置的 (x, y) 位置。例如， `scrollBy(0,10)` 页面向下滚动 `10px` 。
 
     ```online
-    下面的按钮演示了这一点:
+    下面的按钮演示了这一点：
 
     <button onclick="window.scrollBy(0,10)">window.scrollBy(0,10)</button>
     ```
-- 方法 `scrollTo(pageX,pageY)` 滚动页面至相对于文档的左上角的 (pageX, pageY) 位置。就好像设置 `scrollLeft/scrollTop`.
+- 方法 `scrollTo(pageX,pageY)` 滚动页面至相对于文档的左上角的 (pageX, pageY) 位置。就好像设置 `scrollLeft/scrollTop`。
 
     回到顶部, 我们可以用 `scrollTo(0,0)`.
 
@@ -109,7 +109,7 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 ## 滚动到视图
 
-为了讲全面点，让我们再来介绍一个方法：[elem.srollIntoView(top)](mdn:api/Element/scrollIntoView).
+为了讲全面点，让我们再来介绍一个方法：[elem.srollIntoView(top)](mdn:api/Element/scrollIntoView)。
 
 调用`elem.scrollIntoView(top)`会使 `elem` 滚动到可视范围。它有一个结论：
 
@@ -132,7 +132,7 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 想让这个文档禁止滚动，设置`document.body.style.overflow = "hidden"`就够了。该页面将“冻结”其当前滚动。
 
 ```online
-试一试:
+试一试：
 
 <button onclick="document.body.style.overflow = 'hidden'">`document.body.style.overflow = 'hidden'`</button>
 
