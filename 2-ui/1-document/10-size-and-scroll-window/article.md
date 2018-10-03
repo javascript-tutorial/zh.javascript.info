@@ -41,7 +41,7 @@ alert( document.documentElement.clientWidth ); // 窗口减去滚动条的宽度
 
 ## 文档的宽度/高度
 
-理论上，文档元素的宽高是 `documentElement.clientWidth/Height`，并且包含了全部内容，我们可以依据 'documentElement.scrollWidth/scrollHeight' 测量它的最大值。
+理论上，文档元素的宽高是 `documentElement.clientWidth/Height`，并且包含了全部内容，我们可以依据 `documentElement.scrollWidth/scrollHeight` 测量它的最大值。
 
 这几个属性对常规元素能起作用，但面对整个页面它们会失去它们应有的作用了。在 Chrome/Safari/Opera 浏览器，如果这里没有滚动条，`documentElement.scrollHeight` 甚至比 `documentElement.clientHeight` 小！这对常规元素来讲是不可能出现的情况。
 
@@ -170,4 +170,4 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
     - `window.scrollTo(pageX,pageY)` — 绝对定位
     - `window.scrollBy(x,y)` — 相对当前位置的滚动
-    - `elem.scrollIntoView(top)` — 滚动到正好`elem`可视的位置（`elem`与窗口的顶部/底部对齐）
+    - `elem.scrollIntoView(top)` — 滚动到正好`elem`可视的位置（`elem` 与窗口的顶部/底部对齐）
