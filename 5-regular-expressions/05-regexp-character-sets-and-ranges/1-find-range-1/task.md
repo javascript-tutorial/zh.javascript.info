@@ -1,5 +1,5 @@
 # Java[^script]
 
-We have a regexp `pattern:/Java[^script]/`.
+我们有一个正则表达式 `pattern:/Java[^script]/`。
 
-Does it match anything in the string `subject:Java`? In the string `subject:JavaScript`?
+它会和字符串 `subject:Java` 中的任何一部分匹配吗？会和字符串 `subject:JavaScript` 任何一部分匹配吗？
