@@ -102,7 +102,7 @@ JavaScript 程序可以使用 `<script>` 标签插入到 HTML 的任何地方。
 ```
 
 ````warn header="如果设置了 `src`属性，`script` 标签内容将会忽略。"
-单独的一个 <script> 标签不能同时有 src 属性以及内部包裹代码。
+单独的一个 `<script>` 标签不能同时有 src 属性以及内部包裹代码。
 
 这将不会工作：
 
