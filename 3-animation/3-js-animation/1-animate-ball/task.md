@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Animate the bouncing ball
+# 为弹跳的球设置动画
 
-Make a bouncing ball. Click to see how it should look:
+做一个弹跳的球。点击查看应有的效果：
 
 [iframe height=250 src="solution"]
