@@ -2,7 +2,7 @@
 
 JavaScript 动画可以处理 CSS 无法处理的事情。
 
-例如，沿着具有与 Bezier 曲线不同的时序函数的复杂路径移动，或者实现画布上的动画。。
+例如，沿着具有与 Bezier 曲线不同的时序函数的复杂路径移动，或者实现画布上的动画。
 
 ## 使用 setInterval
 
@@ -80,7 +80,7 @@ setInterval(animate3, 20);
 
 还有一件事需要记住。有时当 CPU 过载时，或者有其他原因需要降低重绘频率。例如，如果浏览器选项卡被隐藏，那么绘图完全没有意义。
 
-有一个标准[动画时序](http://www.w3.org/TR/animation-timing/) 提供了 `requestAnimationFrame` 函数。
+有一个标准[动画时序](http://www.w3.org/TR/animation-timing/)提供了 `requestAnimationFrame` 函数。
 
 它解决了所有这些问题，甚至更多其它的问题。
 
@@ -152,7 +152,7 @@ function animate({timing, draw, duration}) {
 : 动画总时间，比如 `1000`。
 
 `timing(timeFraction)`
-: 时序函数，类似 CSS 属性 `transition-timing-function`，传入一个已过去的时间与总时间之比的小数（`0` 代表开始、`1` 代表结束），返回动画完成度（类似 Bezier 曲线中的 `y`）。
+: 时序函数，类似 CSS 属性 `transition-timing-function`，传入一个已过去的时间与总时间之比的小数（`0` 代表开始，`1` 代表结束），返回动画完成度（类似 Bezier 曲线中的 `y`）。
 
     例如，线性函数意味着动画以相同的速度均匀地进行：
 
