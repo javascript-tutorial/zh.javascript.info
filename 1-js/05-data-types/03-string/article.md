@@ -243,7 +243,7 @@ alert( str.indexOf('id', 2) ) // 12
 ```
 
 
-如果我们对所以存在位置都感兴趣，可以在一个循环中使用 `indexOf`。每一次新的调用都发生在上一匹配位置之后：
+如果我们对所有存在位置都感兴趣，可以在一个循环中使用 `indexOf`。每一次新的调用都发生在上一匹配位置之后：
 
 
 ```js run
@@ -342,7 +342,7 @@ if (~str.indexOf("Widget")) {
 
 ### includes, startsWith, endsWith
 
-更现在的方法 [str.includes(substr, pos)](mdn:js/String/includes) 取决于 `str` 是否包含 `substr` 来返回 `true/false`。
+更现代的方法 [str.includes(substr, pos)](mdn:js/String/includes) 取决于 `str` 是否包含 `substr` 来返回 `true/false`。
 
 如果我们需要测试匹配，这是正确的选择，但不需要它的位置：
 

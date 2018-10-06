@@ -1,7 +1,7 @@
-We need to choose the right Bezier curve for that animation. It should have `y>1` somewhere for the plane to "jump out".
+我们需要为此选择合适的贝塞尔曲线。它应该在某个地方拥有 `y > 1`，来使得飞机『跳出来』。 
 
-For instance, we can take both control points with `y>1`, like: `cubic-bezier(0.25, 1.5, 0.75, 1.5)`.
+举例来说，我们可以使两个控制点的 `y` 都大于 `1`：`cubic-bezier(0.25, 1.5, 0.75, 1.5)`。
 
-The graph:
+如图：
 
 ![](bezier-up.png)

@@ -1,6 +1,6 @@
-The solution is actually pretty simple.
+实际上解决方案非常简单。
 
-Take a look at this:
+就像这样：
 
 ```js
 Promise.all(
@@ -10,11 +10,11 @@ Promise.all(
 )
 ```
 
-Here we have an array of `fetch(...)` promises that goes to `Promise.all`.
+这里我们有一个指向 `Promise.all` 的 `fetch(...)` promise 数组。
 
-We can't change the way `Promise.all` works: if it detects an error, then it rejects with it. So we need to prevent any error from occuring. Instead, if a `fetch` error happens, we need to treat it as a "normal" result.
+我们不能改变 `Promise.all` 的工作方式：如果它检测到 error，就会 reject 它。因此我们需要避免任何 error 发生。相反，如果 `fetch` 发生 error，我们需要将其视为“正常”结果。
 
-Here's how:
+就像这样：
 
 ```js
 Promise.all(
@@ -24,18 +24,18 @@ Promise.all(
 )
 ```
 
-In other words, the `.catch` takes an error for all of the promises and returns it normally. By the rules of how promises work, if a `.then/catch` handler returns a value (doesn't matter if it's an error object or something else), then the execution continues the "normal" flow.
+换句话说，`.catch` 会对所有的 promise 产生 error，然后正常返回。根据 promise 的工作原理，只要 `.then/catch` 处理器返回值（无论是 error 对象或其他内容），执行流程就会“正常”进行。
 
-So the `.catch` returns the error as a "normal" result into the outer `Promise.all`.
+因此 `.catch` 会将 error 作为“正常”结果返回给外部的 `Promise.all`。
 
-This code:
+代码如下：
 ```js
 Promise.all(
   urls.map(url => fetch(url))
 )
 ```
 
-Can be rewritten as:
+可重写为：
 
 ```js
 Promise.all(

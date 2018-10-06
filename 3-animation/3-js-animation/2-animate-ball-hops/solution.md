@@ -1,18 +1,18 @@
-In the task <info:task/animate-ball> we had only one property to animate. Now we need one more: `elem.style.left`.
+在任务 <info:task/animate-ball> 中，我们只有一个需要添加动画的属性。现在多了一个 `elem.style.left`。
 
-The horizontal coordinate changes by another law: it does not "bounce", but gradually increases shifting the ball to the right.
+水平坐标由另一个定律改变：它不会“反弹”，而是逐渐增加使球逐渐向右移动。
 
-We can write one more `animate` for it.
+我们可以为它多写一个 `animate`。
 
-As the time function we could use `linear`, but something like `makeEaseOut(quad)` looks much better.
+至于时序函数，我们可以使用 `linear`，但像 `makeEaseOut(quad)` 这样的函数看起来要好得多。
 
-The code:
+代码：
 
 ```js
 let height = field.clientHeight - ball.clientHeight;
 let width = 100;
 
-// animate top (bouncing)
+// 设置 top 动画（弹跳）
 animate({
   duration: 2000,
   timing: makeEaseOut(bounce),
@@ -21,7 +21,7 @@ animate({
   }
 });
 
-// animate left (moving to the right)
+// 设置 left 动画（向右移动）
 animate({
   duration: 2000,
   timing: makeEaseOut(quad),

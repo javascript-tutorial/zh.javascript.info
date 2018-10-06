@@ -2,19 +2,19 @@ importance: 5
 
 ---
 
-# Place the ball in the field center
+# 将小球置于有效范围的中心
 
-Here's how the source document looks:
+这是源文件：
 
 [iframe src="source" edit link height=180]
 
-What are coordinates of the field center?
+有效范围的中心坐标是多少？
 
-Calculate them and use to place the ball into the center of the field:
+计算并将小球置于有效范围中心：
 
 [iframe src="solution" height=180]
 
-- The element should be moved by JavaScript, not CSS.
-- The code should work with any ball size (`10`, `20`, `30` pixels) and any field size, not be bound to the given values.
+- 元素应该通过 JavaScript 移除，而不是 CSS。
+- 代码应该在不限制小球尺寸（`10`、`20`、`30` 像素）或任何有效范围内的尺寸的情况下正常运行，而不是直接为元素绑定尺寸。
 
-P.S. Sure, centering could be done with CSS, but here we want exactly JavaScript. Further we'll meet other topics and more complex situations when JavaScript must be used. Here we do a "warm-up".
+P.S. 当然了，置中的操作可以通过 CSS 完成，但是这里我们需要通过 JavaScript 完成。此外，当必须使用 JavaScript 时，我们可能会遇到其他话题或更加复杂的情况，这里我们只是做一个 “热身”。
