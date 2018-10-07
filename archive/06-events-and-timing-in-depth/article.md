@@ -1,4 +1,6 @@
-# 同步与异步事件
+
+# 同步事件与异步事件
+
 JavaScript 是一门单线程语言：其一定时间之内，只能执行单独的一段脚本。
 
 通常如页面渲染、文件下载等活动，可于不同线程中同时进行。譬如，浏览器可边运行 JavaScript 代码，边下载文件，这样的情况很常见。但类似两个事件处理器，或是两个 `setTimeout` 定时器回调同时执行，这样的情况，则绝不会发生。
@@ -17,11 +19,14 @@ JavaScript 是一门单线程语言：其一定时间之内，只能执行单独
 
 同样，使用 `setTimeout/setInterval` 设定的回调函数也会添加至事件队列，等到 JavaScript 引擎空闲，再执行。
 
+
 ## 同步事件
+
 有些事件发生后不会进入事件队列， 其称为 *同步事件* 。同步事件总是触发即处理，哪怕和其他事件处理器相嵌套。</b>
 
 
 ### 同步的DOM mutation 事件
+
 
 下例中，`onclick` 事件处理器会更改链接属性，而链接添加了 `DOMAttrModified(IE上为：onpropertychange)`监听。
 
@@ -32,6 +37,7 @@ JavaScript 是一门单线程语言：其一定时间之内，只能执行单独
 <a href="#">点我!</a>
 
 <script>
+javascript
 let a = document.body.children[0]
 
 a.onclick = function() {
@@ -61,10 +67,10 @@ if (a.attachEvent) { // IE
 <li>执行 `onclick` 事件剩余，输出 `alert('out onclick')` 中内容 </li>
 </ol>
 
+
 ### 同步的 DOM 事件嵌套
 
-像 `elem.focus()` 这样的方法有很多，都能触发事件立即获得反馈，这些事件是以同步的方式处理。
-
+像 `elem.focus()` 这样的方法有很多，都能触发立即处理的事件，这些事件也是以同步的方式处理。
 
 运行下面示例，然后点击按钮。注意 `onfocus` 事件是立即生效的，不会等到 `onclick` 事件完成之后再执行。
 
@@ -93,7 +99,6 @@ if (a.attachEvent) { // IE
 
 上例输出顺序为：<code>onclick-&gt;focus-&gt;out onclick</code>, 这是同步行为的清楚展示 。
 
-
 以 (*) 标注的那行代码是必需的，因为 `alert('message')` 会将焦点置于弹出窗口，处理完弹出信息，窗口消失，焦点会重新聚焦至原处。
 
 所以，要是没有那行代码， 总会多触发一次 `focus` 。
@@ -109,14 +114,14 @@ if (a.attachEvent) { // IE
 有两种方法可以解决上述冲突：
 <ol>
 <li>将 `text.focus()` 移至 `onclick` 代码的末尾</li>
-<li>将 `text.focus()` 封装进 `setTimeout(..,0)` :<br>
-[js]<br>
-&emsp;button.onclick = function() {<br>
-&emsp;&emsp;alert(1);<br>
-&emsp;&emsp;setTimeout(function() { <br>
-&emsp;&emsp;&emsp;text.focus();<br> 
-&emsp;&emsp;}, 0);<br>
-&emsp;alert(2);
+<li>将 `text.focus()` 封装进 `setTimeout(..,0)` :
+[js]
+button.onclick = function() {
+alert(1);
+setTimeout(function() { 
+text.focus()
+}, 0);
+alert(2);
 }
 [/js]
 </li>
@@ -156,20 +161,20 @@ function run() {
 
 重申，不同浏览器实现方式或有差别。但就总体而言，一般会 **把这些因脚本执行而渲染阻塞的节点标记为 "dirty", 意即节点有待重新分析绘制，然后排队等候处理。** 或者，浏览器每运行一段脚本之后直接寻至并处理这些节点。
 
-[smart header="迅速回流"]<br>
+[smart header="迅速回流"]
 浏览器有许多方法，可以优化渲染绘制速度，一般而言，其总是在脚本运行完后才开始渲染，但有些行为却要求节点立即渲染。
 
-示例:<br>
-[js]<br>
-elem.innerHTML = 'new content';<br>
-alert(elem.offsetHeight); // <-- 渲染 elem 以获得 offsetHeight 属性值<br>
+示例:
+[js]
+elem.innerHTML = 'new content';
+alert(elem.offsetHeight); // <-- 渲染 elem 以获得 offsetHeight 属性值
 [/js]
 
 上例虽未要求重新在屏幕上绘制 `elem` , 但浏览器却不得不启动重新布局，以计算相应高度。
 
 有时一些相关节点也会因此被纳入计算分析的范畴，这整个过程称为 *reflow(回流)*, 如脚本运行经常触发回流，则资源开销巨大。
 
-诚然，关于渲染尚有许多值得探讨之处，笔者将会在其他文章中展开论述 [todo] .<br>
+诚然，关于渲染尚有许多值得探讨之处，笔者将会在其他文章中展开论述 [todo] .
 [/smart]
 
 
@@ -205,6 +210,7 @@ let timer = setInterval(function() {
 当你点击 `alert('hello')` 时, `alert` 阻塞了JavaScript 代码运行，也阻塞了整个 UI 线程。`alert`, `confirm` 以及 `prompt` 都以这样的方式运行。
 且因为线程单一， **`setTimeout/setInterval`** 也无法在线程阻塞的情况下执行。
 
+
 ### Opera： `iframe` 特例
 
 [summary]通常，`iframe` 与整个页面同处一个线程[/summary]
@@ -213,7 +219,10 @@ let timer = setInterval(function() {
 
 而别的浏览器整个页面使用的都是同一线程，所以iframe动画也因线程阻塞而停止了。
 
+
+
 ## 脚本运行时间过长及负载过重
+
 
 JavaScript 有时也不堪重负。
 
@@ -267,7 +276,7 @@ function stop() {
 
 回调等待延迟可设置为0到100ms, 取决于各自需求。当然，延时愈长，CPU 负荷也愈小。
 
-[smart header="规避警告：'脚本运行时间过长'"]<br>
+[smart header="规避警告：'脚本运行时间过长'"]
 运行警告是同步事件阻塞过久重要部分，不妨将冗长繁杂的任务切分细化，再搭配 `setTimeout` 执行，如此则可避免浏览器卡死及运行警告。
 
 现代语法高亮插件便采用了这种方法。每当用户打开一个大型文本文档，插件会先高亮一部分文本内容，然后调用类似 `setTimeout(highlightNex,50)` 的方法，把下一部分文本高亮。
