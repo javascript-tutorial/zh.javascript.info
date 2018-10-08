@@ -98,7 +98,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 `parentElem.appendChild(node)`
 ：将 `node` 作为 `parentElem` 最后一个子元素。
 
-    可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾。
+    可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾：
 
     ```html
     <ol id="list">
@@ -116,7 +116,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
     ```
 
 `parentElem.insertBefore(node, nextSibling)`
-：在 `parentElem` 的 `nextSibling` 插入 `node`
+：在 `parentElem` 的 `nextSibling` 插入 `node`。
 
     下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
 
@@ -214,7 +214,7 @@ after
 </script>
 ```
 
-所有字符串都会作为“文本”插入
+所有字符串都会作为“文本”插入。
 
 所以最后的 HTML 表现为：
 
@@ -228,7 +228,7 @@ after
 
 换句话说，字符串以安全的方式插入到页面中，就像调用 `elem.textContent` 方法一样。
 
-所以这些方法只能用来插入 DOM 节点或者文本块
+所以这些方法只能用来插入 DOM 节点或者文本块。
 
 如果我们想在 HTML 页面中插入一个标签，有没有这样的方法，就像调用 `elem.innerHTML` 方法一样？
 
@@ -243,7 +243,7 @@ after
 - `"beforeend"` —— 在 `html` 结束位置前插入 `elem`，
 - `"afterend"` —— 在 `html` 结束位置后插入 `elem`。
 
-第二个参数是 HTML 字符串，会作为标签插入到页面中
+第二个参数是 HTML 字符串，会作为标签插入到页面中。
 
 例如：
 
@@ -351,7 +351,7 @@ after
 ````smart
 如果我们想要**移动**一个元素到另一个地方 —— 不需要移除旧的元素。
 
-**所有插入操作都会从节点原来的位置把节点移除掉**
+**所有插入操作都会从节点原来的位置把节点移除掉。**
 
 例如，这里有一些嵌套的元素：
 
@@ -413,7 +413,7 @@ after
 
 现代的脚本已经很少再看到这个方法，因为使用它有一个很重要的局限性：
 
-**只能在页面加载的时候调用 `document.write`**
+**只能在页面加载的时候调用 `document.write`。**
 
 如果在加载完成以后，渲染好的页面会被擦除。
 
@@ -424,7 +424,7 @@ after
 *!*
 <script>
   // 在一秒后调用 document.write
-  // 页面已经加载完毕，所以会被擦除。
+  // 页面已经加载完毕，所以会被擦除
   setTimeout(() => document.write('<b>...By this.</b>'), 1000);
 </script>
 */!*
@@ -466,7 +466,7 @@ after
   - `node.replaceWith(...nodes or strings)` —— 替换 `node`。
   - `node.remove()` —— 移除 `node`。
 
-  把字符串当成“文本”插入
+  把字符串当成“文本”插入。
 
 - 在 HTML 中添加内容 `elem.insertAdjacentHTML(where, html)`，在 where 位置进行操作：
   - `"beforebegin"` —— 将 `html` 插入 `elem` 到开头的前面位置，
