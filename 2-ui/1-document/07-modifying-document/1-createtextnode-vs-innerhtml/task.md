@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 对比 createTextNode，innerHTML，textContent
+# 对比 createTextNode、innerHTML 和 textContent
 
 我们有一个空的 DOM 元素 `elem` 和一个字符串 `text`。
 
