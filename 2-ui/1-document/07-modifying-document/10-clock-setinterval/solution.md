@@ -1,6 +1,6 @@
 首先，使用 HTML/CSS。
 
-每个时间组件都限制在 `<span>`：
+每个时间组件在`<span>`标签中看起来很棒：
 
 ```html
 <div id="clock">
