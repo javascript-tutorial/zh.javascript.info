@@ -458,7 +458,7 @@ after
 
   这些方法都返回 `node`。
 
-- 添加一些节点和字符串
+- 添加一些节点和字符串：
   - `node.append(...nodes or strings)` —— 在 `node` 末尾位置增加，
   - `node.prepend(...nodes or strings)` —— 在 `node`开头位置增加 ，
   - `node.before(...nodes or strings)` —— 在 `node` 之前位置增加，
