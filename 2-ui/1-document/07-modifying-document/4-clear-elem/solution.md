@@ -23,7 +23,7 @@ function clear(elem) {
 }
 ```
 
-这里还有一种更简便的方法，也能达到我们需要的效果。
+这里还有一种更简便的方法，也能达到我们需要的效果：
 
 ```js
 function clear(elem) {
