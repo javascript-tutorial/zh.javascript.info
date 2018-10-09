@@ -12,7 +12,7 @@ DOM（document object model 文档对象模型，此文中全部以缩写 DOM �
 
 这里是它的样式：
 
-```html
+```html autorun height="80"
 <style>
 .alert {
   padding: 15px;
@@ -38,14 +38,14 @@ DOM（document object model 文档对象模型，此文中全部以缩写 DOM �
 这两种方法都可以创建 DOM 节点：
 
 `document.createElement(tag)`
-：用给定的标签创建一个新元素：
+: 用给定的标签创建一个新元素：
 
     ```js
     let div = document.createElement('div');
     ```
 
 `document.createTextNode(text)`
-：用给定的文本创建一个**文本节点**
+: 用给定的文本创建一个**文本节点**
 
     ```js
     let textNode = document.createTextNode('Here I am');
@@ -71,7 +71,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 这里是完整代码：
 
-```html
+```html run height="80"
 <style>
 .alert {
   padding: 15px;
@@ -96,11 +96,11 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 这里有一个简短的列表，我们把一个节点插入到父元素中（用 `parentElem` 指代父元素）：
 
 `parentElem.appendChild(node)`
-：将 `node` 作为 `parentElem` 最后一个子元素。
+: 将 `node` 作为 `parentElem` 最后一个子元素。
 
     可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾：
 
-    ```html
+    ```html run height=100
     <ol id="list">
       <li>0</li>
       <li>1</li>
@@ -116,11 +116,11 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
     ```
 
 `parentElem.insertBefore(node, nextSibling)`
-：在 `parentElem` 的 `nextSibling` 插入 `node`。
+: 在 `parentElem` 的 `nextSibling` 插入 `node`。
 
     下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
 
-    ```html
+    ```html run height=100
     <ol id="list">
       <li>0</li>
       <li>1</li>
@@ -164,7 +164,7 @@ This set of methods provides more flexible insertions:
 
 下面例子是使用以上提到的方法在列表项前面或后面插入文本：
 
-```html
+```html autorun
 <ol id="ol">
   <li>0</li>
   <li>1</li>
@@ -207,7 +207,7 @@ after
 
 例如，这里将字符串和一个元素插入到 `div` 前面：
 
-```html
+```html run
 <div id="div"></div>
 <script>
   div.before('<p>Hello</p>', document.createElement('hr'));
@@ -218,7 +218,7 @@ after
 
 所以最后的 HTML 表现为：
 
-```html
+```html run
 *!*
 &lt;p&gt;Hello&lt;/p&gt;
 */!*
@@ -247,7 +247,7 @@ after
 
 例如：
 
-```html
+```html run
 <div id="div"></div>
 <script>
   div.insertAdjacentHTML('beforebegin', '<p>Hello</p>');
@@ -257,7 +257,7 @@ after
 
 ...将会表现为：
 
-```html
+```html run
 <p>Hello</p>
 <div id="div"></div>
 <p>Bye</p>
@@ -280,7 +280,7 @@ after
 
 这里有一个展示一条信息的变种写法：
 
-```html
+```html run
 <style>
 .alert {
   padding: 15px;
@@ -310,7 +310,7 @@ after
 
 一个复制信息的例子：
 
-```html
+```html run height="120"
 <style>
 .alert {
   padding: 15px;
@@ -341,10 +341,10 @@ after
 
 
 `parentElem.removeChild(node)`
-：从  `parentElem` 中移除 `elem`（假设它是元素中的子元素）。
+: 从 `parentElem` 中移除 `elem`（假设它是元素中的子元素）。
 
 `node.remove()`
-：从当前位置移除 `node`。
+: 从当前位置移除 `node`。
 
 能看出第二个方法更加简洁，第一个方法的存在是有其历史原因的。
 
@@ -355,7 +355,7 @@ after
 
 例如，这里有一些嵌套的元素：
 
-```html
+```html run height=50
 <div id="first">First</div>
 <div id="second">Second</div>
 <script>
@@ -367,7 +367,7 @@ after
 
 使信息一秒后消失：
 
-```html
+```html run untrusted
 <style>
 .alert {
   padding: 15px;
@@ -397,7 +397,7 @@ after
 
 语法如下：
 
-```html
+```html run
 <p>Somewhere in the page...</p>
 *!*
 <script>
@@ -419,7 +419,7 @@ after
 
 例如：
 
-```html
+```html run
 <p>After one second the contents of this page will be replaced...</p>
 *!*
 <script>
@@ -474,7 +474,7 @@ after
   - `"beforeend"` —— 将 `html` 插入 `elem` 到结尾的前面位置，
   - `"afterend"` —— 将 `html` 插入 `elem` 到结尾的后面位置。
 
-   `elem.insertAdjacentText` 和 `elem.insertAdjacentElement` 跟 `elem.insertAdjacentHTML` 很相似，只不过他们一个用来插入字符串，一个用来插入元素，但是很少使用这两个方法。
+  `elem.insertAdjacentText` 和 `elem.insertAdjacentElement` 跟 `elem.insertAdjacentHTML` 很相似，只不过他们一个用来插入字符串，一个用来插入元素，但是很少使用这两个方法。
 
 - 在页面加载完成之前添加 HTML 到页面中：
   - `document.write(html)`
