@@ -1,6 +1,6 @@
-# Error in setTimeout
+# setTimeout 中的 error
 
-How do you think, does the `.catch` trigger? Explain your answer?
+你认为 `.catch` 会不会触发？请解释你的回答？
 
 ```js
 new Promise(function(resolve, reject) {
