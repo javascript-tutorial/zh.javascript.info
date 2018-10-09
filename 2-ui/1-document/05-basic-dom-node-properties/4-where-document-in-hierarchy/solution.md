@@ -13,7 +13,7 @@ alert(document.constructor.name); // HTMLDocument
 
 因此 `document` 是 `HTMLDocument` 类的一个实例。
 
-它在等级体系中的地位如何？是的，我们可以浏览说明书，但手动会更快。
+它在等级体系中的地位如何？ 
 
 是的，我们可以浏览说明书，但手动会更快。
 
