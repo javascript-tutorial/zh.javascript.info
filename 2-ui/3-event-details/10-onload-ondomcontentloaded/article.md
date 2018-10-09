@@ -51,14 +51,14 @@ document.addEventListener("DOMContentLoaded", ready);
 
 当浏览器开始加载 HTML 并在文本中遇到 `<script>...</script>` 时，就会停止构建 DOM。它必须立即执行脚本。因此 `DOMContentLoaded` 只有在所有此类脚本被执行后才会发生。
 
-额外的脚本（带有 `src`）也会促使 DOM 构建在加载和执行过程时暂停。因此 `DOMContentLoaded` 也回等待外部脚本。
+额外的脚本（带有 `src`）也会促使 DOM 构建在加载和执行过程时暂停。因此 `DOMContentLoaded` 也会等待外部脚本。
 
-唯一的例外是具有 `async` 和 `defer` 属性的外部脚本。它们告诉浏览器不需要等待脚本，可以继续运行。因此用户可以在脚本完成加载之前就看到页面，这对性能来说是有好处的。
+唯一的例外是具有 `async` 和 `defer` 属性的外部脚本。它们告诉浏览器可以继续解析文档而不必等待脚本解析和执行。因此用户可以在脚本完成加载之前就看到页面，这对性能来说是有好处的。
 
 ```smart header="A word about `async` and `defer`"
 属性 `async`和 `defer` 仅适用于外部脚本。如果没有 `src`，它们就会被忽略。
 
-这两种方法告诉浏览器，它可以继续使用页面，并“在后台”继续加载脚本，然后在它加载完成后执行它。因此脚本不会阻塞 DOM 的构建和页面的渲染。
+这两种方法告诉浏览器，它可以继续解析页面，并“在后台”继续加载脚本，然后在外部脚本加载完成后执行它。因此脚本不会阻塞 DOM 的构建和页面的渲染。
 
 他们之间有两个不同之处。
 
@@ -97,7 +97,7 @@ Firefox、Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填写表单。
 
 因此如果 `DOMContentLoaded` 被长加载脚本延迟，那么自动填写也在等待。你可能在某些站点上（如果你使用浏览器自动填写）—— 登录/密码字段将不会立即自动填写，在页面被完全加载前会出现延迟。这实际上是延迟到 `DOMContentLoaded` 事件。
 
-为外部脚本使用 `async` 和 `defer` 的一个好吃是 —— 它们不会阻塞 `DOMContentLoaded`，而且也不会延迟浏览器的自动填写。
+为外部脚本使用 `async` 和 `defer` 的一个好处是 —— 它们不会阻塞 `DOMContentLoaded`，而且也不会延迟浏览器的自动填写。
 
 ## window.onload [#window-onload]
 
