@@ -170,7 +170,7 @@ elem.innerHTML = 'new content';
 alert(elem.offsetHeight); // <-- 渲染 elem 以获得 offsetHeight 属性值
 [/js]
 
-上例虽未要求重新在屏幕上绘制 `elem` , 但浏览器却不得不启动重新布局，以计算相应高度。
+上例中，浏览器需要重新布局来获取新的高度，但却不需要在屏幕上重绘 `elem`。
 
 有时一些相关节点也会因此被纳入计算分析的范畴，这整个过程称为 *reflow(回流)*, 如脚本运行经常触发回流，则资源开销巨大。
 
