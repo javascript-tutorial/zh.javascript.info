@@ -1,12 +1,12 @@
 # 拖放鼠标事件
 
-拖放是一个很好的界面解决方案。从复制和移动（参考文件管理）到排序（放入购物车），拖动和施放是一种简洁明了的方法。
+拖放是一个很好的界面解决方案。从复制和移动（参考文件管理）到排序（放入购物车），拖放是一种简洁明了的方法。
 
 在现代 HTML 标准中，有一个[拖动事件的部分](https://html.spec.whatwg.org/multipage/interaction.html#dnd)。
 
-这很有趣，以为它们允许轻松地解决一些简单的任务，而且允许处理“外部”文件拖放到浏览器中。因此我们可以在 OS 文件管理中获取文件，并将其拖动到浏览器窗口。然后 JavaScript 获取对其内容的访问权限。
+这很有趣，因为它们允许轻松地解决一些简单的任务，而且允许处理“外部”文件拖放到浏览器中的事件。因此我们可以在 OS 文件管理中获取文件，并将其拖动到浏览器窗口。然后 JavaScript 获取对其内容的访问权限。
 
-但是本地的拖动时间总是有局限性。比如，我们可以通过某个区域来限制拖动。而且我们也可以把它变成 "horizontal" 或 "vertical"。还有其他的拖放任务无法通过使用 API 实现。
+但是本地的拖动事件总是有局限性。比如，我们可以把拖动范围限制在某个区域内。而且我们也可以把它变成 "horizontal" 或 "vertical"。还有其他的拖放任务无法通过使用 API 实现。
 
 在这里，我们将看到如何使用鼠标事件实现拖放。并不难。
 
@@ -14,19 +14,19 @@
 
 拖放基础算法就像这样：
 
-1. 在可拖动元素上捕获 `mousedown`。
+1. 在可拖动元素上捕获 `mousedown` 事件。
 2. 准备要移动的元素（可能创建它的副本或其他任何东西）。
 3. 然后在 `mousemove` 上，通过改变 `left/top` 和 `position:absolute` 来移动它。
-4. 在 `mouseup`（释放按钮）中 —— 执行所有完成相关拖放的动作。
+4. 在 `mouseup`（释放按钮）中 —— 执行所有完成拖放相关的动作。
 
-这些是基础。我们可以继承它，例如，我们可以在可拖动元素上悬停时，高亮显示过的元素（对于可用的拖动）来继承它。
+这些是基础。我们可以对其进行拓展，例如，当鼠标在可拖动元素上悬停时，高亮这个元素。
 
 这是拖放球的算法：
 
 ```js
 ball.onmousedown = function(event) { // (1) 启动进程
 
-  // (2) 准备移动：确保 absolute，以及用 z 下标确保在顶部
+  // (2) 准备移动：确保 absolute，以及用 z-index 确保在顶部
   ball.style.position = 'absolute';
   ball.style.zIndex = 1000;
   // 将它从当前父亲中直接移到 body 中
@@ -46,7 +46,7 @@ ball.onmousedown = function(event) { // (1) 启动进程
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) 用 mousemove 移动球
+  // (3) 在 mousemove 事件中移动球
   document.addEventListener('mousemove', onMouseMove);
 
   // (4) 释放球，移除不需要的处理器
@@ -86,30 +86,30 @@ ball.ondragstart = function() {
 [iframe src="ball2" height=230]
 ```
 
-另一个重要的方面是 —— 我们在 `document` 上跟踪 `mousemove`，而不是 `ball`。第一眼看，鼠标似乎总是在球的上方，我们可以在上面放 `mousemove`。
+另一个重要的方面是 —— 我们在 `document` 上跟踪 `mousemove`，而不是在 `ball` 上。第一眼看，鼠标似乎总是在球的上方，我们可以在上面放 `mousemove`。
 
 正如我们记得的那样，`mousemove` 会经常被触发，但不会针对每个像素都如此。因此在快速移动之后，光标可以从文档中心的某个地方（甚至是窗口外）从球上跳出来。
 
 因此为了捕获它，我们应该监听 `document`。
 
-## Correct positioning
+## 修正定位
 
-在上述例子中，球中是以指针为中心的：
+在上述例子中，球总是以指针为中心的：
 
 ```js
 ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
-不错，但这存在副作用。我们可以在球的任何地方使用 `mousedown` 来开始 drag'n'drop。如果在边缘那么做，那么球就会 "jumps" 到中心。
+不错，但这存在副作用。我们可以在球的任何地方使用 `mousedown` 来开始拖放。如果在边缘那么做，那么球就会突然“跳”到以指针为中心的位置。
 
 如果我们保持元素相对指针的初始位移，情况会更好。
 
-例如，如果我们开始拖动球的边缘，那么光标在拖动时应该保持在边缘上方。
+例如，我们从球的边缘处开始拖动，那么光标在拖动时应该保持在边缘。
 
 ![](ball_shift.png)
 
-1. 当访问者按下按钮（`mousedown`）时 —— 我们可以使用变量 `shiftX/shiftY` 来记住光标到球左上角的距离。我们应该在拖动时确保距离的正确性。
+1. 当访问者按下按钮（`mousedown`）时 —— 我们可以使用变量 `shiftX/shiftY` 来记住光标到球左上角的距离。我们应该在拖动时保持这样的距离。
 
     我们可以减去坐标来获取位移：
 
@@ -178,19 +178,19 @@ In action (inside `<iframe>`):
 [iframe src="ball3" height=230]
 ```
 
-如果我们将球拖动到右下角，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置可以跟踪光标会很流畅。
+如果我们按在球的右下角进行拖动，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置跟随鼠标会很流畅。
 
 ## 检测是否可释放
 
-在之前的示例中，可以被释放到“任何地方”来停留。在实际中，我们通常把一个元素放在另一个元素上。例如，将文件放入文件夹，或者用户放入回收站之类的操作。
+在之前的示例中，球可以停放到“任何地方”。在实际中，我们通常把一个元素放在另一个元素上。例如，将文件放入文件夹，或者用户放入回收站之类的操作。
 
-抽象地，我们取一个 "draggable" 元素，并将其放在 "droppable" 元素上。
+抽象地，我们取一个（可拖放的）"draggable" 元素，并将其放在（可释放的）"droppable" 元素上。
 
 我们需要知道拖放结束时的可释放目标 —— 执行相应的动作，最好是在拖动过程中高亮显示。
 
 这个解决方案很有意思，只是有点麻烦，所以我们在这里提及相关内容。
 
-第一个想法是什么？可能是将 `onmouseover/mouseup` 处理器放在潜在的可释放的元素上，然后检测鼠标指正出现在它们上面的时机。这样我们就知道了我们正在拖放这个元素。
+第一个想法是什么？可能是将 `onmouseover/mouseup` 处理器放在潜在的可释放的元素上，然后检测鼠标指针出现在它们上面的时机。这样我们就知道了我们正在这个元素上进行拖/放操作
 
 但这并不会运行。
 
@@ -213,13 +213,13 @@ In action (inside `<iframe>`):
 
 与一个可以拖动的元素相同。球总是在其他元素之上，因此事件会在其上发生。无论我们在低元素上如何设置处理器，它们都不会起作用。
 
-这就是为什么起初将处理器放在潜在的下降指针中的想法，在实际操作中无效的原因。它们无法运行。
+这就是为什么起初将处理器放在潜在的可释放的元素中的想法，在实际操作中无效的原因。它们无法运行。
 
 那么，改如何做？
 
-有一个叫做 `document.elementFromPoint(clientX, clientY)` 的方法。它会返回给定窗口相对坐标上嵌套最深的元素（如果坐标在窗口之外，则返回 `null`）。
+有一个叫做 `document.elementFromPoint(clientX, clientY)` 的方法。它会根据给定的窗口相对坐标，返回该处嵌套最深的元素（如果坐标在窗口之外，则返回 `null`）。
 
-因此我们可以检测任何情况下的鼠标事件中，指针潜在的下降，就像这样：
+因此我们可以检测任何情况下的鼠标事件中，指针下面的潜在可释放元素，就像这样：
 
 ```js
 // 在鼠标事件处理器中
@@ -231,9 +231,9 @@ ball.hidden = false;
 
 请注意：我们需要在调用 `(*)` 之前隐藏球。否则，我们通常会在这些坐标上有个球，因为它的是在指针下的顶部元素：`elemBelow=ball`。
 
-我们可以使用该代码来检测我们“掠过”内容的时机。当它发生时会进行释放处理。
+在任何时候，我们都可以使用该代码检测我们“掠过”的东西。当它发生时会进行释放处理。
 
-查找“可释放的”元素的 `onMouseMove` 来继承：
+拓展了 `onMouseMove` 方法，用来查找“可释放的”元素的代码：
 
 ```js
 let currentDroppable = null; // 我们正在通过的可释放元素
@@ -252,11 +252,11 @@ function onMouseMove(event) {
   // 潜在的可释放的将被标记为 "droppable" 类（可以是其他逻辑）
   let droppableBelow = elemBelow.closest('.droppable');
 
-  if (currentDroppable != droppableBelow) { // if there are any changes
-    // 我们正在通过或者已经通过
+  if (currentDroppable != droppableBelow) { // 如果有任何改变
+    // 鼠标的进入或者离开状态
     // 注意：它们的值都可能是 null
-    //   currentDroppable=null如果我们不是通过一个可释放的（例如，通过任意空白区域）
-    //   droppableBelow=null 如果在这个事件中，我们不是在通过一个可释放的
+    //   currentDroppable=null如果鼠标不在一个可释放的物体上（例如，通过任意空白区域）
+    //   droppableBelow=null 如果在这个事件中，我们不是在通过一个可释放的物体上
 
     if (currentDroppable) {
       // 处理“已经通过”的逻辑（移除高亮）
@@ -264,7 +264,7 @@ function onMouseMove(event) {
     }
     currentDroppable = droppableBelow;
     if (currentDroppable) {
-      // 处理通过“可释放”的逻辑
+      // 处理“离开”可释放物体的逻辑
       enterDroppable(currentDroppable);
     }
   }
@@ -275,13 +275,13 @@ function onMouseMove(event) {
 
 [codetabs height=250 src="ball4"]
 
-现在在整个过程中，我们在 `currentDroppable` 变量中有了当前 “drop target”，并且可以使用它来高亮显示或任何其他内容。
+现在在整个过程中，我们在 `currentDroppable` 变量中存储了当前 “drop target”，并且可以使用它来高亮显示或任何其他内容。
 
 ## 总结
 
-我们考虑了一种基础的拖放算法。
+我们考虑了一种基础的`拖放`算法。
 
-关键组合：
+关键部分：
 
 1. 事件流：`ball.mousedown` -> `document.mousemove` -> `ball.mouseup`（取消原生 `ondragstart`）。
 2. 在拖拽启动时 —— 记住指针相对于元素的初始位移：shiftX/shiftY` 并在拖动过程保持状态。
@@ -289,10 +289,10 @@ function onMouseMove(event) {
 
 我们可以在这个基础上做很多的工作。
 
-- 在 `mouseup` 上我们可以最终确定丢弃：e can finalize the drop: change data, move elements around.
+- 在 `mouseup` 事件中我们可以完成释放：改变数据，移动元素
 - 我们可以高亮我们涉及的元素。
-- 我们可以限制某一区域或方向的拖动。
-- 我们可以对 `mousedown/up` 使用进行事件委托。一个大范围事件处理器可以检查 `event.target`，它可以管理数百个元素的拖放。
+- 我们可以把拖动范围限制在某个区域内
+- 我们可以对 `mousedown/up` 使用事件委托。一个大范围事件处理器可以检查 `event.target`，它可以管理数百个元素的拖放。
 - 等待。
 
 有一些框架可以在上面构建架构：`DragZone`、`Droppable`、`Draggable` 和其他类。它们中的大多数都做了类似的事情，所以现在应该很容易理解了。或者我们自己滚动，因为你已经了解了如何处理这个过程，它可能比适应其他东西更灵活。
