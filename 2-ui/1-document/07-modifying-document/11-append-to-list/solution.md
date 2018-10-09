@@ -1,7 +1,7 @@
 
-When we need to insert a piece of HTML somewhere, `insertAdjacentHTML` is the best fit.
+当我们需要在 HTML 某处插入元素，`insertAdjacentHTML` 是最好方案。
   
-The solution:
+具体做法：
 
 ```js
 one.insertAdjacentHTML('afterend', '<li>2</li><li>3</li>');

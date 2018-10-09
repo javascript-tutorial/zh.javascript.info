@@ -1,6 +1,6 @@
-First, let's make HTML/CSS.
+首先，使用 HTML/CSS。
 
-Each component of the time would look great in its own `<span>`:
+每个时间组件在`<span>`标签中看起来很棒：
 
 ```html
 <div id="clock">
@@ -8,9 +8,9 @@ Each component of the time would look great in its own `<span>`:
 </div>
 ```
 
-Also we'll need CSS to color them.
+我们还会用 CSS 丰富样式。
 
-The `update` function will refresh the clock, to be called by `setInterval` every second:
+`update` 会刷新时钟，它调用 `setInterval` 每秒刷新一次：
 
 ```js
 function update() {
@@ -32,9 +32,9 @@ function update() {
 }
 ```
 
-In the line `(*)` we every time check the current date. The calls to `setInterval` are not reliable: they may happen with delays.
+在这行 `(*)` 我们每秒检查当前时间。调用 `setInterval` 并不是完全可靠：它有可能发生延迟现象。
 
-The clock-managing functions:
+时钟管理函数：
 
 ```js
 let timerId;
@@ -50,4 +50,4 @@ function clockStop() {
 }
 ```
 
-Please note that the call to `update()` is not only scheduled in `clockStart()`, but immediately run in the line `(*)`. Otherwise the visitor would have to wait till the first execution of `setInterval`. And the clock would be empty till then.
+请留意 `update()`，它不单在 `clockStart()` 被间隔器调用，也会在 `(*)` 立即调用一次。如果不是这样，只有在 `setInterval` 第一次执行周期时，才能看到时钟，在此之前时钟一直都是空的。

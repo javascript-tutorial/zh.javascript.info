@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# Create a list
+# 创建一个列表
 
-Write an interface to create a list from user input.
+编写一个接口，根据用户输入生成一个列表。
 
-For every list item:
+每一个列表项：
 
-1. Ask a user about its content using `prompt`.
-2. Create the `<li>` with it and add it to `<ul>`.
-3. Continue until the user cancels the input (by pressing `key:Esc` or CANCEL in prompt).
+1. 使用 `prompt` 询问用户输入的内容。
+2. 创建 `<li>` 并添加到 `<ul>`。
+3. 重复以上两步，直到用户输入取消指令（按下 `key:Esc` 或者 prompt 的 CANCEL）。
 
-All elements should be created dynamically.
+所有元素应该都是动态创建的。
 
-If a user types HTML-tags, they should be treated like a text.
+如果把用户输入了 HTML 标签，就应该将其视为文本。
 
 [demo src="solution"]
