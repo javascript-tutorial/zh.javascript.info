@@ -2,7 +2,7 @@
 
 “点击劫持” 攻击即允许恶意网页**以用户的名义**点击 “受害站点”。
 
-许多站点都曾以这样的方式被劫持，包括 Twitter、Facebook、Paypal 等等。当然，目前他们都已修复这个问题。
+许多站点都被这样攻击过，包括 Twitter、Facebook、Paypal 等等许多网站。当然，目前他们都已修复这个问题。
 
 ## 原理
 
@@ -53,15 +53,15 @@ iframe { /* 来自受害网站的 iframe */
 例子中的半透明 `<iframe src="facebook.html">` 覆盖在按钮之上。点击按钮实际上点击在 iframe 标签上，但由于 iframe 标签透明，这一动作对用户不可见。
 
 
-因此，若访问者曾登陆 Facebook（“记住我” 开关打开），接着点个 “Like”。Twitter 上是 “Follow” 按钮。
+因此，若访问者曾登陆 Facebook（“记住我” 开关打开），这个动作会使用户在 Facebook 上进行 “Like” 操作。Twitter 上是 “Follow” 操作。
 
 
-下面的例子相同，但 `iframe` 的 `opacity:0` 更符合实际情况：
+下面的例子相同，但 `iframe` 设置为 `opacity:0` 更符合实际情况：
 
 [codetabs src="clickjacking" height=160]
 
 
-只需要在恶意网页的 `<iframe>` 中的链接正上方放置一个按钮就能发起攻击。通常用 CSS 就能实现。
+只需要在恶意网页中的链接正上方放置 `<iframe>`，点击按钮就能发起攻击。通常用 CSS 就能实现。
 
 ```smart header="点击劫持作用于点击事件，而非键盘事件"
 此攻击仅影响鼠标操作。
@@ -136,10 +136,10 @@ window.onbeforeunload = function() {
 ： 始终禁止 frame 中的页面加载。
 
 `SAMEORIGIN`
-： 允许和父页面同一来源的 frame 内页面加载。
+： 允许和父页面同一来源的 frame 进行页面加载。
 
 `ALLOW-FROM domain`
-： 允许和父页面同一给定域的 frame 内页面加载。
+： 允许和父页面同一给定域的 frame 进行页面加载。
 
 例如，Twitter 页面上存在 `X-Frame-Options: SAMEORIGIN`。如下所示：
 
