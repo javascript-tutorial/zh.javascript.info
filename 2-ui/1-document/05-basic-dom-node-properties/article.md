@@ -19,8 +19,8 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 类如下所示：
 
 - [EventTarget](https://dom.spec.whatwg.org/#eventtarget) —— 是根的“抽象”类。该类的对象从未被创建。它作为一个基础，为了让所有 DOM 节点都支持所谓的“事件”，我们会在之后对它进行学习。
-- [Node](http://dom.spec.whatwg.org/#interface-node) —— 也是一个 "abstract" 类，充当 DOM 节点的基础。它提供了树的核心功能：`parentNode`、`nextSibling`、`childNodes` 等（它们都是 getter）。`Node` 类的对象从未被创建。但是一些具体的节点类却继承自它，例如：`Text` 表示文本节点，`Element` 用于元素节点，以及更多外来的类（如注释节点 `Comment`）。
-- [Element](http://dom.spec.whatwg.org/#interface-element) —— 是 DOM 元素的基类。它提供了元素级的导航，比如 `nextElementSibling`、`children` 以及像 `getElementsByTagName`、`querySelector` 这样的搜索方法。浏览器中不仅有 HTML，还会有 XML 和SVG 文档。`Element` 类充当更具体类的基类：`SVGElement`、`XMLElement` 和 `HTMLElement`。
+- [Node](http://dom.spec.whatwg.org/#interface-node) —— 也是一个“抽象”类，充当 DOM 节点的基础。它提供了树的核心功能：`parentNode`、`nextSibling`、`childNodes` 等（它们都是 getter）。`Node` 类的对象从未被创建。但是一些具体的节点类却继承自它，例如：`Text` 表示文本节点，`Element` 用于元素节点，以及更多外来的类（如注释节点 `Comment`）。
+- [Element](http://dom.spec.whatwg.org/#interface-element) —— 是 DOM 元素的基类。它提供了元素级的导航，比如 `nextElementSibling`、`children` 以及像 `getElementsByTagName`、`querySelector` 这样的搜索方法。浏览器中不仅有 HTML，还会有 XML 和SVG 文档。`Element` 类充当以下更具体类的基类：`SVGElement`、`XMLElement` 和 `HTMLElement`。
 - [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) —— 最终会成为所有 HTML 元素的基类。由各种 HTML 元素继承：
     - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) ——  `<input>` 元素的类，
     - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) —— `<body>` 元素的类，
@@ -31,14 +31,14 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 
 例如，我们考虑一下 `<input>` 元素的 DOM 对象。它属于 [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) 类。它将属性和方法作为以下内容的叠加：
 
-- `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承自其他属性。
+- `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承.....
 - `HTMLElement` —— 它提供了通用 HTML 元素方法（getter 和setter），而且可以继承自其它属性。
 - `Element` —— 提供泛型元素方法，而且可以继承自其它属性。
 - `Node` —— 提供通用 DOM 节点属性，而且可以继承自其它属性。
 - `EventTarget` —— 为事件（包括事件本身）提供支持，
 - 最后，它继承了 `Object`，因为像 `hasOwnProperty` 的“纯对象”方法也是可用的。
 
-要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类构造器， `constructor.name` 就是它的名称：
+要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类的构造函数， `constructor.name` 就是它的名称：
 
 ```js run
 alert( document.body.constructor.name ); // HTMLBodyElement
@@ -62,7 +62,7 @@ alert( document.body instanceof EventTarget ); // true
 
 正如我们所看到的，DOM 节点是规则的 JavaScript 对象。它们使用基于原型的类来继承。
 
-在浏览器中用 `console.dir(elem)`输出元素来查看也是非常容易的。在控制台中，你可以看到 `HTMLElement.prototype`和 `Element.prototype` 等。
+在浏览器中用 `console.dir(elem)` 输出元素来查看也是非常容易的。在控制台中，你可以看到 `HTMLElement.prototype` 和 `Element.prototype` 等。
 
 ```smart header="`console.dir(elem)` versus `console.log(elem)`"
 大多数浏览器在其开发者工具中都支持这两个命令：`console.log` 和 `console.dir`。它们向控制台输出参数。对于 JavaScript 对象，这些命令也是如此。
@@ -70,7 +70,7 @@ alert( document.body instanceof EventTarget ); // true
 但对于 DOM 元素却并非如此：
 
 - `console.log(elem)` 显示 DOM 元素树。
-- `console.dir(elem)` 将元素视为 DOM 对象，以便更好地发现它的属性。
+- `console.dir(elem)` 将元素视为 DOM 对象，以便更好地探究它的属性。
 
 尝试 `document.body`。
 ```
@@ -134,7 +134,7 @@ interface HTMLInputElement: HTMLElement {
   // 让我们检查一下它是什么？
   alert(elem.nodeType); // 1 => element
 
-  // 第一个孩子是
+  // 第一个子节点是
   alert(elem.firstChild.nodeType); // 3 => text
 
   // 对于文档对象，类型是 9
