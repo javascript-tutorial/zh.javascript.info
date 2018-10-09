@@ -6,12 +6,12 @@
 
 所以我们从在网页上添加脚本开始。对于其他环境例如Node.JS，还有其他方式去运行它。
 
-[TODO 延迟移动/跳转到第二部分？]
+[TODO 延迟/异步 转到第二部分？]
 
 ## "script" 标签
 
 [TODO 需要这个? 并且特殊（也需要它？）]
-```smart header="What if I want to move faster?"
+```smart header="如果我希望进度更快点呢？"
 如果你已经使用JavaScript开发过或者对其他语言很有经验，你可以跳过细节解释并跳到<info:javascript-specials>，在那里你可以找到重要特征的本质。
 
 如果你有足够的时间希望深入学习，那么请继续看：
