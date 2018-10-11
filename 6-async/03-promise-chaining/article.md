@@ -3,7 +3,7 @@
 
 我们回顾一下 <info:callbacks> 章节提及的问题。
 
-- 假如我们有一系列异步任务会被依次完成。例如，加载脚本。
+- 假如我们有一系列异步任务会被依次完成。例如：加载脚本。
 - 如何编写合适的代码？
 
 Promises 提供了几种方案来解决这个问题。
@@ -96,9 +96,9 @@ promise.then(function(result) {
 
 ![](promise-then-many.png)
 
-在同一个 promise 上的所有 `.then` 会得到相同的 result —— 该 promise 的 result。所以，以上代码中所有 `alert` 会显示相同的内容：`1`。它们之间没有 result 的传递。
+在同一个 promise 上的所有 `.then` 会得到相同的结果 —— 该 promise 的 result。所以，以上代码中所有 `alert` 会显示相同的内容：`1`。它们之间没有 result 的传递。
 
-实际上我们极少遇到一个 promise 需要多处理程序。更经常使用链式调用。
+实际上我们极少遇到一个 promise 需要多处理程序，而是更经常地使用链式调用。
 
 ## 返回 promises
 
@@ -166,7 +166,7 @@ loadScript("/article/promise-chaining/one.js")
 
 这里每个 `loadScript` 调用返回一个 promise，并且在它 resolve 时运行下一个 `.then`。 然后它开始加载下一个脚本。所以脚本是依次被加载的。
 
-我们可以在链中添加更多的异步动作。请注意代码仍然 “扁平”，它向下增长，而不是向右。没有“没有死亡金字塔”的迹象。
+我们可以在链中添加更多的异步动作。请注意代码仍然 “扁平”，它向下增长，而不是向右。没有“死亡金字塔”的迹象。
 
 请注意理论上也可以在每一个 promise 后直接写 `.then`，而不是返回它们，就像这样：
 
@@ -213,7 +213,7 @@ new Promise(resolve => resolve(1))
   .then(result => {
     return new Thenable(result); // (*)
   })
-  .then(alert); // 1000ms 后显示 2
+  .then(alert); // 1000 ms 后显示 2
 ```
 
 JavaScript 在 `(*)` 行检查 `.then` 处理程序返回的对象：如果它有一个名为 `then` 的可调用方法，那么它会调用该方法并提供原生函数 `resolve`，`reject 作为参数（类似于 executor）并在它被调用前一直等待。上面的例子中 `resolve(2)` 1 秒后被调用 `(**)`。然后 result 会延链向下传递。
@@ -224,7 +224,7 @@ JavaScript 在 `(*)` 行检查 `.then` 处理程序返回的对象：如果它�
 
 ## 更复杂的示例：fetch
 
-在前端编程中 promise 经常被用来网络请求。所以让我们再看一个关于这个的示例。
+在前端编程中，promise 经常被用来网络请求，就让我们再看一个关于这点展开的示例。
 
 我们将使用 [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) 方法从远程服务器加载用户信息。该方法十分复杂，它有很多可选参数，但是基本用法十分简单：
 
@@ -253,7 +253,7 @@ fetch('/article/promise-chaining/user.json')
 
 其实还有一个方法， `response.json()` 会读取远程数据并把它解析成 JSON。我们的示例中用这个方法要更方便，所以让我们替换成此方法。
 
-为了简洁我们也使用箭头函数：
+为了简洁，我们也使用箭头函数：
 
 ```js run
 // 同上，但是使用 response.json() 把远程内容解析为 JSON
@@ -286,9 +286,9 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-这段代码可以工作，具体细节请看注释，不过它是有良好的自我描述。但是，在其中有一个潜在的问题，一个新手使用 promise 的典型问题。
+这段代码可以工作，具体细节请看注释，它有良好的自我描述。但是，有一个潜在的问题，一个新手使用 promise 的典型问题。
 
-请看 `(*)` 行：我们如何能在头像结束显示并在移除**之后**做点什么？例如，我们想显示一个可以编辑用户或者别的什么的表单。就目前而言是做不到的。
+请看 `(*)` 行：我们如何能在头像结束显示并在移除**之后**做点什么？例如，我们想显示一个可以编辑用户，或者别的表单。就目前而言是做不到的。
 
 为了使链可扩展，我们需要在头像结束显示时返回一个 resolved 状态的 promise。
 
@@ -318,11 +318,11 @@ fetch('/article/promise-chaining/user.json')
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-现在在 `setTimeout` 后运行 `img.remove()`，然后调用 `resolve(githubUser)`，这样链中的控制流程走到下一个 `.then` 并传入用户数据。
+现在，在 `setTimeout` 后运行 `img.remove()`，然后调用 `resolve(githubUser)`，这样链中的控制流程走到下一个 `.then` 并传入用户数据。
 
-通常一个异步动作总是需要返回一个 promise。
+作为一个规律，一个异步动作应该永远返回一个 promise。
 
-这就让规划下一步动作成为可能。虽然现在我们没打算扩展链，不过我们可能在后面需要它。
+这让规划下一步动作成为可能。虽然现在我们没打算扩展链，我们可能在日后需要它。
 
 最终，我们可以把代码分割成几个可复用的函数：
 
@@ -375,7 +375,7 @@ fetch('https://no-such-server.blabla') // rejects
   .catch(err => alert(err)) // TypeError: failed to fetch (the text may vary)
 ```
 
-或者是，服务器的一切都很好，但响应不是有效的 JSON：
+或者，服务器的一切都很好，但响应不是有效的 JSON：
 
 ```js run
 fetch('/') // fetch 现在运行良好，服务器成功响应
@@ -483,7 +483,7 @@ new Promise(function(resolve, reject) {
 }).then(() => alert("Next successful handler runs"));
 ```
 
-在这里，`.catch` 块正常结束。所以会调用下一个成功处理程序。或者它可以返回一些东西，这和之前的流程相同。
+在这里，`.catch` 块正常结束。然后调用下一个成功处理程序。或者它可以返回一些东西，这和之前的流程相同。
 
 ……在这里，`.catch` 块分析错误并再次抛出：
 

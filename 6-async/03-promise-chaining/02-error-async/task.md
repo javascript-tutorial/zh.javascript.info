@@ -1,6 +1,6 @@
-# setTimeout 中的 error
+# setTimeout 中的错误
 
-你认为 `.catch` 会不会触发？请解释你的回答？
+你认为 `.catch` 会不会触发？请解释一下？
 
 ```js
 new Promise(function(resolve, reject) {
