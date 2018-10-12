@@ -17,7 +17,7 @@ alert(document.constructor.name); // HTMLDocument
 
 是的，我们可以浏览说明书，但手动会更快。
 
-我们通过 `__proto__` 来遍历原型链中的方法。.
+我们通过 `__proto__` 来遍历原型链中的方法。
 
 正如我们所知道的，类的方法在构造函数的 `prototype` 中。例如 `HTMLDocument.prototype` 有用于文档的方法。
 
