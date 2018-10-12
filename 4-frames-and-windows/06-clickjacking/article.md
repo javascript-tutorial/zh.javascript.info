@@ -2,7 +2,7 @@
 
 “点击劫持” 攻击即允许恶意网页**以用户的名义**点击 “受害站点”。
 
-许多站点都被这样攻击过，包括 Twitter、Facebook、Paypal 等等许多网站。当然，目前他们都已修复这个问题。
+许多站点都被这样攻击过，包括 Twitter、Facebook、Paypal 等等许多网站。当然，目前它们都已修复这个问题。
 
 ## 原理
 
@@ -10,7 +10,7 @@
 
 以下以 Facebook 为例解释点击劫持是如何运作的：
 
-1. 访问者被幽灵网页吸引。此处略过如何被吸引的。
+1. 访问者被恶意网页吸引。此处略过如何被吸引的。
 2. 页面上存在一个看起来无害的链接（比如：“马上有钱” 或者 “点我，超好玩！”）。
 3. 恶意网页在该链接之上放置一个透明 `<iframe>` 标签，其中 `src` 指向 facebook.com，如此一来，“点赞” 按钮恰好在链接上面。通常用 `z-index` 实现。
 4. 如果用户试图点击该链接，实际上是点到了 “点赞” 按钮上。
@@ -75,7 +75,7 @@ iframe { /* 来自受害网站的 iframe */
 
 ## 传统防御（弱👎）
 
-最古老的防御是一段禁止在 frame 中打开网页的 JavaScript 代码（所谓的 “framebusting”）。
+最古老的防御是一段禁止在非顶层页面中打开网页的 JavaScript 代码（所谓的 “framebusting”）。
 
 如下所示：
 
@@ -111,9 +111,9 @@ window.onbeforeunload = function() {
 
 ### 沙箱属性
 
-`sandbox` 属性可以限制容器。一个沙箱化的 iframe 不能变更 `top.location`。
+一个受 `sandbox` 属性限制的对象是导航。沙箱化的 iframe 不能变更 `top.location`。
 
-因此可以添加带有 `sandbox="allow-scripts allow-forms"` 的 iframe 标签。从而放开限制，允许脚本和表单执行。但 `allow-top-navigation` 禁止了 `top.location` 的变更。
+但可以添加带有 `sandbox="allow-scripts allow-forms"` 的 iframe 标签。从而放开限制，允许脚本和表单在 iframe 中执行。但 `allow-top-navigation` 禁止了 `top.location` 的变更。
 
 代码如下：
 
@@ -127,9 +127,9 @@ window.onbeforeunload = function() {
 
 服务端 header 字段 `X-Frame-Options` 能够允许或禁止 frame 内页面的显示。
 
-这个 header 由 **服务端** 发送：若 `<meta>` 标签里有该字段则浏览器会忽略此字段。即，`<meta http-equiv="X-Frame-Options"...>` 不生效。
+这个 header 必须由 **服务端** 发送：若浏览器发现 `<meta>` 标签里有该字段，则会忽略此字段。即，`<meta http-equiv="X-Frame-Options"...>` 不生效。
 
-该 header 头有三个值：
+该 header 有三个值：
 
 
 `DENY`
@@ -141,7 +141,7 @@ window.onbeforeunload = function() {
 `ALLOW-FROM domain`
 ： 允许和父页面同一给定域的 frame 进行页面加载。
 
-例如，Twitter 页面上存在 `X-Frame-Options: SAMEORIGIN`。如下所示：
+例如，Twitter 使用的是 `X-Frame-Options: SAMEORIGIN`。如下所示：
 
 ```html
 <iframe src="https://twitter.com"></iframe>
@@ -155,7 +155,7 @@ window.onbeforeunload = function() {
 
 `X-Frame-Options` 存在副作用。它无差别地禁止合法站点在 frame 中显示我们的网页。
 
-所以还有其他措施... 例如，把设置了 `height: 100%; width: 100%;` 的 `<div>` “覆盖” 在页面上，这样就能监听所有的点击事件。若 `window == top`，则此 `<div>` 应该隐藏起来，否则我们就无需防御措施了。
+所以还有其他措施...... 例如，把设置了 `height: 100%; width: 100%;` 的 `<div>` “覆盖” 在页面上，这样就能监听所有的点击事件。在 `window == top` 或无需防御的情况下，此 `<div>` 则应该隐藏起来。
 
 代码示例如下：
 
