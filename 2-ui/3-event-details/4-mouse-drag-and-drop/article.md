@@ -1,42 +1,42 @@
-# Drag'n'Drop with mouse events
+# 拖放鼠标事件
 
-Drag'n'Drop is a great interface solution. Taking something, dragging and dropping is a clear and simple way to do many things, from copying and moving (see file managers) to ordering (drop into cart).
+拖放是一个很好的界面解决方案。从复制和移动（参考文件管理）到排序（放入购物车），拖放是一种简洁明了的方法。
 
-In the modern HTML standard there's a [section about Drag Events](https://html.spec.whatwg.org/multipage/interaction.html#dnd).
+在现代 HTML 标准中，有一个[拖动事件的部分](https://html.spec.whatwg.org/multipage/interaction.html#dnd)。
 
-They are interesting, because they allow to solve simple tasks easily, and also allow to handle drag'n'drop of "external" files into the browser. So we can take a file in the OS file-manager and drop it into the browser window. Then JavaScript gains access to its contents.
+这很有趣，因为它们允许轻松地解决一些简单的任务，而且允许处理“外部”文件拖放到浏览器中的事件。因此我们可以在 OS 文件管理中获取文件，并将其拖动到浏览器窗口。然后 JavaScript 获取对其内容的访问权限。
 
-But native Drag Events also have limitations. For instance, we can limit dragging by a certain area. Also we can't make it "horizontal" or "vertical" only. There are other drag'n'drop tasks that can't be implemented using that API.
+但是本地的拖动事件总是有局限性。比如，我们可以把拖动范围限制在某个区域内。而且我们也可以把它变成 "horizontal" 或 "vertical"。还有其他的拖放任务无法通过使用 API 实现。
 
-So here we'll see how to implement Drag'n'Drop using mouse events. Not that hard either.
+在这里，我们将看到如何使用鼠标事件实现拖放。并不难。
 
-## Drag'n'Drop algorithm
+## 拖放算法
 
-The basic Drag'n'Drop algorithm looks like this:
+拖放基础算法就像这样：
 
-1. Catch `mousedown` on a draggable element.
-2. Prepare the element to moving (maybe create a copy of it or whatever).
-3. Then on `mousemove` move it by changing `left/top` and `position:absolute`.
-4. On `mouseup` (button release) -- perform all actions related to a finished Drag'n'Drop.
+1. 在可拖动元素上捕获 `mousedown` 事件。
+2. 准备要移动的元素（可能创建它的副本或其他任何东西）。
+3. 然后在 `mousemove` 上，通过改变 `left/top` 和 `position:absolute` 来移动它。
+4. 在 `mouseup`（释放按钮）中 —— 执行所有完成拖放相关的动作。
 
-These are the basics. We can extend it, for instance, by highlighting droppable (available for the drop) elements when hovering over them.
+这些是基础。我们可以对其进行拓展，例如，当鼠标在可拖动元素上悬停时，高亮这个元素。
 
-Here's the algorithm for drag'n'drop of a ball:
+这是拖放球的算法：
 
 ```js
-ball.onmousedown = function(event) { // (1) start the process
+ball.onmousedown = function(event) { // (1) 启动进程
 
-  // (2) prepare to moving: make absolute and on top by z-index
+  // (2) 准备移动：确保 absolute，以及用 z-index 确保在顶部
   ball.style.position = 'absolute';
   ball.style.zIndex = 1000;
-  // move it out of any current parents directly into body
-  // to make it positioned relative to the body
+  // 将它从当前父亲中直接移到 body 中
+  // 确保它的位置是相对于 body 的
   document.body.append(ball);  
-  // ...and put that absolutely positioned ball under the cursor
+  // ...将绝对定位的球放在光标下
 
   moveAt(event.pageX, event.pageY);
 
-  // centers the ball at (pageX, pageY) coordinates
+  // 球中心在 (pageX, pageY) 坐标上
   function moveAt(pageX, pageY) {
     ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
     ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
@@ -46,10 +46,10 @@ ball.onmousedown = function(event) { // (1) start the process
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) move the ball on mousemove
+  // (3) 在 mousemove 事件中移动球
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) drop the ball, remove unneeded handlers
+  // (4) 释放球，移除不需要的处理器
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -58,19 +58,19 @@ ball.onmousedown = function(event) { // (1) start the process
 };
 ```
 
-If we run the code, we can notice something strange. On the beginning of the drag'n'drop, the ball "forks": we start to dragging it's "clone".
+如果我们运行代码，我们会发现一些奇怪的事情。在拖放的一开始，球会 "forks"：我们开始拖动它的 "clone"。
 
 ```online
-Here's an example in action:
+这是一个动作实例：
 
 [iframe src="ball" height=230]
 
-Try to drag'n'drop the mouse and you'll see the strange behavior.
+尝试拖放鼠标，你会看到奇怪的行为。
 ```
 
-That's because the browser has its own Drag'n'Drop for images and some other elements that runs automatically and conflicts with ours.
+这是因为浏览器有自己拖放图像功能和其他一些自动运行可能与我们的产生冲突的元素。
 
-To disable it:
+如果禁用：
 
 ```js
 ball.ondragstart = function() {
@@ -78,40 +78,40 @@ ball.ondragstart = function() {
 };
 ```
 
-Now everything will be all right.
+现在一切都会好起来的。
 
 ```online
-In action:
+动作：
 
 [iframe src="ball2" height=230]
 ```
 
-Another important aspect -- we track `mousemove` on `document`, not on `ball`. From the first sight it may seem that the mouse is always over the ball, and we can put `mousemove` on it.
+另一个重要的方面是 —— 我们在 `document` 上跟踪 `mousemove`，而不是在 `ball` 上。第一眼看，鼠标似乎总是在球的上方，我们可以在上面放 `mousemove`。
 
-But as we remember, `mousemove` triggers often, but not for every pixel. So after swift move the cursor can jump from the ball somewhere in the middle of document (or even outside of the window).
+正如我们记得的那样，`mousemove` 会经常被触发，但不会针对每个像素都如此。因此在快速移动之后，光标可以从文档中心的某个地方（甚至是窗口外）从球上跳出来。
 
-So we should listen on `document` to catch it.
+因此为了捕获它，我们应该监听 `document`。
 
-## Correct positioning
+## 修正定位
 
-In the examples above the ball is always centered under the pointer:
+在上述例子中，球总是以指针为中心的：
 
 ```js
 ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
-Not bad, but there's a side-effect. To initiate the drag'n'drop can we `mousedown` anywhere on the ball. If do it at the edge, then the ball suddenly "jumps" to become centered.
+不错，但这存在副作用。我们可以在球的任何地方使用 `mousedown` 来开始拖放。如果在边缘那么做，那么球就会突然“跳”到以指针为中心的位置。
 
-It would be better if we keep the initial shift of the element relative to the pointer.
+如果我们保持元素相对指针的初始位移，情况会更好。
 
-For instance, if we start dragging by the edge of the ball, then the cursor should remain over the edge while dragging.
+例如，我们从球的边缘处开始拖动，那么光标在拖动时应该保持在边缘。
 
 ![](ball_shift.png)
 
-1. When a visitor presses the button (`mousedown`) -- we can remember the distance from the cursor to the left-upper corner of the ball in variables `shiftX/shiftY`. We should keep that distance while dragging.
+1. 当访问者按下按钮（`mousedown`）时 —— 我们可以使用变量 `shiftX/shiftY` 来记住光标到球左上角的距离。我们应该在拖动时保持这样的距离。
 
-    To get these shifts we can substract the coordinates:
+    我们可以减去坐标来获取位移：
 
     ```js
     // onmousedown
@@ -119,9 +119,9 @@ For instance, if we start dragging by the edge of the ball, then the cursor shou
     let shiftY = event.clientY - ball.getBoundingClientRect().top;
     ```
 
-    Please note that there's no method to get document-relative coordinates in JavaScript, so we use window-relative coordinates here.
+    请注意，在 JavaScript 中没有获取文档坐标的方法，因此我们在这里使用相对于窗口的坐标。
 
-2. Then while dragging we position the ball on the same shift relative to the pointer, like this:
+2. 然后，在拖动球时，我们将球放置在相对于指针移动的位置上，就像这样：
 
     ```js
     // onmousemove
@@ -130,7 +130,7 @@ For instance, if we start dragging by the edge of the ball, then the cursor shou
     ball.style.top = event.pageY - *!*shiftY*/!* + 'px';
     ```
 
-The final code with better positioning:
+具有更好定位的最终代码：
 
 ```js
 ball.onmousedown = function(event) {
@@ -146,7 +146,7 @@ ball.onmousedown = function(event) {
 
   moveAt(event.pageX, event.pageY);
 
-  // centers the ball at (pageX, pageY) coordinates
+  // 球中心在 (pageX, pageY) 坐标上
   function moveAt(pageX, pageY) {
     ball.style.left = pageX - *!*shiftX*/!* + 'px';
     ball.style.top = pageY - *!*shiftY*/!* + 'px';
@@ -156,10 +156,10 @@ ball.onmousedown = function(event) {
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) move the ball on mousemove
+  // (3) 用 mousemove 移动球
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) drop the ball, remove unneeded handlers
+  // (4) 释放球，移除不需要的处理器
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -178,25 +178,25 @@ In action (inside `<iframe>`):
 [iframe src="ball3" height=230]
 ```
 
-The difference is especially noticeable if we drag the ball by it's right-bottom corner. In the previous example the ball "jumps" under the pointer. Now it fluently follows the cursor from the current position.
+如果我们按在球的右下角进行拖动，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置跟随鼠标会很流畅。
 
-## Detecting droppables
+## 检测是否可释放
 
-In previous examples the ball could be dropped just "anywhere" to stay. In real-life we usually take one element and drop it onto another. For instance, a file into a folder, or a user into a trash can or whatever.
+在之前的示例中，球可以停放到“任何地方”。在实际中，我们通常把一个元素放在另一个元素上。例如，将文件放入文件夹，或者用户放入回收站之类的操作。
 
-Abstractly, we take a "draggable" element and drop it onto "droppable" element.
+抽象地，我们取一个（可拖放的）"draggable" 元素，并将其放在（可释放的）"droppable" 元素上。
 
-We need to know the target droppable at the end of Drag'n'Drop -- to do the corresponding action, and, preferably, during the dragging process, to highlight it.
+我们需要知道拖放结束时的可释放目标 —— 执行相应的动作，最好是在拖动过程中高亮显示。
 
-The solution is kind-of interesting and just a little bit tricky, so let's cover it here.
+这个解决方案很有意思，只是有点麻烦，所以我们在这里提及相关内容。
 
-What's the first idea? Probably to put `onmouseover/mouseup` handlers on potential droppables and detect when the mouse pointer appears over them. And then we know that we are dragging/dropping on that element.
+第一个想法是什么？可能是将 `onmouseover/mouseup` 处理器放在潜在的可释放的元素上，然后检测鼠标指针出现在它们上面的时机。这样我们就知道了我们正在这个元素上进行拖/放操作
 
-But that doesn't work.
+但这并不会运行。
 
-The problem is that, while we're dragging, the draggable element is always above other elements. And mouse events only happen on the top element, not on those below it.
+问题是当我们拖动时，可拖动元素总是在其他元素之上。而且鼠标事件总是发生在顶部元素上，而不会在元素之下的其他元素上发生。
 
-For instance, below are two `<div>` elements, red on top of blue. There's no way to catch an event on the blue one, because the red is on top:
+比如，下面有两个 `<div>` 元素，红色在蓝色顶部。没有方法可以在蓝色的事件中捕获到一个事件，因为红色在顶部：
 
 ```html run autorun height=60
 <style>
@@ -211,32 +211,32 @@ For instance, below are two `<div>` elements, red on top of blue. There's no way
 <div style="background:red" onmouseover="alert('over red!')"></div>
 ```
 
-The same with a draggable element. The ball in always on top over other elements, so events happen on it. Whatever handlers we set on lower elements, they won't work.
+与一个可以拖动的元素相同。球总是在其他元素之上，因此事件会在其上发生。无论我们在低元素上如何设置处理器，它们都不会起作用。
 
-That's why the initial idea to put handlers on potential droppables doesn't work in practice. They won't run.
+这就是为什么起初将处理器放在潜在的可释放的元素中的想法，在实际操作中无效的原因。它们无法运行。
 
-So, what to do?
+那么，改如何做？
 
-There's a method called `document.elementFromPoint(clientX, clientY)`. It returns the most nested element on given window-relative coordinates (or `null` if coordinates are out of the window).
+有一个叫做 `document.elementFromPoint(clientX, clientY)` 的方法。它会根据给定的窗口相对坐标，返回该处嵌套最深的元素（如果坐标在窗口之外，则返回 `null`）。
 
-So in any of our mouse event handlers we can detect the potential droppable under the pointer like this:
+因此我们可以检测任何情况下的鼠标事件中，指针下面的潜在可释放元素，就像这样：
 
 ```js
-// in a mouse event handler
+// 在鼠标事件处理器中
 ball.hidden = true; // (*)
 let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
 ball.hidden = false;
-// elemBelow is the element below the ball. If it's droppable, we can handle it.
+// elemBelow 是球下面的元素。如果它是可释放的，那么我们就可以对它进行处理。
 ```
 
-Please note: we need to hide the ball before the call `(*)`. Otherwise we'll usually have a ball on these coordinates, as it's the top element under the pointer: `elemBelow=ball`.
+请注意：我们需要在调用 `(*)` 之前隐藏球。否则，我们通常会在这些坐标上有个球，因为它的是在指针下的顶部元素：`elemBelow=ball`。
 
-We can use that code to check what we're "flying over" at any time. And handle the drop when it happens.
+在任何时候，我们都可以使用该代码检测我们“掠过”的东西。当它发生时会进行释放处理。
 
-An extended code of `onMouseMove` to find "droppable" elements:
+拓展了 `onMouseMove` 方法，用来查找“可释放的”元素的代码：
 
 ```js
-let currentDroppable = null; // potential droppable that we're flying over right now
+let currentDroppable = null; // 我们正在通过的可释放元素
 
 function onMouseMove(event) {
   moveAt(event.pageX, event.pageY);
@@ -245,54 +245,54 @@ function onMouseMove(event) {
   let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
   ball.hidden = false;
 
-  // mousemove events may trigger out of the window (when the ball is dragged off-screen)
-  // if clientX/clientY are out of the window, then elementfromPoint returns null
+  // mousemove 事件可能会在窗口外被触发（当球被拖出屏幕时）
+  // 如果 clientX/clientY 在窗口外，那么 elementfromPoint 会返回 null
   if (!elemBelow) return;
 
-  // potential droppables are labeled with the class "droppable" (can be other logic)
+  // 潜在的可释放的将被标记为 "droppable" 类（可以是其他逻辑）
   let droppableBelow = elemBelow.closest('.droppable');
 
-  if (currentDroppable != droppableBelow) { // if there are any changes
-    // we're flying in or out...
-    // note: both values can be null
-    //   currentDroppable=null if we were not over a droppable (e.g over an empty space)
-    //   droppableBelow=null if we're not over a droppable now, during this event
+  if (currentDroppable != droppableBelow) { // 如果有任何改变
+    // 鼠标的进入或者离开状态
+    // 注意：它们的值都可能是 null
+    // 如果鼠标不在一个可释放的物体上（例如，通过任意空白区域），那么 currentDroppable=null
+    // droppableBelow=null 如果在这个事件中，我们不是在通过一个可释放的物体上
 
     if (currentDroppable) {
-      // the logic to process "flying out" of the droppable (remove highlight)
+      // 处理“离开”可释放物体的逻辑
       leaveDroppable(currentDroppable);
     }
     currentDroppable = droppableBelow;
     if (currentDroppable) {
-      // the logic to process "flying in" of the droppable
+      // 处理“离开”可释放物体的逻辑
       enterDroppable(currentDroppable);
     }
   }
 }
 ```
 
-In the example below when the ball is dragged over the soccer gate, the gate is highlighted.
+在下面的示例中，当球被拖过足球门时，门会被高亮显示。
 
 [codetabs height=250 src="ball4"]
 
-Now we have the current "drop target" in the variable `currentDroppable` during the whole process and can use it to highlight or any other stuff.
+现在在整个过程中，我们在 `currentDroppable` 变量中存储了当前 “drop target”，并且可以使用它来高亮显示或任何其他内容。
 
-## Summary
+## 总结
 
-We considered a basic `Drag'n'Drop` algorithm.
+我们考虑了一种基础的`拖放`算法。
 
-The key components:
+关键部分：
 
-1. Events flow: `ball.mousedown` -> `document.mousemove` -> `ball.mouseup` (cancel native `ondragstart`).
-2. At the drag start -- remember the initial shift of the pointer relative to the element: `shiftX/shiftY` and keep it during the dragging.
-3. Detect droppable elements under the pointer using `document.elementFromPoint`.
+1. 事件流：`ball.mousedown` -> `document.mousemove` -> `ball.mouseup`（取消原生 `ondragstart`）。
+2. 在拖拽启动时 —— 记住指针相对于元素的初始位移：shiftX/shiftY` 并在拖动过程保持状态。
+3. 使用 `document.elementFromPoint` 检测指针下可放置的元素。
 
-We can lay a lot on this foundation.
+我们可以在这个基础上做很多的工作。
 
-- On `mouseup` we can finalize the drop: change data, move elements around.
-- We can highlight the elements we're flying over.
-- We can limit dragging by a certain area or direction.
-- We can use event delegation for `mousedown/up`. A large-area event handler that checks  `event.target` can manage Drag'n'Drop for hundreds of elements.
-- And so on.
+- 在 `mouseup` 事件中我们可以完成释放：改变数据，移动元素
+- 我们可以高亮我们涉及的元素。
+- 我们可以把拖动范围限制在某个区域内
+- 我们可以对 `mousedown/up` 使用事件委托。一个大范围事件处理器可以检查 `event.target`，它可以管理数百个元素的拖放。
+- 等等。
 
-There are frameworks that build architecture over it: `DragZone`, `Droppable`, `Draggable` and other classes. Most of them do the similar stuff to described above, so it should be easy to understand them now. Or roll our own, because you already know how to handle the process, and it may be more flexible than to adapt something else.
+有一些已经构建好架构的框架：`DragZone`、`Droppable`、`Draggable` 和其他类。它们中的大多数都做了类似的事情，所以现在应该很容易理解了。或者我们自己滚动，因为你已经了解了如何处理这个过程，它可能比适应其他东西更灵活。
