@@ -8,7 +8,7 @@ promise
   .catch(f2);
 ```
 
-……而这里不是：
+...而这里不是：
 
 ```js run
 promise
