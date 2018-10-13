@@ -6,6 +6,6 @@ importance: 5
 
 当我们点击的时候，将 JavaScript 添加到 `button` 中，让 `<div id="text">` 消失。
 
-案例：
+示例：
 
 [iframe border=1 src="solution" height=80]
