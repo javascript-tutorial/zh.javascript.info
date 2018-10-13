@@ -255,11 +255,11 @@ function onMouseMove(event) {
   if (currentDroppable != droppableBelow) { // 如果有任何改变
     // 鼠标的进入或者离开状态
     // 注意：它们的值都可能是 null
-    //   currentDroppable=null如果鼠标不在一个可释放的物体上（例如，通过任意空白区域）
-    //   droppableBelow=null 如果在这个事件中，我们不是在通过一个可释放的物体上
+    // 如果鼠标不在一个可释放的物体上（例如，通过任意空白区域），那么 currentDroppable=null
+    // droppableBelow=null 如果在这个事件中，我们不是在通过一个可释放的物体上
 
     if (currentDroppable) {
-      // 处理“已经通过”的逻辑（移除高亮）
+      // 处理“离开”可释放物体的逻辑
       leaveDroppable(currentDroppable);
     }
     currentDroppable = droppableBelow;
@@ -293,6 +293,6 @@ function onMouseMove(event) {
 - 我们可以高亮我们涉及的元素。
 - 我们可以把拖动范围限制在某个区域内
 - 我们可以对 `mousedown/up` 使用事件委托。一个大范围事件处理器可以检查 `event.target`，它可以管理数百个元素的拖放。
-- 等待。
+- 等等。
 
-有一些框架可以在上面构建架构：`DragZone`、`Droppable`、`Draggable` 和其他类。它们中的大多数都做了类似的事情，所以现在应该很容易理解了。或者我们自己滚动，因为你已经了解了如何处理这个过程，它可能比适应其他东西更灵活。
+有一些已经构建好架构的框架：`DragZone`、`Droppable`、`Draggable` 和其他类。它们中的大多数都做了类似的事情，所以现在应该很容易理解了。或者我们自己滚动，因为你已经了解了如何处理这个过程，它可能比适应其他东西更灵活。
