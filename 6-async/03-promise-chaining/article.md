@@ -166,7 +166,7 @@ loadScript("/article/promise-chaining/one.js")
 
 这里每个 `loadScript` 调用返回一个 promise，并且在它 resolve 时运行下一个 `.then`。 然后它开始加载下一个脚本。所以脚本是依次被加载的。
 
-我们可以在链中添加更多的异步动作。请注意代码仍然 “扁平”，它向下增长，而不是向右。没有“死亡金字塔”的迹象。
+我们可以在链中添加更多的异步动作。请注意代码仍然“扁平”，它向下增长，而不是向右。没有“死亡金字塔”的迹象。
 
 请注意理论上也可以在每一个 promise 后直接写 `.then`，而不是返回它们，就像这样：
 
@@ -246,12 +246,12 @@ fetch('/article/promise-chaining/user.json')
     return response.text();
   })
   .then(function(text) {
-    // ……这是远程文件内容
+    // ...这是远程文件内容
     alert(text); // {"name": "iliakan", isAdmin: true}
   });
 ```
 
-其实还有一个方法， `response.json()` 会读取远程数据并把它解析成 JSON。我们的示例中用这个方法要更方便，所以让我们替换成此方法。
+其实还有一个方法，`response.json()` 会读取远程数据并把它解析成 JSON。我们的示例中用这个方法要更方便，所以让我们替换成此方法。
 
 为了简洁，我们也使用箭头函数：
 
@@ -262,7 +262,7 @@ fetch('/article/promise-chaining/user.json')
   .then(user => alert(user.name)); // iliakan
 ```
 
-现在我们用加载好的用户搞点事情。
+现在我们用加载好的用户信息搞点事情。
 
 例如，我们可以多发一个请求到 github，加载用户信息并显示头像：
 
@@ -275,7 +275,7 @@ fetch('/article/promise-chaining/user.json')
   .then(user => fetch(`https://api.github.com/users/${user.name}`))
   // 响应作为 json 加载
   .then(response => response.json())
-  // 显示头像图片（githubUser.avatar_url）3秒（也可以加上动画效果）
+  // 显示头像图片（githubUser.avatar_url）3 秒（也可以加上动画效果）
   .then(githubUser => {
     let img = document.createElement('img');
     img.src = githubUser.avatar_url;
@@ -423,7 +423,7 @@ new Promise(function(resolve, reject) {
 }).catch(alert); // Error: Whoops!
 ```
 
-……和这里工作方式相同：
+...和这里工作方式相同：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -501,7 +501,6 @@ new Promise(function(resolve, reject) {
     alert("Can't handle such error");
 
 *!*
-    throw error; // throwing this or another error jumps to the next catch
     throw error; // 抛出这个或别的错误，代码跳转到下一个 catch
 */!*
   }
@@ -524,7 +523,7 @@ new Promise(function(resolve, reject) {
 
 让我们改进用户加载示例的错误处理。
 
-在[fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) 不可能发出请求时会返回 rejected 状态的 promise。例如，远程服务器不可用或者 URL 格式不对。但是如果远程服务器响应 404 错误或 500 错误，那么它会被认为是一个有效的响应。
+在 [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) 不可能发出请求时会返回 rejected 状态的 promise。例如，远程服务器不可用或者 URL 格式不对。但是如果远程服务器响应 404 错误或 500 错误，那么它会被认为是一个有效的响应。
 
 如果服务器在 `(*)` 行返回带有错误 500 的非 JSON 页面怎么办？如果没有这样的用户并且在 `(**)`行 github 返回错误 404 的页面怎么办？
 
@@ -628,7 +627,7 @@ new Promise(function() {
 }).then(function() {
   // ...something else...
 }).then(function() {
-  // ...后面没有 catch!
+  // ...后面没有 catch！
 });
 ```
 
@@ -654,7 +653,7 @@ new Promise(function() {
 }); // no catch to handle the error
 ```
 
-该事件是 [HTML标准](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections)的一部分。现在，如果发生错误，并且没有 `.catch`，则 `unhandledrejection` 处理程序触发：`event` 对象具有有关错误的信息，因此我们可以对其执行某些操作。
+该事件是 [HTML 标准](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections)的一部分。现在，如果发生错误，并且没有 `.catch`，则 `unhandledrejection` 处理程序触发：`event` 对象具有有关错误的信息，因此我们可以对其执行某些操作。
 
 通常这样的错误是不可恢复的，因此我们最好的方法是告知用户有关问题，并且可能的话向服务器报告此事件。
 
@@ -665,7 +664,7 @@ new Promise(function() {
 总而言之，`.then/catch(handler)` 返回一个新的 promise，它根据处理程序的作用而改变：
 
 1. 如果它返回一个值或在没有 `return`（同 `return undefined`）的情况下结束，则新的 promise 将变为 resolved，并且用该值作参数调用最近的 resolve 处理程序（`.then` 的第一个参数）。
-2. 如果它抛出错误，则新的 promise 将 rejected，并且用该错误作参数调用最接近的 rejection 处理程序（`.then` or `.catch` 的第二个参数）。
+2. 如果它抛出错误，则新的 promise 将 rejected，并且用该错误作参数调用最接近的 rejection 处理程序（`.then` 或 `.catch` 的第二个参数）。
 3. 如果它返回一个 promise，那么 JavaScript 会在它结束前等待，然后以相同的方式对其结果起作用。
 
 图中展示 `.then/catch` 变化导致返回 promise 变化：
