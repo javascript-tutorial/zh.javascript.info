@@ -1,16 +1,16 @@
-A regexp for a number is: `pattern:-?\d+(\.\d+)?`. We created it in previous tasks.
+回顾之前的问题，我们用 `pattern:-?\d+(\.\d+)?` 来匹配数字。
 
-An operator is `pattern:[-+*/]`. We put a dash `pattern:-` the first, because in the middle it would mean a character range, we don't need that.
+`pattern:[-+*/]` 匹配运算符。我们把 `pattern:-` 放在最前面，因为如果放在中间的话，则表示字符范围，这并不是我们想要的。
 
-Note that a slash should be escaped inside a JavaScript regexp `pattern:/.../`.
+注意，在 JavaScript 中，`pattern:/.../` 中的 `/` 需要被转义。
 
-We need a number, an operator, and then another number. And optional spaces between them.
+我们需要匹配一个数字、一个运算符还有另一个数字。除此以外，还有它们之间的空格。
 
-The full regular expression: `pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`.
+完整的正则表达式为：`pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`。
 
-To get a result as an array let's put parentheses around the data that we need: numbers and the operator: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
+为了得到我们所需的数据：数字和运算符，我们需要使用捕获括号。
 
-In action:
+实际操作：
 
 ```js run
 let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
@@ -18,20 +18,20 @@ let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
 alert( "1.2 + 12".match(reg) );
 ```
 
-The result includes:
+结果包括：
 
-- `result[0] == "1.2 + 12"` (full match)
-- `result[1] == "1"` (first parentheses)
-- `result[2] == "2"` (second parentheses -- the decimal part `(\.\d+)?`)
-- `result[3] == "+"` (...)
-- `result[4] == "12"` (...)
-- `result[5] == undefined` (the last decimal part is absent, so it's undefined)
+- `result[0] == "1.2 + 12"` （完整匹配）
+- `result[1] == "1"` （第一个捕获组）
+- `result[2] == "2"` （第二个捕获组——小数部分）
+- `result[3] == "+"` （...）
+- `result[4] == "12"` （...）
+- `result[5] == undefined` （最后一个小数部分不存在，因此为 undefined）
 
-We need only numbers and the operator. We don't need decimal parts.
+我们只需要数字和运算符，不需要小数部分。
 
-So let's remove extra groups from capturing by added `pattern:?:`, for instance: `pattern:(?:\.\d+)?`.
+因此，我们可以加上 `pattern:?:` 来去除多余的捕获组，例如：`pattern:(?:\.\d+)?`。
 
-The final solution:
+最终答案：
 
 ```js run
 function parse(expr) {
