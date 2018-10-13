@@ -49,17 +49,14 @@ iframe { /* 来自受害网站的 iframe */
 
 [codetabs src="clickjacking-visible" height=160]
 
-
 例子中的半透明 `<iframe src="facebook.html">` 覆盖在按钮之上。点击按钮实际上点击在 iframe 标签上，但由于 iframe 标签透明，这一动作对用户不可见。
 
 
 因此，若访问者曾登陆 Facebook（“记住我” 开关打开），这个动作会使用户在 Facebook 上进行 “Like” 操作。Twitter 上是 “Follow” 操作。
 
-
 下面的例子相同，但 `iframe` 设置为 `opacity:0` 更符合实际情况：
 
 [codetabs src="clickjacking" height=160]
-
 
 只需要在恶意网页中的链接正上方放置 `<iframe>`，点击按钮就能发起攻击。通常用 CSS 就能实现。
 
