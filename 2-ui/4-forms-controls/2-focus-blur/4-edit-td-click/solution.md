@@ -1,5 +1,5 @@
 
-1. On click -- replace `innerHTML` of the cell by `<textarea>` with same sizes and no border. Can use JavaScript or CSS to set the right size.
-2. Set `textarea.value` to `td.innerHTML`.
-3. Focus on the textarea.
-4. Show buttons OK/CANCEL under the cell, handle clicks on them.
+1. 在点击的时候 -- 用相同尺寸和没有边框的`<textarea>`内容替换单元格的`innerHTML`。可以使用JavaScript或者Css设置正确的尺寸。
+2. 设置`textarea.value`为`td.innerHTML`。
+3. 聚焦在textarea（文本域）。
+4. 显示OK/CANCEL按钮在单元格下方，处理点击它们的事件。
