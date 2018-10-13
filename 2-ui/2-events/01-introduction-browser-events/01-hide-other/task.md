@@ -4,7 +4,7 @@ importance: 5
 
 # 点击隐藏
 
-当我们点击的时候，将 JavaScript 添加到 `button` 中，让 `<div id="text">` 消失。
+为 `button` 添加 JavaScript ，使我们在点击的时候让 `<div id="text">` 消失。
 
 示例：
 
