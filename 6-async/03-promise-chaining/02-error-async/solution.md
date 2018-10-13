@@ -1,4 +1,4 @@
-答案是: **不会，它不会触发**:
+答案是：**不会，它不会触发**:
 
 ```js run
 new Promise(function(resolve, reject) {
