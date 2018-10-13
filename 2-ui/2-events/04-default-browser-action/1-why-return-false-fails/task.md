@@ -17,6 +17,6 @@ importance: 3
 <a href="http://w3.org" onclick="handler()">the browser will go to w3.org</a>
 ```
 
-浏览器再单击时遵循 URL，但是我们不想要它。
+浏览器再单击时遵循 URL，但这不是我们想要的。
 
 如何修复？
