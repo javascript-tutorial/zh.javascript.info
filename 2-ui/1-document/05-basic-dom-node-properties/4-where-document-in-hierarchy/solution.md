@@ -1,33 +1,33 @@
 
-We can see which class it belongs by outputting it, like:
+通过输出它，我们可以看到它属于哪个类，比如：
 
 ```js run
 alert(document); // [object HTMLDocument]
 ```
 
-Or:
+或者：
 
 ```js run
 alert(document.constructor.name); // HTMLDocument
 ```
 
-So, `document` is an instance of `HTMLDocument` class.
+因此 `document` 是 `HTMLDocument` 类的一个实例。
 
-What's its place in the hierarchy?
+它在等级体系中的地位如何？ 
 
-Yeah, we could browse the specification, but it would be faster to figure out manually.
+是的，我们可以浏览说明书，但手动会更快。
 
-Let's traverse the prototype chain via `__proto__`.
+我们通过 `__proto__` 来遍历原型链中的方法。
 
-As we know, methods of a class are in the `prototype` of the constructor. For instance, `HTMLDocument.prototype` has methods for documents.
+正如我们所知道的，类的方法在构造函数的 `prototype` 中。例如 `HTMLDocument.prototype` 有用于文档的方法。
 
-Also, there's a reference to the constructor function inside the `prototype`:
+此外，在 `prototype` 中还有对构造函数的引用：
 
 ```js run
 alert(HTMLDocument.prototype.constructor === HTMLDocument); // true
 ```
 
-For built-in classes in all prototypes there's a `constructor` reference, and we can get `constructor.name` to see the name of the class. Let's do it for all objects in the `document` prototype chain:
+对于所有原型中的内置类，有一个 `constructor` 引用，我们可以获取 `constructor.name` 来查看类名。我们为 `document` 原型链中的所有对象执行以下操作：
 
 ```js run
 alert(HTMLDocument.prototype.constructor.name); // HTMLDocument
@@ -35,4 +35,4 @@ alert(HTMLDocument.prototype.__proto__.constructor.name); // Document
 alert(HTMLDocument.prototype.__proto__.__proto__.constructor.name); // Node
 ```
 
-We also could examine the object using `console.dir(document)` and see these names by opening `__proto__`. The console takes them from `constructor` internally.
+我们还可以使用 `console.dir(document)` 来检查对象，并通过打开 `__proto__` 来查看这些名称。控制台将它们从 `constructor` 内部取出。
