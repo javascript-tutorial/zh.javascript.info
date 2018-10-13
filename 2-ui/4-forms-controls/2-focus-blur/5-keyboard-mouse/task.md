@@ -1,12 +1,12 @@
-importance: 4
+重要程度：4
 
 ---
 
-# Keyboard-driven mouse
+# 键盘驱动鼠标
 
-Focus on the mouse. Then use arrow keys to move it:
+聚焦在鼠标上。然后使用方向键去移动它：
 
 [demo src="solution"]
 
-P.S. Don't put event handlers anywhere except the `#mouse` element.
-P.P.S. Don't modify HTML/CSS, the approach should be generic and work with any element.
+另外不要把事件处理器放在除了`#mouse`元素外的其它任何地方。
+还有不要修改HTML/CSS，这个方法应该是通用的，而且可以作用在任何元素上。
