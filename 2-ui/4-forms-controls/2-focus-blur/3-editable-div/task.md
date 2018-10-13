@@ -1,13 +1,13 @@
-importance: 5
+重要程度: 5
 
 ---
 
-# Editable div
+# 可编辑的div标签
 
-Create a `<div>` that turns into `<textarea>` when clicked.
+新建一个`<div>`标签，当它被点击的时候焦点会跳到`<textarea>`标签。
 
-The textarea allows to edit the HTML in the `<div>`.
+这个 textarea（文本域）允许我们编辑`<div>`里的HTML内容。
 
-When the user presses `key:Enter` or it looses focus, the `<textarea>` turns back into `<div>`, and its content becomes HTML in `<div>`.
+当用户点击`key:Enter`键或者这个`<textarea>`失去焦点的时候，焦点将会跳回`<div>`标签，而且`<textarea>`里的内容会成为`<div>`里的HTML内容。
 
 [demo src="solution"]
