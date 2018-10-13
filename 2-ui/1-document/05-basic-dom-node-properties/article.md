@@ -31,14 +31,14 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 
 例如，我们考虑一下 `<input>` 元素的 DOM 对象。它属于 [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) 类。它将属性和方法作为以下内容的叠加：
 
-- `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承.....
+- `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承...
 - `HTMLElement` —— 它提供了通用 HTML 元素方法（getter 和setter），而且可以继承自其它属性。
 - `Element` —— 提供泛型元素方法，而且可以继承自其它属性。
 - `Node` —— 提供通用 DOM 节点属性，而且可以继承自其它属性。
 - `EventTarget` —— 为事件（包括事件本身）提供支持，
 - 最后，它继承了 `Object`，因为像 `hasOwnProperty` 的“纯对象”方法也是可用的。
 
-要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类的构造函数， `constructor.name` 就是它的名称：
+要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类的构造函数，`constructor.name` 就是它的名称：
 
 ```js run
 alert( document.body.constructor.name ); // HTMLBodyElement
@@ -76,7 +76,7 @@ alert( document.body instanceof EventTarget ); // true
 ```
 
 ````smart header="IDL in the spec"
-在规范中，类不是用 JavaScript 描述的，而是一个特殊的[接口描述语言](https://en.wikipedia.org/wiki/Interface_description_language) (IDL)，它很容易理解。
+在规范中，类不是用 JavaScript 描述的，而是一个特殊的[接口描述语言（IDL）](https://en.wikipedia.org/wiki/Interface_description_language)，它很容易理解。
 
 在 IDL 中，所有的属性都有它们的类型。比如，`DOMString` 和 `boolean` 等待。
 
@@ -99,7 +99,7 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
-  // 布尔属性(true/false)
+  // 布尔属性（true/false）
   attribute boolean autofocus;
 */!*
   ...
@@ -232,7 +232,7 @@ tagName 和 nodeName 之间有何不同？
 ```
 
 ```smart header="Scripts don't execute"
-如果 `innerHTML` 将 `<script>` 标签插入到 document 中——它不会被执行。 -- it doesn't execute.
+如果 `innerHTML` 将 `<script>` 标签插入到 document 中 —— 它不会被执行。
 
 它会被变成 HTML 的一部分，就像已经运行的脚本一样。
 ```
@@ -359,7 +359,7 @@ elem.innerHTML = elem.innerHTML + "..."
 
 ## textContent：纯文本
 
-`textContent` 提供对元素中的 **text** 的访问权限：只提供文本，去掉所有的 `<tags>`。
+`textContent` 提供对元素中的 *text* 的访问权限：只提供文本，去掉所有的 `<tags>`。
 
 例如：
 
