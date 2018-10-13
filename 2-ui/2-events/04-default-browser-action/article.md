@@ -4,9 +4,9 @@
 
 例如：
 
-- 单击一个链接 —— 启动到它的 URL。
-- 单击表单中的提交按钮 —— 启动提交到服务器的动作。
-- 在文本上下文按下鼠标按钮 —— 选中文本。
+- 单击一个链接 —— 触发到它的 URL。
+- 单击表单中的提交按钮 —— 触发提交到服务器的动作。
+- 在文本上按下鼠标按键并移动 —— 选中文本。
 
 如果我们用 JavaScript 处理一个事件，我们通常不需要浏览器动作。幸运的是，它是可以阻止的。
 
@@ -14,8 +14,8 @@
 
 有两种方法可以告诉浏览器我们不希望它执行动作：
 
-- 主要的方法是使用 `event` 对象。有一个 `event.preventDefault()` 方法。
-- 如果使用 `on<event>`（而不是 `addEventListener`）分发处理器，那么我们就只会从它那得到 `false` 返回值。
+- 主流的方法是使用 `event` 对象。有一个 `event.preventDefault()` 方法。
+- 如果使用 `on<event>`（而不是 `addEventListener`）分发处理器，那么我们只需要从它内部返回 `false` 即可。
 
 在下面的示例中，单击链接不会导致 URL 改变：
 
@@ -25,10 +25,10 @@ or
 <a href="/" onclick="event.preventDefault()">here</a>
 ```
 
-```warn header="Not necessary to return `true`"
+```warn header="没有必要去返回 `true`"
 事件处理器返回的值通常会被忽略。
  
-唯一的异常 —— 是从使用 `on<event>` 分发的处理器中 `return false`。
+唯一的例外 —— 是从使用 `on<event>` 分发的处理器中 `return false`。
 
 在所有其他情况下，返回都是不需要的，也不需要被处理。
 ```
@@ -63,7 +63,7 @@ menu.onclick = function(event) {
   if (event.target.nodeName != 'A') return;
 
   let href = event.target.getAttribute('href');
-  alert( href ); // ...can be loading from the server, UI generation etc
+  alert( href ); // ...可以从服务器、UI 等加载
 
 *!*
   return false; // prevent browser action (don't go to the URL)
@@ -76,9 +76,9 @@ menu.onclick = function(event) {
 顺便说一句，这里使用事件委托会使我们的菜单更灵活。我们可以添加嵌套列表并使用 CSS 对其样式设置 "slide down"。
 
 
-## 阻止事件的进一步发展
+## 阻止进一步的事件
 
-Certain events flow one into another. If we prevent the first event, there will be no second.
+某些事件流入另一个事件。如果我们阻止第一个事件，就没有第二个事件。
 
 例如，在 `<input>` 上的 `mousedown` 会导致在其中获得焦点，也就是 `focus` 事件。如果我们阻止 `mousedown` 事件，就不会有焦点。
 
@@ -100,13 +100,13 @@ Certain events flow one into another. If we prevent the first event, there will 
 
 还有一个有趣的用例。
 
-你还记得在 <info:bubbling-and-capturing> 章节中，我们讨论的关于为什么 `event.stopPropagation()` 停止冒泡是不好的么？
+你还记得在 <info:bubbling-and-capturing> 章节中，我们讨论过 `event.stopPropagation()` 以及为什么停止冒泡是不好的么？
 
 有时我们可以使用 `event.defaultPrevented` 来代替。
 
 我们来看一个实际的例子，停止冒泡看起来是必须的，但实际上没有它我们也可以做的很好。
 
-默认情况下，`contextmenu` 事件（鼠标右击）上的浏览器显示一个带有标准选项的上下文菜单。我们可以阻止它并显示我们自己的，就像这样：
+默认情况下，`contextmenu` 事件（鼠标右击）上的浏览器显示一个带有标准选项的上下文菜单。我们可以阻止它并显示我们自定义的菜单，就像这样：
 
 ```html autorun height=50 no-beautify run
 <button>Right-click for browser context menu</button>
@@ -137,7 +137,7 @@ Certain events flow one into another. If we prevent the first event, there will 
 
 问题是当我们点击 `elem` 时，我们得到两个菜单：按钮级别（事件冒泡）和文档级别的菜单。
 
-如何修复呢？其中一个解决方案是：“我们在处理按钮处理器时全部去处理事件，然后停止它。”还要使用 `event.stopPropagation()`：
+如何修复呢？其中一个解决方案是：“在按钮处理器中，我们全部去处理（按钮级别的）事件，然后停止它。”还要使用 `event.stopPropagation()`：
 
 ```html autorun height=80 no-beautify run
 <p>Right-click for the document menu</p>
@@ -161,7 +161,7 @@ Certain events flow one into another. If we prevent the first event, there will 
 
 现在按钮级别的菜单如期工作。但是代价太大，我们会永远拒绝访问任何外部代码的右击信息，包括收集统计信息的计数器等等。这很不可取。
 
-另一个替代方案是，如果阻止了默认动作，那么就可以检查 `document` 的处理器么？如果是这样的话，那么事件就被处理了，我们不需要对它做出反应。
+另一个替代方案是，在文档级处理器中去检测默认动作是否被阻止？如果是这样的话，那么事件就被处理了，我们不需要对它做出反应。
 
 
 ```html autorun height=80 no-beautify run
@@ -185,16 +185,16 @@ Certain events flow one into another. If we prevent the first event, there will 
 </script>
 ```
 
-现在一切都可以正常工作了。如果我们有嵌套元素，并且每个元素都有自己的上下文菜单，那么这也是可行的。只需确保检查每个 `contextmenu` 处理器中的 `event.defaultPrevented`。
+现在一切都可以正常工作了。如果我们有嵌套元素，并且每个元素都有自己的上下文菜单，那么这也是可以运行的。只需确保检查每个 `contextmenu` 处理器中的 `event.defaultPrevented`。
 
-```smart header="event.stopPropagation() and event.preventDefault()"
-正如我们所看到的那样，`event.stopPropagation()` 和 `event.preventDefault()`（`return false`）是两种不同的事情。它们之间毫无联系。
+```smart header="event.stopPropagation() 和 event.preventDefault()"
+正如我们所看到的那样，`event.stopPropagation()` 和 `event.preventDefault()`（也被认为是 `return false`）是两种不同的事情。它们之间毫无联系。
 ```
 
-```smart header="Nested context menus architecture"
+```smart header="嵌套的上下文目录结构"
 还有一些实现嵌套上下文菜单的替代方法。其中一个是拥有一个特殊的全局对象，它具有处理 `document.oncontextmenu` 的方法，还允许在其中存储各种“低级”处理器方法。
 
-对象将捕获任何右击，查看存储的处理器并运行适当的处理器。
+对象将捕获任何右击事件，查看存储的处理器并运行相应的处理器。
 
 但每一段需要上下文菜单的代码都应该了解该对象，并使用它的帮助，而不是使用自己的 `contextmenu` 处理器。
 ```
@@ -205,9 +205,9 @@ Certain events flow one into another. If we prevent the first event, there will 
 
 - `mousedown` —— 开始选择（移动鼠标进行选择）。
 - 在 `<input type="checkbox">` 上 `click` —— 检查/取消选中的 `input`。
-- `submit` ——  单击 `<input type="submit">` 或在表单字段中输入 `key:Enter` 会导致此事件发生，浏览器会提交表单。
+- `submit` ——  单击 `<input type="submit">` 或在表单中通过单击 `key:Enter` 触发该事件，并在其后浏览器提交表单。
 - `wheel` —— 鼠标滚轮事件的滚动将作为默认动作。
-- `keydown` —— 按下键可能会导致将字符添加到字段或者其他动作中。
+- `keydown` —— 按下按键可能会导致将字符添加到字段，或者触发其他动作。
 - `contextmenu` —— 事件发生在右击时，动作是显示浏览器上下文菜单。
 - ...还有更多...
 
@@ -220,9 +220,9 @@ Certain events flow one into another. If we prevent the first event, there will 
 ```warn header="Stay semantic, don't abuse"
 从技术上来说，通过阻止默认动作和添加 JavaScript，我们可以定制任何元素的行为。例如，我们可以使链接 `<a>` 像按钮一样工作，而按钮 `<button>` 也可以作为链接运行（重定向到另一个 URL 等）。
 
-但我们通常应该保留 HTML 元素的语义含义。例如 `<a>` 应该预置导航，而不是按钮。
+但我们通常应该保留 HTML 元素的语义。例如 `<a>` 应该表现为导航，而不是按钮。
 
 除了“是一件好事”，这使你的 HTML 在可访问性方便表现得更好。
 
-另外，如果我们考虑 `<a>` 的示例，那么请注意：浏览器允许在一个新窗口中打开这样的链接（右击它们以及其他方法）。大家都喜欢这么做。但如果我们适用 JavaScript 让按钮行为表现得像链接，甚至看起来像 CSS 的链接，那么 `<a>` 特定于浏览器的特性将仍然不会适用于它。
+另外，如果我们考虑 `<a>` 的示例，那么请注意：浏览器允许在一个新窗口中打开这样的链接（右击它们以及其他方法）。大家都喜欢这么做。但如果我们使用 JavaScript 让按钮行为表现得像链接，甚至看起来像 CSS 的链接，那么 `<a>` 独特的浏览器特性将仍然不会适用于按钮。
 ```
