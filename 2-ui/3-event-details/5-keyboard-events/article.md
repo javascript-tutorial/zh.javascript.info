@@ -46,9 +46,9 @@
 每个键都有取决于其在键盘上位置的代码。[键值代码在 UI 事件代码规范中中的描述](https://www.w3.org/TR/uievents-code/)。
 
 例如：
-- 字符键有代码 `"Key<letter>"`：`"KeyA"`，`"KeyB"` 等。
-- 数字键有代码：`"Digit<number>"`：`"Digit0"`、`"Digit1"` 等。
-- 特殊秘钥按其名称编码：`"Enter"`、`"Backspace"`、`"Tab"` 等。
+- 字符键有代码 `"Key<letter>"`：`"KeyA"` 和 `"KeyB"` 等。
+- 数字键有代码：`"Digit<number>"`：`"Digit0"` 和 `"Digit1"` 等。
+- 特殊秘钥按其名称编码：`"Enter"`、`"Backspace"` 和 `"Tab"` 等。
 
 有几种通用的键盘布局，规范中为它们每个给出了键值代码。
 
@@ -73,7 +73,7 @@
 
 请注意 `event.code` 确切地标明了哪个键被按下。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 确切地告诉我们按下了哪个键，并且 `event.key` 对键的含义负责：它是什么（一个"Shift"）。
 
-比方说，我们想要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”动作挂在上面。。我们可以在 `keydown` 上设置一个监听者，检查哪个键被按下 —— 用来检测我们什么时候需要热键。
+比方说，我们想要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”动作挂在上面。我们可以在 `keydown` 上设置一个监听者，检查哪个键被按下 —— 用来检测我们什么时候需要热键。
 
 请回答问题 —— 在这样的监听者中，我们要监测的是 `event.key` 还是 `event.code` 的值？
 
@@ -144,7 +144,7 @@ function checkPhoneKey(key) {
 
 ## 遗存
 
-在过去，有一个 `keypress` 事件，还有事件对象属性 `keyCode`、`charCode`、`which`。
+在过去，有一个 `keypress` 事件，还有事件对象属性 `keyCode`、`charCode` 和 `which`。
 
 大多数的浏览器都不兼容，以至于开发者决定放弃这些。以前的代码仍然可以正常工作，因为浏览器还是支持它们的，但现在没有必要再使用这些代码了。
 
