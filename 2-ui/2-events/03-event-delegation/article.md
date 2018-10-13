@@ -1,11 +1,11 @@
 
 # 事件委托
 
-捕获和冒泡允许实现一种称为**事件委托**的强大处理模式。
+捕获和冒泡允许实现一种称为**事件委托**的强大的事件处理模式。
 
-我们的想法是，如果我们有许多元素是以类似的方式处理的，那么我们就不需要给每个元素分配一个处理程序 —— 而是在它们共同的祖先上面添加一个处理器。
+我们的想法是，如果我们有许多元素是以类似的方式处理的，那么我们就不需要给每个元素分配一个处理器 —— 而是在它们共同的祖先上面添加一个处理器。
 
-在处理器中，我们得到了 `event.target`，查看事件实际发生的位置并处理它。
+在处理器中，我们可以得到 `event.target`，查看事件实际发生的位置并处理它。
 
 我们看一个示例 —— 反映中国古代哲学的[八卦图](http://en.wikipedia.org/wiki/Ba_gua)。
 
@@ -30,13 +30,13 @@ HTML 如下所示：
 </table>
 ```
 
-该表有 9 个单元，但可能有 99 个或者 9999 个单元，这些都不重要。
+该表有 9 个单元格，但可能有 99 个或者 9999 个单元，这些都不重要。
 
 **我们的任务是在单击时高亮显示一个 `<td>` 单元格。**
 
-Instead of assign an `onclick` handler to each `<td>` (can be many) -- we'll setup the "catch-all" handler on `<table>` element.
+相比为每个 `<td>` （可能有很多） 分配一个 `onclick` 处理器 —— 我们可以为 `<table>` 元素设置一个 “catch-all” 处理器。
 
-它使用 `event.target` 来获取单击的元素并高亮显示它。
+它会使用 `event.target` 来获取单击的元素并高亮显示它。
 
 代码：
 
@@ -47,28 +47,28 @@ let selectedTd;
 table.onclick = function(event) {
   let target = event.target; // 在哪里单击的？
 
-  if (target.tagName != 'TD') return; // not on TD? Then we're not interested
+  if (target.tagName != 'TD') return; // 不在 TD 上？那么我们就不会在意
 
-  highlight(target); // highlight it
+  highlight(target); // 高亮显示
 };
 */!*
 
 function highlight(td) {
-  if (selectedTd) { // remove the existing highlight if any
+  if (selectedTd) { // 移除任何已存在的高亮显示内容
     selectedTd.classList.remove('highlight');
   }
   selectedTd = td;
-  selectedTd.classList.add('highlight'); // highlight the new td
+  selectedTd.classList.add('highlight'); // 高亮新的 td
 }
 ```
 
-这样的代码不会关心在表中有多少单元格。随时可以动态添加/移除 `<td>`，高亮显示仍然有效。
+代码不会关心在表中有多少单元格。随时可以动态添加/移除 `<td>`，高亮显示仍然有效。
 
 尽管如此，还是存在缺点。
 
 单击可能不是发生在 `<td>` 上，而是发生在其内部。
 
-在我们的例子中，如果我们查看 HTML 内部，我们可以看到 `<td>` 内的嵌套标记，比如 `<strong>`：
+在我们的例子中，如果我们查看 HTML 内部，我们可以看到 `<td>` 内的嵌套标签，比如 `<strong>`：
 
 ```html
 <td>
@@ -85,7 +85,7 @@ function highlight(td) {
 
 在处理器 `table.onclick` 中，我们应该接受这样的 `event.target`，并确定单击是否在 `<td>` 内。
 
-以下是改善的代码：
+以下是改进后的代码：
 
 ```js
 table.onclick = function(event) {
@@ -100,16 +100,16 @@ table.onclick = function(event) {
 ```
 
 解释：
-1. `elem.closest(selector)` 方法返回与选择器匹配的最近的祖先。在我们的例子中，我们从源元素上升的路上查找 `<td>`。
+1. `elem.closest(selector)` 方法返回与选择器匹配的最近的祖先。在我们的例子中，我们从源元素向上查找 `<td>`。
 2. 如果 `event.target` 不在任何 `<td>` 中，那么调用将返回 `null`，我们不需要做任何事情。
-3. 在嵌套表的情况下，`event.target` 可能是位于当前表之外的 `<td>`。因此我们检查这是否是**我们的表**的 `<td>`。
+3. 在嵌套表的情况下，`event.target` 可能是位于当前表格之外的 `<td>`。因此我们需要检查这是否是**我们的表格**的 `<td>`。
 4. 如果是的话，就高亮显示它。
 
 ## 委托示例：标记中的操作
 
-事件委托可用于优化事件处理。我们使用单个处理器来对许多元素进行相似的操作。就像我们用于高亮显示 `<td>` 一样。
+事件委托可优化事件处理。我们使用单个处理器来对许多元素进行相似的操作。就像我们用于高亮显示 `<td>` 一样。
 
-但我们仍然可以使用单个处理器作为许多不同事情的入口点。
+但我们仍然可以使用单个处理器作为许多不同事件的入口点。
 
 例如，我们想要制作一个有“保存”、“加载”、“搜索”等功能的菜单。有一个拥有 `save`、`load`、`search` 等方法的对象。
 
@@ -161,7 +161,7 @@ table.onclick = function(event) {
 </script>
 ```
 
-请注意，`this.onClick` 在 `(*)` 中绑定到 `this`。这很重要，否则内部 `this` 将引用 DOM 元素（`elem`），而不是菜单对象，`this[action]` 不是我们所需要的。
+请注意，`this.onClick` 在 `(*)` 中绑定到了 `this`。这很重要，否则内部 `this` 将引用 DOM 元素（`elem`），而不是菜单对象，`this[action]` 不是我们所需要的。
 
 那么，这里的委托给我们带来了什么？
 
@@ -172,17 +172,17 @@ table.onclick = function(event) {
 
 我们也可以使用 `.action-save`、`.action-load`，但 `data-action` 属性在语义上更好。我们也可以在 CSS 规则中使用它。
 
-## "behavior" 模式
+## “行为型”模式
 
-我们还可以使用事件委托将元素 **declaratively** 添加到具有特定属性和类的元素 "behaviors" 中。
+我们还可以使用事件委托**声明式**地通过特定属性和类为元素添加“行为”。
 
-模式有两部分：
+模式分为两步：
 1. 我们向元素添加一个特殊属性。
-2. 文档范围内的处理器跟踪事件，如果事件发生在元素属性上，则执行该操作。
+2. 用文档范围级的处理器追踪事件，如果事件发生在具有特定属性的元素上 —— 则执行该操作。
 
 ### 计数
 
-例如，这里的 `data-counter` 属性添加了一个行为：给按钮添加了 “点击就会增加”" 的行为。
+例如，这里的 `data-counter` 属性给按钮添加了一个“点击增加”的行为。
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>
@@ -199,17 +199,17 @@ One more counter: <input type="button" value="2" data-counter>
 </script>
 ```
 
-如果我们点击按钮 —— 它的值就会增加。不仅仅是按钮，但一般的方法在这里却很重要。
+如果我们点击按钮 —— 它的值就会增加。但不仅仅是按钮，一般的方法在这里也很重要。
 
-我们想要的 `data-counter` 属性可以有很多。我们可以在任何时候向 HTML 添加新的。使用时间委托，我们可以 "extended" HTML，添加一个描述新行为的属性。
+我们可以有很多像 `data-counter` 一样的属性。我们可以在任何时候向 HTML 添加新的属性。使用事件委托，我们可以“扩展” HTML，添加一个描述新行为的属性。
 
-```warn header="For document-level handlers -- always `addEventListener`"
+```warn header="对于文档级的处理器 —— 始终是 `addEventListener`"
 当我们将事件处理器分配给 `document` 对象，我们应该始终使用 `addEventListener`，而不是 `document.onclick`，因为后者会导致冲突：新的处理器会重写旧的。
 
 对于实际项目来说。代码的不同部分设置的 `document` 上有许多处理器是正常的。
 ```
 
-### Toggler
+### 切换器
 
 再举一个例子，单击一个具有 `data-toggle-id` 属性的元素将显示/隐藏具有给定 `id` 的元素：
 
@@ -242,18 +242,18 @@ One more counter: <input type="button" value="2" data-counter>
 
 我们也可以结合单个元素上的多个行为。
 
-"behavior" 模式可以替代 JavaScript 的小片段。
+“行为型”模式可以替代 JavaScript 的小片段。
 
 ## 总结
 
-shijianweituoEvent 委托真的很酷！这是 DOM 事件最有用的模式之一。
+事件委托真的很酷！这是 DOM 事件最有用的模式之一。
 
 它通常用于为许多相似的元素添加相同的处理，但不仅仅只是这样。
 
 算法：
 
-1. 在容器上放置一个处理程序。
-2. 在 handler 上 —— 检查源元素 `event.target`。
+1. 在容器上设置一个处理器。
+2. 在处理器中 —— 检查源元素的  `event.target`。
 3. 如果事件发生在我们感兴趣的元素中，那么处理该事件。
 
 好处：
@@ -267,6 +267,6 @@ shijianweituoEvent 委托真的很酷！这是 DOM 事件最有用的模式之�
 委托处理方式也有局限性：
 
 ```compare
-- 首先，事件必须冒泡。而有些事件不会冒泡。此外，低级别的处理程序不应该使用 `event.stopPropagation()`。
-- 其次，委托会增加 CPU 负载，因为容器等级的处理器对容器中任何位置的事件做出反应，不管他们是否会引起我们的兴趣。但是通常负载是可以忽略不计的，所以我们不考虑它。
+- 首先，事件必须冒泡。而有些事件不会冒泡。此外，低级别的处理器不应该使用 `event.stopPropagation()`。
+- 其次，委托会增加 CPU 负载，因为容器等级的处理器对容器中任何位置的事件做出反应，不管它们是否会引起我们的兴趣。但是通常负载是可以忽略不计的，所以我们不考虑它。
 ```
