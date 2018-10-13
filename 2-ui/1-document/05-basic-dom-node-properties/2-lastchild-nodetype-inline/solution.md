@@ -1,8 +1,8 @@
-There's a catch here.
+这里有一个陷阱。
 
-At the time of `<script>` execution the last DOM node is exactly `<script>`, because the browser did not process the rest of the page yet.
+在执行 `<script>` 时，最后一个 DOM 节点是 `<script>`，因为浏览器还没有处理页面的其余部分。
 
-So the result is `1` (element node).
+因此结果是 `1`（元素节点）。
 
 ```html run height=60
 <html>

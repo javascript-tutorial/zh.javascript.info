@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Show descendants in a tree
+# 在树中显示后代
 
-There's a tree organized as nested `ul/li`.
+这里有一棵由嵌套的 `ul/li` 组成的树。
 
-Write the code that adds to each `<li>` the number of its descendants. Skip leaves (nodes without children).
+编写代码在 `<li>` 添加后代数量的数字。跳过一些叶子（如果节点没有后代节点）。
 
-The result:
+最终结果：
 
 [iframe border=1 src="solution"]

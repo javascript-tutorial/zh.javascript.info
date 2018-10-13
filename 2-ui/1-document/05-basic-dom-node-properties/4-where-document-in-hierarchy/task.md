@@ -2,10 +2,10 @@ importance: 4
 
 ---
 
-# Where's the "document" in the hierarchy?
+# 层次结构中的 "document" 在哪里？
 
-Which class does the `document` belong to?
+`document` 属于哪一类？
 
-What's its place in the DOM hierarchy?
+DOM 层次中它的位置又如何？
 
-Does it inherit from `Node` or `Element`, or maybe `HTMLElement`?
+它继承自 `Node` 或 `Element`，还是 `HTMLElement`？

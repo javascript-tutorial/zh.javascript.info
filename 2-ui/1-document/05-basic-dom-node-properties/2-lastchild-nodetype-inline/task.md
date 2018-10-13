@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's in the nodeType?
+# nodeType 是什么？
 
-What does the script show?
+脚本会显示什么？
 
 ```html
 <html>

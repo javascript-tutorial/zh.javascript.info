@@ -1,4 +1,4 @@
-# 如何编写不良代码？
+# Ninja code
 
 
 ```quote author="孔子"

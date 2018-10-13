@@ -1,16 +1,16 @@
 
-# Promises chaining
+# Promises 链
 
-Let's return to the problem mentioned in the chapter <info:callbacks>.
+我们回顾一下 <info:callbacks> 章节提及的问题。
 
-- We have a sequence of asynchronous tasks to be done one after another. For instance, loading scripts.
-- How to code it well?
+- 假如我们有一系列异步任务会被依次完成。例如：加载脚本。
+- 如何编写合适的代码？
 
-Promises provide a couple of recipes to do that.
+Promises 提供了几种方案来解决这个问题。
 
-In this chapter we cover promise chaining.
+本章节中我们来讲解 promise 链。
 
-It looks like this:
+它看起来就像这样：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -35,23 +35,23 @@ new Promise(function(resolve, reject) {
 });
 ```
 
-The idea is that the result is passed through the chain of `.then` handlers.
+它的理念是把 result 传入 `.then` 的处理程序链。
 
-Here the flow is:
-1. The initial promise resolves in 1 second `(*)`,
-2. Then the `.then` handler is called `(**)`.
-3. The value that it returns is passed to the next `.then` handler `(***)`
-4. ...and so on.
+运行流程如下：
+1. 初始 promise 1 秒后 resolve `(*)`，
+2. 然后 `.then` 方法被调用 `(**)`。
+2. 它返回的值被传入下一个 `.then` 的处理程序 `(***)`
+4. ……依此类推。
 
-As the result is passed along the chain of handlers, we can see a sequence of `alert` calls: `1` -> `2` -> `4`.
+随着 result 在处理程序链中传递，我们会看到 `alert` 依次显示：`1` -> `2` -> `4`。
 
 ![](promise-then-chain.png)
 
-The whole thing works, because a call to `promise.then` returns a promise, so that we can call the next `.then` on it.
+之所以这么运行，是因为 `promise.then` 返回了一个 promise，所以我们可以用它调用下一个 `.then`。
 
-When a handler returns a value, it becomes the result of that promise, so the next `.then` is called with it.
+当控制函数返回一个值时，它会变成当前 promise 的 result，所以会用它调用下一个 `.then`。
 
-To make these words more clear, here's the start of the chain:
+为了把这些话讲更清楚，我们看一下链的开头：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -67,9 +67,9 @@ new Promise(function(resolve, reject) {
 // .then…
 ```
 
-The value returned by `.then` is a promise, that's why we are able to add another `.then` at `(2)`. When the value is returned in `(1)`, that promise becomes resolved, so the next handler runs with the value.
+`.then` 返回的值是一个 promise，这是为什么我们可以在 `(2)` 处添加另一个 `.then`。在 `(1)` 处返回值时，当前 promise 变成 resolved，然后下一个处理程序使用这个返回值运行。
 
-Unlike the chaining, technically we can also add many `.then` to a single promise, like this:
+与链式调用不同，理论上我们也能添加许多 `.then` 到一个 promise 上，就像这样：
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
@@ -92,21 +92,21 @@ promise.then(function(result) {
 });
 ```
 
-...But that's a totally different thing. Here's the picture (compare it with the chaining above):
+……但这是一个完全不同的东西，看这张图（对比上面的链式调用）：
 
 ![](promise-then-many.png)
 
-All `.then` on the same promise get the same result -- the result of that promise. So in the code above all `alert` show the same: `1`. There is no result-passing between them.
+在同一个 promise 上的所有 `.then` 会得到相同的结果 —— 该 promise 的 result。所以，以上代码中所有 `alert` 会显示相同的内容：`1`。它们之间没有 result 的传递。
 
-In practice we rarely need multiple handlers for one promise. Chaining is used much more often.
+实际上我们极少遇到一个 promise 需要多处理程序，而是更经常地使用链式调用。
 
-## Returning promises
+## 返回 promises
 
-Normally, a value returned by a `.then` handler is immediately passed to the next handler. But there's an exception.
+正常来说，`.then` 处理程序返回的值会立即传入下一个处理程序。但是有一个例外。
 
-If the returned value is a promise, then the further execution is suspended until it settles. After that, the result of that promise is given to the next `.then` handler.
+如果返回的值是一个 promise，那么直到它结束之前，下一步执行会一直被暂停。在结束之后，该 promise 的结果会传递给下一个 `.then` 处理程序。
 
-For instance:
+例如：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -138,15 +138,15 @@ new Promise(function(resolve, reject) {
 });
 ```
 
-Here the first `.then` shows `1` returns `new Promise(…)` in the line `(*)`. After one second it resolves, and the result (the argument of `resolve`, here it's `result*2`) is passed on to handler of the second `.then` in the line `(**)`. It shows `2` and does the same thing.
+这里第一个 `.then` 显示 `1` 并在 `(*)` 行返回 `new Promise(…)`，一秒之后它会 resolve 掉，然后 result（`resolve` 的参数，在这里它是 `result*2`）被传递给位于 `(**)` 行的第二个 `.then`。它会显示 `2`，而且执行相同的动作。
 
-So the output is again 1 -> 2 -> 4, but now with 1 second delay between `alert` calls.
+所以输出还是 1 -> 2 -> 4，但是现在每次 `alert` 调用之间会有 1 秒钟的延迟。
 
-Returning promises allows us to build chains of asynchronous actions.
+返回 promises 允许我们建立异步动作链。
 
-## Example: loadScript
+## 示例：loadScript
 
-Let's use this feature with `loadScript` to load scripts one by one, in sequence:
+让我们使用这个功能用 `loadScript` 依次按顺序加载脚本：
 
 ```js run
 loadScript("/article/promise-chaining/one.js")
@@ -157,25 +157,24 @@ loadScript("/article/promise-chaining/one.js")
     return loadScript("/article/promise-chaining/three.js");
   })
   .then(function(script) {
-    // use functions declared in scripts
-    // to show that they indeed loaded
+    // 使用脚本里声明的函数来表明它们的确被加载了
     one();
     two();
     three();
   });
 ```
 
-Here each `loadScript` call returns a promise, and the next `.then` runs when it resolves. Then it initiates the loading of the next script. So scripts are loaded one after another.
+这里每个 `loadScript` 调用返回一个 promise，并且在它 resolve 时运行下一个 `.then`。 然后它开始加载下一个脚本。所以脚本是依次被加载的。
 
-We can add more asynchronous actions to the chain. Please note that code is still "flat", it grows down, not to the right. There are no signs of "pyramid of doom".
+我们可以在链中添加更多的异步动作。请注意代码仍然“扁平”，它向下增长，而不是向右。没有“死亡金字塔”的迹象。
 
-Please note that technically it is also possible to write `.then` directly after each promise, without returning them, like this:
+请注意理论上也可以在每一个 promise 后直接写 `.then`，而不是返回它们，就像这样：
 
 ```js run
 loadScript("/article/promise-chaining/one.js").then(function(script1) {
   loadScript("/article/promise-chaining/two.js").then(function(script2) {
     loadScript("/article/promise-chaining/three.js").then(function(script3) {
-      // this function has access to variables script1, script2 and script3
+      // 这个函数可以访问 script1、script2 和 script3 变量
       one();
       two();
       three();
@@ -184,19 +183,19 @@ loadScript("/article/promise-chaining/one.js").then(function(script1) {
 });
 ```
 
-This code does the same: loads 3 scripts in sequence. But it "grows to the right". So we have the same problem as with callbacks. Use chaining (return promises from `.then`) to evade it.
+这段代码做了一样的事情：顺序加载 3 个脚本。但是它“向右增长”。所以和使用回调函数一样，我们会碰到相同的问题。要使用链式风格（`.then` 中返回 promise）来避免这个问题。
 
-Sometimes it's ok to write `.then` directly, because the nested function has access to the outer scope (here the most nested callback has access to all variables `scriptX`), but that's an exception rather than a rule.
+有时直接写 `.then` 是没问题的，因为嵌套函数可以访问外部作用域（这里大多数嵌套回调函数有权利访问所有的变量 `scriptX`），但这是一个例外而不算是规则。
 
 
 ````smart header="Thenables"
-To be precise, `.then` may return an arbitrary "thenable" object, and it will be treated the same way as a promise.
+确切地说，`.then` 可以返回任意的 “thenable” 对象，并且会被当做一个 promise 来对待。
 
-A "thenable" object is any object with a method `.then`.
+“thenable” 对象指拥有 `.then` 方法的任意对象。
 
-The idea is that 3rd-party libraries may implement "promise-compatible" objects of their own. They can have extended set of methods, but also be compatible with native promises, because they implement `.then`.
+第三方库能实现它们自己的 “可兼容 promise” 对象就是这种理念。他们可以扩展方法集，不过会保证与原生 promise 兼容，因为他们实现了 `.then` 方法。
 
-Here's an example of a thenable object:
+这里是一个 thenable 对象的示例：
 
 ```js run
 class Thenable {
@@ -205,7 +204,7 @@ class Thenable {
   }
   then(resolve, reject) {
     alert(resolve); // function() { native code }
-    // resolve with this.num*2 after the 1 second
+    // 1 秒后用 this.num*2 来 resolve
     setTimeout(() => resolve(this.num * 2), 1000); // (**)
   }
 }
@@ -214,70 +213,69 @@ new Promise(resolve => resolve(1))
   .then(result => {
     return new Thenable(result); // (*)
   })
-  .then(alert); // shows 2 after 1000ms
+  .then(alert); // 1000 ms 后显示 2
 ```
 
-JavaScript checks the object returned by `.then` handler in the line `(*)`: if it has a callable method named `then`, then it calls that method providing native functions `resolve`, `reject` as arguments (similar to executor) and waits until one of them is called. In the example above `resolve(2)` is called after 1 second `(**)`. Then the result is passed further down the chain.
+JavaScript 在 `(*)` 行检查 `.then` 处理程序返回的对象：如果它有一个名为 `then` 的可调用方法，那么它会调用该方法并提供原生函数 `resolve`，`reject 作为参数（类似于 executor）并在它被调用前一直等待。上面的例子中 `resolve(2)` 1 秒后被调用 `(**)`。然后 result 会延链向下传递。
 
-This feature allows to integrate custom objects with promise chains without having to inherit from `Promise`.
+这个功能允许整合定制对象和 promise 链，不用从 `Promise` 继承。
 ````
 
 
-## Bigger example: fetch
+## 更复杂的示例：fetch
 
-In frontend programming promises are often used for network requests. So let's see an extended example of that.
+在前端编程中，promise 经常被用来网络请求，就让我们再看一个关于这点展开的示例。
 
-We'll use the [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) method to load the information about the user from the remote server. The method is quite complex, it has many optional parameters, but the basic usage is quite simple:
+我们将使用 [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) 方法从远程服务器加载用户信息。该方法十分复杂，它有很多可选参数，但是基本用法十分简单：
 
 ```js
 let promise = fetch(url);
 ```
 
-This makes a network request to the `url` and returns a promise. The promise resolves with a `response` object when the remote server responds with headers, but *before the full response is downloaded*.
+它发送网络请求到 `url` 并返回一个 promise。当远程服务器返回响应头（注意不是**全部响应加载完成**）时，该 promise 用一个 `response` 来 resolve 掉。
 
-To read the full response, we should call a method `response.text()`: it returns a promise that resolves  when the full text downloaded from the remote server, with that text as a result.
+为了读取全部的响应，我们应该调用方法 `response.text()`：当全部文字内容从远程服务器上下载后，它会返回一个 resolved 状态的 promise，同时该文字会作为 result。
 
-The code below makes a request to `user.json` and loads its text from the server:
+下面代码向 `user.json` 发送请求并从服务器加载文字。
 
 ```js run
 fetch('/article/promise-chaining/user.json')
-  // .then below runs when the remote server responds
+  // 当远程服务器开始响应时，下面的 .then 执行
   .then(function(response) {
-    // response.text() returns a new promise that resolves with the full response text
-    // when we finish downloading it
+    // 当结束下载时，response.text() 会返回一个新的 resolved promise，该 promise 拥有全部响应文字
     return response.text();
   })
   .then(function(text) {
-    // ...and here's the content of the remote file
+    // ...这是远程文件内容
     alert(text); // {"name": "iliakan", isAdmin: true}
   });
 ```
 
-There is also a method `response.json()` that reads the remote data and parses it as JSON. In our case that's even more convenient, so let's switch to it.
+其实还有一个方法，`response.json()` 会读取远程数据并把它解析成 JSON。我们的示例中用这个方法要更方便，所以让我们替换成此方法。
 
-We'll also use arrow functions for brevity:
+为了简洁，我们也使用箭头函数：
 
 ```js run
-// same as above, but response.json() parses the remote content as JSON
+// 同上，但是使用 response.json() 把远程内容解析为 JSON
 fetch('/article/promise-chaining/user.json')
   .then(response => response.json())
   .then(user => alert(user.name)); // iliakan
 ```
 
-Now let's do something with the loaded user.
+现在我们用加载好的用户信息搞点事情。
 
-For instance, we can make one more request to github, load the user profile and show the avatar:
+例如，我们可以多发一个请求到 github，加载用户信息并显示头像：
 
 ```js run
-// Make a request for user.json
+// 发一个 user.json 请求
 fetch('/article/promise-chaining/user.json')
-  // Load it as json
+  // 作为 json 加载
   .then(response => response.json())
-  // Make a request to github
+  // 发一个请求到 github
   .then(user => fetch(`https://api.github.com/users/${user.name}`))
-  // Load the response as json
+  // 响应作为 json 加载
   .then(response => response.json())
-  // Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)
+  // 显示头像图片（githubUser.avatar_url）3 秒（也可以加上动画效果）
   .then(githubUser => {
     let img = document.createElement('img');
     img.src = githubUser.avatar_url;
@@ -288,13 +286,13 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-The code works, see comments about the details, but it should be quite self-descriptive. Although, there's a potential problem in it, a typical error of those who begin to use promises.
+这段代码可以工作，具体细节请看注释，它有良好的自我描述。但是，有一个潜在的问题，一个新手使用 promise 的典型问题。
 
-Look at the line `(*)`: how can we do something *after* the avatar has finished showing and gets removed? For instance, we'd like to show a form for editing that user or something else. As of now, there's no way.
+请看 `(*)` 行：我们如何能在头像结束显示并在移除**之后**做点什么？例如，我们想显示一个可以编辑用户，或者别的表单。就目前而言是做不到的。
 
-To make the chain extendable, we need to return a promise that resolves when the avatar finishes showing.
+为了使链可扩展，我们需要在头像结束显示时返回一个 resolved 状态的 promise。
 
-Like this:
+就像这样：
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -320,13 +318,13 @@ fetch('/article/promise-chaining/user.json')
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-Now right after `setTimeout` runs `img.remove()`, it calls `resolve(githubUser)`, thus passing the control to the next `.then` in the chain and passing forward the user data.
+现在，在 `setTimeout` 后运行 `img.remove()`，然后调用 `resolve(githubUser)`，这样链中的控制流程走到下一个 `.then` 并传入用户数据。
 
-As a rule, an asynchronous action should always return a promise.
+作为一个规律，一个异步动作应该永远返回一个 promise。
 
-That makes possible to plan actions after it. Even if we don't plan to extend the chain now, we may need it later.
+这让规划下一步动作成为可能。虽然现在我们没打算扩展链，我们可能在日后需要它。
 
-Finally, we can split the code into reusable functions:
+最终，我们可以把代码分割成几个可复用的函数：
 
 ```js run
 function loadJson(url) {
@@ -353,7 +351,7 @@ function showAvatar(githubUser) {
   });
 }
 
-// Use them:
+// 使用它们
 loadJson('/article/promise-chaining/user.json')
   .then(user => loadGithubUser(user.name))
   .then(showAvatar)
@@ -361,13 +359,13 @@ loadJson('/article/promise-chaining/user.json')
   // ...
 ```
 
-## Error handling
+## 错误处理
 
-Asynchronous actions may sometimes fail: in case of an error the corresponding promise becomes rejected. For instance, `fetch` fails if the remote server is not available. We can use `.catch` to handle errors (rejections).
+异步动作可能会失败：如果出现错误，相应的 promise 会变成 rejected。例如，如果远程服务器不可用 `fetch` 会失败。我们可以使用 `.catch` 来处理错误（rejections）。
 
-Promise chaining is great at that aspect. When a promise rejects, the control jumps to the closest rejection handler down the chain. That's very convenient in practice.
+promise 链在这方面做的很棒。当一个 promise reject 时，代码控制流程跳到链中最近的 rejection 处理程序。这在实践中非常方便。
 
-For instance, in the code below the URL is wrong (no such server) and `.catch` handles the error:
+例如，下面代码中的 URL 是错的（没有这个服务器）并且使用 `.catch` 处理错误：
 
 ```js run
 *!*
@@ -377,18 +375,18 @@ fetch('https://no-such-server.blabla') // rejects
   .catch(err => alert(err)) // TypeError: failed to fetch (the text may vary)
 ```
 
-Or, maybe, everything is all right with the server, but the response is not a valid JSON:
+或者，服务器的一切都很好，但响应不是有效的 JSON：
 
 ```js run
-fetch('/') // fetch works fine now, the server responds successfully
+fetch('/') // fetch 现在运行良好，服务器成功响应
 *!*
-  .then(response => response.json()) // rejects: the page is HTML, not a valid json
+  .then(response => response.json()) // rejects：页面是 HTML，而不是有效的 json
 */!*
   .catch(err => alert(err)) // SyntaxError: Unexpected token < in JSON at position 0
 ```
 
 
-In the example below we append `.catch` to handle all errors in the avatar-loading-and-showing chain:
+在下面的示例中，我们将附加 `.catch` 来处理在头像 —— 加载 —— 显示链中所有的错误：
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -409,13 +407,13 @@ fetch('/article/promise-chaining/user.json')
   .catch(error => alert(error.message));
 ```
 
-Here `.catch` doesn't trigger at all, because there are no errors. But if any of the promises above rejects, then it would execute.
+这里 `.catch` 根本没有触发，因为没有错误。但如果上面的任何 promise reject，那么它就会执行。
 
-## Implicit try..catch
+## 隐式 try..catch
 
-The code of the executor and promise handlers has an "invisible `try..catch`" around it. If an error happens, it gets caught and treated as a rejection.
+executor 和 promise 处理程序代码周围有一个 “隐藏的 `try..catch`”。如果错误发生，它会捕捉异常并当做一个 rejection 来对待。
 
-For instance, this code:
+例如这段代码：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -425,7 +423,7 @@ new Promise(function(resolve, reject) {
 }).catch(alert); // Error: Whoops!
 ```
 
-...Works the same way as this:
+...和这里工作方式相同：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -435,11 +433,11 @@ new Promise(function(resolve, reject) {
 }).catch(alert); // Error: Whoops!
 ```
 
-The "invisible `try..catch`" around the executor automatically catches the error and treats it as a rejection.
+执行代码周围“隐藏的 `try..catch`”自动捕获错误并把它作为一个 rejection 对待。
 
-That's so not only in the executor, but in handlers as well. If we `throw` inside `.then` handler, that means a rejected promise, so the control jumps to the nearest error handler.
+这不止是在 executor 中，处理程序也有。如果我们在 `.then` 处理程序中 `throw`，就意味着返回了一个 rejected promise，所以代码控制流程会跳到最近的错误处理程序。
 
-Here's an example:
+这有一个例子：
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -451,29 +449,29 @@ new Promise(function(resolve, reject) {
 }).catch(alert); // Error: Whoops!
 ```
 
-That's so not only for `throw`, but for any errors, including programming errors as well:
+这不仅适用于 `throw`，而且适用于任何错误，包括编程错误：
 
 ```js run
 new Promise(function(resolve, reject) {
   resolve("ok");
 }).then(function(result) {
 *!*
-  blabla(); // no such function
+  blabla(); // 没有此方法
 */!*
 }).catch(alert); // ReferenceError: blabla is not defined
 ```
 
-As a side effect, the final `.catch` not only catches explicit rejections, but also occasional errors in the handlers above.
+作为一个副作用，最终 `.catch` 不仅会捕获明确的 rejections，也会捕获在上面的处理程序中偶尔出现的错误。
 
-## Rethrowing
+## 重新抛出
 
-As we already noticed, `.catch` behaves like `try..catch`. We may have as many `.then` as we want, and then use a single `.catch` at the end to handle errors in all of them.
+正如我们已经注意到的那样，`.catch` 表现得像 `try..catch`。我们可以随心所欲拥有任意多个 `.then`，然后使用一个 `.catch` 在最后来处理它们中的所有错误。
 
-In a regular `try..catch` we can analyze the error and maybe rethrow it if can't handle. The same thing is possible for promises. If we `throw` inside `.catch`, then the control goes to the next closest error handler. And if we handle the error and finish normally, then it continues to the closest successful `.then` handler.
+在常规 `try..catch` 中我们可以分析错误，如果无法处理，可能会重新抛出错误。promise 也是一样的。如果我们在 `.catch` 里面 `throw`，那么控制流程将转到下一个最接近的错误处理程序。如果我们处理错误并正常结束，那么它将继续执行最接近的 `.then` 成功处理程序。
 
-In the example below the `.catch` successfully handles the error:
+在下面的示例中，`.catch` 成功处理了错误：
 ```js run
-// the execution: catch -> then
+// 执行流程：catch -> then
 new Promise(function(resolve, reject) {
 
   throw new Error("Whoops!");
@@ -485,12 +483,12 @@ new Promise(function(resolve, reject) {
 }).then(() => alert("Next successful handler runs"));
 ```
 
-Here the `.catch` block finishes normally. So the next successful handler is called. Or it could return something, that would be the same.
+在这里，`.catch` 块正常结束。然后调用下一个成功处理程序。或者它可以返回一些东西，这和之前的流程相同。
 
-...And here the `.catch` block analyzes the error and throws it again:
+……在这里，`.catch` 块分析错误并再次抛出：
 
 ```js run
-// the execution: catch -> catch -> then
+// 执行顺序：catch -> catch -> then
 new Promise(function(resolve, reject) {
 
   throw new Error("Whoops!");
@@ -498,36 +496,36 @@ new Promise(function(resolve, reject) {
 }).catch(function(error) { // (*)
 
   if (error instanceof URIError) {
-    // handle it
+    // 处理它
   } else {
     alert("Can't handle such error");
 
 *!*
-    throw error; // throwing this or another error jumps to the next catch
+    throw error; // 抛出这个或别的错误，代码跳转到下一个 catch
 */!*
   }
 
 }).then(function() {
-  /* never runs here */
+  /* 这里永远不会执行 */
 }).catch(error => { // (**)
 
   alert(`The unknown error has occurred: ${error}`);
-  // don't return anything => execution goes the normal way
+  // 什么都不返回 => 执行正常流程
 
 });
 ```
 
-The handler `(*)` catches the error and just can't handle it, because it's not `URIError`, so it throws it again. Then the execution jumps to the next `.catch` down the chain `(**)`.
+处理程序 `(*)` 捕获错误但无法处理它，因为它不是 `URIError`，因此它会再次抛出错误。然后执行流程跳转到后面链中 `(**)` 处的下一个 `.catch` 。
 
-In the section below we'll see a practical example of rethrowing.
+在下面的部分中，我们将看到一个重新抛出的实际例子。
 
-## Fetch error handling example
+## Fetch 错误处理示例
 
-Let's improve error handling for the user-loading example.
+让我们改进用户加载示例的错误处理。
 
-The promise returned by [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) rejects when it's impossible to make a request. For instance, a remote server is not available, or the URL is malformed. But if the remote server responds with error 404, or even error 500, then it's considered a valid response.
+在 [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) 不可能发出请求时会返回 rejected 状态的 promise。例如，远程服务器不可用或者 URL 格式不对。但是如果远程服务器响应 404 错误或 500 错误，那么它会被认为是一个有效的响应。
 
-What if the server returns a non-JSON page with error 500 in the line `(*)`? What if there's no such user, and github returns a page with error 404 at `(**)`?
+如果服务器在 `(*)` 行返回带有错误 500 的非 JSON 页面怎么办？如果没有这样的用户并且在 `(**)`行 github 返回错误 404 的页面怎么办？
 
 ```js run
 fetch('no-such-user.json') // (*)
@@ -539,11 +537,11 @@ fetch('no-such-user.json') // (*)
 ```
 
 
-As of now, the code tries to load the response as JSON no matter what and dies with a syntax error. You can see that by running the example above, as the file `no-such-user.json` doesn't exist.
+到目前为止，代码试图加载响应为 json，无论如何都会因语法错误而终止。您可以通过运行上面的示例来看，这是因为该文件 `no-such-user.json` 并不存在。
 
-That's not good, because the error just falls through the chain, without details: what failed and where.
+这样并不好，因为错误只是说出现在链上，没有细节：失败的原因和位置。
 
-So let's add one more step: we should check the `response.status` property that has HTTP status, and if it's not 200, then throw an error.
+所以让我们再添加一步：我们应该检查 `response.status` 具有 HTTP 状态的属性，如果它不是 200，则抛出错误。
 
 ```js run
 class HttpError extends Error { // (1)
@@ -569,15 +567,15 @@ loadJson('no-such-user.json') // (3)
   .catch(alert); // HttpError: 404 for .../no-such-user.json
 ```
 
-1. We make a custom class for HTTP Errors to distinguish them from other types of errors. Besides, the new class has a constructor that accepts the `response` object and saves it in the error. So error-handling code will be able to access it.
-2. Then we put together the requesting and error-handling code into a function that fetches the `url` *and* treats any non-200 status as an error. That's convenient, because we often need such logic.
-3. Now `alert` shows better message.
+1. 我们为 HTTP 错误创建了一个自定义类，以将它们与其他类型的错误区分开来。此外，这个新类有一个构造函数，它接受该 `response` 对象并将其保存在错误对象中。因此错误处理代码将能够访问它。
+2. 然后我们把请求和错误处理代码放到一个方法，该方法会 fetch `url`，**并且**把任何非 200 状态的响应当成一种错误。这很方便，因为我们经常需要这样的逻辑。
+3. 现在 `alert` 会显示棒的消息。
 
-The great thing about having our own class for errors is that we can easily check for it in error-handling code.
+拥有我们自己的错误类的好处是我们可以在错误处理代码中轻松检查它。
 
-For instance, we can make a request, and then if we get 404 -- ask the user to modify the information.
+例如，我们可以发出请求，然后如果我们得到 404 —— 要求用户修改信息。
 
-The code below loads a user with the given name from github. If there's no such user, then it asks for the correct name:
+下面的代码从 github 加载具有给定名称的用户。如果没有这样的用户，那么它会要求正确的名字：
 
 ```js run
 function demoGithubUser() {
@@ -603,25 +601,25 @@ function demoGithubUser() {
 demoGithubUser();
 ```
 
-Here:
+这里：
 
-1. If `loadJson` returns a valid user object, then the name is shown `(1)`, and the user is returned, so that we can add more user-related actions to the chain. In that case the `.catch` below is ignored, everything's very simple and fine.
-2. Otherwise, in case of an error, we check it in the line `(2)`. Only if it's indeed the HTTP error, and the status is 404 (Not found), we ask the user to reenter. For other errors -- we don't know how to handle, so we just rethrow them.
+1. 如果 `loadJson` 返回一个有效的用户对象，则在 `(1)` 行显示名字，并返回用户，以便我们可以向链中添加更多与用户相关的操作。在这种情况下 `.catch` 下面的代码会被忽略，一切都非常简单和美好。
+2. 否则，如果出现错误，我们会在 `(2)` 行中进行检查。只有当它确实是 HTTP 错误，并且状态为 404（Not found）时，我们才会要求用户重新输入。对于其他错误 —— 我们不知道如何处理，所以我们只是重新抛出它们。
 
-## Unhandled rejections
+## 未处理的 rejections
 
-What happens when an error is not handled? For instance, after the rethrow as in the example above. Or if we forget to append an error handler to the end of the chain, like here:
+不处理错误会发生什么？例如，在上面的例子中重新抛出之后。或者，如果我们忘记将错误处理程序附加到链的末尾，就像这里：
 
 ```js untrusted run refresh
 new Promise(function() {
-  noSuchFunction(); // Error here (no such function)
-}); // no .catch attached
+  noSuchFunction(); // Error 出现 (没有此方法)
+}); // 没有加 .catch
 ```
 
 Or here:
 
 ```js untrusted run refresh
-// a chain of promises without .catch at the end
+// 一个没有 .catch 的 promise 链
 new Promise(function() {
   throw new Error("Whoops!");
 }).then(function() {
@@ -629,17 +627,17 @@ new Promise(function() {
 }).then(function() {
   // ...something else...
 }).then(function() {
-  // ...but no catch after it!
+  // ...后面没有 catch！
 });
 ```
 
-In case of an error, the promise state becomes "rejected", and the execution should jump to the closest rejection handler. But there is no such handler in the examples above. So the error gets "stuck".
+如果出现错误，则 promise 状态变为 “rejected”，执行应跳转到最近的 rejection 处理程序。但是上面的例子中没有这样的处理程序。所以错误会“卡住”。
 
-In practice, that's usually because of the bad code. Indeed, how come that there's no error handling?
+实际上，这通常是因为不好的代码导致的。确实，为什么没有错误处理呢？
 
-Most JavaScript engines track such situations and generate a global error in that case. We can see it in the console.
+在这种情况下，大多数 JavaScript 引擎会跟踪此类情况并生成全局错误。我们可以在控制台中看到它。
 
-In the browser we can catch it using the event `unhandledrejection`:
+在浏览器中，我们可以使用 `unhandledrejection` 事件捕获它：
 
 ```js run
 *!*
@@ -655,30 +653,30 @@ new Promise(function() {
 }); // no catch to handle the error
 ```
 
-The event is the part of the [HTML standard](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections). Now if an error occurs, and there's no `.catch`, the `unhandledrejection` handler triggers: the `event` object has the information about the error, so we can do something with it.
+该事件是 [HTML 标准](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections)的一部分。现在，如果发生错误，并且没有 `.catch`，则 `unhandledrejection` 处理程序触发：`event` 对象具有有关错误的信息，因此我们可以对其执行某些操作。
 
-Usually such errors are unrecoverable, so our best way out is to inform the user about the problem and probably report about the incident to the server.
+通常这样的错误是不可恢复的，因此我们最好的方法是告知用户有关问题，并且可能的话向服务器报告此事件。
 
-In non-browser environments like Node.JS there are other similar ways to track unhandled errors.
+在 Node.js 等非浏览器环境中，还有其他类似的方法可以跟踪未处理的错误。
 
-## Summary
+## 总结
 
-To summarize, `.then/catch(handler)` returns a new promise that changes depending on what handler does:
+总而言之，`.then/catch(handler)` 返回一个新的 promise，它根据处理程序的作用而改变：
 
-1. If it returns a value or finishes without a `return` (same as `return undefined`), then the new promise becomes resolved, and the closest resolve handler (the first argument of `.then`) is called with that value.
-2. If it throws an error, then the new promise becomes rejected, and the closest rejection handler (second argument of `.then` or `.catch`) is called with it.
-3. If it returns a promise, then JavaScript waits until it settles and then acts on its outcome the same way.
+1. 如果它返回一个值或在没有 `return`（同 `return undefined`）的情况下结束，则新的 promise 将变为 resolved，并且用该值作参数调用最近的 resolve 处理程序（`.then` 的第一个参数）。
+2. 如果它抛出错误，则新的 promise 将 rejected，并且用该错误作参数调用最接近的 rejection 处理程序（`.then` 或 `.catch` 的第二个参数）。
+3. 如果它返回一个 promise，那么 JavaScript 会在它结束前等待，然后以相同的方式对其结果起作用。
 
-The picture of how the promise returned by `.then/catch` changes:
+图中展示 `.then/catch` 变化导致返回 promise 变化：
 
 ![](promise-handler-variants.png)
 
-The smaller picture of how handlers are called:
+小图中显示如何调用处理程序：
 
 ![](promise-handler-variants-2.png)
 
-In the examples of error handling above the `.catch` was always the last in the chain. In practice though, not every promise chain has a `.catch`. Just like regular code is not always wrapped in `try..catch`.
+在上面的错误处理示例中，`.catch` 始终是链中的最后一个。但在实践中，并非每个 promise 链都有 `.catch`。就像常规代码并不总是包在 `try..catch` 中一样。
 
-We should place `.catch` exactly in the places where we want to handle errors and know how to handle them. Using custom error classes can help to analyze errors and rethrow those that we can't handle.
+我们应该准确地放置 `.catch` 在我们想要处理错误的地方，并知道如何处理它们。使用自定义错误类可以帮助分析错误并重新抛出那些我们无法处理的错误。
 
-For errors that fall outside of our scope we should have the `unhandledrejection` event handler (for browsers, and analogs for other environments). Such unknown errors are usually unrecoverable, so all we should do is to inform the user and probably report to our server about the incident.
+对于超出我们的范围的错误，我们应该用 `unhandledrejection` 事件处理程序（对于浏览器，其它环境同理）。这些未知错误通常是不可恢复的，因此我们所要做的就是通知用户，可能的话向我们的服务器报告此事件。
