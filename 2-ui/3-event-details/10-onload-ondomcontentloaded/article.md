@@ -1,4 +1,4 @@
-# 页面生命周期：DOMContentLoaded、load、beforeunload、unload
+# 页面生命周期：DOMContentLoaded、load、beforeunload 和 unload
 
 HTML 页面的生命周期有三个重要事件：
 
@@ -156,7 +156,7 @@ window.onbeforeunload = function() {
 
 - `"loading"` —— 文档正在被加载。
 - `"interactive"` —— 文档被全部读取。
-- `"complete"` -- 文档被全部读取，所有的资源（图像之类的）都被加载。
+- `"complete"` —— 文档被全部读取，所有的资源（图像之类的）都被加载。
 
 因此我们检查 `document.readyState` 并设置一个处理器，或在代码准备就绪时立即执行它。
 
