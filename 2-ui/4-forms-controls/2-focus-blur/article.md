@@ -218,4 +218,3 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 - 大多数元素默认不支持聚焦。使用 `tabindex` 可以让它们变成可聚焦的。
 
 正在被聚焦的元素可以通过 `document.activeElement` 来访问。
-来源：https://raw.githubusercontent.com/xitu/javascript-tutorial-zh/zh-hans/2-ui/4-forms-controls/2-focus-blur/article.md
