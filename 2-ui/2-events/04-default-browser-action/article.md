@@ -35,7 +35,7 @@ or
 
 ### 示例：菜单
 
-考虑一个站点菜单：如下所示：
+考虑一个站点菜单，如下所示：
 
 ```html
 <ul id="menu" class="menu">
@@ -63,7 +63,7 @@ menu.onclick = function(event) {
   if (event.target.nodeName != 'A') return;
 
   let href = event.target.getAttribute('href');
-  alert( href ); // ...可以从服务器、UI 等加载
+  alert( href ); // ...可以从服务器和 UI 等加载
 
 *!*
   return false; // prevent browser action (don't go to the URL)
@@ -82,7 +82,7 @@ menu.onclick = function(event) {
 
 例如，在 `<input>` 上的 `mousedown` 会导致在其中获得焦点，也就是 `focus` 事件。如果我们阻止 `mousedown` 事件，就不会有焦点。
 
-尝试点击以下的 `<input>` ——  `focus` 事件会发生。这很正常。
+尝试点击以下的 `<input>` —— `focus` 事件会发生。这很正常。
 
 但是如果你点击第二个，就会失去焦点。
 
