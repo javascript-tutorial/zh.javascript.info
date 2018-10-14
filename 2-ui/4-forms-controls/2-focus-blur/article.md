@@ -53,7 +53,7 @@ Your email please: <input type="email" id="input">
 
 ## focus/blur 的方法
 
-方法 `和` 可以设置和移除元素上的焦点。
+方法 `elem.focus()` 和 `elem.blur()` 可以设置和移除元素上的焦点。
 
 举个例子，如果输入值无效，我们可以让焦点一直保留在这个输入域上：
 
