@@ -10,4 +10,4 @@ importance: 5
 
 [iframe src="solution" height=420]
 
-P.S. 应该只是容器上的一个事件侦听者，使用事件委托。
+P.S. 在容器上应该只有一个监听器，即使用事件委托。
