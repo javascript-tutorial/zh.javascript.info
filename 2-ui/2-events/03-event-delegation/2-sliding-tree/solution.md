@@ -1,4 +1,4 @@
-The solution has two parts.
+解决方案分为两步。
 
-1. Wrap every tree node title into `<span>`. Then we can CSS-style them on `:hover` and handle clicks exactly on text, because `<span>` width is exactly the text width (unlike without it).
-2. Set a handler to the `tree` root node and handle clicks on that `<span>` titles.
+1. 将每个树节点的标题用 `<span>` 包裹起来。然后我们可以在 `:hover` 上使用 CSS 样式，并准确地处理文本上的单击事件，因为 `<span>` 宽度正好是文本宽度（与没有它不同）。
+2. 为 `tree` 的根节点设置处理器来处理 `<span>` 中标题的单击事件。
