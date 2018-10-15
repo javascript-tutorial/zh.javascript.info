@@ -1,16 +1,31 @@
 # XMLHttpRequest and AJAX
 
+# XMLHttpRequest 和 AJAX
+
 `XMLHttpRequest` is a built-in browser object that allows to make HTTP requests in JavaScript.
 
+`XMLHttpRequest` 是 JavaScript 中发送 HTTP 请求的浏览器内置对象。
+
 Despite of having the word "XML" in its name, it can operate on any data, not only in XML format.
+
+虽然它的名字里面有 "XML"，但它可以操作任何数据，而不仅仅是 XML 格式。
+
+## Asynchronous XMLHttpRequest
 
 ## Asynchronous XMLHttpRequest
 
 XMLHttpRequest has two modes of operation: synchronous and asynchronous.
 
+XMLHttpRequest 有两种作用模式：同步和异步。
+
 First let's see the asynchronous variant as it's used in the majority of cases.
 
+首先我们先看看最常用的异步形式。
+
+
 The code below loads the URL at `/article/xmlhttprequest/hello.txt` from the server and shows its content on-screen:
+
+如下代码实现了加载服务器地址 `/article/xmlhttprequest/hello.txt` 并且把内容显示在屏幕上：
 
 ```js run
 *!*
@@ -44,25 +59,45 @@ xhr.onload = function() {
 
 As we can see, there are several methods of `XMLHttpRequest` here. Let's cover them.
 
+如你所见，`XMLHttpRequest` 有很多方法。我们来逐个讲解。
+
+## Setup: "open"
+
 ## Setup: "open"
 
 The syntax:
+
+语法：
+
 ```js
 xhr.open(method, URL, async, user, password)
 ```
 
 This method is usually called first after `new XMLHttpRequest`. It specifies the main parameters of the request:
 
+这个方法通常紧接着 `new XMLHttpRequest` 后面调用。它指定了请求的以下几个主要参数：
+
 - `method` -- HTTP-method. Usually `"GET"` or `"POST"`, but we can also use TRACE/DELETE/PUT and so on.
 - `URL` -- the URL to request. Can use any path and protocol, but there are cross-domain limitations called "Same Origin Policy". We can make any requests to the same `protocol://domain:port` that the current page comes from, but other locations are "forbidden" by default (unless they implement special HTTP-headers, we'll cover them in chapter [todo]).
 - `async` -- if the third parameter is explicitly set to `false`, then the request is synchronous, otherwise it's asynchronous. We'll talk more about that in this chapter soon.
 - `user`, `password` -- login and password for basic HTTP auth (if required).
 
+- `method` -- HTTP 方法。通常使用 `"GET"` 或者 `"POST"`,但我们也可以使用 TRACE/DELETE/PUT 等等。
+- `URL` -- 请求地址。可以使用任何路径和协议，但是有“同源策略”的限制。在当前页面我们可以使用形如 `protocol://domain:port` 格式发起任何请求，但是其他的地址是默认 “禁止” 的（除非实现了特殊的 HTTP-headers，我们将在后续章节详细介绍[todo]）。
+- `async` -- 如果第三个参数显式地设置为 `false`，那么该请求就是同步的，否则就是异步的。我们会在这一章后续详细讲解。
+- `user`, `password` -- 登录和密码是基本的 HTTP 验证（如果必要的话）。
+
 Please note that `open` call, contrary to its name, does not open the connection. It only configures the request, but the network activity only starts with the call of `send`.
 
+请注意 `open` 的调用，和它的名字襄樊，并没有打开任何链接。它只配置了请求，而网络请求仅在 `send` 调用时开始。
+
 ## Send it out: "send"
+## 把它发送出去: "send"
 
 The syntax:
+
+语法：
+
 ```js
 xhr.send([body])
 ```
