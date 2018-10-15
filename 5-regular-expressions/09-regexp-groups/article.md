@@ -4,22 +4,22 @@
 
 这有两个作用：
 
-1. 当使用 [String#match](mdn:js/String/match) 或 [RegExp#exec](mdn:/RegExp/exec) 方法时，它允许你把匹配这一部分放到一个独立的数组项里面。
+1. 当使用 [String#match](mdn:js/String/match) 或 [RegExp#exec](mdn:/RegExp/exec) 方法时，它允许你把匹配到的部分放到一个独立的数组项里面。
 2. 如果我们在括号之后加上量词，那么它会应用到这个整体，而非最后一个字符。
 
 ## 例子
 
-以下例子中的模式 `pattern:(go)+`将会查找一个或多个 `match:'go'`：
+以下例子中的模式 `pattern:(go)+` 将会查找一个或多个 `match:'go'`：
 
 ```js run
 alert( 'Gogogo now!'.match(/(go)+/i) ); // "Gogogo"
 ```
 
-如果没有捕获括号，模式 `pattern:/go+/` 则表示 `subject:g` 之后跟上一个或多个 `subject:o`。比如：`match:goooo` 或者 `match:gooooooooo`。
+如果没有括号，模式 `pattern:/go+/` 则表示 `subject:g` 之后跟上一个或多个 `subject:o`。比如：`match:goooo` 或者 `match:gooooooooo`。
 
 捕获括号将 `pattern:(go)` 划为了一组。
 
-让我们尝试一个更复杂的例子——一个匹配 email 地址的正则表达式。
+让我们尝试一个更复杂的例子 —— 一个匹配 email 地址的正则表达式。
 
 例如：
 
@@ -82,7 +82,7 @@ while (match = reg.exec(str)) {
 }
 ```
 
-如此我们便得到了 `pattern:<(.*?)>` 的两个匹配项, 他们中的每一个都包括完整的匹配和对应的捕获组。
+如此我们便得到了 `pattern:<(.*?)>` 的两个匹配项，他们中的每一个都包括完整的匹配和对应的捕获组。
 
 ## 嵌套捕获组
 
@@ -113,9 +113,9 @@ alert(result); // <span class="my">, span class="my", span, class="my"
 
 之后就是各个捕获组，从左往右依次排开。第一个左括号将会匹配到第一个捕获组 `result[1]`。在这个例子中，它涵盖了整个标签的内容。
 
-`result[2]` 对应第二个左括号 `pattern:(` 到与其对应的右括号 `pattern:)` 之间的内容——标签名。再然后，我们跳过空格，将所有属性划为一组，对应 `result[3]`。
+`result[2]` 对应第二个左括号 `pattern:(` 到与其对应的右括号 `pattern:)` 之间的内容 —— 标签名。再然后，我们跳过空格，将所有属性划为一组，对应 `result[3]`。
 
-**如果某个捕获组是可选的，且在匹配中没有找到对应项，那么在相应的匹配结果中，该项依然会存在（值为`undefined`）。**
+**如果某个捕获组是可选的，且在匹配中没有找到对应项，那么在相应的匹配结果中，该项依然会存在（值为 `undefined`）。**
 
 让我们考虑这条正则表达式 `pattern:a(z)?(c)?`。它会查找字符 `"a"`，之后可能跟着一个 `"z"`，之后可能跟着一个 `"c"`。
 
@@ -145,7 +145,7 @@ alert( match[2] ); // c
 
 数组的长度依然是 `3`。但是因为捕获组 `pattern:(z)?` 没有对应项，所以结果为 `["ac", undefined, "c"]`。
 
-## 非捕获括号 ?:
+## 非捕获组 ?:
 
 某些时候，我们会希望使用括号来正确设置量词，但是并不希望其内容出现在结果数组中。
 
