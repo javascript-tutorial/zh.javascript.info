@@ -2,7 +2,7 @@
 
 `XMLHttpRequest` 是 JavaScript 中发送 HTTP 请求的浏览器内置对象。
 
-虽然它的名字里面有 "XML"，但它可以操作任何数据，而不仅仅是 XML 格式。
+虽然它的名字里面有“XML”，但它可以操作任何数据，而不仅仅是 XML 格式。
 
 ## 异步 XMLHttpRequest
 
@@ -44,7 +44,7 @@ xhr.onload = function() {
 
 如你所见，`XMLHttpRequest` 有很多方法。我们来逐个讲解。
 
-## 建立: "open"
+## 建立：“open”
 
 语法：
 ```js
@@ -60,7 +60,7 @@ xhr.open(method, URL, async, user, password)
 
 请注意 `open` 的调用，和它的名字相反，并没有打开任何链接。它只配置了请求，而网络请求仅在 `send` 调用时开始。
 
-## 把它发送出去："send"
+## 把它发送出去：“send”
 
 语法：
 ```js
@@ -143,7 +143,7 @@ timeout 单位是毫秒。如果请求在给定时间内没有成功，它就会
 一旦服务端响应，我们可以接收带有如下属性的请求结果：
 
 `status`
-: HTTP 状态码：`200`，`404`，`403` 等。如果有错误的话也可以是 `0`。
+: HTTP 状态码：`200`、`404`、`403` 等。如果有错误的话也可以是 `0`。
 
 `statusText`
 ：HTTP 状态信息：通常 `200` 代表`成功`,`404` 代表`未找到`，`403` 代表`被禁止`等等。
@@ -222,7 +222,7 @@ The full example in action:
 [codetabs src="phones-async"]
 ```
 
-# 事件 "readystatechange"
+# 事件“readystatechange”
 
 在发送请求和接收响应时 `readystatechange` 事件会多次响应。
 
@@ -274,7 +274,7 @@ HTTP-headers 有 3 种方法：
     ```
 
     ```warn header="Headers limitations"
-    有些 headers 之能由浏览器管理，比如 `Referer` 和 `Host`。
+    有些 headers 只能由浏览器管理，比如 `Referer` 和 `Host`。
     完整的列表在[规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method)中。
     
     为了用户安全和请求的正确性，XMLHttpRequest 不允许更改它们。
@@ -343,7 +343,7 @@ HTTP-headers 有 3 种方法：
 xhr.timeout = 30000; // 30 seconds (in milliseconds)
 ```
 
-如果请求超过该市场，它就会中止，并生成 `timeout` 事件：
+如果请求超过该时长，它就会中止，并生成 `timeout` 事件：
 
 ```js
 xhr.ontimeout = function() {
