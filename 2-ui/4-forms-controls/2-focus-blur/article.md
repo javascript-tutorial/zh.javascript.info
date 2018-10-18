@@ -1,6 +1,6 @@
 # 聚焦：focus/blur
 
-当一个元素被用户点击或使用键盘上的 Key:Tab 选中时，该元素会被聚焦。当网页加载时 HTML  `autofocus` 属性也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获取焦点。
+当一个元素被用户点击或使用键盘上的 `key:Tab` 选中时，该元素会被聚焦。当网页加载时 HTML `autofocus` 属性也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获取焦点。
 
 聚焦通常表示：“这里准备好接受数据了”，而这也正是我们运行代码去初始化或加载一些东西的时候。
 
@@ -49,7 +49,7 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-在现代的 HTML 中，可以使用 required、pattern 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
+在现代的 HTML 中，可以使用 `required`、`pattern` 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
 
 
 ## focus/blur 方法
@@ -142,7 +142,7 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 顺序就像这样：`1 - 2 - 0`（0 总是最后一个）。正常情况下，`<li>` 元素不支持被聚焦，但 `tabindex` 使这成为可能，顺带还会触发事件和使 `:focus` 样式生效。
 
-```
+```smart header="`elem.tabIndex` works too"
 我们可以通过 JavaScript 使用 `elem.tabIndex` 来添加 `tabindex` 属性。效果是一样的。
 ```
 
