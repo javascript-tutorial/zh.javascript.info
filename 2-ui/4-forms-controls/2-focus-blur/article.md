@@ -90,7 +90,7 @@ Your email please: <input type="email" id="input">
 
 请注意，我们不可以通过在 `onblur` 事件处理器里调用 `event.preventDefault()` 来“阻止失去焦点”，因为 `onblur` 事件处理器是在元素失去焦点的**之后**运行的。
 
-```warn header="JavaScript-initiated focus loss"
+```warn header="JavaScript 导致的焦点丢失"
 很多种原因可以导致失去焦点。
 
 其中之一是用户点击了其它的地方。当然 JavaScript 本身也会导致这种事情发生，举个例子：
@@ -142,7 +142,7 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 顺序就像这样：`1 - 2 - 0`（0 总是最后一个）。正常情况下，`<li>` 元素不支持被聚焦，但 `tabindex` 使这成为可能，顺带还会触发事件和使 `:focus` 样式生效。
 
-```smart header="`elem.tabIndex` works too"
+```smart header="`elem.tabIndex` 也一样有效"
 我们可以通过 JavaScript 使用 `elem.tabIndex` 来添加 `tabindex` 属性。效果是一样的。
 ```
 
