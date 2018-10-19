@@ -1,6 +1,6 @@
 
-We can use `mouse.onclick` to handle the click and make the mouse "moveable" with `position:fixed`, then then `mouse.onkeydown` to handle arrow keys.
+我们可以使用 `mouse.onclick` 来处理点击事件，并通过 `position:fixed` 让元素“可移动”，然后使用 `mouse.onkeydown` 去处理点击方向键事件。
 
-The only pitfall is that `keydown` only triggers on elements with focus. So we need to add `tabindex` to the element.  As we're forbidden to change HTML, we can use `mouse.tabIndex` property for that.
+唯一的缺陷是 `keydown` 仅会触发在聚焦的元素上。所以我们需要为这个元素添加 `tabindex`。因为我们不可以改变 HTML，所以我们可以使用 `mouse.tabIndex` 属性来达到这个目的。
 
-P.S. We also can replace `mouse.onclick` with `mouse.onfocus`.
+另外我们也可以使用 `mouse.onfocus` 代替 `mouse.onclick`。

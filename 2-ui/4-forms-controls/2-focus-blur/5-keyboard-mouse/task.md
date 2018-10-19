@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# Keyboard-driven mouse
+# 键盘移动
 
-Focus on the mouse. Then use arrow keys to move it:
+聚焦在老鼠上。然后使用方向键去移动它：
 
 [demo src="solution"]
 
-P.S. Don't put event handlers anywhere except the `#mouse` element.
-P.P.S. Don't modify HTML/CSS, the approach should be generic and work with any element.
+另外不要把事件处理器放在除了 `#mouse` 元素外的其它任何地方。
+还有不要修改 HTML/CSS，这个方法应该是通用的，可以作用在任何元素上。
