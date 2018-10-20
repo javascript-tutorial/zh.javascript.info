@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Add an option to select
+# 在 select 元素中增加一个选项
 
-There's a `<select>`:
+下面是一个 `<select>` 元素：
 
 ```html
 <select id="genres">
@@ -13,8 +13,8 @@ There's a `<select>`:
 </select>
 ```
 
-Use JavaScript to:
+使用 JavaScript 来实现以下效果：
 
-1. Show the value and the text of the selected option.
-2. Add an option: `<option value="classic">Classic</option>`.
-3. Make it selected.
+1. 显示所选选项的值和文本。
+2. 增加一个选项：`<option value="classic">Classic</option>`。
+3. 使之变为可选的。
