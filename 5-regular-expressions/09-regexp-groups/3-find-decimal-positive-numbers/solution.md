@@ -1,11 +1,11 @@
 
-An integer number is `pattern:\d+`.
+`pattern:\d+` 可以匹配一个整数。
 
-A decimal part is: `pattern:\.\d+`.
+`pattern:\.\d+` 可以匹配小数部分。
 
-Because the decimal part is optional, let's put it in parentheses with quantifier `pattern:'?'`.
+因为小数部分不一定存在，所以我们将其放入捕获括号内，搭配量词 `pattern:'?'`。
 
-Finally we have the regexp: `pattern:\d+(\.\d+)?`:
+最终我们得到这样一个正则表达式：`pattern:\d+(\.\d+)?`。
 
 ```js run
 let reg = /\d+(\.\d+)?/g;
