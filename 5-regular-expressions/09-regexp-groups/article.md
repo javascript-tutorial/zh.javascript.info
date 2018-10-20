@@ -70,7 +70,7 @@ alert( str.match(reg) ); // Array: ["<h1>", "h1"]
 ```js run
 let str = '<h1>Hello, world!</h1>';
 
-// 两组匹配：起始标签 <h1> 和闭合标签 </h1>
+// 两组匹配：起始标签 <h1>和闭合标签</h1>
 let reg = /<(.*?)>/g;
 
 let match;
