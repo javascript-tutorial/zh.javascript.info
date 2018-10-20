@@ -1,9 +1,9 @@
-# Find HTML comments
+# 查找 HTML 注释
 
-Find all HTML comments in the text:
+找出文本中的所有注释：
 
 ```js
-let reg = /your regexp/g;
+let reg = /你的正则表达式/g;
 
 let str = `... <!-- My -- comment
  test --> ..  <!----> .. 

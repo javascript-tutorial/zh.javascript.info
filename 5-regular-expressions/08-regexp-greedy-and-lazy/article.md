@@ -1,22 +1,22 @@
-# Greedy and lazy quantifiers
+# 贪婪量词和惰性量词
 
-Quantifiers are very simple from the first sight, but in fact they can be tricky.
+量词，看上去十分简单，但实际上它可能会很棘手。
 
-We should understand how the search works very well if we plan to look for something more complex than `pattern:/\d+/`.
+如果我们打算寻找比 `pattern:/\d+/` 更加复杂的东西，就需要理解搜索工作是如何进行的。
 
-Let's take the following task as an example.
+以接下来的问题为例。
 
-We have a text and need to replace all quotes `"..."` with guillemet marks: `«...»`. They are preferred for typography in many countries.
+有一个文本，我们需要用书名号：`«...»` 来代替所有的引号 `"..."`。在许多国家，它们是排版的首选。
 
-For instance: `"Hello, world"` should become `«Hello, world»`.
+例如：`"Hello, world"` 将会变成 `«Hello, world»`。
 
-Some countries prefer `„Witam, świat!”` (Polish) or even `「你好，世界」` (Chinese) quotes. For different locales we can choose different replacements, but that all works the same, so let's start with `«...»`.
+一些国家偏爱 `„Witam, świat!”`（波兰语）甚至 `「你好，世界」`（汉语）引号。对于不同的语言环境，我们可以选择不同的替代方式，但它们都是一样的，那我们就以书名号 `«...»` 开始。
 
-To make replacements we first need to find all quoted substrings.
+为了进行替换，我们首先要找出所有被引号围起来的子串。
 
-The regular expression can look like this: `pattern:/".+"/g`. That is: we look for a quote followed by one or more characters, and then another quote.
+正则表达式看上去可能是这样的：`pattern:/".+"/g`。这个表达式的意思是：我们要查找这样一个句子，一个引号后跟一个或多个字符，然后以另一个引号结尾。
 
-...But if we try to apply it, even in such a simple case...
+...但如果我们试着在一个如此简单的例子中去应用它...
 
 ```js run
 let reg = /".+"/g;
@@ -26,85 +26,85 @@ let str = 'a "witch" and her "broom" is one';
 alert( str.match(reg) ); // "witch" and her "broom"
 ```
 
-...We can see that it works not as intended!
+...我们会发现它的运行结果与预期不同！
 
-Instead of finding two matches `match:"witch"` and `match:"broom"`, it finds one: `match:"witch" and her "broom"`.
+它直接找到了一个匹配结果：`match:"witch" and her "broom"`，而不是找到两个匹配结果 `match:"witch"` 和 `match:"broom"`。
 
-That can be described as "greediness is the cause of all evil".
+这可被称为“贪婪是万恶之源”。
 
-## Greedy search
+## 贪婪搜索
 
-To find a match, the regular expression engine uses the following algorithm:
+为了查找到一个匹配项，正则表达式引擎采用了以下算法：
 
-- For every position in the string
-    - Match the pattern at that position.
-    - If there's no match, go to the next position.
+- 对于字符串中的每一个字符
+    - 用这个模式来匹配此字符。
+    - 若无匹配，移至下一个字符
 
-These common words do not make it obvious why the regexp fails, so let's elaborate how the search works for the pattern `pattern:".+"`.
+这些简单的词语没有说清楚为什么这个正则表达式匹配失败了，因此，让我们详细说明一下模式 `pattern:".+"` 是如何进行搜索工作的。
 
-1. The first pattern character is a quote `pattern:"`.
+1. 该模式的第一个字符是一个引号 `pattern:"`。
 
-    The regular expression engine tries to find it at the zero position of the source string `subject:a "witch" and her "broom" is one`, but there's `subject:a` there, so there's immediately no match.
+    正则表达式引擎企图在字符串 `subject:a "witch" and her "broom" is one` 的第一个位置就匹配到目标，但这个位置是 subject:a，所以匹配失败。
 
-    Then it advances: goes to the next positions in the source string and tries to find the first character of the pattern there, and finally finds the quote at the 3rd position:
+    然后它进行下一步：移至字符串中的下一个位置，并试图匹配模式中的第一个字符，最终在第三个位置匹配到了引号：
 
     ![](witch_greedy1.png)
 
-2. The quote is detected, and then the engine tries to find a match for the rest of the pattern. It tries to see if the rest of the subject string conforms to `pattern:.+"`.
+2. 检测到了引号后，引擎就尝试去匹配模式中的剩余字符。它试图查看剩余的字符串主体是否符合 `pattern:.+"`。
 
-    In our case the next pattern character is `pattern:.` (a dot). It denotes "any character except a newline", so the next string letter `match:'w'` fits:
+    在我们的用例中，模式中的下一个字符为 `pattern:.`（一个点）。它表示匹配除了换行符之外的任意字符，所以将会匹配下一个字符 `match:'w'`：
 
     ![](witch_greedy2.png)
 
-3. Then the dot repeats because of the quantifier `pattern:.+`. The regular expression engine builds the match by taking characters one by one while it is possible.
+3. 然后因为量词 `pattern:.+`，模式中的点（.）将会重复。正则表达式引擎逐一读取字符，当该字符可能匹配时就用它来构建匹配项。
 
-    ...When it becomes impossible? All characters match the dot, so it only stops when it reaches the end of the string:
+    ...什么时候会不匹配？点（.）能够匹配所有字符，所以只有在移至字符串末尾时才停止匹配：
 
     ![](witch_greedy3.png)
 
-4. Now the engine finished repeating for `pattern:.+` and tries to find the next character of the pattern. It's the quote `pattern:"`. But there's a problem: the string has finished, there are no more characters!
+4. 现在引擎完成了对重复模式 `pattern:.+` 的搜索，并且试图寻找模式中的下一个字符。这个字符是引号 `pattern:"`。但还有一个问题，对字符串的遍历已经结束，已经没有更多的字符了！
 
-    The regular expression engine understands that it took too many `pattern:.+` and starts to *backtrack*.
+    正则表达式引擎明白它已经为 `pattern:.+` 匹配了太多项了，所以开始**回溯**了。
 
-    In other words, it shortens the match for the quantifier by one character:
+    换句话说，它去掉了量词的匹配项的最后一个字符：
 
     ![](witch_greedy4.png)
 
-    Now it assumes that `pattern:.+` ends one character before the end and tries to match the rest of the pattern from that position.
+    现在它假设在结束前，`pattern:.+` 会匹配一个字符，并尝试匹配剩余的字符。
 
-    If there were a quote there, then that would be the end, but the last character is `subject:'e'`, so there's no match.
+    如果出现了一个引号，就表示到达了末尾，但最后一个字符是 `subject:'e'`，所以无法匹配。 
 
-5. ...So the engine decreases the number of repetitions of `pattern:.+` by one more character:
+5. ...所以引擎会再去掉一个字符，以此来减少 `pattern:.+` 的重复次数：
 
     ![](witch_greedy5.png)
 
-    The quote `pattern:'"'` does not match `subject:'n'`.
+    `pattern:'"'` 并不会匹配 `subject:'n'`。
 
-6. The engine keep backtracking: it decreases the count of repetition for `pattern:'.'` until the rest of the pattern (in our case `pattern:'"'`) matches:
+6. 引擎不断进行回溯：它减少了 `pattern:'.'` 的重复次数，直到模式的其它部分（在我们的用例中是 `pattern:'"'`）匹配到结果：
 
     ![](witch_greedy6.png)
 
-7. The match is complete.
+7. 匹配完成。
 
-8. So the first match is `match:"witch" and her "broom"`. The further search starts where the first match ends, but there are no more quotes in the rest of the string `subject:is one`, so no more results.
+8. 所以，第一次匹配是 `match:"witch" and her "broom"`。接下来的搜索的起点位于第一次搜索的终点，但在 `subject:is one` 中没有更多的引号了，所以没有其它的结果了。
 
-That's probably not what we expected, but that's how it works.
+这可能不是我们所想要的，但这就是它的工作原理。
 
-**In the greedy mode (by default) the quantifier is repeated as many times as possible.**
+**在贪婪模式下（默认情况下），量词都会尽可能地重复多次。**
 
-The regexp engine tries to fetch as many characters as it can by `pattern:.+`, and then shortens that one by one.
+正则表达式引擎尝试用 `pattern:.+` 去获取尽可能多的字符，然后再一步步地筛选它们。
 
-For our task we want another thing. That's what the lazy quantifier mode is for.
+对于这个问题，我们想要另一种结果，这也就是懒惰量词模式的用途。
 
-## Lazy mode
+## 懒惰模式
 
-The lazy mode of quantifier is an opposite to the greedy mode. It means: "repeat minimal number of times".
+懒惰模式中的量词与贪婪模式中的是相反的。它想要“重复最少次数”。
 
-We can enable it by putting a question mark `pattern:'?'` after the quantifier, so that it becomes  `pattern:*?` or `pattern:+?` or even `pattern:??` for `pattern:'?'`.
+我们能够通过在量词之后添加一个问号 `pattern:'?'` 来启用它，所以匹配模式变为 `pattern:*?` 或 `pattern:+?`，甚至将 `pattern:'?'` 变为 `pattern:??`。
 
-To make things clear: usually a question mark `pattern:?` is a quantifier by itself (zero or one), but if added *after another quantifier (or even itself)* it gets another meaning -- it switches the matching mode from greedy to lazy.
+这么说吧：通常，一个问号 `pattern:?` 就是一个它本身的量词（0 或 1），但如果添加**另一个量词（甚至可以是它自己）**，就会有不同的意思 —— 它将匹配的模式从贪婪转为懒惰。
 
-The regexp `pattern:/".+?"/g` works as intended: it finds `match:"witch"` and `match:"broom"`:
+正则表达式 `pattern:/".+?"/g` 正如预期工作：它找到了 `match:"witch"` 和 `match:"broom"`：
 
 ```js run
 let reg = /".+?"/g;
@@ -114,68 +114,68 @@ let str = 'a "witch" and her "broom" is one';
 alert( str.match(reg) ); // witch, broom
 ```
 
-To clearly understand the change, let's trace the search step by step.
+为了更清楚地理解这个变化，我们来一步步解析这个搜索过程。
 
-1. The first step is the same: it finds the pattern start `pattern:'"'` at the 3rd position:
+1. 第一步依然相同：它在第三个位置开始 `pattern:'"'`：
 
     ![](witch_greedy1.png)
 
-2. The next step is also similar: the engine finds a match for the dot `pattern:'.'`:
+2. 下一步也是类似的：引擎为 `pattern:'.'` 找到了一个匹配项：
 
     ![](witch_greedy2.png)
 
-3. And now the search goes differently. Because we have a lazy mode for `pattern:+?`, the engine doesn't try to match a dot one more time, but stops and tries to match the rest of the pattern  `pattern:'"'` right now:
+3. 接下来就是搜索过程出现不同的时候了。因为我们对 `pattern:+?` 启用了懒惰模式，引擎不会去尝试多匹配一个点，并且开始了对剩余的 `pattern:'"'` 的匹配：
 
     ![](witch_lazy3.png)
 
-    If there were a quote there, then the search would end, but there's `'i'`, so there's no match.
-4. Then the regular expression engine increases the number of repetitions for the dot and tries one more time:
+    如果有一个引号，搜索就会停止，但是有一个 `'i'`，所以没有匹配到引号。
+4. 接着，正则表达式引擎增加对点的重复搜索次数，并且再次尝试：
 
     ![](witch_lazy4.png)
 
-    Failure again. Then the number of repetitions is increased again and again...
-5. ...Till the match for the rest of the pattern is found:
+    又失败了。然后重复次数一次又一次的增加...
+5. ...直到模式中的剩余部分找到匹配项：
 
     ![](witch_lazy5.png)
 
-6. The next search starts from the end of the current match and yield one more result:
+6. 接下来的搜索工作从当前匹配结束的那一项开始，就会再产生一个结果：
 
     ![](witch_lazy6.png)
 
-In this example we saw how the lazy mode works for `pattern:+?`. Quantifiers `pattern:+?` and `pattern:??` work the similar way -- the regexp engine increases the number of repetitions only if the rest of the pattern can't match on the given position.
+在这个例子中，我们看到了懒惰模式 `pattern:+?` 是怎样工作的。量词 `pattern:+?` 和 `pattern:??` 也有类似的效果 —— 只有在模式的剩余部分无法在给定位置匹配时，正则表达式引擎才会增加重复次数。
 
-**Laziness is only enabled for the quantifier with `?`.**
+**懒惰模式只能够通过带 `?` 的量词启用**
 
-Other quantifiers remain greedy.
+其它的量词依旧保持贪婪模式。
 
-For instance:
+例如：
 
 ```js run
 alert( "123 456".match(/\d+ \d+?/g) ); // 123 4
 ```
 
-1. The pattern `pattern:\d+` tries to match as many numbers as it can (greedy mode), so it finds  `match:123` and stops, because the next character is a space `pattern:' '`.
-2. Then there's a space in pattern, it matches.
-3. Then there's `pattern:\d+?`. The quantifier is in lazy mode, so it finds one digit `match:4` and tries to check if the rest of the pattern matches from there.
+1. 模式 `pattern:\d+` 尝试匹配尽可能多的数字（贪婪模式），因此在它找到 `match:123` 时停止，因为下一个字符为空格 `pattern:' '`。
+2. 匹配到一个空格。
+3. 由于 `pattern:\d+?`。量词是出于懒惰模式的，所以它匹配一个数字 `match:4` 并且尝试去检测模式的剩余部分是否匹配。
 
-    ...But there's nothing in the pattern after `pattern:\d+?`.
+    。。。但是在 `pattern:\d+?` 之后没有其它的匹配项了。
 
-    The lazy mode doesn't repeat anything without a need. The pattern finished, so we're done. We have a match `match:123 4`.
-4. The next search starts from the character `5`.
+    懒惰模式不会在不必要的情况下重复任何事情。模式结束，所以我们找到了匹配项 `match:123 4`。
+4. 接下来的搜索工作从字符 `5` 开始。
 
 ```smart header="Optimizations"
-Modern regular expression engines can optimize internal algorithms to work faster. So they may work a bit different from the described algorithm.
+当代的正则表达式引擎会通过优化内部算法来提升效率。所以它们的工作流程和所描述的算法可能略有不同。
 
-But to understand how regular expressions work and to build regular expressions, we don't need to know about that. They are only used internally to optimize things.
+但如果只是为了理解正则表达式是如何工作以及如何构建的，我们不需要知道这些，它们仅用于内部优化。
 
-Complex regular expressions are hard to optimize, so the search may work exactly as described as well.
+复杂的正则表达式是难以优化的，所以搜索的过程可能会完全按照描述进行。
 ```
 
-## Alternative approach
+## 替代方法
 
-With regexps, there's often more then one way to do the same thing.
+在正则表达式中，通常有多种方法来达到某个相同目的。
 
-In our case we can find quoted strings without lazy mode using the regexp `pattern:"[^"]+"`:
+在用例中，我们能够在不启用懒惰模式的情况下用 `pattern:"[^"]+"` 找到带引号的字符串：
 
 ```js run
 let reg = /"[^"]+"/g;
@@ -185,23 +185,23 @@ let str = 'a "witch" and her "broom" is one';
 alert( str.match(reg) ); // witch, broom
 ```
 
-The regexp `pattern:"[^"]+"` gives correct results, because it looks for a quote `pattern:'"'` followed by one or more non-quotes `pattern:[^"]`, and then the closing quote.
+`pattern:"[^"]+"` 得到了正确的答案，因为它查找一个引号 `pattern:'"'`，后跟一个或多个非引号字符  `pattern:[^"]`，然后是结束的引号。
 
-When the regexp engine looks for `pattern:[^"]+` it stops the repetitions when it meets the closing quote, and we're done.
+当引擎寻找 `pattern:[^"]+` 时，它会在匹配到结束的引号时停止重复，这样就完成了。
 
-Please note, that this logic does not replace lazy quantifiers!
+请注意，这个逻辑并不能取代惰性量词！
 
-It is just different. There are times when we need one or another.
+这是不同的，我们有时需要这一个，有时却需要另一个。
 
-Let's see one more example where lazy quantifiers fail and this variant works right.
+让我们再来看一个使用惰性量词失败而使用这种方式正确的例子。
 
-For instance, we want to find links of the form `<a href="..." class="doc">`, with any `href`.
+例如，我们想要找到 `<a href="..." class="doc">` 形式的链接，或是任意 `href`。
 
-Which regular expression to use?
+该使用哪个正则表达式呢？
 
-The first idea might be: `pattern:/<a href=".*" class="doc">/g`.
+首先可能会想到：`pattern:/<a href=".*" class="doc">/g`。
 
-Let's check it:
+验证一下：
 ```js run
 let str = '...<a href="link" class="doc">...';
 let reg = /<a href=".*" class="doc">/g;
@@ -210,7 +210,7 @@ let reg = /<a href=".*" class="doc">/g;
 alert( str.match(reg) ); // <a href="link" class="doc">
 ```
 
-...But what if there are many links in the text?
+...但如果文本中有多个链接呢？
 
 ```js run
 let str = '...<a href="link1" class="doc">... <a href="link2" class="doc">...';
@@ -220,68 +220,68 @@ let reg = /<a href=".*" class="doc">/g;
 alert( str.match(reg) ); // <a href="link1" class="doc">... <a href="link2" class="doc">
 ```
 
-Now the result is wrong for the same reason as our "witches" example. The quantifier `pattern:.*` took too many characters.
+现在这个结果和我们的 "witches" 用例结果的错误原因是一样的。量词 `pattern:.*` 占用太多字符了。
 
-The match looks like this:
+匹配结果如下：
 
 ```html
 <a href="....................................." class="doc">
 <a href="link1" class="doc">... <a href="link2" class="doc">
 ```
 
-Let's modify the pattern by making the quantifier `pattern:.*?` lazy:
+让我们启用惰性量词 `pattern:.*?` 来修改模式：
 
 ```js run
 let str = '...<a href="link1" class="doc">... <a href="link2" class="doc">...';
 let reg = /<a href=".*?" class="doc">/g;
 
-// Works!
+// 有效！
 alert( str.match(reg) ); // <a href="link1" class="doc">, <a href="link2" class="doc">
 ```
 
-Now it works, there are two matches:
+现在能成功了，有两个匹配项：
 
 ```html
 <a href="....." class="doc">    <a href="....." class="doc">
 <a href="link1" class="doc">... <a href="link2" class="doc">
 ```
 
-Why it works -- should be obvious after all explanations above. So let's not stop on the details, but try one more text:
+它的工作原理是 —— 在上述的解释之后，这应该是显而易见的。所以我们不停留在这些细节上，来再尝试一个例子：
 
 ```js run
 let str = '...<a href="link1" class="wrong">... <p style="" class="doc">...';
 let reg = /<a href=".*?" class="doc">/g;
 
-// Wrong match!
+// 错误！
 alert( str.match(reg) ); // <a href="link1" class="wrong">... <p style="" class="doc">
 ```
 
-We can see that the regexp matched not just a link, but also a lot of text after it, including `<p...>`.
+我们会发现，这个正则表达式不仅匹配了一个链接，还匹配了包含 `<p...>` 的一段文本。
 
-Why it happens?
+为什么？
 
-1. First the regexp finds a link start `match:<a href="`.
+1. 首先，正则表达式发现一个链接标签：`match:<a href="`。
 
-2. Then it looks for `pattern:.*?`, we take one character, then check if there's a match for the rest of the pattern, then take another one...
+2. 然后它寻找 `pattern:.*?`，我们取一个字符，检查其是否与模式的剩余部分匹配，然后再取另一个。。。
 
-    The quantifier `pattern:.*?` consumes characters until it meets `match:class="doc">`.
+    量词 `pattern:.*?` 检测字符，直到 `match:class="doc">`。
 
-    ...And where can it find it? If we look at the text, then we can see that the only `match:class="doc">` is beyond the link, in the tag `<p>`.
+    ...在哪里可以找到它呢？我们如果查看文本，就可以看到唯一的 `match:class="doc">` 是在链接之后的，在 `<p>` 中。
 
-3. So we have match:
+3. 所以有了如下匹配项：
 
     ```html
     <a href="..................................." class="doc">
     <a href="link1" class="wrong">... <p style="" class="doc">
     ```
 
-So the laziness did not work for us here.
+所以，懒惰模式在这里不起作用。
 
-We need the pattern to look for `<a href="...something..." class="doc">`, but both greedy and lazy variants have problems.
+我们需要寻找 `<a href="...something..." class="doc">`，但贪婪和懒惰模式都有一些问题。
 
-The correct variant would be: `pattern:href="[^"]*"`. It will take all characters inside the `href` attribute till the nearest quote, just what we need.
+正确的做法应该是这样的：`pattern:href="[^"]*"`。它会获取 href 属性中的所有字符，正好符合我们的需求。
 
-A working example:
+一个实例：
 
 ```js run
 let str1 = '...<a href="link1" class="wrong">... <p style="" class="doc">...';
@@ -289,18 +289,18 @@ let str2 = '...<a href="link1" class="doc">... <a href="link2" class="doc">...';
 let reg = /<a href="[^"]*" class="doc">/g;
 
 // Works!
-alert( str1.match(reg) ); // null, no matches, that's correct
+alert( str1.match(reg) ); // 没有匹配项，是正确的
 alert( str2.match(reg) ); // <a href="link1" class="doc">, <a href="link2" class="doc">
 ```
 
-## Summary
+## 总结
 
-Quantifiers have two modes of work:
+量词有两种工作模式：
 
-Greedy
-: By default the regular expression engine tries to repeat the quantifier as many times as possible. For instance, `pattern:\d+` consumes all possible digits. When it becomes impossible to consume more (no more digits or string end), then it continues to match the rest of the pattern. If there's no match then it decreases the number of repetitions (backtracks) and tries again.
+贪婪模式
+: 默认情况下，正则表达式引擎会尝试尽可能多地重复量词。例如，`pattern:\d+` 检测所有可能的字符。当不可能检测更多（没有更多的字符或到达字符串末尾）时，然后它再匹配模式的剩余部分。如果没有匹配，则减少重复的次数（回溯），并再次尝试。
 
-Lazy
-: Enabled by the question mark `pattern:?` after the quantifier. The regexp engine tries to match the rest of the pattern before each repetition of the quantifier.
+懒惰模式
+: 通过在量词后添加问号 `pattern:?` 来启用。在每次重复量词之前，引擎会尝试去匹配模式的剩余部分。
 
-As we've seen, the lazy mode is not a "panacea" from the greedy search. An alternative is a "fine-tuned" greedy search, with exclusions. Soon we'll see more examples of it.
+正如我们所见，懒惰模式并不是针对贪婪搜索的灵丹妙药。另一种方式是“微调”贪婪搜索，我们很快就会见到更多的例子。

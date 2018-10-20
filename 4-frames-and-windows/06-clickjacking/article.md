@@ -138,7 +138,10 @@ window.onbeforeunload = function() {
 `ALLOW-FROM domain`
 : 允许和父页面同一给定域的 frame 进行页面加载。
 
-例如，Twitter 使用的是 `X-Frame-Options: SAMEORIGIN`。如下所示：
+例如，Twitter 使用的是 `X-Frame-Options: SAMEORIGIN`。
+
+````online
+如下所示：
 
 ```html
 <iframe src="https://twitter.com"></iframe>
@@ -147,6 +150,7 @@ window.onbeforeunload = function() {
 <iframe src="https://twitter.com"></iframe>
 
 取决于浏览器行为，以上 `iframe` 要么显示为空，要么提醒你浏览器不允许内部页面加载。
+````
 
 ## 显示不可用功能
 

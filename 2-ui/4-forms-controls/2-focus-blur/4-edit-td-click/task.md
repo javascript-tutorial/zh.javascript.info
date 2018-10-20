@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Edit TD on click
+# 点击时编辑单元格
 
-Make table cells editable on click.
+让单元格在点击时可编辑。
 
-- On click -- the cell should became "editable" (textarea appears inside), we can change HTML. There should be no resize, all geometry should remain the same.
-- Buttons OK and CANCEL appear below the cell to finish/cancel the editing.
-- Only one cell may be editable at a moment. While a `<td>` is in "edit mode", clicks on other cells are ignored.
-- The table may have many cells. Use event delegation.
+- 点击的时候 — 单元格应该变成“可编辑的”（文本域会出现），于是我们可以改变 HTML。现在网页应该没有调整大小，所有标签的几何大小依旧保持不变。
+- OK 和 CANCEL 按钮出现在单元格的下面用以完成或取消编辑。
+- 同一时刻只有一个单元格可被编辑。当一个 `<td>` 处于“编辑模式”时，在其它的单元格上的点击将会被忽略。
+- 一个表格可能有很多的单元格。可以使用事件委托处理。
 
-The demo:
+演示：
 
 [iframe src="solution" height=400]
