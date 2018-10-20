@@ -53,10 +53,10 @@ xhr.open(method, URL, async, user, password)
 
 这个方法通常紧接着 `new XMLHttpRequest` 后面调用。它指定了请求的以下几个主要参数：
 
-- `method` ———— HTTP 方法。通常使用 `"GET"` 或者 `"POST"`,但我们也可以使用 TRACE/DELETE/PUT 等等。
-- `URL` ———— 请求地址。可以使用任何路径和协议，但是有“同源策略”的限制。在当前页面我们可以使用形如 `protocol://domain:port` 格式发起任何请求，但是其他的地址是默认“禁止”的（除非实现了特殊的 HTTP-headers，我们将在后续章节详细介绍 [todo]）。
-- `async` ———— 如果第三个参数显式地设置为 `false`，那么该请求就是同步的，否则就是异步的。我们会在这一章后续详细讲解。
-- `user`, `password` ———— 登录和密码是基本的 HTTP 验证（如果必要的话）。
+- `method` — HTTP 方法。通常使用 `"GET"` 或者 `"POST"`，但我们也可以使用 TRACE/DELETE/PUT 等等。
+- `URL` — 请求地址。可以使用任何路径和协议，但是有“同源策略”的限制。在当前页面我们可以使用形如 `protocol://domain:port` 格式发起任何请求，但是其他的地址是默认“禁止”的（除非实现了特殊的 HTTP-headers，我们将在后续章节详细介绍 [todo]）。
+- `async` — 如果第三个参数显式地设置为 `false`，那么该请求就是同步的，否则就是异步的。我们会在这一章后续详细讲解。
+- `user`，`password` — 登录和密码是基本的 HTTP 验证（如果必要的话）。
 
 请注意 `open` 的调用，和它的名字相反，并没有开启连接。它只配置了请求，而网络请求仅在 `send` 调用时开始。
 
@@ -68,7 +68,6 @@ xhr.send([body])
 ```
 
 这个方法开启连接并且把请求发送到服务端。可选参数 `body` 包含了请求体。有些请求没有 body 比如 `GET`。而有些请求通过 `body` 发送数据比如 `POST`。在下一章里我们可以看到一些 body 的例子。
-
 
 ## 取消：abort 和 timeout
 
@@ -94,18 +93,18 @@ timeout 单位是毫秒。如果请求在指定时间内没有成功，它就会
 
 现代[规范](https://xhr.spec.whatwg.org/#events)列出了如下事件：
 
-- `loadstart` ———— 请求开始。
-- `progress` ———— 浏览器接收数据包（会进行多次）。
-- `abort` ———— 通过 `xhr.abort()` 中止请求。
-- `error` ———— 出现网络错误，请求失败。
-- `load` ———— 请求成功，未发生错误。
-- `timeout` ———— 请求因超时取消 (如果设置了 timeout)。
-- `loadend` ———— 请求完成 (有无错误皆可)。
-- `readystatechange` ———— 请求状态发生改变 (后面会提到)。
+- `loadstart` — 请求开始。
+- `progress` — 浏览器接收数据包（会进行多次）。
+- `abort` — 通过 `xhr.abort()` 中止请求。
+- `error` — 出现网络错误，请求失败。
+- `load` — 请求成功，未发生错误。
+- `timeout` — 请求因超时取消（如果设置了 timeout）。
+- `loadend` — 请求完成（有无错误皆可）。
+- `readystatechange` — 请求状态发生改变（后面会提到）。
 
 使用这些事件我们可以追踪加载成功（`onload`），失败（`onerror`）和载入的数据量（`onprogress`）。
 
-请注意这里说的错误是“通讯错误”。也就是说，如果连接丢失或者远程服务器根本没有响应 ———— 那么对 XMLHttpRequest 而言就是错误。负面的 HTTP 状态如 500 或者 404 不被认为是错误。
+请注意这里说的错误是“通讯错误”。也就是说，如果连接丢失或者远程服务器根本没有响应 — 那么对 XMLHttpRequest 而言就是错误。负面的 HTTP 状态如 500 或者 404 不被认为是错误。
 
 这里有包括错误和超时的更加全面的例子：
 
@@ -138,7 +137,7 @@ timeout 单位是毫秒。如果请求在指定时间内没有成功，它就会
 3. 第三个按钮加载一个不存在的 URL，但是也会调用 `onload`（“加载：404”），因为没有网络错误。
 4. 最后一个按钮试图加载其他域名的页面，除非远程服务器通过发送特定的 headers （后面会提到）明确地允许加载，否则这是被禁止的，因此这里会执行 `onerror`。`onerror` 处理器在另一种情况下也会被触发，那就是我们发起请求，然后切断我们设备的网络连接。
 
-## 响应：status，responseText 和其他
+## 响应：status、responseText 及其他
 
 一旦服务端响应，我们可以接收带有如下属性的请求结果：
 
@@ -146,10 +145,10 @@ timeout 单位是毫秒。如果请求在指定时间内没有成功，它就会
 : HTTP 状态码：`200`、`404`、`403` 等。如果有错误的话也可以是 `0`。
 
 `statusText`
-：HTTP 状态信息：通常 `200` 代表`成功`,`404` 代表`未找到`，`403` 代表`被禁止`等等。
+: HTTP 状态信息：通常 `200` 代表`成功`，`404` 代表`未找到`，`403` 代表`被禁止`等等。
 
 `responseText`
-：服务器响应文本，
+: 服务器响应文本，
 
 如果服务器返回 XML 带有正确的 header `Content-type: text/xml`，那么也会有 `responseXML` 属性带有解析过的 XML 文档。你可以用 `xhr.responseXml.querySelector("...")` 查询以及执行其他特定的 XML 操作。
 
@@ -222,7 +221,7 @@ The full example in action:
 [codetabs src="phones-async"]
 ```
 
-# 事件“readystatechange”
+# 事件 "readystatechange"
 
 在发送请求和接收响应时 `readystatechange` 事件会多次响应。
 
@@ -253,7 +252,7 @@ const unsigned short DONE = 4; // request complete
 
 技术上，我们无法控制网络数据包之间的断点。许多语言使用 UTF-8 等多字节编码，即一个字符代表多个字节。有些字符只使用 1 个字节，有些使用 2 个或更多。数据包可能会*在字符中间分割*。
 
-例如，字符 `ö` 是用两个字节编码。其中第一个可能在一个数据包的末尾，第二个 ———— 在下一个数据包的开头。
+例如，字符 `ö` 是用两个字节编码。其中第一个可能在一个数据包的末尾，第二个 — 在下一个数据包的开头。
 
 因此，在 `readyState` 期间，在 `responseText` 的末尾会有一个半字符字节。这可能会导致问题。在一些简单场景下，当我们只使用拉丁字符和数字时（它们都用 1 个字节编码），这种事情不会发生，但是在其他场景，这就可能是导致 bug 的源头。
 ```
@@ -265,7 +264,7 @@ const unsigned short DONE = 4; // request complete
 HTTP-headers 有 3 种方法：
 
 `setRequestHeader(name, value)`
-：通过指定 `name` 和 `value` 设置请求头。
+: 通过指定 `name` 和 `value` 设置请求头。
 
     Например:
 
@@ -276,15 +275,15 @@ HTTP-headers 有 3 种方法：
     ```warn header="Headers limitations"
     有些 headers 只能由浏览器管理，比如 `Referer` 和 `Host`。
     完整的列表在[规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method)中。
-    
+
     为了用户安全和请求的正确性，XMLHttpRequest 不允许更改它们。
     ```
 
     ````warn header="Can't remove a header"
     `XMLHttpRequest` 的另一个特性就是无法撤消 `setRequestHeader`。
-    
+
     一旦设置了 header，它就被设置了。额外的调用会给 header 添加信息，而不会覆盖它。
-    
+
     例如：
 
     ```js
@@ -297,7 +296,7 @@ HTTP-headers 有 3 种方法：
     ````
 
 `getResponseHeader(name)`
-：通过给定 `name` 获取响应头（除了 `Set-Cookie` 和 `Set-Cookie2`）。
+: 通过给定 `name` 获取响应头（除了 `Set-Cookie` 和 `Set-Cookie2`）。
 
     例如：
 
@@ -306,7 +305,7 @@ HTTP-headers 有 3 种方法：
     ```
 
 `getAllResponseHeaders()`
-：返回全部响应头，除了 `Set-Cookie` 和 `Set-Cookie2`。
+: 返回全部响应头，除了 `Set-Cookie` 和 `Set-Cookie2`。
 
     Headers 以单行返回，例如：
     
@@ -318,9 +317,9 @@ HTTP-headers 有 3 种方法：
     ```
 
     headers 的换行符始终是 `"\r\n"`（不依赖操作系统），所以我们可以轻松地将其拆分为单独的 headers。名称和值之间的分隔符始终是冒号，后跟空格 `": "`。这在规范中已得到修复。
-    
+
     所以，如果我们想要获得具有名称/值对的对象，我们需要写一点 JS。
-    
+
     就像这样（假设两个 headers 有同样的名称，那么后面的就会覆盖前面的）：
 
     ```js
@@ -333,7 +332,6 @@ HTTP-headers 有 3 种方法：
         return acc;
       }, {});
     ```
-
 
 ## Timeout
 
@@ -355,15 +353,15 @@ xhr.ontimeout = function() {
 
 [现代规范](http://www.w3.org/TR/XMLHttpRequest/#events)列出了如下事件（按照生命周期顺序）：
 
-- `loadstart` -- 请求开始。
-- `progress` -- 响应数据包到达，此时整个响应体都在 `responseText` 中。
-- `abort` -- 通过调用 `xhr.abort()` 取消请求。
-- `error` -- 连接发送错误，例如域名错误。对于像 404 这样的 HTTP 错误不会发生。
-- `load` -- 请求成功完成。
-- `timeout` -- 请求超时结束（只有当我们设置超时才会发生）。
-- `loadend` -- 请求完成（不管成功还是失败）。
+- `loadstart` — 请求开始。
+- `progress` — 响应数据包到达，此时整个响应体都在 `responseText` 中。
+- `abort` — 通过调用 `xhr.abort()` 取消请求。
+- `error` — 连接发送错误，例如域名错误。对于像 404 这样的 HTTP 错误不会发生。
+- `load` — 请求成功完成。
+- `timeout` — 请求超时结束（只有当我们设置超时才会发生）。
+- `loadend` — 请求完成（不管成功还是失败）。
 
-用到最多的事件是加载完成（`onload`），加载失败（`onerror`），以及跟踪进程 `onprogress` 。
+用到最多的事件是加载完成（`onload`）、加载失败（`onerror`）和跟踪进程 `onprogress`。
 
 我们已经看过另一个事件：`readystatechange`。从历史上看，它在规范创建之前就出现了。如今，没有必要使用它，我们可以用更新的事件代替它，但通常可以在较旧的脚本中发现它。
 
