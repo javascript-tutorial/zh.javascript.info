@@ -1,13 +1,13 @@
-The solution: `pattern:/"(\\.|[^"\\])*"/g`.
+答案是 `pattern:/"(\\.|[^"\\])*"/g`。
 
-Step by step:
+步骤如下：
 
-- First we look for an opening quote `pattern:"`
-- Then if we have a backslash `pattern:\\` (we technically have to double it in the pattern, because it is a special character, so that's a single backslash in fact), then any character is fine after it (a dot).
-- Otherwise we take any character except a quote (that would mean the end of the string) and a backslash (to prevent lonely backslashes, the backslash is only used with some other symbol after it): `pattern:[^"\\]`
-- ...And so on till the closing quote.
+- 首先匹配左双引号 `pattern:"`
+- 接着如果有反斜杠 `pattern:\\`，则匹配其后跟随的任意字符。（技术上，我们必须在模式中用双反斜杠，因为它是一个特殊的字符，但实际上是一个反斜杠字符）
+- 如果没有，则匹配除双引号（字符串的结束）和反斜杠（排除仅存在反斜杠的情况，反斜杠仅在和其后字符一起使用时有效）外的任意字符：`pattern:[^"\\]`
+- ......继续匹配直到遇到反双引号
 
-In action:
+运行代码如下：
 
 ```js run
 let reg = /"(\\.|[^"\\])*"/g;

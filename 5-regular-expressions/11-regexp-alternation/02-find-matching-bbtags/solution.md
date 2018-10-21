@@ -1,11 +1,11 @@
 
-Opening tag is `pattern:\[(b|url|quote)\]`.
+起始标签是 `pattern:\[(b|url|quote)\]`。
 
-Then to find everything till the closing tag -- let's the pattern `pattern:[\s\S]*?` to match any character including the newline and then a backreference to the closing tag.
+匹配字符串直到遇到结束标签 —— 模式 `pattern:[\s\S]*?` 匹配任意字符，包括换行和用于结束标记的反向引用。
 
-The full pattern: `pattern:\[(b|url|quote)\][\s\S]*?\[/\1\]`.
+完整模式为：`pattern:\[(b|url|quote)\][\s\S]*?\[/\1\]`。
 
-In action:
+运行代码如下：
 
 ```js run
 let reg = /\[(b|url|quote)\][\s\S]*?\[\/\1\]/g;
@@ -20,4 +20,4 @@ let str = `
 alert( str.match(reg) ); // [b]hello![/b],[quote][url]http://google.com[/url][/quote]
 ```
 
-Please note that we had to escape a slash for the closing tag `pattern:[/\1]`, because normally the slash closes the pattern.
+请注意结束标签的转义反斜杠，通常斜杠会关闭模式。

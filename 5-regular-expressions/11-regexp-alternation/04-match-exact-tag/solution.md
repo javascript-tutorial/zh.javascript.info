@@ -1,13 +1,13 @@
 
-The pattern start is obvious: `pattern:<style`.
+模式的开头显而易见：`pattern:<style`。
 
-...But then we can't simply write `pattern:<style.*?>`, because `match:<styler>` would match it.
+......然而接着不能简单地写出 `pattern:<style.*?>` 这样的表达式，因为会同时匹配 `match:<styler>`。
 
-We need either a space after `match:<style` and then optionally something else or the ending `match:>`.
+要么匹配 `match:<style` 后的一个空格，然后匹配任意内容；要么直接匹配结束符号 `match:>`。
 
-In the regexp language: `pattern:<style(>|\s.*?>)`.
+最终的正则表达式为：`pattern:<style(>|\s.*?>)`。
 
-In action:
+运行代码如下：
 
 ```js run
 let reg = /<style(>|\s.*?>)/g;

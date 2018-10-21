@@ -1,25 +1,25 @@
-# Find bbtag pairs
+# 查找 bbtag 对
 
-A "bb-tag" looks like `[tag]...[/tag]`, where `tag` is one of: `b`, `url` or `quote`.
+“bb-tag” 形如 `[tag]...[/tag]`，`tag` 匹配 `b`、`url` 或 `quote` 其中之一。
 
-For instance:
+例如：
 ```
 [b]text[/b]
 [url]http://google.com[/url]
 ```
 
-BB-tags can be nested. But a tag can't be nested into itself, for instance:
+BB-tags 可以嵌套。但标签不能自嵌套，比如：
 
 ```
-Normal:
+可行：
 [url] [b]http://google.com[/b] [/url]
 [quote] [b]text[/b] [/quote]
 
-Impossible:
+不可行：
 [b][b]text[/b][/b]
 ```
 
-Tags can contain line breaks, that's normal:
+标签可以包含换行，通常为以下形式：
 
 ```
 [quote]
@@ -27,9 +27,9 @@ Tags can contain line breaks, that's normal:
 [/quote]
 ```
 
-Create a regexp to find all BB-tags with their contents.
+构造一个正则式用于查找所有 BB-tags 和其内容。
 
-For instance:
+举例：
 
 ```js
 let reg = /your regexp/g;
@@ -38,7 +38,7 @@ let str = "..[url]http://google.com[/url]..";
 alert( str.match(reg) ); // [url]http://google.com[/url]
 ```
 
-If tags are nested, then we need the outer tag (if we want we can continue the search in its content):
+如果标签嵌套，那么我们需要记录匹配的外层标签（如果希望继续查找匹配的标签内容的话）：
 
 ```js
 let reg = /your regexp/g;

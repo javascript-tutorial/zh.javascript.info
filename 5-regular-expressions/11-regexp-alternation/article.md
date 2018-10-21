@@ -1,14 +1,14 @@
-# Alternation (OR) |
+# 选择（OR）|
 
-Alternation is the term in regular expression that is actually a simple "OR".
+选择是正则表达式中的一个术语，实际上是一个简单的“或”。
 
-In a regular expression it is denoted with a vertical line character `pattern:|`.
+在正则表达式中，它用竖线“pattern:|”表示。
 
-For instance, we need to find programming languages: HTML, PHP, Java or JavaScript.
+例如，我们需要找出编程语言：HTML、PHP、Java 或 JavaScript。
 
-The corresponding regexp: `pattern:html|php|java(script)?`.
+对应的正则表达式为：`pattern:html|php|java(script)?`。
 
-A usage example:
+用例如下：
 
 ```js run
 let reg = /html|php|css|java(script)?/gi;
@@ -18,37 +18,38 @@ let str = "First HTML appeared, then CSS, then JavaScript";
 alert( str.match(reg) ); // 'HTML', 'CSS', 'JavaScript'
 ```
 
-We already know a similar thing -- square brackets. They allow to choose between multiple character, for instance `pattern:gr[ae]y` matches `match:gray` or `match:grey`.
+我们已知的一个相似符号 —— 方括号。就允许在许多字符中进行选择，例如 `pattern:gr[ae]y` 匹配 `match:gray` 或 `match:grey`。
 
-Alternation works not on a character level, but on expression level. A regexp `pattern:A|B|C` means one of expressions `A`, `B` or `C`.
+选择符号并非在字符级别生效，而是在表达式级别。正则表达式 `pattern:A|B|C` 意思是命中 `A`、`B` 或 `C` 其一均可。
 
-For instance:
+例如：
 
-- `pattern:gr(a|e)y` means exactly the same as `pattern:gr[ae]y`.
-- `pattern:gra|ey` means "gra" or "ey".
+- `pattern:gr(a|e)y` 严格等同 `pattern:gr[ae]y`.
+- `pattern:gra|ey` 匹配 "gra" or "ey".
 
-To separate a part of the pattern for alternation we usually enclose it in parentheses, like this: `pattern:before(XXX|YYY)after`.
+我们通常用圆括号把模式中的选择部分括起来，像这样 `pattern:before(XXX|YYY)after`。
 
-## Regexp for time
+## 时间正则表达式
 
-In previous chapters there was a task to build a regexp for searching time in the form `hh:mm`, for instance `12:00`. But a simple `pattern:\d\d:\d\d` is too vague. It accepts `25:99` as the time.
+在之前的章节中有个任务是构建用于查找形如 `hh:mm` 的时间字符串，例如 `12:00`。但是简单的 `pattern:\d\d:\d\d` 过于模糊。它同时匹配 `25:99`。
 
-How can we make a better one?
+如何构建更优的正则表达式？
 
-We can apply more careful matching:
+我们可以应用到更多的严格匹配结果中：
 
-- The first digit must be `0` or `1` followed by any digit.
-- Or `2` followed by `pattern:[0-3]`
+- 首个匹配数字必须是 `0` 或 `1`，同时其后还要跟随任一数字。
+- 或者是数字 `2` 之后跟随 `pattern:[0-3]`。
 
-As a regexp: `pattern:[01]\d|2[0-3]`.
+构建正则表达式：`pattern:[01]\d|2[0-3]`。
 
-Then we can add a colon and the minutes part.
+接着可以添加冒号和分钟的部分。
 
-The minutes must be from `0` to `59`, in the regexp language that means the first digit  `pattern:[0-5]` followed by any other digit `\d`.
+分钟的部分必须在 `0` 到 `59` 区间，在正则表达式语言中含义为首个匹配数字 `pattern:[0-5]` 其后跟随任一数字 `\d`。
 
-Let's glue them together into the pattern: `pattern:[01]\d|2[0-3]:[0-5]\d`.
+把他们拼接在一起形成最终的模式 `pattern:[01]\d|2[0-3]:[0-5]\d`。
 
-We're almost done, but there's a problem. The alternation `|` is between the `pattern:[01]\d` and `pattern:2[0-3]:[0-5]\d`. That's wrong, because it will match either the left or the right pattern:
+
+快大功告成了，但仍然存在一个问题。选择符 `|` 在 `pattern:[01]\d` 和 `pattern:2[0-3]:[0-5]\d` 之间。这是错误的，因为它只匹配符号左侧或右侧任一表达式。
 
 
 ```js run
@@ -57,11 +58,11 @@ let reg = /[01]\d|2[0-3]:[0-5]\d/g;
 alert("12".match(reg)); // 12 (matched [01]\d)
 ```
 
-That's rather obvious, but still an often mistake when starting to work with regular expressions.
+这个错误相当明显，但仍然是一个正则表达式的常见错误。
 
-We need to add parentheses to apply alternation exactly to hours: `[01]\d` OR `2[0-3]`.
+我们需要添加一个插入语用于匹配时钟：`[01]\d` 或 `2[0-3]`。
 
-The correct variant:
+以下为正确版本：
 
 ```js run
 let reg = /([01]\d|2[0-3]):[0-5]\d/g;
