@@ -1,6 +1,7 @@
+唯一一个匹配的字符串是空字符串：它的开始紧跟着结束。
 
-The empty string is the only match: it starts and immediately finishes.
 
-The task once again demonstrates that anchors are not characters, but tests.
 
-The string is empty `""`. The engine first matches the `pattern:^` (input start), yes it's there, and then immediately the end `pattern:$`, it's here too. So there's a match.
+这个题目再一次展示了锚不是一个字符串，但是意味着一个测试。
+
+最迂空字符串 `""`，正则表达式引擎将会首先匹配模式 `^` （输入开始），好的它在那里，然后正则表达式引擎将会紧跟着检查模式 `$`，噢！它也在那里。所以空字符串是匹配该模式的。
