@@ -20,4 +20,4 @@ let str = `
 alert( str.match(reg) ); // [b]hello![/b],[quote][url]http://google.com[/url][/quote]
 ```
 
-请注意结束标签的转义反斜杠，通常斜杠会关闭模式。
+请注意我们要转义结束标签 `pattern:[/\1]` 中的斜杠，通常斜杠会关闭模式。

@@ -2,7 +2,7 @@
 
 有许多编程语言，例如 Java, JavaScript, PHP, C, C++。
 
-构建一个正则式，用以在字符串 `subject:Java JavaScript PHP C++ C` 中把他们匹配出来：
+构建一个正则式，用来匹配字符串 `subject:Java JavaScript PHP C++ C` 中包含的编程语言：
 
 ```js
 let reg = /your regexp/g;
