@@ -27,7 +27,7 @@
 <div style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</div>
 ```
 
-因此如果我们在它上面设置 `onclick`，就会在文本的右边捕获点击动作。
+因此如果我们在它上面设置 `onclick`，就会在文本的右边捕获点击事件。
 
 ...但`<span>` h有一个隐式 `display: inline`，因此它会占据足够的位置来适应所有的文本：
 
@@ -35,11 +35,11 @@
 <span style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</span>
 ```
 
-  # 切换菜单
+ # 切换菜单
 
 切换菜单应更改箭头并显示/隐藏菜单列表。
 
-所以这些更改都被 CSS 完美处理。在 JavaScript 中，我们应该通过添加/移除 `.open` 类来标记菜单的当前状态。
+所以这些更改都能被 CSS 完美处理。在 JavaScript 中，我们应该通过添加/移除 `.open` 类来标记菜单的当前状态。
 
 没有它，菜单就会关闭：
 
@@ -58,7 +58,7 @@
 }
 ```
 
-...使用`.open` 后，箭头会改变，就像下面列表显示的一样：
+...使用`.open` 后，箭头会改变，列表会出现：
 
 ```css
 .menu.open .title::before {
