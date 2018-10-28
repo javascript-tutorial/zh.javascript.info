@@ -13,4 +13,4 @@ button.addEventListener("click", handler);
 button.removeEventListener("click", handler);
 ```
 
-处理器 `button.onclick` 除了 `addEventListener` 以外，应该独立工作。
+处理器 `button.onclick` 独立于 `addEventListener` 之外工作。
