@@ -5,7 +5,7 @@
 
 因此我们应该使用 `position:absolute`，并使定位稳定，让 `field` 自身定位。
 
-然后球相对于球场的位置：
+然后球会相对于球场定位：
 
 ```css
 #field {
@@ -16,9 +16,9 @@
 
 #ball {
   position: absolute;
-  left: 0; /* relative to the closest positioned ancestor (field) */
+  left: 0; /* 相对于最近位置的祖先（字段） */
   top: 0;
-  transition: 1s all; /* CSS animation for left/top makes the ball fly */
+  transition: 1s all; /* 在左上方的 CSS 特效会让球飞起来 */
 }
 ```
 
@@ -36,9 +36,9 @@
 let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
 ```
 
-通常情况下，`ball.style.position.left` 是指“元素的左边缘（球）”。因此，如果我们指定 `left`，那么球的边缘就会在鼠标光标下面。
+通常情况下，`ball.style.position.left` 是指“元素的左边缘”（球）。因此，如果我们指定 `left`，那么球的边缘就会在鼠标光标下面。
 
-我们需要将球的半宽度向左移动半高，使其成为中心。
+我们需要将球向左移动宽度的一半，向上移动高度的一半，使其居中。
 
 因此，最后 `left` 是：
 
@@ -48,4 +48,4 @@ let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offse
 
 使用相同的逻辑计算垂直坐标。
 
-请注意，球的宽度/高度必须在我们进入 `ball.offsetWidth`. 时就已知。应该在 HTML 或 CSS 中指定。
+请注意，球的宽度/高度必须在我们设置 `ball.offsetWidth` 时就已知。应该在 HTML 或 CSS 中指定。
