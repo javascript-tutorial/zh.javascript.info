@@ -24,14 +24,14 @@ Current scroll = <b id="showScroll">scroll the window</b>
 
 ## 防止滚动
 
-我们怎么样确认一些东西可不可以滚动？我们不能在 `onscroll` 监听者中通过使用 `event.preventDefault()` 来阻止滚动，因为它在滚动发生**之后**已经触发了。
+我们怎样让某些东西不可滚动呢？我们不能在 `onscroll` 监听者中通过使用 `event.preventDefault()` 来阻止滚动，因为它在滚动发生**之后**才触发。
 
-但我们可以防止在导致滚动的事件上使用 `event.preventDefault()`。
+但我们可以在导致滚动的事件上使用 `event.preventDefault()` 来阻止滚动。
 
 例如：
 - `wheel` 事件 —— 鼠标滚轮（“滚动”触控板也会生成它）。
 - `key:pageUp` 和 `key:pageDown` 的`keydown` 事件。
 
-有时可能会有帮助，但有更多的滚动方式，所以很难处理它们。因此，使用 CSS 让一些东西不可滚动更为可靠，比如 `overflow` 属性。
+有时可能会有帮助，但还有很多滚动方式，所以很难处理它们。因此，使用 CSS 让一些东西不可滚动更为可靠，比如 `overflow` 属性。
 
-这是你可以解决或者查看 `onscroll` 上的应用程序的几个任务。
+这里有几个你可以完成的练习，你也可以看它们关于 `onscroll` 的应用。
