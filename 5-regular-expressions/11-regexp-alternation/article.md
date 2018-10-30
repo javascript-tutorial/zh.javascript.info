@@ -2,7 +2,7 @@
 
 选择是正则表达式中的一个术语，实际上是一个简单的“或”。
 
-在正则表达式中，它用竖线“pattern:|”表示。
+在正则表达式中，它用竖线 `pattern:|` 表示。
 
 例如，我们需要找出编程语言：HTML、PHP、Java 或 JavaScript。
 
@@ -24,8 +24,8 @@ alert( str.match(reg) ); // 'HTML', 'CSS', 'JavaScript'
 
 例如：
 
-- `pattern:gr(a|e)y` 严格等同 `pattern:gr[ae]y`.
-- `pattern:gra|ey` 匹配 "gra" or "ey".
+- `pattern:gr(a|e)y` 严格等同 `pattern:gr[ae]y`。
+- `pattern:gra|ey` 匹配 "gra" or "ey"。
 
 我们通常用圆括号把模式中的选择部分括起来，像这样 `pattern:before(XXX|YYY)after`。
 
@@ -47,7 +47,6 @@ alert( str.match(reg) ); // 'HTML', 'CSS', 'JavaScript'
 分钟的部分必须在 `0` 到 `59` 区间，在正则表达式语言中含义为首个匹配数字 `pattern:[0-5]` 其后跟随任一数字 `\d`。
 
 把他们拼接在一起形成最终的模式 `pattern:[01]\d|2[0-3]:[0-5]\d`。
-
 
 快大功告成了，但仍然存在一个问题。选择符 `|` 在 `pattern:[01]\d` 和 `pattern:2[0-3]:[0-5]\d` 之间。这是错误的，因为它只匹配符号左侧或右侧任一表达式。
 
