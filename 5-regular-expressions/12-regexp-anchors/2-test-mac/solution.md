@@ -7,14 +7,15 @@
 现在让我们看看此模式如何匹配整个文本：从 `^` 处开始，到 `$` 这里结束。通过将匹配模式包裹在 `^...$` 来完成的。
 
 最终结果：
-```js
+
+```js run
 let reg = /^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$/i;
 
 alert( reg.test('01:32:54:67:89:AB') ); // true
 
-alert( reg.test('0132546789AB') ); // false (缺少冒号)
+alert( reg.test('0132546789AB') ); // false（缺少冒号）
 
-alert( reg.test('01:32:54:67:89') ); // false (只有5个数字，必须是6个数字)
+alert( reg.test('01:32:54:67:89') ); // false（只有 5 个数字，必须是 6 个数字）
 
-alert( reg.test('01:32:54:67:89:ZZ') ) // false (ZZ 不是合法的十六进制)
+alert( reg.test('01:32:54:67:89:ZZ') ) // false（ZZ 不是合法的十六进制）
 ```
