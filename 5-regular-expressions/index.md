@@ -1,3 +1,3 @@
-# Regular expressions
+# 正则表达式
 
-Regular expressions is a powerful way of doing search and replace in strings.
+正则表达式是一个查找和替换字符串的强有力的工具。

@@ -1,3 +1,3 @@
-# Lookahead (in progress)
+# 前瞻断言（正在进行）
 
-The article is under development, will be here when it's ready.
+这篇文章有待完成，它会在其完成后展示在这里。
