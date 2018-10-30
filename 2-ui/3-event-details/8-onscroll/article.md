@@ -1,12 +1,12 @@
-# Scrolling
+# 滚动
 
-Scroll events allow to react on a page or element scrolling. There are quite a few good things we can do here.
+滚动事件允许在页面或元素上滚动时作出反应。我们可以在这里做一些有用的事情。
 
-For instance:
-- Show/hide additional controls or information depending on where in the document the user is.
-- Load more data when the user scrolls down till the end of the page.
+比如：
+- 根据用户在文档中的位置显示/隐藏其他控件或信息。
+- 当用户滚动到页面末尾时加载更多的数据。
 
-Here's a small function to show the current scroll:
+下面是一个显示当前滚动的小函数：
 
 ```js autorun
 window.addEventListener('scroll', function() {
@@ -15,23 +15,23 @@ window.addEventListener('scroll', function() {
 ```
 
 ```online
-In action:
+动作：
 
 Current scroll = <b id="showScroll">scroll the window</b>
 ```
 
-The `scroll` event works both on the `window` and on scrollable elements.
+`scroll` 事件在 `window` 和可滚动元素上都可以运行。
 
-## Prevent scrolling
+## 防止滚动
 
-How do we make something unscrollable? We can't prevent scrolling by using `event.preventDefault()` in `onscroll` listener, because it triggers *after* the scroll has already happened.
+我们怎样让某些东西不可滚动呢？我们不能在 `onscroll` 监听者中通过使用 `event.preventDefault()` 来阻止滚动，因为它在滚动发生**之后**才触发。
 
-But we can prevent scrolling by `event.preventDefault()` on an event that causes the scroll.
+但我们可以在导致滚动的事件上使用 `event.preventDefault()` 来阻止滚动。
 
-For instance:
-- `wheel` event -- a mouse wheel roll (a "scrolling" touchpad action generates it too).
-- `keydown` event for `key:pageUp` and `key:pageDown`.
+例如：
+- `wheel` 事件 —— 鼠标滚轮（“滚动”触控板也会生成它）。
+- `key:pageUp` 和 `key:pageDown` 的 `keydown` 事件。
 
-Sometimes that may help. But there are more ways to scroll, so it's quite hard to handle all of them. So it's more reliable to use CSS to make something unscrollable, like `overflow` property.
+有时可能会有帮助，但还有很多滚动方式，所以很难处理它们。因此，使用 CSS 让一些东西不可滚动更为可靠，比如 `overflow` 属性。
 
-Here are few tasks that you can solve or look through to see the applications on `onscroll`.
+这里有几个你可以完成的练习，你也可以看它们关于 `onscroll` 的应用。

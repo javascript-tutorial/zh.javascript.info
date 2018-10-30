@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Improved tooltip behavior
+# 改进工具提示行为
 
-Write JavaScript that shows a tooltip over an element with the attribute `data-tooltip`.
+编写一个带有 `data-tooltip` 属性元素提示工具的 JavaScript 函数。
 
-That's like the task <info:task/behavior-tooltip>, but here the annotated elements can be nested. The most deeply nested tooltip is shown.
+就像任务 <info:task/behavior-tooltip>，但这里可以嵌套带有注释的元素。下面显示了嵌套最深的工具提示。
 
-For instance:
+比如：
 
 ```html
 <div data-tooltip="Here – is the house interior" id="house">
@@ -18,8 +18,8 @@ For instance:
 </div>
 ```
 
-The result in iframe:
+在 iframe 中的结果：
 
 [iframe src="solution" height=300 border=1]
 
-P.S. Hint: only one tooltip may show up at the same time.
+P.S. 提示：同一时间只显示一个工具提示。

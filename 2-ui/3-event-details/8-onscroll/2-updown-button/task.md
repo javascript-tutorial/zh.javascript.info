@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Up/down button
+# Up/down 按钮
 
-Create a "to the top" button to help with page scrolling.
+创建一个 "to the top" 按钮来帮助页面滚动。
 
-It should work like this:
-- While the page is not scrolled down at least for the window height -- it's invisible.
-- When the page is scrolled down more than the window height -- there appears an "upwards" arrow in the left-top corner. If the page is scrolled back, it disappears.
-- When the arrow is clicked, the page scrolls to the top.
+它应该像这样运行：
+- 页面向下滚动的距离没有超过窗口高度时 —— 按钮不可见。
+- 当页面滚动超过窗口高度时 —— 在左上角出现一个“向上”箭头。如果页面回滚，就会消失。
+- 单击箭头时，页面将滚动到顶部。
 
-Like this:
+就像这样：
 
 [iframe border="1" height="200" link src="solution"]
