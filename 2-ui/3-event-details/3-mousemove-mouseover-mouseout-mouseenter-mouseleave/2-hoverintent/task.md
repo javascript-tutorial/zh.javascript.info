@@ -12,7 +12,7 @@ importance: 5
 
 为它创建一个通用对象 `new HoverIntent(options)`，加上 `options`：
 
-- `elem` —— 要跟踪的元素
+- `elem` —— 要跟踪的元素。
 - `over` —— 如果鼠标缓慢地移动元素，调用该函数。
 - `out` —— 当鼠标离开元素时，调用函数（如果 `over` 被调用过了）。
 
