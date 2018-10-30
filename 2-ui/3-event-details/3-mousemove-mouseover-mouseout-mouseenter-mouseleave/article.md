@@ -57,7 +57,7 @@
 ![](mouseover-mouseout-from-outside.png)
 
 <div style="display:none">
-在快速移动的情况下，中间元素可能不会触发事件。但如果鼠标进入元素（`mouseover`），当它离开时， 就一定会触发`mouseout`。
+在快速移动的情况下，中间元素可能不会触发事件。但如果鼠标进入元素（`mouseover`），当它离开时，就一定会触发`mouseout`。
 </div>
 
 ```online
@@ -70,7 +70,7 @@
 [codetabs height=360 src="mouseoverout-fast"]
 ```
 
-##  进入子元素时的“额外” mouseout
+## 进入子元素时的“额外” mouseout
 
 想象一下 —— 鼠标指针进入一个元素。`mouseover` 被触发。然后光标进入一个子元素。有趣的是，在这种情况下 `mouseout` 会被触发。光标仍然在元素中，但我们从它那儿接收到了 `mouseout` 事件！
 
