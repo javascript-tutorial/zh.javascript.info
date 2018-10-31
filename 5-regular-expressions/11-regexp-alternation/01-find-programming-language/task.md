@@ -1,8 +1,8 @@
-# Find programming languages
+# 查找编程语言
 
-There are many programming languages, for instance Java, JavaScript, PHP, C, C++.
+有许多编程语言，例如 Java, JavaScript, PHP, C, C++。
 
-Create a regexp that finds them in the string `subject:Java JavaScript PHP C++ C`:
+构建一个正则式，用来匹配字符串 `subject:Java JavaScript PHP C++ C` 中包含的编程语言：
 
 ```js
 let reg = /your regexp/g;

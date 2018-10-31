@@ -1,10 +1,10 @@
-# Find the full tag
+# 查找完整标签
 
-Write a regexp to find the tag `<style...>`. It should match the full tag: it may have no attributes  `<style>` or have several of them `<style type="..." id="...">`.
+写出一个正则表达式，用于查找 `<style...>` 标签。它应该匹配完整的标签：该标签可能是没有属性的标签 `<style>` 或是有很多属性的标签 `<style type="..." id="...">`。
 
-...But the regexp should not match `<styler>`!
+...同时正则表达式不应该匹配 `<styler>`！
 
-For instance:
+举例如下：
 
 ```js
 let reg = /your regexp/g;
