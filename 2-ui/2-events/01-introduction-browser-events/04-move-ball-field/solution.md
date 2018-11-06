@@ -1,11 +1,11 @@
 
-First we need to choose a method of positioning the ball.
+首先我们需要选择一种定位球的方法。
 
-We can't use `position:fixed` for it, because scrolling the page would move the ball from the field.
+我们不能使用 `position:fixed`，因为滑动页面会让球在球场上移动。
 
-So we should use `position:absolute` and, to make the positioning really solid, make `field` itself positioned.
+因此我们应该使用 `position:absolute`，并使定位稳定，让 `field` 自身定位。
 
-Then the ball will be positioned relatively to the field:
+然后球会相对于球场定位：
 
 ```css
 #field {
@@ -16,36 +16,36 @@ Then the ball will be positioned relatively to the field:
 
 #ball {
   position: absolute;
-  left: 0; /* relative to the closest positioned ancestor (field) */
+  left: 0; /* 相对于最近位置的祖先（字段） */
   top: 0;
-  transition: 1s all; /* CSS animation for left/top makes the ball fly */
+  transition: 1s all; /* 在左上方的 CSS 特效会让球飞起来 */
 }
 ```
 
-Next we need to assign the correct `ball.style.position.left/top`. They contain field-relative coordinates now.
+接下来我们需要指定正确的 `ball.style.position.left/top`。它们现在包含球场的相对坐标。
 
-Here's the picture:
+这是图片：
 
 ![](move-ball-coords.png)
 
-We have `event.clientX/clientY` -- window-relative coordinates of the click.
+我们有 `event.clientX/clientY`—— 单击窗口时的相对坐标。
 
-To get field-relative `left` coordinate of the click, we can substract the field left edge and the border width:
+要获取单击字段的相对 `left` 坐标，我们可以减去字段的左边缘和边框宽度：
 
 ```js
 let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
 ```
 
-Normally, `ball.style.position.left` means the "left edge of the element" (the ball). So if we assign that `left`, then the ball edge would be under the mouse cursor.
+通常情况下，`ball.style.position.left` 是指“元素的左边缘”（球）。因此，如果我们指定 `left`，那么球的边缘就会在鼠标光标下面。
 
-We need to move the ball half-width left and half-height up to make it center.
+我们需要将球向左移动宽度的一半，向上移动高度的一半，使其居中。
 
-So the final `left` would be:
+因此，最后 `left` 是：
 
 ```js
 let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
-The vertical coordinate is calculated using the same logic.
+使用相同的逻辑计算垂直坐标。
 
-Please note that the ball width/height must be known at the time we access `ball.offsetWidth`. Should be specified in HTML or CSS.
+请注意，球的宽度/高度必须在我们设置 `ball.offsetWidth` 时就已知。应该在 HTML 或 CSS 中指定。

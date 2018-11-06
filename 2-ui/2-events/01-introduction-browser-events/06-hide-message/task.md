@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Add a closing button
+# 添加关闭按钮
 
-There's a list of messages.
+有一张消息列表。
 
-Use JavaScript to add a closing button to the right-upper corner of each message.
+使用 JavaScript 在每条消息的右上角都添加一个按钮。
 
-The result should look like this:
+结果应该如下所示：
 
 [iframe src="solution" height=450]

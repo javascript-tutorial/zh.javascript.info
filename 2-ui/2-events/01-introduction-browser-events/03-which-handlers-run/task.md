@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Which handlers run?
+# 哪一个处理器会运行？
 
-There's a button in the variable. There are no handlers on it.
+变量中有一个按钮，上面没有处理器。
 
-Which handlers run on click after the following code? Which alerts show up?
+在下面代码之后单击哪些处理器会运行？会出现哪些警报？
 
 ```js no-beautify
 button.addEventListener("click", () => alert("1"));

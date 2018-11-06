@@ -2,10 +2,10 @@ importance: 5
 
 ---
 
-# Create a menu sliding menu
+# 创建滑动菜单
 
-Create a menu that opens/collapses on click:
+创建一个在单击时打开/折叠的菜单：
 
 [iframe border=1 height=100 src="solution"]
 
-P.S. HTML/CSS of the source document is to be modified.
+P.S. 源文档的 HTML/CSS 将被修改。

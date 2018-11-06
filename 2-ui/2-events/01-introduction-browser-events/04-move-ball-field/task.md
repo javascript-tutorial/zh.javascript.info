@@ -2,20 +2,20 @@ importance: 5
 
 ---
 
-# Move the ball across the field
+# 让球在球场中移动
 
-Move the ball across the field to a click. Like this:
+单击一下让球在球场中移动。就像这样：
 
 [iframe src="solution" height="260" link]
 
-Requirements:
+要求：
 
-- The ball center should come exactly under the pointer on click (if possible without crossing the field edge).
-- CSS-animation is welcome.
-- The ball must not cross field boundaries.
-- When the page is scrolled, nothing should break.
+- 球的中心应该准确的在单击时指针位置的下方(如果可能的话，不越过球场边缘)。
+- CSS 动画很受欢迎。
+- 球不能越过场地边界。
+- 当页面被滚动时，任何东西都不应该中断。
 
-Notes:
+注意：
 
-- The code should also work with different ball and field sizes, not be bound to any fixed values.
-- Use properties `event.clientX/event.clientY` for click coordinates.
+- 代码还应该能在不同的球和球场大小中工作，而不是绑定到任何固定的值。
+- 使用 `event.clientX/event.clientY` 属性来获取点击坐标。
