@@ -29,7 +29,7 @@
 
 因此如果我们在它上面设置 `onclick`，就会在文本的右边捕获点击事件。
 
-...但`<span>` h有一个隐式 `display: inline`，因此它会占据足够的位置来适应所有的文本：
+...但 `<span>` 有一个隐式 `display: inline`，因此它会占据足够的位置来适应所有的文本：
 
 ```html autorun height=50
 <span style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</span>
@@ -58,7 +58,7 @@
 }
 ```
 
-...使用`.open` 后，箭头会改变，列表会出现：
+...使用 `.open` 后，箭头会改变，列表会出现：
 
 ```css
 .menu.open .title::before {
