@@ -5,7 +5,7 @@
 这里有一张最有用的 DOM 事件列表，请看：
 
 **鼠标事件：**
-- `click` -- 当鼠标点击一个元素时（触摸屏设备在 tap 时生成）。
+- `click` —— 当鼠标点击一个元素时（触摸屏设备在 tap 时生成）。
 - `contextmenu` —— 当鼠标右击一个元素时。
 - `mouseover` / `mouseout` —— 当鼠标光标移入或移出一个元素时。
 - `mousedown` / `mouseup` —— 当鼠标按下/释放一个元素时。
@@ -19,7 +19,7 @@
 - `keydown` and `keyup` —— 当访问者按下然后松开按钮时。
 
 **Document 事件**：
-- `DOMContentLoaded` —— 当 HTML 被加载和处理时，DOM 就会被完整地构建。
+- `DOMContentLoaded` —— 当加载和处理 HTML 时，DOM 将会被完整地构建。
 
 **CSS 事件**：
 - `transitionend` —— 当 CSS 动画完成时。
@@ -38,7 +38,7 @@
 
 处理器可以设置在 HTML 名为 `on<event>` 的属性中。
 
-例如，为 `input` 分发一个 `click` 处理器，我们就可以使用 `onclick`, 就像这样；
+例如，为 `input` 分发一个 `click` 处理器，我们就可以使用 `onclick`，就像这样；
 
 ```html run
 <input value="Click me" *!*onclick="alert('Click!')"*/!* type="button">
@@ -64,7 +64,7 @@
 <input type="button" *!*onclick="countRabbits()"*/!* value="Count rabbits!">
 ```
 
-正如我们所知道的那样，HTML 属性名不区分大小写，因此 `ONCLICK` 和  `onClick` 以及 `onCLICK` 等都是一样可以运行的。但属性通常是小写的：`onclick`。
+我们知道，HTML 属性名不区分大小写，因此 `ONCLICK` 和 `onClick` 以及 `onCLICK` 等都是一样可以运行的。但属性通常是小写的：`onclick`。
 
 ### DOM 属性
 
@@ -96,7 +96,7 @@
     ```html autorun height=50
     <input type="button" *!*onclick="alert('Click!')"*/!* value="Button">
     ```
-2. HTML + JS:
+2. HTML + JS：
 
     ```html autorun height=50
     <input type="button" id="button" value="Button">
@@ -239,7 +239,7 @@ element.removeEventListener(event, handler[, phase]);
 ````warn header="Removal requires the same function"
 要移除处理器，我们需要传入与分发函数完全相同的函数。
 
-这不起作用：：
+这不起作用：
 
 ```js no-beautify
 elem.addEventListener( "click" , () => alert('Thanks!'));
@@ -286,7 +286,7 @@ input.removeEventListener("click", handler);
 </script>
 ```
 
-正如我们在以上所看到的那样，我们可以使用 DOM 属性 **和** `addEventListener` 来设置处理器。但通常我们只使用其中一种方法。
+正如我们在以上所看到的那样，我们可以使用 DOM 属性**和** `addEventListener` 来设置处理器。但通常我们只使用其中一种方法。
 
 ````warn header="有些事件处理器只能通过 `addEventListener` 设置"
 有些事件不能通过 DOM 属性分配。必须使用 `addEventListener`。
@@ -453,7 +453,7 @@ input.removeEventListener("click", handler);
 有 3 种方法可以分发事件处理器：
 
 1. HTML 属性：`onclick="..."`。
-2. DOM 属性 `elem.onclick = function`.
+2. DOM 属性 `elem.onclick = function`。
 3. 方法：添加 `elem.addEventListener(event, handler[, phase])`，移除 `removeEventListener`。
 
 HTML 属性很少使用，因为 HTML 标签中的 JavaScript 看起来奇怪又陌生。而且也不能在里面写太多的代码。
