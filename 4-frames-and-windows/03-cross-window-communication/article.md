@@ -360,7 +360,7 @@ window.addEventListener("message", function(event) {
 
 1. 发送方调用 `targetWin.postMessage(data, targetOrigin)`。
 2. 如果 `targetOrigin` 不是 `'*'`，那么浏览器会检测 `targetWin` 的链接地址
-3. 如果满足条件，`targetWin` 会触发 `message` 时间，并且有以下三个属性：
+3. 如果满足条件，`targetWin` 会触发 `message` 事件，并且有以下三个属性：
     - `origin` —— 发送方窗口的源（比如 `http://my.site.com`）
     - `source` —— 对发送窗口的引用
     - `data` —— 数据，除 IE 只支持字符串意外，其余浏览器都是对象。
