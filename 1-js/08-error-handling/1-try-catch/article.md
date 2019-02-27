@@ -308,7 +308,7 @@ try {
 
   if (!user.name) {
 *!*
-    抛出 new SyntaxError("Incomplete data: no name"); // (*)
+    throw new SyntaxError("Incomplete data: no name"); // (*)
 */!*
   }
 
