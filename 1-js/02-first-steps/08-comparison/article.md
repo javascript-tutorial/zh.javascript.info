@@ -83,12 +83,12 @@ alert( true == 1 ); // true
 alert( false == 0 ); // true
 ```
 
-````smart header="一个有趣的现象"
+```smart header="一个有趣的现象"
 有时候，以下两种情况会同时发生：
 
 - 若直接比较两个值，其结果是相等的。
 - 若把两个值转为布尔值，它们可能得出完全相反的结果，即 `true` 和 `false`。
-
+```
 示例：
 
 ```js run
@@ -102,7 +102,7 @@ alert(a == b); // true!
 ```
 
 对于 JavaScript 而言这种现象蛮正常的，因为它会把待比较的值转为数字后再做比较（因此 `"0"` 变成了 `0` ）。若只是将一个变量转为 `Boolean`，则会使用其他的类型转换规则。
-````
+
 
 ## 严格相等
 
@@ -146,16 +146,16 @@ alert( 0 === false ); // false，比较不同类型的值
 当使用严格相等 `===` 比较二者时：
 它们是不相等的，因为它们属于不同的类型。
 
-    ```js run
-    alert( null === undefined ); // false
-    ```
+```js run
+alert( null === undefined ); // false
+```
 
 当使用非严格相等 `==` 比较二者时：
 JavaScript 存在一个专属的规则，会判定它们互等。而它们就像“一对恋人”，仅仅等于（非严格相等下）对方而不等于其他任何的值。
 
-    ```js run
-    alert( null == undefined ); // true
-    ```
+```js run
+alert( null == undefined ); // true
+```
 
 当使用数学式或其他比较方法 `< > <= >=` 时：
 `null/undefined` 的值会被转换为数字：`null` 转为 `0`，`undefined` 转为 `NaN`。
