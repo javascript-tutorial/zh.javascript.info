@@ -146,16 +146,16 @@ alert( 0 === false ); // false，比较不同类型的值
 当使用严格相等 `===` 比较二者时：
 它们是不相等的，因为它们属于不同的类型。
 
-    ```js run
-    alert( null === undefined ); // false
-    ```
+```js run
+alert( null === undefined ); // false
+```
 
 当使用非严格相等 `==` 比较二者时：
 JavaScript 存在一个专属的规则，会判定它们互等。而它们就像“一对恋人”，仅仅等于（非严格相等下）对方而不等于其他任何的值。
 
-    ```js run
-    alert( null == undefined ); // true
-    ```
+```js run
+alert( null == undefined ); // true
+```
 
 当使用数学式或其他比较方法 `< > <= >=` 时：
 `null/undefined` 的值会被转换为数字：`null` 转为 `0`，`undefined` 转为 `NaN`。
