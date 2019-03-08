@@ -377,8 +377,8 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
     ```js run
     let str = "stringify";
-    alert( str.slice(0, 5) ); // 'strin', 从 0 到 5 的子字符串（不包括 5）
-    alert( str.slice(0, 1) ); // 's', 从 0 到 1，但不包括 1，所以只有在 0 的字符
+    alert( str.slice(0, 5) ); // 'strin', 从 0 到 5 的子字符串（不包括 5）
+    alert( str.slice(0, 1) ); // 's', 从 0 到 1，但不包括 1，所以只有在 0 的字符
     ```
 
     如果没有第二个参数，`slice` 运行到字符串末尾：
