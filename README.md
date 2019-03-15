@@ -3,6 +3,10 @@
 
 这个仓库托管现代 JavaScript 教程的内容，发布于 [https://javascript.info](https://javascript.info)。
 
+## 赞助商
+
+[![](https://user-images.githubusercontent.com/26959437/54406261-5c999d80-4714-11e9-9b13-4ef2fb3ac45e.png)](https://e.coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019)
+
 ## 译文
 
 已发布：
