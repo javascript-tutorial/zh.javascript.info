@@ -15,14 +15,14 @@ JavaScript 初创时，存在一种借助「全局对象」提供全局变量和
 1. 提供对由规范和环境定义的内置函数和值的访问。
     比如，我们可以直接调用 `alert` 或者以 `window` 的方法的形式调用：
 
-    ```js run
+    ```js run
     alert("Hello");
 
-    // 等同于
-    window.alert("Hello");
+    // 等同于
+    window.alert("Hello");
     ```
 
-    同样的，也适用于其它内置的东西，比如，我们可以使用 `window.Array` 而不是 `Array`。
+    同样的，也适用于其它内置的东西，比如，我们可以使用 `window.Array` 而不是 `Array`。
 
 2. 提供对全局声明和 `var` 变量的访问。我们可以使用全局对象的属性来读、写它们，比如：
 
@@ -34,11 +34,11 @@ JavaScript 初创时，存在一种借助「全局对象」提供全局变量和
       alert(phrase);
     }
 
-    // 可以从 window 读取
-    alert( window.phrase ); // Hello（全局变量）
-    alert( window.sayHi ); // function（全局函数声明）
+    // 可以从 window 读取
+    alert( window.phrase ); // Hello（全局变量）
+    alert( window.sayHi ); // function（全局函数声明）
 
-    // 可以写入 window（会生成新的全局变量）
+    // 可以写入 window（会生成新的全局变量）
     window.test = 5;
 
     alert(test); // 5
@@ -122,7 +122,7 @@ alert("user" in window); // false
     
     这种用法已经有些超出我们这里的范围，但它大体是这样的：
     
-    ```html run
+    ```html run
     <iframe src="/" id="iframe"></iframe>
 
     <script>
