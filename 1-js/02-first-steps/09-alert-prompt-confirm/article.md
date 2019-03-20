@@ -94,7 +94,7 @@ alert( isBoss ); // true if OK is pressed
 : 显示信息。
 
 `prompt`
-: 显示信息要求用户输入文本。点击确定返回文本，或者点击取消或按下 `key:Esc` 键，对于所有浏览器来说，其返回值都是。
+: 显示信息要求用户输入文本。点击确定返回文本，点击取消或按下 `key:Esc` 键返回 `null`。
 
 `confirm`
 : 显示信息等待用户点击确定或取消。点击确定返回 `true`，点击取消或 `key:Esc` 键返回 `false`。
