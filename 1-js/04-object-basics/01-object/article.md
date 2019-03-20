@@ -129,7 +129,6 @@ let key = "likes birds";
 user[key] = true;
 ```
 
-
 在这里，变量 `key` 根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
 
 例如：
@@ -145,7 +144,6 @@ let key = prompt("What do you want to know about the user?", "name");
 // 获取变量
 alert( user[key] ); // John (如果输入 "name" )
 ```
-
 
 ### 计算属性
 
