@@ -316,7 +316,7 @@ let obj = {
 
 alert( obj.test ); //  它是 undefined，所以难道它不存在吗？
 
-alert( "test" in obj ); // true，属性不存在！
+alert( "test" in obj ); // true，属性存在！
 ```
 
 
