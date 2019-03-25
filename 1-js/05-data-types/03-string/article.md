@@ -373,71 +373,71 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 `str.slice(start [, end])`
 : 返回从 `start` 到（但不包括）`end` 的字符串部分。
 
-    例如：
+例如：
 
-    ```js run
-    let str = "stringify";
-    alert( str.slice(0, 5) ); // 'strin', 从 0 到 5 的子字符串（不包括 5）
-    alert( str.slice(0, 1) ); // 's', 从 0 到 1，但不包括 1，所以只有在 0 的字符
-    ```
+```js run
+let str = "stringify";
+alert( str.slice(0, 5) ); // 'strin', 从 0 到 5 的子字符串（不包括 5）
+alert( str.slice(0, 1) ); // 's', 从 0 到 1，但不包括 1，所以只有在 0 的字符
+```
 
-    如果没有第二个参数，`slice` 运行到字符串末尾：
+如果没有第二个参数，`slice` 运行到字符串末尾：
 
-    ```js run
-    let str = "st*!*ringify*/!*";
-    alert( str.slice(2) ); // 从第二个位置直到结束
-    ```
+```js run
+let str = "st*!*ringify*/!*";
+alert( str.slice(2) ); // 从第二个位置直到结束
+```
 
-    `start/end` 也有可能是负值。它们的意思是位置从字符串结尾计算：
+`start/end` 也有可能是负值。它们的意思是位置从字符串结尾计算：
 
-    ```js run
-    let str = "strin*!*gif*/!*y";
+```js run
+let str = "strin*!*gif*/!*y";
 
-    // 从右边的第四个位置开始，在右边的第一个位置结束
-    alert( str.slice(-4, -1) ); // */!
-    ```
+// 从右边的第四个位置开始，在右边的第一个位置结束
+alert( str.slice(-4, -1) ); // */!
+```
 
 
 `str.substring(start [, end])`
 : 返回 `start` 和 `end` **之间**的字符串部分。
 
-    这与 `slice` 几乎相同，但它允许 `start`大于 `end`。
+这与 `slice` 几乎相同，但它允许 `start`大于 `end`。
 
-    例如：
+例如：
 
 
-    ```js run
-    let str = "st*!*ring*/!*ify";
+```js run
+let str = "st*!*ring*/!*ify";
 
-    // 这些对于子串是相同的
-    alert( str.substring(2, 6) ); // "ring"
-    alert( str.substring(6, 2) ); // "ring"
+// 这些对于子串是相同的
+alert( str.substring(2, 6) ); // "ring"
+alert( str.substring(6, 2) ); // "ring"
 
-    // ...但除了 slice：
-    alert( str.slice(2, 6) ); // "ring" (the same)
-    alert( str.slice(6, 2) ); // "" (an empty string)
+// ...但除了 slice：
+alert( str.slice(2, 6) ); // "ring" (the same)
+alert( str.slice(6, 2) ); // "" (an empty string)
 
-    ```
+```
 
-    否定参数（不像 slice）不支持，它们被视为 `0`。
+否定参数（不像 slice）不支持，它们被视为 `0`。
 
 
 `str.substr(start [, length])`
 :  从 `start` 开始返回给定 `length` 的字符串部分。
 
-    与以前的方法相比，这个允许我们指定 `length` 而不是结束位置：
+与以前的方法相比，这个允许我们指定 `length` 而不是结束位置：
 
-    ```js run
-    let str = "st*!*ring*/!*ify";
-    alert( str.substr(2, 4) ); // 环，从第二位获得 4 个字符
-    ```
+```js run
+let str = "st*!*ring*/!*ify";
+alert( str.substr(2, 4) ); // 环，从第二位获得 4 个字符
+```
 
-    第一个参数可能是负数，从结尾算起：
+第一个参数可能是负数，从结尾算起：
 
-    ```js run
-    let str = "strin*!*gi*/!*fy";
-    alert( str.substr(-4, 2) ); // gi，从第 4 位获得 2 个字符
-    ```
+```js run
+let str = "strin*!*gi*/!*fy";
+alert( str.substr(-4, 2) ); // gi，从第 4 位获得 2 个字符
+```
 
 我们回顾一下这些方法，以免混淆：
 
@@ -462,17 +462,17 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
 1. 小写字母总是大于大写字母：
 
-    ```js run
-    alert( 'a' > 'Z' ); // true
-    ```
+```js run
+alert( 'a' > 'Z' ); // true
+```
 
 2. 带有指示性标记的字母“不正常”：
 
-    ```js run
-    alert( 'Österreich' > 'Zealand' ); // true
-    ```
+```js run
+alert( 'Österreich' > 'Zealand' ); // true
+```
 
-    如果我们对这些国名进行排序，可能会导致奇怪的结果。通常，人们会期望 `Zealand` 在名单中的 `Österreich` 之后出现。
+如果我们对这些国名进行排序，可能会导致奇怪的结果。通常，人们会期望 `Zealand` 在名单中的 `Österreich` 之后出现。
 
 为了明白发生了什么，我们回顾一下在 JavaScript 中字符串的内部表示。
 
@@ -481,25 +481,25 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 `str.codePointAt(pos)`
 : 返回在 `pos` 位置的字符代码 :
 
-    ```js run
-    // 不同的字母有不同的代码
-    alert( "z".codePointAt(0) ); // 122
-    alert( "Z".codePointAt(0) ); // 90
-    ```
+```js run
+// 不同的字母有不同的代码
+alert( "z".codePointAt(0) ); // 122
+alert( "Z".codePointAt(0) ); // 90
+```
 
 `String.fromCodePoint(code)`
 : 通过数字 `code` 创建字符
 
-    ```js run
-    alert( String.fromCodePoint(90) ); // Z
-    ```
+```js run
+alert( String.fromCodePoint(90) ); // Z
+```
 
-    我们还可以用
+我们还可以用
 
-    ```js run
-    // 90 is 5a in hexadecimal system
-    alert( '\u005a' ); // Z
-    ```
+```js run
+// 90 is 5a in hexadecimal system
+alert( '\u005a' ); // Z
+```
 
 现在我们看一下代码 `65..220` 的字符（拉丁字母和一些额外的字符），方法是创建一个字符串：
 
