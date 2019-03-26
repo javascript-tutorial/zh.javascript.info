@@ -293,7 +293,7 @@ JavaScript 中我们看不到 `:visited` 应用的样式。此外，CSS 中也�
 
 改变样式：
 
-- `style` 属性是一个带有 camelCased 样式的对象。对它的读取和修改 `"style"` 属性中的单个属性等价。要六级如果应用 `important` 和其他稀有内容 ——  在 [MDN](mdn:api/CSSStyleDeclaration) 上有一个方法列表。
+- `style` 属性是一个带有 camelCased 样式的对象。对它的读取和修改 `"style"` 属性中的单个属性等价。要留意如果应用 `important` 和其他稀有内容 ——  在 [MDN](mdn:api/CSSStyleDeclaration) 上有一个方法列表。
 
 - `style.cssText` 属性对应于整个“样式”属性，即完整的样式字符串。
 
