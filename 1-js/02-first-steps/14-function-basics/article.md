@@ -210,7 +210,7 @@ function showMessage(from, text = anotherFunction()) {
 
 例如，用于 `undefined` 的显式检查：
 
-​```js
+```js
 function showMessage(from, text) {
 *!*
   if (text === undefined) {
@@ -220,17 +220,17 @@ function showMessage(from, text) {
 
   alert( from + ": " + text );
 }
-​```
+```
 
 ...Or the `||` operator:
 
-​```js
+```js
 function showMessage(from, text) {
   // if text is falsy then text gets the "default" value
   text = text || 'no text given';
   ...
 }
-​```
+```
 
 
 ````
@@ -316,19 +316,19 @@ alert( doNothing() === undefined ); // true
 ```
 ````
 
-​````warn header="Never add a newline between `return` and the value"
+````warn header="Never add a newline between `return` and the value"
 对于 `return` 的长表达式，可能会倾向于将其放在单独一行，如下所示：
 
-​```js
+```js
 return
  (some + long + expression + or + whatever * f(a) + f(b))
-​```
+```
 这不起作用，因为 JavaScript 默认会在 `return` 之后加分号。它的工作原理如下：
 
-​```js
+```js
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
-​```
+```
 因此它实际上变成了空返回。我们应该把值放在同一行。
 ````
 
