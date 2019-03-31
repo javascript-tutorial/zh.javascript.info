@@ -88,7 +88,7 @@ class User {
 }
 
 alert(typeof User); // function
-User(); // Error：构造器 User 不能直接以 'new' 的方式被调用
+User(); // Error: Class constructor User cannot be invoked without 'new'
 ```
 
 不同的字符串输出结果
