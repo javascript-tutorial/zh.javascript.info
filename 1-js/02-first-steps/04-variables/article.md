@@ -158,7 +158,7 @@ let userName;
 let test123;
 ```
 
-如果命名包括多个单词，通常采用骆驼式命名法([camelCase](https://en.wikipedia.org/wiki/CamelCase))。也就是，单词一个接一个，每个单词以大写字母开头：`myVeryLongName`。
+如果命名包括多个单词，通常采用驼峰式命名法（[camelCase](https://en.wikipedia.org/wiki/CamelCase)）。也就是，单词一个接一个，每个单词以大写字母开头：`myVeryLongName`。
 
 有趣的是，美元符号 `'$'` 和下划线 `'_'` 也可以在命名中使用。它们是正常的符号，就跟字母一样，没有任何特殊的含义。
 
