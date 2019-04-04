@@ -275,8 +275,8 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 */!*
 ```
 
-```smart header="`str.lastIndexOf(pos)`"
-还有一个类似的方法 [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf)，他从字符串的末尾开始搜索。
+```smart header="`str.lastIndexOf(subStr, pos)`"
+还有一个类似的方法 [str.lastIndexOf(subStr, pos)](mdn:js/String/lastIndexOf)，他从字符串的末尾开始搜索。
 
 它会以相反的顺序列出事件。
 ```
