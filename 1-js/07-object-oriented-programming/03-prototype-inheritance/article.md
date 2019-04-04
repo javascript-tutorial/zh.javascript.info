@@ -31,9 +31,13 @@ rabbit.__proto__ = animal;
 */!*
 ```
 
-请注意 `__proto__` 与 `[[Prototype]]` **不一样**。这是一个 getter/setter。我们之后会讨论如何设置它，但是现在 `__proto__` 工作的很好。
+请注意 `__proto__` 与 `[[Prototype]]` **不一样**。这是一个 getter/setter。
 
-如果我们在 `rabbit` 中查找一个属性，而且它丢失了，JavaScript 会自动从 `animal` 中获取它。
+它由于历史原因而存在，在现代语言中我们把它替换成了`Object.getPrototypeOf/Object.setPrototypeOf`来读写原型。我们之后会讨论这一现象的原因和这些函数。
+
+准确地说，`__proto__`应该只能被浏览器支持，但实际上包括服务器端的所有环境都支持它。现在， 因为`__proto__` 更加直观一些，我们将在例子中使用它。
+
+如果我们在 `rabbit` 中查找一个属性，而且它不存在，JavaScript 会自动从 `animal` 中获取它。
 
 例如：
 
