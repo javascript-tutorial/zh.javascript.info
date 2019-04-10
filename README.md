@@ -21,7 +21,7 @@
 
 ## 赞助商
 
-[![](https://user-images.githubusercontent.com/26959437/54406261-5c999d80-4714-11e9-9b13-4ef2fb3ac45e.png)](https://e.coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019)
+[![](https://user-images.githubusercontent.com/26959437/55848373-3f26ea80-5b7f-11e9-858c-aed16ac7eb61.png)](https://e.coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019)
 
 ## 结构
 
