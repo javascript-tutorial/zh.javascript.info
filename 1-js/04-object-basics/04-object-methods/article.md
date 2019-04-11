@@ -230,7 +230,7 @@ sayHi(); // undefined
 
 ## 内部：引用类型
 
-​```warn header="In-depth language feature"
+```warn header="In-depth language feature"
 本文介绍一个进阶的主题，来更好地理解一些特殊情况。
 
 如果你想学得更快，这部分你可以跳过或过后来读。
@@ -295,7 +295,7 @@ hi(); // 错误，因为 this 未定义
 
 这里 `hi = user.hi` 把函数赋值给变量，其后的最后一行是完全独立的，所以它没有 `this`。
 
-**为了让 `user.hi()` 有效，JavaScript 用一个技巧 —— 这个 `'.'` 点返回的不是一个函数, 而是一种特殊的[引用类型](https://tc39.github.io/ecma262/#sec-reference-specification-type)的值.**
+**为了让 `user.hi()` 有效，JavaScript 用一个技巧 —— 这个 `'.'` 点返回的不是一个函数，而是一种特殊的[引用类型](https://tc39.github.io/ecma262/#sec-reference-specification-type)的值。**
 
 引用类型是一种『规范中有的类型』。我们不能明确地指定它，但是可以在语言内部使用。
 
