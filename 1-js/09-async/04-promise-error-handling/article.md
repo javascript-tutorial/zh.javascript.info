@@ -1,3 +1,3 @@
-# 使用promises处理错误
+# 使用 promises 处理错误
 
 等待翻译
