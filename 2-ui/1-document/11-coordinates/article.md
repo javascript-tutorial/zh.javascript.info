@@ -205,7 +205,7 @@ function getCoords(elem) {
 页面上的任何点都有坐标：
 
 3. 相对于窗口的坐标 — `elem.getBoundingClientRect()`。
-4. 相对于文档的坐标 — elem.getBoundingClientRect()` 加上当前页面滚动的长度。
+4. 相对于文档的坐标 — `elem.getBoundingClientRect()` 加上当前页面滚动的长度。
 
 窗口坐标非常适合和 `position:fixed` 一起使用，文档坐标非常适合和 `position:absolute` 一起使用。
 
