@@ -176,7 +176,11 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 在这里我们看到一个新的树节点类型 —— *comment node*，标记为 `#comment`。
 
+<<<<<<< HEAD
 我们可能会想 —— 为什么要将注释添加到 DOM 中？它不会以任何方式影响视觉表示。但是有一条规则 —— 如果 HTML 中有东西，那么它也必须在 DOM 树中。
+=======
+We may think -- why is a comment added to the DOM? It doesn't affect the visual representation in any way. But there's a rule -- if something's in HTML, then it also must be in the DOM tree.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 **HTML 中的所有内容甚至注释都成为 DOM 的一部分。**
 
@@ -209,7 +213,11 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 请注意，开发者工具中的 DOM 结构已经过简化。文本节点仅以文本形式显。根本没有“空白”（只有空格）的文本节点。这其实很好，因为大部分时间我们都对元素节点感兴趣。
 
+<<<<<<< HEAD
 点击左上角的 <span class="devtools" style="background-position:-328px -124px"></span> 按钮可以使用鼠标（或其他指针设备）从网页中选择一个节点并“检查”它（在“元素”选项卡中滚动到该节点）。当我们有一个巨大的 HTML 页面（和相应的巨大 DOM），并希望看到其中的一个特定元素的位置时，这很有用。
+=======
+Clicking the <span class="devtools" style="background-position:-328px -124px"></span> button in the left-upper corner allows to choose a node from the webpage using a mouse (or other pointer devices) and "inspect" it (scroll to it in the Elements tab). This works great when we have a huge HTML page (and corresponding huge DOM) and would like to see the place of a particular element in it.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 另一种方法是在网页上右键单击并在上下文菜单中选择“检查”。
 

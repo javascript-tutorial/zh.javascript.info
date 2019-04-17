@@ -2,10 +2,9 @@
 
 注意省略号实际上有一个 unicode 字符，而不仅仅是三个点。
 
-```js run
+```js run demo
 function truncate(str, maxlength) {
-  return (str.length > maxlength) ? 
+  return (str.length > maxlength) ?
     str.slice(0, maxlength - 1) + '…' : str;
 }
 ```
-

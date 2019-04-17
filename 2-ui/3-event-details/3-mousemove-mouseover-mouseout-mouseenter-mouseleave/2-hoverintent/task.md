@@ -6,7 +6,11 @@ importance: 5
 
 编写一个函数，仅在访问者将鼠标**移动**到它上面而非**通过**它时，才会显示元素上的工具提示。
 
+<<<<<<< HEAD
 换句话说，如果访问者把鼠标移动到元素上，然后停下 —— 显示工具提示。如果访问者将鼠标快速移过元素，那就不需要显示，谁想要多余的内容呢？
+=======
+In other words, if the visitor moves the mouse on the element and stopped -- show the tooltip. And if they just moved the mouse through fast, then no need, who wants extra blinking?
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 从技术上说，我们可以测量鼠标在元素上的经过速度，如果速度很慢，那么我们认为它**在元素上**并显示工具提示，如果速度太快 —— 那么我们就忽略它。
 
