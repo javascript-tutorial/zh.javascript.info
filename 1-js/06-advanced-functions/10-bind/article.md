@@ -43,7 +43,11 @@ setTimeout(f, 1000); // 用户上下文丢失
 
 ## 解决方案 1：包装层
 
+<<<<<<< HEAD
 最简单的解决方案就是使用一个包装函数：
+=======
+The simplest solution is to use a wrapping function:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let user = {

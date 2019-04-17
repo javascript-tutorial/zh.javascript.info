@@ -18,4 +18,8 @@ let currentUserName = "John";
 
 现代编辑器的自动补全可以让长变量名变得容易书写。不要浪费这个特性。一个名字中包含三个词就挺好的。
 
+<<<<<<< HEAD
 如果你的编辑器没有合适的自动补全，换[一个新的吧](/code-editors)。
+=======
+And if your editor does not have proper autocompletion, get [a new one](/code-editors).
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
