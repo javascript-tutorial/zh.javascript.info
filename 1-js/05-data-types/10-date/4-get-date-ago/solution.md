@@ -11,7 +11,7 @@ function getDateAgo(date, days) {
 
 要实现这一点，我们可以复制这个日期，就像这样：
 
-```js run
+```js run demo
 function getDateAgo(date, days) {
   let dateCopy = new Date(date);
 

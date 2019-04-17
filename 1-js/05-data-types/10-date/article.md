@@ -2,7 +2,11 @@
 
 让我一起探讨一个新的内置对象：[日期](mdn:js/Date)。该对象存储日期、时间以及提供管理它们的方法。
 
+<<<<<<< HEAD
 举个例子，我们可以使用它来存储创建、修改事件的时间，或者用来度量时间开销，再或者用来打印当前时间。
+=======
+For instance, we can use it to store creation/modification times, to measure time, or just to print out the current date.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ## 创建
 
@@ -39,7 +43,13 @@
 
     ```js run
     let date = new Date("2017-01-26");
-    alert(date); // Thu Jan 26 2017 ...
+    alert(date);
+    // The time portion of the date is assumed to be midnight GMT and 
+    // is adjusted according to the timezone the code is run in
+    // So the result could be
+    // Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)
+    // or
+    // Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
@@ -108,7 +118,11 @@ alert( date.getHours() );
 alert( date.getUTCHours() );
 ```
 
+<<<<<<< HEAD
 在以上给出的方法中，有两个与众不同的，它们没有 UTC 版本：
+=======
+Besides the given methods, there are two special ones that do not have a UTC-variant:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 [getTime()](mdn:js/Date/getTime)
 : 返回日期的时间戳 —— 从 1970-1-1 00:00:00 UTC+0 开始的毫秒数。
