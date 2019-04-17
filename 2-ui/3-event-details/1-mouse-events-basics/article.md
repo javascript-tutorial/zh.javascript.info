@@ -175,7 +175,11 @@ Before...
 
 ...但有一个潜在的问题！文本变得无法被选中。即使用户从“之前”开始选择，“之后”结束，选择也会跳过“不可选择”部分。我们真的想让文本不可选么？
 
+<<<<<<< HEAD
 大部分时间，我们不会那么做。用户可能有合理的理由来选择文本，以便进行复制或其他需要。如果我们不让他那么做那么可能不太方便。所以这个解决方案没那么好。
+=======
+Most of time, we don't. A user may have valid reasons to select the text, for copying or other needs. That may be inconvenient if we don't allow them to do it. So this solution is not that good.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 我们只是想阻止双击进行选择，仅此而已。
 

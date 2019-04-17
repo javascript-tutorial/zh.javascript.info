@@ -14,7 +14,7 @@
 用法：
 
 ```js
-let timerId = setTimeout(func|code, delay[, arg1, arg2...])
+let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
 ```
 
 参数说明：
@@ -24,7 +24,11 @@ let timerId = setTimeout(func|code, delay[, arg1, arg2...])
 一般传入的都是函数，介于某些历史原因，代码字符串也支持，但是不建议使用这种方式。
 
 `delay`
+<<<<<<< HEAD
 ：执行前的延时，以毫秒为单位（1000 毫秒 = 1 秒）；
+=======
+: The delay before run, in milliseconds (1000 ms = 1 second), by default 0.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 `arg1`，`arg2`...
 ：要传入被执行函数（或代码字符串）的参数列表（IE9 以下不支持）
@@ -109,7 +113,7 @@ alert(timerId); // 还是那个 id 没变（并没有因为调度被取消了而
 `setInterval` 方法和 `setTimeout` 的用法是相同的：
 
 ```js
-let timerId = setInterval(func|code, delay[, arg1, arg2...])
+let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
 ```
 
 所有参数的意义也是相同的，不过相对于 `setTimeout` 只执行一次，`setInterval` 是每间隔一定时间周期性执行。
@@ -237,7 +241,11 @@ setTimeout(function() {...}, 100);
 
 ## setTimeout(...,0)
 
+<<<<<<< HEAD
 还有一种特殊的用法：`setTimeout(func, 0)`。
+=======
+There's a special use case: `setTimeout(func, 0)`, or just `setTimeout(func)`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 这样调度可以让 `func` 尽快执行，但是只有在当前代码执行完后，调度器才会对其进行调用。
 
@@ -246,7 +254,7 @@ setTimeout(function() {...}, 100);
 下面例子中，代码会先输出 "Hello"，然后紧接着输出 "World"：
 
 ```js run
-setTimeout(() => alert("World"), 0);
+setTimeout(() => alert("World"));
 
 alert("Hello");
 ```
@@ -259,7 +267,11 @@ alert("Hello");
 
 譬如，一个语法高亮脚本（用来给示例代码着色）会占用非常大的 CPU 资源。为了给代码进行高亮显示，它首先要进行代码分析，然后创建一堆着色后的元素，再将其添加到页面文档中 —— 文本量很大时，耗费时间也会很长。有时候甚至会导致浏览器“挂起”，这种情况是显然不能接受的。
 
+<<<<<<< HEAD
 所以，我们不妨将长文本分割成几部分处理。首先处理前 100 行，然后用 `setTimeout(...,0)` 安排接下来 100 行的处理，以此类推。
+=======
+So we can split the long text into pieces. First 100 lines, then plan another 100 lines using `setTimeout(..., 0)`, and so on.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 为了方便理解，来考虑一个稍微简单点的例子。比如我们有个函数，从 `1` 数到 `1000000000`。
 
@@ -302,7 +314,11 @@ function count() {
   if (i == 1e9) {
     alert("Done in " + (Date.now() - start) + 'ms');
   } else {
+<<<<<<< HEAD
     setTimeout(count, 0); // 安排下一次任务 (**)
+=======
+    setTimeout(count); // schedule the new call (**)
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
   }
 
 }
@@ -318,7 +334,11 @@ count();
 2. 第二次做：`i=1000001..2000000` 的计数。
 3. ...等等，其中 `while` 语句检查 `i` 是否刚好能被 `1000000` 整除。
 
+<<<<<<< HEAD
 如果任务还没完成，在代码 `(*)` 处安排下一次调用。
+=======
+Then the next call is scheduled in `(**)` if we're not done yet.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 `count` 函数调用的间隙足以让 JavaScript 引擎“缓口气了”，（浏览器）趁这段时间可以对用户的操作作出回应。
 
@@ -337,7 +357,11 @@ function count() {
 
   // 现在将调度放在开头
   if (i < 1e9 - 1e6) {
+<<<<<<< HEAD
     setTimeout(count, 0); // 安排下一次调用
+=======
+    setTimeout(count); // schedule the new call
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
   }
 
   do {
@@ -369,9 +393,15 @@ let times = [];
 setTimeout(function run() {
   times.push(Date.now() - start); // 保存上次调用的延时
 
+<<<<<<< HEAD
   if (start + 100 < Date.now()) alert(times); // 100 毫秒之后，显示延时信息
   else setTimeout(run, 0); // 没超过 100 毫秒则再进行调度
 }, 0);
+=======
+  if (start + 100 < Date.now()) alert(times); // show the delays after 100ms
+  else setTimeout(run); // else re-schedule
+});
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 // 示例输出：
 // 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
@@ -429,7 +459,7 @@ setTimeout(function run() {
     } while (i % 1e3 != 0);
 
     if (i < 1e9) {
-      setTimeout(count, 0);
+      setTimeout(count);
     }
 
   }

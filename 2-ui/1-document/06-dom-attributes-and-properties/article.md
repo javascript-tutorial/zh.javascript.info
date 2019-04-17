@@ -1,6 +1,10 @@
 # 特性和属性
 
+<<<<<<< HEAD
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 文本并生成 DOM 对象。对于元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
+=======
+When the browser loads the page, it "reads" (another word: "parses") the HTML and generates DOM objects from it. For element nodes, most standard HTML attributes automatically become properties of DOM objects.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 在这个例子中，如果标签是 `<body id="page">`，那么 DOM 对象会生成这样一个属性 `body.id="page"`。
 
@@ -51,7 +55,11 @@ document.body.sayHi(); // Hello, I'm BODY
 
 ## HTML 特性
 
+<<<<<<< HEAD
 在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别**标准化**特性然后以此创建 DOM 属性。
+=======
+In HTML, tags may have attributes. When the browser parses the HTML to create DOM objects for tags, it recognizes *standard* attributes and creates DOM properties from them.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 因此当一个元素有 `id` 或其他**标准化**特性，会生相应的 DOM 属性。但是非**标准化**的特性则会被忽略。
 
@@ -83,9 +91,15 @@ document.body.sayHi(); // Hello, I'm BODY
 </body>
 ```
 
+<<<<<<< HEAD
 如果一个特性不是标准化的，DOM 属性就不存在这个特性。那我们有没办法获取到这个特性？
 
 答案是肯定的。以下几个方法是针对元素特性的操作：
+=======
+So, if an attribute is non-standard, there won't be a DOM-property for it. Is there a way to access such attributes?
+
+Sure. All attributes are accessible by using the following methods:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 - `elem.hasAttribute(name)` —— 检验是否拥这个特性。
 - `elem.getAttribute(name)` —— 获取到这个特性值。
@@ -135,10 +149,17 @@ HTML 特性有几个特征：
 
 请注意：
 
+<<<<<<< HEAD
 1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
 2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
 3. 所有 attributes 都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
 4. `attributes` 以 `name` 和 `value` 这样的键—值对收集在一个可迭代对象里。
+=======
+1. `getAttribute('About')` -- the first letter is uppercase here, and in HTML it's all lowercase. But that doesn't matter: attribute names are case-insensitive.
+2. We can assign anything to an attribute, but it becomes a string. So here we have `"123"` as the value.
+3. All attributes including ones that we set are visible in `outerHTML`.
+4. The `attributes` collection is iterable and has all the attributes of the element (standard and non-standard) as objects with `name` and `value` properties.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ## 属性—特性的同步
 
