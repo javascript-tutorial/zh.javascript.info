@@ -1,18 +1,38 @@
 # 基本类型的方法
 
+<<<<<<< HEAD
 JavaScript 允许我们像对象一样使用基本类型（字符串，数字等）。
 
 基本类型还提供调用方法等。我们会尽快研究这些，但首先我们会看看它是如何工作的，毕竟基本类型不是对象（在这里我们会分析的更加清楚）。
 
 我们来看看基本类型和对象之间的关键区别。
+=======
+JavaScript allows us to work with primitives (strings, numbers, etc.) as if they were objects.
+
+They also provide methods to call as such. We will study those soon, but first we'll see how it works because, of course, primitives are not objects (and here we will make it even clearer).
+
+Let's look at the key distinctions between primitives and objects.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 基本类型
 
+<<<<<<< HEAD
 对象
 :能够将多个值存储为属性。
 可以用 `{}` 创建，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
 
 关于对象的最好的事情之一是我们可以存储一个函数作为它的一个属性：
+=======
+- Is a value of a primitive type.
+- There are 6 primitive types: `string`, `number`, `boolean`, `symbol`, `null` and `undefined`.
+
+An object
+
+- Is capable of storing multiple values as properties.
+- Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript; functions, for example, are objects.
+
+One of the best things about objects is that we can store a function as one of its properties.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let john = {
@@ -27,7 +47,11 @@ john.sayHi(); // Hi buddy!
 
 所以我们在这里创建了一个包含 `sayHi` 方法的对象 `john`。
 
+<<<<<<< HEAD
 许多内置对象已经存在，例如那些处理日期，错误，HTML 元素等的内置对象。它们具有不同的属性和方法。
+=======
+Many built-in objects already exist, such as those that work with dates, errors, HTML elements, etc. They have different properties and methods.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 但是，这些特性都是有成本的！
 

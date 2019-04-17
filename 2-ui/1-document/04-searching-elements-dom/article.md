@@ -266,8 +266,13 @@ CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如�
 
 下面的实例中，有两个脚本。
 
+<<<<<<< HEAD
 1. 第一个方法创建了对集合 `<div>` 的引用。到目前为止，它的长度是 `1`。
 2. 第二个脚本在浏览器再遇到一个 `<div>` 时，它的长度会变成 `2`。
+=======
+1. The first one creates a reference to the collection of `<div>`. As of now, its length is `1`.
+2. The second scripts runs after the browser meets one more `<div>`, so its length is `2`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```html run
 <div>First div</div>
