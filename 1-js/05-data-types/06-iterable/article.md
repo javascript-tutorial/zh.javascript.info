@@ -3,9 +3,16 @@
 
 **Iterable** （可迭代对象）是数组的泛化。这个概念是说任何对象都可在 `for..of` 循环中使用。
 
+<<<<<<< HEAD
 数组本身就是可迭代的。但不仅仅是数组。字符串也可以迭代，很多其他内建对象也都可以迭代。
 
 在核心 JavaScript 中，可迭代对象用途广泛。我们将会看到，很多内建的操作和方法都依赖于它。
+=======
+Of course, Arrays are iterable. But there are many other built-in objects, that are iterable as well. For instance, Strings are iterable also. As we'll see, many built-in operators and methods rely on them.
+
+If an object represents a collection (list, set) of something, then `for..of` is a great syntax to loop over it, so let's see how to make it work.
+
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ## Symbol.iterator
 
@@ -27,10 +34,17 @@ let range = {
 
 为了让 `range` 对象可迭代（也就让 `for..of` 可以运行）我们需要为对象添加一个名为 `Symbol.iterator` 的方法（一个特殊的内置标记）。
 
+<<<<<<< HEAD
 - 当 `for..of` 循环开始，它将会调用这个方法（如果没找到，就会报错）。
 - 这个方法必须返回一个迭代器 —— 一个有 `next` 方法的对象。
 - 当 `for..of` 循环希望取得下一个数值，它就调用这个对象的 `next()` 方法。
 - `next()` 返回结果的格式必须是 `{done: Boolean, value: any}`，当 `done=true` 时，表示迭代结束，否则 `value` 必须是一个未被迭代的新值。
+=======
+1. When `for..of` starts, it calls that method once (or errors if not found). The method must return an *iterator* -- an object with the method `next`.
+2. Onward, `for..of` works *only with that returned object*.
+3. When `for..of` wants the next value, it calls `next()` on that object.
+4. The result of `next()` must have the form `{done: Boolean, value: any}`, where `done=true`  means that the iteration is finished, otherwise `value` must be the new value.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 这是 `range` 的全部实现：
 
@@ -43,7 +57,12 @@ let range = {
 // 1. 使用 for..of 将会首先调用它：
 range[Symbol.iterator] = function() {
 
+<<<<<<< HEAD
   // 2. ...它返回一个迭代器：
+=======
+  // ...it returns the iterator object:
+  // 2. Onward, for..of works only with this iterator, asking it for next values
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
   return {
     current: this.from,
     last: this.to,      
@@ -66,10 +85,17 @@ for (let num of range) {
 }
 ```
 
+<<<<<<< HEAD
 这段代码中有几点需要着重关注：
 
 - `range` 自身没有 `next()` 方法。
 - 相反，是调用 `range[Symbol.iterator]()` 时将会被创建的另一个所谓的“迭代器”对象，将会处理迭代操作。
+=======
+Please note the core feature of iterables: an important separation of concerns:
+
+- The `range` itself does not have the `next()` method.
+- Instead, another object, a so-called "iterator" is created by the call to `range[Symbol.iterator]()`, and it handles the whole iteration.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 所以，迭代器对象和迭代的对象其实是分离的。
 
@@ -101,10 +127,19 @@ for (let num of range) {
 }
 ```
 
+<<<<<<< HEAD
 现在 `range[Symbol.iterator]()` 返回了 `range` 对象自身：它包括了必需的 `next()` 方法并通过 `this.current` 记忆了当前迭代进程。有时候，这样也可以。但缺点是，现在不可能同时在 `range` 上运行两个 `for..of` 循环了：这两个循环将会共享迭代状态，因为仅有一个迭代器 —— 也就是对象自身。
 
 ```smart header="Infinite iterators"
 无穷迭代也是可行的。例如，`range` 设置为 `range.to = Infinity` 则成为无穷迭代。或者我们可以创建一个可迭代对象，它生成一个伪随机数无穷序列。也是可用的。
+=======
+Now `range[Symbol.iterator]()` returns the `range` object itself:  it has the necessary `next()` method and remembers the current iteration progress in `this.current`. Shorter? Yes. And sometimes that's fine too.
+
+The downside is that now it's impossible to have two `for..of` loops running over the object simultaneously: they'll share the iteration state, because there's only one iterator -- the object itself. But two parallel for-ofs is a rare thing, doable with some async scenarios.
+
+```smart header="Infinite iterators"
+Infinite iterators are also possible. For instance, the `range` becomes infinite for `range.to = Infinity`. Or we can make an iterable object that generates an infinite sequence of pseudorandom numbers. Also can be useful.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 `next` 没有什么限制，它可以返回越来越多的值，这也很常见。
 
@@ -120,11 +155,20 @@ for (let num of range) {
 
 ```js run
 for (let char of "test") {
+<<<<<<< HEAD
   alert( char ); // t，然后 e，然后 s，然后 t
 }
 ```
 
 对于 UTF-16 的扩展字符，它也能正常工作！
+=======
+  // triggers 4 times: once for each character
+  alert( char ); // t, then e, then s, then t
+}
+```
+
+And it works correctly with surrogate pairs!
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let str = '𝒳😂';

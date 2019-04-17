@@ -85,7 +85,15 @@ let user = new function() {
 
 ## 双语法构造函数：new.target
 
+<<<<<<< HEAD
 在一个函数内部，我们可以使用 `new.target` 属性来检查它被调用时，是否使用了 `new`。
+=======
+```smart header="Advanced stuff"
+The syntax from this section is rarely used, skip it unless you want to know everything.
+```
+
+Inside a function, we can check whether it was called with `new` or without it, using a special `new.target` property.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 常规调用为空，如果通过 `new` 调用，则等于函数：
 
@@ -94,14 +102,30 @@ function User() {
   alert(new.target);
 }
 
+<<<<<<< HEAD
 // 不带 new：
+=======
+// without "new":
+*!*
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 User(); // undefined
+*/!*
 
+<<<<<<< HEAD
 // 带 new：
+=======
+// with "new":
+*!*
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 new User(); // function User { ... }
+*/!*
 ```
 
+<<<<<<< HEAD
 这可以使 `new` 和常规语法的工作原理相同：
+=======
+That can be used to allow both `new` and regular calls to work the same. That is, create the same object:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 function User(name) {
@@ -116,7 +140,13 @@ let john = User("John"); // 重新调用 new User
 alert(john.name); // John
 ```
 
+<<<<<<< HEAD
 这种方法有时用在库中以使语法更加灵活。但因为省略 `new` 使得它不易阅读，这可不是一件好事。 而通过 `new` 我们可以都知道这个新对象正在创建。
+=======
+This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
+
+Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ## 构造函数 Return
 
@@ -215,5 +245,9 @@ JavaScript 为许多内置的对象提供了构造函数：比如日期 Date，�
 ```smart header="Objects, we'll be back!"
 在本章中，我们只介绍关于对象和构造函数的基础知识。它们对于在下一章中更多地了解数据类型和函数非常重要。
 
+<<<<<<< HEAD
 在我们了解了这一章之后 <info:object-oriented-programming> 我们返回到对象并深入其中，包括继承和类。
+=======
+After we learn that, we return to objects and cover them in-depth in the chapters <info:prototypes> and <info:classes>.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ```

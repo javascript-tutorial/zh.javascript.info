@@ -18,8 +18,13 @@ let id = Symbol();
 
 我们可以给 Symbol 一个描述（也称为 Symbol 名），这对于调试非常有用：
 
+<<<<<<< HEAD
 ```js
 // id 是描述为 "id" 的 Symbol
+=======
+```js run
+// id is a symbol with the description "id"
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 let id = Symbol("id");
 ```
 
@@ -50,7 +55,13 @@ alert(id); // 类型错误：无法将 Symbol 值转换为 String。
 */!*
 ```
 
+<<<<<<< HEAD
 如果我们真的想显示一个 Symbol，我们需要在它上面调用 `.toString()`，如下所示：
+=======
+That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not occasionally convert one into another.
+
+If we really want to show a symbol, we need to call `.toString()` on it, like here:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ```js run
 let id = Symbol("id");
 *!*
@@ -58,7 +69,18 @@ alert(id.toString()); // Symbol(id)，现在它起作用了
 */!*
 ```
 
+<<<<<<< HEAD
 这是一种防止混乱的“语言保护”，因为 String 和 Symbol 有本质上的不同，而且不应该偶尔将它们相互转化。
+=======
+Or get `symbol.description` property to get the description only:
+```js run
+let id = Symbol("id");
+*!*
+alert(id.description); // id
+*/!*
+```
+
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ````
 
 ## “隐藏”属性
@@ -75,7 +97,11 @@ user[id] = "ID Value";
 alert( user[id] ); // 我们可以使用 Symbol 作为键来访问数据。
 ```
 
+<<<<<<< HEAD
 在 string `"id"` 上使用 `Symbol("id")` 有什么好处？ 
+=======
+What's the benefit of using `Symbol("id")` over a string `"id"`?
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 我们用更深入一点的示例来说明这一点。
 
