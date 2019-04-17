@@ -2,9 +2,15 @@
 # HTML/CSS
 首先，我们创建 HTML/CSS。
 
+<<<<<<< HEAD
 菜单是页面上的一个独立的图形组件，所以最好把它放在一个 DOM 元素中。
 
 菜单项列表可以分层为列表 `ul/li`。
+=======
+A menu is a standalone graphical component on the page, so it's better to put it into a single DOM element.
+
+A list of menu items can be laid out as a list `ul/li`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 下面是示例的结构：
 
