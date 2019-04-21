@@ -78,7 +78,7 @@ alert( document.body instanceof EventTarget ); // true
 ````smart header="IDL in the spec"
 在规范中，类不是用 JavaScript 描述的，而是一个特殊的[接口描述语言（IDL）](https://en.wikipedia.org/wiki/Interface_description_language)，它很容易理解。
 
-在 IDL 中，所有的属性都有它们的类型。比如，`DOMString` 和 `boolean` 等待。
+在 IDL 中，所有的属性都有它们的类型。比如，`DOMString` 和 `boolean` 等等。
 
 以下是附有评论的摘录：
 
