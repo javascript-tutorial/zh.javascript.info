@@ -21,7 +21,7 @@
 
 ## 赞助商
 
-<a href="https://e.coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/55848373-3f26ea80-5b7f-11e9-858c-aed16ac7eb61.png" width="300px;" target="_blank"/></a>
+<a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
 
 ## 结构
 
