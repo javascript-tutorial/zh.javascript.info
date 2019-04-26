@@ -1,13 +1,27 @@
+<<<<<<< HEAD
 # 搜索： getElement* 和 querySelector*
+=======
+# Searching: getElement*, querySelector*
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 当元素关联较密切时，DOM 导航属性是最好的。万一不是这样该怎么办？如何去获取页面上的任意一个元素？ 
 
+<<<<<<< HEAD
 还有其他的搜索方法。
 ## document.getElementById 或者只使用 id
+=======
+There are additional searching methods for that.
+
+## document.getElementById or just id
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 如果元素有 `id` 属性，那么该 `id` 也会有一个同名全局变量。
 
+<<<<<<< HEAD
 我们可以用以下方式来访问元素：
+=======
+We can use it to immediately access the element no matter where it is:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```html run
 <div id="*!*elem*/!*">
@@ -24,7 +38,13 @@
 </script>
 ```
 
+<<<<<<< HEAD
 除非我们自己声明同名变量：
+=======
+The behavior is described [in the specification](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), but it is supported mainly for compatibility. The browser tries to help us by mixing namespaces of JS and DOM. Good for very simple scripts, but there may be name conflicts. Also, when we look in JS and don't have HTML in view, it's not obvious where the variable comes from.
+
+If we declare a variable with the same name, it takes precedence:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```html run untrusted height=0
 <div id="elem"></div>
@@ -36,9 +56,13 @@
 </script>
 ```
 
+<<<<<<< HEAD
 [在规范中](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem)描述了这种行为，主要是考虑到兼容性才对它进行了支持。为了帮助我们，浏览器尝试了混合 JS 和 DOM 的命名空间。但这仅仅对简单脚本有效，因为它们可能会产生命名冲突。同时，当我们在 JS 中查看时，因为无法在视图中查看 HTML，所以变量的来源可能会很模糊。
 
 选择特殊的方法，才是最好的选择：`document.getElementById(id)`。
+=======
+The better alternative is to use a special method `document.getElementById(id)`.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 例如：
 
@@ -68,6 +92,7 @@
 `getElementById` 只能在 `document` 对象上调用。它会在整个文档中查找给定的 `id`。
 ```
 
+<<<<<<< HEAD
 ## getElementsBy*
 
 也有其他的方法来搜索节点：
@@ -166,6 +191,11 @@ document.getElementsByTagName('input')[0].value = 5;
 现在将进行重要的内容
 
 `elem.querySelectorAll(css)` 的调用将返回与给定 CSS 选择器匹配 `elem` 中的所有元素。这是最常用和最有力的方法。
+=======
+## querySelectorAll [#querySelectorAll]
+
+By far, the most versatile method, `elem.querySelectorAll(css)` returns all elements inside `elem` matching the given CSS selector.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 我们将查找所有为最后一个子元素的  `<li>` 元素：
 
@@ -194,7 +224,6 @@ document.getElementsByTagName('input')[0].value = 5;
 ```smart header="Can use pseudo-classes as well"
 CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如，`document.querySelectorAll(':hover')` 将会返回指针现在已经结束的集合（按嵌套顺序：从最外层 `<html>` 到嵌套最多的元素）。
 ```
-
 
 ## querySelector [#querySelector]
 
@@ -230,9 +259,13 @@ CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如�
 
 ## closest
 
+<<<<<<< HEAD
 所有直接在给定元素之上的元素都被称为它的“祖先”。
 
 换句话说，祖先是：父类，父类的父类，它的父类等。祖先们一起组成了从元素到顶端的父类链。
+=======
+*Ancestors* of an element are: parent, the parent of parent, its parent and so on. The ancestors together form the chain of parents from the element to the top.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 `elem.closest(css)` 方法会查找与 CSS 选择器匹配的最接近的祖先。`elem` 自己也会被搜索。
 
@@ -260,14 +293,115 @@ CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如�
 </script>
 ```
 
+<<<<<<< HEAD
 ## Live 集合
+=======
+## getElementsBy*
+
+There are also other methods to look for nodes by a tag, class, etc.
+
+Today, they are mostly history, as `querySelector` is more powerful and shorter to write.
+
+So here we cover them mainly for completeness, while you can still find them in the old scripts.
+
+- `elem.getElementsByTagName(tag)` looks for elements with the given tag and returns the collection of them. The `tag` parameter can also be a star `"*"` for "any tags".
+- `elem.getElementsByClassName(className)` returns elements that have the given CSS class. Elements may have other classes too.
+- `document.getElementsByName(name)` returns elements with the given `name` attribute, document-wide. very rarely used.
+
+For instance:
+```js
+// get all divs in the document
+let divs = document.getElementsByTagName('div');
+```
+
+Let's find all `input` tags inside the table:
+
+```html run height=50
+<table id="table">
+  <tr>
+    <td>Your age:</td>
+
+    <td>
+      <label>
+        <input type="radio" name="age" value="young" checked> less than 18
+      </label>
+      <label>
+        <input type="radio" name="age" value="mature"> from 18 to 50
+      </label>
+      <label>
+        <input type="radio" name="age" value="senior"> more than 60
+      </label>
+    </td>
+  </tr>
+</table>
+
+<script>
+*!*
+  let inputs = table.getElementsByTagName('input');
+*/!*
+
+  for (let input of inputs) {
+    alert( input.value + ': ' + input.checked );
+  }
+</script>
+```
+
+```warn header="Don't forget the `\"s\"` letter!"
+Novice developers sometimes forget the letter `"s"`. That is, they try to call `getElementByTagName` instead of <code>getElement<b>s</b>ByTagName</code>.
+
+The `"s"` letter is absent in `getElementById`, because it returns a single element. But `getElementsByTagName` returns a collection of elements, so there's `"s"` inside.
+```
+
+````warn header="It returns a collection, not an element!"
+Another widespread novice mistake is to write:
+
+```js
+// doesn't work
+document.getElementsByTagName('input').value = 5;
+```
+
+That won't work, because it takes a *collection* of inputs and assigns the value to it rather than to elements inside it.
+
+We should either iterate over the collection or get an element by its index, and then assign, like this:
+
+```js
+// should work (if there's an input)
+document.getElementsByTagName('input')[0].value = 5;
+```
+````
+
+Looking for `.article` elements:
+
+```html run height=50
+<form name="my-form">
+  <div class="article">Article</div>
+  <div class="long article">Long article</div>
+</form>
+
+<script>
+  // find by name attribute
+  let form = document.getElementsByName('my-form')[0];
+
+  // find by class inside the form
+  let articles = form.getElementsByClassName('article');
+  alert(articles.length); // 2, found two elements with class "article"
+</script>
+```
+
+## Live collections
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 所有的 `"getElementsBy*"` 方法都会返回 **live** 集合。这类集合总是可以反映出文档的当前状态而且在文档变化时，可以自动更新。
 
 下面的实例中，有两个脚本。
 
+<<<<<<< HEAD
 1. 第一个方法创建了对集合 `<div>` 的引用。到目前为止，它的长度是 `1`。
 2. 第二个脚本在浏览器再遇到一个 `<div>` 时，它的长度会变成 `2`。
+=======
+1. The first one creates a reference to the collection of `<div>`. As of now, its length is `1`.
+2. The second scripts runs after the browser meets one more `<div>`, so its length is `2`.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```html run
 <div>First div</div>
@@ -327,6 +461,18 @@ CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如�
 </thead>
 <tbody>
 <tr>
+<td><code>querySelector</code></td>
+<td>CSS-selector</td>
+<td>✔</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>querySelectorAll</code></td>
+<td>CSS-selector</td>
+<td>✔</td>
+<td>-</td>
+</tr>
+<tr>
 <td><code>getElementById</code></td>
 <td><code>id</code></td>
 <td>-</td>
@@ -350,24 +496,16 @@ CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如�
 <td>✔</td>
 <td>✔</td>
 </tr>
-<tr>
-<td><code>querySelector</code></td>
-<td>CSS-selector</td>
-<td>✔</td>
-<td>-</td>
-</tr>
-<tr>
-<td><code>querySelectorAll</code></td>
-<td>CSS-selector</td>
-<td>✔</td>
-<td>-</td>
-</tr>
 </tbody>
 </table>
 
+<<<<<<< HEAD
 请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用 `getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 回报错。
 
 也可以在元素上调用其他方法，例如 `elem.querySelectorAll(...)` 将会在 `elem`（在 DOM 子树中）内部进行搜素。
+=======
+By far the most used are `querySelector` and `querySelectorAll`, but `getElementBy*` can be sporadically helpful or found in the old scripts.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 除此以外：
 

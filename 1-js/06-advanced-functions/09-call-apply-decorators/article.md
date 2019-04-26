@@ -305,7 +305,11 @@ func.apply(context, args);   // 与使用 apply 相同
 
 所以，这些调用方式相互补充。我们期望有一个可迭代的 `call` 实现，我们也期望有一个类似数组，`apply` 的实现。
 
+<<<<<<< HEAD
 如果 `参数列表` 既可迭代又像数组一样，就像真正的数组一样，那么我们在技术上可以使用它们中的任何一个，但是 `apply` 可能会更快，因为它只是一个操作。大多数 JavaScript 引擎内部优化比一对 `call + spread` 更好。
+=======
+And if `args` is both iterable and array-like, like a real array, then we technically could use any of them, but `apply` will probably be faster, because it's a single operation. Most JavaScript engines internally optimize it better than a pair `call + spread`.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 `apply` 最重要的用途之一是将调用传递给另一个函数，如下所示：
 

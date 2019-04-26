@@ -22,10 +22,17 @@ importance: 5
 
 在视觉上，它看起来像这样：
 
+<<<<<<< HEAD
 1. 对于第一个鼠标移动，装饰变体将调用传递给 `update`。这很重要，用户会立即看到我们对他行动的反应。
 2. 然后当鼠标移动时，直到 “100ms” 没有任何反应。装饰的变体忽略了调用。
 3. 在 `100ms`  结束时 - 最后一个坐标发生了一次 `update`。
 4. 然后，最后，鼠标停在某处。装饰的变体等到 `100ms`到期，然后用最后一个坐标运行 `update`。因此，也许最重要的是处理最终的鼠标坐标。
+=======
+1. For the first mouse movement the decorated variant passes the call to `update`. That's important, the user sees our reaction to their move immediately.
+2. Then as the mouse moves on, until `100ms` nothing happens. The decorated variant ignores calls.
+3. At the end of `100ms` -- one more `update` happens with the last coordinates. 
+4. Then, finally, the mouse stops somewhere. The decorated variant waits until `100ms` expire and then runs `update` with last coordinates. So, perhaps the most important, the final mouse coordinates are processed.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 一个代码示例：
 

@@ -262,7 +262,11 @@ let option = new Option("Text", "value", true, true);
 : 在该 option 所属的 `<select>` 其所对应的索引。
 
 `text`
+<<<<<<< HEAD
 : 选项的文本内容（可以被任何访问者看到）。
+=======
+: Text content of the option (seen by the visitor).
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 ```
 
 ## 总结

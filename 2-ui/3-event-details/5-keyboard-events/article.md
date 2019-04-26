@@ -123,7 +123,11 @@ function checkPhoneKey(key) {
 <input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="Phone, please" type="tel">
 ```
 
+<<<<<<< HEAD
 请注意，像 `key:Backspace`、`key:Left`、`key:Right`、`key:Ctrl+V` 这样的特殊键在输入中无效。这是严格过滤器 `checkPhoneKey` 的副作用。
+=======
+Please note that special keys like `key:Backspace`, `key:Left`, `key:Right`, `key:Ctrl+V` do not work in the input. That's a side-effect of the strict filter `checkPhoneKey`.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 让我们放松一下：
 

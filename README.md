@@ -1,10 +1,16 @@
+# The Modern JavaScript Tutorial
 
+<<<<<<< HEAD
 # JavaScript教程
 
 这个仓库托管现代 JavaScript 教程的内容，发布于 [https://javascript.info](https://javascript.info)。
+=======
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ## 译文
 
+<<<<<<< HEAD
 已发布：
 - 俄语版：[https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
 
@@ -18,6 +24,21 @@
 你也可以对此文件发 PR 来表示工作正在进行中。
 
 请注意，此教程可以用 <https://github.com/iliakan/javascript-tutorial-server/> 来达到本地运行的效果。
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://github.com/javascript-tutorial/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ## 赞助商
 
@@ -31,6 +52,7 @@
 
 材料的类型由文件夹内的文件来定义：
 
+<<<<<<< HEAD
   - `index.md` 代表一个章节
   - `article.md` 代表一篇文章
   - `task.md` 代表一个任务（解答也一定会出现在 solution.md 文件中）
@@ -38,3 +60,10 @@
 每个文件都从 `# Main header` 开始。
 
 材料所需要的资源需要处于同一文件夹内。
+=======
+It's very easy to add something new.
+
+---
+💓  
+Ilya Kantor @iliakan
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847

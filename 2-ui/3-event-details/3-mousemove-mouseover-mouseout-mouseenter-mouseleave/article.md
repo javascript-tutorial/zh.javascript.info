@@ -50,7 +50,11 @@
 
 这在实践中是有用的，因为可能会有许多中间元素。我们并不是真的想要处理每一个进入离开的过程。
 
+<<<<<<< HEAD
 另一方面，我们应该记住，我们不能假设鼠标会缓慢地从一个事件移动到另一个事件。是的，它可以“跳”。
+=======
+On the other hand, we should keep in mind that we can't assume that the mouse slowly moves from one event to another. No, it can "jump".
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 特别是，光标可能从窗口外跳进页面的中间。此时 `relatedTarget=null`，这是因为鼠标来自“窗口外（nowhere）”：
 
@@ -96,7 +100,11 @@
 
 因此，对于不考虑 `target` 的处理器，这看起来就像是在 `mouseout` 事件中，鼠标离开了父元素（第 `(2)` 步），然后在第 `(3)` 步的 `mouseover` 事件中鼠标又回到了父元素上。
 
+<<<<<<< HEAD
 如果我们在进入/离开元素时执行一些动作，就会多执行很多“错误”操作。对于简单的事情可能不引人注目。但对于复杂的事情来说，会带来不必要的副作用。
+=======
+If we perform some actions on entering/leaving the element, then we'll get a lot of extra "false" runs. For simple stuff that may be unnoticeable. For complex things that may bring unwanted side-effects.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 我们可以通过使用 `mouseenter/mouseleave` 事件来解决这个问题。
 
@@ -169,7 +177,11 @@ table.onmouseout = function(event) {
 
 [codetabs height=380 src="mouseenter-mouseleave-delegation-2"]
 
+<<<<<<< HEAD
 尝试在表格单元之间或内部移动光标，太快或太慢都有问题。与之前不同的是只有 `<td>` 作为一个整体被高亮显示。
+=======
+Try to move the cursor in and out of table cells and inside them. Fast or slow -- doesn't matter. Only `<td>` as a whole is highlighted unlike the example before.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 ```
 
 

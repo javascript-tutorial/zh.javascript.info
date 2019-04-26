@@ -78,8 +78,13 @@ let func = sayHi;
 这两种声明的函数是一样的，那么他们有什么不同的地方呢？
 
 
+<<<<<<< HEAD
 ````smart header="Why there's a semicolon at the end?"
  这里可能有个疑问，为什么函数表达式结尾有一个 `;`，而函数声明没有：
+=======
+````smart header="Why is there a semicolon at the end?"
+You might wonder, why does Function Expression have a semicolon `;` at the end, but Function Declaration does not:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```js
 function sayHi() {
@@ -198,7 +203,11 @@ ask(
 
 **函数表达式在执行到达时创建并可用。**
 
+<<<<<<< HEAD
 一旦执行到右侧分配 `let sum = function…`，就会创建并可以使用(复制，调用等)。
+=======
+Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called, etc. ) from now on.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 函数声明则不同。
 
@@ -350,8 +359,13 @@ welcome(); // ok now
 ```
 
 
+<<<<<<< HEAD
 ```smart header="When to choose Function Declaration versus Function Expression?"
 作为一个经验，当我们需要声明一个函数时，首先要考虑的是函数声明语法，这是我们之前使用的语法。它给如何组织我们的代码提供了更多的自由，因为我们可以在声明它们之前调用这些函数。
+=======
+```smart header="When should you choose Function Declaration versus Function Expression?"
+As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax, the one we used before. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 在代码中查找 `function f(…) {…}` 比 `let f = function(…) {…}` 更容易。
 
@@ -375,7 +389,7 @@ let func = (arg1, arg2, ...argN) => expression
 ```js
 let func = function(arg1, arg2, ...argN) {
   return expression;
-}
+};
 ```
 
 ...精简下。

@@ -19,7 +19,11 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 
 实际上，Babel 包含了两部分：
 
+<<<<<<< HEAD
 1. 第一，transpiler 程序，就是重写代码的那个。开发者在他自己的电脑上运行它。它将代码重写到旧的标准中。然后将代码交付给用户的网站。诸如 [webpack](http://webpack.github.io/) 或 [brunch](http://brunch.io/) 这样的现代项目构建系统提供了每当代码改变都会自动运行 transpiler 的方法，因此我们这边没有任何的时间损失。
+=======
+1. First, the transpiler program, which rewrites the code. The developer runs it on their own computer. It rewrites the code into the older standard. And then the code is delivered to the website for users. Modern project build system like [webpack](http://webpack.github.io/) or [brunch](http://brunch.io/) provide means to run transpiler automatically on every code change, so that doesn't involve any time loss from our side.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 2. 第二，polyfill。
 

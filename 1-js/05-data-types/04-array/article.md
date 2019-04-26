@@ -1,8 +1,14 @@
 # 数组
 
+<<<<<<< HEAD
 对象允许存储键值化的集合，这很好。
  
 但很多时候我们需要的是**有序集合**，里面的元素都是按顺序排列的。例如，我们可能需要存储一些列表，比如用户、商品以及 HTML 元素等。
+=======
+Objects allow you to store keyed collections of values. That's fine.
+
+But quite often we find that we need an *ordered collection*, where we have a 1st, a 2nd, a 3rd element and so on. For example, we need that to store a list of something: users, goods, HTML elements etc. 
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 这里使用对象就不是很方便了，因为对象不提供能够管理元素顺序的方法。我们不能在已有的元素“之间”插入一个新的属性。这种场景下对象就不太适用了。
 
@@ -104,7 +110,11 @@ let fruits = [
 
 这两种操作数组都支持.
 
+<<<<<<< HEAD
 队列的应用在实践中经常会碰到，例如需要在屏幕上显示消息队列。
+=======
+In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 数组还有另一个用例，就是数据结构[栈](https://en.wikipedia.org/wiki/Stack_(abstract_data_type))。
 
@@ -121,7 +131,11 @@ let fruits = [
 
 对于栈来说，最后放进去的是最先接收的，也叫做 LIFO（后进先出）法则。而与队列相对应的叫做 FIFO（先进先出）。
 
+<<<<<<< HEAD
 JavaScript 中的数组既可以用作队列，也可以用作栈。它们允许从前端/末端来添加/删除元素。
+=======
+Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements both to/from the beginning or the end. 
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 这在计算机科学中叫做[双端队列](https://en.wikipedia.org/wiki/Double-ended_queue)。
 
@@ -320,7 +334,11 @@ for (let key in arr) {
 
     在浏览器和其它环境中有一种“类数组”的对象，它们**看似是数组**，也就是说，它们有 `length` 和索引属性，但是也可能有其它的非数字的属性和方法，这通常是我们不需要的。`for..in` 循环会把它们都列出来。所以如果我们需要处理类数组对象，这些“额外”的属性就会存在问题。
 
+<<<<<<< HEAD
 2. `for..in` 循环适用于普通对象，不适用于数组，而且会慢 10-100 倍。当然即使是这样也依然非常快。只有在遇到瓶颈或者一些不相关的场景增速可能会有问题。但是我们仍然应该了解这其中的不同。
+=======
+2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may only matter in bottlenecks or seem irrelevant. But still we should be aware of the difference.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 通常来说，我们不应该用 `for..in` 来处理数组。
 
@@ -369,7 +387,11 @@ let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 
 如果调用 `new Array` 使用的是一个单独的数字作为参数，那么就会创建一个**指定了长度，却没有任何项**的数组。
 
+<<<<<<< HEAD
 让我们看看如何搬起石头砸自己的脚:
+=======
+Let's see how one can shoot themself in the foot:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```js run
 let arr = new Array(2); // 会创建一个数组 [2] 吗？
@@ -431,7 +453,11 @@ alert( "1,2" + 1 ); // "1,21"
 
 ## 总结
 
+<<<<<<< HEAD
 数组是一种特殊的对象，适用于存储和管理有序的数据项。
+=======
+Array is a special kind of object, suited to storing and managing ordered data items.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 - 声明:
 

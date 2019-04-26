@@ -49,7 +49,11 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
+<<<<<<< HEAD
 在现代的 HTML 中，可以使用 `required`、`pattern` 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
+=======
+Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value to the server if it's correct.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 
 ## focus/blur 方法
@@ -100,7 +104,11 @@ Your email please: <input type="email" id="input">
 
 有时候这些特性导致发生的 `focus/blur` 事件处理器会让人苦恼 — 它们在不被需要的时候发生。
 
+<<<<<<< HEAD
 最好的秘诀就是当使用这些事件的时候小心点。如果我们想要追踪用户发起的去焦事件，那么我们自己应该避免去触发它们。
+=======
+The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should avoid causing it ourselves.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 ```
 ## 允许在任何元素上聚焦：tabindex
 

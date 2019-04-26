@@ -17,7 +17,11 @@
 - 主流的方法是使用 `event` 对象。有一个 `event.preventDefault()` 方法。
 - 如果使用 `on<event>`（而不是 `addEventListener`）分发处理器，那么我们只需要从它内部返回 `false` 即可。
 
+<<<<<<< HEAD
 在下面的示例中，单击链接不会导致 URL 改变：
+=======
+In the example below a click to links doesn't lead to URL change:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```html autorun height=60 no-beautify
 <a href="/" onclick="return false">Click here</a>
@@ -92,6 +96,20 @@ menu.onclick = function(event) {
 ```
 
 这是因为浏览器动作在 `mousedown` 上被取消。如果我们用另一种方式进行输入，焦点仍然有用。例如，`key:Tab` 键用于从第一个输入切换到第二个输入。但不要再用鼠标单击了。
+
+## The "passive" handler option
+
+The optional `passive: true` option of `addEventListener` signals the browser that the handler is not going to call `preventDefault()`.
+
+Why that may be needed?
+
+There are some events like `touchmove` on mobile devices (when the user moves their finger across the screen), that cause scrolling by default, but that scrolling can be prevented using `preventDefault()` in the handler.
+
+So when the browser detects such event, it has first to process all handlers, and then if `preventDefault` is not called anywhere, it can proceed with scrolling. That may cause unnecessary delays and "jitters" in the UI.
+
+The `passive: true` options tells the browser that the handler is not going to cancel scrolling. Then browser scrolls immediately providing a maximally fluent experience, and the event is handled by the way.
+
+For some browsers (Firefox, Chrome), `passive` is `true` by default for `touchstart` and `touchmove` events.
 
 
 ## event.defaultPrevented
@@ -215,7 +233,13 @@ menu.onclick = function(event) {
 
 想要阻止默认行为 —— 可以使用 `event.preventDefault()` 或者 `return false`。第二个方法只适用于分发了 `on<event>` 的处理器。
 
+<<<<<<< HEAD
 如果默认动作被阻止，`event.defaultPrevented` 的值就会变成 `true`，否则会变成 `false`。
+=======
+The `passive: true` option of `addEventListener` tells the browser that the action is not going to be prevented. That's useful for some mobile events, like `touchstart` and `touchmove`, to tell the browser that it should not wait for all handlers to finish before scrolling.
+
+If the default action was prevented, the value of `event.defaultPrevented` becomes `true`, otherwise it's `false`.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```warn header="Stay semantic, don't abuse"
 从技术上来说，通过阻止默认动作和添加 JavaScript，我们可以定制任何元素的行为。例如，我们可以使链接 `<a>` 像按钮一样工作，而按钮 `<button>` 也可以作为链接运行（重定向到另一个 URL 等）。

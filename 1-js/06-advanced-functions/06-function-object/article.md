@@ -64,7 +64,11 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
+<<<<<<< HEAD
 这没有什么神奇的。有时会出现无法推测名字的情况。此时，属性 `name` 会是空，比如：
+=======
+There's no magic though. There are cases when there's no way to figure out the right name. In that case, the name property is empty, like here:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```js
 // 函数在数组中创建
@@ -152,7 +156,11 @@ alert( `调用了 ${sayHi.counter} 次` ); // 调用了 2 次
 ```warn header="属性不是变量"
 一个被赋值的函数属性，比如 `sayHi.counter = 0` **没有**在函数内定义一个局部变量 `counter`。或者说，一个 `counter` 属性与一个 `let counter` 的变量是毫不相关的两个东西。
 
+<<<<<<< HEAD
 我们可以把函数当作对象，在它里面存储属性，但是这对它的执行没有任何影响。变量不会使用函数属性，反之亦然。它们是不相干的词。
+=======
+We can treat a function as an object, store properties in it, but that has no effect on its execution. Variables never use function properties and vice versa. These are just parallel worlds.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 ```
 
 函数属性有时会用来替代闭包。比如，我们可以将 <info:closure> 章节中计数函数的例子改写为用函数属性实现：
