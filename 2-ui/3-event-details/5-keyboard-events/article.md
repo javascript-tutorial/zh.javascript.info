@@ -112,7 +112,7 @@ document.addEventListener('keydown', function(event) {
 
 阻止对 `keydown` 的默认动作可以取消其中的大多数操作，但基于操作系统的特殊键除外。例如在 Windows 里，`key:Alt+F4` 关闭当前浏览器窗口。也没有办法通过阻止 JavaScript 中的默认动作来阻止它。
 
-例如，下述的 `<input>` 期望输入值是电话号码，因此他不会接受除数字以外的其他键 `+`、`()` 或 `-`：
+例如，下述的 `<input>` 期望输入值是电话号码，因此他不会接受除数字、`+`、`()` 或 `-`以外的其他键：
 
 ```html autorun height=60 run
 <script>
