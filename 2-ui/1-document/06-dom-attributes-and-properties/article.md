@@ -1,5 +1,7 @@
 # 特性和属性
 
+> 译注：原文标题为“Attributes and properties”。两词意思相近，为作区分，将 Attribute 译为“特性”，Property 译为“属性”。
+
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 文本并生成 DOM 对象。对于元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
 
 在这个例子中，如果标签是 `<body id="page">`，那么 DOM 对象会生成这样一个属性 `body.id="page"`。
@@ -113,7 +115,7 @@ HTML 特性有几个特征：
 - 它们的书写是大小写不敏感的（`id` 也可以写作 `ID`）。
 - 他们的值只能是字符串。
 
-下面是一个延伸出来的 demo，它描述了 attributes 是怎么工作的：
+下面是一个延伸出来的 demo，它描述了特性是怎么工作的：
 
 ```html run
 <body>
@@ -137,7 +139,7 @@ HTML 特性有几个特征：
 
 1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
 2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
-3. 所有 attributes 都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
+3. 所有特性都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
 4. `attributes` 以 `name` 和 `value` 这样的键—值对收集在一个可迭代对象里。
 
 ## 属性—特性的同步
@@ -362,17 +364,17 @@ div.setAttribute('order-state', 'canceled');
 
 ## 总结
 
-- Attributes —— 写在 HTML 中。
-- Properties —— 是一个 DOM 对象。
+- 特性 —— 写在 HTML 中。
+- 属性 —— 是一个 DOM 对象。
 
 简略的对比：
 
-|            | Properties | Attributes |
+|            | 属性 | 特性 |
 |------------|------------|------------|
 |类型|一些值，标准化的属性值在规范中有类型描述|字符串|
 |名字|键名大小写敏感|键名大小写不敏感|
 
-attributes 的一些方法：
+操作特性的一些方法：
 
 - `elem.hasAttribute(name)` —— 检查是否存在这个特性
 - `elem.getAttribute(name)` —— 获取这个特性
