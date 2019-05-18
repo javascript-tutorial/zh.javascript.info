@@ -7,12 +7,14 @@ JavaScript 允许我们像对象一样使用基本类型（字符串，数字等
 我们来看看基本类型和对象之间的关键区别。
 
 基本类型
-+ 是原始类型中的一种智
-+ 在Javascript中存在6种基本类型：`string`, `number`, `boolean`, `symbol`, `null` and `undefined`
+
+- 是原始类型中的一种值。
+- 在 JavaScript 中有 6 种基本类型：`string`、`number`、`boolean`、`symbol`、`null` 和 `undefined`。
 
 对象类型
-+ 属性的数据可以使用任意类型，包括原始类型和对象类型。
-+ 可以使用大括号`{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数、数组、日期就是对象。
+
+- Is capable of storing multiple values as properties.
+- 可以使用大括号 `{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
 
 关于对象的最好的事情之一是我们可以存储一个函数作为它的一个属性：
 
