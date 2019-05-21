@@ -337,6 +337,7 @@ alert( isFinite(num) );
 
 ## parseInt 和 parseFloat
 
+
 使用加号 `+` 或 `Number()` 的数字转换是严格的。如果一个值不完全是一个数字，就会失败：
 
 ```js run
@@ -400,10 +401,10 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
     ```
 
 `Math.pow(n, power)`
-: 返回经过 `n` 进制转换的 power 值
+: 返回n的power次幂，即n<sup>power</sup>
 
     ```js run
-    alert( Math.pow(2, 10) ); // 2 in power 10 = 1024
+    alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
     ```
 
 这里有 `Math` 对象中的更多函数和常量，包括三角函数，你可以在这里找到它 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math)。
