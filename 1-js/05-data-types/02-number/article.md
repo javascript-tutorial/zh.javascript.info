@@ -400,10 +400,10 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
     ```
 
 `Math.pow(n, power)`
-: 返回经过 `n` 进制转换的 power 值
+: 返回 n 的 power 次幂，即 n<sup>power</sup>
 
     ```js run
-    alert( Math.pow(2, 10) ); // 2 in power 10 = 1024
+    alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
     ```
 
 这里有 `Math` 对象中的更多函数和常量，包括三角函数，你可以在这里找到它 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math)。
