@@ -400,7 +400,7 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
     ```
 
 `Math.pow(n, power)`
-: 返回 n 的 power次幂，即 n<sup>power</sup>
+: 返回 n 的 power 次幂，即 n<sup>power</sup>
 
     ```js run
     alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
