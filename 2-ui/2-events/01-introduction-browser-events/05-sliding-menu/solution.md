@@ -2,9 +2,15 @@
 # HTML/CSS
 首先，我们创建 HTML/CSS。
 
+<<<<<<< HEAD
 菜单是页面上的一个独立的图形组件，所以最好把它放在一个 DOM 元素中。
 
 菜单项列表可以分层为列表 `ul/li`。
+=======
+A menu is a standalone graphical component on the page, so it's better to put it into a single DOM element.
+
+A list of menu items can be laid out as a list `ul/li`.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 下面是示例的结构：
 
@@ -29,7 +35,11 @@
 
 因此如果我们在它上面设置 `onclick`，就会在文本的右边捕获点击事件。
 
+<<<<<<< HEAD
 ...但 `<span>` 有一个隐式 `display: inline`，因此它会占据足够的位置来适应所有的文本：
+=======
+As `<span>` has an implicit `display: inline`, it occupies exactly enough place to fit all the text:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```html autorun height=50
 <span style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</span>

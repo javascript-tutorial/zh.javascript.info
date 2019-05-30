@@ -91,7 +91,11 @@ interface HTMLInputElement: HTMLElement {
   // 下面是 <input> 元素的属性和方法
 
 *!*
+<<<<<<< HEAD
   // "DOMString" 意思是这些属性都是字符串
+=======
+  // "DOMString" means that the value of these properties are strings
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 */!*
   attribute DOMString accept;
   attribute DOMString alt;
@@ -99,12 +103,20 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
+<<<<<<< HEAD
   // 布尔属性（true/false）
+=======
+  // boolean value property (true/false)
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
   attribute boolean autofocus;
 */!*
   ...
 *!*
+<<<<<<< HEAD
   //方法 "void" 意思是无返回值
+=======
+  // now the method: "void" means that the method returns no value
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 */!*
   void select();
   ...

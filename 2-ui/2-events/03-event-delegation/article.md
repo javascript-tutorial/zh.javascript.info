@@ -1,7 +1,11 @@
 
 # 事件委托
 
+<<<<<<< HEAD
 捕获和冒泡允许实现一种称为**事件委托**的强大的事件处理模式。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 我们的想法是，如果我们有许多元素是以类似的方式处理的，那么我们就不需要给每个元素分配一个处理器 —— 而是在它们共同的祖先上面添加一个处理器。
 

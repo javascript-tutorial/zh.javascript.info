@@ -18,8 +18,13 @@
 **键盘事件**：
 - `keydown` and `keyup` —— 当访问者按下然后松开按钮时。
 
+<<<<<<< HEAD
 **Document 事件**：
 - `DOMContentLoaded` —— 当加载和处理 HTML 时，DOM 将会被完整地构建。
+=======
+**Document events:**
+- `DOMContentLoaded` -- when the HTML is loaded and processed, DOM is fully built.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 **CSS 事件**：
 - `transitionend` —— 当 CSS 动画完成时。
@@ -30,7 +35,11 @@
 
 为了响应事件，我们可以通过分发**处理器** —— 在事件发生时运行的函数。
 
+<<<<<<< HEAD
 处理器是在用户操作时运行 JavaScript 代码的一种方法。
+=======
+Handlers are a way to run JavaScript code in case of user actions.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 有许多分发处理器的方法。我们来看看，从最简单的开始。
 
@@ -160,9 +169,15 @@ button.onclick = sayThanks;
 button.onclick = sayThanks();
 ```
 
+<<<<<<< HEAD
 如果我们添加括号，那么就是 `sayThanks()` —— 将是函数执行的**结果**，所以最后一行代码中的 `onclick` 变成了 `undefined`（函数返回的内容将什么也没有）。这是不可取的。
 
 ...但在标记中，我们确实需要括号：
+=======
+If we add parentheses, `sayThanks()` --  is a function call. So the last line actually takes the *result* of the function execution, that is `undefined` (as the function returns nothing), and assigns it to `onclick`. That doesn't work.
+
+...But in the markup we do need the parentheses:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
@@ -216,7 +231,7 @@ Web 标准的开发者很久之前就明白了这一点，并提出了一种使�
 添加处理器的语法：
 
 ```js
-element.addEventListener(event, handler[, phase]);
+element.addEventListener(event, handler[, options]);
 ```
 
 `event`
@@ -225,15 +240,24 @@ element.addEventListener(event, handler[, phase]);
 `handler`
 : 处理器函数。
 
+<<<<<<< HEAD
 `phase`
 : 一个可选的参数，即处理器的工作“阶段”。之后会讨论。我们通常不会使用它。
 
 使用 `removeEventListener` 移除处理器：
+=======
+`options`
+: An additional optional object with properties:
+    - `once`: if `true`, then the listener is automatically removed after it triggers.
+    - `capture`: the phase where to handle the event, to be covered later in the chapter <info:bubbling-and-capturing>. For historical reasons, `options` can also be `false/true`, that's the same as `{capture: false/true}`.
+    - `passive`: if `true`, then the handler will not `preventDefault()`, we'll cover that later in <info:default-browser-action>.
 
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
+
+To remove the handler, use `removeEventListener`:
 
 ```js
-// exactly the same arguments as addEventListener
-element.removeEventListener(event, handler[, phase]);
+element.removeEventListener(event, handler[, options]);
 ```
 
 ````warn header="Removal requires the same function"
@@ -288,8 +312,13 @@ input.removeEventListener("click", handler);
 
 正如我们在以上所看到的那样，我们可以使用 DOM 属性**和** `addEventListener` 来设置处理器。但通常我们只使用其中一种方法。
 
+<<<<<<< HEAD
 ````warn header="有些事件处理器只能通过 `addEventListener` 设置"
 有些事件不能通过 DOM 属性分配。必须使用 `addEventListener`。
+=======
+````warn header="For some events, handlers only work with `addEventListener`"
+There exist events that can't be assigned via a DOM-property. Must use `addEventListener`.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 事件 `transitionend`（CSS 动画完成）就是如此。
 
@@ -349,12 +378,20 @@ input.removeEventListener("click", handler);
 : 事件类型，这里是 `"click"`。
 
 `event.currentTarget`
+<<<<<<< HEAD
 : 处理事件的元素。这与 `this` 相同，除非你将 `this` 绑定到其他东西上，之后 `event.currentTarget` 就会有效了。
+=======
+: Element that handled the event. That's exactly the same as `this`, unless the handler is an arrow function, or its `this` is bound to something else, then `event.currentTarget` becomes useful.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 `event.clientX / event.clientY`
 : 鼠标事件中光标相对于窗口的坐标。
 
+<<<<<<< HEAD
 还有更多属性。他们取决于事件类型，因此我们稍后将在详细讨论不同事件时来研究它们。
+=======
+There are more properties. They depend on the event type, so we'll study them later when we come to different events in details.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ````smart header="事件对象也可以从 HTML 访问"
 如果我们在 HTML 中分发一个处理器，我们也可以使用 `event` 对象，如下所示：

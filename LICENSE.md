@@ -1,5 +1,15 @@
 
+<<<<<<< HEAD
 # 署名 — 非商业性使用 — 相同方式共享 4.0
+=======
+The tutorial is free to read.
+
+If you'd like to do something else with it, please get a permission from Ilya Kantor, iliakan@javascript.ru.
+
+As of now, we license the tutorial to almost everyone for free under the terms of an "open" CC-BY-NC-SA license. Just please be so kind to contact me.
+
+## Attribution-NonCommercial-ShareAlike license (CC-BY-NC-SA)
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 完整的许可证文本位于 <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>。
 

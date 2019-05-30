@@ -31,8 +31,13 @@ alert(surname);  // Kantor
 let [firstName, surname] = "Ilya Kantor".split(' ');
 ```
 
+<<<<<<< HEAD
 ````smart header="\"解构\"并不意味着\"破坏\""
 这种语法叫做“解构赋值”，因为它通过将结构中的各元素复制到变量中来达到“解构”的目的。但数组本身是没有被修改的。
+=======
+````smart header="\"Destructuring\" does not mean \"destructive\"."
+It's called "destructuring assignment," because it "destructurizes" by copying items into variables. But the array itself is not modified.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 也就是以下代码的更精简写法而已：
 ```js
@@ -42,6 +47,7 @@ let surname = arr[1];
 ```
 ````
 
+<<<<<<< HEAD
 ````smart header="忽略第一个元素"
 数组中不想要的元素也可以通过添加额外的逗号来把它丢弃：
 
@@ -49,12 +55,25 @@ let surname = arr[1];
 *!*
 // 不需要第一个和第二个元素
 let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+=======
+````smart header="Ignore elements using commas"
+Unwanted elements of the array can also be thrown away via an extra comma:
+
+```js run
+*!*
+// second element is not needed
+let [firstName, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 */!*
 
 alert( title ); // Consul
 ```
 
+<<<<<<< HEAD
 在以上的代码中，数组的第一个和第二个元素被跳过，第三个元素被赋值给了 `title` 变量，剩下的元素也被跳过了。
+=======
+In the code above, the second element of the array is skipped, the third one is assigned to `title`, and the rest of the array is also skipped.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 ````
 
 ````smart header="用于等号右侧的任何可迭代对象"
@@ -128,6 +147,7 @@ alert(name1); // Julius
 alert(name2); // Caesar
 
 *!*
+// Note that type of `rest` is Array.
 alert(rest[0]); // Consul
 alert(rest[1]); // of the Roman Republic
 alert(rest.length); // 2
@@ -146,6 +166,7 @@ let [firstName, surname] = [];
 */!*
 
 alert(firstName); // undefined
+alert(surname); // undefined
 ```
 
 如果我们想要提供一个“默认值”给未赋值的变量，我们可以使用 `=` 来提供：
@@ -335,7 +356,11 @@ let title, width, height;
 }
 ```
 
+<<<<<<< HEAD
 为了告诉 JavaScript 这不是一个代码块，我们可以把整个赋值表达式用括号 `(...)` 包起来：
+=======
+To show JavaScript that it's not a code block, we can wrap the whole assignment in parentheses `(...)`:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```js run
 let title, width, height;
@@ -383,6 +408,8 @@ alert(item2);  // Donut
 
 除了 `extra` 属性的整个 `options` 对象都能被赋值给对应的变量。
 
+Note that `size` and `items` itself is not destructured.
+
 ![](destructuring-complex.png)
 
 最终，我们得到了 `width`、`height`、`item1`、`item2` 和具有默认值的 `title` 变量。
@@ -407,7 +434,11 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
+<<<<<<< HEAD
 现实情况下的问题就是你怎么记得住这么多参数的顺序，通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但… 另一个问题就是当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
+=======
+In real-life, the problem is how to remember the order of arguments. Usually IDEs try to help us, especially if the code is well-documented, but still... Another problem is how to call a function when most parameters are ok by default.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 难道像这样？
 
@@ -503,7 +534,11 @@ showMenu(); // Menu 100 200
     let {prop : varName = default, ...} = object
     ```
 
+<<<<<<< HEAD
     这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
+=======
+    This means that property `prop` should go into the variable `varName` and, if no such property exists, then the `default` value should be used.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 - 解构数组的语法：
 
@@ -511,6 +546,10 @@ showMenu(); // Menu 100 200
     let [item1 = default, item2, ...rest] = array
     ```
 
+<<<<<<< HEAD
     数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
+=======
+    The first item goes to `item1`; the second goes into `item2`, all the rest makes the array `rest`.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 - 更多复杂的案例情况下，等号左侧必须和等号右侧有相同的结构。

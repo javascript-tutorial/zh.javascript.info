@@ -55,9 +55,13 @@ function makeArmy() {
 
 作为结果，所有的 `shooter` 都是从外部词法环境获得同样一个值最后的 `i=10`。
 
+<<<<<<< HEAD
 修改起来是很简单的：
+=======
+We can fix it by moving the variable definition into the loop:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
-```js run
+```js run demo
 function makeArmy() {
 
   let shooters = [];
@@ -80,16 +84,21 @@ army[0](); // 0
 army[5](); // 5
 ```
 
+<<<<<<< HEAD
 现在正常工作了，因为`for (..) {...}` 内的代码块每次执行都会创建一个新的词法环境，其中具有对应的 `i` 的值。
 
 所以，现在 `i` 值的距离（显示数字的地方更近了。现在它不是在 `makeArmy()` 词法环境中，而是在对应的当前循环迭代的词法环境中。`shooter` 从它创建的位置获得值。
+=======
+Now it works correctly, because every time the code block in `for (let i=0...) {...}` is executed, a new Lexical Environment is created for it, with the corresponding variable `i`.
+
+So, the value of `i` now lives a little bit closer. Not in `makeArmy()` Lexical Environment, but in the Lexical Environment that corresponds the current loop iteration. That's why now it works.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ![](lexenv-makearmy.png)
 
 这里我们把 `while` 改写为了 `for`。
 
 其他技巧也是可以的，让我们了解一下，以便让我们更好地理解这个问题：
-
 
 ```js run
 function makeArmy() {

@@ -96,7 +96,11 @@ describe("pow", function() {
 ```html src="index.html"
 ```
 
+<<<<<<< HEAD
 该页面可分为四部分：
+=======
+The page can be divided into five parts:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 1. `<head>` -- 为测试添加第三方库和样式文件。
 2. `<script>` 包含测试函数，在我们的例子中 --和 `pow` 相关的代码。
@@ -117,8 +121,13 @@ describe("pow", function() {
 为了可以通过测试，让我们来简单的实现一下 `pow`：
 
 ```js
+<<<<<<< HEAD
 function pow() {
   return 8; // :) 我们作弊啦！
+=======
+function pow(x, n) {
+  return 8; // :) we cheat!
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 }
 ```
 
@@ -233,7 +242,7 @@ describe("pow", function() {
 describe("pow", function() {
 
 *!*
-  describe("raises x to power n", function() {
+  describe("raises x to power 3", function() {
 */!*
 
     function makeTest(x) {
@@ -296,7 +305,11 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
+<<<<<<< HEAD
 通常地，`beforeEach/afterEach` (`before/each`) 用于初始化，清零计数器或做一些介于每个测试（或测试组）之间的事情。
+=======
+Usually, `beforeEach/afterEach` (`before/after`) are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 ````
 
 ## 延伸的规范

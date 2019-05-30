@@ -1,0 +1,122 @@
+# 集合和范围 [...]
+
+在方括号 `[…]` 中的几个字符或者字符类意味着“搜索给定的字符中的任意一个”。
+
+## 集合
+
+比如说，`pattern:[eao]` 意味着查找在 3 个字符 `'a'`、`'e'` 或者 `'o' 中的任意一个。
+
+这被叫做一个**集合**。集合可以在正则表达式中和其它常规字符一起使用。
+
+```js run
+// 查找 [t 或者 m]，然后再匹配 “op”
+alert( "Mop top".match(/[tm]op/gi) ); // "Mop", "top"
+```
+
+请注意尽管在集合中有多个字符，但它们在匹配中只会对应其中的一个。
+
+<<<<<<< HEAD:5-regular-expressions/05-regexp-character-sets-and-ranges/article.md
+所以下面的示例并不会匹配上：
+=======
+So the example below gives no matches:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f:9-regular-expressions/05-regexp-character-sets-and-ranges/article.md
+
+```js run
+// 查找 “V”，然后匹配 [o 或者 i]，之后再匹配 “la”
+alert( "Voila".match(/V[oi]la/) ); // null，并没有匹配上
+```
+
+这个模式会做以下假设：
+
+- `pattern:V`，
+- 然后匹配其中的**一个字符** `pattern:[oi]`，
+- 然后匹配 `pattern:V`，
+
+所以可以匹配上 `match:Vola` 或者 `match:Vila`。
+
+## 范围
+
+方括号也可以包含**字符范围**。
+
+比如说，`pattern:[a-z]` 会匹配从 `a` 到 `z` 范围内的字母，`pattern:[0-5]` 表示从 `0` 到 `5` 的数字。
+
+在下面的示例中，我们会查询首先匹配 `"x"` 字符，再匹配两个数字或者位于 `A` 到 `F` 范围内的字符。
+
+```js run
+alert( "Exception 0xAF".match(/x[0-9A-F][0-9A-F]/g) ); // xAF
+```
+
+请注意在 `subject:Exception` 这个词中有一个子字符串 `subject:xce`。它并没有匹配上配置的正则模式，因为它的字母是小写的，而在集合 `pattern:[0-9A-F]` 中需要匹配的字母是大写的。
+
+如果我们也想要能在正则表达式中找到这个字符串，我们可以增加范围 `a-f` 得到正则模式：`pattern:[0-9A-Fa-f]`。在正则表达中使用 `i` 标记也表示允许匹配小写字母。
+
+**字符类是某些字符集合的缩写。**
+
+比如说：
+
+- **\d** —— 表示的意思和 `pattern:[0-9]` 一样，
+- **\w** —— 表示的意思和 `pattern:[a-zA-Z0-9_]` 一样，
+- **\s** —— 表示的意思和 `pattern:[\t\n\v\f\r ]` 加上其它一些 unicode 编码的空格一样。
+
+我们也可以在 `[…]` 内部使用字符类。
+
+比如说，我们想要匹配所有单词字符或者短划线，类似像 “twenty-third” 之类的单词。我们不能使用 `pattern:\w+` 来匹配，因为 `pattern:\w` 并不包含一个短划线。但是我们可以使用 `pattern:[\w-]` 来查找。
+
+<<<<<<< HEAD:5-regular-expressions/05-regexp-character-sets-and-ranges/article.md
+我们也可以使用字符类的组合来覆盖每个可能的字符，比如说像 `pattern:[\s\S]`。这会匹配任何空格或者非空格的字符 —— 也就是任何字符。这个匹配范围会比符号点 `"."` 的范围更广，因为点匹配只能匹配除了换行符之外的所有字符。
+=======
+We also can use several classes, for example `pattern:[\s\S]` matches spaces or non-spaces -- any character. That's wider than a dot `"."`, because the dot matches any character except a newline (unless `s` flag is set).
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f:9-regular-expressions/05-regexp-character-sets-and-ranges/article.md
+
+## 排除范围
+
+除了普通的范围匹配，还有类似 `pattern:[^…]` 的“排除”范围匹配。
+
+它们通过在匹配查询的开头添加插入符号 `^` 来表示，它会匹配所有**除了给定的字符**之外的任意字符。
+
+比如说：
+
+- `pattern:[^aeyo]` —— 匹配任何除了 `'a'`、`'e'`、`'y'` 或者 `'o'` 之外的字符。
+- `pattern:[^0-9]` —— 匹配任何除了数字之外的字符，也可以使用 `\D` 来表示。
+- `pattern:[^\s]` —— 匹配任何非空字符，也可以使用 `\S` 来表示。
+
+下面的示例查询除了字母，数字和空格之外的任意字符：
+
+```js run
+alert( "alice15@gmail.com".match(/[^\d\sA-Z]/gi) ); // @ and .
+```
+
+## 在 […] 中不转义
+
+通常当我们的确需要查询点字符时，我们需要把它转义成像 `pattern:\.` 这样的形式。如果我们需要查询一个反斜杠，我们需要使用 `pattern:\\`。
+
+在方括号表示中，绝大多数特殊字符可以在不转义的情况下使用：
+
+- 表示一个点符号 `pattern:'.'`。
+- 表示一个加号 `pattern:'+'`。
+- 表示一个括号 `pattern:'( )'`。
+- 在开头或者结尾表示一个破折号（在这些位置该符号表示的就不是一个范围） `pattern:'-'。
+- 在不是开头的位置表示一个插入符号（在开头位置该符号表示的是排除）`pattern:'^'`。
+- 表示一个开口的方括号符号 `pattern:'['`。
+
+换句话说，除了在方括号中有特殊含义的字符外，其它所有特殊字符都是允许不添加反斜杠的。
+
+一个在方括号中的点符号 `"."` 表示的就是一个点字符。查询模式 `pattern:[.,]` 将会寻找一个为点或者逗号的字符。
+
+在下面的示例中，`pattern:[-().^+]` 会查找 `-().^+` 的其中任意一个字符：
+
+```js run
+// 并不需要转义
+let reg = /[-().^+]/g;
+
+alert( "1 + 2 - 3".match(reg) ); // 匹配 +，-
+```
+
+。。。但是如果你为了“以防万一”转义了它们，这也不会有任何问题：
+
+```js run
+//转义其中的所有字符
+let reg = /[\-\(\)\.\^\+]/g;
+
+alert( "1 + 2 - 3".match(reg) ); // 仍能正常工作：+，-
+```

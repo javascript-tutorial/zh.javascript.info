@@ -75,6 +75,7 @@
 
 比方说，我们想要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”动作挂在上面。我们可以在 `keydown` 上设置一个监听者，检查哪个键被按下 —— 用来检测我们什么时候需要热键。
 
+<<<<<<< HEAD
 请回答问题 —— 在这样的监听者中，我们要监测的是 `event.key` 还是 `event.code` 的值？
 
 请暂停并回答。
@@ -82,6 +83,13 @@
 决定好了么？
 
 如果你已经理解了，那么答案当然是 `event.code`，因为在那里我们不想要 `event.key`。`event.key` 的值会因为语言的不同或者 `CapsLock` 的使用而改变。`event.code` 的值被严格绑定到秘钥上，因此我们现在开始：
+=======
+There's a dilemma here: in such a listener, should we check the value of `event.key` or `event.code`?
+
+On one hand, the value of `event.key` changes depending on the language. If the visitor has several languages in OS and switches between them, the same key gives different characters. So it makes sense to check `event.code`, it's always the same.
+
+Like this:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```js run
 document.addEventListener('keydown', function(event) {
@@ -91,11 +99,38 @@ document.addEventListener('keydown', function(event) {
 });
 ```
 
+<<<<<<< HEAD
 ## 自动重复
 
 如果按键时间足够长，它就会开始重复：`keydown` 会被一次又一次触发，并且当它释放时我们终于得到 `keyup`。所以有很多的 `keydown` 却只有一个 `keyup` 很正常。
 
 对于所有的重复键，事件对象的 `event.repeat` 属性都设置为 `true`。
+=======
+On the other hand, there's a problem with `event.code`. For different keyboard layouts, the same key may have different labels (letters).
+
+For example, here are US layout ("QWERTY") and German layout ("QWERTZ") under it (courtesy of Wikipedia):
+
+![](us-layout.png)
+
+![](german-layout.png)
+
+For the same key, US layout has "Z", while German layout has "Y" (letters are swapped).
+
+So, `event.code` will equal `KeyZ` for people with German layout when they press "Y".
+
+That sounds odd, but so it is. The [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system) explicitly mentions such behavior.
+
+- `event.code` has the benefit of staying always the same, bound to the physical key location, even if the visitor changes languages. So hotkeys that rely on it work well even in case of a language switch.
+- `event.code` may match a wrong character for unexpected layout. Same letters in different layouts may map to different physical keys, leading to different codes. That happens for several codes, e.g. `keyA`, `keyQ`, `keyZ` (as we've seen). You can find the list in the [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system).
+
+So, to reliably track layout-dependent characters, `event.key` may be a better way.
+
+## Auto-repeat
+
+If a key is being pressed for a long enough time, it starts to "auto-repeat": the `keydown` triggers again and again, and then when it's released we finally get `keyup`. So it's kind of normal to have many `keydown` and a single `keyup`.
+
+For events triggered by auto-repeat, the event object has `event.repeat` property set to `true`.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 
 ## 默认动作
@@ -123,7 +158,11 @@ function checkPhoneKey(key) {
 <input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="Phone, please" type="tel">
 ```
 
+<<<<<<< HEAD
 请注意，像 `key:Backspace`、`key:Left`、`key:Right`、`key:Ctrl+V` 这样的特殊键在输入中无效。这是严格过滤器 `checkPhoneKey` 的副作用。
+=======
+Please note that special keys like `key:Backspace`, `key:Left`, `key:Right`, `key:Ctrl+V` do not work in the input. That's a side-effect of the strict filter `checkPhoneKey`.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 让我们放松一下：
 
@@ -146,10 +185,15 @@ function checkPhoneKey(key) {
 
 在过去，有一个 `keypress` 事件，还有事件对象属性 `keyCode`、`charCode` 和 `which`。
 
+<<<<<<< HEAD
 大多数的浏览器都不兼容，以至于开发者决定放弃这些。以前的代码仍然可以正常工作，因为浏览器还是支持它们的，但现在没有必要再使用这些代码了。
 
 这章有包括了它们详细描述的时间。但现在我们可以忘记它们了。
+=======
+There were so many browser incompatibilities that developers of the specification decided to deprecate all of them. The old code still works, as browsers keep supporting them, but there's totally no need to use those any more.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
+There was a time when this chapter included their detailed description. But as of now it was removed and replaced with more details about the modern event handling.
 
 ## 总结
 
@@ -165,6 +209,10 @@ function checkPhoneKey(key) {
 - `code` —— “按键代码”（`"KeyA"`、`"ArrowLeft"` 等），具体到键盘上键的物理位置。
 - `key` —— 非字符键的字符（`"A"`、`"a"` 等），通常具有和 `code` 一样的值。
 
+<<<<<<< HEAD
 过去，键盘事件有时用于跟踪用户在表单字段中的输入。这很不可靠，因为输入源可以不同。我们有 `input` 和 `change` 事件来处理任何输入（之后我们会在 <info:events-change-input> 章节中作进一步介绍）。它们在任何输入后触发，包括鼠标或语音识别。
+=======
+In the past, keyboard events were sometimes used to track user input in form fields. That's not reliable, because the input can come from various sources. We have `input` and `change` events to handle any input (covered later in the chapter <info:events-change-input>). They trigger after any kind of input, including copy-pasting or speech recognition.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 当我们真正想要键盘时，我们应该使用键盘事件。比如，对热键或特殊键作出反应。

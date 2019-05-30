@@ -3,6 +3,7 @@
 
 当对象相加 `obj1 + obj2`，相减 `obj1 - obj2`，或者使用 `alert(obj)` 打印时会发生什么？
 
+<<<<<<< HEAD
 在对象中有特殊的方法用来做转换。
 
 在 <info:type-conversions> 一章中，我们已经看到了数值，字符串和布尔转换的规则。但是我们给对象留了一个空隙。正如我们所知道的方法和符号一样，现在我们可以关闭它。
@@ -20,11 +21,30 @@
 该算法允许我们使用特殊的对象方法自定义转换。
 
 取决于上下文，转换具有所谓的“暗示”。
+=======
+In that case objects are auto-converted to primitives, and then the operation is carried out.
+
+In the chapter <info:type-conversions> we've seen the rules for numeric, string and boolean conversions of primitives. But we left a gap for objects. Now, as we know about methods and symbols it becomes possible to fill it.
+
+1. All objects are `true` in a boolean context. There are only numeric and string conversions.
+2. The numeric conversion happens when we subtract objects or apply mathematical functions. For instance, `Date` objects (to be covered in the chapter <info:date>) can be subtracted, and the result of `date1 - date2` is the time difference between two dates.
+3. As for the string conversion -- it usually happens when we output an object like `alert(obj)` and in similar contexts.
+
+## ToPrimitive
+
+We can fine-tune string and numeric conversion, using special object methods.
+
+The conversion algorithm is called `ToPrimitive` in the [specification](https://tc39.github.io/ecma262/#sec-toprimitive). It's called with a "hint" that specifies the conversion type.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 这里有三种变体：
 
 `"string"`
+<<<<<<< HEAD
 : 当一个操作期望一个字符串时，对于对象到字符串的转换，比如 `alert`：
+=======
+: For an object-to-string conversion, when we're doing an operation on an object that expects a string, like `alert`:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
     ```js
     // output
@@ -35,7 +55,11 @@
     ```
 
 `"number"`
+<<<<<<< HEAD
 : 当一个操作需要一个数字时，用于对象到数字的转换，如 `maths`：
+=======
+: For an object-to-number conversion, like when we're doing maths:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
     ```js
     // 显式转换
@@ -52,7 +76,11 @@
 `"default"`
 : 在少数情况下发生，当操作者“不确定”期望的类型时。
 
+<<<<<<< HEAD
     例如，二进制加 `+` 可以和字符串（连接）和数字（相加）发生作用，所以类型是字符串和数字都可以。或者当一个对象用 `==` 与一个字符串、数字或符号进行比较时。
+=======
+    For instance, binary plus `+` can work both with strings (concatenates them) and numbers (adds them), so both strings and numbers would do. Or when an object is compared using `==` with a string, number or a symbol, it's also unclear which conversion should be done.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
     ```js
     // 二进制加
@@ -159,14 +187,30 @@ alert(user + 500); // toString -> John500
 
 如果没有 `Symbol.toPrimitive` 和 `valueOf`，`toString` 将处理所有原始转换。
 
+<<<<<<< HEAD
 
 ## ToPrimitive 和 ToString/ToNumber
+=======
+## Return types
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 关于所有原始转换方法，有一个重要的点需要知道，就是它们不一定会返回“暗示的”原始值。
 
 没有限制 `toString()` 是否返回字符串，或 `Symbol.toPrimitive` 方法是否为 "number" 暗示返回数字。
 
+<<<<<<< HEAD
 **唯一强制性的事情是：这些方法必须返回一个原始值。**
+=======
+The only mandatory thing: these methods must return a primitive, not an object.
+
+```smart header="Historical notes"
+For historical reasons, if `toString` or `valueOf` returns an object, there's no error, but such value is ignored (like if the method didn't exist). That's because in ancient times there was no good "error" concept in JavaScript.
+
+In contrast, `Symbol.toPrimitive` *must* return a primitive, otherwise there will be an error.
+```
+
+## Further operations
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 发起转换的操作获取该原始值，然后继续使用该原始值，并在必要时应用进一步的转换。
 
@@ -208,11 +252,14 @@ alert(user + 500); // toString -> John500
     alert(obj + 2); // 3 (ToPrimitive 返回布尔值，非字符串 => ToNumber)
     ```
 
+<<<<<<< HEAD
 ```smart header="历史笔记"
 由于历史原因，`toString` 或 `valueOf` 方法**应该**返回一个原始值：如果它们中的任何一个返回了一个对象，虽然不会报错，但是该对象被忽略（就像该方法不存在一样）。
 
 相反，`Symbol.toPrimitive` **必须**返回一个原始值，否则会出现错误。
 ```
+=======
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ## 概要
 

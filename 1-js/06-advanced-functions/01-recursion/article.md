@@ -318,9 +318,15 @@ let company = {
 
 或者说，一家公司有很多部门。
 
+<<<<<<< HEAD
 - 一个部门有员工列表，比如，`销售`部有 2 名员工：John 和 Alice。
 - 或者一个部门可能划分为几个子部门，比如`开发`有两个分支：`网站`和`内部`，它们都有自己的员工。
 - 当一个子部门增长时，它可能会划分为子部门（或者团队）。
+=======
+- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
+- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.
+- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
     比如，`网站`部门在未来可能会分为`网站 A` 和 `网站 B`。它们可能还会再分，没有图示，脑补一下吧。
 

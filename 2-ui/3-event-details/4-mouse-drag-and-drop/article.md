@@ -14,10 +14,17 @@
 
 拖放基础算法就像这样：
 
+<<<<<<< HEAD
 1. 在可拖动元素上捕获 `mousedown` 事件。
 2. 准备要移动的元素（可能创建它的副本或其他任何东西）。
 3. 然后在 `mousemove` 上，通过改变 `left/top` 和 `position:absolute` 来移动它。
 4. 在 `mouseup`（释放按钮）中 —— 执行所有完成拖放相关的动作。
+=======
+1. Catch `mousedown` on a draggable element.
+2. Prepare the element for moving (maybe create a copy of it or whatever).
+3. Then on `mousemove` move it by changing `left/top` and `position:absolute`.
+4. On `mouseup` (button release) -- perform all actions related to a finished Drag'n'Drop.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 这些是基础。我们可以对其进行拓展，例如，当鼠标在可拖动元素上悬停时，高亮这个元素。
 
@@ -58,7 +65,11 @@ ball.onmousedown = function(event) { // (1) 启动进程
 };
 ```
 
+<<<<<<< HEAD
 如果我们运行代码，我们会发现一些奇怪的事情。在拖放的一开始，球会 "forks"：我们开始拖动它的 "clone"。
+=======
+If we run the code, we can notice something strange. On the beginning of the drag'n'drop, the ball "forks": we start dragging its "clone".
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```online
 这是一个动作实例：
@@ -101,7 +112,11 @@ ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
+<<<<<<< HEAD
 不错，但这存在副作用。我们可以在球的任何地方使用 `mousedown` 来开始拖放。如果在边缘那么做，那么球就会突然“跳”到以指针为中心的位置。
+=======
+Not bad, but there's a side-effect. To initiate the drag'n'drop, we can `mousedown` anywhere on the ball. But if do it at the edge, then the ball suddenly "jumps" to become centered.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 如果我们保持元素相对指针的初始位移，情况会更好。
 
@@ -178,7 +193,11 @@ In action (inside `<iframe>`):
 [iframe src="ball3" height=230]
 ```
 
+<<<<<<< HEAD
 如果我们按在球的右下角进行拖动，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置跟随鼠标会很流畅。
+=======
+The difference is especially noticeable if we drag the ball by its right-bottom corner. In the previous example the ball "jumps" under the pointer. Now it fluently follows the cursor from the current position.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ## 检测是否可释放
 
