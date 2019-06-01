@@ -62,7 +62,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 
 1. CSS 定位（`position` 为 `absolute`、`relative` 或 `fixed`），
 2. 或者 `<td>`、`<th>`、`<table>`，
-2. 或者 `<body>`。
+3. 或者 `<body>`。
 
 在大多数实际情况下，我们可以使用 `offsetParent` 来获得最近的 CSS 定位祖先。`offsetLeft/offsetTop` 提供相对于元素左上角的 x/y 坐标。
 

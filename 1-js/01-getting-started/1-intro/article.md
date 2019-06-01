@@ -54,7 +54,7 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.js](https://wik
 - 在网页中插入新的 HTML，修改现有的网页内容和网页的样式。
 - 响应用户的行为，响应鼠标的点击或移动、键盘的敲击。
 - 向远程服务器发送请求，使用 [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) 和 [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) 技术下载或上传文件。
-- 获取或修改 cookie，向用访问者提出问题、发送消息。
+- 获取或修改 cookie，向访问者提出问题、发送消息。
 - 记住客户端的数据（本地存储）。
 
 ## 浏览器中的 JavaScript 不能做什么？
