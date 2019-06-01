@@ -49,7 +49,7 @@ let reg = /\p{Hex_Digit}{6}/u; // flag 'u' is required （注意 flag 'u' 是必
 alert("color: #123ABC".match(reg)); // 123ABC
 ```
 
-还有有值的类别。如，Unicode "Script（脚本）"（一种书写方式）可以表达西里尔字母，希腊文，阿拉伯语，中文等等。
+还有有值的类别。如，Unicode "Script"（脚本，一种书写方式）可以表达西里尔字母，希腊文，阿拉伯语，中文等等。
 
 要对一个单一的书写系统进行搜索，就要另外提供 `Script=<value>`。如，要搜索西里尔字母，应使用 `\p{sc=Cyrillic}`，而对于汉字，应使用 `\p{sc=Han}`，等等。以下是使用这种特性的代码片段：
 
