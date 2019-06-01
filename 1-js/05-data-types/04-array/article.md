@@ -206,7 +206,7 @@ alert( arr === fruits ); // true
 
 arr.push("Pear"); // 通过引用修改数组
 
-alert( fruits ); // Banana, Pear — 现在只有 2 项了
+alert( fruits ); // Banana, Pear — 现在有 2 项了
 ```
 
 ...但是数组真正特殊的是它们的内部实现。JavaScript 引擎尝试把这些元素一个接一个地存储在连续的内存区域，就像本章的插图显示的一样，而且还有一些其它的优化，以使数组运行得非常快。
