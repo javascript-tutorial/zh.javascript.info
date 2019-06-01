@@ -365,7 +365,7 @@ CSS 选择器的伪类，如 `:hover` 和 `:active` 都是被支持的。例如�
 </tbody>
 </table>
 
-请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用 `getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 回报错。
+请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用 `getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 会报错。
 
 也可以在元素上调用其他方法，例如 `elem.querySelectorAll(...)` 将会在 `elem`（在 DOM 子树中）内部进行搜素。
 

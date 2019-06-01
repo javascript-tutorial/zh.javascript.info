@@ -31,7 +31,7 @@ map.set('1', 'str1');   // 字符串作为 key
 map.set(1, 'num1');     // 数字作为 key
 map.set(true, 'bool1'); // 布尔值作为 key
 
-// 还记得普通对象 Object 吗？它将会吧所有的键转化为字符串类型
+// 还记得普通对象 Object 吗？它将会把所有的键转化为字符串类型
 // 但是 Map 将会保留键的类型，所以下面这两个是不同的：
 alert( map.get(1)   ); // 'num1'
 alert( map.get('1') ); // 'str1'
@@ -395,7 +395,7 @@ let unreadSet = new WeakSet(messages);
 
 // 我们可以使用 unreadSet 来看一个 message 是否未读
 alert(unreadSet.has(messages[1])); // true
-// 读过之后就讲它从 set 中移除
+// 读过之后就将它从 set 中移除
 unreadSet.delete(messages[1]); // true
 
 // 当我们对消息列表做 shift 操作，set 就会自动清理

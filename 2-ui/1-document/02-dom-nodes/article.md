@@ -184,7 +184,7 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 表示整个文档的 `document` 对象在形式上也是一个 DOM 节点。
 
-有 [12 中节点类型](https://dom.spec.whatwg.org/#node)。实际上，我们通常用到的是其中的 4 个：
+有 [12 种节点类型](https://dom.spec.whatwg.org/#node)。实际上，我们通常用到的是其中的 4 个：
 
 1. `document`—— DOM 中的“入口点”。
 2. 元素节点 —— HTML 标签，树构建块。

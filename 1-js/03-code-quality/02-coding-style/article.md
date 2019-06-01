@@ -283,7 +283,7 @@ function pow(x, n) {
 最出名的工具有：
 
 - [JSLint](http://www.jslint.com/) -- 第一批 linters 之一。
-- [JSHint](http://www.jshint.com/) -- 比 JSHint 多了更多设置。
+- [JSHint](http://www.jshint.com/) -- 比 JSLint 多了更多设置。
 - [ESLint](http://eslint.org/) -- 可能是最新的一个。
 
 它们都能够做这些工作。笔者使用 [ESLint](http://eslint.org/).

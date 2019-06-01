@@ -667,7 +667,7 @@ let users = [
 ];
 
 *!*
-// 找到比 users 小的所有 user
+// 找到比 user 小的所有 users
 let youngerUsers = users.filter(user.younger, user);
 */!*
 
