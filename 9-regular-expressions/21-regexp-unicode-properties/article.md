@@ -74,7 +74,7 @@ alert( str.match(regexp) ); // 你好
 所以这个字符集包含了：
 
 * `Alphabetic` 字母，
-* `Mark` 变音，因为变音在 Unicode 中可能被表示为多个码位，
+* `Mark` 重音，因为重音在 Unicode 中可能被表示为多个码位，
 * `Decimal_Number` 数字
 * `Connector_Punctuation` '_'（下划线） 和类似它（下划线）的字符
 * `Join_Control` —— 用于将字连起形成连字（如在阿拉伯语中使用）的两个特殊的码位（hex 分别为 `200c` 和 `200d`）
