@@ -63,7 +63,7 @@ alert( str.match(regexp) ); // 你好
 
 ## 写对于所有语言都适用的 \w
 
-请给所有的语言写一个”全面的“`pattern:\w` 的正则表达式。这一问题在很多有针对 Unicode 优化的正则表达式特性的编程语言中都有标准解决方式，如 Perl。
+请给所有的语言写一个“全面的” `pattern:\w` 的正则表达式。这一问题在很多有针对 Unicode 优化的正则表达式特性的编程语言中都有标准解决方式，如 Perl。
 
 ```javascript
 /[\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}]/u
