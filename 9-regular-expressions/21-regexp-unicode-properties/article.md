@@ -23,8 +23,6 @@ JavaScript 中字符串使用的编码格式 Unicode 对于不同的字符（更
 * 其他 `C`：
   * 控制符 `Cc`，格式符 `Cf`，未提供的 `Cn`，非公用的 `Co`，帮助符 `Cs`
 
-
-
 ```smart header="更多信息"
 在 http://cldr.unicode.org/unicode-utilities/list-unicodeset 中你可以看到各种类别下的字符。
 
@@ -33,27 +31,25 @@ JavaScript 中字符串使用的编码格式 Unicode 对于不同的字符（更
 在 https://www.unicode.org/Public/UCD/latest/ucd/ ，你可以看到完整的 Unicode 数据库（包含对类别的说明）。
 ```
 
-
-
 还有其他的一些派生类别，如：
 
 * `Alphabetic`（`Alpha`），它包括字母 `L`，用字母表示的数字 `Nl`（如罗马数字 Ⅻ），还有一些其他的符号 `Other_Alphabetic`（`OAltpa`）。
 * `Hex_Digit` 包含十六进制中用到的“数字”：`0-9`，`a-f`。
-* … Unicode 非常庞大，它还包含了很多类别。
+* ...Unicode 非常庞大，它还包含了很多类别。
 
 举个例子，这个六位十六进制数：
 
-```javascript
+```js run
 let reg = /\p{Hex_Digit}{6}/u; // flag 'u' is required （注意 flag 'u' 是必须的）
 
 alert("color: #123ABC".match(reg)); // 123ABC
 ```
 
-还有有值的类别。如，Unicode "Script"（脚本，一种书写方式）可以表达西里尔字母，希腊文，阿拉伯语，中文等等。
+还有有值的类别。如，Unicode "Script"（脚本，一种书写方式）可以表达西里尔字母、希腊文、阿拉伯语和中文等等。
 
 要对一个单一的书写系统进行搜索，就要另外提供 `Script=<value>`。如，要搜索西里尔字母，应使用 `\p{sc=Cyrillic}`，而对于汉字，应使用 `\p{sc=Han}`，等等。以下是使用这种特性的代码片段：
 
-```javascript
+```js run
 let regexp = /\p{sc=Han}+/gu; // get chinese words （获得中文字符）
 
 let str = `Hello Привет 你好 123_456`;
@@ -65,7 +61,7 @@ alert( str.match(regexp) ); // 你好
 
 请给所有的语言写一个“全面的” `pattern:\w` 的正则表达式。这一问题在很多有针对 Unicode 优化的正则表达式特性的编程语言中都有标准解决方式，如 Perl。
 
-```javascript
+```js
 /[\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}]/u
 ```
 
@@ -81,11 +77,10 @@ alert( str.match(regexp) ); // 你好
 
 或者，如果换用缩写（[缩写列表](https://www.unicode.org/Public/UCD/latest/ucd/PropertyValueAliases.txt)）：
 
-```javascript
+```js run
 let regexp = /([\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]+)/gu;
 
 let str = `Hello Привет 你好 123_456`;
 
 alert( str.match(regexp) ); // Hello,Привет,你好,123_456
 ```
-
