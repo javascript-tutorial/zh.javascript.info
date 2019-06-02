@@ -13,7 +13,7 @@ JavaScript 允许我们像对象一样使用基本类型（字符串，数字等
 
 对象类型
 
-- Is capable of storing multiple values as properties.
+- 能够存储多个值作为属性。
 - 可以使用大括号 `{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
 
 关于对象的最好的事情之一是我们可以存储一个函数作为它的一个属性：
