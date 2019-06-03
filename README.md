@@ -147,7 +147,7 @@ The server and install instructions are at <https://github.com/javascript-tutori
 
 我们希望与大家合作维护本教程。
 
-本教程的贡献者列表详见：<https://javascript.info/about#contributors>。
+本教程的贡献者列表详见：<https://zh.javascript.info/about>。
 
 ---
 
