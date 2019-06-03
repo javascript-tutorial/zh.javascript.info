@@ -41,7 +41,7 @@ alert( str.match(/\d+(?!€)/) ); // 2 (正确地跳过了价格)
 - 后瞻否定断言：`pattern:(?<!y)x`, 匹配 `pattern:x`, 仅在前面不是 `pattern:y` 的情况。
 
 举个例子，let's change the price to US dollars. The dollar sign is usually before the number, so to look for `$30` we'll use `pattern:(?<=\$)\d+` -- an amount preceeded by `subject:$`:
-举个例子，让我们把价格换成美元。美元符号通常在数字之前，所以要查找 `$ 30` 我们将使用 `pattern:(?<=\$)\d+` - 一个前面带 `subject：$` 的数值。
+举个例子，让我们把价格换成美元。美元符号通常在数字之前，所以要查找 `$30` 我们将使用 `pattern:(?<=\$)\d+` —— 一个前面带 `subject:$` 的数值。
 
 ```js run
 let str = "1 turkey costs $30";
