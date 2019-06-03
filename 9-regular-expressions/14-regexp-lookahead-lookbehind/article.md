@@ -10,7 +10,7 @@
 
 语法为：`pattern:x(?=y)`，它表示 “匹配 `pattern:x`, 仅在后面是 `pattern:y` 的情况"”
 
-那么对于由 `subject:€` 跟随的整数金额，它的正则表达式为：`pattern:\d+(?=€)`。
+那么对于一个后面跟着 `€` 的整数金额，它的正则表达式应该为：`pattern:\d+(?=€)`。
 
 ```js run
 let str = "1 turkey costs 30€";
