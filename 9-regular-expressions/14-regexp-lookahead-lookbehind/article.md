@@ -46,7 +46,7 @@ alert( str.match(/\d+(?!€)/) ); // 2 (正确地跳过了价格)
 ```js run
 let str = "1 turkey costs $30";
 
-alert( str.match(/(?<=\$)\d+/) ); // 30 (跳过唯一的数字)
+alert( str.match(/(?<=\$)\d+/) ); // 30 （跳过了单个的数字 1）
 ```
 
 另外，为了找到数量 - 一个前面不带 `subject:$` 的数字，我们可以使用否定后瞻断言：`pattern:(?<!\$)\d+`
