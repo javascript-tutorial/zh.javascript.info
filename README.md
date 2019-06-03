@@ -1,40 +1,156 @@
+# 现代 JavaScript 教程中文版
 
-# JavaScript教程
-
-这个仓库托管现代 JavaScript 教程的内容，发布于 [https://javascript.info](https://javascript.info)。
-
-## 译文
-
-已发布：
-- 俄语版：[https://github.com/iliakan/javascript-tutorial-ru](https://github.com/iliakan/javascript-tutorial-ru).
-
-进行中：
-- 中文版：在 [https://github.com/xitu/javascript-tutorial-zh](https://github.com/xitu/javascript-tutorial-zh) 进行翻译，如果你懂中文，欢迎加入。
-- 西班牙语版：https://github.com/lmauromb/javascript-tutorial-es
-- 德语版：https://github.com/MartinEls/javascript-tutorial-de
-
-如果你想将它翻译至你使用的语言的话，就 fork 英文版教程并开始你的翻译吧。我可以将它发布在域名 fr.javascript.info 下并署上你的名字，或由你发布在自己的域名下。
-
-你也可以对此文件发 PR 来表示工作正在进行中。
-
-请注意，此教程可以用 <https://github.com/iliakan/javascript-tutorial-server/> 来达到本地运行的效果。
+这个仓库托管了现代 JavaScript 教程的中文版内容，发布于 [https://zh.javascript.info](https://zh.javascript.info)。
 
 ## 赞助商
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
 
-## 结构
+## 翻译
 
-每个章节、每篇文章或每个任务都有其文件夹。
+我们希望提供本教程的多语言版本。如果你感兴趣，那就快来和我们一起翻译吧。
 
-文件夹都是以 `N-url` 的方式命名，`N` 是用于分类的数字，`url` 是包含材料标题的 URL。
+详见：https://javascript.info/translate
 
-材料的类型由文件夹内的文件来定义：
+## 贡献
 
-  - `index.md` 代表一个章节
-  - `article.md` 代表一篇文章
-  - `task.md` 代表一个任务（解答也一定会出现在 solution.md 文件中）
+**That's how you can contribute:**
 
-每个文件都从 `# Main header` 开始。
+- See the [Chinese Translate Progress](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) issue.
+- Choose an unchecked article you'd like to translate.
+- Add a comment with the article title to the issue, e.g. `An Introduction to JavaScript`.
+    - Our bot will mark it in the issue, for everyone to know that you're translating it.
+    - Your comment should contain only the title.
+- Fork the repository, translate and send a PR when done.
+    - PR title should match article title, the bot will write it's number into the issue.
 
-材料所需要的资源需要处于同一文件夹内。
+Please kindly allow maintainers to review and merge or request changes in your translation.
+   
+If maintainers do not respond, or if you'd like to become a maintainer, write us at the [main repo](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
+    
+**Let others know what you're translating, in message boards or chats in your language. Invite them to join!**
+
+🎉 Thank you!
+
+Your name and the contribution size will appear in the "About project" page when the translation gets published.
+
+P.S. The full list of languages can be found at <https://javascript.info/translate>.
+
+## Structure
+
+Every chapter, an article or a task resides in its own folder.
+
+The folder is named `N-url`, where `N` – is the number for sorting (articles are ordered), and `url` is the URL-slug on the site.
+
+The folder has one of files:
+
+- `index.md` for a section,
+- `article.md` for an article,
+- `task.md` for a task formulation (+`solution.md` with the solution text if any).
+
+A file starts with the `# Title Header`, and then the text in Markdown-like format, editable in a simple text editor. 
+
+Additional resources and examples for the article or the task, are also in the same folder.
+
+## Translation Tips
+
+Please keep line breaks and paragraphs "as is": don't add newlines and don't remove existing ones. Makes it easy to merge future changes from the English version into the translation. 
+
+If you see that the English version can be improved – great, please send a PR to it.
+
+### Terms
+
+- Some specification terms are not to be translated, e.g. "Function Declaration" can be left "as is".
+- For other terms like `resolved promise`, `slash`, `regexp`, and so on - look for a glossary, hopefully there's one for your language already. If not, look for translations in manuals, such as [MDN](https://developer.mozilla.org/en-US/).
+
+### Text in Code Blocks
+
+- Translate comments.
+- Translate user-messages and example strings.
+- Don't translate variables, classes, identifiers.
+- Ensure that the code works after the translation :)
+
+Example:
+
+```js
+// Example
+const text = "Hello, world";
+document.querySelector('.hello').innerHTML = text;
+```
+
+✅ DO (translate comment):
+
+```js
+// Ejemplo
+const text = 'Hola mundo';
+document.querySelector('.hello').innerHTML = text;
+```
+
+❌ DON'T (translate class):
+
+```js
+// Ejemplo
+const text = 'Hola mundo';
+// ".hello" is a class
+// DO NOT TRANSLATE
+document.querySelector('.hola').innerHTML = text;
+```
+
+### External Links
+
+If an external link is to Wikipedia, e.g. `https://en.wikipedia.org/wiki/JavaScript`, and a version of that article exists in your language that is of decent quality, link to that version instead.
+
+Example:
+
+```md
+[JavaScript](https://en.wikipedia.org/wiki/JavaScript) is a programming language.
+```
+
+✅ OK (en -> es):
+
+```md
+[JavaScript](https://es.wikipedia.org/wiki/JavaScript) es un lenguaje de programación.
+```
+
+For links to MDN, a partially translated version is ok.
+
+If a linked article has no translated version, leave the link "as is".
+
+### Metadata
+
+Some files, usually tasks, have YAML metadata at the top, delimited by `---`:
+
+```md
+importance: 5
+
+---
+...
+```
+
+Please don't translate "importance" (and other top metadata).
+
+### Anchors
+
+Some headers have `[#anchor]` at the end, e.g.
+
+```md
+## Spread operator [#spread-operator]
+```
+
+Please don't translate or remove the `[#...]` part, it's for URL anchors.
+
+## Running locally
+
+You can run the tutorial server locally to see how the translation looks.
+
+The server and install instructions are at <https://github.com/javascript-tutorial/server>. 
+
+我们希望与大家合作维护本教程。
+
+本教程的贡献者列表详见：<https://javascript.info/about#contributors>。
+
+---
+
+💓  
+- Levi Ding [@leviding](https://github.com/leviding)
+- Ilya Kantor [@iliakan](https://github.com/iliakan)
