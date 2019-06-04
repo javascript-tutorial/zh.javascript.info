@@ -118,7 +118,7 @@ document.querySelector('.你好').innerHTML = text;
 
 ### 元数据
 
-一些文件，（这些文件通常是任务），以 YAML 的元数据起始。这些元数据以”---“做分隔：
+一些文件，（这些文件通常是任务），以 YAML 的元数据起始。这些元数据以“---”做分隔：
 
 ```md
 importance: 5
