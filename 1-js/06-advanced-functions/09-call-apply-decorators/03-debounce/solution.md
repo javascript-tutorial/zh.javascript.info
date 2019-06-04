@@ -1,6 +1,4 @@
-
-
-```js run no-beautify
+```js demo
 function debounce(f, ms) {
 
   let isCooldown = false;
@@ -18,7 +16,11 @@ function debounce(f, ms) {
 }
 ```
 
+<<<<<<< HEAD
 对 `debounce` 的调用返回一个包装器。可能有两种状态：
+=======
+A call to `debounce` returns a wrapper. There may be two states:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - `isCooldown = false` —— 准备好执行
 - `isCooldown = true` —— 等待时间结束

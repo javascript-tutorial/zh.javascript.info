@@ -1,12 +1,24 @@
+<<<<<<< HEAD
 # 数组
 
 对象允许存储键值化的集合，这很好。
  
 但很多时候我们需要的是**有序集合**，里面的元素都是按顺序排列的。例如，我们可能需要存储一些列表，比如用户、商品以及 HTML 元素等。
+=======
+# Arrays
+
+Objects allow you to store keyed collections of values. That's fine.
+
+But quite often we find that we need an *ordered collection*, where we have a 1st, a 2nd, a 3rd element and so on. For example, we need that to store a list of something: users, goods, HTML elements etc.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 这里使用对象就不是很方便了，因为对象不提供能够管理元素顺序的方法。我们不能在已有的元素“之间”插入一个新的属性。这种场景下对象就不太适用了。
 
+<<<<<<< HEAD
 这时一个特殊的数据结构数组（`Array`）就派上用场了，它能存储有序的集合。
+=======
+There exists a special data structure named `Array`, to store ordered collections.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## 声明
 
@@ -79,12 +91,18 @@ arr[3](); // hello
 ```
 
 
+<<<<<<< HEAD
 ````smart header="以逗号结尾"
 数组和对象一样，都可以在末尾冗余一个逗号：
 ```js 
+=======
+````smart header="Trailing comma"
+An array, just like an object, may end with a comma:
+```js
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 let fruits = [
-  "Apple", 
-  "Orange", 
+  "Apple",
+  "Orange",
   "Plum"*!*,*/!*
 ];
 ```
@@ -95,7 +113,11 @@ let fruits = [
 
 ## pop/push, shift/unshift 方法
 
+<<<<<<< HEAD
 [队列](https://en.wikipedia.org/wiki/Queue_(abstract_data_type))是最常见的使用数组的方法之一. 在计算机科学中，这意味着一个有序的元素的集合支持两个操作：
+=======
+A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is one of the most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - `push` 在末端添加一个元素.
 - `shift` 取出队列最前端的一个元素，整个队列往前移，这样原先排第二的元素现在排在了第一。
@@ -104,9 +126,15 @@ let fruits = [
 
 这两种操作数组都支持.
 
+<<<<<<< HEAD
 队列的应用在实践中经常会碰到，例如需要在屏幕上显示消息队列。
 
 数组还有另一个用例，就是数据结构[栈](https://en.wikipedia.org/wiki/Stack_(abstract_data_type))。
+=======
+In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+
+There's another use case for arrays -- the data structure named [stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 它支持两种操作：
 
@@ -121,7 +149,11 @@ let fruits = [
 
 对于栈来说，最后放进去的是最先接收的，也叫做 LIFO（后进先出）法则。而与队列相对应的叫做 FIFO（先进先出）。
 
+<<<<<<< HEAD
 JavaScript 中的数组既可以用作队列，也可以用作栈。它们允许从前端/末端来添加/删除元素。
+=======
+Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements both to/from the beginning or the end.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 这在计算机科学中叫做[双端队列](https://en.wikipedia.org/wiki/Double-ended_queue)。
 
@@ -189,11 +221,19 @@ alert( fruits );
 
 ## 内部
 
+<<<<<<< HEAD
 数组是一种特殊的对象。使用方括号来访问属性 `arr[0]` 实际上是来自于对象的语法。这个数字被用作键值。
+=======
+An array is a special kind of object. The square brackets used to access a property `arr[0]` actually come from the object syntax. That's essentially the same as `obj[key]`, where `arr` is the object, while numbers are used as keys.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 他们扩展了对象，提供了特殊的方法来处理有序的数据集合，还添加了 `length` 属性。但是核心还是一个对象。
 
+<<<<<<< HEAD
 记住，在 JavaScript 中只有 7 种基本类型。数组是一个对象因此其行为也像一个对象。
+=======
+Remember, there are only 7 basic types in JavaScript. Array is an object and thus behaves like an object.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 例如，它是通过引用来复制的：
 
@@ -203,6 +243,11 @@ let fruits = ["Banana"]
 let arr = fruits; // 通过引用复制 (两个变量引用的是相同的数组)
 
 alert( arr === fruits ); // true
+<<<<<<< HEAD
+=======
+
+arr.push("Pear"); // modify the array by reference
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 arr.push("Pear"); // 通过引用修改数组
 
@@ -229,9 +274,15 @@ fruits.age = 25; // 用任意的名字创建属性
 
 数组误用的几种方式:
 
+<<<<<<< HEAD
 - 添加一个非数字的属性比如 `arr.test = 5`。
 - 制造空洞，比如：添加 `arr[0]` 后添加 `arr[1000]` (它们中间什么都没有)。
 - 以倒序填充数组, 比如 `arr[1000]`，`arr[999]` 等等。
+=======
+- Add a non-numeric property like `arr.test = 5`.
+- Make holes, like: add `arr[0]` and then `arr[1000]` (and nothing between them).
+- Fill the array in the reverse order, like `arr[1000]`, `arr[999]` and so on.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 请将数组视为作用于**有序数据**的特殊结构，它们为此提供了特殊的方法。数组在 JavaScript 引擎内部是经过特殊调整的，使得更好的作用于连续的有序数据，所以请以这种方式使用数组。如果你需要任意键值，那很有可能实际上你需要的是常规对象 `{}`。
 
@@ -296,7 +347,7 @@ let fruits = ["Apple", "Orange", "Plum"];
 
 // 迭代数组元素
 for (let fruit of fruits) {
-  alert( fruit ); 
+  alert( fruit );
 }
 ```
 
@@ -320,7 +371,11 @@ for (let key in arr) {
 
     在浏览器和其它环境中有一种“类数组”的对象，它们**看似是数组**，也就是说，它们有 `length` 和索引属性，但是也可能有其它的非数字的属性和方法，这通常是我们不需要的。`for..in` 循环会把它们都列出来。所以如果我们需要处理类数组对象，这些“额外”的属性就会存在问题。
 
+<<<<<<< HEAD
 2. `for..in` 循环适用于普通对象，不适用于数组，而且会慢 10-100 倍。当然即使是这样也依然非常快。只有在遇到瓶颈或者一些不相关的场景增速可能会有问题。但是我们仍然应该了解这其中的不同。
+=======
+2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may only matter in bottlenecks. But still we should be aware of the difference.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 通常来说，我们不应该用 `for..in` 来处理数组。
 
@@ -338,7 +393,11 @@ fruits[123] = "Apple";
 alert( fruits.length ); // 124
 ```
 
+<<<<<<< HEAD
 要知道的是我们通常不会这样使用数组。
+=======
+Note that we usually don't use arrays like that.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 `length` 属性的另一个有意思的点是它是可写的。
 
@@ -369,7 +428,11 @@ let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 
 如果调用 `new Array` 使用的是一个单独的数字作为参数，那么就会创建一个**指定了长度，却没有任何项**的数组。
 
+<<<<<<< HEAD
 让我们看看如何搬起石头砸自己的脚:
+=======
+Let's see how one can shoot themself in the foot:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ```js run
 let arr = new Array(2); // 会创建一个数组 [2] 吗？
@@ -385,7 +448,11 @@ alert( arr.length ); // length 2
 
 ## 多维数组
 
+<<<<<<< HEAD
 数组里的项也可以是数组。我们可以以多维数组的方式存储矩阵：
+=======
+Arrays can have items that are also arrays. We can use it for multidimensional arrays, for example to store matrices:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ```js run
 let matrix = [
@@ -431,7 +498,11 @@ alert( "1,2" + 1 ); // "1,21"
 
 ## 总结
 
+<<<<<<< HEAD
 数组是一种特殊的对象，适用于存储和管理有序的数据项。
+=======
+Array is a special kind of object, suited to storing and managing ordered data items.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - 声明:
 
@@ -443,7 +514,14 @@ alert( "1,2" + 1 ); // "1,21"
     let arr = new Array(item1, item2...);
     ```
 
+<<<<<<< HEAD
     调用 `new Array(number)` 会创建一个指定长度的数组，且不含有任何项。
+=======
+    The call to `new Array(number)` creates an array with the given length, but without elements.
+
+- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods.
+- If we shorten `length` manually, the array is truncated.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - `length` 属性是数组的长度，准确地说，是它的最后一个数字索引值加一。它由数组方法自动调整。
 - 如果我们手动缩短 `length`，那么数组就会被截断。
@@ -455,9 +533,13 @@ alert( "1,2" + 1 ); // "1,21"
 - `shift()` 从前端移除并返回该元素。
 - `unshift(...items)` 从前端添加项 `items`。
 
+<<<<<<< HEAD
 遍历数组的元素：
   - `for (let i=0; i<arr.length; i++)` — 运行的最快, 可兼容旧版本浏览器。
   - `for (let item of arr)` — 现代语法，只能访问 items。
   - `for (let i in arr)` — 永远不会使用。
 
 在下一章节我们会回顾数组然后学习更多添加、移动、提取元素和数组排序的方法。 <info:array-methods>。
+=======
+We will return to arrays and study more methods to add, remove, extract elements and sort arrays in the chapter <info:array-methods>.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb

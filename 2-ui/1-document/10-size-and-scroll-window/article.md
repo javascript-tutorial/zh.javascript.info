@@ -1,6 +1,10 @@
 # Window 的尺寸和滚动
 
+<<<<<<< HEAD
 怎么找到浏览器窗口的宽度呢？如何获得包括滚动窗口外部分的文档总高度呢？如何通过 JavaScript 滚动页面呢？
+=======
+How to find out the width and height of the browser window? How to get the full width and height of the document, including the scrolled out part? How to scroll the page using JavaScript?
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 在 DOM 里，文档的根元素是 `document.documentElement`。与之相对应的标签是 `<html>`，同时它具备了[前一章](info:size-and-scroll)的几何属性。只有在某些情景下，我们可以使用到它，但还有其他方法和特性需要我们去特别考虑的。
 
@@ -45,7 +49,11 @@ alert( document.documentElement.clientWidth ); // 窗口减去滚动条的宽度
 
 这几个属性对常规元素能起作用，但面对整个页面它们会失去它们应有的作用了。在 Chrome/Safari/Opera 浏览器，如果这里没有滚动条，`documentElement.scrollHeight` 甚至比 `documentElement.clientHeight` 小！这对常规元素来讲是不可能出现的情况。
 
+<<<<<<< HEAD
 要获得可靠的窗口大小，我们应该采用这些属性的最大值：
+=======
+To have a reliable result on the full document height, we should take the maximum of these properties:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ```js run
 let scrollHeight = Math.max(
@@ -97,7 +105,11 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
     <button onclick="window.scrollBy(0,10)">window.scrollBy(0,10)</button>
     ```
+<<<<<<< HEAD
 - 方法 `scrollTo(pageX,pageY)` 滚动页面至相对于文档的左上角的 (pageX, pageY) 位置。就好像设置 `scrollLeft/scrollTop`。
+=======
+- The method `scrollTo(pageX,pageY)` scrolls the page relative to the document's top-left corner. It's like setting `scrollLeft/scrollTop`.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     回到顶部, 我们可以用 `scrollTo(0,0)`。
 
@@ -130,7 +142,11 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 有时候我们需要让文档禁止滚动。例如，当我们需要用一个被立即关注的消息框覆盖这个文档时，我们希望访问者与这个消息进行交互，而不是与文档进行交互。
 
+<<<<<<< HEAD
 想让这个文档禁止滚动，设置`document.body.style.overflow = "hidden"`就够了。该页面将“冻结”其当前滚动。
+=======
+To make the document unscrollable, it's enough to set `document.body.style.overflow = "hidden"`. The page will freeze on its current scroll.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ```online
 试一试：
@@ -146,7 +162,11 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 这个方法的缺点是会使滚动条消失。如果它占用了一些空间，它原本占用的空间就会空出来，使元素本身的内容“跳”出来填满空出来的空间里。
 
+<<<<<<< HEAD
 这看起来就有点怪怪的。但我们可以解决这个问题：通过对比冻结前后的`clientWidth`如果在 `clientWidth` 增加（滚动条消失）时，将 `padding` 添加到 `document.body` 取代滚动条来保持内容宽度不变。
+=======
+That looks a bit odd, but can be worked around if we compare `clientWidth` before and after the freeze, and if it increased (the scrollbar disappeared) then add `padding` to `document.body` in place of the scrollbar, to keep the content width the same.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## 总结
 

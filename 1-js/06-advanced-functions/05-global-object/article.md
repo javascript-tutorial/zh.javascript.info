@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 全局对象
 
 全局对象提供可在任何地方使用的变量和函数。大多数情况下，这些全局变量内置于语言或主机环境中。
@@ -44,14 +45,68 @@ window.alert("Hello");
     ```
 
     请注意，更现代的 `let / const` 声明不会发生这种情况：
+=======
+# Global object
+
+The global object provides variables and functions that are available anywhere. Mostly, the ones that are built into the language or the host environment.
+
+In a browser it is named "window", for Node.js it is "global", for other environments it may have another name.
+
+For instance, we can call `alert` as a method of `window`:
+
+```js run
+alert("Hello");
+
+// the same as
+window.alert("Hello");
+```
+
+We can reference other built-in functions like `Array` as `window.Array` and create our own properties on it.
+
+## Browser: the "window" object
+
+For historical reasons, in-browser `window` object is a bit messed up.
+
+1. It provides the "browser window" functionality, besides playing the role of a global object.
+
+    We can use `window` to access properties and methods, specific to the browser window:
+
+    ```js run
+    alert(window.innerHeight); // shows the browser window height
+
+    window.open('http://google.com'); // opens a new browser window
+    ```
+
+2. Top-level `var` variables and function declarations automatically become properties of `window`.
+
+    For instance:
+    ```js untrusted run no-strict refresh
+    var x = 5;
+
+    alert(window.x); // 5 (var x becomes a property of window)
+
+    window.x = 0;
+
+    alert(x); // 0, variable modified
+    ```
+
+    Please note, that doesn't happen with more modern `let/const` declarations:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     ```js untrusted run no-strict refresh
     let x = 5;
 
+<<<<<<< HEAD
     alert(window.x); // undefined ("let" 不会创建窗口属性)
     ```
 
 3. 此外，所有脚本共享相同的全局作用域，因此在某一个 `<script>` 中声明的变量在其他的里面也可见：
+=======
+    alert(window.x); // undefined ("let" doesn't create a window property)
+    ```
+
+3. Also, all scripts share the same global scope, so variables declared in one `<script>` become visible in  another ones:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     ```html run
     <script>
@@ -65,12 +120,17 @@ window.alert("Hello");
     </script>
     ```
 
+<<<<<<< HEAD
 4. 而且，虽然是小问题但仍然重要的一点是：全局范围内 `this` 的值是 `window`。
+=======
+4. And, a minor thing, but still: the value of `this` in the global scope is `window`.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     ```js untrusted run no-strict refresh
     alert(this); // window
     ```
 
+<<<<<<< HEAD
 为什么这样做？在语言创建时，将多个方面合并到单一 `window` 对象中的想法就是“简化”，但此后许多事情发生了变化，小型脚本变成了需要恰当构架的大型应用程序。
 
 不同脚本（可能来自不同的源）之间的变量可以互相访问好不好？
@@ -84,6 +144,21 @@ window.alert("Hello");
 如果我们在 `<script>` 标签上设置特性 `type="module"` ，那么这样的脚本被认为是个单独的“模块”，它有自己的顶级作用域（词法环境），不会干扰 `window`。
 
 - 在一个模块中，`var x` 不会成为 `window` 的属性：
+=======
+Why was it made like this? At the time of the language creation, the idea to merge multiple aspects into a single `window` object was to "make things simple". But since then many things changed. Tiny scripts became big applications that require proper architecture.
+
+Is it good that different scripts (possibly from different sources) see variables of each other?
+
+No, it's not, because it may lead to naming conflicts: the same variable name can be used in two scripts for different purposes, so they will conflict with each other.
+
+As of now, the multi-purpose `window` is considered a design mistake in the language.
+
+Luckily, there's a "road out of hell", called "JavaScript modules".
+
+If we set `type="module"` attribute on a `<script>` tag, then such script is considered a separate "module" with its own top-level scope (lexical environment), not interfering with `window`.
+
+- In a module, `var x` does not become a property of `window`:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     ```html run
     <script type="module">
@@ -93,7 +168,11 @@ window.alert("Hello");
     </script>
     ```
 
+<<<<<<< HEAD
 - 两个模块的变量彼此不可见：
+=======
+- Two modules that do not see variables of each other:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     ```html run
     <script type="module">
@@ -102,11 +181,19 @@ window.alert("Hello");
 
     <script type="module">
       alert(window.x); // undefined
+<<<<<<< HEAD
       alert(x); // 错误：未声明的变量
     </script>
     ```
 
 - 然后最后一个小问题是，模块中 `this` 的顶级值是 `undefined`（为什么它一定得是 `window` ？）：
+=======
+      alert(x); // Error: undeclared variable
+    </script>
+    ```
+
+- And, the last minor thing, the top-level value of `this` in a module is `undefined` (why should it be `window` anyway?):
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     ```html run
     <script type="module">
@@ -114,6 +201,7 @@ window.alert("Hello");
     </script>
     ```
 
+<<<<<<< HEAD
 **使用 `<script type="module">` 后，通过将顶级作用域与 `window` 分开的方式来修复语言的设计缺陷。**
 
 稍后我们将在[模块](info:modules)一章中介绍模块的更多功能。
@@ -126,11 +214,26 @@ window.alert("Hello");
 
     ```js run
     // 明确地将它分配给 `window`
+=======
+**Using `<script type="module">` fixes the design flaw of the language by separating top-level scope from `window`.**
+
+We'll cover more features of modules later, in the chapter [](info:modules).
+
+## Valid uses of the global object
+
+1. Using global variables is generally discouraged. There should be as few global variables as possible, but if we need to make something globally visible, we may want to put it into `window` (or `global` in Node.js).
+
+    Here we put the information about the current user into a global object, to be accessible from all other scripts:
+
+    ```js run
+    // explicitly assign it to `window`
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
     window.currentUser = {
       name: "John",
       age: 30
     };
 
+<<<<<<< HEAD
     // 然后，在另一个脚本中
     alert(window.currentUser.name); // John
     ```
@@ -139,12 +242,22 @@ window.alert("Hello");
 
     例如，测试是否存在内置的 `Promise` 对象（它不存在于非常旧的浏览器中）：
     
+=======
+    // then, elsewhere, in another script
+    alert(window.currentUser.name); // John
+    ```
+
+2. We can test the global object for support of modern language features.
+
+    For instance, test if a build-in `Promise` object exists (it doesn't in really old browsers):
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
     ```js run
     if (!window.Promise) {
       alert("Your browser is really old!");
     }
     ```
 
+<<<<<<< HEAD
 3. 我们可以创建 "polyfills"：添加环境不支持（比如旧的浏览器）但存在于现代标准中的功能。
 
     ```js run
@@ -154,3 +267,14 @@ window.alert("Hello");
     ```
 
 ...当然，如果我们在浏览器中使用 `window` 访问浏览器窗口（而不是全局对象）就完全没问题。
+=======
+3. We can create "polyfills": add functions that are not supported by the environment (say, an old browser), but exist in the modern standard.
+
+    ```js run
+    if (!window.Promise) {
+      window.Promise = ... // custom implementation of the modern language feature
+    }
+    ```
+
+...And of course, if we're in a browser, using `window` to access browser window features (not as a global object) is completely fine.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb

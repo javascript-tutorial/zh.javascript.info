@@ -61,7 +61,11 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
+<<<<<<< HEAD
 之后，我们就有拥有一个 DOM 元素。现在这个元素已经有一个保存类名的变量和一个保存文字信息的变量，但是在页面上依然看不到我们想要的内容，因为它还没有被插入到页面中。
+=======
+After that, we have our DOM element ready. Right now it is just in a variable and we cannot see it. That is because it's not yet inserted into the page.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## 插值方法
 
@@ -135,8 +139,13 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
     */!*
     </script>
     ```
+<<<<<<< HEAD
     如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
     
+=======
+    To insert `newLi` as the first element, we can do it like this:
+
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
     ```js
     list.insertBefore(newLi, list.firstChild);
     ```
@@ -236,7 +245,11 @@ after
 
 接下来登场的这个方法就可以做到：`elem.insertAdjacentHTML(where, html)`。
 
+<<<<<<< HEAD
 该方法第一个参数是字符串，指定插值的位置，必须是以下四个值之一：
+=======
+The first parameter is a string, specifying where to insert. Must be one of the following:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - `"beforebegin"` —— 在 `html` 开头位置前插入 `elem`，
 - `"afterbegin"` —— 在 `html` 开头位置后插入 `elem`，
@@ -273,10 +286,17 @@ after
 
 这个方法还有两个变种：
 
+<<<<<<< HEAD
 - `elem.insertAdjacentText(where, text)` —— 一样的语法，只不过把 `text` 作为“文本”直接插入到 HTML 中，
 - `elem.insertAdjacentElement(where, elem)` —— 一样的语法，只不过插入的是一个元素。
 
 他们存在的意义更多是为了使语法“整齐划一”，在实践中，通常只使用 `insertAdjacentHTML`，因为插入文本和元素的方法可以使用 `append/prepend/before/after` —— 同样的效果这样写起来更简洁。
+=======
+- `elem.insertAdjacentText(where, text)` -- the same syntax, but a string of `text` is inserted "as text" instead of HTML,
+- `elem.insertAdjacentElement(where, elem)` -- the same syntax, but inserts an element.
+
+They exist mainly to make the syntax "uniform". In practice, only `insertAdjacentHTML` is used most of the time. Because for elements and text, we have methods `append/prepend/before/after` -- they are shorter to write and can insert nodes/text pieces.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 这里有一个展示一条信息的变种写法：
 
@@ -335,13 +355,89 @@ after
 </script>
 ```
 
+<<<<<<< HEAD
 ## 移除
+=======
+
+## DocumentFragment [#document-fragment]
+
+`DocumentFragment` is a special DOM node that serves as a wrapper to pass around groups of nodes.
+
+We can append other nodes to it, but when we insert it somewhere, then it "disappears", leaving its content inserted instead.
+
+For example, `getListContent` below generates a fragment with `<li>` items, that are later inserted into `<ul>`:
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let fragment = new DocumentFragment();
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    fragment.append(li);
+  }
+
+  return fragment;
+}
+
+*!*
+ul.append(getListContent()); // (*)
+*/!*
+</script>
+```
+
+Please note, at the last line `(*)` we append `DocumentFragment`, but it "blends in", so the resulting structure will be:
+
+```html
+<ul>
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+</ul>
+```
+
+`DocumentFragment` is rarely used explicitly. Why append to a special kind of node, if we can return an array of nodes instead? Rewritten example:
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let result = [];
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    result.push(li);
+  }
+
+  return result;
+}
+
+*!*
+ul.append(...getListContent()); // append + "..." operator = friends!
+*/!*
+</script>
+```
+
+We mention `DocumentFragment` mainly because there are some concepts on top of it, like [template](info:template-element) element, that we'll cover much later.
+
+
+## Removal methods
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 想要移除节点，可以通过以下方法：
 
 
 `parentElem.removeChild(node)`
+<<<<<<< HEAD
 : 从 `parentElem` 中移除 `elem`（假设它是元素中的子元素）。
+=======
+: Removes `node` from  `parentElem` (assuming it's a child).
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 `node.remove()`
 : 从当前位置移除 `node`。
@@ -409,7 +505,11 @@ after
 
 调动 `document.write(html)` 时意味着将 `html` “就地并马上”放入到页面中。`html` 字符串会动态的创建，所以它以自动伸缩的方式放入到页面中。我们可以通过 JavaScript 创建一个完整的 HTML 页面并写入浏览器窗口中。
 
+<<<<<<< HEAD
 这个方法的起源于没有 DOM，没有 Web 标准的上古时期……，但是这个方法依旧保留了下来，因为很多的脚本使用它来实现一些功能。
+=======
+The method comes from times when there was no DOM, no standards... Really old times. It still lives, because there are scripts using it.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 现代的脚本已经很少再看到这个方法，因为使用它有一个很重要的局限性：
 
