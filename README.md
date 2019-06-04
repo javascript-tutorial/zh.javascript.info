@@ -127,7 +127,7 @@ importance: 5
 ...
 ```
 
-请不要翻译”importance“ (和其他放置在开头的元数据).
+请不要翻译“importance”（和其他放置在开头的元数据）。
 
 ### Anchors
 
