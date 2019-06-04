@@ -20,7 +20,7 @@
 - 选择一篇还没有被选走（在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中被人勾选）的文章。
 - 在[该 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) 中添加以文章标题为内容的评论，如 `An Introduction to JavaScript`。
     - 我们的 bot 会在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中勾选上对应的文章，这样其他人就知道你正在翻译该文章了。
-    - 不要在改评论中添加其他说明。
+    - 不要在该评论中添加其他说明。
 - Fork 此仓库并开始翻译。完成翻译后，请投递一个 PR。
     - PR 应以文章标题命名。Bot 会添加更多信息。
 
