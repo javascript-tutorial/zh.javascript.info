@@ -1,6 +1,6 @@
 # 现代 JavaScript 教程中文版
 
-这个仓库托管了现代 JavaScript 教程的中文版内容，发布于 [https://zh.javascript.info](https://zh.javascript.info)。
+这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
 ## 赞助商
 
@@ -8,69 +8,69 @@
 
 ## 翻译
 
-我们希望提供本教程的多语言版本。如果你感兴趣，那就快来和我们一起翻译吧。
+我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
 
-详见：https://javascript.info/translate
+详见[翻译](https://javascript.info/translate)。
 
-## 贡献
+## 贡献指南 
 
-**That's how you can contribute:**
+**翻译流程**
 
-- See the [Chinese Translate Progress](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) issue.
-- Choose an unchecked article you'd like to translate.
-- Add a comment with the article title to the issue, e.g. `An Introduction to JavaScript`.
-    - Our bot will mark it in the issue, for everyone to know that you're translating it.
-    - Your comment should contain only the title.
-- Fork the repository, translate and send a PR when done.
-    - PR title should match article title, the bot will write it's number into the issue.
+- 检查[中文翻译进度 issue (Chinese Translate Progress issue)](https://github.com/javascript-tutorial/zh.javascript.info/issues/324)。
+- 选择一篇还没有被选走（在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中被人勾选）的文章。
+- 在[该 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) 中添加以文章标题为内容的评论，如 `An Introduction to JavaScript`。
+    - 我们的 bot 会在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中勾选上对应的文章，这样其他人就知道你正在翻译该文章了。
+    - 不要在改评论中添加其他说明。
+- Fork 此仓库并开始翻译。完成翻译后，请投递一个 PR。
+    - PR 应以文章标题命名。Bot 会添加更多信息。
 
-Please kindly allow maintainers to review and merge or request changes in your translation.
+请给维护者时间来审核和 merge 你的翻译，或者提出对其的修改意见。
    
-If maintainers do not respond, or if you'd like to become a maintainer, write us at the [main repo](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
+如果维护者没能回复，或者你想成为一个维护者，请在[主仓库给我们提新 issue](https://github.com/javascript-tutorial/en.javascript.info/issues/new)。
     
-**Let others know what you're translating, in message boards or chats in your language. Invite them to join!**
+**如果你愿意的话，请让其他人知道你在翻译这个教程，并尝试邀请他们参与翻译。你可以通过微博或群聊来号召。**
 
-🎉 Thank you!
+🎉 非常感谢！
 
-Your name and the contribution size will appear in the "About project" page when the translation gets published.
+翻译版本上线后，我们会在“关于本项目“页面写上你的名字和贡献。
 
-P.S. The full list of languages can be found at <https://javascript.info/translate>.
+注：<https://javascript.info/translate> 罗列了完整的语言列表。
 
-## Structure
+## 文件结构
 
-Every chapter, an article or a task resides in its own folder.
+每一个章节或任务都在它自己的文件夹里。
 
-The folder is named `N-url`, where `N` – is the number for sorting (articles are ordered), and `url` is the URL-slug on the site.
+这个文件夹以 `N=url` 命名。`N` 为文章序号（文章遵循一定的顺序），`url` 是该网站上对应教程的净链接。
 
-The folder has one of files:
+这个文件夹含有以下一种文件：
 
-- `index.md` for a section,
-- `article.md` for an article,
-- `task.md` for a task formulation (+`solution.md` with the solution text if any).
+- `index.md` 对应一个部分，
+- `article.md` 对应一个文章，
+- `task.md` 对应一个任务 (如果有答案的话还会有 `solution.md` 这个文件)。
 
-A file starts with the `# Title Header`, and then the text in Markdown-like format, editable in a simple text editor. 
+每一个文件都以 `# 标题` 开始，然后是类 Markdown 格式的文本。一个简单的文字编辑器就可以编辑该文件。 
 
-Additional resources and examples for the article or the task, are also in the same folder.
+文章或任务中需要用到的资源也在同一个文件夹中。
 
-## Translation Tips
+## 翻译提示
 
-Please keep line breaks and paragraphs "as is": don't add newlines and don't remove existing ones. Makes it easy to merge future changes from the English version into the translation. 
+请不要添加换行，段落或移除已有的行和段落。这样可以减少 merge 英文版中的新变化时出现的问题。
 
-If you see that the English version can be improved – great, please send a PR to it.
+如果你觉得英文版可以被改善，请给我们发一个 [PR](https://github.com/javascript-tutorial/en.javascript.info/compare)。
 
-### Terms
+### 专有词
 
-- Some specification terms are not to be translated, e.g. "Function Declaration" can be left "as is".
-- For other terms like `resolved promise`, `slash`, `regexp`, and so on - look for a glossary, hopefully there's one for your language already. If not, look for translations in manuals, such as [MDN](https://developer.mozilla.org/en-US/).
+- 一些具体的专有词不应被翻译。如”Function Declaration“。
+- 对于其他专有词，如 `resolved promise`, `slash`, `regexp` 等，请使用一个你的语言中的同义词。如果没有意思足够相近的词，请使用教程（如：[MDN](https://developer.mozilla.org/en-US/)）中的翻译。
 
-### Text in Code Blocks
+### 代码块中的文本
 
-- Translate comments.
-- Translate user-messages and example strings.
-- Don't translate variables, classes, identifiers.
-- Ensure that the code works after the translation :)
+- 翻译注释。
+- 翻译展示给用户的信息和用来举例的字符串。
+- 不要翻译变量，类等标识符。
+- 确保翻译后的代码可以正常运行。 :)
 
-Example:
+例:
 
 ```js
 // Example
@@ -81,44 +81,44 @@ document.querySelector('.hello').innerHTML = text;
 ✅ DO (translate comment):
 
 ```js
-// Ejemplo
-const text = 'Hola mundo';
+// 例
+const text = '你好，世界';
 document.querySelector('.hello').innerHTML = text;
 ```
 
 ❌ DON'T (translate class):
 
 ```js
-// Ejemplo
-const text = 'Hola mundo';
-// ".hello" is a class
-// DO NOT TRANSLATE
-document.querySelector('.hola').innerHTML = text;
+// 例
+const text = '你好，世界';
+// ".hello" 是一个类
+// 不要翻译
+document.querySelector('.你好').innerHTML = text;
 ```
 
-### External Links
+### 外部链接
 
-If an external link is to Wikipedia, e.g. `https://en.wikipedia.org/wiki/JavaScript`, and a version of that article exists in your language that is of decent quality, link to that version instead.
+如果这个外部链接是指向 Wikipedia 的，如 `https://en.wikipedia.org/wiki/JavaScript`，并且其有质量优良的目标语言的译文，请将链接指向该译文。
 
-Example:
+例:
 
 ```md
 [JavaScript](https://en.wikipedia.org/wiki/JavaScript) is a programming language.
 ```
 
-✅ OK (en -> es):
+✅ OK (en -> zh):
 
 ```md
-[JavaScript](https://es.wikipedia.org/wiki/JavaScript) es un lenguaje de programación.
+[JavaScript](https://zh.wikipedia.org/wiki/JavaScript) 是一种编程语言。
 ```
 
-For links to MDN, a partially translated version is ok.
+对于指向 MDN 的外部链接，可以使用部分翻译的版本。
 
-If a linked article has no translated version, leave the link "as is".
+如果外部链接没有翻译的版本，请不要修改该链接。
 
-### Metadata
+### 元数据
 
-Some files, usually tasks, have YAML metadata at the top, delimited by `---`:
+一些文件，（这些文件通常是任务），以 YAML 的元数据起始。这些元数据以”---“做分隔：
 
 ```md
 importance: 5
@@ -127,27 +127,27 @@ importance: 5
 ...
 ```
 
-Please don't translate "importance" (and other top metadata).
+请不要翻译”importance“ (和其他放置在开头的元数据).
 
 ### Anchors
 
-Some headers have `[#anchor]` at the end, e.g.
+某些标题以 `[#anchor]` 结尾，如：
 
 ```md
-## Spread operator [#spread-operator]
+## 扩散运算符 [#spread-operator]
 ```
 
-Please don't translate or remove the `[#...]` part, it's for URL anchors.
+请不要翻译或者去掉 `[#...]` 部分，它是 URL 锚元素所依赖的。 
 
-## Running locally
+## 在本地运行
 
-You can run the tutorial server locally to see how the translation looks.
+你可以在本地运行本教程的服务端来预览你的翻译。
 
-The server and install instructions are at <https://github.com/javascript-tutorial/server>. 
+运行服务端的教程请见 <https://github.com/javascript-tutorial/server>。 
 
 我们希望与大家合作维护本教程。
 
-本教程的贡献者列表详见：<https://zh.javascript.info/about>。
+本教程的贡献者列表请见：<https://zh.javascript.info/about>。
 
 ---
 
