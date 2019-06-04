@@ -21,7 +21,7 @@
 - 在[该 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) 中添加以文章标题为内容的评论，如 `An Introduction to JavaScript`。
     - 我们的 bot 会在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中勾选上对应的文章，这样其他人就知道你正在翻译该文章了。
     - 不要在该评论中添加其他说明。
-- Fork 此仓库并开始翻译。完成翻译后，请投递一个 PR。
+- Fork 此仓库并开始翻译。完成翻译后，请提交一个 PR。
     - PR 应以文章标题命名。Bot 会添加更多信息。
 
 请给维护者时间来审核和 merge 你的翻译，或者提出对其的修改意见。
