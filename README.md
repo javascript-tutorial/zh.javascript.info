@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 这个仓库托管了现代 JavaScript 教程的中文版内容，发布于 [https://zh.javascript.info](https://zh.javascript.info)。
 
 ## 赞助商
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
 
+<<<<<<< HEAD
 ## 翻译
 
 我们希望提供本教程的多语言版本。如果你感兴趣，那就快来和我们一起翻译吧。
@@ -35,6 +42,21 @@ If maintainers do not respond, or if you'd like to become a maintainer, write us
 Your name and the contribution size will appear in the "About project" page when the translation gets published.
 
 P.S. The full list of languages can be found at <https://javascript.info/translate>.
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## Structure
 
@@ -151,6 +173,14 @@ The server and install instructions are at <https://github.com/javascript-tutori
 
 ---
 
+<<<<<<< HEAD
 💓  
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
+=======
+It's very easy to add something new.
+
+---
+💓  
+Ilya Kantor @iliakan
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb

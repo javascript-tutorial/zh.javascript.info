@@ -1,6 +1,10 @@
 # 特性和属性
 
+<<<<<<< HEAD
 > 译注：原文标题为“Attributes and properties”。两词意思相近，为作区分，将 Attribute 译为“特性”，Property 译为“属性”。
+=======
+When the browser loads the page, it "reads" (another word: "parses") the HTML and generates DOM objects from it. For element nodes, most standard HTML attributes automatically become properties of DOM objects.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 文本并生成 DOM 对象。对于元素节点，大多数 HTML 特性会自动变成 DOM 对象的属性。
 
@@ -53,7 +57,11 @@ document.body.sayHi(); // Hello, I'm BODY
 
 ## HTML 特性
 
+<<<<<<< HEAD
 在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别**标准化**特性然后以此创建 DOM 属性。
+=======
+In HTML, tags may have attributes. When the browser parses the HTML to create DOM objects for tags, it recognizes *standard* attributes and creates DOM properties from them.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 因此当一个元素有 `id` 或其他**标准化**特性，会生相应的 DOM 属性。但是非**标准化**的特性则会被忽略。
 
@@ -85,9 +93,15 @@ document.body.sayHi(); // Hello, I'm BODY
 </body>
 ```
 
+<<<<<<< HEAD
 如果一个特性不是标准化的，DOM 属性就不存在这个特性。那我们有没办法获取到这个特性？
 
 答案是肯定的。以下几个方法是针对元素特性的操作：
+=======
+So, if an attribute is non-standard, there won't be a DOM-property for it. Is there a way to access such attributes?
+
+Sure. All attributes are accessible by using the following methods:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - `elem.hasAttribute(name)` —— 检验是否拥这个特性。
 - `elem.getAttribute(name)` —— 获取到这个特性值。
@@ -137,10 +151,17 @@ HTML 特性有几个特征：
 
 请注意：
 
+<<<<<<< HEAD
 1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
 2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
 3. 所有特性都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
 4. `attributes` 以 `name` 和 `value` 这样的键—值对收集在一个可迭代对象里。
+=======
+1. `getAttribute('About')` -- the first letter is uppercase here, and in HTML it's all lowercase. But that doesn't matter: attribute names are case-insensitive.
+2. We can assign anything to an attribute, but it becomes a string. So here we have `"123"` as the value.
+3. All attributes including ones that we set are visible in `outerHTML`.
+4. The `attributes` collection is iterable and has all the attributes of the element (standard and non-standard) as objects with `name` and `value` properties.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## 属性—特性的同步
 
@@ -188,7 +209,11 @@ HTML 特性有几个特征：
 - 改变特性值 `value` 会更新到属性上。
 - 但是直接改变属性的值却不会作用在特性的值上。
 
+<<<<<<< HEAD
 这种“特征”是相当便利的，因为用户可能会经常修改 `value`，假设我们想要覆盖 HTML上“原始值”，只需要修改特性的值。
+=======
+That "feature" may actually come in handy, because the user actions may lead to `value` changes, and then after them, if we want to recover the "original" value from HTML, it's in the attribute.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## DOM 属性的类型
 
@@ -218,9 +243,15 @@ DOM 并不总是字符串。例如 `input.checked` 属性（多选框）是一�
 </script>
 ```
 
+<<<<<<< HEAD
 还有一个非常重要的不同点。DOM 属性的字符串可能跟特性值的字符串所表示的不是同一个东西！
 
 例如 `href` DOM 属性总是一个绝对路径的，而特性值只包含相对路径或者只包含 `#hash` 这一部分。
+=======
+Most properties are strings though.
+
+Quite rarely, even if a DOM property type is a string, it may differ from the attribute. For instance, the `href` DOM property is always a *full* URL, even if the attribute contains a relative URL or just a `#hash`.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 这里有一个例子：
 
@@ -382,7 +413,11 @@ div.setAttribute('order-state', 'canceled');
 - `elem.removeAttribute(name)` —— 移除这个特性
 - `elem.attributes` —— 所有特性的集合
 
+<<<<<<< HEAD
 对于大多数需求，DOM 属性已经可以给予很好的支持。应当在 DOM 属性实在无法满足开发需求的情况下才使用特性，比如以下情况：
+=======
+For most situations using DOM properties is preferable. We should refer to attributes only when DOM properties do not suit us, when we need exactly attributes, for instance:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - 我们需要一个非标准化的特性。但是如果我们用 `data-` 来设置特性值，那就要使用 `dataset` 来获取属性值。
 - 我们想要读取到 HTML 的展示内容。比如 `href` 属性总是一个绝对路径，但是我们只想要相对路径。

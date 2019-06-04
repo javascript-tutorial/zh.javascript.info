@@ -60,6 +60,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 
  `offsetParent` 是最近的祖先元素:
 
+<<<<<<< HEAD
 1. CSS 定位（`position` 为 `absolute`、`relative` 或 `fixed`），
 2. 或者 `<td>`、`<th>`、`<table>`，
 3. 或者 `<body>`。
@@ -67,6 +68,15 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 在大多数实际情况下，我们可以使用 `offsetParent` 来获得最近的 CSS 定位祖先。`offsetLeft/offsetTop` 提供相对于元素左上角的 x/y 坐标。
 
 在下面的例子中，内部 `<div>` 有 `<main>` 作为 `offsetParent`，并且 `offsetLeft/offsetTop` 让它从左上角位移（`180`）：
+=======
+1. CSS-positioned (`position` is `absolute`, `relative`, `fixed` or `sticky`),
+2. or `<td>`, `<th>`, `<table>`,
+2. or `<body>`.
+
+In most practical cases we can use `offsetParent` to get the nearest CSS-positioned ancestor. And `offsetLeft/offsetTop` provide x/y coordinates relative to its upper-left corner.
+
+In the example below the inner `<div>` has `<main>` as `offsetParent` and `offsetLeft/offsetTop` shifts from its upper-left corner (`180`):
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ```html run height=10
 <main style="position: relative" id="main">
@@ -201,8 +211,13 @@ element.style.height = `${element.scrollHeight}px`;
 
 换种说法，`scrollTop` 就是 “滚动了多少” 的意思。
 
+<<<<<<< HEAD
 ````smart header="`scrollLeft/scrollTop` 可修改 "
 大多数几何属性是只读的，但是 `scrollLeft/scrollTop` 可以改变，浏览器将会直接滚动元素。
+=======
+````smart header="`scrollLeft/scrollTop` can be modified"
+Most of the geometry properties here are read-only, but `scrollLeft/scrollTop` can be changed, and the browser will scroll the element.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ```online
 如果单击下面的元素，代码 `elem.scrollTop += 10` 将会执行，这使得元素向下滚动 `10px`。
@@ -264,6 +279,7 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 
 元素具有以下几何属性：
 
+<<<<<<< HEAD
 - `offsetParent` — 是最近的有定位属性的祖先元素，或者是 `td`、`th`、`table`、`body`。
 - `offsetLeft/offsetTop` — 是相对于 `offsetParent` 的左上角边缘坐标。
 - `offsetWidth/offsetHeight` — 元素的“外部”宽/高 ，边框尺寸计算在内。
@@ -271,5 +287,14 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 - `clientWidth/clientHeight` — 内容的宽度/高度，包括内间距，但没有滚动条。
 - `scrollWidth/scrollHeight` — 内容的宽度/高度，包括可滚动的可视区域外的尺寸，也包括内间距，但不包括滚动条。
 - `scrollLeft/scrollTop` — 从左上角开始的元素的滚动部分的宽度/高度。
+=======
+- `offsetParent` -- is the nearest positioned ancestor or `td`, `th`, `table`, `body`.
+- `offsetLeft/offsetTop` -- coordinates relative to the upper-left edge of `offsetParent`.
+- `offsetWidth/offsetHeight` -- "outer" width/height of an element including borders.
+- `clientLeft/clientTop` -- the distance from the upper-left outer corner to its upper-left inner corner. For left-to-right OS they are always the widths of left/top borders. For right-to-left OS the vertical scrollbar is on the left so `clientLeft` includes its width too.
+- `clientWidth/clientHeight` -- the width/height of the content including paddings, but without the scrollbar.
+- `scrollWidth/scrollHeight` -- the width/height of the content including the scrolled out parts. Also includes paddings, but not the scrollbar.
+- `scrollLeft/scrollTop` -- width/height of the scrolled out part of the element, starting from its upper-left corner.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 除了 `scrollLeft/scrollTop` 之外，所有属性都是只读的。如果更改，浏览器会使元素滚动。
