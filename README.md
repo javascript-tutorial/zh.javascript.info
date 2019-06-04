@@ -61,7 +61,7 @@
 ### 专有词
 
 - 一些具体的专有词不应被翻译。如”Function Declaration“。
-- 对于其他专有词，如 `resolved promise`, `slash`, `regexp` 等，请使用一个你的语言中的同义词。如果没有意思足够相近的词，请使用教程（如：[MDN](https://developer.mozilla.org/en-US/)）中的翻译。
+- 对于其他专有词，如 `resolved promise`、`slash` 和 `regexp` 等，请使用一个你的语言中的同义词。如果没有意思足够相近的词，请使用教程（如：[MDN](https://developer.mozilla.org/en-US/)）中的翻译。
 
 ### 代码块中的文本
 
