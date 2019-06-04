@@ -24,7 +24,7 @@
 - Fork 此仓库并开始翻译。完成翻译后，请提交一个 PR。
     - PR 应以文章标题命名。Bot 会添加更多信息。
 
-请给维护者时间来审核和 merge 你的翻译，或者提出对其的修改意见。
+请给维护者时间来审核和 merge 你的翻译，或者提出对应的修改意见。
    
 如果维护者没能回复，或者你想成为一个维护者，请在[主仓库给我们提新 issue](https://github.com/javascript-tutorial/en.javascript.info/issues/new)。
     
