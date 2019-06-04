@@ -32,7 +32,7 @@
 
 🎉 非常感谢！
 
-翻译版本上线后，我们会在“关于本项目“页面写上你的名字和贡献。
+翻译版本上线后，我们会在“[关于本项目](https://zh.javascript.info/about)”页面写上你的名字和贡献。
 
 注：<https://javascript.info/translate> 罗列了完整的语言列表。
 
