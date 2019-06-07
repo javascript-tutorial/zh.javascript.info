@@ -23,7 +23,7 @@ for(let key in dictionary) {
 }  
 
 // 通过 toString 得到逗号分隔的属性值
-alert(dictionary); // "apple,__proto__"
+alert(dictionary.toString()); // "apple,__proto__"
 ```
 
 当我们使用描述器创建一个属性，它的标识默认是 `false`。因此在以上代码中，`dictonary.toString` 是不可枚举的。
