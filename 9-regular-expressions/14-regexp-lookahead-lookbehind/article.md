@@ -40,8 +40,7 @@ alert( str.match(/\d+(?!€)/) ); // 2（正确地跳过了价格）
 - 后瞻肯定断言：`pattern:(?<=y)x`, 匹配 `pattern:x`, 仅在前面是 `pattern:y` 的情况。
 - 后瞻否定断言：`pattern:(?<!y)x`, 匹配 `pattern:x`, 仅在前面不是 `pattern:y` 的情况。
 
-举个例子，let's change the price to US dollars. The dollar sign is usually before the number, so to look for `$30` we'll use `pattern:(?<=\$)\d+` -- an amount preceeded by `subject:$`:
-举个例子，让我们把价格换成美元。美元符号通常在数字之前，所以要查找 `$30` 我们将使用 `pattern:(?<=\$)\d+` —— 一个前面带 `subject:$` 的数值。
+举个例子，让我们把价格换成美元。美元符号通常在数字之前，所以要查找 `$30` 我们将使用 `pattern:(?<=\$)\d+` —— 一个前面带 `subject:$` 的数值：
 
 ```js run
 let str = "1 turkey costs $30";
@@ -61,7 +60,7 @@ alert( str.match(/(?<!\$)\d+/) ); // 2 (跳过了价格)
 
 一般来说，环视断言括号中（前瞻和后瞻的通用名称）的内容不会成为匹配到的一部分结果。
 
-例如。在模式 `pattern:\d+(?!€)` 中，`pattern:€` 符号就不会出现在匹配结果中。
+例如：在模式 `pattern:\d+(?!€)` 中，`pattern:€` 符号就不会出现在匹配结果中。
 
 但是如果我们想要捕捉整个环视表达式或其中的一部分，那也是有可能的。只需要将其包裹在另加的括号中。
 
@@ -86,6 +85,7 @@ alert( str.match(reg) ); // 30, $
 请注意，对于后瞻断言，顺序保持不变，尽管前瞻括号在主模式之前。
 
 通常括号是从左到右编号，但是后瞻断言是一个例外，它总是在主模式之后被捕获。所以 `pattern:\d+` 的匹配会首先进入结果数组，然后是 `pattern:(\$|£)`。
+
 
 ## 总结
 
