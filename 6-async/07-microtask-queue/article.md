@@ -1,48 +1,48 @@
 
-# Microtasks and event loop
+# Microtasks 和事件循环
 
-Promise handlers `.then`/`.catch`/`.finally` are always asynchronous.
+Promise 的处理程序（handlers） `.then`、`.catch`、`.finally` 都是异步的。
 
-Even when a Promise is immediately resolved, the code on the lines *below* `.then`/`.catch`/`.finally` will still execute before these handlers .
+即便一个 promise 立即被 resolve，`.then`、`.catch`、`.finally` **下面**的代码也会在这些处理程序之前被执行。
 
-Here's the demo:
+示例代码如下：
 
 ```js run
 let promise = Promise.resolve();
 
 promise.then(() => alert("promise done"));
 
-alert("code finished"); // this alert shows first
+alert("code finished"); // 该警告框会首先弹出
 ```
 
-If you run it, you see `code finished` first, and then `promise done`.
+如果你运行它，你会首先看到 `code finished`，然后才是 `promise done`。
 
-That's strange, because the promise is definitely done from the beginning.
+这很奇怪，因为这个 promise 绝对在开头就被执行了。
 
-Why did the `.then` trigger afterwards? What's going on?
+为什么 `.then` 会在之后被触发？这是怎么回事？
 
-## Microtasks
+## Microtasks（微任务）
 
-Asynchronous tasks need proper management. For that, the standard specifies an internal queue `PromiseJobs`, more often referred to as "microtask queue" (v8 term).
+异步任务需要适当的管理。为此，JavaScript 标准指定了一个内部队列 `PromiseJobs`，通常被称为 “microtask 队列”（v8 术语）。
 
-As said in the [specification](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues):
+如[规范](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues)中所述：
 
-- The queue is first-in-first-out: tasks enqueued first are run first.
-- Execution of a task is initiated only when nothing else is running.
+- 队列是先进先出的：首先进入队列的任务会首先运行。
+- 只有在引擎中没有其它任务运行时，才会启动任务队列的执行。
 
-Or, to say that simply, when a promise is ready, its `.then/catch/finally` handlers are put into the queue. They are not executed yet. JavaScript engine takes a task from the queue and executes it, when it becomes free from the current code.
+或者，简单地说，当一个 promise 准备就绪时，它的 `.then/catch/finally` 处理程序就被放入队列中。但是不会立即被执行。当 JavaScript 引擎执行完当前的代码，它会从队列中获取任务并执行它。
 
-That's why "code finished" in the example above shows first.
+这就是为什么示例中的 “code finished” 会首先出现的原因。
 
 ![](promiseQueue.png)
 
-Promise handlers always go through that internal queue.
+Promise 处理程序总是被放入这个内部队列中。
 
-If there's a chain with multiple `.then/catch/finally`, then every one of them is executed asynchronously. That is, it first gets queued, and executed when the current code is complete and previously queued handlers are finished.
+如果有一个 promise 链带有多个 `.then/catch/finally`，那么它们中每一个都是异步执行的。也就是说，它会首先排入一个队列，只有当前代码执行完毕而且先前的排好队的处理程序都完成时才会被执行。
 
-**What if the order matters for us? How can we make `code finished` work after `promise done`?**
+**如果返回值的顺序对我们很重要该怎么办？我们怎么才能让 `code finished` 在 `promise done` 之后出现呢？**
 
-Easy, just put it into the queue with `.then`:
+很简单，只需要向下面这样把返回 `code finished` 的 `.then` 处理程序放入队列中：
 
 ```js run
 Promise.resolve()
@@ -50,44 +50,44 @@ Promise.resolve()
   .then(() => alert("code finished"));
 ```
 
-Now the order is as intended.
+现在代码就是按照预期执行的。
 
-## Event loop
+## 事件循环
 
-In-browser JavaScript execution flow, as well as Node.js, is based on an *event loop*.
+浏览器内的 JavaScript 以及 Node.js 的执行流程都是基于**事件循环**的。
 
-"Event loop" is a process when the engine sleeps and waits for events. When they occur - handles them and sleeps again.
+“事件循环”是引擎休眠并等待事件的过程。只有当事件发生时才会处理它们，然后重新进入休眠状态。
 
-Events may come either comes from external sources, like user actions, or just as the end signal of an internal task.
+事件可能来自外部，例如用户操作，或者也可能来自于内部任务的结束信号。
 
-Examples of events:
-- `mousemove`, a user moved their mouse.
-- `setTimeout` handler is to be called.
-- an external `<script src="...">` is loaded, ready to be executed.
-- a network operation, e.g. `fetch` is complete.
-- ...etc.
+例如下面的事件：
+- `mousemove`， 用户移动了他们的鼠标。
+- `setTimeout` 处理程序将被调用。
+- 一个外部的 `<script src="...">` 被加载完成，准备执行。
+- 网络操作，例如 `fetch` 被完成。
+- 等等。
 
-Things happen -- the engine handles them -- and waits for more to happen (while sleeping and consuming close to zero CPU).
+事情发生了 —— 引擎处理它们 —— 并等待更多的事情发生（在休眠时消耗接近零 CPU）。
 
 ![](eventLoop.png)
 
-As you can see, there's also a queue here. A so-called "macrotask queue" (v8 term).
+如你所见，这里也有一个队列。所谓的 “macrotask（宏任务）队列”（v8 术语）。
 
-When an event happens, while the engine is busy, its handling is enqueued.
+当一个事件发生时，如果引擎正忙，它的处理程序就会进入这个队列排队等待执行。
 
-For instance, while the engine is busy processing a network `fetch`, a user may move their mouse causing `mousemove`, and `setTimeout` may be due and so on, just as painted on the picture above.
+例如，当引擎忙于处理网络 `fetch` 请求时，用户可能会移动他们的鼠标，这会触发 `mousemove`，或者相应的 `setTimeout` 等等，正如上图所示。
 
-Events from the macrotask queue are processed on "first come – first served" basis. When the engine browser finishes with `fetch`, it handles `mousemove` event, then `setTimeout` handler, and so on.
+来自 macrotask 队列的事件基于“先进 —— 先处理”的原则被处理。当浏览器引擎完成 `fetch` 时，它会接着处理 `mousemove` 事件，然后是 `setTimeout` 处理程序，等等。
 
-So far, quite simple, right? The engine is busy, so other tasks queue up.
+到目前为止，很简单，对吧？引擎正忙，所以其他任务需要排队。
 
-Now the important stuff.
+现在重要的东西来了。
 
-**Microtask queue has a higher priority than the macrotask queue.**
+**Microtask 队列的优先级高于 macrotask 队列。**
 
-In other words, the engine first executes all microtasks, and then takes a macrotask. Promise handling always has the priority.
+换句话说，引擎会首先执行所有的 microtask，然后执行 macrotask。
 
-For instance, take a look:
+例如，下面的代码：
 
 ```js run
 setTimeout(() => alert("timeout"));
@@ -98,17 +98,17 @@ Promise.resolve()
 alert("code");
 ```
 
-What's the order?
+顺序是什么？
 
-1. `code` shows first, because it's a regular synchronous call.
-2. `promise` shows second, because `.then` passes through the microtask queue, and runs after the current code.
-3. `timeout` shows last, because it's a macrotask.
+1. `code` 第一个出现，因为它是一个常规的同步调用。
+2. `promise` 第二个出现，因为 `.then` 通过 microtask 队列被执行，并在当前代码之后运行。
+3. `timeout` 最后出现，因为它来自于 macrotask 队列。
 
-It may happen that while handling a macrotask, new promises are created.
+可能会发生这样的情况，在处理 macrotask 时，新的 promise 被创建。
 
-Or, vice-versa, a microtask schedules a macrotask (e.g. `setTimeout`).
+或者，反过来说，一个 microtask 调度了一个 macrotask（例如 `setTimeout`）。
 
-For instance, here `.then` schedules a `setTimeout`:
+例如，这里的 `.then` 调度了一个 `setTimeout`：
 
 ```js run
 Promise.resolve()
@@ -120,19 +120,19 @@ Promise.resolve()
   });
 ```
 
-Naturally, `promise` shows up first, because `setTimeout` macrotask awaits in the less-priority macrotask queue.
+当然，`promise` 会首先出现，因为 `setTimeout` 宏任务在一个低优先级的 macrotask 队列中进行等待。
 
-As a logical consequence, macrotasks are handled only when promises give the engine a "free time". So if we have a chain of promise handlers that don't wait for anything, execute right one after another, then a `setTimeout` (or a user action handler) can never run in-between them.
+作为一个合乎逻辑的结果，只有当 promise 给引擎一个“空闲时间”时才处理 macrotask。因此，如果我们有一系列不等待任何事情的 promise 处理程序，它们会被一个接一个地执行，`setTimeout`（或者用户操作处理程序）永远不能在它们之间运行。
 
-## Unhandled rejection
+## 未处理的 rejection
 
-Remember "unhandled rejection" event from the chapter <info:promise-error-handling>?
+还记得 <info:promise-error-handling> 一章中“未处理的 rejection”事件吗？
 
-Now we can describe how JavaScript finds out that a rejection was not handled.
+现在我们可以解释 JavaScript 是如何发现 rejection 是未被处理的。
 
-**"Unhandled rejection" is when a promise error is not handled at the end of the microtask queue.**
+**“未处理的 rejection”是指在 microtask 队列结束时未处理的 promise 错误。**
 
-For instance, consider this code:
+例如，考虑以下的代码：
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -142,9 +142,9 @@ window.addEventListener('unhandledrejection', event => {
 });
 ```
 
-We create a rejected `promise` and do not handle the error. So we have the "unhandled rejection" event (printed in browser console too).
+我们创建一个 rejected 的 `promise` 并且没有处理错误。所以我们有了一个 “未处理的 rejection”（也会在控制台打印出来）。
 
-We wouldn't have it if we added `.catch`, like this:
+如果我们添加了 `.catch`，我们就不会见到这个“未处理的 rejection”，如下所示：
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -152,11 +152,11 @@ let promise = Promise.reject(new Error("Promise Failed!"));
 promise.catch(err => alert('caught'));
 */!*
 
-// no error, all quiet
+// 没有错误
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-Now let's say, we'll be catching the error, but after `setTimeout`:
+如下所示，现在我们假设会在 `setTimeout` 之后抓住这个错误：
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -164,28 +164,28 @@ let promise = Promise.reject(new Error("Promise Failed!"));
 setTimeout(() => promise.catch(err => alert('caught')));
 */!*
 
-// Error: Promise Failed!
+// 错误：Promise Failed!
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-Now the unhandled rejection appears again. Why? Because `unhandledrejection` is generated when the microtask queue is complete. The engine examines promises and, if any of them is in "rejected" state, then the event triggers.
+现在再次出现“未处理的 rejection”。为什么？因为 `unhandledrejection` 在 microtask 队列完成时才会被生成。而引擎会检查 promise，如果其中的任何一个出现 “rejected” 状态，`unhandledrejection` 事件就会被触发。
 
-In the example, the `.catch` added by `setTimeout` triggers too, of course it does, but later, after `unhandledrejection` has already occurred.
+在这个例子中，`.catch` 当然被 `setTimeout` 触发器添加了，只是会在 `unhandledrejection` 出现之后被执行。
 
-## Summary
+## 总结
 
-- Promise handling is always asynchronous, as all promise actions pass through the internal "promise jobs" queue, also called "microtask queue" (v8 term).
+- Promise 处理始终是异步的，因为所有 promise 操作都被放入内部的 “promise jobs” 队列执行，也被称为 “microtask 队列”（v8 术语）。
 
-    **So, `.then/catch/finally` handlers are called after the current code is finished.**
+    **因此，`.then/catch/finally` 处理程序总是在当前代码完成后才被调用。**
 
-    If we need to guarantee that a piece of code is executed after `.then/catch/finally`, it's best to add it into a chained `.then` call.
+    如果我们需要确保一段代码在 `.then/catch/finally` 之后被执行，最好将它添加到 `.then` 的链式调用中。
 
-- There's also a "macrotask queue" that keeps various events, network operation results, `setTimeout`-scheduled calls, and so on. These are also called "macrotasks" (v8 term).
+- 还有一个 “macrotask 队列”，用于保存各种事件，网络操作结果，`setTimeout` —— 调度的方法，等等。这些也被称为 “macrotasks（宏任务）”（v8 术语）。
 
-    The engine uses the macrotask queue to handle them in the appearance order.
+    引擎使用 macrotask 队列按出现顺序处理它们。
 
-    **Macrotasks run after the code is finished *and* after the microtask queue is empty.**
+    **Macrotasks 在当前代码执行完成并且 microtask 队列为空时执行。**
 
-    In other words, they have lower priority.
+    换句话说，它们的优先级较低。
 
-So the order is: regular code, then promise handling, then everything else, like events etc.
+所以顺序是：常规代码，然后是 promise 处理程序，然后是其他的一切，比如事件等等。
