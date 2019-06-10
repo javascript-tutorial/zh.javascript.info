@@ -26,7 +26,7 @@
 ```
 
 ````smart header="导出类/函数后没有分号"
-注意，在类或者函数前导出 `export` 不会让它们变成 [函数表达式](info:function-expressions-arrows)。尽管被导出了，但它仍然是一个函数声明。
+注意，在类或者函数前的 `export` 不会让它们变成 [函数表达式](info:function-expressions-arrows)。尽管被导出了，但它仍然是一个函数声明。
 
 大部分 JavaScript 样式指南都推荐在语句之后使用分号，但是在函数和类声明时候不会使用分号。
 
