@@ -30,7 +30,7 @@
 
 大部分 JavaScript 样式指南都推荐在语句之后使用分号，但是不要在函数和类的声明后使用分号。
 
-这就是为什么在 `export class` 和 `export function` 后也没有分号的原因。
+这就是为什么在 `export class` 和 `export function` 后不使用分号。
 
 ```js
 export function sayHi(user) {
