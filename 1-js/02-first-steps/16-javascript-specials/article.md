@@ -102,9 +102,14 @@ typeof function(){} == "function" // 函数特殊
 
 ## 交互
 
+<<<<<<< HEAD
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 [`prompt(question[, default])`](mdn:api/Window/prompt)
 : 询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
+=======
+[`prompt(question, [default])`](mdn:api/Window/prompt)
+: Ask a `question`, and return either what the visitor entered or `null` if they clicked "cancel".
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 [`confirm(question)`](mdn:api/Window/confirm)
 : 提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false` 形式返回。
@@ -112,7 +117,11 @@ typeof function(){} == "function" // 函数特殊
 [`alert(message)`](mdn:api/Window/alert)
 : 输出一个 `消息`。
 
+<<<<<<< HEAD
 所有这些函数都会产生**模态框**，它们会暂停代码执行并阻止访问者与页面交互，直到用户输入内容。
+=======
+All these functions are *modal*, they pause the code execution and prevent the visitor from interacting with the page until they answer.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 举个例子：
 
@@ -148,8 +157,13 @@ JavaScript 支持以下运算符：
 三元运算
 : 唯一具有三个参数的操作：`cond？ resultA: resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
 
+<<<<<<< HEAD
 逻辑运算符
 : 逻辑与 `&&` 和或 `||` 执行短路评估，然后返回停止时的值。
+=======
+Logical operators
+: Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped. Logical NOT `!` converts the operand to boolean type and returns the inverse value.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 比较运算符
 : 运算符 `==` 将不同类型的值转换为一个数字（除了 `null` 和 `undefined`，它们彼此相等而没有别的情况），所以下面的例子是相等的：
@@ -160,12 +174,25 @@ JavaScript 支持以下运算符：
     ```
     其他比较也转换为数字。
 
+<<<<<<< HEAD
     严格相等运算符 `===` 不会进行转换：不同的类型总是为其指定不同的值，因此：
     值 `null` 和 `undefined` 是特殊的：它们只在 `==` 下相等。
     字符串按照字符顺序逐一比较，其他类型转换为数字。
 
 逻辑运算符
 : 其他合规的运算符比较少，其中有逗号运算符。
+=======
+    Other comparisons convert to a number as well.
+
+    The strict equality operator `===` doesn't do the conversion: different types always mean different values for it.
+
+    Values `null` and `undefined` are special: they equal `==` each other and don't equal anything else.
+
+    Greater/less comparisons compare strings character-by-character, other types are converted to a number.
+
+Other operators
+: There are few others, like a comma operator.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 更多信息：<info:operators>, <info:comparison>, <info:logical-operators>。

@@ -11,7 +11,11 @@
 
 但是 `var` 却是一头源自旧时代的怪兽。在现代脚本中一般不再使用，但它仍存在于陈旧的脚本里。
 
+<<<<<<< HEAD
 如果你不打算见识这样的脚本，你可以跳过或推迟阅读这一章，但是你有可能会踩到它的坑。
+=======
+If you don't plan on meeting such scripts you may even skip this chapter or postpone it, but then there's a chance that it bites you later.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 乍看之下，`var` 和 `let` 的行为相似，即声明变量：
 
@@ -74,7 +78,11 @@ sayHi();
 alert(phrase); // 报错：phrase is not defined
 ```
 
+<<<<<<< HEAD
 可以看到，`var` 穿透了 `if`、`for` 或其它块级代码。这是因为在早期的 JavaScript 里，块没有词法环境。而 `var` 就是对它的一个回忆。
+=======
+As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript blocks had no Lexical Environments. And `var` is a remnant of that.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## "var" 在函数开头被处理
 
@@ -182,4 +190,8 @@ sayHi();
 
 涉及全局对象时，还有一个小的区别，我们会在下一章讲解。
 
+<<<<<<< HEAD
 这些区别实际上很多时候都不是好事。首先，我们无法创建块级局部变量。而且变量提升会造成更多的错误。所以，在新近的脚本里，`var` 就很少见了。
+=======
+These differences are actually a bad thing most of the time. Block-level variables is such a great thing. That's why `let` was introduced in the standard long ago, and is now a major way (along with `const`) to declare a variable.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477

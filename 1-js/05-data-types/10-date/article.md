@@ -2,7 +2,11 @@
 
 让我一起探讨一个新的内置对象：[日期](mdn:js/Date)。该对象存储日期、时间以及提供管理它们的方法。
 
+<<<<<<< HEAD
 举个例子，我们可以使用它来存储创建、修改事件的时间，或者用来度量时间开销，再或者用来打印当前时间。
+=======
+For instance, we can use it to store creation/modification times, to measure time, or just to print out the current date.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## 创建
 
@@ -39,7 +43,13 @@
 
     ```js run
     let date = new Date("2017-01-26");
-    alert(date); // Thu Jan 26 2017 ...
+    alert(date);
+    // The time portion of the date is assumed to be midnight GMT and 
+    // is adjusted according to the timezone the code is run in
+    // So the result could be
+    // Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)
+    // or
+    // Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
@@ -108,7 +118,11 @@ alert( date.getHours() );
 alert( date.getUTCHours() );
 ```
 
+<<<<<<< HEAD
 在以上给出的方法中，有两个与众不同的，它们没有 UTC 版本：
+=======
+Besides the given methods, there are two special ones that do not have a UTC-variant:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 [getTime()](mdn:js/Date/getTime)
 : 返回日期的时间戳 —— 从 1970-1-1 00:00:00 UTC+0 开始的毫秒数。
@@ -418,4 +432,8 @@ alert(`Loading started ${performance.now()}ms ago`);
 // 小数点后超过 3 位是错误，只有前三位是正确的
 ```
 
+<<<<<<< HEAD
 Node.JS 拥有 `microtime` 模块以及其他方法。从技术上来说，任何设备和环境都允许获取更精确的数值，不只是 `Date` 对象。
+=======
+Node.js has `microtime` module and other ways. Technically, any device and environment allows to get more precision, it's just not in `Date`.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477

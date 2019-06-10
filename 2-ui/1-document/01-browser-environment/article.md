@@ -4,7 +4,11 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为�
 
 平台可以是一个浏览器，一台网络服务器，一台洗衣机或其他**主机**。它们每个都提供特定于平台的功能。JavaScript 规范调用了**主机环境**。
 
+<<<<<<< HEAD
 主机环境提供语言核心以外的平台特定对象和功能。Web 浏览器提供了一种控制网页的手段。Node.JS 提供了服务器端功能，等等。
+=======
+A host environment provides platform-specific objects and functions additional to the language core. Web browsers give a means to control web pages. Node.js provides server-side features, and so on.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 以下是浏览器在 JavaScript 中运行时的一个鸟瞰图：
 

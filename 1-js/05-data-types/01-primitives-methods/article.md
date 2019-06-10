@@ -1,13 +1,22 @@
 # 基本类型的方法
 
+<<<<<<< HEAD
 JavaScript 允许我们像对象一样使用基本类型（字符串，数字等）。
 
 基本类型还提供调用方法等。我们会尽快研究这些，但首先我们会看看它是如何工作的，毕竟基本类型不是对象（在这里我们会分析的更加清楚）。
 
 我们来看看基本类型和对象之间的关键区别。
+=======
+JavaScript allows us to work with primitives (strings, numbers, etc.) as if they were objects.
+
+They also provide methods to call as such. We will study those soon, but first we'll see how it works because, of course, primitives are not objects (and here we will make it even clearer).
+
+Let's look at the key distinctions between primitives and objects.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 基本类型
 
+<<<<<<< HEAD
 - 是原始类型中的一种值。
 - 在 JavaScript 中有 6 种基本类型：`string`、`number`、`boolean`、`symbol`、`null` 和 `undefined`。
 
@@ -17,6 +26,17 @@ JavaScript 允许我们像对象一样使用基本类型（字符串，数字等
 - 可以使用大括号 `{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
 
 关于对象的最好的事情之一是我们可以存储一个函数作为它的一个属性：
+=======
+- Is a value of a primitive type.
+- There are 6 primitive types: `string`, `number`, `boolean`, `symbol`, `null` and `undefined`.
+
+An object
+
+- Is capable of storing multiple values as properties.
+- Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript: functions, for example, are objects.
+
+One of the best things about objects is that we can store a function as one of its properties.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```js run
 let john = {
@@ -31,7 +51,11 @@ john.sayHi(); // Hi buddy!
 
 所以我们在这里创建了一个包含 `sayHi` 方法的对象 `john`。
 
+<<<<<<< HEAD
 许多内置对象已经存在，例如那些处理日期，错误，HTML 元素等的内置对象。它们具有不同的属性和方法。
+=======
+Many built-in objects already exist, such as those that work with dates, errors, HTML elements, etc. They have different properties and methods.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 但是，这些特性都是有成本的！
 
@@ -46,9 +70,15 @@ john.sayHi(); // Hi buddy!
 
 而解决方案看起来多少有点尴尬，如下：
 
+<<<<<<< HEAD
 1. 基本类型仍然是原始数据。如预期相同，提供单个值
 2. JavaScript 允许访问字符串，数字，布尔值和符号的方法和属性。
 3. 当进行访问时，创建一个特殊的“包装对象”，它提供额外的功能，运行后即被销毁。
+=======
+1. Primitives are still primitive. A single value, as desired.
+2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
+3. In order for that to work, a special "object wrapper" that provides the extra functionality is created, and then is destroyed.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 “包装对象”对于每种基本类型调用都是不同的，如`String`, `Number`, `Boolean` 和 `Symbol`。因此，他们提供了不同的方法。
 
@@ -92,18 +122,22 @@ alert( n.toFixed(2) ); // 1.23
 例如：
 
 ```js run
-alert( typeof 1 ); // "number"
+alert( typeof 0 ); // "number"
 
-alert( typeof new Number(1) ); // "object"!
+alert( typeof new Number(0) ); // "object"!
 ```
 
+<<<<<<< HEAD
 同样的，`zero`，是一个对象，alert 将显示出来：
+=======
+Objects are always truthy in `if`, so here the alert will show up:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```js run
 let zero = new Number(0);
 
 if (zero) { // zero is true, because it's an object
-  alert( "zero is truthy?!?" );
+  alert( "zero is truthy!?!" );
 }
 ```
 

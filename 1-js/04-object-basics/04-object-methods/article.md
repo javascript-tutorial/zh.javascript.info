@@ -63,7 +63,11 @@ user.sayHi(); // Hello!
 ```smart header="Object-oriented programming"
 当我们在代码中用对象表示实体时，这就是所谓的[面向对象编程](https://en.wikipedia.org/wiki/Object-oriented_programming)，简称为 "OOP"。
 
+<<<<<<< HEAD
 OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于此方面的书，例如 E.Gamma、R.Helm、R.Johnson 和 J.Vissides 所著的《设计模式：可复用面向对象软件的基础》、G.Booch 所著的《面向对象分析与设计》等等。在后面的 <info:object-oriented-programming> 一章中，我们将会触及这个主题的浅层内容。
+=======
+OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E.Gamma, R.Helm, R.Johnson, J.Vissides or "Object-Oriented Analysis and Design with Applications" by G.Booch, and more.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ```
 ### 方法简写
 
@@ -72,14 +76,19 @@ OOP 是一门很大的学问，也是一门有其本身乐趣的学问。怎样�
 ```js
 // 这些对象作用一样
 
-let user = {
+user = {
   sayHi: function() {
     alert("Hello");
   }
 };
 
+<<<<<<< HEAD
 // 方法简写看起来更好，对吧？
 let user = {
+=======
+// method shorthand looks better, right?
+user = {
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 *!*
   sayHi() { // 与 "sayHi: function()" 一样
 */!*
@@ -166,7 +175,11 @@ admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的变量名。错误！
 
 ## “this” 不受限制
 
+<<<<<<< HEAD
 在 JavaScript 中，"this" 关键字与大多数其他编程语言中的不同。首先，它可以用于任何函数。
+=======
+In JavaScript, "this" keyword behaves unlike most other programming languages. It can be used in any function.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 这样的代码没有语法错误：
 
@@ -176,9 +189,15 @@ function sayHi() {
 }
 ```
 
+<<<<<<< HEAD
 `this` 是在运行时求值的。它可以是任何值。
 
 例如，从不同的对象中调用同一个函数可能会有不同的 "this" 值：
+=======
+The value of `this` is evaluated during the run-time, depending on the context. And it can be anything.
+
+For instance, here the same function is assigned to two different objects and has different "this" in the calls:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```js run
 let user = { name: "John" };
@@ -189,7 +208,11 @@ function sayHi() {
 }
 
 *!*
+<<<<<<< HEAD
 // 在两个对象中使用的是相同的函数
+=======
+// use the same function in two objects
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 user.f = sayHi;
 admin.f = sayHi;
 */!*
@@ -202,7 +225,14 @@ admin.f(); // Admin  (this == admin)
 admin['f'](); // Admin（使用点或方括号语法来访问这个方法，都没有关系。）
 ```
 
+<<<<<<< HEAD
 实际上，我们可以在没有任何对象的情况下调用函数：
+=======
+The rule is simple: if `obj.f()` is called, then `this` is `obj` during the call of `f`. So it's either `user` or `admin` in the example above.
+
+````smart header="Calling without an object: `this == undefined`"
+We can even call the function without an object at all:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```js run
 function sayHi() {
@@ -214,9 +244,16 @@ sayHi(); // undefined
 
 在这种情况下，严格模式下的 `this` 值为 `undefined`。如果我们尝试访问 `this.name`，将会出现错误。
 
+<<<<<<< HEAD
 在非严格模式（没有使用 `use strict`）的情况下，`this` 将会是**全局对象**（浏览器中的 `window`，我们稍后会进行讨论）。`"use strict"` 可以修复这个历史行为。
 
 请注意，通常在没有对象的情况下使用 `this` 的函数调用是不常见的，会（导致）编程错误。如果函数中有 `this`，那么通常意味着它是在对象上下文环境中被调用的。
+=======
+In non-strict mode the value of `this` in such case will be the *global object* (`window` in a browser, we'll get to it later in the chapter [](info:global-object)). This is a historical behavior that `"use strict"` fixes.
+
+Usually such call is an programming error. If there's `this` inside a function, it expects to be called in an object context.
+````
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```smart header="The consequences of unbound `this`"
 如果你来自其他的编程语言，那么你可能熟悉『绑定 `this`』的概念。在对象定义的方法中，`this` 总是指向该对象。
@@ -257,7 +294,11 @@ user.hi(); // John (the simple call works)
 
 该方法立即被括号 `()` 调用。但它无效。
 
+<<<<<<< HEAD
 你可以看到该调用导致了错误，因为调用中的 `"this"` 为 `undefined`。
+=======
+You can see that the call results in an error, because the value of `"this"` inside the call becomes `undefined`.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 这样是正确的（对象点方法）：
 ```js
@@ -276,7 +317,11 @@ user.hi();
 1. 首先，点 `'.'` 取得这个 `obj.method` 属性。
 2. 其后的括号 `()` 调用它。
 
+<<<<<<< HEAD
 那么，`this` 是如何从第一部分传递到第二部分的呢？
+=======
+So, how does the information about `this` get passed from the first part to the second one?
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 如果把这些操作分离开，那么 `this` 肯定会丢失：
 
@@ -312,11 +357,19 @@ hi(); // 错误，因为 this 未定义
 (user, "hi", true)
 ```
 
+<<<<<<< HEAD
 当在引用类型上用 `()` 调用时，它们接收到这个对象和它的方法的所有信息，并且设定正确的 `this` 值（这里等于 `user`）。
+=======
+When parentheses `()` are called on the Reference Type, they receive the full information about the object and its method, and can set the right `this` (`=user` in this case).
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 `hi = user.hi` 赋值等其他的操作，将引用类型作为一个整体丢弃，只获取 `user.hi`（一个函数）的值进行传递。因此，进一步操作『失去』了 `this`（值）。
 
+<<<<<<< HEAD
 所以如果直接使用点 `obj.method()` 或方括号语法 `obj[method]()`（它们在这里并无差别）调用函数，那么作为结果，`this` 值会以正确的方式进行传递。
+=======
+So, as the result, the value of `this` is only passed the right way if the function is called directly using a dot `obj.method()` or square brackets `obj['method']()` syntax (they do the same here). Later in this tutorial, we will learn various ways to solve this problem such as [func.bind()](/bind#solution-2-bind).
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## 箭头函数没有自己的 "this"
 

@@ -7,11 +7,19 @@ libs:
 
 # 遍历 DOM
 
+<<<<<<< HEAD
 DOM 让我们可以对元素和它们其中的内容做任何事，但是首先我们需要获取到对应的 DOM 对象，把这个对象赋予一个变量，然后我们才能修改这个对象。
 
 对 DOM 的所有操作都是从 `document` 对象开始的。从这个对象我们可以到达任何节点。
 
 这里是一张描述对象间链接的图片，通过这些链接我们可以在 DOM 节点之间遍历。
+=======
+The DOM allows us to do anything with elements and their contents, but first we need to reach the corresponding DOM object.
+
+All operations on the DOM start with the `document` object. From it we can access any node.
+
+Here's a picture of links that allow for travel between DOM nodes:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ![](dom-links.png)
 
@@ -86,7 +94,11 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 </html>
 ```
 
+<<<<<<< HEAD
 ...如果我们要找的是 `<body>` 的子系元素，那我们可以先得到它直系子元素 `<div>`，`<ul>` 以及像 `<li>`（`<ul>` 的子元素）和 `<b>`（`<li>` 的子元素）这样嵌套更深的元素 — 这就是 `<body>` 元素包含的整个子树。
+=======
+...And all descendants of `<body>` are not only direct children `<div>`, `<ul>` but also more deeply nested elements, such as `<li>` (a child of `<ul>`) and `<b>` (a child of `<li>`) -- the entire subtree.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 **`childNodes` 集合提供了对所有子节点包括其中文本节点的访问。**
 
@@ -155,9 +167,15 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 ```warn header="DOM 集合是只读的"
 DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的。
 
+<<<<<<< HEAD
 我们不能通过类似 `childNodes[i] = ...` 的操作来替换一个子节点。
 
 修改子节点需要使用其它的方法，我们将会在下一章中看到它们。
+=======
+We can't replace a child by something else by assigning `childNodes[i] = ...`.
+
+Changing DOM needs other methods. We will see them in the next chapter.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ```
 
 ```warn header="DOM 集合是实时的"
@@ -238,7 +256,16 @@ alert( document.documentElement.parentElement ); // null
 
 换句话说，`documentElement`（对应 `<html>` 标签）是根节点。形式上来讲，它有 `document` 作为它的父节点。但是 `document` 并不是一个元素节点，所以 `parentNode` 返回了 `document` 而 `parentElement` 却没有。
 
+<<<<<<< HEAD
 有时候，当我们要遍历父节点并且在每个遍历的节点调用方法时这很重要，但是 `document` 并没有父元素节点，所以我们要将它排除在外。
+=======
+This loop travels up from an arbitrary element `elem` to `<html>`, but not to the `document`:
+```js
+while(elem = elem.parentElement) {
+  alert( elem ); // parent chain till <html>
+}
+```
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ````
 
 让我们修改上面的其中一个例子：用 `children` 来替换 `childNodes`。现在它就只显示元素：
@@ -274,18 +301,32 @@ alert( document.documentElement.parentElement ); // null
 
 Tables 是其中一个很好也是很重要的例子。
 
+<<<<<<< HEAD
 **`<table>`** 元素支持 (除了上面给出的之外) 以下这些属性:
 - `table.rows` — 用于表示表中 `<tr>` 元素的集合。
 - `table.caption/tHead/tFoot` — 用于访问元素 `<caption>`、`<thead>`、`<tfoot>`。
 - `table.tBodies` — `<tbody>` 元素的集合（根据标准该元素数量可以很多）。
+=======
+**The `<table>`** element supports (in addition to the given above) these properties:
+- `table.rows` -- the collection of `<tr>` elements of the table.
+- `table.caption/tHead/tFoot` -- references to elements `<caption>`, `<thead>`, `<tfoot>`.
+- `table.tBodies` -- the collection of `<tbody>` elements (can be many according to the standard).
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 **`<thead>`、`<tfoot>`、`<tbody>`** 元素提供了 `rows` 属性：
 - `tbody.rows` — 表内部 `<tr>` 元素的集合。
 
+<<<<<<< HEAD
 **`<tr>`：**
 - `tr.cells` — 在给定 `<tr>` 元素下 `<td>` 和 `<th>` 单元格的集合。
 - `tr.sectionRowIndex` — 在封闭的 `<thead>/<tbody>` 中 `<tr>` 的编号。
 - `tr.rowIndex` — 在表中 `<tr>` 元素的编号。
+=======
+**`<tr>`:**
+- `tr.cells` -- the collection of `<td>` and `<th>` cells inside the given `<tr>`.
+- `tr.sectionRowIndex` -- the position (index) of the given `<tr>` inside the enclosing `<thead>/<tbody>/<tfoot>`.
+- `tr.rowIndex` -- the number of the `<tr>` in the table as a whole (including all table rows).
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 **`<td>` 和 `<th>`：**
 - `td.cellIndex` — 在封闭的 `<tr>` 中单元格的编号。
@@ -310,7 +351,11 @@ Tables 是其中一个很好也是很重要的例子。
 
 规范：[tabular data](https://html.spec.whatwg.org/multipage/tables.html)。
 
+<<<<<<< HEAD
 HTML 表单还有其它额外的导航属性。我们稍后会在开始使用表单时看到它们。
+=======
+There are also additional navigation properties for HTML forms. We'll look at them later when we start working with forms.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 # 总结
 

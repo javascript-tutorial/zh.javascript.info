@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
 ## 赞助商
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
 
+<<<<<<< HEAD
 ## 翻译
 
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
@@ -15,6 +22,21 @@
 ## 贡献指南 
 
 **翻译流程**
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 - 检查[中文翻译进度 issue (Chinese Translate Progress issue)](https://github.com/javascript-tutorial/zh.javascript.info/issues/324)。
 - 选择一篇还没有被选走（在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中被人勾选）的文章。
@@ -38,6 +60,7 @@
 
 ## 文件结构
 
+<<<<<<< HEAD
 每一个章节或任务都在它自己的文件夹里。
 
 这个文件夹以 `N=url` 命名。`N` 为文章序号（文章遵循一定的顺序），`url` 是该网站上对应教程的净链接。
@@ -154,3 +177,10 @@ importance: 5
 💓  
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
+=======
+It's very easy to add something new.
+
+---
+💓  
+Ilya Kantor @iliakan
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
