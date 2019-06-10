@@ -181,7 +181,7 @@ export *!*default*/!* class User { // 只要添加“default”即可
 }
 ```
 
-在 `main.js` 中添加导入：
+...在 `main.js` 中添加导入：
 
 ```js
 // 📁 main.js
