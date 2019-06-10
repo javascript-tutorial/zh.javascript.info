@@ -375,7 +375,7 @@ export {default as Github} from './providers/github.js';
 ...
 ```
 
-````warn header="Re-exporting default is tricky"
+````warn header="重新导出“默认导出”则很棘手"
 请注意：`export User from './user.js'` 语句无效。这实际上是一个语法错误。要重新导出默认导出，我们必须明确指出 `{default as ...}`，就像上面例子一样。
 
 另外，还有另外一个奇怪之处是，`export * from './user.js'` 只重新导出命名导出，不导出默认导出。再次重申，我们需要像上面那样明确指出 `{default as ...}`。
