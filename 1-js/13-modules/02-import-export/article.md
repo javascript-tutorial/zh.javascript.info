@@ -168,7 +168,7 @@ say.bye('John'); // Bye, John!
 默认导出要求下列的 `export` 和 `import` 语句：
 
 1. `export default` 放在模块“主导出（main export）”之前。
-2.  `import` 导入时不使用花括号
+2. `import` 导入时不使用花括号
 
 例如，`user.js` 导出 `class User`：
 
