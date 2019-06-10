@@ -380,7 +380,7 @@ export {default as Github} from './providers/github.js';
 
 另外，还有另外一个奇怪之处是，`export * from './user.js'` 只重新导出命名导出，不导出默认导出。再次重申，我们需要像上面那样明确指出 `{default as ...}`。
 
-例如，重新导入所有内容，需要下面两条语句：
+例如，重新导出所有内容，需要下面两条语句：
 ```js
 export * from './module.js'; // 重新导出命名导出
 export {default} from './module.js'; // 重新导出默认导出
