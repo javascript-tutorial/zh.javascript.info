@@ -1,8 +1,6 @@
 
 # Animated circle with callback
 
-等待翻译
-
 In the task <info:task/animate-circle> an animated growing circle is shown.
 
 Now let's say we need not just a circle, but to show a message inside it. The message should appear *after* the animation is complete (the circle is fully grown), otherwise it would look ugly.
