@@ -77,7 +77,7 @@ sayHi('John'); // Hello, John!
 sayBye('John'); // Bye, John!
 ```
 
-但是如果这个列表很长呢？我们可以使用 `import * as <obj>` 导入任何东西，例如：
+但是如果这个列表很长呢？我们可以使用 `import * as <obj>` 导入所有内容，例如：
 
 ```js
 // 📁 main.js
