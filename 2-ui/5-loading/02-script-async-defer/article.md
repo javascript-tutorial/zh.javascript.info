@@ -1,3 +1,4 @@
+
 # Script 标签属性：async, defer
 
 现代脚本中，脚本往往比 HTML 更 “重”：它们的大小通常更大，处理时间也更长。
@@ -88,6 +89,7 @@ Defer 脚本保持他们的相对顺序，就像常规脚本一样。
 `defer` 属性会忽略没有 `src` 属性的 `<script>` 脚本。
 ```
 
+
 ## async
 
 `async` 属性意味着脚本是完全独立的：
@@ -97,6 +99,7 @@ Defer 脚本保持他们的相对顺序，就像常规脚本一样。
     - `DOMContentLoaded` 可能发生在异步脚本之前（此时异步脚本在页面加载完成后才加载完成）
     - `DOMContentLoaded` 也可能发生在异步脚本之后（此时异步脚本可能很短或者是从 HTTP 缓存中加载的）
 - 其他脚本不会等待 `async` 脚本加载完成，同样 `async` 脚本也不会等待其他脚本。
+
 
 因此，如果我们有几个 `async` 脚本，它们可能按任意次序执行，总之是先加载完成的就先运行：
 
@@ -123,6 +126,7 @@ Defer 脚本保持他们的相对顺序，就像常规脚本一样。
 <!-- Google Analytics 脚本通常是这样嵌入页面的 -->
 <script async src="https://google-analytics.com/analytics.js"></script>
 ```
+
 
 ## 动态脚本（Dynamic scripts）
 
@@ -157,6 +161,7 @@ document.body.append(script);
 
 例如，这里我们添加了两个脚本。在没有设置 `script.async=false` 时，它们执行顺序为加载优先顺序（即 `small.js` 可能先运行）。但是当设置了 `script.async=false` 后，脚本执行顺序就是它在文档中的顺序：
 
+
 ```js run
 function loadScript(src) {
   let script = document.createElement('script');
@@ -169,6 +174,7 @@ function loadScript(src) {
 loadScript("/article/script-async-defer/long.js");
 loadScript("/article/script-async-defer/small.js");
 ```
+
 
 ## 总结
 
