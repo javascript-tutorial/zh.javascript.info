@@ -42,7 +42,7 @@ Promise 处理程序总是被放入这个内部队列中。
 
 **如果返回值的顺序对我们很重要该怎么办？我们怎么才能让 `code finished` 在 `promise done` 之后出现呢？**
 
-很简单，只需要向下面这样把返回 `code finished` 的 `.then` 处理程序放入队列中：
+很简单，只需要像下面这样把返回 `code finished` 的 `.then` 处理程序放入队列中：
 
 ```js run
 Promise.resolve()
