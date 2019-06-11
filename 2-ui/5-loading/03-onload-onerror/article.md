@@ -1,17 +1,17 @@
-# Resource loading: onload and onerror
+# 资源加载：onload 和 onerror
 
-The browser allows to track the loading of external resources -- scripts, iframes, pictures and so on.
+浏览器允许跟踪外部资源的加载 —— 脚本、iframes、图像等。
 
-There are two events for it:
+有两个事件
 
-- `onload` -- successful load,
-- `onerror` -- an error occurred.
+- `onload` —— 成功加载，
+- `onerror` —— 发生异常。
 
-## Loading a script
+## 加载脚本
 
-Let's say we need to load a third-party script and call a function that resides there.
+假设我们需要调用属于外部脚本的函数。
 
-We can load it dynamically, like this:
+我们可以像这样动态加载：
 
 ```js
 let script = document.createElement('script');
@@ -20,187 +20,72 @@ script.src = "my.js";
 document.head.append(script);
 ```
 
-...But how to run the function that is declared inside that script? We need to wait until the script loads, and only then we can call it.
-
-```smart
-For our own scripts we could use [JavaScript modules](info:modules) here, but they are not widely adopted by third-party libraries.
-```
+...但如何运行声明在脚本中的函数？我们需要等到脚本被加载后才能调用它。
 
 ### script.onload
 
-The main helper is the `load` event. It triggers after the script was loaded and executed.
+主要得力于 `load` 事件。它在脚本被加载和执行后才被触发。
 
-For instance:
+例如：
 
 ```js run untrusted
 let script = document.createElement('script');
 
-// can load any script, from any domain
+// 可以从任意域名加载脚本
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
 *!*
 script.onload = function() {
-  // the script creates a helper function "_"
-  alert(_); // the function is available
+  // 脚本创建了一个辅助函数 "_"
+  alert(_); // 函数可用
 };
 */!*
 ```
 
-So in `onload` we can use script variables, run functions etc.
+因此，在 `onload` 中我们使用脚本变量、运行函数等。
 
-...And what if the loading failed? For instance, there's no such script (error 404) or the server or the server is down (unavailable).
+...如果加载失败怎么办？比如，没有这样的脚本（错误 404）或者服务器宕机（不可用）。
 
 ### script.onerror
 
-Errors that occur during the loading of the script can be tracked on `error` event.
+发生在脚本（不是执行）期间的错误可以在 `error` 事件上进行追踪。
 
-For instance, let's request a script that doesn't exist:
+比如，我们请求一个不存在的脚本：
 
 ```js run
 let script = document.createElement('script');
-script.src = "https://example.com/404.js"; // no such script
+script.src = "https://example.com/404.js"; // 没有这样的脚本
 document.head.append(script);
 
 *!*
 script.onerror = function() {
-  alert("Error loading " + this.src); // Error loading https://example.com/404.js
+  alert("Error loading " + this.src); // 加载 https://example.com/404.js 发生错误
 };
 */!*
 ```
 
-Please note that we can't get HTTP error details here. We don't know was it error 404 or 500 or something else. Just that the loading failed.
+请注意，我们无法再这获取错误的更多细节。我们不知道错误是 404 还是 500 或者其他情况，只知道是加载失败了。
 
-```warn
-Events `onload`/`onerror` track only the loading itself.
+## 其他资源
 
-Errors during script processing and execution are out of the scope of these events. To track script errors, one can use `window.onerror` global handler.
-```
+`load` 和 `error` 事件也适用于其他资源。但是也存在细微的差别。
 
-## Other resources
+例如：
 
-The `load` and `error` events also work for other resources, basically for any resource that has an external `src`.
+`<img>`，`<link>`（外部样式表）
+: `load` 和 `error` 事件都如期运行。
 
-For example:
+`<iframe>`
+: 只有当 iframe 加载完成时会发生 `load` 事件。在成功或失败的情况下，都会触发它。这是历史原因。
 
-```js run
-let img = document.createElement('img');
-img.src = "https://js.cx/clipart/train.gif"; // (*)
+## 总结
 
-img.onload = function() {
-  alert(`Image loaded, size ${img.width}x${img.height}`);
-};
+`<img>` 图像、外部样式表、脚本和其他资源都提供了 `load` 和 `error` 事件来追踪它们的加载：
 
-img.onerror = function() {
-  alert("Error occurred while loading image");
-};
-```
+- `load` 在成功加载时被触发。
+- `error` 在加载失败时被触发。
 
-There are some notes though:
+只有 `<iframe>` 特殊：出于历史原因，即使页面没有被找到，它总会触发 `load` 来完成任何加载。
 
-- Most resources start loading when they are added to the document. But `<img>` is an exception. It starts loading when it gets an src `(*)`.
-- For `<iframe>`, the `iframe.onload` event triggers when the iframe loading finished, both for successful load and in case of an error.
-
-That's for historical reasons.
-
-## Crossorigin policy
-
-There's a rule: scripts from one site can't access contents of the other site. So, e.g. a script at `https://facebook.com` can't read the user's mailbox at `https://gmail.com`.
-
-Or, to be more precise, one origin (domain/port/protocol triplet) can't access the content from another one. So even if we have a subdomain, or just another port, these are different origins, no access to each other.
-
-This rule also affects resources from other domains.
-
-If we're using a script from another domain, and there's an error in it, we can't get error details.
-
-For example, let's take a script with a single (bad) function call:
-```js
-// 📁 error.js
-noSuchFunction();
-```
-
-Now load it from our domain:
-
-```html run height=0
-<script>
-window.onerror = function(message, url, line, col, errorObj) {
-  alert(`${message}\n${url}, ${line}:${col}`);
-};
-</script>
-<script src="/article/onload-onerror/crossorigin/error.js"></script>
-```
-
-We can see a good error report, like this:
-
-```
-Uncaught ReferenceError: noSuchFunction is not defined
-https://javascript.info/article/onload-onerror/crossorigin/error.js, 1:1
-```
-
-Now let's load the same script from another domain:
-
-```html run height=0
-<script>
-window.onerror = function(message, url, line, col, errorObj) {
-  alert(`${message}\n${url}, ${line}:${col}`);
-};
-</script>
-<script src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
-```
-
-The report is different, like this:
-
-```
-Script error.
-, 0:0
-```
-
-Details may vary depending on the browser, but the idea is same: any information about the internals of a script is hidden. Exactly because it's from another domain.
-
-Why do we need the details?
-
-There are many services (and we can build our own) that listen to `window.onerror`, save errors at the server and provide an interface to access and analyze them. That's great, as we can see real errors, triggered by our users. But we can't see any error information for scripts from other domains.
-
-Similar cross-origin policy (CORS) is enforced for other types of resources as well.
-
-**To allow cross-origin access, we need `crossorigin` attribute, plus the remote server must provide special headers.**
-
-There are three levels of cross-origin access:
-
-1. **No `crossorigin` attribute** -- access prohibited.
-2. **`crossorigin="anonymous"`** -- access allowed if the server responds with the header `Access-Control-Allow-Origin` with `*` or our origin. Browser does not send authorization information and cookies to remote server.
-3. **`crossorigin="use-credentials"`** -- access allowed if the server sends back the header `Access-Control-Allow-Origin` with our origin and `Access-Control-Allow-Credentials: true`.  Browser sends authorization information and cookies to remote server.
-
-```smart
-You can read more about cross-origin access in the chapter <info:fetch-crossorigin>. It describes `fetch` method for network requests, but the policy is exactly the same.
-
-Such thing as "cookies" is out of our current scope, but you can read about them in the chapter <info:cookie>.
-```
-
-In our case, we didn't have any crossorigin attribute. So the cross-origin access was prohibited. Let's add it.
-
-We can choose between `"anonymous"` (no cookies sent, one server-side header needed) and `"use-credentials"` (sends cookies too, two server-side headers needed).
-
-If we don't care about cookies, then `"anonymous"` is a way to go:
-
-```html run height=0
-<script>
-window.onerror = function(message, url, line, col, errorObj) {
-  alert(`${message}\n${url}, ${line}:${col}`);
-};
-</script>
-<script *!*crossorigin="anonymous"*/!* src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
-```
-
-Now, assuming that the server provides `Access-Control-Allow-Origin` header, everything's fine. We have the full error report.
-
-## Summary
-
-Images `<img>`, external styles, scripts and other resources provide `load` and `error` events to track their loading:
-
-- `load` triggers on a successful load,
-- `error` triggers on a failed load.
-
-The only exception is `<iframe>`: for historical reasons it always triggers `load`, for any load completion, even if the page is not found.
-
-The `readystatechange` event also works for resources, but is rarely used, because `load/error` events are simpler.
+`readystatechange` 事件也适用于资源，但很少被使用，因为 `load/error` 事件更简单。
