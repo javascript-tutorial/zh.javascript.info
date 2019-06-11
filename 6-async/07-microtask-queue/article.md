@@ -32,7 +32,7 @@ alert("code finished"); // 该警告框会首先弹出
 
 或者，简单地说，当一个 promise 准备就绪时，它的 `.then/catch/finally` 处理程序就被放入队列中。但是不会立即被执行。当 JavaScript 引擎执行完当前的代码，它会从队列中获取任务并执行它。
 
-这就是为什么示例中的 “code finished” 会首先出现的原因。
+这就是示例中的 “code finished” 会首先出现的原因。
 
 ![](promiseQueue.png)
 
