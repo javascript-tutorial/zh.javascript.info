@@ -146,7 +146,7 @@ document.body.append(script); // (*)
 - 它们不会等待其他内容，其他的内容也不会等待它们。
 - 先加载完成的脚本先运行（“加载优先” 顺序）
 
-我们可以通过将 `async` 属性显示修改为 `false` 来将加载优先顺序修改为文档顺序（就像常规脚本一样）：
+我们可以通过将 `async` 属性显示修改为 `false` 以将加载优先顺序修改为文档顺序（就像常规脚本一样）：
 
 ```js run
 let script = document.createElement('script');
