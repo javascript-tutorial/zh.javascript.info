@@ -51,7 +51,7 @@
 ```
 
 - 具有 `defer` 属性的脚本不会阻塞页面的加载。
-- 具有 `defer` 属性的脚本总是要等到 DOM 解析完毕，且在 `DOMContentLoaded` 事件之前执行。
+- 具有 `defer` 属性的脚本总是要等到 DOM 解析完毕，但在 `DOMContentLoaded` 事件之前执行。
 
 下面的例子演示了这一过程：
 
