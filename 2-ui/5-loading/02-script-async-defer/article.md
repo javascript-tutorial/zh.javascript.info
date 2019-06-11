@@ -15,7 +15,7 @@
 
 <script src="https://javascript.info/article/script-async-defer/long.js?speed=1"></script>
 
-<!-- 在脚本加载结束前都不能看到下面的内容 -->
+<!-- 在脚本加载结束前都看不到下面的内容 -->
 <p>...content after script...</p>
 ```
 
