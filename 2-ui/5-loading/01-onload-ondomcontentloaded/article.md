@@ -1,4 +1,4 @@
-# 页面生命周期：DOMContentLoaded，load，beforeunload 和 unload
+# 页面生命周期：DOMContentLoaded，load，beforeunload，unload
 
 HTML 页面的生命周期有三个重要事件：
 
