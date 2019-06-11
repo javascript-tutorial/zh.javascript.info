@@ -23,7 +23,7 @@ HTML 页面的生命周期有三个重要事件：
 
 ```js
 document.addEventListener("DOMContentLoaded", ready);
-// 不同于 “document.onDOMContentLoaded = ...”
+// 不同于“document.onDOMContentLoaded = ...”
 ```
 
 例如：
@@ -71,12 +71,12 @@ document.addEventListener("DOMContentLoaded", ready);
 </script>
 ```
 
-在上面的例子中，我们首先会看到 “Library loaded...”，然后才会看到 “DOM ready!”（所有脚本都已经执行结束）。
+在上面的例子中，我们首先会看到“Library loaded...”，然后才会看到“DOM ready!”（所有脚本都已经执行结束）。
 
 ```warn header="具有 `async`, `defer` or `type=\"module\"` 属性的脚本不会阻塞 DOMContentLoaded"
 我们[稍后会提到的](info:script-async-defer)脚本属性 `async` 和 `defer`，它们不会阻塞 DOMContentLoaded。[JavaScript 模块](info:modules)的行为和 `defer` 相似，同样也不会阻塞 DOMContentLoaded。
 
-所以在这里，我们研究的是 “普通” 脚本，比如 `<script>...</script>` 或者 `<script src="..."></script>`。
+所以在这里，我们研究的是“普通”脚本，比如 `<script>...</script>` 或者 `<script src="..."></script>`。
 ```
 
 ### DOMContentLoaded 和样式
