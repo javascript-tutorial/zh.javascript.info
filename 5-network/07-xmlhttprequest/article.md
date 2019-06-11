@@ -1,8 +1,20 @@
-# XMLHttpRequest 和 AJAX
+# XMLHttpRequest
 
 `XMLHttpRequest` 是 JavaScript 中发送 HTTP 请求的浏览器内置对象。
 
-虽然它的名字里面有“XML”，但它可以操作任何数据，而不仅仅是 XML 格式。
+虽然它的名字里面有“XML”，但它可以操作任何数据，而不仅仅是 XML 格式。我们可以用它来上传/下载文件，跟踪进度等等。
+
+今天，我们有一个更现代地方式叫做 `fetch`，它开始抛弃 `XMLHttpRequest`。
+
+在现代 web 开发中，出于以下三种原因，我们可能会用 `XMLHttpRequest`：
+
+1. 历史原因：我们需要使用 `XMLHttpRequest` 支持现有脚本。
+2. 我们需要兼容老旧的浏览器，并且不想用 polyfills（例如为了让脚本更小）。
+3. 我们需要一些 `fetch` 目前无法做到的事情，比如追踪上传进度。
+
+## 基本流程
+
+
 
 ## 异步 XMLHttpRequest
 
