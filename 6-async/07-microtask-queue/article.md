@@ -3,7 +3,7 @@
 
 Promise 的处理程序（handlers）`.then`、`.catch` 和 `.finally` 都是异步的。
 
-即便一个 promise 立即被 resolve，`.then`、`.catch`、`.finally` **下面**的代码也会在这些处理程序之前被执行。
+即便一个 promise 立即被 resolve，`.then`、`.catch` 和 `.finally` **下面**的代码也会在这些处理程序之前被执行。
 
 示例代码如下：
 
