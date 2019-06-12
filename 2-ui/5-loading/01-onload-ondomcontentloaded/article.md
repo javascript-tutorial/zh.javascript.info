@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", ready);
 所以在这里，我们研究的是“普通”脚本，比如 `<script>...</script>` 或者 `<script src="..."></script>`。
 ```
 
+
 ### DOMContentLoaded 和样式
 
 外部样式不会影响 DOM，因此 `DOMContentLoaded` 无需等待它们。
