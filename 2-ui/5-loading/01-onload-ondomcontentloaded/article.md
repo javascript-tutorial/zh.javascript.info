@@ -141,7 +141,6 @@ Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填写表单。
 它在后台发送数据，转换到另外一个页面时不会被延迟：浏览器离开页面，但仍然在执行 `sendBeacon`。
 
 下面是如何使用它的示例：
-
 ```js
 let analyticsData = { /* 收集了数据的对象 */ };
 window.addEventListener("unload", function() {
