@@ -73,6 +73,7 @@ script.onerror = function() {
 
 ```warn
 `onload`/`onerror` 事件仅仅跟踪加载本身。
+
 跟踪脚本处理和执行期间的错误超出了这些事件的范围。如果要追踪脚本错误，可以使用 `window.onerror` 全局处理器。
 ```
 
@@ -110,8 +111,8 @@ img.onerror = function() {
 
 如果我们需要使用来自其他域名的脚本，并且脚本里面存在错误，那么我们就不能获取错误信息。
 
-例如，我们调用脚本中一个（错误）函数：
 
+例如，我们调用脚本中一个（错误）函数：
 ```js
 // 📁 error.js
 noSuchFunction();
