@@ -106,6 +106,7 @@ Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填写表单。
 
 因此，如果 `DOMContentLoaded` 被需要加载时间很长的脚本延迟，那么自动填写也在等待。你可能在某些站点上看到过（如果你使用浏览器自动填写） —— 登录/密码字段并不会立即自动填写，但在页面被完全加载前会出现延迟。这实际上是 `DOMContentLoaded` 事件之前的延迟。
 
+
 ## window.onload [#window-onload]
 
 当包括样式、图像和其他资源的页面被全部加载时，`window` 对象上的 `load` 事件就会被触发。
