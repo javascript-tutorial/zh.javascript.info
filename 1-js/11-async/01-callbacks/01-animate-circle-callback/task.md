@@ -7,7 +7,7 @@
 
 在此任务的解决方案中，`showCircle(cx, cy, radius)` 函数画了一个圆形，但却没有给出如何跟踪圆形是否已经准备好。 
 
-添加一个回调参数：当动画完成时，可以调用 `showCircle(cx, cy, radius, callback)`。`callback` 应该将圆形的 `<div>`  作为参数。
+添加一个回调参数：当动画完成时，可以调用 `showCircle(cx, cy, radius, callback)`。`callback` 应该将圆形的 `<div>` 作为参数。
 
 这是示例：
 
