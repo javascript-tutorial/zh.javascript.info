@@ -197,6 +197,7 @@ window.onbeforeunload = function() {
 `document.readyState` 属性为我们提供了一些关于当前加载状态的信息。
 
 它有三个可能的值：
+
 - `“loading”` —— 文档正在被加载。
 - `“interactive”` —— 文档被全部读取。
 - `“complete”` —— 文档被全部读取，所有的资源（图像之类的）都被加载。
