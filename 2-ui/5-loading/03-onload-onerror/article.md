@@ -86,9 +86,11 @@ script.onerror = function() {
 ```js run
 let img = document.createElement('img');
 img.src = "https://js.cx/clipart/train.gif"; // (*)
+
 img.onload = function() {
   alert(`Image loaded, size ${img.width}x${img.height}`);
 };
+
 img.onerror = function() {
   alert("Error occurred while loading image");
 };
@@ -110,7 +112,6 @@ img.onerror = function() {
 这个规则同样适用于其他域中的资源。
 
 如果我们需要使用来自其他域名的脚本，并且脚本里面存在错误，那么我们就不能获取错误信息。
-
 
 例如，我们调用脚本中一个（错误）函数：
 ```js
