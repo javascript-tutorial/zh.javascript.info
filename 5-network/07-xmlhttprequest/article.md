@@ -12,7 +12,72 @@
 2. 我们需要兼容老旧的浏览器，并且不想用 polyfills（例如为了让脚本更小）。
 3. 我们需要一些 `fetch` 目前无法做到的事情，比如追踪上传进度。
 
+这些术语听起来都很熟悉是么？如果是那么请继续阅读下面 `XMLHttpRequest` 内容。如果还不是很熟悉的话，那么请先阅读关于 <info:fetch-basics> 的基础内容。
+
 ## 基本流程
+
+XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asynchronous）。
+
+我们首先来看看最常用的 asynchronous 模式：
+
+我们需要 3 个步骤来发送请求：
+
+1. 创建 `XMLHttpRequest`。
+    ```js
+    let xhr = new XMLHttpRequest(); // 没有参数
+    ```
+
+2. 初始化 `XMLHttpRequest`。
+    ```js
+    xhr.open(method, URL, [async, user, password])
+    ```
+
+    通常在 `new XMLHttpRequest` 之后首先调用这个函数。它指定了请求的主要参数：
+
+    - `method` -- HTTP 方法。通常是 `“GET”` 或者 `“POST”`。
+    - `URL` -- 请求的 URL。
+    - `async` -- 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
+    - `user`, `password` -- 基本的 HTTP 身份验证（如果需要的话）的登录名和密码。
+
+    请注意。`open` 并非其字面意思，调用它的时候并不会建立连接。它的作用仅仅是作为当前请求的配置，而网络活动要到 `send` 调用后才开启。
+
+3. 发送请求。
+
+    ```js
+    xhr.send([body])
+    ```
+
+    这个方法打开连接，并发送请求到服务器。可选参数 `body` 包含了请求主体。
+
+    有些请求方式，比如 `GET` 没有请求体。而像 `POST` 这类请求方式会用 `body` 来发送数据到服务器。我们稍后会看到一些示例。
+
+4. 监听响应事件。
+
+    这三个事件是最常用的：
+    - `load` -- 当请求结果已经就绪，包括像 404 这样的 HTTP 错误。
+    - `error` -- 当无法发送请求时，比如网络中断或者无效的 URL。
+    - `progress` -- 下载期间定时触发，报告已经下载了多少。
+
+    ```js
+    xhr.onload = function() {
+      alert(`Loaded: ${xhr.status} ${xhr.response}`);
+    };
+
+    xhr.onerror = function() { // 只有在请求无法建立时才会触发
+      alert(`Network Error`);
+    };
+
+    xhr.onprogress = function(event) { // 定时触发
+      // event.loaded - 已经下载了多少字节
+      // event.lengthComputable = true 当服务器发送了 Content-Length 响应头时
+      // event.total - 总字节数（如果 lengthComputable 为 true）
+      alert(`Received ${event.loaded} of ${event.total}`);
+    };
+    ```
+
+下面是一个完整的示例。它从服务器加载 `/article/xmlhttprequest/example/load`，并显示加载进度：
+
+
 
 
 
