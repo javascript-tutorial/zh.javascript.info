@@ -18,7 +18,7 @@
 
 XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asynchronous）。
 
-我们首先来看看最常用的 asynchronous 模式：
+我们首先来看看最常用的异步模式：
 
 我们需要 3 个步骤来发送请求：
 
