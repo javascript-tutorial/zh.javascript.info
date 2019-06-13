@@ -335,7 +335,6 @@ let result = await response.json(); // 以 JSON 形式读取数据
 ```
 
 或者以 promise 形式：
-
 ```js
 fetch(url, options)
   .then(response => response.json())
