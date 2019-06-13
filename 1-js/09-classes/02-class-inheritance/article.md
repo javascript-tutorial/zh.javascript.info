@@ -92,7 +92,7 @@ rabbit.hide(); // White Rabbit hides!
 
 因此，如果在 `Rabbit.prototype` 中没有找到某个方法，JavaScript 将会从 `Animal.prototype` 中获取它。
 
-我们可以回忆一下这一章 <info:native-prototypes>，JavaScript 对内置对象使用相同的类型继承。例如， `Date.prototype.[[Prototype]]` 是 `Object.prototype`，所以 dates 有通用的对象方法。
+我们可以回忆一下这一章 <info:native-prototypes>，JavaScript 对内置对象使用相同的类型继承。例如，`Date.prototype.[[Prototype]]` 是 `Object.prototype`，所以 dates 有通用的对象方法。
 
 ````smart header="`extends` 后允许任何表达式"
 类语法不仅可以指定一个类，还可以指定 `extends` 之后的任何表达式。
