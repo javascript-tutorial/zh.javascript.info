@@ -113,7 +113,7 @@ alert(User === User.prototype.constructor); // true
 // 方法在 User.prototype 中，比如：
 alert(User.prototype.sayHi); // alert(this.name);
 
-// 确切地说在原型中有两个方法
+// 实际上在原型中有两个方法
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
 
