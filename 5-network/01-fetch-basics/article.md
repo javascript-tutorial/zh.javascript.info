@@ -12,7 +12,7 @@ let promise = fetch(url, [options])
 ```
 
 - **`url`** —— 要访问的 URL。
-- **`options`** -- 可选参数：method，headers 等。
+- **`options`** —— 可选参数：method，headers 等。
 
 浏览器立即发送请求，并返回 `promise`。
 
