@@ -30,8 +30,8 @@ while(true) {
 所以，当 `await reader.read()` 返回 response 块时，我们始终循环它。
 
 块（chunk）有两个属性：
-- **`done`** -- 当块全部下载完毕时，其值为 true。
-- **`value`** -- 一个类型化的字节数组：`Uint8Array`。
+- **`done`** —— 当块全部下载完毕时，其值为 true。
+- **`value`** —— 一个类型化的字节数组：`Uint8Array`。
 
 我们只需要统计块的数量来记录它的进度。
 
