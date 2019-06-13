@@ -155,7 +155,7 @@ user.sayHi();
     }
 
     alert(typeof User); // function
-    User(); // Error: 没有 'new' 关键词，类构造器 User 无法调用 
+    User(); // Error: 没有 ‘new’ 关键词，类构造器 User 无法调用 
     ```
 
     此外，大多数 JavaScript 引擎中的类构造函数的字符串表示形式都以 “class” 开头
