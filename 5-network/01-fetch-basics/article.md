@@ -20,6 +20,7 @@ let promise = fetch(url, [options])
 
 **只要服务器提供了响应头，`promise` 就会使用内置的 [Response](https://fetch.spec.whatwg.org/#response-class) 类的对象来解析。**
 
+
 因此，我们可以通过检测 HTTP 状态来确定请求是否成功，或者当响应体还没有返回时，通过检查响应头来确定状态。
 
 如果 `fetch` 无法建立一个 HTTP 请求，那么 promise 就返回 reject，例如，网络问题，亦或是请求的网址不存在。HTTP 错误，即使是 404 或者 500，也被视为正常的过程。
@@ -46,11 +47,11 @@ if (response.ok) { // 如果 HTTP 状态码在 200-299 之间
 
 `Response` 提供了多种基于 promise 的方法来获取不同格式的响应正文：
 
-- **`response.json()`** -- 将 response 解析为 JSON 对象
-- **`response.text()`** -- 以文本形式返回 response
-- **`response.formData()`** -- 以 FormData 对象（form/multipart encoding）形式返回 response
-- **`response.blob()`** -- 以 [Blob](info:blob) （具有类型的二进制数据）形式返回 response
-- **`response.arrayBuffer()`** -- 以 [ArrayBuffer](info:arraybuffer-binary-arrays) （纯二进制数据）形式返回 response
+- **`response.json()`** —— 将 response 解析为 JSON 对象，
+- **`response.text()`** —— 以文本形式返回 response，
+- **`response.formData()`** —— 以 FormData 对象（form/multipart encoding）形式返回 response，
+- **`response.blob()`** —— 以 [Blob](info:blob) （具有类型的二进制数据）形式返回 response，
+- **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays) （纯二进制数据）形式返回 response，
 - 另外，`response.body` 是 [ReadableStream](https://streams.spec.whatwg.org/#rs-class) 对象，它允许逐块读取正文，我们稍后会用一个例子解释它。
 
 例如，这里我们从 GitHub 获取最新提交的 JSON 对象：
@@ -169,12 +170,12 @@ let response = fetch(protectedUrl, {
 
 创建一个 `POST` 请求，或者其他方法（HTTP method）的请求，我们需要使用 `fetch` 相关选项：
 
-- **`method`** -- HTTP 方法（HTTP-method），例如 `POST`
-- **`body`** -- 其中之一：
-  - 字符串（例如 JSON）
-  - `FormData` 对象，以 `form/multipart` 形式发送数据
-  - `Blob`/`BufferSource` 发送二进制数据
-  - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 形式发送数据，很少使用
+- **`method`** —— HTTP 方法（HTTP-method），例如 `POST`，
+- **`body`** —— 其中之一：
+  - 字符串（例如 JSON），
+  - `FormData` 对象，以 `form/multipart` 形式发送数据，
+  - `Blob`/`BufferSource` 发送二进制数据，
+  - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 形式发送数据，很少使用。
 
 我们来看几个例子：
 
@@ -342,20 +343,20 @@ fetch(url, options)
 ```
 
 响应属性：
-- `response.status` -- response 的 HTTP 状态码
-- `response.ok` -- HTTP 状态码在 200-299 之间返回 `true`
-- `response.headers` -- 类似于 Map 的 HTTP headers 对象
+- `response.status` —— response 的 HTTP 状态码，
+- `response.ok` —— HTTP 状态码在 200-299 之间返回 `true`。
+- `response.headers` —— 类似于 Map 的 HTTP headers 对象。
 
 获取响应体的方法：
-- **`response.json()`** -- 以 JSON 对象形式解析 response
-- **`response.text()`** -- 以 text 形式返回 response
-- **`response.formData()`** -- 以 FormData 对象形式返回 response（form/multipart encoding）
-- **`response.blob()`** -- 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response
-- **`response.arrayBuffer()`** -- 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（纯二进制数据）返回 response
+- **`response.json()`** —— 以 JSON 对象形式解析 response，
+- **`response.text()`** —— 以 text 形式返回 response，
+- **`response.formData()`** —— 以 FormData 对象形式返回 response（form/multipart encoding），
+- **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
+- **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（纯二进制数据）返回 response。
 
 到目前为止我们了解的 fetch 选项包括：
-- `method` -- HTTP 方法（HTTP-method）,
-- `headers` -- 具有请求头的 headers 对象（不是所有请求头都是被允许的）
-- `body` -- 提交 string/FormData/BufferSource/Blob/UrlSearchParams 这些数据
+- `method` —— HTTP 方法（HTTP-method）,
+- `headers` —— 具有请求头的 headers 对象（不是所有请求头都是被允许的）
+- `body` —— 提交 string/FormData/BufferSource/Blob/UrlSearchParams 这些数据
 
 在下面章节中，我们将会看到更多选项和使用场景。
