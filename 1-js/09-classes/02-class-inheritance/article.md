@@ -250,7 +250,7 @@ class Rabbit extends Animal {
 
 *!*
 // 不生效！
-let rabbit = new Rabbit("White Rabbit", 10); // Error: this 未定义
+let rabbit = new Rabbit("White Rabbit", 10); // Error: Error: this is not defined.
 */!*
 ```
 
