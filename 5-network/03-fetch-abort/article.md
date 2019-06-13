@@ -1,7 +1,7 @@
 
 # Fetch：中止（Abort）
 
-中止 `fetch` 有一点点棘手。请记住，`fetch` 返回 promise。但是 JavaScript 并没有 ”中止“ promise 的概念。所以我们要如何取消 fetch 呢？
+中止 `fetch` 有一点点棘手。请记住，`fetch` 返回 promise。但是 JavaScript 并没有 “中止” promise 的概念。所以我们要如何取消 fetch 呢？
 
 有一个特殊的内置对象是基于此目的的：`AbortController`。
 
