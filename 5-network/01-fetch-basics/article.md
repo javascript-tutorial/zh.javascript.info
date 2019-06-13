@@ -27,7 +27,7 @@ let promise = fetch(url, [options])
 我们可以在 response 属性里看到它们：
 
 - **`ok`** —— 布尔值，如果 HTTP 状态码在 200-299 之间，返回 `true`。
-- **`status`** -- HTTP 状态码。
+- **`status`** —— HTTP 状态码。
 
 例如：
 
