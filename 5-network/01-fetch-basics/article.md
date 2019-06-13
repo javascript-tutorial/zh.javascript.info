@@ -75,7 +75,6 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
 ```
 
 要获取文字可以使用下面方法：
-
 ```js
 let text = await response.text();
 ```
