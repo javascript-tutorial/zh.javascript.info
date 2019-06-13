@@ -231,7 +231,7 @@ new User().sayHi(); // Hello
 ```
 
 
-## Getters/setters 和其他 shorthands
+## Getters/setters 及其他 shorthands
 
 就像对象字面量，类可能包括 getters/setters，generators，计算属性（computed properties）等。
 
