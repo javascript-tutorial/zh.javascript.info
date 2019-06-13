@@ -132,7 +132,7 @@ xhr.abort(); // terminate the request
 我们还可以使用相应的属性设置超时时间：
 
 ```js
-xhr.timeout = 10000; // timeout 单位是 ms, 10 秒
+xhr.timeout = 10000; // timeout 单位是 ms，10 秒
 ```
 
 在给定时间内，如果请求没有成功，`timeout` 事件触发并且请求被取消。
