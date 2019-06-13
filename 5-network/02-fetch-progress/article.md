@@ -1,5 +1,5 @@
 
-# Fetch: Download progress
+# Fetch：下载过程
 
 The `fetch` method allows to track download progress.
 
