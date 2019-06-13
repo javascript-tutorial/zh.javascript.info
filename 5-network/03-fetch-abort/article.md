@@ -1,5 +1,5 @@
 
-# Fetch: Abort
+# Fetch：中止（Abort）
 
 Aborting a `fetch` is a little bit tricky. Remember, `fetch` returns a promise. And JavaScript generally has no concept of "aborting" a promise. So how can we cancel a fetch?
 
