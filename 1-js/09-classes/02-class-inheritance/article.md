@@ -406,7 +406,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
     rabbit.eat.call(this);
     ```
 
-3. ...所以 `rabbit.eat` 不停地循环调用自己，因此它无法进一步地往原型链的更高层调用
+3. ...所以 `rabbit.eat` 不停地循环调用自己，因此它无法进一步地往原型链的更高层调用。
 
 这个问题没法单独使用 `this` 来解决。
 
