@@ -490,8 +490,7 @@ xhr.onerror = function() {
 };
 ```
 
-实际上还有更多事件，[现代规范](http://www.w3.org/TR/XMLHttpRequest/#events)
-There are actually more events, the [modern specification] 中列出了它们（按生命周期排序）:
+实际上还有更多事件，[现代规范](http://www.w3.org/TR/XMLHttpRequest/#events)中列出了它们（按生命周期排序）：
 
 - `loadstart` —— 请求开始。
 - `progress` —— 响应的数据包到达，此时整个响应体都在 `responseText` 里。
