@@ -494,7 +494,7 @@ tree.sayHi();  // I'm an animal (?!?)
 */!*
 ```
 
-调用 `tree.sayHi()` 显示 "I'm an animal"。绝对是错误的。
+调用 `tree.sayHi()` 显示 “I'm an animal”。绝对是错误的。
 
 原因很简单：
 - 在 (\*) 行，`tree.sayHi` 方法从 `rabbit` 复制而来。也许我们只是想避免重复代码？
