@@ -26,7 +26,7 @@
 
     controller.abort(); // 中止！
 
-    alert(signal.aborted); // true（在中止后）
+    alert(signal.aborted); // true（在中止之后）
     ```
 
 - Step 2：将 `signal` 属性传递给 `fetch` 选项：
