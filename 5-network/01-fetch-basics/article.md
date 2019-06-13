@@ -1,5 +1,5 @@
 
-# Fetch: Basics
+# Fetch 基础
 
 Method `fetch()` is the modern way of sending requests over HTTP.
 
