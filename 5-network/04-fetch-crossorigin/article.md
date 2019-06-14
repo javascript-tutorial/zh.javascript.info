@@ -366,5 +366,5 @@ Access-Control-Allow-Credentials: true
 - ← 服务器应该响应状态码为 200 和响应头：
     - `Access-Control-Allow-Methods` 具有一系列允许方法的列表，
     - `Access-Control-Allow-Headers` 具有一系列允许头的列表，
-    - `Access-Control-Max-Age` 用指定数字来缓存权限。
+    - `Access-Control-Max-Age` 用指定数字来设置缓存权限的时间。
 - 最后发出实际请求，应用先前的“简单”方案。
