@@ -242,7 +242,7 @@ Access-Control-Request-Headers: Content-Type,API-Key
 
 ### Step 2 预检响应（preflight response）
 
-服务应响应状态 200 和 响应头：
+服务应响应状态 200 和响应头：
 - `Access-Control-Allow-Methods: PATCH`
 - `Access-Control-Allow-Headers: Content-Type,API-Key`.
 
