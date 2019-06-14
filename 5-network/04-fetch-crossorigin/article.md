@@ -130,7 +130,7 @@ Origin: https://javascript.info
 
 正如你所见，`Origin` 包含完整的源（domain/protocol/port），没有路径。
 
-服务器可以检查 `Origin`，如果同意接受这样的请求，就会在响应中添加一个特殊的头 `Access-Control-Allow-Origin`。该头包含了允许的源（在我们实例中是 `https://javascript.info`），或者星号 `*`。然后响应成功，否则报错。
+服务器可以检查 `Origin`，如果同意接受这样的请求，就会在响应中添加一个特殊的头 `Access-Control-Allow-Origin`。该头包含了允许的源（在我们示例中是 `https://javascript.info`），或者星号 `*`。然后响应成功，否则报错。
 
 浏览器在这里扮演受信任的中间人角色：
 1. 它确保通过跨域请求发送正确的 `Origin`。
