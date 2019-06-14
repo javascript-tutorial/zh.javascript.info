@@ -1,4 +1,4 @@
-# Fetch: Cross-Origin Requests
+# Fetch：跨源请求
 
 If we make a `fetch` from an arbitrary web-site, that will probably fail.
 
