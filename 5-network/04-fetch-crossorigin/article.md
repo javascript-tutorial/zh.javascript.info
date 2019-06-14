@@ -277,7 +277,7 @@ Origin: https://javascript.info
 
 ### Step 4 实际响应（actual response）
 
-服务器不应该忘记添加 `Access-Control-Allow-Origin` 到响应中。/TODO/A successful preflight does not relieve from that:
+服务器记得要在 response 中添加 Access-Control-Allow-Origin，因为一次成功预检并不能解除潜在的风险：
 
 ```
 Access-Control-Allow-Origin: https://javascript.info
