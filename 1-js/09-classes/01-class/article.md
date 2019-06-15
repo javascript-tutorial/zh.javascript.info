@@ -27,7 +27,7 @@ class MyClass {
 
 然后通过 `new MyClass()` 来创建具有上述列出的所有方法的新对象。
 
-通过 `new` 关键词创建的对象会自动调用 `constructor()` 方法，所以我们可以在 `constructor()` 里初始化对象。
+通过 `new` 关键词创建的对象会自动调用 `constructor()` 方法，因此我们可以在 `constructor()` 里初始化对象。
 
 例如：
 
@@ -57,7 +57,7 @@ user.sayHi();
 
 
 ```warn header="类方法之间没有逗号"
-对于新手开发者来说，最常见的问题是在类方法之间加一个逗号，这会导致语法错误。
+经验不足的开发者常犯的语法错误是在类方法之间加一个逗号。
 
 这里的符号不要与对象字面量相混淆，在类中，不需要逗号。
 ```
@@ -78,7 +78,7 @@ class User {
   sayHi() { alert(this.name); }
 }
 
-// 证明 User 是一个函数
+// 佐证：User 是一个函数
 *!*
 alert(typeof User); // function
 */!*
@@ -89,7 +89,7 @@ alert(typeof User); // function
     - 函数代码来自于 `constructor` 中的方法（如果我们不写这样的方法，那么就假设它为空的）。
 2. 储存所有方法，例如 `User.prototype` 中的 `sayHi`。
 
-然后，对于新的对象，当我们调用方法时，它取自原型，正如我们在 <info:function-prototype> 章节中描述的那样。所以 `new User` 对象可以访问类中的方法。
+然后，对于新的对象，当我们调用方法时，它取自原型，就像我们在 <info:function-prototype> 章节中描述的那样。所以 `new User` 对象可以访问类中的方法。
 
 我们可以将 `class User` 声明结果解释为：
 
@@ -110,7 +110,7 @@ alert(typeof User); // function
 // ...或者，更确切地说是构造方法
 alert(User === User.prototype.constructor); // true
 
-// 方法在 User.prototype 中，比如：
+// User.prototype 中的方法，比如：
 alert(User.prototype.sayHi); // alert(this.name);
 
 // 实际上在原型中有两个方法
@@ -119,7 +119,7 @@ alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 
 ## 不仅仅是语法糖
 
-有些时候，人们说 `class` 是 JavaScript 中的语法糖，因为实际上我们可以在没有 `class` 的情况下声明同样的内容：
+人们常说 `class` 是 JavaScript 中的语法糖，主要是因为我们可以在没有 `class` 的情况下声明同样的内容：
 
 ```js run
 // 以纯函数的重写 User 类
@@ -141,7 +141,7 @@ let user = new User("John");
 user.sayHi();
 ```
 
-这和定义的结果大致相同。所以，确实有理由说 `class` 是一种语法糖来定义构造函数及其原型的方法。
+这和定义的结果大致相同。因此，这确实是 `class` 被视为一种定义构造函数及其原型方法的语法糖的理由。
 
 尽管它们存在重大差异：
 
@@ -206,7 +206,7 @@ let User = class *!*MyClass*/!* {
   }
 };
 
-new User().sayHi(); // 显示 MyClass 中定义的内容
+new User().sayHi(); // 正常运行，显示 MyClass 中定义的内容
 
 alert(MyClass); // 错误，MyClass 在外部不可见
 ```
@@ -304,7 +304,7 @@ new User().sayHi();
 ## Class 属性
 
 ```warn header="旧的浏览器可能需要 polyfill"
-类级别得属性是最近才添加到语言中的。
+类级别的属性是最近才添加到语言中的。
 ```
 
 上面的例子中，`User` 只有方法。现在我们为其添加属性：
@@ -321,7 +321,7 @@ class User {
 new User().sayHi();
 ```
 
-属性不在 `User.prototype` 内。相反它是通过 `new` 创建的，分别为每个对象。所以，该属性永远不会在同一个类的不同对象之间共享。
+属性不在 `User.prototype` 内。相反它是通过 `new` 分别为每个对象创建的。所以，该属性永远不会在同一个类的不同对象之间共享。
 
 
 ## 总结
@@ -346,6 +346,6 @@ class MyClass {
 }
 ```
 
-技术上来说，`MyClass` 是一个函数。（我们提供作为 `constructor` 的那个），而 methods，getters 和 settors 都被写入 `MyClass.prototype`。
+技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods，getters 和 settors 都被写入 `MyClass.prototype`。
 
 在下一章，我们将会进一步研究类，包括继承在内的其他功能。
