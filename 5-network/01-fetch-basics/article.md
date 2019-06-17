@@ -14,16 +14,16 @@ let promise = fetch(url, [options])
 - **`url`** —— 要访问的 URL。
 - **`options`** —— 可选参数：method，headers 等。
 
-浏览器立即发送请求，并返回 `promise`。
+浏览器立即发送请求，并返回一个 `promise`。
 
 获取响应通常需要经过两个阶段。
 
-**只要服务器提供了响应头，`promise` 就会使用内置的 [Response](https://fetch.spec.whatwg.org/#response-class) 类的对象来解析。**
+**一旦服务器提供了响应头，`promise` 就会使用内置的 [Response](https://fetch.spec.whatwg.org/#response-class) 类的对象来解析。**
 
 
 因此，我们可以通过检测 HTTP 状态来确定请求是否成功，或者当响应体还没有返回时，通过检查响应头来确定状态。
 
-如果 `fetch` 无法建立一个 HTTP 请求，那么 promise 就返回 reject，例如，网络问题，亦或是请求的网址不存在。HTTP 错误，即使是 404 或者 500，也被视为正常的过程。
+如果 `fetch` 无法建立一个 HTTP 请求，例如网络问题，亦或是请求的网址不存在，那么 promise 就返回 reject。HTTP 错误，即使是 404 或者 500，也被视为正常的过程。
 
 我们可以在 response 属性里看到它们：
 
@@ -283,9 +283,9 @@ function submit() {
 }
 ```
 
-## Custom FormData with image
+## 自定义包含图像的 FormData
 
-但实际上，通常将图像以及其他字段作为表单的一部分发送是非常方便的做法，例如 “name” 和其他元数据。
+但实际上，通常将图像以及其他字段，例如 “name” 和其他元数据，来作为表单的一部分发送是非常方便的做法。
 
 同样，相较于原始二进制数据，服务器更适宜于接收多部分编码（multipart-encoded）的表单。
 
