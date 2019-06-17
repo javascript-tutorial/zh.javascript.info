@@ -1,3 +1,3 @@
-# 正则表达式 ^$
+# Regexp ^$
 
-什么字符串可以匹配模式 `^$`？
+Which string matches the pattern `pattern:^$`?

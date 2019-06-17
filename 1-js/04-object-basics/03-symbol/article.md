@@ -16,10 +16,17 @@
 let id = Symbol();
 ```
 
+<<<<<<< HEAD
 我们可以给 Symbol 一个描述（也称为 Symbol 名），这对于调试非常有用：
 
 ```js
 // id 是描述为 "id" 的 Symbol
+=======
+Upon creation, we can give symbol a description (also called a symbol name), mostly useful for debugging purposes:
+
+```js run
+// id is a symbol with the description "id"
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 let id = Symbol("id");
 ```
 
@@ -50,7 +57,13 @@ alert(id); // 类型错误：无法将 Symbol 值转换为 String。
 */!*
 ```
 
+<<<<<<< HEAD
 如果我们真的想显示一个 Symbol，我们需要在它上面调用 `.toString()`，如下所示：
+=======
+That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not occasionally convert one into another.
+
+If we really want to show a symbol, we need to call `.toString()` on it, like here:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```js run
 let id = Symbol("id");
 *!*
@@ -58,14 +71,29 @@ alert(id.toString()); // Symbol(id)，现在它起作用了
 */!*
 ```
 
+<<<<<<< HEAD
 这是一种防止混乱的“语言保护”，因为 String 和 Symbol 有本质上的不同，而且不应该偶尔将它们相互转化。
+=======
+Or get `symbol.description` property to get the description only:
+```js run
+let id = Symbol("id");
+*!*
+alert(id.description); // id
+*/!*
+```
+
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ````
 
 ## “隐藏”属性
 
 Symbol 允许我们创建对象的“隐藏”属性，代码的任何其他部分都不能偶尔访问或重写这些属性。
 
+<<<<<<< HEAD
 例如，如果我们想存储 object `user` 的“标识符”，我们可以使用 Symbol 作为它的键：
+=======
+For instance, if we'd like to add an "identifier" to the object `user`, we can use a symbol as a key for it:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run
 let user = { name: "John" };
@@ -75,11 +103,19 @@ user[id] = "ID Value";
 alert( user[id] ); // 我们可以使用 Symbol 作为键来访问数据。
 ```
 
+<<<<<<< HEAD
 在 string `"id"` 上使用 `Symbol("id")` 有什么好处？ 
+=======
+What's the benefit of using `Symbol("id")` over a string `"id"`?
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 我们用更深入一点的示例来说明这一点。
 
+<<<<<<< HEAD
 假设另一个脚本希望 `user` 中有它自己的 "id" 属性可以操作。这可能是另一个 JavaScript 库，所以这些脚本完全不知道对方是谁。
+=======
+Imagine that another script wants to have its own identifier inside `user`, for its own purposes. That may be another JavaScript library, so thes scripts are completely unaware of each other.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 然后该脚本可以创建自己的 `Symbol("id")`，如下所示：
 
@@ -90,9 +126,15 @@ let id = Symbol("id");
 user[id] = "Their id value";
 ```
 
+<<<<<<< HEAD
 不会冲突，因为 Symbol 总是不同的，即使它们有相同的名称。
 
 现在请注意，如果我们使用 String `"id"` 而不是用 symbol，那么**就会**出现冲突：
+=======
+There will be no conflict between our and their identifiers, because symbols are always different, even if they have the same name.
+
+...But if we used a string `"id"` instead of a symbol for the same purpose, then there *would* be a conflict:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run
 let user = { name: "John" };
@@ -108,7 +150,11 @@ user.id = "Their id value"
 
 ### 字面量中的 Symbol
 
+<<<<<<< HEAD
 如果我们要在 object 字面量中使用 Symbol，则需要方括号。
+=======
+If we want to use a symbol in an object literal `{...}`, we need square brackets around it.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 就像这样：
 
@@ -146,7 +192,11 @@ for (let key in user) alert(key); // name, age (no symbols)
 alert( "Direct: " + user[id] );
 ```
 
+<<<<<<< HEAD
 这是一般“隐藏”概念的一部分。如果另一个脚本或库在我们的对象上循环，它不会访问一个 Symbol 类型的属性。
+=======
+`Object.keys(user)` also ignores them. That's a part of the general "hiding symbolic properties" principle. If another script or a library loops over our object, it won't unexpectedly access a symbolic property.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 相反，[Object.assign](mdn:js/Object/assign) 同时复制字符串和符号属性：
 
@@ -181,13 +231,21 @@ alert( obj[0] ); // test （相同属性）
 
 ## 全局 symbol
 
+<<<<<<< HEAD
 正如我们所看到的，通常所有的 Symbol 都是不同的，即使它们有相同的名字。但有时我们想要同一个名字的 Symbol 是相同的实体。
+=======
+As we've seen, usually all symbols are different, even if they have the same name. But sometimes we want same-named symbols to be same entities.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 比如，我们希望在应用程序的不同部分访问相同的 Symbol `"id"` 属性。 
 
 为此，存在一个**全局 symbol 注册表**。我们可以在其中创建 Symbol 并在稍后访问它们，它可以确保每次访问相同名称都会返回相同的 Symbol。
 
+<<<<<<< HEAD
 为了在注册表中创建或读取 Symbol，请使用 `Symbol.for(key)`。
+=======
+In order to read (create if absent) a symbol from the registry, use `Symbol.for(key)`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 该调用会检查全局注册表，如果有一个描述为 `key` 的 Symbol，则返回该 Symbol，否则将创建一个新 Symbol（`Symbol(key)`），并通过给定的 `key` 将其存储在注册表中。
 
@@ -197,7 +255,11 @@ alert( obj[0] ); // test （相同属性）
 // 从全局注册表中读取
 let id = Symbol.for("id"); // 如果该 Symbol 不存在，则创建它
 
+<<<<<<< HEAD
 // 再次读取
+=======
+// read it again (maybe from another part of the code)
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 let idAgain = Symbol.for("id");
 
 // 相同的 Symbol
@@ -257,13 +319,24 @@ JavaScript 内部存在很多“系统” Symbol，我们可以使用它们来�
 
 `Symbol` 是唯一标识符的基本类型
 
+<<<<<<< HEAD
 Symbol 使用 `Symbol()` 创建的，调用带有一个可选的描述。
 
 Symbol 总是不同的值，即使它们有相同的名称。如果我们希望同名 Symbol 相等，那么我们应该使用全局注册表：`Symbol.for(key)` 返回（如果需要的话创建）一个以 `key` 作为名称的全局 Symbol。`Symbol.for` 的多次调用完全返回相同的 Symbol。
+=======
+Symbols are created with `Symbol()` call with an optional description (name).
+
+Symbols are always different values, even if they have the same name. If we want same-named symbols to be equal, then we should use the global registry: `Symbol.for(key)` returns (creates if needed) a global symbol with `key` as the name. Multiple calls of `Symbol.for` with the same `key` return exactly the same symbol.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 Symbol 有两个主要的使用场景：
 
+<<<<<<< HEAD
 1. “隐藏” 对象属性。如果需要将属性添加到 “属于” 另一个脚本或库的对象中，则可以创建 Symbol 并将其用作属性键。Symbol 属性不出现在 `for..in`中，因此不会无心列出。另外，它不会被直接访问，因为另一个脚本没有我们的符号，所以它不会不小心干预它的操作。
+=======
+1. "Hidden" object properties.
+    If we want to add a property into an object that "belongs" to another script or a library, we can create a symbol and use it as a property key. A symbolic property does not appear in `for..in`, so it won't be occasionally processed together with other properties. Also it won't be accessed directly, because another script does not have our symbol. So the property will be protected from occasional use or overwrite.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
     因此我们可以使用 Symbol 属性“秘密地”将一些东西隐藏到我们需要的对象中，但其他人不会以对象属性的形式看到它。
 

@@ -162,7 +162,11 @@ function addJuice(container) {
 
 ## 总结
 
+<<<<<<< HEAD
 一个好的开发者的标志之一就是他的注释：它们的存在甚至它们的缺席。
+=======
+An important sign of a good developer is comments: their presence and even their absence.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 好的注释可以使我们更好的维护代码，并且在很长时间之后依然可以更高效地回到代码中和使用其功能。
 

@@ -1,6 +1,10 @@
 # 样式和类
 
+<<<<<<< HEAD
 在我们讨论 JavaScript 处理样式和类的方法之前 —— 有一个重要的规则。尽管这足够明显的，但我们还是要提到这一点。
+=======
+Before we get into JavaScript's ways of dealing with styles and classes -- here's an important rule. Hopefully it's obvious enough, but we still have to mention it.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 通常有两种方式来设计元素样式：
 
@@ -65,11 +69,19 @@ elem.style.top = top; // e.g '456px'
 
 `classList` 方法：
 
+<<<<<<< HEAD
 - `elem.classList.add/remove("class")` —— 添加/移除类。
 - `elem.classList.toggle("class")` —— 如果类存在就移除，否则添加。
 - `elem.classList.contains("class")` —— 返回 `true/false`，检查给定类。
 
 此外，`classList` 是可迭代的，因此我们可以像下述方法一样列出所有类：
+=======
+- `elem.classList.add/remove("class")` -- adds/removes the class.
+- `elem.classList.toggle("class")` -- adds the class if it doesn't exist, otherwise removes it.
+- `elem.classList.contains("class")` -- returns `true/false`, checks for the given class.
+
+Besides, `classList` is iterable, so we can list all classes with `for..of`, like this:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run
 <body class="main page">
@@ -116,7 +128,11 @@ button.style.WebkitBorderRadius = '5px';
 
 例如，为了隐藏一个元素，我们可以设置 `elem.style.display = "none"`。
 
+<<<<<<< HEAD
 然后，我们可能要移除 `style.display`，就像它没有被设置一样。这里不应该使用 `delete elem.style.display`，而应该使用 `elem.style.display = ""` 将其赋值为空。
+=======
+Then later we may want to remove the `style.display` as if it were not set. Instead of `delete elem.style.display` we should assign an empty string to it: `elem.style.display = ""`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run
 // if we run this code, the <body> "blinks"
@@ -125,7 +141,11 @@ document.body.style.display = "none"; // hide
 setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 ```
 
+<<<<<<< HEAD
 如果我们设置 `display` 为空字符串，那么浏览器一般会应用 CSS 类以及内置样式，就像根本没有这样的 `style` 属性。
+=======
+If we set `display` to an empty string, then the browser applies CSS classes and its built-in styles normally, as if there were no such `display` property at all.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ````smart header="用 `style.cssText` 进行重写"
 通常，我们使用 `style.*` 来分配单独的样式属性。我们不能将完整的样式设置为 `div.style="color: red; width: 100px"`，因为 `div.style` 是一个对象，而且它是只读的。
@@ -147,7 +167,11 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 </script>
 ```
 
+<<<<<<< HEAD
 我们很少使用它，因为这样的赋值会删除所有现有样式：它不会添加，而是替换它们。偶尔会移出所需的东西。但是当我们知道我们不移出一些重要的内容时，仍然可以对新元素进行处理。
+=======
+This property is rarely used, because such assignment removes all existing styles: it does not add, but replaces them. May occasionally delete something needed. But we can safely use it for new elements, when we know we won't delete an existing style.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 通过设置属性：`div.setAttribute('style', 'color: red...')` 也可以实现同样的目的。
 ````
@@ -207,7 +231,11 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 </body>
 ```
 
+<<<<<<< HEAD
 ...但如果我们需要，比如说，把边距增加 20px 呢？那么需要当前值作为开始。
+=======
+...But what if we need, say, to increase the margin by 20px? We would want the current value of it.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 还有另一种方法：`getComputedStyle`。
 
@@ -281,7 +309,11 @@ pseudo
 
 但 `getComputedStyle` 不允许访问该颜色，否则任意页面都可以通过在页面上创建连接并通过检查样式来确定用户是否访问了连接。
 
+<<<<<<< HEAD
 JavaScript 中我们看不到 `:visited` 应用的样式。此外，CSS 中也有一个限制，禁止在 `:visited` 中应用更改几何的样式。这是为了保证一个不好的页面没有办法来测试是否访问了链接，从而窥探隐私。
+=======
+JavaScript may not see the styles applied by `:visited`. And also, there's a limitation in CSS that forbids to apply geometry-changing styles in `:visited`. That's to guarantee that there's no sideway for an evil page to test if a link was visited and hence to break the privacy.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```
 
 ## 总结

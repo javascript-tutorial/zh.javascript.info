@@ -6,9 +6,15 @@ importance: 5
 
 修改 `makeCounter()` 代码，使得 counter 可以减一和赋值：
 
+<<<<<<< HEAD
 - `counter()` 应该返回下一个数字（同以前逻辑）。
 - `counter.set(value)` 应该设置 `count` 为 `value`。
 - `counter.decrease(value)` 应该把 `count` 减 1。
+=======
+- `counter()` should return the next number (as before).
+- `counter.set(value)` should set the `count` to `value`.
+- `counter.decrease()` should decrease the `count` by 1.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 查看沙箱代码获取完整使用示例。
 

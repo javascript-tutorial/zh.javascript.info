@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 模块 (Modules) 简介
 
 当我们的应用日益增大时，我们想要将应用分割成多个文件，即我们所说的“模块”。
@@ -26,6 +27,35 @@
 - `import` 关键字允许从其他模块中导入一些诸如函数之类的功能等等。
 
 例如，我们有一个名为 `sayHi.js` 的文件导出一个函数：
+=======
+# Modules, introduction
+
+As our application grows bigger, we want to split it into multiple files, so called 'modules'.
+A module usually contains a class or a library of useful functions.
+
+For a long time, JavaScript existed without a language-level module syntax. That wasn't a problem, because initially scripts were small and simple, so there was no need.
+
+But eventually scripts became more and more complex, so the community invented a variety of ways to organize code into modules, special libraries to load modules on demand.
+
+For instance:
+
+- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) -- one of the most ancient module systems, initially implemented by the library [require.js](http://requirejs.org/).
+- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) -- the module system created for Node.js server.
+- [UMD](https://github.com/umdjs/umd) -- one more module system, suggested as a universal one, compatible with AMD and CommonJS.
+
+Now all these slowly become a part of history, but we still can find them in old scripts. The language-level module system appeared in the standard in 2015, gradually evolved since then, and is now supported by all major browsers and in Node.js.
+
+## What is a module?
+
+A module is just a file, a single script, as simple as that.
+
+There are directives `export` and `import` to interchange functionality between modules, call functions of one module from another one:
+
+- `export` keyword labels variables and functions that should be accessible from outside the current module.
+- `import` allows to import functionality from other modules.
+
+For instance, if we have a file `sayHi.js` exporting a function:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 sayHi.js
@@ -34,7 +64,11 @@ export function sayHi(user) {
 }
 ```
 
+<<<<<<< HEAD
 然后在其他的文件里导入并使用它：
+=======
+...Then another file may import and use it:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 main.js
@@ -44,6 +78,7 @@ alert(sayHi); // function...
 sayHi('John'); // Hello, John!
 ```
 
+<<<<<<< HEAD
 在这个章节里，我们专注于语言本身，但是我们使用浏览器作为演示环境，那么就让我们开始来看看怎么在浏览器中使用模块的。
 
 由于模块使用特殊的关键词和功能，所以我们必须通过使用属性 `<script type="module">` 来告诉浏览器，脚本应该被当作 `模块` 来看待。
@@ -63,6 +98,27 @@ sayHi('John'); // Hello, John!
 ### 始终使用 "use strict"
 
 模块始终默认使用使用 `use strict`，例如，对一个未声明的变量赋值将会抛出错误。
+=======
+In this tutorial we concentrate on the language itself, but we use browser as the demo environment, so let's see how to use modules in the browser.
+
+As modules support special keywords and features, we must tell the browser that a script should be treated as module, by using the attribute `<script type="module">`.
+
+Like this:
+
+[codetabs src="say" height="140" current="index.html"]
+
+The browser automatically fetches and evaluates imported modules, and then runs the script.
+
+## Core module features
+
+What's different in modules, compared to "regular" scripts?
+
+There are core features, valid both for browser and server-side JavaScript.
+
+### Always "use strict"
+
+Modules always `use strict`, by default. E.g. assigning to an undeclared variable will give an error.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run
 <script type="module">
@@ -70,6 +126,7 @@ sayHi('John'); // Hello, John!
 </script>
 ```
 
+<<<<<<< HEAD
 在这里我们可以在浏览器里看到它，但是对于任何模块来说都是一样的。
 
 ### 模块级作用域（Module-level scope）
@@ -93,6 +150,31 @@ sayHi('John'); // Hello, John!
 ```html run
 <script type="module">
   // 变量仅可在模块脚本内部可见
+=======
+Here we can see it in the browser, but the same is true for any module.
+
+### Module-level scope
+
+Each module has its own top-level scope. In other words, top-level variables and functions from a module are not seen in other scripts.
+
+In the example below, two scripts are imported, and `hello.js` tries to use `user` variable declared in `user.js`, and fails:
+
+[codetabs src="scopes" height="140" current="index.html"]
+
+Modules are expected to `export` what they want to be accessible from outside and `import` what they need.
+
+So we should import `user.js` directly into `hello.js` instead of `index.html`.
+
+That's the correct variant:
+
+[codetabs src="scopes-working" height="140" current="hello.js"]
+
+In the browser, independent top-level scope also exists for each `<script type="module">`:
+
+```html run
+<script type="module">
+  // The variable is only visible in this module script
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
   let user = "John";
 </script>
 
@@ -103,6 +185,7 @@ sayHi('John'); // Hello, John!
 </script>
 ```
 
+<<<<<<< HEAD
 如果我们真的需要创建一个窗口级别（window-level）的全局变量，我们可以显式地将它分配给 `window` 并以 `window.user` 来访问它。但是这样做需要你有足够充分的理由，否则就不要这样。
 
 ### 模块代码仅在第一次导入时解析
@@ -112,6 +195,17 @@ sayHi('John'); // Hello, John!
 这具有很重要的后果。我们来看一下下面的例子：
 
 首先，如果执行一个模块中的代码带来一些副作用，比如显示一个消息，然后多次导入它但是只会显示一次，即第一次：
+=======
+If we really need to make a window-level global variable, we can explicitly assign it to `window` and access as `window.user`. But that's an exception requiring a good reason.
+
+### A module code is evaluated only the first time when imported
+
+If the same module is imported into multiple other places, its code is executed only the first time, then exports are given to all importers.
+
+That has important consequences. Let's see that on examples.
+
+First, if executing a module code brings side-effects, like showing a message, then importing it multiple times will trigger it only once -- the first time:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 alert.js
@@ -119,7 +213,11 @@ alert("Module is evaluated!");
 ```
 
 ```js
+<<<<<<< HEAD
 // 从不同的文件导入相同模块
+=======
+// Import the same module from different files
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 // 📁 1.js
 import `./alert.js`; // Module is evaluated!
@@ -128,11 +226,19 @@ import `./alert.js`; // Module is evaluated!
 import `./alert.js`; // (nothing)
 ```
 
+<<<<<<< HEAD
 在日常开发中，顶级模块主要是用于初始化使用的。我们创建数据结构，预填充它们，如果我们想要可重用某些东西，只要导出即可。
 
 下面是一个高级点的例子：
 
 我们假设一个模块导出了一个对象：
+=======
+In practice, top-level module code is mostly used for initialization. We create data structures, pre-fill them, and if we want something to be reusable -- export it.
+
+Now, a more advanced example.
+
+Let's say, a module exports an object:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 admin.js
@@ -141,9 +247,15 @@ export let admin = {
 };
 ```
 
+<<<<<<< HEAD
 如果这个模块被导入到多个文件中，模块仅仅在第一次导入的时候解析创建 `admin` 对象。然后将其传入所有导入的位置。
 
 所有导入位置都得到了唯一的 `admin` 对象。
+=======
+If this module is imported from multiple files, the module is only evaluated the first time, `admin` object is created, and then passed to all further importers.
+
+All importers get exactly the one and only `admin` object:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 1.js
@@ -155,6 +267,7 @@ import {admin} from './admin.js';
 alert(admin.name); // Pete
 
 *!*
+<<<<<<< HEAD
 // 1.js 和 2.js 导入相同的对象
 // 1.js 中对对象的修改，在 2.js 中是可访问的
 */!*
@@ -165,6 +278,18 @@ alert(admin.name); // Pete
 这种行为对于需要配置的模块来说是非常棒的。我们可以在第一次导入时设置所需要的属性，然后在后面的导入中就可以直接使用了。
 
 例如，下面的 `admin.js` 模块可能提供特定的功能，但是希望在外部可访问 `admin` 对象：
+=======
+// Both 1.js and 2.js imported the same object
+// Changes made in 1.js are visible in 2.js
+*/!*
+```
+
+So, let's reiterate -- the module is executed only once. Exports are generated, and then they are shared between importers, so if something changes the `admin` object, other modules will see that .
+
+Such behavior is great for modules that require configuration. We can set required properties on the first import, and then in further imports it's ready.
+
+For instance, `admin.js` module may provide certain functionality, but expect the credentials to come into the `admin` object from outside:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 admin.js
@@ -175,7 +300,11 @@ export function sayHi() {
 }
 ```
 
+<<<<<<< HEAD
 现在，在 `init.js`——我们 app 的第一个脚本中，设置了 `admin.name`。现在每个位置都能看到它了，包括来自 `admin.js` 本身的调用。
+=======
+Now, in `init.js`, the first script of our app, we set `admin.name`. Then everyone will see it, including calls made from inside `admin.js` itself:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 // 📁 init.js
@@ -194,6 +323,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 ### import.meta
 
+<<<<<<< HEAD
 `import.meta` 对象包含当前模块的一些信息。
 
 它的内容取决于其所在环境，比如说在浏览器环境中，它包含脚本的链接，如果是在 HTML 中的话就是当前页面的链接。
@@ -209,6 +339,23 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 这是一个小功能，但为了完整性，我们应该提到它。
 
 在一个模块中，顶级 `this` 是未定义的，而不是像非模块脚本中的全局变量。
+=======
+The object `import.meta` contains the information about the current module.
+
+Its content depends on the environment. In the browser, it contains the url of the script, or a current webpage url if inside HTML:
+
+```html run height=0
+<script type="module">
+  alert(import.meta.url); // script url (url of the html page for an inline script)
+</script>
+```
+
+### Top-level "this" is undefined
+
+That's kind of a minor feature, but for completeness we should mention it.
+
+In a module, top-level `this` is undefined, as opposed to a global object in non-module scripts:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run height=0
 <script>
@@ -220,6 +367,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 </script>
 ```
 
+<<<<<<< HEAD
 ## 特定于浏览器的功能
 
 与常规脚本相比，拥有 `type="module"` 标识的脚本有几个特定于浏览器的差异。
@@ -238,10 +386,31 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 它的一个副作用是，模块脚本总是“看见”完全加载的 HTML 页面，包括在它们后面的 HTML 元素。
 
 例如：
+=======
+## Browser-specific features
+
+There are also several browser-specific differences of scripts with `type="module"` compared to regular ones.
+
+You may want skip those for now if you're reading for the first time, or if you don't use JavaScript in a browser.
+
+### Module scripts are deferred
+
+Module scripts are *always* deferred, same effect as `defer` attribute (described in the chapter [](info:script-async-defer)), for both external and inline scripts.
+
+In other words:
+- external module scripts `<script type="module" src="...">` don't block HTML processing, they load in parallel with other resources.
+- module scripts wait until the HTML document is fully ready (even if they are tiny and load faster than HTML), and then run.
+- relative order of scripts is maintained: scripts that go first in the document, execute first.
+
+As a side-effect, module scripts always "see" the fully loaded HTML-page, including HTML elements below them.
+
+For instance:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run
 <script type="module">
 *!*
+<<<<<<< HEAD
   alert(typeof button); // object: 脚本可以‘看见‘’下面的 button
 */!*
   // 当脚本模块延迟时，脚本在整个页面加载完成之后才执行
@@ -254,11 +423,26 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
   alert(typeof button); // Error: button is undefined，脚本不能“看到”下面的元素
 */!*
   // 普通脚本在剩余页面加载完成前就执行了
+=======
+  alert(typeof button); // object: the script can 'see' the button below
+*/!*
+  // as modules are deferred, the script runs after the whole page is loaded
+</script>
+
+Compare to regular script below:
+
+<script>
+*!*
+  alert(typeof button); // Error: button is undefined, the script can't see elements below
+*/!*
+  // regular scripts run immediately, before the rest of the page is processed
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 </script>
 
 <button id="button">Button</button>
 ```
 
+<<<<<<< HEAD
 注意：上面的第二个脚本要先于前一个脚本执行，所以我们先会看到 `undefined`，然后才是 `object`。
 
 这是因为模块脚本被延迟执行了，所以要等到页面加载结束才执行。而普通脚本就没有这个限制了，它会马上执行，所以我们先看到它的输出。
@@ -278,6 +462,27 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 ```html
 <!-- 所有依赖都获取(analytics.js)脚本，然后运行 -->
 <!-- 不会等待 HTML 文档或者其他 <script> 标签 -->
+=======
+Please note: the second script actually works before the first! So we'll see `undefined` first, and then `object`.
+
+That's because modules are deferred, so way wait for the document to be processed. The regular scripts runs immediately, so we saw its output first.
+
+When using modules, we should be aware that HTML-page shows up as it loads, and JavaScript modules run after that, so the user may see the page before the JavaScript application is ready. Some functionality may not work yet. We should put transparent overlays or "loading indicators", or otherwise ensure that the visitor won't be confused by that.
+
+### Async works on inline scripts
+
+Async attribute `<script async type="module">` is allowed on both inline and external scripts. Async scripts run immediately when imported modules are processed, independently of other scripts or the HTML document.
+
+For example, the script below has `async`, so it doesn't wait for anyone.
+
+It performs the import (fetches `./analytics.js`) and runs when ready, even if HTML document is not finished yet, or if other scripts are still pending.
+
+That's good for functionality that doesn't depend on anything, like counters, ads, document-level event listeners.
+
+```html
+<!-- all dependencies are fetched (analytics.js), and the script runs -->
+<!-- doesn't wait for the document or other <script> tags -->
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 <script *!*async*/!* type="module">
   import {counter} from './analytics.js';
 
@@ -285,6 +490,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 </script>
 ```
 
+<<<<<<< HEAD
 ### 外部脚本
 
 外部脚本相较于其他脚本有两个显著的差异：
@@ -292,10 +498,20 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 1. 具有相同 `src` 属性值的外部脚本仅运行一次：
     ```html
     <!-- my.js 脚本被加载，但它只运行一次 -->
+=======
+### External scripts
+
+There are two notable differences of external module scripts:
+
+1. External scripts with same `src` run only once:
+    ```html
+    <!-- the script my.js is fetched and executed only once -->
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
     <script type="module" src="my.js"></script>
     <script type="module" src="my.js"></script>
     ```
 
+<<<<<<< HEAD
 2. 从其他域名获取的外部脚本需要加上 [CORS](mdn:Web/HTTP/CORS) 头。换句话说，如果一个模块脚本是从其他域名获取的，那么它所在的远端服务器必须提供 `Access-Control-Allow-Origin: *`（可能使用加载的域名代替 `*`）响应头以指明当前请求是被允许的。
     ```html
     <!-- another-site.com 必须提供 Access-Control-Allow-Origin -->
@@ -320,6 +536,32 @@ import {sayHi} from 'sayHi'; // Error，“裸”模块
 ### 兼容性，"nomodule"
 
 旧时的浏览器不理解 `type="module"` 值。对于位置类型的脚本会被忽略掉。对于它们来说可以使用 `nomodule` 属性来提供后备：
+=======
+2. External scripts that are fetched from another domain require [CORS](mdn:Web/HTTP/CORS) headers. In other words, if a module script is fetched from another domain, the remote server must supply a header `Access-Control-Allow-Origin: *` (may use fetching domain instead of `*`) to indicate that the fetch is allowed.
+    ```html
+    <!-- another-site.com must supply Access-Control-Allow-Origin -->
+    <!-- otherwise, the script won't execute -->
+    <script type="module" src="*!*http://another-site.com/their.js*/!*"></script>
+    ```
+
+    That ensures better security by default.
+
+### No "bare" modules allowed
+
+In the browser, `import` must get either a relative or absolute URL. Modules without any path are called "bare" modules. Such modules are not allowed in `import`.
+
+For instance, this `import` is invalid:
+```js
+import {sayHi} from 'sayHi'; // Error, "bare" module
+// the module must have a path, e.g. './sayHi.js' or wherever the module is
+```
+
+Certain environments, like Node.js or bundle tools allow bare modules, without any path, as they have own ways for finding modules and hooks to fine-tune them. But browsers do not support bare modules yet.
+
+### Compatibility, "nomodule"
+
+Old browsers do not understand `type="module"`. Scripts of the unknown type are just ignored. For them, it's possible to provide a fallback using `nomodule` attribute:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run
 <script type="module">
@@ -332,6 +574,7 @@ import {sayHi} from 'sayHi'; // Error，“裸”模块
 </script>
 ```
 
+<<<<<<< HEAD
 如果我们使用打包工具，当脚本被打包进一个单一文件（或者几个文件），在这些脚本中，`import/export` 语句被特殊的打包函数处理后替代。因此最终打包好的脚本不包含任何 `import/export` 语句，它也不需要 `type="module"` 属性，我们仅像普通脚本一样使用就好了：
 
 ```html
@@ -377,3 +620,50 @@ import {sayHi} from 'sayHi'; // Error，“裸”模块
 在生产环境中，开发者经常基于性能或者其他原因而使用诸如 [Webpack](https://webpack.js.org) 这类的打包工具。
 
 在下一章里，我们将会看到更多关于模块以及如何导入/导出的例子。
+=======
+If we use bundle tools, then as scripts are bundled together into a single file (or few files), `import/export` statements inside those scripts are replaced by special bundler functions. So the resulting "bundled" script does not contain any `import/export`, it doesn't require `type="module"`, and we can put it into a regular script:
+
+```html
+<!-- Assuming we got bundle.js from a tool like Webpack -->
+<script src="bundle.js"></script>
+```
+
+## Build tools
+
+In real-life, browser modules are rarely used in their "raw" form. Usually, we bundle them together with a special tool such as [Webpack](https://webpack.js.org/) and deploy to the production server.
+
+One of the benefits of using bundlers -- they give more control over how modules are resolved, allowing bare modules and much more, like CSS/HTML modules.
+
+Build tools do the following:
+
+1. Take a "main" module, the one intended to be put in `<script type="module">` in HTML.
+2. Analyze its dependencies: imports and then imports of imports etc.
+3. Build a single file with all modules (or multiple files, that's tunable), replacing native `import` calls with bundler functions, so that it works. "Special" module types like HTML/CSS modules are also supported.
+4. In the process, other transforms and optimizations may be applied:
+    - Unreachable code removed.
+    - Unused exports removed ("tree-shaking").
+    - Development-specific statements like `console` and `debugger` removed.
+    - Modern, bleeding-edge JavaScript syntax may be transformed to older one with similar functionality using [Babel](https://babeljs.io/).
+    - The resulting file is minified (spaces removed, variables replaced with shorter named etc).
+
+That said, native modules are also usable. So we won't be using Webpack here: you can configure it later.
+
+## Summary
+
+To summarize, the core concepts are:
+
+1. A module is a file. To make `import/export` work, browsers need `<script type="module">`, that implies several differences:
+    - Deferred by default.
+    - Async works on inline scripts.
+    - To load external scripts from another origin (domain/protocol/port), CORS headers are needed.
+    - Duplicate external scripts are ignored.
+2. Modules have their own, local top-level scope and interchange functionality via `import/export`.
+3. Modules always `use strict`.
+4. Module code is executed only once. Exports are created once and shared between importers.
+
+So, generally, when we use modules, each module implements the functionality and exports it. Then we use `import` to directly import it where it's needed. Browser loads and evaluates the scripts automatically.
+
+In production, people often use bundlers such as [Webpack](https://webpack.js.org) to bundle modules together for performance and other reasons.
+
+In the next chapter we'll see more examples of modules, and how things can be exported/imported.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2

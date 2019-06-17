@@ -33,17 +33,21 @@
 要获取单击字段的相对 `left` 坐标，我们可以减去字段的左边缘和边框宽度：
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
+let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
+<<<<<<< HEAD
 通常情况下，`ball.style.position.left` 是指“元素的左边缘”（球）。因此，如果我们指定 `left`，那么球的边缘就会在鼠标光标下面。
+=======
+Normally, `ball.style.position.left` means the "left edge of the element" (the ball). So if we assign that `left`, then the ball edge, not center, would be under the mouse cursor.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 我们需要将球向左移动宽度的一半，向上移动高度的一半，使其居中。
 
 因此，最后 `left` 是：
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
+let left = event.clientX - fieldCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
 使用相同的逻辑计算垂直坐标。

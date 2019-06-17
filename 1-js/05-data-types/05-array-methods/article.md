@@ -36,7 +36,11 @@ alert( arr.length ); // 3
 
 所以应该使用特殊的方法。
 
+<<<<<<< HEAD
 [arr.splice(str)](mdn:js/Array/splice) 方法可以说是数组界的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
+=======
+The [arr.splice(str)](mdn:js/Array/splice) method is a swiss army knife for arrays. It can do everything: insert, remove and replace elements.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 语法是：
 
@@ -122,7 +126,11 @@ alert( arr ); // 1,2,3,4,5
 arr.slice(start, end)
 ```
 
+<<<<<<< HEAD
 它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。`start` 和 `end` 都可以是负数，在这种情况下，从末尾计算索引。
+=======
+It returns a new array containing all items from index `"start"` to `"end"` (not including `"end"`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 它和字符串的 `str.slice` 有点像，就是把子字符串替换成子数组。
 
@@ -201,7 +209,40 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
+<<<<<<< HEAD
 ## 查询数组
+=======
+## Iterate: forEach
+
+The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+
+The syntax:
+```js
+arr.forEach(function(item, index, array) {
+  // ... do something with item
+});
+```
+
+For instance, this shows each element of the array:
+
+```js run
+// for each element call alert
+["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
+```
+
+And this code is more elaborate about their positions in the target array:
+
+```js run
+["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
+  alert(`${item} is at index ${index} in ${array}`);
+});
+```
+
+The result of the function (if it returns any) is thrown away and ignored.
+
+
+## Searching in array
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 这些是在数组中查询某些内容的方法。
 
@@ -209,9 +250,15 @@ alert( arr.concat(arrayLike) ); // 1,2,something,else
 
 [arr.indexOf](mdn:js/Array/indexOf)、[arr.lastIndexOf](mdn:js/Array/lastIndexOf) 和 [arr.includes](mdn:js/Array/includes) 方法与字符串操作具有相同的语法，只不过这里是对数组元素而不是字符进行操作：
 
+<<<<<<< HEAD
 - `arr.indexOf(item, from)` 从索引 `from` 查询 `item`，如果找到返回索引，否则返回 `-1`。
 - `arr.lastIndexOf(item, from)` — 和上面相同，只是从尾部开始查询。
 - `arr.includes(item, from)` — 从索引 `from` 查询 `item`，如果找到则返回 `true`。
+=======
+- `arr.indexOf(item, from)` looks for `item` starting from index `from`, and returns the index where it was found, otherwise `-1`.
+- `arr.lastIndexOf(item, from)` -- same, but looks for from right to left.
+- `arr.includes(item, from)` -- looks for `item` starting from index `from`, returns `true` if found.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 例如：
 
@@ -246,7 +293,12 @@ alert( arr.includes(NaN) );// true (correct)
 语法：
 ```js
 let result = arr.find(function(item, index, array) {
+<<<<<<< HEAD
   // 如果查询到返回 true
+=======
+  // if true is returned, item is returned and iteration is stopped
+  // for falsy scenario returns undefined
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 });
 ```
 
@@ -274,9 +326,15 @@ alert(user.name); // John
 
 在现实生活中，对象数组是很常见，所以`find` 方法非常有用。
 
+<<<<<<< HEAD
 注意在这个例子中我们传给了 `find` 一个单参数函数 `item => item.id == 1`。其他参数 `find` 很少使用。
 
 与 [arr.findIndex](mdn:js/Array/findIndex) 方法本质上是相同的，但它返回找到元素的索引而不是元素本身。
+=======
+Note that in the example we provide to `find` the function `item => item.id == 1` with one argument. Other arguments of this function are rarely used.
+
+The [arr.findIndex](mdn:js/Array/findIndex) method is essentially the same, but it returns the index where the element was found instead of the element itself and `-1` is returned when nothing is found.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ### filter
 
@@ -284,11 +342,20 @@ alert(user.name); // John
 
 如果需要匹配的有很多，我们可以使用 [arr.filter(fn)](mdn:js/Array/filter)。
 
+<<<<<<< HEAD
 语法与 `find` 大致相同，但是它返回的是所有匹配元素组成的数组：
 
 ```js
 let results = arr.filter(function(item, index, array) {
   // 在元素通过过滤器时返回 true
+=======
+The syntax is similar to `find`, but filter continues to iterate for all array elements even if `true` is already returned:
+
+```js
+let results = arr.filter(function(item, index, array) {
+  // if true item is pushed to results and iteration continues
+  // returns empty array for complete falsy scenario
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 });
 ```
 
@@ -329,7 +396,7 @@ let result = arr.map(function(item, index, array) {
 例如，在这里我们将每个元素转换为它的字符串长度：
 
 ```js run
-let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length)
+let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
 alert(lengths); // 5,7,6
 ```
 
@@ -416,8 +483,13 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
+<<<<<<< HEAD
 ````smart header="箭头函数最好"
 [箭头函数](info:function-expression#arrow-functions)还记得吗？这里使用箭头函数会更加简洁：
+=======
+````smart header="Arrow functions for the best"
+Remember [arrow functions](info:function-expressions-arrows#arrow-functions)? We can use them here for neater sorting:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 arr.sort( (a, b) => a - b );
@@ -477,7 +549,11 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
+<<<<<<< HEAD
 [arr.join(str)](mdn:js/Array/join) 与 `split` 相反。它会在它们之间创建一串由 `str` 粘合的 `arr` 项。
+=======
+The call [arr.join(separator)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items glued by `separator` between them.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 例如：
 
@@ -491,7 +567,11 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
+<<<<<<< HEAD
 当我们需要遍历一个数组时 — 我们可以使用 `forEach`。
+=======
+When we need to iterate over an array -- we can use `forEach`, `for` or `for..of`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 当我们需要迭代并返回每个元素的数据时 — 我们可以使用 `map`。
 
@@ -500,16 +580,22 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 语法是：
 
 ```js
-let value = arr.reduce(function(previousValue, item, index, arr) {
+let value = arr.reduce(function(previousValue, item, index, array) {
   // ...
 }, initial);
 ```
 
 该函数应用于元素。从第二个参数开始你可能就会觉得很眼熟了：
 
+<<<<<<< HEAD
 - `item` — 当前的数组元素。
 - `index` — 当前索引。
 - `arr` — 数组本身。
+=======
+- `item` -- is the current array item.
+- `index` -- is its position.
+- `array` -- is the array.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 目前为止，这很像 `forEach/map`。但还有一个参数不同就是：
 
@@ -539,7 +625,11 @@ alert(result); // 15
 
 ![](reduce.png)
 
+<<<<<<< HEAD
 或者以表格的形式出现，每行代表的是下一个数组元素的函数调用：
+=======
+Or in the form of a table, where each row represents a function call on the next array element:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 |   |`sum`|`current`|`result`|
 |---|-----|---------|---------|
@@ -585,6 +675,7 @@ arr.reduce((sum, current) => sum + current);
 [arr.reduceRight](mdn:js/Array/reduceRight) 也一样，但是遍历是从右到左。
 
 
+<<<<<<< HEAD
 ## 迭代：forEach
 
 [arr.forEach](mdn:js/Array/forEach) 方法允许为数组的每个元素运行一个函数。
@@ -613,6 +704,8 @@ arr.forEach(function(item, index, array) {
 
 该函数的结果（如果它返回的话）被抛弃并被忽略。
 
+=======
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ## Array.isArray
 
 数组基于对象。不构成单独的语言类型。
@@ -689,11 +782,22 @@ alert(youngerUsers.length); // 2
   - `slice(start, end)` — 它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。
   - `concat(...items)` — 返回一个新数组：复制当前数组的所有成员并向其中添加 `items`。如果有任何` items` 是一个数组，那么就取其元素。
 
+<<<<<<< HEAD
 - 查询元素：
   - `indexOf/lastIndexOf(item, pos)` —  从 `pos` 找到 `item`，则返回索引否则返回 `-1`。
   - `includes(value)` — 如果数组有 `value`，则返回 `true`，否则返回 `false`。
   - `find/filter(func)` — 通过函数过滤元素，返回 `true` 条件的符合 find 函数的第一个值或符合 filter 函数的全部值。 
   - `findIndex` 和 `find` 类似，但返回索引而不是值。
+=======
+- To search among elements:
+  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
+  - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
+  - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
+  - `findIndex` is like `find`, but returns the index instead of a value.
+  
+- To iterate over elements:
+  - `forEach(func)` -- calls `func` for every element, does not return anything.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 - 转换数组：
   - `map(func)` — 从每个元素调用 `func` 的结果创建一个新数组。
@@ -702,11 +806,16 @@ alert(youngerUsers.length); // 2
   - `split/join` — 将字符串转换为数组并返回。
   - `reduce(func, initial)` — 通过为每个元素调用 `func` 计算数组上的单个值并在调用之间传递中间结果。
 
+<<<<<<< HEAD
 - 迭代元素：
   - `forEach(func)` — 为每个元素调用 `func`，不返回任何东西。
 
 - 其他：
   - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
+=======
+- Additionally:
+  - `Array.isArray(arr)` checks `arr` for being an array.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 请注意，`sort`，`reverse` 和 `splice` 方法修改数组本身。
 

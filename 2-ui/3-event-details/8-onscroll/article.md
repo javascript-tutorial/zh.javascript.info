@@ -32,6 +32,12 @@ Current scroll = <b id="showScroll">scroll the window</b>
 - `wheel` 事件 —— 鼠标滚轮（“滚动”触控板也会生成它）。
 - `key:pageUp` 和 `key:pageDown` 的 `keydown` 事件。
 
+<<<<<<< HEAD
 有时可能会有帮助，但还有很多滚动方式，所以很难处理它们。因此，使用 CSS 让一些东西不可滚动更为可靠，比如 `overflow` 属性。
+=======
+If we add an event handler to these events and `event.preventDefault()` in it, then the scroll won't start.
+
+Sometimes that may help, but it's more reliable to use CSS to make something unscrollable, such as the `overflow` property.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 这里有几个你可以完成的练习，你也可以看它们关于 `onscroll` 的应用。

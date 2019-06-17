@@ -207,6 +207,10 @@ JavaScript 引擎做了许多优化，使其运行速度更快，并且不会影
 
 如果你熟悉低级编程，关于 V8 引擎垃圾回收器的更详细信息请参阅文章 [V8 的垃圾回收：垃圾回收](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)。
 
+<<<<<<< HEAD
 [V8 博客](http://v8project.blogspot.com/)还不时发布关于内存管理变化的文章。当然，为了学习垃圾收集，你最好通过学习 V8 引擎内部知识来进行准备，并阅读一个叫 [Vyacheslav Egorov](http://mrale.ph) 的 V8 引擎工程师的博客。我之所以说『V8』，因为它最容易在互联网上找到文章。对于其他引擎，许多方法是相似的，但在垃圾收集上许多方面有所不同。
+=======
+[V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 当你需要低级别的优化时，对引擎的深入了解是很好的。在熟悉了该语言之后，把熟悉引擎作为下一步是明智的。

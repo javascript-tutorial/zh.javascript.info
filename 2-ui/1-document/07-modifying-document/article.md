@@ -38,7 +38,11 @@ DOM（document object model 文档对象模型，此文中全部以缩写 DOM �
 这两种方法都可以创建 DOM 节点：
 
 `document.createElement(tag)`
+<<<<<<< HEAD
 : 用给定的标签创建一个新元素：
+=======
+: Creates a new *element node* with the given tag:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
     ```js
     let div = document.createElement('div');
@@ -61,13 +65,21 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
+<<<<<<< HEAD
 之后，我们就有拥有一个 DOM 元素。现在这个元素已经有一个保存类名的变量和一个保存文字信息的变量，但是在页面上依然看不到我们想要的内容，因为它还没有被插入到页面中。
+=======
+After that, we have our DOM element ready. Right now it is just in a variable and we cannot see it. That is because it's not yet inserted into the page.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ## 插值方法
 
 为了让 `div` 显示我们想要的内容，我们需要在 `document` 中找个合适的位置插值，这里我们选择 `document.body`。
 
+<<<<<<< HEAD
 这里有一个特定的插值方法：`document.body.appendChild(div)`。
+=======
+There's a special method `appendChild` for that: `document.body.appendChild(div)`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 这里是完整代码：
 
@@ -135,8 +147,13 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
     */!*
     </script>
     ```
+<<<<<<< HEAD
     如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
     
+=======
+    To insert `newLi` as the first element, we can do it like this:
+
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
     ```js
     list.insertBefore(newLi, list.firstChild);
     ```
@@ -146,9 +163,15 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 所有这些插入节点的操作都会返回节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常返回的节点都没有用，只是插入方法的默认返回值。
 
+<<<<<<< HEAD
 以上方法都是“旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸，它们已经没法很好的处理现在的需求了。
 
 例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，你怎样插入到**节点**之前？虽然也能完成需求开发，总归不是那么优雅的解决方式。
+=======
+These methods are "old school": they exist from the ancient times and we can meet them in many old scripts. Unfortunately, they are not flexible enough.
+
+For instance, how to insert *html* if we have it as a string? Or, given a node, without reference to its parent, how to remove it? Of course, that's doable, but not in an elegant way.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 所以诞生了两种优雅插入方法来代替这些繁琐的插入操作。
 
@@ -162,7 +185,13 @@ This set of methods provides more flexible insertions:
 - `node.after(...nodes or strings)` —— 在 `node` 后面插入节点或者字符串，
 - `node.replaceWith(...nodes or strings)` —— 将 `node` 替换为节点或者字符串。
 
+<<<<<<< HEAD
 下面例子是使用以上提到的方法在列表项前面或后面插入文本：
+=======
+All of them accept a list of DOM nodes and/or text strings. If a string is given it's inserted as a text node.
+
+Here's an example of using these methods to add more items to a list and the text before/after it:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html autorun
 <ol id="ol">
@@ -236,6 +265,7 @@ after
 
 接下来登场的这个方法就可以做到：`elem.insertAdjacentHTML(where, html)`。
 
+<<<<<<< HEAD
 该方法第一个参数是字符串，指定插值的位置，必须是以下四个值之一：
 
 - `"beforebegin"` —— 在 `html` 开头位置前插入 `elem`，
@@ -244,6 +274,16 @@ after
 - `"afterend"` —— 在 `html` 结束位置后插入 `elem`。
 
 第二个参数是 HTML 字符串，会作为标签插入到页面中。
+=======
+The first parameter is a code word, specifying where to insert relative to `elem`. Must be one of the following:
+
+- `"beforebegin"` -- insert `html` immediately before `elem`,
+- `"afterbegin"` -- insert `html` into `elem`, at the beginning,
+- `"beforeend"` -- insert `html` into `elem`, at the end,
+- `"afterend"` -- insert `html` immediately after `elem`.
+
+The second parameter is an HTML string, that is inserted "as HTML".
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 例如：
 
@@ -273,10 +313,17 @@ after
 
 这个方法还有两个变种：
 
+<<<<<<< HEAD
 - `elem.insertAdjacentText(where, text)` —— 一样的语法，只不过把 `text` 作为“文本”直接插入到 HTML 中，
 - `elem.insertAdjacentElement(where, elem)` —— 一样的语法，只不过插入的是一个元素。
 
 他们存在的意义更多是为了使语法“整齐划一”，在实践中，通常只使用 `insertAdjacentHTML`，因为插入文本和元素的方法可以使用 `append/prepend/before/after` —— 同样的效果这样写起来更简洁。
+=======
+- `elem.insertAdjacentText(where, text)` -- the same syntax, but a string of `text` is inserted "as text" instead of HTML,
+- `elem.insertAdjacentElement(where, elem)` -- the same syntax, but inserts an element.
+
+They exist mainly to make the syntax "uniform". In practice, only `insertAdjacentHTML` is used most of the time. Because for elements and text, we have methods `append/prepend/before/after` -- they are shorter to write and can insert nodes/text pieces.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 这里有一个展示一条信息的变种写法：
 
@@ -335,13 +382,89 @@ after
 </script>
 ```
 
+<<<<<<< HEAD
 ## 移除
+=======
+
+## DocumentFragment [#document-fragment]
+
+`DocumentFragment` is a special DOM node that serves as a wrapper to pass around lists of nodes.
+
+We can append other nodes to it, but when we insert it somewhere, then its content is inserted instead.
+
+For example, `getListContent` below generates a fragment with `<li>` items, that are later inserted into `<ul>`:
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let fragment = new DocumentFragment();
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    fragment.append(li);
+  }
+
+  return fragment;
+}
+
+*!*
+ul.append(getListContent()); // (*)
+*/!*
+</script>
+```
+
+Please note, at the last line `(*)` we append `DocumentFragment`, but it "blends in", so the resulting structure will be:
+
+```html
+<ul>
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+</ul>
+```
+
+`DocumentFragment` is rarely used explicitly. Why append to a special kind of node, if we can return an array of nodes instead? Rewritten example:
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let result = [];
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    result.push(li);
+  }
+
+  return result;
+}
+
+*!*
+ul.append(...getListContent()); // append + "..." operator = friends!
+*/!*
+</script>
+```
+
+We mention `DocumentFragment` mainly because there are some concepts on top of it, like [template](info:template-element) element, that we'll cover much later.
+
+
+## Removal methods
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 想要移除节点，可以通过以下方法：
 
 
 `parentElem.removeChild(node)`
+<<<<<<< HEAD
 : 从 `parentElem` 中移除 `elem`（假设它是元素中的子元素）。
+=======
+: Removes `node` from  `parentElem` (assuming it's a child).
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 `node.remove()`
 : 从当前位置移除 `node`。
@@ -409,7 +532,11 @@ after
 
 调动 `document.write(html)` 时意味着将 `html` “就地并马上”放入到页面中。`html` 字符串会动态的创建，所以它以自动伸缩的方式放入到页面中。我们可以通过 JavaScript 创建一个完整的 HTML 页面并写入浏览器窗口中。
 
+<<<<<<< HEAD
 这个方法的起源于没有 DOM，没有 Web 标准的上古时期……，但是这个方法依旧保留了下来，因为很多的脚本使用它来实现一些功能。
+=======
+The method comes from times when there was no DOM, no standards... Really old times. It still lives, because there are scripts using it.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 现代的脚本已经很少再看到这个方法，因为使用它有一个很重要的局限性：
 
@@ -434,7 +561,11 @@ after
 
 这是它的缺陷。
 
+<<<<<<< HEAD
 从技术上讲，当调用 `document.write`，如果浏览器仍然在解析 HTML，该方法会添加一些内容，浏览器会把添加进来的内容替换掉原来接收到内容，解析后展示在窗口中。
+=======
+Technically, when `document.write` is called while the browser is reading ("parsing") incoming HTML, and it writes something, the browser consumes it just as it were initially there, in the   HTML text.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 反过来说这也是一个优势 —— 它性能出奇的快，因为它不用**修改 DOM 结构**。它直接在 DOM 结构构建之前，对整个页面直接进行重写，再交给浏览器去构建 DOM 结构。
 

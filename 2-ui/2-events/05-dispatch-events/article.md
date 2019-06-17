@@ -149,7 +149,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
@@ -268,9 +268,15 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 要生成一个事件，我们首先需要创建一个事件对象。
 
+<<<<<<< HEAD
 泛型 `Event(name, options)` 构造器接受任意事件名，`options` 对象具有两个属性：
   - `bubbles: true` ，如果事件应该冒泡的话。
   - `cancelable: true` 则 `event.preventDefault()` 应该有效。
+=======
+The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
+  - `bubbles: true` if the event should bubble.
+  - `cancelable: true` if the `event.preventDefault()` should work.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 

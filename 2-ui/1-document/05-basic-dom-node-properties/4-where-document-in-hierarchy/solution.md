@@ -27,7 +27,11 @@ alert(document.constructor.name); // HTMLDocument
 alert(HTMLDocument.prototype.constructor === HTMLDocument); // true
 ```
 
+<<<<<<< HEAD
 对于所有原型中的内置类，有一个 `constructor` 引用，我们可以获取 `constructor.name` 来查看类名。我们为 `document` 原型链中的所有对象执行以下操作：
+=======
+To get a name of the class as a string, we can use `constructor.name`. Let's do it for the whole `document` prototype chain, till class `Node`:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run
 alert(HTMLDocument.prototype.constructor.name); // HTMLDocument

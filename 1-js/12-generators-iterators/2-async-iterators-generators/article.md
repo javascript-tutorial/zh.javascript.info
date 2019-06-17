@@ -130,7 +130,11 @@ That's natural, as it expects to find `Symbol.iterator`, same as `for..of` witho
 
 ## Async generators
 
+<<<<<<< HEAD
 As we already know, JavaScript also supprots generators, and they are iterable.
+=======
+As we already know, JavaScript also supports generators, and they are iterable.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 Let's recall a sequence generator from the chapter [](info:generators). It generates a sequence of values from `start` to `end`:
 

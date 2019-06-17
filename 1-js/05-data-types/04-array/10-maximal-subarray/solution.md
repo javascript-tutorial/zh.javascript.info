@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 慢的解决方案
+=======
+# Slow solution
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 我们可以计算所有可能的子集的和。
 
@@ -29,8 +33,13 @@
 -9
 -9 + 11
 
+<<<<<<< HEAD
 // 从 -11 开始：
 -11
+=======
+// Starting from 11
+11
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```
 
 这样写出来的代码实际上是一个嵌套循环：外部循环遍历数组所有元素，然后内部循环计算从当前元素之后的所有子数组集的和。
@@ -59,7 +68,11 @@ alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 
 该方案的时间复杂度是 [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation)。也就是说，如果我们把数组大小增加 2 倍，那么算法的运行时间将会延长4倍。
 
+<<<<<<< HEAD
 对于大型数组（1000，10000 或者更多项）这种算法会导致严重的时间消耗。
+=======
+For big arrays (1000, 10000 or more items) such algorithms can lead to a serious sluggishness.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 # 快的解决方案
 
@@ -67,7 +80,7 @@ alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 
 如果文字描述不太好理解，就直接看下面的代码吧，真的很短：
 
-```js run
+```js run demo
 function getMaxSubSum(arr) {
   let maxSum = 0;
   let partialSum = 0;

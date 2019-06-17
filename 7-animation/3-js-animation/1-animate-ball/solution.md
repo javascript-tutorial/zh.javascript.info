@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 为了达到反弹效果，我们可以在带有 `position:relative` 属性的区域内，给小球使用 `top` 和 `position:absolute` CSS 属性。
 
 field 区域的底部坐标是 `field.clientHeight`。`top` 属性给出了球顶部的坐标，在最底部时达到 `field.clientHeight - ball.clientHeight`。
@@ -7,6 +8,15 @@ field 区域的底部坐标是 `field.clientHeight`。`top` 属性给出了球�
 现在为了获得“弹跳”效果，我们可以在 `easeOut` 模式下使用时序函数 `bounce`。
 
 这是动画的最终代码：
+=======
+To bounce we can use CSS property `top` and `position:absolute` for the ball inside the field with `position:relative`.
+
+The bottom coordinate of the field is `field.clientHeight`. The CSS `top` property refers to the upper edge of the ball. So it should go from `0` till `field.clientHeight - ball.clientHeight`, that's the final lowest position of the upper edge of the ball.
+
+To to get the "bouncing" effect we can use the timing function `bounce` in `easeOut` mode.
+
+Here's the final code for the animation:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 let to = field.clientHeight - ball.clientHeight;

@@ -37,13 +37,21 @@ let f = user.sayHi;
 setTimeout(f, 1000); // 用户上下文丢失
 ```
 
+<<<<<<< HEAD
 浏览器中的方法 `setTimeout` 有些特殊：它为函数的调用设定了 `this=window`（对于 Node.JS，`this` 则会成为时间对象，但其实 this 到底变成什么并不十分重要）。所以对于 `this.firstName` 它其实试图获取的是 `window.firstName`，这个变量并不存在。在其他一些类似的情况下，通常 `this` 就会成为 `undefined`。
+=======
+The method `setTimeout` in-browser is a little special: it sets `this=window` for the function call (for Node.js, `this` becomes the timer object, but doesn't really matter here). So for `this.firstName` it tries to get `window.firstName`, which does not exist. In other similar cases as we'll see, usually `this` just becomes `undefined`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 这个需求很典型——我们希望将一个对象的方法传递到别的地方（这里——是为了调度程序）然后调用。如何确保它将会在正确的上下文中被调用呢？
 
 ## 解决方案 1：包装层
 
+<<<<<<< HEAD
 最简单的解决方案就是使用一个包装函数：
+=======
+The simplest solution is to use a wrapping function:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run
 let user = {
@@ -100,7 +108,7 @@ user = { sayHi() { alert("Another user in setTimeout!"); } };
 ```js
 // 稍后将会有更复杂的语法
 let boundFunc = func.bind(context);
-````
+```
 
 `func.bind(context)` 的结果是一个特殊的像函数一样的“外来对象”，它可以像函数一样被调用并且透明的将调用传递给 `func` 并设置 `this=context`。
 
