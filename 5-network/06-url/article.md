@@ -43,7 +43,7 @@ let url = new URL('profile/admin', 'https://javascript.info');
 
 alert(url); // https://javascript.info/profile/admin
 
-url = new URL('tester', url); // 转到相对于当前 url 路径的 'tester'
+url = new URL('tester', url); // 转到相对于当前 url 路径的 ‘tester’
 
 alert(url); // https://javascript.info/profile/tester
 ```
