@@ -2,7 +2,7 @@
 
 HTML 页面的生命周期有三个重要事件：
 
-- `DOMContentLoaded` —— 浏览器加载全部 HTML，并构建 DOM 树，但像 `<img>` 和样式这样的外部资源可能还没有加载完成。
+- `DOMContentLoaded` —— 浏览器完成全部 HTML 的加载，并构建 DOM 树，但像 `<img>` 和样式这样的外部资源可能还没有加载完成。
 - `load` —— 浏览器加载完所有资源，包括 HTML 文档，图像，样式等。
 - `beforeunload/unload` —— 当用户离开页面时。
 
