@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", ready);
 
 原因是脚本可能希望获取如上述示例所描述的元素坐标和其他与样式相关的属性。因此，它必须等待样式被加载。
 
-当 `DOMContentLoaded` 等待脚本时，它也在等待它们之前的样式。
+当 `DOMContentLoaded` 等待脚本时，它也在等待脚本之前的样式。
 
 ### 浏览器内置的自动填充
 
