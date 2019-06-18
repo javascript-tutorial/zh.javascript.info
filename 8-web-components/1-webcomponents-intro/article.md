@@ -1,8 +1,8 @@
 # 从星球轨道的高度讲起
 
-这一部门将会讲述关于 「Web Components」 的一系列现代标准。
+这一部分我们将会讲述关于「Web Components」的一系列现代标准。
 
-到目前为止，这些标准仍然在发展中。其中一些特性已经被 HTML/DOM 标准非常好的支持，或者已经被结合进了标准，但是还有部分特性仍然处在草案阶段。你可以在任何浏览器中尝试一些例子，Google Chrome 可能是对这些新特性支持地最好的浏览器。猜测可能是因为 Google 公司的人本身就是很多相关标准的支持者。
+到目前为止，这些标准仍然在制定中。其中一些特性已经被很好地支持并集成到了现代 HTML/DOM 标准中，但是还有部分特性仍然处在草案阶段。你可以在任何浏览器中尝试一些例子，Google Chrome 可能是对这些新特性支持得最好的浏览器。猜测可能是因为 Google 公司的人本身就是很多相关标准的支持者。
 
 ## 共通之处在于……
 
@@ -34,7 +34,7 @@
 
 众所周知，开发复杂软件的原则是：不要让软件复杂。
 
-如果某个部分变得复杂了 - 将其拆分成更简单的部分，再以最简明的方式组合起来。
+如果某个部分变得复杂了 —— 将其拆分成更简单的部分，再以最简明的方式组合起来。
 
 **只有让复杂的事情简单化的架构才是好架构。**
 
@@ -50,7 +50,7 @@
 2. 用户信息。
 3. 关注推荐。
 4. 提交表格。
-5. （6，7也是） - 消息。
+5. （6，7也是） —— 消息。
 
 组件也可以包含子组件，比如消息组件可能是更高阶组件「消息列表」的子组件。可点击的用户头像可能也是一个组件，这样的例子还有很多。
 
@@ -64,13 +64,13 @@
 
 再说一遍，整个「组件化」的概念并不是什么特别的东西。
 
-现在已经有了很多框架和开发方法论可以实现组件化，它们各个都有自己的卖点。通常情况下，采用特殊的 CSS 类命名和一些规范，已经可以带来 「组件化的感觉」 - 即 CSS 作用域和 DOM 封装。
+现在已经有了很多框架和开发方法论可以实现组件化，它们各个都有自己的卖点。通常情况下，采用特殊的 CSS 类命名和一些规范，已经可以带来「组件化的感觉」 —— 即 CSS 作用域和 DOM 封装。
 
 而现在浏览器已经原生支持了「Web Components」，我们就可以不用再自己去模拟组件化的结构了。
 
-- [Custom elements](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements) -- 用于自定义 HTML 元素.
-- [Shadow DOM](https://dom.spec.whatwg.org/#shadow-trees) -- 为组件创造内部 DOM，它对外部是不可见的。
-- [CSS Scoping](https://drafts.csswg.org/css-scoping/) -- 申明只对内部 Shadow DOM 作用的样式。
+- [Custom elements](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements) —— 用于自定义 HTML 元素.
+- [Shadow DOM](https://dom.spec.whatwg.org/#shadow-trees) —— 为组件创造内部 DOM，它对外部是不可见的。
+- [CSS Scoping](https://drafts.csswg.org/css-scoping/) —— 申明仅应用于组件的 Shadow DOM 内的样式。
 - [Event retargeting](https://dom.spec.whatwg.org/#retarget) 以及更多的小东西，让自定义组件更适用于开发工作。
 
-在下一篇中我们将会更细致地讲述 「Custom Elements」 - 一个已经被很广泛支持的 Web Components 重要组成部分。
+在下一篇中我们将会更细致地讲述「Custom Elements」 —— 一个已经被很广泛支持的 Web Components 重要组成部分。
