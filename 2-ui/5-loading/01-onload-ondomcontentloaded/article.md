@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", ready);
 
 ### 浏览器内置的自动填充
 
-Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填写表单。
+Firefox、Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填写表单。
 
 比如，如果页面有一个带有登录和密码的表单，并且浏览器记住了这些值，那么在 `DOMContentLoaded` 触发时，它就可以尝试自动填写它们（如果用户允许的话）。
 
