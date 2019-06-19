@@ -157,11 +157,11 @@ window.addEventListener("unload", function() {
 
 还有一个 `keep-alive` 的标志，用于在 [fetch](info:fetch-basics) 方法中为通用的网络请求执行此类“离开页面后（after-page-left）”的请求。你可以在 <info:fetch-api> 章节中了解到更多相关信息。
 
-如果我们要取消转换到另一页面，在这里我们做不到。但是我们可以用另外一个事件 —— `onbeforeunload`。
+如果我们要取消跳转到另一页面的操作，在这里做不到。但是我们可以用另外一个事件 —— `onbeforeunload`。
 
 ## window.onbeforeunload [#window.onbeforeunload]
 
-如果访问中启动了离开页面的导航或试图关闭窗口，`beforeunload` 处理器将要求提供更多的确认信息。
+如果访问中触发了离开页面的导航或试图关闭窗口，`beforeunload` 处理器将要求提供更多的确认信息。
 
 如果我们取消该事件，浏览器将会询问用户是否确定。
 
@@ -200,7 +200,7 @@ window.onbeforeunload = function() {
 
 - `“loading”` —— 文档正在被加载。
 - `“interactive”` —— 文档被全部读取。
-- `“complete”` —— 文档被全部读取，所有的资源（图像之类的）都被加载。
+- `“complete”` —— 文档被全部读取，并且所有的资源（图像之类的）都被加载。
 
 因此我们可以检查 `document.readyState` 并设置一个处理器，或在代码准备就绪时立即执行它。
 
@@ -218,7 +218,7 @@ if (document.readyState == 'loading') {
 }
 ```
 
-同样也有个 `readystatechange` 事件，当状态发生变化时触发，因此我们可以打印所有这些状态，就像这样：
+还有一个 `readystatechange` 事件，当状态发生变化时触发，因此我们可以打印所有这些状态，就像这样：
 
 ```js run
 // 当前状态
@@ -279,7 +279,7 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 - 当页面和所有资源被加载时，`window` 上的 `load` 事件会被触发。我们很少使用它，因为通常没有必要去等待那么久。
 - 当用户想要离开页面时，`window` 上的 `beforeunload` 事件会被触发。如果我们取消这个事件，浏览器会询问用户是否真的要离开（比如有未保存的内容）。
 - 当用户最终离开时，`window` 上的 `unload` 事件会被触发。在处理器中，我们只能做一些不会涉及到延迟或询问用户的简单事情。正是由于这个限制，它很少被使用。我们可以用 `navigator.sendBeacon` 来发送网络请求。
-- `document.readyState` 是文档的当前状态，可以在 `readystatechange` 事件中跟踪变更：
+- `document.readyState` 是文档的当前状态，可以在 `readystatechange` 事件中跟踪状态变更：
   - `loading` —— 文档正在被加载。
   - `interactive` —— 文档被解析，大概是与 `DOMContentLoaded` 同时发生，而不是在它之前发生。
   - `complete` —— 文档和资源被加载，大概是与 `window.onload` 同时发生，而不是在它之前发生。
