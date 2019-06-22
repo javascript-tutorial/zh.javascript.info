@@ -1,7 +1,7 @@
 
-That's the case when knowing how it works inside is helpful.
+这个例子告诉我们知道内部是如何运行的会很有帮助。
 
-Just treat `async` call as promise and attach `.then` to it:
+只需要把 `async` 函数返回值当成 promise，并且在后面加上 `.then` 即可：
 ```js run
 async function wait() {
   await new Promise(resolve => setTimeout(resolve, 1000));
@@ -10,7 +10,7 @@ async function wait() {
 }
 
 function f() {
-  // shows 10 after 1 second
+  // 一秒后显示 10
 *!*
   wait().then(result => alert(result));
 */!*
