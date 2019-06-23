@@ -205,7 +205,7 @@ let promise = new Promise(resolve => resolve("done!"));
 promise.then(alert); // 完成！（现在显示）
 ```
 
-这对于有时需要时间而且有时要立即完成的任务来说非常方便。去报处理器在两种情况下都能够运行。
+这对于有时需要时间而且有时要立即完成的任务来说非常方便。确保处理器在两种情况下都能够运行。
 ````
 
 ````smart header="`.then/catch` 的处理器总是异步的"
