@@ -1,22 +1,22 @@
 
 # URL 对象
 
-内置的 [URL](https://url.spec.whatwg.org/#api) 类为创建和解析 URLs 提供了非常方便的接口。
+内置的 [URL](https://url.spec.whatwg.org/#api) 类为创建和解析 URL 提供了非常方便的接口。
 
-我们根本不需要使用它。没有一个网络方法必须要使用 `URL` 对象，因为只是使用字符串 url 就已经能够完成任务了。但是有时候 `URL` 对象真的很实用。
+我们根本不需要使用它。没有一个网络方法一定要使用 `URL` 对象，因为只是使用字符串 url 就已经能够完成任务了。但是有时候 `URL` 对象真的很实用。
 
-## 创建 URL
+## 创建 URL 对象
 
-创建新的 URL 对象的语法：
+创建新 URL 对象的语法：
 
 ```js
 new URL(url, [base])
 ```
 
 - **`url`** —— url 文本地址
-- **`base`** —— 可选的 `url` 根地址
+- **`base`** —— URL 根地址（可选）
 
-`URL` 对象立即允许我们访问其组件，因此这是一个解析网址的好办法，例如：
+`URL` 对象立即允许我们访问其组件，因此这是一个解析 URL 的好办法，例如：
 
 ```js run
 let url = new URL('https://javascript.info/url');
@@ -30,52 +30,52 @@ alert(url.pathname); // /url
 
 ![](url-object.png)
 
-- `href` 是完整的 url，与 `url.toString()` 相同
+- `href` 是完整的 URL，与 `url.toString()` 相同
 - `protocol` 以冒号字符 `:` 结尾
 - `search` 以问号 `?` 开始
-- `hash` 以哈希字符 `#` 开头
-- 如果存在 HTTP 身份验证的话，通常还会有 `user` 和 `password` 属性。
+- `hash` 以哈希字符 `#` 开始
+- 如果存在 HTTP 身份验证的话，还会有 `user` 和 `password` 属性。
 
-我们还可以使用 `URL` 的第二个参数来创建相对 urls：
+我们还可以使用 `URL` 的第二个参数来创建相对 URL：
 
 ```js run
 let url = new URL('profile/admin', 'https://javascript.info');
 
 alert(url); // https://javascript.info/profile/admin
 
-url = new URL('tester', url); // 转到相对于当前 url 路径的 ‘tester’
+url = new URL('tester', url); // 转到相对于当前 URL 路径的 ‘tester’
 
 alert(url); // https://javascript.info/profile/tester
 ```
 
-```smart header="我们可以在任何地方使用 `URL` 代替字符串"
-我们可以在 `fetch` 或者 `XMLHttpRequest` 里使用 `URL` 对象，几乎所有能使用字符串 url 的地方都能使用它。
+```smart header="几乎在任何需要使用 `URL` 的地方，我们都可以使用 `URL` 代替字符串"
+我们可以在 `fetch` 或者 `XMLHttpRequest` 里使用 `URL` 对象，几乎在任何需要使用 URL 的地方，我们都可以使用 URL 代替字符串。
 
-在绝大多数方法中，它会自动转换成字符串。
+在绝大多数方法中，它会被自动转换成字符串并以此参与运算。
 ```
 
-## 搜索参数（SearchParams）
+## 搜索参数（SearchParam）
 
-假设我们想要以给定的搜索词来创建 url，例如，`https://google.com/search?query=value`。
+当我们想要以给定的搜索词来创建 URL 时，例如，`https://google.com/search?query=value`。
 
 它们必须被正确编码。
 
 在古老的浏览器中，`URL` 出现之前，我们使用的是内置函数 `encodeURIComponent/decodeURIComponent`。
 
-现在，我们不必使用它们了：`url.searchParams` 是 [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) 类型的对象。
+我们不必再使用它们了：`url.searchParams` 现在是 [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) 类型的对象。
 
-它为搜索参数提供了便捷的方法：
+它为操作搜索参数提供了便捷的方法（method）：
 
 - **`append(name, value)`** —— 添加参数，
 - **`delete(name)`** —— 移除参数，
 - **`get(name)`** —— 获取参数，
-- **`getAll(name)`** —— 获取给定名称的所有参数（如果有很多个参数的话，例如：`?user=John&user=Pete`），
+- **`getAll(name)`** —— 获取给定名称的所有参数（如果有很多个参数的话，如：`?user=John&user=Pete`），
 - **`has(name)`** —— 检查参数是否存在，
 - **`set(name, value)`** —— set/replace 参数，
-- **`sort()`** —— 按名称排序参数，很少需要这样做，
+- **`sort()`** —— 按名称排序参数（我们很少需要这样做），
 - ...并且是可迭代的，类似于 `Map`。
 
-即 `URL` 对象为操作 url 参数提供了一种的简便方法。
+`URL` 对象为操作 url 参数提供了一种的简便方法。
 
 例如：
 
