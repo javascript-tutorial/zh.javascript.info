@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Rewrite to class
+# 重写为 class
 
-The `Clock` class is written in functional style. Rewrite it the "class" syntax.
+`Clock` 类是用函数式编写的，请以 “class” 语法重写它。
 
-P.S. The clock ticks in the console, open it to see.
+P.S. 请打开控制台以查看时钟显示。
