@@ -24,7 +24,7 @@ class LiveTimer extends HTMLElement {
   }
 
   disconnectedCallback() {
-    clearInterval(this.timer); // important to let the element be garbage-collected
+    clearInterval(this.timer); // 让这个元素被垃圾回收是非常重要的
   }
 
 }
