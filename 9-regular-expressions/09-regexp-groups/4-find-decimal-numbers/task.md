@@ -1,8 +1,8 @@
-# 查找所有数字
+# Find all numbers
 
-编写一条正则表达式来查找所有的数字，包括整数、浮点数和负数。
+Write a regexp that looks for all decimal numbers including integer ones, with the floating point and negative ones.
 
-例如：
+An example of use:
 
 ```js
 let reg = /your regexp/g;

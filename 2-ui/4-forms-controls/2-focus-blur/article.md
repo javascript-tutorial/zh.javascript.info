@@ -2,13 +2,21 @@
 
 当一个元素被用户点击或使用键盘上的 `key:Tab` 选中时，该元素会被聚焦。当网页加载时 HTML `autofocus` 属性也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获取焦点。
 
+<<<<<<< HEAD
 聚焦通常表示：“这里准备好接受数据了”，而这也正是我们运行代码去初始化或加载一些东西的时候。
+=======
+Focusing on an element generally means: "prepare to accept the data here", so that's the moment when we can run the code to initialize the required functionality.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 失去焦点的时刻可能更为重要。它可能发生在用户点击网页其它地方或者点击 `key:Tab` 跳转到下一个表单域，亦或是其它途径的时候。
 
 失去焦点通常表示：“数据已经完成输入了”，所以我们可以运行代码来检查它，甚至可以是保存到服务器上。
 
+<<<<<<< HEAD
 当操作聚焦事件的时候有一些重要的特性需要注意。我们会尽量在这里介绍。
+=======
+There are important peculiarities when working with focus events. We'll do the best to cover them further on.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ## focus/blur 事件
 
@@ -49,7 +57,11 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
+<<<<<<< HEAD
 在现代的 HTML 中，可以使用 `required`、`pattern` 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
+=======
+Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value to the server if it's correct.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 
 ## focus/blur 方法
@@ -100,7 +112,11 @@ Your email please: <input type="email" id="input">
 
 有时候这些特性导致发生的 `focus/blur` 事件处理器会让人苦恼 — 它们在不被需要的时候发生。
 
+<<<<<<< HEAD
 最好的秘诀就是当使用这些事件的时候小心点。如果我们想要追踪用户发起的去焦事件，那么我们自己应该避免去触发它们。
+=======
+The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should avoid causing it ourselves.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 ```
 ## 允许在任何元素上聚焦：tabindex
 
@@ -203,7 +219,6 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
   form.addEventListener("focusin", () => form.classList.add('focused'));
   form.addEventListener("focusout", () => form.classList.remove('focused'));
 */!*

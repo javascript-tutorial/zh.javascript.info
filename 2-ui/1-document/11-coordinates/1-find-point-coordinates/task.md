@@ -14,10 +14,17 @@ importance: 5
 
 你的代码应该使用 DOM 来获取到以下窗口坐标：
 
+<<<<<<< HEAD
 1. 左上的外角（这很简单）。
 2. 右下的外角（这也挺简单）。
 3. 左上的内角（这有点难）。
 4. 右下的内角（有几种方式，选择其中一种）。
+=======
+1. Upper-left, outer corner (that's simple).
+2. Bottom-right, outer corner (simple too).
+3. Upper-left, inner corner (a bit harder).
+4. Bottom-right, inner corner (there are several ways, choose one).
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 你计算得到的坐标应该和鼠标单击返回的坐标相同。
 

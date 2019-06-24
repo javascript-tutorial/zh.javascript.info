@@ -4,7 +4,11 @@ importance: 5
 
 # 创建通知
 
+<<<<<<< HEAD
 编写 `showNotification(options)` 通知函数：`<div class="notification">` 包含给定内容。通知应该在 1.5 秒后自动消失。
+=======
+Write a function `showNotification(options)` that creates a notification: `<div class="notification">` with the given content. The notification should automatically disappear after 1.5 seconds.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 参数：
 

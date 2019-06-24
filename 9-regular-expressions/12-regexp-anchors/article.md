@@ -1,10 +1,10 @@
-# 字符串的开始符 ^ 和结束符 $
+# String start ^ and finish $
 
-脱字符 `'^'` 和美元符 `'$'` 在正则表达式中有特殊的含义，它们被叫做 “锚”。
+The caret `pattern:'^'` and dollar `pattern:'$'` characters have special meaning in a regexp. They are called "anchors".
 
-脱字符 `^` 匹配文本的开始，而美元符 `$` 匹配文本的结束。
+The caret `pattern:^` matches at the beginning of the text, and the dollar `pattern:$` -- in the end.
 
-举个例子，让我们来匹配以 `Mary`开头的文本：
+For instance, let's test if the text starts with `Mary`:
 
 ```js run
 let str1 = "Mary had a little lamb, it's fleece was white as snow";
@@ -14,13 +14,13 @@ alert( /^Mary/.test(str1) ); // true
 alert( /^Mary/.test(str2) ); // false
 ```
 
-这个正则表达式 `^Mary` 意味着（匹配的是）：“字符串的开始然后是 Mary”。
+The pattern `pattern:^Mary` means: "the string start and then Mary".
 
-现在让我们匹配所有以一个 email 结尾的文本：
+Now let's test whether the text ends with an email.
 
-为了去匹配一个 email，我们可以使用 `pattern:[-.\w]+@([\w-]+\.)+[\w-]{2,20}` 这个正则表达式，它不是完美的，但是大多数情况下都可以正常工作。
+To match an email, we can use a regexp `pattern:[-.\w]+@([\w-]+\.)+[\w-]{2,20}`.
 
-为了匹配以 email 结尾的文本，让我们给这个正则表达式添加一个 `$` 吧：
+To test whether the string ends with the email, let's add `pattern:$` to the pattern:
 
 ```js run
 let reg = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}$/g;
@@ -32,11 +32,11 @@ alert( reg.test(str1) ); // true
 alert( reg.test(str2) ); // false
 ```
 
-我们可以同时使用这两个符号，来检查字符串是不是完全匹配正则表达式。这经常用于信息校验。
+We can use both anchors together to check whether the string exactly follows the pattern. That's often used for validation.
 
-举个例子，我们想去确认一个 `字符串` 是以 `#` 加上6个十六进制数字所表示颜色。这个颜色字符串的模式是 `pattern:#[0-9a-f]{6}`。
+For instance we want to check that `str` is exactly a color in the form `#` plus 6 hex digits. The pattern for the color is `pattern:#[0-9a-f]{6}`.
 
-要检查 *整个字符串* 完全匹配正则表达式的模式，我们需要加上 `^...$`：
+To check that the *whole string* exactly matches it, we add `pattern:^...$`:
 
 ```js run
 let str = "#abcdef";
@@ -44,12 +44,12 @@ let str = "#abcdef";
 alert( /^#[0-9a-f]{6}$/i.test(str) ); // true
 ```
 
-正则表达式的引擎会先找到文本的开始，然后匹配颜色字符串，然后查看文本是否在字符串之后立即结束。这样子正是我们所想要的。
+The regexp engine looks for the text start, then the color, and then immediately the text end. Just what we need.
 
-```smart header="锚的长度为零"
-锚就像 `\b` 一样，是测试时的一个字符，他们没有长度。
+```smart header="Anchors have zero length"
+Anchors just like `\b` are tests. They have zero-width.
 
-换句话说，它们不会检验到一个字符，但是它们会让正则表达式的引擎去检查判定条件（例如是否处于文本开头/结尾）。
+In other words, they do not match a character, but rather force the regexp engine to check the condition (text start/end).
 ```
 
-当正则表达式有一个 `m`（多行模式）flag 时，这些锚的性质会发生改变。我们将会在下一章讨论它。
+The behavior of anchors changes if there's a flag `pattern:m` (multiline mode). We'll explore it in the next chapter.

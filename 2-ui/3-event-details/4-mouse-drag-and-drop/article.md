@@ -4,9 +4,15 @@
 
 在现代 HTML 标准中，有一个[拖动事件的部分](https://html.spec.whatwg.org/multipage/interaction.html#dnd)。
 
+<<<<<<< HEAD
 这很有趣，因为它们允许轻松地解决一些简单的任务，而且允许处理“外部”文件拖放到浏览器中的事件。因此我们可以在 OS 文件管理中获取文件，并将其拖动到浏览器窗口。然后 JavaScript 获取对其内容的访问权限。
 
 但是本地的拖动事件总是有局限性。比如，我们可以把拖动范围限制在某个区域内。而且我们也可以把它变成 "horizontal" 或 "vertical"。还有其他的拖放任务无法通过使用 API 实现。
+=======
+They are interesting because they allow to solve simple tasks easily, and also allow to handle drag'n'drop of "external" files into the browser. So we can take a file in the OS file-manager and drop it into the browser window. Then JavaScript gains access to its contents.
+
+But native Drag Events also have limitations. For instance, we can't limit dragging by a certain area. Also we can't make it "horizontal" or "vertical" only. There are other drag'n'drop tasks that can't be implemented using that API.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 在这里，我们将看到如何使用鼠标事件实现拖放。并不难。
 
@@ -14,10 +20,17 @@
 
 拖放基础算法就像这样：
 
+<<<<<<< HEAD
 1. 在可拖动元素上捕获 `mousedown` 事件。
 2. 准备要移动的元素（可能创建它的副本或其他任何东西）。
 3. 然后在 `mousemove` 上，通过改变 `left/top` 和 `position:absolute` 来移动它。
 4. 在 `mouseup`（释放按钮）中 —— 执行所有完成拖放相关的动作。
+=======
+1. Catch `mousedown` on a draggable element.
+2. Prepare the element for moving (maybe create a copy of it or whatever).
+3. Then on `mousemove` move it by changing `left/top` and `position:absolute`.
+4. On `mouseup` (button release) -- perform all actions related to a finished Drag'n'Drop.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 这些是基础。我们可以对其进行拓展，例如，当鼠标在可拖动元素上悬停时，高亮这个元素。
 
@@ -58,7 +71,11 @@ ball.onmousedown = function(event) { // (1) 启动进程
 };
 ```
 
+<<<<<<< HEAD
 如果我们运行代码，我们会发现一些奇怪的事情。在拖放的一开始，球会 "forks"：我们开始拖动它的 "clone"。
+=======
+If we run the code, we can notice something strange. On the beginning of the drag'n'drop, the ball "forks": we start dragging its "clone".
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ```online
 这是一个动作实例：
@@ -101,7 +118,11 @@ ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
+<<<<<<< HEAD
 不错，但这存在副作用。我们可以在球的任何地方使用 `mousedown` 来开始拖放。如果在边缘那么做，那么球就会突然“跳”到以指针为中心的位置。
+=======
+Not bad, but there's a side-effect. To initiate the drag'n'drop, we can `mousedown` anywhere on the ball. But if do it at the edge, then the ball suddenly "jumps" to become centered.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 如果我们保持元素相对指针的初始位移，情况会更好。
 
@@ -178,7 +199,11 @@ In action (inside `<iframe>`):
 [iframe src="ball3" height=230]
 ```
 
+<<<<<<< HEAD
 如果我们按在球的右下角进行拖动，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置跟随鼠标会很流畅。
+=======
+The difference is especially noticeable if we drag the ball by its right-bottom corner. In the previous example the ball "jumps" under the pointer. Now it fluently follows the cursor from the current position.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ## 检测是否可释放
 

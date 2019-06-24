@@ -27,4 +27,8 @@ for (let args of work.calls) {
 }
 ```
 
+<<<<<<< HEAD
 附：该装饰器有时用于单元测试，它的高级形式是 [Sinon.JS](http://sinonjs.org/) 库中的 `sinon.spy`。
+=======
+P.S. That decorator is sometimes useful for unit-testing. Its advanced form is `sinon.spy` in [Sinon.JS](http://sinonjs.org/) library.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09

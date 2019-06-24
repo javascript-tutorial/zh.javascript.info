@@ -11,7 +11,11 @@
 
 但是 `var` 却是一头源自旧时代的怪兽。在现代脚本中一般不再使用，但它仍存在于陈旧的脚本里。
 
+<<<<<<< HEAD
 如果你不打算见识这样的脚本，你可以跳过或推迟阅读这一章，但是你有可能会踩到它的坑。
+=======
+If you don't plan on meeting such scripts you may even skip this chapter or postpone it, but then there's a chance that it bites you later.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 乍看之下，`var` 和 `let` 的行为相似，即声明变量：
 
@@ -35,7 +39,7 @@ alert(phrase); // 报错：phrase is not defined
 
 举个例子：
 
-```js
+```js run
 if (true) {
   var test = true; // 用 "var" 而不是 "let"
 }
@@ -45,7 +49,23 @@ alert(test); // true，变量在 if 结束后仍存在
 */!*
 ```
 
+<<<<<<< HEAD
 如果我们在第二行使用 `let test`，那么 `alert` 就无法访问到它。因为 `var` 忽略块级代码，所以我们得到了一个全局的 `test`。
+=======
+`var` ignores code blocks, so we've got a global variable `test`.
+
+If we used `let test` instead of `var test`, then the variable would only be visible inside `if`:
+
+```js run
+if (true) {
+  let test = true; // use "let"
+}
+
+*!*
+alert(test); // Error: test is not defined
+*/!*
+```
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 循环也是这样，`var` 无法成为块级或循环的局部变量：
 
@@ -61,7 +81,7 @@ alert(i); // 10, "i" 在循环结束后仍然可见，它会成为一个全局�
 
 如果一段代码块位于函数内部，那么 `var` 会成为一个函数级的变量：
 
-```js
+```js run
 function sayHi() {
   if (true) {
     var phrase = "Hello";
@@ -71,12 +91,21 @@ function sayHi() {
 }
 
 sayHi();
+<<<<<<< HEAD
 alert(phrase); // 报错：phrase is not defined
 ```
 
 可以看到，`var` 穿透了 `if`、`for` 或其它块级代码。这是因为在早期的 JavaScript 里，块没有词法环境。而 `var` 就是对它的一个回忆。
 
 ## "var" 在函数开头被处理
+=======
+alert(phrase); // Error: phrase is not defined (Check the Developer Console)
+```
+
+As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript blocks had no Lexical Environments. And `var` is a remnant of that.
+
+## "var" declarations are processed at the function start
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 `var` 声明在函数开始时处理（或者全局声明之于脚本开始）。
 
@@ -84,7 +113,7 @@ alert(phrase); // 报错：phrase is not defined
 
 如下代码：
 
-```js
+```js run
 function sayHi() {
   phrase = "Hello";
 
@@ -94,11 +123,12 @@ function sayHi() {
   var phrase;
 */!*
 }
+sayHi();
 ```
 
 ...它完全等同于这个（`var phrase` 被上提到函数开头）：
 
-```js
+```js run
 function sayHi() {
 *!*
   var phrase;
@@ -108,11 +138,12 @@ function sayHi() {
 
   alert(phrase);
 }
+sayHi();
 ```
 
 ...甚至是这种的（记住，代码块是会被忽略的）：
 
-```js
+```js run
 function sayHi() {
   phrase = "Hello"; // (*)
 
@@ -124,6 +155,7 @@ function sayHi() {
 
   alert(phrase);
 }
+sayHi();
 ```
 
 这种行为一般称为「提升」，因为所有的 `var` 都会被「提升」到函数的顶部。
@@ -175,11 +207,22 @@ sayHi();
 
 ## 总结
 
+<<<<<<< HEAD
 `var` 声明变量有两点主要区别：
 
 1. 变量没有块作用域，它们在最小函数级可见；
 2. 变量声明在函数开头处理。
+=======
+There are two main differences of `var` compared to `let/const`:
+
+1. `var` variables have no block scope, they are visible minimum at the function level.
+2. `var` declarations are processed at function start (script start for globals).
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 涉及全局对象时，还有一个小的区别，我们会在下一章讲解。
 
+<<<<<<< HEAD
 这些区别实际上很多时候都不是好事。首先，我们无法创建块级局部变量。而且变量提升会造成更多的错误。所以，在新近的脚本里，`var` 就很少见了。
+=======
+These differences make `var` worse than `let` most of the time. Block-level variables is such a great thing. That's why `let` was introduced in the standard long ago, and is now a major way (along with `const`) to declare a variable.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09

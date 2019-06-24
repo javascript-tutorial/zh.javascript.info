@@ -112,7 +112,11 @@ Here's a small cheatsheet:
 
 |       | Iterators | Async iterators |
 |-------|-----------|-----------------|
+<<<<<<< HEAD
 | Object method to provide iteraterable | `Symbol.iterator` | `Symbol.asyncIterator` |
+=======
+| Object method to provide iterator | `Symbol.iterator` | `Symbol.asyncIterator` |
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 | `next()` return value is              | any value         | `Promise`  |
 | to loop, use                          | `for..of`         | `for await..of` |
 
@@ -130,7 +134,11 @@ That's natural, as it expects to find `Symbol.iterator`, same as `for..of` witho
 
 ## Async generators
 
+<<<<<<< HEAD
 As we already know, JavaScript also supprots generators, and they are iterable.
+=======
+As we already know, JavaScript also supports generators, and they are iterable.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 Let's recall a sequence generator from the chapter [](info:generators). It generates a sequence of values from `start` to `end`:
 
@@ -178,7 +186,11 @@ No problem, just prepend it with `async`, like this:
 })();
 ```
 
+<<<<<<< HEAD
 Now we have an the async generator, iteratable with `for await...of`.
+=======
+Now we have an the async generator, iterable with `for await...of`.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 It's indeed very simple. We add the `async` keyword, and the generator now can use `await` inside of it, rely on promises and other async functions.
 
@@ -344,7 +356,11 @@ Syntax differences between async and regular iterators:
 
 |       | Iterators | Async iterators |
 |-------|-----------|-----------------|
+<<<<<<< HEAD
 | Object method to provide iteraterable | `Symbol.iterator` | `Symbol.asyncIterator` |
+=======
+| Object method to provide iterator | `Symbol.iterator` | `Symbol.asyncIterator` |
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 | `next()` return value is              | any value         | `Promise`  |
 
 Syntax differences between async and regular generators:
@@ -356,6 +372,10 @@ Syntax differences between async and regular generators:
 
 In web-development we often meet streams of data, when it flows chunk-by-chunk. For instance, downloading or uploading a big file.
 
+<<<<<<< HEAD
 We can use async generators to process such data, but it's worth to mention that there's also another API called Streams, that provides special interfaces to transform the data and to pass it from one stream to another (e.g. download from one place and immediately send elsewhere). 
+=======
+We can use async generators to process such data, but it's worth to mention that there's also another API called Streams, that provides special interfaces to transform the data and to pass it from one stream to another (e.g. download from one place and immediately send elsewhere).
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 Streams API not a part of JavaScript language standard. Streams and async generators complement each other, both are great ways to handle async data flows.

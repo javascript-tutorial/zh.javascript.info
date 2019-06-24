@@ -6,7 +6,11 @@
 
 [change](http://www.w3.org/TR/html5/forms.html#event-input-change) 事件是在元素变化结束之后触发的。
 
+<<<<<<< HEAD
 对于文本输入框来说，当其失去焦点的时候就会触发 change 事件。
+=======
+For text inputs that means that the event occurs when it loses focus.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 例如，当我们在下面的文本区域中输入的时候，`change` 事件不会被触发。但是当我们将焦点移到别处时，例如点击按钮，就会触发 `change` 事件：
 
@@ -62,7 +66,11 @@
 </script>
 ```
 
+<<<<<<< HEAD
 从技术上来讲，我们可以拷贝/粘贴任何东西。例如，我们可以从资源管理器中拷贝一份文件，然后粘贴进来。
+=======
+Technically, we can copy/paste everything. For instance, we can copy a file in the OS file manager, and paste it.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 在[设计规范](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)中有一系列的方法，可以作用于不同的数据类型，对剪贴板进行读写。
 

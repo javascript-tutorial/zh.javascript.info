@@ -1,124 +1,124 @@
-# 跨窗口通信
+# Cross-window communication
 
-"同源"策略限制了窗口之间的互相访问。
+The "Same Origin" (same site) policy limits access of windows and frames to each other.
 
-这个想法出于这样的考虑，如果我们打开了两个窗口：一个窗口来自 `john-smith.com`，另一个是 `gmail.com`，那么我们就不希望 `john-smith.com` 的脚本可以阅读我们的邮件。
+The idea is that if a user has two pages open: one from `john-smith.com`, and another one is `gmail.com`, then they wouldn't want a script from `john-smith.com` to read our mail from `gmail.com`. So, the purpose of the "Same Origin" policy is to protect users from information theft.
 
-## 同源
+## Same Origin [#same-origin]
 
-如果两个 URL 具有相同的协议，域名和端口，则称它们是"同源"的。
+Two URLs are said to have the "same origin" if they have the same protocol, domain and port.
 
-以下的几个 URL 都是同源的：
+These URLs all share the same origin:
 
 - `http://site.com`
 - `http://site.com/`
 - `http://site.com/my/page.html`
 
-但是下面几个不是：
+These ones do not:
 
-- <code>http://<b>www.</b>site.com</code> (`www.` 域名与其他不同)
-- <code>http://<b>site.org</b></code> (`.org` 域名与其他不同)
-- <code><b>https://</b>site.com</code> (协议与其他不同: `https`)
-- <code>http://site.com:<b>8080</b></code> (端口与其他不同：`8080`)
+- <code>http://<b>www.</b>site.com</code> (another domain: `www.` matters)
+- <code>http://<b>site.org</b></code> (another domain: `.org` matters)
+- <code><b>https://</b>site.com</code> (another protocol: `https`)
+- <code>http://site.com:<b>8080</b></code> (another port: `8080`)
 
-如果我们有另外一个窗口（一个弹出窗口或者 iframe）的引用，并且这个窗口是同源的，那么我们可以使用它做任何事情。
+The "Same Origin" policy states that:
 
-如果它不是同源的，那么我们只能改变它的地址。请注意：不是**读取**地址，而是**改变**它，将其重定向到另外一个地址。因为 URL 可能包含一些敏感的参数，所以为了安全，禁止从一个非同源的站点获取地址，但是可以更改它。
+- if we have a reference to another window, e.g. a popup created by `window.open` or a window inside `<iframe>`, and that window comes from the same origin, then we have full access to that window.
+- otherwise, if it comes from another origin, then we can't access the content of that window: variables, document, anything. The only exception is `location`: we can change it (thus redirecting the user). But we cannot *read* location (so we can't see where the user is now, no information leak).
 
-当然这些窗口也可以互通信息，后面我们很快会讲到这一点。
+Now let's see some examples. First, we'll look at pages that come from the same origin and thus allow direct access, and afterwards we'll cover cross-window messaging that allows to work around the "Same Origin" policy.
 
-````warn header="排除：子域可能是同源的"
 
-在同源策略里有一个很重要的排除项。
+````warn header="Windows on different subdomains of the same domain"
+By definition, two URLs with different domains have different origins.
 
-如果窗口有相同的二级域名，比如 `john.site.com`，`peter.site.com` 和 `site.com`，我们可以使用 JavaScript 将 `document.domain` 设置为他们相同的二级域名 `site.com`。此时这些窗口将被当做同源的站点对待。
+Still, there's a small exclusion here.
 
-换句话说，所有的这些页面（包括来自 `site.com` 的页面）都添加这么一段代码：
+If windows share the same second-level domain, for instance `john.site.com`, `peter.site.com` and `site.com` (so that their common second-level domain is `site.com`), we can make the browser ignore that difference, so that they can be treated as coming from the "same origin" for the purposes of cross-window communication.
+
+To make it work, each window (including the one from `site.com`) should run the code:
 
 ```js
 document.domain = 'site.com';
 ```
 
-之后他们就可以无限制的互动了。
-
-但是这仅适用于具有相同二级域名的页面。
+That's all. Now they can interact without limitations. Again, that's only possible for pages with the same second-level domain.
 ````
 
-## 访问 iframe 的内容
+## Accessing an iframe contents
 
-一个 `<iframe>` 是一个两面派的野兽。从一方面看，它就是一个标签，就像 `<script>` 或者 `<img>`，从另一方面来说，它又是一个窗口内嵌套的窗口。
+Our first example covers iframes. An `<iframe>` is a two-faced beast. From one side it's a tag, just like `<script>` or `<img>`. From the other side it's a window-in-window.
 
-嵌入的窗口有它单独的 `document` 和 `window` 对象。
+The embedded window in the iframe has a separate `document` and `window` objects.
 
-我们可以使用以下属性访问他们：
+We can access them like using the properties:
 
-- `iframe.contentWindow` 是对 `<iframe>` 里 window 的引用。
-- `iframe.contentDocument` 是对 `<iframe>` 里的 document 对象的引用。
+- `iframe.contentWindow` is a reference to the window inside the `<iframe>`.
+- `iframe.contentDocument` is a reference to the document inside the `<iframe>`.
 
-当我们访问嵌入式窗口时，浏览器会检查 iframe 是否具有相同的来源，如果不是这样会拒绝访问（除了上述提到的排除项）。
+When we access an embedded window, the browser checks if the iframe has the same origin. If that's not so then the access is denied (writing to `location` is an exception, it's still permitted).
 
-举个例子，这里是来自不同源的 `<iframe>`：
+For instance, here's an `<iframe>` from another origin:
 
 ```html run
 <iframe src="https://example.com" id="iframe"></iframe>
 
 <script>
   iframe.onload = function() {
-    // 我们可以通过它获取内部窗口的引用
+    // we can get the reference to the inner window
     let iframeWindow = iframe.contentWindow;
 
     try {
-      // ..但是无法获取 document
+      // ...but not to the document inside it
       let doc = iframe.contentDocument;
     } catch(e) {
-      alert(e); // 安全错误（非同源）
+      alert(e); // Security Error (another origin)
     }
 
-    // 并且我们无法读取嵌入窗口的地址
+    // also we can't read the URL of the page in it
     try {
       alert(iframe.contentWindow.location);
     } catch(e) {
-      alert(e); // 安全错误
+      alert(e); // Security Error
     }
 
-    // ...但是我们可以修改这个地址（并且将其他内容加载到 iframe 里）
-    iframe.contentWindow.location = '/'; // 生效了
+    // ...but we can change it (and thus load something else into the iframe)!
+    iframe.contentWindow.location = '/'; // works
 
-    iframe.onload = null; // 清除处理函数，保证代码只执行一次
+    iframe.onload = null; // clear the handler, to run this code only once
   };
 </script>
 ```
 
-上述代码除了以下操作都会报错：
+The code above shows errors for any operations except:
 
-- 通过 `iframe.contentWindow` 获取内部窗口的 window
-- 修改它的 `location`
-
+- Getting the reference to the inner window `iframe.contentWindow`
+- Changing its `location`.
 
 ```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
-`iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
-...但是 `iframe.onload` 始终是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
+The `iframe.onload` event is essentially the same as `iframe.contentWindow.onload`. It triggers when the embedded window fully loads with all resources.
 
+...But `iframe.onload` is always available from outside the iframe, while accessing `iframe.contentWindow.onload` is only permitted from the window with the same origin.
 ```
 
-现在有一个同源窗口的例子，我们可以对嵌入的窗口做任何事：
+And now an example with the same origin. We can do anything with the embedded window:
 
 ```html run
 <iframe src="/" id="iframe"></iframe>
 
 <script>
   iframe.onload = function() {
-    // 随便做任何事
+    // just do anything
     iframe.contentDocument.body.prepend("Hello, world!");
   };
 </script>
 ```
 
-### 请等待 iframe 加载完成
+### Please wait until the iframe loads
 
-创建 iframe 时，它立刻就会有一个 document，但是这个 document 与最终页面加载完成后的 document 是不同的。
+When an iframe is created, it immediately has a document. But that document is different from the one that finally loads into it!
 
-看一下代码：
+Here, look:
 
 
 ```html run
@@ -129,50 +129,58 @@ document.domain = 'site.com';
   iframe.onload = function() {
     let newDoc = iframe.contentDocument;
 *!*
-    // 加载完后，document 和之前的已经不同了！
+    // the loaded document is not the same as initial!
     alert(oldDoc == newDoc); // false
 */!*
   };
 </script>
 ```
 
-对于新的开发者来言，这实际上是一个众所周知的陷阱。我们不应该立即使用这个 document，因为这个是错误的。我们在它上面增加的任何事件处理函数都将被忽略。
+That's a well-known pitfall. We shouldn't work with the document of a not-yet-loaded iframe, because that's the *wrong document*. If we set any event handlers on it, they will be ignored.
 
-...但是只有当 iframe 内的所有资源加载完后才会触发 `onload` 事件，如果我们希望更早的在嵌入文档的 `DOMContentLoaded` 上做操作怎么办？
+...We definitely can access the right document when the `onload` event triggers. But it only triggers when the whole iframe with all resources is loaded. What if we want to act sooner, on `DOMContentLoaded` of the embedded document?
 
+If the iframe comes from another origin, we can't access its document, so it's impossible.
 
-如果 iframe 不是同源的，那就无法完成这件事。但是对于同源的 iframe 来说，我们可以尝试捕捉新文档出现的时机，然后设置必要的处理逻辑，如下所示：
+But for the same origin we can setup the event handler. We just need to set it on the right document. For instance, we can try to catch the moment when a new document appears using checks in `setInterval`, and then setup necessary handlers, like this:
 
 ```html run
 <iframe src="/" id="iframe"></iframe>
 
 <script>
+  function onDocumentLoaded() {
+    iframe.contentDocument.body.prepend('Hello, world!');
+  }
+
   let oldDoc = iframe.contentDocument;
 
-  // 每 100ms 检测 document 是否是新的
-    let timer = setInterval(() => {
-    if (iframe.contentDocument == oldDoc) return;
+  // every 100 ms check if the document is the new one
+  let timer = setInterval(() => {
+    let newDoc = iframe.contentDocument;
+    if (newDoc == oldDoc) return;
 
-    // 如果是新的，设置处理函数
-    iframe.contentDocument.addEventListener('DOMContentLoaded', () => {
-      iframe.contentDocument.body.prepend('Hello, world!');
-    });
+    // new document
+    if (newDoc.readyState == 'loading') {
+      // loading yet, wait for the event
+      newDoc.addEventListener('DOMContentLoaded', onDocumentLoaded);
+    } else {
+      // DOM is ready!
+      onDocumentLoaded();
+    }
 
-    clearInterval(timer); // 清空定时器
+    clearInterval(timer); // cancel setInterval, don't need it any more
   }, 100);
 </script>
 ```
 
-如果您对这个问题有更好的解决方案，请在评论中告诉我。
-
 ## window.frames
 
-获取 `<iframe>` 窗口对象的另一个方式是从命名集合 `window.frames` 上获取：
+An alternative way to get a window object for `<iframe>` -- is to get it from the named collection  `window.frames`:
 
-- 通过索引获取：`window.frames[0]` —— 当前文档里第一个 iframe 的窗口。
-- 通过名称获取：`window.frames.iframeName` —— 获取 `name="iframeName"` 的 iframe 窗口。
+- By number: `window.frames[0]` -- the window object for the first frame in the document.
+- By name: `window.frames.iframeName` -- the window object for the frame with  `name="iframeName"`.
 
-举个例子：
+For instance:
 
 ```html run
 <iframe src="/" style="height:80px" name="win" id="iframe"></iframe>
@@ -183,21 +191,21 @@ document.domain = 'site.com';
 </script>
 ```
 
-一个 iframe 内可能嵌套了其他的 iframe，相应的 `window` 对象会也形成嵌套的层次结构。
+An iframe may have other iframes inside. The corresponding `window` objects form a hierarchy.
 
-可以通过以下方式获取引用：
+Navigation links are:
 
-- `window.frames` —— 子窗口的集合（用于嵌套的 iframe）。
-- `window.parent` —— 对"父"（外部）窗口的引用。
-- `window.top` —— 对最顶级父窗口的引用。
+- `window.frames` -- the collection of "children" windows (for nested frames).
+- `window.parent` -- the reference to the "parent" (outer) window.
+- `window.top` -- the reference to the topmost parent window.
 
-举例：
+For instance:
 
 ```js run
 window.frames[0].parent === window; // true
 ```
 
-我们可以使用 `top` 属性来检测当前的文档是否是在 iframe 内打开：
+We can use the `top` property to check if the current document is open inside a frame or not:
 
 ```js run
 if (window == top) { // current window == window.top?
@@ -207,67 +215,69 @@ if (window == top) { // current window == window.top?
 }
 ```
 
-## sandbox 属性
+## The sandbox attribute
 
-`sandbox` 属性允许在 `<iframe>` 中禁止某些特定操作，以避免执行一些不被信任的代码。它通过将它当做非同源的网页对待以及添加一些限制以实现 iframe 的沙盒化。
+The `sandbox` attribute allows for the exclusion of certain actions inside an `<iframe>` in order to prevent it executing untrusted code. It "sandboxes" the iframe by treating it as coming from another origin and/or applying other limitations.
 
-默认情况下，对于 `<iframe sandbox src="...">`，会有一些"默认限制"被应用于 iframe。但是我们可以像 `<iframe sandbox="allow-forms allow-popups">` 这样，提供一个以空格分割的"排除"限制列表作为属性，此时被列出的限制将不会生效。
+There's a "default set" of restrictions applied for `<iframe sandbox src="...">`. But it can be relaxed if we provide a space-separated list of keywords for restrictions that should not be applied as a value of the attribute, like this: `<iframe sandbox="allow-forms allow-popups">`.
 
-换句话说，一个空的 `"sandbox"` 可以带来最严格的限制，但是我们可以列出一个以空格分割的列表，列出我们想要提升的内容。
+In other words, an empty `"sandbox"` attribute puts the strictest limitations possible, but we can put a space-delimited list of those that we want to lift.
 
-以下是限制列表的一些属性：
+Here's a list of limitations. By default, all are applied. We can disable each by specifying the corresponding keyword in the `sandbox` attribute:
 
-`allow-same-origin`： 默认情况下，`"sandbox"` 在 iframe 上强制执行"不同来源"的策略。换句话说，即使 `iframe` 的 `src` 是同源的，它也会其作为非同源的站点来处理，并且对脚本添加所有隐含的限制。添加此选项后会移除这些限制。
+`allow-same-origin`
+: By default `"sandbox"` forces the "different origin" policy for the iframe. In other words, it makes the browser to treat the `iframe` as coming from another origin, even if its `src` points to the same site. With all implied restrictions for scripts. This option removes that feature.
 
 `allow-top-navigation`
-: 允许 `iframe` 修改父窗口的地址。
+: Allows the `iframe` to change `parent.location`.
 
 `allow-forms`
-: 允许在 `iframe` 内提交表单。
+: Allows to submit forms from `iframe`.
 
 `allow-scripts`
-: 允许在 `iframe` 内运行脚本。
+: Allows to run scripts from the `iframe`.
 
 `allow-popups`
-: 允许来自 `iframe` 的 `window.open` 弹出窗口。
+: Allows to `window.open` popups from the `iframe`
 
+See [the manual](mdn:/HTML/Element/iframe) for more.
 
-查看 [官方手册](mdn:/HTML/Element/iframe) 以获取更多内容。
+The example below demonstrates a sandboxed iframe with the default set of restrictions: `<iframe sandbox src="...">`. It has some JavaScript and a form.
 
-下面的示例演示了一个带有默认限制的沙盒 iframe：`<iframe sandbox src="...">`。它有一些 JavaScript 脚本和一个表单。
-
-请注意这里的代码没有任何作用。可见默认设置非常苛刻：
+Please note that nothing works. So the default set is really harsh:
 
 [codetabs src="sandbox" height=140]
 
 
 ```smart
-`"sandbox"` 属性的目的是为了*添加更多*限制。它不能移除这些限制，尤其是当 iframe 是非同源时，更不能放松同源策略。
+The purpose of the `"sandbox"` attribute is only to *add more* restrictions. It cannot remove them. In particular, it can't relax same-origin restrictions if the iframe comes from another origin.
 ```
 
-## 跨窗口传递消息
+## Cross-window messaging
 
-通过 `postMessage` 这个接口，我们可以在不同源的窗口内进行通信。
+The `postMessage` interface allows windows to talk to each other no matter which origin they are from.
 
-它有两个部分。
+So, it's a way around the "Same Origin" policy. It allows a window from `john-smith.com` to talk to `gmail.com` and exchange information, but only if they both agree and call corresponding JavaScript functions. That makes it safe for users.
+
+The interface has two parts.
 
 ### postMessage
 
-想要发送消息的窗口需要调用接收窗口的 [postMessage](mdn:api/Window.postMessage) 方法来传递消息。换句话说，如果我们想把消息发送到 `win`，我们应该调用 `win.postMessage(data, targetOrigin)`。
+The window that wants to send a message calls [postMessage](mdn:api/Window.postMessage) method of the receiving window. In other words, if we want to send the message to `win`, we should call  `win.postMessage(data, targetOrigin)`.
 
-这个接口有以下参数：
+Arguments:
 
 `data`
-: 要发送的数据。可以是任何对象，接口内部会使用"结构化克隆算法"将数据克隆一份。IE 只支持字符串，因此我们需要对复杂对象调用 `JSON.stringify` 以支持该浏览器
+: The data to send. Can be any object, the data is cloned using the "structured cloning algorithm". IE supports only strings, so we should `JSON.stringify` complex objects to support that browser.
 
 `targetOrigin`
-: 指定目标窗口的源，以确保只有来自指定源的窗口才能获得该消息。
+: Specifies the origin for the target window, so that only a window from the given origin will get the message.
 
-`targetOrigin` 是一种安全措施。请记住，如果目标窗口是非同源的，我们无法读取它的 `location`，因此我们就无法确认当前在预期的窗口中打开的是哪个站点：因为用户随时可以跳转走。
+The `targetOrigin` is a safety measure. Remember, if the target window comes from another origin, we can't read it's `location` in the sender window. So we can't be sure which site is open in the intended window right now: the user could navigate away, and the sender window has no idea about it.
 
-指定 `targetOrigin` 可以确保窗口内指定的网站还存在时才会接收数据。在有敏感数据时非常重要。
+Specifying `targetOrigin` ensures that the window only receives the data if it's still at the right site. Important when the data is sensitive.
 
-举个例子：这里只有当 `win` 内的站点是 `http://example.com` 这个源时才会接收消息：
+For instance, here `win` will only receive the message if it has a document from the origin `http://example.com`:
 
 ```html no-beautify
 <iframe src="http://example.com" name="example">
@@ -279,7 +289,7 @@ if (window == top) { // current window == window.top?
 </script>
 ```
 
-如果我们不希望做这个检测，可以将 `targetOrigin` 设置为 `*`。
+If we don't want that check, we can set `targetOrigin` to `*`.
 
 ```html no-beautify
 <iframe src="http://example.com" name="example">
@@ -296,27 +306,27 @@ if (window == top) { // current window == window.top?
 
 ### onmessage
 
-为了接收消息，目标窗口应该在 `message` 事件上增加一个处理函数。当 `postMessage` 被调用时这个事件会被触发（并且 `targetOrigin` 检查成功）。
+To receive a message, the target window should have a handler on the `message` event. It triggers when `postMessage` is called (and `targetOrigin` check is successful).
 
-这个事件的 event 对象有一些特殊属性：
+The event object has special properties:
 
 `data`
-: 从 `postMessage` 传递来的数据。
+: The data from `postMessage`.
 
 `origin`
-: 发送方的源，举个例子： `http://javascript.info`。
+: The origin of the sender, for instance `http://javascript.info`.
 
 `source`
-: 对发送方窗口的引用。如果我们需要的话可以立即回复 `postMessage`。
+: The reference to the sender window. We can immediately `source.postMessage(...)` back if we want.
 
-为了处理这个事件，我们需要使用 `addEventListener`，简单使用 `window.onmessage` 不起作用。
+To assign that handler, we should use `addEventListener`, a short syntax `window.onmessage` does not work.
 
-这里有一个例子：
+Here's an example:
 
 ```js
 window.addEventListener("message", function(event) {
   if (event.origin != 'http://javascript.info') {
-    // 从未知源获取的消息，忽略它
+    // something from an unknown domain, let's ignore it
     return;
   }
 
@@ -324,45 +334,45 @@ window.addEventListener("message", function(event) {
 });
 ```
 
-这里有完整的示例：
+The full example:
 
 [codetabs src="postmessage" height=120]
 
 ```smart header="There's no delay"
-`postMessage` 和 `message` 事件之间完全没有延迟。他们是同步的，甚至比 `setTimeout(...,0)` 还要快。
+There's totally no delay between `postMessage` and the `message` event. The event triggers synchronously, faster than `setTimeout(...,0)`.
 ```
 
-## 总结
+## Summary
 
-为了获取另一个窗口的内容以及调用它的方法，首先我们需要获取它的引用。
+To call methods and access the content of another window, we should first have a reference to it.
 
-对于弹出窗口我们有两个属性
-- `window.open` —— 弹出一个新的窗口并返回它的引用,
-- `window.opener` —— 在弹出窗口内获取打开它的窗口的引用。
+For popups we have these references:
+- From the opener window: `window.open` -- opens a new window and returns a reference to it,
+- From the popup: `window.opener` -- is a reference to the opener window from a popup.
 
-对于 iframes 来说，我们可以使用以下方法获得父窗口或子窗口：
-- `window.frames` —— 一个嵌套的 window 对象集合
-- `window.parent`，`window.top` 是父窗口以及顶级窗口的引用
-- `iframe.contentWindow` 是 `<iframe>` 内网页的 window 对象。
+For iframes, we can access parent/children windows using:
+- `window.frames` -- a collection of nested window objects,
+- `window.parent`, `window.top` are the references to parent and top windows,
+- `iframe.contentWindow` is the window inside an `<iframe>` tag.
 
-如果几个窗口的网页是同源的（域名，端口，协议都相同），那么这几个窗口可以互相操作任何事情。
+If windows share the same origin (host, port, protocol), then windows can do whatever they want with each other.
 
-否则，只能做以下操作：
-- 修改另一个窗口的地址（并且只能修改，不能读取）
-- 对它发送一个消息
-
-但也有一些例外情况：
-- 对于二级域名相同的页面：`a.site.com` 和 `b.site.com`。通过在它们的代码里执行 `document.domain='site.com'` 可以让他们处于"同源"状态。 
-- 如果 iframe 有 `sandbox` 属性，则会强制其处于"非同源"状态，除非在属性中指定了 `allow-same-origin`，这可可用于在同一站点的 iframe 中运行不受信任的代码。
+Otherwise, only possible actions are:
+- Change the location of another window (write-only access).
+- Post a message to it.
 
 
-`postMessage` 接口允许两个窗口之间进行通信（要通过安全检查）：
+Exclusions are:
+- Windows that share the same second-level domain: `a.site.com` and `b.site.com`. Then setting `document.domain='site.com'` in both of them puts them into the "same origin" state.
+- If an iframe has a `sandbox` attribute, it is forcefully put into the "different origin" state, unless the `allow-same-origin` is specified in the attribute value. That can be used to run untrusted code in iframes from the same site.
 
-1. 发送方调用 `targetWin.postMessage(data, targetOrigin)`。
-2. 如果 `targetOrigin` 不是 `'*'`，那么浏览器会检测 `targetWin` 的链接地址
-3. 如果满足条件，`targetWin` 会触发 `message` 事件，并且有以下三个属性：
-    - `origin` —— 发送方窗口的源（比如 `http://my.site.com`）
-    - `source` —— 对发送窗口的引用
-    - `data` —— 数据，除 IE 只支持字符串意外，其余浏览器都是对象。
+The `postMessage` interface allows two windows to talk with security checks:
 
-    我们应该使用 `addEventListener` 在目标窗口监听这个事件。
+1. The sender calls `targetWin.postMessage(data, targetOrigin)`.
+2. If `targetOrigin` is not `'*'`, then the browser checks if window `targetWin` has the origin `targetOrigin`.
+3. If it is so, then `targetWin` triggers the `message` event with special properties:
+    - `origin` -- the origin of the sender window (like `http://my.site.com`)
+    - `source` -- the reference to the sender window.
+    - `data` -- the data, any object in everywhere except IE that supports only strings.
+
+    We should use `addEventListener` to set the handler for this event inside the target window.
