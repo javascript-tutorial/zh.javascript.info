@@ -75,7 +75,7 @@ alert( "Exception 0xAF".match(/x[0-9A-F][0-9A-F]/g) ); // xAF
 下面的示例查询除了字母，数字和空格之外的任意字符：
 
 ```js run
-alert( "alice15@gmail.com".match(/[^\d\sA-Z]/gi) ); // @,.
+alert( "alice15@gmail.com".match(/[^\d\sA-Z]/gi) ); // @ and .
 ```
 
 ## 在 […] 中不转义
