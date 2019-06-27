@@ -4,7 +4,7 @@ importance: 5
 
 # 排序对象
 
-编写函数 `sortByName(users)` 获得对象数组 property的属性 `name` 并对它进行排序。
+编写函数 `sortByAge(users)` 获得对象数组的 `age` 属性并对它进行排序。
 
 例如：
 
