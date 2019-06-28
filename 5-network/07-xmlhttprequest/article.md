@@ -121,7 +121,7 @@ xhr.onerror = function() {
 `response`（以前的脚本可能用的是 `responseText`）
 ：服务器响应。
 
-如果我们改变注意，我们可以随时更改请求。`xhr.abort()` 调用可以做到：
+如果我们改变注意，我们可以随时中止请求。`xhr.abort()` 调用可以做到：
 
 ```js
 xhr.abort(); // terminate the request
