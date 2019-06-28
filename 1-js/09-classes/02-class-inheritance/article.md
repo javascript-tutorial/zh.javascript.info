@@ -47,7 +47,7 @@ let rabbit = new Rabbit("My rabbit");
 
 现在，它们是完全独立的。
 
-但是，我们想要 `Rabbit` 继承自 `Animal`。换句话说，rabbits 应该基于 animals，具有访问 `Animal` 的权限，并使用自己的方法扩展它们。
+但是，我们想要 `Rabbit` 继承自 `Animal`。换句话说，rabbits 应该基于 animals，能够访问 `Animal` 中的方法，并使用自己的方法扩展它们。
 
 要继承自另一个类，我们需要在 `{..}` 前指定 `“extends”` 和父类。
 
@@ -84,17 +84,17 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.hide(); // White Rabbit hides!
 ```
 
-现在 `Rabbit` 代码变简洁了一点，因为它默认以 `Animal` 作为其构造函数，同时它仍然能良好“运行”，就像 animals 一样。
+现在 `Rabbit` 代码变简洁了一点，因为它默认以 `Animal` 作为其构造函数，并且它能 `run`，就像 animals 一样。
 
-在其内部，`extends` 关键字将 `[[Prototype]]` 引用从 `Rabbit.prototype` 添加到 `Animal.prototype`：
+在其内部，`extends` 关键字添加了 `[[Prototype]]` 引用：从 `Rabbit.prototype` 到 `Animal.prototype`：
 
 ![](animal-rabbit-extends.png)
 
 因此，如果在 `Rabbit.prototype` 中没有找到某个方法，JavaScript 将会从 `Animal.prototype` 中获取它。
 
-我们可以回忆一下这一章 <info:native-prototypes>，JavaScript 对内置对象使用相同的类型继承。例如，`Date.prototype.[[Prototype]]` 是 `Object.prototype`，所以 dates 有通用的对象方法。
+我们可以回忆一下这一章 <info:native-prototypes>，JavaScript 内置对象同样也是基于原型继承的。例如，`Date.prototype.[[Prototype]]` 是 `Object.prototype`，所以 dates 有通用的对象方法。
 
-````smart header="`extends` 后允许任何表达式"
+````smart header="`extends` 允许后接任何表达式"
 类语法不仅可以指定一个类，还可以指定 `extends` 之后的任何表达式。
 
 例如，一个生成父类的函数调用：
@@ -114,7 +114,7 @@ new User().sayHi(); // Hello
 ```
 这里 `class User` 继承自 `f("Hello")` 的结果
 
-当我们使用函数根据许多条件生成类并且可以从它们继承时，这对于高级编程模式来说可能很有用。
+我们可以根据多种状况使用函数生成类，并继承它们，这对于高级编程模式来说可能很有用。
 ````
 
 ## 重写方法
@@ -194,7 +194,7 @@ class Rabbit extends Animal {
 }
 ```
 
-箭头函数中的 `super` 与 `stop()` 是相同的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
+箭头函数中的 `super` 与 `stop()` 中的是相同的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
 
 ```js
 // Unexpected super
@@ -250,7 +250,7 @@ class Rabbit extends Animal {
 
 *!*
 // 不生效！
-let rabbit = new Rabbit("White Rabbit", 10); // Error: Error: this is not defined.
+let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 */!*
 ```
 
@@ -305,7 +305,7 @@ alert(rabbit.earLength); // 10
 ```
 
 
-## Super：内部基于 [[HomeObject]] 实现
+## Super 内部探究：[[HomeObject]]
 
 让我们再深入的去研究下 `super`。顺便说一句，我们会发现一些有趣的事情。
 
@@ -450,11 +450,11 @@ longEar.eat();  // Long Ear eats.
 */!*
 ```
 
-它按照预期运行，基于 `[[HomeObject]]` 技巧。像 `longEar.eat` 这样的方法，知道 `[[HomeObject]]`，并且从它的原型中获取父类方法。并没有使用 `this`。
+它按照预期运行，基于 `[[HomeObject]]` 运行机制。像 `longEar.eat` 这样的方法，知道 `[[HomeObject]]`，并且从它的原型中获取父类方法。并没有使用 `this`。
 
 ### 方法并不是 “自由” 的
 
-在前面我们已经知道，通常函数都是 “自由” 的，并没有绑定到 JavaScript。正因如此，它们可以在对象之间复制，并且用另外一个 `this` 调用它。
+在前面我们已经知道，通常函数都是 “自由” 的，并没有绑定到 JavaScript 中的对象。正因如此，它们可以在对象之间复制，并且用另外一个 `this` 调用它。
 
 `[[HomeObject]]` 的存在违反了这个原则，因为方法记住了它们的对象。`[[HomeObject]]` 不能被修改，所以这个绑定是永久的。
 
@@ -513,7 +513,7 @@ tree.sayHi();  // I'm an animal (?!?)
 
 ```js run
 let animal = {
-  eat: function() { // 可以用短语法来书写：eat() {...}
+  eat: function() { // 可以使用简短写法：eat() {...}
     // ...
   }
 };
@@ -543,4 +543,4 @@ rabbit.eat();  // 错误调用 super（因为这里并没有 [[HomeObject]]）
     - 因此，将一个带有 `super` 的方法从一个对象复制到另一个对象是不安全的。
 
 补充：
-- 箭头函数没有自己的 `this` 或 `super`，所以它们能很好的适应周围的环境。
+- 箭头函数没有自己的 `this` 或 `super`，所以它们能融入到就近的上下文，像透明似的。
