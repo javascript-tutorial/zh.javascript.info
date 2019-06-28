@@ -37,7 +37,7 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
     - `method` -- HTTP 方法。通常是 `“GET”` 或者 `“POST”`。
     - `URL` -- 请求的 URL。
     - `async` -- 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
-    - `user`, `password` -- 基本的 HTTP 身份验证（如果需要的话）的登录名和密码。
+    - `user`, `password` -- HTTP 基本身份认证（如果需要的话）的登录名和密码。
 
     请注意。`open` 并非其字面意思，调用它的时候并不会建立连接。它的作用仅仅是作为当前请求的配置，而网络活动要到 `send` 调用后才开启。
 
@@ -213,7 +213,7 @@ xhr.onreadystatechange = function() {
 
 换句话说就是在 `send()` 阶段 JavaScript 停止执行，并且等到响应被接收时才继续执行剩余的代码。这有点儿像 `alert` 或 `prompt` 命令。
 
-下面重写上面的例子，第 3 个参数 `open` 设置为 `false`：
+下面重写上面的例子，`open` 函数的第三个参数设置为 `false`：
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -232,7 +232,7 @@ try {
 };
 ```
 
-它可能看起来很不错，但是同步调用很少使用，因为它们会阻塞页面内（in-page）的 JavaScript 直到加载完成。在一些浏览器中，滚动可能无法正常运行。如果一个同步调用执行很长时间，浏览器可能会建议关闭关闭“挂起”（hanging）的页面。
+它可能看起来很不错，但是同步调用很少使用，因为它们会阻塞页面内（in-page）的 JavaScript 直到加载完成。在一些浏览器中，滚动可能无法正常运行。如果一个同步调用执行很长时间，浏览器可能会建议关闭“挂起”（hanging）的页面。
 
 `XMLHttpRequest` 的许多高级功能在同步请求中都无效，比如向其他域发起请求或者设置超时时间。同时，你也可以看到，它们没有进度指示。
 
@@ -263,7 +263,7 @@ HTTP-headers 有三种方法：
     ````warn header="不能移除 header"
     `XMLHttpRequest` 的另一个特点是无法撤销 `setRequestHeader`。
 
-    一旦请求头被设置。它就无法撤销。其他的调用会向请求头中添加信息，但不会覆盖它们。
+    一旦请求头被设置，它就无法撤销。其他的调用会向请求头中添加信息，但不会覆盖它们。
 
     例如：
 
@@ -300,7 +300,7 @@ HTTP-headers 有三种方法：
     响应头中的换行符总是 `"\r\n"`（不依赖于操作系统），所以我们可以很轻易地将其分割成单一的头。name 和 value 之间总是会以冒号后跟空格 `": "` 分隔开。这在规范中已经得到修复。
 
     因此，如果我们想要获取具有 name/value 对的对象，我们用一点点 JS 代码来处理它们。
-    就像这样（假设有两个标题具有相同的名称，那么后者会覆盖前者）：
+    就像这样（假设有两个响应头具有相同的名称，那么后者会覆盖前者）：
 
     ```js
     let headers = xhr
@@ -320,7 +320,7 @@ HTTP-headers 有三种方法：
 语法为：
 
 ```js
-let formData = new FormData([form]); // 创建对象，可以以 <form> 来填充
+let formData = new FormData([form]); // 创建对象，可以用表单元素 <form> 来填充
 formData.append(name, value); // 追加一个字段
 ```
 
@@ -376,7 +376,7 @@ xhr.send(json);
 
 ## 上传进度（Upload progress）
 
-`progress` 事件仅仅在下载状态下工作。
+`progress` 事件仅仅在下载阶段工作。
 
 也就是说：如果 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据，然后下载响应数据。
 
@@ -492,7 +492,7 @@ xhr.onerror = function() {
 实际上还有更多事件，[现代规范](http://www.w3.org/TR/XMLHttpRequest/#events)中列出了它们（按生命周期排序）：
 
 - `loadstart` —— 请求开始。
-- `progress` —— 响应的数据包到达，此时整个响应体都在 `responseText` 里。
+- `progress` —— 一个响应数据包到达，此时整个响应体都在 `responseText` 里。
 - `abort` —— 请求被 `xhr.abort()` 取消。
 - `error` —— 发生连接错误，例如，域名错误。不会响应诸如 404 这类的 HTTP 错误。
 - `load` —— 请求成功完成。
