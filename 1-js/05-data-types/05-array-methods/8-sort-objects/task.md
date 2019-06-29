@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 排序对象
+# 按年龄对用户排序
 
-编写函数 `sortByName(users)` 获得对象数组 property的属性 `name` 并对它进行排序。
+编写函数 `sortByAge(users)` 获得对象数组的 `age` 属性并对它进行排序。
 
 例如：
 
@@ -13,11 +13,12 @@ let john = { name: "John", age: 25 };
 let pete = { name: "Pete", age: 30 };
 let mary = { name: "Mary", age: 28 };
 
-let arr = [ john, pete, mary ];
+let arr = [ pete, john, mary ];
 
-sortByName(arr);
+sortByAge(arr);
 
 // now: [john, mary, pete]
+alert(arr[0].name); // John
 alert(arr[1].name); // Mary
+alert(arr[2].name); // Pete
 ```
-
