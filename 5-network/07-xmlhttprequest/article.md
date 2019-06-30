@@ -4,13 +4,13 @@
 
 虽然它的名字里面有“XML”，但它可以操作任何数据，而不仅仅是 XML 格式。我们可以用它来上传/下载文件，跟踪进度等等。
 
-现如今，我们有一个更为现代的方式叫做 `fetch`，它开始抛弃 `XMLHttpRequest`。
+现如今，我们有一个更为现代的方式叫做 `fetch`，它的出现使得 `XMLHttpRequest` 渐渐被弃用。
 
 在现代 web 开发中，出于以下三种原因，我们可能会用 `XMLHttpRequest`：
 
 1. 历史原因：我们需要使用 `XMLHttpRequest` 支持现有脚本。
 2. 我们需要兼容老旧的浏览器，并且不想用 polyfills（例如为了让脚本更小）。
-3. 我们需要一些 `fetch` 目前无法做到的事情，比如追踪上传进度。
+3. 我们需要一些 `fetch` 目前无法做到的事情，比如跟踪上传进度。
 
 这些术语听起来都很熟悉是么？如果是那么请继续阅读下面 `XMLHttpRequest` 内容。如果还不是很熟悉的话，那么请先阅读关于 <info:fetch-basics> 的基础内容。
 
@@ -20,7 +20,7 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
 
 我们首先来看看最常用的异步模式：
 
-我们需要 3 个步骤来发送请求：
+发送请求需要 3 个步骤：
 
 1. 创建 `XMLHttpRequest`。
     ```js
@@ -32,14 +32,14 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
     xhr.open(method, URL, [async, user, password])
     ```
 
-    通常在 `new XMLHttpRequest` 之后首先调用这个函数。它指定了请求的主要参数：
+    在 `new XMLHttpRequest` 之后我们通常调用 `xhr.open` 函数。它指定了请求的主要参数：
 
     - `method` -- HTTP 方法。通常是 `“GET”` 或者 `“POST”`。
     - `URL` -- 请求的 URL。
     - `async` -- 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
     - `user`, `password` -- HTTP 基本身份认证（如果需要的话）的登录名和密码。
 
-    请注意。`open` 并非其字面意思，调用它的时候并不会建立连接。它的作用仅仅是作为当前请求的配置，而网络活动要到 `send` 调用后才开启。
+    请注意。调用 `xhr.open` 函数的时候并不会建立连接。它的作用仅仅是作为当前请求的配置，而网络活动要到 `send` 调用后才开启。
 
 3. 发送请求。
 
@@ -47,15 +47,15 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
     xhr.send([body])
     ```
 
-    这个方法打开连接，并发送请求到服务器。可选参数 `body` 包含了请求主体。
+    这个方法建立连接，并发送请求到服务器。可选参数 `body` 包含了请求主体。
 
-    有些请求方式，比如 `GET` 没有请求体。而像 `POST` 这类请求方式会用 `body` 来发送数据到服务器。我们稍后会看到一些示例。
+    我们稍后会看到一些不同请求方式的示例，比如 `GET` 没有请求体。而 `POST` 这类请求方式会用 `body` 来发送数据到服务器。
 
 4. 监听响应事件。
 
     这三个事件是最常用的：
-    - `load` -- 当请求结果已经就绪，包括像 404 这样的 HTTP 错误。
-    - `error` -- 当无法发送请求时，比如网络中断或者无效的 URL。
+    - `load` -- 当请求结果已经返回，包括像 404 这样的 HTTP 错误。
+    - `error` -- 当无法完成请求时，比如网络中断或者无效的 URL。
     - `progress` -- 下载期间定时触发，报告已经下载了多少。
 
     ```js
@@ -63,13 +63,13 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
       alert(`Loaded: ${xhr.status} ${xhr.response}`);
     };
 
-    xhr.onerror = function() { // 只有在请求无法建立时才会触发
+    xhr.onerror = function() { // 只有在请求无法完成时才会触发
       alert(`Network Error`);
     };
 
     xhr.onprogress = function(event) { // 定时触发
       // event.loaded - 已经下载了多少字节
-      // event.lengthComputable = true 当服务器发送了 Content-Length 响应头时
+      // event.lengthComputable = true 当服务器返回了 Content-Length 响应头时
       // event.total - 总字节数（如果 lengthComputable 为 true）
       alert(`Received ${event.loaded} of ${event.total}`);
     };
@@ -110,18 +110,18 @@ xhr.onerror = function() {
 };
 ```
 
-一旦服务器有了响应，我们可以在下面这些请求对象的属性中接收结果：
+一旦服务器有了响应，我们可以在下面这些请求对象的属性中获取相关的返回结果：
 
 `status`
-：HTTP 状态码（一个数字）：`200`，`404`，`403` 等等，如果的是非 HTTP 错误，它的结果为 `0`。
+：HTTP 状态码（一个数字）：`200`，`404`，`403` 等等，如果出现非 HTTP 错误，它的结果为 `0`。
 
 `statusText`
-：HTTP 状态消息（字符串）：如果状态码是 `200` 的话其消息通常为 `OK`，`404` 的消息是 `Not Found`，`403` 的消息是 `Forbidden`。
+：HTTP 状态消息（字符串）：如果状态码是 `200` 的话它的消息值通常为 `OK`，`404` 对应的值为 `Not Found`，`403` 对应的值为 `Forbidden`。
 
 `response`（以前的脚本可能用的是 `responseText`）
 ：服务器响应。
 
-如果我们改变注意，我们可以随时中止请求。`xhr.abort()` 调用可以做到：
+如果我们改变注意，我们可以随时终止请求。`xhr.abort()` 调用可以做到：
 
 ```js
 xhr.abort(); // terminate the request
@@ -171,12 +171,12 @@ xhr.onload = function() {
 ```smart
 在旧的脚本中，你可能会看到 `xhr.responseText` 甚至是 `xhr.responseXML` 属性。
 
-它们的存在是基于一些历史原因，用以获取字符串或者 XML 文档。现今，我们应该设置格式为 `xhr.responseType`，然后就能获取如上所示的 `xhr.response` 了。
+基于一些历史原因，我们使用它们来获取字符串或者 XML 文档。现今，我们应该设置格式为 `xhr.responseType`，然后就能获取如上所示的 `xhr.response` 了。
 ```
 
 ## 准备状态（Ready states）
 
-`XMLHttpRequest` 的状态（states）会随着它的处理进度变化而变化。当前状态可以用 `xhr.readyState` 来访问。
+`XMLHttpRequest` 的状态（states）会随着它的处理进度变化而变化。可以用 `xhr.readyState` 来了解当前状态。
 
 [规范](https://xhr.spec.whatwg.org/#states) 中提到的所有状态如下：
 
@@ -205,7 +205,7 @@ xhr.onreadystatechange = function() {
 
 同样是基于历史原因，在非常老的代码中，你会发现它们使用的是 `readystatechange`。
 
-如今，它们已被 `load/error/progress` 事件处理器替代。
+如今，它们已被 `load/error/progress` 事件替代。
 
 ## 同步请求
 
@@ -257,7 +257,7 @@ HTTP-headers 有三种方法：
     一些请求头可能由浏览器专门管理，比如，`Referer` 和 `Host`。
     参见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method) 以获取更多信息。
 
-    为了用户安全和请求的正确性 XMLHttpRequest 不允许修改它们，
+    为了用户安全和请求的正确性，XMLHttpRequest 不允许修改它们，
     ```
 
     ````warn header="不能移除 header"
@@ -297,7 +297,7 @@ HTTP-headers 有三种方法：
     Date: Sat, 08 Sep 2012 16:53:16 GMT
     ```
 
-    响应头中的换行符总是 `"\r\n"`（不依赖于操作系统），所以我们可以很轻易地将其分割成单一的头。name 和 value 之间总是会以冒号后跟空格 `": "` 分隔开。这在规范中已经得到修复。
+    响应头中的换行符总是 `"\r\n"`（不依赖于操作系统），所以我们可以很轻易地将其分割成单一的响应头部。name 和 value 之间总是会以冒号后跟空格 `": "` 分隔开。这在规范中已经得到修复。
 
     因此，如果我们想要获取具有 name/value 对的对象，我们用一点点 JS 代码来处理它们。
     就像这样（假设有两个响应头具有相同的名称，那么后者会覆盖前者）：
