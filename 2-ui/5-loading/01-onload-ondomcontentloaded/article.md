@@ -170,7 +170,6 @@ window.addEventListener("unload", function() {
 ```js run
 window.onbeforeunload = function() {
   return false;
-  return "There are unsaved changes. Leave now?";
 };
 ```
 
