@@ -6,7 +6,11 @@
 
 [change](http://www.w3.org/TR/html5/forms.html#event-input-change) 事件是在元素变化结束之后触发的。
 
+<<<<<<< HEAD
 对于文本输入框来说，当其失去焦点的时候就会触发 change 事件。
+=======
+For text inputs that means that the event occurs when it loses focus.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 例如，当我们在下面的文本区域中输入的时候，`change` 事件不会被触发。但是当我们将焦点移到别处时，例如点击按钮，就会触发 `change` 事件：
 
@@ -21,7 +25,13 @@
 
 每当输入的值发生改变时，就会触发 `input` 事件。
 
+<<<<<<< HEAD
 例如：
+=======
+Unlike keyboard events, it triggers on any value change, even those that does not involve keyboard actions: pasting with a mouse or using speech recognition to dictate the text.
+
+For instance:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```html autorun height=40 run
 <input type="text" id="input"> oninput: <span id="result"></span>
@@ -34,7 +44,11 @@
 
 如果我们想要处理 `<input>` 的每次变化，那么使用该事件就是最好的选择。
 
+<<<<<<< HEAD
 与键盘事件不同，只要值改变了，`input` 事件就会触发，甚至包括不使用键盘的操作：使用鼠标粘贴或者使用语音识别来输入文字。
+=======
+On the other hand, `input` event doesn't trigger on keyboard input and other actions that do not involve value change, e.g. pressing arrow keys `key:⇦` `key:⇨` while in the input.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```smart header="`oninput` 不能阻止任何事件"
 当输入值变化之后，`input` 事件就会触发。
@@ -62,7 +76,11 @@
 </script>
 ```
 
+<<<<<<< HEAD
 从技术上来讲，我们可以拷贝/粘贴任何东西。例如，我们可以从资源管理器中拷贝一份文件，然后粘贴进来。
+=======
+Technically, we can copy/paste everything. For instance, we can copy a file in the OS file manager, and paste it.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 在[设计规范](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)中有一系列的方法，可以作用于不同的数据类型，对剪贴板进行读写。
 

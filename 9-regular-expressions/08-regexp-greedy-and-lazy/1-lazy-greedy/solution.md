@@ -1,6 +1,6 @@
 
-结果是：`match:123 4`。
+The result is: `match:123 4`.
 
-首先，懒惰模式 `pattern:\d+?` 尝试去获取尽可能少的字符，但当它检测到空格，就得出匹配结果 `match:123`。
+First the lazy `pattern:\d+?` tries to take as little digits as it can, but it has to reach the space, so it takes  `match:123`.
 
-然后，第二个 `\d+?` 就只获取一个字符，因为这就已足够了。
+Then the second `\d+?` takes only one digit, because that's enough.

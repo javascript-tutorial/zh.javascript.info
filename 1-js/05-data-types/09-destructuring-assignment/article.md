@@ -2,9 +2,17 @@
 
 JavaScript 中最常用的两种数据结构是 `Object`（对象）和 `Array`（数组）。
 
+<<<<<<< HEAD
 对象让我们能够把许多信息打包到一个单一的实体中，数组则让我们能够存放有序的集合。所以我们可以创建一个对象或一个数组，把它当作一个实体进行处理，或者把它当作参数传递给一个函数调用。
 
 **解构赋值**是一种特殊的语法，它让我们可以将数组或对象进行“拆包”，存放到一系列的变量中，因为有时候使用变量更加方便。解构操作在那些具有很多参数和默认参数值的函数中也很奏效，很快我们就会看到这些都是怎么处理的。
+=======
+Objects allow us to create a single entity that stores data items by key, and arrays allow us to gather data items into an ordered collection.
+
+But when we pass those to a function, it may need not an object/array as a whole, but rather individual pieces.
+
+*Destructuring assignment* is a special syntax that allows us to "unpack" arrays or objects into a bunch of variables, as sometimes that's more convenient. Destructuring also works great with complex functions that have a lot of parameters, default values, and so on.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ## 数组解构
 
@@ -15,7 +23,13 @@ JavaScript 中最常用的两种数据结构是 `Object`（对象）和 `Array`�
 let arr = ["Ilya", "Kantor"]
 
 *!*
+<<<<<<< HEAD
 // 解构赋值
+=======
+// destructuring assignment
+// sets firstName = arr[0]
+// and surname = arr[1]
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 let [firstName, surname] = arr;
 */!*
 
@@ -31,8 +45,13 @@ alert(surname);  // Kantor
 let [firstName, surname] = "Ilya Kantor".split(' ');
 ```
 
+<<<<<<< HEAD
 ````smart header="\"解构\"并不意味着\"破坏\""
 这种语法叫做“解构赋值”，因为它通过将结构中的各元素复制到变量中来达到“解构”的目的。但数组本身是没有被修改的。
+=======
+````smart header="\"Destructuring\" does not mean \"destructive\"."
+It's called "destructuring assignment," because it "destructurizes" by copying items into variables. But the array itself is not modified.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 也就是以下代码的更精简写法而已：
 ```js
@@ -42,6 +61,7 @@ let surname = arr[1];
 ```
 ````
 
+<<<<<<< HEAD
 ````smart header="忽略第一个元素"
 数组中不想要的元素也可以通过添加额外的逗号来把它丢弃：
 
@@ -49,12 +69,25 @@ let surname = arr[1];
 *!*
 // 不需要第一个和第二个元素
 let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+=======
+````smart header="Ignore elements using commas"
+Unwanted elements of the array can also be thrown away via an extra comma:
+
+```js run
+*!*
+// second element is not needed
+let [firstName, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 */!*
 
 alert( title ); // Consul
 ```
 
+<<<<<<< HEAD
 在以上的代码中，数组的第一个和第二个元素被跳过，第三个元素被赋值给了 `title` 变量，剩下的元素也被跳过了。
+=======
+In the code above, the second element of the array is skipped, the third one is assigned to `title`, and the rest of the array items is also skipped (as there are no variables for them).
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ````
 
 ````smart header="用于等号右侧的任何可迭代对象"
@@ -111,7 +144,7 @@ user.set("name", "John");
 user.set("age", "30");
 
 *!*
-for (let [key, value] of user.entries()) {
+for (let [key, value] of user) {
 */!*
   alert(`${key}:${value}`); // name:John, then age:30
 }
@@ -128,6 +161,7 @@ alert(name1); // Julius
 alert(name2); // Caesar
 
 *!*
+// Note that type of `rest` is Array.
 alert(rest[0]); // Consul
 alert(rest[1]); // of the Roman Republic
 alert(rest.length); // 2
@@ -146,6 +180,7 @@ let [firstName, surname] = [];
 */!*
 
 alert(firstName); // undefined
+alert(surname); // undefined
 ```
 
 如果我们想要提供一个“默认值”给未赋值的变量，我们可以使用 `=` 来提供：
@@ -207,7 +242,11 @@ alert(height); // 200
 属性 `options.title`、`options.width` 和 `options.height` 的值被赋给了对应的变量。变量的顺序并不重要，以下的代码也奏效：
 
 ```js
+<<<<<<< HEAD
 // 改变 let {...} 中属性的顺序
+=======
+// changed the order in let {...}
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 let {height, width, title} = { title: "Menu", height: 200, width: 100 }
 ```
 
@@ -268,7 +307,11 @@ let {width = prompt("width?"), title = prompt("title?")} = options;
 */!*
 
 alert(title);  // Menu
+<<<<<<< HEAD
 alert(width);  // 你输入的宽度值
+=======
+alert(width);  // (whatever the result of prompt is)
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ```
 
 我们也可以结合冒号和等号一起使用：
@@ -287,11 +330,19 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
+<<<<<<< HEAD
 ### 剩余操作符
+=======
+### The rest pattern "..."
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 如果对象拥有的属性数量比我们提供的变量数量还多怎么办？我们可以只取其中的某一些属性然后把“剩余的”赋值到其他地方吗？
 
+<<<<<<< HEAD
 关于剩余操作符（即三个点）的文档几乎已经要被列为标准了，但大部分的浏览器还尚未支持。
+=======
+We can use the rest pattern, just like we did with arrays. It's not supported by some older browsers (IE, use Babel to polyfill it), but works in modern ones.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 看起来就像这样：
 
@@ -303,6 +354,8 @@ let options = {
 };
 
 *!*
+// title = property named title
+// rest = object with the rest of properties
 let {title, ...rest} = options;
 */!*
 
@@ -313,8 +366,13 @@ alert(rest.width);   // 100
 
 
 
+<<<<<<< HEAD
 ````smart header="不使用 `let` 的疑难病症"
 在以上的例子中，变量都是在赋值前才被声明的：`let {…} = {…}`。当然，我们也可以使用已有的变量。但这里有一个问题需要注意。
+=======
+````smart header="Gotcha if there's no `let`"
+In the examples above variables were declared right in the assignment: `let {…} = {…}`. Of course, we could use existing variables too, without `let`. But there's a catch.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 以下代码无法正常运行：
 ```js run
@@ -335,13 +393,22 @@ let title, width, height;
 }
 ```
 
+<<<<<<< HEAD
 为了告诉 JavaScript 这不是一个代码块，我们可以把整个赋值表达式用括号 `(...)` 包起来：
+=======
+To show JavaScript that it's not a code block, we can make it a part of an expression by wrapping in parentheses `(...)`:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 let title, width, height;
 
+<<<<<<< HEAD
 // 现在就正确了
 *!*(*/!*{title, width, height} = {title: "Menu", width: 200, height: 100}*!*)*/!*;
+=======
+// okay now
+*!*(*/!*{title, width, height}*!*)*/!* = {title: "Menu", width: 200, height: 100};
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 alert( title ); // Menu
 ```
@@ -364,7 +431,11 @@ let options = {
   extra: true    // 一些不会被解构的额外属性
 };
 
+<<<<<<< HEAD
 // 为了清晰起见，解构赋值语句被写成多行
+=======
+// destructuring assignment split in multiple lines for clarity
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 let {
   size: { // 把 size 赋值到这里
     width,
@@ -383,13 +454,20 @@ alert(item2);  // Donut
 
 除了 `extra` 属性的整个 `options` 对象都能被赋值给对应的变量。
 
+Note that `size` and `items` itself is not destructured.
+
 ![](destructuring-complex.png)
 
 最终，我们得到了 `width`、`height`、`item1`、`item2` 和具有默认值的 `title` 变量。
 
+<<<<<<< HEAD
 有一个拥有很多属性的复杂对象，我们只想要抽取我们所需要的其中某些属性。这在解构赋值语句中是很常见的。
 
 甚至还可能是这样的情况：
+=======
+If we have a complex object with many properties, we can extract only what we need:
+
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ```js
 // 将 size 作为一个整体取出赋值给一个变量，忽略剩下的所有
 let { size } = options;
@@ -397,7 +475,11 @@ let { size } = options;
 
 ## 智能函数参数
 
+<<<<<<< HEAD
 有时候一个函数可能有很多参数，大部分的参数是可选的，对用户界面来说就尤其如此。想象一下这种情况：有一个创建菜单的函数，可能有宽度参数，高度参数，标题参数和菜单中的菜单项等等。
+=======
+There are times when a function has many parameters, most of which are optional. That's especially true for user interfaces. Imagine a function that creates a menu. It may have a width, a height, a title, items list and so on.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 以下是这种函数的一个不好的写法：
 
@@ -407,7 +489,11 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
+<<<<<<< HEAD
 现实情况下的问题就是你怎么记得住这么多参数的顺序，通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但… 另一个问题就是当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
+=======
+In real-life, the problem is how to remember the order of arguments. Usually IDEs try to help us, especially if the code is well-documented, but still... Another problem is how to call a function when most parameters are ok by default.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 难道像这样？
 
@@ -500,10 +586,16 @@ showMenu(); // Menu 100 200
 - 解构对象的语法：
 
     ```js
-    let {prop : varName = default, ...} = object
+    let {prop : varName = default, ...rest} = object
     ```
 
+<<<<<<< HEAD
     这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
+=======
+    This means that property `prop` should go into the variable `varName` and, if no such property exists, then the `default` value should be used.
+
+    Object properties that have no mapping are copied to the `rest` object.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 - 解构数组的语法：
 
@@ -511,6 +603,10 @@ showMenu(); // Menu 100 200
     let [item1 = default, item2, ...rest] = array
     ```
 
+<<<<<<< HEAD
     数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
+=======
+    The first item goes to `item1`; the second goes into `item2`, all the rest makes the array `rest`.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 - 更多复杂的案例情况下，等号左侧必须和等号右侧有相同的结构。

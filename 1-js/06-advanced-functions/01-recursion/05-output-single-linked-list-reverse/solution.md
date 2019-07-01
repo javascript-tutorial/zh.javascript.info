@@ -37,7 +37,11 @@ printReverseList(list);
 
 没有方法来获取 `list` 中的最后一个值，我们也不能「回去」。
 
+<<<<<<< HEAD
 所以我们能做的就是先直接按顺序遍历每个元素，并把它们存到一个数组里，然后反向输出存储的数组：
+=======
+So what we can do is to first go through the items in the direct order and remember them in an array, and then output what we remembered in the reverse order:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 let list = {

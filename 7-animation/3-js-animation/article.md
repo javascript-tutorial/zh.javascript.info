@@ -1,66 +1,63 @@
-# JavaScript 动画
+# JavaScript animations
 
-JavaScript 动画可以处理 CSS 无法处理的事情。
+JavaScript animations can handle things that CSS can't.
 
-例如，沿着具有与 Bezier 曲线不同的时序函数的复杂路径移动，或者实现画布上的动画。
+For instance, moving along a complex path, with a timing function different from Bezier curves, or an animation on a canvas.
 
-## 使用 setInterval
+## Using setInterval
 
-从 HTML/CSS 的角度来看，动画是 style 属性的逐渐变化。例如，将 `style.left` 从 `0px` 变化到 `100px` 可以移动元素。
+An animation can be implemented as a sequence of frames -- usually small changes to HTML/CSS properties.
 
-如果我们用 `setInterval` 每秒做 50 次小变化，看起来会更流畅。电影也是这样的原理：每秒 24 帧或更多帧足以使其看起来流畅。
+For instance, changing `style.left` from `0px` to `100px` moves the element. And if we increase it in `setInterval`, changing by `2px` with a tiny delay, like 50 times per second, then it looks smooth. That's the same principle as in the cinema: 24 frames per second is enough to make it look smooth.
 
-伪代码如下：
+The pseudo-code can look like this:
 
 ```js
-let delay = 1000 / 50; // 每秒 50 帧
 let timer = setInterval(function() {
   if (animation complete) clearInterval(timer);
-  else increase style.left
-}, delay)
+  else increase style.left by 2px
+}, 20); // change by 2px every 20ms, about 50 frames per second
 ```
 
-更完整的动画示例：
+More complete example of the animation:
 
 ```js
-let start = Date.now(); // 保存开始时间
+let start = Date.now(); // remember start time
 
 let timer = setInterval(function() {
-  // 距开始过了多长时间
+  // how much time passed from the start?
   let timePassed = Date.now() - start;
 
   if (timePassed >= 2000) {
-    clearInterval(timer); // 2 秒后结束动画
+    clearInterval(timer); // finish the animation after 2 seconds
     return;
   }
 
-  // 在 timePassed 时刻绘制动画
+  // draw the animation at the moment timePassed
   draw(timePassed);
 
 }, 20);
 
-// 随着 timePassed 从 0 增加到 2000
-// 将 left 的值从 0px 增加到 400px
+// as timePassed goes from 0 to 2000
+// left gets values from 0px to 400px
 function draw(timePassed) {
   train.style.left = timePassed / 5 + 'px';
 }
 ```
 
-点击演示：
+Click for the demo:
 
 [codetabs height=200 src="move"]
 
-## 使用 requestAnimationFrame
+## Using requestAnimationFrame
 
-假设我们有几个同时运行的动画。
+Let's imagine we have several animations running simultaneously.
 
-如果我们单独运行它们，每个都有自己的 `setInterval(..., 20)`，那么浏览器必须以比 `20ms` 更频繁的速度重绘。
+If we run them separately, then even though each one has `setInterval(..., 20)`, then the browser would have to repaint much more often than every `20ms`.
 
-每个 `setInterval` 每 `20ms` 触发一次，但它们相互独立，因此 `20ms` 内将有多个独立运行的重绘。
+That's because they have different starting time, so "every 20ms" differs between different animations. The intervals are not aligned. So we'll have several independent runs within `20ms`.
 
-这几个独立的重绘应该组合在一起，以使浏览器更加容易处理。
-
-换句话说，像下面这样：
+In other words, this:
 
 ```js
 setInterval(function() {
@@ -70,40 +67,40 @@ setInterval(function() {
 }, 20)
 ```
 
-……比这样更好：
+...Is lighter than three independent calls:
 
 ```js
-setInterval(animate1, 20);
-setInterval(animate2, 20);
+setInterval(animate1, 20); // independent animations
+setInterval(animate2, 20); // in different places of the script
 setInterval(animate3, 20);
 ```
 
-还有一件事需要记住。有时当 CPU 过载时，或者有其他原因需要降低重绘频率。例如，如果浏览器选项卡被隐藏，那么绘图完全没有意义。
+These several independent redraws should be grouped together, to make the redraw easier for the browser and hence load less CPU load and look smoother.
 
-有一个标准[动画时序](http://www.w3.org/TR/animation-timing/)提供了 `requestAnimationFrame` 函数。
+There's one more thing to keep in mind. Sometimes when CPU is overloaded, or there are other reasons to redraw less often (like when the browser tab is hidden), so we really shouldn't run it every `20ms`.
 
-它解决了所有这些问题，甚至更多其它的问题。
+But how do we know about that in JavaScript? There's a specification [Animation timing](http://www.w3.org/TR/animation-timing/) that provides the function `requestAnimationFrame`. It addresses all these issues and even more.
 
-语法：
+The syntax:
 ```js
-let requestId = requestAnimationFrame(callback);
+let requestId = requestAnimationFrame(callback)
 ```
 
-这会让 `callback` 函数在浏览器每次重绘的最近时间运行。
+That schedules the `callback` function to run in the closest time when the browser wants to do animation.
 
-如果我们对 `callback` 中的元素进行变化，这些变化将与其他 `requestAnimationFrame` 回调和 CSS 动画组合在一起。因此，只会有一次几何重新计算和重绘，而不是多次。
+If we do changes in elements in `callback` then they will be grouped together with other `requestAnimationFrame` callbacks and with CSS animations. So there will be one geometry recalculation and repaint instead of many.
 
-返回值 `requestId` 可用来取消回调：
+The returned value `requestId` can be used to cancel the call:
 ```js
-// 取消回调的周期执行
+// cancel the scheduled execution of callback
 cancelAnimationFrame(requestId);
 ```
 
-`callback` 得到一个参数 —— 从页面加载开始经过的毫秒数。这个时间也可通过调用 [performance.now()](mdn:api/Performance/now) 得到。
+The `callback` gets one argument -- the time passed from the beginning of the page load in microseconds. This time can also be obtained by calling [performance.now()](mdn:api/Performance/now).
 
-通常 `callback` 很快就会运行，除非 CPU 过载或笔记本电量消耗殆尽，或者其他原因。
+Usually `callback` runs very soon, unless the CPU is overloaded or the laptop battery is almost discharged, or there's another reason.
 
-下面的代码显示了 `requestAnimationFrame` 的前 10 次运行之间的时间间隔。通常是 10-20ms：
+The code below shows the time between first 10 runs for `requestAnimationFrame`. Usually it's 10-20ms:
 
 ```html run height=40 refresh
 <script>
@@ -115,13 +112,13 @@ cancelAnimationFrame(requestId);
     prev = time;
 
     if (times++ < 10) requestAnimationFrame(measure);
-  });
+  })
 </script>
 ```
 
-## 结构化动画
+## Structured animation
 
-现在我们可以在 `requestAnimationFrame` 基础上创建一个更通用的动画函数：
+Now we can make a more universal animation function based on `requestAnimationFrame`:
 
 ```js
 function animate({timing, draw, duration}) {
@@ -129,14 +126,14 @@ function animate({timing, draw, duration}) {
   let start = performance.now();
 
   requestAnimationFrame(function animate(time) {
-    // timeFraction 从 0 增加到 1
+    // timeFraction goes from 0 to 1
     let timeFraction = (time - start) / duration;
     if (timeFraction > 1) timeFraction = 1;
 
-    // 计算当前动画状态
-    let progress = timing(timeFraction);
+    // calculate the current animation state
+    let progress = timing(timeFraction)
 
-    draw(progress); // 绘制
+    draw(progress); // draw it
 
     if (timeFraction < 1) {
       requestAnimationFrame(animate);
@@ -146,15 +143,15 @@ function animate({timing, draw, duration}) {
 }
 ```
 
-`animate` 函数接受 3 个描述动画的基本参数：
+Function `animate` accepts 3 parameters that essentially describes the animation:
 
 `duration`
-: 动画总时间，比如 `1000`。
+: Total time of animation. Like, `1000`.
 
 `timing(timeFraction)`
-: 时序函数，类似 CSS 属性 `transition-timing-function`，传入一个已过去的时间与总时间之比的小数（`0` 代表开始，`1` 代表结束），返回动画完成度（类似 Bezier 曲线中的 `y`）。
+: Timing function, like CSS-property `transition-timing-function` that gets the fraction of time that passed (`0` at start, `1` at the end) and returns the animation completion (like `y` on the Bezier curve).
 
-    例如，线性函数意味着动画以相同的速度均匀地进行：
+    For instance, a linear function means that the animation goes on uniformly with the same speed:
 
     ```js
     function linear(timeFraction) {
@@ -162,34 +159,33 @@ function animate({timing, draw, duration}) {
     }
     ```
 
-    图像如下：
-
+    It's graph:
     ![](linear.png)
 
-    它类似于 `transition-timing-function: linear`。后文有更多有趣的变体。
+    That's just like `transition-timing-function: linear`. There are more interesting variants shown below.
 
 `draw(progress)`
-: 获取动画完成状态并绘制的函数。值 `progress = 0` 表示开始动画状态，`progress = 1` 表示结束状态。
+: The function that takes the animation completion state and draws it. The value `progress=0` denotes the beginning animation state, and `progress=1` -- the end state.
 
-    这是实际绘制动画的函数。
+    This is that function that actually draws out the animation.
 
-    它可以移动元素：
+    It can move the element:
     ```js
     function draw(progress) {
       train.style.left = progress + 'px';
     }
     ```
 
-    ……或者做任何其他事情，我们可以以任何方式为任何事物制作动画。
+    ...Or do anything else, we can animate anything, in any way.
 
 
-让我们使用我们的函数将元素的 `width` 从 `0` 变化为 `100%`。
+Let's animate the element `width` from `0` to `100%` using our function.
 
-点击演示元素：
+Click on the element for the demo:
 
 [codetabs height=60 src="width"]
 
-它的代码如下：
+The code for it:
 
 ```js
 animate({
@@ -203,19 +199,19 @@ animate({
 });
 ```
 
-与 CSS 动画不同，我们可以在这里设计任何时序函数和任何绘图函数。时序函数不受 Bezier 曲线的限制。并且 `draw` 不局限于操作 CSS 属性，还可以为类似烟花动画或其他动画创建新元素。
+Unlike CSS animation, we can make any timing function and any drawing function here. The timing function is not limited by Bezier curves. And `draw` can go beyond properties, create new elements for like fireworks animation or something.
 
-## 时序函数
+## Timing functions
 
-上文我们看到了最简单的线性时序函数。
+We saw the simplest, linear timing function above.
 
-让我们看看更多。我们将尝试使用不同时序函数的移动动画来查看它们的工作原理。
+Let's see more of them. We'll try movement animations with different timing functions to see how they work.
 
-### n 次幂
+### Power of n
 
-如果我们想加速动画，我们可以让 `progress` 为 `n` 次幂。
+If we want to speed up the animation, we can use `progress` in the power `n`.
 
-例如，抛物线：
+For instance, a parabolic curve:
 
 ```js
 function quad(timeFraction) {
@@ -223,27 +219,27 @@ function quad(timeFraction) {
 }
 ```
 
-图像如下：
+The graph:
 
 ![](quad.png)
 
-看看实际效果（点击激活）：
+See in action (click to activate):
 
 [iframe height=40 src="quad" link]
 
-……或者三次曲线甚至使用更大的 `n`。增大幂会让动画加速得更快。
+...Or the cubic curve or event greater `n`. Increasing the power makes it speed up faster.
 
-下面是 `progress` 为 `5` 次幂的图像:
+Here's the graph for `progress` in the power `5`:
 
 ![](quint.png)
 
-实际效果：
+In action:
 
 [iframe height=40 src="quint" link]
 
-### 圆弧
+### The arc
 
-函数：
+Function:
 
 ```js
 function circ(timeFraction) {
@@ -251,39 +247,39 @@ function circ(timeFraction) {
 }
 ```
 
-图像：
+The graph:
 
 ![](circ.png)
 
 [iframe height=40 src="circ" link]
 
-### 反弹：弓箭射击
+### Back: bow shooting
 
-此函数执行“弓箭射击”。首先，我们“拉弓弦”，然后“射击”。
+This function does the "bow shooting". First we "pull the bowstring", and then "shoot".
 
-与以前的函数不同，它取决于附加参数 `x`，即“弹性系数”。“拉弓弦”的距离由它定义。
+Unlike previous functions, it depends on an additional parameter `x`, the "elasticity coefficient". The distance of "bowstring pulling" is defined by it.
 
-代码如下：
+The code:
 
 ```js
 function back(x, timeFraction) {
-  return Math.pow(timeFraction, 2) * ((x + 1) * timeFraction - x);
+  return Math.pow(timeFraction, 2) * ((x + 1) * timeFraction - x)
 }
 ```
 
-**`x = 1.5` 时的图像：**
+**The graph for `x = 1.5`:**
 
 ![](back.png)
 
-在动画中我们使用特定的 `x` 值。下面是 `x = 1.5` 时的例子：
+For animation we use it with a specific value of `x`. Example for `x = 1.5`:
 
 [iframe height=40 src="back" link]
 
-### 弹跳
+### Bounce
 
-想象一下，我们正在抛球。球落下之后，弹跳几次然后停下来。
+Imagine we are dropping a ball. It falls down, then bounces back a few times and stops.
 
-`bounce` 函数也是如此，但顺序相反：“bouncing”立即启动。它使用了几个特殊的系数：
+The `bounce` function does the same, but in the reverse order: "bouncing" starts immediately. It uses few special coefficients for that:
 
 ```js
 function bounce(timeFraction) {
@@ -295,13 +291,13 @@ function bounce(timeFraction) {
 }
 ```
 
-演示：
+In action:
 
 [iframe height=40 src="bounce" link]
 
-### 伸缩动画
+### Elastic animation
 
-另一个“伸缩”函数接受附加参数 `x` 作为“初始范围”。
+One more "elastic" function that accepts an additional parameter `x` for the "initial range".
 
 ```js
 function elastic(x, timeFraction) {
@@ -309,31 +305,31 @@ function elastic(x, timeFraction) {
 }
 ```
 
-**`x=1.5` 时的图像：**
+**The graph for `x=1.5`:**
 ![](elastic.png)
 
-`x=1.5` 时的演示
+In action for `x=1.5`:
 
 [iframe height=40 src="elastic" link]
 
-## 逆转：ease*
+## Reversal: ease*
 
-我们有一组时序函数。它们的直接应用称为“easeIn”。
+So we have a collection of timing functions. Their direct application is called "easeIn".
 
-有时我们需要以相反的顺序显示动画。这是通过“easeOut”变换完成的。
+Sometimes we need to show the animation in the reverse order. That's done with the "easeOut" transform.
 
 ### easeOut
 
-在“easeOut”模式中，我们将 `timing` 函数封装到 `timingEaseOut`中：
+In the "easeOut" mode the `timing` function is put into a wrapper `timingEaseOut`:
 
 ```js
-timingEaseOut(timeFraction) = 1 - timing(1 - timeFraction);
+timingEaseOut(timeFraction) = 1 - timing(1 - timeFraction)
 ```
 
-换句话说，我们有一个“变换”函数 `makeEaseOut`，它接受一个“常规”时序函数 `timing` 并返回一个封装器，里面封装了 `timing` 函数：
+In other words, we have a "transform" function `makeEaseOut` that takes a "regular" timing function and returns the wrapper around it:
 
 ```js
-// 接受时序函数，返回变换后的变体
+// accepts a timing function, returns the transformed variant
 function makeEaseOut(timing) {
   return function(timeFraction) {
     return 1 - timing(1 - timeFraction);
@@ -341,42 +337,42 @@ function makeEaseOut(timing) {
 }
 ```
 
-例如，我们可以使用上面描述的 `bounce` 函数：
+For instance, we can take the `bounce` function described above and apply it:
 
 ```js
 let bounceEaseOut = makeEaseOut(bounce);
 ```
 
-这样，弹跳不会在动画开始时执行，而是在动画结束时。这样看起来更好：
+Then the bounce will be not in the beginning, but at the end of the animation. Looks even better:
 
 [codetabs src="bounce-easeout"]
 
-在这里，我们可以看到变换如何改变函数的行为：
+Here we can see how the transform changes the behavior of the function:
 
 ![](bounce-inout.png)
 
-如果在开始时有动画效果，比如弹跳 —— 那么它将在最后显示。
+If there's an animation effect in the beginning, like bouncing -- it will be shown at the end.
 
-上图中<span style="color:#EE6B47">常规弹跳</span>为红色，<span style="color:#62C0DC">easeOut 弹跳</span>为蓝色。
+In the graph above the <span style="color:#EE6B47">regular bounce</span> has the red color, and the <span style="color:#62C0DC">easeOut bounce</span> is blue.
 
-- 常规弹跳 —— 物体在底部弹跳，然后突然跳到顶部。
-- `easeOut` 变换之后 —— 物体跳到顶部之后，在那里弹跳。
+- Regular bounce -- the object bounces at the bottom, then at the end sharply jumps to the top.
+- After `easeOut` -- it first jumps to the top, then bounces there.
 
 ### easeInOut
 
-我们还可以在动画的开头和结尾都显示效果。该变换称为“easeInOut”。
+We also can show the effect both in the beginning and the end of the animation. The transform is called "easeInOut".
 
-给定时序函数，我们按下面的方式计算动画状态：
+Given the timing function, we calculate the animation state like this:
 
 ```js
-if (timeFraction <= 0.5) { // 动画前半部分
+if (timeFraction <= 0.5) { // first half of the animation
   return timing(2 * timeFraction) / 2;
-} else { // 动画后半部分
+} else { // second half of the animation
   return (2 - timing(2 * (1 - timeFraction))) / 2;
 }
 ```
 
-封装器代码：
+The wrapper code:
 
 ```js
 function makeEaseInOut(timing) {
@@ -391,37 +387,37 @@ function makeEaseInOut(timing) {
 bounceEaseInOut = makeEaseInOut(bounce);
 ```
 
-`bounceEaseInOut` 演示如下:
+In action, `bounceEaseInOut`:
 
 [codetabs src="bounce-easeinout"]
 
-“easeInOut” 变换将两个图像连接成一个：动画的前半部分为“easeIn”（常规），后半部分为“easeOut”（反向）。
+The "easeInOut" transform joins two graphs into one: `easeIn` (regular) for the first half of the animation and `easeOut` (reversed) -- for the second part.
 
-如果我们比较 `circ` 时序函数的 `easeIn`、`easeOut` 和 `easeInOut` 的图像，就可以清楚地看到效果：
+The effect is clearly seen if we compare the graphs of `easeIn`, `easeOut` and `easeInOut` of the `circ` timing function:
 
 ![](circ-ease.png)
 
-- <span style="color:#EE6B47">红色</span>是 `circ`（`easeIn`）的常规变体。
-- <span style="color:#8DB173">绿色</span> —— `easeOut`。
-- <span style="color:#62C0DC">蓝色</span> —— `easeInOut`。
+- <span style="color:#EE6B47">Red</span> is the regular variantof `circ` (`easeIn`).
+- <span style="color:#8DB173">Green</span> -- `easeOut`.
+- <span style="color:#62C0DC">Blue</span> -- `easeInOut`.
 
-正如我们所看到的，动画前半部分的图形是缩小的“easeIn”，后半部分是缩小的“easeOut”。结果是动画以相同的效果开始和结束。
+As we can see, the graph of the first half of the animation is the scaled down `easeIn`, and the second half is the scaled down `easeOut`. As a result, the animation starts and finishes with the same effect.
 
-## 更有趣的 "draw"
+## More interesting "draw"
 
-除了移动元素，我们还可以做其他事情。我们所需要的只是写出合适的 `draw`。
+Instead of moving the element we can do something else. All we need is to write the write the proper `draw`.
 
-这是动画形式的“弹跳”文字输入：
+Here's the animated "bouncing" text typing:
 
 [codetabs src="text"]
 
-## 总结
+## Summary
 
-JavaScript 动画应该通过 `requestAnimationFrame` 实现。该内置方法允许设置回调函数，以便在浏览器准备重绘时运行。那通常很快，但确切的时间取决于浏览器。
+For animations that CSS can't handle well, or those that need tight control, JavaScript can help. JavaScript animations should be implemented via `requestAnimationFrame`. That built-in method allows to setup a callback function to run when the browser will be preparing a repaint. Usually that's very soon, but the exact time depends on the browser.
 
-当页面在后台时，根本没有重绘，因此回调将不会运行：动画将被暂停并且不会消耗资源。那很棒。
+When a page is in the background, there are no repaints at all, so the callback won't run: the animation will be suspended and won't consume resources. That's great.
 
-这是设置大多数动画的 helper 函数 `animate`：
+Here's the helper `animate` function to setup most animations:
 
 ```js
 function animate({timing, draw, duration}) {
@@ -429,14 +425,14 @@ function animate({timing, draw, duration}) {
   let start = performance.now();
 
   requestAnimationFrame(function animate(time) {
-    // timeFraction 从 0 增加到 1
+    // timeFraction goes from 0 to 1
     let timeFraction = (time - start) / duration;
     if (timeFraction > 1) timeFraction = 1;
 
-    // 计算当前动画状态
+    // calculate the current animation state
     let progress = timing(timeFraction);
 
-    draw(progress); // 绘制
+    draw(progress); // draw it
 
     if (timeFraction < 1) {
       requestAnimationFrame(animate);
@@ -446,14 +442,14 @@ function animate({timing, draw, duration}) {
 }
 ```
 
-参数：
+Options:
 
-- `duration` —— 动画运行的总毫秒数。
-- `timing` —— 计算动画进度的函数。获取从 0 到 1 的小数时间，返回动画进度，通常也是从 0 到 1。
-- `draw` —— 绘制动画的函数。
+- `duration` -- the total animation time in ms.
+- `timing` -- the function to calculate animation progress. Gets a time fraction from 0 to 1, returns the animation progress, usually from 0 to 1.
+- `draw` -- the function to draw the animation.
 
-当然我们可以改进它，增加更多花里胡哨的东西，但 JavaScript 动画不是经常用到。它们用于做一些有趣和不标准的事情。因此，您大可在必要时再添加所需的功能。
+Surely we could improve it, add more bells and whistles, but JavaScript animations are not applied on a daily basis. They are used to do something interesting and non-standard. So you'd want to add the features that you need when you need them.
 
-JavaScript 动画可以使用任何时序函数。我们介绍了很多例子和变换，使它们更加通用。与 CSS 不同，我们不仅限于 Bezier 曲线。
+JavaScript animations can use any timing function. We covered a lot of examples and transformations to make them even more versatile. Unlike CSS, we are not limited to Bezier curves here.
 
-`draw` 也是如此：我们可以将任何东西动画化，而不仅仅是 CSS 属性。
+The same is about `draw`: we can animate anything, not just CSS properties.

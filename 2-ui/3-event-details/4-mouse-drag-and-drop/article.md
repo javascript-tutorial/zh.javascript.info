@@ -4,9 +4,15 @@
 
 在现代 HTML 标准中，有一个[拖动事件的部分](https://html.spec.whatwg.org/multipage/interaction.html#dnd)。
 
+<<<<<<< HEAD
 这很有趣，因为它们允许轻松地解决一些简单的任务，而且允许处理“外部”文件拖放到浏览器中的事件。因此我们可以在 OS 文件管理中获取文件，并将其拖动到浏览器窗口。然后 JavaScript 获取对其内容的访问权限。
 
 但是本地的拖动事件总是有局限性。比如，我们可以把拖动范围限制在某个区域内。而且我们也可以把它变成 "horizontal" 或 "vertical"。还有其他的拖放任务无法通过使用 API 实现。
+=======
+They are interesting because they allow to solve simple tasks easily, and also allow to handle drag'n'drop of "external" files into the browser. So we can take a file in the OS file-manager and drop it into the browser window. Then JavaScript gains access to its contents.
+
+But native Drag Events also have limitations. For instance, we can't limit dragging by a certain area. Also we can't make it "horizontal" or "vertical" only. There are other drag'n'drop tasks that can't be implemented using that API.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 在这里，我们将看到如何使用鼠标事件实现拖放。并不难。
 
@@ -14,10 +20,17 @@
 
 拖放基础算法就像这样：
 
+<<<<<<< HEAD
 1. 在可拖动元素上捕获 `mousedown` 事件。
 2. 准备要移动的元素（可能创建它的副本或其他任何东西）。
 3. 然后在 `mousemove` 上，通过改变 `left/top` 和 `position:absolute` 来移动它。
 4. 在 `mouseup`（释放按钮）中 —— 执行所有完成拖放相关的动作。
+=======
+1. Catch `mousedown` on a draggable element.
+2. Prepare the element for moving (maybe create a copy of it or whatever).
+3. Then on `mousemove` move it by changing `left/top` and `position:absolute`.
+4. On `mouseup` (button release) -- perform all actions related to a finished Drag'n'Drop.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 这些是基础。我们可以对其进行拓展，例如，当鼠标在可拖动元素上悬停时，高亮这个元素。
 
@@ -58,7 +71,11 @@ ball.onmousedown = function(event) { // (1) 启动进程
 };
 ```
 
+<<<<<<< HEAD
 如果我们运行代码，我们会发现一些奇怪的事情。在拖放的一开始，球会 "forks"：我们开始拖动它的 "clone"。
+=======
+If we run the code, we can notice something strange. On the beginning of the drag'n'drop, the ball "forks": we start dragging its "clone".
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```online
 这是一个动作实例：
@@ -101,7 +118,11 @@ ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
+<<<<<<< HEAD
 不错，但这存在副作用。我们可以在球的任何地方使用 `mousedown` 来开始拖放。如果在边缘那么做，那么球就会突然“跳”到以指针为中心的位置。
+=======
+Not bad, but there's a side-effect. To initiate the drag'n'drop, we can `mousedown` anywhere on the ball. But if do it at the edge, then the ball suddenly "jumps" to become centered.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 如果我们保持元素相对指针的初始位移，情况会更好。
 
@@ -156,10 +177,17 @@ ball.onmousedown = function(event) {
     moveAt(event.pageX, event.pageY);
   }
 
+<<<<<<< HEAD
   // (3) 用 mousemove 移动球
   document.addEventListener('mousemove', onMouseMove);
 
   // (4) 释放球，移除不需要的处理器
+=======
+  // move the ball on mousemove
+  document.addEventListener('mousemove', onMouseMove);
+
+  // drop the ball, remove unneeded handlers
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -178,13 +206,21 @@ In action (inside `<iframe>`):
 [iframe src="ball3" height=230]
 ```
 
+<<<<<<< HEAD
 如果我们按在球的右下角进行拖动，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置跟随鼠标会很流畅。
+=======
+The difference is especially noticeable if we drag the ball by its right-bottom corner. In the previous example the ball "jumps" under the pointer. Now it fluently follows the cursor from the current position.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ## 检测是否可释放
 
 在之前的示例中，球可以停放到“任何地方”。在实际中，我们通常把一个元素放在另一个元素上。例如，将文件放入文件夹，或者用户放入回收站之类的操作。
 
+<<<<<<< HEAD
 抽象地，我们取一个（可拖放的）"draggable" 元素，并将其放在（可释放的）"droppable" 元素上。
+=======
+In other words, we take a "draggable" element and drop it onto "droppable" element.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 我们需要知道拖放结束时的可释放目标 —— 执行相应的动作，最好是在拖动过程中高亮显示。
 
@@ -211,7 +247,11 @@ In action (inside `<iframe>`):
 <div style="background:red" onmouseover="alert('over red!')"></div>
 ```
 
+<<<<<<< HEAD
 与一个可以拖动的元素相同。球总是在其他元素之上，因此事件会在其上发生。无论我们在低元素上如何设置处理器，它们都不会起作用。
+=======
+The same with a draggable element. The ball is always on top over other elements, so events happen on it. Whatever handlers we set on lower elements, they won't work.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 这就是为什么起初将处理器放在潜在的可释放的元素中的想法，在实际操作中无效的原因。它们无法运行。
 

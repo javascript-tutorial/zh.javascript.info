@@ -16,7 +16,11 @@ map.set("name", "John");
 let keys = map.keys();
 
 *!*
+<<<<<<< HEAD
 // 错误：numbers.push 不是一个函数
+=======
+// Error: keys.push is not a function
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 keys.push("more");
 */!*
 ```

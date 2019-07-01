@@ -1,5 +1,5 @@
 
-1. 让我们添加 `__proto__`：
+1. Let's add `__proto__`:
 
     ```js run
     let head = {
@@ -27,6 +27,6 @@
     alert( table.money ); // undefined
     ```
 
-2. 在现代引擎的性能方面，无法是从对象中还是从它的原型中获取一个属性，都是没有区别的。它们会记住在哪里找到该属性的，然后下一次请求到来时，重用它。
+2. In modern engines, performance-wise, there's no difference whether we take a property from an object or its prototype. They remember where the property was found and reuse it in the next request.
 
-    例如，对于 `pockets.glasses` 来说，它们会记得找到 `glasses`（在 `head` 中）的地方，这样下次就会直接在之前的地方搜索。一旦有内容更改，它们也会自动更新内容缓存，因此这样的优化是安全的。
+    For instance, for `pockets.glasses` they remember where they found `glasses` (in `head`), and next time will search right there. They are also smart enough to update internal caches if something changes, so that optimization is safe.

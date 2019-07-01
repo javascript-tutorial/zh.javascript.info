@@ -34,9 +34,13 @@ ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'p
 
 当浏览器还不知道图片的宽/高（图片的尺寸可能来自标签属性或 CSS）的时候它会假设它们的尺寸为 `0`直到图片加载完成。
 
+<<<<<<< HEAD
 实际使用过程中，浏览器会在图片第一次加载完成后缓存该图片，方便下次再次访问时立即显示图片。
 
 但是在第一次加载时 `ball.offsetWidth` 的值为 `0`，这会导致错误的坐标出现。
+=======
+After the first load browser usually caches the image, and on next loads it will have the size immediately. But on the first load the value of `ball.offsetWidth` is `0`. That leads to wrong coordinates.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 此时我们应该为 `<img>` 添加 `width/height` 属性：
 

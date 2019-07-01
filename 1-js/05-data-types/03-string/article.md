@@ -102,7 +102,11 @@ alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 
 正如你所看到的，我们必须用反斜杠 `\'` 来预设值内部引号，否则就表示字符串结束。
 
+<<<<<<< HEAD
 当然，这只不过是指与上文相同的引文。因此，作为更优雅的解决方案，我们可以改用双引号或反引号。
+=======
+Of course, that refers only to the quotes that are the same as the enclosing ones. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 alert( `I'm the Walrus!` ); // I'm the Walrus!
@@ -132,7 +136,11 @@ alert( `My\n`.length ); // 3
 ```warn header="`length` is a property"
 掌握其他语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
 
+<<<<<<< HEAD
 请注意 `str.length` 是一个数字属性，而不是函数。之后不需要添加括号。
+=======
+Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ```
 
 ## 访问字符。
@@ -275,8 +283,13 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 */!*
 ```
 
+<<<<<<< HEAD
 ```smart header="`str.lastIndexOf(subStr, pos)`"
 还有一个类似的方法 [str.lastIndexOf(subStr, pos)](mdn:js/String/lastIndexOf)，他从字符串的末尾开始搜索。
+=======
+```smart header="`str.lastIndexOf(substr, position)`"
+There is also a similar method [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 它会以相反的顺序列出事件。
 ```
@@ -451,7 +464,11 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 ```smart header="Which one to choose?"
 他们可以完成这项工作，形式上，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中，它涵盖了主要由于历史原因而存在的浏览器特性。因此，非浏览器环境可能无法支持它。但实际上它在任何地方都有效。
 
+<<<<<<< HEAD
 作者发现自己几乎一直在使用 `slice`。
+=======
+The author finds themself using `slice` almost all the time.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ```
 
 ## 比较字符串
@@ -551,7 +568,11 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ## 内部，Unicode
 
 ```warn header="Advanced knowledge"
+<<<<<<< HEAD
 这部分会深入字符串内部。如果你计划处理表情符号、罕见的象形文字字符或其他罕见符号，这些知识会对你有用。
+=======
+The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical or hieroglyphic characters or other rare symbols.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 如果你不打算支持它们，你可以跳过这一部分。
 ```

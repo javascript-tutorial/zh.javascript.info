@@ -458,7 +458,11 @@ If we don't catch the error there, then, as usual, it falls through to the outer
 
 ## Summary
 
+<<<<<<< HEAD
 - Generators are created by generator functions `function*(…) {…}`.
+=======
+- Generators are created by generator functions `function* f(…) {…}`.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 - Inside generators (only) there exists a `yield` operator.
 - The outer code and the generator may exchange results via `next/yield` calls.
 

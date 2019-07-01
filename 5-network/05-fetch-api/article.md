@@ -1,20 +1,36 @@
 
 # Fetch API
 
+<<<<<<< HEAD
 So far, we know quite a bit about fetch.
 
 Now let's see the rest of API, to cover all its abilities.
 
 Here's the full list of all possible fetch options with their default values (alternatives in comments):
+=======
+So far, we know quite a bit about `fetch`.
+
+Now let's see the rest of API, to cover all its abilities.
+
+Here's the full list of all possible `fetch` options with their default values (alternatives in comments):
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js
 let promise = fetch(url, {
   method: "GET", // POST, PUT, DELETE, etc.
   headers: {
+<<<<<<< HEAD
     "Content-Type": "text/plain;charset=UTF-8" // for a string body, depends on body
   },
   body: undefined // string, FormData, Blob, BufferSource, or URLSearchParams
   referrer: "about:client", // "" for no-referrer, or an url from the current origin
+=======
+    // the content type header value is usually auto-set depending on the request body
+    "Content-Type": "text/plain;charset=UTF-8"
+  },
+  body: undefined // string, FormData, Blob, BufferSource, or URLSearchParams
+  referrer: "about:client", // or "" to send no Referer header, or an url from the current origin
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
   referrerPolicy: "no-referrer-when-downgrade", // no-referrer, origin, same-origin...
   mode: "cors", // same-origin, no-cors
   credentials: "same-origin", // omit, include
@@ -39,8 +55,12 @@ Now let's explore the rest of options.
 
 These options govern how `fetch` sets HTTP `Referer` header.
 
+<<<<<<< HEAD
 That header contains the url of the page that made the request. In most scenarios, it plays a very minor informational role, but sometimes, for security purposes, it makes sense to remove or modify it.
 .
+=======
+That header contains the url of the page that made the request. In most scenarios, it plays a very minor informational role, but sometimes, for security purposes, it makes sense to remove or shorten it.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 **The `referrer` option allows to set any `Referer` within the current origin) or disable it.**
 
@@ -72,6 +92,7 @@ Possible values are described in the [Referrer Policy specification](https://w3c
 - **`"no-referrer-when-downgrade"`** -- default value: `Referer` is sent always, unless we send a request from HTTPS to HTTP (to less secure protocol).
 - **`"no-referrer"`** -- never send `Referer`.
 - **`"origin"`** -- only send the origin in `Referer`, not the full page URL, e.g. `http://site.com` instead of `http://site.com/path`.
+<<<<<<< HEAD
 - **`"origin-when-cross-origin"`** -- send full referrer to the same origin, but only the origin part for cross-origin requests.
 - **`"same-origin"`** -- send full referrer to the same origin, but no referer for for cross-origin requests.
 - **`"strict-origin"`** -- send only origin, don't send referrer for HTTPS→HTTP requests.
@@ -79,6 +100,15 @@ Possible values are described in the [Referrer Policy specification](https://w3c
 - **`"unsafe-url"`** -- always send full url in `Referer`.
 
 Let's say we have an admin zone with URL structure that shouldn't be visible from outside.
+=======
+- **`"origin-when-cross-origin"`** -- send full `Referer` to the same origin, but only the origin part for cross-origin requests.
+- **`"same-origin"`** -- send full `Referer` to the same origin, but no referer for for cross-origin requests.
+- **`"strict-origin"`** -- send only origin, don't send `Referer` for HTTPS→HTTP requests.
+- **`"strict-origin-when-cross-origin"`** -- for same-origin send full `Referer`, for cross-origin send only origin, unless it's HTTPS→HTTP request, then send nothing.
+- **`"unsafe-url"`** -- always send full url in `Referer`.
+
+Let's say we have an admin zone with URL structure that shouldn't be known from outside of the site.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 If we send a cross-origin `fetch`, then by default it sends the `Referer` header with the full url of our page (except when we request from HTTPS to HTTP, then no `Referer`).
 
@@ -92,7 +122,11 @@ fetch('https://another.com/page', {
 });
 ```
 
+<<<<<<< HEAD
 Otherwise, if we'd like the remote side to see where the request comes from, we can send only the "origin" part of the url:
+=======
+Otherwise, if we'd like the remote side to see only the domain where the request comes from, but not the full URL, we can send only the "origin" part of it:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js
 fetch('https://another.com/page', {

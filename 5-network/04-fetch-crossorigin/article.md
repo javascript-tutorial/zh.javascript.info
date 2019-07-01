@@ -18,12 +18,17 @@ try {
 
 Fetch fails, as expected.
 
+<<<<<<< HEAD
 ## Why?
+=======
+## Why? A brief history
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 Because cross-origin restrictions protect the internet from evil hackers.
 
 Seriously. Let's make a very brief historical digression.
 
+<<<<<<< HEAD
 For many years JavaScript did not have any special methods to perform network requests.
 
 **A script from one site could not access the content of another site.**
@@ -31,29 +36,60 @@ For many years JavaScript did not have any special methods to perform network re
 That simple, yet powerful rule was a foundation of the internet security. E.g. a script from the page `hacker.com` could not access user's mailbox at `gmail.com`. People felt safe.
 
 But web developers demanded more power. A variety of tricks were invented to work around it.
+=======
+**For many years a script from one site could not access the content of another site.**
+
+That simple, yet powerful rule was a foundation of the internet security. E.g. a script from the page `hacker.com` could not access user's mailbox at `gmail.com`. People felt safe.
+
+JavaScript also did not have any special methods to perform network requests at that time. It was a toy language to decorate a web page.
+
+But web developers demanded more power. A variety of tricks were invented to work around the limitation.
+
+### Using forms
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 One way to communicate with another server was to submit a `<form>` there. People submitted it into `<iframe>`, just to stay on the current page, like this:
 
 ```html
 <!-- form target -->
+<<<<<<< HEAD
 <iframe name="iframe"></iframe>
 
 <!-- a form could be dynamically generated and submited by JavaScript -->
 <form target="iframe" method="POST" action="http://another.com/…">
+=======
+*!*
+<iframe name="iframe"></iframe>
+*/!*
+
+<!-- a form could be dynamically generated and submited by JavaScript -->
+*!*
+<form target="iframe" method="POST" action="http://another.com/…">
+*/!*
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
   ...
 </form>
 
 ```
 
+<<<<<<< HEAD
 - So, it was possible to make a GET/POST request to another site, even without networking methods.
 - But as it's forbidden to access the content of an `<iframe>` from another site, it wasn't possible to read the response.
 
 So, `<form>` allowed to submit the data anywhere, but the response content was unaccessible.
+=======
+So, it was possible to make a GET/POST request to another site, even without networking methods. But as it's forbidden to access the content of an `<iframe>` from another site, it wasn't possible to read the response.
+
+...Okay, in fact there actually were tricks for that (required special scripts at both remote and our page), but let's not delve deeper. Nothing good in those for us now.
+
+### Using scripts
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 Another trick was to use a `<script src="http://another.com/…">` tag. A script could have any `src`, from any domain. But again -- it was impossible to access the raw content of such script.
 
 If `another.com` intended to expose data for this kind of access, then a so-called "JSONP (JSON with padding)" protocol was used.
 
+<<<<<<< HEAD
 Here's the flow:
 
 1. First, in advance, we declare a global function to accept the data, e.g. `gotWeather`.
@@ -82,10 +118,40 @@ gotWeather({
 });
 */
 ```
+=======
+Let's say we need to get the data from `http://another.com` this way:
+
+1. First, in advance, we declare a global function to accept the data, e.g. `gotWeather`.
+
+    ```js
+    // 1. Declare the function to process the data
+    function gotWeather({ temperature, humidity }) {
+      alert(`temperature: ${temperature}, humidity: ${humidity}`);
+    }
+    ```
+2. Then we make a `<script>` tag with `src="http://another.com/weather.json?callback=gotWeather"`,  please note that the name of our function is its `callback` parameter.
+
+    ```js
+    let script = document.createElement('script');
+    script.src = `http://another.com/weather.json?callback=gotWeather`;
+    document.body.append(script);
+    ```
+3. The remote server dynamically generates a script that calls `gotWeather(...)` with the data it wants us to receive.
+    ```js
+    // The expected answer from the server looks like this:
+    gotWeather({
+      temperature: 25,
+      humidity: 78
+    });
+    ```
+4. When the remote script loads and executes, `gotWeather` runs, and, as it's our function, we have the data.
+
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 
 That works, and doesn't violate security, because both sides agreed to pass the data this way. And, when both sides agree, it's definitely not a hack. There are still services that provide such access, as it works even for very old browsers.
 
+<<<<<<< HEAD
 After a while, modern network methods appeared. At first, cross-origin requests were forbidden. But as a result of long discussions, cross-domain requests were  allowed, in a way that does not add any capabilities unless explicitly allowed by the server.
 
 ## Simple requests
@@ -94,6 +160,24 @@ After a while, modern network methods appeared. At first, cross-origin requests 
 
 1. [Simple method](http://www.w3.org/TR/cors/#simple-method): GET, POST or HEAD
 2. [Simple headers](http://www.w3.org/TR/cors/#simple-header) -- only allowed:
+=======
+After a while, networking methods appeared, such as `XMLHttpRequest`.
+
+At first, cross-origin requests were forbidden. But as a result of long discussions, cross-domain requests were  allowed, in a way that does not add any capabilities unless explicitly allowed by the server.
+
+## Simple requests
+
+There are two types of cross-domain requests:
+1. Simple requests.
+2. All the others.
+
+Simple Requests are, well, simpler to make, so let's start with them.
+
+A [simple request](http://www.w3.org/TR/cors/#terminology) is a request that satisfies two conditions:
+
+1. [Simple method](http://www.w3.org/TR/cors/#simple-method): GET, POST or HEAD
+2. [Simple headers](http://www.w3.org/TR/cors/#simple-header) -- the only allowed custom headers are:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
     - `Accept`,
     - `Accept-Language`,
     - `Content-Language`,
@@ -138,7 +222,11 @@ The browser plays the role of a trusted mediator here:
 
 ![](xhr-another-domain.png)
 
+<<<<<<< HEAD
 Here's an example of an "accepting" response:
+=======
+Here's an example of a permissive server response:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ```
 200 OK
 Content-Type:text/html; charset=UTF-8
@@ -163,7 +251,11 @@ Any other response header is forbidden.
 ```smart header="Please note: no `Content-Length`"
 Please note: there's no `Content-Length` header in the list!
 
+<<<<<<< HEAD
 So, if we're downloading something and would like to track the percentage of progress, then an additional permission is required to access that header (see below).
+=======
+This header contains the full response length. So, if we're downloading something and would like to track the percentage of progress, then an additional permission is required to access that header (see below).
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 ```
 
 To grant JavaScript access to any other response header, the server must list it in the `Access-Control-Expose-Headers` header.
@@ -219,11 +311,19 @@ let response = await fetch('https://site.com/service.json', {
 There are three reasons why the request is not simple (one is enough):
 - Method `PATCH`
 - `Content-Type` is not one of: `application/x-www-form-urlencoded`, `multipart/form-data`,  `text/plain`.
+<<<<<<< HEAD
 - Custom `API-Key` header.
 
 ### Step 1 (preflight request)
 
 The browser, on its own, sends a preflight request that looks like this:
+=======
+- "Non-simple" `API-Key` header.
+
+### Step 1 (preflight request)
+
+Prior to sending our request, the browser, on its own, sends a preflight request that looks like this:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```
 OPTIONS /service.json
@@ -246,9 +346,15 @@ The server should respond with status 200 and headers:
 - `Access-Control-Allow-Methods: PATCH`
 - `Access-Control-Allow-Headers: Content-Type,API-Key`.
 
+<<<<<<< HEAD
 That would allow future communication, otherwise an error is triggered.
 
 If the server expects other methods and headers, makes sense to list them all at once, e.g:
+=======
+That allows future communication, otherwise an error is triggered.
+
+If the server expects other methods and headers in the future, makes sense to allow them in advance by adding to the list:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```
 200 OK
@@ -298,9 +404,15 @@ Why?
 
 That's because a request with credentials is much more powerful than an anonymous one. If allowed, it grants JavaScript the full power to act and access sensitive information on behalf of a user.
 
+<<<<<<< HEAD
 Does the server really trust pages from `Origin` that much? A request with credentials needs an additional header to pass through.
 
 To enable credentials, we need to add the option `credentials: "include"`, like this:
+=======
+Does the server really trust pages from `Origin` that much? Then it must explicitly allow requests with credentials with an additional header.
+
+To send credentials, we need to add the option `credentials: "include"`, like this:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js
 fetch('http://another.com', {
@@ -308,7 +420,11 @@ fetch('http://another.com', {
 });
 ```
 
+<<<<<<< HEAD
 Now `fetch` sends cookies originating from `another.com` with the request.
+=======
+Now `fetch` sends cookies originating from `another.com` with out request to that site.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 If the server wishes to accept the request with credentials, it should add a header `Access-Control-Allow-Credentials: true` to the response, in addition to `Access-Control-Allow-Origin`.
 
@@ -342,10 +458,17 @@ So, practical difference is that simple requests are sent right away, with `Orig
 **For simple requests:**
 
 - → The browser sends `Origin` header with the origin.
+<<<<<<< HEAD
 - ← For requests without credentials (default), the server should set:
     - `Access-Control-Allow-Origin` to `*` or same as `Origin`
 - ← For requests with credentials, the server should set:
     - `Access-Control-Allow-Origin` to `Origin`
+=======
+- ← For requests without credentials (not sent default), the server should set:
+    - `Access-Control-Allow-Origin` to `*` or same value as `Origin`
+- ← For requests with credentials, the server should set:
+    - `Access-Control-Allow-Origin` to same value as `Origin`
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
     - `Access-Control-Allow-Credentials` to `true`
 
 Additionally, if JavaScript wants to access non-simple response headers:

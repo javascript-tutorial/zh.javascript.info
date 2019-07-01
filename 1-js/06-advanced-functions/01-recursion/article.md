@@ -85,7 +85,11 @@ pow(x, n) =
 ````smart header="递归一般更简洁"
 递归解决方案一般比迭代更简洁。
 
+<<<<<<< HEAD
 这里我们可以使用三元运算符 `?` 来替换 `if` 语句，从而让 `pow(x, n)` 更简洁并且可读性依然很高：
+=======
+Here we can rewrite the same using the conditional operator `?` instead of `if` to make `pow(x, n)` more terse and still very readable:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 function pow(x, n) {
@@ -100,11 +104,19 @@ function pow(x, n) {
 
 这就限制了递归的应用，但是递归仍然被广泛使用。有很多任务使用递归思路会让代码更简单，更容易维护。
 
+<<<<<<< HEAD
 ## 执行堆栈
+=======
+## The execution context and stack
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 现在我们来研究下递归调用如何工作的。为此，我们会先看看函数底层工作原理。
 
+<<<<<<< HEAD
 一个函数运行的信息被存储在它的**执行上下文**里。
+=======
+The information about the process of execution of a running function is stored in its *execution context*.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 [执行上下文](https://tc39.github.io/ecma262/#sec-execution-contexts)是一个内部数据结构，它包含一个函数执行时的细节：当前工作流在哪里，当前的变量，`this` 的值（这里我们不使用它），以及其它一些内部细节。
 
@@ -318,9 +330,15 @@ let company = {
 
 或者说，一家公司有很多部门。
 
+<<<<<<< HEAD
 - 一个部门有员工列表，比如，`销售`部有 2 名员工：John 和 Alice。
 - 或者一个部门可能划分为几个子部门，比如`开发`有两个分支：`网站`和`内部`，它们都有自己的员工。
 - 当一个子部门增长时，它可能会划分为子部门（或者团队）。
+=======
+- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
+- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.
+- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
     比如，`网站`部门在未来可能会分为`网站 A` 和 `网站 B`。它们可能还会再分，没有图示，脑补一下吧。
 
@@ -416,7 +434,11 @@ let arr = [obj1, obj2, obj3];
 
 ...但是用数组有个问题。「删除元素」和「插入元素」操作代价非常大。例如，`arr.unshift(obj)` 操作必须对所有元素重新编号以便为新的元素 `obj` 腾出空间，而且如果数组很大，会很耗时。`arr.shift()` 同理。
 
+<<<<<<< HEAD
 唯一对数组结构做修改而不需要大量重排的操作就是在数组的末端：`arr.push/pop`。所以对大队列来说，数组会很慢。
+=======
+The only structural modifications that do not require mass-renumbering are those that operate with the end of array: `arr.push/pop`. So an array can be quite slow for big queues, when we have to work with the beginning.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 如果我们真的需要快速插入、删除的话，我们可以选择另一种叫做[链表](https://en.wikipedia.org/wiki/Linked_list)的数据结构。
 
@@ -506,14 +528,28 @@ list.next = list.next.next;
 
 主要的不足就是我们无法轻易通过它的编号获取元素。在数组中却很容易：`arr[n]` 是一个直接引用。而在列表中，我们需要从起点元素顺着 `next` 找 `N` 次才能获取到第 N 个元素。
 
+<<<<<<< HEAD
 ...但是我们并不总需要这样的操作。比如，当我们需要一个队列或者甚至一个[双向队列](https://en.wikipedia.org/wiki/Double-ended_queue) —— 有序结构必须可以快速的从两端添加、移除元素。
 
 有时也值得添加一个名为 `tail` 的变量来跟踪列表的末尾元素（并且当从尾部添加、删除元素时更新它）。对大型数据集来说，它与数组的速度差异巨大。
+=======
+...But we don't always need such operations. For instance, when we need a queue or even a [deque](https://en.wikipedia.org/wiki/Double-ended_queue) -- the ordered structure that must allow very fast adding/removing elements from both ends, but access to its middle is not needed.
+
+Lists can be enhanced:
+- We can add property `prev` in addition to `next` to reference the previous element, to move back easily.
+- We can also add a variable named `tail` referencing the last element of the list (and update it when adding/removing elements from the end).
+- ...The data structure may vary according to our needs.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ## 总结
 
+<<<<<<< HEAD
 术语：
 - **递归**是函数「自调用」的编程术语。这种函数可以被用来优雅解决特定的任务。
+=======
+Terms:
+- *Recursion*  is a programming term that means calling a function from itself. Recursive functions can be used to solve tasks in elegant ways.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
     当一个函数调用自身时，我们称其为**递归步骤**。递归**基础**是函数参数使得任务很简单，不需要其它更进一步调用。
 

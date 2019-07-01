@@ -20,7 +20,11 @@
 
 切换按钮 <span class="devtools" style="background-position:-168px -76px"></span> 会打开文件列表的选项卡。
 
+<<<<<<< HEAD
 让我们在预览树中点击和选择 `index.html` 和 `hello.js`。应该会出现这个视图：
+=======
+Let's click it and select `hello.js` in the tree view. Here's what should show up:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ![](chrome-tabs.png)
 
@@ -34,7 +38,11 @@
 
 ## Console（控制台）
 
+<<<<<<< HEAD
 如果我们按下 `Esc`，下面会出现一个控制台，我们可以输入一些命令然后按下 `key:Enter` 来执行。
+=======
+If we press `key:Esc`, then a console opens below. We can type commands there and press `key:Enter` to execute.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 语句执行之后，会将其结果显示在下面。
 
@@ -56,11 +64,19 @@
 
 当代码被暂停时，我们可以检查当前的变量、在控制台执行命令等等。换句话说，我们可以调试它。
 
+<<<<<<< HEAD
 我们总是可以在右侧的面板中找到断点的列表。当我们在数个文件中有许多断点时，这是非常有用的。
 - 快速跳转至代码中的断点（通过点击右侧面板中的对应的断点）。
 - 通过取消选中来临时禁用。
 - 通过右键单击和选择移除来删除一个断点。
 - 等等。
+=======
+We can always find a list of breakpoints in the right pane. That's useful when we have many breakpoints in various files. It allows us to:
+- Quickly jump to the breakpoint in the code (by clicking on it in the right pane).
+- Temporarily disable the breakpoint by unchecking it.
+- Remove the breakpoint by right-clicking and selecting Remove.
+- ...And so on.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```smart header="条件断点"
 在行号上**右键单击**允许你创建一个**条件**断点。只有当给定的条件为真（即满足条件）时才会被触发。
@@ -169,10 +185,17 @@ for (let i = 0; i < 5; i++) {
 
 ## 总结
 
+<<<<<<< HEAD
 我们可以看到，有 3 种方式来暂停一个脚本：
 1. 一个断点。
 2. `debugger` 声明。
 3. 一个错误（如果开发者工具是打开状态并且按钮 <span class="devtools" style="background-position:-264px -4px"></span> 是开启状态）。
+=======
+As we can see, there are three main ways to pause a script:
+1. A breakpoint.
+2. The `debugger` statements.
+3. An error (if dev tools are open and the button <span class="devtools" style="background-position:-264px -4px"></span> is "on").
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 然后我们就能检查变量，并逐步查看执行器在哪里走错路了。
 
