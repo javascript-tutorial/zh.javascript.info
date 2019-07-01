@@ -27,7 +27,7 @@ let animal = new Animal("My animal");
 ![](rabbit-animal-independent-animal.png)
 
 
-...和 `Rabbit`:
+...和 `Rabbit`：
 
 ```js
 class Rabbit {
@@ -112,7 +112,7 @@ class User extends f("Hello") {}
 
 new User().sayHi(); // Hello
 ```
-这里 `class User` 继承自 `f("Hello")` 的结果
+这里 `class User` 继承自 `f("Hello")` 的结果。
 
 我们可以根据多种状况使用函数生成类，并继承它们，这对于高级编程模式来说可能很有用。
 ````
@@ -209,7 +209,7 @@ setTimeout(function() { super.stop() }, 1000);
 
 到目前为止，`Rabbit` 还没有自己的 `constructor`。
 
-根据 [规范](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)，如果一个类继承了另一个类并且没有 `constructor`，那么将生成以下 “空” `constructor`：
+根据 [规范](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)，如果一个类继承了另一个类并且没有 `constructor`，那么将生成以下“空” `constructor`：
 
 ```js
 class Rabbit extends Animal {
@@ -452,7 +452,7 @@ longEar.eat();  // Long Ear eats.
 
 它按照预期运行，基于 `[[HomeObject]]` 运行机制。像 `longEar.eat` 这样的方法，知道 `[[HomeObject]]`，并且从它的原型中获取父类方法。并没有使用 `this`。
 
-### 方法并不是 “自由” 的
+### 方法并不是“自由”的
 
 在前面我们已经知道，通常函数都是 “自由” 的，并没有绑定到 JavaScript 中的对象。正因如此，它们可以在对象之间复制，并且用另外一个 `this` 调用它。
 
