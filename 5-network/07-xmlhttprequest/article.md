@@ -34,10 +34,10 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
 
     在 `new XMLHttpRequest` 之后我们通常调用 `xhr.open` 函数。它指定了请求的主要参数：
 
-    - `method` -- HTTP 方法。通常是 `“GET”` 或者 `“POST”`。
-    - `URL` -- 请求的 URL。
-    - `async` -- 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
-    - `user`, `password` -- HTTP 基本身份认证（如果需要的话）的登录名和密码。
+    - `method` — HTTP 方法。通常是 `"GET"` 或者 `"POST"`。
+    - `URL` — 请求的 URL。
+    - `async` — 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
+    - `user`，`password` — HTTP 基本身份认证（如果需要的话）的登录名和密码。
 
     请注意。调用 `xhr.open` 函数的时候并不会建立连接。它的作用仅仅是作为当前请求的配置，而网络活动要到 `send` 调用后才开启。
 
@@ -54,9 +54,9 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
 4. 监听响应事件。
 
     这三个事件是最常用的：
-    - `load` -- 当请求结果已经返回，包括像 404 这样的 HTTP 错误。
-    - `error` -- 当无法完成请求时，比如网络中断或者无效的 URL。
-    - `progress` -- 下载期间定时触发，报告已经下载了多少。
+    - `load` — 当请求结果已经返回，包括像 404 这样的 HTTP 错误。
+    - `error` — 当无法完成请求时，比如网络中断或者无效的 URL。
+    - `progress` — 下载期间定时触发，报告已经下载了多少。
 
     ```js
     xhr.onload = function() {
@@ -113,13 +113,13 @@ xhr.onerror = function() {
 一旦服务器有了响应，我们可以在下面这些请求对象的属性中获取相关的返回结果：
 
 `status`
-：HTTP 状态码（一个数字）：`200`，`404`，`403` 等等，如果出现非 HTTP 错误，它的结果为 `0`。
+: HTTP 状态码（一个数字）：`200`，`404`，`403` 等等，如果出现非 HTTP 错误，它的结果为 `0`。
 
 `statusText`
-：HTTP 状态消息（字符串）：如果状态码是 `200` 的话它的消息值通常为 `OK`，`404` 对应的值为 `Not Found`，`403` 对应的值为 `Forbidden`。
+: HTTP 状态消息（字符串）：如果状态码是 `200` 的话它的消息值通常为 `OK`，`404` 对应的值为 `Not Found`，`403` 对应的值为 `Forbidden`。
 
 `response`（以前的脚本可能用的是 `responseText`）
-：服务器响应。
+: 服务器响应。
 
 如果我们改变注意，我们可以随时终止请求。`xhr.abort()` 调用可以做到：
 
@@ -141,12 +141,12 @@ xhr.timeout = 10000; // timeout 单位是 ms，10 秒
 
 我们可以使用 `xhr.responseType` 属性来设置响应格式：
 
-- `""` （默认） —— 响应格式为字符串，
-- `"text"` —— 响应格式为字符串，
-- `"arraybuffer"` —— 响应格式为 `ArrayBuffer`（对于二进制数据，请参见 <info:arraybuffer-binary-arrays>），
-- `"blob"` -- 响应格式为 `Blob`（对于二进制数据，请参见 <info:blob>），
-- `"document"` -- 响应格式为 XML document（可以使用 XPath 和其他 XML 方法），
-- `"json"` -- 响应格式为 JSON（自动解析）。
+- `""` （默认） — 响应格式为字符串，
+- `"text"` — 响应格式为字符串，
+- `"arraybuffer"` — 响应格式为 `ArrayBuffer`（对于二进制数据，请参见 <info:arraybuffer-binary-arrays>），
+- `"blob"` — 响应格式为 `Blob`（对于二进制数据，请参见 <info:blob>），
+- `"document"` — 响应格式为 XML document（可以使用 XPath 和其他 XML 方法），
+- `"json"` — 响应格式为 JSON（自动解析）。
 
 例如，我们以 JSON 格式获取响应：
 
@@ -245,7 +245,7 @@ try {
 HTTP-headers 有三种方法：
 
 `setRequestHeader(name, value)`
-：通过给定的 `name` 和 `value` 设置请求头。
+: 通过给定的 `name` 和 `value` 设置请求头。
 
     例如：
 
@@ -277,7 +277,7 @@ HTTP-headers 有三种方法：
     ````
 
 `getResponseHeader(name)`
-：通过给定的 `name` 来获取响应头（除了 `Set-Cookie` 和 `Set-Cookie2`）。
+: 通过给定的 `name` 来获取响应头（除了 `Set-Cookie` 和 `Set-Cookie2`）。
 
     例如：
 
@@ -286,9 +286,9 @@ HTTP-headers 有三种方法：
     ```
 
 `getAllResponseHeaders()`
-：返回除 `Set-Cookie` 和 `Set-Cookie2` 外的所有响应头。
+: 返回除 `Set-Cookie` 和 `Set-Cookie2` 外的所有响应头。
 
-    响应头以单行形式返回：形如：
+    响应头以单行形式返回，形如：
 
     ```
     Cache-Control: max-age=31536000
@@ -326,7 +326,7 @@ formData.append(name, value); // 追加一个字段
 
 如果需要，可以从表单中创建它，追加一个字段，然后：
 
-1. `xhr.open('POST', ...)` – 使用 `POST` 方法。
+1. `xhr.open('POST', ...)` — 使用 `POST` 方法。
 2. `xhr.send(formData)` 发送表单到服务器。
 
 例如：
@@ -386,15 +386,15 @@ xhr.send(json);
 
 这是其属性列表：
 
-- `loadstart` —— 上传开始。
-- `progress` —— 上传期间定期触发。
-- `abort` —— 上传终止。
-- `error` —— 非 HTTP 错误。
-- `load` —— 上传成功完成。
-- `timeout` —— 上传超时（如果设置了 `timeout` 属性）。
-- `loadend` —— 上传操作完成，可能成功也可能失败。
+- `loadstart` — 上传开始。
+- `progress` — 上传期间定期触发。
+- `abort` — 上传终止。
+- `error` — 非 HTTP 错误。
+- `load` — 上传成功完成。
+- `timeout` — 上传超时（如果设置了 `timeout` 属性）。
+- `loadend` — 上传操作完成，可能成功也可能失败。
 
-handlers 示例:
+handlers 示例：
 
 ```js
 xhr.upload.onprogress = function(event) {
@@ -491,13 +491,13 @@ xhr.onerror = function() {
 
 实际上还有更多事件，[现代规范](http://www.w3.org/TR/XMLHttpRequest/#events)中列出了它们（按生命周期排序）：
 
-- `loadstart` —— 请求开始。
-- `progress` —— 一个响应数据包到达，此时整个响应体都在 `responseText` 里。
-- `abort` —— 请求被 `xhr.abort()` 取消。
-- `error` —— 发生连接错误，例如，域名错误。不会响应诸如 404 这类的 HTTP 错误。
-- `load` —— 请求成功完成。
-- `timeout` —— 请求超时被取消（仅仅发生在 timeout 被设置的情况下）。
-- `loadend` —— 请求完成（可能成功也可能失败）。
+- `loadstart` — 请求开始。
+- `progress` — 一个响应数据包到达，此时整个响应体都在 `responseText` 里。
+- `abort` — 请求被 `xhr.abort()` 取消。
+- `error` — 发生连接错误，例如，域名错误。不会响应诸如 404 这类的 HTTP 错误。
+- `load` — 请求成功完成。
+- `timeout` — 请求超时被取消（仅仅发生在 timeout 被设置的情况下）。
+- `loadend` — 请求完成（可能成功也可能失败）。
 
 最常用的事件是加载完成（`load`），加载失败（`error`）以及用来处理进度的 `progress`。
 
