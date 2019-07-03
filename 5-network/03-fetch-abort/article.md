@@ -73,7 +73,7 @@ try {
 例如，这里我们并行 fetch 多个 `urls`，然后控制器将它们全部中止：
 
 ```js
-let urls = [...]; // 将要平行 fetch 的 urls 列表
+let urls = [...]; // 将要并行 fetch 的 urls 列表
 
 let controller = new AbortController();
 
