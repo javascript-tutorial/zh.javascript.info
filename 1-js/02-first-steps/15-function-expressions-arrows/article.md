@@ -78,8 +78,13 @@ let func = sayHi;
 这两种声明的函数是一样的，那么他们有什么不同的地方呢？
 
 
+<<<<<<< HEAD
 ````smart header="Why there's a semicolon at the end?"
  这里可能有个疑问，为什么函数表达式结尾有一个 `;`，而函数声明没有：
+=======
+````smart header="Why is there a semicolon at the end?"
+You might wonder, why does Function Expression have a semicolon `;` at the end, but Function Declaration does not:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js
 function sayHi() {
@@ -175,7 +180,11 @@ ask(
 
 让我们来阐述函数声明和表达式之间的关键区别。
 
+<<<<<<< HEAD
 首先是语法：看下面代码
+=======
+First, the syntax: how to differentiate between them in the code.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 - **函数声明：** 函数在主代码流中单独声明。
 
@@ -185,8 +194,13 @@ ask(
       return a + b;
     }
     ```
+<<<<<<< HEAD
 - **函数表达式：** 一个函数，在一个表达式中或另一个语法结构中创建。这里，该函数由赋值表达式 `=` 右侧创建：
     
+=======
+- *Function Expression:* a function, created inside an expression or inside another syntax construct. Here, the function is created at the right side of the "assignment expression" `=`:
+
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
     ```js
     // Function Expression
     let sum = function(a, b) {
@@ -196,12 +210,19 @@ ask(
 
 细微差别是在 JavaScript 引擎中在**什么时候**创建函数。
 
+<<<<<<< HEAD
 **函数表达式在执行到达时创建并可用。**
 
 一旦执行到右侧分配 `let sum = function…`，就会创建并可以使用(复制，调用等)。
+=======
+**A Function Expression is created when the execution reaches it and is usable only from that moment.**
+
+Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called, etc. ) from now on.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 函数声明则不同。
 
+<<<<<<< HEAD
 **函数声明可用于整个脚本/代码块。**
 
 换句话说，当 JavaScript **准备**运行脚本或代码块时，它首先在其中查找函数声明并创建函数。我们可以将其视为“初始化阶段”。
@@ -209,6 +230,16 @@ ask(
 在处理完所有函数声明后，执行继续。
 
 因此，声明为函数声明的函数可以比定义的更早调用。
+=======
+**A Function Declaration can be called earlier than it is defined.**
+
+For example, a global Function Declaration is visible in the whole script, no matter where it is.
+
+That's due to internal algorithms. When JavaScript prepares to run the script, it first looks for global Function Declarations in it and creates the functions. We can think of it as an "initialization stage".
+
+And after all Function Declarations are processed, the code is executed. So it has access to these functions.
+
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例如下面的代码会正常工作：
 
@@ -224,7 +255,11 @@ function sayHi(name) {
 
 函数声明 `sayHi` 是在 JavaScript 准备启动脚本并在其中时创建的。
 
+<<<<<<< HEAD
 ...如果它是一个函数表达式，它就不会工作：
+=======
+...If it were a Function Expression, then it wouldn't work:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run refresh untrusted
 *!*
@@ -238,13 +273,21 @@ let sayHi = function(name) {  // (*) no magic any more
 
 函数表达式执行到时才会创建，在这里为时已晚。
 
+<<<<<<< HEAD
 **当一个函数声明在一个代码块内运行时，它在该块内的任何地方都是可见的。**
 
 有时候只需要在该块中声明本地函数就可以方便地运行。但是这个函数也可能会导致问题。
+=======
+**In strict mode, when a Function Declaration is within a code block, it's visible everywhere inside that block. But not outside of it.**
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例如，让我们想象我们需要声明一个函数 `welcome()` 依赖 `age` 这个我们在运行时获得并在之后有可能用到的变量。
 
+<<<<<<< HEAD
 以下代码不能工作：
+=======
+If we use Function Declaration, it won't work as intended:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -351,11 +394,19 @@ welcome(); // ok now
 
 
 ```smart header="When to choose Function Declaration versus Function Expression?"
+<<<<<<< HEAD
 作为一个经验，当我们需要声明一个函数时，首先要考虑的是函数声明语法，这是我们之前使用的语法。它给如何组织我们的代码提供了更多的自由，因为我们可以在声明它们之前调用这些函数。
 
 在代码中查找 `function f(…) {…}` 比 `let f = function(…) {…}` 更容易。
 
 ...但是，如果函数声明由于某种原因不适合我们（我们已经看到上面的例子），那么应该使用函数表达式。
+=======
+As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+
+That's also better for readability, as it's easier to look up `function f(…) {…}` in the code than `let f = function(…) {…}`. Function Declarations are more "eye-catching".
+
+...But if a Function Declaration does not suit us for some reason, or we need a conditional declaration (we've just seen an example), then Function Expression should be used.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 ```
 
 
@@ -375,7 +426,7 @@ let func = (arg1, arg2, ...argN) => expression
 ```js
 let func = function(arg1, arg2, ...argN) {
   return expression;
-}
+};
 ```
 
 ...精简下。

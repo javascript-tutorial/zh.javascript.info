@@ -1,9 +1,9 @@
 
-# 带有 promise 的动画圆形
+# Animated circle with promise
 
-在 <info:task/animate-circle-callback> 任务的解决方案中重写 `showCircle`，因此它会返回一个 promise 而不是接受一个回调函数。
+Rewrite the `showCircle` function in the solution of the task <info:task/animate-circle-callback> so that it returns a promise instead of accepting a callback.
 
-新的用法：
+The new usage:
 
 ```js
 showCircle(150, 150, 100).then(div => {
@@ -12,4 +12,4 @@ showCircle(150, 150, 100).then(div => {
 });
 ```
 
-<info:task/animate-circle-callback> 任务作为基础的解决方案。
+Take the solution of the task <info:task/animate-circle-callback> as the base.

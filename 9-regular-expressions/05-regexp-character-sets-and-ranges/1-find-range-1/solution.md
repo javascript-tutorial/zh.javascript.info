@@ -1,12 +1,11 @@
-·答案：**没有，是的**。
+Answers: **no, yes**.
 
-- 在脚本 `subject:Java` 中它并不会匹配到任何字符串，因为 `pattern:[^script]` 表示的是“除了给定的字符之外的任何字符”。所以这个正则会查找 `"Java"` 之后是否有匹配这个规则的符号，但是这已经是整个字符串的结尾了，在其之后并没有任何符号。
+- In the script `subject:Java` it doesn't match anything, because `pattern:[^script]` means "any character except given ones". So the regexp looks for `"Java"` followed by one such symbol, but there's a string end, no symbols after it.
 
     ```js run
     alert( "Java".match(/Java[^script]/) ); // null
     ```
-
-- 是的，因为正则表达式是大小写不敏感的，`pattern:[^script]` 部分匹配到了字符 `"S"`。
+- Yes, because the regexp is case-insensitive, the `pattern:[^script]` part matches the character `"S"`.
 
     ```js run
     alert( "JavaScript".match(/Java[^script]/) ); // "JavaS"

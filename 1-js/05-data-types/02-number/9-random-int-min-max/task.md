@@ -12,9 +12,9 @@ importance: 2
 功能示例：
 
 ```js
-alert( random(1, 5) ); // 1
-alert( random(1, 5) ); // 3
-alert( random(1, 5) ); // 5
+alert( randomInteger(1, 5) ); // 1
+alert( randomInteger(1, 5) ); // 3
+alert( randomInteger(1, 5) ); // 5
 ```
 
 您可以使用[上一个任务](info:task/random-min-max)的解决方案作为基础。

@@ -1,10 +1,10 @@
-我们需要找到注释的起始位置 `match:<!--`，然后获取字符直到注释的末尾 `match:-->`。
+We need to find the beginning of the comment `match:<!--`, then everything till the end of `match:-->`.
 
-首先想到的是 `pattern:<!--.*?-->` —— 惰性量词使得点（.）停在 `match:-->` 之前。
+The first idea could be `pattern:<!--.*?-->` -- the lazy quantifier makes the dot stop right before  `match:-->`.
 
-但是在 Javascript 中，一个点（.）表示除换行符之外的任意字符。所以这是无法匹配多行注释的。
+But a dot in JavaScript means "any symbol except the newline". So multiline comments won't be found.
 
-我们可以用 `pattern:[\s\S]`，而不是用点（.）来匹配“任何东西”：
+We can use `pattern:[\s\S]` instead of the dot to match "anything":
 
 ```js run
 let reg = /<!--[\s\S]*?-->/g;

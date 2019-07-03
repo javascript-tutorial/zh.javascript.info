@@ -66,10 +66,17 @@ alert(json);
 
 方法 `JSON.stringify(student)` 接受对象并将其转换为一个字符串。
 
+<<<<<<< HEAD
 得到的 `json` 字符串是一个被称为 **JSON 编码**或者**序列化**或者**字符串化**或者**编组**的对象。我们准备好通过网线传输或存储。
 
 
 请注意，JSON 编码的对象与对象字面量有几个重要的区别：
+=======
+The resulting `json` string is called a *JSON-encoded* or *serialized* or *stringified* or *marshalled* object. We are ready to send it over the wire or put into a plain data store.
+
+
+Please note that a JSON-encoded object has several important differences from the object literal:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 - 字符串使用双引号。JSON 中没有单引号或反引号。所以 `'John'` 转成 `"John"`。
 - 对象属性名称也是双引号的。这是强制性的。所以 `age:30` 转成 `"age":30`。
@@ -131,7 +138,7 @@ let meetup = {
   title: "Conference",
 *!*
   room: {
-    number: 123,
+    number: 23,
     participants: ["john", "ann"]
   }
 */!*
@@ -190,7 +197,11 @@ replacer
 space
 : 文本添加缩进、空格和换行符
 
+<<<<<<< HEAD
 大部分情况，`JSON.stringify` 仅与第一个参数一起使用。但是，如果我们需要微调替换过程，比如过滤掉循环引用，我们可以使用 `JSON.stringify` 的第二个参数。
+=======
+Most of the time, `JSON.stringify` is used with the first argument only. But if we need to fine-tune the replacement process, like to filter out circular references, we can use the second argument of `JSON.stringify`.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 如果我们传递一组属性给它，只有这一组属性会被编码
 
@@ -244,7 +255,11 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 
 幸运的是，我们也可以使用一个函数作为 `replacer`。
 
+<<<<<<< HEAD
 该函数将调用每个 `(key,value)` 对，并且返回 “replacement” 值，它将被用来代替原来的值。
+=======
+The function will be called for every `(key, value)` pair and should return the "replaced" value, which will be used instead of the original one.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 在我们的例子中，除 `occupiedBy` 外我们都可以按照原样返回 `value`。要忽略 `occupiedBy`，下面的代码返回 `undefined`：
 
@@ -281,7 +296,11 @@ number:       23
 
 请注意 `replacer` 函数获取包括嵌套对象和数组项的每个键/值对。它被递归地应用。`replacer` 里面 `this` 的值是包含当前属性的对象。
 
+<<<<<<< HEAD
 第一个调用很特别。它是使用特殊的“包装对象”制作的： `{"": meetup}`。换句话说，第一个 `(key,value)` 对是空键，并且该值是整个目标对象。这就是为什么上面的例子中第一行是 `":[object Object]"` 的原因。
+=======
+The first call is special. It is made using a special "wrapper object": `{"": meetup}`. In other words, the first `(key, value)` pair has an empty key, and the value is the target object as a whole. That's why the first line is `":[object Object]"` in the example above.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 基于这个理念为 `replacer` 提供了更强大的功能：如有必要，它有机会分析和替换/跳过整个对象。
 
@@ -332,7 +351,11 @@ alert(JSON.stringify(user, null, 2));
 
 ## 定制 "toJSON"
 
+<<<<<<< HEAD
 像 `toString` 进行字符串转换，对象可以提供 `toJSON` 方法来进行 JSON 转换。如果可用，`JSON.stringify` 会自动调用它。
+=======
+Like `toString` for string conversion, an object may provide method `toJSON` for to-JSON conversion. `JSON.stringify` automatically calls it if available.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例如：
 
@@ -361,7 +384,11 @@ alert( JSON.stringify(meetup) );
 
 在这里我们可以看到 `date` `(1)` 变成了一个字符串。这是因为所有日期都有一个内置的 `toJSON` 方法来返回这种类型的字符串。
 
+<<<<<<< HEAD
 现在让我们为对象 `room` 添加一个自定义的 `toJSON`：
+=======
+Now let's add a custom `toJSON` for our object `room` `(2)`:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 let room = {
@@ -409,7 +436,11 @@ str
 : JSON 字符串解析。
 
 reviver
+<<<<<<< HEAD
 : 将为每个 `(key,value)` 对调用的可选函数（键，值）进行转换。
+=======
+: Optional function(key,value) that will be called for each `(key, value)` pair and can transform the value.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例如：
 
@@ -520,8 +551,16 @@ alert( schedule.meetups[1].date.getDate() ); // works!
 
 ## 总结
 
+<<<<<<< HEAD
 - JSON 是一种数据格式，对于大多数编程语言都有自己的独立标准和库。
 - JSON 支持 objects，arrays，strings，numbers，booleans 和 `null`。
 - JavaScript 提供序列化成 JSON 的方法 [JSON.stringify](mdn:js/JSON/stringify)和解析 JSON 方法 [JSON.parse](mdn:js/JSON/parse)。
 - 这两种方法都支持用于智能读/写的转换函数。
 - 如果一个对象具有 `toJSON`，那么它可被 `JSON.stringify` 调用。
+=======
+- JSON is a data format that has its own independent standard and libraries for most programming languages.
+- JSON supports plain objects, arrays, strings, numbers, booleans, and `null`.
+- JavaScript provides methods [JSON.stringify](mdn:js/JSON/stringify) to serialize into JSON and [JSON.parse](mdn:js/JSON/parse) to read from JSON.
+- Both methods support transformer functions for smart reading/writing.
+- If an object has `toJSON`, then it is called by `JSON.stringify`.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af

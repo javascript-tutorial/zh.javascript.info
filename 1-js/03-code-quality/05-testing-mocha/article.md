@@ -1,8 +1,12 @@
 # 使用 mocha 进行自动化测试
 
+<<<<<<< HEAD
 自动化测试在任务中将会被进一步使用。
 
 它实际上是一个开发者的“教育最低限度”的一部分。
+=======
+Automated testing will be used in further tasks, and it's also widely used in real projects.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 为什么我们需要测试？
 
@@ -20,7 +24,11 @@
 
 这是非常典型的。当我们在开发一些东西时，我们会保留很多可能需要的用例和想法。但是不要想着程序员在每一次改变之后都去检查所有的案例。所以很容易造成修复了一个问题却造成另一个问题的情况。
 
+<<<<<<< HEAD
 **自动化测试意味着除了代码之外，测试是单独写的。它们可以很容易地执行，并检查所有的主要用例。**
+=======
+**Automated testing means that tests are written separately, in addition to the code. They can be executed automatically and check all the main use cases.**
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 行为驱动开发（BDD）
 
@@ -28,7 +36,11 @@
 
 **BDD 包含了三部分：测试、文档和示例。**
 
+<<<<<<< HEAD
 说的已经足够了，让我们来看一下例子吧。
+=======
+Let's see the example.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 开发中的 “pow”：规范
 
@@ -55,8 +67,13 @@ describe("pow", function() {
 `describe("title", function() { ... })`
 : 表示我们正在描述的功能是什么。用于组织 "工人（workers）" -- `it` 代码块。在我们的例子中我们正在描述函数 `pow`。
 
+<<<<<<< HEAD
 `it("title", function() { ... })`
 : `it` 里面的 "title" 中我们以**人类可读**的方式描述特定的用例，第二个参数是一个测试它的函数。
+=======
+`it("use case description", function() { ... })`
+: In the title of `it` we *in a human-readable way* describe the particular use case, and the second argument is a function that tests it.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 `assert.equal(value1, value2)`
 : `it` 块中的代码。如果实现是正确的，它应该在执行的时候不产生任何错误。
@@ -69,6 +86,7 @@ describe("pow", function() {
 
 开发流程通常看起来像这样：
 
+<<<<<<< HEAD
 1. 编写初始规范，测试最基本的功能。
 2. 创建一个最初始实现。
 3. 检查它是否工作，我们运行测试框架 [Mocha](http://mochajs.org/)（很快会有更多细节）来运行测试。错误会被显示出来。我们持续修正直到一切都能工作。
@@ -76,10 +94,25 @@ describe("pow", function() {
 5. 我们增加更多的用例到规范中，或许目前的程序实现还不支持。测试从失败开始。
 6. 进行第 3 步，更新程序直到测试不会抛出错误。
 7. 重复第 3 步到第 6 步，直到功能完善。
+=======
+1. An initial spec is written, with tests for the most basic functionality.
+2. An initial implementation is created.
+3. To check whether it works, we run the testing framework [Mocha](http://mochajs.org/) (more details soon) that runs the spec. While the functionality is not complete, errors are displayed. We make corrections until everything works.
+4. Now we have a working initial implementation with tests.
+5. We add more use cases to the spec, probably not yet supported by the implementations. Tests start to fail.
+6. Go to 3, update the implementation till tests give no errors.
+7. Repeat steps 3-6 till the functionality is ready.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 如此来看，开发是**迭代**的。我们写规范，实现它，确保测试通过，然后写更多的测试来确保它们工作等等。最后，我们有了一个能工作的实现和针对它的测试。
 
+<<<<<<< HEAD
 在我们的案例中，第一步已经完成了：针对 `pow` 我们有一个初始规范。因此让我们来实现它吧。但在此之前，让我们做一个针对规范的“零”运行，只是为了看到测试正在运行（它们都会失败）。
+=======
+Let's see this development flow in our practical case.
+
+The first step is complete: we have an initial spec for `pow`. Now, before making the implementaton, let's use few JavaScript libraries to run the tests, just to see that they are working (they will all fail).
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 行为规范
 
@@ -96,7 +129,11 @@ describe("pow", function() {
 ```html src="index.html"
 ```
 
+<<<<<<< HEAD
 该页面可分为四部分：
+=======
+The page can be divided into five parts:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 1. `<head>` -- 为测试添加第三方库和样式文件。
 2. `<script>` 包含测试函数，在我们的例子中 --和 `pow` 相关的代码。
@@ -110,15 +147,24 @@ describe("pow", function() {
 
 到目前为止，测试失败了，出现了一个错误。这是合乎逻辑的：我们在 `pow` 是一个空函数，因此 `pow(2,3)` 返回了 `undefined` 而不是 `8`。
 
+<<<<<<< HEAD
 未来，我们会注意到有更高级的测试工具，像是 [karma](https://karma-runner.github.io/) 或其他的。因此设置很多不同的测试通常来说不是一个问题。
+=======
+For the future, let's note that there are more high-level test-runners, like [karma](https://karma-runner.github.io/) and others, that make it easy to autorun many different tests.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 初始实现
 
 为了可以通过测试，让我们来简单的实现一下 `pow`：
 
 ```js
+<<<<<<< HEAD
 function pow() {
   return 8; // :) 我们作弊啦！
+=======
+function pow(x, n) {
+  return 8; // :) we cheat!
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 }
 ```
 
@@ -132,7 +178,11 @@ function pow() {
 
 ...但是这个情况却是相当典型的，在实际中有可能会发生的。测试通过了，但是函数却是错误的。我们的规范是不完善的。我们需要给它添加更多的测试用例。
 
+<<<<<<< HEAD
 这里我们又加了一个测试来看看是否是 `pow(3, 4) = 81`。
+=======
+Let's add one more test to check that `pow(3, 4) = 81`.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 我们可以选择两种方式中的任意一种来组织测试代码：
 
@@ -233,7 +283,7 @@ describe("pow", function() {
 describe("pow", function() {
 
 *!*
-  describe("raises x to power n", function() {
+  describe("raises x to power 3", function() {
 */!*
 
     function makeTest(x) {
@@ -296,7 +346,11 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
+<<<<<<< HEAD
 通常地，`beforeEach/afterEach` (`before/each`) 用于初始化，清零计数器或做一些介于每个测试（或测试组）之间的事情。
+=======
+Usually, `beforeEach/afterEach` and `before/after` are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 ````
 
 ## 延伸的规范
@@ -390,23 +444,40 @@ function pow(x, n) {
 
 如果没有测试，人们有两个办法：
 
+<<<<<<< HEAD
 1. 进行改变，不管其他的东西。然后我们的用户会发现 bug 并将其报告。如果我们能负担得起的话。
 2. 如果错误比较严重，人们会变得害怕修改这样的函数。然后它就会越来越陈旧，长满了蜘蛛网，没有人会去触碰它，这样很不好。
 
 **自动化测试过的代码刚好与其相反！**
 
 如果这个项目被测试代码覆盖了，就不会出现这种问题。我们可以运行测试，并在几秒钟内看到大量的检查。
+=======
+1. To perform the change, no matter what. And then our users meet bugs, as we probably fail to check something manually.
+2. Or, if the punishment for errors is harsh, as there are no tests, people become afraid to modify such functions, and then the code becomes outdated, no one wants to get into it. Not good for development.
+
+**Automatic testing helps to avoid these problems!**
+
+If the project is covered with tests, there's just no such problem. After any changes, we can run tests and see a lot of checks made in a matter of seconds.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 **另外，一个有良好测试的代码通常都有更好的架构。**
 
+<<<<<<< HEAD
 当然了，这是因为很容易可以修改和改进它。但不仅如此。
+=======
+Naturally, that's because auto-tested code is easier to modify and improve. But there's also another reason.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 为了编写测试，代码应该以这样一种方式被组织起来 —— 每一个函数都有一个可被明确描述的任务，定义良好的输入和输出。这意味着从一开始就是一个好的架构。
 
 在现实生活中有时候可能并不容易。有时很难在实际代码之前编写规范，因为还不清楚它应该如何表现。但一般来说，编写测试使得开发更快更稳定。
 
+<<<<<<< HEAD
 ## 现在是什么？
 
 在本教程后面，您将遇到许多包含了测试的任务。所以你会看到更多实用的例子。
+=======
+Later in the tutorial you will meet many tasks with tests baked-in. So you'll see more practical examples.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 编写测试需要良好的 JavaScript 知识。但我们刚刚开始学习它。因此，为了解决所有问题，现在您不需要编写测试，但是你应该已经能够阅读它们，即使它们比本章中的更复杂一些。

@@ -86,13 +86,17 @@ unicode 示例：
 
 ```js run
 alert( "\u00A9" ); // ©
-alert( "\u{20331}" ); // 佫, a rare chinese hieroglyph (long unicode)
+alert( "\u{20331}" ); // 佫, a rare Chinese hieroglyph (long unicode)
 alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
 ```
 
 所有的特殊字符都以反斜杠字符 `\` 开始。它也被称为“转义字符”。
 
+<<<<<<< HEAD
 如果我们想要在字符串中插入一个引号，我们也会使用它。
+=======
+We might also use it if we wanted to insert a quote into the string.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例如：
 
@@ -102,7 +106,11 @@ alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 
 正如你所看到的，我们必须用反斜杠 `\'` 来预设值内部引号，否则就表示字符串结束。
 
+<<<<<<< HEAD
 当然，这只不过是指与上文相同的引文。因此，作为更优雅的解决方案，我们可以改用双引号或反引号。
+=======
+Of course, that refers only to the quotes that are the same as the enclosing ones. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 alert( `I'm the Walrus!` ); // I'm the Walrus!
@@ -132,7 +140,11 @@ alert( `My\n`.length ); // 3
 ```warn header="`length` is a property"
 掌握其他语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
 
+<<<<<<< HEAD
 请注意 `str.length` 是一个数字属性，而不是函数。之后不需要添加括号。
+=======
+Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 ```
 
 ## 访问字符。
@@ -275,8 +287,13 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 */!*
 ```
 
+<<<<<<< HEAD
 ```smart header="`str.lastIndexOf(subStr, pos)`"
 还有一个类似的方法 [str.lastIndexOf(subStr, pos)](mdn:js/String/lastIndexOf)，他从字符串的末尾开始搜索。
+=======
+```smart header="`str.lastIndexOf(substr, position)`"
+There is also a similar method [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 它会以相反的顺序列出事件。
 ```
@@ -305,8 +322,14 @@ if (str.indexOf("Widget") != -1) {
 }
 ```
 
+<<<<<<< HEAD
 ````smart header="The bitwise NOT trick"
 这里使用的一个老技巧是 [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` 运算符。它将该数字转换为 32-bit 整数（如果存在，则删除小数部分），然后反转其二进制表示中的所有位。
+=======
+#### The bitwise NOT trick
+
+One of the old tricks used here is the [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` operator. It converts the number to a 32-bit integer (removes the decimal part if exists) and then reverses all bits in its binary representation.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 对于 32-bit 整数，调用 `~n` 的意思与 `-(n+1)` 完全一样（由于 IEEE-754 格式）。
 
@@ -321,9 +344,15 @@ alert( ~-1 ); // 0, the same as -(-1+1)
 */!*
 ```
 
+<<<<<<< HEAD
 正如我们看到这样，只有当 `n == -1` 时，`~n` 才为零。
 
 因此，测试 `if ( ~str.indexOf("...") )` 真是 `indexOf` 的结果不是 `-1`。换句话说，当有匹配时。
+=======
+As we can see, `~n` is zero only if `n == -1` (that's for any 32-bit signed integer `n`).
+
+So, the test `if ( ~str.indexOf("...") )` is truthy only if the result of `indexOf` is not `-1`. In other words, when there is a match.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 人们用它来简写 `indexOf` 检查：
 
@@ -337,8 +366,16 @@ if (~str.indexOf("Widget")) {
 
 通常不建议以非显而易见的方式使用语言特性，但这种特殊技巧在旧代码中仍被广泛使用，所以我们应该理解它。
 
+<<<<<<< HEAD
 只要记住：`if (~str.indexOf(...))` 读作 "if found"。
 ````
+=======
+Just remember: `if (~str.indexOf(...))` reads as "if found".
+
+Technically speaking, numbers are truncated to 32 bits by `~` operator, so there exist other big numbers that give `0`, the smallest is `~4294967295=0`. That makes such check is correct only if a string is not that long.
+
+Right now we can see this trick only in the old code, as modern JavaScript provides `.includes` method (see below).
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ### includes, startsWith, endsWith
 
@@ -451,7 +488,11 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 ```smart header="Which one to choose?"
 他们可以完成这项工作，形式上，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中，它涵盖了主要由于历史原因而存在的浏览器特性。因此，非浏览器环境可能无法支持它。但实际上它在任何地方都有效。
 
+<<<<<<< HEAD
 作者发现自己几乎一直在使用 `slice`。
+=======
+The author finds themself using `slice` almost all the time.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 ```
 
 ## 比较字符串
@@ -551,14 +592,22 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ## 内部，Unicode
 
 ```warn header="Advanced knowledge"
+<<<<<<< HEAD
 这部分会深入字符串内部。如果你计划处理表情符号、罕见的象形文字字符或其他罕见符号，这些知识会对你有用。
+=======
+The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical or hieroglyphic characters or other rare symbols.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 如果你不打算支持它们，你可以跳过这一部分。
 ```
 
 ### 代理对
 
+<<<<<<< HEAD
 大部分 symbol 都有一个 2 字节的代码。大多数欧洲语言，数字甚至大多数象形文字中的字母都有 2 字节的表示形式。
+=======
+All frequently used characters have 2-byte codes. Letters in most european languages, numbers, and even most hieroglyphs, have a 2-byte representation.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 但 2 字节只允许 65536 个组合，这对于每个可能的符号都是不够的。所以稀有的符号被称为“代理对”的一对 2 字节符号编码。
 
@@ -567,7 +616,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```js run
 alert( '𝒳'.length ); // 2, MATHEMATICAL SCRIPT CAPITAL X
 alert( '😂'.length ); // 2, FACE WITH TEARS OF JOY
-alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
+alert( '𩷶'.length ); // 2, a rare Chinese hieroglyph
 ```
 
 注意，代理对在 JavaScript 被创建时并不存在，因此无法被语言正确代理。
@@ -628,7 +677,7 @@ alert( 'S\u0307\u0323' ); // Ṩ
 
 ```js run
 alert( 'S\u0307\u0323' ); // Ṩ, S + dot above + dot below
-alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
+alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
 
 alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false
 ```
@@ -649,7 +698,11 @@ alert( "S\u0307\u0323".normalize().length ); // 1
 alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 ```
 
+<<<<<<< HEAD
 事实上，情况并非总是如此，因为符号 `Ṩ` “常用”，所以 UTF-16 创建者把它包含在主表中并给了它代码。
+=======
+In reality, this is not always the case. The reason being that the symbol `Ṩ` is "common enough", so UTF-16 creators included it in the main table and gave it the code.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 如果你想了解更多关于规范化规则和变体的信息 —— 它们在 Unicode 标准附录中有详细描述：[Unicode 规范化形式](http://www.unicode.org/reports/tr15/)，但对于大多数实际目的来说，本文的内容就已经足够了。
 

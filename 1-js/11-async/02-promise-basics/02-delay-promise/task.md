@@ -1,9 +1,9 @@
 
-# 延迟 promise
+# Delay with a promise
 
-内置 `setTimeout` 函数会使用回调函数。创建一个基于 promise 的替代产物。
+The built-in function `setTimeout` uses callbacks. Create a promise-based alternative.
 
-`delay(ms)` 函数会返回一个 promise。这个 promise 应该在 `ms` 毫秒之后被处理。因此我们可以在这之后调用 `.then`，就像这样：
+The function `delay(ms)` should return a promise. That promise should resolve after `ms` milliseconds, so that we can add `.then` to it, like this:
 
 ```js
 function delay(ms) {

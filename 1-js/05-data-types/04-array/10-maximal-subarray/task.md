@@ -8,7 +8,11 @@ importance: 2
 
 任务是：找出连续的 `arr` 的子数组，其里面所有项的和最大。
 
+<<<<<<< HEAD
 写出函数 `getMaxSubSum(arr)`，用其找出并返回最大和。
+=======
+Write the function `getMaxSubSum(arr)` that will return that sum.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例如：
 
@@ -27,4 +31,8 @@ getMaxSubSum([*!*1, 2, 3*/!*]) = 6 (所有项的和)
 getMaxSubSum([-1, -2, -3]) = 0
 ```
 
+<<<<<<< HEAD
 请尝试想出一个快速的解决方案：复杂度可以是 [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation)，有能力达到 O(n) 则更好。
+=======
+Please try to think of a fast solution: [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) or even O(n) if you can.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af

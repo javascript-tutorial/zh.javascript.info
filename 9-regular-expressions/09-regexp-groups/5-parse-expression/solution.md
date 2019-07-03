@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 回顾之前的问题，我们用 `pattern:-?\d+(\.\d+)?` 来匹配数字。
 
 `pattern:[-+*/]` 匹配运算符。我们把 `pattern:-` 放在最前面，因为如果放在中间的话，则表示字符范围，这并不是我们想要的。
@@ -11,6 +12,23 @@
 为了将得到的结果转化为数组，我们须将所需的数据：数字及运算符，包裹在括号中，对应的表达式为：`pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`。
 
 实际操作：
+=======
+A regexp for a number is: `pattern:-?\d+(\.\d+)?`. We created it in previous tasks.
+
+An operator is `pattern:[-+*/]`.
+
+Please note:
+- Here the dash `pattern:-` goes first in the brackets, because in the middle it would mean a character range, while we just want a character `-`.
+- A slash `/` should be escaped inside a JavaScript regexp `pattern:/.../`, we'll do that later.
+
+We need a number, an operator, and then another number. And optional spaces between them.
+
+The full regular expression: `pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`.
+
+To get a result as an array let's put parentheses around the data that we need: numbers and the operator: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
+
+In action:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
@@ -18,6 +36,7 @@ let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
 alert( "1.2 + 12".match(reg) );
 ```
 
+<<<<<<< HEAD
 结果包括：
 
 - `result[0] == "1.2 + 12"`（完整匹配）
@@ -32,6 +51,24 @@ alert( "1.2 + 12".match(reg) );
 因此，我们可以加上 `pattern:?:` 来去除多余的捕获组，例如：`pattern:(?:\.\d+)?`。
 
 最终答案：
+=======
+The result includes:
+
+- `result[0] == "1.2 + 12"` (full match)
+- `result[1] == "1.2"` (first group `(-?\d+(\.\d+)?)` -- the first number, including the decimal part)
+- `result[2] == ".2"` (second group`(\.\d+)?` -- the first decimal part)
+- `result[3] == "+"` (third group `([-+*\/])` -- the operator)
+- `result[4] == "12"` (forth group `(-?\d+(\.\d+)?)` -- the second number)
+- `result[5] == undefined` (fifth group `(\.\d+)?` -- the last decimal part is absent, so it's undefined)
+
+We only want the numbers and the operator, without the full match or the decimal parts.
+
+The full match (the arrays first item) can be removed by shifting the array `pattern:result.shift()`.
+
+The decimal groups can be removed by making them into non-capturing groups, by adding `pattern:?:` to the beginning: `pattern:(?:\.\d+)?`.
+
+The final solution:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 function parse(expr) {
@@ -39,7 +76,11 @@ function parse(expr) {
 
   let result = expr.match(reg);
 
+<<<<<<< HEAD
   if (!result) return;
+=======
+  if (!result) return [];
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
   result.shift();
 
   return result;

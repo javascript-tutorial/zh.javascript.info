@@ -28,6 +28,10 @@ function mul(a, b) {
 基于它，我们利用 `bind` 创造一个新函数 `double`：
 
 ```js run
+function mul(a, b) {
+  return a * b;
+}
+
 *!*
 let double = mul.bind(null, 2);
 */!*
@@ -46,6 +50,10 @@ alert( double(5) ); // = mul(2, 5) = 10
 以下代码中的 `triple` 函数对一个值做三倍运算：
 
 ```js run
+function mul(a, b) {
+  return a * b;
+}
+
 *!*
 let triple = mul.bind(null, 3);
 */!*
@@ -57,9 +65,15 @@ alert( triple(5) ); // = mul(3, 5) = 15
 
 为什么我们经常会创建一个偏函数？
 
+<<<<<<< HEAD
 这里，我们从中受益的是我们创建了一个独立的非匿名函数（`double`，`triple`）。我们可以使用它，而不需要每次都传入第一个参数，因为 `bind` 帮我们搞定了。
 
 在其他的场景中，当我们有一个非常通用的函数，并且想要方便地获取它的特定变体，偏函数也是非常有用。
+=======
+The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide first argument of every time as it's fixed with `bind`.
+
+In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 举个例子，我们拥有函数 `send(from, to, text)`。然后，在 `user` 对象中，我们想要使用它的偏函数变体：`sendTo(to, text)`，该函数表明发送自一个当前的用户。
 
@@ -111,16 +125,24 @@ user.sayNow("Hello");
 
 有时候人们会把偏函数应用和另一个名为「柯里化」的东西混淆。那是另一个和函数有关的有趣的技术，我们在这里不得不提。
 
+<<<<<<< HEAD
 [Currying](https://en.wikipedia.org/wiki/Currying) 是一项将一个调用形式为 `f(a, b, c)` 的函数转化为调用形式为 `f(a)(b)(c)` 的技术。
 
 接下来让我们创建将两个函数连接起来的「柯里」函数。换句话说，它将 `f(a, b)` 转化为 `f(a)(b)`：
+=======
+[Currying](https://en.wikipedia.org/wiki/Currying) is a transformation of functions that translates a function from callable as `f(a, b, c)` into callable as `f(a)(b)(c)`. In JavaScript, we usually make a wrapper to keep the original function.
+
+Currying doesn't call a function. It just transforms it.
+
+Let's create a helper `curry(f)` function that performs currying for a two-argument `f`. In other words, `curry(f)` for two-argument `f(a, b)` translates it into `f(a)(b)`
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 *!*
-function curry(func) {
+function curry(f) { // curry(f) does the currying transform
   return function(a) {
     return function(b) {
-      return func(a, b);
+      return f(a, b);
     };
   };
 }
@@ -156,9 +178,17 @@ function curry(f) {
 
 ## 柯里化？目的是什么？
 
+<<<<<<< HEAD
 高级的柯里化同时允许函数正常调用和获取偏函数。为了理解这样的好处，我们确实需要一个好的现实例子。
 
 举个例子，我们有一个打印函数 `log(date, importance, message)` 格式化和输出信息。在真实的项目中，这样的函数有很多有用的特性，比如：通过网络传输或者筛选：
+=======
+To understand the benefits we definitely need a worthy real-life example.
+
+Advanced currying allows the function to be both callable normally and partially.
+
+For instance, we have the logging function `log(date, importance, message)` that formats and outputs the information. In real projects such functions also have many other useful features like sending logs over the network, here we just use `alert`:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js
 function log(date, importance, message) {
@@ -172,6 +202,7 @@ function log(date, importance, message) {
 log = _.curry(log);
 ```
 
+<<<<<<< HEAD
 操作之后 `log` 依然正常运行：
 
 ```js
@@ -179,11 +210,16 @@ log(new Date(), "DEBUG", "some debug");
 ```
 
 但是也可以用柯里化格式调用：
+=======
+After that `log` work both the normal way and in the curried form:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js
+log(new Date(), "DEBUG", "some debug"); // log(a,b,c)
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 ```
 
+<<<<<<< HEAD
 让我们来创建一个获取今天的日志的简易函数：
 
 ```js
@@ -195,22 +231,47 @@ todayLog("INFO", "message"); // [HH:mm] INFO message
 ```
 
 接下来是提供今天的调试信息的简便函数：
+=======
+Now we can easily make a convenience function for current logs:
 
 ```js
-let todayDebug = todayLog("DEBUG");
+// currentLog will be the partial of log with fixed first argument
+let logNow = log(new Date());
 
-todayDebug("message"); // [HH:mm] DEBUG message
+// use it
+logNow("INFO", "message"); // [HH:mm] INFO message
 ```
 
+And here's a convenience function for current debug messages:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
+
+```js
+let debugNow = logNow("DEBUG");
+
+debugNow("message"); // [HH:mm] DEBUG message
+```
+
+<<<<<<< HEAD
 那么：
 1. 柯里化之后我们没有丢失任何东西：`log` 依然可以被正常调用。
 2. 在很多情况下我们可以很方便生成偏函数。
+=======
+So:
+1. We didn't lose anything after currying: `log` is still callable normally.
+2. We were able to generate partial functions such as for today's logs.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 高级柯里化实现
 
+<<<<<<< HEAD
 由于你可能感兴趣，下面是我们可以使用的「高级」柯里化实现
+=======
+In case you'd like to get in details (not obligatory!), here's the "advanced" curry implementation that we could use above.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
-```js run
+It's pretty short:
+
+```js
 function curry(func) {
 
   return function curried(...args) {
@@ -224,13 +285,18 @@ function curry(func) {
   };
 
 }
+```
 
+Usage examples:
+
+```js
 function sum(a, b, c) {
   return a + b + c;
 }
 
 let curriedSum = curry(sum);
 
+<<<<<<< HEAD
 // 依然可以被正常调用
 alert( curriedSum(1, 2, 3) ); // 6
 
@@ -242,6 +308,14 @@ alert( curriedSum(1)(2)(3) ); // 6
 ```
 
 新的「柯里函数」看上去有点复杂，但是它很容易理解。
+=======
+alert( curriedSum(1, 2, 3) ); // 6, still callable normally
+alert( curriedSum(1)(2,3) ); // 6, currying of 1st arg
+alert( curriedSum(1)(2)(3) ); // 6, full currying
+```
+
+The new `curry` may look complicated, but it's actually easy to understand.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 `curry(func)` 的结果是 `curried` 函数的封装，结果如下：
 

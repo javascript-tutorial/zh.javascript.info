@@ -10,7 +10,11 @@
 </div>
 ```
 
+<<<<<<< HEAD
 这很奇怪不是么？为什么实际上是单击 `<em>`，而 `<div>` 上的处理器会运行？
+=======
+Isn't it a bit strange? Why does the handler on `<div>` run if the actual click was on `<em>`?
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## 冒泡
 
@@ -18,7 +22,11 @@
 
 **当事件发生在元素上，它首先会运行元素本身的处理器，然后运行父元素上的，再然后是其他祖先上的**。
 
+<<<<<<< HEAD
 比如我们有 3 层嵌套 `FORM > DIV > P`，它们都各自拥有一个处理器：
+=======
+Let's say we have 3 nested elements `FORM > DIV > P` with a handler on each of them:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```html run autorun
 <style>
@@ -108,9 +116,15 @@
 
 例如：
 
+<<<<<<< HEAD
 1. 我们创建一个嵌套目录，每个子目录各自处理对自己的单击事件，并调用 `stopPropagation`，这样外层目录就不会被触发。
 2. 之后我们决定去捕获在整个窗口上的点击，来追踪用户的行为（用户点击了哪里）。有些分析系统会这样做。通常代码会使用 `document.addEventListener('click'…)` 来捕获所有的点击。
 3. 我们的分析不适用于点击被 `stopPropagation` 所阻止的区域。我们有一个 "dead zone"。
+=======
+1. We create a nested menu. Each submenu handles clicks on its elements and calls `stopPropagation` so that the outer menu won't trigger.
+2. Later we decide to catch clicks on the whole window, to track users' behavior (where people click). Some analytic systems do that. Usually the code uses `document.addEventListener('click'…)` to catch all clicks.
+3. Our analytic won't work over the area where clicks are stopped by `stopPropagation`. We've got a "dead zone".
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 通常没有必要去阻止冒泡的产生。看似需要的任务，可以通过其他方法解决。其中之一就是使用自定义事件，我们稍后会进行讨论。此外，我们还可以将数据写入一个处理器中的 `event` 对象，并在另一个处理器中读取它，这样我们就可以向父处理器传递有关下层处理器的信息。
 ```
@@ -136,18 +150,34 @@
 
 处理器 `on<event>` 属性或使用 HTML 属性或者使用 `addEventListener(event, handler)` 添加的处理器，不知道捕获，它们只知道第 2 和第 3 阶段。
 
+<<<<<<< HEAD
 要在捕获阶段捕获事件，我们需要将 `addEventListener` 的第三个参数设置为 `true`。
 
 最后一个参数是可选的，有两个可能的值：
+=======
+To catch an event on the capturing phase, we need to set the handler `capture` option to `true`:
+
+```js
+elem.addEventListener(..., {capture: true})
+// or, just "true" is an alias to {capture: true}
+elem.addEventListener(..., true)
+```
+
+There are two possible values of the `capture` option:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 - 如果为 `false`（默认值），则在冒泡阶段设置处理器。
 - 如果为 `true`，则在捕获阶段设置处理器。
 
 注意，虽然形式上有 3 个阶段，但第 2 阶段（“目标阶段”：事件到达元素）没有单独被处理：捕获阶段和冒泡阶段的处理器在该阶段都会被触发。
 
+<<<<<<< HEAD
 如果将捕获阶段和冒泡阶段处理器放在目标上，捕获阶段处理器将在捕获阶段触发，而冒泡处理器将首先在冒泡阶段被触发。
 
 我们看一下效果：
+=======
+Let's see both capturing and bubbling in action:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```html run autorun height=140 edit
 <style>
@@ -182,13 +212,27 @@
 
 有一个 `event.eventPhase` 属性，它告诉我们事件被捕获阶段的数量。但它很少使用，因为我们通常在处理器中了解到它。
 
+<<<<<<< HEAD
 ## 总结
+=======
+```smart header="To remove the handler, `removeEventListener` needs the same phase"
+If we `addEventListener(..., true)`, then we should mention the same phase in `removeEventListener(..., true)` to correctly remove the handler.
+```
+
+## Summary
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 事件处理过程：
 
+<<<<<<< HEAD
 - 当事件发生时 —— 嵌套最深的那个元素被标记为“目标事件”(`event.target`)。
 - 然后事件先从文档根节点向下移动到 `event.target`，过程中调用分配给 `addEventListener(...., true)` 的处理器。
 - 再然后事件从 `event.target` 向上移动到根，调用使用 `on<event>` 和 `addEventListener` 分配的处理器，不使用第三个参数或第三个参数设置为 `false`。
+=======
+- When an event happens -- the most nested element where it happens gets labeled as the "target element" (`event.target`).
+- Then the event first moves from the document root down to the `event.target`, calling handlers assigned with `addEventListener(...., true)` on the way (`true` is a shorthand for `{capture: true}`).
+- Then the event moves from `event.target` up to the root, calling handlers assigned using  `on<event>` and `addEventListener` without the 3rd argument or with the 3rd argument `false`.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 每个处理器都可以访问 `event` 对象属性：
 

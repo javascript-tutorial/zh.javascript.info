@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 反向引用：\n 和 $n
 
 捕获组不仅能在结果中读取，也能在替换字符串，甚至模式中读取。
@@ -31,6 +32,26 @@ alert( name ); // Smith, John
 
 ```js run
 let str = "He said: \"She's the one!\".";
+=======
+# Backreferences in pattern: \n and \k
+
+We can use the contents of capturing groups `(...)` not only in the result or in the replacement string, but also in the pattern itself.
+
+## Backreference by number: \n
+
+A group can be referenced in the pattern using `\n`, where `n` is the group number.
+
+To make things clear let's consider a task.
+
+We need to find a quoted string: either a single-quoted `subject:'...'` or a double-quoted `subject:"..."` -- both variants need to match.
+
+How to look for them?
+
+We can put both kinds of quotes in the square brackets: `pattern:['"](.*?)['"]`, but it would find strings with mixed quotes, like `match:"...'` and `match:'..."`. That would lead to incorrect matches when one quote appears inside other ones, like the string `subject:"She's the one!"`:
+
+```js run
+let str = `He said: "She's the one!".`;
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 let reg = /['"](.*?)['"]/g;
 
@@ -38,6 +59,7 @@ let reg = /['"](.*?)['"]/g;
 alert( str.match(reg) ); // "She'
 ```
 
+<<<<<<< HEAD
 如你所见，这个模式发现了左双引号 `match:"`，然后匹配文本直到发现另一个引号 `match:'`，结束本次匹配。
 
 为了确保模式匹配的右引号类型和左引号类型一致，可以将引号包裹成组并使用反向引用：
@@ -46,10 +68,25 @@ alert( str.match(reg) ); // "She'
 let str = "He said: \"She's the one!\".";
 
 let reg = /(['"])(.*?)\1/g;
+=======
+As we can see, the pattern found an opening quote `match:"`, then the text is consumed lazily till the other quote `match:'`, that closes the match.
+
+To make sure that the pattern looks for the closing quote exactly the same as the opening one, we can wrap it into a capturing group and use the backreference.
+
+Here's the correct code:
+
+```js run
+let str = `He said: "She's the one!".`;
+
+*!*
+let reg = /(['"])(.*?)\1/g;
+*/!*
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 alert( str.match(reg) ); // "She's the one!"
 ```
 
+<<<<<<< HEAD
 现在一切搞定！正则表达式引擎匹配第一个引号 `pattern:(['"])` 时，记录 `pattern(...)` 的内容，这就是第一个捕获组。
 
 `pattern:\1` 的含义是“找到与第一组相同的文本”。
@@ -58,3 +95,29 @@ alert( str.match(reg) ); // "She's the one!"
 
 - 在替换字符串内部引用组的方式 —— `$1`，在模式中引用组的方式 —— `\1`。
 - 在组内使用 `?:` 则无法引用到该组。正则表达式引擎不会记住被排除在捕获 `(?:...)` 之外的组。
+=======
+Now it works! The regular expression engine finds the first quote `pattern:(['"])` and remembers the content of `pattern:(...)`, that's the first capturing group.
+
+Further in the pattern `pattern:\1` means "find the same text as in the first group", exactly the same quote in our case.
+
+Please note:
+
+- To reference a group inside a replacement string -- we use `$1`, while in the pattern -- a backslash `\1`.
+- If we use `?:` in the group, then we can't reference it. Groups that are excluded from capturing `(?:...)` are not remembered by the engine.
+
+## Backreference by name: `\k<name>`
+
+For named groups, we can backreference by `\k<name>`.
+
+The same example with the named group:
+
+```js run
+let str = `He said: "She's the one!".`;
+
+*!*
+let reg = /(?<quote>['"])(.*?)\k<quote>/g;
+*/!*
+
+alert( str.match(reg) ); // "She's the one!"
+```
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af

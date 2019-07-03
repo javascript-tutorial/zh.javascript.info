@@ -1,6 +1,16 @@
 本教程阅读免费。
 
+<<<<<<< HEAD
 如果你想将本教程做其他用途，请获得本教程中文版负责人 [LeviDing](https://github.com/leviding)：imdingxuewen@gmail.com 和原版负责人 [Ilya Kantor](https://github.com/iliakan)：iliakan@javascript.ru 的许可。
+=======
+The tutorial is free to read.
+
+If you'd like to do something else with it, please get a permission from Ilya Kantor, iliakan@javascript.ru.
+
+As of now, we license the tutorial to almost everyone for free under the terms of an "open" CC-BY-NC-SA license. Just please be so kind to contact me.
+
+## Attribution-NonCommercial-ShareAlike license (CC-BY-NC-SA)
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 截至目前，我们根据“开放式” CC-BY-NC-SA 许可条款免费向几乎所有人授予教程许可。有问题敬请联系我。
 
