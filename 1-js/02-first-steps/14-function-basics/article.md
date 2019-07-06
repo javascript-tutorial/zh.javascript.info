@@ -186,7 +186,7 @@ showMessage("Ann");
 如果我们想在本例中使用“默认” `text`,那么我们可以在 `=` 之后指定它：
 
 ```js run
-function showMessage(from, *!*text = "no text given"*/!*) {
+function showMessage(from, *!*text = "无文本"*/!*) {
   alert( from + ": " + text );
 }
 
