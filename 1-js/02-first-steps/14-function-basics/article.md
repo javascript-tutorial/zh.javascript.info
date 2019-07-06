@@ -222,7 +222,7 @@ function showMessage(from, text) {
 }
 ```
 
-...Or the `||` operator:
+...或使用 `||` 运算符:
 
 ```js
 function showMessage(from, text) {
