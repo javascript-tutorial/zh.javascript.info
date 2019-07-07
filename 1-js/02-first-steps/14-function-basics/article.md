@@ -190,7 +190,7 @@ function showMessage(from, *!*text = "no text given"*/!*) {
   alert( from + ": " + text );
 }
 
-showMessage("Ann"); // Ann: 无文本
+showMessage("Ann"); // Ann: no text given
 ```
 
 现在如果 `text` 参数未被传递，它将会得到 `"no text given"` 的值。
