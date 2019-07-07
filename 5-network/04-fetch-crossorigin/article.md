@@ -18,82 +18,95 @@ try {
 
 不出意外，获取失败。
 
-## 为什么？
+## 为什么？跨源请求简明史
 
 因为跨源限制可以保护互联网免受恶意黑客攻击。
 
 说真的，在这说点儿题外话，讲讲它的历史。
 
-多年来，JavaScript 没有任何特殊的方法来执行网络请求。
-
 **来自一个网站的脚本无法访问其他网站的内容**
 
 这个简单有力的规则是互联网安全的基础。例如，来自 `hacker.com` 页面的脚本无法访问 `gmail.com` 上的用户邮箱。基于这样的规则，人们感到很安全。
 
+在那时候，JavaScript 只是一种装饰网页的玩具语言而已，它并没有任何特殊的执行网络请求的方法。
+
 但是网络开发人员需要更多的控制权。人们发明了各种各样的技巧去解决它。
 
-其中一种和其他服务器通信的方法是提交一个 `<form>`。人们将它提交到 `<iframe>` ，只是为了仍然留在当前页面，像这样：
+### 使用 forms
+
+其中一种和其他服务器通信的方法是提交一个 `<form>`。人们将它提交到 `<iframe>` ，目的只是为了仍然留在当前页面，像这样：
 
 ```html
 <!-- form 目标 -->
+*!*
 <iframe name="iframe"></iframe>
+*/!*
 
 <!-- form 可以使用 JavaScript 动态生成并提交 -->
+*!*
 <form target="iframe" method="POST" action="http://another.com/…">
+*/!*
   ...
 </form>
-
 ```
 
-- 因此，即使没有网络方法，它也可以向其他网站发起一个 GET/POST 请求。
-- 但是由于禁止从另一个站点访问 `<iframe>` 的内容，因此无法读取响应。
+因此，即使没有网络方法，它也可以向其他网站发起一个 GET/POST 请求。但是由于禁止从其他网页读取 `<iframe>` 的内容，因此就无法读取响应。
 
-所以，`<form>` 允许在任何位置提交数据，但是响应内容无法访问。
+所以我们可以看到，forms 可以在任意位置发送数据，但是不能接受响应内容。确切地说，还是有一些技巧能够解决这个问题的（iframe 和页面中都需要添加特殊脚本），不过我们还是让这些老古董代码不要再出现了吧。
+
+### 使用 scripts
 
 另一个技巧是使用 `<script src="http://another.com/…">` 标签。脚本元素可以有来自任何域的任何 `src` 值。但同样 —— 无法访问此类脚本的原始内容。
 
 如果 `another.com` 试图公开这种访问的数据，则使用所谓的“JSONP（JSON with padding）”协议。
 
-以下是它的工作流程：
+假设我们需要以这种方式从 `http://another.com` 站点获取数据：
 
 1. 首先，我们提前声明一个全局函数来接收数据，例如 `gotWeather`。
-2. 然后我们创建 `<script>` 并将它的名字作为 `callback` 查询参数，就像这样 `src="http://another.com/weather.json?callback=gotWeather"`。
-3. 服务器动态生成响应，将所有数据包裹到 `gotWeather(...)` 调用内。
-4. 当脚本执行的时候，`gotWeather` 运行，并且因为它是我们的函数，我们就有需要的数据了。
 
-这是在 JSONP 中接收数据的演示代码：
+    ```js
+    // 1. 声明处理数据的函数
+    function gotWeather({ temperature, humidity }) {
+      alert(`temperature: ${temperature}, humidity: ${humidity}`);
+    }
+    ```    
+2. 然后我们创建属性为 `src="http://another.com/weather.json?callback=gotWeather"` 的 `<script>` 标签，请注意我们的函数名是作为它的 `callback` 参数。
 
-```js run
-// 1. 声明处理数据的函数
-function gotWeather({ temperature, humidity }) {
-  alert(`temperature: ${temperature}, humidity: ${humidity}`);
-}
+    ```js
+    let script = document.createElement('script');
+    script.src = `http://another.com/weather.json?callback=gotWeather`;
+    document.body.append(script);
+    ```
+3. 服务器动态生成一个名为 `gotWeather(...)` 的脚本，脚本内包含我们想要接收的数据。
+    ```js
+    // 期望从服务器获取到的结果类似于此：
+    gotWeather({
+      temperature: 25,
+      humidity: 78
+    });
 
-// 2. 将名字作为脚本的 callback 参数传递
-let script = document.createElement('script');
-script.src = `https://cors.javascript.info/article/fetch-crossorigin/demo/script?callback=gotWeather`;
-document.body.append(script);
+4. 当远端脚本加载并执行的时候，`gotWeather` 函数被调用，并且因为它是我们的函数，我们就有需要的数据了。
 
-// 3. 期望来自服务器的结果如下：
-/*
-gotWeather({
-  temperature: 25,
-  humidity: 78
-});
-*/
-```
 
 
 这是可行的，并且不违反安全规定，因为双方网站都接受这种传递数据的方式。既然双方网站都同意这种行为，那么它肯定不是网络攻击了。现在仍然有提供这种访问的服务，因为即使是非常旧的浏览器也依然可行。
 
-不久之后，出现了更为现代的方式。起初，跨源请求是被禁止的。但是由于长时间的讨论，跨源请求最终被允许，除非服务器明确允许，否则不会添加任何功能。
+不久之后，出现了具体的网络处理方法，例如 `XMLHttpRequest`。
+
+起初，跨源请求是被禁止的。但是由于长时间的讨论，跨源请求最终被允许：除非服务器明确允许，否则不会添加任何功能。
 
 ## 简单请求（Simple requests）
 
-[简单请求](http://www.w3.org/TR/cors/#terminology) 必须满足下列条件：
+有两种跨域（cross-domain）请求：
+1. 简单请求。
+2. 除简单请求以外的其他请求。
+
+顾名思义，简单请求很简单，所以我们先从它开始。
+
+一个 [简单请求](http://www.w3.org/TR/cors/#terminology) 是指满足下列条件的请求：
 
 1. [简单请求方法](http://www.w3.org/TR/cors/#simple-method)：GET, POST 或 HEAD
-2. [简单请求头](http://www.w3.org/TR/cors/#simple-header) —— 仅允许下列属性：
+2. [简单请求头](http://www.w3.org/TR/cors/#simple-header) — 仅允许自定义下列请求头：
     - `Accept`，
     - `Accept-Language`，
     - `Content-Language`，
@@ -138,7 +151,7 @@ Origin: https://javascript.info
 
 ![](xhr-another-domain.png)
 
-这里是一个“接受（accepting）”响应的示例：
+这是一个得到服务器许可的响应示例：
 ```
 200 OK
 Content-Type:text/html; charset=UTF-8
@@ -163,7 +176,7 @@ Access-Control-Allow-Origin: https://javascript.info
 ```smart header="请注意：没有 `Content-Length`"
 请注意：列表中没有 `Content-Length` 头！
 
-所以，如果我们想要追踪下载内容的进度百分比，则需要额外的权限才能访问该头（参见下文）。
+这个头包含了完整响应长度。所以，如果我们想要追踪下载内容的进度百分比，则需要额外的权限才能访问该头（参见下文）。
 ```
 
 要允许 JavaScript 访问任何其他响应头，服务器必须在响应头中列出 `Access-Control-Expose-Headers`。
@@ -219,11 +232,11 @@ let response = await fetch('https://site.com/service.json', {
 这里有三个理由解释为什么它不是一个简单请求（其实一个就够了）：
 - 方法：`PATCH`
 - `Content-Type` 不是这三个中的一个：`application/x-www-form-urlencoded`，`multipart/form-data`，`text/plain`。
-- 自定义 `API-Key` 头。
+- “非简单（Non-simple）” `API-Key` 头。
 
 ### Step 1 预检请求（preflight request）
 
-浏览器自身会发送类似这样的预检请求：
+在我们发送请求之前，浏览器自身会发送类似这样的预检请求：
 
 ```
 OPTIONS /service.json
@@ -248,7 +261,7 @@ Access-Control-Request-Headers: Content-Type,API-Key
 
 这将允许后续通信，否则会触发错误。
 
-如果服务器需要其他的方法和头，请一次性将它们全部列出来，例如：
+如果服务器将来需要其他的方法和头，那么添加到列表中来提前允许它们是很有意义的：
 
 ```
 200 OK
@@ -298,9 +311,9 @@ Access-Control-Allow-Origin: https://javascript.info
 
 这是因为具有凭据的请求比匿名请求具有的权限更大。如果被允许，它授予 JavaScript 代表用户行为和访问敏感信息的全部权限。
 
-服务器真的这么信任来自 `Origin` 的页面吗？具有凭据的请求需要额外的头才能通过。
+服务器真的这么信任来自 `Origin` 的页面吗？是的，它必须明确地允许带有附加请求头凭据的请求。
 
-要启用凭据，我们需要添加选项 `credentials: "include"`，就像这样：
+要发送凭据，我们需要添加选项 `credentials: "include"`，就像这样：
 
 ```js
 fetch('http://another.com', {
@@ -308,7 +321,7 @@ fetch('http://another.com', {
 });
 ```
 
-现在，`fetch` 会根据请求发送源自 `another.com` 的 cookies。
+现在，`fetch` 会发送源自 `another.com` 的 cookies，但不会向该站点发出请求。
 
 如果服务器想要接受带有凭据的请求，则除了 `Access-Control-Allow-Origin` 外，它还需要向响应头中添加 `Access-Control-Allow-Credentials: true`。
 
@@ -342,10 +355,10 @@ Access-Control-Allow-Credentials: true
 **对于简单请求：**
 
 - → 浏览器发送带有源的 `Origin` 头。
-- ← 对于没有凭据的请求（默认），服务器应该设置：
-    - `Access-Control-Allow-Origin` 为 `*` 或与 `Origin` 相同
+- ← 对于没有凭据的请求（默认不发送），服务器应该设置：
+    - `Access-Control-Allow-Origin` 为 `*` 或与 `Origin` 值相同
 - ← 对于具有凭据的请求，服务器应该设置：
-    - `Access-Control-Allow-Origin` 为 `Origin`
+    - `Access-Control-Allow-Origin` 值与 `Origin` 相同
     - `Access-Control-Allow-Credentials` 为 `true`
 
 此外，如果 JavaScript 期望访问非简单响应头：
