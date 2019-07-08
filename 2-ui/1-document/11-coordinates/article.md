@@ -11,7 +11,11 @@
 
 ## 窗口坐标：getBoundingClientRect
 
+<<<<<<< HEAD
 窗口的坐标是从窗口的左上角开始计算的。
+=======
+Window coordinates start at the upper-left corner of the window.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 `elem.getBoundingClientRect()` 方法返回一个 `elem` 的窗口坐标对象，这个对象有以下这些属性：
 
@@ -25,7 +29,11 @@
 ![](coords.png)
 
 
+<<<<<<< HEAD
 窗口坐标并不会考虑到文档滚动，它们就是基于窗口的左上角计算出来的。
+=======
+Window coordinates do not take the scrolled out part of the document into account, they are calculated from the window's upper-left corner.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 换句话说，当我们滚动这个页面，这个元素就会上升或者下降，**它的窗口坐标改变了**。这很重要。
 
@@ -46,6 +54,7 @@ function showRect(elem) {
 
 额外说明：
 
+<<<<<<< HEAD
 - 坐标可以是十进制的分数。这很正常，浏览器内部也是使用十进制分数来计算坐标。当设置元素的 `style.position.left/top` 时我们不需要舍入它们，浏览器可以支持十进制分数。
 - 坐标也可以是负数的。例如当我们滚动页面向下在 `elem` 的顶部超过窗口的时候，这时候我们调用 `elem.getBoundingClientRect().top` 返回的就是负数。
 - 一些浏览器（像 Chrome）还会在 `getBoundingClientRect` 的返回中增加 `width` 和 `height` 属性。我们可以通过减法计算 `height=bottom-top`，`width=right-left` 来得到这两个属性。
@@ -57,6 +66,18 @@ function showRect(elem) {
 但是在 CSS 中 `right` 属性表示的是到右边界的距离，而且 `bottom` 是到底部边界的距离。
 
 如果我们只看下面的图片，我们可以看到在 JavaScript 中并非如此。所有窗口坐标都是从左上角开始计算的，包括这些坐标。
+=======
+- Coordinates may be decimal fractions. That's normal, internally browser uses them for calculations. We don't have to round them when setting to `style.position.left/top`, the browser is fine with fractions.
+- Coordinates may be negative. For instance, if the page is scrolled down and the top `elem` is now above the window. Then, `elem.getBoundingClientRect().top` is negative.
+- Some browsers (like Chrome) provide additional properties, `width` and `height` of the element that invoked the method to `getBoundingClientRect` as the result. We can also get them by subtraction: `height=bottom-top`, `width=right-left`.
+
+```warn header="Coordinates right/bottom are different from CSS properties"
+If we compare window coordinates versus CSS positioning, then there are obvious similarities to `position:fixed`. The positioning of an element is also relative to the viewport.
+
+But in CSS, the `right` property means the distance from the right edge, and the `bottom` property means the distance from the bottom edge.
+
+If we just look at the picture above, we can see that in JavaScript it is not so. All window coordinates are counted from the upper-left corner, including these ones.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 ## elementFromPoint(x, y) [#elementFromPoint]
@@ -155,7 +176,11 @@ setTimeout(() => message.remove(), 5000);
 
 ## 文档坐标
 
+<<<<<<< HEAD
 文档相对坐标是从文档的左上角开始计算，而不是窗口。
+=======
+Document-relative coordinates start from the upper-left corner of the document, not the window.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 在 CSS 中，窗口坐标对应的是 `position:fixed`，而文档坐标则类似顶部的 position:absolute`。
 
@@ -180,7 +205,11 @@ setTimeout(() => message.remove(), 5000);
 
 ## 获取文档坐标 [#getCoords]
 
+<<<<<<< HEAD
 现在 Javascript 中并没有获取一个元素文档坐标的标准方法。但是这个方法写起来很容易。
+=======
+There's no standard method to get the document coordinates of an element. But it's easy to write it.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 两个坐标系可以通过由公式相连接：
 - `pageY` = `clientY` + 文档垂直部分滚动的高度。

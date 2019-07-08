@@ -2,11 +2,19 @@
 
 Cookies are small strings of data that are stored directly in the browser. They are a part of HTTP protocol, defined by [RFC 6265](https://tools.ietf.org/html/rfc6265) specification.
 
+<<<<<<< HEAD
 Most of the time, cookies are set by a web server. Then they are automatically added to every request to the same domain.
 
 One of the most widespread use cases is authentication:
 
 1. Upon sign in, the server uses `Set-Cookie` HTTP-header in the response to set a cookie with "session identifier".
+=======
+Cookies are usually set by a web-server using response `Set-Cookie` HTTP-header. Then the browser automatically adds them to (almost) every request to the same domain using `Cookie` HTTP-header.
+
+One of the most widespread use cases is authentication:
+
+1. Upon sign in, the server uses `Set-Cookie` HTTP-header in the response to set a cookie with a unique "session identifier".
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 2. Next time when the request is set to the same domain, the browser sends the over the net using `Cookie` HTTP-header.
 3. So the server knows who made the request.
 
@@ -17,11 +25,19 @@ There are many tricky things about cookies and their options. In this chapter we
 ## Reading from document.cookie
 
 ```online
+<<<<<<< HEAD
 Do you have any cookies on this site? Let's see:
 ```
 
 ```offline
 Assuming you're on a website, it's possible to see the cookies, like this:
+=======
+Does your browser store any cookies from this site? Let's see:
+```
+
+```offline
+Assuming you're on a website, it's possible to see the cookies from it, like this:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 ```js run
@@ -39,7 +55,11 @@ We leave it as an exercise for the reader. Also, at the end of the chapter you'l
 
 ## Writing to document.cookie
 
+<<<<<<< HEAD
 We can write to `document.cookie`. But it's not a data property, it's an accessor.
+=======
+We can write to `document.cookie`. But it's not a data property, it's an accessor. An assignment to it is treated specially.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 **A write operation to `document.cookie` passes through the browser that updates cookies mentioned in it, but doesn't touch other cookies.**
 
@@ -84,11 +104,19 @@ document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 
 - **`path=/mypath`**
 
+<<<<<<< HEAD
 The url path prefix, where the cookie is accessible. Must be absolute. By default, it's the current path.
 
 If a cookie is set with `path=/admin`, it's visible at pages `/admin` and `/admin/something`, but not at `/home` or `/adminpage`.
 
 Usually, we set `path=/` to make the cookie accessible from all website pages.
+=======
+The url path prefix, the cookie will be accessible for pages under that path. Must be absolute. By default, it's the current path.
+
+If a cookie is set with `path=/admin`, it's visible at pages `/admin` and `/admin/something`, but not at `/home` or `/adminpage`.
+
+Usually, we should set `path` to the root: `path=/` to make the cookie accessible from all website pages.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## domain
 
@@ -110,6 +138,7 @@ alert(document.cookie); // no user
 
 **There's no way to let a cookie be accessible from another 2nd-level domain, so `other.com` will never receive a cookie set at `site.com`.**
 
+<<<<<<< HEAD
 It's a safety restriction, to allow us to store sensitive data in cookies.
 
 ...But if we'd like to grant access to subdomains like `forum.site.com`, that's possible. We  should explicitly set `domain` option to the root domain: `domain=site.com`:
@@ -123,6 +152,24 @@ alert(document.cookie); // with user
 ```
 
 For historical reasons, `domain=.site.com` (a dot at the start) also works this way, it might better to add the dot to support very old browsers.
+=======
+It's a safety restriction, to allow us to store sensitive data in cookies, that should be available only on one site.
+
+...But if we'd like to allow subdomains like `forum.site.com` get a cookie, that's possible. When setting a cookie at `site.com`, we should explicitly set `domain` option to the root domain: `domain=site.com`:
+
+```js
+// at site.com
+// make the cookie accessible on any subdomain *.site.com:
+document.cookie = "user=John; domain=site.com"
+
+// later
+
+// at forum.site.com
+alert(document.cookie); // has cookie user=John
+```
+
+For historical reasons, `domain=.site.com` (a dot before `site.com`) also works the same way, allowing access to the cookie from subdomains. That's an old notation, should be used if we need to support very old browsers.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 So, `domain` option allows to make a cookie accessible at subdomains.
 
@@ -181,9 +228,15 @@ document.cookie = "user=John; secure";
 
 ## samesite
 
+<<<<<<< HEAD
 That's another security option, to protect from so-called XSRF (cross-site request forgery) attacks.
 
 To understand when it's useful, let's introduce the following attack scenario.
+=======
+That's another security attribute `somesite`. It's designed to protect from so-called XSRF (cross-site request forgery) attacks.
+
+To understand how it works and when it's useful, let's take a look at XSRF attacks.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ### XSRF attack
 

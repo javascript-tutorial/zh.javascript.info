@@ -1,6 +1,10 @@
 # 数据类型
 
+<<<<<<< HEAD
 JavaScript 中的变量可以保存任何数据。变量在前一刻可以是个字符串，然后又收到一个数值：
+=======
+A variable in JavaScript can contain any data. A variable can at one moment be a string and at another be a number:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 // 没有错误
@@ -10,7 +14,11 @@ message = 123456;
 
 允许这种操作的编程语言称为“动态类型”（dynamically typed）的编程语言，意思是，拥有数据类型，但是变量并不限于数据类型中的任何一个。
 
+<<<<<<< HEAD
 在 JavaScript 中有七种基本数据类型。这一章我们会学习基本知识，下一章我们会详细介绍它们。
+=======
+There are seven basic data types in JavaScript. Here, we'll cover them in general and in the next chapters we'll talk about each of them in detail.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## number 类型
 
@@ -19,11 +27,19 @@ let n = 123;
 n = 12.345;
 ```
 
+<<<<<<< HEAD
 *number* 类型用于整数和浮点数。
 
 数字有很多操作，比如，乘法 `*`、除法 `/`、加法 `+`、减法 `-` 等等。
 
 除了常规的数字，还包括所谓的“特殊数值”也属于这种类型：`Infinity`、`-Infinity` 和 `NaN`。
+=======
+The *number* type represents both integer and floating point numbers.
+
+There are many operations for numbers, e.g. multiplication `*`, division `/`, addition `+`, subtraction `-`, and so on.
+
+Besides regular numbers, there are so-called "special numeric values" which also belong to this data type: `Infinity`, `-Infinity` and `NaN`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 - `Infinity` 代表数学概念中的[无穷大](https://en.wikipedia.org/wiki/Infinity) ∞。是一个比任何数字都大的特殊值。
 
@@ -33,7 +49,11 @@ n = 12.345;
     alert( 1 / 0 ); // Infinity
     ```
 
+<<<<<<< HEAD
     或者在代码中直接提及它。
+=======
+    Or just reference it directly:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
     ```js run
     alert( Infinity ); // Infinity
@@ -44,12 +64,17 @@ n = 12.345;
     alert( "not a number" / 2 ); // NaN, 这样的除法是错误的
     ```
 
+<<<<<<< HEAD
     `NaN` 是粘性的。任何对 `NaN` 的进一步操作都会给出 `NaN`：
+=======
+    `NaN` is sticky. Any further operation on `NaN` returns `NaN`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
     ```js run
     alert( "not a number" / 2 + 5 ); // NaN
     ```
 
+<<<<<<< HEAD
     所以，如果在数学表达式中有一个 `NaN`，会被传播到最终结果。
 
 ```smart header="数学运算是安全的"
@@ -59,12 +84,27 @@ n = 12.345;
 ```
 
 特殊的数值属于 **number** 类型。当然，对这个词的一般认识是，它们并不是数字。
+=======
+    So, if there's a `NaN` somewhere in a mathematical expression, it propagates to the whole result.
+
+```smart header="Mathematical operations are safe"
+Doing maths is "safe" in JavaScript. We can do anything: divide by zero, treat non-numeric strings as numbers, etc.
+
+The script will never stop with a fatal error ("die"). At worst, we'll get `NaN` as the result.
+```
+
+Special numeric values formally belong to the "number" type. Of course they are not numbers in the common sense of this word.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 我们将在章节 <info:number> 了解更多有关使用数字的内容。
 
 ## string 类型
 
+<<<<<<< HEAD
 JavaScript 中的字符串必须被包含在引号里面。
+=======
+A string in JavaScript must be surrounded by quotes.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 let str = "Hello";
@@ -92,9 +132,15 @@ alert( `Hello, *!*${name}*/!*!` ); // Hello, John!
 alert( `the result is *!*${1 + 2}*/!*` ); // 结果是 3
 ```
 
+<<<<<<< HEAD
 `${…}` 内的表达式会被计算，结果成为字符串的一部分。可以在 `${…}` 内放置任何东西：诸如 `name` 的变量，或者诸如 `1 + 2` 的算数表达式，或者其他一些更复杂的。
 
 需要注意的是，这仅仅在反引号内有效，其他引号不允许这种嵌入。
+=======
+The expression inside `${…}` is evaluated and the result becomes a part of the string. We can put anything in there: a variable like `name` or an arithmetical expression like `1 + 2` or something more complex.
+
+Please note that this can only be done in backticks. Other quotes don't have this embedding functionality!
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```js run
 alert( "the result is ${1 + 2}" ); // 结果是 ${1 + 2} (双引号什么也不做)
 ```
@@ -128,31 +174,57 @@ let isGreater = 4 > 1;
 alert( isGreater ); // true (比较的结果是 "yes")
 ```
 
+<<<<<<< HEAD
 更详细的内容将会在章节 <info:logical-operators> 进行介绍。
+=======
+We'll cover booleans more deeply in the chapter <info:logical-operators>.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## "null" 值
 
+<<<<<<< HEAD
 特殊的 `null` 值不属于上述任何一种类型。
 
 它构成一个独立的类型，只包含 `null` 值：
+=======
+The special `null` value does not belong to any of the types described above.
+
+It forms a separate type of its own which contains only the `null` value:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 let age = null;
 ```
 
+<<<<<<< HEAD
 相比较于其他语言，JavaScript 中的 `null` 不是一个“对不存在对象的引用”或者 “null 指针”。
 
 仅仅是一个含义为“无”、“空”或“值未知”的特殊值。
 
 上面的代码表示，由于某些原因，`age` 是未知的。
+=======
+In JavaScript, `null` is not a "reference to a non-existing object" or a "null pointer" like in some other languages.
+
+It's just a special value which represents "nothing", "empty" or "value unknown".
+
+The code above states that `age` is unknown or empty for some reason.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## "undefined" 值
 
+<<<<<<< HEAD
 特殊值和 `null` 一样，自成类型。
+=======
+The special value `undefined` also stands apart. It makes a type of its own, just like `null`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 `undefined` 的含义是 `未被赋值`。
 
+<<<<<<< HEAD
 如果变量被声明，而未被赋值，那么它的值就是 `undefined`：
+=======
+If a variable is declared, but not assigned, then its value is `undefined`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let x;
@@ -170,26 +242,47 @@ x = undefined;
 alert(x); // "undefined"
 ```
 
+<<<<<<< HEAD
 ...但是不建议这样做。通常，使用使用 `null` 将一个“空”或者“未知”的值写入变量中，`undefined` 仅仅用于检验，以查看变量是否被赋值或者其他类似的操作。
+=======
+...But we don't recommend doing that. Normally, we use `null` to assign an "empty" or "unknown" value to a variable, and we use `undefined` for checks like seeing if a variable has been assigned.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## object 类型和 symbol 类型
 
 `object` 类型是特殊的类型。
 
+<<<<<<< HEAD
 其他所有的类型都称为“原生类型”，因为它们的值只包含一个单独的东西（字符串、数字或者其他）。相反，对象用于储存数据集合和更复杂的实体。在充分了解原生类型之后，我们会在章节 <info:object> 介绍对象。
 
 `symbol` 类型用于创建对象的唯一标识符。为了学习的完整性，我们在这里提到 `symbol` 类型，但最好在学完对象之后再学习它。
+=======
+All other types are called "primitive" because their values can contain only a single thing (be it a string or a number or whatever). In contrast, objects are used to store collections of data and more complex entities. We'll deal with them later in the chapter <info:object> after we learn more about primitives.
+
+The `symbol` type is used to create unique identifiers for objects. We have to mention it here for completeness, but it's better to study this type after objects.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## typeof 运算符 [#type-typeof]
 
+<<<<<<< HEAD
 `typeof` 运算符返回参数的类型。当我们想要分别处理不同类型值的时候，或者简单地进行检验，就很有用。
+=======
+The `typeof` operator returns the type of the argument. It's useful when we want to process values of different types differently or just want to do a quick check.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 它支持两种语法形式：
 
+<<<<<<< HEAD
 1. 作为运算符：`typeof x`。
 2. 函数形式：`typeof(x)`。
 
 换言之，有括号和没有括号，结果是一样的。
+=======
+1. As an operator: `typeof x`.
+2. As a function: `typeof(x)`.
+
+In other words, it works with parentheses or without them. The result is the same.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 对 `typeof x` 的调用返回数据类型的字符串。
 
@@ -217,16 +310,25 @@ typeof alert // "function"  (3)
 */!*
 ```
 
+<<<<<<< HEAD
 最后三行可能需要额外的说明：
 
 1. `Math` 是一个提供数学运算的内建对象。我们会在章节 <info:number> 学习它。此处作为一个对象的例子。
 2. `typeof null` 的结果是 `"object"`。这是不对的。这是官方在 `typeof` 方面承认的错误，只是为了兼容性而保留。当然，`null` 不是一个对象。它有自己的类型，是一个特殊值。再次强调，这是语言中的一个错误。
 3. `typeof alert` 的结果是 `"function"`，因为 `alert` 在语言中是一个函数。我们会在下一章学习函数，那时我们会了解到，在语言中没有一个特别的 "function" 类型。函数隶属于 object 类型。但是 `typeof` 会对函数区分对待。这不正确，但在实践中非常方便。
+=======
+The last three lines may need additional explanation:
+
+1. `Math` is a built-in object that provides mathematical operations. We will learn it in the chapter <info:number>. Here, it serves just as an example of an object.
+2. The result of `typeof null` is `"object"`. That's wrong. It is an officially recognized error in `typeof`, kept for compatibility. Of course, `null` is not an object. It is a special value with a separate type of its own. So, again, this is an error in the language.
+3. The result of `typeof alert` is `"function"`, because `alert` is a function. We'll study functions in the next chapters where we'll also see that there's no special "function" type in JavaScript. Functions belong to the object type. But `typeof` treats them differently, returning `"function"`. That's not quite correct, but very convenient in practice.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 总结
 
 JavaScript 中有七种基本的类型。
 
+<<<<<<< HEAD
 - `number` 用于任何类型的数字：整数或者浮点数。
 - `string` 用于字符串。一个字符串可以包含一个或多个字符，所以没有单独的单字符类型。
 - `boolean` 用于 `true` 和 `false`。
@@ -234,11 +336,24 @@ JavaScript 中有七种基本的类型。
 - `undefined` 用于未定义的值 —— 只有一个 `undefined` 值的独立类型。
 - `object` 用于更复杂的数据结构。
 - `symbol` 用于唯一的标识符。
+=======
+There are 7 basic data types in JavaScript.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 `typeof` 运算符可以查看变量的类型。
 
+<<<<<<< HEAD
 - 两种形式：`typeof x` 或者 `typeof(x)`。
 - 返回的类型的字符串，比如 `"string"`。
 - `null` 返回 `"object"` —— 这是语言中的一个错误，实际上它并不是一个对象。
 
 在接下来的章节中，我们将重点介绍原生类型值，一旦掌握了，我们将继续讨论对象。
+=======
+The `typeof` operator allows us to see which type is stored in a variable.
+
+- Two forms: `typeof x` or `typeof(x)`.
+- Returns a string with the name of the type, like `"string"`.
+- For `null` returns `"object"` -- this is an error in the language, it's not actually an object.
+
+In the next chapters, we'll concentrate on primitive values and once we're familiar with them, we'll move on to objects.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

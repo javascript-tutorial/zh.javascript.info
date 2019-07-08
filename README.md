@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
 <!--
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 赞助商
 
+<<<<<<< HEAD
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
 
 -->
@@ -15,6 +22,21 @@
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
 
 详见[翻译](https://javascript.info/translate)。
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 贡献指南 
 
@@ -38,6 +60,7 @@
 
 翻译版本上线后，我们会在“[关于本项目](https://zh.javascript.info/about)”页面写上你的名字和贡献。
 
+<<<<<<< HEAD
 注：<https://javascript.info/translate> 列出了完整的语言列表。
 
 ## 文件结构
@@ -158,3 +181,10 @@ importance: 5
 💓  
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
+=======
+It's very easy to add something new.
+
+---
+♥  
+Ilya Kantor @iliakan
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

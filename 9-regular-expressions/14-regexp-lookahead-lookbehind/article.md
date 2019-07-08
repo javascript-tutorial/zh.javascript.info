@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 前瞻断言与后瞻断言
 
 有时候我们需要匹配后面跟着特定模式的一段模式。比如，我们要从 `subject:1 turkey costs 30€` 这段字符中匹配价格数值。
@@ -11,10 +12,26 @@
 语法为：`pattern:x(?=y)`，它表示 “匹配 `pattern:x`, 仅在后面是 `pattern:y` 的情况"”
 
 那么对于一个后面跟着 `€` 的整数金额，它的正则表达式应该为：`pattern:\d+(?=€)`。
+=======
+# Lookahead and lookbehind
+
+Sometimes we need to match a pattern only if followed by another pattern. For instance, we'd like to get the price from a string like `subject:1 turkey costs 30€`.
+
+We need a number (let's say a price has no decimal point) followed by `subject:€` sign.
+
+That's what lookahead is for.
+
+## Lookahead
+
+The syntax is: `pattern:x(?=y)`, it means "look for `pattern:x`, but match only if followed by `pattern:y`".
+
+For an integer amount followed by `subject:€`, the regexp will be `pattern:\d+(?=€)`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let str = "1 turkey costs 30€";
 
+<<<<<<< HEAD
 alert( str.match(/\d+(?=€)/) ); // 30 （正确地跳过了单个的数字 1）
 ```
 
@@ -23,10 +40,21 @@ alert( str.match(/\d+(?=€)/) ); // 30 （正确地跳过了单个的数字 1�
 这里就要用到前瞻否定断言了。
 
 语法为：`pattern:x(?!y)`，意思是 "查找 `pattern:x`, 但是仅在不被 `pattern:y` 跟随的情况下匹配成功"。
+=======
+alert( str.match(/\d+(?=€)/) ); // 30 (correctly skipped the sole number 1)
+```
+
+Let's say we want a quantity instead, that is a number, NOT followed by `subject:€`.
+
+Here a negative lookahead can be applied.
+
+The syntax is: `pattern:x(?!y)`, it means "search `pattern:x`, but only if not followed by `pattern:y`".
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let str = "2 turkeys cost 60€";
 
+<<<<<<< HEAD
 alert( str.match(/\d+(?!€)/) ); // 2（正确地跳过了价格）
 ```
 
@@ -41,18 +69,42 @@ alert( str.match(/\d+(?!€)/) ); // 2（正确地跳过了价格）
 - 后瞻否定断言：`pattern:(?<!y)x`, 匹配 `pattern:x`, 仅在前面不是 `pattern:y` 的情况。
 
 举个例子，让我们把价格换成美元。美元符号通常在数字之前，所以要查找 `$30` 我们将使用 `pattern:(?<=\$)\d+` —— 一个前面带 `subject:$` 的数值：
+=======
+alert( str.match(/\d+(?!€)/) ); // 2 (correctly skipped the price)
+```
+
+## Lookbehind
+
+Lookahead allows to add a condition for "what goes after".
+
+Lookbehind is similar, but it looks behind. That is, it allows to match a pattern only if there's something before.
+
+The syntax is:
+- Positive lookbehind: `pattern:(?<=y)x`, matches `pattern:x`, but only if it follows after `pattern:y`.
+- Negative lookbehind: `pattern:(?<!y)x`, matches `pattern:x`, but only if there's no `pattern:y` before.
+
+For example, let's change the price to US dollars. The dollar sign is usually before the number, so to look for `$30` we'll use `pattern:(?<=\$)\d+` -- an amount preceded by `subject:$`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let str = "1 turkey costs $30";
 
+<<<<<<< HEAD
 alert( str.match(/(?<=\$)\d+/) ); // 30 （跳过了单个的数字 1）
 ```
 
 另外，为了找到数量 —— 一个前面不带 `subject:$` 的数字，我们可以使用否定后瞻断言：`pattern:(?<!\$)\d+`
+=======
+alert( str.match(/(?<=\$)\d+/) ); // 30 (skipped the sole number)
+```
+
+And, to find the quantity -- a number, not preceded by `subject:$`, we can use a negative lookbehind `pattern:(?<!\$)\d+`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let str = "2 turkeys cost $60";
 
+<<<<<<< HEAD
 alert( str.match(/(?<!\$)\d+/) ); // 2 (跳过了价格)
 ```
 
@@ -69,11 +121,33 @@ alert( str.match(/(?<!\$)\d+/) ); // 2 (跳过了价格)
 ```js run
 let str = "1 turkey costs 30€";
 let reg = /\d+(?=(€|kr))/; // €|kr 两边有额外的括号
+=======
+alert( str.match(/(?<!\$)\d+/) ); // 2 (skipped the price)
+```
+
+## Capture groups
+
+Generally, what's inside the lookaround (a common name for both lookahead and lookbehind) parentheses does not become a part of the match.
+
+E.g. in the pattern `pattern:\d+(?=€)`, the `pattern:€` sign doesn't get captured as a part of the match. That's natural: we look for a number `pattern:\d+`, while `pattern:(?=€)` is just a test that it should be followed by `subject:€`.
+
+But in some situations we might want to capture the lookaround expression as well, or a part of it. That's possible. Just  wrap that into additional parentheses.
+
+For instance, here the currency `pattern:(€|kr)` is captured, along with the amount:
+
+```js run
+let str = "1 turkey costs 30€";
+let reg = /\d+(?=(€|kr))/; // extra parentheses around €|kr
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 alert( str.match(reg) ); // 30, €
 ```
 
+<<<<<<< HEAD
 后瞻断言也一样：
+=======
+And here's the same for lookbehind:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let str = "1 turkey costs $30";
@@ -82,6 +156,7 @@ let reg = /(?<=(\$|£))\d+/;
 alert( str.match(reg) ); // 30, $
 ```
 
+<<<<<<< HEAD
 请注意，对于后瞻断言，顺序保持不变，尽管前瞻括号在主模式之前。
 
 通常括号是从左到右编号，但是后瞻断言是一个例外，它总是在主模式之后被捕获。所以 `pattern:\d+` 的匹配会首先进入结果数组，然后是 `pattern:(\$|£)`。
@@ -103,3 +178,30 @@ alert( str.match(reg) ); // 30, $
 | `pattern:(?<!y)x` | 后瞻否定断言 | `x` ，仅当不跟在 `y` 后面 |
 
 前瞻断言也可用于禁用回溯。为什么它是需要的 - 请看下一章。
+=======
+Please note that for lookbehind the order stays be same, even though lookahead parentheses are before the main pattern.
+
+Usually parentheses are numbered left-to-right, but lookbehind is an exception, it is always captured after the main pattern. So the match for `pattern:\d+` goes in the result first, and then for `pattern:(\$|£)`.
+
+
+## Summary
+
+Lookahead and lookbehind (commonly referred to as "lookaround") are useful when we'd like to take something into the match depending on the context before/after it.
+
+For simple regexps we can do the similar thing manually. That is: match everything, in any context, and then filter by context in the loop.
+
+Remember, `str.matchAll` and `reg.exec` return matches with `.index` property, so we know where exactly in the text it is, and can check the context.
+
+But generally regular expressions are more convenient.
+
+Lookaround types:
+
+| Pattern            | type             | matches |
+|--------------------|------------------|---------|
+| `pattern:x(?=y)`   | Positive lookahead | `x` if followed by `y` |
+| `pattern:x(?!y)`   | Negative lookahead | `x` if not followed by `y` |
+| `pattern:(?<=y)x` |  Positive lookbehind | `x` if after `y` |
+| `pattern:(?<!y)x` | Negative lookbehind | `x` if not after `y` |
+
+Lookahead can also used to disable backtracking. Why that may be needed and other details  -- see in the next chapter.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

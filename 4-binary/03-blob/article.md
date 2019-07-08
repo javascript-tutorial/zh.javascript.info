@@ -59,8 +59,12 @@ A Blob can be easily used as an URL for `<a>`, `<img>` or other tags, to show it
 
 Thanks to `type`, we can allso download/upload blobs, and it naturally becomes `Content-Type` in network requests.
 
+<<<<<<< HEAD
 Let's start with a simple example. By\
  clicking on a link you download a dynamically-generated blob with `hello world` contents as a file:
+=======
+Let's start with a simple example. By clicking on a link you download a dynamically-generated blob with `hello world` contents as a file:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```html run
 <!-- download attribute forces the browser to download instead of navigating -->
@@ -120,7 +124,11 @@ An alternative to `URL.createObjectURL` is to convert a blob into a base64-encod
 
 That encoding represents binary data as a string of ultra-safe "readable" characters with ASCII-codes from 0 to 64. And what's more important -- we can use this encoding in "data-urls".
 
+<<<<<<< HEAD
 A [data url](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) has the form `data:[<mediatype>][;base64],<data>`. We can use such urls everywhere, on par with "regular" urls.
+=======
+A [data url](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) has the form `data:[<mediatype>][;base64],<data>`. We can use such urls everywhere, on a par with "regular" urls.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 For instance, here's a smiley:
 
@@ -234,7 +242,11 @@ While `ArrayBuffer`, `Uint8Array` and other `BufferSource` are "binary data", a 
 
 That makes Blobs convenient for upload/download operations, that are so common in the browser.
 
+<<<<<<< HEAD
 Methods that perform web-requests, such as [XMLHttpRequest](info:xmlhttprequest), [fetch](info:fetch-basics) and so on, can work with `Blob` natively, as well as with other binary types.
+=======
+Methods that perform web-requests, such as [XMLHttpRequest](info:xmlhttprequest), [fetch](info:fetch) and so on, can work with `Blob` natively, as well as with other binary types.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 We can easily convert betweeen `Blob` and low-level binary data types:
 

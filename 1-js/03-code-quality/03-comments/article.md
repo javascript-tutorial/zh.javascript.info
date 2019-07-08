@@ -4,7 +4,11 @@
 
 我们通常使用它们来描述代码怎样工作和为什么工作。
 
+<<<<<<< HEAD
 从第一眼看，注释代表的东西可能是显而易见的，但编程中的新手通常会弄错。
+=======
+At first sight, commenting might be obvious, but novices in programming usually get it wrong.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 糟糕的注释
 
@@ -18,7 +22,11 @@ complex;
 code;
 ```
 
+<<<<<<< HEAD
 但在良好的代码中，这种“解释性”注释的数量应该是最小的。严肃的说，就算没有它们，代码也应该很容易理解。
+=======
+But in good code, the amount of such "explanatory" comments should be minimal. Seriously, the code should be easy to understand without them.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 关于这一点有一个很棒的原则：“如果代码不够清晰以至于需要一个注释，那么或许它应该被重写。”
 
@@ -162,7 +170,11 @@ function addJuice(container) {
 
 ## 总结
 
+<<<<<<< HEAD
 一个好的开发者的标志之一就是他的注释：它们的存在甚至它们的缺席。
+=======
+An important sign of a good developer is comments: their presence and even their absence.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 好的注释可以使我们更好的维护代码，并且在很长时间之后依然可以更高效地回到代码中和使用其功能。
 

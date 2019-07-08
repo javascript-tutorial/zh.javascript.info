@@ -1,10 +1,18 @@
 # 循环：while 和 for
 
+<<<<<<< HEAD
 我们经常需要连续多次执行类似的操作。
 
 例如，我们需要从列表中逐个输出商品时，或者对从 1 到 10 的每个数字运行相同的代码时。
 
 **循环**是一种多次重复运行同一部分代码的方法。
+=======
+We often need to repeat actions.
+
+For example, outputting goods from a list one after another or just running the same code for each number from 1 to 10.
+
+*Loops* are a way to repeat the same code multiple times.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## "while" 循环
 
@@ -31,11 +39,19 @@ while (i < 3) { // 结果分别是 0、1、2
 
 循环体的单次执行叫作**一次迭代**。上面示例中的循环进行三次迭代。
 
+<<<<<<< HEAD
 如果上述示例中没有 `i++`，那么循环（理论上）会永远重复。实际上，浏览器提供了阻止这种循环的方法，对于服务器端 JavaScript，我们可以终止该过程。
 
 任何表达式或变量都可以是循环条件，而不仅仅是比较。对它们进行计算，并通过 `while` 将其结果转化为布尔值。
 
 例如，`while (i != 0)` 可简写为 `while (i)`：
+=======
+If `i++` was missing from the example above, the loop would repeat (in theory) forever. In practice, the browser provides ways to stop such loops, and in server-side JavaScript, we can kill the process.
+
+Any expression or variable can be a loop condition, not just comparisons: the condition is evaluated and converted to a boolean by `while`.
+
+For instance, a shorter way to write `while (i != 0)` is `while (i)`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let i = 3;
@@ -47,8 +63,13 @@ while (i) { // 当 i 变成 0 时，条件为 false，循环终止
 }
 ```
 
+<<<<<<< HEAD
 ````smart header="Brackets are not required for a single-line body"
 如果循环体只有一条语句，则可以省略括号 `{…}`：
+=======
+````smart header="Curly braces are not required for a single-line body"
+If the loop body has a single statement, we can omit the curly braces `{…}`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let i = 3;
@@ -68,7 +89,11 @@ do {
 } while (condition);
 ```
 
+<<<<<<< HEAD
 循环首先执行循环体，然后检查条件，当条件为真时，重复执行循环体。
+=======
+The loop will first execute the body, then check the condition, and, while it's truthy, execute it again and again.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 例如：
 
@@ -80,11 +105,19 @@ do {
 } while (i < 3);
 ```
 
+<<<<<<< HEAD
 这种形式的语法很少使用，除非您希望不管条件是否为真，循环体**至少执行一次**。通常其他形式是首选：`while(…) {…}`。
+=======
+This form of syntax should only be used when you want the body of the loop to execute **at least once** regardless of the condition being truthy. Usually, the other form is preferred: `while(…) {…}`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## "for" 循环
 
+<<<<<<< HEAD
 `for` 循环是最常使用的。
+=======
+The `for` loop is the most commonly used loop.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 看起来就像这样：
 
@@ -102,6 +135,7 @@ for (let i = 0; i < 3; i++) { // 结果为 0、1、2
 }
 ```
 
+<<<<<<< HEAD
 我们逐部分地检查 `for` 语句：
 
 | 部分 |          |                                                                            |
@@ -110,6 +144,16 @@ for (let i = 0; i < 3; i++) { // 结果为 0、1、2
 | 条件 | `i < 3`| 在每次循环迭代之前检查，如果失败，循环停止。          |
 | 步骤 | `i++`      | 在每次迭代后执行主体，但在条件检查之前执行。 |
 | 主体 | `alert(i)`| 条件为真时，重复运行。                        |
+=======
+Let's examine the `for` statement part-by-part:
+
+| part  |          |                                                                            |
+|-------|----------|----------------------------------------------------------------------------|
+| begin | `i = 0`    | Executes once upon entering the loop.                                      |
+| condition | `i < 3`| Checked before every loop iteration. If false, the loop stops.              |
+| step| `i++`      | Executes after the body on each iteration but before the condition check. |
+| body | `alert(i)`| Runs again and again while the condition is truthy.                         |
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 
 一般循环算法的工作原理如下：
@@ -121,9 +165,15 @@ Run begin
 → ...
 ```
 
+<<<<<<< HEAD
 如果您是循环方面的小白，那么回到这个例子，在一张纸上重现它逐步运行的过程，可能会对你有所帮助。
 
 以下是我们示例中发生的情况：
+=======
+If you are new to loops, it could help to go back to the example and reproduce how it runs step-by-step on a piece of paper.
+
+Here's exactly what happens in our case:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 // for (let i = 0; i < 3; i++) alert(i)
@@ -140,7 +190,11 @@ if (i < 3) { alert(i); i++ }
 ```
 
 ````smart header="Inline variable declaration"
+<<<<<<< HEAD
 这里“计数”变量 `i` 在循环中声明。这叫做“内联”变量声明。这样的变量只在循环中可见。
+=======
+Here, the "counter" variable `i` is declared right in the loop. This is called an "inline" variable declaration. Such variables are visible only inside the loop.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 for (*!*let*/!* i = 0; i < 3; i++) {
@@ -149,7 +203,11 @@ for (*!*let*/!* i = 0; i < 3; i++) {
 alert(i); // 错误，没有这个变量。
 ```
 
+<<<<<<< HEAD
 我们可以使用现有的变量而不是定义变量：
+=======
+Instead of defining a variable, we could use an existing one:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let i = 0;
@@ -190,9 +248,15 @@ for (; i < 3;) {
 }
 ```
 
+<<<<<<< HEAD
 该循环与 `while (i < 3)` 等价。
 
 实际上我们可以删除所有内容，从而创建一个无限循环：
+=======
+This makes the loop identical to `while (i < 3)`.
+
+We can actually remove everything, creating an infinite loop:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 for (;;) {
@@ -200,15 +264,27 @@ for (;;) {
 }
 ```
 
+<<<<<<< HEAD
 请注意 `for` 的两个 `;` 必须存在，否则会出现语法错误。
+=======
+Please note that the two `for` semicolons `;` must be present. Otherwise, there would be a syntax error.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 跳出循环
 
+<<<<<<< HEAD
 通常条件为假时，循环会终止。
 
 但我们随时都可以强制退出，因为有一个特殊的 `break` 指令可以做到这一点。
 
 例如，下述循环要求用户输入一系列数字，但会在没有数字输入时候“终止”。
+=======
+Normally, a loop exits when its condition becomes falsy.
+
+But we can force the exit at any time using the special `break` directive.
+
+For example, the loop below asks the user for a series of numbers, "breaking" when no number is entered:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 let sum = 0;
@@ -227,15 +303,27 @@ while (true) {
 alert( 'Sum: ' + sum );
 ```
 
+<<<<<<< HEAD
 如果用户输入空行或取消输入，在 `(*)` 行 `break` 指令会被激活。它立刻终止循环，将控制权传递给循环后的第一行，即，`alert`。
 
 根据需要，"无限循环 + `break`" 的组合非常适用于不必在循环开始/结束时检查条件，但在中间甚至是主体的多个位置进行检查的情况。
+=======
+The `break` directive is activated at the line `(*)` if the user enters an empty line or cancels the input. It stops the loop immediately, passing control to the first line after the loop. Namely, `alert`.
+
+The combination "infinite loop + `break` as needed" is great for situations when a loop's condition must be checked not in the beginning or end of the loop, but in the middle or even in several places of its body.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 继续下一次迭代 [#continue]
 
+<<<<<<< HEAD
 `continue` 指令是 `break` 的“轻量版”。这并不能阻止整个循环。相反，它将停止当前的迭代，并强制启动新一轮循环（如果条件允许的话）。
 
 如果我们完成了当前的迭代，并且希望继续执行下一次迭代，我们就可以使用它。
+=======
+The `continue` directive is a "lighter version" of `break`. It doesn't stop the whole loop. Instead, it stops the current iteration and forces the loop to start a new one (if the condition allows).
+
+We can use it if we're done with the current iteration and would like to move on to the next one.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 下述循环使用 `continue` 只输出奇数：
 
@@ -249,10 +337,17 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+<<<<<<< HEAD
 对于偶数的 `i`，`continue` 指令停止执行，将控制权传递给下一次 `for`（使用下一个数字）的迭代。因此 `alert` 仅被奇数值调用。
 
 ````smart header="The directive `continue` helps to decrease nesting level"
 显示奇数的循环如下所示：
+=======
+For even values of `i`, the `continue` directive stops executing the body and passes control to the next iteration of `for` (with the next number). So the `alert` is only called for odd values.
+
+````smart header="The `continue` directive helps decrease nesting"
+A loop that shows odd values could look like this:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 for (let i = 0; i < 10; i++) {
@@ -264,6 +359,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+<<<<<<< HEAD
 从技术角度看，它与上述示例完全相同。当然，我们可以将代码包装在 `if` 块而不是 `continue` 块。
 
 但作为副作用，我们还有一个嵌套级别（花括号内的 `alert` 调用）。如果 `if` 中代码超过几行，则可能会降低总体可读性。
@@ -271,6 +367,15 @@ for (let i = 0; i < 10; i++) {
 
 ````warn header="No `break/continue` to the right side of '?'"
 请注意非表达式的语法结构不能与三元运算符 `?` 一起使用。特别是 `break/continue` 这样的指令是不被允许使用的。
+=======
+From a technical point of view, this is identical to the example above. Surely, we can just wrap the code in an `if` block instead of using `continue`.
+
+But as a side-effect, this created one more level of nesting (the `alert` call inside the curly braces). If the code inside of`if` is longer than a few lines, that may decrease the overall readability.
+````
+
+````warn header="No `break/continue` to the right side of '?'"
+Please note that syntax constructs that are not expressions cannot be used with the ternary operator `?`. In particular, directives such as `break/continue` aren't allowed there.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 例如，我们使用如下代码：
 
@@ -282,24 +387,39 @@ if (i > 5) {
 }
 ```
 
+<<<<<<< HEAD
 ...然后用问号重写：
+=======
+...and rewrite it using a question mark:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 
 ```js no-beautify
-(i > 5) ? alert(i) : *!*continue*/!*; // continue not allowed here
+(i > 5) ? alert(i) : *!*continue*/!*; // continue isn't allowed here
 ```
 
+<<<<<<< HEAD
 ...然后会停止运行。这样的代码将给出语法错误：
 
 
 这只是不适用 `?` 而不是 `if` 的另一个原因。
+=======
+...it stops working. Code like this will give a syntax error:
+
+
+This is just another reason not to use the question mark operator `?` instead of `if`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ````
 
 ## break/continue 标签
 
 有时候我们需要从多个嵌套循环中跳出来。
 
+<<<<<<< HEAD
 例如，下述代码中我们的循环使用 `i` 和 `j`，提示坐标 `(i, j)` 从 `(0,0)` 到 `(3,3)`：
+=======
+For example, in the code below we loop over `i` and `j`, prompting for the coordinates `(i, j)` from `(0,0)` to `(3,3)`:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run no-beautify
 for (let i = 0; i < 3; i++) {
@@ -318,7 +438,11 @@ alert('Done!');
 
 如果用户取消输入，我们需要另一种方法来停止这个过程。
 
+<<<<<<< HEAD
 在 `input` 之后的普通 `break` 只会打破内部循环。这还不够。标签可以拯救。
+=======
+The ordinary `break` after `input` would only break the inner loop. That's not sufficient--labels, come to the rescue!
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 **标签**是在循环之前带有冒号的标识符：
 ```js
@@ -327,9 +451,13 @@ labelName: for (...) {
 }
 ```
 
+<<<<<<< HEAD
 `break <labelName>` 语句跳出循环至标签处。
 
 就像这样：
+=======
+The `break <labelName>` statement in the loop below breaks out to the label:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run no-beautify
 *!*outer:*/!* for (let i = 0; i < 3; i++) {
@@ -347,7 +475,11 @@ labelName: for (...) {
 alert('Done!');
 ```
 
+<<<<<<< HEAD
 上述代码中，`break outer` 向上寻找名为 `outer` 的标签并跳出当前循环。
+=======
+In the code above, `break outer` looks upwards for the label named `outer` and breaks out of that loop.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 因此，控制权直接从 `(*)` 转至 `alert('Done!')`。
 
@@ -358,10 +490,17 @@ outer:
 for (let i = 0; i < 3; i++) { ... }
 ```
 
+<<<<<<< HEAD
 `continue` 指令也可以与标签一起使用。在这种情况下，执行跳转到标记循环的下一次迭代。
 
 ````warn header="Labels are not a \"goto\""
 标签不允许我们跳到任意代码位置。
+=======
+The `continue` directive can also be used with a label. In this case, code execution jumps to the next iteration of the labeled loop.
+
+````warn header="Labels are not a \"goto\""
+Labels do not allow us to jump into an arbitrary place in the code.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 例如，这样做是不可能的：
 ```js
@@ -370,7 +509,11 @@ break label;  // 跳转到标签？不。
 label: for (...)
 ```
 
+<<<<<<< HEAD
 只有在循环内部才能调用 `break/continue`，并且标签必须位于指令上方的某个位置。 
+=======
+A call to `break/continue` is only possible from inside a loop and the label must be somewhere above the directive.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ````
 
 ## 总结
@@ -383,6 +526,12 @@ label: for (...)
 
 通常使用 `while(true)` 来构造“无限”循环。这样的循环就像任何其他循环一样，可以通过 `break` 指令来终止。
 
+<<<<<<< HEAD
 如果我们不想在当前迭代中做任何事，并且想要转移至下一次迭代，那么 `continue` 指令就会执行它。
 
 `break/continue` 支持循环前的标签。标签是 `break/continue` 避免嵌套并转到外部循环的唯一方法。
+=======
+If we don't want to do anything in the current iteration and would like to forward to the next one, we can use the `continue` directive.
+
+`break/continue` support labels before the loop. A label is the only way for `break/continue` to escape a nested loop to go to an outer one.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

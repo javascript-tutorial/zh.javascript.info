@@ -2,7 +2,11 @@
 
 让我一起探讨一个新的内置对象：[日期](mdn:js/Date)。该对象存储日期、时间以及提供管理它们的方法。
 
+<<<<<<< HEAD
 举个例子，我们可以使用它来存储创建、修改事件的时间，或者用来度量时间开销，再或者用来打印当前时间。
+=======
+For instance, we can use it to store creation/modification times, to measure time, or just to print out the current date.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 创建
 
@@ -39,13 +43,23 @@
 
     ```js run
     let date = new Date("2017-01-26");
-    alert(date); // Thu Jan 26 2017 ...
+    alert(date);
+    // The time is not set, so it's assumed to be midnight GMT and
+    // is adjusted according to the timezone the code is run in
+    // So the result could be
+    // Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)
+    // or
+    // Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
+<<<<<<< HEAD
 : 创建一个 Date 对象，参数是当地时区的日期组合信息。只有前两个参数是必须的。
 
     注意：
+=======
+: Create the date with the given components in the local time zone. Only the first two arguments are obligatory.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
     - `year` 必须是四位数：`2013` 是合法的，`98` 是不合法的。
     - `month` 计数从 `0` （一月） 开始，到 `11` （12月）。
@@ -68,7 +82,11 @@
 
 ## 访问日期组件
 
+<<<<<<< HEAD
 从 `Date` 对象中访问年、月等信息有很多种方式。通过分类可以很容易记忆。
+=======
+There are methods to access the year, month and so on from the `Date` object:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 [getFullYear()](mdn:js/Date/getFullYear)
 : 获取年份（4 位数）
@@ -108,7 +126,11 @@ alert( date.getHours() );
 alert( date.getUTCHours() );
 ```
 
+<<<<<<< HEAD
 在以上给出的方法中，有两个与众不同的，它们没有 UTC 版本：
+=======
+Besides the given methods, there are two special ones that do not have a UTC-variant:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 [getTime()](mdn:js/Date/getTime)
 : 返回日期的时间戳 —— 从 1970-1-1 00:00:00 UTC+0 开始的毫秒数。
@@ -211,21 +233,33 @@ alert(+date); // 以毫秒为单位的数值，相当于 date.getTime()
 这个作用可以用来做时间度量：
 
 ```js run
+<<<<<<< HEAD
 let start = new Date(); // 起始时间
+=======
+let start = new Date(); // start measuring time
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 // 做一些操作
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
+<<<<<<< HEAD
 let end = new Date(); // 结束时间
+=======
+let end = new Date(); // end measuring time
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 alert( `The loop took ${end - start} ms` );
 ```
 
 ## Date.now()
 
+<<<<<<< HEAD
 如果我们仅仅想要度量时间间隔，我们不需要整个 `Date` 对象。
+=======
+If we only want to measure time, we don't need the `Date` object.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 有一个特殊的方法 `Date.now()`，它会返回当前的时间戳。
 
@@ -258,6 +292,8 @@ alert( `The loop took ${end - start} ms` ); // 相减的是时间戳，而不是
 
 举个例子：我们想判断两个计算日期差值的函数，那个更快？
 
+Such performance measurements are often called "benchmarks".
+
 ```js
 // 我们有 date1 和 date2，哪个函数会更快返回两者的时间差？
 function diffSubtract(date1, date2) {
@@ -274,7 +310,11 @@ function diffGetTime(date1, date2) {
 
 那么，哪个更快呢？
 
+<<<<<<< HEAD
 首先想到的方法是：分别运行它们很多次，然后计算各自的时间差。在我们的例子中，函数非常简单，所以我们需要运行 100000 次左右。
+=======
+The first idea may be to run them many times in a row and measure the time difference. For our case, functions are very simple, so we have to do it at least 100000 times.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 让我们开始测量：
 
@@ -304,7 +344,11 @@ alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
 
 好，我们得到了结论，但是这并不是一个很好的基准例子。
 
+<<<<<<< HEAD
 想象一下当运行 `bench(diffSubtract)` 的同时，CPU 还在并行处理其他事务。然而，运行 `bench(diffGetTime)` 的时候，并行处理的事务完成了。
+=======
+Imagine that at the time of running `bench(diffSubtract)` CPU was doing something in parallel, and it was taking resources. And by the time of running `bench(diffGetTime)` that work has finished.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 这是一个对于现代多进程操作系统来说，毫不夸张的场景。
 
@@ -361,8 +405,13 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+<<<<<<< HEAD
 ```warn header="做微度量时请小心"
 现代的 JavaScript 引擎会做很多优化。相对于「正常情况」，它们可能会改变「人为测试」的结果，特别是我们度量的目标很细微。因此，如果你想好好了解一下性能，请学习 JavaScript 引擎的工作原理。在那之后，你可能再也不需要微度量了。
+=======
+```warn header="Be careful doing microbenchmarking"
+Modern JavaScript engines perform many optimizations. They may tweak results of "artificial tests" compared to "normal usage", especially when we benchmark something very small, such as how an operator works, or a built-in function. So if you seriously want to understand performance, then please study how the JavaScript engine works. And then you probably won't need microbenchmarks at all.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 关于 V8 引擎的大量文章，点击：<http://mrale.ph>.
 ```
@@ -409,7 +458,11 @@ alert(date);
 
 和其他语言不同，JavaScript 中时间戳是用毫秒表示，而不是秒。
 
+<<<<<<< HEAD
 同样，有时候我们会需要更加精准的时间度量。JavaScript 自身并不能度量微秒（一秒的百万分之一），但很多环境会提供。举个例子：浏览器拥有 [performance.now()](mdn:api/Performance/now) 方法来提供页面加载的微秒数（毫秒的小数点再右移三位）：
+=======
+Sometimes we need more precise time measurements. JavaScript itself does not have a way to measure time in microseconds (1 millionth of a second), but most environments provide it. For instance, browser has [performance.now()](mdn:api/Performance/now) that gives the number of milliseconds from the start of page loading with microsecond precision (3 digits after the point):
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 alert(`Loading started ${performance.now()}ms ago`);
@@ -418,4 +471,8 @@ alert(`Loading started ${performance.now()}ms ago`);
 // 小数点后超过 3 位是错误，只有前三位是正确的
 ```
 
+<<<<<<< HEAD
 Node.JS 拥有 `microtime` 模块以及其他方法。从技术上来说，任何设备和环境都允许获取更精确的数值，不只是 `Date` 对象。
+=======
+Node.js has `microtime` module and other ways. Technically, any device and environment allows to get more precision, it's just not in `Date`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

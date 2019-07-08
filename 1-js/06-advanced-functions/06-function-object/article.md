@@ -64,7 +64,11 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
+<<<<<<< HEAD
 这没有什么神奇的。有时会出现无法推测名字的情况。此时，属性 `name` 会是空，比如：
+=======
+There's no magic though. There are cases when there's no way to figure out the right name. In that case, the name property is empty, like here:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 // 函数在数组中创建
@@ -152,7 +156,11 @@ alert( `调用了 ${sayHi.counter} 次` ); // 调用了 2 次
 ```warn header="属性不是变量"
 一个被赋值的函数属性，比如 `sayHi.counter = 0` **没有**在函数内定义一个局部变量 `counter`。或者说，一个 `counter` 属性与一个 `let counter` 的变量是毫不相关的两个东西。
 
+<<<<<<< HEAD
 我们可以把函数当作对象，在它里面存储属性，但是这对它的执行没有任何影响。变量不会使用函数属性，反之亦然。它们是不相干的词。
+=======
+We can treat a function as an object, store properties in it, but that has no effect on its execution. Variables are not function properties and vice versa. These are just parallel worlds.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 函数属性有时会用来替代闭包。比如，我们可以将 <info:closure> 章节中计数函数的例子改写为用函数属性实现：
@@ -338,8 +346,13 @@ welcome(); // Hello, Guest（嵌套调用有效）
 
 我们介绍了它们的一些属性：
 
+<<<<<<< HEAD
 - `name` -- 函数的名字。不仅仅在函数定义指定时存在，而且在赋值或者对象属性中也会有。
 - `length` -- 函数定义时的入参个数。余参不参与计数。
+=======
+- `name` -- the function name. Usually taken from the function definition, but if there's none, JavaScript tries to guess it from the context (e.g. an assignment).
+- `length` -- the number of arguments in the function definition. Rest parameters are not counted.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 如果函数是通过函数表达式被声明的（不是在主代码流里），它附带了名字，那么它被称为命名的函数表达式。可以用来在函数内部引用自己，或者递归调用等诸如此类场景。
 

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 写在哪里？
+# Where it writes?
 
-`rabbit` 继承自 `animal`。
+We have `rabbit` inheriting from `animal`.
 
-如果我们调用 `rabbit.eat()`，哪一个对象会接收到 `full` 属性：`animal` 还是 `rabbit`？ 
+If we call `rabbit.eat()`, which object receives the `full` property: `animal` or `rabbit`? 
 
 ```js
 let animal = {

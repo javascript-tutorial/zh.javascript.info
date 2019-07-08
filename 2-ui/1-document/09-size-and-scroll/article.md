@@ -38,12 +38,20 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 因此，没有滚动条时，内容宽度将是 `300 px`，但是如果滚动条宽度是 `16px`（不同的设备和浏览器，宽度可能会不一样），那么还剩下 `300 - 16＝284px`，这是我们必须考虑到的事。这就是为什么本章的例子总是假设有滚动条的原因。如果没有滚动条，那么事情就会更简单一些。
 ```
 
+<<<<<<< HEAD
 ```smart header="文本可能会溢出到 `padding-bottom` 中"
 内填充通常在插图中显示的是空的，但是如果元素中有很多文本，并且溢出，那么浏览器在 `padding-bottom` 中显示“溢出”文本，这可以在示例中看到。但是填充物仍然存在，除非另有说明。
+=======
+```smart header="The `padding-bottom` area may be filled with text"
+Usually paddings are shown empty on illustrations, but if there's a lot of text in the element and it overflows, then browsers show the "overflowing" text at `padding-bottom`.
+
+That's a note to avoid confusion, as `padding-bottom` is set in further examples, unless explicitly specified otherwise.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 ## 几何学
 
+<<<<<<< HEAD
 提供宽度、高度和其他几何形状的元素属性通过数值来计算。它们被假定为像素。
 
 以下是显示总体情况的图片：
@@ -51,6 +59,15 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 ![](metric-all.png)
 
 它们有很多属性，很难将它们全部放在单个图片中，但是它们的值很简单，容易理解。
+=======
+Here's the overall picture:
+
+![](metric-all.png)
+
+Values of these properties are technically numbers, but these numbers are "of pixels", so these are pixel measurements.
+
+They are many properties, it's difficult to fit them all in the single picture, but their values are simple and easy to understand.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 让我们从元素的外部开始探索它们。
 
@@ -58,6 +75,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 
 这些属性很少出现，但它们仍然是“最外层”的几何属性，所以我们将从它们开始。
 
+<<<<<<< HEAD
  `offsetParent` 是最近的祖先元素:
 
 1. CSS 定位（`position` 为 `absolute`、`relative` 或 `fixed`），
@@ -67,6 +85,19 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 在大多数实际情况下，我们可以使用 `offsetParent` 来获得最近的 CSS 定位祖先。`offsetLeft/offsetTop` 提供相对于元素左上角的 x/y 坐标。
 
 在下面的例子中，内部 `<div>` 有 `<main>` 作为 `offsetParent`，并且 `offsetLeft/offsetTop` 让它从左上角位移（`180`）：
+=======
+The `offsetParent` is the nearest ancestor, that browser uses for calculating coordinates during rendering.
+
+That's the nearest ancestor, that satisfies following conditions:
+
+1. CSS-positioned (`position` is `absolute`, `relative`, `fixed` or `sticky`),
+2. or `<td>`, `<th>`, `<table>`,
+2. or `<body>`.
+
+Properties `offsetLeft/offsetTop` provide x/y coordinates relative to its upper-left corner.
+
+In the example below the inner `<div>` has `<main>` as `offsetParent` and `offsetLeft/offsetTop` shifts from its upper-left corner (`180`):
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```html run height=10
 <main style="position: relative" id="main">
@@ -103,12 +134,21 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 - `offsetWidth = 390` — 外部宽度，计算方法是内部 css 宽度（`300px`）加上内填充（`2 * 20px`）和边框宽度（`2 * 25px`）。
 - `offsetHeight = 290` — 外部高度。
 
+<<<<<<< HEAD
 ````smart header="未显示的几何元素的属性值为 0/null"
 几何属性仅为显示出来的元素计算。
 
 如果元素（或其任何祖先）在文档中显示为 `display:none` 或本身不在文档中，则所有几何属性都是 0 或者值为 `null`，这取决于它是什么。
 
 例如，`offsetParent` 为 `null`，并且 `offsetWidth`，`offsetHeight` 为 `0`。
+=======
+````smart header="Geometry properties are zero/null for elements that are not displayed"
+Geometry properties are calculated only for displayed elements.
+
+If an element (or any of its ancestors) has `display:none` or is not in the document, then all geometry properties are zero (or `null` if that's `offsetParent`).
+
+For example, `offsetParent` is `null`, and `offsetWidth`, `offsetHeight` are `0` when we created an element, but haven't inserted it into the document yet, or it (or it's ancestor) has `display:none`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 我们可以用它来检查一个元素是否被隐藏，像这样：
 
@@ -134,7 +174,11 @@ function isHidden(elem) {
 
 ![](metric-client-left-top.png)
 
+<<<<<<< HEAD
 ...但确切地说，它们不是边框，而是内侧与外侧的相对坐标。
+=======
+...But to be precise -- these properties are not border width/height, but rather relative coordinates of the inner side from the outer side.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 有什么区别？
 
@@ -201,8 +245,13 @@ element.style.height = `${element.scrollHeight}px`;
 
 换种说法，`scrollTop` 就是 “滚动了多少” 的意思。
 
+<<<<<<< HEAD
 ````smart header="`scrollLeft/scrollTop` 可修改 "
 大多数几何属性是只读的，但是 `scrollLeft/scrollTop` 可以改变，浏览器将会直接滚动元素。
+=======
+````smart header="`scrollLeft/scrollTop` can be modified"
+Most of the geometry properties here are read-only, but `scrollLeft/scrollTop` can be changed, and the browser will scroll the element.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```online
 如果单击下面的元素，代码 `elem.scrollTop += 10` 将会执行，这使得元素向下滚动 `10px`。
@@ -215,11 +264,19 @@ element.style.height = `${element.scrollHeight}px`;
 
 ## 不要从 CSS 中获取宽高
 
+<<<<<<< HEAD
 我们刚刚介绍了 DOM 元素的几何属性。它们通常用于获得宽度、高度和计算距离。
+=======
+We've just covered geometry properties of DOM elements, that can be used to get widths, heights and calculate distances.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 但是，正如我们从《信息：样式和类》一章所知道的，我们可以使用 `getComputedStyle` 来读取CSS的高度和宽度。
 
+<<<<<<< HEAD
 那么为什么不像这样读取一个元素的高度呢？
+=======
+So why not to read the width of an element with `getComputedStyle`, like this?
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 let elem = document.body;
@@ -264,6 +321,7 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 
 元素具有以下几何属性：
 
+<<<<<<< HEAD
 - `offsetParent` — 是最近的有定位属性的祖先元素，或者是 `td`、`th`、`table`、`body`。
 - `offsetLeft/offsetTop` — 是相对于 `offsetParent` 的左上角边缘坐标。
 - `offsetWidth/offsetHeight` — 元素的“外部”宽/高 ，边框尺寸计算在内。
@@ -271,5 +329,14 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
 - `clientWidth/clientHeight` — 内容的宽度/高度，包括内间距，但没有滚动条。
 - `scrollWidth/scrollHeight` — 内容的宽度/高度，包括可滚动的可视区域外的尺寸，也包括内间距，但不包括滚动条。
 - `scrollLeft/scrollTop` — 从左上角开始的元素的滚动部分的宽度/高度。
+=======
+- `offsetParent` -- is the nearest positioned ancestor or `td`, `th`, `table`, `body`.
+- `offsetLeft/offsetTop` -- coordinates relative to the upper-left edge of `offsetParent`.
+- `offsetWidth/offsetHeight` -- "outer" width/height of an element including borders.
+- `clientLeft/clientTop` -- the distance from the upper-left outer corner to its upper-left inner corner. For left-to-right OS they are always the widths of left/top borders. For right-to-left OS the vertical scrollbar is on the left so `clientLeft` includes its width too.
+- `clientWidth/clientHeight` -- the width/height of the content including paddings, but without the scrollbar.
+- `scrollWidth/scrollHeight` -- the width/height of the content, just like `clientWidth/clientHeight`, but also include scrolled-out, invisible part of the element.
+- `scrollLeft/scrollTop` -- width/height of the scrolled out upper part of the element, starting from its upper-left corner.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 除了 `scrollLeft/scrollTop` 之外，所有属性都是只读的。如果更改，浏览器会使元素滚动。

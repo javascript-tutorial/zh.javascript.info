@@ -1,6 +1,10 @@
 # 数字类型
 
+<<<<<<< HEAD
 JavaScript 中的所有数字都以 64 位格式 [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985) 存储，也称为“双精度”。
+=======
+All numbers in JavaScript are stored in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), also known as "double precision floating point numbers".
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 让我们回顾一下并展开我们目前了解的内容。
 
@@ -12,7 +16,11 @@ JavaScript 中的所有数字都以 64 位格式 [IEEE-754](http://en.wikipedia.
 let billion = 1000000000;
 ```
 
+<<<<<<< HEAD
 但在现实生活中，我们通常避免写一长串零，因为它很容易输入错误。另外，我们很懒。我们通常会为十亿或七十三亿写一些类似于 `1bn` 的数字，为 `7.3bn`。对于大多数人来说也是如此。
+=======
+But in real life, we usually avoid writing a long string of zeroes as it's easy to mistype. Also, we are lazy. We will usually write something like `"1bn"` for a billion or `"7.3bn"` for 7 billion 300 million. The same is true for most large numbers.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 在 JavaScript 中，我们通过在数字后附加字母 "e" 来缩短数字，并指定零的数量来计数：
 
@@ -26,11 +34,16 @@ alert( 7.3e9 );  // 7.3 billions (7,300,000,000)
 
 ```js
 1e3 = 1 * 1000
-1.23e6 = 1.23 * 1000000 
+1.23e6 = 1.23 * 1000000
 ```
 
 
+<<<<<<< HEAD
 现在让我们写一些非常小的东西。例如：1 微秒（百万分之一秒）：
+=======
+Now let's write something very small. Say, 1 microsecond (one millionth of a second):
+
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```js
 let ms = 0.000001;
 ```
@@ -38,7 +51,7 @@ let ms = 0.000001;
 就像以前一样，使用 `"e"` 可以提供帮助。如果我们想避免明确地写零，我们可以说：
 
 ```js
-let ms = 1e-6; // six zeroes to the left from 1 
+let ms = 1e-6; // six zeroes to the left from 1
 ```
 
 
@@ -152,8 +165,13 @@ alert( num.toString(2) );   // 11111111
     alert( Math.floor(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
+<<<<<<< HEAD
 2. 函数 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将点数后的数字四舍五入到 `n` 个数字并返回结果的字符串表示。
         
+=======
+2. The method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to `n` digits after the point and returns a string representation of the result.
+
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
     ```js run
     let num = 12.34;
     alert( num.toFixed(1) ); // "12.3"
@@ -170,19 +188,23 @@ alert( num.toString(2) );   // 11111111
 
     ```js run
     let num = 12.34;
-    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits 
+    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits
     ```
 
     我们可以使用一元加号或 `Number()` 调用将其转换为数字：`+ num.toFixed(5)`。
 
 ## 不精确计算
 
+<<<<<<< HEAD
 在 js 内部，一个数字以 64 位格式 [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985) 表示，所以正好有 64 位可以存储一个数字：其中 52 个被使用存储这些数字，其中 11 个存储小数点的位置（它们对于整数为零），1 位用于符号。
+=======
+Internally, a number is represented in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), so there are exactly 64 bits to store a number: 52 of them are used to store the digits, 11 of them store the position of the decimal point (they are zero for integer numbers), and 1 bit is for the sign.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 如果一个数字太大，它会溢出 64 位存储，可能会输出无穷大：
 
 ```js run
-alert( 1e500 ); // Infinity 
+alert( 1e500 ); // Infinity
 ```
 
 可能不那么明显，但经常会发生精度的损失。
@@ -193,7 +215,11 @@ alert( 1e500 ); // Infinity
 alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 ```
 
+<<<<<<< HEAD
 没错，如果我们检查 `0.1` 和 `0.2` 的总和是否为 `0.3`，们会得到 `false`。
+=======
+That's right, if we check whether the sum of `0.1` and `0.2` is `0.3`, we get `false`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 奇怪！那么如果不是 `0.3`，那么又是什么呢？
 
@@ -201,13 +227,23 @@ alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 alert( 0.1 + 0.2 ); // 0.30000000000000004
 ```
 
+<<<<<<< HEAD
 哎哟!这里的错误有更大的误差。想象一下，你正在制作一个电子购物网站，访问者将 `0.10 美元` 和 `0.20 美元` 商品放入他的图表中。订单总额将是 `$ 0.30000000000000004`。这会让任何人感到惊讶。
+=======
+Ouch! There are more consequences than an incorrect comparison here. Imagine you're making an e-shopping site and the visitor puts `$0.10` and `$0.20` goods into their chart. The order total will be `$0.30000000000000004`. That would surprise anyone.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 但为什么会发生这样的事呢？
 
+<<<<<<< HEAD
 一个数字以二进制形式存储在内存中，一个 1 和 0 的序列。但是像十进制数字系统看起来很简单的 `0.1`，`0.2` 这样的分数实际上是二进制形式的无限分数。
 
 换句话说，什么是 `0.1`？`0.1` 就是把 1 除以 10 `1/10`，即十分之一。在十进制数字系统中，这些数字很容易表示。将它比作三分之一：`1/3`。它变成了无尽的分数 `0.33333(3)`。
+=======
+A number is stored in memory in its binary form, a sequence of bits - ones and zeroes. But fractions like `0.1`, `0.2` that look simple in the decimal numeric system are actually unending fractions in their binary form.
+
+In other words, what is `0.1`? It is one divided by ten `1/10`, one-tenth. In decimal numeral system such numbers are easily representable. Compare it to one-third: `1/3`. It becomes an endless fraction `0.33333(3)`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 所以，按这种用 `10` 划分可以保证在十进制系统中运行良好，但用 `3` 划分不是。出于同样的原因，在二进制数字系统中，`2` 的幂的分割保证工作，但 `1/10` 变成一个无限的二进制分数。
 
@@ -227,40 +263,62 @@ alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 ```smart header="不仅仅是 JavaScript"
 许多其他编程语言也存在同样的问题。
 
+<<<<<<< HEAD
 PHP, Java, C, Perl, Ruby 给出完全相同的结果，因为它们基于相同的数字格式。
 ```
 
 我们能解决这个问题吗？当然，有很多方法：
 
 1. 我们可以在特定函数的帮助下对结果进行四舍五入 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)：
+=======
+PHP, Java, C, Perl, Ruby give exactly the same result, because they are based on the same numeric format.
+```
 
-    ```js run
-    let sum = 0.1 + 0.2;
-    alert( sum.toFixed(2) ); // 0.30
-    ```
+Can we work around the problem? Sure, the most reliable method is to round the result with the help of a method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed):
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
+```js run
+let sum = 0.1 + 0.2;
+alert( sum.toFixed(2) ); // 0.30
+```
+
+<<<<<<< HEAD
     请注意 `toFixed` 总是返回一个字符串。它确保它在小数点后有 2 位数字。如果我们有电子购物并需要显示 `0.30 美元`，这实际上很方便。对于其他情况，我们可以使用一元加号将它强制为一个数字：
+=======
+Please note that `toFixed` always returns a string. It ensures that it has 2 digits after the decimal point. That's actually convenient if we have an e-shopping and need to show `$0.30`. For other cases, we can use the unary plus to coerce it into a number:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
-    ```js run
-    let sum = 0.1 + 0.2;
-    alert( +sum.toFixed(2) ); // 0.3
-    ```
+```js run
+let sum = 0.1 + 0.2;
+alert( +sum.toFixed(2) ); // 0.3
+```
 
+<<<<<<< HEAD
 2. 我们可以暂时将数字转换为数学整数，然后将其恢复。它是这样工作的：
+=======
+We also can temporarily multiply the numbers by 100 (or a bigger number) to turn them into integers, do the maths, and then divide back. Then, as we're doing maths with integers, the error somewhat decreases, but we still get it on division:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
-    ```js run
-    alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
-    ```
+```js run
+alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
+alert( (0.28 * 100 + 0.14 * 100) / 100); // 0.4200000000000001
+```
 
+<<<<<<< HEAD
     这是有效的，因为当我们做 `0.1 * 10 = 1` 和 `0.2 * 10 = 2` 时，那么这两个数字就变成了整数，并且没有精度损失。
 
 3. 如果我们在与一家商店打交道，那么最激进的解决方案就是将所有价格存储在美分中，并且根本不使用分数。但是，如果我们应用 30％ 的折扣呢？在实践中，完全回避分数是很难实现的，所以上述解决方案有助于避免这种缺陷。
+=======
+So, multiply/divide approach reduces the error, but doesn't remove it totally.
+
+Sometimes we could try to evade fractions at all. Like if we're dealing with a shop, then we can store prices in cents instead of dollars. But what if we apply a discount of 30%? In practice, totally evading fractions is rarely possible. Just round them to cut "tails" when needed.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ````smart header="有趣的事情"
 尝试运行这个：
 
 ```js run
-// Hello! I'm a self-increasing number! 
+// Hello! I'm a self-increasing number!
 alert( 9999999999999999 ); // shows 10000000000000000
 ```
 
@@ -272,7 +330,11 @@ JavaScript 在这种事件中不会触发错误。它尽最大努力使数字符
 ```samrt header="两个零"
 数字内部表示的另一个有趣结果是存在两个零：`0` 和 `-0`。
 
+<<<<<<< HEAD
 这是因为一个符号由一个位表示，所以每个数字可以是正数或负数，包括零。 
+=======
+That's because a sign is represented by a single bit, so every number can be positive or negative, including a zero.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 在大多数情况下，这种区别并不明显，因为操作员可以将它们视为相同。
 ```
@@ -283,8 +345,13 @@ JavaScript 在这种事件中不会触发错误。它尽最大努力使数字符
 
 还记得这两个特殊的数值吗？
 
+<<<<<<< HEAD
 - `Infinite`（和 `-Infinite`）是一个特殊的数值，比任何数值都大（小）。
 - `NaN` 代表一个错误。
+=======
+- `Infinity` (and `-Infinity`) is a special numeric value that is greater (less) than anything.
+- `NaN` represents an error.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 它们属于 `数字` 类型，但不是 `普通` 数字，因此有特殊函数可以检查它们：
 
@@ -326,10 +393,17 @@ alert( isFinite(num) );
 
 有一种特殊的内置方法 [Object.is](mdn:js/Object/is)，它可以比较 `===` 等值，但对于两种边缘情况更可靠： 
 
+<<<<<<< HEAD
 1. 它适用于 `NaN`： `Object.is（NaN，NaN）=== true`，这是件好事。
 2. 值 `0` 和 `-0` 是不同的：`Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。
 
 在所有其他情况下，`Object.is(a，b)` 与 `a === b` 相同。
+=======
+1. It works with `NaN`: `Object.is(NaN, NaN) === true`, that's a good thing.
+2. Values `0` and `-0` are different: `Object.is(0, -0) === false`, technically that's true, because internally the number has a sign bit that may be different even if all other bits are zeroes.
+
+In all other cases, `Object.is(a, b)` is the same as `a === b`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 这种比较方式经常用于 JavaScript 规范。当内部算法需要比较两个值完全相同时，它使用 Object.is（内部称为 [SameValue](https://tc39.github.io/ecma262/#sec-samevalue)）。
 ```
@@ -349,7 +423,11 @@ alert( +"100px" ); // NaN
 
 这就是 `parseInt` 和 `parseFloat` 的作用。
 
+<<<<<<< HEAD
 他们从字符串中“读出”一个数字，直到他们可以。如果发生错误，则返回收集的数字。函数 `parseInt` 返回一个整数，而 `parseFloat` 将返回一个浮点数：
+=======
+They "read" a number from a string until they can't. In case of an error, the gathered number is returned. The function `parseInt` returns an integer, whilst `parseFloat` will return a floating-point number:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 alert( parseInt('100px') ); // 100
@@ -417,9 +495,13 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 对于不同的进制：
 
+<<<<<<< HEAD
 - 可以在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中直接写入数字。
 - `parseInt(str，base)` 解析来自任何数字系统的整数，其基数为：`2≤base≤36`。
 - `num.toString(base)` 将数字转换为数字系统中具有给定 `base` 的字符串。
+=======
+- Use `parseInt/parseFloat` for the "soft" conversion, which reads a number from a string and then returns the value they could read before the error.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 将 `12pt` 和 `100px` 等值转换为数字：
 
@@ -427,9 +509,13 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 分数：
 
+<<<<<<< HEAD
 - 使用 `Math.floor`，`Math.ceil`，`Math.trunc`，`Math.round` 或 `num.toFixed(precision)` 循环。
 - 请记住，使用分数时会损失精度。
 
 更多的数学函数：
 
 - 需要时请参阅 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,虽然这个文档非常小,但是它可以满足基础的要求。
+=======
+- See the [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object when you need them. The library is very small, but can cover basic needs.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

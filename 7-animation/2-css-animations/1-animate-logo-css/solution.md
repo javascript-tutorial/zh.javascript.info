@@ -1,17 +1,17 @@
 
-使用 CSS 为 `width` 和 `height` 属性生成动效：
+CSS to animate both `width` and `height`:
 ```css
-/* 原始类 */
+/* original class */
 
 #flyjet {
   transition: all 3s;
 }
 
-/* JS 添加的 .growing */
+/* JS adds .growing */
 #flyjet.growing {
   width: 400px;
   height: 240px;
 }
 ```
 
-请注意，`transitionend` 会被触发两次 —— 每个属性触发一次。因此，如果我们不进行额外检查的话，这条信息会显示两次。
+Please note that `transitionend` triggers two times -- once for every property. So if we don't perform an additional check then the message would show up 2 times.

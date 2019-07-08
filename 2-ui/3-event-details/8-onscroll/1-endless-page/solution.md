@@ -35,9 +35,15 @@ document.documentElement.getBoundingClientRect().bottom = 1500
 
 
 ```js
+<<<<<<< HEAD
 // 文档顶部在窗口 -1400 px 之上
 document.documentElement.getBoundingClientRect().top = -1400
 // 文档底部为 600 px 
+=======
+// document top is above the window 1400px
+document.documentElement.getBoundingClientRect().top = -1400
+// document bottom is below the window 600px
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 document.documentElement.getBoundingClientRect().bottom = 600
 ```
 
