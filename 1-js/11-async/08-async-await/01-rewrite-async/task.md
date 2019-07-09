@@ -1,5 +1,5 @@
 
-# Rewrite using async/await
+# 用 async/await 来重写
 
 将 <info:promise-chaining> 章节一个例子中的 `.then/catch` 重写为 `async/await`:
 
