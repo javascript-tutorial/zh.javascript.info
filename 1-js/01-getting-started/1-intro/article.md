@@ -18,7 +18,7 @@ JavaScript 在刚诞生的时候，它的名字叫 “LiveScript”。但是因�
 随着 JavaScript 的发展，它已经变成了一门独立的语言，同时也有了自己的语言规范 [ECMAScript](http://en.wikipedia.org/wiki/ECMAScript)。现在，它和 Java 之间没有任何关系。
 ```
 
-现在，JavaScript 不仅仅是在浏览器内执行，也可以在服务端执行。甚至在任意搭载了 [JavaScript 引擎](https://en.wikipedia.org/wiki/JavaScript_engine) 的环境中都可以执行。
+现在，JavaScript 不仅仅是在浏览器内执行，也可以在服务端执行，甚至还能在任意搭载了 [JavaScript 引擎](https://en.wikipedia.org/wiki/JavaScript_engine) 的设备中都可以执行。
 
 浏览器中嵌入了 JavaScript 引擎，有时也称作 JavaScript 虚拟机。
 
@@ -28,7 +28,7 @@ JavaScript 在刚诞生的时候，它的名字叫 “LiveScript”。但是因�
 - [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- Firefox 中的 JavaScript 引擎。
 - ... 还有其他一些代号，像“Trident”，“Chakra”用于不同版本的 IE，“ChakraCore”用于 Microsoft Edge，“Nitro”和“SquirrelFish”用于 Safari 等等。
 
-上面这些很容易记忆，因为经常出现在网上关于开发的文章中。我们也会这样用。例如：某个新的功能，如果 JavaScript 引擎 V8 是支持的，那么我们可以认为这个功能在 Chrome 和 Opera 中可以正常运行。
+上面这些名称很容易记忆，因为经常出现在网上开发者的文章中。我们也会用到这些名称。例如：某个新的功能，如果 JavaScript 引擎 V8 是支持的，那么我们可以认为这个功能大概能在 Chrome 和 Opera 中正常运行。
 
 ```smart header="引擎是如何工作的？"
 
@@ -36,7 +36,7 @@ JavaScript 在刚诞生的时候，它的名字叫 “LiveScript”。但是因�
 
 1. 引擎（通常嵌入在浏览器中）读取（“解析”）脚本。
 2. 然后将脚本转化（“编译”）为机器语言。
-3. 然后就可以在机器上飞速的运行。
+3. 然后就这机器代码飞速地运行。
 
 引擎会对流程中的每个阶段都进行优化。它甚至可以在运行时监视编译的脚本，分析数据流并根据这些对机器代码应用优化。最后，脚本会执行地非常快。
 ```
@@ -47,13 +47,13 @@ JavaScript 在刚诞生的时候，它的名字叫 “LiveScript”。但是因�
 
 JavaScript 的能力依赖于它执行的环境。例如：[Node.js](https://wikipedia.org/wiki/Node.js) 允许 JavaScript 读写任意文件、执行网络请求等。
 
-浏览器中的 JavaScript 可以完成所有和网页相关的操作、处理用户和 Web 服务器之间的交互。
+浏览器中的 JavaScript 可以做与网页操作、用户交互和 Web 服务器相关的所有事情。
 
 例如，浏览器中的 JavaScript 可以完成下面这些事：
 
 - 在网页中插入新的 HTML，修改现有的网页内容和网页的样式。
 - 响应用户的行为，响应鼠标的点击或移动、键盘的敲击。
-- 向远程服务器发送请求，使用 [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) 和 [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) 技术下载或上传文件。
+- 向远程服务器发送网络请求，下载或上传文件（所谓 [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) 和 [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) 技术）。
 - 获取或修改 cookie，向访问者提出问题、发送消息。
 - 记住客户端的数据（本地存储）。
 
@@ -63,17 +63,17 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.js](https://wik
 
 这些限制的例子有：
 
-* 网页中的 JavaScript 不能读、写、复制及执行用户磁盘上的文件或程序。它没有直接访问操作系统的功能。
+- 网页中的 JavaScript 不能读、写、复制及执行用户磁盘上的文件或程序。它没有直接访问操作系统的功能。
 
   现代浏览器允许 JavaScript 做一些文件相关的操作，但是这个操作是受到限制的。仅当用户使用某个特定的动作，JavaScript 才能操作这个文件。例如，把文件 “拖” 到浏览器中，或者通过 `<input>` 标签选择文件。
 
-  JavaScript 有很多方式和设备的照相机/麦克风交互，但是这些都需要提前获得用户的授权许可。所以，JavaScript 并不会偷偷地通过你的摄像头观察你，更不会把你的信息发送到[美国国家安全局](https://en.wikipedia.org/wiki/National_Security_Agency)。
+  JavaScript 有很多方式和照相机/麦克风或者其他设备进行交互，但是这些都需要提前获得用户的授权许可。所以，启用了 JavaScript 的网页可能不会偷偷地启动网络摄像头观察你，并把你的信息发送到[美国国家安全局](https://en.wikipedia.org/wiki/National_Security_Agency)。
 - 不同的浏览器标签页之间基本彼此不相关。有时候，也会有一些关系。例如，通过 JavaScript 打开另外一个新的标签页。但即使在这种情况下，如果两个标签页打开的不是同一个网站（域名、协议或者端口任一不相同的网站），他们都不能够相互通信。
 
   这就是“同源策略”。为了解决不同标签页交互的问题，两个同源的网站必须**都**包含一些特殊的 JavaScript 代码，才能够实现数据交换。
 
   这个限制也是为了用户的信息安全。例如，用户打开的 `http://anysite.com` 网页的 JavaScript 不能访问 `http://gmail.com`（另外一个标签页打开的网页）也不能从那里窃取信息。
-- JavaScript 通过互联网可以轻松地和服务器（当前网页域名的服务器）通讯。但是从其他的服务器中获取数据的功能是受限的，需要服务器（在 HTTP 头中）添加某些参数。这也是为了用户的数据安全。
+- JavaScript 通过互联网可以轻松地和服务器（当前网页域名的服务器）通讯。但是从其他网站/域的服务器中获取数据的功能是受限的，需要服务器（在 HTTP 头中）添加某些参数。这也是为了用户的数据安全。
 
 ![](limitations.png)
 
@@ -110,9 +110,10 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.js](https://wik
 
 - [CoffeeScript](http://coffeescript.org/) 是 JavaScript 的语法糖，它语法简短，明确简洁。通常使用 Ruby 的人喜欢用。
 - [TypeScript](http://www.typescriptlang.org/) 将注意力集中在增加严格的数据类型。这样就能简化开发，也能用于开发复杂的系统。TypeScript 是微软开发的。
-- [Dart](https://www.dartlang.org/) 是一门独立的语言。它拥有自己的引擎用于在非浏览器环境中运行（如：在手机应用中运行）。最开始是 Google 提供的用于替代 JavaScript 的，但是现在，它和其他上述的语言一样，浏览器也要求它被编译成 JavaScript 。
+- [Flow](http://flow.org/) 也添加了数据类型，但是以一种不同的方式。由 Facebook 开发。
+- [Dart](https://www.dartlang.org/) 是一门独立的语言。它拥有自己的引擎用于在非浏览器环境中运行（如：在手机应用中运行），它也能被编译成 JavaScript 。由 Google 开发。
 
-当然，还有更多其他的语言。即使我们在使用这些语言，我们也需要知道 JavaScript。因为学习 JavaScript 可以让我们真正明白我们自己在做什么。
+还有更多其他的语言。当然，即使我们在使用这些语言，我们也需要知道 JavaScript。因为学习 JavaScript 可以让我们真正明白我们自己在做什么。
 
 ## 总结
 
