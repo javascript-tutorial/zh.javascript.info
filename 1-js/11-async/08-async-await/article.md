@@ -1,10 +1,10 @@
 # Async/await
 
-「async/await」是 promises 的另一种更便捷更流行的写法，同时它也更易于理解和使用。
+「async/await」是一种以更舒适的方式使用 promises 的特殊语法，同时它也更易于理解和使用。
 
 ## Async functions
 
-让我们以 `async` 这个关键字开始。它可以被放置在任何函数前面，像下面这样：
+让我们以 `async` 这个关键字开始。它可以被放置在一个函数前面，像下面这样：
 
 ```js
 async function f() {
@@ -12,7 +12,7 @@ async function f() {
 }
 ```
 
-在函数前面的「async」这个单词表达了一个简单的事情：即这个函数总是返回一个 promise。即使这个函数在语法上返回了一个非 promise 的值，加了「async」这个关键字就会指示 JavaScript 引擎自动将返回值包装成一个解析后的 promise。
+在函数前面的「async」这个单词表达了一个简单的事情：即这个函数总是返回一个 promise。即使这个函数实际上会返回一个非 promise 的值，函数定义前加上了「async」关键字会指示 JavaScript 引擎自动将返回值包装在一个已决议（resolved）的 promise 内。
 
 例如，以下的代码就返回了一个以 `1` 为结果的解析后的 promise, 让我们试一下：
 
@@ -69,7 +69,7 @@ f();
 
 划重点：`await` 字面的意思就是让 JavaScript 引擎等待直到 promise 状态完成，然后以完成的结果继续执行。这个行为不会耗费 CPU 资源，因为引擎可以同时处理其他任务：执行其他脚本，处理事件等。
 
-相比 `promise.then` 来获取 promise 结果，这只是一个更优雅的语法，同时也更易书写。
+相比 `promise.then` 来获取 promise 结果，这只是一个更优雅的语法，同时也更可读和更易书写。
 
 ````warn header="不能在普通函数中使用 `await`"
 如果我们尝试在非 async 函数中使用 `await` 的话，就会报语法错误：
@@ -143,7 +143,7 @@ let user = await response.json();
 
 ````
 ````smart header="`await` 可以接收「thenables」"
-像 `promise.then` 那样，`await` 被允许接收 thenable 对象（具有 `then` 方法的对象）。有些对象虽然不是 promise，但是却兼容 promise，如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
+像 `promise.then` 那样，`await` 被允许接收 thenable 对象（具有 `then` 方法的对象）。第三方对象虽然不是 promise，但是却兼容 promise，如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
 
 下面是一个 `Thenable` 类，`await` 接收了该类的实例：
 
@@ -332,4 +332,4 @@ async function f() {
 
 这两个关键字一起用就提供了一个很棒的方式来控制异步代码，并且易于读写。
 
-有了 `async/await` 我们就几乎不需要使用 `promise.then/catch`，但是不要忘了它们是基于 promise 的，所以在有些时候（如在最外层代码）我们就可以用 promise 的形式。再有就是 `Promise.all` 可以帮助我们同时处理多个异步任务。
+有了 `async/await` 我们就几乎不需要使用 `promise.then/catch`，但是不要忘了它们是基于 promise 的，所以在有些时候（如在最外层代码）我们就不得不使用这些方法。再有就是 `Promise.all` 可以帮助我们同时处理多个异步任务。
