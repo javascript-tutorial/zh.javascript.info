@@ -24,7 +24,7 @@ async function demoGithubUser() {
 
   let user;
   while(true) {
-    let name = prompt("输入用户名？", "iliakan");
+    let name = prompt("Enter a name?", "iliakan");
 
     try {
       user = await loadJson(`https://api.github.com/users/${name}`);
@@ -32,7 +32,7 @@ async function demoGithubUser() {
     } catch(err) {
       if (err instanceof HttpError && err.response.status == 404) {
         // 循环将在警告后继续
-        alert("没有此用户，请重新输入。");
+        alert("No such user, please reenter.");
       } else {
         // 未知错误, rethrow
         throw err;
