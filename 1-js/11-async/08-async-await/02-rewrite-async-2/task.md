@@ -1,5 +1,5 @@
 
-# Rewrite "rethrow" async/await
+# 用 async/await 来重写「rethrow」
 
 下面你可以看到 <info:promise-chaining> 章节中的「rethrow」例子。让我们来用 `async/await` 来替换 `.then/catch`。
 
@@ -27,16 +27,16 @@ function loadJson(url) {
 
 // 查询用户名直到 github 返回一个合法的用户
 function demoGithubUser() {
-  let name = prompt("输入用户名？", "iliakan");
+  let name = prompt("Enter a name?", "iliakan");
 
   return loadJson(`https://api.github.com/users/${name}`)
     .then(user => {
-      alert(`用户名为: ${user.name}.`);
+      alert(`Full name: ${user.name}.`);
       return user;
     })
     .catch(err => {
       if (err instanceof HttpError && err.response.status == 404) {
-        alert("没有该用户，请重新输入。");
+        alert("No such user, please reenter.");
         return demoGithubUser();
       } else {
         throw err;
