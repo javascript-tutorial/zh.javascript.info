@@ -1,5 +1,5 @@
 
-解析在代码下面:
+解析在代码下面：
 
 ```js run
 async function loadJson(url) { // (1)
