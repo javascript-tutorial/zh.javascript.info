@@ -34,7 +34,7 @@ async function demoGithubUser() {
         // 循环将在警告后继续
         alert("No such user, please reenter.");
       } else {
-        // 未知错误, rethrow
+        // 未知错误，rethrow
         throw err;
       }
     }      
