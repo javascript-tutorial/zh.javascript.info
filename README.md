@@ -155,6 +155,8 @@ importance: 5
 
 ---
 
-💓  
+💓
+- LycheeEng [@lycheeEng](https://github.com/lycheeEng)
+- Martin [@MartinsYong](https://github.com/MartinsYong)
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
