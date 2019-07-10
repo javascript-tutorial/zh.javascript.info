@@ -216,7 +216,7 @@ async function f() {
 
 在真实的环境下，promise 被拒绝前通常会等待一段时间。所以 `await` 会等待，然后抛出一个错误。
 
-我们可以用 `try...catch` 来捕获上面的错误，就像对一般的 `throw` 语句那样：
+我们可以用 `try..catch` 来捕获上面的错误，就像对一般的 `throw` 语句那样：
 
 ```js run
 async function f() {
