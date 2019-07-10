@@ -6,7 +6,7 @@
 
 ## IDE
 
-[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment)（集成开发环境）是用于管理整个项目具有强大功能的编辑器。顾名思义，它不仅仅是一个编辑器，而且还是个完全的开发环境。
+[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment)（集成开发环境）是用于管理整个项目具有强大功能的编辑器。顾名思义，它不仅仅是一个编辑器，而且还是个完整的开发环境。
 
 IDE 加载项目（通常包含多个文件），并且允许在不同文件之间切换。IDE 还提供基于项目的自动补全功能，集成版本控制（如 [git](https://git-scm.com/)）、集成测试环境等一些其他“项目层面”的东西。
 
