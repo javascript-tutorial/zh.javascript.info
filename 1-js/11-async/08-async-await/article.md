@@ -286,7 +286,7 @@ let results = await Promise.all([
 ]);
 ```
 
-如果发生错误，也会正常传递：先从失败的 promise 传到 `Promise.all`，然后变成我们能用 `try...catch` 处理的异常。
+如果发生错误，也会正常传递：先从失败的 promise 传到 `Promise.all`，然后变成我们能用 `try..catch` 处理的异常。
 
 ````
 
