@@ -86,7 +86,7 @@ function f() {
 如果函数前面没有 `async` 关键字，我们就会得到一个语法错误。就像前面说的，`await` 只在 `async 函数` 中有效。
 ````
 
-让我们拿 <info:promise-chaining> 那一章的 `showAvatar()`  例子改写成 `async/await` 的形式：
+让我们拿 <info:promise-chaining> 那一章的 `showAvatar()` 例子改写成 `async/await` 的形式：
 
 1. 用 `await` 替换掉 `.then` 的调用。
 2. 在函数前面加上 `async` 关键字。
