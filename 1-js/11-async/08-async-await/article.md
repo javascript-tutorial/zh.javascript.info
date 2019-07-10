@@ -250,7 +250,7 @@ async function f() {
 f();
 ```
 
-如果我们不使用 `try...catch`，由`f()` 产生的 promise 就会被拒绝。我们可以在函数调用后添加 `.catch` 来处理错误：
+如果我们不使用 `try..catch`，由`f()` 产生的 promise 就会被拒绝。我们可以在函数调用后添加 `.catch` 来处理错误：
 
 ```js run
 async function f() {
