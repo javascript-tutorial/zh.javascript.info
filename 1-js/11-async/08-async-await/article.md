@@ -204,7 +204,7 @@ async function f() {
 }
 ```
 
-...和下面是一样的:
+...和下面是一样的：
 
 ```js
 async function f() {
