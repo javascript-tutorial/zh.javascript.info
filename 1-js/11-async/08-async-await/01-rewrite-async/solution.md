@@ -17,7 +17,7 @@ loadJson('no-such-user.json')
   .catch(alert); // Error: 404 (4)
 ```
 
-解析:
+解析：
 
 1. 将函数 `loadJson` 变为 `async`。
 2. 将所有的 `.then` 替换为 `await`。
