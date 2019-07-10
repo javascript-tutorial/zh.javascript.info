@@ -267,7 +267,7 @@ f().catch(alert); // TypeError: failed to fetch // (*)
 
 
 ```smart header="`async/await` 和 `promise.then/catch`"
-当我们使用 `async/await` 时，几乎就不会用到 `.then` 了，因为为我们`await` 处理了异步等待。并且我们可以用 `try...catch` 来替代 `.catch`。这通常更加方便（当然不是绝对的）。
+当我们使用 `async/await` 时，几乎就不会用到 `.then` 了，因为为我们 `await` 处理了异步等待。并且我们可以用 `try..catch` 来替代 `.catch`。这通常更加方便（当然不是绝对的）。
 
 但是当我们在顶层代码，外面并没有任何 `async` 函数，我们在语法上就不能使用 `await` 了，所以这时候就可以用 `.then/catch` 来处理结果和异常。
 
