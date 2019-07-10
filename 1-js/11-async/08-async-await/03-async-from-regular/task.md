@@ -11,7 +11,7 @@ async function wait() {
 }
 
 function f() {
-  // ...这里怎么写?
+  // ...这里怎么写？
   // 我们需要调用 async wait() 等待并拿到结果 10
   // 记住, 我们不能使用 「await」
 }
