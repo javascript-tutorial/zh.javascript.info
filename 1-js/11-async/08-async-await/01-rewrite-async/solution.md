@@ -21,7 +21,7 @@ loadJson('no-such-user.json')
 
 1. 将函数 `loadJson` 变为 `async`。
 2. 将所有的 `.then` 替换为 `await`。
-3. 我们也可以不等待，直接 `return response.json()` , 像这样:
+3. 我们也可以不等待，直接 `return response.json()`，像这样:
 
     ```js
     if (response.status == 200) {
