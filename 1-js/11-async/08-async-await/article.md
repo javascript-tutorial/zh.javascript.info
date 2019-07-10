@@ -323,7 +323,7 @@ async function f() {
 函数前面的关键字 `async` 有两个作用：
 
 1. 让这个函数返回一个 promise。
-2. 允许在函数内部使用 `await`
+2. 允许在函数内部使用 `await`。
 
 这个 `await` 关键字又让 JavaScript 引擎等待直到 promise 完成，然后：
 
