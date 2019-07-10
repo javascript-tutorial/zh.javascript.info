@@ -263,7 +263,7 @@ f().catch(alert); // TypeError: failed to fetch // (*)
 */!*
 ```
 
-如果我们忘了添加 `.catch`，我们就会得到一个未处理的 promise 错误（显示在控制台）。我们可以通过在<info:promise-error-handling> 章节讲的全局事件处理器来捕获这些。.
+如果我们忘了添加 `.catch`，我们就会得到一个未处理的 promise 错误（显示在控制台）。我们可以通过在 <info:promise-error-handling> 章节讲的全局事件处理器来捕获这些。
 
 
 ```smart header="`async/await` 和 `promise.then/catch`"
