@@ -16,7 +16,7 @@ Custom elements 有两种：
 
 我们将会先创建 autonomous 元素，然后再创建 customized built-in 元素。
 
-在创建 custom elements 的时候，我们需要告诉浏览器一些细节，包括：如何展示它，以及在添加元素到页面和将其从页面移除的时候需要做什么。
+在创建 custom elements 的时候，我们需要告诉浏览器一些细节，包括：如何展示它，以及在添加元素到页面和将其从页面移除的时候需要做什么，等等。
 
 通过创建一个带有几个特殊方法的类，我们可以完成这件事。这非常容易实现，我们只需要添加几个方法就行了，同时这些方法都不是必须的。
 
@@ -120,7 +120,7 @@ customElements.define("time-formatted", TimeFormatted); // (2)
 3. 接下来在任何地方我们都可以使用这个新元素了。
 
 
-```smart header="Custom elements upgrade"
+```smart header="Custom elements 升级"
 如果浏览器在 `customElements.define` 之前的任何地方见到了 `<time-formatted>` 元素，并不会报错。但会把这个元素当作未知元素，就像任何非标准标签一样。
 
 `:not(:defined)` CSS 选择器可以对这样「未定义」的元素加上样式。
@@ -129,20 +129,20 @@ customElements.define("time-formatted", TimeFormatted); // (2)
 
 我们可以通过这些方法来获取更多的自定义标签的信息：
 - `customElements.get(name)` —— 返回指定 custom element  `name` 的类。
-- `customElements.whenDefined(name)` -- 返回一个 promise，将会在 `name` 这个 custom element 变为已定义状态的时候 resolve。
+- `customElements.whenDefined(name)` -- 返回一个 promise，将会在这个具有给定 `name` 的 custom element 变为已定义状态的时候 resolve（不带值）。
 
 ```
 
-```smart header="Rendering in `connectedCallback`, not in `constructor`"
+```smart header="在 `connectedCallback` 中渲染，而不是 `constructor` 中"
 在上面的例子中，元素里面的内容是在 `connectedCallback` 中渲染（创建）的。
 
 为什么不在 `constructor` 中渲染？
 
 原因很简单：在 `constructor` 被调用的时候，还为时过早。虽然这个元素实例已经被创建了，但还没有插入页面。在这个阶段，浏览器还没有处理／创建元素属性：调用 `getAttribute` 将会得到 `null`。所以我们并不能在那里渲染元素。
 
-而且，如果你仔细考虑，这样作对于性能更好 —— 推迟渲染直到却是需要的时候。
+而且，如果你仔细考虑，这样作对于性能更好 —— 推迟渲染直到真正需要的时候。
 
-在元素被添加到文档的时候，它的 `connectedCallback` 方法会被调用。这个元素不仅仅是被添加为了另一个元素的子元素，同样也成为了页面的一部分。因此我们可以构建分离的 DOM，创建元素并且让它们为之后的使用准备好。它们只有在进入页面的时候才会真的被渲染。
+在元素被添加到文档的时候，它的 `connectedCallback` 方法会被调用。这个元素不仅仅是被添加为了另一个元素的子元素，同样也成为了页面的一部分。因此我们可以构建分离的 DOM，创建元素并且让它们为之后的使用准备好。它们只有在插入页面的时候才会真的被渲染。
 ```
 
 ## 监视属性
@@ -389,11 +389,11 @@ customElements.define('hello-button', HelloButton, {extends: 'button'});
 
 2. "Customized built-in elements" —— 已有元素的扩展。
 
-    需要一个 `.define` 参数，同时 `is="..."` 在 HTML 中：
+    需要多一个 `.define` 参数，同时 `is="..."` 在 HTML 中：
     ```js
     class MyButton extends HTMLButtonElement { /*...*/ }
     customElements.define('my-button', MyElement, {extends: 'button'});
     /* <button is="my-button"> */
     ```
 
-Custom element 在各浏览器中的兼容性已经非常好了。Edge 支持地相对较差，但是我们可以 polyfill <https://github.com/webcomponents/webcomponentsjs>。
+Custom element 在各浏览器中的兼容性已经非常好了。Edge 支持地相对较差，但是我们可以使用 polyfill <https://github.com/webcomponents/webcomponentsjs>。
