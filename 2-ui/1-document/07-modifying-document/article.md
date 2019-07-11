@@ -240,10 +240,10 @@ after
 
 该方法第一个参数是代码字符串，指定相对于 `elem` 的插入位置，必须是以下四个值之一：
 
-- `"beforebegin"` —— 在 `html` 开头位置前插入 `elem`，
-- `"afterbegin"` —— 在 `html` 开头位置后插入 `elem`，
-- `"beforeend"` —— 在 `html` 结束位置前插入 `elem`，
-- `"afterend"` —— 在 `html` 结束位置后插入 `elem`。
+- `"beforebegin"` —— 在 `elem` 开头位置前插入 `html`，
+- `"afterbegin"` —— 在 `elem` 开头位置后插入 `html`（译注：即 `elem` 元素内部的第一个子节点之前），
+- `"beforeend"` —— 在 `elem` 结束位置前插入 `html`（译注：即 `elem` 元素内部的最后一个子节点之后），
+- `"afterend"` —— 在 `elem` 结束位置后插入 `html`。
 
 第二个参数是 HTML 字符串，会以 HTML 的形式插入到页面中。
 
