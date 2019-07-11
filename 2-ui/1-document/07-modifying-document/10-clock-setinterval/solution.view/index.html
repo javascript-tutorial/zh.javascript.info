@@ -44,7 +44,7 @@
 
     function clockStart() {
       timerId = setInterval(update, 1000);
-      update(); // <--  start right now, don't wait 1 second till the first setInterval works
+      update(); // <--  马上开始，不要等 1 秒后直到 setInterval 开始后才开始
     }
 
     function clockStop() {
@@ -54,10 +54,10 @@
     clockStart();
   </script>
 
-  <!-- click on this button calls clockStart() -->
+  <!-- 单击此按钮调用 clockStart() -->
   <input type="button" onclick="clockStart()" value="Start">
 
-  <!-- click on this button calls clockStop() -->
+  <!-- 单击此按钮调用 clockStop() -->
   <input type="button" onclick="clockStop()" value="Stop">
 
 </body>
