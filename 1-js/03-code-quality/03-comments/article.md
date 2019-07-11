@@ -120,10 +120,10 @@ function addJuice(container) {
 因此，解释性注释通常来说都是不好的，那么哪一种注释才是好的呢？
 
 描述架构
-：提供组件的一个高层次的概况，它们如何相互作用、各种情况下的控制流程是什么样的... 简而言之 —— 『代码的鸟瞰图』。有一个专门为高层次架构图而设计的图表语言 [UML](http://wikipedia.org/wiki/Unified_Modeling_Language)，绝对值得学习。
+: 提供组件的一个高层次的概况，它们如何相互作用、各种情况下的控制流程是什么样的... 简而言之 —— 『代码的鸟瞰图』。有一个专门为高层次架构图而设计的图表语言 [UML](http://wikipedia.org/wiki/Unified_Modeling_Language)，绝对值得学习。
 
 记录函数的用法
-：有一个专门的语法 [JSDoc](http://en.wikipedia.org/wiki/JSDoc) 来记录函数: 用法、参数和返回值。
+: 有一个专门的语法 [JSDoc](http://en.wikipedia.org/wiki/JSDoc) 来记录函数: 用法、参数和返回值。
 
     例如：
     ```js

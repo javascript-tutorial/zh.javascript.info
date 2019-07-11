@@ -242,7 +242,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 ```html run
 <script type="module">
 *!*
-  alert(typeof button); // object: 脚本可以‘看见‘’下面的 button
+  alert(typeof button); // object: 脚本可以‘看见’下面的 button
 */!*
   // 当脚本模块延迟时，脚本在整个页面加载完成之后才执行
 </script>

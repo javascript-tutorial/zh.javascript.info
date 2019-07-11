@@ -264,7 +264,7 @@ function onMouseMove(event) {
     }
     currentDroppable = droppableBelow;
     if (currentDroppable) {
-      // 处理“离开”可释放物体的逻辑
+      // 处理“进入”可释放物体的逻辑
       enterDroppable(currentDroppable);
     }
   }

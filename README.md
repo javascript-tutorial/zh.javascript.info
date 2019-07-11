@@ -2,9 +2,13 @@
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
+<!--
+
 ## 赞助商
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
+
+-->
 
 ## 翻译
 
@@ -151,6 +155,8 @@ importance: 5
 
 ---
 
-💓  
+💓
+- LycheeEng [@lycheeEng](https://github.com/lycheeEng)
+- Martin [@MartinsYong](https://github.com/MartinsYong)
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
