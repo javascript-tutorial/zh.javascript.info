@@ -38,7 +38,7 @@ DOM（document object model 文档对象模型，此文中全部以缩写 DOM �
 这两种方法都可以创建 DOM 节点：
 
 `document.createElement(tag)`
-: 用给定的标签创建一个新元素：
+: 用给定的标签创建一个新*元素节点（element node）*：
 
     ```js
     let div = document.createElement('div');
@@ -61,13 +61,13 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
-之后，我们就有拥有一个 DOM 元素。现在这个元素已经有一个保存类名的变量和一个保存文字信息的变量，但是在页面上依然看不到我们想要的内容，因为它还没有被插入到页面中。
+之后，我们就有拥有一个 DOM 元素。现在这个元素仅仅是一个保存类名和文字信息的变量，在页面上依然看不到我们想要的内容。因为它还没有被插入到页面中。
 
 ## 插值方法
 
 为了让 `div` 显示我们想要的内容，我们需要在 `document` 中找个合适的位置插值，这里我们选择 `document.body`。
 
-这里有一个特定的插值方法：`document.body.appendChild(div)`。
+这里有个特定的方法 `appendChild` 来完成这一步：`document.body.appendChild(div)`。
 
 这里是完整代码：
 
@@ -136,7 +136,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
     </script>
     ```
     如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
-    
+
     ```js
     list.insertBefore(newLi, list.firstChild);
     ```
@@ -146,9 +146,9 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 所有这些插入节点的操作都会返回节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常返回的节点都没有用，只是插入方法的默认返回值。
 
-以上方法都是“旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸，它们已经没法很好的处理现在的需求了。
+以上方法都是“旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸的是它们不够灵活。
 
-例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，你怎样插入到**节点**之前？虽然也能完成需求开发，总归不是那么优雅的解决方式。
+例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，如何在不引用其父节点的情况下删除它？虽然也能完成需求开发，总归不是那么优雅的解决方式。
 
 所以诞生了两种优雅插入方法来代替这些繁琐的插入操作。
 
@@ -161,6 +161,8 @@ This set of methods provides more flexible insertions:
 - `node.before(...nodes or strings)` —— 在 `node` 前面插入节点或者字符串，
 - `node.after(...nodes or strings)` —— 在 `node` 后面插入节点或者字符串，
 - `node.replaceWith(...nodes or strings)` —— 将 `node` 替换为节点或者字符串。
+
+所有这些方法都接受 DOM 节点或者文本字符串列表形式。如果给定的是一个字符串，那么它将以文本节点（text node）形式插入。
 
 下面例子是使用以上提到的方法在列表项前面或后面插入文本：
 
@@ -236,14 +238,14 @@ after
 
 接下来登场的这个方法就可以做到：`elem.insertAdjacentHTML(where, html)`。
 
-该方法第一个参数是字符串，指定插值的位置，必须是以下四个值之一：
+该方法第一个参数是代码字符串，指定相对于 `elem` 的插入位置，必须是以下四个值之一：
 
 - `"beforebegin"` —— 在 `html` 开头位置前插入 `elem`，
 - `"afterbegin"` —— 在 `html` 开头位置后插入 `elem`，
 - `"beforeend"` —— 在 `html` 结束位置前插入 `elem`，
 - `"afterend"` —— 在 `html` 结束位置后插入 `elem`。
 
-第二个参数是 HTML 字符串，会作为标签插入到页面中。
+第二个参数是 HTML 字符串，会以 HTML 的形式插入到页面中。
 
 例如：
 
@@ -335,13 +337,81 @@ after
 </script>
 ```
 
+
+## 文档片段（DocumentFragment） [#document-fragment]
+
+`DocumentFragment` 是一个特殊的 DOM 节点，用于传递节点列表的包装器。
+
+我们可以将其他节点附加到它上面，但是当我们将其插入到某个地方的时候，会以其内容的形式插入。
+
+例如，下面的代码中的 `getListContent` 函数生成一个具有 `<li>` 列表的片段，然后将它插入到 `<ul>` 中：
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let fragment = new DocumentFragment();
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    fragment.append(li);
+  }
+
+  return fragment;
+}
+
+*!*
+ul.append(getListContent()); // (*)
+*/!*
+</script>
+```
+
+请注意，在最后一行以 `(*)` 标示的位置，我们附加上 `DocumentFragment`，但是它和 `ul` “融为一体（blends in）”了，所以最终的文档结构应该是：
+
+```html
+<ul>
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+</ul>
+```
+
+我们很少明确使用 `DocumentFragment`。如果可以返回一个节点数组，有什么必要附加到特殊类型的节点？下面我们就来看个例子：
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let result = [];
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    result.push(li);
+  }
+
+  return result;
+}
+
+*!*
+ul.append(...getListContent()); // append + “...” 操作符 = 秒啊！
+*/!*
+</script>
+```
+
+我们在这里提及 `DocumentFragment` 主要是因为有一些概念是基于它的，比如 [模板](info:template-element) 元素，我们将在后面的章节中详细介绍它。
+
+
 ## 移除
 
 想要移除节点，可以通过以下方法：
 
 
 `parentElem.removeChild(node)`
-: 从 `parentElem` 中移除 `elem`（假设它是元素中的子元素）。
+: 从 `parentElem` 中移除 `node`（假设它是元素中的子元素）。
 
 `node.remove()`
 : 从当前位置移除 `node`。
@@ -434,7 +504,7 @@ after
 
 这是它的缺陷。
 
-从技术上讲，当调用 `document.write`，如果浏览器仍然在解析 HTML，该方法会添加一些内容，浏览器会把添加进来的内容替换掉原来接收到内容，解析后展示在窗口中。
+从技术上讲，当浏览器正在读取（“解析”）传入的 HTML ，此时再调用 `document.write` 方法向文档中写入一些东西，浏览器会像当初初始化一样处理这些 HTML 文本。
 
 反过来说这也是一个优势 —— 它性能出奇的快，因为它不用**修改 DOM 结构**。它直接在 DOM 结构构建之前，对整个页面直接进行重写，再交给浏览器去构建 DOM 结构。
 
