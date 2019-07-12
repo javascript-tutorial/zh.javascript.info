@@ -14,7 +14,7 @@ async function f() {
 
 在函数前面的「async」这个单词表达了一个简单的事情：即这个函数总是返回一个 promise。即使这个函数实际上会返回一个非 promise 的值，函数定义前加上了「async」关键字会指示 JavaScript 引擎自动将返回值包装在一个已决议（resolved）的 promise 内。
 
-例如，以下的代码就返回了一个以 `1` 为结果的解析后的 promise, 让我们试一下：
+例如，以下的代码就返回了一个以 `1` 为结果的决议后的 promise, 让我们试一下：
 
 ```js run
 async function f() {
@@ -47,7 +47,7 @@ let value = await promise;
 
 关键字 `await` 让 JavaScript 引擎等待直到 promise 完成并返回结果。
 
-这里的例子就是一个 1 秒后解析的 promise：
+这里的例子就是一个 1 秒后决议的 promise：
 ```js run
 async function f() {
 
@@ -56,7 +56,7 @@ async function f() {
   });
 
 *!*
-  let result = await promise; // 等待直到 promise 解析 (*)
+  let result = await promise; // 等待直到 promise 决议 (*)
 */!*
 
   alert(result); // "done!"
@@ -154,7 +154,7 @@ class Thenable {
   }
   then(resolve, reject) {
     alert(resolve);
-    // 1 秒后解析为 this.num*2
+    // 1 秒后决议为 this.num*2
     setTimeout(() => resolve(this.num * 2), 1000); // (*)
   }
 };
@@ -192,7 +192,7 @@ new Waiter()
 ````
 ## Error handling
 
-如果一个 promise 正常解析，`await promise` 返回的就是其结果。但是如果 promise 被拒绝，就会抛出一个错误，就像在那一行有个 `throw` 语句那样。
+如果一个 promise 正常决议，`await promise` 返回的就是其结果。但是如果 promise 被拒绝（rejected），就会抛出一个错误，就像在那一行有个 `throw` 语句那样。
 
 这里的代码：
 
