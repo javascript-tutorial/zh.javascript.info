@@ -29,6 +29,6 @@ loadJson('no-such-user.json')
     }
     ```
 
-    然后外部的代码就可以用 `await` 来等待这个 promise 被解析。在本例中可忽略。
+    然后外部的代码就可以用 `await` 来等待这个 promise 被决议。在本例中可忽略。
 4. `loadJson` 抛出的错误被 `.catch` 处理了。并且我们不能用 `await loadJson(…)`，因为不是在 `async` 函数中。
 
