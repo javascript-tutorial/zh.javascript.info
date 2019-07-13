@@ -12,7 +12,7 @@
   let text = '<b>text</b>';
 
   elem1.append(document.createTextNode(text));
-  elem3.innerHTML = text;
   elem2.textContent = text;
+  elem3.innerHTML = text;
 </script>
 ```
