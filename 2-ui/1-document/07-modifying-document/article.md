@@ -61,7 +61,7 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
-之后，我们就有拥有一个 DOM 元素。现在这个元素仅仅是一个保存类名和文字信息的变量，在页面上依然看不到我们想要的内容。因为它还没有被插入到页面中。
+之后，我们就有拥有一个 DOM 元素。现在这个元素仅仅存于一个变量中，我们还不能在页面上看到它。因为它还没有被插入到页面中。
 
 ## 插值方法
 
@@ -397,7 +397,7 @@ function getListContent() {
 }
 
 *!*
-ul.append(...getListContent()); // append + “...” 操作符 = 秒啊！
+ul.append(...getListContent()); // append + “...” 操作符 = 一对好朋友！
 */!*
 </script>
 ```
