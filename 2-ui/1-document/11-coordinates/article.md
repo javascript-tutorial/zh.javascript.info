@@ -50,7 +50,7 @@ function showRect(elem) {
 - 坐标也可以是负数的。例如当我们滚动页面向下在 `elem` 的顶部超过窗口的时候，这时候我们调用 `elem.getBoundingClientRect().top` 返回的就是负数。
 - 一些浏览器（像 Chrome）还会在 `getBoundingClientRect` 的返回中增加 `width` 和 `height` 属性。我们可以通过减法计算 `height=bottom-top`，`width=right-left` 来得到这两个属性。
 
-​```warn header="坐标的右/底部和 CSS 中的属性是不同的"
+```warn header="坐标的右/底部和 CSS 中的属性是不同的"
 
 如果我们把窗口的坐标和 CSS 中的位置相对照，那么其和 `position:fixed` 有明显的相似之处 — 也是相对于 viewport 的位置。
 
@@ -107,7 +107,6 @@ elem.style.background = ''; // Error!
 
 我们可以使用 `getBoundingClientRect` 来获取一个元素的坐标，并且之后可以在该元素附近显示一些东西。
 
-For instance, the function `createMessageUnder(elem, html)` below shows the message under `elem`:
 比如说，下面的 `createMessageUnder(elem, html)` 函数在 `elem` 元素下面显示了消息：
 
 ```js
@@ -157,7 +156,7 @@ setTimeout(() => message.remove(), 5000);
 
 文档相对坐标是从文档的左上角开始计算，而不是窗口。
 
-在 CSS 中，窗口坐标对应的是 `position:fixed`，而文档坐标则类似顶部的 position:absolute`。
+在 CSS 中，窗口坐标对应的是 `position:fixed`，而文档坐标则类似顶部的 `position:absolute`。
 
 我们可以使用 `position:absolute` 和 `top/left` 来把一些东西放到文档中的固定位置，以便在页面滚动时元素仍能保留在那里。但是我们首先需要正确的坐标。
 
@@ -174,7 +173,7 @@ setTimeout(() => message.remove(), 5000);
 
 ![](document-window-coordinates-scroll.png)
 
-- 包含 `"From today's featured article"` 的 header 元素 `clientY` 变成 0，因为这个元素现在在窗口的顶部。
+- 包含 `"From today's featured article"` 的 header 元素 `clientY` 变成 `0`，因为这个元素现在在窗口的顶部。
 - `clientX` 并没有改变，因为我们没有水平滚动。
 - 元素的 `pageX` 和 `pageY` 坐标始终保持一致，因为它们是相对于文档计算的。
 
