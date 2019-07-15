@@ -17,7 +17,11 @@ let double = "double-quoted";
 let backticks = `backticks`;
 ```
 
+<<<<<<< HEAD
 单引号和双引号本质上是一样的。但是，反引号允许我们将任何表达式嵌入到字符串中，包括函数调用：
+=======
+Single and double quotes are essentially the same. Backticks, however, allow us to embed any expression into the string, by wrapping it in `${…}`:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
 function sum(a, b) {
@@ -39,9 +43,16 @@ let guestList = `Guests:
 alert(guestList); // 客人清单，多行
 ```
 
+<<<<<<< HEAD
 如果我们尝试以相同的方式使用单引号或双引号，则会出错：
+=======
+Looks natural, right? But single or double quotes do not work this way.
+
+If we use them and try to use multiple lines, there'll be an error:
+
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 ```js run
-let guestList = "Guests:  // Error: Unexpected token ILLEGAL
+let guestList = "Guests: // Error: Unexpected token ILLEGAL
   * John";
 ```
 
@@ -49,10 +60,16 @@ let guestList = "Guests:  // Error: Unexpected token ILLEGAL
 
 反引号还允许我们在第一个反引号之前指定一个“模版函数”。语法是：<code>func&#96;string&#96;</code>。函数 `func` 被自动调用，接收字符串和嵌入式表达式，并处理它们。你可以在 [docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) 中阅读更多关于它们的信息。这叫做 "tagged templates"。此功能可以更轻松地将字符串包装到自定义模版或其他函数中，但这很少使用。
 
+<<<<<<< HEAD
 
 ## 特殊字符
 
 通过使用换行符 `\n` 来创建带有单引号的多行字符串，它表示中断：
+=======
+## Special characters
+
+It is still possible to create multiline strings with single and double quotes by using a so-called "newline character", written as `\n`, which denotes a line break:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
@@ -60,39 +77,62 @@ let guestList = "Guests:\n * John\n * Pete\n * Mary";
 alert(guestList); // a multiline list of guests
 ```
 
+<<<<<<< HEAD
 例如，这两行描述相同：
+=======
+For example, these two lines are equal, just written differently:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
-alert( "Hello\nWorld" ); // two lines using a "newline symbol"
+let str1 = "Hello\nWorld"; // two lines using a "newline symbol"
 
 // two lines using a normal newline and backticks
-alert( `Hello
-World` );
+let str2 = `Hello
+World`;
+
+alert(str1 == str2); // true
 ```
 
+<<<<<<< HEAD
 还有其他不常见的“特殊字符”，列表如下：
+=======
+There are other, less common "special" characters.
+
+Here's the full list:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 | 字符 | 描述 |
 |-----------|-------------|
-|`\b`|Backspace|
-|`\f`|Form feed|
 |`\n`|New line|
-|`\r`|Carriage return|
+|`\r`|Carriage return: not used alone. Windows text files use a combination of two characters `\r\n` to represent a line break. |
+|`\'`, `\"`|Quotes|
+|`\\`|Backslash|
 |`\t`|Tab|
+<<<<<<< HEAD
 |`\uNNNN`|16 进制的 `NNNN` 的unicode 符号，例如 `\u00A9`—— 是版权符号的 unicode `©`。它必须是 4 个16 进制数字。 |
 |`\u{NNNNNNNN}`|一些罕见字符使用两个 unicode 符号进行编码，最多占用 4 个字节。这个长的 unicode 需要它周围的括号。|
+=======
+|`\b`, `\f`, `\v`| Backspace, Form Feed, Vertical Tab -- kept for compatibility, not used nowadays. |
+|`\xXX`|Unicode character with the given hexadimal unicode `XX`, e.g. `'\x7A'` is the same as `'z'`.|
+|`\uXXXX`|A unicode symbol with the hex code `XXXX` in UTF-16 encoding, for instance `\u00A9` -- is a unicode for the copyright symbol `©`. It must be exactly 4 hex digits. |
+|`\u{X…XXXXXX}` (1 to 6 hex characters)|A unicode symbol with the given UTF-32 encoding. Some rare characters are encoded with two unicode symbols, taking 4 bytes. This way we can insert long codes. |
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 unicode 示例：
 
 ```js run
 alert( "\u00A9" ); // ©
-alert( "\u{20331}" ); // 佫, a rare chinese hieroglyph (long unicode)
+alert( "\u{20331}" ); // 佫, a rare Chinese hieroglyph (long unicode)
 alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
 ```
 
 所有的特殊字符都以反斜杠字符 `\` 开始。它也被称为“转义字符”。
 
+<<<<<<< HEAD
 如果我们想要在字符串中插入一个引号，我们也会使用它。
+=======
+We might also use it if we wanted to insert a quote into the string.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 例如：
 
@@ -102,7 +142,11 @@ alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 
 正如你所看到的，我们必须用反斜杠 `\'` 来预设值内部引号，否则就表示字符串结束。
 
+<<<<<<< HEAD
 当然，这只不过是指与上文相同的引文。因此，作为更优雅的解决方案，我们可以改用双引号或反引号。
+=======
+Of course, only to the quotes that are the same as the enclosing ones need to be escaped. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
 alert( `I'm the Walrus!` ); // I'm the Walrus!
@@ -120,8 +164,12 @@ alert( `The backslash: \\` ); // The backslash: \
 
 ## 字符串长度
 
+<<<<<<< HEAD
 
 `length` 属性有字符串长度：
+=======
+The `length` property has the string length:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
 alert( `My\n`.length ); // 3
@@ -132,7 +180,11 @@ alert( `My\n`.length ); // 3
 ```warn header="`length` is a property"
 掌握其他语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
 
+<<<<<<< HEAD
 请注意 `str.length` 是一个数字属性，而不是函数。之后不需要添加括号。
+=======
+Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 ```
 
 ## 访问字符。
@@ -189,7 +241,11 @@ alert( str[0] ); // 无法运行
 ```js run
 let str = 'Hi';
 
+<<<<<<< HEAD
 str = 'h' + str[1];  // 字符串替换
+=======
+str = 'h' + str[1]; // replace the string
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 alert( str ); // hi
 ```
@@ -242,9 +298,12 @@ let str = 'Widget with id';
 alert( str.indexOf('id', 2) ) // 12
 ```
 
+<<<<<<< HEAD
 
 如果我们对所有存在位置都感兴趣，可以在一个循环中使用 `indexOf`。每一次新的调用都发生在上一匹配位置之后：
-
+=======
+If we're interested in all occurrences, we can run `indexOf` in a loop. Every new call is made with the position after the previous match:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
 let str = 'As sly as a fox, as strong as an ox';
@@ -275,8 +334,13 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 */!*
 ```
 
+<<<<<<< HEAD
 ```smart header="`str.lastIndexOf(subStr, pos)`"
 还有一个类似的方法 [str.lastIndexOf(subStr, pos)](mdn:js/String/lastIndexOf)，他从字符串的末尾开始搜索。
+=======
+```smart header="`str.lastIndexOf(substr, position)`"
+There is also a similar method [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 它会以相反的顺序列出事件。
 ```
@@ -305,8 +369,14 @@ if (str.indexOf("Widget") != -1) {
 }
 ```
 
+<<<<<<< HEAD
 ````smart header="The bitwise NOT trick"
 这里使用的一个老技巧是 [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` 运算符。它将该数字转换为 32-bit 整数（如果存在，则删除小数部分），然后反转其二进制表示中的所有位。
+=======
+#### The bitwise NOT trick
+
+One of the old tricks used here is the [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` operator. It converts the number to a 32-bit integer (removes the decimal part if exists) and then reverses all bits in its binary representation.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 对于 32-bit 整数，调用 `~n` 的意思与 `-(n+1)` 完全一样（由于 IEEE-754 格式）。
 
@@ -321,9 +391,15 @@ alert( ~-1 ); // 0, the same as -(-1+1)
 */!*
 ```
 
+<<<<<<< HEAD
 正如我们看到这样，只有当 `n == -1` 时，`~n` 才为零。
 
 因此，测试 `if ( ~str.indexOf("...") )` 真是 `indexOf` 的结果不是 `-1`。换句话说，当有匹配时。
+=======
+As we can see, `~n` is zero only if `n == -1` (that's for any 32-bit signed integer `n`).
+
+So, the test `if ( ~str.indexOf("...") )` is truthy only if the result of `indexOf` is not `-1`. In other words, when there is a match.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 人们用它来简写 `indexOf` 检查：
 
@@ -337,8 +413,16 @@ if (~str.indexOf("Widget")) {
 
 通常不建议以非显而易见的方式使用语言特性，但这种特殊技巧在旧代码中仍被广泛使用，所以我们应该理解它。
 
+<<<<<<< HEAD
 只要记住：`if (~str.indexOf(...))` 读作 "if found"。
 ````
+=======
+Just remember: `if (~str.indexOf(...))` reads as "if found".
+
+Technically speaking, numbers are truncated to 32 bits by `~` operator, so there exist other big numbers that give `0`, the smallest is `~4294967295=0`. That makes such check is correct only if a string is not that long.
+
+Right now we can see this trick only in the old code, as modern JavaScript provides `.includes` method (see below).
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ### includes, startsWith, endsWith
 
@@ -362,8 +446,13 @@ alert( "Midget".includes("id", 3) ); // false, 位置 3 没有 "id"
 方法 [str.startsWith](mdn:js/String/startsWith) 和 [str.endsWith](mdn:js/String/endsWith) 完全按照它们所说的执行：
 
 ```js run
+<<<<<<< HEAD
 alert( "Widget".startsWith("Wid") ); // true, "Widget" 以 "Wid" 开始
 alert( "Widget".endsWith("get") );   // true, "Widget" 以 "get" 结束
+=======
+alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
+alert( "Widget".endsWith("get") ); // true, "Widget" ends with "get"
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 ```
 
 ## 获取子字符串
@@ -397,14 +486,12 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
     alert( str.slice(-4, -1) ); // */!
     ```
 
-
 `str.substring(start [, end])`
 : 返回 `start` 和 `end` **之间**的字符串部分。
 
     这与 `slice` 几乎相同，但它允许 `start`大于 `end`。
 
     例如：
-
 
     ```js run
     let str = "st*!*ring*/!*ify";
@@ -420,7 +507,6 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
     ```
 
     否定参数（不像 slice）不支持，它们被视为 `0`。
-
 
 `str.substr(start [, length])`
 :  从 `start` 开始返回给定 `length` 的字符串部分。
@@ -447,11 +533,14 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 | `substring(start, end)` | between `start` and `end` | negative values mean `0` |
 | `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
 
-
 ```smart header="Which one to choose?"
 他们可以完成这项工作，形式上，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中，它涵盖了主要由于历史原因而存在的浏览器特性。因此，非浏览器环境可能无法支持它。但实际上它在任何地方都有效。
 
+<<<<<<< HEAD
 作者发现自己几乎一直在使用 `slice`。
+=======
+Of the other two variants, `slice` is a little bit more flexible, it allows negative arguments and shorter to write. So, it's enough to remember solely `slice` of these three methods.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 ```
 
 ## 比较字符串
@@ -523,10 +612,16 @@ alert( str );
 - 所有小写字母都是大写字母，因为它们的代码更大。
 - 一些想 `Ö` 的字母与主要字母表不同。这里的代码比从 `a` 到 `z` 的代码都要大。
 
+<<<<<<< HEAD
 
 ### 正确的比较
 
 执行字符串比较的“正确”算法比看起来更复杂，因为不同语言的字母都不相同。相同的字母可能位于不同的字母表中。
+=======
+### Correct comparisons
+
+The "right" algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 因此浏览器需要知道要比较的语言。
 
@@ -534,11 +629,19 @@ alert( str );
 
 它提供了一种特殊的方法来比较不同语言的字符串，遵循它们的规则。
 
+<<<<<<< HEAD
 调用 [str.localeCompare(str2)](mdn:js/String/localeCompare)：
 
 - 根据语言规则，如果 `str` 大于 `str2` 返回 `1`。
 - 如果if `str` 小于 `str2` 返回 `-1`。
 - 如果相等，返回 `0`。
+=======
+The call [str.localeCompare(str2)](mdn:js/String/localeCompare) returns an integer indicating whether `str` comes before, after or is equivalent to `str2` according to the language rules:
+
+- Returns a negative number if `str` is less than `str2`, i.e. `str` occurs before `str2`.
+- Returns a positive number if `str` is greater than `str2`, i.e. `str` occurs after `str2`.
+- Returns `0` if they are equivalent.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 例如：
 
@@ -546,19 +649,31 @@ alert( str );
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```
 
+<<<<<<< HEAD
 这个方法实际上在[文档](mdn:js/String/localeCompare)中指定了两个额外的参数，它允许它指定语言（默认从环境中获取）并设置诸如区别大小之类的附加规则，或应该处理将 `"a"` 和 `"á"` 看作相等情况等。
+=======
+This method actually has two additional arguments specified in [the documentation](mdn:js/String/localeCompare), which allows it to specify the language (by default taken from the environment, letter order depends on the language) and setup additional rules like case sensitivity or should `"a"` and `"á"` be treated as the same etc.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ## 内部，Unicode
 
 ```warn header="Advanced knowledge"
+<<<<<<< HEAD
 这部分会深入字符串内部。如果你计划处理表情符号、罕见的象形文字字符或其他罕见符号，这些知识会对你有用。
+=======
+The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical or hieroglyphic characters or other rare symbols.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 如果你不打算支持它们，你可以跳过这一部分。
 ```
 
 ### 代理对
 
+<<<<<<< HEAD
 大部分 symbol 都有一个 2 字节的代码。大多数欧洲语言，数字甚至大多数象形文字中的字母都有 2 字节的表示形式。
+=======
+All frequently used characters have 2-byte codes. Letters in most european languages, numbers, and even most hieroglyphs, have a 2-byte representation.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 但 2 字节只允许 65536 个组合，这对于每个可能的符号都是不够的。所以稀有的符号被称为“代理对”的一对 2 字节符号编码。
 
@@ -567,7 +682,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```js run
 alert( '𝒳'.length ); // 2, MATHEMATICAL SCRIPT CAPITAL X
 alert( '😂'.length ); // 2, FACE WITH TEARS OF JOY
-alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
+alert( '𩷶'.length ); // 2, a rare Chinese hieroglyph
 ```
 
 注意，代理对在 JavaScript 被创建时并不存在，因此无法被语言正确代理。
@@ -576,7 +691,11 @@ alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
 
 `String.fromCodePoint` 和 `str.codePointAt` 是几种处理代理对的少数方法。它们最近在出现在语言中。在它们之前，只有 [String.fromCharCode](mdn:js/String/fromCharCode) 和 [str.charCodeAt](mdn:js/String/charCodeAt)。这些方法实际上与 `fromCodePoint/codePointAt` 相同，但是不适用于代理对。
 
+<<<<<<< HEAD
 但是，例如，获取符号可能会非常麻烦，因为代理对被认为是两个字符：
+=======
+Getting a symbol can be tricky, because surrogate pairs are treated as two characters:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js run
 alert( '𝒳'[0] ); // 奇怪的符号...
@@ -604,7 +723,11 @@ alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, 在 0xdc00 和 0xdfff 之�
 
 例如，字母 `a` 可以是基本字符：`àáâäãåā`。最常见的“复合”字符在 UTF-16 表中有自己的代码。但不是全部，因为可能的组合太多。
 
+<<<<<<< HEAD
 为了支持任意组合，UTF-16 允许我们使用多个 unicode 字符。基本字符和“装饰”它的一个或多个“标记”字符。
+=======
+To support arbitrary compositions, UTF-16 allows us to use several unicode characters: the base character followed by one or many "mark" characters that "decorate" it.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 例如，如果我们 `S` 后跟有特殊的 "dot above" 字符（代码 `\u0307`），则显示 Ṡ。
 
@@ -628,9 +751,9 @@ alert( 'S\u0307\u0323' ); // Ṩ
 
 ```js run
 alert( 'S\u0307\u0323' ); // Ṩ, S + dot above + dot below
-alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
+alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
 
-alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false
+alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false, different characters (?!)
 ```
 
 为了解决这个问题，有一个 “unicode 规范化”算法，它将每个字符串都转化成单个“通用”格式。
@@ -649,10 +772,15 @@ alert( "S\u0307\u0323".normalize().length ); // 1
 alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 ```
 
+<<<<<<< HEAD
 事实上，情况并非总是如此，因为符号 `Ṩ` “常用”，所以 UTF-16 创建者把它包含在主表中并给了它代码。
+=======
+In reality, this is not always the case. The reason being that the symbol `Ṩ` is "common enough", so UTF-16 creators included it in the main table and gave it the code.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 如果你想了解更多关于规范化规则和变体的信息 —— 它们在 Unicode 标准附录中有详细描述：[Unicode 规范化形式](http://www.unicode.org/reports/tr15/)，但对于大多数实际目的来说，本文的内容就已经足够了。
 
+<<<<<<< HEAD
 
 ## 总结
 
@@ -664,11 +792,31 @@ alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 - 字符串的大/小写转换，使用：`toLowerCase/toUpperCase`。
 - 查找子字符串时，使用 `indexOf` 或 `includes/startsWith/endsWith` 进行简单检查。
 - 根据语言比较字符串时使用 `localeCompare`，否则将按字符代码进行比较。
+=======
+## Summary
+
+- There are 3 types of quotes. Backticks allow a string to span multiple lines and embed expressions `${…}`.
+- Strings in JavaScript are encoded using UTF-16.
+- We can use special characters like `\n` and insert letters by their unicode using `\u...`.
+- To get a character, use: `[]`.
+- To get a substring, use: `slice` or `substring`.
+- To lowercase/uppercase a string, use: `toLowerCase/toUpperCase`.
+- To look for a substring, use: `indexOf`, or `includes/startsWith/endsWith` for simple checks.
+- To compare strings according to the language, use: `localeCompare`, otherwise they are compared by character codes.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 字符串还有其他几种有用的方法：
 
+<<<<<<< HEAD
 - `str.trim()` —— 删除字符串前后的空格 ("trims")。
 - `str.repeat(n)` —— 重复字符串 `n` 次。
 - ...更多内容细节参见[手册](mdn:js/String)。
 
 字符串还具有用正则表达式执行搜索/替换的方法。但这个话题值得拥有单独的一章，所以我们稍后再说。
+=======
+- `str.trim()` -- removes ("trims") spaces from the beginning and end of the string.
+- `str.repeat(n)` -- repeats the string `n` times.
+- ...and more to be found in the [manual](mdn:js/String).
+
+Strings also have methods for doing search/replace with regular expressions. But that's big topic, so it's explained in a separate tutorial section <info:regular-expressions>.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7

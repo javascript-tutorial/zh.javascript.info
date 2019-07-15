@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD:1-js/08-prototypes/04-prototype-methods/3-compare-calls/task.md
 # 调用方式的差异
+=======
+# The difference between calls
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7:1-js/08-prototypes/04-prototype-methods/3-compare-calls/task.md
 
 让我们创建一个新的 `rabbit` 对象：
 

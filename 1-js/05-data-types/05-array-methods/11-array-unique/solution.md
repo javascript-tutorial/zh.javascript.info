@@ -2,7 +2,7 @@
 - 对于每个元素，我们将检查结果数组是否已经有该元素。
 - 如果有，则忽略，否则添加结果。
 
-```js run
+```js run demo
 function unique(arr) {
   let result = [];
 

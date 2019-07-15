@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-#  如何找到省略号 "..."？
+#  How to find an ellipsis "..." ?
 
-创建一个正则表达式来查找省略号：连续 3（或更多）个点。
+Create a regexp to find ellipsis: 3 (or more?) dots in a row.
 
-例如：
+Check it:
 
 ```js
-let reg = /你的正则表达式/g;
+let reg = /your regexp/g;
 alert( "Hello!... How goes?.....".match(reg) ); // ..., .....
 ```

@@ -1,12 +1,12 @@
-# 查找正数
+# Find positive numbers
 
-编写一个能够匹配正数的正则，包括没有小数点的数。
+Create a regexp that looks for positive numbers, including those without a decimal point.
 
-使用案例：
+An example of use:
 ```js
 let reg = /your regexp/g;
 
-let str = "1.5 0 12. 123.4.";
+let str = "1.5 0 -5 12. 123.4.";
 
-alert( str.match(reg) );   // 1.5, 0, 12, 123.4
+alert( str.match(reg) ); // 1.5, 12, 123.4 (ignores 0 and -5)
 ```

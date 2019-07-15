@@ -8,7 +8,11 @@ importance: 4
 
 举个例子，今天是 20 号，那么 `getDateAgo(new Date(), 1)` 应该是 19 号，`getDateAgo(new Date(), 2)` 应该是 18 号。
 
+<<<<<<< HEAD
 跨月、年也应该是正确输出：
+=======
+Should work reliably for `days=365` or more:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js
 let date = new Date(2015, 0, 2);

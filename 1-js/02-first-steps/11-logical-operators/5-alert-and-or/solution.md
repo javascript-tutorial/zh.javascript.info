@@ -12,5 +12,9 @@ alert( null || 2 && 3 || 4 );
 null || 3 || 4
 ```
 
+<<<<<<< HEAD
 现在的结果就是第一个真值：`3`。
+=======
+Now the result is the first truthy value: `3`.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 

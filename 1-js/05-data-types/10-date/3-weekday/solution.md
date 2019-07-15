@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ```js run
 function getLocalDay(date) {
 
@@ -12,3 +13,5 @@ function getLocalDay(date) {
 
 alert( getLocalDay(new Date(2012, 0, 3)) ); // 2
 ```
+=======
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
