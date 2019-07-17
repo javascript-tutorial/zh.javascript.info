@@ -2,13 +2,13 @@
 
 Web 存储对象 `localStorage` 和 `sessionStorage` 允许你在浏览器上保存键值对。
 
-有趣的是，数据在页面刷新 (`sessionStorage`) 甚至浏览器完全重启 (`localStorage`) 后仍然保留。我们很快会看到。
+有趣的是，数据在页面刷新（`sessionStorage`）甚至浏览器完全重启（`localStorage`）后仍然保留。我们很快会看到。
 
 我们已经有了 `cookies`。为什么还要额外的 web 存储对象？
 
-- 与 `cookies` 不同，web 存储对象不会随着每次请求发送到服务端。因此，我们可以保存更多数据。大部分浏览器允许保存至少 2M 字节的数据 (或者更多)，并且是可配置的。
+- 与 `cookies` 不同，web 存储对象不会随着每次请求发送到服务端。因此，我们可以保存更多数据。大部分浏览器允许保存至少 2M 字节的数据（或者更多），并且是可配置的。
 - 还有一点和 `cookies` 不同，服务端不能通过 HTTP 头部操作存储对象。一切都在 `JavaScript` 中完成。
-- 存储对象的来源绑定在 `域/协议/端口 三者之一` 下，也就是说，不同协议或者子域保存不同的存储对象，它们不能相互访问数据。
+- 存储对象的来源绑定在 `域/协议/端口 三者之一` 下，也就是说，不同协议或者子域保存不同的存储对象，它们之间不能相互访问数据。
 
 两个存储对象都提供相同的方法和属性：
 
@@ -19,15 +19,15 @@ Web 存储对象 `localStorage` 和 `sessionStorage` 允许你在浏览器上保
 - `key(index)` -- 获取该索引下的键名。
 - `length` -- 存储对象的长度。
 
-正如你所看到的，它就像一个 `Map` 收集器 (`setItem/getItem/removeItem`)。但是也保持着元素顺序，并且允许通过索引访问 `key(index)` 。
+正如你所看到的，它就像一个 `Map` 收集器（`setItem/getItem/removeItem`）。但是也保持着元素顺序，并且允许通过索引访问 `key(index)` 。
 
-让我们看看它是如何工作的。
+让我们看看它是如何工作的吧。
 
 ## localStorage 示例
 
 `localStorage` 最主要的特点是：
 
-- 来自同一来源的数据在所有标签和窗口之间共享。
+- 来自同一来源的数据在所有浏览器标签页和窗口之间共享。
 - 数据不会过期。它在浏览器重启甚至系统重启后仍然保留。
 
 例如，如果你运行此代码…
@@ -44,8 +44,7 @@ alert( localStorage.getItem('test') ); // 1
 
 我们只要求数据存储在同一域/端口/协议上，`url` 路径可以是不同的。
 
- `localStorage` 在相同来源下的所有窗口都是共享的。所以，如果我们在其中一个窗口设置了数据，在另外一个窗口中可以看到数据也发生了变化。
-
+`localStorage` 在相同来源下的所有窗口都是共享的。所以，如果我们在其中一个窗口设置了数据，在另外一个窗口中可以看到数据也发生了变化。
 
 ## 类似对象形式访问
 
@@ -139,7 +138,7 @@ alert( user.name ); // John
 为了调试的话，也可以将整个存储对象转为字符串。
 
 ```js run
-// added formatting options to JSON.stringify to make the object look nicer
+// 为 JSON.stringify 增加格式化参数，这样可以让对象看起来更美观
 alert( JSON.stringify(localStorage, null, 2) );
 ```
 
