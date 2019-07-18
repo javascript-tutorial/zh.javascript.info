@@ -1,4 +1,4 @@
- # LocalStorage, sessionStorage
+# LocalStorage, sessionStorage
 
 Web 存储对象 `localStorage` 和 `sessionStorage` 允许我们在浏览器上保存键值对。
 
@@ -61,7 +61,7 @@ alert( localStorage.test ); // 2
 delete localStorage.test;
 ```
 
-这是历史原因允许的，并且大部分是有效的，但是通常不推荐这种做法，有两个原因：
+这是历史原因允许的，并且大部分是有效的，但是通常不推荐这种做法，原因如下：
 
 1. 如果键是由用户生成的，那么它可以是任何内容，例如 `length` 或 `toString`，或者是其他 `localStorage` 的内置方法。在这种情况下，`getItem/setItem` 可以正常使用，类似对象访问的方式则会失败。
 2. 有一个 `storage` 事件，在我们改变数据时会触发。但是以类似对象形式访问时，该事件不会触发。我们可以在本章节后面看到。
@@ -150,7 +150,7 @@ alert( JSON.stringify(localStorage, null, 2) );
 
 - `sessionStorage` 的数据只存在于当前浏览器标签页。
 	- 具有相同页面的另外一个浏览器标签页中将会有不同的存储。
-	- 但是它在当前标签页下的 `iframes` 之间是共享的(假如它们是同源的)。
+	- 但是它在相同标签页下的 `iframes` 之间是共享的(假如它们是同源的)。
 - 数据在页面刷新后仍然保留，但是在关闭重新打开浏览器标签页后不会被保留。
 
 让我们看看它是怎么运行的。
@@ -205,7 +205,7 @@ localStorage.setItem('now', Date.now());
 
 请注意，该事件还包括 `event.url` -- 数据更新了的文档链接。
 
-此外，`event.storageArea` 还会返回存储对象 -- 因为 `sessionStorage` 和 `localStorage` 具有相同的事件，所以 `storageArea` 会返回数据发生改变的存储对象。为了响应数据更新，我们也许会在里面设置一些东西。
+此外，`event.storageArea` 还会返回存储对象 -- 因为 `sessionStorage` 和 `localStorage` 具有相同的事件，所以 `event.storageArea` 会返回数据发生改变的存储对象。为了响应数据更新，我们也许会在里面设置一些东西。
 
 ** 这允许同源的不同窗口交换消息。 **
 
@@ -239,5 +239,5 @@ API：
 Storage 事件：
 
 - 在调用 `setItem`，`removeItem`，`clear`方法后触发。
-- 返回包含有关操作，文档 `url` 和存储对象的所有数据。
+- 返回包含有关操作（`key/oldValue/newValue`），文档 `url` 和存储对象（`storageArea`）的所有数据。
 - 在除当前数据改变的对象以外所有能访问到存储对象的 `window` 对象上都会被触发（在 `sessionStorage` 有效范围的同一标签页下，在 `localStorage` 的有效范围下）。
