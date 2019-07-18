@@ -173,13 +173,13 @@ alert( sessionStorage.getItem('test') ); // after refresh: 1
 
 ## Storage 事件
 
-当 `localStorage` 或 `sessionStorage` 中的数据更新后，[storage](https://www.w3.org/TR/webstorage/#the-storage-event)事件将会触发，具有以下属性：
+当 `localStorage` 或 `sessionStorage` 中的数据更新后，[storage](https://www.w3.org/TR/webstorage/#the-storage-event) 事件将会触发，具有以下属性：
 
-- `key` — 数据发生改变的 `key`（如果调用的是 `.clear()` 方法，`key` 会返回 `null`）。
-- `oldValue` — 旧值（如果是新增数据，会返回 `null`）。
-- `newValue` — 新值（如果是删除数据，会返回 `null`）。
-- `url` — 数据发生更新时的文档链接。
-- `storageArea` — 数据发生更新的 `localStorage` 或 `sessionStorage` 对象。
+- `key` -- 数据发生改变的 `key`（如果调用的是 `.clear()` 方法，`key` 会返回 `null`）。
+- `oldValue` -- 旧值（如果是新增数据，会返回 `null`）。
+- `newValue` -- 新值（如果是删除数据，会返回 `null`）。
+- `url` -- 数据发生更新时的文档链接。
+- `storageArea` -- 数据发生更新的 `localStorage` 或 `sessionStorage` 对象。
 
 最重要的是：事件将会在所有能访问到当前存储对象的 `window` 下触发，除了当前数据改变的 `window`。
 
