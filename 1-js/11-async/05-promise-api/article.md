@@ -145,7 +145,7 @@ Promise.all([
   new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 2000)),
 */!*
   new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
-]).catch(alert); // 错误：Whoops！
+]).catch(alert); // Error: Whoops!
 ```
 
 这里的第二个 promise 在两秒内被 reject。这立即导致了对 `Promise.all` 的 reject。因此 `.catch` 被执行：reject 的错误成为整个 `Promise.all` 的结果。
@@ -159,7 +159,7 @@ Promise.all([
 ```
 
 ````smart header="`Promise.all(iterable)` 允许“迭代”中的非 promise（non-promise）的 \“常规\” 值"
-通常，`Promise.all(...)` 接受可迭代的 promise（大部分情况下是数组）。但是如果这些对象中的任意一个不是 promise，它将会被直接包装进 `Promise.resolve`。
+通常，`Promise.all(...)` 接受可迭代的 promise 集合（大部分情况下是数组）。但是如果这些对象中的任意一个不是 promise，它将会被直接包装进 `Promise.resolve`。
 
 例如，这里的结果是 `[1, 2, 3]`：
 
@@ -256,7 +256,7 @@ if(!Promise.allSettled) {
 
 ## Promise.race
 
-与 `Promise.all` 类似，它获取可迭代的 promise，但是它只等待第一个完成（或者 error）而不会等待所有都完成，然后继续执行。
+与 `Promise.all` 类似，它接受一个可迭代的 promise 集合，但是它只等待第一个完成（或者 error）而不会等待所有都完成，然后继续执行。
 
 语法：
 
