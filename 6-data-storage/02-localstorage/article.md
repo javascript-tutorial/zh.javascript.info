@@ -30,13 +30,13 @@ Web 存储对象 `localStorage` 和 `sessionStorage` 允许我们在浏览器上
 - 同源的数据在所有浏览器标签页和窗口之间共享。
 - 数据不会过期。它在浏览器重启甚至系统重启后仍然保留。
 
-例如，如果你运行此代码…
+例如，如果你运行此代码……
 
 ```js run
 localStorage.setItem('test', 1);
 ```
 
-然后关闭重新打开浏览器或者只是在不同的窗口打开同一页面，然后你就能看到：
+……然后关闭重新打开浏览器或者只是在不同的窗口打开同一页面，然后你就能看到：
 
 ```js run
 alert( localStorage.getItem('test') ); // 1
@@ -98,7 +98,7 @@ for(let key in localStorage) {
 }
 ```
 
-所以我们需要使用 `hasOwnProperty` 来过滤掉原型中的字段：
+……所以我们需要使用 `hasOwnProperty` 来过滤掉原型中的字段：
 
 ```js run
 for(let key in localStorage) {
@@ -109,7 +109,7 @@ for(let key in localStorage) {
 }
 ```
 
-或者使用 `Object.keys` 获取本身的属性，然后根据需要循环它：
+……或者使用 `Object.keys` 获取本身的属性，然后根据需要循环它：
 
 ```js run
 let keys = Object.keys(localStorage);
@@ -161,19 +161,19 @@ alert( JSON.stringify(localStorage, null, 2) );
 
 让我们看看它是怎么运行的。
 
-运行此代码…
+运行此代码……
 
 ```js run
 sessionStorage.setItem('test', 1);
 ```
 
-然后刷新页面。这时候你还是可以获取到数据：
+……然后刷新页面。这时候你还是可以获取到数据：
 
 ```js run
 alert( sessionStorage.getItem('test') ); // after refresh: 1
 ```
 
-但是如果你在新的标签页中打开此页面，然后在新的页面中运行以上代码，则会返回 `null`，意思是找不到数据。
+……但是如果你在新的标签页中打开此页面，然后在新的页面中运行以上代码，则会返回 `null`，意思是找不到数据。
 
 这是因为 `sessionStorage` 的数据不仅仅绑定在同源下，还绑定在同一浏览器标签页下。因此，请谨慎使用 `sessionStorage`。
 
