@@ -1,8 +1,8 @@
 # Promisification
 
-Promisification——一个长单词，用来描述一个简单的转换。它指将一个接受回调的函数转换为一个返回 promise 的函数。
+Promisification —— 一个长单词，用来描述一个简单的转换。它指将一个接受回调的函数转换为一个返回 promise 的函数。
 
-准确一点说就是，我们创建了一个包裹函数（wrapper-function）来做同样的事情，在内部调用原来的函数，但返回一个 promise。
+准确一点说就是，我们创建了一个包装函数（wrapper-function）来做同样的事情，在内部调用原来的函数，但返回一个 promise。
 
 在实际开发中经常需要这种转换，因为很多函数和库都是基于回调（callback-based）的。但是，使用 promise 更加方便。因此，将它们（函数和库）promisify 是很有意义的。
 
@@ -45,13 +45,13 @@ let loadScriptPromise = function(src) {
 
 由于我们可能需要 promisify 很多函数，使用一个助手（helper）很有意义。
 
-实际上很简单——下面的 `promisify(f)` 接受一个要被 promisify 的函数，并返回一个包裹函数。
+实际上很简单 —— 下面的 `promisify(f)` 接受一个要被 promisify 的函数，并返回一个包装函数。
 
-这个包裹函数做了跟上面代码一样的事情：返回 promise 并且把调用传递给原来的 `f`，在自定义的回调函数中跟踪结果。
+这个包装函数做了跟上面代码一样的事情：返回 promise 并且把调用传递给原来的 `f`，在自定义的回调函数中跟踪结果：
 
 ```js
 function promisify(f) {
-  return function (...args) { // 返回一个包裹函数
+  return function (...args) { // 返回一个包装函数
     return new Promise((resolve, reject) => {
       function callback(err, result) { // 给 f 用的自定义回调
         if (err) {
@@ -77,7 +77,7 @@ loadScriptPromise(...).then(...);
 
 但是如果原来的 `f` 接受一个带更多参数的回调 `callback(err, res1, res2)`，该怎么办？
 
-下面是 `promisify` 的修改版，它返回一个装有多个回调结果的数组。
+下面是 `promisify` 的修改版，它返回一个装有多个回调结果的数组：
 
 ```js
 // 设定为 promisify(f, true) 来获取结果数组

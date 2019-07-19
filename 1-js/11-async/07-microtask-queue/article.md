@@ -32,7 +32,7 @@ alert("code finished"); // 该警告框会首先弹出
 
 或者，简单地说，当一个 promise 准备就绪时，它的 `.then/catch/finally` 处理程序就被放入队列中。但是不会立即被执行。当 JavaScript 引擎执行完当前的代码，它会从队列中获取任务并执行它。
 
-这就是示例中的 “code finished” 会首先出现的原因。
+这就是示例中的“code finished”会首先出现的原因。
 
 ![](promiseQueue.png)
 
@@ -60,7 +60,7 @@ Promise.resolve()
 
 **“未处理的 rejection”是指在 microtask 队列结束时未处理的 promise 错误。**
 
-正常来说，如果我们期望一个错误，我们会添加 `.catch` 到 promise 链上去处理它：
+正常来说，如果我们预期可能会发生错误，我们会添加 `.catch` 到 promise 链上去处理它：
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -68,11 +68,11 @@ let promise = Promise.reject(new Error("Promise Failed!"));
 promise.catch(err => alert('caught'));
 */!*
 
-// 没有错误
+// 不会运行：错误已被处理
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-......但是如果我们忘记添加 `.catch`，那么微任务队列清空后，JavaScript 引擎会触发以下事件：
+……但是如果我们忘记添加 `.catch`，那么微任务队列清空后，JavaScript 引擎会触发以下事件：
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -81,7 +81,7 @@ let promise = Promise.reject(new Error("Promise Failed!"));
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-如果我们迟点在处理这个错误会怎样？比如：
+如果我们迟点再处理这个错误会怎样？比如：
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -97,16 +97,16 @@ window.addEventListener('unhandledrejection', event => alert(event.reason));
 
 如果我们并不了解微任务队列，我们可能想知道：“为什么 `unhandledrejection` 的处理程序会运行？我们已经去捕捉（catch）这个错误了！”
 
-但是现在我们知道 `unhandledrejection` 在 microtask 队列完成时才会被生成：引擎会检查 promise，如果其中的任何一个出现 “rejected” 状态，`unhandledrejection` 事件就会被触发。
+但是现在我们知道 `unhandledrejection` 在 microtask 队列完成时才会被生成：引擎会检查 promise，如果其中的任何一个出现“rejected”状态，`unhandledrejection` 事件就会被触发。
 
 在这个例子中，被添加到 `setTimeout` 的 `.catch` 也会执行，只是会在 `unhandledrejection` 事件出现之后才执行，所以并没有改变什么（没有发挥作用）。
 
 ## 总结
 
-Promise 处理始终是异步的，因为所有 promise 操作都被放入内部的 “promise jobs” 队列执行，也被称为 “微任务队列”（v8 术语）。
+Promise 处理始终是异步的，因为所有 promise 操作都被放入内部的“promise jobs”队列执行，也被称为“微任务队列”（v8 术语）。
 
 **因此，`.then/catch/finally` 处理程序总是在当前代码完成后才被调用。**
 
 如果我们需要确保一段代码在 `.then/catch/finally` 之后被执行，最好将它添加到 `.then` 的链式调用中。
 
-在大部分 JavaScript 引擎中（包括浏览器和 Node.js），微任务的概念与“事件循环”和“宏任务”紧密联系。由于这些概览跟 promises 没有直接关系，它们被涵盖在本教程另外的章节 <info:event-loop> 中。
+在大部分 JavaScript 引擎中（包括浏览器和 Node.js），微任务的概念与“事件循环”和“宏任务”紧密联系。由于这些概念跟 promises 没有直接关系，它们被涵盖在本教程另外的章节 <info:event-loop> 中。
