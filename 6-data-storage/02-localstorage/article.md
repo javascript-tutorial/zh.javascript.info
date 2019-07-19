@@ -63,7 +63,13 @@ delete localStorage.test;
 
 这是历史原因允许的，并且大部分是有效的，但是通常不推荐这种做法，原因如下：
 
-1. 如果键是由用户生成的，那么它可以是任何内容，例如 `length` 或 `toString`，或者是其他 `localStorage` 的内置方法。在这种情况下，`getItem/setItem` 可以正常使用，类似对象访问的方式则会失败。
+1. 如果键是由用户生成的，那么它可以是任何内容，例如 `length` 或 `toString`，或者是其他 `localStorage` 的内置方法。在这种情况下，`getItem/setItem` 可以正常使用，类似对象访问的方式则会失败：
+
+```js run
+let key = 'length';
+localStorage[key] = 5; // 错误，不能指定长度
+```
+
 2. 有一个 `storage` 事件，在我们改变数据时会触发。但是以类似对象形式访问时，该事件不会触发。我们可以在本章节后面看到。
 
 ## 循环键
