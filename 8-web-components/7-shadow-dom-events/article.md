@@ -1,6 +1,6 @@
-# Shadow DOM 和 事件（events）
+# Shadow DOM 和事件（events）
 
-Shadow tree 背后的思想是组件封装的内部实现细节。
+Shadow tree 背后的思想是封装组件的内部实现细节。
 
 假设，在 `<user-card>` 组件的 shadow DOM 内触发一个点击事件。但是主文档内部的脚本并不了解 shadow DOM 内部，尤其是当组件来自于第三方库。
 
@@ -67,7 +67,7 @@ userCard.onclick = e => alert(`Outer target: ${e.target.tagName}`);
 
 如果单击事件发生在 `"John Smith"` 上，则对于内部和外部处理程序来说，其目标是 `<span slot="username">`。这是 light DOM 中的元素，所以没有重定向。
 
-另一方面，如果单机事件发生在源自 shadow DOM 的元素上，例如，在 `<b>Name</b>` 上，然后当它冒泡出 shadow DOM 后，其 `event.target` 将重置为 `<user-card>`。
+另一方面，如果单击事件发生在源自 shadow DOM 的元素上，例如，在 `<b>Name</b>` 上，然后当它冒泡出 shadow DOM 后，其 `event.target` 将重置为 `<user-card>`。
 
 ## 冒泡（bubbling）, event.composedPath()
 
