@@ -1,13 +1,15 @@
 
 # Fetch：下载过程
 
-`fetch` 方法允许去追踪其下载过程。
+The `fetch` method allows to track *download* progress.
 
-请注意：到目前为止，对于 `fetch` 方法的上传过程，还没有方法去追踪它。基于这个目的，请使用 [XMLHttpRequest](info:xmlhttprequest)。
+Please note: there's currently no way for `fetch` to track *upload* progress. For that purpose, please use [XMLHttpRequest](info:xmlhttprequest), we'll cover it later.
 
-我们可以使用 `response.body` 属性来追踪下载过程。它是一个“可读流（readable stream）”——提供一个个响应体块（chunk）的特殊对象，当他们在下载的时候，我们可以知道当前有多少块是可用的。
+To track download progress, we can use `response.body` property. It's a "readable stream" -- a special object that provides body chunk-by-chunk, as it comes.
 
-下面是使用它来读取 response 的代码草图：
+Unlike `response.text()`, `response.json()` and other methods, `response.body` gives full control over the reading process, and we can count how much is consumed at any moment.
+
+Here's the sketch of code that reads the reponse from `response.body`:
 
 ```js
 // 代替 response.json() 以及其他方法
@@ -27,15 +29,15 @@ while(true) {
 }
 ```
 
-所以，当 `await reader.read()` 返回 response 块时，我们始终循环它。
-
-块（chunk）有两个属性：
+The result of `await reader.read()` call is an object with two properties:
 - **`done`** —— 当块全部下载完毕时，其值为 true。
 - **`value`** —— 一个存放字节码的类型数组：`Uint8Array`。
 
-我们只需要统计块的数量来记录它的进度。
+We wait for more chunks in the loop, until `done` is `true`.
 
-以下是获取响应和记录进度的完整代码，更多解释如下：
+To log the progress, we just need for every `value` add its length to the counter.
+
+Here's the full code to get response and log the progress, more explanations follow:
 
 ```js run async
 // Step 1：启动 fetch 并赋值给 reader
@@ -96,9 +98,11 @@ alert(commits[0].author.login);
 
     要创建字符串，我们需要解析这些字节。可以使用内置的 [TextDecoder](info:text-decoder) 对象来操作。然后我们就可以对其使用 `JSON.parse`。
 
-如果我们需要二进制内容而不是 JSON 那该怎么办？这个问题甚至比上面还简单。我们可以创建一个包含所有 chunks 的 blob，而不是使用步骤 4 和步骤 5： 
-```js
-let blob = new Blob(chunks);
-```
+    What if we need binary content instead of JSON? That's even simpler. Replace steps 4 and 5 with a single call to a blob from all chunks:
+    ```js
+    let blob = new Blob(chunks);
+    ```
 
-再一次提醒，这个进度仅仅是对于下载来说的，而对于上传目前仍然没有办法追踪。
+At we end we have the result (as a string or a blob, whatever is convenient), and progress-tracking in the process.
+
+Once again, please note, that's not for *upload* progress (no way now with `fetch`), only for *download* progress.
