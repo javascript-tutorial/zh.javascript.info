@@ -1,6 +1,6 @@
-回顾上个问题，`pattern:\d+(\.\d+)?` 可以匹配一个具有可选择小数部分的正数。
+A positive number with an optional decimal part is (per previous task): `pattern:\d+(\.\d+)?`.
 
-那么我们只需要在最前面加上一个可选的负号 `-` 即可：
+Let's add an optional `-` in the beginning:
 
 ```js run
 let reg = /-?\d+(\.\d+)?/g;

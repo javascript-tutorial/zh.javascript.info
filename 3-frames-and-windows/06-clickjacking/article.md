@@ -1,80 +1,79 @@
-# 点击劫持攻击
+# The clickjacking attack
 
-“点击劫持” 攻击即允许恶意网页**以用户的名义**点击 “受害站点”。
+The "clickjacking" attack allows an evil page to click on a "victim site" *on behalf of the visitor*.
 
-许多站点都被这样攻击过，包括 Twitter、Facebook 和 Paypal 等等许多网站。当然，目前它们都已修复这个问题。
+Many sites were hacked this way, including Twitter, Facebook, Paypal and other sites. They have all been fixed, of course.
 
-## 原理
+## The idea
 
-原理十分简单。
+The idea is very simple.
 
-以下以 Facebook 为例解释点击劫持是如何运作的：
+Here's how clickjacking was done with Facebook:
 
-1. 访问者被恶意网页吸引。此处略过如何被吸引的。
-2. 页面上存在一个看起来无害的链接（比如：“马上有钱” 或者 “点我，超好玩！”）。
-3. 恶意网页在该链接之上放置一个透明 `<iframe>` 标签，其中 `src` 指向 facebook.com，如此一来，“点赞” 按钮恰好在链接上面。通常用 `z-index` 实现。
-4. 如果用户试图点击该链接，实际上是点到了 “点赞” 按钮上。
+1. A visitor is lured to the evil page. It doesn't matter how.
+2. The page has a harmless-looking link on it (like "get rich now" or "click here, very funny").
+3. Over that link the evil page positions a transparent `<iframe>` with `src` from facebook.com, in such a way that the "Like" button is right above that link. Usually that's done with `z-index`.
+4. In attempting to click the link, the visitor in fact clicks the button.
 
-## 示例
+## The demo
 
-以下是恶意网页的一般代码。为了更好的说明问题，`<iframe>` 标签设置成半透明状态（真正的恶意网页为全透明状态）：
+Here's how the evil page looks. To make things clear, the `<iframe>` is half-transparent (in real evil pages it's fully transparent):
 
 ```html run height=120 no-beautify
 <style>
-iframe { /* 来自受害网站的 iframe */
+iframe { /* iframe from the victim site */
   width: 400px;
   height: 100px;
   position: absolute;
   top:0; left:-20px;
 *!*
-  opacity: 0.5; /* 真实为 opacity:0 */
+  opacity: 0.5; /* in real opacity:0 */
 */!*
   z-index: 1;
 }
 </style>
 
-<div>马上有钱：</div>
+<div>Click to get rich now:</div>
 
-<!-- 来自受害网站的 url -->
+<!-- The url from the victim site -->
 *!*
 <iframe src="/clickjacking/facebook.html"></iframe>
 
-<button>点我！点我！</button>
+<button>Click here!</button>
 */!*
 
-<div>...你会变帅（我才是帅黑客😜）！</div>
+<div>...And you're cool (I'm a cool hacker actually)!</div>
 ```
 
-完整的攻击示例如下：
+The full demo of the attack:
 
 [codetabs src="clickjacking-visible" height=160]
 
-例子中的半透明 `<iframe src="facebook.html">` 覆盖在按钮之上。点击按钮实际上点击在 iframe 标签上，但由于 iframe 标签透明，这一动作对用户不可见。
+Here we have a half-transparent `<iframe src="facebook.html">`, and in the example we can see it hovering over the button. A click on the button actually clicks on the iframe, but that's not visible to the user, because the iframe is transparent.
 
+As a result, if the visitor is authorized on Facebook ("remember me" is usually turned on), then it adds a "Like". On Twitter that would be a "Follow" button.
 
-因此，若访问者曾登陆 Facebook（“记住我” 开关打开），这个动作会使用户在 Facebook 上进行 “Like” 操作。Twitter 上是 “Follow” 操作。
-
-下面的例子相同，但 `iframe` 设置为 `opacity:0` 更符合实际情况：
+Here's the same example, but closer to reality, with `opacity:0` for `<iframe>`:
 
 [codetabs src="clickjacking" height=160]
 
-只需要在恶意网页中的链接正上方放置 `<iframe>`，点击按钮就能发起攻击。通常用 CSS 就能实现。
+All we need to attack -- is to position the `<iframe>` on the evil page in such a way that the button is right over the link. So that when a user clicks the link, they actually click the button. That's usually doable with CSS.
 
-```smart header="点击劫持作用于点击事件，而非键盘事件"
-此攻击仅影响鼠标操作。
+```smart header="Clickjacking is for clicks, not for keyboard"
+The attack only affects mouse actions (or similar, like taps on mobile).
 
-从技术上讲，可以用 iframe 中的文本域覆盖原有的文本域实现攻击。所以当访问者试图聚焦网页中的 input 标签时，实际上聚焦的是 iframe 中的 input 标签。
+Keyboard input is much difficult to redirect. Technically, if we have a text field to hack, then we can position an iframe in such a way that text fields overlap each other. So when a visitor tries to focus on the input they see on the page, they actually focus on the input inside the iframe.
 
-但是这里有个问题。访问者的所有输入都会被隐藏，因为该 iframe 是不可见的。
+But then there's a problem. Everything that the visitor types will be hidden, because the iframe is not visible.
 
-当用户无法在屏幕上看到自己输入的字符时，通常会停止打字。
+People will usually stop typing when they can't see their new characters printing on the screen.
 ```
 
-## 传统防御（弱 👎）
+## Old-school defences (weak)
 
-最古老的防御是一段禁止在非顶层页面中打开网页的 JavaScript 代码（所谓的 “framebusting”）。
+The oldest defence is a bit of JavaScript which forbids opening the page in a frame (so-called "framebusting").
 
-如下所示：
+That looks like this:
 
 ```js
 if (top != window) {
@@ -82,83 +81,84 @@ if (top != window) {
 }
 ```
 
-意思是：window 强制置顶，如果没在顶层，自动置顶。
+That is: if the window finds out that it's not on top, then it automatically makes itself the top.
 
-这个方法并不可靠，因为有许多方式可以绕过这个限制。下面就介绍几个。
+This not a reliable defence, because there are many ways to hack around it. Let's cover a few.
 
-### 阻塞顶层容器
+### Blocking top-navigation
 
-在 [beforeunload](info:onload-ondomcontentloaded#window.onbeforeunload) 事件中阻塞 `top.location` 变更过渡。
+We can block the transition caused by changing `top.location` in  [beforeunload](info:onload-ondomcontentloaded#window.onbeforeunload) event handler.
 
-顶层页面（从属于黑客）在 `beforeunload` 上添加一个处理方法：当 `iframe` 试图变更 `top.location` 时，访问者会收到询问是否离开的消息。
+The top page (enclosing one, belonging to the hacker) sets a preventing handler to it, like this:
 
-如下所示：
 ```js
 window.onbeforeunload = function() {
-  window.onbeforeunload = null;
-  return "Want to leave without learning all the secrets (he-he)?";
+  return false;
 };
 ```
 
-大多数情况下，由于并不知道 iframe 的存在，访问者看到的只是顶层页面，即本来就要访问的页面，由此认为没有必要离开，所以会回答否。则 `top.location` 并不会变化！
+When the `iframe` tries to change `top.location`, the visitor gets a message asking them whether they want to leave.
 
-作用如下：
+In most cases the visitor would answer negatively because they don't know about the iframe - all they can see is the top page, there's no reason to leave. So `top.location` won't change!
+
+In action:
 
 [codetabs src="top-location"]
 
-### 沙箱属性
+### Sandbox attribute
 
-一个受 `sandbox` 属性限制的对象是导航。沙箱化的 iframe 不能变更 `top.location`。
+One of the things restricted by the `sandbox` attribute is navigation. A sandboxed iframe may not change `top.location`.
 
-但可以添加带有 `sandbox="allow-scripts allow-forms"` 的 iframe 标签。从而放开限制，允许脚本和表单在 iframe 中执行。但 `allow-top-navigation` 禁止了 `top.location` 的变更。
+So we can add the iframe with `sandbox="allow-scripts allow-forms"`. That would relax the restrictions, permitting scripts and forms. But we omit `allow-top-navigation` so that changing `top.location` is forbidden.
 
-代码如下：
+Here's the code:
 
 ```html
 <iframe *!*sandbox="allow-scripts allow-forms"*/!* src="facebook.html"></iframe>
 ```
 
-当然还有其他绕过这个弱鸡防御的方法。
+There are other ways to work around that simple protection too.
 
 ## X-Frame-Options
 
-服务端 header 字段 `X-Frame-Options` 能够允许或禁止 frame 内页面的显示。
+The server-side header `X-Frame-Options` can permit or forbid displaying the page inside a frame.
 
-这个 header 必须由 **服务端** 发送：若浏览器发现 `<meta>` 标签里有该字段，则会忽略此字段。即，`<meta http-equiv="X-Frame-Options"...>` 不生效。
+It must be sent exactly as HTTP-header: the browser will ignore it if found in HTML `<meta>` tag. So, `<meta http-equiv="X-Frame-Options"...>` won't do anything.
 
-该 header 有三个值：
+The header may have 3 values:
 
 
 `DENY`
-: 始终禁止 frame 中的页面加载。
+: Never ever show the page inside a frame.
 
 `SAMEORIGIN`
-: 允许和父页面同一来源的 frame 进行页面加载。
+: Allow inside a frame if the parent document comes from the same origin.
 
 `ALLOW-FROM domain`
-: 允许和父页面同一给定域的 frame 进行页面加载。
+: Allow inside a frame if the parent document is from the given domain.
 
-例如，Twitter 使用的是 `X-Frame-Options: SAMEORIGIN`。
+For instance, Twitter uses `X-Frame-Options: SAMEORIGIN`.
 
 ````online
-如下所示：
+Here's the result:
 
 ```html
 <iframe src="https://twitter.com"></iframe>
 ```
 
+<!-- ebook: prerender/ chrome headless dies and timeouts on this iframe -->
 <iframe src="https://twitter.com"></iframe>
 
-取决于浏览器行为，以上 `iframe` 要么显示为空，要么提醒你浏览器不允许内部页面加载。
+Depending on your browser, the `iframe` above is either empty or alerting you that the browser won't permit that page to be navigating in this way.
 ````
 
-## 显示不可用功能
+## Showing with disabled functionality
 
-`X-Frame-Options` 存在副作用。它无差别地禁止合法站点在 frame 中显示我们的网页。
+The `X-Frame-Options` header has a side-effect. Other sites won't be able to show our page in a frame, even if they have good reasons to do so.
 
-所以还有其他措施...例如，把设置了 `height: 100%; width: 100%;` 的 `<div>` “覆盖” 在页面上，这样就能监听所有的点击事件。在 `window == top` 或无需防御的情况下，此 `<div>` 则应该隐藏起来。
+So there are other solutions... For instance, we can "cover" the page with a `<div>` with styles `height: 100%; width: 100%;`, so that it will intercept all clicks. That `<div>` is to be removed if `window == top` or if we figure out that we don't need the protection.
 
-代码示例如下：
+Something like this:
 
 ```html
 <style>
@@ -177,27 +177,45 @@ window.onbeforeunload = function() {
 </div>
 
 <script>
-  // 如果顶层 window 来自不同的域，会报错
-  // 但是此处并没有报错
+  // there will be an error if top window is from the different origin
+  // but that's ok here
   if (top.document.domain == document.domain) {
     protector.remove();
   }
 </script>
 ```
 
-演示如下：
+The demo:
 
 [codetabs src="protector"]
 
-## 总结
+## Samesite cookie attribute
 
-点击劫持是一种 “欺骗” 用户在不知情下点击恶意站点的方式。如果是重要的点击操作，这是非常危险的。
+The `samesite` cookie attribute can also prevent clickjacking attacks.
 
-黑客可以通过信息提交一个链接到他的恶意网页，或者通过某些手段引诱访问者访问他的网页。当然还有许多其他变体。
+A cookie with such attribute is only sent to a website if it's opened directly, not via a frame, or otherwise. More information in the chapter <info:cookie#samesite>.
 
-一方面 —— 这种攻击方式是“浅层”的：黑客只需要拦截一次点击。但另一方面，如果被这次点击之后会开启另一个控制开关，那么黑客同样用狡猾的提示强制用户点击这些控制按钮。
+If the site, such as Facebook, had `samesite` attribute on its authentication cookie, like this:
 
-这种攻击相当危险，因为在设计交互界面时，通常不会考虑到可能会有黑客代替真正的访问者点击界面。所以许多意想不到的地方可能发现攻击漏洞。
+```
+Set-Cookie: authorization=secret; samesite
+```
 
-- 推荐在网页上（或整个站点）使用 `X-Frame-Options: SAMEORIGIN`，这不会被 frame 内部读取。
-- 若要允许的页面在 frame 中显示，用一个 `<div>` 遮盖，这样仍然是安全的。
+...Then such cookie wouldn't be sent when Facebook is open in iframe from another site. So the attack would fail.
+
+The `samesite` cookie attribute will not have an effect when cookies are not used. This may allow other websites to easily show our public, unauthenticated pages in iframes.
+
+However, this may also allow clickjacking attacks to work in a few limited cases. An anonymous polling website that prevents duplicate voting by checking IP addresses, for example, would still be vulnerable to clickjacking because it does not authenticate users using cookies.
+
+## Summary
+
+Clickjacking is a way to "trick" users into clicking on a victim site without even knowing what's happening. That's dangerous if there are important click-activated actions.
+
+A hacker can post a link to their evil page in a message, or lure visitors to their page by some other means. There are many variations.
+
+From one perspective -- the attack is "not deep": all a hacker is doing is intercepting a single click. But from another perspective, if the hacker knows that after the click another control will appear, then they may use cunning messages to coerce the user into clicking on them as well.
+
+The attack is quite dangerous, because when we engineer the UI we usually don't anticipate that a hacker may click on behalf of the visitor. So vulnerabilities can be found in totally unexpected places.
+
+- It is recommended to use `X-Frame-Options: SAMEORIGIN` on pages (or whole websites) which are not intended to be viewed inside frames.
+- Use a covering `<div>` if we want to allow our pages to be shown in iframes, but still stay safe.

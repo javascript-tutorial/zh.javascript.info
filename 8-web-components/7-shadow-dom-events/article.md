@@ -2,9 +2,15 @@
 
 The idea behind shadow tree is to encapsulate internal implementation details of a component.
 
+<<<<<<< HEAD
 Let's say, a click event happens inside a shadow DOM of `<user-card>` component. But scripts in the main document have no idea about the shadow DOM internals, especially if the component comes from a 3rd-party library or so.  
 
 So, to keep things simple, the browser *retargets* the event.
+=======
+Let's say, a click event happens inside a shadow DOM of `<user-card>` component. But scripts in the main document have no idea about the shadow DOM internals, especially if the component comes from a 3rd-party library.  
+
+So, to keep the details encapsulated, the browser *retargets* the event.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 **Events that happen in shadow DOM have the host element as the target, when caught outside of the component.**
 
@@ -35,11 +41,19 @@ If you click on the button, the messages are:
 1. Inner target: `BUTTON` -- internal event handler gets the correct target, the element inside shadow DOM.
 2. Outer target: `USER-CARD` -- document event handler gets shadow host as the target.
 
+<<<<<<< HEAD
 Event retargeting is a great thing to have, because the outer document doesn't have no know  about component internals. From its point of view, the event happened on `<user-card>`.
 
 **Retargeting does not occur if the event occurs on a slotted element, that physically lives in the light DOM.**
 
 For example, if a user clicks on `<span slot="username">` in the example below, the event target is exactly this element, for both shadow and light handlers:
+=======
+Event retargeting is a great thing to have, because the outer document doesn't have to know  about component internals. From its point of view, the event happened on `<user-card>`.
+
+**Retargeting does not occur if the event occurs on a slotted element, that physically lives in the light DOM.**
+
+For example, if a user clicks on `<span slot="username">` in the example below, the event target is exactly this `span` element, for both shadow and light handlers:
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ```html run autorun="no-epub" untrusted height=60
 <user-card id="userCard">
@@ -75,7 +89,11 @@ For purposes of event bubbling, flattened DOM is used.
 
 So, if we have a slotted element, and an event occurs somewhere inside it, then it bubbles up to the `<slot>` and upwards.
 
+<<<<<<< HEAD
 The full path to the original event target, with all the shadow root elements, can be obtained using `event.composedPath()`. As we can see from the name of the method, that path is taken after the composition.
+=======
+The full path to the original event target, with all the shadow elements, can be obtained using `event.composedPath()`. As we can see from the name of the method, that path is taken after the composition.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 In the example above, the flattened DOM is:
 
@@ -119,7 +137,11 @@ All touch events and pointer events also have `composed: true`.
 
 There are some events that have `composed: false` though:
 
+<<<<<<< HEAD
 - `mouseenter`, `mouseleave` (they also do not bubble),
+=======
+- `mouseenter`, `mouseleave` (they do not bubble at all),
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 - `load`, `unload`, `abort`, `error`,
 - `select`,
 - `slotchange`.
@@ -189,4 +211,8 @@ These events can be caught only on elements within the same DOM.
 
 If we dispatch a `CustomEvent`, then we should explicitly set `composed: true`.
 
+<<<<<<< HEAD
 Please note that in case of nested components, composed events bubble through all shadow DOM boundaries. So, if an event is intended only for the immediate enclosing component, we can also dispatch it on the shadow host. Then it's out of the shadow DOM already.
+=======
+Please note that in case of nested components, one shadow DOM may be nested into another. In that case composed events bubble through all shadow DOM boundaries. So, if an event is intended only for the immediate enclosing component, we can also dispatch it on the shadow host and set `composed: false`. Then it's out of the component shadow DOM, but won't bubble up to higher-level DOM.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3

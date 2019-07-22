@@ -4,7 +4,11 @@ importance: 5
 
 # 检查 spam
 
+<<<<<<< HEAD
 写一个函数 `checkSpam(str)`，如果 `str` 包含 `viagra` 或 `XXX` 就返回 `true`，否则返回 `false`。
+=======
+Write a function `checkSpam(str)` that returns `true` if `str` contains 'viagra' or 'XXX', otherwise `false`.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 函数必须不区分大小写：
 

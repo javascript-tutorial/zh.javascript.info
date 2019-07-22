@@ -1,14 +1,14 @@
-首先，让我们看看为什么之前的代码无法运行。
+First, let's see why the latter code doesn't work.
 
-如果我们尝试运行它，就会发现明显的原因。派生类的构造函数必须调用 `super()`。否则不会定义 `"this"`。
+The reason becomes obvious if we try to run it. An inheriting class constructor must call `super()`. Otherwise `"this"` won't be "defined".
 
-这里就是解决问题的代码：
+So here's the fix:
 
 ```js run
 class Rabbit extends Object {
   constructor(name) {
 *!*
-    super(); // 需要在继承时调用父类的构造函数
+    super(); // need to call the parent constructor when inheriting
 */!*
     this.name = name;
   }
@@ -19,17 +19,16 @@ let rabbit = new Rabbit("Rab");
 alert( rabbit.hasOwnProperty('name') ); // true
 ```
 
+But that's not all yet.
 
-但这还不是全部原因。
+Even after the fix, there's still important difference in `"class Rabbit extends Object"` versus `class Rabbit`.
 
-即便是修复了问题，`"class Rabbit extends Object"` 和 `class Rabbit` 仍然存在着重要差异。
+As we know, the "extends" syntax sets up two prototypes:
 
-我们知道，"extends" 语法会设置两个原型：
+1. Between `"prototype"` of the constructor functions (for methods).
+2. Between the constructor functions itself (for static methods).
 
-1. 在构造函数的 `"prototype"` 之间设置原型（为了获取实例方法）
-2. 在构造函数之间会设置原型（为了获取静态方法）
-
-在我们的例子里，对于 `class Rabbit extends Object`，它意味着：
+In our case, for `class Rabbit extends Object` it means:
 
 ```js run
 class Rabbit extends Object {}
@@ -38,48 +37,45 @@ alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
 alert( Rabbit.__proto__ === Object ); // (2) true
 ```
 
-所以现在 `Rabbit` 对象可以通过 `Rabbit` 访问 `Object` 的静态方法，如下所示：
+So `Rabbit` now provides access to static methods of `Object` via `Rabbit`, like this:
 
 ```js run
 class Rabbit extends Object {}
 
 *!*
-// 通常我们调用 Object.getOwnPropertyNames
+// normally we call Object.getOwnPropertyNames
 alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // a,b
 */!*
 ```
 
-但是如果我们没有声明 `extends Object`，那么 `Rabbit.__proto__` 将不会被设置为 `Object`。
+But if we don't have `extends Object`, then `Rabbit.__proto__` is not set to `Object`.
 
-这里有个示例：
+Here's the demo:
 
 ```js run
 class Rabbit {}
 
 alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
 alert( Rabbit.__proto__ === Object ); // (2) false (!)
-alert( Rabbit.__proto__ === Function.prototype ); // 所有函数都是默认如此
+alert( Rabbit.__proto__ === Function.prototype ); // as any function by default
 
 *!*
-// 报错，Rabbit 上没有对应的函数
+// error, no such function in Rabbit
 alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // Error
 */!*
 ```
 
-所以在这种情况下，`Rabbit` 无法访问 `Object` 的静态方法。
+So `Rabbit` doesn't provide access to static methods of `Object` in that case.
 
-顺便说一下，`Function.prototype` 也有一些函数的通用方法，比如 `call`、`bind` 等等。在上述的两种情况下他们都是可用的，因为对于内置的 `Object` 构造函数来说，`Object.__proto__ === Function.prototype`。
+By the way, `Function.prototype` has "generic" function methods, like `call`, `bind` etc. They are ultimately available in both cases, because for the built-in `Object` constructor, `Object.__proto__ === Function.prototype`.
 
-这里有一张图来解释：
+Here's the picture:
 
 ![](rabbit-extends-object.png)
 
-
-所以，简而言之，这里有两点区别：
+So, to put it short, there are two differences:
 
 | class Rabbit | class Rabbit extends Object  |
 |--------------|------------------------------|
 | --             | needs to call `super()` in constructor |
 | `Rabbit.__proto__ === Function.prototype` | `Rabbit.__proto__ === Object` |
-
-

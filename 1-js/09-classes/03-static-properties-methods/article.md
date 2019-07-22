@@ -17,10 +17,17 @@ class User {
 User.staticMethod(); // true
 ```
 
+<<<<<<< HEAD
 That actually does the same as assigning it as a function property:
 
 ```js
 function User() { }
+=======
+That actually does the same as assigning it as a property:
+
+```js
+class User() { }
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 User.staticMethod = function() {
   alert(this === User);
