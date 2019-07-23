@@ -1,7 +1,7 @@
 
 # Fetch：下载过程
 
-fetch 方法允许去追踪 *download* 过程。
+`fetch` 方法允许去追踪 *download* 过程。
 
 请注意：到目前为止，对于 `fetch` 方法的 *upload* 过程，还没有方法去追踪它。基于这个目的，请使用 [XMLHttpRequest](info:xmlhttprequest)，我们将会在后面讲到它。
 
