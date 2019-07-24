@@ -130,6 +130,7 @@ Shadow DOM 被非常明显地和主文档分开：
   alert(elem.shadowRoot.querySelectorAll('p').length); // 1
 </script>  
 ```
+
 1. 文档里面的样式对 shadow tree 没有任何效果。
 2. ……但是内部的样式是有效的。
 3. 为了获取 shadow tree 内部的元素，我们可以从树的内部查询。
@@ -139,6 +140,7 @@ Shadow DOM 被非常明显地和主文档分开：
 - DOM：<https://dom.spec.whatwg.org/#shadow-trees>
 - 兼容性：<https://caniuse.com/#feat=shadowdomv1>
 - Shadow DOM 在很多其他标准中被提到，比如：[DOM Parsing](https://w3c.github.io/DOM-Parsing/#the-innerhtml-mixin) 指定了shadow root 有 `innerHTML`。
+
 
 ## 总结
 
