@@ -62,7 +62,7 @@ JavaScript 引擎的代码结果可能会有所不同，但我们已经可以看
 
 为什么它不起作用？一般来说，`sort` 是一个“黑匣子”：我们向其中抛出一个数组和一个比较函数，并期望数组被排序。由于比较的完全随机性，黑盒子变得复杂，它究竟发生了什么取决于引擎之间的具体实现。
 
-还有其他很好的方法来完成这项任务。例如，有一个很好的算法叫做 [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle). The idea is to walk the array in the reverse order and swap each element with a random one before it:
+还有其他很好的方法来完成这项任务。例如，有一个很好的算法叫做 [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)。其思路是：逆向遍历数组，并将每个子项与前面随机的一个子项互相交换：
 
 ```js
 function shuffle(array) {

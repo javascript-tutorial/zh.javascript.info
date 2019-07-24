@@ -1,5 +1,7 @@
 # 现代 JavaScript 教程中文版
 
+[![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
 <!--
