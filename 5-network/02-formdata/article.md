@@ -10,7 +10,7 @@ let formData = new FormData([form]);
 
 如果提供了 HTML `form` 元素，它会自动获取 `form` 元素字段。你可能已经猜到了，`FormData` 是用于保存和发送表单数据的对象。
 
-`FormData` 特殊之处在于它的网络方法（network methods），比如 `fetch` 接受一个 `FormData` 对象作为 body。它会编码并以 `Content-Type: form/multipart` 请求头的形式发送出去。因此，从服务器角度来看，它就像是一个普通的表单提交。
+`FormData` 特殊之处在于它的网络方法（network methods），比如 `fetch` 接受一个 `FormData` 对象作为 body。它会被编码并并且发送出去，该请求带有 `Content-Type: form/multipart`。因此，从服务器角度来看，它就像是一个普通的表单提交。
 
 ## 发送一个简单 form
 
@@ -55,7 +55,7 @@ let formData = new FormData([form]);
 - `formData.get(name)` - 获取给定 `name` 的字段值，
 - `formData.has(name)` - 如果存在给定 `name` 的字段，则返回 `true`，否则返回 `false`
 
-从技术上来讲，form 允许有多个相同的名为 `name` 的字段，因此，多次调用 `append` 将会添加多个相同名称的字段。
+从技术上来讲，form 允许有多个相同 `name` 的字段，因此，多次调用 `append` 将会添加多个相同名称的字段。
 
 同样也有一个与 `append` 语法类似的 `set` 方法。不同之处在于 `.set` 移除所有给定 `name` 的字段，然后附加一个新字段。因此它确保了具有 `name` 名称的字段的唯一性。
 
@@ -109,9 +109,9 @@ Form 默认以 `Content-Type: form/multipart` 来发送数据，这个编码允�
 
 ## 发送 Blob 数据的表单
 
-正如我们在 <info:fetch> 章节所见，发送一个动态生成的 `Blob`，比如图像是很简单的。我们可以将它作为 `fetch` 参数的 `body`。
+正如我们在 <info:fetch> 章节所见，发送一个动态生成的 `Blob`，比如图像，是很简单的。我们可以将它作为 `fetch` 参数的 `body`。
 
-但在实践中，通常发送图像并不方便，而是作为 form 的一部分发送图像，以及其他字段，例如“name”和其他元数据。
+但在实践中，通常发送图像更加简便的方法不是单独发送，而是作为 form 的一部分发送图像，以及其他字段，例如“name”和其他元数据。
 
 另外，服务器通常更适合接受 multipart-encoded form，而不是原始二进制数据。
 
@@ -172,7 +172,7 @@ formData.append("image", imageBlob, "image.png");
 
 两个特点：
 1. `set` 方法移除移除具有相同名称的字段而 `append` 不会。
-2. 发送文件需要三个参数，最后一个参数是文件名，一般来自 `<input type="file">` 的用户文件系统。
+2. 发送文件需要三个参数，最后一个参数是文件名，一般是通过 `<input type="file">` 元素从用户文件系统中获取的。
 
 其他方法是：
 
