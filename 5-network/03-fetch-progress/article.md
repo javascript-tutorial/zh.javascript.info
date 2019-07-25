@@ -1,13 +1,15 @@
 
 # Fetch：下载过程
 
-`fetch` 方法允许去追踪其下载过程。
+`fetch` 方法允许去追踪 *download* 过程。
 
-请注意：到目前为止，对于 `fetch` 方法的上传过程，还没有方法去追踪它。基于这个目的，请使用 [XMLHttpRequest](info:xmlhttprequest)。
+请注意：到目前为止，对于 `fetch` 方法的 *upload* 过程，还没有方法去追踪它。基于这个目的，请使用 [XMLHttpRequest](info:xmlhttprequest)，我们将会在后面讲到它。
 
-我们可以使用 `response.body` 属性来追踪下载过程。它是一个“可读流（readable stream）”——提供一个个响应体块（chunk）的特殊对象，当他们在下载的时候，我们可以知道当前有多少块是可用的。
+要追踪下载过程，可以使用 `response.body` 属性。它是一个“可读流（readable stream）”——当他们下载的时候提供一个个响应体块（chunk）的特殊对象。
 
-下面是使用它来读取 response 的代码草图：
+与 `response.text()`，`response.json()` 和其他方法不同，`response.body` 完全控制了读取过程，我们可以随时计算下载了多少。
+
+下面是从 `response.body` 读取 response 的代码草图：
 
 ```js
 // 代替 response.json() 以及其他方法
@@ -27,15 +29,15 @@ while(true) {
 }
 ```
 
-所以，当 `await reader.read()` 返回 response 块时，我们始终循环它。
-
-块（chunk）有两个属性：
+`await reader.read()` 的结果是一个具有两个属性的对象：
 - **`done`** —— 当块全部下载完毕时，其值为 true。
 - **`value`** —— 一个存放字节码的类型数组：`Uint8Array`。
 
-我们只需要统计块的数量来记录它的进度。
+我们在循环中等待更多的块（chunk），直到 `done` 是 `true`。
 
-以下是获取响应和记录进度的完整代码，更多解释如下：
+要打印 progress 的话，我们只需向 counter 添加每个 `value` 的长度。
+
+这是完整的获取响应并打印进度的代码，更多解释如下：
 
 ```js run async
 // Step 1：启动 fetch 并赋值给 reader
@@ -96,9 +98,11 @@ alert(commits[0].author.login);
 
     要创建字符串，我们需要解析这些字节。可以使用内置的 [TextDecoder](info:text-decoder) 对象来操作。然后我们就可以对其使用 `JSON.parse`。
 
-如果我们需要二进制内容而不是 JSON 那该怎么办？这个问题甚至比上面还简单。我们可以创建一个包含所有 chunks 的 blob，而不是使用步骤 4 和步骤 5： 
-```js
-let blob = new Blob(chunks);
-```
+    如果我们需要二进制内容而不是 JSON 呢？这甚是简单。只需要调用所有块中的 blob 来代替步骤 4 和步骤 5。
+    ```js
+    let blob = new Blob(chunks);
+    ```
 
-再一次提醒，这个进度仅仅是对于下载来说的，而对于上传目前仍然没有办法追踪。
+最终我们将得到结果（以 string 或者 blob 呈现，什么方便就用什么）以及进程中的跟踪进度。
+
+再一次提醒，这个进度仅仅是对于 *download* 来说的而不是 *upload* 过程（`fetch` 目前还没办法做到这点）。
