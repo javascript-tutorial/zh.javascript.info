@@ -2,7 +2,6 @@ const Koa = require('koa');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 const getRawBody = require('raw-body')
-const busboy = require('async-busboy');
 const Router = require('koa-router');
 
 let router = new Router();
@@ -19,28 +18,6 @@ router.post('/image', async (ctx) => {
   });
   ctx.body = {
     message: `Image saved, size:${body.length}.`
-  };
-});
-
-router.post('/image-form', async (ctx) => {
-
-  let files = [];
-  const { fields } = await busboy(ctx.req, {
-    onFile(fieldname, file, filename, encoding, mimetype) {
-      // read all file stream to continue
-      getRawBody(file, { limit: '1mb'}).then(body => {
-        files.push({
-          fieldname,
-          filename,
-          length: body.length
-        }); 
-      })
-
-    }
-  });
-
-  ctx.body = {
-    message: `Image saved, name: ${fields.name}, size:${files[0].length}.`
   };
 });
 

@@ -1,9 +1,22 @@
 
-# Fetch：基础
+# Fetch
 
-`fetch()` 方法是一种更为现代的发送 HTTP 请求的方式。
+当需要加载新信息时，JavaScript 可以向服务器发送网络请求。
 
-它从几年前被提出，一直发展至今，并且还在不断改进，现在它已经得到了很多浏览器的支持。
+例如，我们可以：
+
+- 提交订单，
+- 加载用户信息，
+- 接受来自服务器的最新更新，
+- ……等等。
+
+……所有这些都没有重新加载页面！
+
+它有个通用术语称为“AJAX”（<b>A</b>synchronous <b>J</b>avascript <b>A</b>nd <b>X</b>ml 的首字母缩写）。我们不必使用 XML：这个术语很早就产生了，这个词一直在那里。
+
+有很多办法向服务器发送请求并获取信息。
+
+`fetch()` 方法是一种现代通用方法，那么我们就从它开始吧。它已经发展了几年了并在不断改进，现在它已经得到很多浏览器的支持了。
 
 基本语法：
 
@@ -18,8 +31,7 @@ let promise = fetch(url, [options])
 
 获取响应通常需要经过两个阶段。
 
-**一旦服务器提供了响应头，`promise` 就会使用内置的 [Response](https://fetch.spec.whatwg.org/#response-class) 类的对象来解析。**
-
+**第一阶段，当服务器发送了响应头，`promise` 就使用其内建的 [Response](https://fetch.spec.whatwg.org/#response-class) 类来解析该对象。
 
 因此，我们可以通过检测 HTTP 状态来确定请求是否成功，或者当响应体还没有返回时，通过检查响应头来确定状态。
 
@@ -43,18 +55,18 @@ if (response.ok) { // 如果 HTTP 状态码在 200-299 之间
 }
 ```
 
-为了获取响应体，我们需要调用其他方法。
+**第二阶段，为了获取响应体，我们需要调用其他方法。**
 
 `Response` 提供了多种基于 promise 的方法来获取不同格式的响应正文：
 
 - **`response.json()`** —— 将 response 解析为 JSON 对象，
 - **`response.text()`** —— 以文本形式返回 response，
-- **`response.formData()`** —— 以 FormData 对象（form/multipart encoding）形式返回 response，
+- **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码（encoding），我们将在[下一章](info:formdata)中了解到更多）的形式返回 response。
 - **`response.blob()`** —— 以 [Blob](info:blob) （具有类型的二进制数据）形式返回 response，
 - **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays) （纯二进制数据）形式返回 response，
 - 另外，`response.body` 是 [ReadableStream](https://streams.spec.whatwg.org/#rs-class) 对象，它允许逐块读取正文，我们稍后会用一个例子解释它。
 
-例如，这里我们从 GitHub 获取最新提交的 JSON 对象：
+例如，我们来获取 GitHub 上最新 commits 的 JSON 对象：
 
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
@@ -66,7 +78,7 @@ let commits = await response.json(); // 获取 response body 并解析为 JSON
 alert(commits[0].author.login);
 ```
 
-或者，我们也可以使用纯 promises 语法来实现同样的操作：
+也可以使用纯 promise 语法，不使用 `await`：
 
 ```js run
 fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
@@ -74,12 +86,16 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
   .then(commits => alert(commits[0].author.login));
 ```
 
-要获取文字可以使用下面方法：
-```js
-let text = await response.text();
+要获取文本，可以使用 `await response.text()` 代替 `.json()`：
+```js run async
+let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
+
+let text = await response.text(); // 以 text 形式读取响应体
+
+alert(text.slice(0, 80) + '...');
 ```
 
-对于二进制的示例，让我们来获取并显示一个图片（参见 [Blob](info:blob) 章节，获取更多关于 blob 操作的详细信息）：
+我们以 fetch 并显示一张图像为例来了解一下读取二进制文件的情况（参见 [Blob](info:blob) 章节以了解更多关于 blob 的操作）：
 
 ```js async run
 let response = await fetch('/article/fetch/logo-fetch.svg');
@@ -96,10 +112,10 @@ document.body.append(img);
 // 显示图片
 img.src = URL.createObjectURL(blob);
 
-setTimeout(() => { // 两秒后隐藏图片
+setTimeout(() => { // 3 秒后隐藏
   img.remove();
   URL.revokeObjectURL(img.src);
-}, 2000);
+}, 3000);
 ```
 
 ````warn
@@ -174,13 +190,9 @@ let response = fetch(protectedUrl, {
   - 字符串（例如 JSON），
   - `FormData` 对象，以 `form/multipart` 形式发送数据，
   - `Blob`/`BufferSource` 发送二进制数据，
-  - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 形式发送数据，很少使用。
+  - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 编码形式发送数据，很少使用。
 
-我们来看几个例子：
-
-## Submit JSON
-
-这段代码以 JSON 形式发送 `user` 对象：
+例如，下面这段代码以 JSON 形式发送 `user` 对象：
 
 ```js run async
 let user = {
@@ -189,7 +201,7 @@ let user = {
 };
 
 *!*
-let response = await fetch('/article/fetch-basics/post/user', {
+let response = await fetch('/article/fetch/post/user', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
@@ -202,36 +214,7 @@ let result = await response.json();
 alert(result.message);
 ```
 
-请注意，如果 body 是字符串，`Content-Type` 默认会设置为 `text/plain;charset=UTF-8`。所以我们使用 `headers` 选项来发送 `application/json`。
-
-## 发送表单
-
-我们用上面同样的方法来处理 HTML `<form>`。
-
-
-```html run
-<form id="formElem">
-  <input type="text" name="name" value="John">
-  <input type="text" name="surname" value="Smith">
-</form>
-
-<script>
-(async () => {
-  let response = await fetch('/article/fetch-basics/post/user', {
-    method: 'POST',
-*!*
-    body: new FormData(formElem)
-*/!*
-  });
-
-  let result = await response.json();
-
-  alert(result.message);
-})();
-</script>
-```
-
-这里 [FormData](https://xhr.spec.whatwg.org/#formdata) 方法会自动编码表单，`<input type="file">` 字段也同样被处理并以 `Content-Type: form/multipart` 来发送它。
+请注意，如果 body 是字符串，`Content-Type` 默认会设置为 `text/plain;charset=UTF-8`。所以我们使用 `headers` 值为 `application/json` 来代替默认值，这是 JSON 编码的数据的正确格式。
 
 ## 发送图片
 
@@ -254,7 +237,7 @@ alert(result.message);
 
     async function submit() {
       let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
-      let response = await fetch('/article/fetch-basics/post/image', {
+      let response = await fetch('/article/fetch/post/image', {
         method: 'POST',
         body: blob
       });
@@ -273,7 +256,7 @@ alert(result.message);
 ```js
 function submit() {
   canvasElem.toBlob(function(blob) {        
-    fetch('/article/fetch-basics/post/image', {
+    fetch('/article/fetch/post/image', {
       method: 'POST',
       body: blob
     })
@@ -283,51 +266,9 @@ function submit() {
 }
 ```
 
-## 自定义包含图像的 FormData
-
-但实际上，通常将图像以及其他字段，例如 “name” 和其他元数据，来作为表单的一部分发送是非常方便的做法。
-
-同样，相较于原始二进制数据，服务器更适宜于接收多部分编码（multipart-encoded）的表单。
-
-```html run autorun height="90"
-<body style="margin:0">
-  <canvas id="canvasElem" width="100" height="80" style="border:1px solid"></canvas>
-
-  <input type="button" value="Submit" onclick="submit()">
-
-  <script>
-    canvasElem.onmousemove = function(e) {
-      let ctx = canvasElem.getContext('2d');
-      ctx.lineTo(e.clientX, e.clientY);
-      ctx.stroke();
-    };
-
-    async function submit() {
-      let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
-
-*!*
-      let formData = new FormData();
-      formData.append("name", "myImage");
-      formData.append("image", blob);
-*/!*    
-
-      let response = await fetch('/article/fetch-basics/post/image-form', {
-        method: 'POST',
-        body: formData
-      });
-      let result = await response.json();
-      alert(result.message);
-    }
-
-  </script>
-</body>
-```
-
-现在，从服务器角度来看，图像是表单中的“文件”。
-
 ## 总结
 
-典型的 fetch 请求包含两个 `awaits`：
+典型的 fetch 请求包含两个 `await`：
 
 ```js
 let response = await fetch(url, options); // 解析 response headers
@@ -349,13 +290,13 @@ fetch(url, options)
 获取响应体的方法：
 - **`response.json()`** —— 以 JSON 对象形式解析 response，
 - **`response.text()`** —— 以 text 形式返回 response，
-- **`response.formData()`** —— 以 FormData 对象形式返回 response（form/multipart encoding），
+- **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码，参见下一章）形式返回 response，
 - **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
 - **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（纯二进制数据）返回 response。
 
 到目前为止我们了解的 fetch 选项包括：
 - `method` —— HTTP 方法（HTTP-method）,
 - `headers` —— 具有请求头的 headers 对象（不是所有请求头都是被允许的）
-- `body` —— 提交 string/FormData/BufferSource/Blob/UrlSearchParams 这些数据
+- `body` —— 以 `string`，`FormData`，`BufferSource`，`Blob` 或者 `UrlSearchParams` 对象发送数据。
 
-在下面章节中，我们将会看到更多选项和使用场景。
+在下一章中，我们将会看到更多关于 `fetch` 的选项以及使用场景。
