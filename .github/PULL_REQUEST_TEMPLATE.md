@@ -2,7 +2,7 @@
 
 #### 目标章节：1-js/01-getting-started/1-intro
 
-#### 当期上游最新 commit：*
+#### 当前上游最新 commit：*
 
 #### 所做更改如下：
 
