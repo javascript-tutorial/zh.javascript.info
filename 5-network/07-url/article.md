@@ -1,22 +1,42 @@
 
-# URL 对象
+# URL objects
 
-内置的 [URL](https://url.spec.whatwg.org/#api) 类为创建和解析 URL 提供了非常方便的接口。
+The built-in [URL](https://url.spec.whatwg.org/#api) class provides a convenient interface for creating and parsing URLs.
 
-我们根本不需要使用它。没有一个网络方法一定要使用 `URL` 对象，因为只是使用字符串 url 就已经能够完成任务了。但是有时候 `URL` 对象真的很实用。
+There are no networking methods that require exactly an `URL` object, strings are good enough. So technically we don't have to use `URL`. But sometimes it can be really helpful.
 
-## 创建 URL 对象
+## Creating an URL
 
-创建新 URL 对象的语法：
+The syntax to create a new URL object:
 
 ```js
 new URL(url, [base])
 ```
 
-- **`url`** —— url 文本地址
-- **`base`** —— URL 根地址（可选）
+- **`url`** -- the URL string or path (if base is set, see below).
+- **`base`** -- an optional base, if set and `url` has only path, then the URL is generated relative to `base`.
 
-`URL` 对象立即允许我们访问其组件，因此这是一个解析 URL 的好办法，例如：
+For example, these two URLs are same:
+
+```js run
+let url1 = new URL('https://javascript.info/profile/admin');
+let url2 = new URL('/profile/admin', 'https://javascript.info');
+
+alert(url1); // https://javascript.info/profile/admin
+alert(url2); // https://javascript.info/profile/admin
+```
+
+Go to the path relative to the current URL:
+
+```js run
+let url = new URL('https://javascript.info/profile/admin');
+let testerUrl = new URL('tester', url);
+
+alert(testerUrl); // https://javascript.info/profile/tester
+```
+
+
+The `URL` object immediately allows us to access its components, so it's a nice way to parse the url, e.g.:
 
 ```js run
 let url = new URL('https://javascript.info/url');
@@ -26,71 +46,161 @@ alert(url.host);     // javascript.info
 alert(url.pathname); // /url
 ```
 
-这是其组件列表：
+Here's the cheatsheet:
 
 ![](url-object.png)
 
-- `href` 是完整的 URL，与 `url.toString()` 相同
-- `protocol` 以冒号字符 `:` 结尾
-- `search` 以问号 `?` 开始
-- `hash` 以哈希字符 `#` 开始
-- 如果存在 HTTP 身份验证的话，还会有 `user` 和 `password` 属性。
+- `href` is the full url, same as `url.toString()`
+- `protocol` ends with the colon character `:`
+- `search` - a string of parameters, starts with the question mark `?`
+- `hash` starts with the hash character `#`
+- there may be also `user` and `password` properties if HTTP authentication is present: `http://login:password@site.com` (not painted above, rarely used).
 
-我们还可以使用 `URL` 的第二个参数来创建相对 URL：
 
-```js run
-let url = new URL('profile/admin', 'https://javascript.info');
+```smart header="We can use `URL` everywhere instead of a string"
+We can use an `URL` object in `fetch` or `XMLHttpRequest`, almost everywhere where a string url is expected.
 
-alert(url); // https://javascript.info/profile/admin
-
-url = new URL('tester', url); // 转到相对于当前 URL 路径的 ‘tester’
-
-alert(url); // https://javascript.info/profile/tester
+In the vast majority of methods it's automatically converted to a string.
 ```
 
-```smart header="几乎在任何需要使用 `URL` 的地方，我们都可以使用 `URL` 代替字符串"
-我们可以在 `fetch` 或者 `XMLHttpRequest` 里使用 `URL` 对象，几乎在任何需要使用 URL 的地方，我们都可以使用 URL 代替字符串。
+## SearchParams "?..."
 
-在绝大多数方法中，它会被自动转换成字符串并以此参与运算。
+Let's say we want to create an url with given search params, for instance, `https://google.com/search?query=JavaScript`.
+
+We can provide them in the URL string:
+
+```js
+new URL('https://google.com/search?query=JavaScript')
 ```
 
-## 搜索参数（SearchParam）
+...But parameters need to be encoded if they contain spaces, non-latin letters, etc (more about that below).
 
-当我们想要以给定的搜索词来创建 URL 时，例如，`https://google.com/search?query=value`。
+So there's URL property for that: `url.searchParams`, an object of type [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams).
 
-它们必须被正确编码。
+It provides convenient methods for search parameters:
 
-在古老的浏览器中，`URL` 出现之前，我们使用的是内置函数 `encodeURIComponent/decodeURIComponent`。
+- **`append(name, value)`** -- add the parameter,
+- **`delete(name)`** -- remove the parameter,
+- **`get(name)`** -- get the parameter,
+- **`getAll(name)`** -- get all parameters with the same `name` (that's possible, e.g. `?user=John&user=Pete`),
+- **`has(name)`** -- check for the existance of the parameter,
+- **`set(name, value)`** -- set/replace the parameter,
+- **`sort()`** -- sort parameters by name, rarely needed,
+- ...and also iterable, similar to `Map`.
 
-我们不必再使用它们了：`url.searchParams` 现在是 [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) 类型的对象。
-
-它为操作搜索参数提供了便捷的方法（method）：
-
-- **`append(name, value)`** —— 添加参数，
-- **`delete(name)`** —— 移除参数，
-- **`get(name)`** —— 获取参数，
-- **`getAll(name)`** —— 获取给定名称的所有参数（如果有很多个参数的话，如：`?user=John&user=Pete`），
-- **`has(name)`** —— 检查参数是否存在，
-- **`set(name, value)`** —— set/replace 参数，
-- **`sort()`** —— 按名称排序参数（我们很少需要这样做），
-- ...并且是可迭代的，类似于 `Map`。
-
-`URL` 对象为操作 url 参数提供了一种的简便方法。
-
-例如：
+For example:
 
 ```js run
 let url = new URL('https://google.com/search');
-url.searchParams.set('query', 'test me!');
+url.searchParams.set('q', 'test me!'); // added parameter with a space and !
 
-alert(url); // https://google.com/search?query=test+me%21
+alert(url); // https://google.com/search?q=test+me%21
 
-url.searchParams.set('tbs', 'qdr:y'); // 添加日期范围参数：past year
+url.searchParams.set('tbs', 'qdr:y'); // this parameter specifies for date range for Google Search
 
-alert(url); // https://google.com/search?query=test+me%21&tbs=qdr%3Ay
+alert(url); // https://google.com/search?q=test+me%21&tbs=qdr%3Ay
 
 // iterate over search parameters (decoded)
 for(let [name, value] of url.searchParams) {
-  alert(`${name}=${value}`); // query=test me!，然后是 tbs=qdr:y
+  alert(`${name}=${value}`); // q=test me!, then tbs=qdr:y
 }
 ```
+
+
+## Encoding
+
+There's a standard [RFC3986](https://tools.ietf.org/html/rfc3986) that defines which characters are allowed and which are not.
+
+Those that are not allowed, must be encoded, for instance non-latin letters and spaces - replaced with their UTF-8 codes, prefixed by `%`, such as `%20` (a space can be encoded by `+`, for historical reasons that's allowed in URL too).
+
+The good news is that `URL` objects handle all that automatically. We just supply all parameters unencoded, and then convert the URL to the string:
+
+```js run
+// using some cyrillic characters for this example
+
+let url = new URL('https://ru.wikipedia.org/wiki/Тест');
+
+url.searchParams.set('key', 'ъ');
+alert(url); //https://ru.wikipedia.org/wiki/%D0%A2%D0%B5%D1%81%D1%82?key=%D1%8A
+```
+As you can see, both `Тест` in the url path and `ъ` in the parameter are encoded.
+
+### Encoding strings
+
+If we're using strings instead of URL objects, then we can encode manually using built-in functions:
+
+- [encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI) - encode URL as a whole.
+- [decodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI) - decode it back.
+- [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) - encode URL components, such as search parameters, or a hash, or a pathname.
+- [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) - decodes it back.
+
+What's the difference between `encodeURIComponent` and `encodeURI`?
+
+That's easy to understand if we look at the URL, that's split into components in the picture above:
+
+```
+http://site.com:8080/path/page?p1=v1&p2=v2#hash
+```
+
+As we can see, characters such as `:`, `?`, `=`, `&`, `#` are allowed in URL. Some others, including non-latin letters and spaces, must be encoded.
+
+That's what `encodeURI` does:
+
+```js run
+// using cyrcillic characters in url path
+let url = encodeURI('http://site.com/привет');
+
+// each cyrillic character is encoded with two %xx
+// together they form UTF-8 code for the character
+alert(url); // http://site.com/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82
+```
+
+...On the other hand, if we look at a single URL component, such as a search parameter, we should encode more characters, e.g. `?`, `=` and `&` are used for formatting.
+
+That's what `encodeURIComponent` does. It encodes same characters as `encodeURI`, plus a lot of others, to make the resulting value safe to use in any URL component.
+
+For example:
+
+```js run
+let music = encodeURIComponent('Rock&Roll');
+
+let url = `https://google.com/search?q=${music}`;
+alert(url); // https://google.com/search?q=Rock%26Roll
+```
+
+Compare with `encodeURI`:
+
+```js run
+let music = encodeURI('Rock&Roll');
+
+let url = `https://google.com/search?q=${music}`;
+alert(url); // https://google.com/search?q=Rock&Roll
+```
+
+As we can see, `encodeURI` does not encode `&`, as this is a legit character in URL as a whole.
+
+But we should encode `&` inside a search parameter, otherwise, we get `q=Rock&Roll` - that is actually `q=Rock` plus some obscure parameter `Roll`. Not as intended.
+
+So we should use only `encodeURIComponent` for each search parameter, to correctly insert it in the URL string. The safest is to encode both name and value, unless we're absolutely sure that either has only allowed characters.
+
+### Why URL?
+
+Lots of old code uses these functions, these are sometimes convenient, and by no means not dead.
+
+But in modern code, it's recommended to use classes [URL](https://url.spec.whatwg.org/#url-class) and [URLSearchParams](https://url.spec.whatwg.org/#interface-urlsearchparams).
+
+One of the reason is: they are based on the recent URI spec: [RFC3986](https://tools.ietf.org/html/rfc3986), while `encode*` functions are based on the obsolete version [RFC2396](https://www.ietf.org/rfc/rfc2396.txt).
+
+For example, IPv6 addresses are treated differently:
+
+```js run
+// valid url with IPv6 address
+let url = 'http://[2607:f8b0:4005:802::1007]/';
+
+alert(encodeURI(url)); // http://%5B2607:f8b0:4005:802::1007%5D/
+alert(new URL(url)); // http://[2607:f8b0:4005:802::1007]/
+```
+
+As we can see, `encodeURI` replaced square brackets `[...]`, that's not correct, the reason is: IPv6 urls did not exist at the time of RFC2396 (August 1998).
+
+Such cases are rare, `encode*` functions work well most of the time, it's just one of the reason to prefer new APIs.
