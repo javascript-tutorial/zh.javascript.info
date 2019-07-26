@@ -1,6 +1,6 @@
 # 类型转换
 
-大多数情况下，运算符和函数会自动转换将值转换为正确的类型。称之为“类型转换”。
+大多数情况下，运算符和函数会将值自动转换为正确的类型。
 
 比如，`alert` 会自动将任何值转换为字符串。算术运算符会将值转换为数字。
 
@@ -37,7 +37,7 @@ alert(typeof value); // string
 比如，当使用 `/` 用于非 number 类型：
 
 ```js run
-alert( "6" / "2" ); // 3, strings are converted to numbers
+alert( "6" / "2" ); // 3, string 类型的值被转换成 number
 ```
 
 也可以使用 `Number(value)` 显式地将这个值转换为 number 类型。
@@ -58,7 +58,7 @@ alert(typeof num); // number
 ```js run
 let age = Number("an arbitrary string instead of a number");
 
-alert(age); // NaN, conversion failed
+alert(age); // NaN，转换失败
 ```
 
 number 类型转换规则：
@@ -68,7 +68,7 @@ number 类型转换规则：
 |`undefined`|`NaN`|
 |`null`|`0`|
 |<code>true&nbsp;和&nbsp;false</code> | `1` and `0` |
-| `string` | 去掉首尾空格后的纯数字字符串中含有的数字。<br>如果字符串只由空格字符组成，返回 `0`。<br>如果字符串不是纯数字，则返回 `NaN`。 |
+| `string` | 去掉首尾空格后的纯数字字符串中含有的数字。如果去掉空格后的字符串只由空格字符组成，返回 `0`。如果字符串不是纯数字，则返回 `NaN`。 |
 
 例如：
 
@@ -98,7 +98,7 @@ alert( '1' + 2 ); // '12' (字符串在加号左边)
 
 转换为 boolean 类型是最为简单的一个。
 
-逻辑操作或显式调用 `Boolean(value)` 会触发 boolean 类型转换。
+逻辑操作（之后我们会了解到条件判断和其他类似的东西）或显式调用 `Boolean(value)` 会触发 boolean 类型转换。
 
 转换规则如下：
 
@@ -129,24 +129,24 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 
 有三种常用的类型转换：转换为 string 类型、转换为 number 类型和转换为 boolean 类型。
 
-**`ToString`** —— 输出内容时 `ToString` 发生转换，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是可预见的。
+**`ToString`** —— 输出内容时转换发生，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是很明显的。
 
-**`ToNumber`** -- 进行算术操作时发生 `ToNumber` 转换，或通过 `Number(value)` 进行显式转换。
+**`ToNumber`** —— 进行算术操作时转换发生，或通过 `Number(value)` 进行显式转换。
 
 `ToNumber` 转换遵循以下规则：
 
-| 值 |  变成... |
+| 值 |  变成…… |
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
 |<code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
 | `string` | 字符串“按原样读取”，两端的空白被忽略。空字符串变成 `0`。出错变成 `NaN`。 |
 
-**`ToBoolean`** -- 进行逻辑操作时发生 `ToBoolean` 转换。或通过 `Boolean(value)` 进行显式转换。
+**`ToBoolean`** —— 进行逻辑操作时转换发生。或通过 `Boolean(value)` 进行显式转换。
 
 `ToBoolean` 遵循以下规则：
 
-| 值 |  变成... |
+| 值 |  变成…… |
 |-------|-------------|
 |`0`, `null`, `undefined`, `NaN`, `""` |`false`|
 |其他值| `true` |
@@ -155,6 +155,6 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 上述的大多数规则都容易理解和记忆。经常犯错的例外有：
 
 - `undefined` 进行 `ToNumber` 时变成 `NaN`，而非 `0`。
-- `"0"` 和只有空格的字符串(比如：`"   "` )在进行 `ToBoolean` 变成 `true`。
+- `"0"` 和只有空格的字符串(比如：`"   "` )在进行 boolean 转换时变成 `true`。
 
-对象的转换并未在此提及，我们会在章节 <info:object-toprimitive> 介绍，随后我们会学习 JavaScript 更多基础的细节。
+对象的转换并未在此提及。我们会在专门介绍对象的章节 <info:object-toprimitive> 中介绍，随后我们会学习 JavaScript 更多基础的细节。
