@@ -2,6 +2,8 @@
 
 #### 目标章节：1-js/01-getting-started/1-intro
 
+#### 当期上游最新 commit：*
+
 #### 所做更改如下：
 
 文件名 | 参考上游 commit | 更改（理由）
