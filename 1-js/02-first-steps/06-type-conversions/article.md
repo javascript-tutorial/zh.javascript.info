@@ -129,9 +129,9 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 
 有三种常用的类型转换：转换为 string 类型、转换为 number 类型和转换为 boolean 类型。
 
-**`ToString`** —— 输出内容时转换发送，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是很明显的。
+**`ToString`** —— 输出内容时转换发生，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是很明显的。
 
-**`ToNumber`** -- 进行算术操作时转换发生，或通过 `Number(value)` 进行显式转换。
+**`ToNumber`** —— 进行算术操作时转换发生，或通过 `Number(value)` 进行显式转换。
 
 `ToNumber` 转换遵循以下规则：
 
@@ -142,7 +142,7 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 |<code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
 | `string` | 字符串“按原样读取”，两端的空白被忽略。空字符串变成 `0`。出错变成 `NaN`。 |
 
-**`ToBoolean`** -- 进行逻辑操作时转换发生。或通过 `Boolean(value)` 进行显式转换。
+**`ToBoolean`** —— 进行逻辑操作时转换发生。或通过 `Boolean(value)` 进行显式转换。
 
 `ToBoolean` 遵循以下规则：
 
