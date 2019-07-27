@@ -34,28 +34,28 @@ function publish(message) {
 function accept(req, res) {
   let urlParsed = url.parse(req.url, true);
 
-  // new client wants messages
+  // 新客户端想要获取消息
   if (urlParsed.pathname == '/subscribe') {
     onSubscribe(req, res);
     return;
   }
 
-  // sending a message
+  // 发送消息
   if (urlParsed.pathname == '/publish' && req.method == 'POST') {
-    // accept POST
+    // 接受 POST 请求
     req.setEncoding('utf8');
     let message = '';
     req.on('data', function(chunk) {
       message += chunk;
     }).on('end', function() {
-      publish(message); // publish it to everyone
+      publish(message); // 广播给所有人
       res.end("ok");
     });
 
     return;
   }
 
-  // the rest is static
+  // 剩下的是静态的
   fileServer.serve(req, res);
 
 }
