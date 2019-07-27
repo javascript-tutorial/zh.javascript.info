@@ -17,14 +17,14 @@ function onUpload(req, res) {
     res.end();
   }
 
-  // we'll files "nowhere"
+  // 文件位置 “nowhere”
   let filePath = '/dev/null';
-  // could use a real path instead, e.g.
+  // 可以使用真实路径替代，例如：
   // let filePath = path.join('/tmp', fileId);
 
   debug("onUpload fileId: ", fileId);
 
-  // initialize a new upload
+  // 初始化新 upload
   if (!uploads[fileId]) uploads[fileId] = {};
   let upload = uploads[fileId];
 
@@ -32,7 +32,7 @@ function onUpload(req, res) {
 
   let fileStream;
 
-  // if startByte is 0 or not set, create a new file, otherwise check the size and append to existing one
+  // 如果 startByte 是 0 或者没有设置，就创建一个新文件，否则检查文件大小并追加到已存在的文件上
   if (!startByte) {
     upload.bytesReceived = 0;
     fileStream = fs.createWriteStream(filePath, {
@@ -40,13 +40,13 @@ function onUpload(req, res) {
     });
     debug("New file created: " + filePath);
   } else {
-    // we can check on-disk file size as well to be sure
+    // 我们也可以检查磁盘（on-disk）文件大小
     if (upload.bytesReceived != startByte) {
       res.writeHead(400, "Wrong start byte");
       res.end(upload.bytesReceived);
       return;
     }
-    // append to existing file
+    // 追加到已存在的文件上
     fileStream = fs.createWriteStream(filePath, {
       flags: 'a'
     });
@@ -59,26 +59,26 @@ function onUpload(req, res) {
     upload.bytesReceived += data.length;
   });
 
-  // send request body to file
+  // 将请求体发送到文件
   req.pipe(fileStream);
 
-  // when the request is finished, and all its data is written
+  // 当请求完成时，所有数据都被写入磁盘
   fileStream.on('close', function() {
     if (upload.bytesReceived == req.headers['x-file-size']) {
       debug("Upload finished");
       delete uploads[fileId];
 
-      // can do something else with the uploaded file here
+      // 可以对上传的文件进行一些处理
 
       res.end("Success " + upload.bytesReceived);
     } else {
-      // connection lost, we leave the unfinished file around
+      // 连接丢失，我们留下未完成的文件
       debug("File unfinished, stopped at " + upload.bytesReceived);
       res.end();
     }
   });
 
-  // in case of I/O error - finish the request
+  // 在 I/O 错误的情况下 —— 完成请求
   fileStream.on('error', function(err) {
     debug("fileStream error");
     res.writeHead(500, "File error");
