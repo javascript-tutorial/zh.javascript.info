@@ -14,7 +14,7 @@
 
 这些术语听起来都很熟悉是么？如果是那么请继续阅读下面 `XMLHttpRequest` 内容。如果还不是很熟悉的话，那么请先阅读关于 <info:fetch> 的基础内容。
 
-## The basics
+## XMLHttpRequest 基础
 
 XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asynchronous）。
 
@@ -24,7 +24,7 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
 
 1. 创建 `XMLHttpRequest`：
     ```js
-    let xhr = new XMLHttpRequest(); // the constructor has no arguments
+    let xhr = new XMLHttpRequest(); // 构造函数没有参数
     ```
 
 2. 初始化 `XMLHttpRequest`：
@@ -35,7 +35,7 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
     在 `new XMLHttpRequest` 之后我们通常调用 `xhr.open` 函数。它指定了请求的主要参数：
 
     - `method` — HTTP 方法。通常是 `"GET"` 或者 `"POST"`。
-    - `URL` — the URL to request, a string, can be [URL](info:url) object.
+    - `URL` — 要执行请求（request）的 URL 字符串，可以是 [URL](info:url) 对象。
     - `async` — 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
     - `user`，`password` — HTTP 基本身份认证（如果需要的话）的登录名和密码。
 
@@ -121,22 +121,22 @@ xhr.onerror = function() {
 `response`（以前的脚本可能用的是 `responseText`）
 : 服务器响应。
 
-We can also specify a timeout using the corresponding property:
+我们还可以使用相应的属性指定超时（timeout）时间：
 
 ```js
-xhr.timeout = 10000; // timeout in ms, 10 seconds
+xhr.timeout = 10000; // timeout 单位是 ms，此处即 10 秒
 ```
 
-If the request does not succeed within the given time, it gets canceled and `timeout` event triggers.
+如果在给定时间内请求没有成功执行，请求就会被取消，并且触发 `timeout` 事件。
 
-````smart header="URL search parameters"
-To pass URL parameters, like `?name=value`, and ensure the proper encoding, we can use [URL](info:url) object:
+````smart header="URL 搜索参数（URL search parameters）"
+要传递诸如 `?name=value` 这样的 URL 参数，并确保参数被正确编码，我们可以使用 [URL](info:url) 对象：
 
 ```js
 let url = new URL('https://google.com/search');
 url.searchParams.set('q', 'test me!');
 
-// the parameter 'q' is encoded
+// 参数 'q' 被编码
 xhr.open('GET', url); // https://google.com/search?q=test+me%21
 ```
 
@@ -208,19 +208,19 @@ xhr.onreadystatechange = function() {
 };
 ```
 
-You can find `readystatechange` listeners in really old code, it's there for historical reasons, as there was a time when there were no `load` and other events.
+你可能在古老的代码中发现 `readystatechange` 这样的事件监听器，它的存在是基于一些历史原因，因为在很长一段时间内都没有 `load` 以及其他事件。
 
 如今，它们已被 `load/error/progress` 事件替代。
 
-## Aborting request
+## 终止请求（aborting）
 
-We can terminate the request at any time. The call to `xhr.abort()` does that:
+我们可以随时终止请求。调用 `xhr.abort()` 即可：
 
 ```js
-xhr.abort(); // terminate the request
+xhr.abort(); // 终止请求
 ```
 
-That triggers `abort` event, and `xhr.status` becomes `0`.
+它将会触发 `abort` 事件且 `xhr.status` 变为 `0`。
 
 ## 同步请求
 
@@ -272,7 +272,7 @@ HTTP-headers 有三种方法：
     一些请求头可能由浏览器专门管理，比如，`Referer` 和 `Host`。
     参见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method) 以获取更多信息。
 
-    `XMLHttpRequest` is not allowed to change them, for the sake of user safety and correctness of the request.
+    为了用户安全和请求的正确性，`XMLHttpRequest` 不允许修改请求头。
     ```
 
     ````warn header="不能移除 header"
@@ -340,7 +340,7 @@ let formData = new FormData([form]); // 创建对象，可以用表单元素 <fo
 formData.append(name, value); // 追加一个字段
 ```
 
-We create it, optionally from a form, `append` more fields if needed, and then:
+我们可以从一个表单中创建它，如果需要的话还可以`追加（append）`更多的字段：
 
 1. `xhr.open('POST', ...)` — 使用 `POST` 方法。
 2. `xhr.send(formData)` 发送表单到服务器。
@@ -394,13 +394,13 @@ xhr.send(json);
 
 `progress` 事件仅仅在下载阶段工作。
 
-也就是说：如果 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据（the request body），然后下载响应数据。
+也就是说：如果 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据（请求体（request body）），然后下载响应数据。
 
-如果我们正在上传的文件很大，这时我们肯定对追踪上传进度感兴趣。But `xhr.onprogress` doesn't help here.
+如果我们正在上传的文件很大，这时我们肯定对追踪上传进度感兴趣。但是 `xhr.onprogress` 在这里并不起作用。
 
 这里有个其他对象 `xhr.upload`，没有方法，专门用于上传事件。
 
-The event list is similar to `xhr` events, but `xhr.upload` triggers them on uploading:
+XMLHttpRequest 事件和 `xhr` 类似，但是 `xhr.upload` 可以在上传阶段被触发：
 
 - `loadstart` — 上传开始。
 - `progress` — 上传期间定期触发。
@@ -473,7 +473,7 @@ xhr.open('POST', 'http://anywhere.com/request');
 ...
 ```
 
-See the chapter <info:fetch-crossorigin> for details about cross-origin headers.
+参见 <info:fetch-crossorigin> 章节以了解更多关于 cross-origin headers 的信息。
 
 
 ## 总结
@@ -515,12 +515,11 @@ xhr.onerror = function() {
 - `error` — 发生连接错误，例如，域名错误。不会响应诸如 404 这类的 HTTP 错误。
 - `load` — 请求成功完成。
 - `timeout` — 请求超时被取消（仅仅发生在 timeout 被设置的情况下）。
-- `loadend` — triggers after `load`, `error`, `timeout` or `abort`.
+- `loadend` — 在 `load`，`error`，`timeout` 或者 `abort` 之后触发。
 
-The `error`, `abort`, `timeout`, and `load` events are mutually exclusive. Only one of them may happen.
+`error`，`abort`，`timeout` 和 `load` 事件是互斥的，即一次只能有一个事件发生。
 
-// 最常用的事件是加载完成（`load`），加载失败（`error`）以及用来处理进度的 `progress`。
-The most used events are load completion (`load`), load failure (`error`), or we can use a single `loadend` handler and check the response to see what happened.
+最常用的事件是加载完成（load completion）（`load`），加载失败（load failure）（`error`），或者我们可以只用 `loadend` 处理程序来检查响应，看看其发生了什么。
 
 我们还了解了一些其他事件：`readystatechange`。由于历史原因，它在规范建立之前就已经出现。现如今已经没有必要使用他们了，我们可以用新的事件代替它，但是在旧的代码中仍然比较常见。
 
