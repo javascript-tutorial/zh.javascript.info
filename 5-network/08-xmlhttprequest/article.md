@@ -12,9 +12,9 @@
 2. 我们需要兼容老旧的浏览器，并且不想用 polyfills（例如为了让脚本更小）。
 3. 我们需要一些 `fetch` 目前无法做到的事情，比如跟踪上传进度。
 
-这些术语听起来都很熟悉是么？如果是那么请继续阅读下面 `XMLHttpRequest` 内容。如果还不是很熟悉的话，那么请先阅读关于 <info:fetch-basics> 的基础内容。
+这些术语听起来都很熟悉是么？如果是那么请继续阅读下面 `XMLHttpRequest` 内容。如果还不是很熟悉的话，那么请先阅读关于 <info:fetch> 的基础内容。
 
-## 基本流程
+## XMLHttpRequest 基础
 
 XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asynchronous）。
 
@@ -22,12 +22,12 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
 
 发送请求需要 3 个步骤：
 
-1. 创建 `XMLHttpRequest`。
+1. 创建 `XMLHttpRequest`：
     ```js
-    let xhr = new XMLHttpRequest(); // 没有参数
+    let xhr = new XMLHttpRequest(); // 构造函数没有参数
     ```
 
-2. 初始化 `XMLHttpRequest`。
+2. 初始化 `XMLHttpRequest`：
     ```js
     xhr.open(method, URL, [async, user, password])
     ```
@@ -35,7 +35,7 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
     在 `new XMLHttpRequest` 之后我们通常调用 `xhr.open` 函数。它指定了请求的主要参数：
 
     - `method` — HTTP 方法。通常是 `"GET"` 或者 `"POST"`。
-    - `URL` — 请求的 URL。
+    - `URL` — 要执行请求（request）的 URL 字符串，可以是 [URL](info:url) 对象。
     - `async` — 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
     - `user`，`password` — HTTP 基本身份认证（如果需要的话）的登录名和密码。
 
@@ -121,21 +121,26 @@ xhr.onerror = function() {
 `response`（以前的脚本可能用的是 `responseText`）
 : 服务器响应。
 
-如果我们改变注意，我们可以随时终止请求。`xhr.abort()` 调用可以做到：
+我们还可以使用相应的属性指定超时（timeout）时间：
 
 ```js
-xhr.abort(); // terminate the request
+xhr.timeout = 10000; // timeout 单位是 ms，此处即 10 秒
 ```
 
-它触发 `abort` 事件。
+如果在给定时间内请求没有成功执行，请求就会被取消，并且触发 `timeout` 事件。
 
-我们还可以使用相应的属性设置超时时间：
+````smart header="URL 搜索参数（URL search parameters）"
+要传递诸如 `?name=value` 这样的 URL 参数，并确保参数被正确编码，我们可以使用 [URL](info:url) 对象：
 
 ```js
-xhr.timeout = 10000; // timeout 单位是 ms，10 秒
+let url = new URL('https://google.com/search');
+url.searchParams.set('q', 'test me!');
+
+// 参数 'q' 被编码
+xhr.open('GET', url); // https://google.com/search?q=test+me%21
 ```
 
-在给定时间内，如果请求没有成功，`timeout` 事件触发并且请求被取消。
+````
 
 ## 响应类型
 
@@ -203,9 +208,19 @@ xhr.onreadystatechange = function() {
 };
 ```
 
-同样是基于历史原因，在非常老的代码中，你会发现它们使用的是 `readystatechange`。
+你可能在古老的代码中发现 `readystatechange` 这样的事件监听器，它的存在是基于一些历史原因，因为在很长一段时间内都没有 `load` 以及其他事件。
 
 如今，它们已被 `load/error/progress` 事件替代。
+
+## 终止请求（aborting）
+
+我们可以随时终止请求。调用 `xhr.abort()` 即可：
+
+```js
+xhr.abort(); // 终止请求
+```
+
+它将会触发 `abort` 事件且 `xhr.status` 变为 `0`。
 
 ## 同步请求
 
@@ -229,7 +244,7 @@ try {
   }
 } catch(err) { // 代替 onerror
   alert("Request failed");
-};
+}
 ```
 
 它可能看起来很不错，但是同步调用很少使用，因为它们会阻塞页面内（in-page）的 JavaScript 直到加载完成。在一些浏览器中，滚动可能无法正常运行。如果一个同步调用执行很长时间，浏览器可能会建议关闭“挂起”（hanging）的页面。
@@ -257,7 +272,7 @@ HTTP-headers 有三种方法：
     一些请求头可能由浏览器专门管理，比如，`Referer` 和 `Host`。
     参见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method) 以获取更多信息。
 
-    为了用户安全和请求的正确性，XMLHttpRequest 不允许修改它们，
+    为了用户安全和请求的正确性，`XMLHttpRequest` 不允许修改请求头。
     ```
 
     ````warn header="不能移除 header"
@@ -300,6 +315,7 @@ HTTP-headers 有三种方法：
     响应头中的换行符总是 `"\r\n"`（不依赖于操作系统），所以我们可以很轻易地将其分割成单一的响应头部。name 和 value 之间总是会以冒号后跟空格 `": "` 分隔开。这在规范中已经得到修复。
 
     因此，如果我们想要获取具有 name/value 对的对象，我们用一点点 JS 代码来处理它们。
+
     就像这样（假设有两个响应头具有相同的名称，那么后者会覆盖前者）：
 
     ```js
@@ -324,7 +340,7 @@ let formData = new FormData([form]); // 创建对象，可以用表单元素 <fo
 formData.append(name, value); // 追加一个字段
 ```
 
-如果需要，可以从表单中创建它，追加一个字段，然后：
+我们可以从一个表单中创建它，如果需要的话还可以`追加（append）`更多的字段：
 
 1. `xhr.open('POST', ...)` — 使用 `POST` 方法。
 2. `xhr.send(formData)` 发送表单到服务器。
@@ -372,19 +388,19 @@ xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 xhr.send(json);
 ```
 
-`.send(body)` 方法就像一个非常杂食性的动物。它可以发送几乎所有内容，包括 Blob 和 BufferSource 对象。
+`.send(body)` 方法就像一个非常杂食性的动物。它可以发送几乎所有内容，包括 `Blob` 和 `BufferSource` 对象。
 
 ## 上传进度（Upload progress）
 
 `progress` 事件仅仅在下载阶段工作。
 
-也就是说：如果 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据，然后下载响应数据。
+也就是说：如果 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据（请求体（request body）），然后下载响应数据。
 
-如果我们正在上传的文件很大，这时我们肯定对追踪上传进度感兴趣。但是 `progress` 事件在这里并不起作用。
+如果我们正在上传的文件很大，这时我们肯定对追踪上传进度感兴趣。但是 `xhr.onprogress` 在这里并不起作用。
 
 这里有个其他对象 `xhr.upload`，没有方法，专门用于上传事件。
 
-这是其属性列表：
+XMLHttpRequest 事件和 `xhr` 类似，但是 `xhr.upload` 可以在上传阶段被触发：
 
 - `loadstart` — 上传开始。
 - `progress` — 上传期间定期触发。
@@ -457,6 +473,8 @@ xhr.open('POST', 'http://anywhere.com/request');
 ...
 ```
 
+参见 <info:fetch-crossorigin> 章节以了解更多关于 cross-origin headers 的信息。
+
 
 ## 总结
 
@@ -467,7 +485,7 @@ let xhr = new XMLHttpRequest();
 
 xhr.open('GET', '/my/url');
 
-xhr.send(); // 对于 POST，可以发送 string 或 FormData
+xhr.send();
 
 xhr.onload = function() {
   if (xhr.status != 200) { // HTTP 出错？
@@ -497,9 +515,11 @@ xhr.onerror = function() {
 - `error` — 发生连接错误，例如，域名错误。不会响应诸如 404 这类的 HTTP 错误。
 - `load` — 请求成功完成。
 - `timeout` — 请求超时被取消（仅仅发生在 timeout 被设置的情况下）。
-- `loadend` — 请求完成（可能成功也可能失败）。
+- `loadend` — 在 `load`，`error`，`timeout` 或者 `abort` 之后触发。
 
-最常用的事件是加载完成（`load`），加载失败（`error`）以及用来处理进度的 `progress`。
+`error`，`abort`，`timeout` 和 `load` 事件是互斥的，即一次只能有一个事件发生。
+
+最常用的事件是加载完成（load completion）（`load`），加载失败（load failure）（`error`），或者我们可以只用 `loadend` 处理程序来检查响应，看看其发生了什么。
 
 我们还了解了一些其他事件：`readystatechange`。由于历史原因，它在规范建立之前就已经出现。现如今已经没有必要使用他们了，我们可以用新的事件代替它，但是在旧的代码中仍然比较常见。
 
