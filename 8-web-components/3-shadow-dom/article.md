@@ -106,7 +106,7 @@ Shadow DOM 被非常明显地和主文档分开：
 ```html run untrusted height=40
 <style>
 *!*
-  /* 文档样式对 #elem (1) 内的 shadow tree 无作用 */
+  /* 文档样式对 #elem 内的 shadow tree 无作用 (1) */
 */!*
   p { color: red; }
 </style>
@@ -154,4 +154,4 @@ Shadow DOM 元素：
 - 对主文档的 JavaScript 选择器隐身，比如 `querySelector`。
 - 只使用 shadow tree 内部的样式，不使用主文档的样式。
 
-Shadow DOM，如果存在的话，会被侯览器渲染而不是所谓的 「light DOM」（普通子元素）。在 <info:slots-composition> 章节中我们将会看到如何组织它们。
+Shadow DOM，如果存在的话，会被浏览器渲染而不是所谓的 「light DOM」（普通子元素）。在 <info:slots-composition> 章节中我们将会看到如何组织它们。
