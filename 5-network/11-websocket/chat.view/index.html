@@ -14,7 +14,7 @@ let url = location.host == 'localhost' ?
 
 let socket = new WebSocket(url);
 
-// send message from the form
+// 从表单发送消息
 document.forms.publish.onsubmit = function() {
   let outgoingMessage = this.message.value;
 
@@ -22,7 +22,7 @@ document.forms.publish.onsubmit = function() {
   return false;
 };
 
-// handle incoming messages
+// 处理传入消息
 socket.onmessage = function(event) {
   let incomingMessage = event.data;
   showMessage(incomingMessage);
@@ -30,7 +30,7 @@ socket.onmessage = function(event) {
 
 socket.onclose = event => console.log(`Closed ${event.code}`);
 
-// show message in div#messages
+// 在 div#messages 节点上显示消息
 function showMessage(message) {
   let messageElem = document.createElement('div');
   messageElem.textContent = message;
