@@ -70,7 +70,7 @@ pow(x, n) =
 
 我们也可以说 `pow` **递归的调用自身** 直到 `n == 1`。
 
-![recursive diagram of pow](recursion-pow.png)
+![recursive diagram of pow](recursion-pow.svg)
 
 
 比如，为了计算 `pow(2, 4)`，递归变体经过了下面几个步骤：
@@ -373,7 +373,7 @@ alert(sumSalaries(company)); // 6700
 
 以下是调用图：
 
-![recursive salaries](recursive-salaries.png)
+![recursive salaries](recursive-salaries.svg)
 
 很容易可以看到原理：对对象 `{...}` 会生成子调用，而数组 `[...]` 因为是递归树的「叶子」，它们会立即得到结果。
 
@@ -444,7 +444,7 @@ let list = {
 
 列表的图形表示：
 
-![linked list](linked-list.png)
+![linked list](linked-list.svg)
 
 一段用来创建的代码：
 
@@ -464,7 +464,7 @@ let secondList = list.next.next;
 list.next.next = null;
 ```
 
-![linked list split](linked-list-split.png)
+![linked list split](linked-list-split.svg)
 
 合并：
 
@@ -488,7 +488,7 @@ list = { value: "new item", next: list };
 */!*
 ```
 
-![linked list](linked-list-0.png)
+![linked list](linked-list-0.svg)
 
 为了移除中间的一个值，修改前一个元素的 `next`：
 
@@ -496,7 +496,7 @@ list = { value: "new item", next: list };
 list.next = list.next.next;
 ```
 
-![linked list](linked-list-remove-1.png)
+![linked list](linked-list-remove-1.svg)
 
 我们让 `list.next` 从 `1` 跳到值 `2`。值 `1` 就从链上被去除。如果没有被存储在其它地方，那么它会自动的从内存中被移除。
 

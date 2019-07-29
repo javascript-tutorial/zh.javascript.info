@@ -2,7 +2,7 @@
 
 坐标从设置了相对定位的最近的元素的左上角开始：
 
-![](field.png)
+![](field.svg)
 
 该元素内容区域的宽/高是 `clientWidth/clientHeight`，所以该元素有效范围的中心的坐标为 `(clientWidth/2, clientHeight/2)`。
 

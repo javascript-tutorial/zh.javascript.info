@@ -48,19 +48,19 @@ alert( str.match(reg) ); // "witch" and her "broom"
 
     然后它进行下一步：移至字符串中的下一个位置，并试图匹配模式中的第一个字符，最终在第三个位置匹配到了引号：
 
-    ![](witch_greedy1.png)
+    ![](witch_greedy1.svg)
 
 2. 检测到了引号后，引擎就尝试去匹配模式中的剩余字符。它试图查看剩余的字符串主体是否符合 `pattern:.+"`。
 
     在我们的用例中，模式中的下一个字符为 `pattern:.`（一个点）。它表示匹配除了换行符之外的任意字符，所以将会匹配下一个字符 `match:'w'`：
 
-    ![](witch_greedy2.png)
+    ![](witch_greedy2.svg)
 
 3. 然后因为量词 `pattern:.+`，模式中的点（.）将会重复。正则表达式引擎逐一读取字符，当该字符可能匹配时就用它来构建匹配项。
 
     ...什么时候会不匹配？点（.）能够匹配所有字符，所以只有在移至字符串末尾时才停止匹配：
 
-    ![](witch_greedy3.png)
+    ![](witch_greedy3.svg)
 
 4. 现在引擎完成了对重复模式 `pattern:.+` 的搜索，并且试图寻找模式中的下一个字符。这个字符是引号 `pattern:"`。但还有一个问题，对字符串的遍历已经结束，已经没有更多的字符了！
 
@@ -68,7 +68,7 @@ alert( str.match(reg) ); // "witch" and her "broom"
 
     换句话说，它去掉了量词的匹配项的最后一个字符：
 
-    ![](witch_greedy4.png)
+    ![](witch_greedy4.svg)
 
     现在它假设在结束前，`pattern:.+` 会匹配一个字符，并尝试匹配剩余的字符。
 
@@ -76,13 +76,13 @@ alert( str.match(reg) ); // "witch" and her "broom"
 
 5. ...所以引擎会再去掉一个字符，以此来减少 `pattern:.+` 的重复次数：
 
-    ![](witch_greedy5.png)
+    ![](witch_greedy5.svg)
 
     `pattern:'"'` 并不会匹配 `subject:'n'`。
 
 6. 引擎不断进行回溯：它减少了 `pattern:'.'` 的重复次数，直到模式的其它部分（在我们的用例中是 `pattern:'"'`）匹配到结果：
 
-    ![](witch_greedy6.png)
+    ![](witch_greedy6.svg)
 
 7. 匹配完成。
 
@@ -118,29 +118,29 @@ alert( str.match(reg) ); // witch, broom
 
 1. 第一步依然相同：它在第三个位置开始 `pattern:'"'`：
 
-    ![](witch_greedy1.png)
+    ![](witch_greedy1.svg)
 
 2. 下一步也是类似的：引擎为 `pattern:'.'` 找到了一个匹配项：
 
-    ![](witch_greedy2.png)
+    ![](witch_greedy2.svg)
 
 3. 接下来就是搜索过程出现不同的时候了。因为我们对 `pattern:+?` 启用了懒惰模式，引擎不会去尝试多匹配一个点，并且开始了对剩余的 `pattern:'"'` 的匹配：
 
-    ![](witch_lazy3.png)
+    ![](witch_lazy3.svg)
 
     如果有一个引号，搜索就会停止，但是有一个 `'i'`，所以没有匹配到引号。
 4. 接着，正则表达式引擎增加对点的重复搜索次数，并且再次尝试：
 
-    ![](witch_lazy4.png)
+    ![](witch_lazy4.svg)
 
     又失败了。然后重复次数一次又一次的增加...
 5. ...直到模式中的剩余部分找到匹配项：
 
-    ![](witch_lazy5.png)
+    ![](witch_lazy5.svg)
 
 6. 接下来的搜索工作从当前匹配结束的那一项开始，就会再产生一个结果：
 
-    ![](witch_lazy6.png)
+    ![](witch_lazy6.svg)
 
 在这个例子中，我们看到了懒惰模式 `pattern:+?` 是怎样工作的。量词 `pattern:+?` 和 `pattern:??` 也有类似的效果 —— 只有在模式的剩余部分无法在给定位置匹配时，正则表达式引擎才会增加重复次数。
 

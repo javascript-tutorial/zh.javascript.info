@@ -109,7 +109,7 @@ alert(obj[key]); // [object Object]，而不是 "some value"！
 
 `__proto__` 根本不是一个对象的属性，只是 `Object.prototype` 的访问属性：
 
-![](object-prototype-2.png)
+![](object-prototype-2.svg)
 
 因此，如果 `obj.__proto__` 被读取或者赋值，那么对应的 getter/setter 从它的原型被调用，它会获取/设置 `[[Prototype]]`。
 
@@ -130,7 +130,7 @@ alert(obj[key]); // "some value"
 
 `Object.create(null)` 创建了一个空对象，这个对象没有原型（`[[Prototype]]` 是 `null`）：
 
-![](object-prototype-null.png)
+![](object-prototype-null.svg)
 
 因此，它没有继承 `__proto__` 的 getter/setter 方法。现在它像正常的数据属性一样运行，因此以上的例子运行正确。
 
@@ -227,7 +227,7 @@ for(let prop in rabbit) {
 ```
 这个例子中我们有以下继承链：`rabbit`，然后 `animal`，然后 `Object.prototype` （因为 `animal` 是个字面量对象 `{...}`，因此默认是这样），然后最终到达 `null`：
 
-![](rabbit-animal-object.png)
+![](rabbit-animal-object.svg)
 
 请注意：这里有一个有趣的现象。`rabbit.hasOwnProperty` 这个方法来自哪里？观察继承链我们发现这个方法由 `Object.prototype.hasOwnProperty` 提供。换句话说，它是继承得来的。
 

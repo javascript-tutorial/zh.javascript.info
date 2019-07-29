@@ -12,15 +12,15 @@
 
 例如，两点曲线：
 
-![](bezier2.png)
+![](bezier2.svg)
 
 三点曲线：
 
-![](bezier3.png)
+![](bezier3.svg)
 
 四点曲线：
 
-![](bezier4.png)
+![](bezier4.svg)
 
 如果仔细观察这些曲线，你会立即注意到：
 
@@ -29,7 +29,7 @@
 对于两个点我们能得到一条线性曲线（直线），三个点 — 一条二阶曲线，四个点 — 一条三阶曲线。
 3. **曲线总是在控制点的[凸包](https://en.wikipedia.org/wiki/Convex_hull)内部：**
 
-    ![](bezier4-e.png) ![](bezier3-e.png)
+    ![](bezier4-e.svg) ![](bezier3-e.svg)
 
 由于最后一个属性，在计算机图形学中，可以优化相交测试。如果凸包不相交，则曲线也不相交。因此，首先检查凸包的交叉点可以非常快地给出“无交叉”结果。检查交叉区域或凸包更容易，因为它们是矩形，三角形等（见上图），比曲线简单的多。
 
@@ -45,7 +45,7 @@
 
 这里有一些例子：
 
-![](bezier-car.png) ![](bezier-letter.png) ![](bezier-vase.png)
+![](bezier-car.svg) ![](bezier-letter.svg) ![](bezier-vase.svg)
 
 ## 数学
 
@@ -114,7 +114,7 @@
 
 | 当 `t=0.25`              | 当 `t=0.5`             |
 | ------------------------ | ---------------------- |
-| ![](bezier3-draw1.png)   | ![](bezier3-draw2.png) |
+| ![](bezier3-draw1.svg)   | ![](bezier3-draw2.svg) |
 
 4. 现在在<span style="color:#167490">蓝色</span>线段上取一个点，距离比例取相同数值的 `t`。也就是说，当 `t=0.25`（左图）时，我们取到的点位于线段的左 1/4 终点处，当 `t=0.5`（右图）时 — 线段中间。在上图中这一点是<span style="color:red">红色</span>的。
 

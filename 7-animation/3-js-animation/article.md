@@ -164,7 +164,7 @@ function animate({timing, draw, duration}) {
 
     图像如下：
 
-    ![](linear.png)
+    ![](linear.svg)
 
     它类似于 `transition-timing-function: linear`。后文有更多有趣的变体。
 
@@ -225,7 +225,7 @@ function quad(timeFraction) {
 
 图像如下：
 
-![](quad.png)
+![](quad.svg)
 
 看看实际效果（点击激活）：
 
@@ -235,7 +235,7 @@ function quad(timeFraction) {
 
 下面是 `progress` 为 `5` 次幂的图像:
 
-![](quint.png)
+![](quint.svg)
 
 实际效果：
 
@@ -253,7 +253,7 @@ function circ(timeFraction) {
 
 图像：
 
-![](circ.png)
+![](circ.svg)
 
 [iframe height=40 src="circ" link]
 
@@ -273,7 +273,7 @@ function back(x, timeFraction) {
 
 **`x = 1.5` 时的图像：**
 
-![](back.png)
+![](back.svg)
 
 在动画中我们使用特定的 `x` 值。下面是 `x = 1.5` 时的例子：
 
@@ -310,7 +310,7 @@ function elastic(x, timeFraction) {
 ```
 
 **`x=1.5` 时的图像：**
-![](elastic.png)
+![](elastic.svg)
 
 `x=1.5` 时的演示
 
@@ -353,7 +353,7 @@ let bounceEaseOut = makeEaseOut(bounce);
 
 在这里，我们可以看到变换如何改变函数的行为：
 
-![](bounce-inout.png)
+![](bounce-inout.svg)
 
 如果在开始时有动画效果，比如弹跳 —— 那么它将在最后显示。
 
@@ -399,7 +399,7 @@ bounceEaseInOut = makeEaseInOut(bounce);
 
 如果我们比较 `circ` 时序函数的 `easeIn`、`easeOut` 和 `easeInOut` 的图像，就可以清楚地看到效果：
 
-![](circ-ease.png)
+![](circ-ease.svg)
 
 - <span style="color:#EE6B47">红色</span>是 `circ`（`easeIn`）的常规变体。
 - <span style="color:#8DB173">绿色</span> —— `easeOut`。

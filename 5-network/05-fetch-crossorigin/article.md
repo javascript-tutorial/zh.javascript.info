@@ -149,7 +149,7 @@ Origin: https://javascript.info
 1. 它确保通过跨域请求发送正确的 `Origin`。
 2. 如果在响应中检查出正确的 `Access-Control-Allow-Origin`，如果是，则 JavaScript 能正常访问（目标资源），否则被禁止并报错。
 
-![](xhr-another-domain.png)
+![](xhr-another-domain.svg)
 
 这是一个得到服务器许可的响应示例：
 ```
@@ -215,7 +215,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 - 响应头 `Access-Control-Allow-Headers` 必须具有允许的头列表。
 - 另外，响应头 `Access-Control-Max-Age` 可以指定缓存此权限的秒数。因此，浏览器不必为满足给定权限的后续请求发送预检。
 
-![](xhr-preflight.png)
+![](xhr-preflight.svg)
 
 让我们用一个例子来一步步展示它是怎么工作的，对于跨域的 `PATCH` 请求（这个方法通常被用来上传数据）：
 

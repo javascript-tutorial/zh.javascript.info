@@ -97,7 +97,7 @@ new User("Dude").sayHi(); // Hello Dude!
 
 请注意在 `sayHiMixin` 内部对于父类方法 `super.say()` 的调用会在 mixin 的原型上查找方法而不是在 class 自身查找。
 
-![](mixin-inheritance.png)
+![](mixin-inheritance.svg)
 
 那是因为 `sayHiMixin` 内部的方法设置了 `[[HomeObject]]` 属性。因此 `super` 实际上就是 `sayHiMixin.__proto__` ，而不是 `User.__proto__`。
 

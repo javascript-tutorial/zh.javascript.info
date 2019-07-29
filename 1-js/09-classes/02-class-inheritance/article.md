@@ -24,7 +24,7 @@ class Animal {
 let animal = new Animal("My animal");
 ```
 
-![](rabbit-animal-independent-animal.png)
+![](rabbit-animal-independent-animal.svg)
 
 
 ...和 `Rabbit`：
@@ -42,7 +42,7 @@ class Rabbit {
 let rabbit = new Rabbit("My rabbit");
 ```
 
-![](rabbit-animal-independent-rabbit.png)
+![](rabbit-animal-independent-rabbit.svg)
 
 
 现在，它们是完全独立的。
@@ -88,7 +88,7 @@ rabbit.hide(); // White Rabbit hides!
 
 在其内部，`extends` 关键字添加了 `[[Prototype]]` 引用：从 `Rabbit.prototype` 到 `Animal.prototype`：
 
-![](animal-rabbit-extends.png)
+![](animal-rabbit-extends.svg)
 
 因此，如果在 `Rabbit.prototype` 中没有找到某个方法，JavaScript 将会从 `Animal.prototype` 中获取它。
 
@@ -384,7 +384,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 
 这张图介绍了发生的情况：
 
-![](this-super-loop.png)
+![](this-super-loop.svg)
 
 1. 在 `longEar.eat()` 中，(\*\*) 这一行调用 `rabbit.eat` 并且此时 `this=longEar`。
     ```js
@@ -501,7 +501,7 @@ tree.sayHi();  // I'm an animal (?!?)
 - 所以它的 `[[HomeObject]]` 是 `rabbit`，因为他是在 `rabbit` 中创建的。没有办法修改 `[[HomeObject]]`。
 - `tree.sayHi()` 内具有 `super.sayHi()`。它从 `rabbit` 中上溯，然后从 `animal` 中获取方法。
 
-![](super-homeobject-wrong.png)
+![](super-homeobject-wrong.svg)
 
 ### 方法，不是函数属性
 

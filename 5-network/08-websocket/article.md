@@ -75,7 +75,7 @@ When `new WebSocket(url)` is created, it starts an HTTP handshake (HTTPS for `ws
 
 The browser asks the server: "Do you support Websocket?" And if the server says "yes", then the talk continues in WebSocket protocol, which is not HTTP at all.
 
-![](websocket-handshake.png)
+![](websocket-handshake.svg)
 
 Here's an example of browser request for `new WebSocket("wss://javascript.info/chat")`.
 

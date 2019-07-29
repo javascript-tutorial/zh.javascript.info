@@ -222,7 +222,7 @@ loadScript('1.js', function(error, script) {
 
 这有时称为“回调地狱”或者“回调金字塔”。
 
-![](callback-hell.png)
+![](callback-hell.svg)
 
 嵌套调用的“金字塔”在每一个异步动作中都会向右增长。很快就会失去控制。
 

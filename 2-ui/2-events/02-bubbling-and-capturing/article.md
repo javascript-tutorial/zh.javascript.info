@@ -41,7 +41,7 @@
 3. 再然后是外部的 `<form>`。
 4. 以此类推，直到最后的 `document` 对象。
 
-![](event-order-bubbling.png)
+![](event-order-bubbling.svg)
 
 因此，如果我们单击 `<p>`，那么我们将看到 3 个警告： `p` -> `div` -> `form`。
 
@@ -128,7 +128,7 @@
 
 下面是在表格中单击 `<td>` 的图片，取自规范：
 
-![](eventflow.png)
+![](eventflow.svg)
 
 即：对于 `<td>` 的单击，事件首先通过祖先链向下传递到元素（捕获），然后到达目标，最后上升（冒泡），在途中调用处理器。
 

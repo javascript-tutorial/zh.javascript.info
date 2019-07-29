@@ -14,7 +14,7 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 
 下图做了进一步解释：
 
-![](dom-class-hierarchy.png)
+![](dom-class-hierarchy.svg)
 
 类如下所示：
 

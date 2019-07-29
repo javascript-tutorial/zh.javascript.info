@@ -48,7 +48,7 @@ alert(url.pathname); // /url
 
 这是其组件列表：
 
-![](url-object.png)
+![](url-object.svg)
 
 - `href` 是完整的 URL，与 `url.toString()` 相同
 - `protocol` 以冒号字符 `:` 结尾
