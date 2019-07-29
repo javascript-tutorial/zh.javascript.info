@@ -33,7 +33,7 @@ class Uploader {
 
     // 发送文件 id，这样服务器就知道要恢复哪个文件
     xhr.setRequestHeader('X-File-Id', this.fileId);
-    // 发送我们正在恢复的字节（byte），这样服务器就知道我们正在恢复中
+    // 发送我们开始进行恢复的起点字节（即之前已经上传的字节数），这样服务器就知道我们正在恢复中
     xhr.setRequestHeader('X-Start-Byte', this.startByte);
 
     xhr.upload.onprogress = (e) => {
