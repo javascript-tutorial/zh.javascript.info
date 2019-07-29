@@ -6,19 +6,33 @@
 
 当鼠标指针出现在一个元素上时，`mouseover` 事件就会发生，而 `mouseout` 事件则发生在鼠标指针离开时。
 
-![](mouseover-mouseout.png)
+![](mouseover-mouseout.svg)
 
 这些事件很特别，因为它们有 `relatedTarget`。
 
+<<<<<<< HEAD
 对于 `mouseover`：
 
 - `event.target` —— 是鼠标经过的那个元素。
 - `event.relatedTarget` —— 是鼠标上一次经过的元素。
+=======
+This property complements `target`. When a mouse leaves one element for another, one of them becomes `target`, and the other one `relatedTarget`.
+
+For `mouseover`:
+
+- `event.target` -- is the element where the mouse came over.
+- `event.relatedTarget` -- is the element from which the mouse came (`relatedTarget` -> `target`).
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 `mouseout` 则与之相反：
 
+<<<<<<< HEAD
 - `event.target` —— 是鼠标离开的元素。
 - `event.relatedTarget` —— 是当前指针位置下的（鼠标进入的）元素。
+=======
+- `event.target` -- is the element that mouse left.
+- `event.relatedTarget` -- is the new under-the-pointer element, that mouse left for (`target` -> `relatedTarget`).
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```online
 在下面示例中，每个特性都是一个元素。当你移动鼠标时你可以看到文本区域的鼠标事件。
@@ -44,17 +58,21 @@
 
 这意味着如果访问者非常快地移动鼠标，那么 DOM 元素就会被跳过：
 
-![](mouseover-mouseout-over-elems.png)
+![](mouseover-mouseout-over-elems.svg)
 
 如果鼠标从上面的 `#FROM` 到 `#TO` 元素移动地非常快，那么中间的 `<div>`（或其中的一些）可能会被跳过。`mouseout` 事件可能会在 `#FROM` 上被触发，然后立即在 `#TO` 上触发 `mouseover`。
 
 这在实践中是有用的，因为可能会有许多中间元素。我们并不是真的想要处理每一个进入离开的过程。
 
+<<<<<<< HEAD
 另一方面，我们应该记住，我们不能假设鼠标会缓慢地从一个事件移动到另一个事件。是的，它可以“跳”。
+=======
+On the other hand, we should keep in mind that we can't assume that the mouse slowly moves from one event to another. No, it can "jump".
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 特别是，光标可能从窗口外跳进页面的中间。此时 `relatedTarget=null`，这是因为鼠标来自“窗口外（nowhere）”：
 
-![](mouseover-mouseout-from-outside.png)
+![](mouseover-mouseout-from-outside.svg)
 
 <div style="display:none">
 在快速移动的情况下，中间元素可能不会触发事件。但如果鼠标进入元素（`mouseover`），当它离开时，就一定会触发`mouseout`。
@@ -74,7 +92,7 @@
 
 想象一下 —— 鼠标指针进入一个元素。`mouseover` 被触发。然后光标进入一个子元素。有趣的是，在这种情况下 `mouseout` 会被触发。光标仍然在元素中，但我们从它那儿接收到了 `mouseout` 事件！
 
-![](mouseover-to-child.png)
+![](mouseover-to-child.svg)
 
 这听起来很奇怪，但很容易解释。
 
@@ -96,7 +114,11 @@
 
 因此，对于不考虑 `target` 的处理器，这看起来就像是在 `mouseout` 事件中，鼠标离开了父元素（第 `(2)` 步），然后在第 `(3)` 步的 `mouseover` 事件中鼠标又回到了父元素上。
 
+<<<<<<< HEAD
 如果我们在进入/离开元素时执行一些动作，就会多执行很多“错误”操作。对于简单的事情可能不引人注目。但对于复杂的事情来说，会带来不必要的副作用。
+=======
+If we perform some actions on entering/leaving the element, then we'll get a lot of extra "false" runs. For simple stuff that may be unnoticeable. For complex things that may bring unwanted side-effects.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 我们可以通过使用 `mouseenter/mouseleave` 事件来解决这个问题。
 
@@ -169,7 +191,11 @@ table.onmouseout = function(event) {
 
 [codetabs height=380 src="mouseenter-mouseleave-delegation-2"]
 
+<<<<<<< HEAD
 尝试在表格单元之间或内部移动光标，太快或太慢都有问题。与之前不同的是只有 `<td>` 作为一个整体被高亮显示。
+=======
+Try to move the cursor in and out of table cells and inside them. Fast or slow -- doesn't matter. Only `<td>` as a whole is highlighted unlike the example before.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ```
 
 

@@ -1,7 +1,11 @@
 
 # 事件委托
 
+<<<<<<< HEAD
 捕获和冒泡允许实现一种称为**事件委托**的强大的事件处理模式。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 我们的想法是，如果我们有许多元素是以类似的方式处理的，那么我们就不需要给每个元素分配一个处理器 —— 而是在它们共同的祖先上面添加一个处理器。
 
@@ -81,7 +85,7 @@ function highlight(td) {
 
 当然，如果单击该 `<strong>`，那么它将成为 `event.target` 的值。
 
-![](bagua-bubble.png)
+![](bagua-bubble.svg)
 
 在处理器 `table.onclick` 中，我们应该接受这样的 `event.target`，并确定单击是否在 `<td>` 内。
 
@@ -182,7 +186,11 @@ table.onclick = function(event) {
 
 ### 计数
 
+<<<<<<< HEAD
 例如，这里的 `data-counter` 属性给按钮添加了一个“点击增加”的行为。
+=======
+For instance, here the attribute `data-counter` adds a behavior: "increase value on click" to buttons:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 类继承自对象？
+# Class extends Object?
 
-正如我们所知道的那样，所有的对象通常都继承自 `Object.prototype`，并且可以访问像 `hasOwnProperty` 那样的通用方法。
+As we know, all objects normally inherit from `Object.prototype` and get access to "generic" object methods like `hasOwnProperty` etc.
 
-举个例子:
+For instance:
 
 ```js run
 class Rabbit {
@@ -18,17 +18,17 @@ class Rabbit {
 let rabbit = new Rabbit("Rab");
 
 *!*
-// hasOwnProperty 方法来自 Object.prototype
+// hasOwnProperty method is from Object.prototype
 // rabbit.__proto__ === Object.prototype
 alert( rabbit.hasOwnProperty('name') ); // true
 */!*
 ```
 
-但是如果我们明确的拼出 `"class Rabbit extends Object"`，那么结果会和简单的 `"class Rabbit"` 有所不同么？
+But if we spell it out explicitly like `"class Rabbit extends Object"`, then the result would be different from a simple `"class Rabbit"`?
 
-如果有的话，不同之处又在哪？
+What's the difference?
 
-这里是示例代码（它确实无法运行了，原因是什么？请解决它）：
+Here's an example of such code (it doesn't work -- why? fix it?):
 
 ```js
 class Rabbit extends Object {
@@ -41,5 +41,3 @@ let rabbit = new Rabbit("Rab");
 
 alert( rabbit.hasOwnProperty('name') ); // true
 ```
-
-

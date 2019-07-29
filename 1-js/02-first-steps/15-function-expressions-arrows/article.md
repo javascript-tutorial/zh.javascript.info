@@ -41,7 +41,11 @@ alert( sayHi ); // 查看函数代码
 
 JavaScript 中，函数是一个值，所以我们可以把它当成值对待。上面代码显示了一段字符串值，即函数的源码。
 
+<<<<<<< HEAD
 虽然我们可以这样调用 `sayHi()`，但它依然是一个特殊值。
+=======
+Surely, a function is a special values, in the sense that we can call it like `sayHi()`.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 所以我们可以像使用其他类型的值一样使用它。
 
@@ -60,11 +64,17 @@ sayHi(); // Hello    //     this still works too (why wouldn't it)
 
 上段代码发生的细节：
 
+<<<<<<< HEAD
 1. `(1)` 中声明创建了函数，并把它放入变量 `sayHi`。
 2. `(2)` 复制进变量 `func`。
 
     请注意：`sayHi` 旁边没有括号。 如果有括号， `func = sayHi()` 会把 `sayHi()` 的调用结果写进`func`, 而不是 `sayHi` **函数**本身。
 3. 现在调用 `sayHi()` 和 `func()`。
+=======
+1. The Function Declaration `(1)` creates the function and puts it into the variable named `sayHi`.
+2. Line `(2)` copies it into the variable `func`. Please note again: there are no parentheses after `sayHi`. If there were, then `func = sayHi()` would write  *the result of the call* `sayHi()` into `func`, not *the function* `sayHi` itself.
+3. Now the function can be called as both `sayHi()` and `func()`.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 注意这里的第一行我们用函数表达式声明 `sayHi`：
 
@@ -78,8 +88,13 @@ let func = sayHi;
 这两种声明的函数是一样的，那么他们有什么不同的地方呢？
 
 
+<<<<<<< HEAD
 ````smart header="Why there's a semicolon at the end?"
  这里可能有个疑问，为什么函数表达式结尾有一个 `;`，而函数声明没有：
+=======
+````smart header="Why is there a semicolon at the end?"
+You might wonder, why does Function Expression have a semicolon `;` at the end, but Function Declaration does not:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js
 function sayHi() {
@@ -91,9 +106,15 @@ let sayHi = function() {
 }*!*;*/!*
 ```
 
+<<<<<<< HEAD
 答案很简单：
 - 在代码块的结尾是不需要 `;`，像 `if { ... }`，`for {  }`，`function f { }` 等语法结构后面都不用加。
 - 函数表达式通常这样声明： `let sayHi = ...;`，作为一个变量。 而不是代码块。不管什么值，建议在语句结尾处建议使用分号 `;`。所以这里的分号与函数表达式本身没有任何关系，它只是终止了语句。
+=======
+The answer is simple:
+- There's no need for `;` at the end of code blocks and syntax structures that use them like `if { ... }`, `for {  }`, `function f { }` etc.
+- A Function Expression is used inside the statement: `let sayHi = ...;`, as a value. It's not a code block, but rather an assignment. The semicolon `;` is recommended at the end of statements, no matter what is the value. So the semicolon here is not related to the Function Expression itself, it just terminates the statement.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ````
 
 ## 回调函数
@@ -175,7 +196,11 @@ ask(
 
 让我们来阐述函数声明和表达式之间的关键区别。
 
+<<<<<<< HEAD
 首先是语法：看下面代码
+=======
+First, the syntax: how to differentiate between them in the code.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 - **函数声明：** 函数在主代码流中单独声明。
 
@@ -185,8 +210,13 @@ ask(
       return a + b;
     }
     ```
+<<<<<<< HEAD
 - **函数表达式：** 一个函数，在一个表达式中或另一个语法结构中创建。这里，该函数由赋值表达式 `=` 右侧创建：
     
+=======
+- *Function Expression:* a function, created inside an expression or inside another syntax construct. Here, the function is created at the right side of the "assignment expression" `=`:
+
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
     ```js
     // Function Expression
     let sum = function(a, b) {
@@ -196,12 +226,19 @@ ask(
 
 细微差别是在 JavaScript 引擎中在**什么时候**创建函数。
 
+<<<<<<< HEAD
 **函数表达式在执行到达时创建并可用。**
 
 一旦执行到右侧分配 `let sum = function…`，就会创建并可以使用(复制，调用等)。
+=======
+**A Function Expression is created when the execution reaches it and is usable only from that moment.**
+
+Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called, etc. ) from now on.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 函数声明则不同。
 
+<<<<<<< HEAD
 **函数声明可用于整个脚本/代码块。**
 
 换句话说，当 JavaScript **准备**运行脚本或代码块时，它首先在其中查找函数声明并创建函数。我们可以将其视为“初始化阶段”。
@@ -209,6 +246,15 @@ ask(
 在处理完所有函数声明后，执行继续。
 
 因此，声明为函数声明的函数可以比定义的更早调用。
+=======
+**A Function Declaration can be called earlier than it is defined.**
+
+For example, a global Function Declaration is visible in the whole script, no matter where it is.
+
+That's due to internal algorithms. When JavaScript prepares to run the script, it first looks for global Function Declarations in it and creates the functions. We can think of it as an "initialization stage".
+
+And after all Function Declarations are processed, the code is executed. So it has access to these functions.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 例如下面的代码会正常工作：
 
@@ -224,7 +270,11 @@ function sayHi(name) {
 
 函数声明 `sayHi` 是在 JavaScript 准备启动脚本并在其中时创建的。
 
+<<<<<<< HEAD
 ...如果它是一个函数表达式，它就不会工作：
+=======
+...If it were a Function Expression, then it wouldn't work:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js run refresh untrusted
 *!*
@@ -238,13 +288,23 @@ let sayHi = function(name) {  // (*) no magic any more
 
 函数表达式执行到时才会创建，在这里为时已晚。
 
+<<<<<<< HEAD
 **当一个函数声明在一个代码块内运行时，它在该块内的任何地方都是可见的。**
 
 有时候只需要在该块中声明本地函数就可以方便地运行。但是这个函数也可能会导致问题。
+=======
+Another special feature of Function Declarations is their block scope.
+
+**In strict mode, when a Function Declaration is within a code block, it's visible everywhere inside that block. But not outside of it.**
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 例如，让我们想象我们需要声明一个函数 `welcome()` 依赖 `age` 这个我们在运行时获得并在之后有可能用到的变量。
 
+<<<<<<< HEAD
 以下代码不能工作：
+=======
+If we use Function Declaration, it won't work as intended:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -292,7 +352,7 @@ if (age < 18) {
 
 } else {
 
-  function welcome() {     //  for age = 16, this "welcome" is never created
+  function welcome() {    
     alert("Greetings!");
   }
 }
@@ -309,7 +369,11 @@ welcome(); // Error: welcome is not defined
 
 正确的做法是使用函数表达式并将 `welcome` 赋值给在 `if` 之外声明的变量，并具有正确的可见性.
 
+<<<<<<< HEAD
 下面正常：
+=======
+This code works as intended:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -351,11 +415,19 @@ welcome(); // ok now
 
 
 ```smart header="When to choose Function Declaration versus Function Expression?"
+<<<<<<< HEAD
 作为一个经验，当我们需要声明一个函数时，首先要考虑的是函数声明语法，这是我们之前使用的语法。它给如何组织我们的代码提供了更多的自由，因为我们可以在声明它们之前调用这些函数。
 
 在代码中查找 `function f(…) {…}` 比 `let f = function(…) {…}` 更容易。
 
 ...但是，如果函数声明由于某种原因不适合我们（我们已经看到上面的例子），那么应该使用函数表达式。
+=======
+As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+
+That's also better for readability, as it's easier to look up `function f(…) {…}` in the code than `let f = function(…) {…}`. Function Declarations are more "eye-catching".
+
+...But if a Function Declaration does not suit us for some reason, or we need a conditional declaration (we've just seen an example), then Function Expression should be used.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ```
 
 
@@ -375,7 +447,7 @@ let func = (arg1, arg2, ...argN) => expression
 ```js
 let func = function(arg1, arg2, ...argN) {
   return expression;
-}
+};
 ```
 
 ...精简下。
@@ -396,7 +468,11 @@ alert( sum(1, 2) ); // 3
 
 ```
 
+<<<<<<< HEAD
 如果我们只有一个参数，那么括号可以省略，甚至更短：
+=======
+If we have only one argument, then parentheses around parameters can be omitted, making that even shorter:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js run
 // same as

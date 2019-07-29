@@ -1,10 +1,10 @@
-我们需要寻找 `#` 字符，后跟六个十六进制字符。
+We need to look for `#` followed by 6 hexadimal characters.
 
-一个十六进制字符可以被描述为 `pattern:[0-9a-fA-F]`。如果我们使用 `i` 标识，那么只需要 `pattern:[0-9a-f]`。
+A hexadimal character can be described as `pattern:[0-9a-fA-F]`. Or if we use the `i` flag, then just  `pattern:[0-9a-f]`.
 
-然后我们可以用量词 `pattern:{6}` 来查找这六个。
+Then we can look for 6 of them using the quantifier `pattern:{6}`.
 
-因此，我们得到正则表达式：`pattern:/#[a-f0-9]{6}/gi`。
+As a result, we have the regexp: `pattern:/#[a-f0-9]{6}/gi`.
 
 ```js run
 let reg = /#[a-f0-9]{6}/gi;
@@ -14,13 +14,13 @@ let str = "color:#121212; background-color:#AA00ef bad-colors:f#fddee #fd2"
 alert( str.match(reg) );  // #121212,#AA00ef
 ```
 
-问题是匹配到颜色值过长：
+The problem is that it finds the color in longer sequences:
 
 ```js run
 alert( "#12345678".match( /#[a-f0-9]{6}/gi ) ) // #12345678
 ```
 
-为了解决这个问题，我们可以在末尾加上 `pattern:\b`：
+To fix that, we can add `pattern:\b` to the end:
 
 ```js run
 // color

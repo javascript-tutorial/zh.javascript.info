@@ -111,9 +111,15 @@
 对于 JS 代码，这意味着我们应该检查 `if (event.ctrlKey || event.metaKey)`。
 ```
 
+<<<<<<< HEAD
 ```warn header="还有移动设备"
 键盘组合是工作流的一个补充。所以如果用户使用键盘操作 —— 它也能工作。
 如果你的设备没有 —— 那么还有另一个方法也可以实现。
+=======
+```warn header="There are also mobile devices"
+Keyboard combinations are good as an addition to the workflow. So that if the visitor has a
+ keyboard -- it works. And if their device doesn't have it -- then there should be another way to do the same.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ```
 
 ## 坐标：clientX/Y，pageX/Y
@@ -123,7 +129,11 @@
 1. 对于窗口而言：`clientX` 和 `clientY`。
 2. 对于文档而言：`pageX` 和 `pageY`。
 
+<<<<<<< HEAD
 比如，如果我们有一个 500 x 500 的窗口，鼠标在左上方，那么 `clientX` 和 `clientY` 都是 `0`。如果鼠标在中间，那么 `clientX` 和 `clientY` 就是 `250`。和它在文档中的位置无关。它们类似于 `position:fixed`。
+=======
+For instance, if we have a window of the size 500x500, and the mouse is in the left-upper corner, then `clientX` and `clientY` are `0`. And if the mouse is in the center, then `clientX` and `clientY` are `250`, no matter what place in the document it is, how far the document was scrolled. They are similar to `position:fixed`.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ````online
 将鼠标移动到输入字段上，可以看到 `clientX/clientY`（它在 `iframe` 中，因此坐标是相对于 `iframe` 而言的）：
@@ -138,9 +148,15 @@
 
 你可以在本章中阅读到更多关于坐标的内容 <info:coordinates>。
 
+<<<<<<< HEAD
 ## Mousedown 没有选择
 
 鼠标点击有一个让人不安的副作用。双击可以选择文本。
+=======
+## Disabling selection on mousedown
+
+Mouse clicks have a side-effect that may be disturbing in some interfaces: a double click selects the text.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 如果我们想自己处理点击事件，那么“额外”的选择就显得多余了。
 
@@ -175,7 +191,11 @@ Before...
 
 ...但有一个潜在的问题！文本变得无法被选中。即使用户从“之前”开始选择，“之后”结束，选择也会跳过“不可选择”部分。我们真的想让文本不可选么？
 
+<<<<<<< HEAD
 大部分时间，我们不会那么做。用户可能有合理的理由来选择文本，以便进行复制或其他需要。如果我们不让他那么做那么可能不太方便。所以这个解决方案没那么好。
+=======
+Most of time, we don't. A user may have valid reasons to select the text, for copying or other needs. That may be inconvenient if we don't allow them to do it. So this solution is not that good.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 我们只是想阻止双击进行选择，仅此而已。
 
@@ -191,7 +211,11 @@ Before...
 
 现在，在双击时不选择粗体元素。
 
+<<<<<<< HEAD
 内部文字仍然可以被选中。但选择却不应该从文本自身开始，而是应该在文字之前或之后开始。通常情况下，都是正常的。
+=======
+The text inside it is still selectable. However, the selection should start not on the text itself, but before or after it. Usually that's fine for users.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ````smart header="取消选择"
 我们可以在事件处理器中用 "post-factum" 取消它，而不是**阻止**选择它。
@@ -235,9 +259,20 @@ Before...
 - 窗口相对坐标：`clientX/clientY`。
 - 文档相对坐标：`pageX/pageY`。
 
+<<<<<<< HEAD
 处理文本选择虽然也是不必要的点击副作用，但是却很重要。
 
 还有几种可以做到这一点的方法，比如：
 1. CSS 属性 `user-select:none`（带有浏览器前缀）完全禁用文本选择。
 2. 使用 `getSelection().removeAllRanges()` 取消选择后的内容。
 3. 处理 `mousedown` 并阻止默认操作（通常是最好的选择）。
+=======
+It's also important to deal with text selection, it may be an unwanted side-effect of clicks.
+
+There are several ways to do this, for instance:
+1. The CSS-property `user-select:none` (with browser prefixes) completely disables text-selection.
+2. Cancel the selection post-factum using `getSelection().removeAllRanges()`.
+3. Handle `mousedown` and prevent the default action (usually the best).
+
+The selection is a separate topic, covered in another chapter <info:selection-range>.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74

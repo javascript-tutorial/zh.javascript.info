@@ -1,6 +1,6 @@
-如果我们确信 `"constructor"` 属性具有正确的值，我们可以使用这种方法。
+We can use such approach if we are sure that `"constructor"` property has the correct value.
 
-例如，如果我们不访问默认的 `"prototype"`，那么这段代码肯定会起作用：
+For instance, if we don't touch the default `"prototype"`, then this code works for sure:
 
 ```js run
 function User(name) {
@@ -13,11 +13,11 @@ let user2 = new user.constructor('Pete');
 alert( user2.name ); // Pete (worked!)
 ```
 
-它起作用了，因为 `User.prototype.constructor == User`。
+It worked, because `User.prototype.constructor == User`.
 
-...但是如果有人说，覆盖 `User.prototype` 并忘记重新创建 `"constructor"`，那么它就会失败。
+..But if someone, so to say, overwrites `User.prototype` and forgets to recreate `"constructor"`, then it would fail.
 
-例如：
+For instance:
 
 ```js run
 function User(name) {
@@ -33,12 +33,12 @@ let user2 = new user.constructor('Pete');
 alert( user2.name ); // undefined
 ```
 
-为什么 `user2.name` 是 `undefined`？
+Why `user2.name` is `undefined`?
 
-`new user.constructor('Pete')` 的工作原理是：
+Here's how `new user.constructor('Pete')` works:
 
-1. 首先，它在 `user` 中寻找 `constructor`。什么也没有。
-2. 然后它追溯原型链。`user` 的原型是 `User.prototype`，它也什么都没有。
-3. `User.prototype` 的值是一个普通对象 `{}`，其原型是 `Object.prototype`。还有 `Object.prototype.constructor == Object`。所以就用它了。
+1. First, it looks for `constructor` in `user`. Nothing.
+2. Then it follows the prototype chain. The prototype of `user` is `User.prototype`, and it also has nothing.
+3. The value of `User.prototype` is a plain object `{}`, its prototype is `Object.prototype`. And there is `Object.prototype.constructor == Object`. So it is used.
 
-最后，我们有 `let user2 = new Object('Pete')`。内置的 `Object` 构造函数忽略参数，它总是创建一个空对象 —— 这就是我们在 `user2` 中所拥有的东西。
+At the end, we have `let user2 = new Object('Pete')`. The built-in `Object` constructor ignores arguments, it always creates an empty object -- that's what we have in `user2` after all.

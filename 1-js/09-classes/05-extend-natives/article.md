@@ -34,7 +34,11 @@ Even more, we can customize that behavior.
 
 We can add a special static getter `Symbol.species` to the class. If exists, it should return the constructor that JavaScript will use internally to create new entities in `map`, `filter` and so on.
 
+<<<<<<< HEAD
 If we'd like built-in methods like `map`, `filter` will return regular arrays, we can return `Array` in `Symbol.species`, like here:
+=======
+If we'd like built-in methods like `map` or `filter` to return regular arrays, we can return `Array` in `Symbol.species`, like here:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js run
 class PowerArray extends Array {
@@ -70,6 +74,7 @@ Built-in objects have their own static methods, for instance `Object.keys`, `Arr
 
 As we already know, native classes extend each other. For instance, `Array` extends `Object`.
 
+<<<<<<< HEAD
 Normally, when one class extends another, both static and non-static methods are inherited.
 
 So, if `Rabbit extends Animal`, then:
@@ -88,3 +93,16 @@ Here's the picture structure for `Date` and `Object`:
 ![](object-date-inheritance.png)
 
 Note, there's no link between `Date` and `Object`. Both `Object` and `Date` exist independently. `Date.prototype` inherits from `Object.prototype`, but that's all.
+=======
+Normally, when one class extends another, both static and non-static methods are inherited. That was thoroughly explained in the chapter [](info:static-properties-methods#statics-and-inheritance).
+
+But built-in classes are an exception. They don't inherit statics from each other.
+
+For example, both `Array` and `Date` inherit from `Object`, so their instances have methods from `Object.prototype`. But `Array.[[Prototype]]` does not reference `Object`, so there's no `Array.keys()` and `Date.keys()` static methods.
+
+Here's the picture structure for `Date` and `Object`:
+
+![](object-date-inheritance.svg)
+
+As you can see, there's no link between `Date` and `Object`. They are independent, only `Date.prototype` inherits from `Object.prototype`.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74

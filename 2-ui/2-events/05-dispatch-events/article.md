@@ -8,20 +8,31 @@
 
 ## 事件构造器
 
+<<<<<<< HEAD
 事件会像 DOM 元素类一样形成层次结构。事件的底层是内置的 [Event](http://www.w3.org/TR/dom/#event) 类。
+=======
+Build-in event classes form a hierarchy, similar to DOM element classes. The root is the built-in [Event](http://www.w3.org/TR/dom/#event) class.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 我们可以像这样创建 `Event` 对象：
 
 ```js
-let event = new Event(event type[, options]);
+let event = new Event(type[, options]);
 ```
 
 参数：
 
+<<<<<<< HEAD
 - **event type** —— 可以是任何字符串，比如 `"click"` 或者我们自己喜欢的 `"hey-ho!"`。
 - **options** —— 具有两个可选属性的对象：
   - `bubbles: true/false` —— 如果是 `true`，那么事件冒泡。
   - `cancelable: true/false` —— 如果 `true`，那么“默认动作”就会被阻止。之后我们会看到对于自定义事件，这些意味着什么。
+=======
+- *type* -- event type, a string like `"click"` or our own like `"my-event"`.
+- *options* -- the object with two optional properties:
+  - `bubbles: true/false` -- if `true`, then the event bubbles.
+  - `cancelable: true/false` -- if `true`, then the "default action"  may be prevented. Later we'll see what it means for custom events.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
   默认情况下，它们都是 false：`{bubbles: false, cancelable: false}`。
 
@@ -66,10 +77,18 @@ let event = new Event(event type[, options]);
   // ...dispatch on elem!
   let event = new Event("hello", {bubbles: true}); // (2)
   elem.dispatchEvent(event);
+
+  // the handler on document will activate and display the message.
+
 </script>
 ```
 
+<<<<<<< HEAD
 注意：
+=======
+
+Notes:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 1. 我们应该使用 `addEventListener` 定义我们的事件，因为 `on<event>` 仅存在于内置事件中，`document.onhello` 则无法运行。
 2. 必须设置 `bubbles:true`，否则事件不会向上冒泡。
@@ -149,7 +168,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
@@ -161,11 +180,17 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 如果 `cancelable:true` 被指定，那么我们可以在脚本生成的事件上调用 `event.preventDefault()`。
 
+<<<<<<< HEAD
 当然，如果事件有一个非标准的名称，那么浏览器就不知道它，而且它也没有“默认浏览器动作”。
 
 但是事件生成代码可能会在 `dispatchEvent` 之后安排一些动作。
 
 调用 `event.preventDefault()` 是处理器发送不应该执行这些操作的信号的一种方法。
+=======
+Of course, for custom events, with names unknown for the browser, there are no "default browser actions". But our code may plan its own actions after `dispatchEvent`.
+
+The call of `event.preventDefault()` is a way for the handler to send a signal that those actions should be canceled.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件生成代码知道处理器不应该继续。
 
@@ -234,7 +259,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
@@ -242,28 +267,33 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 这不仅仅是 `dispatchEvent`，还有其他案例。JavaScript 在事件处理时可以调用导致其他事件的方法 —— 它们也是被同步处理的。
 
+<<<<<<< HEAD
 如果我们不喜欢，可以将 `dispatchEvent`（或者其他事件触发器调用）放在 `onclick` 结束，或者如果不方便，可以将其包装在 `setTimeout(...,0)` 中：
+=======
+If we don't like it, we can either put the `dispatchEvent` (or other event-triggering call) at the end of `onclick` or wrap it in zero-delay `setTimeout`:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```html run
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> 2 -> nested
+  // Now the result is: 1 -> 2 -> nested
   menu.onclick = function() {
     alert(1);
 
     // alert(2)
     setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
-    })), 0);
+    })));
 
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
+<<<<<<< HEAD
 ## 总结
 
 要生成一个事件，我们首先需要创建一个事件对象。
@@ -271,6 +301,17 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 泛型 `Event(name, options)` 构造器接受任意事件名，`options` 对象具有两个属性：
   - `bubbles: true` ，如果事件应该冒泡的话。
   - `cancelable: true` 则 `event.preventDefault()` 应该有效。
+=======
+Now `dispatchEvent` runs asynchronously after the current code execution is finished, including `mouse.onclick`, so event handlers are totally separate.
+
+## Summary
+
+To generate an event from code, we first need to create an event object.
+
+The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
+  - `bubbles: true` if the event should bubble.
+  - `cancelable: true` if the `event.preventDefault()` should work.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 

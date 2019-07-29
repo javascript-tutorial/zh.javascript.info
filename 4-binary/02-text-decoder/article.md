@@ -2,7 +2,11 @@
 
 What if the binary data is actually a string? For instance, we received a file with textual data.
 
+<<<<<<< HEAD
 The build-in [TextDecoder](https://encoding.spec.whatwg.org/#interface-textdecoder) object allows to read the value into an an actual JavaScript string, given the buffer and the encoding.
+=======
+The build-in [TextDecoder](https://encoding.spec.whatwg.org/#interface-textdecoder) object allows to read the value into an actual JavaScript string, given the buffer and the encoding.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 We first need to create it:
 ```js
