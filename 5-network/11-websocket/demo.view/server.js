@@ -4,12 +4,12 @@ const ws = require('ws');
 const wss = new ws.Server({noServer: true});
 
 function accept(req, res) {
-  // all incoming requests must be websockets
+  // 所有传入请求都是 websockets
   if (!req.headers.upgrade || req.headers.upgrade.toLowerCase() != 'websocket') {
     res.end();
     return;
   }
-  // can be Connection: keep-alive, Upgrade
+  // 可以是 Connection: keep-alive, Upgrade
   if (req.headers.connection.match(/\bupgrade\b/i)) {
     res.end();
     return;
