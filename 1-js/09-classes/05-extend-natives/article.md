@@ -85,6 +85,6 @@ For example, both `Array` and `Date` inherit from `Object`, so their instances h
 
 Here's the picture structure for `Date` and `Object`:
 
-![](object-date-inheritance.png)
+![](object-date-inheritance.svg)
 
 Note, there's no link between `Date` and `Object`. Both `Object` and `Date` exist independently. `Date.prototype` inherits from `Object.prototype`, but that's all.

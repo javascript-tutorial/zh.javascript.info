@@ -28,7 +28,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 
 元素就像这样：
 
-![](metric-css.png)
+![](metric-css.svg)
 
 你可以 [在sandbox中打开文档](sandbox:metric).
 
@@ -48,7 +48,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 
 以下是显示总体情况的图片：
 
-![](metric-all.png)
+![](metric-all.svg)
 
 它们有很多属性，很难将它们全部放在单个图片中，但是它们的值很简单，容易理解。
 
@@ -81,7 +81,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 </script>
 ```
 
-![](metric-offset-parent.png)
+![](metric-offset-parent.svg)
 
 
 有以下几种情况 `offsetParent` 的值为 `null`：
@@ -96,7 +96,7 @@ JavaScript 中存在许多属性让我们能够读取元素的宽度、高度或
 
 这两个属性是最简单的。它们提供元素的“外部”宽度/高度。换句话说，它的完整大小包括边框。
 
-![](metric-offset-width-height.png)
+![](metric-offset-width-height.svg)
 
 在我们的示例元素中：
 
@@ -132,7 +132,7 @@ function isHidden(elem) {
 - `clientLeft = 25` — 左边框宽度
 - `clientTop = 25` — 上边框宽度
 
-![](metric-client-left-top.png)
+![](metric-client-left-top.svg)
 
 ...但确切地说，它们不是边框，而是内侧与外侧的相对坐标。
 
@@ -142,7 +142,7 @@ function isHidden(elem) {
 
 在这种情况下，`clientLeft` 的值将不是 `25`，而是加上滚动条的宽度 `25 + 16 = 41`：
 
-![](metric-client-left-top-rtl.png)
+![](metric-client-left-top-rtl.svg)
 
 ## clientWidth/Height
 
@@ -150,7 +150,7 @@ function isHidden(elem) {
 
 他们包含内容宽度和内填充宽度，但不包括滚动条宽度：
 
-![](metric-client-width-height.png)
+![](metric-client-width-height.svg)
 
 在上面的图片中，我们首先考虑 `clientHeight`：这很容易计算。没有水平滚动条，所以它正好是边界内的总和：CSS 高度 `200px` 加上顶部和底部的内填充宽度（`2 * 20px`），总计 `240px`。
 
@@ -158,7 +158,7 @@ function isHidden(elem) {
 
 **如果没有内间距，那么 `clientWidth/Height` 就是代表内容的宽度, 这里的内容指的是内间距和滚动条以内 (如果还有其他的)。**
 
-![](metric-client-width-nopadding.png)
+![](metric-client-width-nopadding.svg)
 
 因此，当没有内填充时，我们可以使用 `clientWidth/clientHeight` 来获取内容区域大小。
 
@@ -167,7 +167,7 @@ function isHidden(elem) {
 - 属性 `clientWidth/clientHeight` 只考虑元素的可见部分。
 - 属性 `scrollWidth/scrollHeight` 还包括滚动（隐藏）部分：
 
-![](metric-scroll-width-height.png)
+![](metric-scroll-width-height.svg)
 
 上图：
 
@@ -197,7 +197,7 @@ element.style.height = `${element.scrollHeight}px`;
 
 下面的图片我们可以看到 `scrollHeight` 和 `scrollTop` 是一个垂直滚动块的属性。
 
-![](metric-scroll-top.png)
+![](metric-scroll-top.svg)
 
 换种说法，`scrollTop` 就是 “滚动了多少” 的意思。
 

@@ -93,7 +93,7 @@ alert(typeof User); // function
 
 我们可以将 `class User` 声明结果解释为：
 
-![](class-user.png)
+![](class-user.svg)
 
 下面这些代码很好的解释了它们：
 

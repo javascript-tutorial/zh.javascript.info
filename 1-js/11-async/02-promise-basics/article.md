@@ -38,7 +38,7 @@ let promise = new Promise(function(resolve, reject) {
     - 将 `state` 设置为 `"rejected"`，
     - 将 `result` 设置为 `error`。
 
-![](promise-resolve-reject.png)
+![](promise-resolve-reject.svg)
 
 这是一个简单的 executor，可以把这一切都聚集在一起：
 
@@ -61,7 +61,7 @@ let promise = new Promise(function(resolve, reject) {
 
 经过一秒钟的思考后，executor 调用 `resolve("done")` 来产生结果：
 
-![](promise-resolve-1.png)
+![](promise-resolve-1.svg)
 
 这是“任务成功完成”的示例。
 
@@ -74,7 +74,7 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-![](promise-reject-1.png)
+![](promise-reject-1.svg)
 
 总之，executor 应该完成任务（通常会需要时间），然后调用 `resolve` 或 `reject` 来改变 promise 对象的对应状态。
 

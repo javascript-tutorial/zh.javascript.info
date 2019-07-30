@@ -8,7 +8,7 @@
 
 `document.documentElement` 的 `clientWidth/clientHeight` 属性正是我们这里想要的：
 
-![](document-client-width-height.png)
+![](document-client-width-height.svg)
 
 ```online
 例如，这个按钮能显示窗口的高度：

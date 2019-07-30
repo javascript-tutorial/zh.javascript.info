@@ -2,7 +2,7 @@
 
 通常情况下，这样的带是很宽的，但我们还是在其周围设置了一个固定大小的 `<div>` 来“剪切”它，因此只会有一部分带是可见的：
 
-![](carousel1.png)
+![](carousel1.svg)
 
 为了使列表水平显示，我们需要为 `<li>` 应用正确的 CSS 属性，比如 `display: inline-block`。
 
@@ -10,7 +10,7 @@
 
 我们可以移动 `<ul>` 来进行滚动。有很多方法都可以实现这一点，比如通过修改 `margin-left` 或者（性能更好）使用 `transform: translateX()`：
 
-![](carousel2.png)
+![](carousel2.svg)
 
 外部 `<div>` 具有固定的宽度，因此，"extra" 图像可以被剪切。
 

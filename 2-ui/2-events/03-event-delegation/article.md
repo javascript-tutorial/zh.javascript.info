@@ -81,7 +81,7 @@ function highlight(td) {
 
 当然，如果单击该 `<strong>`，那么它将成为 `event.target` 的值。
 
-![](bagua-bubble.png)
+![](bagua-bubble.svg)
 
 在处理器 `table.onclick` 中，我们应该接受这样的 `event.target`，并确定单击是否在 `<td>` 内。
 

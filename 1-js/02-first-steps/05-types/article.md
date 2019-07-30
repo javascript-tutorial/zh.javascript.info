@@ -89,17 +89,17 @@ let name = "John";
 alert( `Hello, *!*${name}*/!*!` ); // Hello, John!
 
 // embed an expression
-alert( `the result is *!*${1 + 2}*/!*` ); // 结果是 3
+alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
 ```
 
 `${…}` 内的表达式会被计算，结果成为字符串的一部分。可以在 `${…}` 内放置任何东西：诸如 `name` 的变量，或者诸如 `1 + 2` 的算数表达式，或者其他一些更复杂的。
 
 需要注意的是，这仅仅在反引号内有效，其他引号不允许这种嵌入。
 ```js run
-alert( "the result is ${1 + 2}" ); // 结果是 ${1 + 2} (双引号什么也不做)
+alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (双引号什么也不做)
 ```
 
-我们会在章节 <info:string> 讨论更多的细节。
+我们会在章节 <info:string> 讨论字符串更多的细节。
 
 ```smart header="没有 **character** 类型。"
 在一些语言中，单个字符有一个特殊的 “character” 类型，在 C 语言和 Java 语言中是 `char`。
@@ -140,7 +140,7 @@ alert( isGreater ); // true (比较的结果是 "yes")
 let age = null;
 ```
 
-相比较于其他语言，JavaScript 中的 `null` 不是一个“对不存在对象的引用”或者 “null 指针”。
+相比较于其他语言，JavaScript 中的 `null` 不是一个“对不存在对象的引用”或者“null 指针”。
 
 仅仅是一个含义为“无”、“空”或“值未知”的特殊值。
 
@@ -170,7 +170,7 @@ x = undefined;
 alert(x); // "undefined"
 ```
 
-...但是不建议这样做。通常，使用使用 `null` 将一个“空”或者“未知”的值写入变量中，`undefined` 仅仅用于检验，以查看变量是否被赋值或者其他类似的操作。
+……但是不建议这样做。通常，使用使用 `null` 将一个“空”或者“未知”的值写入变量中，`undefined` 仅仅用于检验，以查看变量是否被赋值或者其他类似的操作。
 
 ## object 类型和 symbol 类型
 
@@ -223,9 +223,10 @@ typeof alert // "function"  (3)
 2. `typeof null` 的结果是 `"object"`。这是不对的。这是官方在 `typeof` 方面承认的错误，只是为了兼容性而保留。当然，`null` 不是一个对象。它有自己的类型，是一个特殊值。再次强调，这是语言中的一个错误。
 3. `typeof alert` 的结果是 `"function"`，因为 `alert` 在语言中是一个函数。我们会在下一章学习函数，那时我们会了解到，在语言中没有一个特别的 "function" 类型。函数隶属于 object 类型。但是 `typeof` 会对函数区分对待。这不正确，但在实践中非常方便。
 
+
 ## 总结
 
-JavaScript 中有七种基本的类型。
+JavaScript 中有七种基本的数据类型。
 
 - `number` 用于任何类型的数字：整数或者浮点数。
 - `string` 用于字符串。一个字符串可以包含一个或多个字符，所以没有单独的单字符类型。

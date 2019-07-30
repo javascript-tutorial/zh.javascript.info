@@ -170,7 +170,7 @@ JSON.stringify(meetup); // Error: Converting circular structure to JSON
 
 在这里，转换失败，因为循环引用：`room.occupiedBy` 引用 `meetup`，`meetup.place` 引用 `room`：
 
-![](json-meetup.png)
+![](json-meetup.svg)
 
 
 ## 排除和替换：replacer

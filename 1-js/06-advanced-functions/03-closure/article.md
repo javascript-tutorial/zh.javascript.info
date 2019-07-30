@@ -74,7 +74,7 @@ JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空
 
 举个例子，这段简单的代码中只有一个词法环境：
 
-![lexical environment](lexical-environment-global.png)
+![lexical environment](lexical-environment-global.svg)
 
 这是一个所谓的与整个程序关联的全局词法环境。在浏览器中，所有的 `<script>` 标签都同享一个全局（词法）环境。
 
@@ -82,7 +82,7 @@ JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空
 
 这是关于 `let` 变量（如何变化）的全程展示：
 
-![lexical environment](lexical-environment-global-2.png)
+![lexical environment](lexical-environment-global-2.svg)
 
 右侧的矩形演示在执行期间全局词法环境是如何变化的：
 
@@ -106,7 +106,7 @@ JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空
 
 下面的代码的词法环境一开始并不为空。因为 `say` 是一个函数声明，所以它里面有 `say`。后面它获得了用 `let` 定义的 `phrase`（属性）。
 
-![lexical environment](lexical-environment-global-3.png)
+![lexical environment](lexical-environment-global-3.svg)
 
 
 ### 内部和外部的词法环境
@@ -128,7 +128,7 @@ JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空
 
 下面是`say("John")`内执行时词汇环境的图示，线上标有一个箭头：
 
-![lexical environment](lexical-environment-simple.png)
+![lexical environment](lexical-environment-simple.svg)
 
 在这个函数的执行中，有两个词法环境：内部一个（用于函数调用）和外部一个（全局）：
 
@@ -146,7 +146,7 @@ JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空
 - 当 `say` 中的 `alert` 试图访问 `name` 时，它立即在函数词法环境中被找到。
 - 当它试图访问 `phrase` 时，然而内部没有 `phrase` ，所以它追踪**外部**引用并在全局中找到它。
 
-![lexical environment lookup](lexical-environment-simple-lookup.png)
+![lexical environment lookup](lexical-environment-simple-lookup.svg)
 
 现在我们可以回答本章开头第一个问题了。
 
@@ -255,7 +255,7 @@ alert( counter() ); // 2
 
 当内部函数运行时，`count++` 会由内到外搜索该变量。在上面的例子中，步骤应该是：
 
-![](lexical-search-order.png)
+![](lexical-search-order.svg)
 
 1. 内部函数的本地。
 2. 外部函数的变量。
@@ -309,7 +309,7 @@ alert( counter2() ); // 0 （独立的）
 
 1. 在脚本开始时，只存在全局词法环境：
 
-    ![](lexenv-nested-makecounter-1.png)
+    ![](lexenv-nested-makecounter-1.svg)
 
     在开始时里面只有一个 `makeCounter` 函数，因为它是一个函数声明。它还没有执行。
 
@@ -321,7 +321,7 @@ alert( counter2() ); // 0 （独立的）
 
 2. 代码执行，`makeCounter()` 被执行。下图是当 `makeCounter()` 内执行第一行瞬间的快照：
 
-    ![](lexenv-nested-makecounter-2.png)
+    ![](lexenv-nested-makecounter-2.svg)
 
     在 `makeCounter()` 执行时，包含其变量和参数的词法环境被创建。
 
@@ -337,19 +337,19 @@ alert( counter2() ); // 0 （独立的）
 
     我们新的嵌套函数的 `[[Environment]]` 的值就是 `makeCounter()` 的当前词法环境（创建的位置）。
 
-    ![](lexenv-nested-makecounter-3.png)
+    ![](lexenv-nested-makecounter-3.svg)
 
     请注意在这一步中，内部函数并没有被立即调用。 `function() { return count++; }` 内的代码还没有执行，我们要返回它。
 
 4. 随着执行的进行，`makeCounter()` 调用完成，并且将结果（该嵌套函数）赋值给全局变量 `counter`。
 
-    ![](lexenv-nested-makecounter-4.png)
+    ![](lexenv-nested-makecounter-4.svg)
 
     这个函数中只有 `return count++` 这一行代码，当我们运行它时它会被执行。
 
 5. 当 `counter()` 执行时，它会创建一个『空』的词法环境。它本身没有局部变量，但是 `counter` 有 `[[Environment]]` 作为其外部引用，所以它可以访问前面创建的 `makeCounter()` 函数的变量。
 
-    ![](lexenv-nested-makecounter-5.png)
+    ![](lexenv-nested-makecounter-5.svg)
 
     如果它要访问一个变量，它首先会搜索它自身的词法环境（空），然后是前面创建的 `makeCounter()` 函数的词法环境，然后才是全局环境。
 
@@ -361,7 +361,7 @@ alert( counter2() ); // 0 （独立的）
 
 6. `counter()` 函数不仅会返回 `count` 的值，也会增加它。注意修改是『就地』完成的。准确地说是在找到 `count` 值的地方完成的修改。
 
-    ![](lexenv-nested-makecounter-6.png)
+    ![](lexenv-nested-makecounter-6.svg)
 
     因此，上一步只有一处不同 —— `count` 的新值。下面的调用也是同理。
 
@@ -371,7 +371,7 @@ alert( counter2() ); // 0 （独立的）
 
 下面代码中的 `work()` 函数通过外部词法环境引用使用到来自原来位置的 `name`。
 
-![](lexenv-nested-work.png)
+![](lexenv-nested-work.svg)
 
 所以，这里的结果是 `"Pete"`。
 
@@ -410,7 +410,7 @@ alert( counter2() ); // 0 （独立的）
     alert(user); // 错误，无法访问该变量！
     ```-->
 
-![](lexenv-if.png)
+![](lexenv-if.svg)
 
 新的词法环境是封闭的作为其外部引用，所以可以找到 `phrase`。但在 `if` 内声明的变量和函数表达式都保留在该词法环境中，从外部是无法被访问到的。
 

@@ -10,7 +10,7 @@
 
 在 JavaScript 中， 对象有一个特殊的隐藏属性 `[[Prototype]]`（如规范中说描述的），即 `null` 或者是另一个引用对象。该对象叫作 "a prototype"：
 
-![prototype](object-prototype-empty.png)
+![prototype](object-prototype-empty.svg)
 
 `[[Prototype]]` 有一个“神奇”的意义。当我们想要从 `object` 中读取一个属性时，它就丢失了。JavaScript 会自动从原型中获取它。在编程中，这样的事情称为“原型继承”。许多很酷的语言特性和编程技巧都是基于它的。
 
@@ -60,7 +60,7 @@ alert( rabbit.jumps ); // true
 
 当 `alert` 试图读取 `rabbit.eats` `(**)` 时，因为它不存在于 `rabbit`，JavaScript 会遵循 `[[Prototype]]` 引用，并在 `animal` 中查找（自顶向下）：
 
-![](proto-animal-rabbit.png)
+![](proto-animal-rabbit.svg)
 
 我们可以说 "`animal` 是 `rabbit`" 的原型或者说 "`rabbit` 的原型继承自 `animal`"。
 
@@ -91,7 +91,7 @@ rabbit.walk(); // Animal walk
 
 该方法自动从原型中提取，如下所示：
 
-![](proto-animal-rabbit-walk.png)
+![](proto-animal-rabbit-walk.svg)
 
 原型链可以很长：
 
@@ -119,7 +119,7 @@ longEar.walk(); // Animal walk
 alert(longEar.jumps); // true (from rabbit)
 ```
 
-![](proto-animal-rabbit-chain.png)
+![](proto-animal-rabbit-chain.svg)
 
 实际上只有两个限制：
 
@@ -159,7 +159,7 @@ rabbit.walk(); // Rabbit! Bounce-bounce!
 
 从现在开始，`rabbit.walk()` 调用将立即在对象中找到方法并执行它，而不是使用原型：
 
-![](proto-animal-rabbit-walk-2.png)
+![](proto-animal-rabbit-walk-2.svg)
 
 对于 getters/setters —— 如果我们读写一个属性，就会在原型中查找并调用它们。
 
@@ -235,7 +235,7 @@ alert(animal.isSleeping); // undefined (no such property in the prototype)
 
 结果：
 
-![](proto-animal-rabbit-walk-3.png)
+![](proto-animal-rabbit-walk-3.svg)
 
 如果我们从 `animal` 继承像 `bird`、`snake` 等其他对象，他们也将获取 `animal` 的方法。但是每个方法 `this` 都是相应的对象，而不是 `animal`，在调用时（在点之前）确定。因此当我们将数据写入 `this` 时，它会被存储进这些对象中。
 

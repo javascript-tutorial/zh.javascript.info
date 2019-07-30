@@ -16,7 +16,7 @@ importance: 3
 
 流程图：
 
-![](ifelse_task.png)
+![](ifelse_task.svg)
 
 请使用嵌套的 `if` 块。注意代码整体的可读性。
 

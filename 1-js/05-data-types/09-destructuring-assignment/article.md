@@ -383,7 +383,7 @@ alert(item2);  // Donut
 
 除了 `extra` 属性的整个 `options` 对象都能被赋值给对应的变量。
 
-![](destructuring-complex.png)
+![](destructuring-complex.svg)
 
 最终，我们得到了 `width`、`height`、`item1`、`item2` 和具有默认值的 `title` 变量。
 

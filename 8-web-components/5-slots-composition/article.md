@@ -80,7 +80,7 @@ There's nothing odd here. We created the shadow DOM, so here it is. Now the elem
 
 For rendering purposes, for each `<slot name="...">` in shadow DOM, the browser looks for `slot="..."` with the same name in the light DOM. These elements are rendered inside the slots:
 
-![](shadow-dom-user-card.png)
+![](shadow-dom-user-card.svg)
 
 The result is called "flattened" DOM:
 

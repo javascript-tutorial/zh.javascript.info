@@ -53,7 +53,7 @@ alert( "Again: " + slow(2) ); // 也是一样
 
 `cachingDecorator(func)` 的结果是一个“包装器”：`function(x)` 将 `func(x)` 的调用 "包装" 到缓存逻辑中：
 
-![](decorator-makecaching-wrapper.png)
+![](decorator-makecaching-wrapper.svg)
 
 正如我们所看到的，包装器返回 `func(x)` "的结果"。从外部代码中，包装的 `slow` 函数仍然是一样的。它只是在其函数体中添加了一个缓存。
 

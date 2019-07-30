@@ -44,7 +44,7 @@
 
 非常自然地，可以拆分为几个组件：
 
-![](web-components-twitter.png)
+![](web-components-twitter.svg)
 
 1. 顶部导航栏。
 2. 用户信息。
