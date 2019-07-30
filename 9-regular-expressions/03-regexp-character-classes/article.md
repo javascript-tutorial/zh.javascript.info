@@ -64,7 +64,7 @@ alert( "I love HTML5!".match(/\s\w\w\w\w\d/) ); // 'HTML5'
 
 该匹配为（每个字符类匹配出一个相应的结果字符）：
 
-![](love-html5-classes.png)
+![](love-html5-classes.svg)
 
 ## 单词边界：\b
 
@@ -93,7 +93,7 @@ alert( "Hello, JavaScript!".match(/\bJava\b/) ); // null
 
 举个例子，在字符串 `subject:Hello, Java!` 中下面这些位置符合 `\b` 规则： 
 
-![](hello-java-boundaries.png)
+![](hello-java-boundaries.svg)
 
 所以它将匹配 `pattern:\bHello\b` 和 `pattern:\bJava\b`，但不匹配 `pattern:\bHell\b`（因为 `l` 后面没有字边界）也不匹配 `Java!\b`（因为感叹号标识不是一个“字”字符，所以它后面也没有字边界）。
 

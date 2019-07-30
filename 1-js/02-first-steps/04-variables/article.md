@@ -99,7 +99,7 @@ let user = 'John'
 
 例如，变量 `message` 可以被想象成一个标有 `"message"` 的盒子，在盒子里面，有一个值为 `"Hello!"`：
 
-![](variable.png)
+![](variable.svg)
 
 我们可以在盒子内放入任何值。
 
@@ -116,7 +116,7 @@ alert(message);
 
 当值改变的时候，先前的数据就从变量中删除了。
 
-![](variable-change.png)
+![](variable-change.svg)
 
 还可以声明两个变量，然后将其中一个变量的数据拷贝进另一个变量。
 

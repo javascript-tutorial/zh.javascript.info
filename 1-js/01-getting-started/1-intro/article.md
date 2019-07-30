@@ -75,7 +75,7 @@ JavaScript 的能力依赖于它执行的环境。例如：[Node.js](https://wik
   这个限制也是为了用户的信息安全。例如，用户打开的 `http://anysite.com` 网页的 JavaScript 不能访问 `http://gmail.com`（另外一个标签页打开的网页）也不能从那里窃取信息。
 - JavaScript 通过互联网可以轻松地和服务器（当前网页域名的服务器）通讯。但是从其他网站/域的服务器中获取数据的能力是受限的，需要服务器（在 HTTP 头中）添加某些参数。这也是为了用户的数据安全。
 
-![](limitations.png)
+![](limitations.svg)
 
 浏览器环境外的 JavaScript 一般没有这些限制。例如服务端的 JavaScript 就没有这些限制。现代浏览器还允许通过 JavaScript 来安装浏览器插件或扩展，当然这也是在用户授权的前提下。
 

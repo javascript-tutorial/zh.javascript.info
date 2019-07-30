@@ -8,7 +8,7 @@ importance: 2
 
 如果访问者输入了 "ECMAScript"，输出就提示 "Right!"，否则 — 输出："Didn't know? ECMAScript!"
 
-![](ifelse_task2.png)
+![](ifelse_task2.svg)
 
 [示例 src="ifelse_task2"]
 

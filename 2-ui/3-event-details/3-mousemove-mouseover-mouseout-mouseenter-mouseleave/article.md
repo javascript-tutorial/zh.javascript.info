@@ -6,7 +6,7 @@
 
 当鼠标指针出现在一个元素上时，`mouseover` 事件就会发生，而 `mouseout` 事件则发生在鼠标指针离开时。
 
-![](mouseover-mouseout.png)
+![](mouseover-mouseout.svg)
 
 这些事件很特别，因为它们有 `relatedTarget`。
 
@@ -44,7 +44,7 @@
 
 这意味着如果访问者非常快地移动鼠标，那么 DOM 元素就会被跳过：
 
-![](mouseover-mouseout-over-elems.png)
+![](mouseover-mouseout-over-elems.svg)
 
 如果鼠标从上面的 `#FROM` 到 `#TO` 元素移动地非常快，那么中间的 `<div>`（或其中的一些）可能会被跳过。`mouseout` 事件可能会在 `#FROM` 上被触发，然后立即在 `#TO` 上触发 `mouseover`。
 
@@ -54,7 +54,7 @@
 
 特别是，光标可能从窗口外跳进页面的中间。此时 `relatedTarget=null`，这是因为鼠标来自“窗口外（nowhere）”：
 
-![](mouseover-mouseout-from-outside.png)
+![](mouseover-mouseout-from-outside.svg)
 
 <div style="display:none">
 在快速移动的情况下，中间元素可能不会触发事件。但如果鼠标进入元素（`mouseover`），当它离开时，就一定会触发`mouseout`。
@@ -74,7 +74,7 @@
 
 想象一下 —— 鼠标指针进入一个元素。`mouseover` 被触发。然后光标进入一个子元素。有趣的是，在这种情况下 `mouseout` 会被触发。光标仍然在元素中，但我们从它那儿接收到了 `mouseout` 事件！
 
-![](mouseover-to-child.png)
+![](mouseover-to-child.svg)
 
 这听起来很奇怪，但很容易解释。
 

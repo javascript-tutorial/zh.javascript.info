@@ -40,7 +40,7 @@ alert( rabbit.eats ); // true
 
 这是结果图：
 
-![](proto-constructor-animal-rabbit.png)
+![](proto-constructor-animal-rabbit.svg)
 
 在图片上，`"prototype"` 是一个水平箭头，它是一个常规属性，`[[Prototype]]` 是垂直的，意味着是继承自 `animal` 的 `rabbit`。
 
@@ -61,7 +61,7 @@ Rabbit.prototype = { constructor: Rabbit };
 */
 ```
 
-![](function-prototype-constructor.png)
+![](function-prototype-constructor.svg)
 
 我们可以检查一下：
 
@@ -85,7 +85,7 @@ let rabbit = new Rabbit(); // inherits from {constructor: Rabbit}
 alert(rabbit.constructor == Rabbit); // true (from prototype)
 ```
 
-![](rabbit-prototype-constructor.png)
+![](rabbit-prototype-constructor.svg)
 
 我们可以用 `constructor` 属性使用与现有构造函数相同的构造函数创建一个新对象。
 

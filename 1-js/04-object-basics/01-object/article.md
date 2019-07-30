@@ -8,7 +8,7 @@
 
 我们可以把对象想象成存放文件的橱柜。文件按照他们的名字来排列。这样根据文件名我们就很容易找到、添加或删除一个文件了。
 
-![](object.png)
+![](object.svg)
 
 我们可以用下面两种语法的任一种来创建一个空的对象（“空柜子”）：
 
@@ -17,7 +17,7 @@ let user = new Object(); // “构造函数” 的语法
 let user = {};  // “字面量” 的语法
 ```
 
-![](object-user-empty.png)
+![](object-user-empty.svg)
 
 通常，我们用花括号。这种方式我们叫做**字面量**。
 
@@ -41,7 +41,7 @@ let user = {     // 一个对象
 
 是一个陈列着标记有两个 "name" 和 "age" 签名文件的橱柜。
 
-![user object](object-user.png)
+![user object](object-user.svg)
 
 任何时候我们都可以添加，删除，读取文件。
 
@@ -59,7 +59,7 @@ alert( user.age ); // 30
 user.isAdmin = true;
 ```
 
-![user object 2](object-user-isadmin.png)
+![user object 2](object-user-isadmin.svg)
 
 移除一个属性，我们用 `delete` 操作：
 
@@ -67,7 +67,7 @@ user.isAdmin = true;
 delete user.age;
 ```
 
-![user object 3](object-user-delete.png)
+![user object 3](object-user-delete.svg)
 
 我们也可以用多字词语来作为属性名，但是他们必须加上引号：
 
@@ -79,7 +79,7 @@ let user = {
 };
 ```
 
-![](object-user-props.png)
+![](object-user-props.svg)
 
 
 最后一个属性后面可以加一个逗号：
@@ -457,7 +457,7 @@ let phrase = message;
 
 结果是我们得到了不同的值，每个存的都是 `"Hello!"`。
 
-![](variable-copy-value.png)
+![](variable-copy-value.svg)
 
 对象跟这个不一样。
 
@@ -471,7 +471,7 @@ let user = {
 };
 ```
 
-![](variable-contains-reference.png)
+![](variable-contains-reference.svg)
 
 在这里，对象存在内存里面。`user` 有一个对它的引用。
 
@@ -489,7 +489,7 @@ let admin = user; // 复制引用
 
 现在我们有了两个变量，但是都指向同一个对象：
 
-![](variable-copy-reference.png)
+![](variable-copy-reference.svg)
 
 我们可以用任何变量去获取抽屉内容，改变它的内容：
 

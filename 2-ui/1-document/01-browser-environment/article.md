@@ -8,7 +8,7 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为�
 
 以下是浏览器在 JavaScript 中运行时的一个鸟瞰图：
 
-![](windowObjects.png)
+![](windowObjects.svg)
 
 有一个叫做 `window` 的“根”对象。它有两个角色：
 

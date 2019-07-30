@@ -26,7 +26,7 @@
 
 这是图片：
 
-![](move-ball-coords.png)
+![](move-ball-coords.svg)
 
 我们有 `event.clientX/clientY`—— 单击窗口时的相对坐标。
 

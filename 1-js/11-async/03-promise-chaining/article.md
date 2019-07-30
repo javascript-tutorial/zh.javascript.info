@@ -42,7 +42,7 @@ new Promise(function(resolve, reject) {
 
 随着 result 在处理程序链中传递，我们会看到 `alert` 依次显示：`1` -> `2` -> `4`。
 
-![](promise-then-chain.png)
+![](promise-then-chain.svg)
 
 之所以这么运行，是因为 `promise.then` 返回了一个 promise，所以我们可以用它调用下一个 `.then`。
 
@@ -94,7 +94,7 @@ promise.then(function(result) {
 
 这里有一张图片来解释它（对比上面的链式调用）：
 
-![](promise-then-many.png)
+![](promise-then-many.svg)
 
 在同一个 promise 上的所有 `.then` 会得到相同的结果 —— 该 promise 的 result。所以，以上代码中所有 `alert` 会显示相同的内容：`1`。
 
@@ -382,4 +382,4 @@ loadJson('/article/promise-chaining/user.json')
 
 这是一个完整的流程图：
 
-![](promise-handler-variants.png)
+![](promise-handler-variants.svg)

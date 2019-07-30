@@ -16,13 +16,13 @@
 
 如果你是第一次这么做，那你应该会看到下面这个样子：
 
-![](chrome-open-sources.png)
+![](chrome-open-sources.svg)
 
 切换按钮 <span class="devtools" style="background-position:-168px -76px"></span> 会打开文件列表的选项卡。
 
 让我们在预览树中点击和选择 `index.html` 和 `hello.js`。应该会出现这个视图：
 
-![](chrome-tabs.png)
+![](chrome-tabs.svg)
 
 我们可以看到三个区域：
 
@@ -40,7 +40,7 @@
 
 例如，`1+2` 将会返回 `3`，`hello("debugger")` 函数什么也不返回，因此结果是 `undefined`：
 
-![](chrome-sources-console.png)
+![](chrome-sources-console.svg)
 
 ## Breakpoints（断点）
 
@@ -50,7 +50,7 @@
 
 看起来应该是这样的（蓝色的是你应该点击的地方）：
 
-![](chrome-sources-breakpoint.png)
+![](chrome-sources-breakpoint.svg)
 
 **断点**是调试器会自动暂停 JavaScript 执行的地方。
 
@@ -93,7 +93,7 @@ function hello(name) {
 
 设置断点之后，程序会在第 4 行暂停执行：
 
-![](chrome-sources-debugger-pause.png)
+![](chrome-sources-debugger-pause.svg)
 
 请打开右侧的信息下拉列表（箭头指示出的地方）。这里允许你查看当前的代码状态：
 
@@ -125,7 +125,7 @@ function hello(name) {
 
     如果我们点击一下之后我们会看到这样的情况：
 
-    ![](chrome-sources-debugger-trace-1.png)
+    ![](chrome-sources-debugger-trace-1.svg)
 
     执行器已经继续了，到了 `say()` 函数中的另外一个断点然后暂停在那里。看一下右边的 "Call stack（调用栈）"。它已经增加了一个调用信息。我们现在在 `say()` 里面。
 

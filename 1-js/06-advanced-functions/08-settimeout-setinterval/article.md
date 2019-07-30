@@ -200,7 +200,7 @@ setTimeout(function run() {
 
 对 `setInterval` 而言，内部的调度器会每间隔 100 毫秒执行一次 `func(i)`：
 
-![](setinterval-interval.png)
+![](setinterval-interval.svg)
 
 注意到了？
 
@@ -216,7 +216,7 @@ setTimeout(function run() {
 
 再来看递归版 `setTimeout`：
 
-![](settimeout-interval.png)
+![](settimeout-interval.svg)
 
 **递归的 `setTimeout` 就能确保延时的固定（这里用的是 100 毫秒）。**
 

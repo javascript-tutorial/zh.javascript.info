@@ -107,7 +107,7 @@ alert(result); // <span class="my">, span class="my", span, class="my"
 
 它看起来像这样：
 
-![](regexp-nested-groups.png)
+![](regexp-nested-groups.svg)
 
 `result` 的首项永远是完整的匹配结果。
 

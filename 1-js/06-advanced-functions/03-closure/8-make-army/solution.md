@@ -84,7 +84,7 @@ army[5](); // 5
 
 所以，现在 `i` 值的距离（显示数字的地方更近了。现在它不是在 `makeArmy()` 词法环境中，而是在对应的当前循环迭代的词法环境中。`shooter` 从它创建的位置获得值。
 
-![](lexenv-makearmy.png)
+![](lexenv-makearmy.svg)
 
 这里我们把 `while` 改写为了 `for`。
 

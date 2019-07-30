@@ -38,7 +38,7 @@ let user = {
 };
 ```
 
-![](memory-user-john.png)
+![](memory-user-john.svg)
 
 这里的箭头描述了一个对象引用。全局变量 `"user"` 引用了对象 `{name："John"}`（为简洁起见，我们称它为 John）。John 的 `"name"` 属性存储一个原始值，所以它被写在对象内部。
 
@@ -48,7 +48,7 @@ let user = {
 user = null;
 ```
 
-![](memory-user-john-lost.png)
+![](memory-user-john-lost.svg)
 
 现在 John 变成不可达的了。因为没有引用了，就不能访问到它了。垃圾回收器会认为它是垃圾数据，然后释放内存。
 
@@ -67,7 +67,7 @@ let admin = user;
 */!*
 ```
 
-![](memory-user-john-admin.png)
+![](memory-user-john-admin.svg)
 
 现在如果像刚才一样：
 ```js
@@ -102,7 +102,7 @@ let family = marry({
 
 由此产生的内存结构：
 
-![](family.png)
+![](family.svg)
 
 到目前位置，所有对象都是可达的。
 
@@ -113,19 +113,19 @@ delete family.father;
 delete family.mother.husband;
 ```
 
-![](family-delete-refs.png)
+![](family-delete-refs.svg)
 
 仅删除这两个引用中的一个是不够的，因为所有的对象仍然可以访问。
 
 但是，如果我们把这两个都删除，那么我们可以看到再也没有对 John 的引用：
 
-![](family-no-father.png)
+![](family-no-father.svg)
 
 对外引用不重要，只有传入引用才可以使对象可达。所以，John 现在无法访问，并且将从内存中释放，同时 John 的所有数据也变得无法访问。
 
 经过垃圾回收：
 
-![](family-no-father-2.png)
+![](family-no-father-2.svg)
 
 ## 无法到达的岛屿
 
@@ -139,7 +139,7 @@ family = null;
 
 内存内部状态将变成：
 
-![](family-no-family.png)
+![](family-no-family.svg)
 
 这个例子展示了可达性概念的重要性。
 
@@ -161,25 +161,25 @@ family = null;
 
 例如，让我们的对象结构如下所示：
 
-![](garbage-collection-1.png)
+![](garbage-collection-1.svg)
 
 我们可以在右侧清楚地看到一个『无法到达的岛屿』。现在我们来看看"mark-and-sweep"垃圾收集器如何处理它。
 
 第一步标记所有的根：
 
-![](garbage-collection-2.png)
+![](garbage-collection-2.svg)
 
 然后他们的引用被标记了：
 
-![](garbage-collection-3.png)
+![](garbage-collection-3.svg)
 
 ...如果还有引用的话，继续标记：
 
-![](garbage-collection-4.png)
+![](garbage-collection-4.svg)
 
 现在，这个过程中没有被遍历过的对象将会被删除。
 
-![](garbage-collection-5.png)
+![](garbage-collection-5.svg)
 
 这是垃圾收集如何工作的概念。
 

@@ -34,7 +34,7 @@ alert("code finished"); // 该警告框会首先弹出
 
 这就是示例中的“code finished”会首先出现的原因。
 
-![](promiseQueue.png)
+![](promiseQueue.svg)
 
 Promise 处理程序总是被放入这个内部队列中。
 

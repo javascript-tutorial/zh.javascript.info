@@ -4,4 +4,4 @@
 
 如图：
 
-![](bezier-up.png)
+![](bezier-up.svg)

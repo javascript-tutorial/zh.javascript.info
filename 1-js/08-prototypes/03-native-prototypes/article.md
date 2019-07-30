@@ -19,11 +19,11 @@ alert( obj ); // "[object Object]" ?
 
 就像这样（所有的这些都是内置的）：
 
-![](object-prototype.png)
+![](object-prototype.svg)
 
 当 `new Object()` 被调用来创建一个对象（或者一个字面量对象 `{...}` 被创建），按照前面章节的讨论规则，这个对象的 `[[Prototype]]` 属性被设置为 `Object.prototype`：
 
-![](object-prototype-1.png)
+![](object-prototype-1.svg)
 
 之后当 `obj.toString()` 被调用时，这个方法是在 `Object.prototype` 中被取到的。
 
@@ -52,7 +52,7 @@ alert(Object.prototype.__proto__); // null
 
 下面是完整的示意图（3 个内置对象）：
 
-![](native-prototypes-classes.png)
+![](native-prototypes-classes.svg)
 
 让我们手动验证原型：
 
@@ -79,7 +79,7 @@ alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
 正如我们之前看到的那样，`Object.prototype` 也有 `toString` 方法，但是 `Array.prototype` 在原型链上是更近的，所以数组对象原型上的方法会被使用。
 
 
-![](native-prototypes-array-tostring.png)
+![](native-prototypes-array-tostring.svg)
 
 
 像 Chrome 开发者控制台这样的浏览器内置工具也显示继承关系的（可能需要对内置对象使用 `console.dir`）：

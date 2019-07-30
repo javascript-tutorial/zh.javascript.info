@@ -10,7 +10,7 @@
 
 一个含有规则的备忘录（更多细节如下）：
 
-![](code-style.png)
+![](code-style.svg)
 <!--
 ```js
 function pow(x, n) {

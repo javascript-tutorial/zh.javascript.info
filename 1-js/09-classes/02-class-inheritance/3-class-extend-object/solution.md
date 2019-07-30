@@ -72,7 +72,7 @@ alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // Error
 
 这里有一张图来解释：
 
-![](rabbit-extends-object.png)
+![](rabbit-extends-object.svg)
 
 
 所以，简而言之，这里有两点区别：

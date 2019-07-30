@@ -189,7 +189,7 @@ This set of methods provides more flexible insertions:
 
 这张图片展示插入方法的工作方式：
 
-![](before-prepend-append-after.png)
+![](before-prepend-append-after.svg)
 
 列表最后表现为：
 
@@ -269,7 +269,7 @@ after
 
 这里有一张图片描述插入方式：
 
-![](insert-adjacent.png)
+![](insert-adjacent.svg)
 
 通过跟前面的图片做比较可以看出，两个方法的插入方式是一样的，只不过后者是插入 HTML 标签。
 

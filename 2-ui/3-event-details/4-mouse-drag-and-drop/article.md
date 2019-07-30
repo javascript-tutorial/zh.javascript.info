@@ -107,7 +107,7 @@ ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 
 例如，我们从球的边缘处开始拖动，那么光标在拖动时应该保持在边缘。
 
-![](ball_shift.png)
+![](ball_shift.svg)
 
 1. 当访问者按下按钮（`mousedown`）时 —— 我们可以使用变量 `shiftX/shiftY` 来记住光标到球左上角的距离。我们应该在拖动时保持这样的距离。
 

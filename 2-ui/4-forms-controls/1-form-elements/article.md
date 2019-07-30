@@ -127,7 +127,7 @@ alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
 
 这里有一个表示关系的图片：
 
-![](form-navigation.png)
+![](form-navigation.svg)
 
 比如说：
 
