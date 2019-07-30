@@ -1,32 +1,32 @@
 # Server Sent Events
 
-The [Server-Sent Events](https://html.spec.whatwg.org/multipage/comms.html#the-eventsource-interface) specification describes a built-in class `EventSource`, that keeps connection with the server and allows to receive events from it.
+[Server-Sent Events](https://html.spec.whatwg.org/multipage/comms.html#the-eventsource-interface) 标准描述了一个内建的类 `EventSource`，它能保持与服务器的连接并允许从中接收事件。
 
-Similar to `WebSocket`, the connection is persistent.
+类似于 `WebSocket`，其连接是持久的。
 
-But there are several important differences:
+但是两者之间也有几个重要的区别：
 
 | `WebSocket` | `EventSource` |
 |-------------|---------------|
-| Bi-directional: both client and server can exchange messages | One-directional: only server sends data |
-| Binary and text data | Only text |
-| WebSocket protocol | Regular HTTP |
+| 双向（Bi-directional）：客户端和服务端都能修改消息 | 单向（ One-directional）：仅服务端能发送消息 |
+| 二进制和文本数据 | 仅文本数据 |
+| WebSocket 协议 | 普通 HTTP 协议 |
 
-`EventSource` is a less-powerful way of communicating with the server than `WebSocket`.
+与 `WebSocket` 相比，`EventSource` 是一种与服务器通信的低配版本。
 
-Why should one ever use it?
+我们为什么要使用它呢？
 
-The main reason: it's simpler. In many applications, the power of `WebSocket` is a little bit too much.
+主要原因是：简单。在许多应用中，`WebSocket` 有点大材小用。
 
-We need to receive a stream of data from server: maybe chat messages or market prices, or whatever. That's what `EventSource` is good at. Also it supports auto-reconnect, something  we need to implement manually with `WebSocket`. Besides, it's a plain old HTTP, not a new protocol.
+我们需要从服务器接收数据流：可能是聊天消息或者商品价格等等。这是 `EventSource` 擅长之处。它支持自动重新连接，而这在 `WebSocket` 中这个功能我们要手动实现。另外，它是一个普通的我们熟知的 HTTP，而不是其他新协议。
 
-## Getting messages
+## 获取消息
 
-To start receiving messages, we just need to create `new EventSource(url)`.
+要开始接收消息，我们只需要创建 `new EventSource(url)` 即可。
 
-The browser will connect to `url` and keep the connection open, waiting for events.
+浏览器将会连接到 `url` 并保持连接开启等待事件到来。
 
-The server should respond with status 200 and the header `Content-Type: text/event-stream`, then keep the connection and write messages into it in the special format, like this:
+服务器应该响应状态码为 200 并返回响应头 `Content-Type: text/event-stream`，然后保持此连接并以一种特殊的格式写入消息，就像这样：
 
 ```
 data: Message 1
@@ -37,44 +37,44 @@ data: Message 3
 data: of two lines
 ```
 
-- A message text goes after `data:`, the space after the semicolon is optional.
-- Messages are delimited with double line breaks `\n\n`.
-- To send a line break `\n`, we can immediately one more `data:` (3rd message above).
+- `data:` 后为消息文本，分号后面的空格是可选的。
+- 消息以双换行符 `\n\n` 分隔。
+- 要发送换行 `\n`，我们可以在要换行的位置添加一个 `data:`（上面的第三条消息）。
 
-In practice, complex messages are usually sent JSON-encoded. Line-breaks are encoded as `\n` within them, so multiline `data:` messages are not necessary.
+在实际开发中，复杂的消息通常是用 JSON 编码后发送。换行符在其中编码为 `\n`，因此不需要多行 `data:` 消息。
 
-For instance:
+例如：
 
 ```js
 data: {"user":"John","message":"First line*!*\n*/!* Second line"}
 ```
 
-...So we can assume that one `data:` holds exactly one message.
+……因此我们可以假设一个 `data:` 只包含一条消息。
 
-For each such message, the `message` event is generated:
+对每个消息，生成 `message` 事件：
 
 ```js
 let eventSource = new EventSource("/events/subscribe");
 
 eventSource.onmessage = function(event) {
   console.log("New message", event.data);
-  // will log 3 times for the data stream above
+  // 对于上面的数据，将会打印三次
 };
 
-// or eventSource.addEventListener('message', ...)
+// 或者 eventSource.addEventListener('message', ...)
 ```
 
-### Cross-domain requests
+### 跨域请求
 
-`EventSource` supports cross-origin requests, like `fetch` any other networking methods. We can use any URL:
+`EventSource` 支持跨域请求，就像 `fetch` 任何其他的网络方法。我们可以使用任何 URL：
 
 ```js
 let source = new EventSource("https://another-site.com/events");
 ```
 
-The remote server will get the `Origin` header and must respond with `Access-Control-Allow-Origin` to proceed.
+远程服务器将会获取到 `Origin` 请求头，并且必须以 `Access-Control-Allow-Origin` 响应才能继续。
 
-To pass credentials, we should set the additional option `withCredentials`, like this:
+要传递凭证（credentials），我们应该设置附加选项 `withCredentials`，就像这样：
 
 ```js
 let source = new EventSource("https://another-site.com/events", {
@@ -82,30 +82,30 @@ let source = new EventSource("https://another-site.com/events", {
 });
 ```
 
-Please see the chapter <info:fetch-crossorigin> for more details about cross-domain headers.
+请参见 <info:fetch-crossorigin> 章节以了解更多关于跨域头的细节信息。
 
 
-## Reconnection
+## 重新连接
 
-Upon creation, `new EventSource` connects to the server, and if the connection is broken -- reconnects.
+创建之后，`new EventSource` 连接到服务器，如果连接断开 —— 则重新连接。
 
-That's very convenient, as we don't have to care about it.
+这很方便，我们不用去关心重新连接的事情。
 
-There's a small delay between reconnections, a few seconds by default.
+每次重新连接之间有一点小的延迟，默认为几秒钟。
 
-The server can set the recommended delay using `retry:` in response (in milliseconds):
+服务器可以使用 `retry:` 设置需要的延迟响应时间（以毫秒为单位）。
 
 ```js
 retry: 15000
 data: Hello, I set the reconnection delay to 15 seconds
 ```
 
-The `retry:` may come both together with some data, or as a standalone message.
+`retry:` 既可以与某些数据一起出现，也可以作为独立的消息出现。
 
-The browser should wait that many milliseconds before reconnect. Or longer, e.g. if the browser knows (from OS) that there's no network connection at the moment, it may wait until the connection appears, and then retry.
+浏览器需要等待很长时间才能再次重新连接。或者更长，例如：如果浏览器知道（从系统知道的）此时没有网络连接，它可能会等到连接出现，然后重试。
 
-- If the server wants the browser to stop reconnecting, it should respond with HTTP status 204.
-- If the browser wants to close the connection, it should call `eventSource.close()`:
+- 如果服务器想要浏览器停止重新连接，那么它应该返回 HTTP 代码 204。
+- 如果浏览器想要关闭连接，它应该调用 `eventSource.close()`：
 
 ```js
 let eventSource = new EventSource(...);
@@ -113,17 +113,17 @@ let eventSource = new EventSource(...);
 eventSource.close();
 ```
 
-Also, there will be no reconnection if the response has an incorrect `Content-Type` or its HTTP status differs from 301, 307, 200 and 204. The connection the `"error"` event is emitted, and the browser won't reconnect.
+另外，如果响应具有不正确的 `Content-Type` 或者其 HTTP 状态码不是 301，307，200 和 204，则不重新连接。发出 `"error"` 事件的连接，浏览器不会重新连接。
 
 ```smart
-When a connection is finally closed, there's no way to "reopen" it. If we'd like to connect again, just create a new `EventSource`.
+当连接最终被关闭时，就无法再“重新打开”它了。如果我们想再次连接，只需要创建一个新的 `EventSource`。
 ```
 
-## Message id
+## 消息 id
 
-When a connection breaks due to network problems, either side can't be sure which messages were received, and which weren't.
+当一个连接由于网络问题而断开时，客户端和服务器都无法确定哪些消息已经收到哪些没有收到。
 
-To correctly resume the connection, each message should have an `id` field, like this:
+要正确的恢复连接，每条消息都应该有一个 `id` 字段，就像这样：
 
 ```
 data: Message 1
@@ -137,28 +137,28 @@ data: of two lines
 id: 3
 ```
 
-When a message with `id:` is received, the browser:
+当收到带有 `id` 的消息时，浏览器会：
 
-- Sets the property `eventSource.lastEventId` to its value.
-- Upon reconnection sends the header `Last-Event-ID` with that `id`, so that the server may re-send following messages.
+- 将属性 `eventSource.lastEventId` 设置为其值。
+- 重新连接时，使用该 `id` 发送 `Last-Event-ID` 请求头，以便服务器可以重新发送后面的消息。
 
-```smart header="Put `id:` after `data:`"
-Please note: the `id` is appended below message `data` by the server, to ensure that `lastEventId` is updated after the message is received.
+```smart header="把 `id:` 放到 `data:` 后"
+请注意：`id` 是被服务器附加到 `data` 消息后的，以确保在收到消息后更新 `lastEventId`。
 ```
 
-## Connection status: readyState
+## 连接状态：readyState
 
-The `EventSource` object has `readyState` property, that has one of three values:
+`EventSource` 对象有 `readyState` 属性，具有下列其中一个值：
 
 ```js no-beautify
-EventSource.CONNECTING = 0; // connecting or reconnecting
-EventSource.OPEN = 1;       // connected
-EventSource.CLOSED = 2;     // connection closed
+EventSource.CONNECTING = 0; // 连接中或者重连中
+EventSource.OPEN = 1;       // 已连接
+EventSource.CLOSED = 2;     // 连接关闭
 ```
 
-When an object is created, or the connection is down, it's always `EventSource.CONNECTING` (equals `0`).
+创建对象或者连接断开时，它始终是 `EventSource.CONNECTING`（等于 `0`）。
 
-We can query this property to know the state of `EventSource`.
+我们可以查询这个属性以了解 `EventSource` 的状态。
 
 ## Event types
 
