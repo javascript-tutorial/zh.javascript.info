@@ -6,7 +6,7 @@ Generators 可以按需一个个返回（“yield”）多个值，可以是无�
 
 ## Generator 函数
 
-要创建 Generator，我们需要一个特殊的语法结构：`function*`，即所谓的“generator 函数”。
+要创建 generator，我们需要一个特殊的语法结构：`function*`，即所谓的“generator 函数”。
 
 它看起来像这样：
 
@@ -23,7 +23,7 @@ function* generateSequence() {
 因此，它是一种“generator 构造器函数”。
 
 ```js
-// “generator 函数”创建 “generator 对象”
+// “generator 函数”创建“generator 对象”
 let generator = generateSequence();
 ```
 
@@ -90,7 +90,7 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 到目前为止，最重要的是要理解 generator 函数与常规函数不同，generator 函数不运行代码。它们是作为“generator 工厂”。运行 `function*` 返回一个 generator，然后我们调用它获得需要的值。
 
 ```smart header="`function* f(…)` 或者 `function *f(…)`？"
-这是一个小的书写习惯问题，两者的语法都是争取的。
+这是一个小的书写习惯问题，两者的语法都是正确的。
 
 但是通常首选第一种语法，因为星号 `*` 表示它是一个生成器函数，它描述的是函数种类而不是名称，因此它仍应使用 `function` 关键字。
 ```
@@ -232,14 +232,14 @@ alert( [...range] ); // 1,2,3,4,5
 带有 generator 的最后一个变体比 `range` 的原始可迭代代码简洁得多，并保持了相同的功能。
 
 ```smart header="Generators 可能永远 generate 值"
-在上面的例子中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直 yield 值。例如，无需的伪随机数序列。
+在上面的例子中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直 yield 值。例如，无序的伪随机数序列。
 
 这种情况下的 `for..of` generator 需要一个 `break`（或者 `return`）语句，否则循环将永远重复并挂起。
 ```
 
-## Generator 组（composition）
+## Generator 组合（composition）
 
-Generator 组是 generator 的一个特殊功能，它可以显式地将 generator “嵌入”到一起。
+Generator 组合是 generator 的一个特殊功能，它可以显式地将 generator “嵌入”到一起。
 
 例如，我们想要生成一个序列：
 - 数字 `0..9`（ASCII 可显示字符代码为 48..57），
@@ -320,7 +320,7 @@ Generator 组合是将一个 generator 流插入到另一个 generator 的自然
 
 即使来自嵌套 generator 的值的流是无限的，它也可以正常工作。它很简单，不需要使用额外的内存来存储中间结果。
 
-## “yield” 双向路径
+## “yield” 双向路径（two-way road）
 
 直到此时，generators 就像“固醇（steroids）上的 iterators”。这就是它经常被使用的方式。
 
