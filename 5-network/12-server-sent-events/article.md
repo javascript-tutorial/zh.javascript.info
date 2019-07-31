@@ -160,17 +160,17 @@ EventSource.CLOSED = 2;     // 连接关闭
 
 我们可以查询这个属性以了解 `EventSource` 的状态。
 
-## Event types
+## Event 类型
 
-By default `EventSource` object generates three events:
+默认情况下 `EventSource` 对象生成三个事件：
 
-- `message` -- a message received, available as `event.data`.
-- `open` -- the connection is open.
-- `error` -- the connection could not be established, e.g. the server returned HTTP 500 status.
+- `message` —— 收到消息，可以用 `event.data` 访问。
+- `open` —— 打开连接。
+- `error` —— 无法建立连接，例如：服务器返回 HTTP 500 状态码。
 
-The server may specify another type of event with `event: ...` at the event start.
+服务器可以在事件开始时使用 `event: ...` 指定另一种类型事件。
 
-For example:
+例如：
 
 ```
 event: join
@@ -182,7 +182,7 @@ event: leave
 data: Bob
 ```
 
-To handle custom events, we must use `addEventListener`, not `onmessage`:
+要处理自定义事件，我们必须使用 `addEventListener` 而非 `onmessage`：
 
 ```js
 eventSource.addEventListener('join', event => {
@@ -198,74 +198,74 @@ eventSource.addEventListener('leave', event => {
 });
 ```
 
-## Full example
+## 完整例子
 
-Here's the server that sends messages with `1`, `2`, `3`, then `bye` and breaks the connection.
+服务器依次发送 `1`，`2`，`3`，最后发送 `bye` 并断开连接。
 
-Then the browser automatically reconnects.
+此时浏览器会自动重新连接。
 
 [codetabs src="eventsource"]
 
-## Summary
+## 总结
 
-`EventSource` object automatically establishes a persistent connection and allows the server to send messages over it.
+`EventSource` 对象自动建立一个持久的连接并允许服务器通过这个连接发送消息。
 
-It offers:
-- Automatic reconnect, with tunable `retry` timeout.
-- Message ids to resume events, the last received identifier is sent in `Last-Event-ID` header upon reconnection.
-- The current state is in the `readyState` property.
+它可以:
+- 在可调的 `retry` 时间内可以自动重连。
+- 使用消息 id 恢复事件，最后收到的标识符在重新连接时以 `Last-Event-ID` 请求头发送出去。
+- 当前状态位于 `readyState` 属性中。
 
-That makes `EventSource` a viable alternative to `WebSocket`, as it's more low-level and lacks such built-in features (though they can be implemented).
+这使得 `EventSource` 成为 `WebSocket` 的一个可行替代品，因为 `WebSocket` 更低级（low-level），且缺乏这样内置功能（尽管它们可以被实现）。
 
-In many real-life applications, the power of `EventSource` is just enough.
+在实际应用中，`EventSource` 功能就已经够用了。
 
-Supported in all modern browsers (not IE).
+`EventSource` 支持所有现代浏览器（除了 IE）。
 
-The syntax is:
+语法：
 
 ```js
 let source = new EventSource(url, [credentials]);
 ```
 
-The second argument has only one possible option: `{ withCredentials: true }`, it allows sending cross-domain credentials.
+第二个参数只有一个可选项：`{ withCredentials: true }`，它允许发送跨域凭证。
 
-Overall cross-domain security is same as for `fetch` and other network methods.
+总体跨域安全性与 `fetch` 以及其他网络方法相同。
 
-### Properties of an `EventSource` object
+### `EventSource` 对象的属性
 
 `readyState`
-: The current connection state: either `EventSource.CONNECTING (=0)`, `EventSource.OPEN (=1)` or `EventSource.CLOSED (=2)`.
+: 当前连接状态：为 `EventSource.CONNECTING (=0)`，`EventSource.OPEN (=1)`，`EventSource.CLOSED (=2)` 三者之一。
 
 `lastEventId`
-: The last received `id`. Upon reconnection the browser sends it in the header `Last-Event-ID`.
+: 最后接收的 `id`。重新连接后，浏览器在 `Last-Event-ID` 请求头中发送此 id。
 
-### Methods
+### `EventSource` 对象的方法
 
 `close()`
-: Closes the connection.
+: 关闭连接。
 
-### Events
+### `EventSource` 对象的事件
 
 `message`
-: Message received, the data is in `event.data`.
+: 接收到了消息，消息数据在 `event.data` 中。
 
 `open`
-: The connection is established.
+: 连接已建立。
 
 `error`
-: In case of an error, including both lost connection (will auto-reconnect) and fatal errors. We can check `readyState` to see if the reconnection is being attempted.
+: 如果出现错误，包括连接丢失（将会自动重连）以及其他致命错误。我们可以检查 `readyState` 以查看是否正在尝试重新连接。
 
-The server may set a custom event name in `event:`. Such events should be handled using `addEventListener`, not `on<event>`.
+服务器可能在 `event:` 中发送一个自定义事件名称。这类事件应该使用 `addEventListener` 来处理而不是 `on<event>`。
 
-### Server response format
+### 服务器响应格式
 
-The server sends messages, delimited by `\n\n`.
+服务器发送由 `\n\n` 分隔的消息。
 
-A message may have following fields:
+一条消息可能有以下字段：
 
-- `data:` -- message body, a sequence of multiple `data` is interpreted as a single message, with `\n` between the parts.
-- `id:` -- renews `lastEventId`, sent in `Last-Event-ID` on reconnect.
-- `retry:` -- recommends a retry delay for reconnections in ms. There's no way to set it from JavaScript.
-- `event:` -- even name, must precede `data:`.
+- `data:` —— 消息体，一系列多个 `data` 被解析为单个消息，各个部分由 `\n` 分隔。
+- `id:` —— 更新 `lastEventId`，重连时以 `Last-Event-ID` 发送此 id。
+- `retry:` —— 建议以 ms 为重新连接的延迟单位。没有办法以 JavaScript 设置它。
+- `event:` —— 事件名，必须在 `data:` 之前。
 
-A message may include one or more fields in any order, but `id:` usually goes the last.
+一条消息可能包含任何顺序的一个或多个字段，但是 `id:` 通常是最后一个。
