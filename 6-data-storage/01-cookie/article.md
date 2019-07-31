@@ -35,7 +35,7 @@ alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 
 为了找到一个特定的 cookie，我们可以通过 `; ` 截取 `document.cookie`，然后找到合适的名字。我们可以使用正则表达式或者数组的方法来实现。
 
-我们把这个留给读者当作练习。此外，在本章节的结尾，你可以找到一些操作 cookies 很有效的方法。
+我们把这个留给读者当作练习。此外，在本章节的结尾，你可以找到一些操作 cookies 的辅助函数。
 
 ## 写入 document.cookie
 
@@ -66,7 +66,7 @@ alert(document.cookie); // ...; my%20name=John%20Smith
 ```
 
 
-```warn header="Limitations"
+```warn header="局限性"
 存在一些局限性：
 - `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4kb。所以我们不能在一个 cookie 中保存大数据。
 - 每个域名下所有 cookies 的总数限制在 20 几个，实际的限制数量取决于浏览器。
@@ -203,7 +203,7 @@ document.cookie = "user=John; secure";
 
 ### 输入 cookie samesite 选项
 
-cookie 的 `samesite` 选项提供了另一种防止此类攻击的方法，（理论上）不应该必须有 "xsrf 保护令牌”。
+cookie 的 `samesite` 选项提供了另一种防止此类攻击的方法，（理论上）应该不需要 "xsrf 保护令牌”。
 
 它有两个可选的值：
 
@@ -397,13 +397,15 @@ function deleteCookie(name) {
 
 1. 如果一个网站想要为已经经过身份验证的用户设置跟踪 cookies。
 
-    为此，注册表格必须要有一个选择框，例如 "接受隐私政策"，用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
+    为此，注册表格必须要有一个选择框，例如"接受隐私政策"，用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
 
 2. 如果一个网站想要为每个人设置跟踪 cookies。
 
     为了合法实现，网站为新用户显示一个模态框，然后要求他们同意设置 cookies。然后网站才设置 cookie 并且让用户看到网站内容。虽然这对新用户来说可能是令人不安的。没有人喜欢看到 "必须点击" 的模态框而不是网站内容。但是 GDPR 要求得到用户明确的同意。
 
+
 GDPR 不仅只涉及 cookie，还涉及其他与隐私相关的问题，但这超出了我们的讨论范围。
+
 
 ## 总结
 
