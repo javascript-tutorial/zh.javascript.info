@@ -122,7 +122,7 @@ document.cookie = "user=John; domain=site.com"
 alert(document.cookie); // 也存在 user
 ```
 
-因为历史原因，`domain=.site.com`（以点开头）也可以正常使用，为了支持老版本的浏览器，加一个点这种写法更加合适。
+因为历史原因，`domain=.site.com`（以点开头）也可以正常使用，最好添加点来支持老版本的浏览器。
 
 所以，`domain` 选项允许子域名访问 cookie。
 
