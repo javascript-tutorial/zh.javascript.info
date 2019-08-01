@@ -187,7 +187,7 @@ WebSocket 通信由“frames”组成 —— 数据片段，可以从任何一�
 ```js
 socket.bufferType = "arraybuffer";
 socket.onmessage = (event) => {
-  // event.data 也是字符串（如果是文本）或者 arraybuffer（如果是字符串）
+  // event.data 是字符串（如果是文本）或者 arraybuffer（如果是二进制）
 };
 ```
 
