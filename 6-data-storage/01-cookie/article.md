@@ -116,7 +116,7 @@ alert(document.cookie); // 没有 user
 
 ```js
 // 在 site.com 中
-// 使 cookie 在任何子域名下可以访问：
+// 使 cookie 在其任何子域名下可以访问：
 document.cookie = "user=John; domain=site.com"
 
 // 之后
@@ -194,11 +194,11 @@ document.cookie = "user=John; secure";
 
 现在，在另外一个窗口浏览网页时，你偶然访问了另外一个网站 `evil.com`，该网站有 JavaScript 代码提交了一个表单 `<form action="https://bank.com/pay">` 到 `bank.com`，提交的表单字段能够开始一笔到黑客账户的交易。
 
-你每次访问 `bank.com` 时cookie都会发送，即使表单在 `evil.com` 上提交。所以银行识别你的身份并实际执行付款。
+你每次访问 `bank.com` 时 cookie 都会发送，即使表单在 `evil.com` 上提交。所以银行识别你的身份并实际执行付款。
 
 ![](cookie-xsrf.svg)
 
-这就被称为一个跨站点请求伪造（简称 XSRF）攻击。
+这就被称为一个跨站点请求伪造（Cross-Site Request Forgery，简称 XSRF）攻击。
 
 当然，真正的银行会防止出现这种情况。所有 `bank.com` 生成的表单都有一个特殊的字段，所谓的 "xsrf 保护令牌”，邪恶页面既不能生成或者从远程页面获取（它可以在那里提交表单，但是无法获取数据）。而且站点 `bank.com` 每次都会检查收到的表单上的令牌。
 
@@ -212,7 +212,7 @@ cookie 的 `samesite` 选项提供了另一种防止此类攻击的方法，（�
 
 - **`samesite=strict` (和 `samesite` 没有值一样)**
 
-如果用户来自同一站点，那么设置了 `samesite=strict` 的 cookie 永远不会发送。
+如果用户来自同一站点之外，那么设置了 `samesite=strict` 的 cookie 永远不会发送。
 
 换句话说，无论用户是跟踪邮件链接或从 `evil.com` 提交表单，或者来自其他域名下的任何操作，cookie 都不会发送。
 
@@ -381,7 +381,7 @@ function deleteCookie(name) {
 ```smart
 如果我们加载了一段第三方域的脚本，例如 `<script src="https://google-analytics.com/analytics.js">`，并且这段脚本使用 `document.cookie` 设置了 cookie，然后此类 cookie 不是第三方。
 
-如果脚本设置了一个 cookie，那么无论脚本来自何处 -- 这个 cookie 都属于当前网页的域下。
+如果脚本设置了一个 cookie，那么无论脚本来自何处 —— 这个 cookie 都属于当前网页的域下。
 ```
 
 ## 附录: GDPR
@@ -400,7 +400,7 @@ function deleteCookie(name) {
 
 1. 如果一个网站想要为已经经过身份验证的用户设置跟踪 cookies。
 
-    为此，注册表格必须要有一个选择框，例如"接受隐私政策"（描述怎么使用 cookie），用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
+    为此，注册表格必须要有一个选择框，例如“接受隐私政策”（描述怎么使用 cookie），用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
 
 2. 如果一个网站想要为每个人设置跟踪 cookies。
 
