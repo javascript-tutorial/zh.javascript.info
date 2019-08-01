@@ -39,7 +39,7 @@ alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 
 ## 写入 document.cookie
 
-我们可以写入 `document.cookie`。但是这不是一个数据属性，它是一个访问者。
+我们可以写入 `document.cookie`。但是这不是一个数据属性，它是一个访问者（getter/setter）。赋值操作会被特殊处理。
 
 **浏览器的 `document.cookie` 写入操作只会更新已存在的 cookies，而不会影响其他 cookies。**
 
@@ -52,10 +52,10 @@ alert(document.cookie); // 展示所有 cookies
 
 如果你运行了代码，你很可能会看到多个 cookies。这是因为 `document.cookie=` 操作不是重写整个 cookies。它只设置代码中提到的 cookie `user`。
 
-从技术层面看，cookie 的名称和值会有很多种类型，但是为了保持格式有效，它们应该使用 `encodeURIComponent` 内置方法来编码一下：
+从技术层面看，cookie 的名称和值能是任何字符，为了保持格式有效，它们应该使用 `encodeURIComponent` 内置方法来编码一下：
 
 ```js run
-// 特殊值，需要编码
+// 特殊字符（空白符），需要编码
 let name = "my name";
 let value = "John Smith"
 
@@ -115,8 +115,11 @@ alert(document.cookie); // 没有 user
 ……但是如果我们想要批准像 `forum.site.com` 这样的子域名访问，这是可以做到的。我们应该明确设置 `domain` 选项为根域名：`domain=site.com`：
 
 ```js
-// 在 site.com 中, 设置 cookie 在任何子域名下可以访问：
+// 在 site.com 中
+// 使 cookie 在其任何子域名下可以访问：
 document.cookie = "user=John; domain=site.com"
+
+// 之后
 
 // 在 forum.site.com
 alert(document.cookie); // 也存在 user
@@ -189,17 +192,17 @@ document.cookie = "user=John; secure";
 
 想象一下，你登录了 `bank.com` 网站。此时：你有了该站点的身份验证 cookie。你的浏览器会随着每次请求把它发送到 `bank.com`，因此，`bank.com` 承认你的身份和你做出的所有敏感经济操作。
 
-现在，在另外一个窗口浏览网页时，你偶然访问了另外一个网站 `evil.com`，该网站自动提交了一个表单 `<form action="https://bank.com/pay">` 到 `bank.com`，提交的表单字段能够开始一笔到黑客账户的交易。
+现在，在另外一个窗口浏览网页时，你偶然访问了另外一个网站 `evil.com`，该网站有 JavaScript 代码提交了一个表单 `<form action="https://bank.com/pay">` 到 `bank.com`，提交的表单字段能够开始一笔到黑客账户的交易。
 
-表单直接从 `evil.com` 提交到银行网站，并且你的 cookie 也一起发送，仅仅因为 cookie 会在你每次访问 `bank.com` 时都会发送。所以银行识别你的身份并实际执行付款。
+你每次访问 `bank.com` 时 cookie 都会发送，即使表单在 `evil.com` 上提交。所以银行识别你的身份并实际执行付款。
 
 ![](cookie-xsrf.svg)
 
-这就被称为一个跨站点请求伪造（或XSRF）攻击。
+这就被称为一个跨站点请求伪造（Cross-Site Request Forgery，简称 XSRF）攻击。
 
-当然，真正的银行会防止出现这种情况。所有 `bank.com` 生成的表单都有一个特殊的字段，所谓的 "xsrf 保护令牌”，邪恶页面既不能生成，也不能从远程页面获取（它可以在那里提交表单，但是无法获取数据）。
+当然，真正的银行会防止出现这种情况。所有 `bank.com` 生成的表单都有一个特殊的字段，所谓的 "xsrf 保护令牌”，邪恶页面既不能生成或者从远程页面获取（它可以在那里提交表单，但是无法获取数据）。而且站点 `bank.com` 每次都会检查收到的表单上的令牌。
 
-但这需要时间来实现：我们需要确保每个表单都有 token 字段，而且必须检查所有的请求。
+但这种防护需要时间来实现：我们需要确保每个表单都有 token 字段，而且必须检查所有的请求。
 
 ### 输入 cookie samesite 选项
 
@@ -209,19 +212,19 @@ cookie 的 `samesite` 选项提供了另一种防止此类攻击的方法，（�
 
 - **`samesite=strict` (和 `samesite` 没有值一样)**
 
-如果用户来自外部的网站，那么设置了 `samesite=strict` 的 cookie 永远不会发送。
+如果用户来自同一站点之外，那么设置了 `samesite=strict` 的 cookie 永远不会发送。
 
 换句话说，无论用户是跟踪邮件链接或从 `evil.com` 提交表单，或者来自其他域名下的任何操作，cookie 都不会发送。
 
 如果身份验证的 cookies 存在 `samesite` 选项，XSRF 攻击是没有机会成功的，因为 `evil.com` 发起的提交没有 cookies。所以 `bank.com` 无法识别用户，并且不会继续付款。
 
-保护非常有效。只有来自 `bank.com` 的操作才会发送 `samesite` cookie。
+保护非常有效。只有来自 `bank.com` 的操作才会发送 `samesite` cookie，例如来自 `bank.com` 上另一页面的表单发送。
 
 虽然，这样有一点点不方便。
 
 当用户跟随合法链接来到 `bank.com`，例如他们自己的笔记，他们会感到惊讶，`bank.com` 不能识别他们的身份。实际上，在这种情况下 `samesite=strict` cookies 不会发送。
 
-我们可以使用两个 cookies 来解决这个问题：一个 cookie 用来 "大致识别"，仅用来说 "Hello, John"，另外一个带有 `samesite=strict` 的 cookie 用来验证数据改变的操作。然后来自外部网站的用户会看到欢迎页面，但必须在银行的网站上发起付款。
+我们可以使用两个 cookies 来解决这个问题：一个 cookie 用来 "大致识别"，仅用来说 "Hello, John"，另外一个带有 `samesite=strict` 的 cookie 用来验证数据改变的操作。然后来自外部网站的用户会看到欢迎页面，但必须在银行的网站上发起付款，为了第二个 cookie 能被发送。
 
 - **`samesite=lax`**
 
@@ -236,11 +239,11 @@ lax 模式，和 `strict` 模式类似，禁止浏览器发送来自外部网站
 
 2. 操作执行顶级导航（在浏览器地址栏中改变 URL）。
 
-    这通常是正确的，但是如果导航是在一个 `<iframe>` 中执行，那么它不是顶级的。此外，AJAX 请求不执行任何导航，因为它们不适合。
+    这通常是正确的，但是如果导航是在一个 `<iframe>` 中执行，那么它不是顶级的。此外，JavaScript 的网络请求不执行任何导航，因为它们不适合。
 
 所以，`samesite=lax` 基本上允许最常见的跳转 URL 的操作来获取 cookie。例如，在符合条件的笔记中打开网站链接。
 
-但是任何更复杂的事，比如来自另一网站的 AJAX 请求或表单提交都会丢失 cookie。
+但是任何更复杂的事，比如来自另一网站的网络请求或表单提交都会丢失 cookie。
 
 如果这种情况适合你，那么添加 `samesite=lax` 将不会破坏用户体验并且可以增加保护。
 
@@ -262,7 +265,7 @@ web 服务器使用 `Set-Cookie` 标头来设置 cookie。它可以设置 `httpO
 这被用作预防措施，以保护黑客将自己的 JavaScript 代码注入页面并等待用户访问页面时发起的攻击。这应该是不可能发生的，黑客应该不可能将他们的代码注入我们的网站，但是网站有可能存在漏洞让黑客利用来实现这样的操作。
 
 
-通常来说，如果发生了这种情况，并且让用户访问了带有黑客代码的页面，黑客代码执行并获取到 `document.cookie` 包括用户身份验证的 cookie。这样就很糟糕了。
+通常来说，如果发生了这种情况，并且让用户访问了带有黑客 JavaScript 代码的页面，黑客代码执行并获取到 `document.cookie` 包括用户身份验证的 cookie。这样就很糟糕了。
 
 但是如果 cookie 设置了 `httpOnly`，然后 `document.cookie` 不能看到这个 cookie，所以它是受保护的。
 
@@ -349,7 +352,7 @@ function deleteCookie(name) {
 
 ## 附录：第三方 cookies
 
-当 cookie 在用户正在访问的域名外设置，则被称为第三方 cookie。
+如果 cookie 在用户正在访问的页面外的域名网站设置，则被称为第三方 cookie。
 
 例如：
 1. `site.com` 网站的一个页面加载了另外一个网站的 banner：`<img src="https://ads.com/banner.png">`。
@@ -378,7 +381,7 @@ function deleteCookie(name) {
 ```smart
 如果我们加载了一段第三方域的脚本，例如 `<script src="https://google-analytics.com/analytics.js">`，并且这段脚本使用 `document.cookie` 设置了 cookie，然后此类 cookie 不是第三方。
 
-如果脚本设置了一个 cookie，那么无论脚本来自何处 -- 它都属于当前网页的域下。
+如果脚本设置了一个 cookie，那么无论脚本来自何处 —— 这个 cookie 都属于当前网页的域下。
 ```
 
 ## 附录: GDPR
@@ -387,7 +390,7 @@ function deleteCookie(name) {
 
 欧洲有一项名为 GDPR 的立法，它对网站实施一套尊重用户隐私的规则。其中一条规则是要求用户明确许可了才可以跟踪 cookies。
 
-请注意，这只是关于跟踪/识别 cookies。
+请注意，这只是关于跟踪/识别/授权 cookies。
 
 所以，如果我们设置一个只保存了一些信息的 cookie，但是既不跟踪也不识别用户，那么我们可以自由的设置它。
 
@@ -397,7 +400,7 @@ function deleteCookie(name) {
 
 1. 如果一个网站想要为已经经过身份验证的用户设置跟踪 cookies。
 
-    为此，注册表格必须要有一个选择框，例如"接受隐私政策"，用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
+    为此，注册表格必须要有一个选择框，例如“接受隐私政策”（描述怎么使用 cookie），用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
 
 2. 如果一个网站想要为每个人设置跟踪 cookies。
 
