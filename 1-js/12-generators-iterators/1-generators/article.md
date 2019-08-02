@@ -92,7 +92,7 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 ```smart header="`function* f(…)` 或者 `function *f(…)`？"
 这是一个小的书写习惯问题，两者的语法都是正确的。
 
-但是通常首选第一种语法，因为星号 `*` 表示它是一个生成器函数，它描述的是函数种类而不是名称，因此它仍应使用 `function` 关键字。
+但是通常首选第一种语法，因为星号 `*` 表示它是一个 generator 函数，它描述的是函数种类而不是名称，因此它仍应使用 `function` 关键字。
 ```
 
 ## Generators 是可迭代的
@@ -430,9 +430,9 @@ generator.throw(new Error("The answer is not found in my database")); // (2)
 */!*
 ```
 
-在 `(2)` 行引入的 generator 错误导致 `(1)` 行 `yield` 出现异常。在上面例子中，`try..catch` 可以捕获并显示错误。
+在 `(2)` 行引入 generator 的错误导致 `(1)` 行 `yield` 出现异常。在上面例子中，`try..catch` 可以捕获并显示错误。
 
-如果我们没有捕获它，就像其他的异常，它将 generator “falls out” 调用代码中。
+如果我们没有捕获它，就像其他的异常，它将从 generator “掉出”到调用代码中。
 
 调用代码的当前行是 `generator.throw`，标记为 `(2)`。所以我们可以在这里捕获它，就像这样：
 
