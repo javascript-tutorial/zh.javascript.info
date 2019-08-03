@@ -16,7 +16,7 @@ alert(generator.next().value); // 282475249
 alert(generator.next().value); // 1622650073
 ```
 
-Please note, the same can be done with a regular function, like this:
+请注意，上面的代码也可以用普通函数来实现，就像这样：
 
 ```js run
 function pseudoRandom(seed) {
@@ -35,4 +35,4 @@ alert(generator()); // 282475249
 alert(generator()); // 1622650073
 ```
 
-That's fine for this context. But then we loose ability to iterate with `for..of` and to use generator composition, that may be useful elsewhere.
+这也能正常工作。但是这样我们就不能用 `for..of` 来迭代，也不能用 generator 组合了，这样的形式可能在其他地方很有用。
