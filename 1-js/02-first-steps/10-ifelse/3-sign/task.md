@@ -12,4 +12,4 @@ importance: 2
 
 在这个任务中，假设输入永远是一个数字。
 
-[示例 src="if_sign"]
+[demo src="if_sign"]
