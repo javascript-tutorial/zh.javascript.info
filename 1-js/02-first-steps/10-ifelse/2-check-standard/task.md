@@ -10,5 +10,5 @@ importance: 2
 
 ![](ifelse_task2.svg)
 
-[示例 src="ifelse_task2"]
+[demo src="ifelse_task2"]
 
