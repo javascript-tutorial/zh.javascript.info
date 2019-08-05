@@ -18,7 +18,11 @@ router.post('/image-form', async (ctx) => {
   let files = [];
   const { fields } = await busboy(ctx.req, {
     onFile(fieldname, file, filename, encoding, mimetype) {
+<<<<<<< HEAD
       // 读取所有文件流（file stream），然后继续
+=======
+      // read all file stream to continue
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
       let length = 0;
       file.on('data', function(data) {
         length += data.length;
@@ -44,7 +48,11 @@ router.post('/user-avatar', async (ctx) => {
   let files = [];
   const { fields } = await busboy(ctx.req, {
     onFile(fieldname, file, filename, encoding, mimetype) {
+<<<<<<< HEAD
       // 读取所有文件流，然后继续
+=======
+      // read all file stream to continue
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
       let length = 0;
       file.on('data', function(data) {
         length += data.length;

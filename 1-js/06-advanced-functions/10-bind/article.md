@@ -5,13 +5,23 @@ libs:
 
 # 函数绑定
 
+<<<<<<< HEAD
 和对象方法或者和传递对象方法一起使用 `setTimeout` 时，有一个很常见的问题：“`this` 丢失”。
 
 突然，`this` 就停止正常运作了。这种情况在开发的初学者中很典型，但有时也会出现在有经验开发者的代码中。
+=======
+When passing object methods as callbacks, for instance to `setTimeout`, there's a known problem: "losing `this`".
+
+In this chapter we'll see the ways to fix it.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## 丢失 "this"
 
+<<<<<<< HEAD
 我们已经知道，在 JavaScript 中，`this` 很容易就会丢失。一旦一个方法被传递到另一个与对象分离的地方 —— `this` 就丢失了。
+=======
+We've already seen examples of losing `this`. Once a method is passed somewhere separately from the object -- `this` is lost.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 下面是使用 `setTimeout` 时 `this` 时如何丢失的：
 
@@ -37,13 +47,21 @@ let f = user.sayHi;
 setTimeout(f, 1000); // 用户上下文丢失
 ```
 
+<<<<<<< HEAD
 浏览器中的方法 `setTimeout` 有些特殊：它为函数的调用设定了 `this=window`（对于 Node.JS，`this` 则会成为时间对象，但其实 this 到底变成什么并不十分重要）。所以对于 `this.firstName` 它其实试图获取的是 `window.firstName`，这个变量并不存在。在其他一些类似的情况下，通常 `this` 就会成为 `undefined`。
+=======
+The method `setTimeout` in-browser is a little special: it sets `this=window` for the function call (for Node.js, `this` becomes the timer object, but doesn't really matter here). So for `this.firstName` it tries to get `window.firstName`, which does not exist. In other similar cases, usually `this` just becomes `undefined`.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 这个需求很典型——我们希望将一个对象的方法传递到别的地方（这里——是为了调度程序）然后调用。如何确保它将会在正确的上下文中被调用呢？
 
 ## 解决方案 1：包装层
 
+<<<<<<< HEAD
 最简单的解决方案就是使用一个包装函数：
+=======
+The simplest solution is to use a wrapping function:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let user = {
@@ -100,7 +118,7 @@ user = { sayHi() { alert("Another user in setTimeout!"); } };
 ```js
 // 稍后将会有更复杂的语法
 let boundFunc = func.bind(context);
-````
+```
 
 `func.bind(context)` 的结果是一个特殊的像函数一样的“外来对象”，它可以像函数一样被调用并且透明的将调用传递给 `func` 并设置 `this=context`。
 
@@ -197,8 +215,132 @@ for (let key in user) {
 JavaScript 库同样提供了方法来便捷的批量绑定，例如 lodash 中的 [_.bindAll(obj)](http://lodash.com/docs#bindAll)。
 ````
 
+<<<<<<< HEAD
 ## 总结
+=======
+## Partial functions
+
+Until now we have only been talking about binding `this`. Let's take it a step further.
+
+We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+
+The full syntax of `bind`:
+
+```js
+let bound = func.bind(context, [arg1], [arg2], ...);
+```
+
+It allows to bind context as `this` and starting arguments of the function.
+
+For instance, we have a multiplication function `mul(a, b)`:
+
+```js
+function mul(a, b) {
+  return a * b;
+}
+```
+
+Let's use `bind` to create a function `double` on its base:
+
+```js run
+function mul(a, b) {
+  return a * b;
+}
+
+*!*
+let double = mul.bind(null, 2);
+*/!*
+
+alert( double(3) ); // = mul(2, 3) = 6
+alert( double(4) ); // = mul(2, 4) = 8
+alert( double(5) ); // = mul(2, 5) = 10
+```
+
+The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+
+That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+
+Please note that here we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+
+The function `triple` in the code below triples the value:
+
+```js run
+function mul(a, b) {
+  return a * b;
+}
+
+*!*
+let triple = mul.bind(null, 3);
+*/!*
+
+alert( triple(3) ); // = mul(3, 3) = 9
+alert( triple(4) ); // = mul(3, 4) = 12
+alert( triple(5) ); // = mul(3, 5) = 15
+```
+
+Why do we usually make a partial function?
+
+The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide first argument of every time as it's fixed with `bind`.
+
+In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+
+For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+
+## Going partial without context
+
+What if we'd like to fix some arguments, but not the context `this`? For example, for an object method.
+
+The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+
+Fortunately, a helper function `partial` for binding only arguments can be easily implemented.
+
+Like this:
+
+```js run
+*!*
+function partial(func, ...argsBound) {
+  return function(...args) { // (*)
+    return func.call(this, ...argsBound, ...args);
+  }
+}
+*/!*
+
+// Usage:
+let user = {
+  firstName: "John",
+  say(time, phrase) {
+    alert(`[${time}] ${this.firstName}: ${phrase}!`);
+  }
+};
+
+// add a partial method with fixed time
+user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
+
+user.sayNow("Hello");
+// Something like:
+// [10:00] John: Hello!
+```
+
+The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
+- Same `this` as it gets (for `user.sayNow` call it's `user`)
+- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
+- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+
+So easy to do it with the spread operator, right?
+
+Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
+
+## Summary
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 方法 `func.bind(context, ...args)` 返回了一个函数 `func` 的“边界变量”，它固定了上下文 `this` 和参数（如果给定了）。
 
+<<<<<<< HEAD
 通常我们应用 `bind` 来固定对象方法的 `this`，这样我们就可以把它们传递到其他地方使用。例如，传递给 `setTimeout`。在现代开发中，需要使用`bind`的原因有很多，我们接下来将会遇到它们的。
+=======
+Usually we apply `bind` to fix `this` for an object method, so that we can pass it somewhere. For example, to `setTimeout`.
+
+When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
+
+Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a

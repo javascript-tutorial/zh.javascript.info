@@ -1,1 +1,1 @@
-# 框架和窗口
+# Frames and windows

@@ -8,7 +8,11 @@
 - `Object.assign(dest, src1, ..., srcN)` —— 依次合并 `src1..N` 的属性到 `dest`。
 - ...等等。
 
+<<<<<<< HEAD
 在本章中我们会学会如何编写实现上述功能的代码，更重要的是，我们要学会如何得心应手地处理及使用这些函数和数组。
+=======
+In this chapter we'll learn how to do the same. And also, how to pass arrays to such functions as parameters.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## Rest 参数（剩余参数）`...`
 
@@ -61,8 +65,13 @@ function showName(firstName, lastName, ...titles) {
 showName("Julius", "Caesar", "Consul", "Imperator");
 ```
 
+<<<<<<< HEAD
 ````warn header="Rest 参数必须放到参数列表的末尾"
 Rest 参数会收集参数列表中剩余的所有参数，所以下面这种用法是行不通的：
+=======
+````warn header="The rest parameters must be at the end"
+The rest parameters gather all remaining arguments, so the following does not make sense and causes an error:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js
 function f(arg1, ...rest, arg2) { // ...rest 后面还有个 arg2？！
@@ -96,9 +105,13 @@ showName("Julius", "Caesar");
 showName("Ilya");
 ```
 
+<<<<<<< HEAD
 在 JavaScript 引入 Rest 参数之前，无论入参数是多是少，想获取所有的入参只能使用 `arguments`。
 
 时至今日，这仍是一个可用的方法。
+=======
+In old times, rest parameters did not exist in the language, and using `arguments` was the only way to get all arguments of the function. And it still works, we can find it in the old code.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 即使 `arguments` 是一个类数组且可遍历的变量，但它终究不是数组。它没有数组原型链上的函数，我们没法直接调用诸如 `arguments.map(...)` 等这样的函数。
 
@@ -119,7 +132,14 @@ function f() {
 
 f(1); // 1
 ```
+<<<<<<< HEAD
 我们已经知道箭头函数自身是没有 `this` 的，现在我们更进一步还知道它缺少 `arguments` 这个特殊的对象。
+=======
+
+As we remember, arrow functions don't have their own `this`. Now we know they don't have the special `arguments` object either.
+````
+
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## Spread 操作符（展开操作符） [#spread-operator]
 
@@ -135,7 +155,11 @@ alert( Math.max(3, 5, 1) ); // 5
 
 假如我们已有数组 `[3, 5, 1]`，我们该如何用它调用 `Math.max` 呢？
 
+<<<<<<< HEAD
 直接把数组“原样”传入是不会奏效的，因为 `Math.max` 期待你传入一系列的数值型参数，而不是单一的数组：
+=======
+Passing it "as is" won't work, because `Math.max` expects a list of numeric arguments, not a single array:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let arr = [3, 5, 1];
@@ -145,7 +169,11 @@ alert( Math.max(arr) ); // NaN
 */!*
 ```
 
+<<<<<<< HEAD
 毫无疑问我们不可能手动地去一一设置参数 `Math.max(arg[0], arg[1], arg[2])`，因为我们不确定需要设置多少个参数。待代码最终执行时，这个参数数组可能很大，也可能啥也没用。这样手动设置实为下策。
+=======
+And surely we can't manually list items in the code `Math.max(arr[0], arr[1], arr[2])`, because we may be unsure how many there are. As our script executes, there could be a lot, or there could be none. And that would get ugly.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 **Spread 操作符** 来拯救你了！它看起来和 Rest 参数操作符很像，都表示为 `...`，但是二者完全做了相反的事。
 

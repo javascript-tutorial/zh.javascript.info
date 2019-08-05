@@ -30,9 +30,12 @@
             <text id="prototype" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal" fill="#8A704D">
                 <tspan x="134" y="22">prototype</tspan>
             </text>
+<<<<<<< HEAD
             <text id="constructor" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal" fill="#8A704D">
                 <tspan x="17" y="41">constructor</tspan>
             </text>
+=======
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
         </g>
     </g>
 </svg>

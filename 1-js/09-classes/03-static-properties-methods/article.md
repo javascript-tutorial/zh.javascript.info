@@ -1,9 +1,15 @@
 
 # Static properties and methods
 
+<<<<<<< HEAD
 We can also assign a method to the class function, not to its `"prototype"`. Such methods are called *static*.
 
 An example:
+=======
+We can also assign a method to the class function itself, not to its `"prototype"`. Such methods are called *static*.
+
+In a class, they are prepended by `static` keyword, like this:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 class User {
@@ -17,21 +23,36 @@ class User {
 User.staticMethod(); // true
 ```
 
+<<<<<<< HEAD
 That actually does the same as assigning it as a function property:
 
 ```js
 function User() { }
+=======
+That actually does the same as assigning it as a property directly:
+
+```js
+class User() { }
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 User.staticMethod = function() {
   alert(this === User);
 };
 ```
 
+<<<<<<< HEAD
 The value of `this` inside `User.staticMethod()` is the class constructor `User` itself (the "object before dot" rule).
 
 Usually, static methods are used to implement functions that belong to the class, but not to any particular object of it.
 
 For instance, we have `Article` objects and need a function to compare them. The natural choice would be `Article.compare`, like this:
+=======
+The value of `this` in `User.staticMethod()` call is the class constructor `User` itself (the "object before dot" rule).
+
+Usually, static methods are used to implement functions that belong to the class, but not to any particular object of it.
+
+For instance, we have `Article` objects and need a function to compare them. A natural solution would be to add `Article.compare` method, like this:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 class Article {
@@ -61,13 +82,21 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // CSS
 ```
 
+<<<<<<< HEAD
 Here `Article.compare` stands "over" the articles, as a means to compare them. It's not a method of an article, but rather of the whole class.
+=======
+Here `Article.compare` stands "above" articles, as a means to compare them. It's not a method of an article, but rather of the whole class.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 Another example would be a so-called "factory" method. Imagine, we need few ways to create an article:
 
 1. Create by given parameters (`title`, `date` etc).
 2. Create an empty article with today's date.
+<<<<<<< HEAD
 3. ...
+=======
+3. ...or else somehow.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 The first way can be implemented by the constructor. And for the second one we can make a static method of the class.
 
@@ -107,7 +136,11 @@ Article.remove({id: 12345});
 
 [recent browser=Chrome]
 
+<<<<<<< HEAD
 Static properties are also possible, just like regular class properties:
+=======
+Static properties are also possible, they look like regular class properties, but prepended by `static`:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 class Article {
@@ -123,9 +156,15 @@ That is the same as a direct assignment to `Article`:
 Article.publisher = "Ilya Kantor";
 ```
 
+<<<<<<< HEAD
 ## Statics and inheritance
 
 Statics are inherited, we can access `Parent.method` as `Child.method`.
+=======
+## Inheritance of static methods
+
+Static methods are inherited.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 For instance, `Animal.compare` in the code below is inherited and accessible as `Rabbit.compare`:
 
@@ -169,6 +208,7 @@ rabbits.sort(Rabbit.compare);
 rabbits[0].run(); // Black Rabbit runs with speed 5.
 ```
 
+<<<<<<< HEAD
 Now we can call `Rabbit.compare` assuming that the inherited `Animal.compare` will be called.
 
 How does it work? Again, using prototypes. As you might have already guessed, `extends` gives `Rabbit` the `[[Prototype]]` reference to `Animal`.
@@ -179,11 +219,28 @@ How does it work? Again, using prototypes. As you might have already guessed, `e
 So, `Rabbit` function now inherits from `Animal` function. And `Animal` function normally has `[[Prototype]]` referencing `Function.prototype`, because it doesn't `extend` anything.
 
 Here, let's check that:
+=======
+Now when we can call `Rabbit.compare`, the inherited `Animal.compare` will be called.
+
+How does it work? Again, using prototypes. As you might have already guessed, `extends` gives `Rabbit` the `[[Prototype]]` reference to `Animal`.
+
+![](animal-rabbit-static.svg)
+
+So, `Rabbit extends Animal` creates two `[[Prototype]]` references:
+
+1. `Rabbit` function prototypally inherits from `Animal` function.
+2. `Rabbit.prototype` prototypally inherits from `Animal.prototype`.
+
+As the result, inheritance works both for regular and static methods.
+
+Here, let's check that by code:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 class Animal {}
 class Rabbit extends Animal {}
 
+<<<<<<< HEAD
 // for static properties and methods
 alert(Rabbit.__proto__ === Animal); // true
 
@@ -199,6 +256,22 @@ This way `Rabbit` has access to all static methods of `Animal`.
 ## Summary
 
 Static methods are used for the functionality that doesn't relate to a concrete class instance, doesn't require an instance to exist, but rather belongs to the class as a whole, like `Article.compare` -- a generic method to compare two articles.
+=======
+// for statics
+alert(Rabbit.__proto__ === Animal); // true
+
+// for regular methods
+alert(Rabbit.prototype.__proto__ === Animal.prototype);
+```
+
+## Summary
+
+Static methods are used for the functionality that belongs to the class "as a whole", doesn't relate to a concrete class instance.
+
+For example, a method for comparison `Article.compare(article1, article2)` or a factory method `Article.createTodays()`.
+
+They are labeled by the word `static` in class declaration.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 Static properties are used when we'd like to store class-level data, also not bound to an instance.
 
@@ -214,13 +287,23 @@ class MyClass {
 }
 ```
 
+<<<<<<< HEAD
 That's technically the same as assigning to the class itself:
+=======
+Technically, static declaration is the same as assigning to the class itself:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js
 MyClass.property = ...
 MyClass.method = ...
 ```
 
+<<<<<<< HEAD
 Static properties are inherited.
 
 Technically, for `class B extends A` the prototype of the class `B` itself points to `A`: `B.[[Prototype]] = A`. So if a field is not found in `B`, the search continues in `A`.
+=======
+Static properties and methods are inherited.
+
+For `class B extends A` the prototype of the class `B` itself points to `A`: `B.[[Prototype]] = A`. So if a field is not found in `B`, the search continues in `A`.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a

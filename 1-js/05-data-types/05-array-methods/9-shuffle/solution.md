@@ -45,7 +45,11 @@ for (let key in count) {
 }
 ```
 
+<<<<<<< HEAD
 示例结果（V8，2017年七月）：
+=======
+An example result (depends on JS engine):
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js
 123: 250706
