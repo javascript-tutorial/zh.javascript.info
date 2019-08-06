@@ -4,7 +4,7 @@
 
 字符串的内部格式总是 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)，它不会绑定到页面编码中。
 
-## Quotes
+## 引号（Quotes）
 
 让我们回忆一下这些引语。
 
@@ -149,11 +149,11 @@ alert( `My\n`.length ); // 3
 ```js run
 let str = `Hello`;
 
-// the first character
+// 第一个字符
 alert( str[0] ); // H
 alert( str.charAt(0) ); // H
 
-// the last character
+// 最后一个字符
 alert( str[str.length - 1] ); // o
 ```
 
@@ -409,7 +409,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 `str.substring(start [, end])`
 : 返回 `start` 和 `end` **之间**的字符串部分。
 
-    这与 `slice` 几乎相同，但它允许 `start`大于 `end`。
+    这与 `slice` 几乎相同，但它允许 `start` 大于 `end`。
 
     例如：
 
@@ -447,13 +447,13 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
 我们回顾一下这些方法，以免混淆：
 
-| method | selects... | negatives |
+| 方法 | 选择方式…… | 负号参数 |
 |--------|-----------|-----------|
-| `slice(start, end)` | from `start` to `end` (not including `end`) | allows negatives |
-| `substring(start, end)` | between `start` and `end` | negative values mean `0` |
-| `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
+| `slice(start, end)` | 从 `start` 到 `end` (不含 `end`) | 允许 |
+| `substring(start, end)` | `start` 与 `end` 之间 | 负值代表 `0` |
+| `substr(start, length)` | 从 `start` 开始获取长为 `length` 的字符串 | 允许 `start` 为负数 |
 
-```smart header="Which one to choose?"
+```smart header="使用哪一个？"
 他们可以完成这项工作，形式上，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中，它涵盖了主要由于历史原因而存在的浏览器特性。因此，非浏览器环境可能无法支持它。但实际上它在任何地方都有效。
 
 相较于其他两个变体，`slice` 稍微灵活一些，它允许以负值作为参数并且写法更简短。因此仅仅记住这三种方法中的 `slice` 就足够了。
@@ -499,7 +499,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
     alert( String.fromCodePoint(90) ); // Z
     ```
 
-    我们还可以用
+    我们还可以用 `\u` 后跟十六进制代码，通过这些代码添加 unicode 字符：
 
     ```js run
     // 在十六进制系统中 90 为 5a
@@ -554,7 +554,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 ## 内部，Unicode
 
-```warn header="Advanced knowledge"
+```warn header="高级内容"
 这部分会深入字符串内部。如果你计划处理表情符号、罕见的象形文字字符或其他罕见符号，这些知识会对你有用。
 
 如果你不打算支持它们，你可以跳过这一部分。
@@ -578,7 +578,7 @@ alert( '𩷶'.length ); // 2，罕见的中国象形文字
 
 我们实际上在上面的每个字符串中都有一个符号，但 `length` 显示长度为 `2`。
 
-`String.fromCodePoint` 和 `str.codePointAt` 是几种处理代理对的少数方法。它们最近在出现在语言中。在它们之前，只有 [String.fromCharCode](mdn:js/String/fromCharCode) 和 [str.charCodeAt](mdn:js/String/charCodeAt)。这些方法实际上与 `fromCodePoint/codePointAt` 相同，但是不适用于代理对。
+`String.fromCodePoint` 和 `str.codePointAt` 是几种处理代理对的少数方法。它们最近才出现在语言中。在它们之前，只有 [String.fromCharCode](mdn:js/String/fromCharCode) 和 [str.charCodeAt](mdn:js/String/charCodeAt)。这些方法实际上与 `fromCodePoint/codePointAt` 相同，但是不适用于代理对。
 
 获取符号可能会非常麻烦，因为代理对被认为是两个字符：
 
