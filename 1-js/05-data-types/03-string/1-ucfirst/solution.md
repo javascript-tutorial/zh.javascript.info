@@ -6,7 +6,7 @@
 let newStr = str[0].toUpperCase() + str.slice(1);
 ```
 
-存在一个小问题，如果 `str` 是空的，那么 `str[0]` 是 undefined，因此我们会得到一个错误。
+这里存在一个小问题。如果 `str` 是空的，那么 `str[0]` 就是 `undefined`，但由于 `undefined` 并没有 `toUpperCase()` 方法，因此我们会得到一个错误。
 
 存在如下两种变体：
 
