@@ -15,11 +15,11 @@ while (i) {
 ```js
 let i = 3;
 
-alert(i--); // shows 3, decreases i to 2
+alert(i--); // 显示 3，i 减至 2
 
-alert(i--) // shows 2, decreases i to 1
+alert(i--) // 显示 2，i 减至 1
 
-alert(i--) // shows 1, decreases i to 0
+alert(i--) // 显示 1，i 减至 0
 
-// done, while(i) check stops the loop
+// 完成，while(i) 检查并停止循环
 ```
