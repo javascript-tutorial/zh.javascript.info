@@ -1,6 +1,6 @@
 # "switch" 语句
 
-`switch` 语句可以被多个 `if` 语句替代。
+`switch` 语句可以替代多个 `if` 判断。
 
 `switch` 语句为多分支选择的情况提供了一个更具描述性的方式。
 
@@ -87,7 +87,7 @@ alert( 'Too big' );
 alert( "I don't know such values" );
 ```
 
-````smart header="Any expression can be a `switch/case` argument"
+````smart header="任何表达式都可以是 `switch/case` 的参数"
 `switch` 和 `case` 都允许任意表达式。
 
 比如：
@@ -107,7 +107,7 @@ switch (+a) {
     alert("this doesn't run");
 }
 ```
-Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the corresponding code is executed.
+这里 `+a` 返回 `1`，这个值跟 `case` 中 `b + 1` 相比较，然后对应代码被执行。
 ````
 
 ## "case" 分组
@@ -139,9 +139,9 @@ switch (a) {
 
 现在 `3` 和 `5` 都显示相同的信息。
 
-在没有 `break` 的情况下，`switch/case` 会“分组” case。 因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
+在没有 `break` 的情况下，`switch/case` 会对 case“分组”。因为没有 `break`，`case 3` 会从 `(*)` 行执行到 `case 5`。
 
-## 值类型
+## 类型很关键
 
 强调一下，这里的相等是严格相等。被比较的值必须是相同类型的才能匹配。
 
