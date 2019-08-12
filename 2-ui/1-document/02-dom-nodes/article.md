@@ -8,15 +8,37 @@ libs:
 
 HTML 文档的骨干是标签。
 
+<<<<<<< HEAD
 根据文档对象模型（DOM），每个 HTML 标签都是一个对象。嵌套标签被称为闭合标签的“子标签”。
 
 标签内的文本也是一个对象。
 
 所有这些对象都可以用 JavaScript 来操作。
+=======
+According to Document Object Model (DOM), every HTML-tag is an object. Nested tags are  "children" of the enclosing one. The text inside a tag it is an object as well.
+
+All these objects are accessible using JavaScript, we can use them to modify the page.
+
+For example, `document.body` is the object representing `<body>` tag.
+
+Running this code will make the `<body>` red for 3 seconds:
+
+```js run
+document.body.style.background = 'red'; // make the background red
+
+setTimeout(() => document.body.style.background = '', 3000); // return back
+```
+
+That was just a glimpse of DOM power. Soon we'll learn more ways to manipulate DOM, but first we need to know about its structure.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ## DOM 的例子
 
+<<<<<<< HEAD
 例如，我们来研究这个文档的 DOM：
+=======
+Let's start with the following simple docment:
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ```html run no-beautify
 <!DOCTYPE HTML>
@@ -44,7 +66,13 @@ drawHtmlTree(node1, 'div.domtree', 690, 320);
 在上面的图片中，你可以点击元素节点，他们的子节点会打开/折叠。
 ```
 
+<<<<<<< HEAD
 标签被称为**元素节点**（或者仅仅是元素）。嵌套标签称为闭合标签的子标签。因此我们有这样一个元素树：`<html>` 在根目录下，然后 `<head>` 和 `<body>` 是它的子项，等等。
+=======
+Every tree node is an object.
+
+Tags are *element nodes* (or just elements), they form the tree structure: `<html>` is at the root, then `<head>` and `<body>` are its children, etc.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 元素内的文本形成**文本节点**，标记为 `＃text`。文本节点只包含一个字符串。它没有子项，永远是树的一片叶子。
 
@@ -55,7 +83,11 @@ drawHtmlTree(node1, 'div.domtree', 690, 320);
 - 换行符：`↵`（在 JavaScript 中称为`\n`）
 - 一个空格：`␣`
 
+<<<<<<< HEAD
 空格和换行符是完全有效的字符，它们形成文本节点并成为 DOM 的一部分。因此，在上面的例子中，`<head>` 标签在 `<title>` 之前包含了一些空格，并且该文本变成了一个 `#text` 节点（它只包含换行符和一些空格）。
+=======
+Spaces and newlines -- are totally valid characters, like letters and digits. They form text nodes and become a part of the DOM. So, for instance, in the example above the `<head>` tag contains some spaces before `<title>`, and that text becomes a `#text` node (it contains a newline and some spaces only).
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 只有两个顶级排除项目：
 1. 由于历史原因，`<head>` 之前的空格和换行符被忽略，
@@ -78,6 +110,7 @@ let node2 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,
 drawHtmlTree(node2, 'div.domtree', 690, 210);
 </script>
 
+<<<<<<< HEAD
 ```smart header="Edge spaces and in-between empty text are usually hidden in tools"
 与 DOM 协同工作的浏览器工具（不久将会覆盖）通常不会在文本的开始/结尾处显示空格，并且在标记之间不会显示空文本节点（换行符）。
 
@@ -88,6 +121,17 @@ drawHtmlTree(node2, 'div.domtree', 690, 210);
 
 
 ## 自动修正
+=======
+```smart header="Spaces at string start/end and space-only text nodes are usually hidden in tools"
+Browser tools (to be covered soon) that work with DOM usually do not show spaces at the start/end of the text and empty text nodes (line-breaks) between tags.
+
+Developer tools save screen space this way.
+
+On further DOM pictures we'll sometimes omit them when they are irrelevant. Such spaces usually do not affect how the document is displayed.
+```
+
+## Autocorrection
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 如果浏览器遇到格式不正确的 HTML，它会在形成 DOM 时自动修正它。
 
@@ -106,7 +150,11 @@ drawHtmlTree(node3, 'div.domtree', 690, 150);
 
 在生成 DOM 时，浏览器会自动处理文档中的错误，关闭标签等等。
 
+<<<<<<< HEAD
 这样的“无效”文档：
+=======
+Such document with unclosed tags:
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ```html no-beautify
 <p>Hello
@@ -146,9 +194,15 @@ drawHtmlTree(node5,  'div.domtree', 600, 200);
 看到了吗？`<tbody>` 出现了。在使用表格时，应该牢记这一点以避免意外。
 
 
+<<<<<<< HEAD
 ## 其他节点类型
 
 让我们在页面中添加更多标签和注释：
+=======
+There are some other node types besides elements and text nodes.
+
+For example, comments:
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ```html
 <!DOCTYPE HTML>
@@ -174,9 +228,15 @@ let node6 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,
 drawHtmlTree(node6, 'div.domtree', 690, 500);
 </script>
 
+<<<<<<< HEAD
 在这里我们看到一个新的树节点类型 —— *comment node*，标记为 `#comment`。
 
 我们可能会想 —— 为什么要将注释添加到 DOM 中？它不会以任何方式影响视觉表示。但是有一条规则 —— 如果 HTML 中有东西，那么它也必须在 DOM 树中。
+=======
+We can see here a new tree node type -- *comment node*, labeled as `#comment`, between two text nodes.
+
+We may think -- why is a comment added to the DOM? It doesn't affect the visual representation in any way. But there's a rule -- if something's in HTML, then it also must be in the DOM tree.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 **HTML 中的所有内容甚至注释都成为 DOM 的一部分。**
 
@@ -195,9 +255,13 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 要实时查看 DOM 结构，请尝试 [Live DOM Viewer](http://software.hixie.ch/utilities/js/live-dom-viewer/)。只需输入文档，它就会立即显示 DOM。
 
+<<<<<<< HEAD
 ## 在浏览器中检查
 
 研究 DOM 的另一种方式是使用浏览器开发工具。事实上，这正是我们开发时所使用的工具。
+=======
+Another way to explore the DOM is to use the browser developer tools. Actually, that's what we use when developing.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 请打开网页 [elks.html](elks.html)，打开浏览器开发工具并切换到元素选项卡。
 
@@ -209,7 +273,11 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 请注意，开发者工具中的 DOM 结构已经过简化。文本节点仅以文本形式显。根本没有“空白”（只有空格）的文本节点。这其实很好，因为大部分时间我们都对元素节点感兴趣。
 
+<<<<<<< HEAD
 点击左上角的 <span class="devtools" style="background-position:-328px -124px"></span> 按钮可以使用鼠标（或其他指针设备）从网页中选择一个节点并“检查”它（在“元素”选项卡中滚动到该节点）。当我们有一个巨大的 HTML 页面（和相应的巨大 DOM），并希望看到其中的一个特定元素的位置时，这很有用。
+=======
+Clicking the <span class="devtools" style="background-position:-328px -124px"></span> button in the left-upper corner allows to choose a node from the webpage using a mouse (or other pointer devices) and "inspect" it (scroll to it in the Elements tab). This works great when we have a huge HTML page (and corresponding huge DOM) and would like to see the place of a particular element in it.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 另一种方法是在网页上右键单击并在上下文菜单中选择“检查”。
 
@@ -225,10 +293,19 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 ## 与控制台交互
 
+<<<<<<< HEAD
 在我们研究 DOM 时，我们也可能想要使用 JavaScript。就比如：获取一个节点并运行一些代码来修改它，看看它长什么样。这里有一些在元素选项卡和控制台之间传输数据的提示。
 
 - 在元素标签中选择第一个 `<li>`。
 - 按下 `key:Esc` —— 它将在元素标签下方打开控制台。
+=======
+As we work the DOM, we also may want to apply JavaScript to it. Like: get a node and run some code to modify it, to see the result. Here are few tips to travel between the Elements tab and the console.
+
+For the start:
+
+1. Select the first `<li>` in the Elements tab.
+2. Press `key:Esc` -- it will open console right below the Elements tab.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 现在最后选中的元素可以用 `$0` 来进行操作，以前选择的是 `$1`，如此等等。
 
@@ -236,9 +313,17 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 ![](domconsole0.png)
 
+<<<<<<< HEAD
 另一方面，如果我们处在控制台中，并且有一个引用 DOM 节点的变量，那么我们可以使用命令 `inspect（node）` 在元素窗格中查看它。
 
 或者我们可以在控制台中输出它并“就地”测试它，如下面的 `document.body`：
+=======
+That's how to get a node from Elements in Console.
+
+There's also a road back. If there's a variable referencing a DOM node, then we can use the command `inspect(node)` in Console to see it in the Elements pane.
+
+Or we can just output DOM-node in the console and explore "at-place", like `document.body` below:
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ![](domconsole1.png)
 
