@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 [![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 <!--
 
+<<<<<<< HEAD
 ## 赞助商
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
@@ -15,6 +22,21 @@
 ## 翻译
 
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 详见[翻译](https://javascript.info/translate)。
 
@@ -38,6 +60,7 @@
 
 🎉 非常感谢！
 
+<<<<<<< HEAD
 翻译版本上线后，我们会在“[关于本项目](https://zh.javascript.info/about)”页面写上你的名字和贡献。
 
 注：<https://javascript.info/translate> 列出了完整的语言列表。
@@ -162,3 +185,10 @@ importance: 5
 - Martin [@MartinsYong](https://github.com/MartinsYong)
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
+=======
+It's very easy to add something new.
+
+---
+♥  
+Ilya Kantor @iliakan
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923

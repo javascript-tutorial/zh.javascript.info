@@ -2,9 +2,15 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 按年龄对用户排序
 
 编写函数 `sortByAge(users)` 获得对象数组的 `age` 属性并对它进行排序。
+=======
+# Sort users by age
+
+Write the function `sortByAge(users)` that gets an array of objects with the `age` property and sorts them by `age`.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 例如：
 

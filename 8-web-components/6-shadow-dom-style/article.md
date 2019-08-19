@@ -1,6 +1,10 @@
 # Shadow DOM styling
 
+<<<<<<< HEAD
 Shadow DOM may include both `<style>` and `<link rel="stylesheet" href="…">` tags. In the latter case, stylesheets are HTTP-cached, so they are not redownloaded. There's no overhead in @importing or linking same styles for many components.
+=======
+Shadow DOM may include both `<style>` and `<link rel="stylesheet" href="…">` tags. In the latter case, stylesheets are HTTP-cached, so they are not redownloaded for multiple components that use same template.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 As a general rule, local styles work only inside the shadow tree, and document styles work outside of it. But there are few exceptions.
 
@@ -44,7 +48,11 @@ customElements.define('custom-dialog', class extends HTMLElement {
 
 ## Cascading
 
+<<<<<<< HEAD
 The shadow host (`<custom-dialog>` itself) resides in the light DOM, so it's affected by the main CSS cascade.
+=======
+The shadow host (`<custom-dialog>` itself) resides in the light DOM, so it's affected by document CSS rules.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 If there's a property styled both in `:host` locally, and in the document, then the document style takes precedence.
 
@@ -58,7 +66,11 @@ custom-dialog {
 ```
 ...Then the `<custom-dialog>` would be without padding.
 
+<<<<<<< HEAD
 It's very convenient, as we can setup "default" styles in the component `:host` rule, and then easily override them in the document.
+=======
+It's very convenient, as we can setup "default" component styles in its `:host` rule, and then easily override them in the document.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 The exception is when a local property is labelled `!important`, for such properties, local styles take precedence.
 
@@ -79,6 +91,10 @@ For example, we'd like to center the `<custom-dialog>` only if it has `centered`
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
+<<<<<<< HEAD
+=======
+      border-color: blue;
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
     }
 
     :host {
@@ -108,13 +124,21 @@ customElements.define('custom-dialog', class extends HTMLElement {
 </custom-dialog>
 ```
 
+<<<<<<< HEAD
 Now the additional centering styles are only applied to the first dialog `<custom-dialog centered>`.
+=======
+Now the additional centering styles are only applied to the first dialog: `<custom-dialog centered>`.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ## :host-context(selector)
 
 Same as `:host`, but applied only if the shadow host or any of its ancestors in the outer document matches the `selector`.
 
+<<<<<<< HEAD
 E.g. `:host-context(.dark-theme)` matches only if there's `dark-theme` class on `<custom-dialog>` on above it:
+=======
+E.g. `:host-context(.dark-theme)` matches only if there's `dark-theme` class on `<custom-dialog>` on anywhere above it:
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ```html
 <body class="dark-theme">
@@ -190,11 +214,19 @@ customElements.define('user-card', class extends HTMLElement {
 </script>
 ```
 
+<<<<<<< HEAD
 Here `<p>John Smith</p>` becomes bold, because CSS inheritance is in effect between the `<slot>` and its contents. But not all CSS properties are inherited.
 
 Another option is to use `::slotted(selector)` pseudo-class. It matches elements based on two conditions:
 
 1. The element from the light DOM that is inserted into a `<slot>`. Then slot name doesn't matter. Just any slotted element, but only the element itself, not its children.
+=======
+Here `<p>John Smith</p>` becomes bold, because CSS inheritance is in effect between the `<slot>` and its contents. But in CSS itself not all properties are inherited.
+
+Another option is to use `::slotted(selector)` pseudo-class. It matches elements based on two conditions:
+
+1. That's a slotted element, that comes from the light DOM. Slot name doesn't matter. Just any slotted element, but only the element itself, not its children.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 2. The element matches the `selector`.
 
 In our example, `::slotted(div)` selects exactly `<div slot="username">`, but not its children:
@@ -239,6 +271,7 @@ Also, `::slotted` can only be used in CSS. We can't use it in `querySelector`.
 
 ## CSS hooks with custom properties
 
+<<<<<<< HEAD
 How do we style a component in-depth from the main document?
 
 Naturally, document styles apply to `<custom-dialog>` element or `<user-card>`, etc. But how can we affect its internals? For instance, in `<user-card>` we'd like to allow the outer document change how user fields look.
@@ -248,12 +281,27 @@ Just as we expose methods to interact with our component, we can expose CSS vari
 **Custom CSS properties exist on all levels, both in light and shadow.**
 
 For example, in shadow DOM we can use `--user-card-field-color` CSS variable to style fields:
+=======
+How do we style internal elements of a component from the main document?
+
+Selectors like `:host` apply rules to `<custom-dialog>` element or `<user-card>`, but how to style shadow DOM elements inside them?
+
+There's no selector that can directly affect shadow DOM styles from the document. But just as we expose methods to interact with our component, we can expose CSS variables (custom CSS properties) to style it.
+
+**Custom CSS properties exist on all levels, both in light and shadow.**
+
+For example, in shadow DOM we can use `--user-card-field-color` CSS variable to  style fields, and the outer document can set its value:
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ```html
 <style>
   .field {
     color: var(--user-card-field-color, black);
+<<<<<<< HEAD
     /* if --user-card-field-color is not defined, use black */
+=======
+    /* if --user-card-field-color is not defined, use black color */
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
   }
 </style>
 <div class="field">Name: <slot name="username"></slot></div>
@@ -321,8 +369,13 @@ Local styles can affect:
 - slotted elements (coming from light DOM), `::slotted(selector)` allows to select  slotted elements themselves, but not their children.
 
 Document styles can affect:
+<<<<<<< HEAD
 - shadow host (as it's in the outer document)
 - slotted elements and their contents (as it's physically in the outer document)
+=======
+- shadow host (as it lives in the outer document)
+- slotted elements and their contents (as that's also in the outer document)
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 When CSS properties conflict, normally document styles have precedence, unless the property is labelled as `!important`. Then local styles have precedence.
 
