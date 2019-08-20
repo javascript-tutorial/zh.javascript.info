@@ -6,6 +6,7 @@
     <g id="combined" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="code-style.svg">
             <rect fill="#FFFFFF" x="0" y="0" width="715" height="528"></rect>
+            <rect x="240" y="146" width="416" height="336" fill="#F5F2F0"></rect>
             <text font-family="Consolas" font-size="14" font-weight="bold" y="163.8">
                 <tspan x="244.7" fill="#0076AC">function </tspan><tspan fill="#000">pow</tspan><tspan fill="#999">(</tspan><tspan fill="#000">x</tspan><tspan fill="#999">, </tspan><tspan fill="#000">n</tspan><tspan fill="#999">) {</tspan>
                 <tspan x="260.1" dy="17" fill="#0076AC">let </tspan><tspan fill="#000">result </tspan><tspan fill="#A77F57">= </tspan><tspan fill="#9b1855">1</tspan><tspan fill="#999">;</tspan>
