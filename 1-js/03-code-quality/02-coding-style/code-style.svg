@@ -1,11 +1,11 @@
-<svg width="715px" height="528px" viewBox="0 0 715 528" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="715px" height="528px" viewBox="0 0 715 528" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      @import url(https://fonts.googleapis.com/css?family=Open+Sans:bold|PT+Mono|Consolas:bold);
+      @import url(https://fonts.googleapis.com/css?family=Open+Sans:bold|Noto+Sans+SC:bold|Consolas:bold);
     </style>
   </defs>
-  <g id="combined" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="code-style.svg">
+  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g>
       <rect fill="#FFFFFF" x="0" y="0" width="715" height="528"></rect>
       <rect x="240" y="146" width="416" height="336" fill="#F5F2F0"></rect>
       <text font-family="Consolas-Bold, Consolas" font-size="14" font-weight="bold" y="163.8">
@@ -25,47 +25,51 @@
         <tspan x="260.1" dy="17" fill="#000">alert</tspan><tspan fill="#999">( </tspan><tspan fill="#000">pow</tspan><tspan fill="#999">(</tspan><tspan fill="#000">x</tspan><tspan fill="#999">, </tspan><tspan fill="#000">n</tspan><tspan fill="#999">) );</tspan>
         <tspan x="244.7" dy="17" fill="#999">} </tspan>
       </text>
-      <path d="M250.5,355.5 L250.5,371.5" id="Line-17" stroke="#EE6B47" stroke-width="2" stroke-linecap="square"></path>
-      <path d="M247.5,360.5 L250.5,355.5" id="Line-18" stroke="#EE6B47" stroke-width="2" stroke-linecap="square"></path>
-      <path d="M250.5,372.5 L253.5,367.5" id="Line-10" stroke="#EE6B47" stroke-width="2" stroke-linecap="square"></path>
-      <path d="M250.5,360.5 L253.5,355.5" id="Line-11" stroke="#EE6B47" stroke-width="2" stroke-linecap="square" transform="translate(252.000000, 358.000000) scale(-1, 1) translate(-252.000000, -358.000000) "></path>
-      <path d="M247.5,372.5 L250.5,367.5" id="Line-12" stroke="#EE6B47" stroke-width="2" stroke-linecap="square" transform="translate(249.000000, 370.000000) scale(-1, 1) translate(-249.000000, -370.000000) "></path>
-      <text id="2" font-family="OpenSans-Regular, Open Sans" font-size="12" font-weight="normal" fill="#EE6B47">
-        <tspan x="249.069336" y="186">2</tspan>
-      </text>
-      <path d="M259,190 L259,180.5" id="Line-19" stroke="#EE6B47" stroke-width="2" stroke-linecap="square"></path>
-      <path d="M245,190 L245,180.5" id="Line-5" stroke="#EE6B47" stroke-width="2" stroke-linecap="square"></path>
-      <path d="M245,190.5 L259,190.5" id="Line-20" stroke="#EE6B47" stroke-width="2" stroke-linecap="square"></path>
-      <text font-family="Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="bold" fill="#EE6B47">
-        <tspan x="13.543457" y="84">函数名与圆括号之间和圆括号与参数之间没有空格</tspan>
-        <tspan x="60" y="180">行首缩进两个空格</tspan>
-        <tspan x="67.0517578" y="233">后面有一个空格</tspan>
-        <tspan x="508.036133" y="455">} else { 不空行</tspan>
-        <tspan x="265" y="501">嵌套调用两边各一个空格</tspan>
-        <tspan x="63" y="365">逻辑块之间空一行</tspan>
-        <tspan x="515.240723" y="350">一行不要太长</tspan>
-        <tspan x="609" y="233">强制使用分号</tspan>
-        <tspan x="560.253418" y="155">运算符两边有空格</tspan>
-        <tspan x="464.23291" y="89">大括号在同一行，前面有空格</tspan>
-        <tspan x="440" y="292">参数之间有空格</tspan>
-        <tspan x="314" y="28">参数之间有空格</tspan>
-      </text>
-      <text id="Indentation-2-spaces" font-family="OpenSans-Bold, OpenSans" font-size="14" font-weight="bold" fill="#EE6B47">
-        <tspan x="70" y="214">for/if/while…</tspan>
-      </text>
-      <path id="Line" d="M324.893398,141.307612 L278.085786,94.5 L279.5,93.0857864 L326.307612,139.893398 L330.550253,135.650758 L335.5,150.5 L320.650758,145.550253 L324.893398,141.307612 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-4" d="M224,178.5 L177.5,178.5 L177.5,176.5 L224,176.5 L224,170.5 L238,177.5 L224,184.5 L224,178.5 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-6" d="M224,211.5 L177.5,211.5 L177.5,209.5 L224,209.5 L224,203.5 L238,210.5 L224,217.5 L224,211.5 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-14" d="M430.011084,436.330378 L497.12163,445.138637 L496.861363,447.12163 L429.750816,438.313371 L428.970013,444.26235 L416,435.5 L430.791887,430.3814 L430.011084,436.330378 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-15" d="M319.706971,466.640502 L336.414128,482.98446 L335.01554,484.414128 L318.308382,468.07017 L314.112617,472.359174 L309,457.565217 L323.902735,462.351497 L319.706971,466.640502 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-7" d="M218,362.5 L178.441667,362.5 L178.441667,360.5 L218,360.5 L218,354.5 L232,361.5 L218,368.5 L218,362.5 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-13" d="M464.745721,384.122364 L544.024289,354.211376 L544.730291,356.082622 L465.451723,385.99361 L467.569728,391.607348 L452,390 L462.627715,378.508626 L464.745721,384.122364 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-8" d="M409,227.5 L601,227.5 L601,229.5 L409,229.5 L409,235.5 L395,228.5 L409,221.5 L409,227.5 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-16" d="M423.985831,197.609965 L585.270137,163.313877 L585.686123,165.270137 L424.401817,199.566225 L425.649776,205.435007 L410.5,201.5 L422.737871,191.741183 L423.985831,197.609965 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-3" d="M421.266845,147.179112 L527.483914,97.6711558 L528.328844,99.4839144 L422.111775,148.99187 L424.646564,154.430146 L409,154 L418.732055,141.740836 L421.266845,147.179112 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-2" d="M362.5,132 L362.5,36 L364.5,36 L364.5,132 L370.5,132 L363.5,146 L356.5,132 L362.5,132 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line-9" d="M409.736427,313.014789 L434.940298,285.587047 L436.412953,286.940298 L411.209082,314.36804 L415.627047,318.427792 L401,324 L405.318461,308.955038 L409.736427,313.014789 Z" fill="#EE6B47" fill-rule="nonzero"></path>
-      <path id="Line" d="M373.98644,467.798659 L350.313092,485.901808 L349.098192,484.313092 L372.77154,466.209944 L369.12684,461.443797 L384.5,458.5 L377.631141,472.564806 L373.98644,467.798659 Z" fill="#EE6B47" fill-rule="nonzero"></path>
+      <g fill="#EE6B47">
+        <text font-family="OpenSans-Regular, Open Sans" font-size="12" font-weight="normal">
+          <tspan x="249.069336" y="186">2</tspan>
+        </text>
+        <text font-family="Microsoft YaHei, Noto Sans SC" font-size="14" font-weight="bold">
+          <tspan x="13.543457" y="84">函数名与圆括号之间和圆括号与参数之间没有空格</tspan>
+          <tspan x="60" y="180">行首缩进两个空格</tspan>
+          <tspan x="67.0517578" y="233">后面有一个空格</tspan>
+          <tspan x="508.036133" y="455">} else { 不空行</tspan>
+          <tspan x="265" y="501">嵌套调用两边各一个空格</tspan>
+          <tspan x="63" y="365">逻辑块之间空一行</tspan>
+          <tspan x="515.240723" y="350">一行不要太长</tspan>
+          <tspan x="609" y="233">强制使用分号</tspan>
+          <tspan x="560.253418" y="155">运算符两边有空格</tspan>
+          <tspan x="464.23291" y="89">大括号在同一行，前面有空格</tspan>
+          <tspan x="440" y="292">参数之间有空格</tspan>
+          <tspan x="314" y="28">参数之间有空格</tspan>
+        </text>
+        <text font-family="OpenSans-Bold, OpenSans" font-size="14" font-weight="bold">
+          <tspan x="70" y="214">for/if/while…</tspan>
+        </text>
+        <g stroke="#EE6B47" stroke-width="2" stroke-linecap="square">
+          <path d="m250.5,355.5 v16"></path>
+          <path d="m247.5,360.5 3,-5"></path>
+          <path d="m250.5,372.5 3,-5"></path>
+          <path d="m250.5,355.5 3,5"></path>
+          <path d="m247.5,367.5 3,5"></path>
+          <path d="m259,180.5 v9.5"></path>
+          <path d="m245,180.5 v9.5"></path>
+          <path d="m245,190.5 h14"></path>
+        </g>
+        <path d="m324.89,141.3 -46.81,-46.8 1.42,-1.42 46.8,46.81 4.2,-4.24 5,14.85 -14.85,-4.95z"></path>
+        <path d="m224,178.5 h-46.5 v-2 H224 v-6 l14,7 -14,7z"></path>
+        <path d="m224,211.5 h-46.5 v-2 H224 v-6 l14,7 -14,7z"></path>
+        <path d="m430.01,436.33 67.1,8.8 -0.26,1.98 -67.1,-8.8 -0.78,5.94 -12.97,-8.76 14.79,-5.1z"></path>
+        <path d="m319.7,466.64 16.7,16.34 -1.4,1.43 -16.7,-16.34 -4.2,4.28 -5.1,-14.79 14.9,4.8z"></path>
+        <path d="m218,362.5 h-39.56 v-2 h39.56 v-6 l14,7 -14,7z"></path>
+        <path d="m464.74,384.12 79.28,-29.9 0.7,1.87 -79.28,29.9 2.1,5.6 L452,390 462.62,378.5Z"></path>
+        <path d="m409,227.5 h192 v2 h-192 v6 l-14,-7 14,-7z"></path>
+        <path d="m423.98,197.6 161.29,-34.29 0.4,1.96 -161.28,34.29 1.24,5.87 -15.14,-3.93 12.23,-9.76z"></path>
+        <path d="m421.26,147.17 106.22,-49.5 0.84,1.8 -106.2,49.5 2.53,5.44 L409,154 l9.73,-12.26z"></path>
+        <path d="M362.5,132 V36 h2 v96 h6 l-7,14 -7,-14z"></path>
+        <path d="m409.73,313 25.2,-27.43 1.47,1.36 -25.2,27.42 4.42,4.06 -14.62,5.58 4.3,-15.05z"></path>
+        <path d="m373.98,467.8 -23.67,18.1 -1.22,-1.6 23.68,-18.1 -3.65,-4.76 15.38,-2.94 -6.87,14.06z"></path>
+      </g>
     </g>
   </g>
 </svg>
