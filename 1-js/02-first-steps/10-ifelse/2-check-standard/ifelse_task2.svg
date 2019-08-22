@@ -8,21 +8,21 @@
             <path id="Path-1218-Copy" d="M422.5,187.5 L422.5,136.5 L342,136.5 L340.5,136.5 L340.5,133.5 L425.5,133.5 L425.5,187.5 L433.5,187.5 L424,206.5 L414.5,187.5 L422.5,187.5 Z" fill="#EE6B47" fill-rule="nonzero"></path>
             <g id="Rectangle-1-+-Корень" transform="translate(213.000000, 4.000000)">
                 <rect id="Rectangle-1" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="1" y="1" width="78" height="28" rx="14"></rect>
-                <text id="Begin" font-family="OpenSans-Regular, Open Sans" font-size="14" font-weight="normal" fill="#8A704D">
-                    <tspan x="21" y="19">Begin</tspan>
+                <text id="Begin" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="normal" fill="#8A704D">
+                    <tspan x="26.05" y="19.599773">开始</tspan>
                 </text>
             </g>
             <g id="Rectangle-1-+-Корень-Copy-2" transform="translate(8.000000, 206.000000)">
-                <rect id="Rectangle-1" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="1" y="1" width="131" height="49" rx="24.5"></rect>
-                <text id="You-don't-know?-“ECM" font-family="OpenSans-Regular, Open Sans" font-size="14" font-weight="normal" fill="#8A704D">
-                    <tspan x="13.3540039" y="20">You don't know?</tspan>
-                    <tspan x="21.9672852" y="39">“ECMAScript”!</tspan>
+                <rect id="Rectangle-1" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="1" y="1" width="140" height="49" rx="24.5"></rect>
+                <text id="You-don't-know?-“ECM" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="normal" fill="#8A704D">
+                    <tspan x="40" y="20">你不知道？</tspan>
+                    <tspan x="10" y="39">是“ECMAScript”！</tspan>
                 </text>
             </g>
             <g id="Rectangle-1-+-Корень-Copy-3" transform="translate(354.000000, 206.000000)">
                 <rect id="Rectangle-1" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="1" y="1" width="131" height="49" rx="24.5"></rect>
-                <text id="Right!" font-family="OpenSans-Regular, Open Sans" font-size="14" font-weight="normal" fill="#8A704D">
-                    <tspan x="47.9301758" y="28">Right!</tspan>
+                <text id="Right!" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="normal" fill="#8A704D">
+                    <tspan x="47.9301758" y="28">正确！</tspan>
                 </text>
             </g>
             <path id="Line" d="M252,57.0499687 L252,34 L255,34 L255,57.0499687 L263,57.0499687 L253.5,76.0499687 L244,57.0499687 L252,57.0499687 Z" fill="#EE6B47" fill-rule="nonzero"></path>
@@ -30,18 +30,18 @@
             <rect id="Rectangle-356" fill="#FFFFFF" x="47" y="152" width="60" height="20"></rect>
             <g id="Rectangle-354-+-Каково-“официальное”" transform="translate(137.000000, 76.000000)">
                 <path d="M2.1985673,59.5 L116.5,117.877127 L230.801433,59.5 L116.5,1.12287343 L2.1985673,59.5 Z" id="Rectangle-354" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB"></path>
-                <text id="What's-the-“official" font-family="OpenSans-Regular, Open Sans" font-size="14" font-weight="normal" fill="#8A704D">
-                    <tspan x="81.0263672" y="43">What's the</tspan>
-                    <tspan x="60.6347656" y="62">“official” name of</tspan>
-                    <tspan x="80.7700195" y="81">JavaScript?</tspan>
+                <text id="What's-the-“official" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="normal" fill="#8A704D">
+                    <tspan x="75" y="43">JavaScript的</tspan>
+                    <tspan x="70" y="62">“官方”名称</tspan>
+                    <tspan x="90" y="81">是什么？</tspan>
                 </text>
             </g>
-            <text id="Other" font-family="OpenSans-Regular, Open Sans" font-size="14" font-weight="normal" fill="#8A704D">
-                <tspan x="57" y="166">Other</tspan>
+            <text id="Other" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="normal" fill="#8A704D">
+                <tspan x="57" y="166">其他的</tspan>
             </text>
             <rect id="Rectangle-356-Copy" fill="#FFFFFF" x="387" y="152" width="60" height="20"></rect>
-            <text id="ECMAScript" font-family="OpenSans-Regular, Open Sans" font-size="14" font-weight="normal" fill="#8A704D">
-                <tspan x="383" y="165">ECMAScript</tspan>
+            <text id="ECMAScript" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="normal" fill="#8A704D">
+                <tspan x="383" y="166">ECMAScript</tspan>
             </text>
         </g>
     </g>
