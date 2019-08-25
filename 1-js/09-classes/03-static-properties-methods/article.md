@@ -92,7 +92,7 @@ let article = Article.createTodays();
 alert( article.title ); // Todays digest
 ```
 
-现在，每次我们需要创建一个今天的摘要，我们可以调`Article.createTodays()`. 再一次说明, 这不是一篇文章的方法，而是整个文章类的方法。
+现在，每当我们需要创建一个今天的摘要时，我们可以调用 `Article.createTodays()`。再一次说明，这不是一篇文章的方法，而是整个 class 的方法。
 
 静态方法在数据库相关的类中也用来从数据库中 搜索/保存/删除 实体， 就像这样
 ```js
