@@ -60,7 +60,7 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // CSS
 ```
 
-这里 `Article.compare` 代表这些文章, 作为一个比较它们的意思. 它不是一篇文章的方法，而是所有这些文章的方法。
+这里 `Article.compare` 代表这些文章，作为一个比较它们的意思。它不是一篇文章的方法，而是所有 class 的方法。
 
 另一个例子是所谓的 "工厂"方法. 想象一下, 我们需要一些方式来创建一篇文章:
 
