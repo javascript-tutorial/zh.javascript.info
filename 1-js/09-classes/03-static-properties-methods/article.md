@@ -81,7 +81,7 @@ class Article {
 
 *!*
   static createTodays() {
-    // 记住, this = Article
+    // 记住，this = Article
     return new this("Today's digest", new Date());
   }
 */!*
