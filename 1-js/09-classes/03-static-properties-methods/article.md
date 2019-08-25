@@ -125,7 +125,7 @@ Article.publisher = "Ilya Kantor";
 
 静态属性和静态方法是继承的, 我们可以用 `Parent.method` 和 `Child.method`.
 
-举个例子： 下面代码里的`Animal.compare` 被继承， 可以通过 `Rabbit.compare` 来访问
+举个例子：下面代码里的 `Animal.compare` 被继承，可以通过 `Rabbit.compare` 来访问：
 
 ```js run
 class Animal {
