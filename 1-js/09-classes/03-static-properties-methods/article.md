@@ -30,7 +30,7 @@ User.staticMethod = function() {
 
 通常来说，静态方法用来实现一个属于类，但不属于类的某个对象的特定方法。
 
-举个例子, 我们有 `Article` 对象，需要一个方法来比较它们. 自然的选择将会是 `Article.compare`, 就像这样:
+举个例子, 我们有 `Article` 对象，需要一个方法来比较它们。一个自然的解决方案是添加 `Article.compare` 方法，就像这样：
 
 ```js run
 class Article {
