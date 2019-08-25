@@ -177,7 +177,7 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 因此，`Rabbit` 函数现在继承来自 `Animal` 函数。
 同时 `Animal` 函数正常的拥有`[[Prototype]]`属性 ，它引用了`Function.prototype`, 因为它没有继承任何对象。
 
-这里， 让我们来检验一下：
+这里，让我们来检验一下：
 
 ```js run
 class Animal {}
