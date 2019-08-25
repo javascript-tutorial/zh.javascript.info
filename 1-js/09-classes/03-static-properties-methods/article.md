@@ -26,7 +26,7 @@ User.staticMethod = function() {
 };
 ```
 
-在  `User.staticMethod`方法  内部， `this`的值将会是 构造函数 `User` 它自己（对象在使用.之前访问规则 ）。
+在 `User.staticMethod` 方法内部，`this` 的值是构造函数 `User` 它自己（“点之前对象”[object before dot]规则）。
 
 通常来说，静态方法用来实现一个属于类，但不属于类的某个对象的特定方法。
 
