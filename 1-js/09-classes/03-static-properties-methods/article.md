@@ -168,7 +168,7 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 ```
 现在我们调用 `Rabbit.compare` 被断定为继承的 `Animal.compare` 将被调用。
 
-它的原理是什么？ 再次的，使用原型。你可能已经猜到了，`继承` 让 `Rabbit` 的 `[[Prototype]]` 属性指向了 `Animal`.
+它的原理是什么？ 再次的，使用原型。你可能已经猜到了，`继承` 让 `Rabbit` 的 `[[Prototype]]` 属性指向了 `Animal`。
 
 
 ![](animal-rabbit-static.svg)
