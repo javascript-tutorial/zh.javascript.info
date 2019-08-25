@@ -201,7 +201,7 @@ alert(Rabbit.prototype.__proto__ === Animal.prototype);
 当我们想要存储类级别的数据时，我们会使用静态属性，而不是在实例上绑定数据。
 
 
-语法:
+语法：
 ```js
 class MyClass {
   static property = ...;
