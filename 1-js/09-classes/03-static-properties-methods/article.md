@@ -115,7 +115,8 @@ class Article {
 alert( Article.publisher ); // Ilya Kantor
 ```
 
-这等同于直接给 `Article` 赋值:
+这等同于直接给 `Article` 赋值：
+
 ```js
 Article.publisher = "Ilya Kantor";
 ```
