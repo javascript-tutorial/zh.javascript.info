@@ -3,7 +3,7 @@
 
 我们可以把一个方法赋值给一个类方法，而不是赋给它的 `"原型对象"`。这样的方法我们称为**静态的**。
 
-在类里面，他们在前面添加 "static" 关键字，就像这样:
+在类里面，他们在前面添加 "static" 关键字，就像这样：
 
 ```js run
 class User {
@@ -16,10 +16,11 @@ class User {
 
 User.staticMethod(); // true
 ```
-这实际上跟直接作为属性赋值做了同样的事情。
+
+这实际上跟直接作为属性赋值做了同样的事情：
 
 ```js
-function User() { }
+class User() { }
 
 User.staticMethod = function() {
   alert(this === User);
@@ -30,7 +31,7 @@ User.staticMethod = function() {
 
 通常来说，静态方法用来实现一个属于类，但不属于类的某个对象的特定方法。
 
-举个例子, 我们有 `Article` 对象，需要一个方法来比较它们。一个自然的解决方案是添加 `Article.compare` 方法，就像这样：
+举个例子，我们有 `Article` 对象，需要一个方法来比较它们。一个自然的解决方案是添加 `Article.compare` 方法，就像这样：
 
 ```js run
 class Article {
@@ -46,7 +47,7 @@ class Article {
 */!*
 }
 
-// usage
+// 用法
 let articles = [
   new Article("HTML", new Date(2019, 1, 1)),
   new Article("CSS", new Date(2019, 0, 1)),
@@ -64,7 +65,7 @@ alert( articles[0].title ); // CSS
 
 另一个例子是所谓的“工厂”方法。想象一下，我们需要一些方式来创建一篇文章：
 
-1. 通过用指定的参数来创建(`title`，`date` etc)。
+1. 通过用指定的参数来创建(`title`，`date` 等)。
 2. 用今天的日期来创建一篇空的文章。
 3. ……其他等等。
 
@@ -95,6 +96,7 @@ alert( article.title ); // Todays digest
 现在，每当我们需要创建一个今天的摘要时，我们可以调用 `Article.createTodays()`。再一次说明，这不是一篇文章的方法，而是整个 class 的方法。
 
 静态方法也用于与数据库相关的公共类，可以用来搜索/保存删除数据库中的条目， 就像这样：
+
 ```js
 // 假定 Article 是一个用来管理文章的特殊类
 // 静态方法用于移除文章：
@@ -166,13 +168,12 @@ rabbits.sort(Rabbit.compare);
 
 rabbits[0].run(); // Black Rabbit runs with speed 5.
 ```
+
 现在我们调用 `Rabbit.compare` 被断定为继承的 `Animal.compare` 将被调用。
 
 它的原理是什么？ 再次的，使用原型。你可能已经猜到了，`继承` 让 `Rabbit` 的 `[[Prototype]]` 属性指向了 `Animal`。
 
-
 ![](animal-rabbit-static.svg)
-
 
 因此，`Rabbit` 函数现在继承来自 `Animal` 函数。
 同时 `Animal` 函数正常的拥有`[[Prototype]]`属性 ，它引用了`Function.prototype`, 因为它没有继承任何对象。
