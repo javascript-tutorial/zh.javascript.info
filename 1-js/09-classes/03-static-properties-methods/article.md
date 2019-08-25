@@ -219,5 +219,5 @@ MyClass.property = ...
 MyClass.method = ...
 ```
 
-静态属性是被继承的。
+静态属性和方法是被继承的。
 技术上， 对于  `class B extends A`。  类 `B` 的 prototype 指向了`A`: `B.[[Prototype]] = A`。因此，如果一个字段在 `B` 中没有找到，会继续在 `A` 中查找。
