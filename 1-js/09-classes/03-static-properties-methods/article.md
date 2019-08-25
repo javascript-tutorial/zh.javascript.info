@@ -148,7 +148,7 @@ class Animal {
 
 }
 
-// 继承 Animal类
+// 继承 Animal 类
 class Rabbit extends Animal {
   hide() {
     alert(`${this.name} hides!`);
