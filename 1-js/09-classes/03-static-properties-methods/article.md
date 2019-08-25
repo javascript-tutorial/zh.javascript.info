@@ -105,7 +105,7 @@ Article.remove({id: 12345});
 
 [recent browser=Chrome]
 
-静态的属性也是可能的，就是常规的类属性一样:
+静态的属性也是可能的，就是常规的类属性一样：
 
 ```js run
 class Article {
