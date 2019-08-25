@@ -3,7 +3,7 @@
 
 我们可以把一个方法赋值给一个类方法，而不是赋给它的 `"原型对象"`。这样的方法我们称为**静态的**。
 
-举个例子:
+在类里面，他们在前面添加 "static" 关键字，就像这样:
 
 ```js run
 class User {
@@ -16,7 +16,7 @@ class User {
 
 User.staticMethod(); // true
 ```
-这实际上跟把它赋值给函数赋属性做了同样的事情。
+这实际上跟直接作为属性赋值做了同样的事情。
 
 ```js
 function User() { }
@@ -94,10 +94,10 @@ alert( article.title ); // Todays digest
 
 现在，每当我们需要创建一个今天的摘要时，我们可以调用 `Article.createTodays()`。再一次说明，这不是一篇文章的方法，而是整个 class 的方法。
 
-静态方法在数据库相关的类中也用来从数据库中 搜索/保存/删除 实体， 就像这样
+静态方法也用于与数据库相关的公共类，可以用来搜索/保存删除数据库中的条目， 就像这样：
 ```js
 // 假定 Article 是一个用来管理文章的特殊类
-// 移除文章的静态类:
+// 静态方法用于移除文章：
 Article.remove({id: 12345});
 ```
 
@@ -121,9 +121,9 @@ alert( Article.publisher ); // Ilya Kantor
 Article.publisher = "Ilya Kantor";
 ```
 
-## 静态和继承
+## 静态方法的继承
 
-静态属性和静态方法是继承的, 我们可以用 `Parent.method` 和 `Child.method`.
+静态方法是继承的, 我们可以用 `Parent.method` 和 `Child.method`.
 
 举个例子：下面代码里的 `Animal.compare` 被继承，可以通过 `Rabbit.compare` 来访问：
 
@@ -197,7 +197,11 @@ alert(Rabbit.prototype.__proto__ === Animal.prototype);
 
 ## 总结
 
-静态方法被用来不需要关系到一个具体的类实例的功能，不需要一个实例来存在，相反, 它属于整个类， 就像`Article.compare`， -- 一个通用的用来比较文章的方法。
+静态方法被用来实现属于整个类的功能，不涉及到某个具体的类实例的功能。
+
+举个例子， 一个用来比较的方法 `Article.compare(article1, article2)` 或者一个工厂函数 `Article.createTodays()`。
+
+它们在类声明中通过 `static` 来标记。
 
 当我们想要存储类级别的数据时，我们会使用静态属性，而不是在实例上绑定数据。
 
@@ -213,7 +217,7 @@ class MyClass {
 }
 ```
 
-这在技术上等同于 给类本身赋值:
+技术上来说，静态声明等同于直接给类本身赋值：
 
 ```js
 MyClass.property = ...
