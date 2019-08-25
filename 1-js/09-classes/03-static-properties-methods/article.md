@@ -189,7 +189,7 @@ alert(Rabbit.__proto__ === Animal); // true
 // 下一步__proto__   指向了  Function.prototype
 alert(Animal.__proto__ === Function.prototype); // true
 
-// 对象的正常原型链
+// 对于普通方法
 alert(Rabbit.prototype.__proto__ === Animal.prototype);
 ```
 
