@@ -1,9 +1,9 @@
 
-# Static properties and methods
+# 静态属性和静态方法
 
-We can also assign a method to the class function, not to its `"prototype"`. Such methods are called *static*.
+我们可以把一个方法赋值给一个类方法，而不是赋给它的 `"原型对象"`。这样的方法我们称为**静态的**。
 
-An example:
+在类里面，他们在前面添加 "static" 关键字，就像这样：
 
 ```js run
 class User {
@@ -17,21 +17,21 @@ class User {
 User.staticMethod(); // true
 ```
 
-That actually does the same as assigning it as a function property:
+这实际上跟直接作为属性赋值做了同样的事情：
 
 ```js
-function User() { }
+class User() { }
 
 User.staticMethod = function() {
   alert(this === User);
 };
 ```
 
-The value of `this` inside `User.staticMethod()` is the class constructor `User` itself (the "object before dot" rule).
+在 `User.staticMethod` 方法内部，`this` 的值是构造函数 `User` 它自己（“点之前对象”[object before dot]规则）。
 
-Usually, static methods are used to implement functions that belong to the class, but not to any particular object of it.
+通常来说，静态方法用来实现一个属于类，但不属于类的某个对象的特定方法。
 
-For instance, we have `Article` objects and need a function to compare them. The natural choice would be `Article.compare`, like this:
+举个例子，我们有 `Article` 对象，需要一个方法来比较它们。一个自然的解决方案是添加 `Article.compare` 方法，就像这样：
 
 ```js run
 class Article {
@@ -47,7 +47,7 @@ class Article {
 */!*
 }
 
-// usage
+// 用法
 let articles = [
   new Article("HTML", new Date(2019, 1, 1)),
   new Article("CSS", new Date(2019, 0, 1)),
@@ -61,17 +61,17 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // CSS
 ```
 
-Here `Article.compare` stands "over" the articles, as a means to compare them. It's not a method of an article, but rather of the whole class.
+这里 `Article.compare` 代表这些文章，作为一个比较它们的意思。它不是一篇文章的方法，而是所有 class 的方法。
 
-Another example would be a so-called "factory" method. Imagine, we need few ways to create an article:
+另一个例子是所谓的“工厂”方法。想象一下，我们需要一些方式来创建一篇文章：
 
-1. Create by given parameters (`title`, `date` etc).
-2. Create an empty article with today's date.
-3. ...
+1. 通过用指定的参数来创建(`title`，`date` 等)。
+2. 用今天的日期来创建一篇空的文章。
+3. ……其它等等。
 
-The first way can be implemented by the constructor. And for the second one we can make a static method of the class.
+第一种方法我们可以使用构造函数来实现。对于第二种方式，我们可以创建一个类的静态方法来实现。
 
-Like `Article.createTodays()` here:
+就像这里的 `Article.createTodays()`：
 
 ```js run
 class Article {
@@ -82,7 +82,7 @@ class Article {
 
 *!*
   static createTodays() {
-    // remember, this = Article
+    // 记住，this = Article
     return new this("Today's digest", new Date());
   }
 */!*
@@ -93,21 +93,21 @@ let article = Article.createTodays();
 alert( article.title ); // Todays digest
 ```
 
-Now every time we need to create a today's digest, we can call `Article.createTodays()`. Once again, that's not a method of an article, but a method of the whole class.
+现在，每当我们需要创建一个今天的摘要时，我们可以调用 `Article.createTodays()`。再一次说明，这不是一篇文章的方法，而是整个 class 的方法。
 
-Static methods are also used in database-related classes to search/save/remove entries from the database, like this:
+静态方法也用于与数据库相关的公共类，可以用来搜索/保存删除数据库中的条目， 就像这样：
 
 ```js
-// assuming Article is a special class for managing articles
-// static method to remove the article:
+// 假定 Article 是一个用来管理文章的特殊类
+// 静态方法用于移除文章：
 Article.remove({id: 12345});
 ```
 
-## Static properties
+## 静态属性
 
 [recent browser=Chrome]
 
-Static properties are also possible, just like regular class properties:
+静态的属性也是有可能的，它们看起来像常规的类属性，但前面加有 `static`：
 
 ```js run
 class Article {
@@ -117,17 +117,17 @@ class Article {
 alert( Article.publisher ); // Ilya Kantor
 ```
 
-That is the same as a direct assignment to `Article`:
+这等同于直接给 `Article` 赋值：
 
 ```js
 Article.publisher = "Ilya Kantor";
 ```
 
-## Statics and inheritance
+## 静态方法的继承
 
-Statics are inherited, we can access `Parent.method` as `Child.method`.
+静态方法是继承的。
 
-For instance, `Animal.compare` in the code below is inherited and accessible as `Rabbit.compare`:
+举个例子：下面代码里的 `Animal.compare` 被继承，可以通过 `Rabbit.compare` 来访问：
 
 ```js run
 class Animal {
@@ -150,7 +150,7 @@ class Animal {
 
 }
 
-// Inherit from Animal
+// 继承 Animal 类
 class Rabbit extends Animal {
   hide() {
     alert(`${this.name} hides!`);
@@ -169,41 +169,44 @@ rabbits.sort(Rabbit.compare);
 rabbits[0].run(); // Black Rabbit runs with speed 5.
 ```
 
-Now we can call `Rabbit.compare` assuming that the inherited `Animal.compare` will be called.
+现在我们调用 `Rabbit.compare` 被断定为继承的 `Animal.compare` 将被调用。
 
-How does it work? Again, using prototypes. As you might have already guessed, `extends` gives `Rabbit` the `[[Prototype]]` reference to `Animal`.
-
+它的原理是什么？ 再次的，使用原型。你可能已经猜到了，`继承` 让 `Rabbit` 的 `[[Prototype]]` 属性指向了 `Animal`。
 
 ![](animal-rabbit-static.svg)
 
-So, `Rabbit` function now inherits from `Animal` function. And `Animal` function normally has `[[Prototype]]` referencing `Function.prototype`, because it doesn't `extend` anything.
+因此，`Rabbit extends Animal` 创建了两个 `[[Prototype]]` 的引用：
 
-Here, let's check that:
+1. `Rabbit` 方法原型继承自 `Animal` 方法。
+2. `Rabbit.prototype` 原型继承自 `Animal.prototype`。
+
+结果就是，继承对于常规的和静态的方法都有效。
+
+这里，让我们通过代码来检验一下：
 
 ```js run
 class Animal {}
 class Rabbit extends Animal {}
 
-// for static properties and methods
+// 对于静态属性和静态方法
 alert(Rabbit.__proto__ === Animal); // true
 
-// the next step up leads to Function.prototype
-alert(Animal.__proto__ === Function.prototype); // true
-
-// the "normal" prototype chain for object methods
+// 对于普通方法
 alert(Rabbit.prototype.__proto__ === Animal.prototype);
 ```
+ 
+## 总结
 
-This way `Rabbit` has access to all static methods of `Animal`.
+静态方法被用来实现属于整个类的功能，不涉及到某个具体的类实例的功能。
 
-## Summary
+举个例子， 一个用来比较的方法 `Article.compare(article1, article2)` 或者一个工厂函数 `Article.createTodays()`。
 
-Static methods are used for the functionality that doesn't relate to a concrete class instance, doesn't require an instance to exist, but rather belongs to the class as a whole, like `Article.compare` -- a generic method to compare two articles.
+它们在类声明中通过 `static` 来标记。
 
-Static properties are used when we'd like to store class-level data, also not bound to an instance.
+当我们想要存储类级别的数据时，我们会使用静态属性，而不是在实例上绑定数据。
 
-The syntax is:
 
+语法：
 ```js
 class MyClass {
   static property = ...;
@@ -214,13 +217,13 @@ class MyClass {
 }
 ```
 
-That's technically the same as assigning to the class itself:
+技术上来说，静态声明等同于直接给类本身赋值：
 
 ```js
 MyClass.property = ...
 MyClass.method = ...
 ```
 
-Static properties are inherited.
+静态属性和方法是被继承的。
 
-Technically, for `class B extends A` the prototype of the class `B` itself points to `A`: `B.[[Prototype]] = A`. So if a field is not found in `B`, the search continues in `A`.
+对于 `class B extends A`，类 `B` 的 prototype 指向了 `A`：`B.[[Prototype]] = A`。因此，如果一个字段在 `B` 中没有找到，会继续在 `A` 中查找。
