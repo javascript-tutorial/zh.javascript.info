@@ -175,7 +175,7 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 
 ![](animal-rabbit-static.svg)
 
-因此，`Rabbit` 继承 `Animal` 创建了两个 `[[Prototype]]` 的引用。
+因此，`Rabbit extends Animal` 创建了两个 `[[Prototype]]` 的引用：
 
 1. `Rabbit` 方法原型继承自 `Animal` 方法。
 2. `Rabbit.prototype` 原型继承自 `Animal.prototype`。
