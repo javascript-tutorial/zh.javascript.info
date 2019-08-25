@@ -67,7 +67,7 @@ alert( articles[0].title ); // CSS
 
 1. 通过用指定的参数来创建(`title`，`date` 等)。
 2. 用今天的日期来创建一篇空的文章。
-3. ……其他等等。
+3. ……其它等等。
 
 第一种方法我们可以使用构造函数来实现。对于第二种方式，我们可以创建一个类的静态方法来实现。
 
@@ -107,7 +107,7 @@ Article.remove({id: 12345});
 
 [recent browser=Chrome]
 
-静态的属性也是可能的，就是常规的类属性一样：
+静态的属性也是有可能的，它们看起来像常规的类属性，但前面加有 `static`：
 
 ```js run
 class Article {
@@ -125,7 +125,7 @@ Article.publisher = "Ilya Kantor";
 
 ## 静态方法的继承
 
-静态方法是继承的, 我们可以用 `Parent.method` 和 `Child.method`.
+静态方法是继承的。
 
 举个例子：下面代码里的 `Animal.compare` 被继承，可以通过 `Rabbit.compare` 来访问：
 
@@ -175,10 +175,14 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 
 ![](animal-rabbit-static.svg)
 
-因此，`Rabbit` 函数现在继承来自 `Animal` 函数。
-同时 `Animal` 函数正常的拥有`[[Prototype]]`属性 ，它引用了`Function.prototype`, 因为它没有继承任何对象。
+因此，`Rabbit` 继承 `Animal` 创建了两个 `[[Prototype]]` 的引用。
 
-这里，让我们来检验一下：
+1. `Rabbit` 方法原型继承自 `Animal` 方法。
+2. `Rabbit.prototype` 原型继承自 `Animal.prototype`。
+
+结果就是，继承对于常规的和静态的方法都有效。
+
+这里，让我们通过代码来检验一下：
 
 ```js run
 class Animal {}
@@ -187,15 +191,10 @@ class Rabbit extends Animal {}
 // 对于静态属性和静态方法
 alert(Rabbit.__proto__ === Animal); // true
 
-// 下一步__proto__   指向了  Function.prototype
-alert(Animal.__proto__ === Function.prototype); // true
-
 // 对于普通方法
 alert(Rabbit.prototype.__proto__ === Animal.prototype);
 ```
-
-这个方式让 `Rabbit` 能访问到 `Animal` 所有静态方法。 
-
+ 
 ## 总结
 
 静态方法被用来实现属于整个类的功能，不涉及到某个具体的类实例的功能。
@@ -226,4 +225,5 @@ MyClass.method = ...
 ```
 
 静态属性和方法是被继承的。
+
 对于 `class B extends A`，类 `B` 的 prototype 指向了 `A`：`B.[[Prototype]] = A`。因此，如果一个字段在 `B` 中没有找到，会继续在 `A` 中查找。
