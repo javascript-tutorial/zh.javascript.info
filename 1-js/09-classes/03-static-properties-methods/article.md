@@ -103,7 +103,7 @@ Article.remove({id: 12345});
 
 ## 静态属性
 
-[最近的浏览器=Chrome]
+[recent browser=Chrome]
 
 静态的属性也是可能的，就是常规的类属性一样:
 
