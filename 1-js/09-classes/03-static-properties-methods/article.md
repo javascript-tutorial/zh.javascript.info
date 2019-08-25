@@ -70,7 +70,7 @@ alert( articles[0].title ); // CSS
 
 第一种方法我们可以使用构造函数来实现。对于第二种方式，我们可以创建一个类的静态方法来实现。
 
-就像这里的 `Article.createTodays()` :
+就像这里的 `Article.createTodays()`：
 
 ```js run
 class Article {
