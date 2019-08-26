@@ -4,7 +4,11 @@ importance: 5
 
 # 值的比较
 
+<<<<<<< HEAD
 以下表达式的执行结果是？
+=======
+What will be the result for these expressions?
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```js no-beautify
 5 > 4

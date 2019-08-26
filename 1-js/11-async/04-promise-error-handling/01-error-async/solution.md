@@ -1,4 +1,4 @@
-答案是：**不，它不会触发**：
+The answer is: **no, it won't**:
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -8,6 +8,6 @@ new Promise(function(resolve, reject) {
 }).catch(alert);
 ```
 
-正如本章所述，函数代码周围有个“隐式 `try..catch`”。所以所有同步错误都被处理。
+As said in the chapter, there's an "implicit `try..catch`" around the function code. So all synchronous errors are handled.
 
-但是这里的错误并不是在执行阶段生成的，而是在执行阶段之后才生成错误。所以 promise 无法处理它。
+But here the error is generated not while the executor is running, but later. So the promise can't handle it. 

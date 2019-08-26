@@ -32,7 +32,7 @@ BB-tags 可以嵌套。但标签不能自嵌套，比如：
 举例：
 
 ```js
-let reg = /your regexp/g;
+let reg = /your regexp/flags;
 
 let str = "..[url]http://google.com[/url]..";
 alert( str.match(reg) ); // [url]http://google.com[/url]
@@ -41,7 +41,7 @@ alert( str.match(reg) ); // [url]http://google.com[/url]
 如果标签嵌套，那么我们需要记录匹配的外层标签（如果希望继续查找匹配的标签内容的话）：
 
 ```js
-let reg = /your regexp/g;
+let reg = /your regexp/flags;
 
 let str = "..[url][b]http://google.com[/b][/url]..";
 alert( str.match(reg) ); // [url][b]http://google.com[/b][/url]

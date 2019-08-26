@@ -2,11 +2,19 @@
 
 让我们深入了解一下 DOM 节点。
 
+<<<<<<< HEAD
 在本章中，我们将更多地了解它们是什么以及它们最常用的属性。
+=======
+In this chapter we'll see more into what they are and learn their most used properties.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## DOM 节点类
 
+<<<<<<< HEAD
 DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相对应的元素节点具有链接相关的属性，标记 `<input>` 对应元素节点具有的输入相关的属性等。文本节点不同于元素节点，但是它们之间也存在共有的属性和方法，因为所有的 DOM 节点都形成一个单一层次的结构。
+=======
+Different DOM nodes may have different properties. For instance, an element node corresponding to tag `<a>` has link-related properties, and the one corresponding to `<input>` has input-related properties and so on. Text nodes are not the same as element nodes. But there are also common properties and methods between all of them, because all classes of DOM nodes form a single hierarchy.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 每个 DOM 节点都有与之对应的内置类。
 
@@ -18,6 +26,7 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 
 类如下所示：
 
+<<<<<<< HEAD
 - [EventTarget](https://dom.spec.whatwg.org/#eventtarget) —— 是根的“抽象”类。该类的对象从未被创建。它作为一个基础，为了让所有 DOM 节点都支持所谓的“事件”，我们会在之后对它进行学习。
 - [Node](http://dom.spec.whatwg.org/#interface-node) —— 也是一个“抽象”类，充当 DOM 节点的基础。它提供了树的核心功能：`parentNode`、`nextSibling`、`childNodes` 等（它们都是 getter）。`Node` 类的对象从未被创建。但是一些具体的节点类却继承自它，例如：`Text` 表示文本节点，`Element` 用于元素节点，以及更多外来的类（如注释节点 `Comment`）。
 - [Element](http://dom.spec.whatwg.org/#interface-element) —— 是 DOM 元素的基类。它提供了元素级的导航，比如 `nextElementSibling`、`children` 以及像 `getElementsByTagName`、`querySelector` 这样的搜索方法。浏览器中不仅有 HTML，还会有 XML 和SVG 文档。`Element` 类充当以下更具体类的基类：`SVGElement`、`XMLElement` 和 `HTMLElement`。
@@ -26,9 +35,20 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
     - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) —— `<body>` 元素的类，
     - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) ——  `<a>` 元素的类，
     - 等等，每个标记都有可以为自己提供特定属性和方法的类。
+=======
+- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) -- is the root "abstract" class. Objects of that class are never created. It serves as a base, so that all DOM nodes support so-called "events", we'll study them later.
+- [Node](http://dom.spec.whatwg.org/#interface-node) -- is also an "abstract" class, serving as a base  for DOM nodes. It provides the core tree functionality: `parentNode`, `nextSibling`, `childNodes` and so on (they are getters). Objects of `Node` class are never created. But there are concrete node classes that inherit from it, namely: `Text` for text nodes, `Element` for element nodes and more exotic ones like `Comment` for comment nodes.
+- [Element](http://dom.spec.whatwg.org/#interface-element) -- is a base class for DOM elements. It provides element-level navigation like `nextElementSibling`, `children` and searching methods like `getElementsByTagName`, `querySelector`. A  browser supports not only HTML, but also XML and SVG. The `Element` class serves as a base for more specific classes: `SVGElement`, `XMLElement` and `HTMLElement`.
+- [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) -- is finally the basic class for all HTML elements. It is inherited by concrete HTML elements:
+    - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) -- the class for `<input>` elements,
+    - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) -- the class for `<body>` elements,
+    - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) -- the class for `<a>` elements,
+    - ...and so on, each tag has its own class that may provide specific properties and methods.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 因此，给定节点的全部属性和方法都是继承的结果。
 
+<<<<<<< HEAD
 例如，我们考虑一下 `<input>` 元素的 DOM 对象。它属于 [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) 类。它将属性和方法作为以下内容的叠加：
 
 - `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承...
@@ -39,6 +59,20 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 - 最后，它继承了 `Object`，因为像 `hasOwnProperty` 的“纯对象”方法也是可用的。
 
 要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类的构造函数，`constructor.name` 就是它的名称：
+=======
+For example, let's consider the DOM object for an `<input>` element. It belongs to [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) class.
+
+It gets properties and methods as a superposition of (listed in inheritance order):
+
+- `HTMLInputElement` -- this class provides input-specific properties,
+- `HTMLElement` -- it provides common HTML element methods (and getters/setters),
+- `Element` -- provides generic element methods,
+- `Node` -- provides common DOM node properties,.
+- `EventTarget` -- gives the support for events (to be covered),
+- ...and finally it inherits from `Object`, so "plain object" methods like `hasOwnProperty` are also available.
+
+To see the DOM node class name, we can recall that an object usually has the `constructor` property. It references the class constructor, and `constructor.name` is its name:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```js run
 alert( document.body.constructor.name ); // HTMLBodyElement
@@ -76,7 +110,11 @@ alert( document.body instanceof EventTarget ); // true
 ```
 
 ````smart header="IDL in the spec"
+<<<<<<< HEAD
 在规范中，类不是用 JavaScript 描述的，而是一个特殊的[接口描述语言（IDL）](https://en.wikipedia.org/wiki/Interface_description_language)，它很容易理解。
+=======
+In the specification, DOM classes aren't described by using JavaScript, but a special [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL), that is usually easy to understand.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 在 IDL 中，所有的属性都有它们的类型。比如，`DOMString` 和 `boolean` 等等。
 
@@ -91,7 +129,11 @@ interface HTMLInputElement: HTMLElement {
   // 下面是 <input> 元素的属性和方法
 
 *!*
+<<<<<<< HEAD
   // "DOMString" 意思是这些属性都是字符串
+=======
+  // "DOMString" means that the value of a property is a string
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 */!*
   attribute DOMString accept;
   attribute DOMString alt;
@@ -99,24 +141,39 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
+<<<<<<< HEAD
   // 布尔属性（true/false）
+=======
+  // boolean value property (true/false)
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
   attribute boolean autofocus;
 */!*
   ...
 *!*
+<<<<<<< HEAD
   //方法 "void" 意思是无返回值
+=======
+  // now the method: "void" means that the method returns no value
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 */!*
   void select();
   ...
 }
 ```
+<<<<<<< HEAD
 
 其他类也大抵如此。
+=======
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ````
 
 ## "nodeType" 属性
 
+<<<<<<< HEAD
 `nodeType` 属性提供了一个获取 DOM 节点类型的旧方法。
+=======
+The `nodeType` property provides one more, "old-fashioned" way to get the "type" of a DOM node.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 它有一个数值：
 - `elem.nodeType == 1` 是元素节点，
@@ -156,7 +213,11 @@ alert( document.body.nodeName ); // BODY
 alert( document.body.tagName ); // BODY
 ```
 
+<<<<<<< HEAD
 tagName 和 nodeName 之间有何不同？
+=======
+Is there any difference between `tagName` and `nodeName`?
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 当然，差异反映在它们的名字上，但是确实有些微妙。
 
@@ -175,18 +236,22 @@ tagName 和 nodeName 之间有何不同？
 
   <script>
     // for comment
-    alert( document.body.firstChild.tagName ); // undefined (no element)
+    alert( document.body.firstChild.tagName ); // undefined (not an element)
     alert( document.body.firstChild.nodeName ); // #comment
 
     // for document
-    alert( document.tagName ); // undefined (not element)
+    alert( document.tagName ); // undefined (not an element)
     alert( document.nodeName ); // #document
   </script>
 </body>
 ```
 
+<<<<<<< HEAD
 如果我们只处理元素，那么 `tagName` 是我们唯一应该使用的。
 
+=======
+If we only deal with elements, then we can use both `tagName` and `nodeName` - there's no difference.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```smart header="The tag name is always uppercase except XHTML"
 浏览器有两种处理 document 的模式：HTML 和 XML。通常，HTML 模式用于网页，只有浏览器接受带有 `Content-Type: application/xml+xhtml` 报头的 XML-document 时，我们才会使用 XML 模式。
@@ -201,7 +266,11 @@ tagName 和 nodeName 之间有何不同？
 
 [innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) 属性允许将元素中的 HTML 作为字符串来获取。
 
+<<<<<<< HEAD
 我们也可以修改它。因此，这是改变页面最有效的方法之一。
+=======
+We can also modify it. So it's one of the most powerful ways to change the page.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 该示例显示了 `document.body` 的内容，然后完全替换它：
 
@@ -232,14 +301,22 @@ tagName 和 nodeName 之间有何不同？
 ```
 
 ```smart header="Scripts don't execute"
+<<<<<<< HEAD
 如果 `innerHTML` 将 `<script>` 标签插入到 document 中 —— 它不会被执行。
 
 它会被变成 HTML 的一部分，就像已经运行的脚本一样。
+=======
+If `innerHTML` inserts a `<script>` tag into the document -- it becomes a part of HTML, but doesn't execute.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ```
 
 ### 小心："innerHTML+=" 会完全重写
 
+<<<<<<< HEAD
 我们可以通过使用 `elem.innerHTML+="something"` 来添加“更多的 HTML”。
+=======
+We can append HTML to an element by using `elem.innerHTML+="more html"`.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 就像这样：
 
@@ -302,15 +379,16 @@ elem.innerHTML = elem.innerHTML + "..."
 *!*
   // replace div.outerHTML with <p>...</p>
 */!*
-  div.outerHTML = '<p>A new element!</p>'; // (*)
+  div.outerHTML = '<p>A new element</p>'; // (*)
 
 *!*
   // Wow! The div is still the same!
 */!*
-  alert(div.outerHTML); // <div>Hello, world!</div>
+  alert(div.outerHTML); // <div>Hello, world!</div> (**)
 </script>
 ```
 
+<<<<<<< HEAD
 在 `(*)` 行，我们取出 `<div>...</div>` 的完整 HTML，用 `<p>...</p>` 将其替换。在外部文档中，我们可以看到新的内容而不是 `<div>`。但是旧的 `div` 变量仍然是相同的。
 
 `outerHTML` 赋值时不会修改 DOM 元素。而是从外部上下文中提取它，并插入一个新的 HTML 片段来替代它。
@@ -320,14 +398,36 @@ elem.innerHTML = elem.innerHTML + "..."
 在 `innerHTML` 中是可能的，但在 `outerHTML` 中却不行。
 
 我们可以写入 `outerHTML`，但请记住它不会改变我们所写的元素。它会在其位置上创建新内容。我们可以通过查询 DOM 来获取对新元素的引用。
+=======
+Looks really odd, right?
+
+In the line `(*)` we replaced `div` with `<p>A new element</p>`. In the outer document we can see the new content instead of the `<div>`. But, as we can see in line `(**)`, the old `div` variable is still the same!
+
+The `outerHTML` assignment does not modify the DOM element, but removes it from the outer context and inserts a new piece of HTML instead of it.
+
+So what happened in `div.outerHTML=...` is:
+- `div` was removed from the document.
+- Another HTML `<p>A new element</p>` was inserted instead.
+- `div` still has the old value. The new HTML wasn't saved to any variable.
+
+It's so easy to make an error here: modify `div.outerHTML` and then continue to work with `div` as if it had the new content in it. But it doesn't. Such thing is correct for `innerHTML`, but not for `outerHTML`.
+
+We can write to `elem.outerHTML`, but should keep in mind that it doesn't change the element we're writing to. It creates the new HTML on its place instead. We can get references to new elements by querying DOM.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## nodeValue/data：文本节点内容
 
 `innerHTML` 属性仅对元素节点有效。
 
+<<<<<<< HEAD
 其他节点类型具有它们的对应项：`nodeValue` 和 `data` 属性。这两个在实际开发中作用几乎相同，只有细微的差异。所以我们使用 `data`，因为它更短。
 
 我们可以像这样读它：
+=======
+Other node types, such as text nodes, have their counterpart: `nodeValue` and `data` properties. These two are almost the same for practical use, there are only minor specification differences. So we'll use `data`, because it's shorter.
+
+An example of reading the content of a text node and a comment:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```html run height="50"
 <body>
@@ -347,7 +447,13 @@ elem.innerHTML = elem.innerHTML + "..."
 </body>
 ```
 
+<<<<<<< HEAD
 对于文本节点，我们可以想象一个读取或修改它们的理由，但是为什么是注释呢？通常它们一点都不有趣，但有时开发者会将信息嵌入到 HTML 中，如下所示：
+=======
+For text nodes we can imagine a reason to read or modify them, but why comments?
+
+Sometimes developers embed information or template instructions into HTML in them, like this:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```html
 <!-- if isAdmin -->
@@ -355,7 +461,11 @@ elem.innerHTML = elem.innerHTML + "..."
 <!-- /if -->
 ```
 
+<<<<<<< HEAD
 ...然后 JavaScript 可以读取它并出入嵌入式指令。
+=======
+...Then JavaScript can read it from `data` property and process embedded instructions.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## textContent：纯文本
 
@@ -438,7 +548,11 @@ elem.innerHTML = elem.innerHTML + "..."
 
 ## 更多属性
 
+<<<<<<< HEAD
 DOM 元素还具有其他属性，其中许多属性由类提供：
+=======
+DOM elements also have additional properties, in particular those that depend on the class:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 - `value` -- the value for `<input>`, `<select>` and `<textarea>` (`HTMLInputElement`, `HTMLSelectElement`...).
 - `href` -- the "href" for `<a href="...">` (`HTMLAnchorElement`).
@@ -459,7 +573,11 @@ DOM 元素还具有其他属性，其中许多属性由类提供：
 
 大部分标准 HTML 属性都具有与之对应的 DOM 属性，我们可以这样访问它。
 
+<<<<<<< HEAD
 如果我们想知道给定类的支持属性的完整列表，我们可以在规范中找到它们。例如，<https://html.spec.whatwg.org/#htmlinputelement> 记录了 HTMLInputElement。
+=======
+If we want to know the full list of supported properties for a given class, we can find them in the specification. For instance, `HTMLInputElement` is documented at <https://html.spec.whatwg.org/#htmlinputelement>.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 或者，如果我们想要快速获取它们，或者对具体的浏览器规范感兴趣 —— 我们总是可以使用 `console.dir(elem)` 输出元素并读取这些属性。或者在浏览器的开发者工具的功能选择中打开 "DOM properties"。
 
@@ -470,7 +588,11 @@ DOM 元素还具有其他属性，其中许多属性由类提供：
 DOM 节点的属性主要有：
 
 `nodeType`
+<<<<<<< HEAD
 : 我们可以从 DOM 对象类中获取 `nodeType`，但我们通常只需要查看它是文本节点还是元素节点。`nodeType` 属性就可以我们的需求。它有数值，最重要的是：`1` —— 是元素，`3` —— 是文本。只读。
+=======
+: We can use it to see if a node is a text or an element node. It has a numeric value: `1` -- for elements,`3` -- for text nodes, and few other for other node types. Read-only.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 `nodeName/tagName`
 : 对于元素来说，标记名（除了 XML 模式外都要大写）。对于非元素节点，`nodeName` 则描述了它是什么。只读。
@@ -485,11 +607,19 @@ DOM 节点的属性主要有：
 : 非元素节点（文本、注释）内容。两者几乎一样，我们通常使用 `data`。允许被修改。
 
 `textContent`
+<<<<<<< HEAD
 : 元素中的文本，基本上是 HTML 减去所有 `<tags>`。将文本写入元素中，并把所有特殊字符和标记完全视为文本。可以安全地插入用户生成的文本，防止不必要的 HTML 插入。
+=======
+: The text inside the element: HTML minus all `<tags>`. Writing into it puts the text inside the element, with all special characters and tags treated exactly as text. Can safely insert user-generated text and protect from unwanted HTML insertions.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 `hidden`
 : 当设置为 `true` 时，执行与 CSS `display:none` 相同的操作。
 
 DOM 节点还具有其他属性，具体内容则取决于它们的类。例如，`<input>`元素（`HTMLInputElement`）支持 `value`、`type`，而 `<a>` 元素（`HTMLAnchorElement`）则支持 `href` 等。大多数标准 HTML 属性都具有相应的 DOM 属性。
 
+<<<<<<< HEAD
 但是 HTML 属性和 DOM 属性并不总是一致的，我们会在下一章中看到这点。
+=======
+Although, HTML attributes and DOM properties are not always the same, as we'll see in the next chapter.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
