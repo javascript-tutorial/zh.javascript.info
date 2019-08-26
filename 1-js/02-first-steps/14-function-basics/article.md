@@ -20,9 +20,13 @@ function showMessage() {
 }
 ```
 
- `function` 关键字首先出现，然后是**函数名**，然后是括号（在上述示例中为空）之间的**参数**列表，最后是花括号之间的代码（即“函数体”）。
+ `function` 关键字首先出现，然后是**函数名**，然后是括号之间的**参数**列表（逗号分隔，在上述示例中为空），最后是花括号之间的代码（即“函数体”）。
 
-![](function_basics.png)
+```js
+function name(parameters) {
+  ...body...
+}
+```
 
 我们的新函数可以用名称调用 `showMessage()`。
 
@@ -101,9 +105,9 @@ showMessage();
 alert( userName ); // *!*Bob*/!*, 值被函数修改
 ```
 
-只有在没有本地变量的情况下才会使用外部变量。因此如果我们忘记了 `let`，可能会发生意外修改的情况。
+只有在没有局部变量的情况下才会使用外部变量。
 
-如果在函数中声明了同名变量，那么它**遮蔽**外部变量。例如，在如下代码中，函数使用本地的 `userName`，外部部分被忽略：
+如果在函数中声明了同名变量，那么它**遮蔽**外部变量。例如，在如下代码中，函数使用局部的 `userName`，外部部分被忽略：
 
 ```js run
 let userName = 'John';
@@ -123,12 +127,12 @@ showMessage();
 alert( userName ); // *!*John*/!*，未更改，函数没有访问外部变量。
 ```
 
-```smart header="Global variables"
+```smart header="全局变量"
 任何函数之外声明的变量，例如上述代码中的外部 `userName` 都称为**全局**。
 
 全局变量在任意函数中都是可见的(除非被局部变量遮蔽)。
 
-通常，函数声明与任务相关的所有变量。全局变量只存储项目级的数据，所以这些变量从任何地方都可以访问是很重要的事情。现代的代码有很少或没有全局变量。大多数变量存在于它们的函数中。
+减少全局变量的使用是一种很好的做法。现代的代码有很少或没有全局变量。大多数变量存在于它们的函数中。但是有时候，全局变量能够用于存储项目级别的数据。
 ```
 
 ## 参数
@@ -150,7 +154,7 @@ showMessage('Ann', "What's up?"); // Ann: What's up? (**)
 
 当在行 `(*)` 和 `(**)` 中调用函数时，将给定的值复制到局部变量 `from` 和 `text`。然后函数使用它们。
 
-这里有一个例子：我们有一个变量 `from`，将它传递给函数。请注意：函数会修改 `from`，但在外部看不到更改，因为函数修改的是变量的副本：
+这里还有一个例子：我们有一个变量 `from`，将它传递给函数。请注意：函数会修改 `from`，但在外部看不到更改，因为函数修改的是变量的副本：
 
 
 ```js run
@@ -167,7 +171,7 @@ let from = "Ann";
 
 showMessage(from, "Hello"); // *Ann*: Hello
 
-// "from" 值相同，函数修改了本地副本。
+// "from" 值相同，函数修改了一个局部的副本。
 alert( from ); // Ann
 ```
 
@@ -183,7 +187,7 @@ showMessage("Ann");
 
 那不是错误，这样调用将输出 `"Ann: undefined"`。没有 `text` 所以假设 `text === undefined`。
 
-如果我们想在本例中使用“默认” `text`,那么我们可以在 `=` 之后指定它：
+如果我们想在本例中使用“默认” `text`，那么我们可以在 `=` 之后指定它：
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
@@ -193,9 +197,9 @@ function showMessage(from, *!*text = "no text given"*/!*) {
 showMessage("Ann"); // Ann: no text given
 ```
 
-现在如果 `text` 参数未被传递，它将会得到 `"no text given"` 的值。
+现在如果 `text` 参数未被传递，它将会得到值 `"no text given"`。
 
-这里 `"no text given"` 是 string，但它可以是更复杂的表达式，只有在缺少参数时才会计算和分配改表达式。因此，这也是可能的：
+这里 `"no text given"` 是一个字符串，但它可以是更复杂的表达式，只有在缺少参数时才会计算和分配改表达式。因此，这也是可能的：
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
@@ -204,8 +208,13 @@ function showMessage(from, text = anotherFunction()) {
 }
 ```
 
+```smart header="默认参数的计算"
+在 JavaScript 中，每次函数在没带个别参数的情况下被调用，默认参数会被计算出来。
 
-````smart header="Default parameters old-style"
+在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用，`anotherFunction()` 会被调用。
+```
+
+````smart header="旧式默认参数"
 旧版本的 JavaScript 不支持默认参数。所以有其他的方法来支持它们，您可以在旧的脚本中找到。
 
 例如，用于 `undefined` 的显式检查：
@@ -226,7 +235,7 @@ function showMessage(from, text) {
 
 ```js
 function showMessage(from, text) {
-  // if text is falsy then text gets the "default" value
+  // 如果 text 能转为 false，那么 text 会得到“默认”值
   text = text || 'no text given';
   ...
 }
@@ -294,18 +303,18 @@ function showMovie(age) {
 }
 ```
 
-在上述代码中，如果 `checkAge(age)` 返回 `false`，那么 `showMovie` 将不会进入 `alert`。
+在上述代码中，如果 `checkAge(age)` 返回 `false`，那么 `showMovie` 将不会运行到 `alert`。
 
-````smart header="A function with an empty `return` or without it returns `undefined`"
+````smart header="空值 `return` 或不带 `return` 返回 `undefined`"
 如果函数无返回值，它就会像返回 `undefined` 一样：
 
 ```js run
-function doNothing() { /* empty */ }
+function doNothing() { /* 空代码 */ }
 
 alert( doNothing() === undefined ); // true
 ```
 
-空 `return` 也和 `return undefined` 一样：
+空值 `return` 也和 `return undefined` 一样：
 
 ```js run
 function doNothing() {
@@ -316,7 +325,7 @@ alert( doNothing() === undefined ); // true
 ```
 ````
 
-````warn header="Never add a newline between `return` and the value"
+````warn header="不要在 `return` 与值之间添加一行"
 对于 `return` 的长表达式，可能会倾向于将其放在单独一行，如下所示：
 
 ```js
@@ -329,12 +338,24 @@ return
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-因此它实际上变成了空返回。我们应该把值放在同一行。
+
+因此，它最后变成了一个空值返回。
+
+如果我们想要将返回的表达式跨行，我们应该在 `return` 的同一行开始写此表达式。或者至少添加一对括号将其围住，如下所示：
+
+```js
+return (
+  some + long + expression
+  + or +
+  whatever * f(a) + f(b)
+  )
+```
+然后它就能正常运行，如我们所愿。
 ````
 
 ## 函数命名 [#function-naming]
 
-函数是行为。所以它们的名字通常是动词。它应该简短且尽可能准确地描述函数的作用。这样读代码的人就能得到正确的线索。
+函数是行为。所以它们的名字通常是动词。它应该简短且尽可能准确地描述函数的作用。这样读代码的人就能得到关于该函数作用的指示。
 
 一种普遍的做法是用动词前缀来开始一个函数，这个前缀模糊地描述了这个动作。团队内部必须就前缀的含义达成一致。
 
@@ -359,7 +380,7 @@ checkPermission(..) // 检查权限并返回 true/false
 
 有了前缀，浏览一下函数名就可以了解它做了什么工作，返回什么样的值。
 
-```smart header="One function -- one action"
+```smart header="一个函数 —— 做一件事"
 一个函数应该完全按照它的名字来做，而不是做更多和自身无关的功能。
 
 两个独立的操作通常需要两个函数，即使它们通常被一起调用(在这种情况下，我们可以创建第三个函数来调用这两个函数)。
@@ -373,7 +394,7 @@ checkPermission(..) // 检查权限并返回 true/false
 这些例子具有前缀的共同含义。它们对您的意义取决于您和您的团队。也许您的代码行为不同是很正常的。但是您应该对前缀意味着什么，前缀函数能做什么和不能做什么有一个明确的理解。所有相同的前缀函数都应遵守规则。团队应该分享知识。
 ```
 
-```smart header="Ultrashort function names"
+```smart header="非常短的函数命名"
 常用的函数有时会有**非常短**的名字。
 
 例如，[jQuery](http://jquery.com) 框架定义函数用 `$`。[LoDash](http://lodash.com/) 库的核心函数命名用 `_`。
@@ -449,7 +470,7 @@ function name(parameters, delimited, by, comma) {
 函数命名：
 
 - 名称应该清楚地描述函数的功能。当我们在代码中看到一个函数调用时，一个好的名称立即让我们了解它所做的和返回的事情。
-- 函数是一种行为，所以函数名通常是动词。
+- 一个函数是一个行为，所以函数名通常是动词。
 - 有许多优秀的函数前缀，如 `create…`、`show…`、`get…`、`check…` 等等。使用它们来提示函数的作用。
 
 函数是脚本的主要构建块。现在我们已经介绍了基本知识，这样我们就可以开始创建和使用它们了。但这只是道路的开始。我们将多次回到它们身上，更深入地研究它们的先进特征。
