@@ -197,7 +197,7 @@ function showMessage(from, *!*text = "no text given"*/!*) {
 showMessage("Ann"); // Ann: no text given
 ```
 
-现在如果 `text` 参数未被传递，它将会得到值 `"no text given"` 。
+现在如果 `text` 参数未被传递，它将会得到值 `"no text given"`。
 
 这里 `"no text given"` 是一个字符串，但它可以是更复杂的表达式，只有在缺少参数时才会计算和分配改表达式。因此，这也是可能的：
 
@@ -325,7 +325,7 @@ alert( doNothing() === undefined ); // true
 ```
 ````
 
-````warn header="不要再 `return` 与值之间添加一行"
+````warn header="不要在 `return` 与值之间添加一行"
 对于 `return` 的长表达式，可能会倾向于将其放在单独一行，如下所示：
 
 ```js
