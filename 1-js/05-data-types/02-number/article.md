@@ -378,7 +378,7 @@ alert( parseInt('2n9c', 36) ); // 123456
 
 ## 其他数学函数
 
-JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,包含一个数学函数和常量的小型库的对象。
+JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象，它包含了一个小型的数学函数和常量库。
 
 几个例子：
 
