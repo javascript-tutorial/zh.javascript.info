@@ -481,7 +481,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 
 为了明白发生了什么，我们回顾一下在 JavaScript 中字符串的内部表示。
 
-所有的字符串都使用 [UTF-16](https://en.wikipedia.org/wiki/UTF-16) 编码。即：每个字符都有相应的数字代码。有特殊的方法可以获取代码的字符并返回。
+所有的字符串都使用 [UTF-16](https://en.wikipedia.org/wiki/UTF-16) 编码。即：每个字符都有相应的数字代码。有特殊的方法可以获取代码表示的字符，以及字符对应的代码。
 
 `str.codePointAt(pos)`
 : 返回在 `pos` 位置的字符代码 :
