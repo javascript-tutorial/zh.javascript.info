@@ -331,7 +331,7 @@ alert( isFinite(num) );
 
 在所有其他情况下，`Object.is(a，b)` 与 `a === b` 相同。
 
-这种比较方式经常用于 JavaScript 规范。当内部算法需要比较两个值完全相同时，它使用 Object.is（内部称为 [SameValue](https://tc39.github.io/ecma262/#sec-samevalue)）。
+这种比较方式经常用于 JavaScript 规范。当内部算法需要比较两个值完全相同时，它使用 Object.is（内部称为 [同值相等](https://tc39.github.io/ecma262/#sec-samevalue)）。
 ```
 
 
