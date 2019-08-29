@@ -235,15 +235,15 @@ set.forEach((value, valueAgain, set) => {
 
 `WeakSet` 是一种特殊的 `Set`，它不会阻止 JavaScript 将它的元素从内存中移除。`WeakMap` 和 `Map` 的区别也和上述一样。
 
-正如我们在章节 <info:garbage-collection> 中了解到的，当该值可用（或可能需要）时，JavaScript 引擎将会把值缓存在内存中。
+在 <info:garbage-collection>章节中，我们可以看到，当有一个值被使用（或者可能被使用）时，JavaScript 引擎将会把该值放到内存中去。
 
 例如：
 ```js
 let john = { name: "John" };
 
-// 对象可被获取，john 是它的引用
+// 对象可以被访问，john 是该对象的指针
 
-// 覆盖引用
+// 清除引用
 john = null;
 
 *!*
