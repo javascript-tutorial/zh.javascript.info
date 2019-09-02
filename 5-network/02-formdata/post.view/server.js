@@ -9,7 +9,11 @@ let router = new Router();
 
 router.post('/user', async (ctx) => {
   ctx.body = {
+<<<<<<< HEAD
     message: "User saved."
+=======
+    message: "User saved"
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
   };
 });
 
@@ -18,7 +22,11 @@ router.post('/image-form', async (ctx) => {
   let files = [];
   const { fields } = await busboy(ctx.req, {
     onFile(fieldname, file, filename, encoding, mimetype) {
+<<<<<<< HEAD
       // 读取所有文件流（file stream），然后继续
+=======
+      // read all file stream to continue
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
       let length = 0;
       file.on('data', function(data) {
         length += data.length;
@@ -34,7 +42,11 @@ router.post('/image-form', async (ctx) => {
   });
 
   ctx.body = {
+<<<<<<< HEAD
     message: `Image saved, firstName: ${fields.firstName}, Image size:${files[0].length}, fileName: ${files[0].filename}.`
+=======
+    message: `Image saved, firstName: ${fields.firstName}, Image size:${files[0].length}, fileName: ${files[0].filename}`
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
   };
 });
 
@@ -44,7 +56,11 @@ router.post('/user-avatar', async (ctx) => {
   let files = [];
   const { fields } = await busboy(ctx.req, {
     onFile(fieldname, file, filename, encoding, mimetype) {
+<<<<<<< HEAD
       // 读取所有文件流，然后继续
+=======
+      // read all file stream to continue
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
       let length = 0;
       file.on('data', function(data) {
         length += data.length;
@@ -61,7 +77,11 @@ router.post('/user-avatar', async (ctx) => {
   });
 
   ctx.body = {
+<<<<<<< HEAD
     message: `User with picture, firstName: ${fields.firstName}, picture size:${files[0].length}.`
+=======
+    message: `User with picture, firstName: ${fields.firstName}, picture size:${files[0].length}`
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
   };
 });
 

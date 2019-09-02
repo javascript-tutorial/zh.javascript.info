@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 导出和导入
 
 导出和导入语句非常有用。
@@ -18,6 +19,28 @@
 *!*export*/!* const MODULES_BECAME_STANDARD_YEAR = 2015;
 
 // 导出类
+=======
+# Export and Import
+
+Export and import directives have several syntax variants.
+
+In the previous chapter we saw a simple use, now let's explore more examples.
+
+## Export before declarations
+
+We can label any declaration as exported by placing `export` before it, be it a variable, function or a class.
+
+For instance, here all exports are valid:
+
+```js
+// export an array
+*!*export*/!* let months = ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// export a constant
+*!*export*/!* const MODULES_BECAME_STANDARD_YEAR = 2015;
+
+// export a class
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 *!*export*/!* class User {
   constructor(name) {
     this.name = name;
@@ -25,12 +48,21 @@
 }
 ```
 
+<<<<<<< HEAD
 ````smart header="导出类/函数后没有分号"
 注意，在类或者函数前的 `export` 不会让它们变成 [函数表达式](info:function-expressions-arrows)。尽管被导出了，但它仍然是一个函数声明。
 
 大部分 JavaScript 样式指南都推荐在语句之后使用分号，但是不要在函数和类的声明后使用分号。
 
 这就是为什么在 `export class` 和 `export function` 后不使用分号。
+=======
+````smart header="No semicolons after export class/function"
+Please note that `export` before a class or a function does not make it a [function expression](info:function-expressions-arrows). It's still a function declaration, albeit exported.
+
+Most JavaScript style guides don't recommend semicolons after function and class declarations.
+
+That's why there's no need for a semicolon at the end of `export class` and `export function`:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 export function sayHi(user) {
@@ -40,11 +72,19 @@ export function sayHi(user) {
 
 ````
 
+<<<<<<< HEAD
 ## 其他导出声明方式
 
 我们可以单独使用 `export` 导出。
 
 下面的例子中，我们先声明函数，然后再导出它们：
+=======
+## Export apart from declarations
+
+Also, we can put `export` separately.
+
+Here we first declare, and then export:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js  
 // 📁 say.js
@@ -57,6 +97,7 @@ function sayBye(user) {
 }
 
 *!*
+<<<<<<< HEAD
 export {sayHi, sayBye}; // 导出变量列表
 */!*
 ```
@@ -66,6 +107,17 @@ export {sayHi, sayBye}; // 导出变量列表
 ## 导入所有（`import *`）
 
 通常，我们把要导入的东西列在 `import {...}` 中，就像这样：
+=======
+export {sayHi, sayBye}; // a list of exported variables
+*/!*
+```
+
+...Or, technically we could put `export` above functions as well.
+
+## Import *
+
+Usually, we put a list of what to import in curly braces `import {...}`, like this:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 main.js
@@ -77,7 +129,11 @@ sayHi('John'); // Hello, John!
 sayBye('John'); // Bye, John!
 ```
 
+<<<<<<< HEAD
 但是如果这个列表很长呢？我们可以使用 `import * as <obj>` 导入所有内容，例如：
+=======
+But if there's a lot to import, we can import everything as an object using `import * as <obj>`, for instance:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 main.js
@@ -89,6 +145,7 @@ say.sayHi('John');
 say.sayBye('John');
 ```
 
+<<<<<<< HEAD
 乍一看，“通通导入”看起来很酷，语法也很短，但是我们通常为什么要明确列出我们需要导入的内容？
 
 这里有几个原因：
@@ -98,11 +155,23 @@ say.sayBye('John');
     比如说，我们在项目里添加第三方库 `lib.js` 中的几个函数：
     ```js
     // 📁 lib.js
+=======
+At first sight, "import everything" seems such a cool thing, short to write, why should we ever explicitly list what we need to import?
+
+Well, there are few reasons.
+
+1. Modern build tools ([webpack](http://webpack.github.io) and others) bundle modules together and optimize them to speedup loading and remove unused stuff.
+
+    Let's say, we added a 3rd-party library `say.js` to our project with many functions:
+    ```js
+    // 📁 say.js
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
     export function sayHi() { ... }
     export function sayBye() { ... }
     export function becomeSilent() { ... }
     ```
 
+<<<<<<< HEAD
     现在，如果我们只在项目里使用 `lib.js` 中的一个函数：
     ```js
     // 📁 main.js
@@ -118,6 +187,23 @@ say.sayBye('John');
 我们也可以使用 `as` 让导入具有不同的名字。
 
 例如，为了简洁起见，我们将 `sayHi` 导入到局部变量 `hi`，同样将 `sayBye` 导入到 `bye`：
+=======
+    Now if we only use one of `say.js` functions in our project:
+    ```js
+    // 📁 main.js
+    import {sayHi} from './say.js';
+    ```
+    ...Then the optimizer will see that and remove the other functions from the bundled code, thus making the build smaller. That is called "tree-shaking".
+
+2. Explicitly listing what to import gives shorter names: `sayHi()` instead of `say.sayHi()`.
+3. Explicit list of imports gives better overview of the code structure: what is used and where. It makes code support and refactoring easier.
+
+## Import "as"
+
+We can also use `as` to import under different names.
+
+For instance, let's import `sayHi` into the local variable `hi` for brevity, and import `sayBye` as `bye`:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 main.js
@@ -129,11 +215,19 @@ hi('John'); // Hello, John!
 bye('John'); // Bye, John!
 ```
 
+<<<<<<< HEAD
 ## 导出为（export as）
 
 导出也具有以上相同的语法。
 
 我们将函数导出为 `hi` 和 `bye`：
+=======
+## Export "as"
+
+The similar syntax exists for `export`.
+
+Let's export functions as `hi` and `bye`:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 say.js
@@ -141,12 +235,17 @@ bye('John'); // Bye, John!
 export {sayHi as hi, sayBye as bye};
 ```
 
+<<<<<<< HEAD
 现在 `hi` 和 `bye` 是在外面使用时的正式名称：
+=======
+Now `hi` and `bye` are official names for outsiders, to be used in imports:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 main.js
 import * as say from './say.js';
 
+<<<<<<< HEAD
 say.hi('John'); // Hello, John!
 say.bye('John'); // Bye, John!
 ```
@@ -175,28 +274,69 @@ say.bye('John'); // Bye, John!
 ```js
 // 📁 user.js
 export *!*default*/!* class User { // 只要添加“default”即可
+=======
+say.*!*hi*/!*('John'); // Hello, John!
+say.*!*bye*/!*('John'); // Bye, John!
+```
+
+## export default
+
+In practice, there are mainly two kinds of modules.
+
+1. Module that contains a library, pack of functions, like `say.js` above.
+2. Module that declares a single entity, e.g. a module `user.js` exports only `class User`.
+
+Mostly, the second approach is preferred, so that every "thing" resides in its own module.
+
+Naturally, that requires a lot of files, as everything wants its own module, but that's not a problem at all. Actually, code navigation becomes easier, if files are well-named and structured into folders.
+
+Modules provide special `export default` ("the default export") syntax to make "one thing per module" way look better.
+
+Put `export default` before the entity to export:
+
+```js
+// 📁 user.js
+export *!*default*/!* class User { // just add "default"
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
   constructor(name) {
     this.name = name;
   }
 }
 ```
 
+<<<<<<< HEAD
 ...在 `main.js` 中添加导入：
 
 ```js
 // 📁 main.js
 import *!*User*/!* from './user.js'; // 不需要花括号 {User}, 仅仅是 User 就可以了
+=======
+There may be only one `export default` per file.
+
+...And then import it without curly braces:
+
+```js
+// 📁 main.js
+import *!*User*/!* from './user.js'; // not {User}, just User
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 new User('John');
 ```
 
+<<<<<<< HEAD
 不用花括号的导入看起来很酷。开始使用模块时常见的错误就是忘记花括号。所以请记住，命名导入需要使用花括号，而默认导入不需要。
 
 | 命名导出 | 默认导出 |
+=======
+Imports without curly braces look nicer. A common mistake when starting to use modules is to forget curly braces at all. So, remember, `import` needs curly braces for named exports and doesn't need them for the default one.
+
+| Named export | Default export |
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 |--------------|----------------|
 | `export class User {...}` | `export default class User {...}` |
 | `import {User} from ...` | `import User from ...`|
 
+<<<<<<< HEAD
 当然，每个文件只有一个“默认”导出。
 
 我们可能在单个模块中同时使用默认导出和命名导出，但是在日常开发中，开发者一般不会这样做。模块要么是命名导出要么是默认导出。
@@ -222,25 +362,72 @@ export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 ```js
 export class { // Error!（非命名导出需要名称）
+=======
+Technically, we may have both default and named exports in a single module, but in practice people usually don't mix them. A module has either named exports or the default one.
+
+As there may be at most one default export per file, the exported entity may have no name.
+
+For instance, these are all perfectly valid default exports:
+
+```js
+export default class { // no class name
+  constructor() { ... }
+}
+```
+
+```js
+export default function(user) { // no function name
+  alert(`Hello, ${user}!`);
+}
+```
+
+```js
+// export a single value, without making a variable
+export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+```
+
+Not giving a name is fine, because `export default` is only one per file, so `import` without curly braces knows what to import.
+
+Without `default`, such export would give an error:
+
+```js
+export class { // Error! (non-default export needs a name)
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
   constructor() {}
 }
 ```     
 
+<<<<<<< HEAD
 ### “Default” 别名
 
 “default”关键词用于默认导出的别名，常用于我们需要引用单独导出和其他脚本的情况。
 
 例如，如果我们已经声明了一个函数，然后导出它 `export default`（和定义分开）：
+=======
+### The "default" name
+
+In some situations the `default` keyword is used to reference the default export.
+
+For example, to export a function separately from its definition:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
+<<<<<<< HEAD
 export {sayHi as default}; // 和我们在函数前添加“export default”一样
 ```
 
 又如，假设模块 `user.js` 导出一个默认导出“default”和几个命名导出（虽然很少出现，但是会发生）：
+=======
+// same as if we added "export default" before the function
+export {sayHi as default};
+```
+
+Or, another situation, let's say a module `user.js` exports one main "default" thing and a few named ones (rarely the case, but happens):
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 user.js
@@ -255,7 +442,11 @@ export function sayHi(user) {
 }
 ```
 
+<<<<<<< HEAD
 那么，如何导入默认导出和命名导出：
+=======
+Here's how to import the default export along with a named one:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 main.js
@@ -264,12 +455,17 @@ import {*!*default as User*/!*, sayHi} from './user.js';
 new User('John');
 ```
 
+<<<<<<< HEAD
 再如，我们想要把 `*` 作为对象导入，那么 `default` 属性就是默认导出：
+=======
+And, finally, if importing everything `*` as an object, then the `default` property is exactly the default export:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 // 📁 main.js
 import * as user from './user.js';
 
+<<<<<<< HEAD
 let User = user.default;
 new User('John');
 ```
@@ -289,16 +485,43 @@ import {User} from './user.js';
 ```
 
 对于默认导出，我们总是在导入时选择名称：
+=======
+let User = user.default; // the default export
+new User('John');
+```
+
+### A word agains default exports
+
+Named exports are explicit. They exactly name what they import, so we have that information from them, that's a good thing.
+
+Named exports enforce us to use exactly the right name to import:
+
+```js
+import {User} from './user.js';
+// import {MyUser} won't work, the name must be {User}
+```
+
+...While for a default export, we always choose the name when importing:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 import User from './user.js'; // works
 import MyUser from './user.js'; // works too
+<<<<<<< HEAD
 // 使用任何名称导入都没有问题
 ```
 
 对于相同的导入，团队成员可能使用不同的命名，因此，默认导入的命名可能会被滥用，
 
 通常，为了避免这种情况并保持代码的整洁一致，可以遵从这条规则，即导入的变量应该与文件名相对应，例如：
+=======
+// could be import Anything..., and it'll be work
+```
+
+So team members may use different names to import the same thing, and that's not good.
+
+Usually, to avoid that and keep the code consistent, there's a rule that imported variables should correspond to file names, e.g:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 import User from './user.js';
@@ -307,6 +530,7 @@ import func from '/path/to/func.js';
 ...
 ```
 
+<<<<<<< HEAD
 另一种解决方案是在任何地方都使用命名导出。即使只导出一个东西，也仍然使用命名导出，而不是默认导出 `default`。
 
 这也使得重新导出（见下一节）更容易。
@@ -339,11 +563,47 @@ auth/
 ```
 
 我们想通过单个入口公开包的功能，主文件 `auth/index.js` 可以这样使用：
+=======
+Still, some teams consider it a serous drawback of default exports. So they prefer to always use named exports. Even if only a single thing is exported, it's still exported under a name, without `default`.
+
+That also makes re-export (see below) a little bit easier.
+
+## Re-export
+
+"Re-export" syntax `export ... from ...` allows to import things and immediately export them (possibly under another name), like this:
+
+```js
+export {sayHi} from './say.js'; // re-export sayHi
+
+export {default as User} from './user.js'; // re-export default
+```
+
+Why that may be needed? Let's see a practical use case.
+
+Imagine, we're writing a "package": a folder with a lot of modules, with some of the functionality exported outside (tools like NPM allow to publish and distribute such packages), and many modules are just "helpers", for the internal use in other package modules.
+
+The file structure could be like this:
+```
+auth/
+    index.js  
+    user.js
+    helpers.js
+    tests/
+        login.js
+    providers/
+        github.js
+        facebook.js
+        ...
+```
+
+We'd like to expose the package functionality via a single entry point, the "main file" `auth/index.js`, to be used like this:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```js
 import {login, logout} from 'auth/index.js'
 ```
 
+<<<<<<< HEAD
 我们的想法是，使用我们软件包的开发者，不应该干涉其内部结构。他们不应该搜索我们包文件夹中的文件。我们只导出 `auth/index.js` 中需要的内容，并保持其余部分“不可见”。
 
 现在，由于实际导出的功能分散在包中，我们可以在 `auth/index.js` 中收集并“重新导出（re-export）”它：
@@ -417,11 +677,102 @@ export {default} from './module.js'; // 重新导出默认导出
 我们把导入/导出语句放在脚本的顶部或者底部都是没问题的。
 
 下面这样的方式完全可以：
+=======
+The idea is that outsiders, developers who use our package, should not meddle with its internal structure, search for files inside our package folder. We export only what's necessary in `auth/index.js` and keep the rest hidden from prying eyes.
+
+As the actual exported functionality is scattered among the package, we can import it into `auth/index.js` and export from it:
+
+```js
+// 📁 auth/index.js
+
+// import login/logout and immediately export them
+import {login, logout} from './helpers.js';
+export {login, logout};
+
+// import default as User and export it
+import User from './user.js';
+export {User};
+...
+```
+
+Now users of our package can `import {login} from "auth/index.js"`.
+
+The syntax `export ... from ...` is just a shorter notation for such import-export:
+
+```js
+// 📁 auth/index.js
+// import login/logout and immediately export them
+export {login, logout} from './helpers.js';
+
+// import default as User and export it
+export {default as User} from './user.js';
+...
+```
+
+### Re-exporting the default export
+
+The default export needs separate handling when re-exporting.
+
+Let's say we have `user.js`, and we'd like to re-export class `User` from it:
+
+```js
+// 📁 user.js
+export default class User {
+  // ...
+}
+```
+
+1. `export User from './user.js'` won't work. What can go wrong?... But that's a syntax error!
+
+    To re-export the default export, we should write `export {default as User}`, as in the example above.    
+
+2. `export * from './user.js'` re-exports only named exports, ignores the default one.
+
+    If we'd like to re-export both named and the default export, then two statements are needed:
+    ```js
+    export * from './user.js'; // to re-export named exports
+    export {default} from './user.js'; // to re-export the default export
+    ```
+
+Such oddities of re-exporting the default export is one of the reasons, why some developers don't like them.
+
+## Summary
+
+Here are all types of `export` that we covered in this and previous chapters.
+
+You can check yourself by reading them and recalling what they mean:
+
+- Before declaration of a class/function/..:
+  - `export [default] class/function/variable ...`
+- Standalone export:
+  - `export {x [as y], ...}`.
+- Re-export:
+  - `export {x [as y], ...} from "module"`
+  - `export * from "module"` (doesn't re-export default).
+  - `export {default [as y]} from "module"` (re-export default).
+
+Import:
+
+- Named exports from module:
+  - `import {x [as y], ...} from "module"`
+- Default export:  
+  - `import x from "module"`
+  - `import {default as x} from "module"`
+- Everything:
+  - `import * as obj from "module"`
+- Import the module (its code runs), but do not assign it to a variable:
+  - `import "module"`
+
+We can put `import/export` statements at the top or at the bottom of a script, that doesn't matter.
+
+So, technically this code is fine:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 ```js
 sayHi();
 
 // ...
 
+<<<<<<< HEAD
 import {sayHi} from './say.js'; // 在脚本底部导入
 ```
 
@@ -430,12 +781,28 @@ import {sayHi} from './say.js'; // 在脚本底部导入
 **请注意在 `{...}` 中的导入/导出语句无效。**
 
 像这样的导入语句是无效的：
+=======
+import {sayHi} from './say.js'; // import at the end of the file
+```
+
+In practice imports are usually at the start of the file, but that's only for better convenience.
+
+**Please note that import/export statements don't work if inside `{...}`.**
+
+A conditional import, like this, won't work:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 ```js
 if (something) {
   import {sayHi} from "./say.js"; // Error: import must be at top level
 }
 ```
 
+<<<<<<< HEAD
 ...但是，如果我们真的需要根据某些条件来导入东西呢？或者在某些合适的时间？就像根据要求加载模块，什么时候才是真正需要？
 
 我们将在下一章探讨这些关于动态导入的内容。
+=======
+...But what if we really need to import something conditionally? Or at the right time? Like, load a module upon request, when it's really needed?
+
+We'll see dynamic imports in the next chapter.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927

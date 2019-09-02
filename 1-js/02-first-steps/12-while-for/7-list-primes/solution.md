@@ -26,4 +26,8 @@ for (let i = 2; i <= n; i++) { // 对每个自然数
 }
 ```
 
+<<<<<<< HEAD
 这段代码有很大空间可以优化。例如，我们可以从 `2` 到 `i` 的平方根中寻找除数。但无论如何，如果我们想要在很大的时间间隔内实现高效率，我们需要改变方法，依赖高等数学和复杂算法，如[Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve), [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve) 等等。
+=======
+There's a lot of space to opimize it. For instance, we could look for the divisors from `2` to square root of `i`. But anyway, if we want to be really efficient for large intervals, we need to change the approach and rely on advanced maths and complex algorithms like [Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve), [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve) etc.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927

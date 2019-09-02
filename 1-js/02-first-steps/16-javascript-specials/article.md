@@ -53,7 +53,11 @@ for(;;) {
 ...
 ```
 
+<<<<<<< HEAD
 该指令必须位于 JavaScript 文件的顶部或函数的开头。
+=======
+The directive must be at the top of a script or at the beginning of a function body.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 如果没有使用严格模式，所有东西仍可以正常工作，但是某些特性的表现方式与旧式「兼容」方式相同。我们通常喜欢更现代的方式。
 
@@ -102,9 +106,14 @@ typeof function(){} == "function" // 函数特殊
 
 ## 交互
 
+<<<<<<< HEAD
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 [`prompt(question[, default])`](mdn:api/Window/prompt)
 : 询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
+=======
+[`prompt(question, [default])`](mdn:api/Window/prompt)
+: Ask a `question`, and return either what the visitor entered or `null` if they clicked "cancel".
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 [`confirm(question)`](mdn:api/Window/confirm)
 : 提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false` 形式返回。
@@ -112,7 +121,11 @@ typeof function(){} == "function" // 函数特殊
 [`alert(message)`](mdn:api/Window/alert)
 : 输出一个 `消息`。
 
+<<<<<<< HEAD
 所有这些函数都会产生**模态框**，它们会暂停代码执行并阻止访问者与页面交互，直到用户输入内容。
+=======
+All these functions are *modal*, they pause the code execution and prevent the visitor from interacting with the page until they answer.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 举个例子：
 
@@ -142,6 +155,7 @@ JavaScript 支持以下运算符：
 赋值
 : 简单的赋值：`a = b` 和连续赋值：`a * = 2`。
 
+<<<<<<< HEAD
 按位操作
 : 位运算符在位级上使用整数：当需要时，请参阅 [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
 
@@ -150,6 +164,16 @@ JavaScript 支持以下运算符：
 
 逻辑运算符
 : 逻辑与 `&&` 和或 `||` 执行短路评估，然后返回停止时的值。
+=======
+Bitwise
+: Bitwise operators work with 32-bit integers at the lowest, bit-level: see the [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators) when they are needed.
+
+Conditional
+: The only operator with three parameters: `cond ? resultA : resultB`. If `cond` is truthy, returns `resultA`, otherwise `resultB`.
+
+Logical operators
+: Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped (not necessary `true`/`false`). Logical NOT `!` converts the operand to boolean type and returns the inverse value.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 比较运算符
 : 运算符 `==` 将不同类型的值转换为一个数字（除了 `null` 和 `undefined`，它们彼此相等而没有别的情况），所以下面的例子是相等的：
@@ -160,12 +184,25 @@ JavaScript 支持以下运算符：
     ```
     其他比较也转换为数字。
 
+<<<<<<< HEAD
     严格相等运算符 `===` 不会进行转换：不同的类型总是为其指定不同的值，因此：
     值 `null` 和 `undefined` 是特殊的：它们只在 `==` 下相等。
     字符串按照字符顺序逐一比较，其他类型转换为数字。
 
 逻辑运算符
 : 其他合规的运算符比较少，其中有逗号运算符。
+=======
+    Other comparisons convert to a number as well.
+
+    The strict equality operator `===` doesn't do the conversion: different types always mean different values for it.
+
+    Values `null` and `undefined` are special: they equal `==` each other and don't equal anything else.
+
+    Greater/less comparisons compare strings character-by-character, other types are converted to a number.
+
+Other operators
+: There are few others, like a comma operator.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 更多信息：<info:operators>, <info:comparison>, <info:logical-operators>。
@@ -242,11 +279,15 @@ switch (age) {
       let result = a + b;
 
       return result;
-    }
+    };
     ```
     函数表达式可以有一个名字，比如 `sum = function name（a，b）`，但是 `name` 只在该函数内可见。
 
+<<<<<<< HEAD
 3. 箭头函数：
+=======
+3. Arrow functions:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
     ```js
     //表达式在右侧
@@ -269,12 +310,20 @@ switch (age) {
 - 参数可以有默认值：`function sum(a = 1, b = 2) {...}`。
 - 函数总是返回一些东西。如果没有 `return` 语句，那么结果是 `undefined`。
 
+<<<<<<< HEAD
 |函数声明|函数表达式|
 |----------------------|---------------------|
 |在整个代码块中可见|在执行到达时创建|
 | - |可以有一个名字，只在函数内部可见|
 
 更多：参见<info:function-basics>，<info:function-expressions-arrows>。
+=======
+- Functions may have local variables: those declared inside its body. Such variables are only visible inside the function.
+- Parameters can have default values: `function sum(a = 1, b = 2) {...}`.
+- Functions always return something. If there's no `return` statement, then the result is `undefined`.
+
+Details: see <info:function-basics>, <info:function-expressions-arrows>.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ## 更多
 

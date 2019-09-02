@@ -11,7 +11,11 @@ let arr = [ pete, john, mary ];
 
 sortByAge(arr);
 
+<<<<<<< HEAD
 // 现在排序是：[john, mary, pete]
+=======
+// now sorted is: [john, mary, pete]
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 alert(arr[0].name); // John
 alert(arr[1].name); // Mary
 alert(arr[2].name); // Pete
