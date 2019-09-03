@@ -8,11 +8,11 @@
 
 ## [[Prototype]]
 
-在 JavaScript 中， 对象有一个特殊的隐藏属性 `[[Prototype]]`（如规范中说描述的），即 `null` 或者是另一个引用对象。该对象叫作 "a prototype"：
+在 JavaScript 中， 对象有一个特殊的隐藏属性 `[[Prototype]]`（如规范中所命名的），其取值为 `null` 或者是另一个对象的引用。该对象称为 "原型"：
 
 ![prototype](object-prototype-empty.svg)
 
-`[[Prototype]]` 有一个“神奇”的意义。当我们想要从 `object` 中读取一个属性时，它就丢失了。JavaScript 会自动从原型中获取它。在编程中，这样的事情称为“原型继承”。许多很酷的语言特性和编程技巧都是基于它的。
+`[[Prototype]]` 有一个“神奇”的意义。当我们想要从 `object` 中读取一个缺失的属性时，JavaScript会自动从原型中获取它。在编程中，这称为“原型继承”。许多很酷的语言特性和编程技巧都是基于它的。
 
 属性 `[[Prototype]]` 是内部的而且隐藏的，但是设置它的方法却有很多种。
 
