@@ -33,7 +33,7 @@ rabbit.__proto__ = animal;
 
 请注意 `__proto__` 与 `[[Prototype]]` **不一样**。这是一个 getter/setter。我们之后会讨论如何设置它，但是现在 `__proto__` 工作的很好。
 
-如果我们在 `rabbit` 中查找一个属性，而且它丢失了，JavaScript 会自动从 `animal` 中获取它。
+如果我们在 `rabbit` 中查找一个属性，而且它缺失了，JavaScript 会自动从 `animal` 中获取它。
 
 例如：
 
@@ -58,7 +58,7 @@ alert( rabbit.jumps ); // true
 
 这里的 `(*)` 行将 `animal` 设置为 `rabbit` 的原型。
 
-当 `alert` 试图读取 `rabbit.eats` `(**)` 时，因为它不存在于 `rabbit`，JavaScript 会遵循 `[[Prototype]]` 引用，并在 `animal` 中查找（自顶向下）：
+当 `alert` 试图读取 `rabbit.eats` `(**)` 时，因为它不存在于 `rabbit`，JavaScript 会遵循 `[[Prototype]]` 引用，并在 `animal` 中查找（自下而上）：
 
 ![](proto-animal-rabbit.svg)
 
