@@ -7,7 +7,7 @@
 ```smart
 JavaScript 从一开始就有了原型继承。这是该语言的核心特征之一。
 
-但在过去，我们是无法直接对其进行访问的。唯一可靠的设置方法是使用构造函数的 "prototype" 属性。我们将在本章对其进行讨论。即使现在，还是有很多使用它的脚本。
+但在过去，我们是无法直接对其进行访问的。唯一可靠的设置方法是使用构造函数的“prototype”属性。我们将在本章对其进行讨论。即使现在，还是有很多使用它的脚本。
 ```
 
 请注意，`F.prototype` 意味着在 `F` 上有一个名为 `"prototype"` 的常规属性。这听起来与“原型”这个术语很相似，但在这里我们的意思是指有这个名字的常规属性。
@@ -41,9 +41,9 @@ alert( rabbit.eats ); // true
 在图片上，`"prototype"` 是一个水平箭头，它是一个常规属性，`[[Prototype]]` 是垂直的，意味着是继承自 `animal` 的 `rabbit`。
 
 ```smart header="`F.prototype`仅用于`new F`时"
-`F.prototype`属性仅在`new F`调用时使用，它为新对象的`[[Prototype]]`赋值。在此之后，`F.prototype`和新对象之间就分道扬镳了。可以将其看为一个“单次赠与”效果。
+`F.prototype` 属性仅在 `new F` 调用时使用，它为新对象的 `[[Prototype]]` 赋值。在此之后，`F.prototype` 和新对象之间就分道扬镳了。可以将其看为一个“单次赠与”效果。
 
-如果在创建之后`F.prototype`属性有了变化(`F.prototype = <another object>`)，那么`new F`创建的新对象也将随之拥有新的`[[Prototype]]`。但已经存在的对象将保持旧有的值。
+如果在创建之后 `F.prototype` 属性有了变化(`F.prototype = <another object>`)，那么 `new F` 创建的新对象也将随之拥有新的 `[[Prototype]]`。但已经存在的对象将保持旧有的值。
 ```
 
 ##  默认的函数原型，构造函数属性
