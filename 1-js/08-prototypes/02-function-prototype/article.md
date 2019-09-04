@@ -150,7 +150,7 @@ Rabbit.prototype = {
 */!*
 };
 
-// now constructor is also correct, because we added it
+// 这样的 constructor 也是正确的，因为我们手动添加了它
 ```
 
 
@@ -168,7 +168,7 @@ Rabbit.prototype = {
 ```js
 let user = {
   name: "John",
-  prototype: "Bla-bla" // no magic at all
+  prototype: "Bla-bla" // 没什么神秘的
 };
 ```
 
