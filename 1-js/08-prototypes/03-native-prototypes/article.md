@@ -103,7 +103,7 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 这些对象对我们来说是被无形的创造出来的且大多数引擎优化了它们，而规范精准的描述了这种方式。这些对象的方法也驻留在它们的原型 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 中。
 
-warn header="值 `null` 和 `undefined` 没有对象包装"
+```warn header="值 `null` 和 `undefined` 没有对象包装"
 特殊值 `null` 和 `undefined` 要被区分看待。它们没有对象包装，所以它们没有自己的方法和属性。并且它们没有相应的原型。
 ```
 
