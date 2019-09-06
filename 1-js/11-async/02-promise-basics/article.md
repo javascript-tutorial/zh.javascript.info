@@ -278,7 +278,7 @@ promise.then(
 promise.then(script => alert('One more handler to do something else!'));
 ```
 
-我们立刻看到基于回调语法的好处：
+我们立刻能发现Promise优于回调语法的地方：
 
 ```compare minus="Callbacks" plus="Promises"
 - 在调用 `loadScript` 时，我们必须已经有了一个 `callback` 函数。换句话说，在调用 `loadScript` **之前**我们必须知道如何处理结果。
