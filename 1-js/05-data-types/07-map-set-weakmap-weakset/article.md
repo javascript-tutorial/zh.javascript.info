@@ -1,6 +1,8 @@
 
 # Map、Set、WeakMap 和 WeakSet
 
+## Map、Set
+
 现在，我们已经学习了下面的比较复杂的数据结构：
 
 - 对象：存储键值对的集合。
@@ -56,24 +58,24 @@ visitsCountMap.set(john, 123);
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-可以将对象用作键是 `Map` 最显著最重要的特点。对于字符串类型的键，`Object` 可以适用，但是对于上面这个例子，把 `Map` 替换成普通的对象 `Object` 就很困难了。
+使用对象作为键是 `Map` 最著名和重要的特性。对于字符串键， `Onbject` 可能会很友好，但是不能使用对象作为键
 
-在 `Map` 类型存在之前的时候，人们将唯一标识加入对象来达成 `Map` 的功能：
+我们来试一下：
 
 ```js run
-// 我们添加了一个 id 字段
-let john = { name: "John", *!*id: 1*/!* };
+let john = { name: "John" };
 
-let visitsCounts = {};
+let visitsCountObj = {}; // 尝试使用普通对象
 
-// 现在，通过 id 来保存值
-visitsCounts[john.id] = 123;
+visitsCountObj[john] = 123; // 尝试把 john 作为键
 
-alert( visitsCounts[john.id] ); // 123
+// That's what got written!
+alert( visitsCountObj["[object Object]"] ); // 123
 ```
 
-...但是 `Map` 的写法更加优雅。
+当 `visitsCountObj` 是一个普通对象时，它会转化所有的键，想 `john` 会变成字符串，所以我们会得到的 `[object Object]` 结果,很明显这不是我们想要的结果
 
+````
 
 ```smart header="How `Map` compares keys"
 为了检测值是否相等，`Map` 使用了算法 [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero)。它大概就和严格等于号 `===` 相同，但区别是 `NaN` 等于 `NaN`。所以 `NaN` 也可以作为键。
@@ -92,40 +94,15 @@ map.set('1', 'str1')
   .set(true, 'bool1');
 ```
 ````
+## `Map` 上的迭代
 
-## 将 Object 转化为 Map
+要循环一个 `Map` ，这里有3个方法：
 
-当创建 `Map` 时，我们可以像这样传递一个数组（或其他可迭代对象）给构造函数：
+- `map.keys()` -- 返回一个可迭代的键集合
 
-```js
-// [key, value] 键值对数组
-let map = new Map([
-  ['1',  'str1'],
-  [1,    'num1'],
-  [true, 'bool1']
-]);
-```
+- `map.values()` -- 返回一个可迭代的值集合
 
-有一个内建方法 [Object.entries(obj)](mdn:js/Object/entries)，它可以返回一个对象的键值对数组，格式就和上面一样。
-
-所以我们可以用一个对象来初始化一个 map，就像这样：
-
-```js
-let map = new Map(Object.entries({
-  name: "John",
-  age: 30
-}));
-```
-
-这里，`Object.entries` 返回了键值对数组：`[ ["name","John"], ["age", 30] ]`。这正是 `Map` 需要的。
-
-## 遍历 Map
-
-有三种方法可以循环遍历 `map`：
-
-- `map.keys()` -- 返回键的迭代器，
-- `map.values()` -- 返回值的迭代器，
-- `map.entries()` -- 返回 `[key, value]` 迭代器入口，`for..of` 循环会默认使用它。
+- `map.entires()` -- 返回一个可迭代的键值对集合 `[key, value]`,默认使用 `for..of`
 
 例如：
 
@@ -136,127 +113,277 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
-// 迭代键（vegetables）
+// iterate over keys (vegetables)
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomatoes, onion
 }
 
-// 迭代值（amounts）
+// iterate over values (amounts)
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
 
-// 迭代键值对 [key, value]
-for (let entry of recipeMap) { // 和 recipeMap.entries() 一样
-  alert(entry); // cucumber,500（等等）
+// iterate over [key, value] entries
+for (let entry of recipeMap) { // the same as of recipeMap.entries()
+  alert(entry); // cucumber,500 (and so on)
 }
+
+```
+```text
+使用插入顺序
+
+当新值被插入时迭代会使用相同的顺序， `Map`会保留这个顺序， 不像常规 `Object`
+
 ```
 
-```smart header="The insertion order is used"
-和普通 `Object` 不同，迭代器的迭代顺序和值被插入的顺序一致，`Map` 会保留这个顺序。
-```
+另外，`Map` 也有内置方法 `forEach` ，跟 `Array` 相同:
 
-另外，`Map` 有一个内建的 `forEach` 方法，和 `Array` 很像：
-
-```js
+```js run
+// 运行for each 函数，作用于键值对
 recipeMap.forEach( (value, key, map) => {
-  alert(`${key}: ${value}`); // cucumber: 500 等等
+  alert(`${key}: ${value}`); // 黄瓜: 500   等等
 });
+
 ```
 
+##Object.entries:Object 转成 Map 
+
+当 `Map`被创建时，我们可以传递一个数组（其它任何可迭代的）充当键值对来初始化，像这样：
+
+```js run
+// 数组键值对
+let map = new Map([
+  ['1',  'str1'],
+  [1,    'num1'],
+  [true, 'bool1']
+]);
+
+alert( map.get('1') ); // str1
+```
+
+如果我们有一个普通对象，并且我们想利用该对象创建一个 `Map`，然后我们可以使用内建方法 [Object.entries(obj)](mdn:js/Map) 返回一个数组包含已经格式化的对象键值对。
+
+所以我们像下面这样通过对象来创建一个 map :
+
+```js run 
+let obj = {
+  name: "John",
+  age: 30
+};
+
+let map = new Map(Object.entries(obj));
+
+alert( map.get('name') ); // John
+```
+这里，`Object.entries` 返回了包含键值对的数组：`[ ["name","John"], ["age", 30] ]`, 这是`Map` 所需要的
+
+
+## Object.fromEntries: Map 转成 Object
+
+我们刚刚看到了怎么利用 `Object.entries(obj)` 把普通对象转化成 `Map` 
+
+这里有个相反`Object.fromEntries` 方法： 给定一个包含键值对的数组，它会利用数组创建一个对象：
+
+```js run
+let prices = Object.fromEntries([
+  ['banana', 1],
+  ['orange', 2],
+  ['meat', 4]
+]);
+
+// now prices = { banana: 1, orange: 2, meat: 4 }
+
+alert(prices.orange); // 2
+```
+
+我们使用 `Object.fromEntries()` 从 `Map` 中获取到一个普通对象
+
+比如.我们在`Map` 中存储了数据，但是我们需要把它传递给第三方代码从而暴露出一个普通对象
+
+我们开始吧：
+
+```js run
+let map = new Map();
+map.set('banana', 1);
+map.set('orange', 2);
+map.set('meat', 4);
+
+let obj = Object.fromEntries(map.entries()); // 创建一个普通对象(*)
+
+// 完成!
+// obj = { banana: 1, orange: 2, meat: 4 }
+
+alert(obj.orange); // 2
+```
+
+调用`map.entries()` 会返回一个键值对数组，刚刚好是`Object.fromEntries()` 所需要的格式
+
+我们可以把打 （*）这一行缩短：因为 `Object.fromEntries` 期望一个可迭代对象作为参数。没有必要时数组。标准的`map` 迭代返回键值对跟
+ 
+ ```javascript
+ let obj = Object.fromEntries(map); // 省略 .entries() 方法
+```
+以上代码做着同样的事情。因为`Object.fromEntries` 期望一个可迭代对象作为参数，没有必要是数组，标准的`map`迭代会返回跟 `map.entries()` 所返回的一样的键值对，所以我们得到一个跟map返回的一样的键值对对象
 
 ## Set
 
-`Set` 是一个值的集合，这个集合中所有的值仅出现一次。
+`Set`是一个特殊类型的集合-“值得集合”（没有键），每个值只出现一次
 
-主要方法包括：
+它的主要方法有：
 
-- `new Set(iterable)` -- 创建 set，利用数组来创建是可选的（任何可迭代对象都可以）。
-- `set.add(value)` -- 添加值，返回 set 自身。
-- `set.delete(value)` -- 删除值，如果该 `value` 在调用方法的时候存在则返回 `true` ，否则返回 `false`。
-- `set.has(value)` -- 如果 set 中存在该值则返回 `true` ，否则返回 `false`。
-- `set.clear()` -- 清空 set。
-- `set.size` -- 元素个数。
+- `new Set(iterable)` --创建一个集合，如果提供了`iterable`（可迭代）对象(通常是数组)，将会把它们放入集合中
 
-例如，我们有访客登门，我们希望记住所有人。但是重复来访者并不应该有两份记录。一个访客必须只记录一次。
+- `set.add(value)` --添加一个值。并返回当前集合
 
-`Set` 就恰好是可以做到这个的数据结构：
+- `set.delete(value)` --移除值，如果在当前调用中 `value` 存在就返回`true`，否则为 `false`
 
-```js run
-let set = new Set();
+- `set.has(value)` -- 如果`value` 存在集合中则返回 `true` 否则为`false`
 
-let john = { name: "John" };
-let pete = { name: "Pete" };
-let mary = { name: "Mary" };
+- `set.clear()` -- 移除集合里的所有元素（清空）
 
-// 访客，一些用户来了多次
-set.add(john);
-set.add(pete);
-set.add(mary);
-set.add(john);
-set.add(mary);
+- `set.size` -- 是元素的数量
 
-// set 保证了值的唯一
-alert( set.size ); // 3
+主要的特性是使用相同`value`并重复调用`set.add(value)`将不会做任何事，这就是为什么每个值在`Set` 中只出现一次的原因
 
-for (let user of set) {
-  alert(user.name); // John（然后是 Pete 和 Mary）
-}
-```
+例如，我们有访客进来，并向记住所有人。但是同一个访客会导致重复计算。访客必须只“计算”一次
 
-`Set` 的替换方案是使用用户数组，每次插入新元素时使用 [arr.find](mdn:js/Array/find) 方法检查用户编码是否重复。但是性能就会很差，因为这个方法会遍历整个数组，检查每个元素。而对于唯一性检查，`Set` 在内部优化得更好。
+`Set`就是为解决上面的问题而来：
+ 
+ ```js run
+ let set = new Set();
+ 
+ let john = { name: "John" };
+ let pete = { name: "Pete" };
+ let mary = { name: "Mary" };
+ 
+ // visits, some users come multiple times
+ set.add(john);
+ set.add(pete);
+ set.add(mary);
+ set.add(john);
+ set.add(mary);
+ 
+ // set keeps only unique values
+ alert( set.size ); // 3
+ 
+ for (let user of set) {
+   alert(user.name); // John (then Pete and Mary)
+ }
+ ```
 
-## Set 迭代
+供`Set` 选择的是个数组，以上代码会使用 [arr.find](mdn:js/find)来检查每个插入。但是性能不好，因为这个方法会遍历整个数组来检查每个元素，`Set` 会在内部进行更好的优化作独一无二的检查
 
-我们可以使用 `for..of` 或者 `forEach` 来循环查看 set：
+## Set 上的迭代
+
+我们可以使用`for..of` 或者` forEach` 来循环一个集合：
 
 ```js run
 let set = new Set(["oranges", "apples", "bananas"]);
 
 for (let value of set) alert(value);
 
-// 和 forEach 相同：
+// the same with forEach:
 set.forEach((value, valueAgain, set) => {
   alert(value);
 });
 ```
 
-注意到这里有个有趣得事情。`forEach` 函数用于 `Set` 时有三个参数：value，然后又一个 value，之后是目标对象。确实，相同值的 value 在参数中出现了两次。
+记住有个有趣的事情，`forEach` 的回调函数有三个参数：一个`value`,然后第二个相同的值`valueAgain`,最后一个是目标对象。的确，相同的值会在参数里出现俩次
 
-这是为了兼容 `Map`，它在使用 `forEach` 方法时也包括三个参数。
+那是为了兼容`Map` 所以回调也传了3个参数。毫无疑问，看起来有点奇怪。但是可以帮助我们在特定情况下替换`Map`为`Set`，或者相反。
 
-适用于 `Map` 的迭代方法 set 也同样支持：
+`Map` 里面有的相同的迭代方法在`Set`里面也支持
 
-- `set.keys()` -- 返回 set 中值的迭代对象，
-- `set.values()` -- 和 `set.keys` 一样，为了兼容 `Map`，
-- `set.entries()` -- 返回形如 `[value, value]` 的迭代对象，为了兼容 `Map` 而存在。
+- `set.keys()` -- 返回可迭代对象的值
 
+- `set.values() `-- 用法同 `set.keys()`，为了兼容`Map`
+
+- `set.entries()` -- 返回可迭代对象`[value, value]`， 也是为了兼容`Map` 
+
+
+##总结
+
+`Map` 是一个带有值的键的集合
+
+方法和属性：
+
+- `new Map([iterable])` -- 创建集合, 使用可选的带有键值对的可迭代对象 (例如数组)来初始化.
+
+- `map.set(key, value)` -- 根据键来存储值
+
+- `map.get(key)` -- 依据键来返回值，如果 `key` 不存在会返回 `undefined`
+
+- `map.has(key)` -- 如果键存在则返回 `true` ，否则返回  `false`
+
+- `map.delete(key)` --依据键来删除值
+
+- `map.clear()` --删除集合里面的所有成员
+
+- `map.size` --返回当前元素的数量
+
+与常规 `Object` 不同:
+
+- 任何键，包括对象也可以作为 `Map` 的键
+
+- 额外的便捷方法，`size` 属性
+
+
+`Set` --所有单独的值的集合
+
+方法和属性：
+
+- `new Set([iterable])` -- 创建一个 `Set` 集合，使用可选的的可迭代对象 (例如数组)来初始化
+
+- `set.add(value)` -- 添加一个值（如果该值已经存在便什么也不做），返回 `Set` 集合本身
+
+- `set.delete(value)` -- 移除值，如果当前环境调用的时候该值存在则返回 `true` ,否则返回 `false`
+
+- `set.has(value)` -- 如果该值存在 `Set` 中则返回 `true` ，否则返回 `false`
+
+- `set.clear()` -- 移除 `Set` 里面的所有成员
+
+- `set.size` -- 元素的个数
+
+ `Map` 和 `Set` 的迭代总是有序插入,所以我们不能说这些集合是无序的，也不能重新排序，或者直接使用它的数字获取到某个元素
+ 
+ 
 ## WeakMap 和 WeakSet
 
-`WeakSet` 是一种特殊的 `Set`，它不会阻止 JavaScript 将它的元素从内存中移除。`WeakMap` 和 `Map` 的区别也和上述一样。
-
-正如我们在章节 <info:garbage-collection> 中了解到的，当该值可用（或可能需要）时，JavaScript 引擎将会把值缓存在内存中。
+从[垃圾回收机制](https://zh.javascript.info/garbage-collection)这一章节中我们可以看到，JavaScript 引擎会把可用（可能会被用）的值存储在内存中。
 
 例如：
-```js
+```js run
 let john = { name: "John" };
 
-// 对象可被获取，john 是它的引用
+// 对象可以被访问, john 是该对象的引用
 
 // 覆盖引用
 john = null;
 
-*!*
-// 对象将会从内存中移除
-*/!*
+// 该对象将会从内存中移除
 ```
 
-通常情况下，当某数据存在于内存中时，对象的属性或者数组的元素或其他的数据结构将被认为是可以获取的并留存于内存。
+通常，对象的属性或者数组元素或者其他数据结构在被认为可用的的情况下会被一直保存在内存中，而该数据结构在内存中。
 
-在一个正常 `Map` 中，我们将某对象存储为键还是值并不重要。它将会被一直保留在内存中，就算已经没有指向它的引用。
+例如，如果我们把一个对象放入一个数组中，当该数组存在，即使把该对象的引用覆盖了，该对象也会存在。
+
+像这样：
+
+```js run
+let john = { name: "John" };
+
+let array = [ john ];
+
+john = null; // 覆盖引用
+
+// john 被存储在数组中, 所以它不会被垃圾回收机制回收
+// 我们可以这样访问它 array[0]
+```
+类似地，如果我们把一个对象作为常规 `Map` 的键，然后当 `Map` 存在时，该对象也会存在。它可能不会被垃圾回收机制回收并且占据着内存
 
 例如：
-```js
+
+```js run
 let john = { name: "John" };
 
 let map = new Map();
@@ -264,36 +391,31 @@ map.set(john, "...");
 
 john = null; // 覆盖引用
 
-*!*
-// john 被保存在 map 中
-// 我们可以通过 map.keys() 得到它
-*/!*
+// john 被存储在 map 的内部,
+// 我们可以这样访问它： map.keys()
 ```
+ `WeakMap` 在这方面有很大不同，它不会阻止垃圾回收机制回收重要的对象
 
+让我们通过例子来看看着意味着什么
 
-除了 `WeakMap/WeakSet`。
+## WeakMap
 
-**`WeakMap/WeakSet` 不会阻止内存移除对象。**
-
-我们从 `WeakMap` 开始。
-
-它和 `Map` 的第一个区别是它的键必须是对象，不能是基础类型的值：
+和 `Map` 的第一个不同点就是 `WeakMap` 的键必须是对象，不能试原始值：
 
 ```js run
 let weakMap = new WeakMap();
 
 let obj = {};
 
-weakMap.set(obj, "ok"); // 运行正常（对象作为键）
+weakMap.set(obj, "ok"); // 正常执行 (以对象作为键)
 
-*!*
-weakMap.set("test", "Whoops"); // 错误，因为“test”是原始类型
-*/!*
+// 不能使用字符串作为键
+weakMap.set("test", "Whoops"); // 错误，因为 "test" 不是一个对象
 ```
 
-现在，如果我们使用对象作为它的键，并且没有任何引用指向这个对象 —— 它将会自动被从内存中移除（也会从 map 中移除）。
+现在，我们使用一个对象作为键值放入其中，如果没有其它引用在该对象上-它就会从内存中（和来自集合里面）被自动移除
 
-```js
+```js run
 let john = { name: "John" };
 
 let weakMap = new WeakMap();
@@ -301,132 +423,205 @@ weakMap.set(john, "...");
 
 john = null; // 覆盖引用
 
-// john 从内存中移除了！
+// john 在内存中被移除!
 ```
 
-把它和上面普通 `Map` 的例子对比一下。现在，如果 `john` 仅作为 `WeakMap` 的键 —— 它将会被自动删除。
+比较一下以上例子中的常规 `Map` ，现在如果 `john` 仅仅是作为 `WeakMap` 的键存在时 - 他将会从集合中（和内存）被自动删除。
 
-...并且 `WeakMap` 并不支持方法 `keys()`，`values()`，`entries()`，我们不能对它进行迭代。所以没有办法获取它的所有键值。
+`WeakMap` 不支持迭代和 `keys()`, `values()`,`entries()` 方法。所以没有办法从它里面获取所有的键或者值。
 
-`WeakMap` 仅有如下方法：
+`WeakMap` 仅仅只有以下几个方法：
 
 - `weakMap.get(key)`
 - `weakMap.set(key, value)`
-- `weakMap.delete(key, value)`
+- `weakMap.delete(key)`
 - `weakMap.has(key)`
 
-为什么会有这些限制？这是处于一些技术原因。如果一个对象没有任何引用（就像上面代码中的 `john`），那么它将会被自动删除。但是从技术上讲，它没有完全指定**什么时候清理会发生**。
+为什么会有这样的限制呢？那是出于技术原因。如果一个对象已经失去所有其他的引用（就像上面的 `john` 一样），然后它会被垃圾回收机制自动回收。但是从技术上来说并不能确定清理会在什么时候发生。
 
-JavaScript 引擎将会决定何时清理。它可能会选择马上清理内存或者等待：当更多需要删除操作发生的时候再删除。所以，技术上说，目前 `WeakMap` 中元素个数并不可知。引擎可能已经清理，也可能没有，也可能只进行了部分的清理。处于这个原因，允许访问 `WeakMap` 整体的方法并不支持。
+以上由 JavaScript 引擎决定。它可能会选择立即清理来优化内存或者等待和发生更多的删除时才清理。所以，从技术上，并不能知道一个 `WeakMap` 的当前元素的个数。引擎可能会清理掉它也可能不会，或者清理掉一部分。由于这个原因，访问所有键/值的方法不能被支持。
 
-现在，我们在哪里需要这样的结构？
+现在我们在哪里会需要这样的数据结构呢？
 
-`WeakMap` 的目的是，我们可以当且仅当该对象存在时，为对象存储一些内容。但我们并不会因为存储了对象的一些内容，就强制对象一直保留在内存中。
+## 使用案例： 附加数据
 
-```js
-weakMap.put(john, "secret documents");
-// 如果 john 不存在了，secret documents 也将会被销毁
-```
+`WeakMap` 的主要应用领域是在一种附加数据存储
 
-当我们对对象有个主存储区，并且需要保存仅当对象活跃时候才相关的附加信息时，这一点就很有用了。
+如果我们在处理一个“属于”其它代码的对象，甚至可能是第三方库，就有可能储存一些相关联的数据，它仅仅在该对象存在时才存在 - `WeakMap`就是我们真正需要的结构。
 
-让我们看一个例子。
-
-例如，我们写了一段代码来保存每个用户的访问次数。信息保存在一个 map 中：用户是键，访问次数是值。当用户离开了，我们也就不再需要保存他的访问次数了。
-
-有一个方法可以追踪离开的游客并手动清理记录：
+我们把某些数据放入到 `WeakMap` 中，并使用对象作为键，当该对象被回收时，改数据也会自动消失。
 
 ```js run
+weakMap.set(john, "secret documents");
+// 如果 john 不存在了, secret documents 也会自动销毁
+```
+
+让我们来看一个例子。
+
+比如，我们有一段代码主要记录用户访问的次数。该信息存储在一个map结构中：用户对象作为键，次数作为值。当用户离开（也就是他的对象被回收），我们也不需要再存储访问次数了。
+
+这里有个使用 `Map` 来计算的函数：
+
+```js run
+// 📁 visitsCount.js
+let visitsCountMap = new Map(); // map: user => 访问次数
+
+// 增加访问次数
+function countUser(user) {
+  let count = visitsCountMap.get(user) || 0;
+  visitsCountMap.set(user, count + 1);
+}
+```
+然后这里是代码的另外一部分，其它文件可能会使用它：
+
+```js run
+// 📁 main.js
 let john = { name: "John" };
 
-// map: user => visits count
-let visitsCountMap = new Map();
+countUser(john); // 计算他的访问次数
+countUser(john);
 
-// john 是 map 的键
-visitsCountMap.set(john, 123);
-
-// 现在 john 离开了，我们不需要他了
+// 然后 john 离开我们
 john = null;
 
-*!*
-// 但是记录依旧在 map 中，我们需要清理它！
-*/!*
-alert( visitsCountMap.size ); // 1
-// 它还在内存中，因为 Map 将它作为键
 ```
 
-另一个方法是使用 `WeakMap`：
+现在 `john` 对象应该被回收，但是它还留在了内存中，因为它被作为了 `visitsCountMap` 的键。
 
-```js
+当移除用户的时候，我们需要清理 `visitsCountMap`，否则它将会在内存中无限增加。 这样的清理在复杂的架构中会变成冗余的任务。
+
+我们通过切换成 `WeakMap` 来替代它从而避免上面提到的问题:
+
+```js run
+// 📁 visitsCount.js
+let visitsCountMap = new WeakMap(); // weakmap: user => 访问次数
+
+// 增加访问次数
+function countUser(user) {
+  let count = visitsCountMap.get(user) || 0;
+  visitsCountMap.set(user, count + 1);
+}
+```
+
+现在我们不必去清理 `visitsCountMap` 了，在除了作为 `WeakMap` 的键之外， `john` 对象之后将不能被其它所有途径使用
+
+## 使用案例： 缓存
+
+其它很常用的例子就是缓存： 当一个函数结果应该被记住（“缓存”）的时候，所以将来调用同一个对象重用它。
+
+我们使用 `Map` 来存储结果，像这样：
+
+```js run
+// 📁 cache.js
+let cache = new Map();
+
+// 计算并记住结果
+function process(obj) {
+  if (!cache.has(obj)) {
+    let result = /* 结果的计算 */ obj;
+
+    cache.set(obj, result);
+  }
+
+  return cache.get(obj);
+}
+
+// 现在使用其它文件的 process() 方法:
+
+// 📁 main.js
+let obj = {/* 让我们来定义一个对象 */};
+
+let result1 = process(obj); // 被计算
+
+// ...之后, 来自其它地方的代码块...
+let result2 = process(obj); // 从缓存中拿到记住的结果
+
+// ...之后, 当这个对象不再被需要的时候:
+obj = null;
+
+alert(cache.size); // 1 (wow! 这个对象依然在缓存中, 占据内存!)
+```
+
+对于相同对象多次调用 `process(obj)` 方法，他只计算第一次，之后是从缓存获取。这样的缺点就是当该对象不在需要的时候，我们需要清理 `clean` 
+
+如果我们使用 `WeakMap` 来代替 `Map` ，然后这些问题就会消失：当该对象被回收时，缓存的结果将会从内存中自动被移除
+
+```js run
+
+// 📁 cache.js
+let cache = new WeakMap();
+
+// calculate and remember the result
+function process(obj) {
+  if (!cache.has(obj)) {
+    let result = /* calculate the result for */ obj;
+
+    cache.set(obj, result);
+  }
+
+  return cache.get(obj);
+}
+
+// 📁 main.js
+let obj = {/* some object */};
+
+let result1 = process(obj);
+let result2 = process(obj);
+
+// ...later, when the object is not needed any more:
+obj = null;
+
+// Can't get cache.size, as it's a WeakMap,
+// but it's 0 or soon be 0
+// When obj gets garbage collected, cached data will be removed as well
+
+```
+## WeakSet
+
+`WeakSet` 的表现也相似：
+
+- 它类似于 `Set` ，但是我们仅仅添加对象到 `WeakSet` 里(而不是原始值)
+
+- 集合里面存在该对象当它可以从其他地方获取
+
+-跟 `Set` 一样，`WeakSet` 也支持 `add`, `has` , `delete` 方法，但是不支持 `size`,`key()` 和迭代
+
+变“弱”的同时，它也被用作附加存储。但是不适合任意数据，而是因为“是 / 否”的原因.一个 `WeakSet` 的成员可能意味着对象的其它
+
+例如，我们可以添加用户到 `WeakSet` 来追踪谁访问了我们的网站：
+
+```js run
+let visitedSet = new WeakSet();
+
 let john = { name: "John" };
+let pete = { name: "Pete" };
+let mary = { name: "Mary" };
 
-let visitsCountMap = new WeakMap();
+visitedSet.add(john); // John visited us
+visitedSet.add(pete); // Then Pete
+visitedSet.add(john); // John again
 
-visitsCountMap.set(john, 123);
+// visitedSet 现在有2个用户
 
-// 现在 john 离开了，我们不需要他了
+//  检查 John 是否访问过?
+alert(visitedSet.has(john)); // true
+
+// 检查 Mary 是否访问过?
+alert(visitedSet.has(mary)); // false
+
 john = null;
 
-// 除了 WeakMap 没有其他引用了，
-// 所以这个对象会自动的从内存和 visitsCountMap 中删除
+// visitedSet 将会被自动清除
 ```
 
-使用普通的 `Map`，用户离开后的数据清理是一很乏味的任务：我们不仅要从主存储区移除用户（可能是变量或者数组），还需要将附加的数据存储例如 `visitsCountMap` 也清除。当用户在代码的一个位置进行管理，而附加结构位于另一个位置，并且没有获取有关清除的信息这样的复杂的情况下，这种操作就很笨重。
-
-`WeakMap` 能让事情简单很多，因为它能够自动清理。它里面诸如上面的例子中来访次数这样的信息，当且仅当对象键存在的时候才存在。
-
-`WeakSet` 的行为类似：
-
-- 它和 `Set` 类似，但是我们仅能将对象添加进 `WeakSet`（不可以是基础类型）
-- 仅当对象存在其他位置的引用时它才存在于 set 中。
-- 就像 `Set` 一样，它支持 `add`，`has` 和 `delete`，不支持 `size`，`keys()` 也不支持迭代器。
-
-例如，我们可以用它来追踪一个项目是否被检查过：
-
-```js
-let messages = [
-    {text: "Hello", from: "John"},
-    {text: "How goes?", from: "John"},
-    {text: "See you soon", from: "Alice"}
-];
-
-// 用数组的元素来填充（3 个元素）
-let unreadSet = new WeakSet(messages);
-
-// 我们可以使用 unreadSet 来看一个 message 是否未读
-alert(unreadSet.has(messages[1])); // true
-// 读过之后就将它从 set 中移除
-unreadSet.delete(messages[1]); // true
-
-// 当我们对消息列表做 shift 操作，set 就会自动清理
-messages.shift();
-// 不需要清理 unreadSet，它现在还有两个元素
-// 可惜并没有方法可以获取元素数目，所以无法显示出来
-```
-
-`WeakMap` 和 `WeakSet` 最显著的限制就是没有迭代器，也不能获取当前所有内容。这可能会有点不方便，但是实际上并不妨碍 `WeakMap/WeakSet` 的主要任务 —— 作为对象的附加存储，该对象在其他位置被保存或管理。
+`WeakMap ` 和 `WeakSet`最显著的限制就是缺乏迭代，并且不能获取当前所有的内容。这可能会造成很大的不便，但是这并不会阻止 `WeakMap/WeakSet` 做主要的事情-在另一个地方存储/管理的对象的“附加”存储数据。
 
 ## 总结
 
-- `Map` —— 是一个键值对集合
+`WeakMap` 是个类似于 `Map` 的只允许对象作为键和通过其它途径使对象变成不可用的时候就会马上移除所有关联的键的集合
 
-    和普通 `Object` 的区别：
+`WeakSet` 是个类似于 `Set` 的只存储对象和移除一旦通过其它途径使其变得不可用的对象
 
-    - 对象可以作为键。
-    - 迭代顺序是插入顺序。
-    - 附加方便的方法，有 `size` 属性。
+它们俩个都不支持获取所有键和值得方法或者属性，只允许个别操作。
 
-- `Set` —— 是一个包含不重复值的集合。
-
-    - 和 array 不同，set 不允许元素重新排序。
-    - 保持插入的顺序。
-
-- `WeakMap` —— `Map` 的一个变体，仅允许对象作为键，并且当对象由于其他原因不可引用的时候将其删除。
-
-    - 它不支持整体的操作：没有 `size` 属性，没有 `clear()` 方法，没有迭代器。
-
-- `WeakSet` —— 是 `Set` 的一个变体，仅存储对象，并且当对象由于其他原因不可引用的时候将其删除。
-
-    - 同样不支持 `size/clear()` 和迭代器。
-
-`WeakMap` 和 `WeakSet` 被用作主要对象存储的次要数据结构补充。一旦对象从存储移除，那么存在于 `WeakMap/WeakSet` 的数据将会被自动清除。
+`WeakMap` 和 `WeakSet` 被用认为是除了”主要“对象存储之外的“第二”数据结构，一旦对象在主要存储中被移除，如果该对象仅仅是存储为 `WeakMap` 或者 `WeakSet` 的键的时候，它就会被自动清理。
