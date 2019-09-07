@@ -2,6 +2,10 @@
 
 [![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+| 微信扫码关注官方公众号 |
+|-|
+| <img src="https://user-images.githubusercontent.com/26959437/64471811-79c19d00-d188-11e9-9c06-1897a4151b7c.jpg" width="200px;" /> |
+
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
 <!--
