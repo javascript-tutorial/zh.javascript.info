@@ -11,7 +11,7 @@
 
 最新的规范草案在此 <https://tc39.es/ecma262/>。
 
-想要知道最新最前沿且将近要“标准化”的功能，请看这里的提案 <https://github.com/tc39/proposals>。
+想要知道最新最前沿且将要“标准化”的功能，请看这里的提案 <https://github.com/tc39/proposals>。
 
 当然，如果你正在做浏览器相关的开发工作，那么本教程的 [第二节](info:browser-environment) 涵盖了其他规范。
 
