@@ -4,7 +4,7 @@
 
 | 微信扫码关注官方公众号 |
 |-|
-| <img src="https://user-images.githubusercontent.com/26959437/64471811-79c19d00-d188-11e9-9c06-1897a4151b7c.jpg" width="200px;" /> |
+| <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="500px;" /> |
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
