@@ -10,7 +10,7 @@
 alert('Hello'); alert('World');
 ```
 
-通常，换行符也被视为分隔符：
+通常，换行符也被视为分隔符，因此下面的例子也能正常运行：
 
 ```js run no-beautify
 alert('Hello')
@@ -37,10 +37,10 @@ function f() {
 for(;;) {
   //循环语句后不需要分号
 }
-
 ```
 
-...但即使我们可以在某处添加了「额外」分号，这也不是错误。它会被忽略的。
+……但即使我们可以在某处添加了「额外」分号，这也不是错误。它会被忽略的。
+
 更多信息：<info:structure>。
 
 ## 严格模式
@@ -53,9 +53,9 @@ for(;;) {
 ...
 ```
 
-该指令必须位于 JavaScript 文件的顶部或函数的开头。
+该指令必须位于 JavaScript 文件的顶部或函数体的开头。
 
-如果没有使用严格模式，所有东西仍可以正常工作，但是某些特性的表现方式与旧式「兼容」方式相同。我们通常喜欢更现代的方式。
+如果没有 `"use strict"`，所有东西仍可以正常工作，但是某些特性的表现方式与旧式「兼容」方式相同。我们通常喜欢更现代的方式。
 
 语言的一些现代特征（比如我们将来要学习的类）会隐式地启用严格模式。
 
@@ -74,7 +74,6 @@ for(;;) {
 - 字符 `$` 和 `_` 是允许的，用法同字母。
 - 非拉丁字母和象形文字也是允许的，但通常不会使用。
 
-
 变量的值可以动态改变数据类型，它们可以存储任何值：
 
 ```js
@@ -92,10 +91,9 @@ x = "John";
 - `object` 和 `symbol` —— 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。
 
 `typeof` 运算符返回值的类型，但有两个例外：
-
 ```js
-typeof null == "object" // error in the language
-typeof function(){} == "function" // 函数特殊
+typeof null == "object" // 语言的设计错误
+typeof function(){} == "function" // 函数被特殊对待
 ```
 
 更多信息：<info:variables> 和 <info:types>。
@@ -103,6 +101,7 @@ typeof function(){} == "function" // 函数特殊
 ## 交互
 
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
+
 [`prompt(question[, default])`](mdn:api/Window/prompt)
 : 询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
 
@@ -134,6 +133,7 @@ JavaScript 支持以下运算符：
 : 常规的比如：`+ - * /`（加减乘除），以及取余操作 `%` 和幂运算符 `**` 。
 
     二进制加 `+` 连接字符串。如果任何一个操作数是一个字符串，另一个操作数也将转换为字符串：
+
     ```js run
     alert( '1' + 2 ); // '12', 字符串
     alert( 1 + '2' ); // '12', 字符串
@@ -146,10 +146,10 @@ JavaScript 支持以下运算符：
 : 位运算符在位级上使用整数：当需要时，请参阅 [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
 
 三元运算
-: 唯一具有三个参数的操作：`cond？ resultA: resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
+: 唯一具有三个参数的操作：`cond ? resultA: resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
 
 逻辑运算符
-: 逻辑与 `&&` 和或 `||` 执行短路评估，然后返回停止时的值。
+: 逻辑与 `&&` 和或 `||` 执行短路计算，然后返回停止时的值（并不需要 `true`/`false`）。逻辑非 `!` 将操作数转换为布尔值并返回其相反的值。
 
 比较运算符
 : 运算符 `==` 将不同类型的值转换为一个数字（除了 `null` 和 `undefined`，它们彼此相等而没有别的情况），所以下面的例子是相等的：
@@ -158,16 +158,18 @@ JavaScript 支持以下运算符：
     alert( 0 == false ); // true
     alert( 0 == '' ); // true
     ```
+
     其他比较也转换为数字。
 
-    严格相等运算符 `===` 不会进行转换：不同的类型总是为其指定不同的值，因此：
-    值 `null` 和 `undefined` 是特殊的：它们只在 `==` 下相等。
+    严格相等运算符 `===` 不会进行转换：不同的类型总是指不同的值。
+
+    值 `null` 和 `undefined` 是特殊的：它们只在 `==` 下相等，不相等于其他值。
+
     字符串按照字符顺序逐一比较，其他类型转换为数字。
 
 逻辑运算符
-: 其他合规的运算符比较少，其中有逗号运算符。
+: 其他运算符比较少，如逗号运算符。
 
-More in: <info:operators>, <info:comparison>, <info:logical-operators>.
 更多信息：<info:operators>, <info:comparison>, <info:logical-operators>。
 
 ## 循环语句
@@ -209,7 +211,8 @@ let age = prompt('Your age?', 18);
 
 switch (age) {
   case 18:
-    alert("Won't work"); //提示的结果是一个字符串，而不是数字
+    alert("Won't work"); // 提示的结果是一个字符串，而不是数字
+
   case "18":
     alert("This works!");
     break;
@@ -244,37 +247,32 @@ switch (age) {
       return result;
     }
     ```
-    函数表达式可以有一个名字，比如 `sum = function name（a，b）`，但是 `name` 只在该函数内可见。
 
 3. 箭头函数：
 
     ```js
-    //表达式在右侧
+    // 表达式在右侧
     let sum = (a, b) => a + b;
 
-    // 或带{...}的多行语法，需要此处返回：
+    // 或带 {...} 的多行语法，需要此处返回：
     let sum = (a, b) => {
       // ...
       return a + b;
     }
 
-    //没有参数
+    // 没有参数
     let sayHi = () => alert("Hello");
 
-    //有一个参数
+    // 有一个参数
     let double = n => n * 2;
     ```
+
 
 - 函数可能具有局部变量：在其内部声明的变量。这些变量只在函数内部可见。
 - 参数可以有默认值：`function sum(a = 1, b = 2) {...}`。
 - 函数总是返回一些东西。如果没有 `return` 语句，那么结果是 `undefined`。
 
-|函数声明|函数表达式|
-|----------------------|---------------------|
-|在整个代码块中可见|在执行到达时创建|
-| - |可以有一个名字，只在函数内部可见|
-
-更多：参见<info:function-basics>，<info:function-expressions-arrows>。
+更多：参见 <info:function-basics>，<info:function-expressions-arrows>。
 
 ## 更多
 
