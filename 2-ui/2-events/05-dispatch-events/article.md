@@ -2,34 +2,57 @@
 
 我们不仅可以分发事件，还可以从 JavaScript 中生成事件。
 
+<<<<<<< HEAD
 自定义事件可以用于创建“图形组件”。例如，菜单组件的根元素可以通过触发 `open`（打开菜单）、`select`（有一项被选中）等事件告诉菜单发生了什么。
 
 我们也可以生成一些像 `click`、`mousedown` 此类的内置事件，这些都有利于测试。
+=======
+Custom events can be used to create "graphical components". For instance, a root element of our own JS-based menu may trigger events telling what happens with the menu: `open` (menu open), `select` (an item is selected) and so on. Another code may listen to the events and observe what's happening with the menu.
+
+We can generate not only completely new events, that we invent for our own purposes, but also built-in ones, such as `click`, `mousedown` etc. That may be helpful for automated testing.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ## 事件构造器
 
+<<<<<<< HEAD
 事件会像 DOM 元素类一样形成层次结构。事件的底层是内置的 [Event](http://www.w3.org/TR/dom/#event) 类。
+=======
+Build-in event classes form a hierarchy, similar to DOM element classes. The root is the built-in [Event](http://www.w3.org/TR/dom/#event) class.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 我们可以像这样创建 `Event` 对象：
 
 ```js
-let event = new Event(event type[, options]);
+let event = new Event(type[, options]);
 ```
 
 参数：
 
+<<<<<<< HEAD
 - **event type** —— 可以是任何字符串，比如 `"click"` 或者我们自己喜欢的 `"hey-ho!"`。
 - **options** —— 具有两个可选属性的对象：
   - `bubbles: true/false` —— 如果是 `true`，那么事件冒泡。
   - `cancelable: true/false` —— 如果 `true`，那么“默认动作”就会被阻止。之后我们会看到对于自定义事件，这些意味着什么。
+=======
+- *type* -- event type, a string like `"click"` or our own like `"my-event"`.
+- *options* -- the object with two optional properties:
+  - `bubbles: true/false` -- if `true`, then the event bubbles.
+  - `cancelable: true/false` -- if `true`, then the "default action"  may be prevented. Later we'll see what it means for custom events.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
   默认情况下，它们都是 false：`{bubbles: false, cancelable: false}`。
 
 ## dispatchEvent
 
+<<<<<<< HEAD
 事件对象被创建后，我们应该调用 `elem.dispatchEvent(event)` 在元素上“运行”它。
 
 然后处理器对其作出反应，就好像它是一个正常的内置事件。如果事件是使用 `bubbles` 标志创建的，那么它就会冒泡。
+=======
+After an event object is created, we should "run" it on an element using the call `elem.dispatchEvent(event)`.
+
+Then handlers react on it as if it were a regular browser event. If the event was created with the `bubbles` flag, then it bubbles.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 在下面示例中，`click` 事件是用 JavaScript 初始化生成的。处理器执行效果和单击按钮的效果一样：
 
@@ -66,10 +89,18 @@ let event = new Event(event type[, options]);
   // ...dispatch on elem!
   let event = new Event("hello", {bubbles: true}); // (2)
   elem.dispatchEvent(event);
+
+  // the handler on document will activate and display the message.
+
 </script>
 ```
 
+<<<<<<< HEAD
 注意：
+=======
+
+Notes:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 1. 我们应该使用 `addEventListener` 定义我们的事件，因为 `on<event>` 仅存在于内置事件中，`document.onhello` 则无法运行。
 2. 必须设置 `bubbles:true`，否则事件不会向上冒泡。
@@ -125,11 +156,19 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 从技术上讲，我们可以通过在创建后直接分发 `event.clientX=100` 来解决这个问题。所以这是一个方便和遵守规则的问题。浏览器生成的事件总是具有正确的类型。
 
+<<<<<<< HEAD
 不同 UI 事件的所有属性列表在说明书中，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
+=======
+The full list of properties for different UI events is in the specification, for instance, [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent).
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ## 自定义事件
 
+<<<<<<< HEAD
 对于我们自己的自定义事件，像 `"hello"`，我们应该使用 `new CustomEvent`。从技术上来说，[CustomEvent](https://dom.spec.whatwg.org/#customevent) 和 `Event` 一样。除了一点不同之外。
+=======
+For our own, completely new events types like `"hello"` we should use `new CustomEvent`. Technically [CustomEvent](https://dom.spec.whatwg.org/#customevent) is the same as `Event`, with one exception.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 在第二个参数（对象）中，我们可以在事件中为我们想要传递的任何自定义信息添加一个附加的属性 `detail`。
 
@@ -149,12 +188,13 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
 `detail` 属性可以有任何数据。从技术上讲，我们可以不用，因为我们可以在创建后将任何属性分配到常规的 `new Event` 对象中。但是 `CustomEvent` 为它提供了特殊的 `detail` 字段，以避免与其他事件属性的冲突。
 
+<<<<<<< HEAD
 事件类告诉一些关于“是什么类型的事件”的信息，如果事件是自定义的，那么我们应该使用 `CustomEvent` 来明确它是什么。
 
 ## event.preventDefault()
@@ -172,8 +212,27 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上生成 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
 
 由 `rabbit.addEventListener('hide',...)` 设置的处理器将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
+=======
+Besides, the event class describes "what kind of event" it is, and if the event is custom, then we should use `CustomEvent` just to be clear about what it is.
 
-```html run refresh
+## event.preventDefault()
+
+Many browser events have a "default action", such as nagivating to a link, starting a selection, and so on.
+
+For new, custom events, there are definitely no default browser actions, but a code that dispatches such event may have its own plans what to do after triggering the event.
+
+By calling `event.preventDefault()`, an event handler may send a signal that those actions should be canceled.
+
+In that case the call to `elem.dispatchEvent(event)` returns `false`. And the code that dispatched it knows that it shouldn't continue.
+
+Let's see a practical example - a hiding rabbit (could be a closing menu or something else).
+
+Below you can see a `#rabbit` and `hide()` function that dispatches `"hide"` event on it, to let all interested parties know that the rabbit is going to hide.
+
+Any handler can listen to that event with `rabbit.addEventListener('hide',...)` and, if needed, cancel the action using `event.preventDefault()`. Then the rabbit won't disappear:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
+
+```html run refresh autorun
 <pre id="rabbit">
   |\   /|
    \|_|/
@@ -181,6 +240,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
   =\_Y_/=
    {>o<}
 </pre>
+<button onclick="hide()">Hide()</button>
 
 <script>
   // hide() will be called automatically in 2 seconds
@@ -189,7 +249,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
       cancelable: true // without that flag preventDefault doesn't work
     });
     if (!rabbit.dispatchEvent(event)) {
-      alert('the action was prevented by a handler');
+      alert('The action was prevented by a handler');
     } else {
       rabbit.hidden = true;
     }
@@ -200,13 +260,10 @@ alert(event.clientX); // undefined, the unknown property is ignored!
       event.preventDefault();
     }
   });
-
-  // hide in 2 seconds
-  setTimeout(hide, 2000);
-
 </script>
 ```
 
+Обратите внимание: событие должно иметь флаг `cancelable: true`, иначе вызов `event.preventDefault()` будет проигнорирован.
 
 ## Events-in-events 同步
 
@@ -218,11 +275,10 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 例如，这里的 `menu-open` 嵌套事件在 `onclick` 期间被同步处理：
 
-```html run
+```html run autorun
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> nested -> 2
   menu.onclick = function() {
     alert(1);
 
@@ -234,36 +290,46 @@ alert(event.clientX); // undefined, the unknown property is ignored!
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
+<<<<<<< HEAD
 请注意 `menu-open` 嵌套事件会冒泡，而且是在 `document` 被处理。嵌套事件的传播是在处理返回到外部代码 (`onclick`) 之前就已经全部完成的。
+=======
+The output order is: 1 -> nested -> 2.
+
+Please note that the nested event `menu-open` fully bubbles up and is handled on the `document`. The propagation and handling of the nested event must be fully finished before the processing gets back to the outer code (`onclick`).
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 这不仅仅是 `dispatchEvent`，还有其他案例。JavaScript 在事件处理时可以调用导致其他事件的方法 —— 它们也是被同步处理的。
 
+<<<<<<< HEAD
 如果我们不喜欢，可以将 `dispatchEvent`（或者其他事件触发器调用）放在 `onclick` 结束，或者如果不方便，可以将其包装在 `setTimeout(...,0)` 中：
+=======
+If we don't like it, we can either put the `dispatchEvent` (or other event-triggering call) at the end of `onclick` or, maybe better, wrap it in zero-delay `setTimeout`:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```html run
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> 2 -> nested
   menu.onclick = function() {
     alert(1);
 
     // alert(2)
     setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
-    })), 0);
+    })));
 
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
+<<<<<<< HEAD
 ## 总结
 
 要生成一个事件，我们首先需要创建一个事件对象。
@@ -271,6 +337,19 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 泛型 `Event(name, options)` 构造器接受任意事件名，`options` 对象具有两个属性：
   - `bubbles: true` ，如果事件应该冒泡的话。
   - `cancelable: true` 则 `event.preventDefault()` 应该有效。
+=======
+Now `dispatchEvent` runs asynchronously after the current code execution is finished, including `mouse.onclick`, so event handlers are totally separate.
+
+The output order becomes: 1 -> 2 -> nested.
+
+## Summary
+
+To generate an event from code, we first need to create an event object.
+
+The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
+- `bubbles: true` if the event should bubble.
+- `cancelable: true` if the `event.preventDefault()` should work.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 

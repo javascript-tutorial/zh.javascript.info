@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 为了使搜索不区分大小写，我们将字符串改为小写，然后搜索：
+=======
+To make the search case-insensitive, let's bring the string to lower case and then search:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
-```js run
+```js run demo
 function checkSpam(str) {
   let lowerStr = str.toLowerCase();
 

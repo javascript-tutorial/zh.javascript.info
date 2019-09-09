@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 [![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -5,9 +6,15 @@
 | 微信扫码关注官方公众号 |
 |-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="500px;" /> |
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
+<<<<<<< HEAD
 <!--
 
 ## 赞助商
@@ -17,6 +24,21 @@
 -->
 
 ## 翻译
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
 
@@ -40,6 +62,7 @@
     
 **如果你愿意的话，请让其他人知道你在翻译这个教程，并尝试邀请他们参与翻译。你可以通过微博或群聊来号召。**
 
+<<<<<<< HEAD
 🎉 非常感谢！
 
 翻译版本上线后，我们会在“[关于本项目](https://zh.javascript.info/about)”页面写上你的名字和贡献。
@@ -166,3 +189,10 @@ importance: 5
 - Martin [@MartinsYong](https://github.com/MartinsYong)
 - Levi Ding [@leviding](https://github.com/leviding)
 - Ilya Kantor [@iliakan](https://github.com/iliakan)
+=======
+It's very easy to add something new.
+
+---
+♥  
+Ilya Kantor @iliakan
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
