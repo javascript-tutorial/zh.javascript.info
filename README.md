@@ -22,6 +22,19 @@
 
 -->
 
+## 目录
+
+- [翻译](#翻译)
+- [贡献指南](#贡献指南)
+- [文件结构](#文件结构)
+- [翻译提示](#翻译提示)
+  - [专有词](#专有词)
+  - [代码块中的文本](#代码块中的文本)
+  - [外部链接](#外部链接)
+  - [元数据](#元数据)
+  - [Anchors](#Anchors)
+- [在本地运行](#在本地运行)
+
 ## 翻译
 
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
@@ -30,7 +43,7 @@
 
 ## 贡献指南 
 
-**翻译流程**
+**翻译流程：**
 
 - 检查[中文翻译进度 issue (Chinese Translate Progress issue)](https://github.com/javascript-tutorial/zh.javascript.info/issues/324)。
 - 选择一篇还没有被选走（在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中被人勾选）的文章。
@@ -167,8 +180,9 @@ importance: 5
 
 ---
 
-💓
+本中文版教程的维护者们 🚀
+
+- LeviDing [@leviding](https://github.com/leviding)
 - LycheeEng [@lycheeEng](https://github.com/lycheeEng)
 - Martin [@MartinsYong](https://github.com/MartinsYong)
-- Levi Ding [@leviding](https://github.com/leviding)
-- Ilya Kantor [@iliakan](https://github.com/iliakan)
+
