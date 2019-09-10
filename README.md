@@ -1,10 +1,16 @@
 # 现代 JavaScript 教程中文版
 
 [![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/TheModernJavaScriptTutorial)
 
 | 微信扫码关注官方公众号 |
 |-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="500px;" /> |
+
+**加入读者交流群：**
+
+- **微信群**：加微信 **`imleviding`**，验证信息填写 **`JS 教程`**。
+- **QQ 群**：打开 QQ 搜索群号 **`576578767`**，验证信息填写 **`JS 教程`**。
 
 这个仓库托管了中文版的现代 JavaScript 教程。该教程发布于 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
