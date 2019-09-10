@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<script>
+let eventSource;
+
+function start() { // 当“Start”按钮被点击
+  if (!window.EventSource) {
+    // IE 或者很老的浏览器
+    alert("The browser doesn't support EventSource.");
+    return;
+  }
+
+  eventSource = new EventSource('digits');
+
+  eventSource.onopen = function(e) {
+    log("Event: open");
+  };
+
+  eventSource.onerror = function(e) {
+    log("Event: error");
+    if (this.readyState == EventSource.CONNECTING) {
+      log(`Reconnecting (readyState=${this.readyState})...`);
+    } else {
+      log("Error has occured.");
+    }
+  };
+
+  eventSource.addEventListener('bye', function(e) {
+    log("Event: bye, data: " + e.data);
+  });
+
+  eventSource.onmessage = function(e) {
+    log("Event: message, data: " + e.data);
+  };
+}
+
+function stop() { // 当“Stop”按钮被点击
+  eventSource.close();
+  log("eventSource.close()");
+}
+
+function log(msg) {
+  logElem.innerHTML += msg + "<br>";
+  document.documentElement.scrollTop = 99999999;
+}
+</script>
+
+<button onclick="start()">Start</button> Press the "Start" to begin.
+<div id="logElem" style="margin: 6px 0"></div>
+
+<button onclick="stop()">Stop</button> "Stop" to finish.
