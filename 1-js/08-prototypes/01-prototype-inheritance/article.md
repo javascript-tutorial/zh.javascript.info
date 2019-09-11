@@ -12,7 +12,7 @@
 
 ![prototype](object-prototype-empty.svg)
 
-`[[Prototype]]` 有一个“神奇”的意义。当我们想要从 `object` 中读取一个属性时，它就丢失了。JavaScript 会自动从原型中获取它。在编程中，这样的事情称为“原型继承”。许多很酷的语言特性和编程技巧都是基于它的。
+`[[Prototype]]` 有一个“神奇”的意义。当我们想要从 `object` 中读取一个属性时，它就丢失了。JavaScript 会自动从原型中获取它。在编程中，这样的事情称为“原型继承”。许多很酷的语言特性和编程技巧都是基于它的。/
 
 属性 `[[Prototype]]` 是内部的而且隐藏的，但是设置它的方法却有很多种。
 
@@ -33,7 +33,7 @@ rabbit.__proto__ = animal;
 
 请注意 `__proto__` 与 `[[Prototype]]` **不一样**。这是一个 getter/setter。我们之后会讨论如何设置它，但是现在 `__proto__` 工作的很好。
 
-如果我们在 `rabbit` 中查找一个属性，而且它缺失了，JavaScript 会自动从 `animal` 中获取它。
+如果我们在 `rabbit` 中查找一个缺失的属性，JavaScript 会自动从 `animal` 中获取它。
 
 例如：
 
