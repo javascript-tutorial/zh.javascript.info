@@ -21,7 +21,7 @@
 
     你可以在 <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference> 找到这本手册。
 
-    虽然，通常利用互联网搜索是最好的选择。只需在查询时输入“MDN [关键字]”，例如 <https://google.com/search?q=MDN+parseInt> 搜索 `parseInt` 函数。
+    虽然，利用互联网搜索通常是最好的选择。只需在查询时输入“MDN [关键字]”，例如 <https://google.com/search?q=MDN+parseInt> 搜索 `parseInt` 函数。
 
 - **MSDN** —— 一本微软的手册，它包含大量的信息，包括 JavaScript（在里面经常被写成 JScript）。如果有人需要关于 Internet Explorer 的规范细节，最好去看：<http://msdn.microsoft.com/>。
 
