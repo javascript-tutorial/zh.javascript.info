@@ -136,13 +136,13 @@ alert( `My\n`.length ); // 3
 
 注意 `\n` 是一个单独的“特殊”字符，所以长度确实是 `3`
 
-```warn header="`length` is a property"
+```warn header="`length` 是一个属性"
 掌握其他语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
 
 请注意 `str.length` 是一个数字属性，而不是函数。之后不需要添加括号。
 ```
 
-## 访问字符。
+## 访问字符
 
 在 `pos` 位置获取一个字符，可以使用方括号 `[pos]` 或者调用 [str.charAt(pos)](mdn:js/String/charAt) 方法。第一个字符从零位置开始：
 
@@ -201,7 +201,7 @@ str = 'h' + str[1];  // 字符串替换
 alert( str ); // hi
 ```
 
-下面的文章，我们将看到跟多的示例。
+下面的文章，我们将看到更多的示例。
 
 ## 改变大小写
 
