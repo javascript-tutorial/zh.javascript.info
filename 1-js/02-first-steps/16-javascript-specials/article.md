@@ -146,7 +146,7 @@ JavaScript 支持以下运算符：
 : 位运算符在位级上使用整数：当需要时，请参阅 [docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
 
 三元运算
-: 唯一具有三个参数的操作：`cond ? resultA: resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
+: 唯一具有三个参数的操作：`cond ? resultA : resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
 
 逻辑运算符
 : 逻辑与 `&&` 和或 `||` 执行短路计算，然后返回停止时的值（并不需要 `true`/`false`）。逻辑非 `!` 将操作数转换为布尔值并返回其相反的值。
@@ -170,7 +170,7 @@ JavaScript 支持以下运算符：
 逻辑运算符
 : 其他运算符比较少，如逗号运算符。
 
-更多信息：<info:operators>, <info:comparison>, <info:logical-operators>。
+更多信息：<info:operators>，<info:comparison>，<info:logical-operators>。
 
 ## 循环语句
 
