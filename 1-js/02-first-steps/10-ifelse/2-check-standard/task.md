@@ -11,4 +11,3 @@ importance: 2
 ![](ifelse_task2.svg)
 
 [demo src="ifelse_task2"]
-

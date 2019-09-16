@@ -1,7 +1,11 @@
 
 # 事件委托
 
+<<<<<<< HEAD
 捕获和冒泡允许实现一种称为**事件委托**的强大的事件处理模式。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 我们的想法是，如果我们有许多元素是以类似的方式处理的，那么我们就不需要给每个元素分配一个处理器 —— 而是在它们共同的祖先上面添加一个处理器。
 
@@ -105,6 +109,7 @@ table.onclick = function(event) {
 3. 在嵌套表的情况下，`event.target` 可能是位于当前表格之外的 `<td>`。因此我们需要检查这是否是**我们的表格**的 `<td>`。
 4. 如果是的话，就高亮显示它。
 
+<<<<<<< HEAD
 ## 委托示例：标记中的操作
 
 事件委托可优化事件处理。我们使用单个处理器来对许多元素进行相似的操作。就像我们用于高亮显示 `<td>` 一样。
@@ -112,6 +117,15 @@ table.onclick = function(event) {
 但我们仍然可以使用单个处理器作为许多不同事件的入口点。
 
 例如，我们想要制作一个有“保存”、“加载”和“搜索”等功能的菜单。有一个拥有 `save`、`load` 和 `search` 等方法的对象。
+=======
+As the result, we have a fast, efficient highlighting code, that doesn't care about the total number of `<td>` in the table.
+
+## Delegation example: actions in markup
+
+There are other uses for event delegation.
+
+Let's say, we want to make a menu with buttons "Save", "Load", "Search" and so on. And there's an object with methods `save`, `load`, `search`... How to match them?
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 第一个想法可能是为每个按钮分配一个单独的处理器。但有一个更优雅的解决方案。我们可以为整个菜单添加一个处理器，并为有方法调用的按钮添加 `data-action` 属性：
 
@@ -161,7 +175,11 @@ table.onclick = function(event) {
 </script>
 ```
 
+<<<<<<< HEAD
 请注意，`this.onClick` 在 `(*)` 中绑定到了 `this`。这很重要，否则内部 `this` 将引用 DOM 元素（`elem`），而不是菜单对象，`this[action]` 不是我们所需要的。
+=======
+Please note that `this.onClick` is bound to `this` in `(*)`. That's important, because otherwise `this` inside it would reference the DOM element (`elem`), not the `Menu` object, and `this[action]` would not be what we need.
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 那么，这里的委托给我们带来了什么？
 
@@ -176,6 +194,7 @@ table.onclick = function(event) {
 
 我们还可以使用事件委托**声明式**地通过特定属性和类为元素添加“行为”。
 
+<<<<<<< HEAD
 模式分为两步：
 1. 我们向元素添加一个特殊属性。
 2. 用文档范围级的处理器追踪事件，如果事件发生在具有特定属性的元素上 —— 则执行该操作。
@@ -183,6 +202,15 @@ table.onclick = function(event) {
 ### 计数
 
 例如，这里的 `data-counter` 属性给按钮添加了一个“点击增加”的行为。
+=======
+The pattern has two parts:
+1. We add a custom attribute to an element that describes its behavior.
+2. A document-wide handler tracks events, and if an event happens on an attributed element -- performs the action.
+
+### Behavior: Counter
+
+For instance, here the attribute `data-counter` adds a behavior: "increase value on click" to buttons:
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>
@@ -203,15 +231,26 @@ One more counter: <input type="button" value="2" data-counter>
 
 我们可以有很多像 `data-counter` 一样的属性。我们可以在任何时候向 HTML 添加新的属性。使用事件委托，我们可以“扩展” HTML，添加一个描述新行为的属性。
 
+<<<<<<< HEAD
 ```warn header="对于文档级的处理器 —— 始终是 `addEventListener`"
 当我们将事件处理器分配给 `document` 对象，我们应该始终使用 `addEventListener`，而不是 `document.onclick`，因为后者会导致冲突：新的处理器会重写旧的。
+=======
+```warn header="For document-level handlers -- always `addEventListener`"
+When we assign an event handler to the `document` object, we should always use `addEventListener`, not `document.on<event>`, because the latter will cause conflicts: new handlers overwrite old ones.
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 对于实际项目来说。代码的不同部分设置的 `document` 上有许多处理器是正常的。
 ```
 
+<<<<<<< HEAD
 ### 切换器
 
 再举一个例子，单击一个具有 `data-toggle-id` 属性的元素将显示/隐藏具有给定 `id` 的元素：
+=======
+### Behavior: Toggler
+
+One more example of behavior. A click on an element with the attribute `data-toggle-id` will show/hide the element with the given `id`:
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 ```html autorun run height=60
 <button *!*data-toggle-id="subscribe-mail"*/!*>

@@ -4,7 +4,11 @@ importance: 5
 
 # 在元素中捕获链接
 
+<<<<<<< HEAD
 在所有包含 `id="contents"` 属性元素的链接（在触发单击事件时）询问用户是否真的想离开当前页面。 
+=======
+Make all links inside the element with `id="contents"` ask the user if they really want to leave. And if they don't then don't follow.
+>>>>>>> 646989dd470395510e1006c220e05e85a06eb78a
 
 就像这样：
 
