@@ -2,7 +2,11 @@
 
 如果一个函数返回一个对象，那么 `new` 返回那个对象而不是 `this`。
 
+<<<<<<< HEAD
 所以他们可以，例如，返回相同的外部定义的对象 `obj`：
+=======
+So they can, for instance, return the same externally defined object `obj`:
+>>>>>>> 4d654318ccb6d37d6cefc9b859cf111ff3c96b27
 
 ```js run no-beautify
 let obj = {};
