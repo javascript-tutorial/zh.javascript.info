@@ -307,7 +307,7 @@ alert( *!*key*/!* in user ); // true，获取键的名字和检查这个键的�
 ````smart header="Using \"in\" 属性中存储 `undefined`"
 通常，严格比较 `"=== undefined"` 就够用，但是也有一些特殊情况，`"in"` 就可以胜任。
 
-当一个对象的属性存在，但是该该属性存储的值是 `undefined`：
+当一个对象的属性存在，但是该属性存储的值是 `undefined`：
 
 ```js run
 let obj = {
@@ -398,7 +398,7 @@ for(let code in codes) {
 所以，"49" 是一个整数属性名，因为我们把它转换成整数，再转换回来，它还是一样。但是 "+49" 和 "1.2" 就不行了：
 
 ```js run
-// Math.trunc 是内置的去除小数部分的方法。
+// Math.trunc 是内置的去除小数部分方法。
 alert( String(Math.trunc(Number("49"))) ); // "49"，同样，整数属性
 alert( String(Math.trunc(Number("+49"))) ); // "49"，不同于 "+49" ⇒ 不是整数属性
 alert( String(Math.trunc(Number("1.2"))) ); // "1"，不同于 "1.2" ⇒ 不是整数属性
@@ -455,7 +455,7 @@ let message = "Hello!";
 let phrase = message;
 ```
 
-结果是我们得到了两个不同的变量，每个变量存的都是 `"Hello!"`。
+结果是我们得到两个不同的变量，每个变量存储的都是 `"Hello!"`。
 
 ![](variable-copy-value.svg)
 
@@ -477,7 +477,7 @@ let user = {
 
 **当对象变量被复制的时候 -- 引用被复制了一份, 对象并没有被复制。**
 
-如果我们想象对象是一个抽屉，那么变量是一把钥匙，拷贝对象复制了钥匙，但是并没有复制抽屉本身。
+如果我们想象对象是一个抽屉，那么变量就是一把钥匙，拷贝对象复制了钥匙，但是并没有复制抽屉本身。
 
 例如：
 
@@ -609,7 +609,7 @@ alert( user.name ); // 原对象属性值不变
 语法是：
 
 ```js
-Object.assign(dest,[ src1, src2, src3...])
+Object.assign(dest, [src1, src2, src3...])
 ```
 
 - 参数 `dest` 和 `src1, ..., srcN`（可以有很多个）是对象。
