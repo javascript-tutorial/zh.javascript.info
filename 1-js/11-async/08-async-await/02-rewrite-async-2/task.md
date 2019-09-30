@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD:1-js/11-async/08-async-await/02-rewrite-async-2/task.md
 # 用 async/await 来重写「rethrow」
+=======
+# Rewrite "rethrow" with async/await
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea:1-js/11-async/08-async-await/02-rewrite-async-2/task.md
 
 下面你可以看到 <info:promise-chaining> 章节中的「rethrow」例子。让我们来用 `async/await` 来替换 `.then/catch`。
 

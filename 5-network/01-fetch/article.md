@@ -1,6 +1,7 @@
 
 # Fetch
 
+<<<<<<< HEAD
 当需要加载新信息时，JavaScript 可以向服务器发送网络请求。
 
 例如，我们可以：
@@ -19,11 +20,32 @@
 `fetch()` 方法是一种现代通用方法，那么我们就从它开始吧。它已经发展了几年了并在不断改进，现在它已经得到很多浏览器的支持了。
 
 基本语法：
+=======
+JavaScript can send network requests to the server and load new information whenever is needed.
+
+For example, we can use a network request to:
+
+- Submit an order,
+- Load user information,
+- Receive latest updates from the server,
+- ...etc.
+
+...And all of that without reloading the page!
+
+There's an umbrella term "AJAX" (abbreviated <b>A</b>synchronous <b>J</b>avaScript <b>A</b>nd <b>X</b>ML) for network requests from JavaScript. We don't have to use XML though: the term comes from old times, that's why that word is there. You may have heard that term already.
+
+There are multiple ways to send a network request and get information from the server.
+
+The `fetch()` method is modern and versatile, so we'll start with it. It's not supported by old browsers (can be polyfilled), but very well supported among the modern ones.
+
+The basic syntax is:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js
 let promise = fetch(url, [options])
 ```
 
+<<<<<<< HEAD
 - **`url`** —— 要访问的 URL。
 - **`options`** —— 可选参数：method，headers 等。
 
@@ -43,18 +65,47 @@ let promise = fetch(url, [options])
 - **`status`** —— HTTP 状态码。
 
 例如：
+=======
+- **`url`** -- the URL to access.
+- **`options`** -- optional parameters: method, headers etc.
+
+Without `options`, that is a simple GET request, downloading the contents of the `url`.
+
+The browser starts the request right away and returns a promise that the calling code should use to get the result.
+
+Getting a response is usually a two-stage process.
+
+**First, the `promise`, returned by `fetch`, resolves with an object of the built-in [Response](https://fetch.spec.whatwg.org/#response-class) class as soon as the server responds with headers.**
+
+At this stage we can check HTTP status, to see whether it is successful or not, check headers, but don't have the body yet.
+
+The promise rejects if the `fetch` was unable to make HTTP-request, e.g. network problems, or there's no such site. Abnormal HTTP-statuses, such as 404 or 500 do not cause an error.
+
+We can see HTTP-status in response properties:
+
+- **`status`** -- HTTP status code, e.g. 200.
+- **`ok`** -- boolean, `true` if the HTTP status code is 200-299.
+
+For example:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js
 let response = await fetch(url);
 
+<<<<<<< HEAD
 if (response.ok) { // 如果 HTTP 状态码在 200-299 之间
   // 获取响应体（如下所示）
+=======
+if (response.ok) { // if HTTP-status is 200-299
+  // get the response body (the method explained below)
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
   let json = await response.json();
 } else {
   alert("HTTP-Error: " + response.status);
 }
 ```
 
+<<<<<<< HEAD
 **第二阶段，为了获取响应体，我们需要调用其他方法。**
 
 `Response` 提供了多种基于 promise 的方法来获取不同格式的响应正文：
@@ -73,12 +124,37 @@ let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.
 
 *!*
 let commits = await response.json(); // 获取 response body 并解析为 JSON
+=======
+**Second, to get the response body, we need to use an additional method call.**
+
+`Response` provides multiple promise-based methods to access the body in various formats:
+
+- **`response.text()`** -- read the response and return as text,
+- **`response.json()`** -- parse the response as JSON,
+- **`response.formData()`** -- return the response as `FormData` object (explained in the [next chapter](info:formdata)),
+- **`response.blob()`** -- return the response as [Blob](info:blob) (binary data with type),
+- **`response.arrayBuffer()`** -- return the response as [ArrayBuffer](info:arraybuffer-binary-arrays) (low-level representaion of binary data),
+- additionally, `response.body` is a [ReadableStream](https://streams.spec.whatwg.org/#rs-class) object, it allows to read the body chunk-by-chunk, we'll see an example later.
+
+For instance, let's get a JSON-object with latest commits from GitHub:
+
+```js run async
+let url = 'https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits';
+let response = await fetch(url);
+
+*!*
+let commits = await response.json(); // read response body and parse as JSON
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 */!*
 
 alert(commits[0].author.login);
 ```
 
+<<<<<<< HEAD
 也可以使用纯 promise 语法，不使用 `await`：
+=======
+Or, the same without `await`, using pure promises syntax:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run
 fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
@@ -86,39 +162,67 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
   .then(commits => alert(commits[0].author.login));
 ```
 
+<<<<<<< HEAD
 要获取文本，可以使用 `await response.text()` 代替 `.json()`：
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
 let text = await response.text(); // 以 text 形式读取响应体
+=======
+To get the reponse text, `await response.text()` instead of `.json()`:
+
+```js run async
+let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
+
+let text = await response.text(); // read response body as text
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 alert(text.slice(0, 80) + '...');
 ```
 
+<<<<<<< HEAD
 我们以 fetch 并显示一张图像为例来了解一下读取二进制文件的情况（参见 [Blob](info:blob) 章节以了解更多关于 blob 的操作）：
+=======
+As a show-case for reading in binary format, let's fetch and show a logo image of ["fetch" specification](https://fetch.spec.whatwg.org) (see chapter [Blob](info:blob) for details about operations on `Blob`):
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js async run
 let response = await fetch('/article/fetch/logo-fetch.svg');
 
 *!*
+<<<<<<< HEAD
 let blob = await response.blob(); // 以 Blob 对象下载
 */!*
 
 // 创建 <img> 元素
+=======
+let blob = await response.blob(); // download as Blob object
+*/!*
+
+// create <img> for it
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 let img = document.createElement('img');
 img.style = 'position:fixed;top:10px;left:10px;width:100px';
 document.body.append(img);
 
+<<<<<<< HEAD
 // 显示图片
 img.src = URL.createObjectURL(blob);
 
 setTimeout(() => { // 3 秒后隐藏
+=======
+// show it
+img.src = URL.createObjectURL(blob);
+
+setTimeout(() => { // hide after three seconds
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
   img.remove();
   URL.revokeObjectURL(img.src);
 }, 3000);
 ```
 
 ````warn
+<<<<<<< HEAD
 我们只能选择其中一种解析响应体的方式。
 
 如果我们以 `response.text()` 方法来获取 response，那么如果我们再用 `response.json()` 方法的话，那么这个方法是不会生效的，因为正文内容已经被处理过了。
@@ -133,30 +237,67 @@ let parsed = await response.json(); // 错误（已被处理）
 `response.headers` 中有一个类似于 Map 的 headers 对象。
 
 我们可以获取单个的 headers 或者迭代它们：
+=======
+We can choose only one body-reading method.
+
+If we've already got the response with `response.text()`, then `response.json()` won't work, as the body content has already been processed.
+
+```js
+let text = await response.text(); // response body consumed
+let parsed = await response.json(); // fails (already consumed)
+````
+
+## Response headers
+
+The response headers are available in a Map-like headers object in `response.headers`.
+
+It's not exactly a Map, but it has similar methods to get individual headers by name or iterate over them:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
+<<<<<<< HEAD
 // 获取其中一个 header
 alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
 
 // 迭代所有 headers
+=======
+// get one header
+alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
+
+// iterate over all headers
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 for (let [key, value] of response.headers) {
   alert(`${key} = ${value}`);
 }
 ```
 
+<<<<<<< HEAD
 我们可以使用 `headers` 选项来设置 header，就像这样：
+=======
+## Request headers
+
+To set a request header in `fetch`, we can use the `headers` option. It has an object with outgoing headers, like this:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js
 let response = fetch(protectedUrl, {
   headers: {
+<<<<<<< HEAD
     Authentication: 'abcdef'
+=======
+    Authentication: 'secret'
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
   }
 });
 ```
 
+<<<<<<< HEAD
 但是有一些 headers 我们无法去设置它（详细列表参见 [forbidden HTTP headers](https://fetch.spec.whatwg.org/#forbidden-header-name)）：
+=======
+...But there's a list of [forbidden HTTP headers](https://fetch.spec.whatwg.org/#forbidden-header-name) that we can't set:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 - `Accept-Charset`, `Accept-Encoding`
 - `Access-Control-Request-Headers`
@@ -179,6 +320,7 @@ let response = fetch(protectedUrl, {
 - `Proxy-*`
 - `Sec-*`
 
+<<<<<<< HEAD
 这些 headers 保证了 HTTP 的正确性和安全性，所以它们仅由浏览器控制。
 
 ## POST 请求
@@ -193,6 +335,24 @@ let response = fetch(protectedUrl, {
   - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 编码形式发送数据，很少使用。
 
 例如，下面这段代码以 JSON 形式发送 `user` 对象：
+=======
+These headers ensure proper and safe HTTP, so they are controlled exclusively by the browser.
+
+## POST requests
+
+To make a `POST` request, or a request with another method, we need to use `fetch` options:
+
+- **`method`** -- HTTP-method, e.g. `POST`,
+- **`body`** -- the request body, one of:
+  - a string (e.g. JSON-encoded),
+  - `FormData` object, to submit the data as `form/multipart`,
+  - `Blob`/`BufferSource` to send binary data,
+  - [URLSearchParams](info:url), to submit the data in `x-www-form-urlencoded` encoding, rarely used.
+
+The JSON format is used most of the time.
+
+For example, this code submits `user` object as JSON:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run async
 let user = {
@@ -214,6 +374,7 @@ let result = await response.json();
 alert(result.message);
 ```
 
+<<<<<<< HEAD
 请注意，如果 body 是字符串，`Content-Type` 默认会设置为 `text/plain;charset=UTF-8`。所以我们使用 `headers` 值为 `application/json` 来代替默认值，这是 JSON 编码的数据的正确格式。
 
 ## 发送图片
@@ -221,6 +382,17 @@ alert(result.message);
 我们同样可以用 `Blob` 或者 `BufferSource` 来发送二进制数据。
 
 例如，这里有个我们可以通过移动鼠标来绘制图像的 `<canvas>` 元素。“submit” 按钮可以用来向服务器发送绘制的图片：
+=======
+Please note, if the request `body` is a string, then `Content-Type` header is set to `text/plain;charset=UTF-8` by default.
+
+But, as we're going to send JSON, we use `headers` option to send `application/json` instead, the correct `Content-Type` for JSON-encoded data.
+
+## Sending an image
+
+We can also submit binary data with `fetch` using `Blob` or `BufferSource` objects.
+
+In this example, there's a `<canvas>` where we can draw by moving a mouse over it. A click on the "submit" button sends the image to server:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```html run autorun height="90"
 <body style="margin:0">
@@ -241,6 +413,11 @@ alert(result.message);
         method: 'POST',
         body: blob
       });
+<<<<<<< HEAD
+=======
+
+      // the server responds with confirmation and the image size
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
       let result = await response.json();
       alert(result.message);
     }
@@ -249,9 +426,15 @@ alert(result.message);
 </body>
 ```
 
+<<<<<<< HEAD
 同样，我们也不需要手动设置 `Content-Type`，因为 `Blob` 对象有一个内置的类型（这里是 `image/png`，通过 `toBlob` 自动生成的）。
 
 `submit()` 函数可以不使用 `async/await`，改写后如下：
+=======
+Please note, here we don't set `Content-Type` header manually, because a `Blob` object has a built-in type (here `image/png`, as generated by `toBlob`). For `Blob` objects that type becomes the value of `Content-Type`.
+
+The `submit()` function can be rewritten without `async/await` like this:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js
 function submit() {
@@ -266,6 +449,7 @@ function submit() {
 }
 ```
 
+<<<<<<< HEAD
 ## 总结
 
 典型的 fetch 请求包含两个 `await`：
@@ -300,3 +484,40 @@ fetch(url, options)
 - `body` —— 以 `string`，`FormData`，`BufferSource`，`Blob` 或者 `UrlSearchParams` 对象发送数据。
 
 在下一章中，我们将会看到更多关于 `fetch` 的选项以及使用场景。
+=======
+## Summary
+
+A typical fetch request consists of two `await` calls:
+
+```js
+let response = await fetch(url, options); // resolves with response headers
+let result = await response.json(); // read body as json
+```
+
+Or, without `await`:
+
+```js
+fetch(url, options)
+  .then(response => response.json())
+  .then(result => /* process result */)
+```
+
+Response properties:
+- `response.status` -- HTTP code of the response,
+- `response.ok` -- `true` is the status is 200-299.
+- `response.headers` -- Map-like object with HTTP headers.
+
+Methods to get response body:
+- **`response.text()`** -- return the response as text,
+- **`response.json()`** -- parse the response as JSON object,
+- **`response.formData()`** -- return the response as `FormData` object (form/multipart encoding, see the next chapter),
+- **`response.blob()`** -- return the response as [Blob](info:blob) (binary data with type),
+- **`response.arrayBuffer()`** -- return the response as [ArrayBuffer](info:arraybuffer-binary-arrays) (low-level binary data),
+
+Fetch options so far:
+- `method` -- HTTP-method,
+- `headers` -- an object with request headers (not any header is allowed),
+- `body` -- the data to send (request body) as `string`, `FormData`, `BufferSource`, `Blob` or `UrlSearchParams` object.
+
+In the next chapters we'll see more options and use cases of `fetch`.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea

@@ -2,7 +2,7 @@
 - 对于每个元素，我们将检查结果数组是否已经有该元素。
 - 如果有，则忽略，否则添加结果。
 
-```js run
+```js run demo
 function unique(arr) {
   let result = [];
 
@@ -36,4 +36,8 @@ alert( unique(strings) ); // Hare, Krishna, :-O
 
 所以该解决方案仅适用于小型数组。
 
+<<<<<<< HEAD
 进一步，在 <info:map-set-weakmap-weakset> 我们将看到如何优化它。
+=======
+Further in the chapter <info:map-set> we'll see how to optimize it.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea

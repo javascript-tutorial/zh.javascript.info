@@ -6,6 +6,7 @@ importance: 4
 
 这是带有表格和表单的文档。
 
+<<<<<<< HEAD
 如何查找？
 
 1. `id="age-table"` 的表格。
@@ -14,5 +15,15 @@ importance: 4
 4. `form` 的一个字段是 `search`。
 5. 第一个 `input` 在表单中。
 6. 最后一个 `input` 在表单中。
+=======
+How to find?...
+
+1. The table with `id="age-table"`.
+2. All `label` elements inside that table (there should be 3 of them).
+3. The first `td` in that table (with the word "Age").
+4. The `form` with `name="search"`.
+5. The first `input` in that form.
+6. The last `input` in that form.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 新开一个独立的窗口，打开页面 [table.html](table.html)，然后再此页面上使用开发者工具。
