@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 [![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -6,9 +7,15 @@
 | 微信扫码关注官方公众号，订阅更多精彩内容 |
 |-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="500px;" /> |
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 **加入读者交流群：**
 
+<<<<<<< HEAD
 - **微信群**：加微信 **`imleviding`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64596211-0fa63380-d3e6-11e9-983d-bd788ffe2370.jpg)，验证信息填写 **`JS 教程`**。
 - **QQ 群**：打开 QQ 搜索群号 **`576578767`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64609229-12f9e900-d3ff-11e9-96e8-147335f5e264.jpg)，验证信息填写 **`JS 教程`**。
 
@@ -18,6 +25,21 @@
 <!--
 
 ## 赞助商
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
 
@@ -40,6 +62,7 @@
 - [在本地运行](#在本地运行)
 
 
+<<<<<<< HEAD
 ## 翻译
 
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
@@ -235,3 +258,10 @@ importance: 5
 - LeviDing [@leviding](https://github.com/leviding)
 - LycheeEng [@lycheeEng](https://github.com/lycheeEng)
 - Martin [@MartinsYong](https://github.com/MartinsYong)
+=======
+It's very easy to add something new.
+
+---
+♥  
+Ilya Kantor @iliakan
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
