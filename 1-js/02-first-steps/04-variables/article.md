@@ -224,7 +224,7 @@ alert(num); // 5
 "use strict";
 
 *!*
-num = 5; // 错误：num 为定义
+num = 5; // 错误：num 未定义
 */!*
 ```
 ````
@@ -262,7 +262,7 @@ const COLOR_GREEN = "#0F0";
 const COLOR_BLUE = "#00F";
 const COLOR_ORANGE = "#FF7F00";
 
-// ...当我们需要选择一个颜色
+// ……当我们需要选择一个颜色
 let color = COLOR_ORANGE;
 alert(color); // #FF7F00
 ```
