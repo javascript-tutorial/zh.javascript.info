@@ -51,7 +51,7 @@ john = null; // 覆盖引用
 
 ## WeakMap
 
-和 `Map` 的第一个不同点就是 `WeakMap` 的键必须是对象，不能试原始值：
+和 `Map` 的第一个不同点就是 `WeakMap` 的键必须是对象，不能是原始值：
 
 ```js run
 let weakMap = new WeakMap();
