@@ -2,9 +2,15 @@
 
 我们深入研究下箭头函数
 
+<<<<<<< HEAD
 箭头功能不仅仅是用来简写的快速方法。
 
 JavaScript 充满了需要编写一个小函数其他地方执行的情况。
+=======
+Arrow functions are not just a "shorthand" for writing small stuff. They have some very specific and useful features.
+
+JavaScript is full of situations where we need to write a small function that's executed somewhere else.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 例如：
 
@@ -14,7 +20,11 @@ JavaScript 充满了需要编写一个小函数其他地方执行的情况。
 
 JavaScript 的精髓在于创建一个函数并将其传递到某个地方。
 
+<<<<<<< HEAD
 在这种函数依赖当前上下文。
+=======
+And in such functions we usually don't want to leave the current context. That's where arrow functions come in handy.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 ## 箭头功能没有 "this"
 

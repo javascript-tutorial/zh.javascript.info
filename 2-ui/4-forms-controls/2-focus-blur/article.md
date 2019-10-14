@@ -2,13 +2,21 @@
 
 当一个元素被用户点击或使用键盘上的 `key:Tab` 选中时，该元素会被聚焦。当网页加载时 HTML `autofocus` 属性也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获取焦点。
 
+<<<<<<< HEAD
 聚焦通常表示：“这里准备好接受数据了”，而这也正是我们运行代码去初始化或加载一些东西的时候。
+=======
+Focusing on an element generally means: "prepare to accept the data here", so that's the moment when we can run the code to initialize the required functionality.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 失去焦点的时刻可能更为重要。它可能发生在用户点击网页其它地方或者点击 `key:Tab` 跳转到下一个表单域，亦或是其它途径的时候。
 
 失去焦点通常表示：“数据已经完成输入了”，所以我们可以运行代码来检查它，甚至可以是保存到服务器上。
 
+<<<<<<< HEAD
 当操作聚焦事件的时候有一些重要的特性需要注意。我们会尽量在这里介绍。
+=======
+There are important peculiarities when working with focus events. We'll do the best to cover them further on.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 ## focus/blur 事件
 
@@ -49,7 +57,11 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
+<<<<<<< HEAD
 在现代的 HTML 中，可以使用 `required`、`pattern` 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
+=======
+Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value to the server if it's correct.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 
 ## focus/blur 方法
@@ -100,28 +112,56 @@ Your email please: <input type="email" id="input">
 
 有时候这些特性导致发生的 `focus/blur` 事件处理器会让人苦恼 — 它们在不被需要的时候发生。
 
+<<<<<<< HEAD
 最好的秘诀就是当使用这些事件的时候小心点。如果我们想要追踪用户发起的去焦事件，那么我们自己应该避免去触发它们。
+=======
+The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should avoid causing it ourselves.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 ```
 ## 允许在任何元素上聚焦：tabindex
 
 默认情况下，很多元素不支持获取焦点。
 
+<<<<<<< HEAD
 list 标签在不同的浏览器表现不同，但有一件事总是正确的：`focus/blur` 保证支持那些用户可以交互的元素：比如 `<button>`、`<input>`、`<select>` 和 `<a>` 等等。
 
 从另一方面说，为了格式化某些东西而存在的元素像 `<div>`、`<span>` 和 `<table>` — 默认是不能被聚焦的。`elem.focus()` 方法不能作用于它们，而且 `focus/blur` 事件也绝不会被触发。
+=======
+The list varies a bit between browsers, but one thing is always correct: `focus/blur` support is guaranteed for elements that a visitor can interact with: `<button>`, `<input>`, `<select>`, `<a>` and so on.
+
+From the other hand, elements that exist to format something, such as `<div>`, `<span>`, `<table>` -- are unfocusable by default. The method `elem.focus()` doesn't work on them, and `focus/blur` events are never triggered.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 使用 HTML 属性 `tabindex` 可以改变这种默认情况。
 
+<<<<<<< HEAD
 这个属性的目的是当使用 `key:Tab` 在元素之间切换的时候指定它们的排列顺序。
 
 也就是说：如果我们有两个元素，第一个有属性 `tabindex="1"`，第二个有 `tabindex="2"`，然后当焦点在第一个元素的时候，按下 `key:Tab` 键，会让焦点移动到第二个元素身上。
+=======
+Any element becomes focusable if it has `tabindex`. The value of the attribute is the order number of the element when `key:Tab` (or something like that) is used to switch between them.
+
+That is: if we have two elements, the first has `tabindex="1"`, and the second has `tabindex="2"`, then pressing `key:Tab` while in the first element -- moves the focus into the second one.
+
+The switch order is: elements with `tabindex` from `1` and above go first (in the `tabindex` order), and then elements without `tabindex` (e.g. a regular `<input>`).
+
+Elements with matching `tabindex` are switched in the document source order (the default order).
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 这里有两个特别的值：
 
+<<<<<<< HEAD
 - `tabindex="0"` 让元素成为最后一个。
 - `tabindex="-1"` 意味着 `key:Tab` 应该忽略这个元素。
 
 **任何元素如果有属性 `tabindex`，它将会支持聚焦。**
+=======
+- `tabindex="0"` puts an element among those without `tabindex`. That is, when we switch elements, elements with `tabindex=0` go after elements with `tabindex ≥ 1`.
+
+    Usually it's used to make an element focusable, but keep the default switching order. To make an element a part of the form on par with `<input>`.
+
+- `tabindex="-1"` allows only programmatic focusing on an element. The `key:Tab` key ignores such elements, but method `elem.focus()` works.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 举个例子，这里有个列表。点击第一个项目然后按下 `key:Tab`：
 
@@ -140,10 +180,17 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 </style>
 ```
 
+<<<<<<< HEAD
 顺序就像这样：`1 - 2 - 0`（0 总是最后一个）。正常情况下，`<li>` 元素不支持被聚焦，但 `tabindex` 使这成为可能，顺带还会触发事件和使 `:focus` 样式生效。
 
 ```smart header="`elem.tabIndex` 也一样有效"
 我们可以通过 JavaScript 使用 `elem.tabIndex` 来添加 `tabindex` 属性。效果是一样的。
+=======
+The order is like this: `1 - 2 - 0`. Normally, `<li>` does not support focusing, but `tabindex` full enables it, along with events and styling with `:focus`.
+
+```smart header="The property `elem.tabIndex` works too"
+We can add `tabindex` from JavaScript by using the `elem.tabIndex` property. That has the same effect.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 ```
 
 ## focus/blur 委托
@@ -203,7 +250,6 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
   form.addEventListener("focusin", () => form.classList.add('focused'));
   form.addEventListener("focusout", () => form.classList.remove('focused'));
 */!*

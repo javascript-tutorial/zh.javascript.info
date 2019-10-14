@@ -4,6 +4,7 @@
 
 大多数 JavaScript 方法处理的是以下两种坐标系中的一个：
 
+<<<<<<< HEAD
 1. 相对于窗口（或者另一个 viewport）顶部/左侧计算的坐标
 2. 相对于文档顶部/左侧计算的坐标
 
@@ -21,26 +22,67 @@
 - `bottom` — 元素底部边缘的 Y 坐标
 
 如下所示：
+=======
+1. **Relative to the window** - similar to `position:fixed`, calculated from the window top/left edge.
+    - we'll denote these coordinates as `clientX/clientY`, the reasoning for such name will become clear later, when we study event properties.
+2. **Relative to the document** - similar to `position:absolute` in the document root, calculated from the document top/left edge.
+    - we'll denote them `pageX/pageY`.
 
-![](coords.png)
+When the page is scrolled to the very beginning, so that the top/left corner of the window is exactly the document top/left corner, these coordinates equal each other. But after the document shifts, window-relative coordinates of elements change, as elements move across the window, while document-relative coordinates remain the same.
 
+On this picture we take a point in the document and demonstrate its coordinates before the scroll (left) and after it (right):
 
+![](document-and-window-coordinates-scrolled.svg)
+
+When the document scrolled:
+- `pageY` - document-relative coordinate stayed the same, it's counted from the document top (now scrolled out).
+- `clientY` - window-relative coordinate did change (the arrow became shorter), as the same point became closer to window top.
+
+## Element coordinates: getBoundingClientRect
+
+The method `elem.getBoundingClientRect()` returns window coordinates for a minimal rectangle that encloses `elem` as an object of built-in [DOMRect](https://www.w3.org/TR/geometry-1/#domrect) class.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
+
+Main `DOMRect` properties:
+
+- `x/y` -- X/Y-coordinates of the rectangle origin relative to window,
+- `width/height` -- width/height of the rectangle (can be negative).
+
+<<<<<<< HEAD
 窗口坐标并不会考虑到文档滚动，它们就是基于窗口的左上角计算出来的。
 
 换句话说，当我们滚动这个页面，这个元素就会上升或者下降，**它的窗口坐标改变了**。这很重要。
 
 ```online
 点击按钮可以查看它的窗口坐标：
+=======
+Additionally, there are derived properties:
 
-<input id="brTest" type="button" value="Show button.getBoundingClientRect() for this button" onclick='showRect(this)'/>
+- `top/bottom` -- Y-coordinate for the top/bottom rectangle edge,
+- `left/right` -- X-coordinate for the left/right rectangle edge.
+
+```online
+For instance click this button to see its window coordinates:
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
+
+<p><input id="brTest" type="button" value="Get coordinates using button.getBoundingClientRect() for this button" onclick='showRect(this)'/></p>
 
 <script>
 function showRect(elem) {
   let r = elem.getBoundingClientRect();
-  alert("{top:"+r.top+", left:"+r.left+", right:"+r.right+", bottom:"+ r.bottom + "}");
+  alert(`x:${r.x}
+y:${r.y}
+width:${r.width}
+height:${r.height}
+top:${r.top}
+bottom:${r.bottom}
+left:${r.left}
+right:${r.right}
+`);
 }
 </script>
 
+<<<<<<< HEAD
 如果你滚动这个页面，这个按钮的位置就会改变，同时窗口坐标也会改变。
 ```
 
@@ -57,6 +99,55 @@ function showRect(elem) {
 但是在 CSS 中 `right` 属性表示的是到右边界的距离，而且 `bottom` 是到底部边界的距离。
 
 如果我们只看下面的图片，我们可以看到在 JavaScript 中并非如此。所有窗口坐标都是从左上角开始计算的，包括这些坐标。
+=======
+If you scroll the page and repeat, you'll notice that as window-relative button position changes, its window coordinates (`y/top/bottom` if you scroll vertically) change as well.
+```
+
+Here's the picture of `elem.getBoundingClientRect()` output:
+
+![](coordinates.svg)
+
+As you can see, `x/y` and `width/height` fully describe the rectangle. Derived properties can be easily calculated from them:
+
+- `left = x`
+- `top = y`
+- `right = x + width`
+- `bottom = y + height`
+
+Please note:
+
+- Coordinates may be decimal fractions, such as `10.5`. That's normal, internally browser uses fractions in calculations. We don't have to round them when setting to `style.left/top`.
+- Coordinates may be negative. For instance, if the page is scrolled so that `elem` is now above the window, then `elem.getBoundingClientRect().top` is negative.
+
+```smart header="Why derived properties are needed? Why does `top/left` exist if there's `x/y`?"
+Mathematically, a rectangle is uniquely defined with its starting point `(x,y)` and the direction vector `(width,height)`. So the additional derived properties are for convenience.
+
+Technically it's possible for `width/height` to be negative, that allows for  "directed" rectangle, e.g. to represent mouse selection with properly marked start and end.
+
+Here's a rectangle with negative `width` and `height` (e.g. `width=-200`, `height=-100`):
+
+![](coordinates-negative.svg)
+
+The rectangle starts at its bottom-right corner and then spans left/up, as negative `width/height` lead it backwards by coordinates.
+
+As you can see, `left/top` are not `x/y` here. So these are actually not duplicates. Their formula can be adjusted to cover negative `width/height`, that's simple enough, but rarely needed, as the result of `elem.getBoundingClientRect()` always has positive width/height.
+
+Here we mention negative `width/height` only for you to understand why these seemingly duplicate properties are not actually duplicates.
+```
+
+```warn header="Internet Explorer and Edge: no support for `x/y`"
+Internet Explorer and Edge don't support `x/y` properties for historical reasons.
+
+So we can either make a polywill (add getters in `DomRect.prototype`) or just use `top/left`, as they are always the same as `x/y` for positive `width/height`, in particular in the result of `elem.getBoundingClientRect()`.
+```
+
+```warn header="Coordinates right/bottom are different from CSS position properties"
+There are obvious similarities between window-relative coordinates and CSS `position:fixed`.
+
+But in CSS positioning, `right` property means the distance from the right edge, and `bottom` property means the distance from the bottom edge.
+
+If we just look at the picture above, we can see that in JavaScript it is not so. All window coordinates are counted from the top-left corner, including these ones.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 ```
 
 ## elementFromPoint(x, y) [#elementFromPoint]
@@ -88,9 +179,13 @@ alert(elem.tagName);
 
 如果其中任何坐标是负数或者超过了窗口的宽/高，那么该函数就返回 `null`。
 
+<<<<<<< HEAD
 在大多数情况下，这种行为并不是一个问题，但是我们应该记住这一点。
 
 这里就是一个典型的错误，如果我们不检查，它就可能会发生。
+=======
+Here's a typical error that may occur if we don't check for it:
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 ```js
 let elem = document.elementFromPoint(x, y);
@@ -101,11 +196,19 @@ elem.style.background = ''; // Error!
 ```
 ````
 
+<<<<<<< HEAD
 ## 使用位置：fixed
 
 大多数时候我们需要使用坐标来定位。在 CSS 中，为了相对于 viewport 来定位元素，我们同时使用 `position:fixed` 和 `left/top`（或者是 `right/bottom`）。
 
 我们可以使用 `getBoundingClientRect` 来获取一个元素的坐标，并且之后可以在该元素附近显示一些东西。
+=======
+## Using for "fixed" positioning
+
+Most of time we need coordinates in order to position something.
+
+To show something near an element, we can use `getBoundingClientRect` to get its coordinates, and then CSS `position` together with `left/top` (or `right/bottom`).
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 比如说，下面的 `createMessageUnder(elem, html)` 函数在 `elem` 元素下面显示了消息：
 
@@ -152,14 +255,21 @@ setTimeout(() => message.remove(), 5000);
 
 如果要改变这个状况，我们需要使用基于文档的坐标和 `position:absolute` 样式。
 
+<<<<<<< HEAD
 ## 文档坐标
 
 文档相对坐标是从文档的左上角开始计算，而不是窗口。
+=======
+## Document coordinates [#getCoords]
+
+Document-relative coordinates start from the upper-left corner of the document, not the window.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 在 CSS 中，窗口坐标对应的是 `position:fixed`，而文档坐标则类似顶部的 `position:absolute`。
 
 我们可以使用 `position:absolute` 和 `top/left` 来把一些东西放到文档中的固定位置，以便在页面滚动时元素仍能保留在那里。但是我们首先需要正确的坐标。
 
+<<<<<<< HEAD
 为了清楚起见我们把窗口坐标叫做 `(clientX,clientY)` 把文档坐标叫做 `(pageX,pageY)`。
 
 当页面没有滚动时，窗口坐标和页面坐标实际上是相同的，它们的零点也匹配：
@@ -180,6 +290,9 @@ setTimeout(() => message.remove(), 5000);
 ## 获取文档坐标 [#getCoords]
 
 现在 Javascript 中并没有获取一个元素文档坐标的标准方法。但是这个方法写起来很容易。
+=======
+There's no standard method to get the document coordinates of an element. But it's easy to write it.
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 两个坐标系可以通过由公式相连接：
 - `pageY` = `clientY` + 文档垂直部分滚动的高度。
@@ -199,7 +312,31 @@ function getCoords(elem) {
 }
 ```
 
+<<<<<<< HEAD
 ## 总结
+=======
+If in the example above we used it with `position:absolute`, then the message would stay near the element on scroll.
+
+The modified `createMessageUnder` function:
+
+```js
+function createMessageUnder(elem, html) {
+  let message = document.createElement('div');
+  message.style.cssText = "*!*position:absolute*/!*; color: red";
+
+  let coords = *!*getCoords(elem);*/!*
+
+  message.style.left = coords.left + "px";
+  message.style.top = coords.bottom + "px";
+
+  message.innerHTML = html;
+
+  return message;
+}
+```
+
+## Summary
+>>>>>>> a0bfa924a17cad8e7fee213904b27dbf57c2dbac
 
 页面上的任何点都有坐标：
 
