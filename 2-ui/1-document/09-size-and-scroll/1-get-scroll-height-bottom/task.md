@@ -4,7 +4,7 @@ importance: 5
 
 # 相对于底部滚动了多少？
 
- `elem.scrollTop` 属性是从顶部滚动出来的部分的大小，何获得 `scrollBottom` —— 从底部滚动的尺寸？
+ `elem.scrollTop` 属性是从顶部滚动出来的部分的大小，如何获得 `scrollBottom` —— 从底部滚动的尺寸？
 
 编写适用于任意元素的代码。
 
