@@ -10,7 +10,7 @@ DOM 节点因为它们的类而具有不同的属性。例如，标记 `<a>` 相
 
 每个 DOM 节点都有与之对应的内置类。
 
-层次的根节点是 [EventTarget](https://dom.spec.whatwg.org/#eventtarget)，它继承自 [Node](http://dom.spec.whatwg.org/#interface-node)，而且其他 DOM 节点也继承自它。
+层次的根节点是 [EventTarget](https://dom.spec.whatwg.org/#eventtarget)，[Node](http://dom.spec.whatwg.org/#interface-node) 继承自它，其他 DOM 节点也继承自它。
 
 下图做了进一步解释：
 
