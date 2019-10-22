@@ -30,17 +30,17 @@ alert(typeof value); // string
 
 字符串转换最明显。`false` 变成 `"false"`，`null` 变成 `"null"` 等。
 
-## 数字转换
+## 数字型转换
 
 在算术函数和表达式中，会自动进行 number 类型转换。
 
-比如，当使用 `/` 用于非 number 类型：
+比如，当把除法 `/` 用于非 number 类型：
 
 ```js run
-alert( "6" / "2" ); // 3, string 类型的值被转换成 number
+alert( "6" / "2" ); // 3, string 类型的值被自动转换成 number 类型后进行计算
 ```
 
-也可以使用 `Number(value)` 显式地将这个值转换为 number 类型。
+我们也可以使用 `Number(value)` 显式地将这个 `value` 转换为 number 类型。
 
 ```js run
 let str = "123";
@@ -51,9 +51,9 @@ let num = Number(str); // 变成 number 类型 123
 alert(typeof num); // number
 ```
 
-当从 string 类型源读取值时，比如一个文本表单，但是我们期待数字输入，就经常进行显式转换。
+当我们从 string 类型源（如文本表单）中读取一个值，但期望输入一个数字时，通常需要进行显式转换。
 
-如果字符串不是一个有效的数字，转换的结果会是 `NaN`，例如：
+如果该字符串不是一个有效的数字，转换的结果会是 `NaN`。例如：
 
 ```js run
 let age = Number("an arbitrary string instead of a number");
@@ -63,46 +63,48 @@ alert(age); // NaN，转换失败
 
 number 类型转换规则：
 
-| 输入 | 输出 |
-|-------|-------------|
-|`undefined`|`NaN`|
-|`null`|`0`|
+| 值 | 变成…… |
+| --- | --- |
+| `undefined` | `NaN` |
+| `null` | `0` |
 |<code>true&nbsp;和&nbsp;false</code> | `1` and `0` |
-| `string` | 去掉首尾空格后的纯数字字符串中含有的数字。如果去掉空格后的字符串只由空格字符组成，返回 `0`。如果字符串不是纯数字，则返回 `NaN`。 |
+| `string` | 去掉首尾空格后的纯数字字符串中含有的数字。如果剩余字符串为空，则转换结果为 `0`。否则，将会从剩余字符串中“读取”数字。当类型转换出现 error 时返回 `NaN`。 |
 
-例如：
+> 译注：字符串转换为 number 类型时，除了 `undefined`、`null` 和 `boolean` 三种特殊情况，只有字符串是由空格和数字组成时，才能转换成功，否则会出现 error 返回 `NaN`。
+
+例子：
 
 ```js run
 alert( Number("   123   ") ); // 123
-alert( Number("123z") );      // NaN (error reading a number at "z")
+alert( Number("123z") );      // NaN（从字符串“读取”数字，读到 "z" 时出现错误）
 alert( Number(true) );        // 1
 alert( Number(false) );       // 0
 ```
 
-请注意 `null` 和 `undefined` 有点不同。`null` 变成数字 `0`，`undefined` 变成 `NaN`。
+请注意 `null` 和 `undefined` 在这有点不同：`null` 变成数字 `0`，`undefined` 变成 `NaN`。
 
-````smart header="加号'+' 连接字符串"
-几乎所有的算术运算符都将值转换为数字，加号 `+` 是个例外。如果其中一个运算元是字符串，则另一个也会转换为字符串。
+````smart header="加号 '+' 连接字符串"
+几乎所有的算术运算符都将值转换为数字进行运算，加号 `+` 是个例外。如果其中一个运算元是字符串，则另一个也会被转换为字符串。
 
-然后，连接两者：
+然后，将两者连接在一起：
 
 ```js run
 alert( 1 + '2' ); // '12' (字符串在加号右边)
 alert( '1' + 2 ); // '12' (字符串在加号左边)
 ```
 
-这仅仅发生在其中一方为字符串（译者注：或者双方都为字符串）的情况下。其他情况下会被转换为数字。
+这仅仅发生在至少其中一方为字符串的情况下。否则值会被转换为数字。
 ````
 
-## ToBoolean
+## 布尔型转换
 
-转换为 boolean 类型是最为简单的一个。
+布尔（boolean）类型转换是最简单的一个。
 
-逻辑操作（之后我们会了解到条件判断和其他类似的东西）或显式调用 `Boolean(value)` 会触发 boolean 类型转换。
+它发生在逻辑运算中（稍后我们将进行条件判断和其他类似的东西），但是也可以通过调用 Boolean(value) 显式地进行转换。
 
 转换规则如下：
 
-- 假值，比如 `0`、空的字符串、`null`、`undefined` 和 `NaN` 变成 `false`。
+- 直观上为“空”的值（如 `0`、空字符串、`null`、`undefined` 和 `NaN`）将变为 `false`。
 - 其他值变成 `true`。
 
 比如：
@@ -115,7 +117,7 @@ alert( Boolean("hello") ); // true
 alert( Boolean("") ); // false
 ```
 
-````warn header="请注意: 包含 0 的字符串 `\"0\"` 是 `true`"
+````warn header="请注意：包含 0 的字符串 `\"0\"` 是 `true`"
 一些编程语言（比如 PHP）视 `"0"` 为 `false`。但在 JavaScript 中，非空的字符串总是 `true`。
 
 ```js run
@@ -124,37 +126,36 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 ```
 ````
 
-
 ## 总结
 
 有三种常用的类型转换：转换为 string 类型、转换为 number 类型和转换为 boolean 类型。
 
-**`ToString`** —— 输出内容时转换发生，或通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是很明显的。
+**字符串转换** —— 转换发生在输出内容的时候，也可以通过 `String(value)` 进行显式转换。原始类型值的 string 类型转换通常是很明显的。
 
-**`ToNumber`** —— 进行算术操作时转换发生，或通过 `Number(value)` 进行显式转换。
+**数字型转换** —— 转换发生在进行算术操作时，也可以通过 `Number(value)` 进行显式转换。
 
-`ToNumber` 转换遵循以下规则：
-
-| 值 |  变成…… |
-|-------|-------------|
-|`undefined`|`NaN`|
-|`null`|`0`|
-|<code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
-| `string` | 字符串“按原样读取”，两端的空白被忽略。空字符串变成 `0`。出错变成 `NaN`。 |
-
-**`ToBoolean`** —— 进行逻辑操作时转换发生。或通过 `Boolean(value)` 进行显式转换。
-
-`ToBoolean` 遵循以下规则：
+数字型转换遵循以下规则：
 
 | 值 |  变成…… |
 |-------|-------------|
-|`0`, `null`, `undefined`, `NaN`, `""` |`false`|
-|其他值| `true` |
+| `undefined` | `NaN` |
+| `null` | `0` |
+| <code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
+| `string` | “按原样读取”字符串，两端的空白会被忽略。空字符串变成 `0`。转换出错则输出 `NaN`。 |
+
+**布尔型转换** —— 转换发生在进行逻辑操作时，也可以通过 `Boolean(value)` 进行显式转换。
+
+布尔型转换遵循以下规则：
+
+| 值 |  变成…… |
+|-------|-------------|
+| `0`, `null`, `undefined`, `NaN`, `""` | `false` |
+| 其他值 | `true` |
 
 
-上述的大多数规则都容易理解和记忆。经常犯错的例外有：
+上述的大多数规则都容易理解和记忆。人们通常会犯错误的值得注意的例子有以下几个：
 
-- `undefined` 进行 `ToNumber` 时变成 `NaN`，而非 `0`。
-- `"0"` 和只有空格的字符串(比如：`"   "` )在进行 boolean 转换时变成 `true`。
+- 对 `undefined` 进行数字型转换时，输出结果为 `NaN`，而非 `0`。
+- 对 `"0"` 和只有空格的字符串（比如：`"   "`）进行布尔型转换时，输出结果为 `true`。
 
-对象的转换并未在此提及。我们会在专门介绍对象的章节 <info:object-toprimitive> 中介绍，随后我们会学习 JavaScript 更多基础的细节。
+我们在本小结没有讲 object 类型的转换。在我们学习完更多关于 JavaScript 的基本知识后，我们会在专门介绍 object 的章节 <info:object-toprimitive> 中详细讲解 object 类型转换。
