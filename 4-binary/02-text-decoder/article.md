@@ -11,8 +11,8 @@ let decoder = new TextDecoder([label], [options]);
 
 - **`label`** -- 编码格式，默认为 `utf-8`，但同时也支持 `big5`，`windows-1251` 等许多其他编码格式。
 - **`options`** -- 可选对象：
-  - **`fatal`** -- 布林值，如果为 `true` 则抛出无效（不可解码）字符异常，否则（默认）替换为字符 `\uFFFD`。
-  - **`ignoreBOM`** -- 布林值，如果为 `true` 则忽略字节顺序标记（BOM）（可选的字节顺序统一码（Unicode）标记），极少情况会需要。
+  - **`fatal`** -- 布尔值，如果为 `true` 则抛出无效（不可解码）字符异常，否则（默认）替换为字符 `\uFFFD`。
+  - **`ignoreBOM`** -- 布尔值，如果为 `true` 则忽略字节顺序标记（BOM）（可选的字节顺序统一码（Unicode）标记），极少情况会需要。
 
 ...... 然后开始解码：
 
@@ -20,9 +20,9 @@ let decoder = new TextDecoder([label], [options]);
 let str = decoder.decode([input], [options]);
 ```
 
-- **`input`** -- 对 `BufferSource` 进行解码。
+- **`input`** -- 要被解码的 `BufferSource` 
 - **`options`** -- 可选对象：
-  - **`stream`** -- 当传入数据块时 `decoder` 被重复调用，则解码流为true。这种情况下，多字节的字符可能偶尔会在块与块之间被分割。这个选项告诉 `TextDecoder` 去记住 “未完成” 的字符并且在下一个数据块来的时候进行解码。
+  - **`stream`** -- 解码流为true，这时候传入数据块 `decoder` 会被重复调用。这种情况下，多字节的字符可能偶尔会在块与块之间被分割。这个选项告诉 `TextDecoder` 去记住 “未完成” 的字符并且在下一个数据块来的时候进行解码。
 
 例如：
 
@@ -62,11 +62,11 @@ alert( new TextDecoder().decode(binaryString) ); // Hello
 let encoder = new TextEncoder();
 ```
 
-仅支持的编码格式为 `utf-8` 。
+支持的编码格式只有 `utf-8` 
 
 它有两种方法：
-- **`encode(str)`** -- 从字符串中返回 `Uint8Array` 。
-- **`encodeInto(str, destination)`** -- 将 `str` 编码为 `destination`，该目标必须为 `Uint8Array`。
+- **`encode(str)`** -- 返回一个字符串被转换得到的 `Uint8Array`
+- **`encodeInto(str, destination)`** -- 将 `str` 编码到 `destination`中，该目标必须为 `Uint8Array`。
 
 ```js run
 let encoder = new TextEncoder();
