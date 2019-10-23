@@ -14,15 +14,15 @@ let decoder = new TextDecoder([label], [options]);
   - **`fatal`** -- 布尔值，如果为 `true` 则抛出无效（不可解码）字符异常，否则（默认）替换为字符 `\uFFFD`。
   - **`ignoreBOM`** -- 布尔值，如果为 `true` 则忽略字节顺序标记（BOM）（可选的字节顺序统一码（Unicode）标记），极少情况会需要。
 
-...... 然后开始解码：
+…… 然后开始解码：
 
 ```js
 let str = decoder.decode([input], [options]);
 ```
 
-- **`input`** -- 要被解码的 `BufferSource` 
+- **`input`** -- 要被解码的 `BufferSource` 。
 - **`options`** -- 可选对象：
-  - **`stream`** -- 解码流为true，这时候传入数据块 `decoder` 会被重复调用。这种情况下，多字节的字符可能偶尔会在块与块之间被分割。这个选项告诉 `TextDecoder` 去记住 “未完成” 的字符并且在下一个数据块来的时候进行解码。
+  - **`stream`** -- true 为解码流（streams），这时候 decoder 会以传入的数据块（chunks）为参数被重复调用。这种情况下，多字节的字符可能偶尔会在块与块之间被分割。这个选项告诉 `TextDecoder` 去记住 “未完成” 的字符并且在下一个数据块来的时候进行解码。
 
 例如：
 
@@ -62,10 +62,10 @@ alert( new TextDecoder().decode(binaryString) ); // Hello
 let encoder = new TextEncoder();
 ```
 
-支持的编码格式只有 `utf-8` 
+支持的编码格式只有 `utf-8` 。
 
 它有两种方法：
-- **`encode(str)`** -- 返回一个字符串被转换得到的 `Uint8Array`
+- **`encode(str)`** -- 返回一个字符串被转换得到的 `Uint8Array`。
 - **`encodeInto(str, destination)`** -- 将 `str` 编码到 `destination`中，该目标必须为 `Uint8Array`。
 
 ```js run
