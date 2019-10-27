@@ -1,6 +1,6 @@
 # Eval：执行字符串内的代码
 
-内建（built-in）函数  `eval`  让我们能够执行字符串内的代码。
+内建（built-in）函数 `eval` 让我们能够执行字符串内的代码。
 
 语法如下：
 
@@ -17,7 +17,7 @@ eval(code); // Hello
 
 这样的字符串可能比较长，其中包含换行符（line breaks）、函数声明（function declarations）和变量，等等。
 
- `eval` 返回字符串中最后一个语句的结果。
+`eval` 返回字符串中最后一个语句的结果。
 
 比如：
 
@@ -70,13 +70,13 @@ alert(typeof x); // undefined (不存在该变量)
 
 ## 使用“eval”
 
-现代编程中， `eval` 已不常用。人们经常说“eval is evil”.
+现代编程中，`eval` 已不常用。人们经常说“eval is evil”.
 
 原因很简单：JavaScript 曾经很难用，很多操作只能用 `eval` 来完成，不过这是十年前的事了。
 
 如今几乎找不到理由来用 `eval` 了。如果有人用，那么可能要换用现代语言构造（language construct）或者 [JavaScript Module](info:modules) 了。
 
-注意， `eval` 访问外部函数会产生副作用（side-effects）。
+注意，`eval` 访问外部函数会产生副作用（side-effects）。
 
 代码压缩工具（minifier，在 JS 进入生产环境前对其进行压缩的工具）将局部变量重命名，使其更短（比如 `a` 和 `b`，等等），这样代码体积就变小了。这种方式通常比较安全，但在使用 `eval` 的情况下就不一样了，这是因为局部变量可能会被 `eval` 中的代码访问到。因此压缩器不会对所有可能被 `eval` 访问的变量作重命名。这样会导致代码压缩率降低。
 
