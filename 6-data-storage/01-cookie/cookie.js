@@ -9,7 +9,11 @@ function setCookie(name, value, options = {}) {
 
   options = {
     path: '/',
+<<<<<<< HEAD
     // 如果需要的话可以在这里设置其他默认值
+=======
+    // add other defaults here if necessary
+>>>>>>> 70ca842bef2390bc26d13dea2b856838aa890fe0
     ...options
   };
 
