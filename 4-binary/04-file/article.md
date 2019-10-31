@@ -15,7 +15,7 @@ new File(fileParts, fileName, [options])
 - **`options`** -- 可选对象:
     - **`lastModified`** -- 上次更新的时间戳（整型日期）。
 
-其次，我们经常从 `<input type="file">` 或 拖拽 或 其他浏览器接口来获取。 然后，再从操作系统（OS) 中获取文件。
+其次，我们经常从 `<input type="file">` 或拖拽或其他浏览器接口来获取。 然后，再从操作系统（OS) 中获取文件。
 
 例如:
 
@@ -99,15 +99,15 @@ function readFile(input) {
 
 因此我们可以用它将一个 blob 转换为其他格式:
 - `readAsArrayBuffer(blob)` -- 转换为 `ArrayBuffer`,
-- `readAsText(blob, [encoding])` -- 转换为字符串（替代 `TextDecoder`）,
+- `readAsText(blob, [encoding])` -- 转换为字符串（`TextDecoder`的一个替代）,
 - `readAsDataURL(blob)` -- 转换为 base64 的数据 url。
 ```
 
 
 ```smart header="`FileReaderSync` 只适用于 workers "
-对于 Web Workers，还有一种同步的 `FileReader` 类型，称为 [FileReaderSync](https://www.w3.org/TR/FileAPI/#FileReaderSync)。
+对于 Web Workers，还有一种同步的 `FileReader` 变体，称为 [FileReaderSync](https://www.w3.org/TR/FileAPI/#FileReaderSync)。
 
- FileReader 的读取方法 `read*` 并不生成事件，而是会和普通函数一样返回一个结果。
+FileReader 的读取方法 `read*` 并不生成事件，而是会和普通函数一样返回一个结果。
 
 不过，那只是在 Web Worker 内部，因为在读取文件的时候，同步调用会有延迟，而在 Web Workers 则不是很重要，并不会影响页面。
 ```
@@ -116,13 +116,13 @@ function readFile(input) {
 
 `File` 对象继承自 `Blob`。
 
-除了 `Blob` 方法和属性，`File` 对象还有 `fileName` 和 `lastModified` 属性，以及从文件系统读取的内部方法。 我们通常从用户输入如 `<input>` 或 拖拽（drag'n'drop）来获取 `File` 对象。
+除了 `Blob` 方法和属性，`File` 对象还有 `fileName` 和 `lastModified` 属性，以及从文件系统读取的内部方法。 我们通常从用户输入如 `<input>` 或拖拽（drag'n'drop）来获取 `File` 对象。
 
 `FileReader` 对象可以从文件或 blob 读取以下三种格式:
 - 字符串 (`readAsText`)。
 - `ArrayBuffer` (`readAsArrayBuffer`)。
 - 数据 url，base-64 编码（`readAsDataURL`)。
 
-但是，多数情况下，我们不必读取文件内容。正如我们处理 blobs 一样，我们可以通过  `URL.createObjectURL(file)` 创建一个短小的 url，并将其指定给 `<a>` 或 `<img>`。 这样，文件便可以下载或者呈现为图像，作为画布（canvas）等的一部分。 
+但是，多数情况下，我们不必读取文件内容。正如我们处理 blobs 一样，我们可以通过  `URL.createObjectURL(file)` 创建一个短小的 url，并将其赋值给 `<a>` 或 `<img>`。 这样，文件便可以下载或者呈现为图像，作为画布（canvas）等的一部分。 
 
 而且，如果我们要通过网络发送一个文件（`File`），也简单，因为网络 API 如 `XMLHttpRequest` 或 `fetch` 本质上都接受 `File` 对象。
