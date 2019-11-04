@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ## 代表我们星球的变量
+=======
+## The variable for our planet
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 
 这很简单：
 
@@ -8,7 +12,11 @@ let ourPlanetName = "Earth";
 
 注意，我们也可以用一个更简短的名字 `planet`，但这样可能并不能表达清楚它指的是哪个星球。再啰嗦一点也挺好的。至少让这个变量别太长就行。
 
+<<<<<<< HEAD
 ## 网站当前访问者的名字
+=======
+## The name of the current visitor
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 
 ```js
 let currentUserName = "John";
@@ -18,4 +26,8 @@ let currentUserName = "John";
 
 现代编辑器的自动补全可以让长变量名变得容易编写。不要浪费这个特性。一个名字中包含三个词挺好的。
 
+<<<<<<< HEAD
 如果你的编辑器没有合适的自动补全功能，换 [一个新的吧](/code-editors)。
+=======
+And if your editor does not have proper autocompletion, get [a new one](/code-editors).
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b

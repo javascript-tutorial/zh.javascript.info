@@ -2,11 +2,19 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD:1-js/08-prototypes/01-prototype-inheritance/4-hamster-proto/task.md
 # 为什么两只仓鼠都饱了？
+=======
+# Why are both hamsters full?
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b:1-js/08-prototypes/01-prototype-inheritance/4-hamster-proto/task.md
 
 我们有两只仓鼠：`speedy` 和 `lazy` 都继承自普通的 `hamster` 对象。 
 
+<<<<<<< HEAD:1-js/08-prototypes/01-prototype-inheritance/4-hamster-proto/task.md
 当我们喂一只的同时，另一只也吃饱了。为什么？如何修复这件事？
+=======
+When we feed one of them, the other one is also full. Why? How can we fix it?
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b:1-js/08-prototypes/01-prototype-inheritance/4-hamster-proto/task.md
 
 ```js run
 let hamster = {
