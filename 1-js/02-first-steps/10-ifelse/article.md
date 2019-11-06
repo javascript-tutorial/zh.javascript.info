@@ -35,7 +35,7 @@ if (year == 2015) {
 
 `if (…)` 语句会计算圆括号内的表达式，并将计算结果转换为布尔型。
 
-让我们回顾一下 <info：type-conversions> 一章中的转换规则：
+让我们回顾一下 <info:type-conversions> 一章中的转换规则：
 
 - 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为他们被称为 “falsy” 值。
 - 其他值被转换为 `true`，所以它们被称为 “truthy”。
