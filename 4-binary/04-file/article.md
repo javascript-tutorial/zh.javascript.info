@@ -99,7 +99,7 @@ function readFile(input) {
 
 因此我们可以用它将一个 blob 转换为其他格式:
 - `readAsArrayBuffer(blob)` -- 转换为 `ArrayBuffer`,
-- `readAsText(blob, [encoding])` -- 转换为字符串（`TextDecoder`的一个替代）,
+- `readAsText(blob, [encoding])` -- 转换为字符串（`TextDecoder` 的一个可替代方法）,
 - `readAsDataURL(blob)` -- 转换为 base64 的数据 url。
 ```
 
@@ -123,6 +123,6 @@ FileReader 的读取方法 `read*` 并不生成事件，而是会和普通函数
 - `ArrayBuffer` (`readAsArrayBuffer`)。
 - 数据 url，base-64 编码（`readAsDataURL`)。
 
-但是，多数情况下，我们不必读取文件内容。正如我们处理 blobs 一样，我们可以通过  `URL.createObjectURL(file)` 创建一个短小的 url，并将其赋值给 `<a>` 或 `<img>`。 这样，文件便可以下载或者呈现为图像，作为画布（canvas）等的一部分。 
+但是，多数情况下，我们不必读取文件内容。正如我们处理 blobs 一样，我们可以通过  `URL.createObjectURL(file)` 创建一个短小的 url，并将其赋给 `<a>` 或 `<img>`。 这样，文件便可以下载或者呈现为图像，作为画布（canvas）等的一部分。 
 
 而且，如果我们要通过网络发送一个文件（`File`），也简单，因为网络 API 如 `XMLHttpRequest` 或 `fetch` 本质上都接受 `File` 对象。
