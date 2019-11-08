@@ -1,69 +1,69 @@
-# Blob
+# 块（Blob）
 
-`ArrayBuffer` and views are a part of ECMA standard, a part of JavaScript.
+`ArrayBuffer` 和视图（views）都是 javascript 的 ECMA 标准的一部分。
 
-In the browser, there are additional higher-level objects, described in [File API](https://www.w3.org/TR/FileAPI/), in particular `Blob`.
+我们在 [File API](https://www.w3.org/TR/FileAPI/) 一节中描述过，在浏览器中，有其他高阶对象，特别是块（`Blob`）。
 
-`Blob` consists of an optional string `type` (a MIME-type usually), plus `blobParts` -- a sequence of other `Blob` objects, strings and `BufferSources`.
+块（`Blob`）由一个可选的字符串 `type` (通常是 MIME-type) 和 `blobParts` 组成 -- a sequence of other `Blob` objects, strings and `BufferSources`.
 
 ![](blob.svg)
 
-The constructor syntax is:
+构造函数的语法为：
 
 ```js
 new Blob(blobParts, options);
 ```
 
-- **`blobParts`** is an array of `Blob`/`BufferSource`/`String` values.
-- **`options`** optional object:
-  - **`type`** -- blob type, usually MIME-type, e.g. `image/png`,
-  - **`endings`** -- whether to transform end-of-line to make the blob correspond to current OS newlines (`\r\n` or `\n`). By default `"transparent"` (do nothing), but also can be `"native"` (transform).
+- **`blobParts`** `Blob`/`BufferSource`/`String` 类型值的数组。
+- **`options`** 可选对象：
+  - **`type`** -- blob 类型，通常是 MIME-type，如 `image/png`，
+  - **`endings`** -- 是否转换 end-of-line，使 blob correspond to current OS newlines (`\r\n` or `\n`)。默认为 `"transparent"`（啥也不做），不过也可以是 `"native"`（转换）。
 
-For example:
+例如：
 
 ```js
-// create Blob from a string
+// 从字符串创建块
 let blob = new Blob(["<html>…</html>"], {type: 'text/html'});
-// please note: the first argument must be an array [...]
+// 请注意：第一个 argument 必须是数组 [...]
 ```
 
 ```js
-// create Blob from a typed array and strings
-let hello = new Uint8Array([72, 101, 108, 108, 111]); // "hello" in binary form
+// 从 typed 数组和字符串创建 blob
+let hello = new Uint8Array([72, 101, 108, 108, 111]); // 二进制形式的 "hello" 
 
 let blob = new Blob([hello, ' ', 'world'], {type: 'text/plain'});
 ```
 
 
-We can extract blob slices with:
+我们可以用 slice 方法来提取块slices：
 
 ```js
 blob.slice([byteStart], [byteEnd], [contentType]);
 ```
 
-- **`byteStart`** -- the starting byte, by default 0.
-- **`byteEnd`** -- the last byte (exclusive, by default till the end).
-- **`contentType`** -- the `type` of the new blob, by default the same as the source.
+- **`byteStart`** -- 起始字节，默认为 0。
+- **`byteEnd`** -- 最后一个字节（包含 exclusive，默认至最后）。, by default till the end).
+- **`contentType`** -- 新块（blob）的 `type`，默认与源 blob 相同。
 
-The arguments are similar to `array.slice`, negative numbers are allowed too.
+arguments 与 `array.slice` 相同，也允许负数。
 
 ```smart header="Blobs are immutable"
-We can't change data directly in a blob, but we can slice parts of blobs, create new blobs from them, mix them into a new blob and so on.
+我们不能直接在 blob 中更改数据， 但可以切割成多个部分， 每一部分创建一个新的 blob， We can't change data directly in a blob, but we can slice parts of blobs, create new blobs from them, mix them into a new blob and so on.
 
-This behavior is similar to JavaScript strings: we can't change a character in a string, but we can make a new corrected string.
+这种行为类似于 JavaScript 字符串：我们 无法更改字符串中的字符， 但可以生成一个新的改动过的字符串。
 ```
 
-## Blob as URL
+## Blob 作为 URL
 
-A Blob can be easily used as an URL for `<a>`, `<img>` or other tags, to show its contents.
+Blob 可以很容易当做 URL 用于 `<a>`，`<img>` 或其他 tags，来显示其内容。
 
-Thanks to `type`, we can allso download/upload blobs, and it naturally becomes `Content-Type` in network requests.
+有了`type`，我们也可以下载/上传 blobs，便是网络请求中的 `Content-Type`。
 
-Let's start with a simple example. By\
+让我们讲一个简单的例子。通过\
  clicking on a link you download a dynamically-generated blob with `hello world` contents as a file:
 
 ```html run
-<!-- download attribute forces the browser to download instead of navigating -->
+<!-- 下载属性 forces the browser to download instead of navigating -->
 <a download="hello.txt" href='#' id="link">Download</a>
 
 <script>
@@ -73,9 +73,9 @@ link.href = URL.createObjectURL(blob);
 </script>
 ```
 
-We can also create a link dynamically in JavaScript and simulate a click by `link.click()`, then download starts automatically.
+我们也可以在 Javascript 中动态创建一个链接，由 `link.click()` 模拟一个点击（click）然后便自动下载了。
 
-Here's the similar code that causes user to download the dynamicallly created Blob, without any HTML:
+以下代码类似， 用户无需任何 HTML 即可下载动态生成的 Blob：
 
 ```js run
 let link = document.createElement('a');
@@ -90,7 +90,7 @@ link.click();
 URL.revokeObjectURL(link.href);
 ```
 
-`URL.createObjectURL` takes a blob and creates an unique URL for it, in the form `blob:<origin>/<uuid>`.
+`URL.createObjectURL` 接受一个 blob， 为其创建一个唯一的 URL，格式是 `blob:<origin>/<uuid>`。
 
 That's what the value of `link.href` looks like:
 
@@ -128,12 +128,12 @@ For instance, here's a smiley:
 <img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
 ```
 
-The browser will decode the string and show the image: <img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
+浏览器将字符串解码，显示图像：<img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
 
 
 To transform a blob into base64, we'll use the built-in `FileReader` object. It can read data from Blobs in multiple formats. In the [next chapter](info:file) we'll cover it more in-depth.
 
-Here's the demo of downloading a blob, now via base-64:
+以下是下载 blob 的示例代码，这次是通过 base-64 来实现：
 
 ```js run
 let link = document.createElement('a');
