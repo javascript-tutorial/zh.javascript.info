@@ -4,7 +4,7 @@
 
 我们在 [File API](https://www.w3.org/TR/FileAPI/) 一节中描述过，在浏览器中，有其他高阶对象，特别是 `Blob`。
 
-`Blob` 由一个可选的字符串 `type` (通常是 MIME-类型) 和 `blobParts` 组成 -- 一串其他 `Blob` 对象，字符串和 `BufferSources`。
+`Blob` 由一个可选的字符串 `type` (通常是 MIME-类型) 和 `blobParts` 组成 -- 一串其他 `Blob` 对象、字符串和 `BufferSources`。
 
 ![](blob.svg)
 
@@ -55,7 +55,7 @@ blob.slice([byteStart], [byteEnd], [contentType]);
 
 ## Blob 作为 URL
 
-Blob 可以很容易当做 URL 用于 `<a>`，`<img>` 或其他标记（tags），来显示其内容。
+Blob 可以很容易当做 URL 用于 `<a>`、`<img>` 或其他标记（tags），来显示其内容。
 
 有了 `type`，我们也可以下载/上传 blobs，很自然的便成了网络请求中的 `Content-Type`。
 
@@ -116,7 +116,7 @@ blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 
 ## Blob 转换为 base64
 
-`URL.createObjectURL` 的一个替代方法是，将 blob 转换为 base64-编码 的字符串。
+`URL.createObjectURL` 的一个可替代方法是，将 blob 转换为 base64-编码 的字符串。
 
 这种编码是将二进制数据表示为一个由非常安全“可读“的 0-64 个 ASCII 码字符组成的字符串。而且更重要的是 -- 我们可以在数据 url 中使用此编码。
 
