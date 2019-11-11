@@ -1,12 +1,12 @@
-这个任务有很多算法。
+这个题目有很多解法。
 
 我们使用一个嵌套循环：
 
 ```js
-For each i in the interval {
-  check if i has a divisor from 1..i
-  if yes => the value is not a prime
-  if no => the value is a prime, show it
+对于间隔中的每个 i {
+  检查在 1~i 之间，是否有 i 的除数
+  如果有 => 这个 i 不是素数
+  如果没有 => 这个 i 是素数，输出出来
 }
 ```
 
@@ -16,7 +16,7 @@ For each i in the interval {
 let n = 10;
 
 nextPrime:
-for (let i = 2; i <= n; i++) { // 对每个自然数
+for (let i = 2; i <= n; i++) { // 对每个自然数 i
 
   for (let j = 2; j < i; j++) { // 寻找一个除数……
     if (i % j == 0) continue nextPrime; // 不是素数，则继续检查下一个
@@ -26,4 +26,4 @@ for (let i = 2; i <= n; i++) { // 对每个自然数
 }
 ```
 
-这段代码有很大空间可以优化。例如，我们可以从 `2` 到 `i` 的平方根中寻找除数。但无论如何，如果我们想要在很大的时间间隔内实现高效率，我们需要改变方法，依赖高等数学和复杂算法，如[Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve), [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve) 等等。
+这段代码有很大的优化空间。例如，我们可以从 `2` 到 `i` 的平方根之间的数中寻找除数。无论怎样，如果我们想要在很大的数字范围内实现高效率，我们需要改变实现方法，依赖高等数学和复杂算法，如[二次筛选法（Quadratic sieve）](https://en.wikipedia.org/wiki/Quadratic_sieve)，[普通数域筛选法（General number field sieve）](https://en.wikipedia.org/wiki/General_number_field_sieve)等。
