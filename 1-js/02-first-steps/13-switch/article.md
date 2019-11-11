@@ -125,7 +125,11 @@ switch (a) {
     break;
 
 *!*
+<<<<<<< HEAD
   case 3:                    // (*) 下面这两个 case 被分在一组
+=======
+  case 3: // (*) grouped two cases
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
   case 5:
     alert('Wrong!');
     alert("Why don't you take a math class?");
@@ -148,7 +152,7 @@ switch (a) {
 比如，我们来看下面的代码：
 
 ```js run
-let arg = prompt("Enter a value?")
+let arg = prompt("Enter a value?");
 switch (arg) {
   case '0':
   case '1':
@@ -163,7 +167,7 @@ switch (arg) {
     alert( 'Never executes!' );
     break;
   default:
-    alert( 'An unknown value' )
+    alert( 'An unknown value' );
 }
 ```
 

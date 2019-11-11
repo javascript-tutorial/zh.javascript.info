@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # Promise 错误处理
 
 异步操作有时候可能会失败：如果出现错误，相应的 promise 就会 reject。例如，如果远程服务器无法访问，`fetch` 就会失败。我们可以使用 `.catch` 去处理这些错误（rejections）。
@@ -6,12 +7,20 @@
 Promise 链在这方面做的很好。当 promise 被 reject，控制权就移交给链中最近的 rejection 处理程序。这在实际应用中很方便。
 
 例如，下面代码中的 URL 是错误的（没有这个网站）此时 `.catch` 可以处理这个错误：
+=======
+# Error handling with promises
+
+Promise chains are great at error handling. When a promise rejects, the control jumps to the closest rejection handler. That's very convenient in practice.
+
+For instance, in the code below the URL to `fetch` is wrong (no such site) and `.catch` handles the error:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 *!*
 fetch('https://no-such-server.blabla') // rejects
 */!*
   .then(response => response.json())
+<<<<<<< HEAD
   .catch(err => alert(err)) // TypeError: failed to fetch （文字可能有所不同）
 ```
 
@@ -26,6 +35,14 @@ fetch('/') // 目前 fetch 能正常工作，服务器响应 HTML 页面
 ```
 
 捕获所有错误最简单的方法是在链的末端加上 `.catch`：
+=======
+  .catch(err => alert(err)) // TypeError: failed to fetch (the text may vary)
+```
+
+As you can see, the `.catch` doesn't have to be immediate. It may appear after one or maybe several `.then`.
+
+Or, maybe, everything is all right with the site, but the response is not valid JSON. The easiest way to catch all errors is to append `.catch` to the end of chain:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -48,6 +65,7 @@ fetch('/article/promise-chaining/user.json')
 */!*
 ```
 
+<<<<<<< HEAD
 通常情况下 `.catch` 根本不会触发，因为没有错误发生。但是如果上述任意一个 promise reject（网络错误或者不合法的 json 等等），它就会被捕获。
 
 ## 隐式 try..catch
@@ -55,6 +73,15 @@ fetch('/article/promise-chaining/user.json')
 Promise 执行（executor）和 promise 处理（handler）程序周围有一个“不可见 `try..catch`”。如果发生异常，它会被捕获并视为 rejection。
 
 例如，下面的代码：
+=======
+Normally, such `.catch` doesn't trigger at all. But if any of the promises above rejects (a network problem or invalid json or whatever), then it would catch it.
+
+## Implicit try..catch
+
+The code of a promise executor and promise handlers has an "invisible `try..catch`" around it. If an exception happens, it gets caught and treated as a rejection.
+
+For instance, this code:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 new Promise((resolve, reject) => {
@@ -64,7 +91,11 @@ new Promise((resolve, reject) => {
 }).catch(alert); // Error: Whoops!
 ```
 
+<<<<<<< HEAD
 ……与下面代码完全相同：
+=======
+...Works exactly the same as this:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 new Promise((resolve, reject) => {
@@ -74,34 +105,55 @@ new Promise((resolve, reject) => {
 }).catch(alert); // Error: Whoops!
 ```
 
+<<<<<<< HEAD
 在执行程序周围 “不可见 `try..catch`” 自动捕获错误并视它为 rejection。
 
 这不仅仅发生在执行程序上，同样也发生在处理程序上。如果我们在 `.then` 处理程序里 `throw`，这意味着被 rejected 的 promise，因此控制权移交最近的错误处理程序。
 
 这里是它的例子：
+=======
+The "invisible `try..catch`" around the executor automatically catches the error and turns it into rejected promise.
+
+This happens not only in the executor function, but in its handlers as well. If we `throw` inside a `.then` handler, that means a rejected promise, so the control jumps to the nearest error handler.
+
+Here's an example:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 new Promise((resolve, reject) => {
   resolve("ok");
 }).then((result) => {
 *!*
+<<<<<<< HEAD
   throw new Error("Whoops!"); // rejects 这个 promise
+=======
+  throw new Error("Whoops!"); // rejects the promise
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 */!*
 }).catch(alert); // Error: Whoops!
 ```
 
+<<<<<<< HEAD
 所有的错误都会发生这种情况，而不仅仅是由 `throw` 语句导致的这些错误。例如，一个编程错误：
+=======
+This happens for all errors, not just those caused by the `throw` statement. For example, a programming error:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 new Promise((resolve, reject) => {
   resolve("ok");
 }).then((result) => {
 *!*
+<<<<<<< HEAD
   blabla(); // 没有这个函数
+=======
+  blabla(); // no such function
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 */!*
 }).catch(alert); // ReferenceError: blabla is not defined
 ```
 
+<<<<<<< HEAD
 最终的 `.catch` 不仅会捕获明确的拒绝，而且会捕获上面上面处理程序中可能会出现的错误。
 
 ## 重新抛出（Rethrowing）
@@ -116,6 +168,22 @@ new Promise((resolve, reject) => {
 
 ```js run
 // 执行：catch -> then
+=======
+The final `.catch` not only catches explicit rejections, but also occasional errors in the handlers above.
+
+## Rethrowing
+
+As we already noticed, `.catch` at the end of the chain is similar to `try..catch`. We may have as many `.then` handlers as we want, and then use a single `.catch` at the end to handle errors in all of them.
+
+In a regular `try..catch` we can analyze the error and maybe rethrow it if can't handle. The same thing is possible for promises.
+
+If we `throw` inside `.catch`, then the control goes to the next closest error handler. And if we handle the error and finish normally, then it continues to the closest successful `.then` handler.
+
+In the example below the `.catch` successfully handles the error:
+
+```js run
+// the execution: catch -> then
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 new Promise((resolve, reject) => {
 
   throw new Error("Whoops!");
@@ -127,12 +195,21 @@ new Promise((resolve, reject) => {
 }).then(() => alert("Next successful handler runs"));
 ```
 
+<<<<<<< HEAD
 这里 `.catch` 块正常完成。因此就会调用下一个成功的 `.then` 处理程序。
 
 在下面的例子中，我们可以看到 `.catch` 的另一种情况。`(*)` 行的处理程序捕获错误但无法处理它（例如，它只知道如何处理 `URIError` 错误），所以它再次被抛出：
 
 ```js run
 // 执行：catch -> catch -> then
+=======
+Here the `.catch` block finishes normally. So the next successful `.then` handler is called.
+
+In the example below we see the other situation with `.catch`. The handler `(*)` catches the error and just can't handle it (e.g. it only knows how to handle `URIError`), so it throws it again:
+
+```js run
+// the execution: catch -> catch -> then
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 new Promise((resolve, reject) => {
 
   throw new Error("Whoops!");
@@ -145,20 +222,33 @@ new Promise((resolve, reject) => {
     alert("Can't handle such error");
 
 *!*
+<<<<<<< HEAD
     throw error; // 抛出这个或者其他的错误跳转到下一个 catch
+=======
+    throw error; // throwing this or another error jumps to the next catch
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 */!*
   }
 
 }).then(function() {
+<<<<<<< HEAD
   /* 此处不会运行 */
 }).catch(error => { // (**)
 
   alert(`The unknown error has occurred: ${error}`);
   // 不会返回任何内容 => 正常方式执行
+=======
+  /* doesn't run here */
+}).catch(error => { // (**)
+
+  alert(`The unknown error has occurred: ${error}`);
+  // don't return anything => execution goes the normal way
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 });
 ```
 
+<<<<<<< HEAD
 然后执行从第一个 `.catch` `(*)` 跳到链中的下一个 `(**)`。
 
 在本章的下面，我们将会看到重新抛出的实例。
@@ -254,12 +344,20 @@ demoGithubUser();
 当错误没有被处理会发生什么？例如，在上面例子中 `(*)` 行重新抛出后会发生什么？
 
 或者我们忘记将错误处理程序添加到链末尾，就像这样：
+=======
+The execution jumps from the first `.catch` `(*)` to the next one `(**)` down the chain.
+
+## Unhandled rejections
+
+What happens when an error is not handled? For instance, we forgot to append `.catch` to the end of the chain, like here:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js untrusted run refresh
 new Promise(function() {
   noSuchFunction(); // Error here (no such function)
 })
   .then(() => {
+<<<<<<< HEAD
     // 成功的 promise 处理程序，一个或多个
   }); // 结尾处没有 .catch！
 ```
@@ -273,18 +371,39 @@ new Promise(function() {
 JavaScript 引擎跟踪此类 rejections，在这种情况下会生成一个全局错误。如果你运行上面代码，你可以在控制台（console）里看到。
 
 在浏览器里，我们可以使用 `unhandledrejection` 时间来捕获这类错误：
+=======
+    // successful promise handlers, one or more
+  }); // without .catch at the end!
+```
+
+In case of an error, the promise becomes rejected, and the execution should jump to the closest rejection handler. But there is none. So the error gets "stuck". There's no code to handle it.
+
+In practice, just like with regular unhandled errors in code, it means that something has gone terribly wrong.
+
+What happens when a regular error occurs and is not caught by `try..catch`? The script dies with a message in the console. A similar thing happens with unhandled promise rejections.
+
+The JavaScript engine tracks such rejections and generates a global error in that case. You can see it in the console if you run the example above.
+
+In the browser we can catch such errors using the event `unhandledrejection`:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 *!*
 window.addEventListener('unhandledrejection', function(event) {
   // the event object has two special properties:
+<<<<<<< HEAD
   alert(event.promise); // [object Promise] - 产生错误的 promise
   alert(event.reason); // Error: Whoops! - 未处理的错误对象
+=======
+  alert(event.promise); // [object Promise] - the promise that generated the error
+  alert(event.reason); // Error: Whoops! - the unhandled error object
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 });
 */!*
 
 new Promise(function() {
   throw new Error("Whoops!");
+<<<<<<< HEAD
 }); // 没有 catch 处理错误
 ```
 
@@ -343,3 +462,22 @@ demoGithubUser();
 当 promise 得以解决，fetch 可以是成功或者错误，`finally` 在 `(2)` 行触发并终止加载指示。
 
 有一个浏览器技巧 `(*)` 是从 `finally` 返回零延时（zero-timeout）的 promise。这是因为一些浏览器（比如 Chrome）需要“一点时间”外的 promise 处理程序来绘制文档的更改。因此它确保在进入链下一步之前，指示在视觉上是停止的。
+=======
+}); // no catch to handle the error
+```
+
+The event is the part of the [HTML standard](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections).
+
+If an error occurs, and there's no `.catch`, the `unhandledrejection` handler triggers, and gets the `event` object with the information about the error, so we can do something.
+
+Usually such errors are unrecoverable, so our best way out is to inform the user about the problem and probably report the incident to the server.
+
+In non-browser environments like Node.js there are other ways to track unhandled errors.
+
+## Summary
+
+- `.catch` handles errors in promises of all kinds: be it a `reject()` call, or an error thrown in a handler.
+- We should place `.catch` exactly in places where we want to handle errors and know how to handle them. The handler should analyze errors (custom error classes help) and rethrow unknown ones (maybe they are programming mistakes).
+- It's ok not to use `.catch` at all, if there's no way to recover from an error.
+- In any case we should have the `unhandledrejection` event handler (for browsers, and analogs for other environments) to track unhandled errors and inform the user (and probably our server) about them, so that our app never "just dies".
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd

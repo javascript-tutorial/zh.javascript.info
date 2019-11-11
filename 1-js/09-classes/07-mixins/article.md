@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # JavaScript 中的 Mixin 模式
 
 在 JavaScript 中，我们只能继承单个对象。每个对象只能有一个 `[[Prototype]]` 原型。并且每个类只可以扩展另外一个类。
@@ -17,6 +18,27 @@
 在 JavaScript 中构造一个 mixin 最简单的方式就是构造一个拥有许多实用方法的对象，通过这个对象我们可以轻易地将这些实用方法合并到任何类的原型中。
 
 例如，这个叫做 `sayHiMixin` 的 mixin 用于给 `User` 添加一些“言语”。
+=======
+# Mixins
+
+In JavaScript we can only inherit from a single object. There can be only one `[[Prototype]]` for an object. And a class may extend only one other class.
+
+But sometimes that feels limiting. For instance, we have a class `StreetSweeper` and a class `Bicycle`, and want to make their mix: a `StreetSweepingBicycle`.
+
+Or we have a class `User` and a class `EventEmitter` that implements event generation, and we'd like to add the functionality of `EventEmitter` to `User`, so that our users can emit events.
+
+There's a concept that can help here, called "mixins".
+
+As defined in Wikipedia, a [mixin](https://en.wikipedia.org/wiki/Mixin) is a class containing methods that can be used by other classes without a need to inherit from it.
+
+In other words, a *mixin* provides methods that implement a certain behavior, but we do not use it alone, we use it to add the behavior to other classes.
+
+## A mixin example
+
+The simplest way to implement a mixin in JavaScript is to make an object with useful methods, so that we can easily merge them into a prototype of any class.
+
+For instance here the mixin `sayHiMixin` is used to add some "speech" for `User`:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 *!*
@@ -32,7 +54,11 @@ let sayHiMixin = {
 };
 
 *!*
+<<<<<<< HEAD
 // 用法：
+=======
+// usage:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 */!*
 class User {
   constructor(name) {
@@ -40,6 +66,7 @@ class User {
   }
 }
 
+<<<<<<< HEAD
 // 拷贝方法
 Object.assign(User.prototype, sayHiMixin);
 
@@ -48,6 +75,16 @@ new User("Dude").sayHi(); // Hello Dude!
 ```
 
 没有继承，只有一个简单的方法拷贝。因此 `User` 可以扩展其它类并且同样包含 mixin 来“mix-in”其它方法，就像这样：
+=======
+// copy the methods
+Object.assign(User.prototype, sayHiMixin);
+
+// now User can say hi
+new User("Dude").sayHi(); // Hello Dude!
+```
+
+There's no inheritance, but a simple method copying. So `User` may inherit from another class and also include the mixin to "mix-in" the additional methods, like this:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js
 class User extends Person {
@@ -57,9 +94,15 @@ class User extends Person {
 Object.assign(User.prototype, sayHiMixin);
 ```
 
+<<<<<<< HEAD
 Mixin 可以在自己内部使用继承。
 
 比如，这里的 `sayHiMixin` 继承于 `sayMixin`：
+=======
+Mixins can make use of inheritance inside themselves.
+
+For instance, here `sayHiMixin` inherits from `sayMixin`:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 let sayMixin = {
@@ -69,6 +112,7 @@ let sayMixin = {
 };
 
 let sayHiMixin = {
+<<<<<<< HEAD
   __proto__: sayMixin, // （或者，我们可以在这里通过 Object.create 来设置原型。）
 
   sayHi() {
@@ -79,6 +123,18 @@ let sayHiMixin = {
   },
   sayBye() {
     super.say(`Bye ${this.name}`);
+=======
+  __proto__: sayMixin, // (or we could use Object.create to set the prototype here)
+
+  sayHi() {
+    *!*
+    // call parent method
+    */!*
+    super.say(`Hello ${this.name}`); // (*)
+  },
+  sayBye() {
+    super.say(`Bye ${this.name}`); // (*)
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
   }
 };
 
@@ -88,6 +144,7 @@ class User {
   }
 }
 
+<<<<<<< HEAD
 // 拷贝方法
 Object.assign(User.prototype, sayHiMixin);
 
@@ -116,11 +173,49 @@ new User("Dude").sayHi(); // Hello Dude!
 或者，`menu` 在菜单选项被选择之后会产生 `"select"` 事件，并且其它对象可能在等待着接受事件的信息并且对事件做出反应。
 
 事件是一种与任何想要得到信息的人分享信息的方式。它在任何类中都可以使用，因此现在为它构造一个 mixin。
+=======
+// copy the methods
+Object.assign(User.prototype, sayHiMixin);
+
+// now User can say hi
+new User("Dude").sayHi(); // Hello Dude!
+```
+
+Please note that the call to the parent method `super.say()` from `sayHiMixin` (at lines labelled with `(*)`) looks for the method in the prototype of that mixin, not the class.
+
+Here's the diagram (see the right part):
+
+![](mixin-inheritance.svg)
+
+That's because methods `sayHi` and `sayBye` were initially created in `sayHiMixin`. So even though they got copied, their `[[HomeObject]]` internal property references `sayHiMixin`, as shown in the picture above.
+
+As `super` looks for parent methods in `[[HomeObject]].[[Prototype]]`, that means it searches `sayHiMixin.[[Prototype]]`, not `User.[[Prototype]]`.
+
+## EventMixin
+
+Now let's make a mixin for real life.
+
+An important feature of many browser objects (for instance) is that they can generate events. Events are a great way to "broadcast information" to anyone who wants it. So let's make a mixin that allows us to easily add event-related functions to any class/object.
+
+- The mixin will provide a method `.trigger(name, [...data])` to "generate an event" when something important happens to it. The `name` argument is a name of the event, optionally followed by additional arguments with event data.
+- Also the method `.on(name, handler)` that adds `handler` function as the listener to events with the given name. It will be called when an event with the given `name` triggers, and get the arguments from the `.trigger` call.
+- ...And the method `.off(name, handler)` that removes the `handler` listener.
+
+After adding the mixin, an object `user` will be able to generate an event `"login"` when the visitor logs in. And another object, say, `calendar` may want to listen for such events to load the calendar for the logged-in person.
+
+Or, a `menu` can generate the event `"select"` when a menu item is selected, and other objects may assign handlers to react on that event. And so on.
+
+Here's the code:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 let eventMixin = {
   /**
+<<<<<<< HEAD
    * 订阅事件，用法：
+=======
+   * Subscribe to event, usage:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
    *  menu.on('select', function(item) { ... }
   */
   on(eventName, handler) {
@@ -132,7 +227,11 @@ let eventMixin = {
   },
 
   /**
+<<<<<<< HEAD
    * 取消订阅，用法：
+=======
+   * Cancel the subscription, usage:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
    *  menu.off('select', handler)
    */
   off(eventName, handler) {
@@ -146,20 +245,32 @@ let eventMixin = {
   },
 
   /**
+<<<<<<< HEAD
    * 触发事件并传递参数
+=======
+   * Generate an event with the given name and data
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
+<<<<<<< HEAD
       return; // 对应事件名没有事件处理函数。
     }
 
     // 调用事件处理函数
+=======
+      return; // no handlers for that event name
+    }
+
+    // call the handlers
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
 ```
 
+<<<<<<< HEAD
 有三个方法：
 
 1. `.on(eventName, handler)` — 指定函数 `handler` 在具有对应事件名的事件发生时运行。这些事件处理函数存储在 `_eventHandlers` 属性中。
@@ -170,21 +281,41 @@ let eventMixin = {
 
 ```js run
 // 新建一个 class
+=======
+
+- `.on(eventName, handler)` -- assigns function `handler` to run when the event with that name occurs. Technically, there's an `_eventHandlers` property that stores an array of handlers for each event name, and it just adds it to the list.
+- `.off(eventName, handler)` -- removes the function from the handlers list.
+- `.trigger(eventName, ...args)` -- generates the event: all handlers from `_eventHandlers[eventName]` are called, with a list of arguments `...args`.
+
+Usage:
+
+```js run
+// Make a class
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 class Menu {
   choose(value) {
     this.trigger("select", value);
   }
 }
+<<<<<<< HEAD
 // 添加 mixin
+=======
+// Add the mixin with event-related methods
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 Object.assign(Menu.prototype, eventMixin);
 
 let menu = new Menu();
 
+<<<<<<< HEAD
 // 被选中时调用事件处理函数：
+=======
+// add a handler, to be called on selection:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 *!*
 menu.on("select", value => alert(`Value selected: ${value}`));
 */!*
 
+<<<<<<< HEAD
 // 触发事件 => 展示被选中的值：123
 menu.choose("123"); // 被选中的值
 ```
@@ -202,3 +333,23 @@ menu.choose("123"); // 被选中的值
 我们可以使用 mixin 作为一种通过多种行为来增强类的方式，就像我们上面看到的事件处理一样。
 
 如果 Mixins 偶尔会重写原生类中的方法，那么 Mixins 可能会成为一个冲突点。因此通常情况下应该好好考虑 mixin 的命名，以减少这种冲突的可能性。
+=======
+// triggers the event => the handler above runs and shows:
+// Value selected: 123
+menu.choose("123");
+```
+
+Now, if we'd like any code to react to a menu selection, we can listen for it with `menu.on(...)`.
+
+And `eventMixin` mixin makes it easy to add such behavior to as many classes as we'd like, without interfering with the inheritance chain.
+
+## Summary
+
+*Mixin* -- is a generic object-oriented programming term: a class that contains methods for other classes.
+
+Some other languages allow multiple inheritance. JavaScript does not support multiple inheritance, but mixins can be implemented by copying methods into prototype.
+
+We can use mixins as a way to augment a class by adding multiple behaviors, like event-handling as we have seen above.
+
+Mixins may become a point of conflict if they accidentally overwrite existing class methods. So generally one should think well about the naming methods of a mixin, to minimize the probability of that happening.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
