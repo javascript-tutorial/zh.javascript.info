@@ -1,10 +1,10 @@
 # Blob
 
-`ArrayBuffer` 和视图（views）都是 javascript 中 ECMA 标准的一部分。
+`ArrayBuffer` 和视图（views）都是 JavaScript 中 ECMA 标准的一部分。
 
 我们在 [File API](https://www.w3.org/TR/FileAPI/) 一节中描述过，在浏览器中，有其他高阶对象，特别是 `Blob`。
 
-`Blob` 由一个可选的字符串 `type` (通常是 MIME-类型) 和 `blobParts` 组成 -- 一串其他 `Blob` 对象、字符串和 `BufferSources`。
+`Blob` 由一个可选的字符串 `type` (通常是 MIME 类型) 和 `blobParts` 组成 -- 一串其他 `Blob` 对象、字符串和 `BufferSources`。
 
 ![](blob.svg)
 
@@ -16,7 +16,7 @@ new Blob(blobParts, options);
 
 - **`blobParts`** `Blob`/`BufferSource`/`String` 类型值的数组。
 - **`options`** 可选对象：
-  - **`type`** -- blob 类型，通常是 MIME-类型，如 `image/png`，
+  - **`type`** -- blob 类型，通常是 MIME 类型，如 `image/png`，
   - **`endings`** -- 是否转换换行符，使 blob 符合当前操作系统的换行符（`\r\n` 或 `\n`）。默认为 `"transparent"`（啥也不做），不过也可以是 `"native"`（转换）。
 
 例如：
@@ -100,7 +100,7 @@ blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 
 浏览器内部为每个通过 `URL.createObjectURL` 生成的 url 存储了一个 url -> blob 映射。因此，这些 url 虽然短小，但可以访问 blob。
 
-生成的 url（即其链接）只在当前文件打开的状态下才有效。它允许引用 `<img>`、`<a>` 中的 blob，以及基本上任何其他接受 url 的对象。
+生成的 url（即其链接）只在当前文档打开的状态下才有效。它允许引用 `<img>`、`<a>` 中的 blob，以及基本上任何其他接受 url 的对象。
 
 不过有个问题是，当 blob 有映射的时候，blob 本身是在内存中的。浏览器无法释放它。
 
@@ -112,13 +112,13 @@ blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 
 在上一个示例中，为了快速下载，我们想只用一次 blob，因此我们立刻调用 `URL.revokeObjectURL(link.href)`。
 
-而在前一个示例中，利用可以点击的 HTML-链接，我们不调用 `URL.revokeObjectURL(link.href)`，因为那样会使 blob url 无效。在撤销后，由于映射被删除了，因此 url 也不再有效了。
+而在前一个示例中，利用可以点击的 HTML 链接，我们不调用 `URL.revokeObjectURL(link.href)`，因为那样会使 blob url 无效。在撤销后，由于映射被删除了，因此 url 也不再有效了。
 
 ## Blob 转换为 base64
 
 `URL.createObjectURL` 的一个可替代方法是，将 blob 转换为 base64-编码 的字符串。
 
-这种编码是将二进制数据表示为一个由非常安全“可读“的 0-64 个 ASCII 码字符组成的字符串。而且更重要的是 -- 我们可以在数据 url 中使用此编码。
+这种编码是将二进制数据表示为一个由 0 到 64 的 ASCII 码字符组成的字符串，非常安全且“可读“。而且更重要的是 -- 我们可以在数据 url 中使用此编码。
 
 [数据 url（data url）](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) 的格式是 `data:[<mediatype>][;base64],<data>`。我们可以在其他地方使用这种 url，如同使用 "普通" urls 一样。
 
@@ -154,7 +154,7 @@ reader.onload = function() {
 
 这两种从 blob 创建 URL 的方法都可以用。但通常 `URL.createObjectURL(blob)` 更简单快捷一些。
 
-```比较 title-plus="URL.createObjectURL(blob)" title-minus="Blob 转换为 数据 url"
+```compare title-plus="URL.createObjectURL(blob)" title-minus="Blob 转换为 数据 url"
 + 如介意内存，我们需要撤销他们
 + 直接访问 blob，无需”编码/解码“
 - 无需撤销任何操作。
@@ -212,7 +212,7 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 
 `Blob` 构造函数允许从几乎任何对象创建 blob，包括任何 `BufferSource`。
 
-但如果我们需要做底层操作的话，我们可以用 `FileReader` 从 blob 中获取最底层的`ArrayBuffer`：
+但如果我们需要做底层操作的话，我们可以用 `FileReader` 从 blob 中获取最底层的 `ArrayBuffer`：
 
 ```js
 // 从 blob 获取 arrayBuffer
