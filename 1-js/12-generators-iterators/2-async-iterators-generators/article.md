@@ -47,7 +47,7 @@ for(let value of range) {
 }
 ```
 
-有需要的话，您可以返回关于 <info:iterable> 的章节查看常规的迭代器的详细内容。
+有需要的话，你可以返回关于 <info:iterable> 的章节查看常规的迭代器的详细内容。
 
 为了使对象可以异步地迭代：
 1. 我们需要使用 `Symbol.asyncIterator` 取代 `Symbol.iterator`。
