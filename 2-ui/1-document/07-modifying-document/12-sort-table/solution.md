@@ -14,6 +14,10 @@ table.tBodies[0].append(...sortedRows);
 3. 比较 `<td>` 的内容（字符在字符集中的序号），进行排序。
 4. 现在使用 `.append(...sortedRows)` 插入节点。
 
+<<<<<<< HEAD
     table 永远包含 <tbody> 元素，所以我们需要考虑到它，并将内容插入到其中：单纯的调用 `table.append(...)` 将会失败。
+=======
+    Tables always have an implicit `<tbody>` element, so we need to take it and insert into it: a simple `table.append(...)` would fail.
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
 
     请留意：我们没有移除操作，只进行“重复插入”，它们会将旧的位置的内容自动去除。

@@ -2,25 +2,33 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   let elem = document.getElementById('coords-show-mark');
+<<<<<<< HEAD
 
   elem && elem.getElementById('coords-show-mark').onclick = function() {
+=======
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
 
-    function createMessageUnder(elem, text) {
-      let coords = elem.getBoundingClientRect();
-      let message = document.createElement('div');
-      message.style.cssText = "position:fixed; color: red";
+  // no elem in ebook (pdf/epub) mode
+  if (elem) {
+    elem.onclick = function() {
 
-      message.style.left = coords.left + "px";
-      message.style.top = coords.bottom + "px";
+      function createMessageUnder(elem, text) {
+        let coords = elem.getBoundingClientRect();
+        let message = document.createElement('div');
+        message.style.cssText = "position:fixed; color: red";
 
-      message.innerHTML = text;
+        message.style.left = coords.left + "px";
+        message.style.top = coords.bottom + "px";
 
-      return message;
+        message.innerHTML = text;
+
+        return message;
+      }
+
+      let message = createMessageUnder(elem, 'Hello, world!');
+      document.body.append(message);
+      setTimeout(() => message.remove(), 5000);
     }
-
-    let message = createMessageUnder(elem, 'Hello, world!');
-    document.body.append(message);
-    setTimeout(() => message.remove(), 5000);
   }
 
 });
