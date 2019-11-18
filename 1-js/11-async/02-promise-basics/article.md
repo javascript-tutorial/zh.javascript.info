@@ -278,12 +278,12 @@ promise.then(
 promise.then(script => alert('One more handler to do something else!'));
 ```
 
-我们立刻能发现Promise优于回调语法的地方：
+我们立刻能发现 Promise 优于回调语法的地方：
 
 | Promises | Callbacks |
 |----------|-----------|
-| Promises 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和  `.then` 来编写如何处理结果。| 在调用 `loadScript` 时，我们必须已经有了一个 `callback` 函数。换句话说，在调用 `loadScript` **之前**我们必须知道如何处理结果。|
-| 无论何时，只要我们有需要，就可以在 promise 中调用 `.then`。每次调用仅需向“订阅者列表”增加一个新“粉丝”—— 一个新订阅函数。更多细节请参考下一章： [](info:promise-chaining). | 只能有一个回调。|
+| Promises 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和 `.then` 来处理结果。| 在调用 `loadScript` 时，我们必须已经有了一个 `callback` 函数。换句话说，在调用 `loadScript` **之前**我们必须知道如何处理结果。|
+| 只要我们有需要，我们能在 promise 上调用 `.then` 无数次。每次调用仅需向“订阅者列表”增加一个新“粉丝”—— 一个新订阅函数。更多细节请参考下一章： [](info:promise-chaining). | 只能有一个回调。|
 
 
 因此，promise 已经为我们的编码带来了更好的编码方式和灵活性。我们会在之后章节看到更多相关内容。
