@@ -202,7 +202,7 @@ alert(cache.size); // 1 (哇! 这个对象依然在缓存中, 占据内存!)
 // 📁 cache.js
 let cache = new WeakMap();
 
-// calculate and remember the result
+// 计算并记住结果
 function process(obj) {
   if (!cache.has(obj)) {
     let result = /* calculate the result for */ obj;
@@ -214,17 +214,17 @@ function process(obj) {
 }
 
 // 📁 main.js
-let obj = {/* some object */};
+let obj = {/* 对象 */};
 
 let result1 = process(obj);
 let result2 = process(obj);
 
-// ...later, when the object is not needed any more:
+// ...之后, 当这个对象不再需要使用的时候置为空对象:
 obj = null;
 
-// Can't get cache.size, as it's a WeakMap,
-// but it's 0 or soon be 0
-// When obj gets garbage collected, cached data will be removed as well
+// 不能通过cache.size获取它的大小, 因为它是一个 Weakmap,
+// 但是它为 0 或者说将会变成 0
+// 当对象被垃圾回收机制回收的同时, 缓存的数据也会被清除
 
 ```
 ## WeakSet
