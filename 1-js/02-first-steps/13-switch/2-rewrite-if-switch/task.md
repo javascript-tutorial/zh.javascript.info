@@ -2,7 +2,7 @@ importance: 4
 
 ---
 
-# "if" 重构为 "switch" 结构
+# 将 "if" 结构重写为 "switch" 结构
 
 用 `switch` 重写以下代码：
 

@@ -15,6 +15,6 @@ if(browser == 'Edge') {
 }
 ```
 
-请注意：`browser == 'Chrome' || browser == 'Firefox' …` 结构分成多行更容易阅读。
+请注意：将 `browser == 'Chrome' || browser == 'Firefox' …` 结构分成多行可读性更高。
 
 但 `switch` 结构更清晰明了。
