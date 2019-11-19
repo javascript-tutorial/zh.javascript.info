@@ -44,36 +44,36 @@ let john = { name: "John" };
 let map = new Map();
 map.set(john, "...");
 
-john = null; // overwrite the reference
+john = null; // 覆盖引用
 
 *!*
-// john is stored inside the map,
-// we can get it by using map.keys()
+// john 被存在 map 里面了,
+// 我们可以使用 map.keys() 来得到它
 */!*
 ```
 
-`WeakMap` is fundamentally different in this aspect. It doesn't prevent garbage-collection of key objects.
+`WeakMap` 在这方面有着根本的区别。它不会阻止垃圾回收对关键对象进行回收操作。
 
-Let's see what it means on examples.
+让我们来看看例子里究竟是什么意思
 
 ## WeakMap
 
-The first difference from `Map` is that `WeakMap` keys must be objects, not primitive values:
+相对于 `Map` ，`WeakMap` 的第一个不同点就是它键必须是对象，不能是原始值
 
 ```js run
 let weakMap = new WeakMap();
 
 let obj = {};
 
-weakMap.set(obj, "ok"); // works fine (object key)
+weakMap.set(obj, "ok"); // 正常 (键对象)
 
 *!*
-// can't use a string as the key
-weakMap.set("test", "Whoops"); // Error, because "test" is not an object
+// 不能使用一个字符串作为键
+weakMap.set("test", "Whoops"); // 错误, 因为 "test" 不是一个对象
 */!*
 ```
 
-Now, if we use an object as the key in it, and there are no other references to that object -- it will be removed from memory (and from the map) automatically.
+现在, 如果我们在 weakMap 里使用对象作为键，并且当这个对象没有其它引用 -- 该对象将会从内存中被自动清除 ( map 也类似) 。
 
 ```js
 let john = { name: "John" };
@@ -81,9 +81,9 @@ let john = { name: "John" };
 let weakMap = new WeakMap();
 weakMap.set(john, "...");
 
-john = null; // overwrite the reference
+john = null; // 覆盖引用
 
-// john is removed from memory!
+// john 从内存中被移除！
 ```
 
 Compare it with the regular `Map` example above. Now if `john` only exists as the key of `WeakMap` -- it will be automatically deleted from the map (and memory).
