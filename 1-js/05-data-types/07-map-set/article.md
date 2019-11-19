@@ -76,7 +76,7 @@ alert( visitsCountObj["[object Object]"] ); // 123
 
 当 `visitsCountObj` 是一个普通对象的时候, 它会转化所有的键, `john` 被转化为字符串, 所以我们得到字符键 `"[object Object]"`. 很明显这不是我们要的结果.
 
-```smart header="How `Map` compares keys"
+```smart header="`Map` 是怎么比较键的？"
 
 为了测试键的一致性, `Map` 使用 [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero)算法。 它大致上使用严格全等 `===`， 但不同的是 `NaN` 被看成是等于 `NaN`。 所以 `NaN` 也可以被用作键.
 
@@ -84,9 +84,9 @@ alert( visitsCountObj["[object Object]"] ); // 123
 
 ```
 
-````smart header="Chaining"
+````smart header="链式调用"
 
-每一次调用 `map.set` 都会返回集合本身， 所以我们可以使用链式调用:
+每一次调用 `map.set` 都会返回集合本身， 所以我们可以使用:
 
 ```js
 map.set('1', 'str1')
@@ -113,43 +113,42 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
-// iterate over keys (vegetables)
+// 迭代键(vegetables)
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomatoes, onion
 }
 
-// iterate over values (amounts)
+// 迭代值 (amounts)
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
 
-// iterate over [key, value] entries
-for (let entry of recipeMap) { // the same as of recipeMap.entries()
+// 迭代 [key, value] 对
+for (let entry of recipeMap) { // 效果跟 recipeMap.entries() 相同
   alert(entry); // cucumber,500 (and so on)
 }
 ```
 
-```smart header="The insertion order is used"
+```smart header="按顺序插入"
 
-64/5000
 迭代的顺序与插入键的顺序相同。 `Map`会保持相同的顺序,不像普通 `Object` 不保证顺序.
 ```
 
 除此之外, `Map` 有个内建 `forEach` 方法, 跟 `Array` 一样:
 
 ```js
-// runs the function for each (key, value) pair
+// 对每个 (key, value) 对运行 forEach 函数
 recipeMap.forEach( (value, key, map) => {
   alert(`${key}: ${value}`); // cucumber: 500 etc
 });
 ```
 
-## Object.entries: Map from Object
+## Object.entries: 把对象转化为 `map`
 
- 当 `Map` 被创建之后, 我们可以传入带有键值对的数组 (或其它可迭代的) 来进行初始化, 像这样:
+ 当 `Map` 被创建之后, 我们可以传入带有键值对的数组 (或其它可迭代的对象) 来进行初始化, 像这样:
 
 ```js run
-// array of [key, value] pairs
+// 包含 [key, value] 对的数组
 let map = new Map([
   ['1',  'str1'],
   [1,    'num1'],
@@ -179,7 +178,7 @@ alert( map.get('name') ); // John
 这里, `Object.entries` 返回一个含有键值对的数组: `[ ["name","John"], ["age", 30] ]`. 这就是 `Map` 所需要的参数格式.
 
 
-## Object.fromEntries: Object from Map
+## Object.fromEntries: 把 `map` 转化为对象
 
 我们刚刚已经利用 `Object.entries(obj)` 把一个纯对象转化成 `Map`
 
@@ -197,7 +196,7 @@ let prices = Object.fromEntries([
 alert(prices.orange); // 2
 ```
 
-我们可以使用 `Object.fromEntries` 从 `Map` 中得到一个春对象。
+我们可以使用 `Object.fromEntries` 从 `Map` 中得到一个纯对象。
 
 例如， 我们存了数据在 `Map` 中, 但是我们需要把它转给需要纯对象的第三方代码 。
 
@@ -281,7 +280,7 @@ let set = new Set(["oranges", "apples", "bananas"]);
 
 for (let value of set) alert(value);
 
-// the same with forEach:
+// 跟 forEach 方法相同:
 set.forEach((value, valueAgain, set) => {
   alert(value);
 });
@@ -291,11 +290,10 @@ set.forEach((value, valueAgain, set) => {
 
 那是为了兼容 `Map` 在回调里传入 `forEach` 函数后有三个参数。 当然这看起来有点奇怪。但是这对在特定情况下比如使用 `Set`代替 `Map`的时候有帮助，反之亦然。
 
-The same methods `Map` has for iterators are also supported:
-类似于 `Map`，在 `Set`里用于迭代的方法也支持：
-- `set.keys()` -- returns an iterable object for values,
-- `set.values()` -- same as `set.keys()`, for compatibility with `Map`,
-- `set.entries()` -- returns an iterable object for entries `[value, value]`, exists for compatibility with `Map`.
+类似于 `Map`，在 `Set`里用于迭代的方法也被支持：
+- `set.keys()` -- 返回一个包含值的可迭代对象,
+- `set.values()` -- 跟 `set.keys()` 作用相同, 为了兼容 `Map`,
+- `set.entries()` -- 返回一个包含 `[value, value]` 对的可迭代对象 , 它的存在也是为了兼容 `Map`.
 
 ## 总结
 
@@ -303,13 +301,13 @@ The same methods `Map` has for iterators are also supported:
 
 方法和属性如下:
 
-- `new Map([iterable])` -- creates the map, with optional `iterable` (e.g. array) of `[key,value]` pairs for initialization.
-- `map.set(key, value)` -- stores the value by the key.
-- `map.get(key)` -- returns the value by the key, `undefined` if `key` doesn't exist in map.
-- `map.has(key)` -- returns `true` if the `key` exists, `false` otherwise.
-- `map.delete(key)` -- removes the value by the key.
-- `map.clear()` -- removes everything from the map.
-- `map.size` -- returns the current element count.
+- `new Map([iterable])` -- 创建空的 map, 可选的带有 `[key,value]` 对的`iterable` (例如数组) 对象来进行初始化 。
+- `map.set(key, value)` -- 存储对应的键值。
+- `map.get(key)` -- 根据键来返回值, 如果键不存在 map 里就返回 `undefined`。
+- `map.has(key)` -- 如果 `key` 存在则返回 `true` , 否则返回`false`。
+- `map.delete(key)` -- 删除指定键值。
+- `map.clear()` -- 清空 map 。
+- `map.size` -- 返回当前全部元素的数量。
 
 跟普通对象 `Object` 最大的不同点是:
 
@@ -320,11 +318,11 @@ The same methods `Map` has for iterators are also supported:
 
 方法和属性:
 
-- `new Set([iterable])` -- creates the set, with optional `iterable` (e.g. array) of values for initialization.
-- `set.add(value)` -- adds a value (does nothing if `value` exists), returns the set itself.
-- `set.delete(value)` -- removes the value, returns `true` if `value` existed at the moment of the call, otherwise `false`.
-- `set.has(value)` -- returns `true` if the value exists in the set, otherwise `false`.
-- `set.clear()` -- removes everything from the set.
-- `set.size` -- is the elements count.
+- `new Set([iterable])` -- 创建空的 set , 可选的带有 `iterable` (例如数组) 对象来进行初始化。
+- `set.add(value)` -- 添加一个 value（如果存在则什么也不做）, 返回 set 本身。
+- `set.delete(value)` -- 删除 value , 如果在调用的时候存在则返回 `true`, 否则返回 `false`。
+- `set.has(value)` -- 如果则返回 `true`, 否则返回 `false`。
+- `set.clear()` -- 清空 set。
+- `set.size` -- 返回当前全部元素的数量。
 
 在 `Map` 和 `Set` 里迭代总是按照插入的顺序来执行的，所以我们不能说这些集合是无序的，也不可以通过它的数量来记录元素或者直接获取一个元素。
