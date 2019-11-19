@@ -10,13 +10,12 @@
       const body = await response.json(); // 将响应解析为 JSON (提交记录列表)
 
       // 指向下一页的 URL 被包含在头部信息内，提取它
-
       let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
       nextPage = nextPage && nextPage[1];
 
       url = nextPage;
 
-      // 一个接一个地生成 (yield) 提交记录，结束后 - 获取(fetch) 新一页的 URL
+      // 一个接一个地获生成 (yield) 提交记录，结束后 - 获取(fetch) 新一页的 URL
       for(let commit of body) {
         yield commit;
       }
