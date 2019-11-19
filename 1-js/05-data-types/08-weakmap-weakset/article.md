@@ -1,41 +1,40 @@
 # WeakMap and WeakSet
+我们从前面的[垃圾回收](<info:garbage-collection>)章节中知道，JavaScript 引擎在内存充足的情况下（或者可能被使用完）存储一个值
 
-As we know from the chapter <info:garbage-collection>, JavaScript engine stores a value in memory while it is reachable (and can potentially be used).
-
-For instance:
+例如:
 ```js
 let john = { name: "John" };
 
-// the object can be accessed, john is the reference to it
+// 该对象能被访问, john 是它的引用
 
-// overwrite the reference
+// 覆盖引用
 john = null;
 
 *!*
-// the object will be removed from memory
+// 该对象将会从内存中被清除
 */!*
 ```
 
-Usually, properties of an object or elements of an array or another data structure are considered reachable and kept in memory while that data structure is in memory.
+通常，当对象的属性或者数组的元或者其它数据结构被认为是可访问的，并在该数据结构处于内存中时驻留在内存中。
 
-For instance, if we put an object into an array, then while the array is alive, the object will be alive as well, even if there are no other references to it.
+例如, 如果把一个对象放入到数组中去, 然后当数组留存在内存中时，甚至该对象在没有其它引用的情况下依旧也是可访问的 。
 
-Like this:
+就像这样:
 
 ```js
 let john = { name: "John" };
 
 let array = [ john ];
 
-john = null; // overwrite the reference
+john = null; // 覆盖引用
 
 *!*
-// john is stored inside the array, so it won't be garbage-collected
-// we can get it as array[0]
+// john 被存储在数组里, 所以它不会被垃圾回收机制回收
+// 我们可以通过 array[0] 来访问
 */!*
 ```
 
-Similar to that, if we use an object as the key in a regular `Map`, then while the `Map` exists, that object exists as well. It occupies memory and may not be garbage collected.
+类似地, 如果我们只用对象作为常规 `Map` 的键的时候, 然后当 `Map` 存在时, 那个对象也是存在的. 它会占用内存并且可能不会被（垃圾回收机制）回收.
 
 For instance:
 
