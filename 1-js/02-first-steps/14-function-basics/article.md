@@ -71,7 +71,7 @@ alert( message ); // <-- 错误！变量是函数的局部变量
 
 ## 外部变量
 
-函数也可以访问外部变量，例如：
+函数可以访问外部变量，例如：
 
 ```js run no-beautify
 let *!*userName*/!* = 'John';
@@ -84,7 +84,7 @@ function showMessage() {
 showMessage(); // Hello, John
 ```
 
-函数可以访问外部变量，也可以修改它。
+函数对外部变量拥有全部的访问权限。函数也可以修改外部变量。
 
 例如：
 
@@ -102,12 +102,12 @@ alert( userName ); // *!*John*/!* 在函数调用之前
 
 showMessage();
 
-alert( userName ); // *!*Bob*/!*, 值被函数修改
+alert( userName ); // *!*Bob*/!*，值被函数修改了
 ```
 
 只有在没有局部变量的情况下才会使用外部变量。
 
-如果在函数中声明了同名变量，那么它**遮蔽**外部变量。例如，在如下代码中，函数使用局部的 `userName`，外部部分被忽略：
+如果在函数内部声明了同名变量，那么函数会 **遮蔽** 外部变量。例如，在下面的代码中，函数使用局部的 `userName`，而外部变量被忽略：
 
 ```js run
 let userName = 'John';
@@ -121,10 +121,10 @@ function showMessage() {
   alert(message);
 }
 
-//  函数会创建并使用它自己的 userName
+// 函数会创建并使用它自己的 userName
 showMessage();
 
-alert( userName ); // *!*John*/!*，未更改，函数没有访问外部变量。
+alert( userName ); // *!*John*/!*，未被更改，函数没有访问外部变量。
 ```
 
 ```smart header="全局变量"
