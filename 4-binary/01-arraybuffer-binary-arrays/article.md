@@ -19,15 +19,16 @@ alert(buffer.byteLength); // 16
 
 它会分配一个 16 字节的连续内存区域，并预先用 0 填充。
 
-```warn header ="`ArrayBuffer` 不是某种数组"让我们来澄清一个可能的误区。‎`ArrayBuffer` 与 `Array` 没有任何共同之处：
+```warn header ="`ArrayBuffer` 不是某种数组"
+让我们来澄清一个可能的误区。‎`ArrayBuffer` 与 `Array` 没有任何共同之处：
 - 它长度固定，无法增加或减少。
 - 它正好占用了内存中那么多的空间。
 - 如要访问单个字节，需要另一个"视图"对象，而不是 `buffer[index]`。
 ```
 
-`ArrayBuffer` 是一个内存区域它里面存储了什么？无从判断。只是一个原始的字节序列。
+`ArrayBuffer` 是一个内存区域。它里面存储了什么？无从判断。只是一个原始的字节序列。
 
-**如要操作 `ArrayBuffer`，我们需要使用"视图"对象。
+**如要操作 `ArrayBuffer`，我们需要使用"视图"对象。**
 
 视图对象本身并不存储任何元素。它是一副”眼镜“，透过它来解析存储在 `ArrayBuffer` 中的字节。
 
@@ -70,7 +71,7 @@ for(let num of view) {
 
 ## 类型化数组（TypedArray）
 
-所有这些视图（`Uint8Array`, `Uint32Array` 等）有一个通用术语是 [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects). 它们都享有同一组方法和属性。
+所有这些视图（`Uint8Array`, `Uint32Array` 等）有一个通用术语是 [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects)。它们都享有同一组方法和属性。
 
 它们更像普通数组：有索引，可遍历。
 
@@ -122,7 +123,8 @@ new TypedArray();
 
 我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此在所有这些情况下（第一个除外）都会自动创建 `ArrayBuffer`（如果提供的话）。
 
-如要访问 `ArrayBuffer`，可以用以下属性：- `arr.buffer` -- 引用 `ArrayBuffer`。
+如要访问 `ArrayBuffer`，可以用以下属性：
+- `arr.buffer` -- 引用 `ArrayBuffer`。
 - `arr.byteLength` --  `ArrayBuffer` 的长度。
 
 因此，我们总是可以从一个视图转到另一个视图：
