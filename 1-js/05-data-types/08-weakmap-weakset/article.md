@@ -86,54 +86,53 @@ john = null; // 覆盖引用
 // john 从内存中被移除！
 ```
 
-Compare it with the regular `Map` example above. Now if `john` only exists as the key of `WeakMap` -- it will be automatically deleted from the map (and memory).
+与上面的常规 `Map` 例子比起来。 现在如果 `john` 仅仅是作为 `WeakMap` 的键而存在时 -- 它将会从 map （从内存中）自动删除。
 
-`WeakMap` does not support iteration and methods `keys()`, `values()`, `entries()`, so there's no way to get all keys or values from it.
+`WeakMap` 不支持迭代和`keys()`, `values()`, `entries()`方法, 所以没法从它里面获取键或者值。
 
-`WeakMap` has only the following methods:
+`WeakMap` 只有以下方法:
 
 - `weakMap.get(key)`
 - `weakMap.set(key, value)`
 - `weakMap.delete(key)`
 - `weakMap.has(key)`
 
-Why such a limitation? That's for technical reasons. If an object has lost all other references (like `john` in the code above), then it is to be garbage-collected automatically. But technically it's not exactly specified *when the cleanup happens*.
+为什么会有这种限制呢? 那是因为技术原因。如果一个对象丢失了其它多有引用（就像上面的 `john`）， 然后它会被自动回收. 但是在从技术的角度并不能准确知道 *何时开始清理*。
 
-The JavaScript engine decides that. It may choose to perform the memory cleanup immediately or to wait and do the cleaning later when more deletions happen. So, technically the current element count of a `WeakMap` is not known. The engine may have cleaned it up or not, or did it partially. For that reason, methods that access all keys/values are not supported.
+这些都由 JavaScript 决定。为了优化内存，它可能会立刻开始清除或者等待并在稍后更多清理的时候才开始执行清理。 所以, 从技术上来说，`WeakMap` 的当前成员的数量是未知的，引擎既有可能清理又可能不清理，或者只是清理一部分。 由于这些原因，暂不支持访问所有键或者值的方法。
 
-Now where do we need such data structure?
+那这种数据结构用在何处呢？
 
-## Use case: additional data
+## 使用案例: 附加数据
 
-The main area of application for `WeakMap` is an *additional data storage*.
+`WeakMap` 的主要应用领域是 *附加数据存储*
 
-If we're working with an object that "belongs" to another code, maybe even a third-party library, and would like to store some data associated with it, that should only exist while the object is alive - then `WeakMap` is exactly what's needed.
+假如我们在处理一个 “属于” 其它代码的对象，也可能是第三方库，想存储一些与其相关的数据，这就要求与这个对象共存亡 --- 这时候 `WeakMap` 就是所我们多需要的利器
 
-We put the data to a `WeakMap`, using the object as the key, and when the object is garbage collected, that data will automatically disappear as well.
+我们利用对象作为键并把数据存在到 `WeakMap`中，当该对象被回收时，该数据也会自动消失。
 
 ```js
 weakMap.set(john, "secret documents");
-// if john dies, secret documents will be destroyed automatically
+// 如果 john 消失, secret documents 将会被自动删除
 ```
 
-Let's look at an example.
+让我们来看一个例子。
 
-For instance, we have code that keeps a visit count for users. The information is stored in a map: a user object is the key and the visit count is the value. When a user leaves (its object gets garbage collected), we don't want to store their visit count anymore.
+例如，我们有这样的代码需要记录访客的来访次数，信息被存储在弱集合中：某个用户对象作为键，来访次数作为值。当某个用户出去了（该对象被回收），我们就不需要再存储他们的来访次数了
 
-Here's an example of a counting function with `Map`:
+下面有个类似的使用 `Map` 的函数:
 
 ```js
 // 📁 visitsCount.js
 let visitsCountMap = new Map(); // map: user => visits count
 
-// increase the visits count
+// 递增游客来访次数
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
-
-And here's another part of the code, maybe another file using it:
+下面是其它部分的代码, 其它代码也使用它:
 
 ```js
 // 📁 main.js
@@ -146,39 +145,39 @@ countUser(john);
 john = null;
 ```
 
-Now `john` object should be garbage collected, but remains in memory, as it's a key in `visitsCountMap`.
+现在 `john` 这个对象应该被回收，但因为他的键还在`visitsCountMap` 中导致它依然留存在内存中。
 
-We need to clean `visitsCountMap` when we remove users, otherwise it will grow in memory indefinitely. Such cleaning can become a tedious task in complex architectures.
+对我们移除某个用户的时候需要清理 `visitsCountMap` ， 否则它们会在内存中无限增加。这种清理在复杂的架构系统中将会是很乏味的任务。
 
-We can avoid it by switching to `WeakMap` instead:
+我们可以通过使用 `WeakMap` 来避免这样的问题：
 
 ```js
 // 📁 visitsCount.js
 let visitsCountMap = new WeakMap(); // weakmap: user => visits count
 
-// increase the visits count
+// 递增游客来访次数
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
 
-Now we don't have to clean `visitsCountMap`. After `john` object becomes unreachable by all means except as a key of `WeakMap`, it gets removed from memory, along with the information by that key from `WeakMap`.
+现在我们不需要去清理`visitsCountMap`了。`WeakMap` 里的 `john` 对象以及它携带的信息将会被回收（清除），其它所有途径都不能访问它除非是作为 `WeakMap` 的键。
 
-## Use case: caching
+## 使用案例: 缓存
 
-Another common example is caching: when a function result should be remembered ("cached"), so that future calls on the same object reuse it.
+另外一个很普遍的例子是缓存: 当函数的结果需要被记住（“缓存”），这样在后续的同一个对象调用的时候可以重用该被缓存的结果。
 
-We can use `Map` to store results, like this:
+我们可以使用 `Map` 来存储结果，就像这样：
 
 ```js run
 // 📁 cache.js
 let cache = new Map();
 
-// calculate and remember the result
+// 计算并记住结果
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* calculations of the result for */ obj;
+    let result = /* 计算 obj 值的结果 */ obj;
 
     cache.set(obj, result);
   }
@@ -187,26 +186,26 @@ function process(obj) {
 }
 
 *!*
-// Now we use process() in another file:
+// 现在我们在其它文件中使用 process() ：
 */!*
 
 // 📁 main.js
-let obj = {/* let's say we have an object */};
+let obj = {/* 假设有个对象 */};
 
-let result1 = process(obj); // calculated
+let result1 = process(obj); // 计算中...
 
-// ...later, from another place of the code...
+// ...之后, 来自另外一个地方的代码...
 let result2 = process(obj); // remembered result taken from cache
 
-// ...later, when the object is not needed any more:
+// ...之后, 改对象不再需要使用时:
 obj = null;
 
-alert(cache.size); // 1 (Ouch! The object is still in cache, taking memory!)
+alert(cache.size); // 1 (啊! 该对象依然在 cache 中, 并占据着内存！)
 ```
 
-For multiple calls of `process(obj)` with the same object, it only calculates the result the first time, and then just takes it from `cache`. The downside is that we need to clean `cache` when the object is not needed any more.
+对于同一个对象多次调用，它只是计算第一次，之后直接从 `cache` 中获取，这样做的缺点是当我们不再需要这个对象的时候需要清理 `cache`
 
-If we replace `Map` with `WeakMap`, then this problem disappears: the cached result will be removed from memory automatically after the object gets garbage collected.
+如果我们用 `WeakMap` 代替`Map`这个问题便会消失： 缓存的结果在该对象背回收之后会自动从内存中释放。
 
 ```js run
 // 📁 cache.js
@@ -214,10 +213,10 @@ If we replace `Map` with `WeakMap`, then this problem disappears: the cached res
 let cache = new WeakMap();
 */!*
 
-// calculate and remember the result
+// 计算并记结果
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* calculate the result for */ obj;
+    let result = /* 计算 obj 之后得出的结果 */ obj;
 
     cache.set(obj, result);
   }
@@ -231,25 +230,23 @@ let obj = {/* some object */};
 let result1 = process(obj);
 let result2 = process(obj);
 
-// ...later, when the object is not needed any more:
+// ...之后, 当该对象不再需要的时候:
 obj = null;
 
-// Can't get cache.size, as it's a WeakMap,
-// but it's 0 or soon be 0
-// When obj gets garbage collected, cached data will be removed as well
+// 不能使用 cache.size, 因为它是一个 WeakMap,
+// 要么是 0 或者 很快变成 0
+// 当 obj 被回收时, 缓存的数据也会被清除
 ```
 
 ## WeakSet
 
-`WeakSet` behaves similarly:
+`WeakSet` 的作用类似:
 
-- It is analogous to `Set`, but we may only add objects to `WeakSet` (not primitives).
-- An object exists in the set while it is reachable from somewhere else.
-- Like `Set`, it supports `add`, `has` and `delete`, but not `size`, `keys()` and no iterations.
-
-Being "weak", it also serves as an additional storage. But not for an arbitrary data, but rather for "yes/no" facts. A membership in `WeakSet` may mean something about the object.
-
-For instance, we can add users to `WeakSet` to keep track of those who visited our site:
+- 它跟 `Set` 类似, 但是我们只能添加对象到 `WeakSet` (非原始值)中。
+- 某个对象只有在其它任何地方都能访问的时候才能留在 set 里。
+- 跟 `Set` 一样, `WeakSet` 支持 `add`, `has` and `delete` 等方法, 但不支持 `size`, `keys()` 并且没有迭代。
+变 "弱" 的同时, 它也可以作为额外的存储空间，但并非任意数据，而是针对“是/否”的事实，在 `WeakSet` 里的成员代表着对象里的某个属性。
+例如, 我们可以添加 users 到 `WeakSet` 里来追踪谁访问了我们的网站：
 
 ```js run
 let visitedSet = new WeakSet();
@@ -262,27 +259,27 @@ visitedSet.add(john); // John visited us
 visitedSet.add(pete); // Then Pete
 visitedSet.add(john); // John again
 
-// visitedSet has 2 users now
+// 现在 visitedSet 有2个用户
 
-// check if John visited?
+// 检查 John 是否访问过?
 alert(visitedSet.has(john)); // true
 
-// check if Mary visited?
+// 检查 Mary 是否访问过?
 alert(visitedSet.has(mary)); // false
 
 john = null;
 
-// visitedSet will be cleaned automatically
+// visitedSet 将被自动清理
 ```
 
-The most notable limitation of `WeakMap` and `WeakSet` is the absence of iterations, and inability to get all current content. That may appear inconvenient, but does not prevent `WeakMap/WeakSet` from doing their main job -- be an "additional" storage of data for objects which are stored/managed at another place.
+ `WeakMap` 和 `WeakSet` 最出名的限制是不能迭代，获取多有的当前内容。那样可能会造成不便，但是依旧不能阻止 `WeakMap/WeakSet` 做很重要的事情 -- 成为在其它地方管理或者存储的对象 “额外的” 存储数据
 
-## Summary
+## 总结
 
-`WeakMap` is `Map`-like collection that allows only objects as keys and removes them together with associated value once they become inaccessible by other means.
+` WeakMap` 是类似于 `Map` 的集合，它仅允许对象作为键，并在其他方式无法访问它们时将其与关联值一起删除。
 
-`WeakSet` is `Set`-like collection that stores only objects and removes them once they become inaccessible by other means.
+`WeakSet` 是类似于`Set`的集合，它仅存储对象，并在其他方式无法访问它们时将其删除。 
 
-Both of them do not support methods and properties that refer to all keys or their count. Only individual operations are allowed.
+它们都不支持引用所有键或其计数的方法和属性。 仅允许单个操作。
 
-`WeakMap` and `WeakSet` are used as "secondary" data structures in addition to the "main" object storage. Once the object is removed from the main storage, if it is only found as the key of `WeakMap` or in a `WeakSet`, it will be cleaned up automatically.
+`WeakMap` 和`WeakSet`还用作“辅助”数据结构。 一旦将对象从主存储器中删除，如果仅将其作为“ WeakMap”或“ WeakSet”的键，那么则将自动清除该对象。
