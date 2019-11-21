@@ -128,11 +128,11 @@ alert( userName ); // *!*John*/!*，未被更改，函数没有访问外部变�
 ```
 
 ```smart header="全局变量"
-任何函数之外声明的变量，例如上述代码中的外部 `userName` 都称为**全局**。
+任何函数之外声明的变量，例如上述代码中的外部变量 `userName`，都被称为 **全局** 变量。
 
-全局变量在任意函数中都是可见的(除非被局部变量遮蔽)。
+全局变量在任意函数中都是可见的（除非被局部变量遮蔽）。
 
-减少全局变量的使用是一种很好的做法。现代的代码有很少或没有全局变量。大多数变量存在于它们的函数中。但是有时候，全局变量能够用于存储项目级别的数据。
+减少全局变量的使用是一种很好的做法。现代的代码有很少甚至没有全局变量。大多数变量存在于它们的函数中。但是有时候，全局变量能够用于存储项目级别的数据。
 ```
 
 ## 参数
@@ -142,7 +142,7 @@ alert( userName ); // *!*John*/!*，未被更改，函数没有访问外部变�
 在如下示例中，函数有两个参数：`from` 和 `text`。
 
 ```js run
-function showMessage(*!*from, text*/!*) { // 参数：from、text
+function showMessage(*!*from, text*/!*) { // 参数：from 和 text
   alert(from + ': ' + text);
 }
 
@@ -152,9 +152,9 @@ showMessage('Ann', "What's up?"); // Ann: What's up? (**)
 */!*
 ```
 
-当在行 `(*)` 和 `(**)` 中调用函数时，将给定的值复制到局部变量 `from` 和 `text`。然后函数使用它们。
+当函数在 `(*)` 和 `(**)` 行中被调用时，给定值被复制到了局部变量 `from` 和 `text`。然后函数使用它们进行计算。
 
-这里还有一个例子：我们有一个变量 `from`，将它传递给函数。请注意：函数会修改 `from`，但在外部看不到更改，因为函数修改的是变量的副本：
+这里还有一个例子：我们有一个变量 `from`，并将它传递给函数。请注意：函数会修改 `from`，但在函数外部看不到更改，因为函数修改的是复制的变量值副本：
 
 
 ```js run
@@ -177,17 +177,17 @@ alert( from ); // Ann
 
 ## 默认值
 
-如果未提供参数，则其值是 `undefined`。
+如果未提供参数，那么其默认值则是 `undefined`。
 
-例如，之前提到的函数 `showMessage(from, text)` 可以用一个参数调用：
+例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个参数调用：
 
 ```js
 showMessage("Ann");
 ```
 
-那不是错误，这样调用将输出 `"Ann: undefined"`。没有 `text` 所以假设 `text === undefined`。
+那不是错误，这样调用将输出 `"Ann: undefined"`。这里没有参数 `text`，所以程序假定 `text === undefined`。
 
-如果我们想在本例中使用“默认” `text`，那么我们可以在 `=` 之后指定它：
+如果我们想在本示例中设定“默认”的 `text`，那么我们可以在 `=` 之后指定它：
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
@@ -199,12 +199,12 @@ showMessage("Ann"); // Ann: no text given
 
 现在如果 `text` 参数未被传递，它将会得到值 `"no text given"`。
 
-这里 `"no text given"` 是一个字符串，但它可以是更复杂的表达式，只有在缺少参数时才会计算和分配改表达式。因此，这也是可能的：
+这里 `"no text given"` 是一个字符串，但它可以是更复杂的表达式，并且只会在缺少参数时才会被计算和分配。所以，这也是可能的：
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
-  // anotherFunction() 仅在没有给定文本时执行
-  // 其结果变成文本值
+  // anotherFunction() 仅在没有给定 text 时执行
+  // 其运行结果将成为 text 的值 
 }
 ```
 
