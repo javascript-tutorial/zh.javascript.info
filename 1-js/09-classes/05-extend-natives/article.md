@@ -65,7 +65,7 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 ```
  So the extended functionality is not passed any further.
 
-如你所见，现在 `.filter` 返回 `Array`。所以继承自的函数不再传递。
+如你所见，现在 `.filter` 返回 `Array`。所以继承的函数不再传递给 `filteredArr`。
 
 ```smart header="其他集合也同样适用"
 其他的集合比如 `Map` 和 `Set` 也同样适用，他们也可以使用 `Symbol.species`.
