@@ -211,11 +211,11 @@ function showMessage(from, text = anotherFunction()) {
 ```smart header="默认参数的计算"
 在 JavaScript 中，每次函数在没带个别参数的情况下被调用，默认参数会被计算出来。
 
-在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用，`anotherFunction()` 会被调用。
+在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用时，`anotherFunction()` 就会被调用。
 ```
 
 ````smart header="旧式默认参数"
-旧版本的 JavaScript 不支持默认参数。所以有其他的方法来支持它们，您可以在旧的脚本中找到。
+旧版本的 JavaScript 不支持默认参数。所以在大多数旧版本的脚本中，你能找到其他设置默认参数的方法。
 
 例如，用于 `undefined` 的显式检查：
 
@@ -260,7 +260,7 @@ let result = sum(1, 2);
 alert( result ); // 3
 ```
 
-指令 `return` 可以在函数的任意位置。当执行到达时，函数停止，并将值返回给调用代码（分配给上述 `result`）。
+指令 `return` 可以在函数的任意位置。当执行到达时，函数停止，并将值返回给调用代码（分配给上述代码中的 `result`）。
 
 在一个函数中可能会出现很多次 `return`。例如：
 
@@ -286,7 +286,7 @@ if ( checkAge(age) ) {
 }
 ```
 
-在没有值的情况下使用 `return` 可能会导致函数立即退出。
+只使用 `return` 但没有返回值也是可行的。但这会导致函数立即退出。
 
 例如：
 
@@ -305,16 +305,16 @@ function showMovie(age) {
 
 在上述代码中，如果 `checkAge(age)` 返回 `false`，那么 `showMovie` 将不会运行到 `alert`。
 
-````smart header="空值 `return` 或不带 `return` 返回 `undefined`"
+````smart header="空值的 `return` 或没有 `return` 的函数返回值为 `undefined`"
 如果函数无返回值，它就会像返回 `undefined` 一样：
 
 ```js run
-function doNothing() { /* 空代码 */ }
+function doNothing() { /* 没有代码 */ }
 
 alert( doNothing() === undefined ); // true
 ```
 
-空值 `return` 也和 `return undefined` 一样：
+空值的 `return` 和 `return undefined` 等效：
 
 ```js run
 function doNothing() {
@@ -325,23 +325,23 @@ alert( doNothing() === undefined ); // true
 ```
 ````
 
-````warn header="不要在 `return` 与值之间添加一行"
-对于 `return` 的长表达式，可能会倾向于将其放在单独一行，如下所示：
+````warn header="不要在 `return` 与返回值之间添加新行"
+对于 `return` 的长表达式，可能你会很想将其放在单独一行，如下所示：
 
 ```js
 return
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-这不起作用，因为 JavaScript 默认会在 `return` 之后加分号。它的工作原理如下：
+但这不工作，因为 JavaScript 默认会在 `return` 之后加上分号。上面这段代码和下面这段代码运行流程相同：
 
 ```js
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
 
-因此，它最后变成了一个空值返回。
+因此，实际上它的返回值变成了空值。
 
-如果我们想要将返回的表达式跨行，我们应该在 `return` 的同一行开始写此表达式。或者至少添加一对括号将其围住，如下所示：
+如果我们想要将返回的表达式写成跨多行的形式，那么应该在 `return` 的同一行开始写此表达式。或者至少按照如下的方式放上左括号：
 
 ```js
 return (
@@ -350,35 +350,35 @@ return (
   whatever * f(a) + f(b)
   )
 ```
-然后它就能正常运行，如我们所愿。
+然后它就能像我们预想的那样正常运行了。
 ````
 
 ## 函数命名 [#function-naming]
 
-函数是行为。所以它们的名字通常是动词。它应该简短且尽可能准确地描述函数的作用。这样读代码的人就能得到关于该函数作用的指示。
+函数是行为。所以它们的名字通常是动词。它应该简短且尽可能准确地描述函数的作用。这样读代码的人就能清楚地知道这个函数的功能。
 
 一种普遍的做法是用动词前缀来开始一个函数，这个前缀模糊地描述了这个动作。团队内部必须就前缀的含义达成一致。
 
 例如，以 `"show"` 开头的函数通常会显示某些内容。
 
-函数开始...
+函数以 XX 开始……
 
-- `"get…"` —— 返回值，
-- `"calc…"` —— 计算
-- `"create…"` —— 创建，
-- `"check…"` —— 检查并返回 boolean 值，等。
+- `"get…"` —— 返回一个值，
+- `"calc…"` —— 计算某些内容，
+- `"create…"` —— 创建某些内容，
+- `"check…"` —— 检查某些内容并返回 boolean 值，等。
 
 这类名字的示例：
 
 ```js no-beautify
 showMessage(..)     // 显示信息
-getAge(..)          // 返回 age (gets it somehow)
+getAge(..)          // 返回 age（gets it somehow）
 calcSum(..)         // 计算求和并返回结果
-createForm(..)      // 创建表格 (通常会返回它)
+createForm(..)      // 创建表格（通常会返回它）
 checkPermission(..) // 检查权限并返回 true/false
 ```
 
-有了前缀，浏览一下函数名就可以了解它做了什么工作，返回什么样的值。
+有了前缀，只需瞥一眼函数名，就可以了解它的功能是什么，返回什么样的值。
 
 ```smart header="一个函数 —— 做一件事"
 一个函数应该完全按照它的名字来做，而不是做更多和自身无关的功能。
