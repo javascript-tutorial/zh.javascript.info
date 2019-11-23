@@ -6,7 +6,7 @@ importance: 4
 
 如果参数 `age` 大于 `18`，那么下面的函数将返回 `true`。
 
-否则它会要求进行确认并返回其结果：
+否则它将会要求进行确认，并返回确认结果：
 
 ```js
 function checkAge(age) {
