@@ -417,7 +417,7 @@ alert(arr);  // *!*1, 2, 15*/!*
 ````
 
 ````smart header="箭头函数最好"
-[箭头函数](info:function-expression#arrow-functions)还记得吗？这里使用箭头函数会更加简洁：
+[箭头函数](info:arrow-functions-basics) 还记得吗？这里使用箭头函数会更加简洁：
 
 ```js
 arr.sort( (a, b) => a - b );
