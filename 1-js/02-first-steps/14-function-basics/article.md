@@ -71,7 +71,7 @@ alert( message ); // <-- 错误！变量是函数的局部变量
 
 ## 外部变量
 
-函数可以访问外部变量，例如：
+函数也可以访问外部变量，例如：
 
 ```js run no-beautify
 let *!*userName*/!* = 'John';
@@ -332,7 +332,7 @@ alert( doNothing() === undefined ); // true
 return
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-但这不工作，因为 JavaScript 默认会在 `return` 之后加上分号。上面这段代码和下面这段代码运行流程相同：
+但这不行，因为 JavaScript 默认会在 `return` 之后加上分号。上面这段代码和下面这段代码运行流程相同：
 
 ```js
 return*!*;*/!*
@@ -408,7 +408,7 @@ checkPermission(..) // 检查权限并返回 true/false
 
 一个单独的函数不仅更容易测试和调试 —— 它的存在本身就是一个很好的注释！
 
-例如，比较如下两个函数 `showPrimes(n)`。他们的功能都是输出到 `n` 的[素数](https://en.wikipedia.org/wiki/Prime_number)。
+例如，比较如下两个函数 `showPrimes(n)`。他们的功能都是输出到 `n` 的 [素数](https://en.wikipedia.org/wiki/Prime_number)。
 
 第一个变体使用了一个标签：
 
@@ -463,7 +463,7 @@ function name(parameters, delimited, by, comma) {
 - 函数可以访问外部变量。但它只能从内到外起作用。函数外部的代码看不到函数内的局部变量。
 - 函数可以返回值。如果没有返回值，则其返回的结果是 `undefined`。
 
-为了使代码简洁易懂，建议在函数中主要使用局部的变量和参数，而不是外部变量。
+为了使代码简洁易懂，建议在函数中主要使用局部变量和参数，而不是外部变量。
 
 与不获取参数但将修改外部变量作为副作用的函数相比，获取参数、使用参数并返回结果的函数更容易理解。
 
