@@ -272,7 +272,7 @@ switch (age) {
 - 参数可以有默认值：`function sum(a = 1, b = 2) {...}`。
 - 函数总是返回一些东西。如果没有 `return` 语句，那么结果是 `undefined`。
 
-更多：参见 <info:function-basics>，<info:function-expressions-arrows>。
+更多：参见 <info:function-basics>，<info:arrow-functions-basics>。
 
 ## 更多
 
