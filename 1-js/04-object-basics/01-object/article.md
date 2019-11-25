@@ -1,8 +1,12 @@
 
 # 对象
 
+<<<<<<< HEAD
 正如我们从《引言：类型》那章中知道的那样，JavaScript 中有七种数据类型。有六种原始类型，因为他们的值只包含一种东西（字符串，数值或者其他）。
 相反，对象用来存储键值对和更复杂的实体。在 JavaScript 中，对象深入到这门语言的方方面面。所以在我们深入理解这门语言之前，必须先理解对象。
+=======
+As we know from the chapter <info:types>, there are seven data types in JavaScript. Six of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 对象可以通过花括号 `{…}` 和其中包含一些可选的**属性**来创建。属性是一个键值对，键是一个字符串（也叫做属性名），值可以是任何类型。
 
@@ -10,7 +14,13 @@
 
 ![](object.svg)
 
+<<<<<<< HEAD
 我们可以用下面两种语法的任一种来创建一个空的对象（“空柜子”）：
+=======
+![](object.svg)
+
+An empty object ("empty cabinet") can be created using one of two syntaxes:
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 ```js
 let user = new Object(); // “构造函数” 的语法
@@ -48,7 +58,11 @@ let user = {     // 一个对象
 可以通过点语法来使用属性：
 
 ```js
+<<<<<<< HEAD
 // 读取文件的属性：
+=======
+// get property values of the object:
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 alert( user.name ); // John
 alert( user.age ); // 30
 ```
@@ -104,7 +118,6 @@ user.likes birds = true
 
 有另一种方法，就是使用方括号，可以对任何字符串有效：
 
-
 ```js run
 let user = {};
 
@@ -129,7 +142,11 @@ let key = "likes birds";
 user[key] = true;
 ```
 
+<<<<<<< HEAD
 在这里，变量 `key` 根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
+=======
+Here, the variable `key` may be calculated at run-time or depend on the user input. And then we use it to access the property. That gives us a great deal of flexibility.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 例如：
 
@@ -145,7 +162,21 @@ let key = prompt("What do you want to know about the user?", "name");
 alert( user[key] ); // John (如果输入 "name" )
 ```
 
+<<<<<<< HEAD
 ### 计算属性
+=======
+The dot notation cannot be used in a similar way:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+let key = "name";
+alert( user.key ) // undefined
+```
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 我们可以在对象字面量中使用方括号。这叫做**计算属性**。
 
@@ -201,7 +232,7 @@ let obj = {
   for: 1,
   let: 2,
   return: 3
-}
+};
 
 alert( obj.for + obj.let + obj.return );  // 6
 ```
@@ -216,12 +247,23 @@ alert(obj.__proto__); // [object Object]，这样不行
 
 我们从代码中可以看出来，把它赋值成 `5` 被忽略了。
 
+<<<<<<< HEAD
 如果我们蓄意去存储随机的键值对或者允许一个访问者去指定键，那可能就会产生很多 bug 并且使对象变得危险。
 
 比如，访问者可能选择 `__proto__` 作为键，这个赋值的逻辑就失败了（像上面那样）。
 
 有一种让对象把 `__proto__` 作为属性的方法，在后面章节会讲到，现在我们先来学习对象的更多知识。
 还有另外一种数据结构 [Map](info:map-set-weakmap-weakset)，我们会在后面章节学到，它支持任意的键值。
+=======
+That can become a source of bugs and even vulnerabilities if we intend to store arbitrary key-value pairs in an object, and allow a visitor to specify the keys.
+
+In that case the visitor may choose `__proto__` as the key, and the assignment logic will be ruined (as shown above).
+
+There is a way to make objects treat `__proto__` as a regular property, which we'll cover later, but first we need to know more about objects.
+
+There's also another data structure [Map](info:map-set), that we'll learn in the chapter <info:map-set>, which supports arbitrary keys.
+````
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 ````
 
@@ -295,7 +337,13 @@ alert( "age" in user ); // true，user.age 存在
 alert( "blabla" in user ); // false，user.blabla 不存在。
 ```
 
+<<<<<<< HEAD
 注意 `in` 的左边必须是**属性名**。通常是一个字符串，如果不用字符串，那就是一个字符串变量。
+=======
+Please note that on the left side of `in` there must be a *property name*. That's usually a quoted string.
+
+If we omit quotes, that would mean a variable containing the actual name will be tested. For instance:
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 ```js run
 let user = { age: 30 };
@@ -304,8 +352,13 @@ let key = "age";
 alert( *!*key*/!* in user ); // true，获取键的名字和检查这个键的属性
 ```
 
+<<<<<<< HEAD
 ````smart header="Using \"in\" 属性中存储 `undefined`"
 通常，严格比较 `"=== undefined"` 就够用，但是也有一些特殊情况，`"in"` 就可以胜任。
+=======
+````smart header="Using \"in\" for properties that store `undefined`"
+Usually, the strict comparison `"=== undefined"` check the property existance just fine. But there's a special case when it fails, but `"in"` works correctly.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 那就是属性存在，但是存储 `undefined`：
 
@@ -325,16 +378,25 @@ alert( "test" in obj ); // true，属性存在！
 这种情况很少发生，因为 undefined 通常情况下是不会被赋值到对象的，我们经常会用 `null` 来表示未知的或者空的值。
 ````
 
+<<<<<<< HEAD
 
 ## "for..in" 循环
+=======
+## The "for..in" loop
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 为了使用对象所有的属性，就可以利用 `for..in` 循环。这跟 `for(;;)` 是完全不一样的东西。
 
 语法：
 
 ```js
+<<<<<<< HEAD
 for(key in object) {
   // 各个属性键值的执行区
+=======
+for (key in object) {
+  // executes the body for each key among object properties
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 }
 ```
 
@@ -347,7 +409,7 @@ let user = {
   isAdmin: true
 };
 
-for(let key in user) {
+for (let key in user) {
   // keys
   alert( key );  // name, age, isAdmin
   // 属性键的值
@@ -355,7 +417,13 @@ for(let key in user) {
 }
 ```
 
+<<<<<<< HEAD
 注意，所有的 "for" 都允许我们在循环中定义变量，像 `let key` 这样。
+=======
+Note that all "for" constructs allow us to declare the looping variable inside the loop, like `let key` here.
+
+Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 同样，我们可以用其他属性名来代替 `key`。例如 `"for(let prop in obj)"` 也很常用。
 
@@ -377,7 +445,7 @@ let codes = {
 };
 
 *!*
-for(let code in codes) {
+for (let code in codes) {
   alert(code); // 1, 41, 44, 49
 }
 */!*
@@ -435,7 +503,7 @@ let codes = {
   "+1": "USA"
 };
 
-for(let code in codes) {
+for (let code in codes) {
   alert( +code ); // 49, 41, 44, 1
 }
 ```
@@ -513,7 +581,11 @@ alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
 
 **当两个引用指向同一个对象的时候他们相等。**
 
+<<<<<<< HEAD
 例如，两个引用指向同一个对象，他们相等：
+=======
+For instance, if two variables reference the same object, they are equal:
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 ```js run
 let a = {};
@@ -552,7 +624,11 @@ user.age = 25; // (*)
 alert(user.age); // 25
 ```
 
+<<<<<<< HEAD
 看起来好像 `(*)` 这行会报错，但是不是的，这完全没问题。这是因为 `const` 仅仅修饰 `user`。在这里 `user` 始终存储的都是同一个对象的引用。引用的地址没有变，只是引用的对象被修改了。
+=======
+It might seem that the line `(*)` would cause an error, but no, there's totally no problem. That's because `const` fixes only value of `user` itself. And here `user` stores the reference to the same object all the time. The line `(*)` goes *inside* the object, it doesn't reassign `user`.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 如果你想把 `user` 赋值给其他的什么，那就会报错了，例如：
 
@@ -598,8 +674,13 @@ for (let key in user) {
 }
 */!*
 
+<<<<<<< HEAD
 // 现在复制是独立的复制了
 clone.name = "Pete"; // 改变它的值
+=======
+// now clone is a fully independent clone
+clone.name = "Pete"; // changed the data in it
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 alert( user.name ); // 原对象属性值不变
 ```
@@ -609,7 +690,11 @@ alert( user.name ); // 原对象属性值不变
 语法是：
 
 ```js
+<<<<<<< HEAD
 Object.assign(dest,[ src1, src2, src3...])
+=======
+Object.assign(dest, [src1, src2, src3...])
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 ```
 
 - 参数 `dest` 和 `src1, ..., srcN`（可以有很多个）是对象。
@@ -692,7 +777,14 @@ user.sizes.width++;       // 在这里改变一个属性的值
 alert(clone.sizes.width); // 51，在这里查看属性的值
 ```
 
+<<<<<<< HEAD
 为了解决上面的的问题，我们在复制的时候应该检查 `user[key]` 的每一个值，如果是一个对象，我们再复制一遍这个对象，这叫做深拷贝。
+=======
+To fix that, we should use the cloning loop that examines each value of `user[key]` and, if it's an object, then replicate its structure as well. That is called a "deep cloning".
+
+There's a standard algorithm for deep cloning that handles the case above and more complex cases, called the [Structured cloning algorithm](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data). In order not to reinvent the wheel, we can use a working implementation of it from the JavaScript library [lodash](https://lodash.com), the method is called [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 有一个标准的深拷贝算法，解决上面和一些更复杂的情况，叫做 [Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm)。为了不重复造轮子，我们使用它的一个 JS 实现的库 [lodash](https://lodash.com), 方法名叫做 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
 
@@ -708,10 +800,17 @@ alert(clone.sizes.width); // 51，在这里查看属性的值
 - 点符号: `obj.property`。
 - 方括号 `obj["property"]`，方括号中可以使用变量 `obj[varWithKey]`。
 
+<<<<<<< HEAD
 其他操作：
 - 删除属性：`delete obj.prop`。
 - 检查属性是否存在：`"key" in obj`。
 - 遍历对象：`for(let key in obj)` 循环。
+=======
+Additional operators:
+- To delete a property: `delete obj.prop`.
+- To check if a property with the given key exists: `"key" in obj`.
+- To iterate over an object: `for (let key in obj)` loop.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 对象根据引用来赋值或者复制。换句话说，变量存的不是对象的"值"，而是值的 "引用"（内存地址）。
 所以复制变量或者传递变量到方法中只是复制了对象的引用。

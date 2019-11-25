@@ -6,7 +6,11 @@
 let newStr = str[0].toUpperCase() + str.slice(1);
 ```
 
+<<<<<<< HEAD
 这里存在一个小问题。如果 `str` 是空的，那么 `str[0]` 就是 `undefined`，但由于 `undefined` 并没有 `toUpperCase()` 方法，因此我们会得到一个错误。
+=======
+There's a small problem though. If `str` is empty, then `str[0]` is `undefined`, and as `undefined` doesn't have the `toUpperCase()` method, we'll get an error.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 存在如下两种变体：
 
@@ -15,7 +19,7 @@ let newStr = str[0].toUpperCase() + str.slice(1);
 
 这是第二种变体：
 
-```js run
+```js run demo
 function ucFirst(str) {
   if (!str) return str;
 
