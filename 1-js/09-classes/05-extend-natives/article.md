@@ -61,7 +61,7 @@ let filteredArr = arr.filter(item => item >= 10);
 *!*
 // filteredArr 不是 PowerArray, 而是 Array
 */!*
-alert(filteredArr.isEmpty()); // 错误: filteredArr.isEmpty 不是一个函数
+alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty 不是一个函数
 ```
 
 如你所见，现在 `.filter` 返回 `Array`。所以子类 `PowerArray` 的功能不再传递给 `filteredArr`。
