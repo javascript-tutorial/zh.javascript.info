@@ -21,7 +21,7 @@ alert(filteredArr); // 10, 50
 alert(filteredArr.isEmpty()); // false
 ```
 
-请注意一个非常有趣的事情。内置的方法比如 `filter`，`map` 等 -- 返回的正是继承类 `PowerArray` 的新对象。[它们内部通过对象的 `constructor` 属性实现了这一功能。
+请注意一个非常有趣的事情。内置的方法比如 `filter`，`map` 等 -- 返回的正是子类 `PowerArray` 的新对象。它们内部通过对象的 `constructor` 属性实现了这一功能。
 
 在上面的例子中，
 ```js
@@ -61,11 +61,10 @@ let filteredArr = arr.filter(item => item >= 10);
 *!*
 // filteredArr 不是 PowerArray, 而是 Array
 */!*
-alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
+alert(filteredArr.isEmpty()); // 错误: filteredArr.isEmpty 不是一个函数
 ```
- So the extended functionality is not passed any further.
 
-如你所见，现在 `.filter` 返回 `Array`。所以继承的函数不再传递给 `filteredArr`。
+如你所见，现在 `.filter` 返回 `Array`。所以子类 `PowerArray` 的功能不再传递给 `filteredArr`。
 
 ```smart header="其他集合也同样适用"
 其他的集合比如 `Map` 和 `Set` 也同样适用，他们也可以使用 `Symbol.species`.
@@ -89,4 +88,4 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 
 如你所见，`Date` 和 `Object` 之间没有连结。`Object` 和 `Date` 都是独立存在的。`Date.prototype` 继承自 `Object.prototype`，但也仅此而已。
 
-与我们了解的 `extends` 对比，这是内置对象之间的继承的一个非常重要的区别。
+与我们了解的继承 (`extends`) 相比，这是内置对象之间的继承的一个非常重要的区别。
