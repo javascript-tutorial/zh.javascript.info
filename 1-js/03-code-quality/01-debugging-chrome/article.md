@@ -2,13 +2,13 @@
 
 在编写更复杂的代码前，让我们先来聊聊调试吧。
 
-所有的现代浏览器和大多数其他环境都支持“调试” —— 开发者工具中的一个特殊的 UI，可以让你更容易地发现和修复错误。
+[调试](https://en.wikipedia.org/wiki/Debugging) 是指在一个脚本中找出并修复错误的过程。所有的现代浏览器和大多数其他环境都支持调试工具 —— 开发者工具中的一个令调试更加容易的特殊用户界面。它也可以让我们一步步地跟踪代码并查看当前实际运行情况。
 
-在这里我们将会使用 Chrome（谷歌浏览器），因为在这方面它可能是功能最丰富的。
+在这里我们将会使用 Chrome（谷歌浏览器），因为它拥有最丰富的功能，而其他大部分浏览器则具有类似的过程。
 
-## "sources（资源）" 面板
+## “资源（sources）”面板
 
-你的 Chrome 版本可能看起来有一点不同，但是应该还是很明显就能发现的。
+你的 Chrome 版本可能看起来有一点不同，但是它应该还是处于很明显的位置。
 
 - 在 Chrome 中打开[示例页面](debugging/index.html)。
 - 使用快捷键 `key:F12` (Mac: `key:Cmd+Opt+I`) 打开开发者工具。
@@ -18,23 +18,23 @@
 
 ![](chrome-open-sources.svg)
 
-切换按钮 <span class="devtools" style="background-position:-168px -76px"></span> 会打开文件列表的选项卡。
+切换按钮 <span class="devtools" style="background-position:-172px -98px"></span> 会打开文件列表的选项卡。
 
-让我们在预览树中点击和选择 `index.html` 和 `hello.js`。应该会出现这个视图：
+让我们在预览树中点击和选择 `hello.js`。它应该会出现这个视图：
 
 ![](chrome-tabs.svg)
 
 我们可以看到三个区域：
 
-1. **资源区域**列出了 html、javascript、css 和包括图片在内的页面需要的其他文件。Chrome 扩展的资源也会出现在这。
-2. **源区域**展示源码。
-3. **信息和控制区域**是用来调试的，我们很快就会来探讨它。
+1. **资源区域（resources zone）** 列出了 html、javascript、css 和包括图片在内的页面需要的其他文件。Chrome 扩展的资源也会出现在这。
+2. **源码区域（source zone）** 展示源码。
+3. **信息和控制区域（Information and control zone）** 是用来调试的，我们很快就会来探讨它。
 
-现在你可以再次点击切换按钮 <span class="devtools" style="background-position:-200px -76px"></span> 隐藏资源列表来给代码腾出更多的空间。
+现在你可以再次点击切换按钮 <span class="devtools" style="background-position:-172px -122px"></span> 隐藏资源列表来给代码腾出一些空间。
 
-## Console（控制台）
+## 控制台（Console）
 
-如果我们按下 `Esc`，下面会出现一个控制台，我们可以输入一些命令然后按下 `key:Enter` 来执行。
+如果我们按下 `key:Esc`，下面会出现一个控制台，我们可以输入一些命令然后按下 `key:Enter` 来执行。
 
 语句执行之后，会将其结果显示在下面。
 
@@ -42,17 +42,17 @@
 
 ![](chrome-sources-console.svg)
 
-## Breakpoints（断点）
+## 断点（Breakpoints）
 
-我们来看看[示例页面](debugging/index.html)发生了什么。在 `hello.js` 中，点击第 `4` 行。是的，就点击数字 `"4"` 上，不是点击代码。
+我们来看看 [示例页面](debugging/index.html) 发生了什么。在 `hello.js` 中，点击第 `4` 行。是的，就点击数字 `"4"` 上，不是点击代码。
 
 恭喜你！你已经设置了一个断点。现在，请在第 `8` 行的数字上也点击一下。
 
-看起来应该是这样的（蓝色的是你应该点击的地方）：
+看起来应该是这样的（蓝色是你应该点击的地方）：
 
 ![](chrome-sources-breakpoint.svg)
 
-**断点**是调试器会自动暂停 JavaScript 执行的地方。
+**断点** 是调试器会自动暂停 JavaScript 执行的地方。
 
 当代码被暂停时，我们可以检查当前的变量、在控制台执行命令等等。换句话说，我们可以调试它。
 
@@ -63,7 +63,7 @@
 - 等等。
 
 ```smart header="条件断点"
-在行号上**右键单击**允许你创建一个**条件**断点。只有当给定的条件为真（即满足条件）时才会被触发。
+在行号上 **右键单击** 允许你创建一个 **条件** 断点。只有当给定的表达式为真（即满足条件）时才会被触发。
 
 当我们在特定的变量值或参数的情况下需要停止程序执行时，这种调试方法就很有用了。
 ```
@@ -84,7 +84,7 @@ function hello(name) {
 }
 ```
 
-当我们在一个代码编辑器中并且不想切换到浏览器在开发者工具中查找脚本来设置断点时，这真的是非常方便啦。
+当我们在一个代码编辑器中并且不想切换到浏览器在开发者工具中查找脚本来设置断点时，这真的是非常方便。
 
 
 ## 暂停并查看
@@ -97,43 +97,54 @@ function hello(name) {
 
 请打开右侧的信息下拉列表（箭头指示出的地方）。这里允许你查看当前的代码状态：
 
-1. **`Watch` —— 显示各种表达式的当前值。**
+1. **`察看（Watch）` —— 显示各种表达式的当前值。**
 
     你可以点击加号 `+` 然后输入一个表达式。调试器将随时显示它的值，并在执行过程中自动重新计算。
 
-2. **`Call Stack（调用栈）` —— 显示嵌套的调用链。**
+2. **`调用栈（Call Stack）` —— 显示嵌套的调用链。**
 
     此时，调试器正在 `hello()` 的调用链中，被 `index.html` 中的一个脚本调用（这里没有函数，因此显示 "anonymous"）
 
     如果你点击了一个堆栈项，调试器将调到相应的代码那，并且还可以查看其所有的变量。
-3. **`Scope（作用域）` —— 显示当前的变量。**
+3. **`作用域（Scope）` —— 显示当前的变量。**
 
     `Local` 显示当前函数中的变量，你还可以在源代码中看到它们的值高亮显示了出来。
 
-    `Global` 显示全局变量（不在任何函数中）。
+    `Global` 显示全局变量（任何函数外）。
 
     还有一个 `this` 关键字目前我们还没有学到，不过我们很快就会讨论它了。
 
 ## 跟踪执行
 
-现在是**跟踪**脚本的时候了。
+现在是 **跟踪** 脚本的时候了。
 
 在右侧面板的顶部有一些按钮。让我们来使用它们吧。
-
-<span class="devtools" style="background-position:-7px -76px"></span> —— 继续执行，快捷键 `key:F8`.
+<!-- https://github.com/ChromeDevTools/devtools-frontend/blob/master/front_end/Images/src/largeIcons.svg -->
+<span class="devtools" style="background-position:-146px -168px"></span> —— “恢复（Resume）”：继续执行，快捷键 `key:F8`.
 : 继续执行。如果没有其他另外的断点，那么程序就会继续执行，并且调试器不会再控制程序。
 
     如果我们点击一下之后我们会看到这样的情况：
 
     ![](chrome-sources-debugger-trace-1.svg)
 
-    执行器已经继续了，到了 `say()` 函数中的另外一个断点然后暂停在那里。看一下右边的 "Call stack（调用栈）"。它已经增加了一个调用信息。我们现在在 `say()` 里面。
+    执行恢复，到了 `say()` 函数中的另外一个断点然后暂停在那里。看一下右边的 "Call stack"。它已经增加了一个调用信息。我们现在在 `say()` 里面。
 
-<span class="devtools" style="background-position:-137px -76px"></span> —— 下一步（运行下一个命令），但是**不会进入函数**，快捷键 `key:F10`。
-: 如果我们现在点击它，`alert` 会被显示出来。注意这里 `alert` 可以是任何函数，执行器会 “跨过（step over）”，跳过函数的内部。
+<span class="devtools" style="background-position:-200px -190px"></span> —— “下一步（Step）”：运行下一条指令，快捷键 `key:F9`。
+: 运行下一条语句。如果我们现在点击它，`alert` 会被显示出来。
 
-<span class="devtools" style="background-position:-72px -76px"></span> —— 下一步，快捷键 `key:F11`。
-: 和前一个一样，但是 "跨进（step into）" 嵌套的函数。单击此操作将一步一步地执行所有脚本操作。
+    一次又一次点击此按钮会逐步运行脚本的所有语句。
+
+<span class="devtools" style="background-position:-62px -192px"></span> -- “跨步（Step over）”：运行下一条指令，但 **不会进入到一个函数中**，快捷键 `key:F10`。
+: 跟上一条命令“下一步（Step）”相似，但如果下一条语句是函数调用则表现不同。
+
+    “下一步（Step）”命令进入函数内部并在第一行暂停执行，而“跨步（Step over）”不可视地执行函数调用，忽略了函数的内部（执行细节）。
+
+    执行会在该函数执行后立即暂停。
+
+    如果我们对该函数内部执行不感兴趣，这命令会很有用。
+
+<span class="devtools" style="background-position:-4px -194px"></span> —— 步入（step into），快捷键 `key:F11`。
+: 和“下一步（Step）”类似，但在异步函数调用情况下表现不同。如果你刚刚才开始学 JavaScript，那么你可以先忽略此差异，因为我们还没有异步调用。
 
 <span class="devtools" style="background-position:-104px -76px"></span> —— 继续执行到当前函数的末尾。快捷键 `key:Shift+F11`。
 : 执行器将会停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-72px -76px"></span> 偶然的进入到一个嵌套调用但是对我们并没有什么用，我们想要尽可能的继续执行到最后的时候是非常方便的。
