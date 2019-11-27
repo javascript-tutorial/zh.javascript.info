@@ -67,7 +67,7 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 如你所见，现在 `.filter` 返回 `Array`。所以子类 `PowerArray` 的功能不再传递给 `filteredArr`。
 
 ```smart header="其他集合也同样适用"
-其他的集合比如 `Map` 和 `Set` 也同样适用，他们也可以使用 `Symbol.species`.
+其他的集合比如 `Map` 和 `Set` 也同样适用，它们也可以使用 `Symbol.species`.
 ```
 
 ### 内置类没有静态方法继承
@@ -88,4 +88,4 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 
 如你所见，`Date` 和 `Object` 之间没有连结。`Object` 和 `Date` 都是独立存在的。`Date.prototype` 继承自 `Object.prototype`，但也仅此而已。
 
-与我们了解的继承 (`extends`) 相比，这是内置对象之间的继承的一个非常重要的区别。
+与我们了解的继承（`extends`）相比，这是内置对象之间的继承的一个非常重要的区别。
