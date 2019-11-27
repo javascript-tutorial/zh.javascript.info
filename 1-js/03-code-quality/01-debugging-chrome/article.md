@@ -144,28 +144,30 @@ function hello(name) {
     如果我们对该函数内部执行不感兴趣，这命令会很有用。
 
 <span class="devtools" style="background-position:-4px -194px"></span> —— 步入（step into），快捷键 `key:F11`。
-: 和“下一步（Step）”类似，但在异步函数调用情况下表现不同。如果你刚刚才开始学 JavaScript，那么你可以先忽略此差异，因为我们还没有异步调用。
+: 和“下一步（Step）”类似，但在异步函数调用情况下表现不同。如果你刚刚才开始学 JavaScript，那么你可以先忽略此差异，因为我们还没有用到异步调用。
 
-<span class="devtools" style="background-position:-104px -76px"></span> —— 继续执行到当前函数的末尾。快捷键 `key:Shift+F11`。
-: 执行器将会停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-72px -76px"></span> 偶然的进入到一个嵌套调用但是对我们并没有什么用，我们想要尽可能的继续执行到最后的时候是非常方便的。
+    至于以后，请记住“下一步（Step）”命令会忽略异步方法，例如 `setTimeout`（约定的函数调用），它会过一段时间后再执行。而“步入（step into）”会进入到代码中并等待（如果需要）。浏览 [DevTools 手册](https://developers.google.com/web/updates/2018/01/devtools#async) 获取更多细节。
 
-<span class="devtools" style="background-position:-7px -28px"></span> —— 启用/禁用所有的断点
+<span class="devtools" style="background-position:-104px -76px"></span> —— “步出（Step out）”: 继续执行到当前函数的末尾，快捷键 `key:Shift+F11`。
+: 执行器将会停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-200px -190px"></span> 偶然地进入到一个嵌套调用，但是我们又对这个函数不感兴趣时，我们想要尽可能的继续执行到最后的时候是非常方便的。
+
+<span class="devtools" style="background-position:-61px -74px"></span> —— 启用/禁用所有的断点。
 : 这个按钮不会影响程序的执行。只是一个对批量断点的开/关。
 
 <span class="devtools" style="background-position:-264px -4px"></span> —— 发生错误时启用/禁用自动暂停。
-: 当启动自动暂停功能并且开发者工具是打开着的时候，当脚本错误时会自动暂停执行。然后我们可以分析变量来看一下什么出错了。因此如果我们的脚本因为错误挂掉的时候，我们可以打开调试器，启用这个选项然后重载页面，查看一下哪里导致它挂掉了和当时的上下文是什么。
+: 当启动此功能并且开发者工具是打开着的时候，任意一个脚本的错误会导致自动暂停其执行。然后我们可以分析变量来看一下什么出错了。因此如果我们的脚本因为错误挂掉的时候，我们可以打开调试器，启用这个选项然后重载页面，查看一下哪里导致它挂掉了和当时的上下文是什么。
 
 ```smart header="继续到这"
-在代码中的某一行上右键打开一个带有 "Continue to here（继续到这）" 的非常有用的选项的菜单。
+在代码中的某一行上右键打开一个带有“继续到这里（Continue to here）”非常有用的选项的关联菜单（context menu）。
 
 当你想要向前移动很多步但是又懒得设置一个断点时非常的方便。
 ```
 
 ## 日志记录
 
-想要输出一些东西到控制台上？有一个 `console.log` 可以满足你。
+想要输出一些东西到控制台上？ `console.log` 函数可以满足你。
 
-例如：将从 `0` 到 `4`的值输出到控制台上：
+例如：将从 `0` 到 `4` 的值输出到控制台上：
 
 ```js run
 // 打开控制台来查看
@@ -174,7 +176,7 @@ for (let i = 0; i < 5; i++) {
 }
 ```
 
-普通用户看不到这个输出，它是在控制台里面的。要想看到它 —— 或者打开开发者工具中的 Console（控制台）选项卡，或者在一个其他的选项卡中按下 `key:Esc`：这会在下面打开一个控制台。
+普通用户看不到这个输出，它是在控制台里面的。要想看到它 —— 要么打开开发者工具中的 Console（控制台）选项卡，要么在一个其他的选项卡中按下 `key:Esc`：这会在下方打开一个控制台。
 
 如果我们在代码中有足够的日志记录，那么我们可以从记录中看到刚刚发生了什么，而不需要借助调试器。
 
@@ -182,13 +184,13 @@ for (let i = 0; i < 5; i++) {
 
 我们可以看到，有 3 种方式来暂停一个脚本：
 1. 一个断点。
-2. `debugger` 声明。
-3. 一个错误（如果开发者工具是打开状态并且按钮 <span class="devtools" style="background-position:-264px -4px"></span> 是开启状态）。
+2. `debugger` 语句。
+3. 一个错误（如果开发者工具是打开状态并且按钮 <span class="devtools" style="background-position:-90px -146px"></span> 是开启状态）。
 
-然后我们就能检查变量，并逐步查看执行器在哪里走错路了。
+当暂停时，我们就能进行调试 —— 检查变量，并逐步查看执行器在哪里出错了。
 
-开发者工具中还有比这篇文章中更多的选项。完整的手册在 <https://developers.google.com/web/tools/chrome-devtools>
+开发者工具中还有比这篇文章中更多的选项。完整的手册在 <https://developers.google.com/web/tools/chrome-devtools> 。
 
 本章节中的信息足够开始调试了，但是以后，尤其是你做了大量关于浏览器的东西后，请你去（上面的链接里）查看开发者工具的更高级功能。
 
-对了，你也可以点击开发者工具中的其他地方来看一下会显示什么。这可能是你学习开发者工具的最快的路线了。不要忘了还有右键单击哟。
+对了，你也可以点击开发者工具中的其他地方来看一下会显示什么。这可能是你学习开发者工具的最快的路线了。不要忘了还有右键单击和关联菜单哟。
