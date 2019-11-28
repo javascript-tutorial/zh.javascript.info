@@ -222,11 +222,11 @@ switch (age) {
 }
 ```
 
-详情参见：<info:switch>。
+详情请见：<info:switch>。
 
 ## 函数
 
-我们介绍了三种在 JavaScript 中创建函数的方法：
+我们介绍了三种在 JavaScript 中创建函数的方式：
 
 1. 函数声明：主代码流中的函数
 
@@ -254,7 +254,7 @@ switch (age) {
     // 表达式在右侧
     let sum = (a, b) => a + b;
 
-    // 或带 {...} 的多行语法，需要此处返回：
+    // 或带 {...} 的多行语法，此处需要 return：
     let sum = (a, b) => {
       // ...
       return a + b;
@@ -268,12 +268,12 @@ switch (age) {
     ```
 
 
-- 函数可能具有局部变量：在其内部声明的变量。这些变量只在函数内部可见。
+- 函数可能具有局部变量：在函数内部声明的变量。这类变量只在函数内部可见。
 - 参数可以有默认值：`function sum(a = 1, b = 2) {...}`。
-- 函数总是返回一些东西。如果没有 `return` 语句，那么结果是 `undefined`。
+- 函数总是返回一些东西。如果没有 `return` 语句，那么返回的结果是 `undefined`。
 
-更多：参见 <info:function-basics>，<info:arrow-functions-basics>。
+详细内容：请见 <info:function-basics>，<info:arrow-functions-basics>。
 
-## 更多
+## 更多内容
 
-这是 JavaScript 功能的简要概述。截至目前，我们只研究基础知识。随着教程的深入，您会发现更多特殊功能和 JavaScript 高级功能。
+这些是 JavaScript 特性的简要概述。截至目前，我们仅仅学习了基础知识。随着教程的深入，你会发现 JavaScript 的更多特性和高级特性。
