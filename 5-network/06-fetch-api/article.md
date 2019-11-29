@@ -20,7 +20,7 @@ let promise = fetch(url, {
     "Content-Type": "text/plain;charset=UTF-8" // 针对字符串主体，依赖于主体 (body)
   },
   body: undefined // string, FormData, Blob, BufferSource, 或者 URLSearchParams
-  referrer: "about:client", // 无来源页 (no-referrer) 为 ''，或者是一个来自当前网页源的 url
+  referrer: "about:client", // 无来源页 (no-referrer) 为 ''，或者是一个来自当前域名的 url
   referrerPolicy: "no-referrer-when-downgrade", // no-referrer, origin, same-origin...
   mode: "cors", // same-origin, no-cors
   credentials: "same-origin", // omit, include
@@ -48,9 +48,9 @@ let promise = fetch(url, {
 通常来说，它的头部信息被自动设置并包含了发出请求的页面的 url。在大部分情况下，它只是个无关紧要的小角色，但有些时候出于安全考虑，对它的修改或移除是由必要的。
 .
 
-**`referrer` 选项 (option) 允许设置任何在当前域名 (origin) 的 `Referer` 或者移除它。**
+**`referer` 选项 (option) 允许设置任何在当前域名 (origin) 的 `Referer` 或者移除它。**
 
-要发送无来源页，可以将 referer 设置为空字符串：
+要发送无来源页，可以将 `referer` 设置为空字符串：
 ```js
 fetch('/page', {
 *!*
@@ -80,7 +80,7 @@ fetch('/page', {
 
 与 `referrer` 选项 (origin) 允许设置确切的 `Referer` 值不同， `referrerPolicy` 告诉浏览器针对各个请求类型的使用的通常的规则。
 
-可能的值在 [Referrer Policy specification](https://w3c.github.io/webappsec-referrer-policy/) 中有介绍:
+可能的值在 [Referrer Policy specification (来源协议规范)](https://w3c.github.io/webappsec-referrer-policy/) 中有介绍:
 
 - **`"no-referrer-when-downgrade"`** -- 默认值: 完整的 `Referer` 总被发送，除非我们从 HTTPS 发送请求到 HTTP (到较不安全协议)。
 - **`"no-referrer"`** -- 从不发送 `Referer`.
@@ -130,22 +130,6 @@ fetch('https://another.com/page', {
 具体来说，它可以使用 `Referrer-Policy` 的 HTTP 头部信息给整个页面设置默认来源协议，或者使用 `<a rel="noreferrer">` 给单一链接设置。
 ````
 ````
-<!-- 如果我们想要完全隐藏 referer：
-
-```js
-fetch('https://another.com/page', {
-  referrerPolicy: "no-referrer" // 没有 Referer, 等价于 referrer: ""
-});
-```
-
-除此以外，如果我们想要从远端看请求发送的地址，我们可以只发送 url 的 "域名(origin)"部分： 
-if we'd like the remote side to see where the request comes from, we can send only the "origin" part of the url:
-
-```js
-fetch('https://another.com/page', {
-  referrerPolicy: "strict-origin" // Referer: https://javascript.info
-});
-``` -->
 
 ## mode
 
@@ -155,7 +139,7 @@ fetch('https://another.com/page', {
 - **`"same-origin"`** -- 禁止跨域请求，
 - **`"no-cors"`** -- 只允许简单的跨域请求。
 
-当 fetch 的 url 来自于第三方，我们想要一个 "停电开关" 来限制跨域能力时，这也许会很有用。
+当 `fetch` 的 url 来自于第三方，我们想要一个 "停电开关" 来限制跨域能力时，这也许会很有用。
 
 ## credentials
 
@@ -192,7 +176,7 @@ fetch('https://another.com/page', {
 
 `integrity` 选项 (option) 允许检查响应是否符合已知的校验和。
 
-As described in the正如在[规范](https://w3c.github.io/webappsec-subresource-integrity/)描述的，支持的哈希函数 (hash-functions) SHA-256，SHA-384， 和 SHA-512，也许还有其他，这取决于浏览器。
+正如在[规范](https://w3c.github.io/webappsec-subresource-integrity/)描述的，支持的哈希函数 (hash-functions) SHA-256，SHA-384， 和 SHA-512，也许还有其他，这取决于浏览器。
 
 比如，我们下载一个文件，并且我们知道它的 SHA-256 校验和是 "abcdef" (当然，一个真的校验和更长)。
 
@@ -231,7 +215,6 @@ window.onunload = function() {
 正常来说，当一个文档卸载时，所有相关联的网络请求都会被取消。但是 `keepalive` 选项 (option) 告诉浏览器在后台执行请求，即使它离开了页面。所以这个选项 (option) 对于我们的请求成功是至关重要的。
 
 它有一些限制：
-It has few limitations:
 - 我们无法发送太大的数据：`keepalive` 请求的容量限制为 64kb。
     - 如果收集了太多数据，我们可以将其分包，按规律发送出去，所以不会留下太多数据在最后 `onunload` 请求。
     - 限制是对当前进行中的所有请求的。所以我们无法通过创建 100 个请求，每个 64kb 这样作弊。
