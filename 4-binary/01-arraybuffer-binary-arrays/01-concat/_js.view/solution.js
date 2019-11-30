@@ -1,5 +1,5 @@
 function concat(arrays) {
-  // 单个数组长度求和
+  // 每个数组长度求和
   let totalLength = arrays.reduce((acc, value) => acc + value.length, 0);
 
   if (!arrays.length) return null;
