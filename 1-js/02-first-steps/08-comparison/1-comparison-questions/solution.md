@@ -1,5 +1,4 @@
 
-
 ```js no-beautify
 5 > 4 → true
 "apple" > "pineapple" → false
@@ -10,7 +9,7 @@ null == "\n0\n" → false
 null === +"\n0\n" → false
 ```
 
-参考答案：
+结果的原因：
 
 1. 数字间比较大小，显然得 true。
 2. 按词典顺序比较，得 false。

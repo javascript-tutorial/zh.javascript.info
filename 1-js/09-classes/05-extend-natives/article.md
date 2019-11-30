@@ -1,12 +1,12 @@
+# 继承内置类
 
-# Extending built-in classes
+内置的类比如 `Array`，`Map` 等也都是可以继承的。
 
-Built-in classes like Array, Map and others are extendable also.
+比如，这里有一个 `PowerArray` 继承自原生的 `Array`： 
 
-For instance, here `PowerArray` inherits from the native `Array`:
 
 ```js run
-// add one more method to it (can do more)
+// 给 PowerArray 新增了一个方法（可以增加更多）
 class PowerArray extends Array {
   isEmpty() {
     return this.length === 0;
@@ -21,20 +21,22 @@ alert(filteredArr); // 10, 50
 alert(filteredArr.isEmpty()); // false
 ```
 
-Please note a very interesting thing. Built-in methods like `filter`, `map` and others -- return new objects of exactly the inherited type. They rely on the `constructor` property to do so.
+请注意一个非常有趣的事情。内置的方法比如 `filter`，`map` 等 -- 返回的正是子类 `PowerArray` 的新对象。它们内部通过对象的 `constructor` 属性实现了这一功能。
 
-In the example above,
+在上面的例子中，
 ```js
 arr.constructor === PowerArray
 ```
 
-So when `arr.filter()` is called, it internally creates the new array of results using exactly `new PowerArray`, not basic `Array`. That's actually very cool, because we can keep using `PowerArray` methods further on the result.
 
-Even more, we can customize that behavior.
 
-We can add a special static getter `Symbol.species` to the class. If exists, it should return the constructor that JavaScript will use internally to create new entities in `map`, `filter` and so on.
+所以当 `arr.filter()` 被调用的时候，它在内部使用的是 `new PowerArray` 的返回值来创建新数组，而不是原生的 `Array`。这真的很酷，因为我们可以在返回值中继续使用 `PowerArray` 的方法。
 
-If we'd like built-in methods like `map`, `filter` will return regular arrays, we can return `Array` in `Symbol.species`, like here:
+更重要的是，我们可以定制这种行为。
+
+我们可以给这个类增加一个特殊的静态 getter `Symbol.species`。如果存在，则应返回 JavaScript 内部用来在 map，filter 等方法中创建新实体的构造函数 (constructor)。
+
+如果我们希望类似 `map` 或者 `filter` 这样的内置方法返回常规的数组，我们应该在 `Symbol.species` 中返回 `Array`，就像这样：
 
 ```js run
 class PowerArray extends Array {
@@ -43,7 +45,7 @@ class PowerArray extends Array {
   }
 
 *!*
-  // built-in methods will use this as the constructor
+  // 内置方法会使用这个作为构造函数 (constructor)
   static get [Symbol.species]() {
     return Array;
   }
@@ -53,38 +55,37 @@ class PowerArray extends Array {
 let arr = new PowerArray(1, 2, 5, 10, 50);
 alert(arr.isEmpty()); // false
 
-// filter creates new array using arr.constructor[Symbol.species] as constructor
+// filter 使用 arr.constructor[Symbol.species] 作为构造函数 (constructor) 创建新数组
 let filteredArr = arr.filter(item => item >= 10);
 
 *!*
-// filteredArr is not PowerArray, but Array
+// filteredArr 不是 PowerArray, 而是 Array
 */!*
 alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 ```
 
-As you can see, now `.filter` returns `Array`. So the extended functionality is not passed any further.
+如你所见，现在 `.filter` 返回 `Array`。所以子类 `PowerArray` 的功能不再传递给 `filteredArr`。
 
-## No static inheritance in built-ins
+```smart header="其他集合也同样适用"
+其他的集合比如 `Map` 和 `Set` 也同样适用，它们也可以使用 `Symbol.species`.
+```
 
-Built-in objects have their own static methods, for instance `Object.keys`, `Array.isArray` etc.
+### 内置类没有静态方法继承
 
-As we already know, native classes extend each other. For instance, `Array` extends `Object`.
+内置对象有它们自己的静态方法，比如 `Object.keys`，`Array.isArray` 等。
 
-Normally, when one class extends another, both static and non-static methods are inherited.
+如我们所知道的，原生的类互相继承。比如，`Array` 继承自 `Object`。
 
-So, if `Rabbit extends Animal`, then:
+正常来说，当一个类继承自其他类的时候，静态方法和非静态方法都会被继承。这已经在这篇文章 [](info:static-properties-methods#statics-and-inheritance) 中详尽地解释过了。
 
-1. `Rabbit.methods` are callable for `Animal.methods`, because `Rabbit.[[Prototype]] = Animal`.
-2. `new Rabbit().methods` are also available, because `Rabbit.prototype.[[Prototype]] = Animal.prototype`.
+但内置类却是一个例外，它们相互间不继承静态属性和方法。
 
-That's thoroughly explained in the chapter [](info:static-properties-methods#statics-and-inheritance).
+比如，`Array` 和 `Data` 都是继承自 `Object`，所以它们的实例都有来自 `Object.prototype` 的方法，但是 `Array.[[Prototype]]` 不指向 `Object`，所以它们没有例如 `Array.keys()`(或者 `Data.keys()`)的静态方法。
 
-But built-in classes are an exception. They don't inherit statics `(1)` from each other.
-
-For example, both `Array` and `Date` inherit from `Object`, so their instances have methods from `Object.prototype`. But  `Array.[[Prototype]]` does not point to `Object`. So there's `Object.keys()`, but not `Array.keys()` and `Date.keys()`.
-
-Here's the picture structure for `Date` and `Object`:
+这里有一张 `Date` 和 `Object` 结构关系的图片
 
 ![](object-date-inheritance.svg)
 
-Note, there's no link between `Date` and `Object`. Both `Object` and `Date` exist independently. `Date.prototype` inherits from `Object.prototype`, but that's all.
+如你所见，`Date` 和 `Object` 之间没有连结。`Object` 和 `Date` 都是独立存在的。`Date.prototype` 继承自 `Object.prototype`，但也仅此而已。
+
+与我们了解的继承（`extends`）相比，这是内置对象之间的继承的一个非常重要的区别。
