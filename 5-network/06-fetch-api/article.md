@@ -11,13 +11,13 @@
 但是，知道 `fetch` 可以做什么也是很好的，所以如果你求知欲旺盛，你也可以来看看这些细节。
 ```
 
-这个列表包含了 fetch 所有可能的选项 (options) 和它们的默认值(可选值在注释中)：
+这个列表包含了 `fetch` 所有可能的选项和它们的默认值(可选值在注释中)：
 
 ```js
 let promise = fetch(url, {
   method: "GET", // POST, PUT, DELETE, 等等.
   headers: {
-    "Content-Type": "text/plain;charset=UTF-8" // 针对字符串主体，依赖于主体 (body)
+    "Content-Type": "text/plain;charset=UTF-8" // 内容类型头的值通常会根据请求主体自动设置
   },
   body: undefined // string, FormData, Blob, BufferSource, 或者 URLSearchParams
   referrer: "about:client", // 无来源页 (no-referrer) 为 ''，或者是一个来自当前域名的 url
@@ -37,18 +37,18 @@ let promise = fetch(url, {
 
 我们已经在这个章节 <info:fetch-basics> 详细介绍过 `method`, `headers` 和 `body` 了
 
-`signal` 选项 (option) 已经在 fetch-abort <info:fetch-abort> 章节讨论过了。
+`signal` 选项 (option) 已经在 <info:fetch-abort> 章节讨论过了。
 
-现在让我们探讨剩下的选项 (options)。
+现在让我们探讨它其他的能力。
 
 ## referrer, referrerPolicy
 
-这些选项 (options) 决定了 `fetch` 如何设置 HTTP 的 `Referer` 头
+这些选项决定了 `fetch` 如何设置 HTTP 的 `Referer` 头
 
-通常来说，它的头部信息被自动设置并包含了发出请求的页面的 url。在大部分情况下，它只是个无关紧要的小角色，但有些时候出于安全考虑，对它的修改或移除是由必要的。
+通常来说，这个头部被自动设置并包含了发出请求的页面的 url。在大部分情况下，它只是个无关紧要的小角色，但有些时候出于安全考虑，对它的移除或缩短是由必要的。
 .
 
-**`referer` 选项 (option) 允许设置任何在当前域名 (origin) 的 `Referer` 或者移除它。**
+**`referer` 选项允许设置任何在当前域名 (origin) 的 `Referer` 或者移除它。**
 
 要发送无来源页，可以将 `referer` 设置为空字符串：
 ```js
@@ -59,7 +59,7 @@ fetch('/page', {
 });
 ```
 
-设置在当前域名 (origin) 内的另一个 url：
+设置在当前域名内的另一个 url：
 
 ```js
 fetch('/page', {
@@ -71,14 +71,14 @@ fetch('/page', {
 });
 ```
 
-**`referrerPolicy` 选项 (option) 为 `Referer` 设置通用规则。**
+**`referrerPolicy` 选项为 `Referer` 设置通用规则。**
 
 请求被分为 3 种类型：
 1. 同源请求。
 2. 跨域请求。
 3. HTTPS 到 HTTP 的请求 (从安全协议到不安全协议)。
 
-与 `referrer` 选项 (origin) 允许设置确切的 `Referer` 值不同， `referrerPolicy` 告诉浏览器针对各个请求类型的使用的通常的规则。
+与 `referrer` 选项允许设置确切的 `Referer` 值不同， `referrerPolicy` 告诉浏览器针对各个请求类型的使用的通常的规则。
 
 可能的值在 [Referrer Policy specification (来源协议规范)](https://w3c.github.io/webappsec-referrer-policy/) 中有介绍:
 
@@ -125,7 +125,7 @@ fetch('https://another.com/page', {
 与默认行为相比较，它的唯一区别是跨域请求的 `fetch` 只发送 URL 的域名部分(比如 `https://javascript.info`，没有路径)。对于同源请求，我们仍然能得到完整的 `Referer` (也许在 debug 中有用)。
 
 ````smart header="来源协议 (Referrer policy) 不只用于 `fetch`"
-在[规范](https://w3c.github.io/webappsec-referrer-policy/)中描述的来源协议，不只是用于 `fetch`，它用处更广泛。
+在 [规范](https://w3c.github.io/webappsec-referrer-policy/) 中描述的来源协议，不只是用于 `fetch`，它用处更广泛。
 
 具体来说，它可以使用 `Referrer-Policy` 的 HTTP 头部信息给整个页面设置默认来源协议，或者使用 `<a rel="noreferrer">` 给单一链接设置。
 ````
@@ -133,7 +133,7 @@ fetch('https://another.com/page', {
 
 ## mode
 
-`mode` 选项 (option) 服务类似安全守卫，用以阻止跨域请求：
+`mode` 选项服务类似安全守卫，用以阻止跨域请求：
 
 - **`"cors"`** -- 默认值，允许跨域请求，可见于 <info:fetch-crossorigin>，
 - **`"same-origin"`** -- 禁止跨域请求，
@@ -143,7 +143,7 @@ fetch('https://another.com/page', {
 
 ## credentials
 
-`credentials` 选项 (option) 确定 `fetch` 是否应该在请求中发送 cookies 和 HTTP-Authorization 头部信息。
+`credentials` 选项确定 `fetch` 是否应该在请求中发送 cookies 和 HTTP-Authorization 头部信息。
 
 - **`"same-origin"`** -- 默认值，在跨域请求中不发送，
 - **`"include"`** -- 总是发送，需要在跨域服务器中设置 `Accept-Control-Allow-Credentials` 来使 JavaScript 能够接受响应，这部分在这一章节<info:fetch-crossorigin> 有所讨论，
@@ -153,7 +153,7 @@ fetch('https://another.com/page', {
 
 `fetch` 请求会默认地利用标准的 HTTP 缓存。就是说，它遵从 `Expires`,， `Cache-Control` 头部信息，发送 `If-Modified-Since`，和其他头部信息。就像常规的 HTTP 请求。
 
-`cache` 选项 (options) 允许无视 HTTP 缓存或者微调它的用法：
+`cache` 选项允许无视 HTTP 缓存或者微调它的用法：
 
 - **`"default"`** -- `fetch` 使用标准的 HTTP 缓存规则和头部信息，
 - **`"no-store"`** -- 完全无视 HTTP 缓存，如果我们设置了头部信息 `If-Modified-Since`, `If-None-Match`, `If-Unmodified-Since`, `If-Match`, 或者 `If-Range`，这个模式会成为默认值，
@@ -166,7 +166,7 @@ fetch('https://another.com/page', {
 
 通常来说, `fetch` 直接随着 HTTP 重定向，比如 301，302等等。
 
-`redirect` 选项 (option) 允许改变这个情况:
+`redirect` 选项允许改变这个情况:
 
 - **`"follow"`** -- 默认值, 随着 HTTP 重定向,
 - **`"error"`** -- 如果 HTTP 重定向则报错,
@@ -174,13 +174,13 @@ fetch('https://another.com/page', {
 
 ## integrity
 
-`integrity` 选项 (option) 允许检查响应是否符合已知的校验和。
+`integrity` 选项允许检查响应是否符合已知的校验和。
 
 正如在[规范](https://w3c.github.io/webappsec-subresource-integrity/)描述的，支持的哈希函数 (hash-functions) SHA-256，SHA-384， 和 SHA-512，也许还有其他，这取决于浏览器。
 
 比如，我们下载一个文件，并且我们知道它的 SHA-256 校验和是 "abcdef" (当然，一个真的校验和更长)。
 
-我们可以把它放在 `integrity` 选项 (option) 中，就像这样:
+我们可以把它放在 `integrity` 选项中，就像这样:
 
 ```js
 fetch('http://site.com/file', {
@@ -192,9 +192,9 @@ fetch('http://site.com/file', {
 
 ## keepalive
 
-`keepalive` 选项 (option) 表示当网页初始化时请求会“失活”。
+`keepalive` 选项表示请求是否会使初始化后的网页“失活”。
 
-比如，我们收集当前用户是如何使用我们的网页的(点击鼠标，他看的页面碎片)数据，来分析并提升用户体验。
+比如，我们收集当前用户是如何使用我们的网页的(点击鼠标，看过的页面碎片)数据，来分析并提升用户体验。
 
 当用户离开我们的网页时 -- 我们希望能够在服务器中储存数据。
 
@@ -212,11 +212,11 @@ window.onunload = function() {
 };
 ```
 
-正常来说，当一个文档卸载时，所有相关联的网络请求都会被取消。但是 `keepalive` 选项 (option) 告诉浏览器在后台执行请求，即使它离开了页面。所以这个选项 (option) 对于我们的请求成功是至关重要的。
+正常来说，当一个文档卸载时，所有相关联的网络请求都会被取消。但是 `keepalive` 选项告诉浏览器在后台执行请求，即使它离开了页面。所以这个选项对于我们的请求成功是至关重要的。
 
 它有一些限制：
 - 我们无法发送太大的数据：`keepalive` 请求的容量限制为 64kb。
     - 如果收集了太多数据，我们可以将其分包，按规律发送出去，所以不会留下太多数据在最后 `onunload` 请求。
     - 限制是对当前进行中的所有请求的。所以我们无法通过创建 100 个请求，每个 64kb 这样作弊。
 - 如果请求是来自 `onunload`，我们无法处理服务器响应，因为文档在那个时候已经卸载，函数无法工作。
-    - 同来来说，服务器给每个请求发送空响应，所以这不是问题。
+    - 通常来说，服务器给每个请求发送空响应，所以这不是问题。
