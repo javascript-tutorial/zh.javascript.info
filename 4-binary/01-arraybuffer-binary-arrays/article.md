@@ -90,7 +90,7 @@ new TypedArray();
 
 1. 如果给定的是 `ArrayBuffer` 参数，则在其上创建视图。我们已经用过该语法了。
 
-    根据需要，我们可以给定起始位置 `byteOffset` （默认为 0）以及 `length`（默认至缓存区的末尾），这样视图就会只涵盖  `buffer` 的一部分。
+    根据需要，我们可以给定起始位置 `byteOffset`（默认为 0）以及 `length`（默认至缓存区的末尾），这样视图就会只涵盖 `buffer` 的一部分。
 
 2. 如果给定的是 `Array`、或任何类似数组的对象，则创建一个相同长度的类型化数组，并复制值。
 
@@ -115,17 +115,17 @@ new TypedArray();
 4. 对于整型参数 `length` -- 创建包含 `length` 这么多元素的类型化数组。它的字节长度将是 `length` 乘以单个 `TypedArray.BYTES_PER_ELEMENT` 中的字节数：
     ```js run
     let arr = new Uint16Array(4); // 为 4 个整数创建类型化数组
-    alert( Uint16Array.BYTES_PER_ELEMENT ); //  每个整数 2 个字节
+    alert( Uint16Array.BYTES_PER_ELEMENT ); // 每个整数 2 个字节
     alert( arr.byteLength ); // 8 (大小，以字节为单位)
     ```
 
 5. 不带参数的情况下，创建零长度的类型化数组。
 
-我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此在所有这些情况下（第一个除外）都会自动创建 `ArrayBuffer`（如果提供的话）。
+我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此除第一种情况（已提供 `ArrayBuffer`）外，其他所有情况都会自动创建 `ArrayBuffer`。
 
 如要访问 `ArrayBuffer`，可以用以下属性：
 - `arr.buffer` -- 引用 `ArrayBuffer`。
-- `arr.byteLength` --  `ArrayBuffer` 的长度。
+- `arr.byteLength` -- `ArrayBuffer` 的长度。
 
 因此，我们总是可以从一个视图转到另一个视图：
 ```js
@@ -198,7 +198,7 @@ alert(uint8array[1]); // 1
 还有两种其他方法：
 
 - `arr.set(fromArr, [offset])` 将 `fromArr` 中从 `offset`（默认为 0）开始的所有元素复制到 `arr`。
-- `arr.subarray([begin, end])` 创建一个从 `begin` 到 `end`（不包括）相同类型的新视图。这类似于 `slice` 方法（同样也支持），但是不复制任何内容 - 只是创建一个新视图，对给定的数据进行操作。
+- `arr.subarray([begin, end])` 创建一个从 `begin` 到 `end`（不包括）相同类型的新视图。这类似于 `slice` 方法（同样也支持），但是不复制任何内容 -- 只是创建一个新视图，对给定的数据进行操作。
 
 有了这些方法，我们可以复制、混合类型化数组，从现有数组创建新数组，等等。
 
