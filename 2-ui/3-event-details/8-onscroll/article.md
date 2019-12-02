@@ -1,6 +1,10 @@
 # 滚动
 
+<<<<<<< HEAD
 滚动事件允许在页面或元素上滚动时作出反应。我们可以在这里做一些有用的事情。
+=======
+The `scroll` event allows to react on a page or element scrolling. There are quite a few good things we can do here.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 比如：
 - 根据用户在文档中的位置显示/隐藏其他控件或信息。
@@ -24,6 +28,7 @@ Current scroll = <b id="showScroll">scroll the window</b>
 
 ## 防止滚动
 
+<<<<<<< HEAD
 我们怎样让某些东西不可滚动呢？我们不能在 `onscroll` 监听者中通过使用 `event.preventDefault()` 来阻止滚动，因为它在滚动发生**之后**才触发。
 
 但我们可以在导致滚动的事件上使用 `event.preventDefault()` 来阻止滚动。
@@ -33,5 +38,16 @@ Current scroll = <b id="showScroll">scroll the window</b>
 - `key:pageUp` 和 `key:pageDown` 的 `keydown` 事件。
 
 有时可能会有帮助，但还有很多滚动方式，所以很难处理它们。因此，使用 CSS 让一些东西不可滚动更为可靠，比如 `overflow` 属性。
+=======
+How do we make something unscrollable?
+
+We can't prevent scrolling by using `event.preventDefault()` in `onscroll` listener, because it triggers *after* the scroll has already happened.
+
+But we can prevent scrolling by `event.preventDefault()` on an event that causes the scroll, for instance `keydown` event for `key:pageUp` and `key:pageDown`.
+
+If we add an event handler to these events and `event.preventDefault()` in it, then the scroll won't start.
+
+There are many ways to initiate a scroll, so it's more reliable to use CSS, `overflow` property.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 这里有几个你可以完成的练习，你也可以看它们关于 `onscroll` 的应用。

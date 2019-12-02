@@ -85,7 +85,11 @@ pow(x, n) =
 ````smart header="递归一般更简洁"
 递归解决方案一般比迭代更简洁。
 
+<<<<<<< HEAD
 这里我们可以使用三元运算符 `?` 来替换 `if` 语句，从而让 `pow(x, n)` 更简洁并且可读性依然很高：
+=======
+Here we can rewrite the same using the conditional operator `?` instead of `if` to make `pow(x, n)` more terse and still very readable:
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```js run
 function pow(x, n) {
@@ -96,15 +100,27 @@ function pow(x, n) {
 
 最大的嵌套调用次数（包括首次）称为**递归深度**。在我们的例子中，它正好等于 `n`。
 
+<<<<<<< HEAD
 最大递归深度受限于 JavaScript 引擎。我们可以确信基本是 10000，有些引擎可能允许更大，但是 100000 很可能就超过了限制。有一些自动优化能够缓解这个（「尾部调用优化」），但是它们还没有被完全支持，只能用于简单场景。
+=======
+The maximal recursion depth is limited by JavaScript engine. We can rely on it being 10000, some engines allow more, but 100000 is probably out of limit for the majority of them. There are automatic optimizations that help alleviate this ("tail calls optimizations"), but they are not yet supported everywhere and work only in simple cases.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 这就限制了递归的应用，但是递归仍然被广泛使用。有很多任务使用递归思路会让代码更简单，更容易维护。
 
+<<<<<<< HEAD
 ## 执行堆栈
+=======
+## The execution context and stack
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 现在我们来研究下递归调用如何工作的。为此，我们会先看看函数底层工作原理。
 
+<<<<<<< HEAD
 一个函数运行的信息被存储在它的**执行上下文**里。
+=======
+The information about the process of execution of a running function is stored in its *execution context*.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 [执行上下文](https://tc39.github.io/ecma262/#sec-execution-contexts)是一个内部数据结构，它包含一个函数执行时的细节：当前工作流在哪里，当前的变量，`this` 的值（这里我们不使用它），以及其它一些内部细节。
 
@@ -185,7 +201,17 @@ alert( pow(2, 3) );
 
 新的当前执行上下文位于顶部（加粗），前面的在下方。
 
+<<<<<<< HEAD
 当我们完成子调用后 —— 很容恢复前面的上下文，因为它保留这变量和代码停止时的准确位置。图中我们使用了单词「行」，但实际比这更精确。
+=======
+When we finish the subcall -- it is easy to resume the previous context, because it keeps both variables and the exact place of the code where it stopped.
+
+```smart
+Here in the picture we use the word "line", as our example there's only one subcall in line, but generally a single line of code may contain multiple subcalls, like `pow(…) + pow(…) + somethingElse(…)`.
+
+So it would be more precise to say that the execution resumes "immediately after the subcall".
+```
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ### pow(2, 1)
 
@@ -318,26 +344,45 @@ let company = {
 
 或者说，一家公司有很多部门。
 
+<<<<<<< HEAD
 - 一个部门有员工列表，比如，`销售`部有 2 名员工：John 和 Alice。
 - 或者一个部门可能划分为几个子部门，比如`开发`有两个分支：`网站`和`内部`，它们都有自己的员工。
 - 当一个子部门增长时，它可能会划分为子部门（或者团队）。
+=======
+- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
+- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.
+- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
     比如，`网站`部门在未来可能会分为`网站 A` 和 `网站 B`。它们可能还会再分，没有图示，脑补一下吧。
 
 现在，如果我们需要获得所有薪酬总数，我们该如何做？
 
+<<<<<<< HEAD
 迭代方式并不容易，因为结构比较复杂。首先想到是使用 `for` 循环 `公司`，然后嵌套子循环第 1 层部门。然后我们需要更多嵌套子循环来迭代第 2 层部门，比如 `网站`。...然后另一个嵌套子循环给将来会有的第 3 层部门？我们应该在第 3 或第 4 层循环停止吗？如果我们将 3-4 嵌套子循环放到代码里来遍历单个对象，它会变得很丑。
+=======
+An iterative approach is not easy, because the structure is not simple. The first idea may be to make a `for` loop over `company` with nested subloop over 1st level departments. But then we need more nested subloops to iterate over the staff in 2nd level departments like `sites`... And then another subloop inside those for 3rd level departments that might appear in the future? If we put 3-4 nested subloops in the code to traverse a single object, it becomes rather ugly.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 我们试试递归。
 
 可以看到，当函数计算一个部门的和时，有两种可能情况：
 
+<<<<<<< HEAD
 1. 这个部门是有**一组人**的『简单』部门 —— 这样我们就可以使用简单循环来求薪酬总额。
 2. 或者它是**一个有 `N` 个子部门的对象** —— 这样我们可以用 `N` 个递归调用来求每一个子部门的总额然后合并它们。
 
 (1) 是递归的基础，简单的情况。
 
 (2) 是递归步骤。复杂的任务被划分为适于更小部门的子任务。它们可能还会在划分，但是最终都会在 (1) 那里完成。
+=======
+1. Either it's a "simple" department with an *array* of people -- then we can sum the salaries in a simple loop.
+2. Or it's *an object* with `N` subdepartments -- then we can make `N` recursive calls to get the sum for each of the subdeps and combine the results.
+
+The 1st case is the base of recursion, the trivial case, when we get an array.
+
+The 2nd case when we get an object is the recursive step. A complex task is split into subtasks for smaller departments. They may in turn split again, but sooner or later the split will finish at (1).
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 算法从代码来看会更简单些：
 
@@ -416,7 +461,11 @@ let arr = [obj1, obj2, obj3];
 
 ...但是用数组有个问题。「删除元素」和「插入元素」操作代价非常大。例如，`arr.unshift(obj)` 操作必须对所有元素重新编号以便为新的元素 `obj` 腾出空间，而且如果数组很大，会很耗时。`arr.shift()` 同理。
 
+<<<<<<< HEAD
 唯一对数组结构做修改而不需要大量重排的操作就是在数组的末端：`arr.push/pop`。所以对大队列来说，数组会很慢。
+=======
+The only structural modifications that do not require mass-renumbering are those that operate with the end of array: `arr.push/pop`. So an array can be quite slow for big queues, when we have to work with the beginning.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 如果我们真的需要快速插入、删除的话，我们可以选择另一种叫做[链表](https://en.wikipedia.org/wiki/Linked_list)的数据结构。
 
@@ -453,6 +502,7 @@ let list = { value: 1 };
 list.next = { value: 2 };
 list.next.next = { value: 3 };
 list.next.next.next = { value: 4 };
+list.next.next.next.next = null;
 ```
 
 这里我们清楚的看到有很多个对象，每一个都有 `value` 和 指向邻居的 `next`。`list` 是链条的第一个对象，顺着 `next` 指针，我们可以抵达任何元素。
@@ -506,14 +556,28 @@ list.next = list.next.next;
 
 主要的不足就是我们无法轻易通过它的编号获取元素。在数组中却很容易：`arr[n]` 是一个直接引用。而在列表中，我们需要从起点元素顺着 `next` 找 `N` 次才能获取到第 N 个元素。
 
+<<<<<<< HEAD
 ...但是我们并不总需要这样的操作。比如，当我们需要一个队列或者甚至一个[双向队列](https://en.wikipedia.org/wiki/Double-ended_queue) —— 有序结构必须可以快速的从两端添加、移除元素。
 
 有时也值得添加一个名为 `tail` 的变量来跟踪列表的末尾元素（并且当从尾部添加、删除元素时更新它）。对大型数据集来说，它与数组的速度差异巨大。
+=======
+...But we don't always need such operations. For instance, when we need a queue or even a [deque](https://en.wikipedia.org/wiki/Double-ended_queue) -- the ordered structure that must allow very fast adding/removing elements from both ends, but access to its middle is not needed.
+
+Lists can be enhanced:
+- We can add property `prev` in addition to `next` to reference the previous element, to move back easily.
+- We can also add a variable named `tail` referencing the last element of the list (and update it when adding/removing elements from the end).
+- ...The data structure may vary according to our needs.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ## 总结
 
+<<<<<<< HEAD
 术语：
 - **递归**是函数「自调用」的编程术语。这种函数可以被用来优雅解决特定的任务。
+=======
+Terms:
+- *Recursion*  is a programming term that means calling a function from itself. Recursive functions can be used to solve tasks in elegant ways.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
     当一个函数调用自身时，我们称其为**递归步骤**。递归**基础**是函数参数使得任务很简单，不需要其它更进一步调用。
 

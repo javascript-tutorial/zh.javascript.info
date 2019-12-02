@@ -6,9 +6,15 @@ JavaScript在处理函数时提供了非凡的灵活性。它们可以被传递�
 
 假设我们有一个函数 `slow(x)` ，它是 CPU 重负载的，但它的结果是稳定的。换句话说，对于相同的 `x`，它总是返回相同的结果。
 
+<<<<<<< HEAD
 如果经常调用该函数，我们可能希望缓存（记住）不同 `x` 的结果，以避免在重新计算上花费额外的时间。
 
 但是我们不是将这个功能添加到 `slow()` 中，而是创建一个包装器。正如我们将要看到的，这样做有很多好处。
+=======
+If the function is called often, we may want to cache (remember) the results to avoid spending extra-time on recalculations.
+
+But instead of adding that functionality into `slow()` we'll create a wrapper function, that adds caching. As we'll see, there are many benefits of doing so.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 下面是代码和解释：
 
@@ -23,6 +29,7 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
+<<<<<<< HEAD
     if (cache.has(x)) { // 如果结果在 map 里
       return cache.get(x); // 返回它
     }
@@ -30,6 +37,15 @@ function cachingDecorator(func) {
     let result = func(x); // 否则就调用函数
 
     cache.set(x, result); // 然后把结果缓存起来
+=======
+    if (cache.has(x)) {    // if there's such key in cache
+      return cache.get(x); // read the result from it
+    }
+
+    let result = func(x);  // otherwise call func
+
+    cache.set(x, result);  // and cache (remember) the result
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
     return result;
   };
 }
@@ -49,6 +65,7 @@ alert( "Again: " + slow(2) ); // 也是一样
 
 通过将缓存与主函数代码分开，我们还可以使主函数代码变得更简单。
 
+<<<<<<< HEAD
 现在让我们详细了解它的工作原理吧。
 
 `cachingDecorator(func)` 的结果是一个“包装器”：`function(x)` 将 `func(x)` 的调用 "包装" 到缓存逻辑中：
@@ -56,15 +73,30 @@ alert( "Again: " + slow(2) ); // 也是一样
 ![](decorator-makecaching-wrapper.svg)
 
 正如我们所看到的，包装器返回 `func(x)` "的结果"。从外部代码中，包装的 `slow` 函数仍然是一样的。它只是在其函数体中添加了一个缓存。
+=======
+The result of `cachingDecorator(func)` is a "wrapper": `function(x)` that "wraps" the call of `func(x)` into caching logic:
+
+![](decorator-makecaching-wrapper.svg)
+
+From an outside code, the wrapped `slow` function still does the same. It just got a caching aspect added to its behavior.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 总而言之，使用单独的 `cachingDecorator` 而不是改变 `slow` 本身的代码有几个好处：
 
+<<<<<<< HEAD
 - `cachingDecorator` 是可重用的。我们可以将它应用于另一个函数。
 - 缓存逻辑是独立的，它没有增加 `slow` 本身的复杂性（如果有的话）。
 - 如果需要，我们可以组合多个装饰器（其他装饰器将遵循同样的逻辑）。
 
 
 ## 使用 “func.call” 作为上下文
+=======
+- The `cachingDecorator` is reusable. We can apply it to another function.
+- The caching logic is separate, it did not increase the complexity of `slow` itself (if there was any).
+- We can combine multiple decorators if needed (other decorators will follow).
+
+## Using "func.call" for the context
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 上面提到的缓存装饰器不适合使用对象方法。
 
@@ -78,7 +110,11 @@ let worker = {
   },
 
   slow(x) {
+<<<<<<< HEAD
     // 显然, 这里会有一个 CPU 重负载的任务
+=======
+    // scary CPU-heavy task here  
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
     alert("Called with " + x);
     return x * this.someMethod(); // (*)
   }
@@ -151,9 +187,15 @@ function sayHi() {
 let user = { name: "John" };
 let admin = { name: "Admin" };
 
+<<<<<<< HEAD
 // 使用 call 将不同的对象传递为 "this"
 sayHi.call( user ); // this = John
 sayHi.call( admin ); // this = Admin
+=======
+// use call to pass different objects as "this"
+sayHi.call( user ); // John
+sayHi.call( admin ); // Admin
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 ```
 
 在这里我们用 `call` 用给定的上下文和短语调用 `say`：
@@ -170,9 +212,12 @@ let user = { name: "John" };
 say.call( user, "Hello" ); // John: Hello
 ```
 
+<<<<<<< HEAD
 
 在我们的例子中，我们可以在包装器中使用 `call` 将上下文传递给原始函数：
-
+=======
+In our case, we can use `call` in the wrapper to pass the context to the original function:
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```js run
 let worker = {
@@ -231,9 +276,13 @@ let worker = {
 worker.slow = cachingDecorator(worker.slow);
 ```
 
+<<<<<<< HEAD
 我们这里有两个要解决的任务。
 
 首先是如何在 `cache` map 中使用参数 `min` 和 `max` 作为键。以前，对于单个参数 `x`，我们可以只使用 `cache.set(x, result)` 来保存结果，并使用 `cache.get(x)` 来检索它。但是现在我们需要记住参数组合 * `(min,max)` 的结果。原生 `Map` 仅将单个值作为键。
+=======
+Previously, for a single argument `x` we could just `cache.set(x, result)` to save the result and `cache.get(x)` to retrieve it. But now we need to remember the result for a *combination of arguments* `(min,max)`. The native `Map` takes single value only as the key.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 有许多解决方案可以实现：
 
@@ -241,6 +290,7 @@ worker.slow = cachingDecorator(worker.slow);
 2. 使用嵌套映射：`cache.set(min)` 将是一个存储对 `(max, result)` 的 `Map`。所以我们可以将 `result` 改为 `cache.get(min).get(max)`。
 3. 将两个值合并为一个。在我们的特定情况下，我们可以使用字符串 “min，max” 作为 `Map` 键。为了灵活性，我们可以允许为装饰器提供**散列函数**，它知道如何从多个中创建一个值。
 
+<<<<<<< HEAD
 
 对于许多实际应用，第三种方式已经足够好，所以我们就用这个吧。
 
@@ -320,6 +370,13 @@ let wrapper = function() {
 当外部代码调用这样的 `wrapper` 时，它与原始函数的调用无法区分。
 
 现在让我们把它全部加入到更强大的 `cachingDecorator` 中：
+=======
+For many practical applications, the 3rd variant is good enough, so we'll stick to it.
+
+Also we need to replace `func.call(this, x)` with `func.call(this, ...arguments)`, to pass all arguments to the wrapped function call, not just the first one.
+
+Here's a more powerful `cachingDecorator`:
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```js run
 let worker = {
@@ -340,7 +397,7 @@ function cachingDecorator(func, hash) {
     }
 
 *!*
-    let result = func.apply(this, arguments); // (**)
+    let result = func.call(this, ...arguments); // (**)
 */!*
 
     cache.set(key, result);
@@ -358,13 +415,61 @@ alert( worker.slow(3, 5) ); // works
 alert( "Again " + worker.slow(3, 5) ); // same (cached)
 ```
 
+<<<<<<< HEAD
 现在，包装器可以使用任意数量的参数进行操作。
+=======
+Now it works with any number of arguments (though the hash function would also need to be adjusted to allow any number of arguments. An interesting way to handle this will be covered below).
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 这里有两个变化：
 
+<<<<<<< HEAD
 - 在 `(*)` 行中它调用 `hash` 来从 `arguments` 创建一个单独的键。这里我们使用一个简单的 “连接” 函数，将参数 `(3, 5)` 转换为键 “3,5”。更复杂的情况可能需要其他散列函数。
 - 然后 `(**)` 使用 `func.apply` 传递上下文和包装器获得的所有参数（无论多少）到原始函数。
+=======
+- In the line `(*)` it calls `hash` to create a single key from `arguments`. Here we use a simple "joining" function that turns arguments `(3, 5)` into the key `"3,5"`. More complex cases may require other hashing functions.
+- Then `(**)` uses `func.call(this, ...arguments)` to pass both the context and all arguments the wrapper got (not just the first one) to the original function.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
+Instead of `func.call(this, ...arguments)` we could use `func.apply(this, arguments)`.
+
+The syntax of built-in method [func.apply](mdn:js/Function/apply) is:
+
+```js
+func.apply(context, args)
+```
+
+It runs the `func` setting `this=context` and using an array-like object `args` as the list of arguments.
+
+The only syntax difference between `call` and `apply` is that `call` expects a list of arguments, while `apply` takes an array-like object with them.
+
+So these two calls are almost equivalent:
+
+```js
+func.call(context, ...args); // pass an array as list with spread operator
+func.apply(context, args);   // is same as using apply
+```
+
+There's only a minor difference:
+
+- The spread operator `...` allows to pass *iterable* `args` as the list to `call`.
+- The `apply` accepts only *array-like* `args`.
+
+So, these calls complement each other. Where we expect an iterable, `call` works, where we expect an array-like, `apply` works.
+
+And for objects that are both iterable and array-like, like a real array, we technically could use any of them, but `apply` will probably be faster, because most JavaScript engines internally optimize it better.
+
+Passing all arguments along with the context to another function is called *call forwarding*.
+
+That's the simplest form of it:
+
+```js
+let wrapper = function() {
+  return func.apply(this, arguments);
+};
+```
+
+When an external code calls such `wrapper`, it is indistinguishable from the call of the original function `func`.
 
 ## 借用一种方法 [#method-borrowing]
 
@@ -414,7 +519,11 @@ hash(1, 2);
 
 这个技巧被称为 **方法借用**。
 
+<<<<<<< HEAD
 我们从常规数组 `[].join` 中获取（借用）连接方法。并使用 `[].join.call` 在 `arguments` 的上下文中运行它。
+=======
+We take (borrow) a join method from a regular array (`[].join`) and use `[].join.call` to run it in the context of `arguments`.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 它为什么有效？
 
@@ -432,13 +541,31 @@ hash(1, 2);
 
 因此，从技术上讲，它需要 `this` 并将 `this[0]`，`this[1]` ...... 等加在一起。它的编写方式是允许任何类似数组的 `this`（不是巧合，许多方法遵循这种做法）。这就是为什么它也适用于 `this=arguments`。
 
+<<<<<<< HEAD
 ## 总结
+=======
+## Decorators and function properties
+
+It is generally safe to replace a function or a method with a decorated one, except for one little thing. If the original function had properties on it, like `func.calledCount` or whatever, then the decorated one will not provide them. Because that is a wrapper. So one needs to be careful if one uses them.
+
+E.g. in the example above if `slow` function had any properties on it, then `cachingDecorator(slow)` is a wrapper without them.
+
+Some decorators may provide their own properties. E.g. a decorator may count how many times a function was invoked and how much time it took, and expose this information via wrapper properties.
+
+There exists a way to create decorators that keep access to function properties, but this requires using a special `Proxy` object to wrap a function. We'll discuss it later in the article <info:proxy#proxy-apply>.
+
+## Summary
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 **装饰器**是一个改变函数行为的包装器。主要工作仍由该函数来完成。
 
+<<<<<<< HEAD
 除了一件小事，使用装饰器来替代函数或方法通常都是安全的。如果原始函数具有属性，例如 `func.calledCount` 或者其他什么，则装饰的函数将不提供它们。因为那是一个包装器。因此，如果使用它们，需要小心。一些装饰器提供它们自己的属性。
 
 装饰器可以被视为可以添加到函数中的“特征”或“方面”。我们可以添加一个或添加许多。而这一切都没有改变它的代码！
+=======
+Decorators can be seen as "features" or "aspects" that can be added to a function. We can add one or add many. And all this without changing its code!
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 为了实现 `cachingDecorator`，我们研究了方法：
 
@@ -450,10 +577,14 @@ hash(1, 2);
 ```js
 let wrapper = function() {
   return original.apply(this, arguments);
-}
+};
 ```
 
+<<<<<<< HEAD
 当我们从一个对象中获取一个方法并在另一个对象的上下文中“调用”它时，我们也看到了一个 **方法借用** 的例子。采用数组方法并将它们应用于参数是很常见的。另一种方法是使用静态参数对象，它是一个真正的数组。
 
+=======
+We also saw an example of *method borrowing* when we take a method from an object and `call` it in the context of another object. It is quite common to take array methods and apply them to `arguments`. The alternative is to use rest parameters object that is a real array.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 在 js 领域里有很多装饰器的使用方法 。快通过解决本章的任务来检查你掌握它们的程度吧。

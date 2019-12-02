@@ -1,26 +1,43 @@
 # 样式和类
 
+<<<<<<< HEAD
 在我们讨论 JavaScript 处理样式和类的方法之前 —— 有一个重要的规则。尽管这足够明显的，但我们还是要提到这一点。
+=======
+Before we get into JavaScript's ways of dealing with styles and classes -- here's an important rule. Hopefully it's obvious enough, but we still have to mention it.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 通常有两种方式来设计元素样式：
 
 1. 在 CSS 中创建一个类并添加它：`<div class="...">`
 2. 将属性直接写入 `style`：`<div style="...">`。
 
+<<<<<<< HEAD
 CSS 总是首选的方式 —— 不仅用于 HTML，在 JavaScript 中也是如此。
 
 只有当类“无法处理时”，我们才会操作 `style` 属性。
 
 例如，如果我们动态地计算元素的坐标并希望通过 JavaScript 来设置它们，那么 `style` 是可接受的，如下所示：
+=======
+JavaScript can modify both classes and `style` properties.
+
+We should always prefer CSS classes to `style`. The latter should only be used if classes "can't handle it".
+
+For example, `style` is acceptable if we calculate coordinates of an element dynamically and want to set them from JavaScript, like this:
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```js
 let top = /* complex calculations */;
 let left = /* complex calculations */;
-elem.style.left = left; // e.g '123px'
+
+elem.style.left = left; // e.g '123px', calculated at run-time
 elem.style.top = top; // e.g '456px'
 ```
 
+<<<<<<< HEAD
 对于其他情况，比如文本变红色，添加一个背景图标 —— 在 CSS 中描述这个图标，然后应用这个类。这更加灵活，更容易支持。
+=======
+For other cases, like making the text red, adding a background icon -- describe that in CSS and then add the class (JavaScript can do that). That's more flexible and easier to support.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ## className and classList
 
@@ -40,11 +57,19 @@ elem.style.top = top; // e.g '456px'
 </body>
 ```
 
+<<<<<<< HEAD
 如果我们为 `elem.className` 分配一些东西，它将替换所有的类字符串。有时，这正是我们所需要的，但我们通常希望添加/删除单个类。
+=======
+If we assign something to `elem.className`, it replaces the whole string of classes. Sometimes that's what we need, but often we want to add/remove a single class.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 还有另一个属性：`elem.classList`。
 
+<<<<<<< HEAD
 `elem.classList` 是一个特殊对象，它拥有 `add/remove/toggle` 的类方法。
+=======
+The `elem.classList` is a special object with methods to `add/remove/toggle` a single class.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 例如：
 
@@ -65,11 +90,19 @@ elem.style.top = top; // e.g '456px'
 
 `classList` 方法：
 
+<<<<<<< HEAD
 - `elem.classList.add/remove("class")` —— 添加/移除类。
 - `elem.classList.toggle("class")` —— 如果类存在就移除，否则添加。
 - `elem.classList.contains("class")` —— 返回 `true/false`，检查给定类。
 
 此外，`classList` 是可迭代的，因此我们可以像下述方法一样列出所有类：
+=======
+- `elem.classList.add/remove("class")` -- adds/removes the class.
+- `elem.classList.toggle("class")` -- adds the class if it doesn't exist, otherwise removes it.
+- `elem.classList.contains("class")` -- checks for the given class, returns `true/false`.
+
+Besides, `classList` is iterable, so we can list all classes with `for..of`, like this:
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```html run
 <body class="main page">
@@ -83,7 +116,11 @@ elem.style.top = top; // e.g '456px'
 
 ## 元素样式
 
+<<<<<<< HEAD
 `elem.style` 属性是一个对象，它对应于 `"style"` 特性中所写的内容。对 `elem.style.width="100px"` 等价于 `style="width:100px"` 的运行效果。
+=======
+The property `elem.style` is an object that corresponds to what's written in the `"style"` attribute. Setting `elem.style.width="100px"` works the same as if we had in the attribute `style` a string `width:100px`.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 对于多单词，使用 camelCase：
 
@@ -100,14 +137,23 @@ document.body.style.backgroundColor = prompt('background color?', 'green');
 ```
 
 ````smart header="Prefixed properties"
+<<<<<<< HEAD
 像 `-moz-border-radius`，`-webkit-border-radius` 这样的浏览器前缀，也遵循同样的规则，比如：
+=======
+Browser-prefixed properties like `-moz-border-radius`, `-webkit-border-radius` also follow the same rule: a dash means upper case.
+
+For instance:
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```js
 button.style.MozBorderRadius = '5px';
 button.style.WebkitBorderRadius = '5px';
 ```
+<<<<<<< HEAD
 
 即：连字符 `"-"` 变成大写。
+=======
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 ````
 
 ## 重置样式属性
@@ -116,16 +162,24 @@ button.style.WebkitBorderRadius = '5px';
 
 例如，为了隐藏一个元素，我们可以设置 `elem.style.display = "none"`。
 
+<<<<<<< HEAD
 然后，我们可能要移除 `style.display`，就像它没有被设置一样。这里不应该使用 `delete elem.style.display`，而应该使用 `elem.style.display = ""` 将其赋值为空。
+=======
+Then later we may want to remove the `style.display` as if it were not set. Instead of `delete elem.style.display` we should assign an empty string to it: `elem.style.display = ""`.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ```js run
-// if we run this code, the <body> "blinks"
+// if we run this code, the <body> will blink
 document.body.style.display = "none"; // hide
 
 setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 ```
 
+<<<<<<< HEAD
 如果我们设置 `display` 为空字符串，那么浏览器一般会应用 CSS 类以及内置样式，就像根本没有这样的 `style` 属性。
+=======
+If we set `style.display` to an empty string, then the browser applies CSS classes and its built-in styles normally, as if there were no such `style.display` property at all.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ````smart header="用 `style.cssText` 进行重写"
 通常，我们使用 `style.*` 来分配单独的样式属性。我们不能将完整的样式设置为 `div.style="color: red; width: 100px"`，因为 `div.style` 是一个对象，而且它是只读的。
@@ -147,14 +201,22 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 </script>
 ```
 
+<<<<<<< HEAD
 我们很少使用它，因为这样的赋值会删除所有现有样式：它不会添加，而是替换它们。偶尔会移出所需的东西。但是当我们知道我们不移出一些重要的内容时，仍然可以对新元素进行处理。
+=======
+This property is rarely used, because such assignment removes all existing styles: it does not add, but replaces them. May occasionally delete something needed. But we can safely use it for new elements, when we know we won't delete an existing style.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 通过设置属性：`div.setAttribute('style', 'color: red...')` 也可以实现同样的目的。
 ````
 
 ## 注意单位
 
+<<<<<<< HEAD
 样式值中必须附上 CSS 单位。
+=======
+Don't forget to add CSS units to values.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 例如，我们不应该将 `elem.style.top` 设置为 `10`，而应将其设置为 `10px`。否则会无效：
 
@@ -177,11 +239,19 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 </body>
 ```
 
+<<<<<<< HEAD
 请注意浏览器如何“解压”最后一行中的 `style.margin` 属性，并从其中推断 `style.marginLeft` 和 `style.marginTop`（以及其他部分边距）。
+=======
+Please note: the browser "unpacks" the property `style.margin` in the last lines and infers `style.marginLeft` and `style.marginTop` from it.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 ## 计算样式：getComputedStyle
 
+<<<<<<< HEAD
 修改样式很简单，但是如何**读取**它呢？
+=======
+So, modifying a style is easy. But how to *read* it?
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 例如，我们想知道元素的大小、边距、颜色。应该怎么获取？
 
@@ -207,14 +277,18 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 </body>
 ```
 
+<<<<<<< HEAD
 ...但如果我们需要，比如说，把边距增加 20px 呢？那么需要当前值作为开始。
+=======
+...But what if we need, say, to increase the margin by `20px`? We would want the current value of it.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 还有另一种方法：`getComputedStyle`。
 
 语法是：
 
 ```js
-getComputedStyle(element[, pseudo])
+getComputedStyle(element, [pseudo])
 ```
 
 element
@@ -223,7 +297,11 @@ element
 pseudo
 : 假如给定一个伪元素，例如：`::before`。空字符串或无参意味着元素本身。
 
+<<<<<<< HEAD
 结果是一个具有样式属性的对象，像 `elem.style`，但现在对于所有的 CSS 类来说都是如此。
+=======
+The result is an object with styles, like `elem.style`, but now with respect to all CSS classes.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 例如：
 
@@ -253,7 +331,11 @@ pseudo
 
 以前，为了获取计算值而创建 `getComputedStyle`，但是事实证明解析值会更加方便，标准也因此发生了变化。
 
+<<<<<<< HEAD
 因此，现在 `getComputedStyle` 实际上返回的是属性的解析值。
+=======
+So nowadays `getComputedStyle` actually returns the resolved value of the property, usually in `px` for geometry.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 ```
 
 ````warn header="`getComputedStyle` 需要完整的属性名"
@@ -276,12 +358,21 @@ pseudo
 ```
 ````
 
+<<<<<<< HEAD
 ```smart header="\"Visited\" links styles are hidden!"
 访问过的链接可以使用 `:visited` CSS 伪类着色。
+=======
+```smart header="Styles applied to `:visited` links are hidden!"
+Visited links may be colored using `:visited` CSS pseudoclass.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 
 但 `getComputedStyle` 不允许访问该颜色，否则任意页面都可以通过在页面上创建连接并通过检查样式来确定用户是否访问了连接。
 
+<<<<<<< HEAD
 JavaScript 中我们看不到 `:visited` 应用的样式。此外，CSS 中也有一个限制，禁止在 `:visited` 中应用更改几何的样式。这是为了保证一个不好的页面没有办法来测试是否访问了链接，从而窥探隐私。
+=======
+JavaScript may not see the styles applied by `:visited`. And also, there's a limitation in CSS that forbids applying geometry-changing styles in `:visited`. That's to guarantee that there's no side way for an evil page to test if a link was visited and hence to break the privacy.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 ```
 
 ## 总结
@@ -299,4 +390,8 @@ JavaScript 中我们看不到 `:visited` 应用的样式。此外，CSS 中也�
 
 获取已经解析的样式（对应于所有类，在应用所有 CSS 并计算最终值后）：
 
+<<<<<<< HEAD
 - `getComputedStyle(elem[, pseudo])` 返回与 `style` 对象类似且包含了所有类的对象，是只读的。
+=======
+- The `getComputedStyle(elem, [pseudo])` returns the style-like object with them. Read-only.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a

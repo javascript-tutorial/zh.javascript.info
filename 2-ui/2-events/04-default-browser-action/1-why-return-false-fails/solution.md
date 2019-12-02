@@ -20,7 +20,7 @@ function(event) {
   }
 </script>
 
-<a href="http://w3.org" onclick="*!*return handler()*/!*">w3.org</a>
+<a href="https://w3.org" onclick="*!*return handler()*/!*">w3.org</a>
 ```
 
 也可以像这样使用 `event.preventDefault()`：
@@ -35,5 +35,5 @@ function(event) {
 */!*
 </script>
 
-<a href="http://w3.org" onclick="*!*handler(event)*/!*">w3.org</a>
+<a href="https://w3.org" onclick="*!*handler(event)*/!*">w3.org</a>
 ```
