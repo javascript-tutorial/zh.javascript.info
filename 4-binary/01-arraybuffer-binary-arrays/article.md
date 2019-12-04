@@ -261,7 +261,7 @@ dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0
 - `ArrayBufferView` 是所有这些视图的总称。
 - `BufferSource` 是 `ArrayBuffer` 或 `ArrayBufferView` 的总称。
 
-这两个术语用于二进制数据操作的方法描述中。`BufferSource` 是最常用的术语之一，因为它的意思是 "任何类型的二进制数据" -- `ArrayBuffer` 或其上的视图。 
+这两个术语用于二进制数据操作的方法描述中。`BufferSource` 是最常用的术语之一，因为它的意思是“任何类型的二进制数据” — `ArrayBuffer` 或其上的视图。 
 
 
 这是一份备忘单：
