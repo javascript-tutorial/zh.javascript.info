@@ -5,7 +5,7 @@
 JavaScript 中同样也会遇到，而且二进制操作性能也高。
 
 不过，由于 JavaScript 中有很多类，会有点容易混淆。仅举几例：
-- `ArrayBuffer`，`Uint8Array`，`DataView`，`Blob`，`File` 等。
+- `ArrayBuffer`、`Uint8Array`、`DataView`、`Blob` 和 `File` 等。
 
 与其他语言相比，JavaScript 中二进制的实现方式不是很标准。但当我们理清楚以后，一切就变得相当简单了。
 
