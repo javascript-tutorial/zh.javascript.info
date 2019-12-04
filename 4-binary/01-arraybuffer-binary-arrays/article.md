@@ -165,7 +165,7 @@ let arr16 = new Uint16Array(arr8.buffer);
 
 ![](8bit-integer-257.svg)
 
-换句话说，保存的是该数字对 2<sup>8</sup> 取模的结果。
+换句话说，该数字对 2<sup>8</sup> 取模的结果被保存了下来。
 
 示例如下：
 
