@@ -99,17 +99,17 @@ new TypedArray();
     *!*
     let arr = new Uint8Array([0, 1, 2, 3]);
     */!*
-    alert( arr.length ); // 4
-    alert( arr[1] ); // 1
+    alert( arr.length ); // 4，创建相同长度的二进制数组
+    alert( arr[1] ); // 1，用给定值填充了 4 个字节（无符号 8 位整数）
     ```
-3. 如果给定的是另一个 `TypedArray`，也是如此：创建一个相同长度的类型化数组，并复制其内容。数据在此过程中被转换为新的类型。
+3. 如果给定的是另一个 `TypedArray`，也是如此：创建一个相同长度的类型化数组，并复制其内容。如果需要的话，数据在此过程中会被转换为新的类型。
     ```js run
     let arr16 = new Uint16Array([1, 1000]);
     *!*
     let arr8 = new Uint8Array(arr16);
     */!*
     alert( arr8[0] ); // 1
-    alert( arr8[1] ); // 232（试图复制 1000，但无法将 1000 放进 8 位字节中。）
+    alert( arr8[1] ); // 232，试图复制 1000，但无法将 1000 放进 8 位字节中（详述见下文）。
     ```
 
 4. 对于整型参数 `length` — 创建包含 `length` 这么多元素的类型化数组。它的字节长度将是 `length` 乘以单个 `TypedArray.BYTES_PER_ELEMENT` 中的字节数：
@@ -121,7 +121,7 @@ new TypedArray();
 
 5. 不带参数的情况下，创建零长度的类型化数组。
 
-我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此在所有这些情况下（第一个除外）都会自动创建 `ArrayBuffer`（如果提供的话）。
+我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此除第一种情况（已提供 `ArrayBuffer`）外，其他所有情况都会自动创建 `ArrayBuffer`。
 
 如要访问 `ArrayBuffer`，可以用以下属性：
 - `arr.buffer` — 引用 `ArrayBuffer`。
@@ -231,13 +231,13 @@ let dataView = new DataView(buffer);
 // 在偏移量为 0 处获取 8 位数字
 alert( dataView.getUint8(0) ); // 255
 
-// 现在在偏移量为 0 处获取 16 位数字，即 2 个字节，都取最大值
+// 现在在偏移量为 0 处获取 16 位数字，它由 2 个字节组成，一起解析为 65535
 alert( dataView.getUint16(0) ); // 65535（最大的 16 位无符号整数）
 
 // 在偏移量为 0 处获取 32 位数字
 alert( dataView.getUint32(0) ); // 4294967295（最大的 32 位无符号整数）
 
-dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0
+dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0，即将所有字节都设为 0
 ```
 
 当我们在同一缓存区内存储混合格式的数据时，`DataView` 非常有用。例如，我们存储一个成对序列（16 位整数，32 位浮点数）。用 `DataView` 来访问便很容易。
@@ -257,12 +257,11 @@ dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0
 
 在多数情况下，我们直接对类型化数组进行创建和操作，而将 “ArrayBuffer” 作为“普通区分器”隐藏起来。我们可以通过 `.buffer` 来访问它，并在需要时创建另一个视图。
 
-还有另外两个术语：
+还有另外两个术语，它们用在二进制数据操作的方法描述中：
 - `ArrayBufferView` 是所有这些视图的总称。
 - `BufferSource` 是 `ArrayBuffer` 或 `ArrayBufferView` 的总称。
 
-这两个术语用于二进制数据操作的方法描述中。`BufferSource` 是最常用的术语之一，因为它的意思是“任何类型的二进制数据” — `ArrayBuffer` 或其上的视图。 
-
+我们将在下一章中了解这些术语。`BufferSource` 是最常用的术语之一，因为它的意思是“任何类型的二进制数据” — `ArrayBuffer` 或其上的视图。
 
 这是一份备忘单：
 
