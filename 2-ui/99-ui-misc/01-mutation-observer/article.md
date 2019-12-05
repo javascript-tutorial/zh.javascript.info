@@ -22,29 +22,29 @@ observer.observe(node, config);
 ```
 
 `config` 是一个带布尔选项的对象，该布尔选项表示“将对哪些变动做出反应”：
-- `childList` --  `node` 的直接子节点的变动，
-- `subtree` -- `node` 的所有后代节点的变动，
-- `attributes` -- `node` 的属性，
-- `attributeFilter` -- 一组属性名称，只监控选定的属性。
-- `characterData` -- 是否观察 `node.data`（文本内容），
+- `childList` － `node` 的直接子节点的变动，
+- `subtree` － `node` 的所有后代节点的变动，
+- `attributes` － `node` 的属性，
+- `attributeFilter` － 一组属性名称，只监控选定的属性。
+- `characterData` － 是否监测 `node.data`（文本内容），
 
 其他几个选项：
-- `attributeOldValue` -- 如果为 `true`，则将属性的旧值和新值都传递给回调函数（参见下文），否则只传新值（需要  `attributes` 选项），
-- `characterDataOldValue` -- 如果为 `true`，则将 `node.data` 的旧值和新值都传递给回调函数（参见下文），否则只传新值（需要  `characterData` 选项）。
+- `attributeOldValue` － 如果为 `true`，则将属性的旧值和新值都传递给回调函数（参见下文），否则只传新值（需要 `attributes` 选项），
+- `characterDataOldValue` － 如果为 `true`，则将 `node.data` 的旧值和新值都传递给回调函数（参见下文），否则只传新值（需要 `characterData` 选项）。
 
 发生任何变动后，便执行 “回调” 函数：将变动作为一个 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象列表传入第一个参数，而观察器本身作为第二个参数。
 
 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象具有以下属性：
 
-- `type` -- 变动类型，可以是以下类型中的一个：
+- `type` － 变动类型，可以是以下类型中的一个：
     - `"attributes"`：属性被修改了
     - `"characterData"`：数据被修改了，用于文本节点。
     - `"childList"`：添加/删除了子元素，
-- `target` -- 变动发生在何处：`"attributes"` 所在的元素，`"characterData"` 所在的文本节点，或 `"childList"` 变动了的某元素，
-- `addedNodes/removedNodes`  -- 添加/删除的节点
-- `previousSibling/nextSibling` -- 添加/删除的节点的前后相邻节点
-- `attributeName/attributeNamespace` -- 被更改的属性的名称/命名空间（用于 XML），
-- `oldValue` -- 之前的值，仅用于属性或文本变动，如果设置了相应选项 `attributeOldValue`/`characterDataOldValue`。
+- `target` － 变动发生在何处：`"attributes"` 所在的元素，`"characterData"` 所在的文本节点，或 `"childList"` 变动了的某元素，
+- `addedNodes/removedNodes`  － 添加/删除的节点
+- `previousSibling/nextSibling` － 添加/删除的节点的前后相邻节点
+- `attributeName/attributeNamespace` － 被更改的属性的名称/命名空间（用于 XML），
+- `oldValue` － 之前的值，仅用于属性或文本变动，如果设置了相应选项 `attributeOldValue`/`characterDataOldValue`。
 
 例如，这里有一个 `<div>`，具有 `contentEditable` 属性。该属性用于聚焦和编辑节点。
 
@@ -90,7 +90,7 @@ mutationRecords = [{
 ```
   type: "characterData"
   target: <text node>
-  // ...变动的详细信息取决于浏览器如何处理此类删除事件
+  // ……变动的详细信息取决于浏览器如何处理此类删除事件
   // 它可能是将两个相邻的文本节点 "edit " 和 ", please" 合并成一个节点，
   // 或将它们各自作为单独的文本节点
 }];
@@ -164,7 +164,7 @@ snippets.forEach(Prism.highlightElem);
 */!*
 ```
 
-...但是，想象一下，代码中有很多地方可以加载内容：文章、测验、论坛帖子。我们需要在所有地方都进行高亮显示调用吗？那不太好办，也很容易遗漏。
+……但是，想象一下，代码中有很多地方可以加载内容：文章、测验、论坛帖子。我们需要在所有地方都进行高亮显示调用吗？那不太好办，也很容易遗漏。
 
 而且，如果内容是由第三方模块加载的，怎么办？例如，我们有一个由他人编写的论坛，可以动态加载内容，我们想在论坛中添加语法高亮显示功能。没有人喜欢修补第三方脚本。
 
@@ -209,13 +209,13 @@ let demoElem = document.getElementById('highlight-demo');
 observer.observe(demoElem, {childList: true, subtree: true});
 ```
 
-下面有一个 HTML 元素和 JavaScript，该脚本使用`innerHTML` 动态填充 HTML 元素。
+下面有一个 HTML 元素和 JavaScript，该脚本使用 `innerHTML` 动态填充 HTML 元素。
 
 请先运行前面的代码（如前述，监测到该元素），然后运行下面的代码。您将看到 `MutationObserver` 如何检测并高亮显示该代码段。
 
 <p id="highlight-demo" style="border: 1px solid #ddd">A demo-element with <code>id="highlight-demo"</code>, run the code above to observe it.</p>
 
-以下代码填充了其 “ innerHTML”。请先运行上面的代码，它将监测并高亮显示新内容：
+以下代码填充了其 `innerHTML`。请先运行上面的代码，它将监测并高亮显示新内容：
 
 ```js run
 let demoElem = document.getElementById('highlight-demo');
@@ -232,15 +232,15 @@ demoElem.innerHTML = `A code snippet is below:
 
 现在我们有了 `MutationObserver`，它可以跟踪在被监测的元素或整个“文档”中的所有高亮显示。我们可以在 HTML 中随意添加/删除代码段。
 
-##其他方法
+## 其他方法
 
 有一个方法可以停止监测节点：
 
-- `observer.disconnect()` -- 停止监测。
+- `observer.disconnect()` － 停止监测。
 
 跟它经常一起使用的另一个方法：
 
-- `mutationRecords = observer.takeRecords()` -- 获取尚未处理的变动记录列表，即发生了变动但回调函数还没有处理它们。
+- `mutationRecords = observer.takeRecords()` － 获取尚未处理的变动记录列表，即发生了变动但回调函数还没有处理它们。
 
 ```js
 // 我们想停止监测变动
@@ -248,7 +248,7 @@ observer.disconnect();
 
 // 它可能尚未处理某些变动
 let mutationRecords = observer.takeRecords();
-// process mutationRecords
+// 处理 mutationRecords
 ```
 
 ## 垃圾回收
