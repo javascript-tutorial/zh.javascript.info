@@ -7,7 +7,7 @@
 
 ## 语法
 
-MutationObserver 使用简单。
+`MutationObserver` 使用简单。
 
 首先，我们创建一个带有回调函数（callback-function）的观察器：
 
