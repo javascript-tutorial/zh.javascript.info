@@ -37,9 +37,9 @@ let promise = fetch(url, {
 
 我们已经在这个章节 <info:fetch-basics> 详细介绍过 `method`, `headers` 和 `body` 了
 
-`signal` 选项 (option) 已经在 <info:fetch-abort> 章节讨论过了。
+`signal` 选项已经在 <info:fetch-abort> 章节讨论过了。
 
-现在让我们探讨它其他的能力。
+现在让我们探讨它其他的本领。
 
 ## referrer, referrerPolicy
 
@@ -111,7 +111,7 @@ fetch('/page', {
 
 比如 `Referer: https://javascript.info/admin/secret/paths`。
 
-如果我们想要其他网址只知道域名部分，而不是 URL 的路径，我们可以这样设置选项 (option)：
+如果我们想要其他网址只知道域名部分，而不是 URL 的路径，我们可以这样设置选项：
 
 ```js
 fetch('https://another.com/page', {
@@ -198,7 +198,7 @@ fetch('http://site.com/file', {
 
 当用户离开我们的网页时 -- 我们希望能够在服务器中储存数据。
 
-为此，我们能够使用事件 `window.onunload`:
+为此，我们可以使用事件 `window.onunload`:
 
 ```js run
 window.onunload = function() {
