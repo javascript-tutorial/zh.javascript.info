@@ -6,7 +6,7 @@
 
 ## 语法
 
-一个含有规则的备忘录（更多细节如下）：
+下面是一个备忘单，其中列出了一些建议的规则（详情请参阅下文）：
 
 ![](code-style.svg)
 <!--
@@ -26,7 +26,7 @@ let n = prompt("n?", "");
 
 if (n < 0) {
   alert(`Power ${n} is not supported,
-    please enter an integer number, greater than 0`);
+    please enter a non-negative integer number`);
 } else {
   alert( pow(x, n) );
 }
@@ -34,15 +34,15 @@ if (n < 0) {
 
 -->
 
-现在我们来讨论一下图中的规则和它们的原因吧。
+现在，让我们详细讨论一下这些规则和它们的原因吧。
 
-没有什么规则是“刻在石头上”的，每一条都是可选的而且可修改的：这些是编码规则，而不是宗教教条。
+```warn header="没有什么规则是“必须”的"
+没有什么规则是“刻在石头上”的。这些是风格偏好，而不是宗教教条。
+```
 
-### Figure brackets（大括号）
+### 花括号
 
-在大多数的 JavaScript 中，大括号（的开始部分）都是写在同一行而不是新换一行。这就是所谓的 "egyptian" 风格。（译者注： "egyptian" 风格又称 K&R 风格 —— 代码段括号的开始位于一行的末尾，而不是另外起一行的风格。）对了，在括号的开始部分前面还有一个空格。
-
-例如：
+在大多数的 JavaScript 项目中，花括号以 "Egyptian" 风格（译注："egyptian" 风格又称 K&R 风格 — 代码段的开括号位于一行的末尾，而不是另起一行的风格）书写，左花括号与相应的关键词在同一行上 — 而不是新起一行。左括号前还应该有一个空格，如下所示：
 
 ```js
 if (condition) {
@@ -52,33 +52,60 @@ if (condition) {
 }
 ```
 
-单行结构也是一个重要的用例。我们是否应该使用括号？如果是，那么在哪里？
+单行构造（如 `if (condition) doSomething()`）也是一个重要的用例。我们是否应该使用花括号？如果是，那么在哪里？
 
 下面是这几种情况的注释，你可以自己判断一下它们的可读性：
 
-<!--
-```js no-beautify
-if (n < 0) {alert(`Power ${n} is not supported`);}
+1. 😠 初学者常这样写。非常不好！这里不需要花括号：
+    ```js
+    if (n < 0) *!*{*/!*alert(`Power ${n} is not supported`);*!*}*/!*
+    ```
+2. 😠 拆分为单独的行，不带花括号。永远不要这样做，添加新行很容易出错：
+    ```js
+    if (n < 0)
+      alert(`Power ${n} is not supported`);
+    ```
+3. 😏 写成一行，不带花括号 — 如果短的话，也是可以的：
+    ```js
+    if (n < 0) alert(`Power ${n} is not supported`);
+    ```
+4. 😃 最好的方式：
+    ```js
+    if (n < 0) {
+      alert(`Power ${n} is not supported`);
+    }
+    ```
 
-if (n < 0) alert(`Power ${n} is not supported`);
-
-if (n < 0)
-  alert(`Power ${n} is not supported`);
-
-if (n < 0) {
-  alert(`Power ${n} is not supported`);
-}
-```
--->
-![](figure-bracket-style.png)
-
-总结：
-- 对于很短的代码，一行是可以接受的：例如 `if (cond) return null`.
-- 但是括号中的每个语句单独一行通常更好些。
+对于很短的代码，写成一行是可以接受的：例如 `if (cond) return null`。但是代码块（最后一个示例）通常更具可读性。
 
 ### 行的长度
 
-一行的最大长度应该有所限制。没有人喜欢盯着一条长长的水平线。最好把它分割一下。
+没有人喜欢读一长串代码，最好将代码分割一下。
+
+例如：
+```js
+// backtick quotes ` allow to split the string into multiple lines
+let str = `
+  Ecma International's TC39 is a group of JavaScript developers,
+  implementers, academics, and more, collaborating with the community
+  to maintain and evolve the definition of JavaScript.
+`;
+```
+
+And, for `if` statements:
+
+```js
+if (
+  id === 123 &&
+  moonPhase === 'Waning Gibbous' &&
+  zodiacSign === 'Libra'
+) {
+  letTheSorceryBegin();
+}
+```
+
+
+
 
 一行的最大长度在团队层面上达成一致即可。通常是 80 或 120 个字符。
 
