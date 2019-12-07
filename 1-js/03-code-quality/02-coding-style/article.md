@@ -198,7 +198,7 @@ function pow(x, n) {
     }
 
     return result;
-  }  
+  }
 }
 ```
 
