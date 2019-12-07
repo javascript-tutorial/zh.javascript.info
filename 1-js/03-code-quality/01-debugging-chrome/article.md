@@ -6,13 +6,13 @@
 
 在这里我们将会使用 Chrome（谷歌浏览器），因为它拥有足够多的功能，其他大部分浏览器的功能也与之类似。
 
-## “资源（sources）”面板
+## “资源（Sources）”面板
 
 你的 Chrome 版本可能看起来有一点不同，但是它应该还是处于很明显的位置。
 
 - 在 Chrome 中打开 [示例页面](debugging/index.html)。
 - 使用快捷键 `key:F12`（Mac：`key:Cmd+Opt+I`）打开开发者工具。
-- 选择 `sources（资源）` 面板。
+- 选择 `Sources（资源）` 面板。
 
 如果你是第一次这么做，那你应该会看到下面这个样子：
 
@@ -26,7 +26,7 @@
 
 在这里我们可以看到三个区域：
 
-1. **资源区域（resources zone）** 列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于页面的文件。Chrome 扩展程序也会显示在这。
+1. **资源区域（resources zone）** 列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
 2. **源码区域（source zone）** 展示源码。
 3. **信息和控制区域（Information and control zone）** 是用来调试的，我们很快就会来探索它。
 

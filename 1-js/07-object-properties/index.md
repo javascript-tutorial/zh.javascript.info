@@ -1,3 +1,3 @@
-# Object properties configuration
+# 对象属性配置
 
-In this section we return to objects and study their properties even more in-depth.
+在本节中，我们将回到对象上，并更深入地研究其属性。
