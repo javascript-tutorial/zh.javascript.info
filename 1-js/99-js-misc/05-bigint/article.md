@@ -69,7 +69,7 @@ alert(2n > 1n); // 真
 alert(2n > 1); // 真
 ```
 
-因为数字和 bigints 属于不同类型，他们在 `==` （宽松相等）的情况下是相等的，但`===`（严格相等）的情况下不相等：
+因为数字和 bigints 属于不同类型，他们在 `==` （宽松相等）的情况下是相等的，但 `===`（严格相等）的情况下不相等：
 
 ```js run
 alert(1 == 1n); // 真
@@ -111,14 +111,14 @@ Polyfilling bigints 比较棘手。原因是许多 JavaScript 运算符，比如
 
 他们建议调用 JSBI 库来替代原生的 bigints：
 
-| 运算 | 原生 `BigInt` | JSBI |
-| --------------------— | ----------------- | ------------------------- |
-| 由数字创建 | `a = BigInt(789)` | `a = JSBI.BigInt(789)` |
-| 加法 | `c = a + b` | `c = JSBI.add(a, b)` |
-| 减法 | `c = a - b` | `c = JSBI.subtract(a, b)` |
-| ... | ... | ... |
+| 运算        | 原生 `BigInt`      | JSBI                      |
+| -----------| ----------------- | ------------------------- |
+| 由数字创建   | `a = BigInt(789)` | `a = JSBI.BigInt(789)`    |
+| 加法        | `c = a + b`       | `c = JSBI.add(a, b)`      |
+| 减法        | `c = a - b`       | `c = JSBI.subtract(a, b)` |
+| ...        | ...               | ...                       |
 
-。。。然后，对于那些支持 `BigInt` 的浏览器，用 polyfill （Babel 插件）来将 JSBI 的调用转换成原生的 bigints。
+然后，对于那些支持 `BigInt` 的浏览器，用 polyfill （Babel 插件）来将 JSBI 的调用转换成原生的 bigints。
 
 换句话说，这个方法建议我们在写代码时用 JSBI 来替换原生的 bigints。因为 JSBI 在内部像用数字类型一样用 bigints，并且严格遵循规范，所以代码已经是准备好转换成 bigint（bigint-ready）了。
 
