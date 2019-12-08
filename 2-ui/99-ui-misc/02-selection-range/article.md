@@ -4,9 +4,9 @@ libs:
 
 ---
 
-＃选区（Selection）和范围（Range）
+# 选区（Selection）和范围（Range）
 
-在本章中，我们将介绍文档中的选区以及表单字段（如 ` <input> `）中的选区。
+在本章中，我们将介绍文档中的选区以及表单字段（如 `<input>`）中的选区。
 
 JavaScript 可以获取现有选区，全部或部分选择/取消选择，从文档中删除所选择的部分，将其包到一个标记（tag）中，等等。
 
@@ -16,7 +16,7 @@ JavaScript 可以获取现有选区，全部或部分选择/取消选择，从�
 
 选区的基本概念是 [Range](https://dom.spec.whatwg.org/#ranges)：本质上是一对“边界点”：范围起点和范围终点。
 
-每个点都表示为一个父 DOM 节点，从起点偏移相对的位置？？如果父节点是元素节点，则偏移量是子编号？？？，对于文本节点而言，它是文本中的位置。下面举例来说。
+每个点都表示为一个父 DOM 节点，从起点偏移一段距离。如果父节点是元素节点，则偏移量是子节点个数，对于文本节点而言，则是文本中的位置。下面举例来说。
 
 让我们选择点什么。
 
@@ -44,26 +44,26 @@ let selectPDomtree = {
   "nodeType": 1,
   "children": [{
     "name": "#text",
-    "nodeType": 1,
+    "nodeType": 3,
     "content": "Example: "
   }, {
     "name": "I",
     "nodeType": 1,
     "children": [{
       "name": "#text",
-      "nodeType": 1,
+      "nodeType": 3,
       "content": "italic"
     }]
   }, {
     "name": "#text",
-    "nodeType": 1,
+    "nodeType": 3,
     "content": " and "
   }, {
     "name": "B",
     "nodeType": 1,
     "children": [{
       "name": "#text",
-      "nodeType": 1,
+      "nodeType": 3,
       "content": "bold"
     }]
   }]
@@ -76,15 +76,12 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 
 ![](range-example-p-0-1.svg)
 
-```html
+```html run
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
-```
 
 <script>
 *!*
-  ```js
-let range = new Range();
-```
+  let range = new Range();
 
   range.setStart(p, 0);
   range.setEnd(p, 2);
@@ -103,18 +100,15 @@ let range = new Range();
 
 下面的测试更加灵活，您可以在其中尝试更多不同的情况：
 
-```html
+```html run autorun
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
-```
 
 From <input id="start" type="number" value=1> – To <input id="end" type="number" value=4>
 <button id="button">Click to select</button>
 <script>
   button.onclick = () => {
   *!*
-    ```js
-let range = new Range();
-```
+    let range = new Range();
 
     range.setStart(p, start.value);
     range.setEnd(p, end.value);
@@ -127,7 +121,7 @@ let range = new Range();
 </script>
 ```
 
-例如，从 ` 1` 到 `4` 选择得到的范围为 `<i>italic</i> and <b>bold</b>`。
+例如，从 `1` 到 `4` 选择得到的范围为 `<i>italic</i> and <b>bold</b>`。
 
 ![](range-example-p-1-3.svg)
 
@@ -145,14 +139,11 @@ let range = new Range();
 - 从 `<p>` 的第一个子节点的位置 2 开始（选择 "Ex<b>ample:</b> " 中除头两个字符外的所有字符)
 - 到 `<b>` 的第一个子节点的位置 3 结束（选择 "<b>bol</b>d" 的头三个字符，就这些）：
 
-```html
+```html run
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
-```
 
 <script>
-  ```js
-let range = new Range();
-```
+  let range = new Range();
 
   range.setStart(p.firstChild, 2);
   range.setEnd(p.querySelector('b').firstChild, 3);
@@ -198,7 +189,7 @@ let range = new Range();
 其他：
 - `selectNode(node)` 设置范围以选择整个 `node`
 - `selectNodeContents(node)` 设置范围以选择整个 `node` 的内容
-- `collapse(toStart)` 如果 `toStart = true` 则设置结束=起始，否则设置起始=结束，从而折叠范围
+- `collapse(toStart)` 如果 `toStart=true` 则设置 end=start，否则设置 start=end，从而重合范围
 - `cloneRange()` 创建一个具有相同起始/结束的新范围
 
 如要操作范围内的内容：
@@ -207,7 +198,7 @@ let range = new Range();
 - `extractContents()` － 从文档中删除范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
 - `cloneContents()` － 复制范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
 - `insertNode(node)` － 在范围的起始处向文档中插入 `node`
-- `surroundContents(node)` － 将 `node` 包在范围内容中。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 ` <i>abc` 这样的部分范围。
+- `surroundContents(node)` － 将 `node` 包在范围内容中。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 `<i>abc` 这样的部分范围。
 
 使用这些方法，我们基本上可以对选定的节点执行任何操作。
 
@@ -220,9 +211,7 @@ let range = new Range();
 
 <p id="result"></p>
 <script>
-  ```js
-let range = new Range();
-```
+  let range = new Range();
 
   // 下面演示上述的各个方法：
   let methods = {
@@ -279,7 +268,7 @@ let range = new Range();
 
 文档的选区是由 `Selection` 对象表示的，可通过 `window.getSelection()` 或 `document.getSelection()` 来获取。
 
-一个选区可以包括零个或多个范围。至少， [选区 API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (`key:Cmd+click` for Mac) 在文档中选择多个范围。
+一个选区可以包括零个或多个范围。至少， [选区 API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (Mac 上用 `key:Cmd+click`) 在文档中选择多个范围。
 
 这是在 Firefox 中做的一个具有 3 个范围的选区截图：
 
@@ -289,7 +278,7 @@ let range = new Range();
 
 ## 选区属性
 
-与范围相似，选区的起点称为“锚点（anchor）”，终点称为“焦点（焦点）”。
+与范围相似，选区的起点称为“锚点（anchor）”，终点称为“焦点（Focus）”。
 
 主要的选区属性是：
 
@@ -305,7 +294,7 @@ let range = new Range();
 
 其中的某些方法，例如鼠标，可以在两个方向上创建相同的选区：“从左至右”和“从右至左”。
 
-如果在文档中选区的起点（锚点）在终点（焦点）之前，则称此选区具有“前进（forward）”方向。
+如果在文档中选区的起点（锚点）在终点（焦点）之前，则称此选区具有“向前（forward）”方向。
 
 例如，如果用户开始使用鼠标从 "Example" 选择到 "italic"：
 
@@ -331,9 +320,8 @@ let range = new Range();
 
 下面是一小段代码，演示如何随选区的改变来动态显示其边界：
 
-[模糊]```html
-<p id="p">Example: <i>italic</i> and <b>bold</b></p>
-```
+```html run height=80
+<p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
 From <input id="from" disabled> – To <input id="to" disabled>
 <script>
@@ -505,10 +493,10 @@ Focus on me, the cursor will be at position 10.
 
 <script>
   area.onfocus = () => {
-    // 零延迟setTimeout在浏览器“焦点”操作完成后运行？？？
+    // 将 setTimeout 设为零延迟，以便在浏览器“焦点”操作完成后运行
     setTimeout(() => {
       // 我们可以设置任何选区
-      // 如果 start = end，则将光标精确定位在该位置
+      // 如果 start=end，则将光标精确定位在该位置
       area.selectionStart = area.selectionEnd = 10;
     });
   };
@@ -558,7 +546,7 @@ button.onclick = () => {
 </script>
 ```
 
-###示例：在光标处插入
+### 示例：在光标处插入
 
 如果未选择任何内容，或者在 `setRangeText` 中使用相同的 `start` 和 `end`，则仅插入新文本，不会删除任何内容。
 
@@ -583,7 +571,7 @@ button.onclick = () => {
 
 要使某些内容不可选，有三种方式：
 
-1. 使用 CSS 属性 `user-select:none`。
+1. 使用 CSS 属性 `user-select: none`。
 
     ```html run
     <style>
@@ -611,7 +599,7 @@ button.onclick = () => {
 
     这样可以防止在 `elem` 上开始选择，但是访问者可以在另一个元素上开始选择，然后扩展到 `elem`。
 
-    当同一操作上有另一个事件处理程序该触发选区时（例如`mousedown`），这便会很方便。因此我们禁用选区以避免冲突，仍然允许复制 `elem` 内容。
+    当同一操作上有另一个事件处理程序该触发选区时（例如 `mousedown`），这便会很方便。因此我们禁用选区以避免冲突，仍然允许复制 `elem` 内容。
 
 3. 我们也可以使用 `document.getSelection().empty()` 来清除选区。这很少使用，因为会在选区选中和消失时导致不必要的闪烁。
 
