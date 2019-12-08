@@ -98,8 +98,8 @@ let range = new Range();
 </script>
 ```
 
-- `range.setStart(p, 0)` -- 将起始位置设为 `<p>` 的第 0 个子节点（即文本节点 `"Example: "`）。
-- `range.setEnd(p, 2)` -- 覆盖范围至（但不包括） `<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，因此最后选择的节点是 `<i>`）。
+- `range.setStart(p, 0)` － 将起始位置设为 `<p>` 的第 0 个子节点（即文本节点 `"Example: "`）。
+- `range.setEnd(p, 2)` － 覆盖范围至（但不包括）`<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，因此最后选择的节点是 `<i>`）。
 
 下面的测试更加灵活，您可以在其中尝试更多不同的情况：
 
@@ -131,7 +131,7 @@ let range = new Range();
 
 ![](range-example-p-1-3.svg)
 
-我们不必在 `setStart` 和 `setEnd` 中使用相同的节点。一个范围可能跨越许多不相关的节点。唯一要注意的是结束要在开始之后。
+我们不必在 `setStart` 和 `setEnd` 中使用相同的节点。一个范围可能跨越许多不相关的节点。唯一要注意的是终点要在起点之后。
 
 ### 选择文本节点的一部分
 
@@ -168,13 +168,13 @@ let range = new Range();
 
 ![](range-example-p-2-b-3-range.svg)
 
-- `startContainer`, `startOffset` -- 起始节点和偏移量，
+- `startContainer`, `startOffset` － 起始节点和偏移量，
   - 在上例中：分别是 `<p>` 中的第一个文本节点和 `2`。
-- `endContainer`, `endOffset` -- 结束节点和偏移量，
+- `endContainer`, `endOffset` － 结束节点和偏移量，
   - 在上例中：分别是 `<b>` 中的第一个文本节点和 `3`。
-- `collapsed` -- 布尔值，如果范围在同一点上开始和结束（因此范围内没有内容）则为 `true` ，
+- `collapsed` － 布尔值，如果范围在同一点上开始和结束（因此范围内没有内容）则为 `true` ，
   - 在上例中：`false`
-- `commonAncestorContainer` -- 在范围内的所有节点中最近的祖先节点，
+- `commonAncestorContainer` － 在范围内的所有节点中最近的祖先节点，
   - 在上例中：`<p> `
 
 ## Range 方法
@@ -189,7 +189,7 @@ let range = new Range();
 
 设置范围的结束（类似方法）：
 
-- `setEnd(node, offset)` 设置结束于：`node` 中的位置  `offset`
+- `setEnd(node, offset)` 设置结束于：`node` 中的位置 `offset`
 - `setEndBefore(node)` 设置结束于：`node` 之前
 - `setEndAfter(node)` 设置结束于：`node` 之后
 
@@ -203,11 +203,11 @@ let range = new Range();
 
 如要操作范围内的内容：
 
-- `deleteContents()` - 从文档中删除范围内容
-- `extractContents()` - 从文档中删除范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
-- `cloneContents()` - 复制范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
-- `insertNode(node)` -- 在范围的起始处向文档中插入 `node`
-- `surroundContents(node)` -- 将 `node` 包在范围内容中。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 ` <i>abc` 这样的部分范围。
+- `deleteContents()` － 从文档中删除范围内容
+- `extractContents()` － 从文档中删除范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
+- `cloneContents()` － 复制范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
+- `insertNode(node)` － 在范围的起始处向文档中插入 `node`
+- `surroundContents(node)` － 将 `node` 包在范围内容中。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 ` <i>abc` 这样的部分范围。
 
 使用这些方法，我们基本上可以对选定的节点执行任何操作。
 
@@ -275,7 +275,7 @@ let range = new Range();
 
 ## 选区
 
-`Range` 是用于管理选区范围的通用对象。我们可能会创建此类对象，传递范围 -- 它们在视觉上不会自行选择任何内容。
+`Range` 是用于管理选区范围的通用对象。我们可能会创建此类对象，传递范围 － 它们在视觉上不会自行选择任何内容。
 
 文档的选区是由 `Selection` 对象表示的，可通过 `window.getSelection()` 或 `document.getSelection()` 来获取。
 
@@ -293,12 +293,12 @@ let range = new Range();
 
 主要的选区属性是：
 
-- `anchorNode` -- 选区的起始节点,
-- `anchorOffset` -- 选区开始处 `anchorNode` 的偏移量，
-- `focusNode` -- 选区的结束节点，
-- `focusOffset` -- 选区开始处 `focusNode` 的偏移量，
-- `isCollapsed` -- 如果未选择任何内容（空范围）或不存在，则为 `true` 。
-- `rangeCount` -- 选区中的范围数，除 Firefox 外，其他浏览器最多 为 `1`。
+- `anchorNode` － 选区的起始节点,
+- `anchorOffset` － 选区开始处 `anchorNode` 的偏移量，
+- `focusNode` － 选区的结束节点，
+- `focusOffset` － 选区开始处 `focusNode` 的偏移量，
+- `isCollapsed` － 如果未选择任何内容（空范围）或不存在，则为 `true` 。
+- `rangeCount` － 选区中的范围数，除 Firefox 外，其他浏览器最多 为 `1`。
 
 ````smart header="在文档中，选区的终点可能在起点之前"
 有很多选择内容的方法，视用户操作而定：鼠标、热键、手机上点击等。
@@ -322,9 +322,9 @@ let range = new Range();
 
 有一些事件可以跟踪选区：
 
-- `elem.onselectstart` -- 当在 `elem` 上开始选择时，例如，用户按下鼠标键并开始移动鼠标。
+- `elem.onselectstart` － 当在 `elem` 上开始选择时，例如，用户按下鼠标键并开始移动鼠标。
     - 阻止默认操作会使选择无法开始。
-- `document.onselectionchange` -- 当选区变动时
+- `document.onselectionchange` － 当选区变动时
     -请注意：此处理程序只能在 `document` 上设置。
 
 ### 选区跟踪示例代码
@@ -382,23 +382,23 @@ As text: <span id="astext"></span>
 
 添加/删除范围的选区方法：
 
-- `getRangeAt(i)` -- 获取从 `0` 开始的第 i 个范围。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
-- `addRange(range)` -- 将 `range` 添加到选区中。如果选区已有关联的范围，则除 Firefox 外的所有浏览器都将忽略该调用。
-- `removeRange(range)` -- 从选区中删除 `range`。
-- `removeAllRanges()` -- 删除所有范围。
-- `empty()` -- `removeAllRanges` 的别名。
+- `getRangeAt(i)` － 获取从 `0` 开始的第 i 个范围。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
+- `addRange(range)` － 将 `range` 添加到选区中。如果选区已有关联的范围，则除 Firefox 外的所有浏览器都将忽略该调用。
+- `removeRange(range)` － 从选区中删除 `range`。
+- `removeAllRanges()` － 删除所有范围。
+- `empty()` － `removeAllRanges` 的别名。
 
 另外，还有一些方便的方法可以直接操作选区范围，而无需使用 `Range`：
 
-- `collapse(node, offset)` -- 用一个新的范围替换选定的范围，该新范围从给定的 `node` 处开始，到偏移 `offset` 处结束。
-- `setPosition(node, offset)` -- `collapse` 的别名。
-- `collapseToStart()` - 重合（以空范围替换）到选区起点，
-- `collapseToEnd()` - 重合到选区终点，
-- `extend(node, offset)` - 将选区的焦点移到给定的 `node`，位置偏移 `oofset`，
-- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` - 用给定的起点 `anchorNode/anchorOffset` 和 终点 `focusNode/focusOffset` 来替换选区范围。选中它们之间的所有内容。
-- `selectAllChildren(node)` -- 选择 `node` 的所有子节点。
-- `deleteFromDocument()` -- 从文档中删除所选内容。
-- `containsNode(node, allowPartialContainment = false)` -- 检查选区中是否包含 `node`（特别是如果第二个参数是 `true` 的话）
+- `collapse(node, offset)` － 用一个新的范围替换选定的范围，该新范围从给定的 `node` 处开始，到偏移 `offset` 处结束。
+- `setPosition(node, offset)` － `collapse` 的别名。
+- `collapseToStart()` － 重合（以空范围替换）到选区起点，
+- `collapseToEnd()` － 重合到选区终点，
+- `extend(node, offset)` － 将选区的焦点移到给定的 `node`，位置偏移 `oofset`，
+- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` － 用给定的起点 `anchorNode/anchorOffset` 和 终点 `focusNode/focusOffset` 来替换选区范围。选中它们之间的所有内容。
+- `selectAllChildren(node)` － 选择 `node` 的所有子节点。
+- `deleteFromDocument()` － 从文档中删除所选内容。
+- `containsNode(node, allowPartialContainment = false)` － 检查选区中是否包含 `node`（特别是如果第二个参数是 `true` 的话）
 
 因此，对于许多任务，我们可以调用 `Selection` 方法，而无需访问底层的 `Range` 对象。
 
@@ -440,27 +440,27 @@ let range = new Range();
 表单元素如 `input` 和 `textarea` 提供 [选区专用 API](https://html.spec.whatwg.org/#textFieldSelection)，没有 `Selection` 或 `Range` 对象。由于输入值是纯文本而不是 HTML，因此不需要此类对象，一切都变得更加简单。
 
 属性：
-- `input.selectionStart` -- 选区的起始位置（可写），
-- `input.selectionEnd` -- 选区的结束位置（可写），
-- `input.selectionDirection` -- 选区方向，可以是："forward", "backward" 或 "none"（如通过双击选区），
+- `input.selectionStart` － 选区的起始位置（可写），
+- `input.selectionEnd` － 选区的结束位置（可写），
+- `input.selectionDirection` － 选区方向，可以是："forward", "backward" 或 "none"（如通过双击选区），
 
 事件：
-- `input.onselect` -- 选择某项时触发。
+- `input.onselect` － 选择某项时触发。
 
 方法：
 
-- `input.select()` -- 选择文本控件中的所有内容（可以是 `textarea` 而不是 `input`），
-- `input.setSelectionRange(start, end, [direction])` -- 在给定方向上（可选），从 `start` 一直选择到 `end`。
-- `input.setRangeText(replacement, [start], [end], [selectionMode])` -- 用新文本替换文本范围。
+- `input.select()` － 选择文本控件中的所有内容（可以是 `textarea` 而不是 `input`），
+- `input.setSelectionRange(start, end, [direction])` － 在给定方向上（可选），从 `start` 一直选择到 `end`。
+- `input.setRangeText(replacement, [start], [end], [selectionMode])` － 用新文本替换文本范围。
 
     可选参数 `start` 和 `end`，如果提供的话，则设置范围的起点和终点，否则使用用户选区。
 
     最后一个参数 `selectionMode` 决定替换文本后如何设置选区。可能的值为：
 
-    - `"select"` -- 将选择新插入的文本。
-    - `"start"` -- 选区范围在插入的文本之前重合（光标将在其之前）。
-    - `"end"` -- 选区范围在插入的文本之后重合（光标将在其后）。
-    - `"preserve"` -- 尝试保留选区。这是默认值。
+    - `"select"` － 将选择新插入的文本。
+    - `"start"` － 选区范围在插入的文本之前重合（光标将在其之前）。
+    - `"end"` － 选区范围在插入的文本之后重合（光标将在其后）。
+    - `"preserve"` － 尝试保留选区。这是默认值。
 
 现在，让我们看看这些方法的实际使用。
 
@@ -618,7 +618,7 @@ button.onclick = () => {
 ## 参考
 
 - [DOM 规范: 范围（Range）](https://dom.spec.whatwg.org/#ranges)
-- [选区（Selection） API](https://www.w3.org/TR/selection-api/#dom-globaleventhandlers-onselectstart)
+- [选区（Selection）API](https://www.w3.org/TR/selection-api/#dom-globaleventhandlers-onselectstart)
 - [HTML 规范: 用于文本控件选中的 APIs](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#textFieldSelection)
 
 
