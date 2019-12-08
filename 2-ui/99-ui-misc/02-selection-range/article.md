@@ -159,9 +159,9 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ![](range-example-p-2-b-3-range.svg)
 
-- `startContainer`, `startOffset` － 起始节点和偏移量，
+- `startContainer`、`startOffset` － 起始节点和偏移量，
   - 在上例中：分别是 `<p>` 中的第一个文本节点和 `2`。
-- `endContainer`, `endOffset` － 结束节点和偏移量，
+- `endContainer`、`endOffset` － 结束节点和偏移量，
   - 在上例中：分别是 `<b>` 中的第一个文本节点和 `3`。
 - `collapsed` － 布尔值，如果范围在同一点上开始和结束（因此范围内没有内容）则为 `true` ，
   - 在上例中：`false`
@@ -355,7 +355,7 @@ As text: <span id="astext"></span>
 
     cloned.innerHTML = astext.innerHTML = "";
 
-    // Clone DOM nodes from ranges (we support multiselect here)
+    // 从范围复制 DOM 节点（这里我们支持多选）
     for (let i = 0; i < selection.rangeCount; i++) {
       cloned.append(selection.getRangeAt(i).cloneContents());
     }
@@ -516,7 +516,7 @@ Focus on me, the cursor will be at position 10.
 <script>
 button.onclick = () => {
   if (input.selectionStart == input.selectionEnd) {
-    return; // nothing is selected
+    return; // 什么都没选
   }
 
   let selected = input.value.slice(input.selectionStart, input.selectionEnd);
@@ -623,7 +623,7 @@ button.onclick = () => {
     ```js run
     let selection = document.getSelection();
 
-    let cloned = /* element to clone the selected nodes to */;
+    let cloned = /* 要将选中的节点复制到其内的元素 */;
 
     // 然后将 Range 方法用于 selection.getRangeAt(0)
     // 或如此处一样，用于所有范围，以支持多选
