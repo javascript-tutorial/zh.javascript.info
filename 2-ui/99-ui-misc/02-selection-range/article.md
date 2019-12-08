@@ -407,9 +407,7 @@ As text: <span id="astext"></span>
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
 <script>
-  ```js
-let range = new Range();
-```
+  let range = new Range();
   range.selectNodeContents(p); // 或用 selectNode(p) 也选择 <p> 标记
 
   document.getSelection().removeAllRanges(); // 清除现有选区（如果有的话）
