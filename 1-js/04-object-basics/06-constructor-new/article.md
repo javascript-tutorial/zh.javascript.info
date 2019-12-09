@@ -27,7 +27,11 @@ alert(user.name); // Jack
 alert(user.isAdmin); // false
 ```
 
+<<<<<<< HEAD
 当一个函数作为 `new User(...)`执行时，它执行以下步骤：
+=======
+When a function is executed with `new`, it does the following steps:
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 1. 一个新的空对象被创建并分配给 `this`。
 2. 函数体执行。通常它会修改 `this`，为其添加新的属性。
@@ -51,7 +55,11 @@ function User(name) {
 }
 ```
 
+<<<<<<< HEAD
 所以 `new User("Jack")` 的结果是相同的对象：
+=======
+So `let user = new User("Jack")` gives the same result as:
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 ```js
 let user = {
@@ -83,7 +91,15 @@ let user = new function() {
 构造函数不能被再次调用，因为它不保存在任何地方，只是被创建和调用。所以这个技巧的目的是封装构建单个对象的代码，而不是将来重用。
 ````
 
+<<<<<<< HEAD
 ## 双语法构造函数：new.target
+=======
+## Constructor mode test: new.target
+
+```smart header="Advanced stuff"
+The syntax from this section is rarely used, skip it unless you want to know everything.
+```
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 在一个函数内部，我们可以使用 `new.target` 属性来检查它被调用时，是否使用了 `new`。
 
@@ -94,14 +110,32 @@ function User() {
   alert(new.target);
 }
 
+<<<<<<< HEAD
 // 不带 new：
+=======
+// without "new":
+*!*
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 User(); // undefined
+*/!*
 
+<<<<<<< HEAD
 // 带 new：
+=======
+// with "new":
+*!*
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 new User(); // function User { ... }
+*/!*
 ```
 
+<<<<<<< HEAD
 这可以使 `new` 和常规语法的工作原理相同：
+=======
+That can be used inside the function to know whether it was called with `new`, "in constructor mode", or without it, "in regular mode".
+
+We can also make both `new` and regular calls to do the same, like this:
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 ```js run
 function User(name) {
@@ -116,7 +150,13 @@ let john = User("John"); // 重新调用 new User
 alert(john.name); // John
 ```
 
+<<<<<<< HEAD
 这种方法有时用在库中以使语法更加灵活。但因为省略 `new` 使得它不易阅读，这可不是一件好事。 而通过 `new` 我们可以都知道这个新对象正在创建。
+=======
+This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
+
+Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 ## 构造函数 Return
 
@@ -124,8 +164,13 @@ alert(john.name); // John
 
 但是，如果有 `return` 语句，那么规则很简单：
 
+<<<<<<< HEAD
 - 如果 `return` 对象，则返回它，而不是 `this`。
 - 如果 `return` 一个原函数，则忽略。
+=======
+- If `return` is called with an object, then the object is returned instead of `this`.
+- If `return` is called with a primitive, it's ignored.
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 换一种说法，带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
 
@@ -136,10 +181,17 @@ function BigUser() {
 
   this.name = "John";
 
+<<<<<<< HEAD
   return { name: "Godzilla" };  // <-- returns 一个 object
 }
 
 alert( new BigUser().name );  // 哇哦，得到了对象，name 属性值为 Godzilla ^^
+=======
+  return { name: "Godzilla" };  // <-- returns this object
+}
+
+alert( new BigUser().name );  // Godzilla, got that object
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 ```
 
 这里有一个 `return` 空的例子（或者我们可以在它之后放置一个原函数）：
@@ -149,10 +201,14 @@ function SmallUser() {
 
   this.name = "John";
 
+<<<<<<< HEAD
   return; // 完成执行，returns this
 
   // ...
 
+=======
+  return; // <-- returns this
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 }
 
 alert( new SmallUser().name );  // John
@@ -203,7 +259,13 @@ john = {
 */
 ```
 
+<<<<<<< HEAD
 ## 总结
+=======
+To create complex objects, there's a more advanced syntax, [classes](info:classes), that we'll cover later.
+
+## Summary
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 - 构造函数或简言之，就是常规函数，但构造函数有个共同的约定，命名它们首字母要大写。
 - 构造函数只能使用 `new` 来调用。这样的调用意味着在开始时创建空的 `this`，并在最后返回填充的对象。
@@ -215,5 +277,9 @@ JavaScript 为许多内置的对象提供了构造函数：比如日期 Date，�
 ```smart header="Objects, we'll be back!"
 在本章中，我们只介绍关于对象和构造函数的基础知识。它们对于在下一章中更多地了解数据类型和函数非常重要。
 
+<<<<<<< HEAD
 在我们了解了这一章之后 <info:object-oriented-programming> 我们返回到对象并深入其中，包括继承和类。
+=======
+After we learn that, we return to objects and cover them in-depth in the chapters <info:prototypes> and <info:classes>.
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 ```

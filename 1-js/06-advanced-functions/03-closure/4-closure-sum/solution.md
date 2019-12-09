@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 为了使第二个括号有效，第一个（括号）必须返回一个函数。
+=======
+For the second parentheses to work, the first ones must return a function.
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 就像这样：
 

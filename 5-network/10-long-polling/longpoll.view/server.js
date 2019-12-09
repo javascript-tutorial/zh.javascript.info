@@ -34,28 +34,46 @@ function publish(message) {
 function accept(req, res) {
   let urlParsed = url.parse(req.url, true);
 
+<<<<<<< HEAD
   // 新客户端想要获取消息
+=======
+  // new client wants messages
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
   if (urlParsed.pathname == '/subscribe') {
     onSubscribe(req, res);
     return;
   }
 
+<<<<<<< HEAD
   // 发送消息
   if (urlParsed.pathname == '/publish' && req.method == 'POST') {
     // 接受 POST 请求
+=======
+  // sending a message
+  if (urlParsed.pathname == '/publish' && req.method == 'POST') {
+    // accept POST
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
     req.setEncoding('utf8');
     let message = '';
     req.on('data', function(chunk) {
       message += chunk;
     }).on('end', function() {
+<<<<<<< HEAD
       publish(message); // 广播给所有人
+=======
+      publish(message); // publish it to everyone
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
       res.end("ok");
     });
 
     return;
   }
 
+<<<<<<< HEAD
   // 剩下的是静态的
+=======
+  // the rest is static
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
   fileServer.serve(req, res);
 
 }
