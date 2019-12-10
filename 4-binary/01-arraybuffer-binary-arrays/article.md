@@ -224,6 +224,7 @@ new DataView(buffer, [byteOffset], [byteLength])
 例如，这里我们从同一缓存区中提取不同格式的数字：
 
 ```js run
+// 4 个字节的二进制数组，每个都是最大值 255
 let buffer = new Uint8Array([255, 255, 255, 255]).buffer;
 
 let dataView = new DataView(buffer);
