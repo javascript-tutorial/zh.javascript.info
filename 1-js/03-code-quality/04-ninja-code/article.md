@@ -1,4 +1,4 @@
-# Ninja code
+# 忍者代码
 
 
 ```quote author="孔子"
