@@ -175,7 +175,7 @@ function ninjaFunction(elem) {
 ## 重叠外部变量
 
 ```quote author="关尹子"
-处明者不见暗中一物<br>，
+处明者不见暗中一物，<br>
 处暗者能见明中区事。
 ```
 
