@@ -1,21 +1,21 @@
-# Proxy and Reflect
+# Proxy 和 Reflect
 
-A `Proxy` object wraps another object and intercepts operations, like reading/writing properties and others, optionally handling them on its own, or transparently allowing the object to handle them.
+一个 `Proxy` 对象包装另一个对象并拦截诸如读取/写入属性和其他操作，可以选择自行处理它们，或者透明地允许该对象处理它们。
 
-Proxies are used in many libraries and some browser frameworks. We'll see many practical applications in this chapter.
+Proxy 用于许多库和某些浏览器框架。在本章中，我们将看到许多实际应用。
 
-The syntax:
+语法：
 
 ```js
 let proxy = new Proxy(target, handler)
 ```
 
-- `target` -- is an object to wrap, can be anything, including functions.
-- `handler` -- proxy configuration: an object with "traps", methods that intercept operations. - e.g. `get` trap for reading a property of `target`, `set` trap for writing a property into `target`, and so on.
+- `target` -- 是要包装的对象，可以是任何东西，包括函数。
+- `handler` -- 代理配置：带有 'traps'（即拦截操作的方法）的对象。比如 `get` traps 用于读取 `target` 属性，`set` traps 写入`target` 属性等等。
 
-For operations on `proxy`, if there's a corresponding trap in `handler`, then it runs, and the proxy has a chance to handle it, otherwise the operation is performed on `target`.
+对 `proxy` 进行操作，如果在 `handler` 中存在相应的 'traps'，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
-As a starting example, let's create a proxy without any traps:
+首先，让我们创建一个没有任何 traps 的代理：
 
 ```js run
 let target = {};
@@ -29,27 +29,27 @@ alert(proxy.test); // 5, we can read it from proxy too (2)
 for(let key in proxy) alert(key); // test, iteration works (3)
 ```
 
-As there are no traps, all operations on `proxy` are forwarded to `target`.
+由于没有 traps，所有对 `proxy` 的操作都直接转发给 `target`。
 
-1. A writing operation `proxy.test=` sets the value on `target`.
-2. A reading operation `proxy.test` returns the value from `target`.
-3. Iteration over `proxy` returns values from `target`.
+1. 写入操作 `proxy.test=` 会将值写入 `target`。
+2. 读取操作 `proxy.test` 会从 `target` 返回对应的值。
+3. 迭代 `proxy` 会从 `target` 返回对应的值。
 
-As we can see, without any traps, `proxy` is a transparent wrapper around `target`.
+我们可以看到，没有任何 traps，`proxy` 是一个 `target` 的透明包装.
 
 ![](proxy.svg)  
 
-`Proxy` is a special "exotic object". It doesn't have own properties. With an empty `handler` it transparently forwards operations to `target`.
+`Proxy` 是一种特殊的 "exotic object"。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
 
-To activate more capabilities, let's add traps.
+要激活更多功能，让我们添加 traps。
 
-What can we intercept with them?
+我们可以用它们拦截什么？
 
-For most operations on objects, there's a so-called "internal method" in the JavaScript specification that describes how it works at the lowest level. For instance `[[Get]]`, the internal method to read a property, `[[Set]]`, the internal method to write a property, and so on. These methods are only used in the specification, we can't call them directly by name.
+对于对象的大多数操作，JavaScript 规范中都有一个所谓的“内部方法”，它描述了最低级别的工作方式。 例如 `[[Get]]`，用于读取属性的内部方法， `[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接按名称调用它们。
 
-Proxy traps intercept invocations of these methods. They are listed in the [Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) and in the table below.
+Proxy traps 会拦截这些方法的调用。它们在[代理规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)和下表中列出。
 
-For every internal method, there's a trap in this table: the name of the method that we can add to the `handler` parameter of `new Proxy` to intercept the operation:
+对于每个内部方法，此表中都有一个 trap：可用于添加到 `new Proxy` 时的 `handler` 参数中以拦截操作的方法名称：
 
 | Internal Method | Handler Method | Triggers when... |
 |-----------------|----------------|-------------|
