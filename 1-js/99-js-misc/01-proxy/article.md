@@ -591,15 +591,15 @@ sayHi("John"); // Hello, John! (after 3 seconds)
 
 ## Reflect
 
-`Reflect` is a built-in object that simplifies creation of `Proxy`.
+`Reflect` 是一个内置对象，可简化的创建 `Proxy`。
 
-It was said previously that internal methods, such as `[[Get]]`, `[[Set]]` and others are specification-only, they can't be called directly.
+以前的内部方法，比如`[[Get]]`，`[[Set]]` 等等都只是规范，不能直接调用。
 
-The `Reflect` object makes that somewhat possible. Its methods are minimal wrappers around the internal methods.
+`Reflect` 对象使调用这些内部方法成为可能。它的方法是内部方法的最小包装。
 
-Here are examples of operations and `Reflect` calls that do the same:
+这是 `Reflect` 执行相同操作和调用的示例：
 
-| Operation |  `Reflect` call | Internal method |
+| 操作 |  `Reflect` 调用 | 内部方法 |
 |-----------------|----------------|-------------|
 | `obj[prop]` | `Reflect.get(obj, prop)` | `[[Get]]` |
 | `obj[prop] = value` | `Reflect.set(obj, prop, value)` | `[[Set]]` |
@@ -607,7 +607,7 @@ Here are examples of operations and `Reflect` calls that do the same:
 | `new F(value)` | `Reflect.construct(F, value)` | `[[Construct]]` |
 | ... | ... | ... |
 
-For example:
+例如：
 
 ```js run
 let user = {};
@@ -617,13 +617,13 @@ Reflect.set(user, 'name', 'John');
 alert(user.name); // John
 ```
 
-In particular, `Reflect` allows us to call operators (`new`, `delete`...) as functions (`Reflect.construct`, `Reflect.deleteProperty`, ...). That's an interesting capability, but here another thing is important.
+尤其是，`Reflect` 允许我们使用函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行操作（`new`，`delete`，……）。这是一个有趣的功能，但是这里还有一点很重要。
 
-**For every internal method, trappable by `Proxy`, there's a corresponding method in `Reflect`, with the same name and arguments as `Proxy` trap.**
+**对于每个可被 `Proxy` trappable的内部方法，`Reflect`都有一个对应的方法Reflect，其名称和参数与 `Proxy` 陷阱相同。**
 
-So we can use `Reflect` to forward an operation to the original object.
+因此，我们可以用 `Reflect` 来将操作转发到原始对象。
 
-In this example, both traps `get` and `set` transparently (as if they didn't exist) forward reading/writing operations to the object, showing a message:
+在此示例中，陷阱 `get` 和 `set` 透明地（好像它们都不存在）将读/写操作转发到对象，并显示一条消息：
 
 ```js run
 let user = {
@@ -649,14 +649,14 @@ let name = user.name; // shows "GET name"
 user.name = "Pete"; // shows "SET name=Pete"
 ```
 
-Here:
+这里:
 
-- `Reflect.get` reads an object property.
-- `Reflect.set` writes an object property and returns `true` if successful, `false` otherwise.
+- `Reflect.get` 读取一个对象属性
+- `Reflect.set` 写入对象属性，成功返回 `true` ，否则返回 `false`
 
-That is, everything's simple: if a trap wants to forward the call to the object, it's enough to call `Reflect.<method>` with the same arguments.
+就是说，一切都很简单：如果陷阱想要将调用转发给对象，则只需使用相同的参数调用 `Reflect.<method>` 就足够了。
 
-In most cases we can do the same without `Reflect`, for instance, reading a property `Reflect.get(target, prop, receiver)` can be replaced by `target[prop]`. There are important nuances though.
+在大多数情况下，我们可以不使用 `Reflect` 完成相同的事情，例如，使用`Reflect.get(target, prop, receiver)` 读取属性可以替换为 `target[prop]`。尽管有一些细微的差别。
 
 ### Proxying a getter
 
