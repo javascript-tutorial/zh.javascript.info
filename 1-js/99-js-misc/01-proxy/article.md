@@ -451,11 +451,11 @@ user = {
 但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
 
-## "In range" with "has" trap
+## "In range" 及 "has" 陷阱
 
-Let's see more examples.
+让我们来看更多示例。
 
-We have a range object:
+我们有一个 range 对象：
 
 ```js
 let range = {
@@ -464,16 +464,16 @@ let range = {
 };
 ```
 
-We'd like to use the `in` operator to check that a number is in `range`.
+我们想使用 `in` 运算符来检查数字是否在 `range` 范围内。
 
-The `has` trap intercepts `in` calls.
+该 `has` 陷阱拦截 `in` 调用。
 
 `has(target, property)`
 
-- `target` -- is the target object, passed as the first argument to `new Proxy`,
-- `property` -- property name
+- `target` -- 是目标对象，作为第一个参数传递给 `new Proxy`
+- `property` -- 属性名称
 
-Here's the demo:
+示例如下
 
 ```js run
 let range = {
@@ -495,23 +495,23 @@ alert(50 in range); // false
 */!*
 ```
 
-Nice syntactic sugar, isn't it? And very simple to implement.
+漂亮的语法糖，不是吗？而且实现起来非常简单。
 
-## Wrapping functions: "apply" [#proxy-apply]
+## 包装函数："apply" [#proxy-apply]
 
-We can wrap a proxy around a function as well.
+我们也可以将代理包装在函数周围。
 
-The `apply(target, thisArg, args)` trap handles calling a proxy as function:
+`apply(target, thisArg, args)` 陷阱处理代理作为函数被调用：
 
-- `target` is the target object (function is an object in JavaScript),
-- `thisArg` is the value of `this`.
-- `args` is a list of arguments.
+- `target` 是目标对象（函数是 JavaScript 中的对象）
+- `thisArg` 是 `this` 的值
+- `args` 是参数列表
 
-For example, let's recall `delay(f, ms)` decorator, that we did in the chapter <info:call-apply-decorators>.
+例如，让我们回想一下 `delay(f, ms)` 装饰器，它是我们在 <info:call-apply-decorators> 一章中完成的。
 
-In that chapter we did it without proxies. A call to `delay(f, ms)` returned a function that forwards all calls to `f` after `ms` milliseconds.
+在该章中，我们没有用 proxy 来实现它。调用 `delay(f, ms)` 返回一个函数，该函数会将在 `ms` 毫秒后把所有调用转发到 `f`。
 
-Here's the previous, function-based implementation:
+这是以前的基于函数的实现：
 
 ```js run
 function delay(f, ms) {
@@ -531,9 +531,9 @@ sayHi = delay(sayHi, 3000);
 sayHi("John"); // Hello, John! (after 3 seconds)
 ```
 
-As we've seen already, that mostly works. The wrapper function `(*)` performs the call after the timeout.
+正如我们已经看到的那样，大多数情况下都是可行的。包装函数 `(*)` 在超时后执行调用。
 
-But a wrapper function does not forward property read/write operations or anything else. After the wrapping, the access is lost to properties of the original functions, such as `name`, `length` and others:
+但是包装函数不会转发属性读/写操作或其他任何操作。包装后，无法访问原有函数的属性，比如 `name`，`length`和其他：
 
 ```js run
 function delay(f, ms) {
@@ -557,9 +557,9 @@ alert(sayHi.length); // 0 (in the wrapper declaration, there are zero arguments)
 */!*
 ```
 
-`Proxy` is much more powerful, as it forwards everything to the target object.
+`Proxy` 功能强大得多，因为它将所有东西转发到目标对象。
 
-Let's use `Proxy` instead of a wrapping function:
+让我们使用 `Proxy` 而不是包装函数：
 
 ```js run
 function delay(f, ms) {
@@ -583,11 +583,11 @@ alert(sayHi.length); // 1 (*) proxy forwards "get length" operation to the targe
 sayHi("John"); // Hello, John! (after 3 seconds)
 ```
 
-The result is the same, but now not only calls, but all operations on the proxy are forwarded to the original function. So `sayHi.length` is returned correctly after the wrapping in the line `(*)`.
+结果是相同的，但现在不仅调用，而且代理上的所有操作都转发到原始函数。所以sayHi.length在 `(*)` 行包装后正确返回结果(*)。
 
-We've got a "richer" wrapper.
+我们有一个“更丰富”的包装器。
 
-Other traps exist: the full list is in the beginning of this chapter. Their usage pattern is similar to the above.
+还存在其他陷阱：完整列表在本章的开头。它们的使用模式与上述类似。
 
 ## Reflect
 
