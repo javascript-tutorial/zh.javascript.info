@@ -323,9 +323,9 @@ alert( Object.keys(user) ); // a, b, c
 
 ## 具有 "deleteProperty" 和其他陷阱的受保护属性
 
-There's a widespread convention that properties and methods prefixed by an underscore `_` are internal. They shouldn't be accessed from outside the object.
+有一个普遍的约定，即下划线 `_` 前缀的属性和方法_是内部的。不应从对象外部访问它们。
 
-Technically that's possible though:
+从技术上讲，这是可能的：
 
 ```js run
 let user = {
@@ -336,15 +336,15 @@ let user = {
 alert(user._password); // secret  
 ```
 
-Let's use proxies to prevent any access to properties starting with `_`.
+让我们使用代理来防止对以 `_` 开头的属性的任何访问。
 
-We'll need the traps:
-- `get` to throw an error when reading such property,
-- `set` to throw an error when writing,
-- `deleteProperty` to throw an error when deleting,
-- `ownKeys` to exclude properties starting with `_` from `for..in` and methods like `Object.keys`.
+我们需要以下陷阱：
+- `get` 读取此类属性时抛出错误，
+- `set` 写入属性时抛出错误，
+- `deleteProperty` 删除属性时抛出错误，
+- `ownKeys` 在使用 `for..in` 和类似 `Object.keys` 的方法时排除以 `_` 开头的属性。
 
-Here's the code:
+代码如下：
 
 ```js run
 let user = {
@@ -408,7 +408,7 @@ try {
 for(let key in user) alert(key); // name
 ```
 
-Please note the important detail in the `get` trap, in the line `(*)`:
+请注意在行 `(*)` 中 `get` 陷阱的重要细节：
 
 ```js
 get(target, prop) {
@@ -420,9 +420,9 @@ get(target, prop) {
 }
 ```
 
-Why do we need a function to call `value.bind(target)`?
+为什么我们需要一个函数调用 `value.bind(target)`？
 
-The reason is that object methods, such as `user.checkPassword()`, must be able to access `_password`:
+原因是对象方法（例如 `user.checkPassword()`）必须能够访问 `_password`：
 
 ```js
 user = {
@@ -435,20 +435,20 @@ user = {
 ```
 
 
-A call to `user.checkPassword()` call gets proxied `user` as `this` (the object before dot becomes `this`), so when it tries to access `this._password`, the `get` trap activates (it triggers on any property read) and throws an error.
+对 `user.checkPassword()` 的一个调用会调用代理对象 `user` 作为 `this`（点运算符之前的对象会成为 `this`），，因此，当它尝试访问 `this._password` 时 `get` 陷阱将激活（它在读取任何属性时触发）并抛出错误。
 
-So we bind the context of object methods to the original object, `target`, in the line `(*)`. Then their future calls will use `target` as `this`, without any traps.
+因此，我们在行 `(*)` 中将对象方法的上下文绑定到原始对象，`target`。然后，它们将来的调用将使用 `target` 作为 `this`，不触发任何陷阱。
 
-That solution usually works, but isn't ideal, as a method may pass the unproxied object somewhere else, and then we'll get messed up: where's the original object, and where's the proxied one?
+该解决方案通常可行，但并不理想，因为一种方法可能会将未代理的对象传递到其他地方，然后我们会陷入困境：原始对象在哪里，代理的对象在哪里？
 
-Besides, an object may be proxied multiple times (multiple proxies may add different "tweaks" to the object), and if we pass an unwrapped object to a method, there may be unexpected consequences.
+此外，一个对象可能会被代理多次（多个代理可能会对该对象添加不同的“调整”），并且如果我们将未包装的对象传递给方法，则可能会产生意想不到的后果。
 
-So, such a proxy shouldn't be used everywhere.
+因此，在任何地方都不应使用这种代理。
 
-```smart header="Private properties of a class"
-Modern JavaScript engines natively support private properties in classes, prefixed with `#`. They are described in the chapter <info:private-protected-properties-methods>. No proxies required.
+```smart header="类的私有属性"
+现代 Javascript 引擎原生支持私有属性，其以 `#` 作为前缀。这在章节 <info:private-protected-properties-methods> 中有详细描述。Proxy并不是必需的。
 
-Such properties have their own issues though. In particular, they are not inherited.
+但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
 
 ## "In range" with "has" trap
