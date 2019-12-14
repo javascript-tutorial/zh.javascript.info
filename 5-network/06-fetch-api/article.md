@@ -17,10 +17,13 @@
 let promise = fetch(url, {
   method: "GET", // POST, PUT, DELETE, 等等.
   headers: {
-    "Content-Type": "text/plain;charset=UTF-8" // 内容类型头的值通常会根据请求主体自动设置
+     // 内容类型头的值
+     // 通常会根据请求主体自动设置
+    "Content-Type": "text/plain;charset=UTF-8"
   },
   body: undefined // string, FormData, Blob, BufferSource, 或者 URLSearchParams
-  referrer: "about:client", // 无来源页 (no-referrer) 为 ''，或者是一个来自当前域名的 url
+  referrer: "about:client", // 要么为 "" 即不发送 Referer 头，
+  // 要么是一个来自当前域名的 url
   referrerPolicy: "no-referrer-when-downgrade", // no-referrer, origin, same-origin...
   mode: "cors", // same-origin, no-cors
   credentials: "same-origin", // omit, include
@@ -28,7 +31,7 @@ let promise = fetch(url, {
   redirect: "follow", // manual, error
   integrity: "", // 一个 hash 值, 比如 "sha256-abcdef1234567890"
   keepalive: false, // true
-  signal: undefined, // 终止请求的控制器
+  signal: undefined, // 中止控制器（AbortController）用以中止请求
   window: window // null
 });
 ```
@@ -104,10 +107,9 @@ fetch('/page', {
 | `"strict-origin-when-cross-origin"` | 完整的 url | 仅域名 | - |
 | `"unsafe-url"` | 完整的 url | 完整的 url | 完整的 url |
 
+假如说我们有一个从网站外部无法观察的带有 URL 结构的管理区域。
 
-假如说我们有一个从网站外部无法观察的带有 URL 结构的管理区域
-
-如果我们发送了一个跨域的 `fetch`，然后它默认地发送带有我们网页完整 url 的 `Referer` 头部。(当我们从 HTTPS 向 HTTP 发送请求的除外，这种情况下是没有 `Referer` )
+如果我们发送了一个跨域的 `fetch`，然后它默认地发送带有我们网页完整 url 的 `Referer` 头部。(当我们从 HTTPS 向 HTTP 发送请求的除外，这种情况下是没有 `Referer` )。
 
 比如 `Referer: https://javascript.info/admin/secret/paths`。
 
@@ -124,12 +126,11 @@ fetch('https://another.com/page', {
 
 与默认行为相比较，它的唯一区别是跨域请求的 `fetch` 只发送 URL 的域名部分(比如 `https://javascript.info`，没有路径)。对于同源请求，我们仍然能得到完整的 `Referer` (也许在 debug 中有用)。
 
-````smart header="来源协议 (Referrer policy) 不只用于 `fetch`"
+```smart header="来源协议 (Referrer policy) 不只用于 `fetch`"
 在 [规范](https://w3c.github.io/webappsec-referrer-policy/) 中描述的来源协议，不只是用于 `fetch`，它用处更广泛。
 
 具体来说，它可以使用 `Referrer-Policy` 的 HTTP 头部信息给整个页面设置默认来源协议，或者使用 `<a rel="noreferrer">` 给单一链接设置。
-````
-````
+```
 
 ## mode
 
@@ -215,6 +216,7 @@ window.onunload = function() {
 正常来说，当一个文档卸载时，所有相关联的网络请求都会被取消。但是 `keepalive` 选项告诉浏览器在后台执行请求，即使它离开了页面。所以这个选项对于我们的请求成功是至关重要的。
 
 它有一些限制：
+
 - 我们无法发送太大的数据：`keepalive` 请求的容量限制为 64kb。
     - 如果收集了太多数据，我们可以将其分包，按规律发送出去，所以不会留下太多数据在最后 `onunload` 请求。
     - 限制是对当前进行中的所有请求的。所以我们无法通过创建 100 个请求，每个 64kb 这样作弊。
