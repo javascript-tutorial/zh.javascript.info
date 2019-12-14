@@ -658,13 +658,13 @@ user.name = "Pete"; // shows "SET name=Pete"
 
 在大多数情况下，我们可以不使用 `Reflect` 完成相同的事情，例如，使用`Reflect.get(target, prop, receiver)` 读取属性可以替换为 `target[prop]`。尽管有一些细微的差别。
 
-### Proxying a getter
+### 代理一个 getter 
 
-Let's see an example that demonstrates why `Reflect.get` is better. And we'll also see why `get/set` have the fourth argument `receiver`, that we didn't use before.
+让我们看一个示例，说明为什么`Reflect.get` 更好。我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而我们以前没有使用过它。
 
-We have an object `user` with `_name` property and a getter for it.
+我们有一个带有一个 `_name` 属性和一个 getter的对象 `user`。
 
-Here's a proxy around it:
+这是一个 Proxy：
 
 ```js run
 let user = {
@@ -685,11 +685,11 @@ let userProxy = new Proxy(user, {
 alert(userProxy.name); // Guest
 ```
 
-The `get` trap is "transparent" here, it returns the original property, and doesn't do anything else. That's enough for our example.
+该 `get` 陷阱在这里是“透明的”，它返回原来的属性，不会做别的任何事情。对于我们的示例而言，这就足够了。
 
-Everything seems to be all right. But let's make the example a little bit more complex.
+一切似乎都很好。但是让我们将示例变得更加复杂。
 
-After inheriting another object `admin` from `user`, we can observe the incorrect behavior:
+另一个对象 `admin`从 `user` 继承后，我们可以观察到错误的行为：
 
 ```js run
 let user = {
@@ -716,27 +716,27 @@ alert(admin.name); // outputs: Guest (?!?)
 */!*
 ```
 
-Reading `admin.name` should return `"Admin"`, not `"Guest"`!
+读取 `admin.name` 应该返回 `"Admin"`，而不是 `"Guest"`！
 
-What's the matter? Maybe we did something wrong with the inheritance?
+怎么了？也许我们在继承方面做错了什么？
 
-But if we remove the proxy, then everything will work as expected.
+但是，如果我们删除代理，那么一切都会按预期进行。
 
-The problem is actually in the proxy, in the line `(*)`.
+问题实际上出在代理中，在 `(*)`行。
 
-1. When we read `admin.name`, as `admin` object doesn't have such own property, the search goes to its prototype.
-2. The prototype is `userProxy`.
-3. When reading `name` property from the proxy, its `get` trap triggers and returns it from the original object as `target[prop]` in the line `(*)`.
+1. 当我们读取 `admin.name`，由于 `admin` 对象没有自己的属性，搜索将转到其原型。
+2. 原型是 `userProxy`。
+3. 从代理读取 `name` 属性时， `get` 陷阱会触发并从原始对象返回 `target[prop]` 属性，在 `(*)` 行
 
-    A call to `target[prop]`, when `prop` is a getter, runs its code in the context `this=target`. So the result is `this._name` from the original object `target`, that is: from `user`.
+    当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` context中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name` 即来自 `user`。
 
-To fix such situations, we need `receiver`, the third argument of `get` trap. It keeps the correct `this` to be passed to a getter. In our case that's `admin`.
+为了解决这种情况，我们需要 `get` 陷阱的第三个参数 `receiver`。它保证传递正确的 `this` 给 getter。在我们的情况下是 `admin`。
 
-How to pass the context for a getter? For a regular function we could use `call/apply`, but that's a getter, it's not "called", just accessed.
+如何为 getter 传递上下文？对于常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不是"called"的，只是被访问的。
 
-`Reflect.get` can do that. Everything will work right if we use it.
+`Reflect.get` 可以做到的。如果我们使用它，一切都会正常运行。
 
-Here's the corrected variant:
+这是更正后的变体：
 
 ```js run
 let user = {
@@ -765,9 +765,9 @@ alert(admin.name); // Admin
 */!*
 ```
 
-Now `receiver` that keeps a reference to the correct `this` (that is `admin`), is passed to the getter using `Reflect.get` in the line `(*)`.
+现在 `receiver`，保留了对正确 `this` 的引用（即`admin`）的引用，该引用将在 `(*)` 行中使用`Reflect.get`传递给getter。
 
-We can rewrite the trap even shorter:
+我们可以将陷阱重写得更短： 
 
 ```js
 get(target, prop, receiver) {
@@ -776,9 +776,9 @@ get(target, prop, receiver) {
 ```
 
 
-`Reflect` calls are named exactly the same way as traps and accept the same arguments. They were specifically designed this way.
+`Reflect` 调用的命名方式与陷阱完全相同，并且接受相同的参数。它们是通过这种方式专门设计的。
 
-So, `return Reflect...` provides a safe no-brainer to forward the operation and make sure we don't forget anything related to that.
+因此， `return Reflect...` 会提供一个安全的提示程序来转发操作，并确保我们不会忘记与此相关的任何内容。
 
 ## Proxy limitations
 
