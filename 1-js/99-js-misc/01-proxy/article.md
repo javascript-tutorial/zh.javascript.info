@@ -826,21 +826,21 @@ proxy.set('test', 1);
 alert(proxy.get('test')); // 1 (works!)
 ```
 
-Now it works fine, because `get` trap binds function properties, such as `map.set`, to the target object (`map`) itself.
+现在它可以正常工作，因为 `get` 陷阱将函数属性（例如 `map.set`）绑定到目标对象（`map`）本身。
 
-Unlike the previous example, the value of `this` inside `proxy.set(...)` will be not `proxy`, but the original `map`. So when the internal implementation of `set` tries to access `this.[[MapData]]` internal slot, it succeeds.
+与前面的示例不同，`proxy.set(...)` 内部 `this` 的值并不是 `proxy`，而是原始对象 `map`。因此，当`set` 陷阱的内部实现尝试访问 `this.[[MapData]]` 内部插槽时，它会成功。
 
-```smart header="`Array` has no internal slots"
-A notable exception: built-in `Array` doesn't use internal slots. That's for historical reasons, as it appeared so long ago.
+```smart header="`Array` 没有内部插槽"
+一个明显的例外：内置 `Array` 不使用内部插槽。那是出于历史原因，因为它出现于很久以前。
 
-So there's no such problem when proxying an array.
+因此，代理数组时没有这种问题。
 ```
 
-### Private fields
+### 私有字段
 
-The similar thing happens with private class fields.
+类的私有字段也会发生类似的情况。
 
-For example, `getName()` method accesses the private `#name` property and breaks after proxying:
+例如，`getName()` 方法访问私有的 `#name` 属性并在代理后中断：
 
 ```js run
 class User {
@@ -860,11 +860,11 @@ alert(user.getName()); // Error
 */!*
 ```
 
-The reason is that private fields are implemented using internal slots. JavaScript does not use `[[Get]]/[[Set]]` when accessing them.
+原因是专用字段是使用内部插槽实现的。JavaScript 访问它们时不使用 `[[Get]]/[[Set]]`。
 
-In the call `getName()` the value of `this` is the proxied `user`, and it doesn't have the slot with private fields.
+在调用 `getName()` 时 `this` 的值是代理后的 `user`，它没有带私有字段的插槽。
 
-Once again, the solution with binding the method makes it work:
+再次，bind 方法的解决方案使它恢复正常：
 
 ```js run
 class User {
@@ -887,13 +887,13 @@ user = new Proxy(user, {
 alert(user.getName()); // Guest
 ```
 
-That said, the solution has drawbacks, as explained previously: it exposes the original object to the method, potentially allowing it to be passed further and breaking other proxied functionality.
+该解决方案有缺点，如前所述：将原始对象暴露给该方法，可能使其进一步传递并破坏其他代理功能。
 
 ### Proxy != target
 
-The proxy and the original object are different objects. That's natural, right?
+代理和原始对象是不同的对象。很自然吧？
 
-So if we use the original object as a key, and then proxy it, then the proxy can't be found:
+因此，如果我们使用原始对象作为键，然后对其进行代理，则找不到代理：
 
 ```js run
 let allUsers = new Set();
@@ -916,33 +916,33 @@ alert(allUsers.has(user)); // false
 */!*
 ```
 
-As we can see, after proxying we can't find `user` in the set `allUsers`, because the proxy is a different object.
+如我们所见，代理后，我们在 `allUsers` 中找不到 `user`，因为代理是一个不同的对象。
 
-```warn header="Proxies can't intercept a strict equality test `===`"
-Proxies can intercept many operators, such as `new` (with `construct`), `in` (with `has`), `delete` (with `deleteProperty`) and so on.
+```warn header="Proxy 无法拦截严格相等性测试 `===`"
+Proxy 可以拦截许多运算符，例如new（使用 `construct`），in（使用 `has`），delete（使用 `deleteProperty`）等。
 
-But there's no way to intercept a strict equality test for objects. An object is strictly equal to itself only, and no other value.
+但是没有办法拦截对象的严格相等性测试。一个对象严格只等于自身，没有其他值。
 
-So all operations and built-in classes that compare objects for equality will differentiate between the object and the proxy. No transparent replacement here.
+因此，比较对象是否相等的所有操作和内置类都会区分 target 和 proxy。这里没有透明的替代品。
 ```
 
-## Revocable proxies
+## 可取消的 Proxy
 
-A *revocable* proxy is a proxy that can be disabled.
+一个 *可撤销* 的代理是可以被禁用的代理。
 
-Let's say we have a resource, and would like to close access to it any moment.
+假设我们有一个资源，并且想随时关闭对该资源的访问。
 
-What we can do is to wrap it into a revocable proxy, without any traps. Such a proxy will forward operations to object, and we can disable it at any moment.
+我们可以做的是将其包装成可撤销的代理，而没有任何陷阱。这样的代理会将操作转发给对象，我们可以随时将其禁用。
 
-The syntax is:
+语法为：
 
 ```js
 let {proxy, revoke} = Proxy.revocable(target, handler)
 ```
 
-The call returns an object with the `proxy` and `revoke` function to disable it.
+该调用返回一个带有 `proxy` 和 `revoke` 函数的对象以将其禁用。
 
-Here's an example:
+这是一个例子：
 
 ```js run
 let object = {
@@ -961,9 +961,9 @@ revoke();
 alert(proxy.data); // Error
 ```
 
-A call to `revoke()` removes all internal references to the target object from the proxy, so they are no more connected. The target object can be garbage-collected after that.
+调用 `revoke()` 会从代理中删除对目标对象的所有内部引用，因此不再连接它们。之后可以对目标对象进行垃圾回收。
 
-We can also store `revoke` in a `WeakMap`, to be able to easily find it by a proxy object:
+我们还可以将 `revoke` 存储在 `WeakMap` 中，以便能够通过代理对象轻松找到它：
 
 ```js run
 *!*
@@ -985,22 +985,22 @@ revoke();
 alert(proxy.data); // Error (revoked)
 ```
 
-The benefit of such an approach is that we don't have to carry `revoke` around. We can get it from the map by `proxy` when needed.
+这种方法的好处是我们不必随身携带revoke。我们可以在需要时从 map `proxy` 上获取它。
 
-We use `WeakMap` instead of `Map` here because it won't block garbage collection. If a proxy object becomes "unreachable" (e.g. no variable references it any more), `WeakMap` allows it to be wiped from memory together with its `revoke` that we won't need any more.
+此处我们使用`WeakMap` 而不是 `Map` ，因为它不会阻止垃圾收集。如果代理对象变得“无法访问”（例如，没有变量再引用它），则 `WeakMap` 允许将其与 它的 `revoke` 对象一起从内存中擦除，因为我们不再需要它了。
 
-## References
+## 参考文献
 
-- Specification: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
+- 规范: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
 - MDN: [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
 
-## Summary
+## 总结
 
-`Proxy` is a wrapper around an object, that forwards operations on it to the object, optionally trapping some of them.
+`Proxy` 是对象的包装，将对象上的操作转发到对象，并可以选择捕获其中的一些操作。
 
-It can wrap any kind of object, including classes and functions.
+它可以包装任何类型的对象，包括类和函数。
 
-The syntax is:
+语法为：
 
 ```js
 let proxy = new Proxy(target, {
@@ -1008,23 +1008,23 @@ let proxy = new Proxy(target, {
 });
 ```
 
-...Then we should use `proxy` everywhere instead of `target`. A proxy doesn't have its own properties or methods. It traps an operation if the trap is provided, otherwise forwards it to `target` object.
+……然后，我们应该在所有地方使用 `proxy` 而不是 `target`。代理没有自己的属性或方法。如果提供了陷阱，它将捕获操作，否则将其转发给 `target` 对象。
 
-We can trap:
-- Reading (`get`), writing (`set`), deleting (`deleteProperty`) a property (even a non-existing one).
-- Calling a function (`apply` trap).
-- The `new` operator (`construct` trap).
-- Many other operations (the full list is at the beginning of the article and in the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)).
+我们可以捕获：
+- 读取（`get`），写入（`set`），删除（`deleteProperty`）属性（甚至是不存在的属性）。
+- 函数调用（`apply` 陷阱）。
+- `new` 操作（`construct` 陷阱）。
+- 许多其他操作（完整列表在本文开头和 [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 中）。
 
-That allows us to create "virtual" properties and methods, implement default values, observable objects, function decorators and so much more.
+这使我们能够创建“虚拟”属性和方法，实现默认值，可观察对象，函数装饰器等等。
 
-We can also wrap an object multiple times in different proxies, decorating it with various aspects of functionality.
+我们还可以将对象多次包装在不同的代理中，并用多个函数进行装饰。
 
-The [Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API is designed to complement [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). For any `Proxy` trap, there's a `Reflect` call with same arguments. We should use those to forward calls to target objects.
+该[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任何 `Proxy` 陷阱，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
 
-Proxies have some limitations:
+Proxy 有一些局限：
 
-- Built-in objects have "internal slots", access to those can't be proxied. See the workaround above.
-- The same holds true for private class fields, as they are internally implemented using slots. So proxied method calls must have the target object as `this` to access them.
-- Object equality tests `===` can't be intercepted.
-- Performance: benchmarks depend on an engine, but generally accessing a property using a simplest proxy takes a few times longer. In practice that only matters for some "bottleneck" objects though.
+- 内置对象具有“内部插槽”，无法代理访问这些对象。请参阅上面的解决方法。
+- 私有类字段也是如此，因为它们是在内部使用插槽实现的。因此，代理方法的调用必须具有目标对象 `this` 才能访问它们。
+- 对象相等性测试 `===` 不能被拦截。
+- 性能：基准测试取决于引擎，但通常使用最简单的代理访问属性所需的时间要长几倍。实际上，这仅对某些“瓶颈”对象重要。
