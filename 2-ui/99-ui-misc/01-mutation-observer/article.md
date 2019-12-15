@@ -86,8 +86,7 @@ mutationRecords = [{
   nextSibling: <text node>,
   previousSibling: <text node>
   // 其他属性留空
-}];
-```
+
   type: "characterData"
   target: <text node>
   // ……变动的详细信息取决于浏览器如何处理此类删除事件
@@ -156,7 +155,6 @@ articleElem.innerHTML = article;
 ```js
 let article = /* 从服务器获取新内容 */
 articleElem.innerHTML = article;
-```
 
 *!*
 let snippets = articleElem.querySelectorAll('pre[class*="language-"]');
@@ -166,7 +164,7 @@ snippets.forEach(Prism.highlightElem);
 
 ……但是，想象一下，代码中有很多地方可以加载内容：文章、测验、论坛帖子。我们需要在所有地方都进行高亮显示调用吗？那不太好办，也很容易遗漏。
 
-而且，如果内容是由第三方模块加载的，怎么办？例如，我们有一个由他人编写的论坛，可以动态加载内容，我们想在论坛中添加语法高亮显示功能。没有人喜欢修补第三方脚本。
+而且，如果内容是由第三方模块加载的，怎么办？例如，我们有一个由他人编写的论坛，可以动态加载内容，我们想在论坛中添加语法高亮显示功能。没有人喜欢再接入第三方脚本。
 
 幸运的是，还有另一种选择。
 
