@@ -1,9 +1,9 @@
 
 # Observable
 
-Create a function `makeObservable(target)` that "makes the object observable" by returning a proxy.
+`makeObservable(target)` 通过返回代理，创建一个“使对象可观察” 的函数。
 
-Here's how it should work:
+它的工作方式如下：
 
 ```js run
 function makeObservable(target) {
@@ -20,8 +20,8 @@ user.observe((key, value) => {
 user.name = "John"; // alerts: SET name=John
 ```
 
-In other words, an object returned by `makeObservable` is just like the original one, but also has the method `observe(handler)` that sets `handler` function to be called on any property change.
+换句话说，`makeObservable` 返回的对象就像原始对象一样，但是也具有将 `handler` 函数设置为在任何属性更改时都被调用的方法 `observe(handler)` 。
 
-Whenever a property changes, `handler(key, value)` is called with the name and value of the property.
+每当属性更改时，都会使用属性的名称和值调用 `handler(key, value)` 。
 
-P.S. In this task, please only take care about writing to a property. Other operations can be implemented in a similar way.
+P.S. 在此任务中，请仅注意写入属性。可以以类似方式实现其他操作。
