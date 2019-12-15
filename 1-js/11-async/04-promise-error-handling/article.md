@@ -272,7 +272,7 @@ new Promise(function() {
 
 JavaScript 引擎跟踪此类 rejections，在这种情况下会生成一个全局错误。如果你运行上面代码，你可以在控制台（console）里看到。
 
-在浏览器里，我们可以使用 `unhandledrejection` 时间来捕获这类错误：
+在浏览器里，我们可以使用 `unhandledrejection` 事件来捕获这类错误：
 
 ```js run
 *!*
