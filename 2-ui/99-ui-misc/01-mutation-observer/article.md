@@ -86,7 +86,7 @@ mutationRecords = [{
   nextSibling: <text node>,
   previousSibling: <text node>
   // 其他属性留空
-
+}, {
   type: "characterData"
   target: <text node>
   // ……变动的详细信息取决于浏览器如何处理此类删除事件
