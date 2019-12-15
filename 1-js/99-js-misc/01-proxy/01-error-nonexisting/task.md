@@ -6,7 +6,7 @@
 
 这可以帮助及早发现编程错误。
 
-编写一个接受 `target` 对象的 `wrap(target)` 函数并返回添加此方面功能的 proxy。
+编写一个接受 `target` 对象，并返回添加此方面功能的 proxy的 `wrap(target)` 函数。
 
 应满足如下结果：
 
