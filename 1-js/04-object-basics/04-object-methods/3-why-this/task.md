@@ -4,7 +4,11 @@ importance: 3
 
 # 解释 "this" 的值
 
+<<<<<<< HEAD
 在下面的代码中，我们试图连续调用 4 次 `user.go()` 方法。
+=======
+In the code below we intend to call `obj.go()` method 4 times in a row.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 但是 `(1)` 和 `(2)` 次 `(3)` 和 `(4)` 调用结果不同，为什么呢？
 

@@ -1,6 +1,6 @@
-为了找到所有 anagrams，让我们把每个单词打散为字母并排序。当单词有序后，所有的 anagrams 都一样。
+To find all anagrams, let's split every word to letters and sort them. When letter-sorted, all anagrams are same.
 
-例如：
+For instance:
 
 ```
 nap, pan -> anp
@@ -9,14 +9,14 @@ cheaters, hectares, teachers -> aceehrst
 ...
 ```
 
-我们将会使用排序后字母的变量作为 map 的键，为每一个键仅保存一个值：
+We'll use the letter-sorted variants as map keys to store only one value per each key:
 
 ```js run
 function aclean(arr) {
   let map = new Map();
 
   for (let word of arr) {
-    // 将单词打散为字母，排序然后拼接回来
+    // split the word by letters, sort them and join back
 *!*
     let sorted = word.toLowerCase().split('').sort().join(''); // (*)
 */!*
@@ -31,35 +31,35 @@ let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 alert( aclean(arr) );
 ```
 
-字母排序在行 `(*)` 以链式调用的方式完成。
+Letter-sorting is done by the chain of calls in the line `(*)`.
 
-为了方便，我们把它分解为多行：
+For convenience let's split it into multiple lines:
 
 ```js
-let sorted = arr[i] // PAN
+let sorted = word // PAN
   .toLowerCase() // pan
   .split('') // ['p','a','n']
   .sort() // ['a','n','p']
   .join(''); // anp
 ```
 
-两个不同的单词 `'PAN'` 和 `'nap'` 得到了同样的字母排序格式 `'anp'`。
+Two different words `'PAN'` and `'nap'` receive the same letter-sorted form `'anp'`.
 
-下一行将单词放入 map：
+The next line put the word into the map:
 
 ```js
 map.set(sorted, word);
 ```
 
-如果我们遇到了一个有相同字母排序格式的单词，那么他就会覆盖 map 中相同键的前一个值。所以我们将总会得到每个字母格式下最靠后的单词。
+If we ever meet a word the same letter-sorted form again, then it would overwrite the previous value with the same key in the map. So we'll always have at maximum one word per letter-form.
 
-最后 `Array.from(map.values())` 将 map 的值迭代（我们不需要结果的键）然后返回数组集合。
+At the end `Array.from(map.values())` takes an iterable over map values (we don't need keys in the result) and returns an array of them.
 
-这里我们也可以使用一般的对象而不用 `Map`，因为键就是字符串。
+Here we could also use a plain object instead of the `Map`, because keys are strings.
 
-这就是答案：
+That's how the solution can look:
 
-```js run
+```js run demo
 function aclean(arr) {
   let obj = {};
 
@@ -68,7 +68,7 @@ function aclean(arr) {
     obj[sorted] = arr[i];
   }
 
-  return Array.from(Object.values(obj));
+  return Object.values(obj);
 }
 
 let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];

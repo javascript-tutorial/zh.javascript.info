@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 计算属性数量
+# Count properties
 
-写一个可以返回对象的属性数量的函数 count(obj) ：
+Write a function `count(obj)` that returns the number of properties in the object:
 
 ```js
 let user = {
@@ -15,7 +15,7 @@ let user = {
 alert( count(user) ); // 2
 ```
 
-试着让代码尽可能简短。
+Try to make the code as short as possible.
 
-提示：忽略 Symbol 属性，只计算「常规」属性。
+P.S. Ignore symbolic properties, count only "regular" ones.
 

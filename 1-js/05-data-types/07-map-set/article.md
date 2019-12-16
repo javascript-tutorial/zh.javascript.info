@@ -1,6 +1,7 @@
 
 # Map and Set
 
+<<<<<<< HEAD
 我们已经了解过以下复杂数据结构:
 
 - 存储键集合的对象.
@@ -23,43 +24,97 @@
 - `map.size` -- 返回当前全部元素的数量。
 
 举个例子:
+=======
+Now we've learned about the following complex data structures:
+
+- Objects for storing keyed collections.
+- Arrays for storing ordered collections.
+
+But that's not enough for real life. That's why `Map` and `Set` also exist.
+
+## Map
+
+[Map](mdn:js/Map) is a collection of keyed data items, just like an `Object`. But the main difference is that `Map` allows keys of any type.
+
+Methods and properties are:
+
+- `new Map()` -- creates the map.
+- `map.set(key, value)` -- stores the value by the key.
+- `map.get(key)` -- returns the value by the key, `undefined` if `key` doesn't exist in map.
+- `map.has(key)` -- returns `true` if the `key` exists, `false` otherwise.
+- `map.delete(key)` -- removes the value by the key.
+- `map.clear()` -- removes everything from the map.
+- `map.size` -- returns the current element count.
+
+For instance:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let map = new Map();
 
+<<<<<<< HEAD
 map.set('1', 'str1');   // 字符串键
 map.set(1, 'num1');     // 数字键
 map.set(true, 'bool1'); // 布尔值键
 
 // 还记得常规对象吗? 它会把键转化为字符串
 // Map 会保持类型, 所以下面这两个结果不同:
+=======
+map.set('1', 'str1');   // a string key
+map.set(1, 'num1');     // a numeric key
+map.set(true, 'bool1'); // a boolean key
+
+// remember the regular Object? it would convert keys to string
+// Map keeps the type, so these two are different:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 alert( map.get(1)   ); // 'num1'
 alert( map.get('1') ); // 'str1'
 
 alert( map.size ); // 3
 ```
 
+<<<<<<< HEAD
 正如我们看到的那样，`Map` 的键可以被转化为字符串而不是像普通对象那样不能转化， 任何类型的键都是可能的.
 
 **Map 还可以使用对象作为键**
 
 例如:
+=======
+As we can see, unlike objects, keys are not converted to strings. Any type of key is possible.
+
+**Map can also use objects as keys.**
+
+For instance:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let john = { name: "John" };
 
+<<<<<<< HEAD
 // 我们先存储每个游客的来访次数
 let visitsCountMap = new Map();
 
 // john 已经在集合里了
+=======
+// for every user, let's store their visits count
+let visitsCountMap = new Map();
+
+// john is the key for the map
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 visitsCountMap.set(john, 123);
 
 alert( visitsCountMap.get(john) ); // 123
 ```
 
+<<<<<<< HEAD
 使用对象作为键是 `Map` 最出名也是最重要的特点. 对于字符键, `Object` （普通对象）能正常使用, 但是使用键就会产生意料之外的效果.
 
 我们来尝试一下:
+=======
+Using objects as keys is one of most notable and important `Map` features. For string keys, `Object` can be fine, but not for object keys.
+
+Let's try:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let john = { name: "John" };
@@ -74,6 +129,7 @@ alert( visitsCountObj["[object Object]"] ); // 123
 */!*
 ```
 
+<<<<<<< HEAD
 当 `visitsCountObj` 是一个普通对象的时候, 它会转化所有的键, `john` 被转化为字符串, 所以我们得到字符键 `"[object Object]"`. 很明显这不是我们要的结果.
 
 ```smart header="`Map` 是怎么比较键的？"
@@ -87,6 +143,18 @@ alert( visitsCountObj["[object Object]"] ); // 123
 ````smart header="链式调用"
 
 每一次调用 `map.set` 都会返回集合本身， 所以我们可以使用:
+=======
+As `visitsCountObj` is an object, it converts all keys, such as `john` to strings, so we've got the string key `"[object Object]"`. Definitely not what we want.
+
+```smart header="How `Map` compares keys"
+To test keys for equivalence, `Map` uses the algorithm [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero). It is roughly the same as strict equality `===`, but the difference is that `NaN` is considered equal to `NaN`. So `NaN` can be used as the key as well.
+
+This algorithm can't be changed or customized.
+```
+
+````smart header="Chaining"
+Every `map.set` call returns the map itself, so we can "chain" the calls:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js
 map.set('1', 'str1')
@@ -96,15 +164,25 @@ map.set('1', 'str1')
 ````
 
 
+<<<<<<< HEAD
 ## `Map` 迭代
 
 如果要在 `map` 里使用循环, 可以使用以下三个方法:
+=======
+## Iteration over Map
+
+For looping over a `map`, there are 3 methods:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 - `map.keys()` -- returns an iterable for keys,
 - `map.values()` -- returns an iterable for values,
 - `map.entries()` -- returns an iterable for entries `[key, value]`, it's used by default in `for..of`.
 
+<<<<<<< HEAD
 例如:
+=======
+For instance:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let recipeMap = new Map([
@@ -113,22 +191,36 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
+<<<<<<< HEAD
 // 迭代键(vegetables)
+=======
+// iterate over keys (vegetables)
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomatoes, onion
 }
 
+<<<<<<< HEAD
 // 迭代值 (amounts)
+=======
+// iterate over values (amounts)
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
 
+<<<<<<< HEAD
 // 迭代 [key, value] 对
 for (let entry of recipeMap) { // 效果跟 recipeMap.entries() 相同
+=======
+// iterate over [key, value] entries
+for (let entry of recipeMap) { // the same as of recipeMap.entries()
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
   alert(entry); // cucumber,500 (and so on)
 }
 ```
 
+<<<<<<< HEAD
 ```smart header="按顺序插入"
 
 迭代的顺序与插入键的顺序相同。 `Map`会保持相同的顺序,不像普通 `Object` 不保证顺序.
@@ -138,17 +230,36 @@ for (let entry of recipeMap) { // 效果跟 recipeMap.entries() 相同
 
 ```js
 // 对每个 (key, value) 对运行 forEach 函数
+=======
+```smart header="The insertion order is used"
+The iteration goes in the same order as the values were inserted. `Map` preserves this order, unlike a regular `Object`.
+```
+
+Besides that, `Map` has a built-in `forEach` method, similar to `Array`:
+
+```js
+// runs the function for each (key, value) pair
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 recipeMap.forEach( (value, key, map) => {
   alert(`${key}: ${value}`); // cucumber: 500 etc
 });
 ```
 
+<<<<<<< HEAD
 ## Object.entries: 把对象转化为 `map`
 
  当 `Map` 被创建之后, 我们可以传入带有键值对的数组 (或其它可迭代的对象) 来进行初始化, 像这样:
 
 ```js run
 // 包含 [key, value] 对的数组
+=======
+## Object.entries: Map from Object
+
+When a `Map` is created, we can pass an array (or another iterable) with key/value pairs for initialization, like this:
+
+```js run
+// array of [key, value] pairs
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 let map = new Map([
   ['1',  'str1'],
   [1,    'num1'],
@@ -158,9 +269,15 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
+<<<<<<< HEAD
 如果我们有个纯对象, 并且想利用这个纯对象来创建 `Map` , 可以使用内建方法[Object.entries(obj)](mdn:js/Object/entries) ，它返回一个具有相同格式的并且带有键值对的数组对象。
 
 所以可以像下面这样利用一个对象来创建 `map`
+=======
+If we have a plain object, and we'd like to create a `Map` from it, then we can use built-in method [Object.entries(obj)](mdn:js/Object/entries) that returns an array of key/value pairs for an object exactly in that format.
+
+So we can create a map from an object like this:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let obj = {
@@ -175,6 +292,7 @@ let map = new Map(Object.entries(obj));
 alert( map.get('name') ); // John
 ```
 
+<<<<<<< HEAD
 这里, `Object.entries` 返回一个含有键值对的数组: `[ ["name","John"], ["age", 30] ]`. 这就是 `Map` 所需要的参数格式.
 
 
@@ -183,6 +301,16 @@ alert( map.get('name') ); // John
 我们刚刚已经利用 `Object.entries(obj)` 把一个纯对象转化成 `Map`
 
 `Object.fromEntries` 方法的作用是相反的: 给定一个具有 `[key, value]` 对的数组, 它会根据给定数组转化为 `Map`:
+=======
+Here, `Object.entries` returns the array of key/value pairs: `[ ["name","John"], ["age", 30] ]`. That's what `Map` needs.
+
+
+## Object.fromEntries: Object from Map
+
+We've just seen how to create `Map` from a plain object with `Object.entries(obj)`.
+
+There's `Object.fromEntries` method that does the reverse: given an array of `[key, value]` pairs, it creates an object from them:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let prices = Object.fromEntries([
@@ -196,11 +324,19 @@ let prices = Object.fromEntries([
 alert(prices.orange); // 2
 ```
 
+<<<<<<< HEAD
 我们可以使用 `Object.fromEntries` 从 `Map` 中得到一个纯对象。
 
 例如， 我们存了数据在 `Map` 中, 但是我们需要把它转给需要纯对象的第三方代码 。
 
 我们来开始:
+=======
+We can use `Object.fromEntries` to get an plain object from `Map`.
+
+E.g. we store the data in a `Map`, but we need to pass it to a 3rd-party code that expects a plain object.
+
+Here we go:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let map = new Map();
@@ -218,14 +354,21 @@ let obj = Object.fromEntries(map.entries()); // make a plain object (*)
 alert(obj.orange); // 2
 ```
 
+<<<<<<< HEAD
 调用 `map.entries()` 将返回含有键值对的数组, 这刚好是 `Object.fromEntries` 所需要的格式.
 
 我们可以把带 `(*)` 这一行变得更短:
 
+=======
+A call to `map.entries()` returns an array of key/value pairs, exactly in the right format for `Object.fromEntries`.
+
+We could also make line `(*)` shorter:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 ```js
 let obj = Object.fromEntries(map); // omit .entries()
 ```
 
+<<<<<<< HEAD
 上面的代码作用也是一样的, 因为 `Object.fromEntries` 需要一个可迭代对象作为参数， 而一定是数组. `map` 的标准迭代会返回跟 `map.entries()` 一样的键值对. 所以我们可以获得一个与 `Map` 一样具有键值对的纯对象。
 
 ## Set
@@ -246,6 +389,28 @@ let obj = Object.fromEntries(map); // omit .entries()
 例如, 我们有游客来访， 需要记住他们每一个人. 但是已经访问过的旅客会导致重复记录. 每个游客必须只被 "counted" 一次.
 
 `Set` 可以帮助我们解决这个问题:
+=======
+That's the same, because `Object.fromEntries` expects an iterable object as the argument. Not necessarily an array. And the standard iteration for `map` returns same key/value pairs as `map.entries()`. So we get a plain object with same key/values as the `map`.
+
+## Set
+
+A `Set` is a special type collection - "set of values" (without keys), where each value may occur only once.
+
+Its main methods are:
+
+- `new Set(iterable)` -- creates the set, and if an `iterable` object is provided (usually an array), copies values from it into the set.
+- `set.add(value)` -- adds a value, returns the set itself.
+- `set.delete(value)` -- removes the value, returns `true` if `value` existed at the moment of the call, otherwise `false`.
+- `set.has(value)` -- returns `true` if the value exists in the set, otherwise `false`.
+- `set.clear()` -- removes everything from the set.
+- `set.size` -- is the elements count.
+
+The main feature is that repeated calls of `set.add(value)` with the same value don't do anything. That's the reason why each value appears in a `Set` only once.
+
+For example, we have visitors coming, and we'd like to remember everyone. But repeated visits should not lead to duplicates. A visitor must be "counted" only once.
+
+`Set` is just the right thing for that:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let set = new Set();
@@ -254,13 +419,18 @@ let john = { name: "John" };
 let pete = { name: "Pete" };
 let mary = { name: "Mary" };
 
+<<<<<<< HEAD
 // visits, 一些访客来访好几次
+=======
+// visits, some users come multiple times
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 set.add(john);
 set.add(pete);
 set.add(mary);
 set.add(john);
 set.add(mary);
 
+<<<<<<< HEAD
 // set 只保留那个游客第一次来的次数
 alert( set.size ); // 3
 
@@ -274,18 +444,38 @@ for (let user of set) {
 ##  Set 迭代
 
 我们可以在 `Set` 中使用 `for..of`和  `forEach` 它们两者之一来循环 :
+=======
+// set keeps only unique values
+alert( set.size ); // 3
+
+for (let user of set) {
+  alert(user.name); // John (then Pete and Mary)
+}
+```
+
+The alternative to `Set` could be an array of users, and the code to check for duplicates on every insertion using [arr.find](mdn:js/Array/find). But the performance would be much worse, because this method walks through the whole array checking every element. `Set` is much better optimized internally for uniqueness checks.
+
+## Iteration over Set
+
+We can loop over a set either with `for..of` or using `forEach`:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 let set = new Set(["oranges", "apples", "bananas"]);
 
 for (let value of set) alert(value);
 
+<<<<<<< HEAD
 // 跟 forEach 方法相同:
+=======
+// the same with forEach:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 set.forEach((value, valueAgain, set) => {
   alert(value);
 });
 ```
 
+<<<<<<< HEAD
 注意到一件有趣的事情. `forEach` 的回调函数有三个参数: 一个 `value`, 然后是 *相同值* `valueAgain`, 最后才是目标对象本身， 的确，相同的值在参数里出现了两次
 
 那是为了兼容 `Map` 在回调里传入 `forEach` 函数后有三个参数。 当然这看起来有点奇怪。但是这对在特定情况下比如使用 `Set`代替 `Map`的时候有帮助，反之亦然。
@@ -326,3 +516,46 @@ set.forEach((value, valueAgain, set) => {
 - `set.size` -- 返回当前全部元素的数量。
 
 在 `Map` 和 `Set` 里迭代总是按照插入的顺序来执行的，所以我们不能说这些集合是无序的，也不可以通过它的数量来记录元素或者直接获取一个元素。
+=======
+Note the funny thing. The callback function passed in `forEach` has 3 arguments: a `value`, then *the same value* `valueAgain`, and then the target object. Indeed, the same value appears in the arguments twice.
+
+That's for compatibility with `Map` where the callback passed `forEach` has three arguments. Looks a bit strange, for sure. But may help to replace `Map` with `Set` in certain cases with ease, and vice versa.
+
+The same methods `Map` has for iterators are also supported:
+
+- `set.keys()` -- returns an iterable object for values,
+- `set.values()` -- same as `set.keys()`, for compatibility with `Map`,
+- `set.entries()` -- returns an iterable object for entries `[value, value]`, exists for compatibility with `Map`.
+
+## Summary
+
+`Map` -- is a collection of keyed values.
+
+Methods and properties:
+
+- `new Map([iterable])` -- creates the map, with optional `iterable` (e.g. array) of `[key,value]` pairs for initialization.
+- `map.set(key, value)` -- stores the value by the key.
+- `map.get(key)` -- returns the value by the key, `undefined` if `key` doesn't exist in map.
+- `map.has(key)` -- returns `true` if the `key` exists, `false` otherwise.
+- `map.delete(key)` -- removes the value by the key.
+- `map.clear()` -- removes everything from the map.
+- `map.size` -- returns the current element count.
+
+The differences from a regular `Object`:
+
+- Any keys, objects can be keys.
+- Additional convenient methods, the `size` property.
+
+`Set` -- is a collection of unique values.
+
+Methods and properties:
+
+- `new Set([iterable])` -- creates the set, with optional `iterable` (e.g. array) of values for initialization.
+- `set.add(value)` -- adds a value (does nothing if `value` exists), returns the set itself.
+- `set.delete(value)` -- removes the value, returns `true` if `value` existed at the moment of the call, otherwise `false`.
+- `set.has(value)` -- returns `true` if the value exists in the set, otherwise `false`.
+- `set.clear()` -- removes everything from the set.
+- `set.size` -- is the elements count.
+
+Iteration over `Map` and `Set` is always in the insertion order, so we can't say that these collections are unordered, but we can't reorder elements or directly get an element by its number.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd

@@ -31,5 +31,9 @@ army[5](); // 第 5 号也输出 10...
 // ... 所有的 shooters 都显示 10 而不是它们的 0, 1, 2, 3...
 ```
 
+<<<<<<< HEAD
 为什么所有的 shooter 函数显示得都一样呢？修改代码让代码正常工作。
+=======
+Why do all of the shooters show the same value? Fix the code so that they work as intended.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 

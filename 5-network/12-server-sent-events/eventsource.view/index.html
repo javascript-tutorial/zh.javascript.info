@@ -2,9 +2,15 @@
 <script>
 let eventSource;
 
+<<<<<<< HEAD
 function start() { // 当“Start”按钮被点击
   if (!window.EventSource) {
     // IE 或者很老的浏览器
+=======
+function start() { // when "Start" button pressed
+  if (!window.EventSource) {
+    // IE or an old browser
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
     alert("The browser doesn't support EventSource.");
     return;
   }
@@ -33,7 +39,11 @@ function start() { // 当“Start”按钮被点击
   };
 }
 
+<<<<<<< HEAD
 function stop() { // 当“Stop”按钮被点击
+=======
+function stop() { // when "Stop" button pressed
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
   eventSource.close();
   log("eventSource.close()");
 }

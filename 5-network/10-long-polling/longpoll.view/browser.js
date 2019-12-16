@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // 发送消息，一个简单的 POST 请求
+=======
+// Sending messages, a simple POST
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 function PublishForm(form, url) {
 
   function sendMessage(message) {
@@ -18,7 +22,11 @@ function PublishForm(form, url) {
   };
 }
 
+<<<<<<< HEAD
 // 通过长轮询（long polling）接收消息
+=======
+// Receiving messages with long polling
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 function SubscribePane(elem, url) {
 
   function showMessage(message) {
@@ -31,6 +39,7 @@ function SubscribePane(elem, url) {
     let response = await fetch(url);
 
     if (response.status == 502) {
+<<<<<<< HEAD
       // 连接超时
       // 当连接等待时间过长时发生
       // 重新连接
@@ -43,6 +52,20 @@ function SubscribePane(elem, url) {
       await subscribe();
     } else {
       // 得到消息
+=======
+      // Connection timeout
+      // happens when the connection was pending for too long
+      // let's reconnect
+      await subscribe();
+    } else if (response.status != 200) {
+      // Show Error
+      showMessage(response.statusText);
+      // Reconnect in one second
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      await subscribe();
+    } else {
+      // Got message
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
       let message = await response.text();
       showMessage(message);
       await subscribe();
