@@ -39,9 +39,9 @@
           <tspan x="515.240723" y="350">一行不要太长</tspan>
           <tspan x="609" y="233">强制使用分号</tspan>
           <tspan x="560.253418" y="155">运算符两边有空格</tspan>
-          <tspan x="464.23291" y="89">大括号在同一行，前面有空格</tspan>
-          <tspan x="440" y="292">参数之间有空格</tspan>
-          <tspan x="314" y="28">参数之间有空格</tspan>
+          <tspan x="464.23291" y="89">花括号在同一行，前面有空格</tspan>
+          <tspan x="440" y="292">参数之间有一个空格</tspan>
+          <tspan x="314" y="28">参数之间有一个空格</tspan>
         </text>
         <text font-family="OpenSans-Bold, OpenSans" font-size="14" font-weight="bold">
           <tspan x="70" y="214">for/if/while…</tspan>
