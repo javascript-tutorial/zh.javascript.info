@@ -1,9 +1,9 @@
 
 # Polyfills
 
-JavaScript 语言在稳步发展。对语言的新提议也会定期出现，它们会被分析讨论，如果认为有价值，就会被加入到 <https://tc39.github.io/ecma262/> 的列表中，然后进入[规范](http://www.ecma-international.org/publications/standards/Ecma-262.htm)。
+JavaScript 语言在稳步发展。也会定期出现一些对语言的新提议，它们会被分析讨论，如果认为有价值，就会被加入到 <https://tc39.github.io/ecma262/> 的列表中，然后被加到 [规范](http://www.ecma-international.org/publications/standards/Ecma-262.htm) 中。
 
-JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想法。他们可能会决定实现草稿状态的提案，并推迟已经在标准中的东西，因为他们不感兴趣或者难以实现。
+JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想法。他们可能会决定执行草案中的建议，并推迟已经在规范中的内容，因为他们不太有趣或者难以实现。
 
 因此，一个 JavaScript 引擎只能实现标准中的一部分是很常见的情况。
 
