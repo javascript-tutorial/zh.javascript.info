@@ -54,7 +54,7 @@ describe("pow", function() {
 : 表示我们正在描述的功能是什么。在我们的例子中我们正在描述函数 `pow`。用于组织“工人（workers）” —— `it` 代码块。
 
 `it("use case description", function() { ... })`
-: `it` 里面的 "title" 中我们以一种 **易于理解** 的方式描述特定的用例，第二个参数是用于对其进行测试的函数。
+: `it` 里面的描述部分，我们以一种 **易于理解** 的方式描述特定的用例，第二个参数是用于对其进行测试的函数。
 
 `assert.equal(value1, value2)`
 : `it` 块中的代码，如果实现是正确的，它应该在执行的时候不产生任何错误。
@@ -108,7 +108,7 @@ describe("pow", function() {
 
 [iframe height=250 src="pow-1" border=1 edit]
 
-到目前为止，测试失败了，出现了一个错误。这是合乎逻辑的：我们在 `pow` 是一个空函数，因此 `pow(2,3)` 返回了 `undefined` 而不是 `8`。
+到目前为止，测试失败了，出现了一个错误。这是合乎逻辑的：我们的 `pow` 是一个空函数，因此 `pow(2,3)` 返回了 `undefined` 而不是 `8`。
 
 未来，我们会注意到有更高级的测试工具，像是 [karma](https://karma-runner.github.io/) 或其他的，使自动运行许多不同的测试变得更容易。
 
