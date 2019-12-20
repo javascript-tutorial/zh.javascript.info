@@ -29,7 +29,7 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
     更新/添加新函数的脚本称为 “polyfill”。它“填补”了缺口，并添加了缺少的实现。
     
     两个有意思的 polyfills 是：
-    - [core js](https://github.com/zloirock/core-js) 支持很多，只允许包含所需的功能。
+    - [core js](https://github.com/zloirock/core-js) 支持很多，允许只包含需要的功能。
     - [polyfill.io](http://polyfill.io) 根据功能和用户的浏览器，为脚本提供 polyfill 的服务。
 
 所以，如果我们要使用现代语言功能，transpiler 和 polyfill 是必要的。
