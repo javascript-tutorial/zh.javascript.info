@@ -27,7 +27,7 @@ alert( "Hello, JavaScript!".match(/\bJava\b/) ); // null
 2. 然后匹配了单词 `pattern:Hello`。
 3. 然后与 `pattern:\b` 再次匹配，因为我们在 `subject:o` 和一个空格之间。
 
-模式 `pattern:\bJava\b` 也同样匹配。但 `pattern:\bHell\b`（因为 `l` 之后没有词边界），和 `Java!\b`（因为感叹号不是单词 `pattern:\w`，所以其后没有词边界）却不匹配。
+模式 `pattern:\bJava\b` 也同样匹配。但 `pattern:\bHell\b`（因为 `l` 之后没有词边界）和 `Java!\b`（因为感叹号不是单词 `pattern:\w`，所以其后没有词边界）却不匹配。
 
 ```js run
 alert( "Hello, Java!".match(/\bHello\b/) ); // Hello
