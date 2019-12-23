@@ -2,13 +2,21 @@
 
 表单以及例如 `<input>` 的控制元素有大量特殊的属性和事件。
 
+<<<<<<< HEAD
 如果我们知道这些，那么处理表单可以变得更加简单。
+=======
+Working with forms will be much more convenient when we learn them.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ## 导航：表单和元素
 
 文档中的表单是一个特殊集合 `document.forms` 中的成员。
 
+<<<<<<< HEAD
 `document.forms` 是一个**命名**集合：我们既可以使用名字也可以使用索引来获取表单。
+=======
+That's a so-called "named collection": it's both named and ordered. We can use both the name or the number in the document to get the form.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```js no-beautify
 document.forms.my - 包含了 name="my" 的表单
@@ -51,16 +59,33 @@ let form = document.forms[0];
 
 let ageElems = form.elements.age;
 
+<<<<<<< HEAD
 alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
 </script>
 ```
 
 这些导航属性并不依赖于标签的结构。所有的元素，无论它们在表单中嵌套的有多么深，都可以通过 `form.elements` 获取到。
+=======
+*!*
+alert(ageElems[0]); // [object HTMLInputElement]
+*/!*
+</script>
+```
+
+These navigation properties do not depend on the tag structure. All control elements, no matter how deep they are in the form, are available in `form.elements`.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ````smart header="Fieldsets 来作为 \"subforms\""
 一个表单会包含一个或者多个 `<fieldset>` 元素。它们也支持 `elements` 属性。
 
+<<<<<<< HEAD
 比如说：
+=======
+````smart header="Fieldsets as \"subforms\""
+A form may have one or many `<fieldset>` elements inside it. They also have `elements` property that lists form controls inside them.
+
+For instance:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```html run height=80
 <body>
@@ -78,7 +103,11 @@ alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
     let fieldset = form.elements.userFields;
     alert(fieldset); // HTMLFieldSetElement
 
+<<<<<<< HEAD
     // 我们可以从 form 或者 fieldset 中获取输入
+=======
+    // we can get the input by name both from the form and from the fieldset
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
     alert(fieldset.elements.login == form.elements.login); // true
 */!*
   </script>
@@ -89,7 +118,11 @@ alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
 ````warn header="更简短的表示方式：`form.name`"
 还有一个更简短的表示方式：我们可以通过 `form[index/name]` 来访问元素。
 
+<<<<<<< HEAD
 使用这种表示方式我们可以写 `form.login` 而不是 `form.elements.login` 来访问输入元素。
+=======
+In other words, instead of `form.elements.login` we can write `form.login`.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 这也有效，但是会有一个小问题：如果我们访问一个元素，然后修改它的 `name`，它仍然可以通过旧的 name 访问到（当然也能通过新的 name 访问）。
 
@@ -111,7 +144,11 @@ alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
   alert(form.elements.username); // 输入
 
 *!*
+<<<<<<< HEAD
   // 直接访问可以同时使用 input 的两个 name：旧的以及新的
+=======
+  // form allows both names: the new one and the old one
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
   alert(form.username == form.login); // true
 */!*
 </script>
@@ -149,11 +186,19 @@ alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
 
 ## 表单元素
 
+<<<<<<< HEAD
 让我们来谈谈表单控件，主要关注于它们具体的特性。
+=======
+Let's talk about form controls.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ### input 和 textarea
 
+<<<<<<< HEAD
 通常来说，我们可以使用 `input.value` 或者 `input.checked` 来访问复选框的值。
+=======
+We can access their value as `input.value` (string) or `input.checked` (boolean) for checkboxes.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 就像下面这样：
 
@@ -164,14 +209,22 @@ textarea.value = "New text";
 input.checked = true; // 用于复选框或者单选按钮
 ```
 
+<<<<<<< HEAD
 ```warn header="使用 `textarea.value` 而不是 `textarea.innerHTML`"
 请注意我们永远不应该使用 `textarea.innerHTML`：它只储存了最初在页面上的 HTML 内容，而不是当前的。
+=======
+```warn header="Use `textarea.value`, not `textarea.innerHTML`"
+Please note that even though `<textarea>...</textarea>` holds its value as nested HTML, we should never use `textarea.innerHTML` to access it.
+
+It stores only the HTML that was initially on the page, not the current value.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 ```
 
 ### select 和 option
 
 一个 `<select>` 元素有 3 个重要的属性：
 
+<<<<<<< HEAD
 1. `select.options` —— `<option>` 元素的集合，
 2. `select.value` —— 所选选项的值，
 3. `select.selectedIndex` —— 所选选项的索引。
@@ -181,6 +234,17 @@ input.checked = true; // 用于复选框或者单选按钮
 1. 找到所需要的 `<option>` 元素之后设置 `option.selected` 为 `true`。
 2. 设置 `select.value` 为对应的值。
 3. 设置 `select.selectedIndex` 为对应选项的索引。
+=======
+1. `select.options` -- the collection of `<option>` subelements,
+2. `select.value` -- the value of the currently selected `<option>`,
+3. `select.selectedIndex` -- the number of the currently selected `<option>`.
+
+They provide three different ways of setting a value for a `<select>`:
+
+1. Find the corresponding `<option>` element and set `option.selected` to `true`.
+2. Set `select.value` to the value.
+3. Set `select.selectedIndex` to the number of the option.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 第一个方式是最显而易见的，但是 `(2)` 和 `(3)` 通常来说会更简便。
 
@@ -201,9 +265,15 @@ input.checked = true; // 用于复选框或者单选按钮
 </script>
 ```
 
+<<<<<<< HEAD
 和大多数其它控件不同，`<select multiple>` 允许多选。在这种情况下，我们需要遍历 `select.options` 来获取所有选定的值。
 
 就像下面这样：
+=======
+Unlike most other controls, `<select>` allows to select multiple options at once if it has `multiple` attribute. That's feature is rarely used. In that case we need to use the first way: add/remove the `selected` property from `<option>` subelements.
+
+We can get their collection as `select.options`, for instance:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```html run
 <select id="select" *!*multiple*/!*>
@@ -222,11 +292,21 @@ input.checked = true; // 用于复选框或者单选按钮
 </script>
 ```
 
+<<<<<<< HEAD
 `<select>` 元素完整的规范可以在 <https://html.spec.whatwg.org/multipage/forms.html#the-select-element> 上找到。
+=======
+The full specification of the `<select>` element is available in the specification <https://html.spec.whatwg.org/multipage/forms.html#the-select-element>.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ### 新的选项
 
+<<<<<<< HEAD
 在[选项元素](https://html.spec.whatwg.org/multipage/forms.html#the-option-element)的规范中，有一个很不错的简短语法用来创建 `<option>` 元素：
+=======
+This is rarely used on its own. But there's still an interesting thing.
+
+In the [specification](https://html.spec.whatwg.org/multipage/forms.html#the-option-element) there's a nice short syntax to create `<option>` elements:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```js
 option = new Option(text, value, defaultSelected, selected);
@@ -234,12 +314,23 @@ option = new Option(text, value, defaultSelected, selected);
 
 该方法调用参数如下：
 
+<<<<<<< HEAD
 - `text` —— 选项中的文本，
 - `value —— 选项的默认值,
 - `defaultSelected` —— 如果这个值是 `true`，那么 `selected` 属性就会默认创建，
 - `selected —— 如果这个值是 `true`，那么这个选项就是已经被选择了。
 
 比如说：
+=======
+- `text` -- the text inside the option,
+- `value` -- the option value,
+- `defaultSelected` -- if `true`, then `selected` HTML-attribute is created,
+- `selected` -- if `true`, then the option is selected.
+
+There may be a small confusion about `defaultSelected` and `selected`. That's simple: `defaultSelected` sets HTML-attribute, that we can get using `option.getAttribute('selected')`. And `selected` - whether the option is selected or not, that's more important. Usually both values are either set to `true` or not set (same as `false`).
+
+For instance:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```js
 let option = new Option("Text", "value");
@@ -252,6 +343,7 @@ let option = new Option("Text", "value");
 let option = new Option("Text", "value", true, true);
 ```
 
+<<<<<<< HEAD
 ```smart header="`<option>` 的额外属性"
 选项元素具有其它额外的属性：
 
@@ -264,6 +356,22 @@ let option = new Option("Text", "value", true, true);
 `text`
 : 选项的文本内容（可以被任何访问者看到）。
 ```
+=======
+Option elements have properties:
+
+`option.selected`
+: Is the option selected.
+
+`option.index`
+: The number of the option among the others in its `<select>`.
+
+`option.text`
+: Text content of the option (seen by the visitor).
+
+## References
+
+- Specification: <https://html.spec.whatwg.org/multipage/forms.html>.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ## 总结
 
@@ -280,6 +388,14 @@ let option = new Option("Text", "value", true, true);
 
 值可以通过 `input.value`，`textarea.value`，`select.value` 等来获取到，对于单选框和复选框来说还可以使用 `input.checked`。
 
+<<<<<<< HEAD
 对于 `<select>` 元素我们可以通过索引 `select.selectedIndex` 来获取它的值，也可以使用选项集合 `select.options`。该元素和其它元素的完整规范可以看 <https://html.spec.whatwg.org/multipage/forms.html>。
 
 这些是开始使用表单的基础知识。在下一章中，我们将会介绍可能在任何元素上出现的 `focus` 和 `blur` 事件，但主要是在表单上处理这些。
+=======
+For `<select>` we can also get the value by the index `select.selectedIndex` or through the options collection `select.options`.
+
+These are the basics to start working with forms. We'll meet many examples further in the tutorial.
+
+In the next chapter we'll cover `focus` and `blur` events that may occur on any element, but are mostly handled on forms.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0

@@ -17,7 +17,11 @@ importance: 5
 
     alert( calc.calculate("3 + 7") ); // 10
     ```
+<<<<<<< HEAD:1-js/04-object-basics/06-constructor-new/4-calculator-extendable/task.md
 2. 然后添加 calculate 新操作的方法 `addOperator(name, func)`。它需要运算符 `name` 和实现它的双参数函数 `func(a,b)`。
+=======
+2. Then add the method `addMethod(name, func)` that teaches the calculator a new operation. It takes the operator `name` and the two-argument function `func(a,b)` that implements it.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0:1-js/05-data-types/05-array-methods/6-calculator-extendable/task.md
 
     例如，我们添加乘法`*`，除法`/`和求幂`**`：
 
@@ -31,6 +35,12 @@ importance: 5
     alert( result ); // 8
     ```
 
+<<<<<<< HEAD:1-js/04-object-basics/06-constructor-new/4-calculator-extendable/task.md
 - 此任务中没有括号或复杂的表达式。
 - 数字和运算符用一个空格分隔。
 - 添加错误处理。
+=======
+- No parentheses or complex expressions in this task.
+- The numbers and the operator are delimited with exactly one space.
+- There may be error handling if you'd like to add it.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0:1-js/05-data-types/05-array-methods/6-calculator-extendable/task.md

@@ -6,6 +6,7 @@ libs:
 
 # DOM 树
 
+<<<<<<< HEAD
 HTML 文档的骨干是标签。
 
 根据文档对象模型（DOM），每个 HTML 标签都是一个对象。嵌套标签被称为闭合标签的“子标签”。
@@ -17,15 +18,44 @@ HTML 文档的骨干是标签。
 ## DOM 的例子
 
 例如，我们来研究这个文档的 DOM：
+=======
+The backbone of an HTML document is tags.
+
+According to the Document Object Model (DOM), every HTML tag is an object. Nested tags are  "children" of the enclosing one. The text inside a tag is an object as well.
+
+All these objects are accessible using JavaScript, and we can use them to modify the page.
+
+For example, `document.body` is the object representing the `<body>` tag.
+
+Running this code will make the `<body>` red for 3 seconds:
+
+```js run
+document.body.style.background = 'red'; // make the background red
+
+setTimeout(() => document.body.style.background = '', 3000); // return back
+```
+
+Here we used `style.background` to change the background color of `document.body`, but there are many other properties, such as:
+
+- `innerHTML` -- HTML contents of the node.
+- `offsetWidth` -- the node width (in pixels)
+- ...and so on.
+
+Soon we'll learn more ways to manipulate the DOM, but first we need to know about its structure.
+
+## An example of the DOM
+
+Let's start with the following simple document:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```html run no-beautify
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>About elks</title>
+  <title>About elk</title>
 </head>
 <body>
-  The truth about elks.
+  The truth about elk.
 </body>
 </html>
 ```
@@ -35,7 +65,7 @@ DOM 将 HTML 表示为标签的树形结构。它是这个样子的：
 <div class="domtree"></div>
 
 <script>
-let node1 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n    "},{"name":"TITLE","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"About elks"}]},{"name":"#text","nodeType":3,"content":"\n  "}]},{"name":"#text","nodeType":3,"content":"\n  "},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  The truth about elks."}]}]}
+let node1 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n    "},{"name":"TITLE","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"About elk"}]},{"name":"#text","nodeType":3,"content":"\n  "}]},{"name":"#text","nodeType":3,"content":"\n  "},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  The truth about elk."}]}]}
 
 drawHtmlTree(node1, 'div.domtree', 690, 320);
 </script>
@@ -44,17 +74,28 @@ drawHtmlTree(node1, 'div.domtree', 690, 320);
 在上面的图片中，你可以点击元素节点，他们的子节点会打开/折叠。
 ```
 
+<<<<<<< HEAD
 标签被称为**元素节点**（或者仅仅是元素）。嵌套标签称为闭合标签的子标签。因此我们有这样一个元素树：`<html>` 在根目录下，然后 `<head>` 和 `<body>` 是它的子项，等等。
+=======
+Every tree node is an object.
+
+Tags are *element nodes* (or just elements) and form the tree structure: `<html>` is at the root, then `<head>` and `<body>` are its children, etc.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 元素内的文本形成**文本节点**，标记为 `＃text`。文本节点只包含一个字符串。它没有子项，永远是树的一片叶子。
 
+<<<<<<< HEAD
 例如，`<title>` 标签里面有文本 `"About elks"`。
+=======
+For instance, the `<title>` tag has the text `"About elk"`.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 请注意文本节点中的特殊字符：
 
 - 换行符：`↵`（在 JavaScript 中称为`\n`）
 - 一个空格：`␣`
 
+<<<<<<< HEAD
 空格和换行符是完全有效的字符，它们形成文本节点并成为 DOM 的一部分。因此，在上面的例子中，`<head>` 标签在 `<title>` 之前包含了一些空格，并且该文本变成了一个 `#text` 节点（它只包含换行符和一些空格）。
 
 只有两个顶级排除项目：
@@ -62,22 +103,32 @@ drawHtmlTree(node1, 'div.domtree', 690, 320);
 2. 如果我们在 `</body>` 之后放置了一些东西，那么它会自动移动到 `body` 内部，因为 HTML 规范要求所有内容必须位于 `<body>` 内。所以 `</body>` 后面可能没有空格。
 
 在其他情况下，一切都很简单 —— 如果文档中有空格（就像任何字符一样），那么它们将成为 DOM 中的文本节点，如果我们删除它们，则不会有任何内容。
+=======
+Spaces and newlines are totally valid characters, like letters and digits. They form text nodes and become a part of the DOM. So, for instance, in the example above the `<head>` tag contains some spaces before `<title>`, and that text becomes a `#text` node (it contains a newline and some spaces only).
+
+There are only two top-level exclusions:
+1. Spaces and newlines before `<head>` are ignored for historical reasons.
+2. If we put something after `</body>`, then that is automatically moved inside the `body`, at the end, as the HTML spec requires that all content must be inside `<body>`. So there can't be any spaces after `</body>`.
+
+In other cases everything's straightforward -- if there are spaces (just like any character) in the document, then they become text nodes in the DOM, and if we remove them, then there won't be any.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 这里是没有空格的文本节点：
 
 ```html no-beautify
 <!DOCTYPE HTML>
-<html><head><title>About elks</title></head><body>The truth about elks.</body></html>
+<html><head><title>About elk</title></head><body>The truth about elk.</body></html>
 ```
 
 <div class="domtree"></div>
 
 <script>
-let node2 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[{"name":"TITLE","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"About elks"}]}]},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"The truth about elks."}]}]}
+let node2 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[{"name":"TITLE","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"About elk"}]}]},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"The truth about elk."}]}]}
 
 drawHtmlTree(node2, 'div.domtree', 690, 210);
 </script>
 
+<<<<<<< HEAD
 ```smart header="Edge spaces and in-between empty text are usually hidden in tools"
 与 DOM 协同工作的浏览器工具（不久将会覆盖）通常不会在文本的开始/结尾处显示空格，并且在标记之间不会显示空文本节点（换行符）。
 
@@ -94,6 +145,23 @@ drawHtmlTree(node2, 'div.domtree', 690, 210);
 例如，顶部标签总是 `<html>`。即使它不在于文档中 —— 它将在 DOM 中出现，因为浏览器会创建它。`<body>` 也是一样。
 
 例如，如果 HTML 文件是单个单词“Hello”，浏览器将把它包装到 `<html>` 和 `<body>` 中，添加所需的 `<head>`，DOM 将会变成：
+=======
+```smart header="Spaces at string start/end and space-only text nodes are usually hidden in tools"
+Browser tools (to be covered soon) that work with DOM usually do not show spaces at the start/end of the text and empty text nodes (line-breaks) between tags.
+
+Developer tools save screen space this way.
+
+On further DOM pictures we'll sometimes omit them when they are irrelevant. Such spaces usually do not affect how the document is displayed.
+```
+
+## Autocorrection
+
+If the browser encounters malformed HTML, it automatically corrects it when making the DOM.
+
+For instance, the top tag is always `<html>`. Even if it doesn't exist in the document, it will exist in the DOM, because the browser will create it. The same goes for `<body>`.
+
+As an example, if the HTML file is the single word `"Hello"`, the browser will wrap it into `<html>` and `<body>`, and add the required `<head>`, and the DOM will be:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 
 <div class="domtree"></div>
@@ -106,7 +174,11 @@ drawHtmlTree(node3, 'div.domtree', 690, 150);
 
 在生成 DOM 时，浏览器会自动处理文档中的错误，关闭标签等等。
 
+<<<<<<< HEAD
 这样的“无效”文档：
+=======
+A document with unclosed tags:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```html no-beautify
 <p>Hello
@@ -115,7 +187,11 @@ drawHtmlTree(node3, 'div.domtree', 690, 150);
 <li>Dad
 ```
 
+<<<<<<< HEAD
 ...将成为一个正常的 DOM，因为浏览器会读取标签并恢复丢失的部分：
+=======
+...will become a normal DOM as the browser reads tags and restores the missing parts:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 <div class="domtree"></div>
 
@@ -126,7 +202,11 @@ drawHtmlTree(node4, 'div.domtree', 690, 360);
 </script>
 
 ````warn header="Tables always have `<tbody>`"
+<<<<<<< HEAD
 表格是一个有趣的“特例”。按照 DOM 规范，它们必须具有 `<tbody>`，但 HTML 文本可能（官方的）忽略它。然后浏览器自动在 DOM 中创建 `<tbody>`。
+=======
+An interesting "special case" is tables. By the DOM specification they must have `<tbody>`, but HTML text may (officially) omit it. Then the browser creates `<tbody>` in the DOM automatically.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 对于 HTML：
 
@@ -146,15 +226,21 @@ drawHtmlTree(node5,  'div.domtree', 600, 200);
 看到了吗？`<tbody>` 出现了。在使用表格时，应该牢记这一点以避免意外。
 
 
+<<<<<<< HEAD
 ## 其他节点类型
 
 让我们在页面中添加更多标签和注释：
+=======
+There are some other node types besides elements and text nodes.
+
+For example, comments:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```html
 <!DOCTYPE HTML>
 <html>
 <body>
-  The truth about elks.
+  The truth about elk.
   <ol>
     <li>An elk is a smart</li>
 *!*
@@ -169,14 +255,20 @@ drawHtmlTree(node5,  'div.domtree', 600, 200);
 <div class="domtree"></div>
 
 <script>
-let node6 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[]},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  The truth about elks.\n    "},{"name":"OL","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n      "},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"An elk is a smart"}]},{"name":"#text","nodeType":3,"content":"\n      "},{"name":"#comment","nodeType":8,"content":"comment"},{"name":"#text","nodeType":3,"content":"\n      "},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"...and cunning animal!"}]},{"name":"#text","nodeType":3,"content":"\n    "}]},{"name":"#text","nodeType":3,"content":"\n  \n"}]}]};
+let node6 = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[]},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  The truth about elk.\n    "},{"name":"OL","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n      "},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"An elk is a smart"}]},{"name":"#text","nodeType":3,"content":"\n      "},{"name":"#comment","nodeType":8,"content":"comment"},{"name":"#text","nodeType":3,"content":"\n      "},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"...and cunning animal!"}]},{"name":"#text","nodeType":3,"content":"\n    "}]},{"name":"#text","nodeType":3,"content":"\n  \n"}]}]};
 
 drawHtmlTree(node6, 'div.domtree', 690, 500);
 </script>
 
+<<<<<<< HEAD
 在这里我们看到一个新的树节点类型 —— *comment node*，标记为 `#comment`。
 
 我们可能会想 —— 为什么要将注释添加到 DOM 中？它不会以任何方式影响视觉表示。但是有一条规则 —— 如果 HTML 中有东西，那么它也必须在 DOM 树中。
+=======
+We can see here a new tree node type -- *comment node*, labeled as `#comment`, between two text nodes.
+
+We may think -- why is a comment added to the DOM? It doesn't affect the visual representation in any way. But there's a rule -- if something's in HTML, then it also must be in the DOM tree.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 **HTML 中的所有内容甚至注释都成为 DOM 的一部分。**
 
@@ -186,34 +278,53 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 有 [12 种节点类型](https://dom.spec.whatwg.org/#node)。实际上，我们通常用到的是其中的 4 个：
 
+<<<<<<< HEAD
 1. `document`—— DOM 中的“入口点”。
 2. 元素节点 —— HTML 标签，树构建块。
 3. 文本节点 —— 包含文本。
 4. 注释 —— 有时我们可以将内容放入其中，它不会显示，但 JS 可以从 DOM 中读取它。
+=======
+1. `document` -- the "entry point" into DOM.
+2. element nodes -- HTML-tags, the tree building blocks.
+3. text nodes -- contain text.
+4. comments -- sometimes we can put information there, it won't be shown, but JS can read it from the DOM.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ## 自行查看
 
+<<<<<<< HEAD
 要实时查看 DOM 结构，请尝试 [Live DOM Viewer](http://software.hixie.ch/utilities/js/live-dom-viewer/)。只需输入文档，它就会立即显示 DOM。
 
 ## 在浏览器中检查
+=======
+To see the DOM structure in real-time, try [Live DOM Viewer](http://software.hixie.ch/utilities/js/live-dom-viewer/). Just type in the document, and it will show up as a DOM at an instant.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 研究 DOM 的另一种方式是使用浏览器开发工具。事实上，这正是我们开发时所使用的工具。
 
+<<<<<<< HEAD
 请打开网页 [elks.html](elks.html)，打开浏览器开发工具并切换到元素选项卡。
+=======
+To do so, open the web page [elk.html](elk.html), turn on the browser developer tools and switch to the Elements tab.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 它是这样的：
 
-![](elks.png)
+![](elk.svg)
 
 你可以看到 DOM，点击元素，查看其中的细节等等。
 
 请注意，开发者工具中的 DOM 结构已经过简化。文本节点仅以文本形式显。根本没有“空白”（只有空格）的文本节点。这其实很好，因为大部分时间我们都对元素节点感兴趣。
 
+<<<<<<< HEAD
 点击左上角的 <span class="devtools" style="background-position:-328px -124px"></span> 按钮可以使用鼠标（或其他指针设备）从网页中选择一个节点并“检查”它（在“元素”选项卡中滚动到该节点）。当我们有一个巨大的 HTML 页面（和相应的巨大 DOM），并希望看到其中的一个特定元素的位置时，这很有用。
+=======
+Clicking the <span class="devtools" style="background-position:-328px -124px"></span> button in the left-upper corner allows us to choose a node from the webpage using a mouse (or other pointer devices) and "inspect" it (scroll to it in the Elements tab). This works great when we have a huge HTML page (and corresponding huge DOM) and would like to see the place of a particular element in it.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 另一种方法是在网页上右键单击并在上下文菜单中选择“检查”。
 
-![](inspect.png)
+![](inspect.svg)
 
 在工具的右侧部分有以下子表单：
 - **Styles** —— 我们可以看到应用于当前元素的 CSS 中的一条条规则，包括内置规则（灰色）。几乎所有东西都可以在原地进行编辑，包括下面框中的尺寸/边距/填充。
@@ -225,22 +336,39 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 ## 与控制台交互
 
+<<<<<<< HEAD
 在我们研究 DOM 时，我们也可能想要使用 JavaScript。就比如：获取一个节点并运行一些代码来修改它，看看它长什么样。这里有一些在元素选项卡和控制台之间传输数据的提示。
 
 - 在元素标签中选择第一个 `<li>`。
 - 按下 `key:Esc` —— 它将在元素标签下方打开控制台。
+=======
+As we work the DOM, we also may want to apply JavaScript to it. Like: get a node and run some code to modify it, to see the result. Here are few tips to travel between the Elements tab and the console.
+
+For the start:
+
+1. Select the first `<li>` in the Elements tab.
+2. Press `key:Esc` -- it will open console right below the Elements tab.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 现在最后选中的元素可以用 `$0` 来进行操作，以前选择的是 `$1`，如此等等。
 
 我们可以在它们之上运行命令。例如，`$0.style.background = 'red'` 使选定的列表项变成红色，如下所示：
 
-![](domconsole0.png)
+![](domconsole0.svg)
 
+That's how to get a node from Elements in Console.
+
+<<<<<<< HEAD
 另一方面，如果我们处在控制台中，并且有一个引用 DOM 节点的变量，那么我们可以使用命令 `inspect（node）` 在元素窗格中查看它。
 
 或者我们可以在控制台中输出它并“就地”测试它，如下面的 `document.body`：
+=======
+There's also a road back. If there's a variable referencing a DOM node, then we can use the command `inspect(node)` in Console to see it in the Elements pane.
 
-![](domconsole1.png)
+Or we can just output the DOM node in the console and explore "in-place", like `document.body` below:
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
+
+![](domconsole1.svg)
 
 这当然是用于调试的目的。从下一章我们将使用 JavaScript 访问和修改 DOM。
 
@@ -258,4 +386,8 @@ HTML/XML 文档在浏览器内表示为 DOM 树。
 
 在这里，我们介绍了基本知识，入门最常用和最重要的操作。在 <https://developers.google.cn/web/tools/chrome-devtools> 上有大量有关 Chrome 开发者工具的文档。学习这些工具的最佳方式是四处点击，阅读菜单：大多数选项都很明显。而后，当你差不多了解它们时，阅读文档并学习其余的部分。
 
+<<<<<<< HEAD
 DOM 节点具有在它们之间传递数据，修改、移动页面等功能的属性和方法。我们将在接下来的章节中讨论他们。
+=======
+DOM nodes have properties and methods that allow us to travel between them, modify them, move around the page, and more. We'll get down to them in the next chapters.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0

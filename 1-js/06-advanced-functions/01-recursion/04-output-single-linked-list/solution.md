@@ -43,7 +43,11 @@ function printList(list) {
 }
 ```
 
+<<<<<<< HEAD
 ...但是这不够明智。未来我们可能想要扩展这个函数，使用这个链表做些事情，如果我们修改了 `list`，那么我们就失去这个能力。
+=======
+...But that would be unwise. In the future we may need to extend a function, do something else with the list. If we change `list`, then we lose such ability.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 说到好的变量命名，`list` 在这里是链表本身。它的第一个元素。它应该保持原样，这是清晰可靠的。
 

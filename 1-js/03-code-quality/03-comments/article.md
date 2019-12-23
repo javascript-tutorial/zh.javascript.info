@@ -4,7 +4,11 @@
 
 我们通常通过注释来描述代码怎样工作和为什么这样工作。
 
+<<<<<<< HEAD
 乍一看，写注释可能很简单，但初学者在编程的时候，经常错误地使用注释。
+=======
+At first sight, commenting might be obvious, but novices in programming often use them wrongly.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ## 糟糕的注释
 
@@ -18,7 +22,11 @@ complex;
 code;
 ```
 
+<<<<<<< HEAD
 但在好的代码中，这种“解释性”注释的数量应该是最少的。严格地说，就算没有它们，代码也应该很容易理解。
+=======
+But in good code, the amount of such "explanatory" comments should be minimal. Seriously, the code should be easy to understand without them.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 关于这一点有一个很棒的原则：“如果代码不够清晰以至于需要一个注释，那么或许它应该被重写。”
 
@@ -119,11 +127,19 @@ function addJuice(container) {
 
 所以，解释性注释通常来说都是不好的。那么哪一种注释才是好的呢？
 
+<<<<<<< HEAD
 描述架构
 : 对组件进行高层次的整体概括，它们如何相互作用、各种情况下的控制流程是什么样的……简而言之 —— 代码的鸟瞰图。有一个专门用于构建代码的高层次架构图，以对代码进行解释的特殊编程语言 [UML](http://wikipedia.org/wiki/Unified_Modeling_Language)。绝对值得学习。
 
 记录函数的参数和用法
 : 有一个专门用于记录函数的语法 [JSDoc](http://en.wikipedia.org/wiki/JSDoc)：用法、参数和返回值。
+=======
+Describe the architecture
+: Provide a high-level overview of components, how they interact, what's the control flow in various situations... In short -- the bird's eye view of the code. There's a special language [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) to build high-level architecture diagrams explaining the code. Definitely worth studying.
+
+Document function parameters and usage
+: There's a special syntax [JSDoc](http://en.wikipedia.org/wiki/JSDoc) to document a function: usage, parameters, returned value.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
     例如：
     ```js
@@ -162,7 +178,11 @@ function addJuice(container) {
 
 ## 总结
 
+<<<<<<< HEAD
 一个好的开发者的标志之一就是他的注释：它们的存在甚至它们的缺席（译注：在该注释的地方注释，在不需要注释的地方则不注释，甚至写得好的自描述函数本身就是一种注释）。
+=======
+An important sign of a good developer is comments: their presence and even their absence.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 好的注释可以使我们更好地维护代码，一段时间之后依然可以更高效地回到代码高效开发。
 
@@ -174,7 +194,12 @@ function addJuice(container) {
 
 **避免注释：**
 
+<<<<<<< HEAD
 - 描述“代码如何工作”和“代码做了什么”。
 - 避免在代码已经足够简单或代码有很好的自描述性而不需要注释的情况下，还写些没必要的注释。
+=======
+- That tell "how code works" and "what it does".
+- Put them in only if it's impossible to make the code so simple and self-descriptive that it doesn't require them.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 注释也被用于一些如 JSDoc3 等文档自动生成工具：他们读取注释然后生成 HTML 文档（或者其他格式的文档）。

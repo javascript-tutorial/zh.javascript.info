@@ -18,12 +18,23 @@ importance: 5
 
 [iframe src="solution" height=200 border=1]
 
+<<<<<<< HEAD
 在这个任务中，我们假设所有具有 `data-tooltip` 的元素中只有文本。没有嵌套标签。
+=======
+In this task we assume that all elements with `data-tooltip` have only text inside. No nested tags (yet).
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 详细资料：
 
+<<<<<<< HEAD
 - 提示工具不应超出窗口边缘。通常，它应该在元素的上方，但是如果元素位于页面顶部，并且没有提示工具的空间，则在其下面。
 - 提示工具由 `data-tooltip` 属性中指定。它可以是任意 HTML。
+=======
+- The distance between the element and the tooltip should be `5px`.
+- The tooltip should be centered relative to the element, if possible.
+- The tooltip should not cross window edges. Normally it should be above the element, but if the element is at the page top and there's no space for the tooltip, then below it.
+- The tooltip content is given in the `data-tooltip` attribute. It can be arbitrary HTML.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 你需要两个事件：
 - `mouseover` 当指针出现在元素上时触发。
@@ -33,4 +44,8 @@ importance: 5
 
 在实现了该行为后，即使是不熟悉 JavaScript 的人也可以添加带注释的元素。
 
+<<<<<<< HEAD
 P.S. 为了保持自然和简单：一次只能出现一个提示工具。
+=======
+P.S. Only one tooltip may show up at a time.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
