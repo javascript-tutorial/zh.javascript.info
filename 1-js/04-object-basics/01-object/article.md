@@ -694,7 +694,7 @@ alert(clone.sizes.width); // 51，在这里查看属性的值
 
 为了解决上面的的问题，我们在复制的时候应该检查 `user[key]` 的每一个值，如果是一个对象，我们再复制一遍这个对象，这叫做深拷贝。
 
-有一个标准的深拷贝算法，解决上面和一些更复杂的情况，叫做 [Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm)。为了不重复造轮子，我们使用它的一个 JS 实现的库 [lodash](https://lodash.com), 方法名叫做 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
+有一个标准的深拷贝算法，解决上面和一些更复杂的情况，叫做 [Structured cloning algorithm](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。为了不重复造轮子，我们使用它的一个 JS 实现的库 [lodash](https://lodash.com), 方法名叫做 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
 
 ## 总结
 
