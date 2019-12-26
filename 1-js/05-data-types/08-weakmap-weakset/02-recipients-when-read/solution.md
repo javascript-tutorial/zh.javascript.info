@@ -1,7 +1,7 @@
 
 我们使用 `WeakMap` 保存日期：
 
-```js
+```js run
 let messages = [
     {text: "Hello", from: "John"},
     {text: "How goes?", from: "John"},
