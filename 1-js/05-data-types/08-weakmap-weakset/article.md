@@ -1,4 +1,5 @@
-# WeakMap and WeakSet
+# WeakMap and WeakSet（弱映射和弱集合）
+
 我们从前面的[垃圾回收](<info:garbage-collection>)章节中知道，JavaScript 引擎在内存充足的情况下（或者可能被使用完）存储一个值
 
 例如:
