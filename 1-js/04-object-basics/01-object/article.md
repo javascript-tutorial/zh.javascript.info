@@ -108,13 +108,13 @@ user.likes birds = true
 ```js run
 let user = {};
 
-// set
+// 设置
 user["likes birds"] = true;
 
-// get
+// 读取
 alert(user["likes birds"]); // true
 
-// delete
+// 删除
 delete user["likes birds"];
 ```
 
@@ -129,7 +129,7 @@ let key = "likes birds";
 user[key] = true;
 ```
 
-在这里，变量 `key` 根据用户的输入在运行的时候计算，我们根据它来获取属性。这给了我们很大的灵活性，点属性就用不了了。
+在这里，变量 `key` 可以是程序运行时计算得到的，也可以是根据用户的输入得到的。然后我们可以用它来访问属性。这给了我们很大的灵活性。
 
 例如：
 
@@ -141,8 +141,20 @@ let user = {
 
 let key = prompt("What do you want to know about the user?", "name");
 
-// 获取变量
-alert( user[key] ); // John (如果输入 "name" )
+// 访问变量
+alert( user[key] ); // John（如果输入 "name"）
+```
+
+点符号不能以类似的方式使用：
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+let key = "name";
+alert( user.key ) // undefined
 ```
 
 ### 计算属性
