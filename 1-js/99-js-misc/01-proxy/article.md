@@ -10,8 +10,8 @@ Proxy 用于许多库和某些浏览器框架。在本章中，我们将看到�
 let proxy = new Proxy(target, handler)
 ```
 
-- `target` -- 是要包装的对象，可以是任何东西，包括函数。
-- `handler` -- 代理配置：带有“陷阱”（'traps'，即拦截操作的方法）的对象。比如 `get`陷阱用于读取 `target` 属性，`set`陷阱写入`target` 属性等等。
+- `target` —— 是要包装的对象，可以是任何东西，包括函数。
+- `handler` —— 代理配置：带有“陷阱”（“traps”，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 属性，`set` 陷阱写入 `target` 属性等等。
 
 对 `proxy` 进行操作，如果在 `handler` 中存在相应的陷阱，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
@@ -19,14 +19,14 @@ let proxy = new Proxy(target, handler)
 
 ```js run
 let target = {};
-let proxy = new Proxy(target, {}); // empty handler
+let proxy = new Proxy(target, {}); // 空的handler对象
 
-proxy.test = 5; // writing to proxy (1)
-alert(target.test); // 5, the property appeared in target!
+proxy.test = 5; // 写入 Proxy 对象 (1)
+alert(target.test); // 返回 5，test属性出现在了 target 上！
 
-alert(proxy.test); // 5, we can read it from proxy too (2)
+alert(proxy.test); // 还是 5，我们也可以从 proxy 对象读取它 (2)
 
-for(let key in proxy) alert(key); // test, iteration works (3)
+for(let key in proxy) alert(key); // 返回 test，迭代也正常工作！ (3)
 ```
 
 由于没有陷阱，所有对 `proxy` 的操作都直接转发给 `target`。
@@ -39,13 +39,13 @@ for(let key in proxy) alert(key); // test, iteration works (3)
 
 ![](proxy.svg)  
 
-`Proxy` 是一种特殊的 "exotic object"。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
+`Proxy` 是一种特殊的“奇异对象”。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
 
 要激活更多功能，让我们添加陷阱。
 
 我们可以用它们拦截什么？
 
-对于对象的大多数操作，JavaScript 规范中都有一个所谓的“内部方法”，它描述了最低级别的工作方式。 例如 `[[Get]]`，用于读取属性的内部方法， `[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接按名称调用它们。
+对于对象的大多数操作，JavaScript 规范中都有一个所谓的“内部方法”，它描述了最底层的工作方式。 例如 `[[Get]]`，用于读取属性的内部方法， `[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接通过方法名调用它们。
 
 Proxy 陷阱会拦截这些方法的调用。它们在[代理规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)和下表中列出。
 
@@ -80,7 +80,7 @@ JavaScript 强制执行某些不变式————当必须由内部方法和陷
 
 陷阱可以拦截这些操作，但是必须遵循这些规则。
 
-不变量确保语言功能的正确和一致的行为。完整的不变量列表在[规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots). 如果您不做奇怪的事情，就不会违反它们。
+不变量确保语言功能的正确和一致的行为。完整的不变量列表在[规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)。如果您不做奇怪的事情，就不会违反它们。
 ```
 
 让我们看看实际示例中的工作原理。
@@ -93,9 +93,9 @@ JavaScript 强制执行某些不变式————当必须由内部方法和陷
 
 读取属性时触发该方法，参数如下：
 
-- `target` -- 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
-- `property` -- 目标属性名,
-- `receiver` -- 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从代理继承，则是从该代理继承的对象）。现在我们不需要此参数，因此稍后将对其进行详细说明。
+- `target` —— 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
+- `property` —— 目标属性名,
+- `receiver` —— 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从代理继承，则是从该代理继承的对象）。现在我们不需要此参数，因此稍后将对其进行详细说明。
 
 让我们用 `get` 实现对象的默认值。
 
@@ -111,14 +111,14 @@ numbers = new Proxy(numbers, {
     if (prop in target) {
       return target[prop];
     } else {
-      return 0; // default value
+      return 0; // 默认值
     }
   }
 });
 
 *!*
 alert( numbers[1] ); // 1
-alert( numbers[123] ); // 0 (no such item)
+alert( numbers[123] ); // 0 (没有这样的元素)
 */!*
 ```
 
@@ -138,7 +138,7 @@ alert( dictionary['Hello'] ); // Hola
 alert( dictionary['Welcome'] ); // undefined
 ```
 
-现在，如果没有短语，从 `dictionary` 读取将返回 `undefined`。但实际上，返回一个未翻译短语通常比 `undefined` 要好。因此，让我们在这种情况下返回一个未翻译的词组，而不是 `undefined`。
+现在，如果没有短语，从 `dictionary` 读取将返回 `undefined`。但实际上，返回一个未翻译短语通常比 `undefined` 要好。因此，让我们在这种情况下返回一个未翻译的短语，而不是 `undefined`。
 
 为此，我们将包装 `dictionary` 进一个拦截读取操作的代理：
 
@@ -150,22 +150,22 @@ let dictionary = {
 
 dictionary = new Proxy(dictionary, {
 *!*
-  get(target, phrase) { // intercept reading a property from dictionary
+  get(target, phrase) { // 拦截读取属性操作
 */!*
-    if (phrase in target) { // if we have it in the dictionary
-      return target[phrase]; // return the translation
+    if (phrase in target) { //如果字典包含该短语
+      return target[phrase]; // 返回译文
     } else {
-      // otherwise, return the non-translated phrase
+      // 否则返回未翻译的短语
       return phrase;
     }
   }
 });
 
-// Look up arbitrary phrases in the dictionary!
-// At worst, they're not translated.
+// 在字典中查找任意短语！
+// 最坏的情况也只是它们没有被翻译。
 alert( dictionary['Hello'] ); // Hola
 *!*
-alert( dictionary['Welcome to Proxy']); // Welcome to Proxy (no translation)
+alert( dictionary['Welcome to Proxy']); // Welcome to Proxy
 */!*
 ```
 
@@ -176,7 +176,7 @@ alert( dictionary['Welcome to Proxy']); // Welcome to Proxy (no translation)
 dictionary = new Proxy(dictionary, ...);
 ```
 
-代理应该在任何地方完全替换目标对象。目标对象被代理后，再也没有人可以引用它。否则很容易搞砸。
+代理应该在所有地方都完全替代了目标对象。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
 ````
 
 ## 使用 "set" 陷阱进行验证
@@ -187,10 +187,10 @@ dictionary = new Proxy(dictionary, ...);
 
 `set(target, property, value, receiver)`:
 
-- `target` -- 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
-- `property` -- 目标属性名称，
-- `value` -- 目标属性要设置的值，
-- `receiver` -- 与 `get` 陷阱类似，仅与 setter 访问器相关。
+- `target` —— 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
+- `property` —— 目标属性名称，
+- `value` —— 目标属性要设置的值，
+- `receiver` —— 与 `get` 陷阱类似，仅与 setter 访问器相关。
 
 如果写入操作成功，`set` 陷阱应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
 
@@ -201,7 +201,7 @@ let numbers = [];
 
 numbers = new Proxy(numbers, { // (*)
 *!*
-  set(target, prop, val) { // to intercept property writing
+  set(target, prop, val) { // 拦截写入操作
 */!*
     if (typeof val == 'number') {
       target[prop] = val;
@@ -212,18 +212,18 @@ numbers = new Proxy(numbers, { // (*)
   }
 });
 
-numbers.push(1); // added successfully
-numbers.push(2); // added successfully
+numbers.push(1); // 添加成功
+numbers.push(2); // 添加成功
 alert("Length is: " + numbers.length); // 2
 
 *!*
-numbers.push("test"); // TypeError ('set' on proxy returned false)
+numbers.push("test"); // TypeError （proxy 的 `set` 操作返回 false）
 */!*
 
 alert("This line is never reached (error in the line above)");
 ```
 
-请注意：Array 的内建方法依然生效！ 值使用 `push` 方法添加入数组。添加值时，`length`属性会自动增加。我们的代理对象 Proxy 不会破坏任何东西。
+请注意：Array 的内建方法依然生效！ 值使用 `push` 方法添加入数组。添加值时，`length` 属性会自动增加。我们的代理对象 Proxy 不会破坏任何东西。
 
 我们不必重写诸如 `push` 和 `unshift` 等添加元素的数组方法，就可以在其中添加检查，因为在内部它们使用代理所拦截的 `[[Set]]` 操作。
 
@@ -266,10 +266,10 @@ user = new Proxy(user, {
   }
 });
 
-// "ownKeys" filters out _password
-for(let key in user) alert(key); // name, then: age
+// "ownKeys" 过滤掉 _password
+for(let key in user) alert(key); // name，然后是 age
 
-// same effect on these methods:
+// 对这些方法同样有效：
 alert( Object.keys(user) ); // name,age
 alert( Object.values(user) ); // John,30
 ```
@@ -292,7 +292,7 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // <empty>
 ```
 
-为什么？原因很简单：`Object.keys`仅返回带有 `enumerable` 标记的属性。为了检查它， 该方法会对每个属性调用 `[[GetOwnProperty]]` 来获得[属性描述符](info:property-descriptors)。在这里，由于没有属性，其描述符为空，没有 `enumerable` 标记，因此它将略过。
+为什么？原因很简单：`Object.keys` 仅返回带有 `enumerable` 标记的属性。为了检查它， 该方法会对每个属性调用 `[[GetOwnProperty]]` 来获得[属性描述符](info:property-descriptors)。在这里，由于没有属性，其描述符为空，没有 `enumerable` 标记，因此它将略过。
 
 为了让 `Object.keys` 返回一个属性，我们要么需要将该属性及 `enumerable` 标记存入对象，或者我们可以拦截对它的调用 `[[GetOwnProperty]]` (陷阱 `getOwnPropertyDescriptor` 会执行此操作)，并返回描述符enumerable: true。
 
@@ -302,15 +302,15 @@ alert( Object.keys(user) ); // <empty>
 let user = { };
 
 user = new Proxy(user, {
-  ownKeys(target) { // called once to get a list of properties
+  ownKeys(target) { // 一旦被调用，就返回一个属性列表
     return ['a', 'b', 'c'];
   },
 
-  getOwnPropertyDescriptor(target, prop) { // called for every property
+  getOwnPropertyDescriptor(target, prop) { // 被每个属性调用
     return {
       enumerable: true,
       configurable: true
-      /* ...other flags, probable "value:..." */
+      /* 其他属性，类似于 "value:..." */
     };
   }
 
@@ -323,7 +323,7 @@ alert( Object.keys(user) ); // a, b, c
 
 ## 具有 "deleteProperty" 和其他陷阱的受保护属性
 
-有一个普遍的约定，即下划线 `_` 前缀的属性和方法_是内部的。不应从对象外部访问它们。
+有一个普遍的约定，即下划线 `_` 前缀的属性和方法是内部的。不应从对象外部访问它们。
 
 从技术上讲，这是可能的：
 
@@ -363,7 +363,7 @@ user = new Proxy(user, {
     return (typeof value === 'function') ? value.bind(target) : value; // (*)
   },
 *!*
-  set(target, prop, val) { // to intercept property writing
+  set(target, prop, val) { // 拦截写入操作
 */!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -373,7 +373,7 @@ user = new Proxy(user, {
     }
   },
 *!*
-  deleteProperty(target, prop) { // to intercept property deletion
+  deleteProperty(target, prop) { // 拦截属性删除
 */!*  
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -383,28 +383,28 @@ user = new Proxy(user, {
     }
   },
 *!*
-  ownKeys(target) { // to intercept property list
+  ownKeys(target) { // 拦截读取属性列表
 */!*
     return Object.keys(target).filter(key => !key.startsWith('_'));
   }
 });
 
-// "get" doesn't allow to read _password
+// “get” 不允许读取 _password
 try {
   alert(user._password); // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "set" doesn't allow to write _password
+//  “set” 不允许写入 _password
 try {
   user._password = "test"; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "deleteProperty" doesn't allow to delete _password
+// “deleteProperty” 不允许删除 _password 属性
 try {
   delete user._password; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "ownKeys" filters out _password
+// “ownKeys” 过滤排除 _password
 for(let key in user) alert(key); // name
 ```
 
@@ -428,14 +428,14 @@ get(target, prop) {
 user = {
   // ...
   checkPassword(value) {
-    // object method must be able to read _password
+    //对象方法必须能读取 _password
     return value === this._password;
   }
 }
 ```
 
 
-对 `user.checkPassword()` 的一个调用会调用代理对象 `user` 作为 `this`（点运算符之前的对象会成为 `this`），，因此，当它尝试访问 `this._password` 时 `get` 陷阱将激活（它在读取任何属性时触发）并抛出错误。
+对 `user.checkPassword()` 的一个调用会调用代理对象 `user` 作为 `this`（点运算符之前的对象会成为 `this`），因此，当它尝试访问 `this._password` 时 `get` 陷阱将激活（它在读取任何属性时触发）并抛出错误。
 
 因此，我们在行 `(*)` 中将对象方法的上下文绑定到原始对象，`target`。然后，它们将来的调用将使用 `target` 作为 `this`，不触发任何陷阱。
 
@@ -470,8 +470,8 @@ let range = {
 
 `has(target, property)`
 
-- `target` -- 是目标对象，作为第一个参数传递给 `new Proxy`
-- `property` -- 属性名称
+- `target` —— 是目标对象，作为第一个参数传递给 `new Proxy`
+- `property` —— 属性名称
 
 示例如下
 
@@ -515,7 +515,7 @@ alert(50 in range); // false
 
 ```js run
 function delay(f, ms) {
-  // return a wrapper that passes the call to f after the timeout
+  // 返回一个超时后调用 f 函数的包装器
   return function() { // (*)
     setTimeout(() => f.apply(this, arguments), ms);
   };
@@ -525,10 +525,10 @@ function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-// after this wrapping, calls to sayHi will be delayed for 3 seconds
+// 这次包装后，sayHi 在3秒后被调用
 sayHi = delay(sayHi, 3000);
 
-sayHi("John"); // Hello, John! (after 3 seconds)
+sayHi("John"); // Hello, John! （3秒后）
 ```
 
 正如我们已经看到的那样，大多数情况下都是可行的。包装函数 `(*)` 在超时后执行调用。
@@ -547,13 +547,13 @@ function sayHi(user) {
 }
 
 *!*
-alert(sayHi.length); // 1 (function length is the arguments count in its declaration)
+alert(sayHi.length); // 1 （函数的 length 是其声明中的参数个数）
 */!*
 
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 0 (in the wrapper declaration, there are zero arguments)
+alert(sayHi.length); // 0 （在包装器声明中，参数个数为0)
 */!*
 ```
 
@@ -577,10 +577,10 @@ function sayHi(user) {
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 1 (*) proxy forwards "get length" operation to the target
+alert(sayHi.length); // 1 (*) proxy 转发“获取 length” 操作到目标对象
 */!*
 
-sayHi("John"); // Hello, John! (after 3 seconds)
+sayHi("John"); // Hello, John! （3秒后）
 ```
 
 结果是相同的，但现在不仅调用，而且代理上的所有操作都转发到原始函数。所以sayHi.length在 `(*)` 行包装后正确返回结果(*)。
@@ -712,7 +712,7 @@ let admin = {
 };
 
 // Expected: Admin
-alert(admin.name); // outputs: Guest (?!?)
+alert(admin.name); // 输出：Guest （？！？）
 */!*
 ```
 
@@ -726,7 +726,7 @@ alert(admin.name); // outputs: Guest (?!?)
 
 1. 当我们读取 `admin.name`，由于 `admin` 对象没有自己的属性，搜索将转到其原型。
 2. 原型是 `userProxy`。
-3. 从代理读取 `name` 属性时， `get` 陷阱会触发并从原始对象返回 `target[prop]` 属性，在 `(*)` 行
+3. 从代理读取 `name` 属性时，`get` 陷阱会触发并从原始对象返回 `target[prop]` 属性，在 `(*)` 行
 
     当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` context中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name` 即来自 `user`。
 
@@ -951,13 +951,13 @@ let object = {
 
 let {proxy, revoke} = Proxy.revocable(object, {});
 
-// pass the proxy somewhere instead of object...
+// proxy 正常工作
 alert(proxy.data); // Valuable data
 
-// later in our code
+// 之后某处调用
 revoke();
 
-// the proxy isn't working any more (revoked)
+// proxy 不再工作（已吊销）
 alert(proxy.data); // Error
 ```
 
@@ -982,7 +982,7 @@ revokes.set(proxy, revoke);
 revoke = revokes.get(proxy);
 revoke();
 
-alert(proxy.data); // Error (revoked)
+alert(proxy.data); // Error（已吊销）
 ```
 
 这种方法的好处是我们不必随身携带revoke。我们可以在需要时从 map `proxy` 上获取它。
