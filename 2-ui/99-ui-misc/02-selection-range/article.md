@@ -96,7 +96,7 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 ```
 
 - `range.setStart(p, 0)` － 将起始位置设为 `<p>` 的第 0 个子节点（即文本节点 `"Example: "`）。
-- `range.setEnd(p, 2)` － 覆盖范围至（但不包括）`<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，因此最后选择的节点是 `<i>`）。
+- `range.setEnd(p, 2)` － 覆盖范围至（但不包括）`<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，最后选择的节点是 `<i>`）。
 
 下面的测试更加灵活，您可以在其中尝试更多不同的情况：
 
@@ -189,7 +189,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 其他：
 - `selectNode(node)` 设置范围以选择整个 `node`
 - `selectNodeContents(node)` 设置范围以选择整个 `node` 的内容
-- `collapse(toStart)` 如果 `toStart=true` 则设置 end=start，否则设置 start=end，从而重合范围
+- `collapse(toStart)` 如果 `toStart=true` 则设置 end=start，否则设置 start=end，从而折叠范围
 - `cloneRange()` 创建一个具有相同起始/结束的新范围
 
 如要操作范围内的内容：
@@ -198,7 +198,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 - `extractContents()` － 从文档中删除范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
 - `cloneContents()` － 复制范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
 - `insertNode(node)` － 在范围的起始处向文档中插入 `node`
-- `surroundContents(node)` － 将 `node` 包在范围内容中。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 `<i>abc` 这样的部分范围。
+- `surroundContents(node)` － 以 `node` 包裹所选范围内容。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 `<i>abc` 这样的部分范围。
 
 使用这些方法，我们基本上可以对选定的节点执行任何操作。
 
@@ -287,7 +287,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 - `focusNode` － 选区的结束节点，
 - `focusOffset` － 选区开始处 `focusNode` 的偏移量，
 - `isCollapsed` － 如果未选择任何内容（空范围）或不存在，则为 `true` 。
-- `rangeCount` － 选区中的范围数，除 Firefox 外，其他浏览器最多 为 `1`。
+- `rangeCount` － 选区中的范围数，除 Firefox 外，其他浏览器最多为 `1`。
 
 ````smart header="在文档中，选区的终点可能在起点之前"
 有很多选择内容的方法，视用户操作而定：鼠标、热键、手机上点击等。
@@ -380,8 +380,8 @@ As text: <span id="astext"></span>
 
 - `collapse(node, offset)` － 用一个新的范围替换选定的范围，该新范围从给定的 `node` 处开始，到偏移 `offset` 处结束。
 - `setPosition(node, offset)` － `collapse` 的别名。
-- `collapseToStart()` － 重合（以空范围替换）到选区起点，
-- `collapseToEnd()` － 重合到选区终点，
+- `collapseToStart()` － 折叠（以空范围替换）到选区起点，
+- `collapseToEnd()` － 折叠到选区终点，
 - `extend(node, offset)` － 将选区的焦点移到给定的 `node`，位置偏移 `oofset`，
 - `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` － 用给定的起点 `anchorNode/anchorOffset` 和 终点 `focusNode/focusOffset` 来替换选区范围。选中它们之间的所有内容。
 - `selectAllChildren(node)` － 选择 `node` 的所有子节点。
@@ -444,8 +444,8 @@ As text: <span id="astext"></span>
     最后一个参数 `selectionMode` 决定替换文本后如何设置选区。可能的值为：
 
     - `"select"` － 将选择新插入的文本。
-    - `"start"` － 选区范围在插入的文本之前重合（光标将在其之前）。
-    - `"end"` － 选区范围在插入的文本之后重合（光标将在其后）。
+    - `"start"` － 选区范围在插入的文本之前折叠（光标将在其之前）。
+    - `"end"` － 选区范围在插入的文本之后折叠（光标将在其后）。
     - `"preserve"` － 尝试保留选区。这是默认值。
 
 现在，让我们看看这些方法的实际使用。
@@ -478,7 +478,7 @@ From <input id="from" disabled> – To <input id="to" disabled>
 
 我们可以更改 `selectionStart` 和 `selectionEnd`，二者设定了选区。
 
-一个重要的边界情况是 `selectionStart` 和 `selectionEnd` 彼此相等。那就正是光标位置。或者，换句话说，当未选择任何内容时，选区会在光标位置重合。
+一个重要的边界情况是 `selectionStart` 和 `selectionEnd` 彼此相等。那就正是光标位置。或者，换句话说，当未选择任何内容时，选区会在光标位置折叠。
 
 因此，通过设置 `selectionStart` 和 `selectionEnd` 为相同的值，我们可以移动光标。
 
