@@ -619,7 +619,7 @@ alert(user.name); // John
 
 尤其是，`Reflect` 允许我们使用函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行操作（`new`，`delete`，……）。这是一个有趣的功能，但是这里还有一点很重要。
 
-**对于每个可被 `Proxy` trappable的内部方法，`Reflect`都有一个对应的方法Reflect，其名称和参数与 `Proxy` 陷阱相同。**
+**对于每个可被 `Proxy` trappable的内部方法，`Reflect`都有一个对应的方法 Reflect，其名称和参数与 `Proxy` 陷阱相同。**
 
 因此，我们可以用 `Reflect` 来将操作转发到原始对象。
 
@@ -660,9 +660,9 @@ user.name = "Pete"; // shows "SET name=Pete"
 
 ### 代理一个 getter 
 
-让我们看一个示例，说明为什么`Reflect.get` 更好。我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而我们以前没有使用过它。
+让我们看一个示例，说明为什么 `Reflect.get` 更好。我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而我们以前没有使用过它。
 
-我们有一个带有一个 `_name` 属性和一个 getter的对象 `user`。
+我们有一个带有一个 `_name` 属性和一个 getter 的对象 `user`。
 
 这是一个 Proxy：
 
@@ -724,15 +724,15 @@ alert(admin.name); // 输出：Guest （？！？）
 
 问题实际上出在代理中，在 `(*)`行。
 
-1. 当我们读取 `admin.name`，由于 `admin` 对象没有自己的属性，搜索将转到其原型。
+1. 当我们读取 `admin.name`，由于 `admin` 对象自身没有对应的的属性，搜索将转到其原型。
 2. 原型是 `userProxy`。
 3. 从代理读取 `name` 属性时，`get` 陷阱会触发并从原始对象返回 `target[prop]` 属性，在 `(*)` 行
 
-    当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` context中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name` 即来自 `user`。
+    当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` 上下文中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name` 即来自 `user`。
 
 为了解决这种情况，我们需要 `get` 陷阱的第三个参数 `receiver`。它保证传递正确的 `this` 给 getter。在我们的情况下是 `admin`。
 
-如何为 getter 传递上下文？对于常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不是"called"的，只是被访问的。
+如何为 getter 传递上下文？对于常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不是“被调用”的，只是被访问的。
 
 `Reflect.get` 可以做到的。如果我们使用它，一切都会正常运行。
 
@@ -782,7 +782,7 @@ get(target, prop, receiver) {
 
 ## Proxy 的局限
 
-代理提供了一种独特的方法，可以在最低级别更改或调整现有对象的行为。但是，它并不完美。有局限性。
+代理提供了一种独特的方法，可以在最底层更改或调整现有对象的行为。但是，它并不完美。有局限性。
 
 ### 内置对象：Internal slots
 
@@ -996,7 +996,7 @@ alert(proxy.data); // Error（已吊销）
 
 ## 总结
 
-`Proxy` 是对象的包装，将对象上的操作转发到对象，并可以选择捕获其中的一些操作。
+`Proxy` 是对象的包装，将代理上的操作转发到对象，并可以选择捕获其中的一些操作。
 
 它可以包装任何类型的对象，包括类和函数。
 
@@ -1024,7 +1024,7 @@ let proxy = new Proxy(target, {
 
 Proxy 有一些局限：
 
-- 内置对象具有“内部插槽”，无法代理访问这些对象。请参阅上面的解决方法。
+- 内置对象具有“内部插槽”，对这些对象的访问无法被代理。请参阅上面的解决方法。
 - 私有类字段也是如此，因为它们是在内部使用插槽实现的。因此，代理方法的调用必须具有目标对象 `this` 才能访问它们。
 - 对象相等性测试 `===` 不能被拦截。
 - 性能：基准测试取决于引擎，但通常使用最简单的代理访问属性所需的时间要长几倍。实际上，这仅对某些“瓶颈”对象重要。
