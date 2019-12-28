@@ -7,20 +7,20 @@
 let handlers = Symbol('handlers');
 
 function makeObservable(target) {
-  // 1. Initialize handlers store
+  // 1. 初始化 handler 存储数组
   target[handlers] = [];
 
-  // Store the handler function in array for future calls
+  // 存储 handler 函数到数组中以便于未来调用
   target.observe = function(handler) {
     this[handlers].push(handler);
   };
 
-  // 2. Create a proxy to handle changes
+  // 2. 创建代理以处理更改
   return new Proxy(target, {
     set(target, property, value, receiver) {
-      let success = Reflect.set(...arguments); // forward the operation to object
-      if (success) { // if there were no error while setting the property
-        // call all handlers
+      let success = Reflect.set(...arguments); // 转发写入操作到目标对象
+      if (success) { // 如果设置属性的时候没有报错
+        // 调用所有 handler
         target[handlers].forEach(handler => handler(property, value));
       }
       return success;
