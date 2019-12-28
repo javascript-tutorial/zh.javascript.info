@@ -6,7 +6,7 @@
 
 这可以帮助及早发现编程错误。
 
-编写一个接受 `target` 对象，并返回添加此方面功能的 proxy的 `wrap(target)` 函数。
+编写一个接受 `target` 对象，并返回添加此方面功能的 proxy 的 `wrap(target)` 函数。
 
 应满足如下结果：
 
@@ -18,7 +18,7 @@ let user = {
 function wrap(target) {
   return new Proxy(target, {
 *!*
-      /* your code */
+      /* 你的代码 */
 */!*
   });
 }
@@ -27,6 +27,6 @@ user = wrap(user);
 
 alert(user.name); // John
 *!*
-alert(user.age); // Error: Property doesn't exist
+alert(user.age); // 错误：属性不存在
 */!*
 ```
