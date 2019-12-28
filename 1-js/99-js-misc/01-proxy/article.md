@@ -784,7 +784,7 @@ get(target, prop, receiver) {
 
 代理提供了一种独特的方法，可以在最底层更改或调整现有对象的行为。但是，它并不完美。有局限性。
 
-### 内置对象：Internal slots
+### 内置对象：内置插槽（Internal slots）
 
 许多内置对象，例如 `Map`, `Set`, `Date`, `Promise` 等等都使用了所谓的 "internal slots"。
 
