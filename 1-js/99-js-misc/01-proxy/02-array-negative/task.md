@@ -8,9 +8,9 @@
 ```js
 let array = [1, 2, 3];
 
-array[-1]; // 3, the last element
-array[-2]; // 2, one step from the end
-array[-3]; // 1, two steps from the end
+array[-1]; // 3，最后一个元素
+array[-2]; // 2，从末尾开始向前移动一步
+array[-3]; // 1，从末尾开始向前移动两步
 ```
 
 换句话说，`array[-N]` 与 `array[array.length - N]` 相同。
@@ -29,5 +29,5 @@ array = new Proxy(array, {
 alert( array[-1] ); // 3
 alert( array[-2] ); // 2
 
-// Other array functionality should be kept "as is"
+// 其他数组也应该适用于这个功能
 ```
