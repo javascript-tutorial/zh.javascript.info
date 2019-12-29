@@ -1,7 +1,7 @@
 
 # Observable
 
-创建一个通过返回代理“使对象可观察” 的 `makeObservable(target)` 函数。
+创建一个通过返回代理“使对象可观察”的 `makeObservable(target)` 函数。
 
 它的工作方式如下：
 
