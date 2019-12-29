@@ -619,7 +619,7 @@ alert(user.name); // John
 
 尤其是，`Reflect` 允许我们使用函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行操作（`new`，`delete`，……）。这是一个有趣的功能，但是这里还有一点很重要。
 
-**对于每个可被 `Proxy` trappable的内部方法，`Reflect`都有一个对应的方法 Reflect，其名称和参数与 `Proxy` 陷阱相同。**
+**对于每个可被 `Proxy` 捕获的内部方法，`Reflect` 都有一个对应的方法 Reflect，其名称和参数与 `Proxy` 陷阱相同。**
 
 因此，我们可以用 `Reflect` 来将操作转发到原始对象。
 
@@ -784,9 +784,9 @@ get(target, prop, receiver) {
 
 代理提供了一种独特的方法，可以在最底层更改或调整现有对象的行为。但是，它并不完美。有局限性。
 
-### 内置对象：内置插槽（Internal slots）
+### 内置对象：内部插槽（Internal slots）
 
-许多内置对象，例如 `Map`, `Set`, `Date`, `Promise` 等等都使用了所谓的 "internal slots"。
+许多内置对象，例如 `Map`, `Set`, `Date`, `Promise` 等等都使用了所谓的 "内部插槽"。
 
 它们类似于属性，但仅限于内部使用，仅用于规范目的。例如， `Map` 将项目存储在 `[[MapData]]`中。内置方法直接访问它们，而不通过 `[[Get]]/[[Set]]` 内部方法。所以 `Proxy` 不能拦截。
 
