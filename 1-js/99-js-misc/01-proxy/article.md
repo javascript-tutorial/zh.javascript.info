@@ -501,7 +501,7 @@ alert(50 in range); // false
 
 我们也可以将代理包装在函数周围。
 
-`apply(target, thisArg, args)` 陷阱处理代理作为函数被调用：
+`apply(target, thisArg, args)` 陷阱能使代理以函数的方式被调用：
 
 - `target` 是目标对象（函数是 JavaScript 中的对象）
 - `thisArg` 是 `this` 的值
