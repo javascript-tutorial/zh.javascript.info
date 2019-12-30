@@ -96,7 +96,7 @@ let user = {
 
 通常，对象方法需要访问对象中存储的信息才能完成其工作。
 
-举个例子，`user.sayHi()` 中的代码可能需要用到 `user` 的 name 属性。
+例如，`user.sayHi()` 中的代码可能需要用到 `user` 的 name 属性。
 
 **为了访问该对象，方法中可以使用 `this` 关键字。**
 
@@ -111,6 +111,7 @@ let user = {
 
   sayHi() {
 *!*
+    // "this" 指的是“当前的对象”
     alert(this.name);
 */!*
   }
@@ -138,9 +139,9 @@ let user = {
 };
 ```
 
-但这样的代码是不可靠的。如果我们将 `user` 复制给另一个变量。例如 `admin = user`，并赋另外的值给 `user`，那么它将访问到错误的对象。
+……但这样的代码是不可靠的。如果我们决定将 `user` 复制给另一个变量，例如 `admin = user`，并赋另外的值给 `user`，那么它将访问到错误的对象。
 
-如下所示：
+下面这个示例证实了这一点：
 
 ```js run
 let user = {
@@ -157,18 +158,18 @@ let user = {
 
 
 let admin = user;
-user = null; // 覆盖让其更易懂
+user = null; // 重写让其更明显
 
-admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的变量名。错误！
+admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的 name 属性！报错！
 ```
 
-如果在 `alert` 中以 `this.name` 替换 `user.name`，那么代码就会正常运行。
+如果我们在 `alert` 中以 `this.name` 替换 `user.name`，那么代码就会正常运行。
 
-## “this” 不受限制
+## "this" 不受限制
 
-在 JavaScript 中，"this" 关键字与大多数其他编程语言中的不同。首先，它可以用于任何函数。
+在 JavaScript 中，"this" 关键字与其他大多数编程语言中的不同。JavaScript 中的 this 可以用于任何函数。
 
-这样的代码没有语法错误：
+下面这样的代码没有语法错误：
 
 ```js
 function sayHi() {
@@ -176,9 +177,9 @@ function sayHi() {
 }
 ```
 
-`this` 是在运行时求值的。它可以是任何值。
+`this` 的值是在代码运行时计算出来的，它取决于代码上下文。
 
-例如，从不同的对象中调用同一个函数可能会有不同的 "this" 值：
+例如，这里相同的函数被分配给两个不同的对象，在调用中有着不同的 "this" 值：
 
 ```js run
 let user = { name: "John" };
@@ -189,20 +190,23 @@ function sayHi() {
 }
 
 *!*
-// 在两个对象中使用的是相同的函数
+// 在两个对象中使用相同的函数
 user.f = sayHi;
 admin.f = sayHi;
 */!*
 
-// 它们调用时有不同的 this 值。
-// 函数内部的 "this" 是点之前的这个对象。
-user.f(); // John  (this == user)
-admin.f(); // Admin  (this == admin)
+// 这两个调用有不同的 this 值
+// 函数内部的 "this" 是“点符号前面”的那个对象
+user.f(); // John（this == user）
+admin.f(); // Admin（this == admin）
 
-admin['f'](); // Admin（使用点或方括号语法来访问这个方法，都没有关系。）
+admin['f'](); // Admin（使用点符号或方括号语法来访问这个方法，都没有关系。）
 ```
 
-实际上，我们可以在没有任何对象的情况下调用函数：
+这个规则很简单：如果 `obj.f()` 被调用了，则 `this` 在 `f` 函数调用期间是 `obj`。所以在上面的例子中 this 先是 `user`，之后是 `admin`。
+
+````smart header="Calling without an object: `this == undefined`"
+We can even call the function without an object at all:
 
 ```js run
 function sayHi() {
@@ -217,6 +221,7 @@ sayHi(); // undefined
 在非严格模式（没有使用 `use strict`）的情况下，`this` 将会是**全局对象**（浏览器中的 `window`，我们稍后会进行讨论）。`"use strict"` 可以修复这个历史行为。
 
 请注意，通常在没有对象的情况下使用 `this` 的函数调用是不常见的，会（导致）编程错误。如果函数中有 `this`，那么通常意味着它是在对象上下文环境中被调用的。
+````
 
 ```smart header="The consequences of unbound `this`"
 如果你来自其他的编程语言，那么你可能熟悉『绑定 `this`』的概念。在对象定义的方法中，`this` 总是指向该对象。
