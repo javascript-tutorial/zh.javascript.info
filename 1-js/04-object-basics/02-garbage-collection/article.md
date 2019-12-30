@@ -198,15 +198,15 @@ family = null;
 主要需要掌握的内容：
 
 - 垃圾回收是自动完成的，我们不能强制执行或是阻止执行。
-- 当对象是可达状态时，它在内存中是可达的。
-- 被引用与可访问（从一个根）不同：一组相互连接的对象可能整体都无法访问。
+- 当对象是可达状态时，它一定是存在于内存中的。
+- 被引用与可访问（从一个根）不同：一组相互连接的对象可能整体都不可达。
 
 现代引擎实现了垃圾回收的高级算法。
 
-有一本通用的书，叫《The Garbage Collection Handbook: The Art of Automatic Memory Management》（R. Jones 等人著）讲到了一些。
+《The Garbage Collection Handbook: The Art of Automatic Memory Management》（R. Jones 等人著）这本书涵盖了其中一些内容。
 
-如果你熟悉低级编程，关于 V8 引擎垃圾回收器的更详细信息请参阅文章 [V8 的垃圾回收：垃圾回收](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)。
+如果你熟悉底层（low-level）编程，关于 V8 引擎垃圾回收器的更详细信息请参阅文章 [V8 之旅：垃圾回收](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)。
 
-[V8 博客](http://v8project.blogspot.com/)还不时发布关于内存管理变化的文章。当然，为了学习垃圾收集，你最好通过学习 V8 引擎内部知识来进行准备，并阅读一个叫 [Vyacheslav Egorov](http://mrale.ph) 的 V8 引擎工程师的博客。我之所以说『V8』，因为它最容易在互联网上找到文章。对于其他引擎，许多方法是相似的，但在垃圾收集上许多方面有所不同。
+[V8 博客](http://v8project.blogspot.com/)还不时发布关于内存管理变化的文章。当然，为了学习垃圾收集，你最好通过学习 V8 引擎内部知识来进行准备，并阅读一个名为 [Vyacheslav Egorov](http://mrale.ph) 的 V8 引擎工程师的博客。我之所以说 “V8”，因为网上关于它的文章最丰富的。对于其他引擎，许多方法是相似的，但在垃圾收集上许多方面有所不同。
 
-当你需要低级别的优化时，对引擎的深入了解是很好的。在熟悉了该语言之后，把熟悉引擎作为下一步是明智的。
+当你需要底层的优化时，对引擎有深入了解将很有帮助。在熟悉了这门编程语言之后，把熟悉引擎作为下一步计划是明智之选。
