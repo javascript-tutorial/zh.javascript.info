@@ -4,7 +4,11 @@ importance: 5
 
 # 不可变对象
 
+<<<<<<< HEAD
 有可能改变 `const` 修饰的对象吗, 你怎么看呢？
+=======
+Is it possible to change an object declared with `const`? What do you think?
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117
 
 ```js
 const user = {
