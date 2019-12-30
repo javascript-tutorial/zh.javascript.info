@@ -16,14 +16,14 @@
 let id = Symbol();
 ```
 
-我们可以给 Symbol 一个描述（也称为 Symbol 名），这对于调试非常有用：
+创建时，我们可以给 Symbol 一个描述（也称为 Symbol 名），这在代码调试时非常有用：
 
 ```js
 // id 是描述为 "id" 的 Symbol
 let id = Symbol("id");
 ```
 
-Symbol 保证是唯一的。即使我们创建了许多具有相同描述的 Symbol，它们的值也是不同。描述只是一个不影响任何东西的标签。
+Symbol 保证是唯一的。即使我们创建了许多具有相同描述的 Symbol，它们的值也是不同。描述只是一个标签，不影响任何东西。
 
 例如，这里有两个描述相同的 Symbol —— 它们不相等：
 
@@ -36,12 +36,12 @@ alert(id1 == id2); // false
 */!*
 ```
 
-如果您熟悉 Ruby 或者其他有 "Symbol" 的语言 —— 别被误导。JavaScript 的 Symbol 与众不同。
+如果你熟悉 Ruby 或者其他有 "Symbol" 的语言 —— 别被误导。JavaScript 的 Symbol 是不同的。
 
-````warn header="Symbols don't auto-convert to a string"
-JavaScript 中的大多数值都支持 string 的隐式转换。例如，我们可以 `alert` 任何值，这会起作用。Symbol 是特别的，它无法自动转换。
+````warn header="Symbol 不会被自动转换为字符串"
+JavaScript 中的大多数值都支持 string 的隐式转换。例如，我们可以 `alert` 任何值，都可以生效。Symbol 比较特殊，它不会被自动转换。
 
-例如，这个 `alert` 将会显示错误：
+例如，这个 `alert` 将会提示出错：
 
 ```js run
 let id = Symbol("id");
@@ -50,38 +50,57 @@ alert(id); // 类型错误：无法将 Symbol 值转换为 String。
 */!*
 ```
 
+这是一种防止混乱的“语言保护”，因为 String 和 Symbol 有本质上的不同，不应该意外地将它们转换成另一个。
+
 如果我们真的想显示一个 Symbol，我们需要在它上面调用 `.toString()`，如下所示：
 ```js run
 let id = Symbol("id");
 *!*
-alert(id.toString()); // Symbol(id)，现在它起作用了
+alert(id.toString()); // Symbol(id)，现在它有效了
 */!*
 ```
 
-这是一种防止混乱的“语言保护”，因为 String 和 Symbol 有本质上的不同，而且不应该偶尔将它们相互转化。
+或者获取 `symbol.description` 属性，只显示描述（description）：
+```js run
+let id = Symbol("id");
+*!*
+alert(id.description); // id
+*/!*
+```
+
 ````
 
 ## “隐藏”属性
 
-Symbol 允许我们创建对象的“隐藏”属性，代码的任何其他部分都不能偶尔访问或重写这些属性。
+Symbol 允许我们创建对象的“隐藏”属性，代码的任何其他部分都不能意外访问或重写这些属性。
 
-例如，如果我们想存储 object `user` 的“标识符”，我们可以使用 Symbol 作为它的键：
+例如，如果我们使用的是属于第三方代码的 `user` 对象，我们想要给它们添加一些标识符。
+
+我们可以给它们使用 Symbol 键：
 
 ```js run
-let user = { name: "John" };
+let user = { // 属于另一个代码
+  name: "John"
+};
+
 let id = Symbol("id");
 
-user[id] = "ID Value";
-alert( user[id] ); // 我们可以使用 Symbol 作为键来访问数据。
+user[id] = 1;
+
+alert( user[id] ); // 我们可以使用 Symbol 作为键来访问数据
 ```
 
 在 string `"id"` 上使用 `Symbol("id")` 有什么好处？ 
+
+因为 `user` 属于另一个代码，另一个代码也使用它执行一些操作，所以我们不应该在它上面加任何字段，这样很不安全。但是 Symbol 不会被意外访问到，所以第三方代码看不到它，所以也许可以使用它进行一些操作。
+
+另外，假设另一个脚本希望在 `user` 中有自己的标识符，以实现自己的目的。这可能是另一个 JavaScript 库，因此脚本之间完全不了解彼此。
 
 我们用更深入一点的示例来说明这一点。
 
 假设另一个脚本希望 `user` 中有它自己的 "id" 属性可以操作。这可能是另一个 JavaScript 库，所以这些脚本完全不知道对方是谁。
 
-然后该脚本可以创建自己的 `Symbol("id")`，如下所示：
+然后该脚本可以创建自己的 `Symbol("id")`，像这样：
 
 ```js
 // ...
@@ -90,25 +109,25 @@ let id = Symbol("id");
 user[id] = "Their id value";
 ```
 
-不会冲突，因为 Symbol 总是不同的，即使它们有相同的名称。
+我们的标识符和他们的标识符之间不会有冲突，因为 Symbol 总是不同的，即使它们有相同的名称。
 
-现在请注意，如果我们使用 String `"id"` 而不是用 symbol，那么**就会**出现冲突：
+……但如果我们处于同样的目的，使用字符串 `"id"` 而不是用 symbol，那么 **就会** 出现冲突：
 
 ```js run
 let user = { name: "John" };
 
-//我们的脚本使用 "id" 属性。
-user.id = "ID Value";
+// 我们的脚本使用了 "id" 属性。
+user.id = "Our id value";
 
-// ...如果之后另一个脚本为其目的使用 "id"...
+// ……另一个脚本也想将 "id" 用于它的目的……     
 
 user.id = "Their id value"
-// 砰！无意中重写了 id！他不是故意伤害同事的，而是这样做了！
+// 砰！无意中被另一个脚本重写了 id！他不是故意伤害同事的，而是这样做了！
 ```
 
 ### 字面量中的 Symbol
 
-如果我们要在 object 字面量中使用 Symbol，则需要方括号。
+如果我们要在对象字面量 `{...}` 中使用 Symbol，则需要使用方括号把它括起来。
 
 就像这样：
 
@@ -118,13 +137,13 @@ let id = Symbol("id");
 let user = {
   name: "John",
 *!*
-  [id]: 123 // 不仅仅是 "id：123"
+  [id]: 123 // 而不是 "id：123"
 */!*
 };
 ```
 这是因为我们需要变量 `id` 的值作为键，而不是 String "id"。
 
-### Symbol 在 for..in 中被跳过
+### Symbol 在 for..in 中会被跳过
 
 Symbolic 属性不参与 `for..in` 循环。
 
