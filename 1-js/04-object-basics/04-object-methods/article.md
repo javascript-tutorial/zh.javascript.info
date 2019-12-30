@@ -205,8 +205,8 @@ admin['f'](); // Admin（使用点符号或方括号语法来访问这个方法�
 
 这个规则很简单：如果 `obj.f()` 被调用了，则 `this` 在 `f` 函数调用期间是 `obj`。所以在上面的例子中 this 先是 `user`，之后是 `admin`。
 
-````smart header="Calling without an object: `this == undefined`"
-We can even call the function without an object at all:
+````smart header="在没有对象的情况下调用：`this == undefined`"
+我们甚至可以在没有对象的情况下调用函数：
 
 ```js run
 function sayHi() {
@@ -216,14 +216,14 @@ function sayHi() {
 sayHi(); // undefined
 ```
 
-在这种情况下，严格模式下的 `this` 值为 `undefined`。如果我们尝试访问 `this.name`，将会出现错误。
+在这种情况下，严格模式下的 `this` 值为 `undefined`。如果我们尝试访问 `this.name`，将会报错。
 
-在非严格模式（没有使用 `use strict`）的情况下，`this` 将会是**全局对象**（浏览器中的 `window`，我们稍后会进行讨论）。`"use strict"` 可以修复这个历史行为。
+在非严格模式的情况下，`this` 将会是 **全局对象**（浏览器中的 `window`，我们稍后会在 [](info:global-object) 一章中学习它）。这是一个历史行为，`"use strict"` 已经将其修复了。
 
-请注意，通常在没有对象的情况下使用 `this` 的函数调用是不常见的，会（导致）编程错误。如果函数中有 `this`，那么通常意味着它是在对象上下文环境中被调用的。
+通常这种调用是程序出错了。如果在一个函数内部有 `this`，那么通常意味着它是在对象上下文环境中被调用的。
 ````
 
-```smart header="The consequences of unbound `this`"
+```smart header="解除 `this` 绑定的后果"
 如果你来自其他的编程语言，那么你可能熟悉『绑定 `this`』的概念。在对象定义的方法中，`this` 总是指向该对象。
 
 在 JavaScript 中，`this` 是『自由』的，它的值是在调用时进行求值的，它的值并不取决于方法声明的位置，而是（取决）于在『点之前』的是什么对象。
