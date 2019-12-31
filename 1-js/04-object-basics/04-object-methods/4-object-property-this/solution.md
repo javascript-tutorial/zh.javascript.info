@@ -14,7 +14,9 @@ let user = makeUser();
 alert( user.ref.name ); // Error: Cannot read property 'name' of undefined
 ```
 
-这是因为设置的 `this` 的规则并没有找到对象字面量。
+这是因为设置 `this` 的规则不考虑对象定义。
+
+并没有找到对象字面量。
 
 这里 `makeUser()` 中的 `this` 值是 `undefined`，因为它是被作为函数调用的，而不是方法调用。
 
