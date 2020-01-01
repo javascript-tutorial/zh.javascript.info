@@ -1,6 +1,6 @@
 解决方案就是在每次调用后返回这个对象本身。
 
-```js run
+```js run demo
 let ladder = {
   step: 0,
   up() {
