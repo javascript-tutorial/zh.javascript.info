@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 创建新的 Calculator
+# 创建 new Calculator
 
 创建一个使用 3 种方法创建对象的构造函数 `Calculator`：
 
