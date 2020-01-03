@@ -42,84 +42,103 @@ Unlike strings, regular expressions have flag `pattern:u` that fixes such proble
 与字符串有所不同的是，正则表达式有一个修饰符 `pattern:u` 被用以解决此类问题。当一个正则表达式使用这个修饰符后，4 个字节长的字符将被正确地处理。同时也能够用上 Unicode 属性（Unicode property）来进行查找了。我们接下来就来了解这方面的内容。
 
 ## Unicode properties \p{...}
+## Unicode 属性（Unicode properties）\p{...}
 
 ```warn header="Not supported in Firefox and Edge"
 Despite being a part of the standard since 2018, unicode proeprties are not supported in Firefox ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1361876)) and Edge ([bug](https://github.com/Microsoft/ChakraCore/issues/2969)).
+尽管 unicode property 从 2018 年以来便作为标准的一部分, 但 unicode 属性在 Firefox ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1361876)) 和 Edge ([bug](https://github.com/Microsoft/ChakraCore/issues/2969)) 中并没有相应的支持。
 
 There's [XRegExp](http://xregexp.com) library that provides "extended" regular expressions with cross-browser support for unicode properties.
+目前 [XRegExp](http://xregexp.com) 这个库提供“扩展”的正则表达式，其中包括对 unicode property 的跨平台支持。
 ```
 
 Every character in Unicode has a lot of properties. They describe what "category" the character belongs to, contain miscellaneous information about it.
+Unicode 中的每一个字符都具有很多的属性。它们描述了一个字符属于哪个“类别”，包含了各种关于字符的信息。
 
 For instance, if a character has `Letter` property, it means that the character belongs to an alphabet (of any language). And `Number` property means that it's a digit: maybe Arabic or Chinese, and so on.
+例如，如果一个字符具有 `Letter` 属性，这意味着这个字符归属于（任意语言的）一个字母表。而 `Number` 属性则表示这是一个数字：也许是阿拉伯语，亦或者是中文，等等。
 
 We can search for characters with a property, written as `pattern:\p{…}`. To use `pattern:\p{…}`, a regular expression must have flag `pattern:u`.
+我们可以查找具有某种属性的字符，写作 `pattern:\p{…}`。为了顺利使用 `pattern:\p{…}`，一个正则表达式必须使用修饰符 `pattern:u`。
 
 For instance, `\p{Letter}` denotes a letter in any of language. We can also use `\p{L}`, as `L` is an alias of `Letter`. There are shorter aliases for almost every property.
+举个例子，`\p{Letter}` 表示任何语言中的一个字母。我们也可以使用 `\p{L}`，因为 `L` 是 `Letter` 的一个别名（alias）。对于每种属性而言，几乎都存在对应的缩写别名。
 
 In the example below three kinds of letters will be found: English, Georgean and Korean.
+在下面的例子中 3 种字母将会被查找出： 英语、格鲁吉亚语和韩语。
 
 ```js run
 let str = "A ბ ㄱ";
 
 alert( str.match(/\p{L}/gu) ); // A,ბ,ㄱ
-alert( str.match(/\p{L}/g) ); // null (no matches, as there's no flag "u")
+alert( str.match(/\p{L}/g) ); // null（没有匹配的文本，因为没有修饰符“u”）
 ```
 
 Here's the main character categories and their subcategories:
+以下是主要的字符类别和它们对应的子类别：
 
-- Letter `L`:
-  - lowercase `Ll`
-  - modifier `Lm`,
-  - titlecase `Lt`,
-  - uppercase `Lu`,
-  - other `Lo`.
-- Number `N`:
-  - decimal digit `Nd`,
-  - letter number `Nl`,
-  - other `No`.
-- Punctuation `P`:
-  - connector `Pc`,
-  - dash `Pd`,
-  - initial quote `Pi`,
-  - final quote `Pf`,
-  - open `Ps`,
-  - close `Pe`,
-  - other `Po`.
-- Mark `M` (accents etc):
-  - spacing combining `Mc`,
-  - enclosing `Me`,
-  - non-spacing `Mn`.
-- Symbol `S`:
-  - currency `Sc`,
-  - modifier `Sk`,
-  - math `Sm`,
-  - other `So`.
-- Separator `Z`:
-  - line `Zl`,
-  - paragraph `Zp`,
-  - space `Zs`.
-- Other `C`:
-  - control `Cc`,
-  - format `Cf`,
-  - not assigned `Cn`,
-  -- private use `Co`,
-  - surrogate `Cs`.
+- 字母（Letter） `L`:
+  - 小写（lowercase） `Ll`
+  - 修饰（modifier） `Lm`,
+  - 标题（titlecase） `Lt`,
+  - 大写（uppercase） `Lu`,
+  - 其它（other） `Lo`.
+- 数字（Number） `N`:
+  - 十进制数字（decimal digit） `Nd`,
+  - 字母数字（letter number） `Nl`,
+  - 其它（other） `No`.
+- 标点符号（Punctuation） `P`:
+  - 链接符（connector） `Pc`,
+  - 横杠（dash） `Pd`,
+  - 起始引用号（initial quote） `Pi`,
+  - 结束引用号（final quote） `Pf`,
+  - 开（open） `Ps`,
+  - 闭（close） `Pe`,
+  - 其它（other） `Po`.
+- 标记（Mark） `M` (accents etc):
+  - 间隔合并（spacing combining） `Mc`,
+  - 封闭（enclosing） `Me`,
+  - 非间隔（non-spacing） `Mn`.
+- 符号（Symbol） `S`:
+  - 货币（currency） `Sc`,
+  - 修饰（modifier） `Sk`,
+  - 数学（math） `Sm`,
+  - 其它（other） `So`.
+- 分隔符（Separator） `Z`:
+  - 行（line） `Zl`,
+  - 段落（paragraph） `Zp`,
+  - 空格（space） `Zs`.
+- 其它（Other） `C`:
+  - 控制符（control） `Cc`,
+  - 格式（format） `Cf`,
+  - 为分配（not assigned） `Cn`,
+  - 私有（private use） `Co`,
+  - 代理伪字符（surrogate） `Cs`.
 
 
 So, e.g. if we need letters in lower case, we can write `pattern:\p{Ll}`, punctuation signs: `pattern:\p{P}` and so on.
+所以，比如说我们需要小写的字母，就可以写成 `pattern:\p{Ll}`，标点符号写作 `pattern:\p{P}` 等等。
 
 There are also other derived categories, like:
+也有其它派生的类别，例如：
 - `Alphabetic` (`Alpha`), includes Letters `L`, plus letter numbers `Nl` (e.g. Ⅻ - a character for the roman number 12), plus some other symbols `Other_Alphabetic` (`OAlpha`).
+- `Alphabetic` (`Alpha`), 包含了字母 `L`, 加上字母数字 `Nl` （例如 Ⅻ - 罗马数字 12），加上一些其它符号 `Other_Alphabetic` (`OAlpha`).
 - `Hex_Digit` includes hexadecimal digits: `0-9`, `a-f`.
+- `Hex_Digit` 包括 16 进制数字 `0-9`，`a-f`。
 - ...And so on.
+- ...等等
 
 Unicode supports many different properties, their full list would require a lot of space, so here are the references:
+Unicode 支持相当数量的属性，列出整个清单需要占用大量的空间，因此在这里列出相关的链接：
 
 - List all properties by a character: <https://unicode.org/cldr/utility/character.jsp>.
+- 列出一个字符的所有属性 <https://unicode.org/cldr/utility/character.jsp>.
 - List all characters by a property: <https://unicode.org/cldr/utility/list-unicodeset.jsp>.
+- 按照属性列出所有的字符 <https://unicode.org/cldr/utility/list-unicodeset.jsp>.
 - Short aliases for properties: <https://www.unicode.org/Public/UCD/latest/ucd/PropertyValueAliases.txt>.
+- 属性的对应缩写形式： <https://www.unicode.org/Public/UCD/latest/ucd/PropertyValueAliases.txt>.
 - A full base of Unicode characters in text format, with all properties, is here: <https://www.unicode.org/Public/UCD/latest/ucd/>.
+- 以文本格式整理的所有 Unicode 字符，包含了所有的属性： <https://www.unicode.org/Public/UCD/latest/ucd/>.
 
 ### Example: hexadecimal numbers
 
