@@ -141,10 +141,13 @@ Unicode 支持相当数量的属性，列出整个清单需要占用大量的空
 - 以文本格式整理的所有 Unicode 字符，包含了所有的属性： <https://www.unicode.org/Public/UCD/latest/ucd/>.
 
 ### Example: hexadecimal numbers
+### 实例： 16 进制数字
 
 For instance, let's look for hexadecimal numbers, written as `xFF`, where `F` is a hex digit (0..1 or A..F).
+举个例子，让我们来查找 16 进制数字，写作 `xFF` 其中 `F` 是一个 16 进制的数字（0..1 或者 A..F）。
 
 A hex digit can be denoted as `pattern:\p{Hex_Digit}`:
+一个 16 进制数字可以表示为 `pattern:\p{Hex_Digit}`：
 
 ```js run
 let regexp = /x\p{Hex_Digit}\p{Hex_Digit}/u;
@@ -153,12 +156,17 @@ alert("number: xAF".match(regexp)); // xAF
 ```
 
 ### Example: Chinese hieroglyphs
+### 实例： 中文字符
 
 Let's look for Chinese hieroglyphs.
+让我们再来考虑中文字符。
 
 There's a unicode property `Script` (a writing system), that may have a value: `Cyrillic`, `Greek`, `Arabic`, `Han` (Chinese) and so on, [here's the full list]("https://en.wikipedia.org/wiki/Script_(Unicode)").
+有一个 unicode 属性 `Script` （一个书写系统），这个属性可以有一个值： `Cyrillic`，`Greek`，`Arabic`，`Han` （中文）等等， [这里是一个完整的列表]("https://en.wikipedia.org/wiki/Script_(Unicode)").
 
 To look for characters in a given writing system we should use `pattern:Script=<value>`, e.g. for Cyrillic letters: `pattern:\p{sc=Cyrillic}`, for Chinese hieroglyphs: `pattern:\p{sc=Han}`, and so on:
+为了实现查找一个给定的书写系统中的字符，我们需要使用 `pattern:Script=<value>`，例如对于
+西里尔字符： `pattern:\p{sc=Cyrillic}`, 中文字符： `pattern:\p{sc=Han}`，等等。
 
 ```js run
 let regexp = /\p{sc=Han}/gu; // returns Chinese hieroglyphs
@@ -169,10 +177,13 @@ alert( str.match(regexp) ); // 你,好
 ```
 
 ### Example: currency
+### 实例： 货币
 
 Characters that denote a currency, such as `$`, `€`, `¥`, have unicode property  `pattern:\p{Currency_Symbol}`, the short alias: `pattern:\p{Sc}`.
+表示货币的字符，例如 `$`，`€`，`¥`，具有 unicode 属性 `pattern:\p{Currency_Symbol}`，缩写为 `pattern:\p{Sc}`。
 
 Let's use it to look for prices in the format "currency, followed by a digit":
+让我们使用这一属性来查找符合“货币，接着是一个数字”的价格文本：
 
 ```js run
 let regexp = /\p{Sc}\d/gu;
@@ -183,14 +194,21 @@ alert( str.match(regexp) ); // $2,€1,¥9
 ```
 
 Later, in the article <info:regexp-quantifiers> we'll see how to look for numbers that contain many digits.
+之后，在其它文章中 <info:regexp-quantifiers> 我们将会了解如何查找包含很多位的数字。
 
 ## Summary
+## 总结
 
 Flag `pattern:u` enables the support of Unicode in regular expressions.
+修饰符 `pattern:u` 在正则表达式中提供对 Unicode 的支持。
 
 That means two things:
+这意味着两件事：
 
 1. Characters of 4 bytes are handled correctly: as a single character, not two 2-byte characters.
+1. 4 个字节长的字符被以正确的方式处理： 看成单个的字符，而不是 2 个 2 字节长的字符。
 2. Unicode properties can be used in the search: `\p{…}`.
+2. Unicode 属性可以被用于查找中 `\p{…}`.
 
 With Unicode properties we can look for words in given languages, special characters (quotes, currencies) and so on.
+有了 unicode 属性我们可以查找给定语言中的词，特殊字符（引用，货币）等等。
