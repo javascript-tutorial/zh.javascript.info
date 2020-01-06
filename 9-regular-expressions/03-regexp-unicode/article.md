@@ -33,7 +33,7 @@ alert('𝒳'.length); // 2
 
 ## Unicode 属性（Unicode properties）\p{...}
 
-```warn header="在 Firefox 和 Edge  中缺乏支持"
+```warn header="在 Firefox 和 Edge 中缺乏支持"
 尽管 unicode property 从 2018 年以来便作为标准的一部分, 但 unicode 属性在 Firefox ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1361876)) 和 Edge ([bug](https://github.com/Microsoft/ChakraCore/issues/2969)) 中并没有相应的支持。
 
 目前 [XRegExp](http://xregexp.com) 这个库提供“扩展”的正则表达式，其中包括对 unicode property 的跨平台支持。
@@ -61,7 +61,7 @@ alert( str.match(/\p{L}/g) ); // null（没有匹配的文本，因为没有修�
 - 字母（Letter） `L`:
   - 小写（lowercase） `Ll`
   - 修饰（modifier） `Lm`,
-  - 首字母大小写（titlecase） `Lt`,
+  - 首字母大写（titlecase） `Lt`,
   - 大写（uppercase） `Lu`,
   - 其它（other） `Lo`。
 - 数字（Number） `N`:
@@ -92,7 +92,7 @@ alert( str.match(/\p{L}/g) ); // null（没有匹配的文本，因为没有修�
 - 其它（Other） `C`:
   - 控制符（control） `Cc`,
   - 格式（format） `Cf`,
-  - 为分配（not assigned） `Cn`,
+  - 未分配（not assigned） `Cn`,
   - 私有（private use） `Co`,
   - 代理伪字符（surrogate） `Cs`。
 
