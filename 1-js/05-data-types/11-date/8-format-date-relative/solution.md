@@ -1,6 +1,6 @@
 为获取 `date` 距离当前时间的间隔 —— 我们将两个日期相减。
 
-```js run
+```js run demo
 function formatDate(date) {
   let diff = new Date() - date; // 差值用毫秒表示
 
@@ -57,12 +57,20 @@ function formatDate(date) {
   let diffSec = Math.round(diffMs / 1000);
   let diffMin = diffSec / 60;
   let diffHour = diffMin / 60;
+<<<<<<< HEAD:1-js/05-data-types/11-date/8-format-date-relative/solution.md
       
   // 格式化
   year = year.toString().slice(-2);
+=======
+
+  // formatting
+  year = year.toString().slice(-2);
+>>>>>>> 14e4e9f96bcc2bddc507f409eb4716ced897f91a:1-js/05-data-types/11-date/8-format-date-relative/solution.md
   month = month < 10 ? '0' + month : month;
   dayOfMonth = dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth;
-      
+  hour = hour < 10 ? '0' + hour : hour;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+
   if (diffSec < 1) {
     return 'right now';  
   } else if (diffMin < 1) {

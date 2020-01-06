@@ -45,7 +45,11 @@ for (let key in count) {
 }
 ```
 
+<<<<<<< HEAD
 示例结果（V8，2017年七月）：
+=======
+An example result (depends on JS engine):
+>>>>>>> 14e4e9f96bcc2bddc507f409eb4716ced897f91a
 
 ```js
 123: 250706
@@ -67,8 +71,19 @@ JavaScript 引擎的代码结果可能会有所不同，但我们已经可以看
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
+<<<<<<< HEAD
     let j = Math.floor(Math.random() * (i + 1)); // r 从 0 到 i 的随机索引
     [array[i], array[j]] = [array[j], array[i]]; // 交换元素
+=======
+    let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+
+    // swap elements array[i] and array[j]
+    // we use "destructuring assignment" syntax to achieve that
+    // you'll find more details about that syntax in later chapters
+    // same can be written as:
+    // let t = array[i]; array[i] = array[j]; array[j] = t
+    [array[i], array[j]] = [array[j], array[i]];
+>>>>>>> 14e4e9f96bcc2bddc507f409eb4716ced897f91a
   }
 }
 ```

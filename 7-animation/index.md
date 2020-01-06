@@ -1,3 +1,3 @@
-# 动画
+# Animation
 
-CSS 和 JavaScript 动画。
+CSS and JavaScript animations.
