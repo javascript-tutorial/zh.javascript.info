@@ -149,8 +149,8 @@ alert( '12-34-56'.replace( *!*/-/g*/!*, ":" ) )  // 12:34:56
 |`$&`|插入整个匹配项|
 |<code>$&#096;</code>|在匹配项之前插入字符串的一部分|
 |`$'`|在匹配项之后插入字符串的一部分|
-|`$n`|如果 `n` 是一个 1 到 2 位的数字，则插入第 n 个分组的内容，详见 [](info:regexp-groups)|
-|`$<name>`|插入带有给定 `name` 的括号内的内容，详见 [](info:regexp-groups)|
+|`$n`|如果 `n` 是一个 1 到 2 位的数字，则插入第 n 个分组的内容，详见 [info:regexp-groups](info:regexp-groups)|
+|`$<name>`|插入带有给定 `name` 的括号内的内容，详见 [info:regexp-groups](info:regexp-groups)|
 |`$$`|插入字符 `$` |
 
 例如：
