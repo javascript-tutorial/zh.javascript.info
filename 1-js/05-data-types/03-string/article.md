@@ -525,8 +525,8 @@ alert( str );
 
 字符通过数字代码进行比较。越大的代码意味着字符越大。`a`（97）的代码大于 `Z`（90）。
 
-- 所有小写字母都是大写字母，因为它们的代码更大。
-- 一些想 `Ö` 的字母与主要字母表不同。这里的代码比从 `a` 到 `z` 的代码都要大。
+- 所有小写字母追随在大写字母之后，因为它们的代码更大。
+- 一些像 `Ö` 的字母与主要字母表不同。这里，它的代码比任何从 `a` 到 `z` 的代码都要大。
 
 ### 正确的比较
 
@@ -534,7 +534,7 @@ alert( str );
 
 因此浏览器需要知道要比较的语言。
 
-幸运地是，所有现代浏览器（IE-10 都需要额外的库 [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) 支持国际化标准 [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf)。
+幸运地是，所有现代浏览器（IE-10 需要额外的库 [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) 支持国际化标准 [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf)。
 
 它提供了一种特殊的方法来比较不同语言的字符串，遵循它们的规则。
 

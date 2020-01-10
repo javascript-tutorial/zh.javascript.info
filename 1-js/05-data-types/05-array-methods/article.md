@@ -692,7 +692,7 @@ alert(youngerUsers.length); // 2
 - 查询元素：
   - `indexOf/lastIndexOf(item, pos)` —  从 `pos` 找到 `item`，则返回索引否则返回 `-1`。
   - `includes(value)` — 如果数组有 `value`，则返回 `true`，否则返回 `false`。
-  - `find/filter(func)` — 通过函数过滤元素，返回 `true` 条件的符合 find 函数的第一个值或符合 filter 函数的全部值。 
+  - `find/filter(func)` — 通过函数过滤元素，返回符合 `true` 条件的第一个值/所有值。 
   - `findIndex` 和 `find` 类似，但返回索引而不是值。
 
 - 转换数组：
@@ -718,7 +718,7 @@ alert(youngerUsers.length); // 2
 
 - [arr.fill(value, start, end)](mdn:js/Array/fill) — 从 `start` 到 `end` 用 `value` 重复填充数组。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) — copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).将其元素从 `start` 到 `end` 在 `target` 位置复制到 **本身**（覆盖现有）。
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) — 将 `开始` 位置到 `结束` 位置 [译注：不包含结束位元素] 元素复制到 *自身* `目标` 位置中（覆盖现有元素）。
 
 有关完整列表，请参阅[手册](mdn:js/Array)。
 
