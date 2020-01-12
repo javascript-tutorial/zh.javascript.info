@@ -107,7 +107,7 @@ if (zero) { // zero is true, because it's an object
 }
 ```
 
-另一方面，调用不带 new（关键字）的 String/Number/Boolean 函数是完全理智和有用的。它们将一个值转换为相应的类型：转成 string，number，或  boolean（原始类型）。
+另一方面，调用不带 `new`（关键字）的 `String/Number/Boolean` 函数是完全理智和有用的。它们将一个值转换为相应的类型：转成字符串、数字或布尔值（原始类型）。
 
 例如，下面完全是有效的：
 ```js
