@@ -39,7 +39,7 @@ alert( map.get('1') ); // 'str1'
 alert( map.size ); // 3
 ```
 
-正如我们看到的那样，`Map` 的键可以被转化为字符串而不是像普通对象那样不能转化， 任何类型的键都是可能的.
+如我们所见，与对象不同，键不会转换为字符串。键（key）可以是任何类型。
 
 **Map 还可以使用对象作为键**
 
@@ -57,8 +57,8 @@ visitsCountMap.set(john, 123);
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-使用对象作为键是 `Map` 最出名也是最重要的特点. 对于字符键, `Object` （普通对象）能正常使用, 但是使用键就会产生意料之外的效果.
-
+使用对象作为键是 `Map` 最值得注意和重要的功能之一。对于字符串键， `Object` （普通对象）能正常使用，但对于对象键则不能。
+  
 我们来尝试一下:
 
 ```js run
@@ -100,9 +100,9 @@ map.set('1', 'str1')
 
 如果要在 `map` 里使用循环, 可以使用以下三个方法:
 
-- `map.keys()` -- returns an iterable for keys,
-- `map.values()` -- returns an iterable for values,
-- `map.entries()` -- returns an iterable for entries `[key, value]`, it's used by default in `for..of`.
+- `map.keys()` -- 返回键名的遍历器，
+- `map.values()` -- 返回键值的遍历器，
+- `map.entries()` -- 返回实体 `[key, value]` 的遍历器，默认在for..of中使用。
 
 例如:
 
@@ -182,7 +182,7 @@ alert( map.get('name') ); // John
 
 我们刚刚已经利用 `Object.entries(obj)` 把一个纯对象转化成 `Map`
 
-`Object.fromEntries` 方法的作用是相反的: 给定一个具有 `[key, value]` 对的数组, 它会根据给定数组转化为 `Map`:
+`Object.fromEntries` 方法的作用是相反的: 给定一个具有 `[key, value]` 对的数组, 它会根据给定数组生成对象:
 
 ```js run
 let prices = Object.fromEntries([
@@ -191,7 +191,7 @@ let prices = Object.fromEntries([
   ['meat', 4]
 ]);
 
-// now prices = { banana: 1, orange: 2, meat: 4 }
+// 现在 prices = { banana: 1, orange: 2, meat: 4 }
 
 alert(prices.orange); // 2
 ```
@@ -325,4 +325,4 @@ set.forEach((value, valueAgain, set) => {
 - `set.clear()` -- 清空 set。
 - `set.size` -- 返回当前全部元素的数量。
 
-在 `Map` 和 `Set` 里迭代总是按照插入的顺序来执行的，所以我们不能说这些集合是无序的，也不可以通过它的数量来记录元素或者直接获取一个元素。
+在 `Map` 和 `Set` 里迭代总是按照插入的顺序来执行的，所以我们不能说这些集合是无序的，但是我们不能对元素进行重新排序，也不能直接按其顺序来获取元素。
