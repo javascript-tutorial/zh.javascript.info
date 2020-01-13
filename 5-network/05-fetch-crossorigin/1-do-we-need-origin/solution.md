@@ -2,7 +2,11 @@ We need `Origin`, because sometimes `Referer` is absent. For instance, when we `
 
 The [Content Security Policy](http://en.wikipedia.org/wiki/Content_Security_Policy) may forbid sending a `Referer`.
 
+<<<<<<< HEAD
 As we'll see, `fetch` also has options that prevent sending the `Referer` and even allow to change it (within the same site).
+=======
+As we'll see, `fetch` has options that prevent sending the `Referer` and even allow to change it (within the same site).
+>>>>>>> a4a84083a7656f2b25de8b766b2457d3aae17874
 
 By specification, `Referer` is an optional HTTP-header.
 
