@@ -14,13 +14,13 @@
 
 它的方法和属性如下:
 
-- `new Map()` -- 创建一个空集合。
-- `map.set(key, value)` -- 存储含有值的键。
-- `map.get(key)` -- 根据键来返回值, 如果 `key` 不在 `map`里将会返回 `undefined`。
-- `map.has(key)` -- 如果 `key` 存在则返回 `true`, 否则返回 `false`。
-- `map.delete(key)` -- 根据键来删除值。
-- `map.clear()` -- 清空集合。
-- `map.size` -- 返回当前全部元素的数量。
+- `new Map()` - 创建一个空集合。
+- `map.set(key, value)` - 存储含有值的键。
+- `map.get(key)` - 根据键来返回值, 如果 `key` 不在 `map`里将会返回 `undefined`。
+- `map.has(key)` - 如果 `key` 存在则返回 `true`, 否则返回 `false`。
+- `map.delete(key)` - 根据键来删除值。
+- `map.clear()` - 清空集合。
+- `map.size` - 返回当前全部元素的数量。
 
 举个例子:
 
@@ -39,7 +39,7 @@ alert( map.get('1') ); // 'str1'
 alert( map.size ); // 3
 ```
 
-如我们所见，与对象不同，键不会转换为字符串。键（key）可以是任何类型。
+如我们所见，与对象不同，键（key）不会转换为字符串。键可以是任何类型。
 
 **Map 还可以使用对象作为键**
 
@@ -57,7 +57,7 @@ visitsCountMap.set(john, 123);
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-使用对象作为键是 `Map` 最值得注意和重要的功能之一。对于字符串键， `Object` （普通对象）能正常使用，但对于对象键则不能。
+使用对象作为键是 `Map` 最值得注意和重要的功能之一。对于字符串键，`Object`（普通对象）能正常使用，但对于对象键则不能。
   
 我们来尝试一下:
 
@@ -100,9 +100,9 @@ map.set('1', 'str1')
 
 如果要在 `map` 里使用循环, 可以使用以下三个方法:
 
-- `map.keys()` -- 返回键名的遍历器，
-- `map.values()` -- 返回键值的遍历器，
-- `map.entries()` -- 返回实体 `[key, value]` 的遍历器，默认在for..of中使用。
+- `map.keys()` - 返回键名的遍历器，
+- `map.values()` - 返回键值的遍历器，
+- `map.entries()` - 返回实体 `[key, value]` 的遍历器，默认在`for..of`中使用。
 
 例如:
 
@@ -234,12 +234,12 @@ let obj = Object.fromEntries(map); // omit .entries()
 
 它的主要方法如下:
 
-- `new Set(iterable)` -- 创建一个 `set`, 如果提供一个 `iterable` 对象 (通常是数组), 将会从数组里面复制值到 `set` 里面去。
-- `set.add(value)` -- 添加一个值，返回 set 本身。
-- `set.delete(value)` -- 删除值, 如果 `value` 在调用的时候值存在则返回 `true` ，否则返回 `false`。
-- `set.has(value)` -- 如果 `value`存在 set 里面则返回 `true`, 否则返回 `false`。
-- `set.clear()` -- 移除 set 里面的所有成员。
-- `set.size` -- 返回元素数量。
+- `new Set(iterable)` - 创建一个 `set`, 如果提供一个 `iterable` 对象 (通常是数组), 将会从数组里面复制值到 `set` 里面去。
+- `set.add(value)` - 添加一个值，返回 set 本身。
+- `set.delete(value)` - 删除值, 如果 `value` 在调用的时候值存在则返回 `true` ，否则返回 `false`。
+- `set.has(value)` - 如果 `value`存在 set 里面则返回 `true`, 否则返回 `false`。
+- `set.clear()` - 移除 set 里面的所有成员。
+- `set.size` - 返回元素数量。
 
 它的主要特点是重复使用同一个值调用 `set.add(value)` 并不会发生什么改变。 这就是 `Set` 里面的每一个值只出现一次的原因。
 
@@ -291,38 +291,38 @@ set.forEach((value, valueAgain, set) => {
 那是为了兼容 `Map` 在回调里传入 `forEach` 函数后有三个参数。 当然这看起来有点奇怪。但是这对在特定情况下比如使用 `Set`代替 `Map`的时候有帮助，反之亦然。
 
 类似于 `Map`，在 `Set`里用于迭代的方法也被支持：
-- `set.keys()` -- 返回一个包含值的可迭代对象,
-- `set.values()` -- 跟 `set.keys()` 作用相同, 为了兼容 `Map`,
-- `set.entries()` -- 返回一个包含 `[value, value]` 对的可迭代对象 , 它的存在也是为了兼容 `Map`.
+- `set.keys()` - 返回一个包含值的可迭代对象,
+- `set.values()` - 跟 `set.keys()` 作用相同, 为了兼容 `Map`,
+- `set.entries()` - 返回一个包含 `[value, value]` 对的可迭代对象 , 它的存在也是为了兼容 `Map`.
 
 ## 总结
 
-`Map` -- 是一个键值集合.
+`Map` - 是一个键值集合.
 
 方法和属性如下:
 
-- `new Map([iterable])` -- 创建空的 map, 可选的带有 `[key,value]` 对的`iterable` (例如数组) 对象来进行初始化 。
-- `map.set(key, value)` -- 存储对应的键值。
-- `map.get(key)` -- 根据键来返回值, 如果键不存在 map 里就返回 `undefined`。
-- `map.has(key)` -- 如果 `key` 存在则返回 `true` , 否则返回`false`。
-- `map.delete(key)` -- 删除指定键值。
-- `map.clear()` -- 清空 map 。
-- `map.size` -- 返回当前全部元素的数量。
+- `new Map([iterable])` - 创建空的 map, 可选的带有 `[key,value]` 对的`iterable` (例如数组) 对象来进行初始化 。
+- `map.set(key, value)` - 存储对应的键值。
+- `map.get(key)` - 根据键来返回值, 如果键不存在 map 里就返回 `undefined`。
+- `map.has(key)` - 如果 `key` 存在则返回 `true` , 否则返回`false`。
+- `map.delete(key)` - 删除指定键值。
+- `map.clear()` - 清空 map 。
+- `map.size` - 返回当前全部元素的数量。
 
 跟普通对象 `Object` 最大的不同点是:
 
 - 任何键，对象都可以被用作它的键，
 - 有额外的方法, 和 `size` 属性。
 
-`Set` -- 是一个独一无二的值的集合.
+`Set` - 是一个独一无二的值的集合.
 
 方法和属性:
 
-- `new Set([iterable])` -- 创建空的 set , 可选的带有 `iterable` (例如数组) 对象来进行初始化。
-- `set.add(value)` -- 添加一个 value（如果存在则什么也不做）, 返回 set 本身。
-- `set.delete(value)` -- 删除 value , 如果在调用的时候存在则返回 `true`, 否则返回 `false`。
-- `set.has(value)` -- 如果则返回 `true`, 否则返回 `false`。
-- `set.clear()` -- 清空 set。
-- `set.size` -- 返回当前全部元素的数量。
+- `new Set([iterable])` - 创建空的 set , 可选的带有 `iterable` (例如数组) 对象来进行初始化。
+- `set.add(value)` - 添加一个 value（如果存在则什么也不做）, 返回 set 本身。
+- `set.delete(value)` - 删除 value , 如果在调用的时候存在则返回 `true`, 否则返回 `false`。
+- `set.has(value)` - 如果则返回 `true`, 否则返回 `false`。
+- `set.clear()` - 清空 set。
+- `set.size` - 返回当前全部元素的数量。
 
 在 `Map` 和 `Set` 里迭代总是按照插入的顺序来执行的，所以我们不能说这些集合是无序的，但是我们不能对元素进行重新排序，也不能直接按其顺序来获取元素。
