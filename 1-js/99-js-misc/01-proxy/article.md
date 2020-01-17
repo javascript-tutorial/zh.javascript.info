@@ -1,64 +1,64 @@
-# Proxy and Reflect
+# Proxy 和 Reflect
 
-A `Proxy` object wraps another object and intercepts operations, like reading/writing properties and others, optionally handling them on its own, or transparently allowing the object to handle them.
+一个 `Proxy` 对象包装另一个对象并拦截诸如读取/写入属性和其他操作，可以选择自行处理它们，或者透明地允许该对象处理它们。
 
-Proxies are used in many libraries and some browser frameworks. We'll see many practical applications in this chapter.
+Proxy 用于许多库和某些浏览器框架。在本章中，我们将看到许多实际应用。
 
-The syntax:
+语法：
 
 ```js
 let proxy = new Proxy(target, handler)
 ```
 
-- `target` -- is an object to wrap, can be anything, including functions.
-- `handler` -- proxy configuration: an object with "traps", methods that intercept operations. - e.g. `get` trap for reading a property of `target`, `set` trap for writing a property into `target`, and so on.
+- `target` —— 是要包装的对象，可以是任何东西，包括函数。
+- `handler` —— 代理配置：带有“陷阱”（“traps”，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 属性，`set` 陷阱写入 `target` 属性等等。
 
-For operations on `proxy`, if there's a corresponding trap in `handler`, then it runs, and the proxy has a chance to handle it, otherwise the operation is performed on `target`.
+对 `proxy` 进行操作，如果在 `handler` 中存在相应的陷阱，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
-As a starting example, let's create a proxy without any traps:
+首先，让我们创建一个没有任何陷阱的代理：
 
 ```js run
 let target = {};
-let proxy = new Proxy(target, {}); // empty handler
+let proxy = new Proxy(target, {}); // 空的handler对象
 
-proxy.test = 5; // writing to proxy (1)
-alert(target.test); // 5, the property appeared in target!
+proxy.test = 5; // 写入 Proxy 对象 (1)
+alert(target.test); // 返回 5，test属性出现在了 target 上！
 
-alert(proxy.test); // 5, we can read it from proxy too (2)
+alert(proxy.test); // 还是 5，我们也可以从 proxy 对象读取它 (2)
 
-for(let key in proxy) alert(key); // test, iteration works (3)
+for(let key in proxy) alert(key); // 返回 test，迭代也正常工作！ (3)
 ```
 
-As there are no traps, all operations on `proxy` are forwarded to `target`.
+由于没有陷阱，所有对 `proxy` 的操作都直接转发给 `target`。
 
-1. A writing operation `proxy.test=` sets the value on `target`.
-2. A reading operation `proxy.test` returns the value from `target`.
-3. Iteration over `proxy` returns values from `target`.
+1. 写入操作 `proxy.test=` 会将值写入 `target`。
+2. 读取操作 `proxy.test` 会从 `target` 返回对应的值。
+3. 迭代 `proxy` 会从 `target` 返回对应的值。
 
-As we can see, without any traps, `proxy` is a transparent wrapper around `target`.
+我们可以看到，没有任何陷阱，`proxy` 是一个 `target` 的透明包装.
 
 ![](proxy.svg)  
 
-`Proxy` is a special "exotic object". It doesn't have own properties. With an empty `handler` it transparently forwards operations to `target`.
+`Proxy` 是一种特殊的“奇异对象”。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
 
-To activate more capabilities, let's add traps.
+要激活更多功能，让我们添加陷阱。
 
-What can we intercept with them?
+我们可以用它们拦截什么？
 
-For most operations on objects, there's a so-called "internal method" in the JavaScript specification that describes how it works at the lowest level. For instance `[[Get]]`, the internal method to read a property, `[[Set]]`, the internal method to write a property, and so on. These methods are only used in the specification, we can't call them directly by name.
+对于对象的大多数操作，JavaScript 规范中都有一个所谓的“内部方法”，它描述了最底层的工作方式。 例如 `[[Get]]`，用于读取属性的内部方法， `[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接通过方法名调用它们。
 
-Proxy traps intercept invocations of these methods. They are listed in the [Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) and in the table below.
+Proxy 陷阱会拦截这些方法的调用。它们在[代理规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)和下表中列出。
 
-For every internal method, there's a trap in this table: the name of the method that we can add to the `handler` parameter of `new Proxy` to intercept the operation:
+对于每个内部方法，此表中都有一个陷阱：可用于添加到 `new Proxy` 时的 `handler` 参数中以拦截操作的方法名称：
 
-| Internal Method | Handler Method | Triggers when... |
+| 内部方法 | Handler 方法 | 何时触发 |
 |-----------------|----------------|-------------|
-| `[[Get]]` | `get` | reading a property |
-| `[[Set]]` | `set` | writing to a property |
-| `[[HasProperty]]` | `has` | `in` operator |
-| `[[Delete]]` | `deleteProperty` | `delete` operator |
-| `[[Call]]` | `apply` | function call |
-| `[[Construct]]` | `construct` | `new` operator |
+| `[[Get]]` | `get` | 读取属性 |
+| `[[Set]]` | `set` | 写入属性 |
+| `[[HasProperty]]` | `has` | `in` 运算符 |
+| `[[Delete]]` | `deleteProperty` | `delete` 操作 |
+| `[[Call]]` | `apply` | proxy 对象作为函数被调用 |
+| `[[Construct]]` | `construct` | `new` 操作 |
 | `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
 | `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
 | `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible) |
@@ -68,40 +68,40 @@ For every internal method, there's a trap in this table: the name of the method 
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
 ```warn header="Invariants"
-JavaScript enforces some invariants -- conditions that must be fulfilled by internal methods and traps.
+JavaScript 强制执行某些不变式————当必须由内部方法和陷阱来完成操作时。
 
-Most of them are for return values:
-- `[[Set]]` must return `true` if the value was written successfully, otherwise `false`.
-- `[[Delete]]` must return `true` if the value was deleted successfully, otherwise `false`.
-- ...and so on, we'll see more in examples below.
+其中大多数用于返回值：
+- `[[Set]]` 如果值已成功写入，则必须返回 `true`，否则返回 `false`。
+- `[[Delete]]` 如果已成功删除该值，则必须返回 `true`，否则返回 `false`。
+- ……依此类推，我们将在下面的示例中看到更多内容。
 
-There are some other invariants, like:
-- `[[GetPrototypeOf]]`, applied to the proxy object must return the same value as `[[GetPrototypeOf]]` applied to the proxy object's target object. In other words, reading prototype of a proxy must always return the prototype of the target object.
+还有其他一些不变量，例如：
+- `[[GetPrototypeOf]]`, 应用于代理对象的，必须返回与 `[[GetPrototypeOf]]` 应用于被代理对象相同的值。换句话说，读取代理对象的原型必须始终返回被代理对象的原型。
 
-Traps can intercept these operations, but they must follow these rules.
+陷阱可以拦截这些操作，但是必须遵循这些规则。
 
-Invariants ensure correct and consistent behavior of language features. The full invariants list is in [the specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots). You probably won't violate them if you're not doing something weird.
+不变量确保语言功能的正确和一致的行为。完整的不变量列表在[规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)。如果您不做奇怪的事情，就不会违反它们。
 ```
 
-Let's see how that works in practical examples.
+让我们看看实际示例中的工作原理。
 
-## Default value with "get" trap
+## 带 "get" 陷阱的默认值
 
-The most common traps are for reading/writing properties.
+最常见的陷阱是用于读取/写入属性。
 
-To intercept reading, the `handler` should have a method `get(target, property, receiver)`.
+要拦截读取操作，`handler` 应该有 `get(target, property, receiver)` 方法。
 
-It triggers when a property is read, with following arguments:
+读取属性时触发该方法，参数如下：
 
-- `target` -- is the target object, the one passed as the first argument to `new Proxy`,
-- `property` -- property name,
-- `receiver` -- if the target property is a getter, then `receiver` is the object that's going to be used as `this` in its call. Usually that's the `proxy` object itself (or an object that inherits from it, if we inherit from proxy). Right now we don't need this argument, so it will be explained in more detail later.
+- `target` —— 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
+- `property` —— 目标属性名,
+- `receiver` —— 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从代理继承，则是从该代理继承的对象）。现在我们不需要此参数，因此稍后将对其进行详细说明。
 
-Let's use `get` to implement default values for an object.
+让我们用 `get` 实现对象的默认值。
 
-We'll make a numeric array that returns `0` for nonexistent values.
+我们将创建一个对不存在的数组项返回0的数组。
 
-Usually when one tries to get a non-existing array item, they get `undefined`, but we'll wrap a regular array into the proxy that traps reading and returns `0` if there's no such property:
+通常，当人们尝试获取不存在的数组项时，他们会得到 `undefined`, 但是我们会将常规数组包装到代理中，以捕获读取操作并在没有此类属性的情况下返回 `0`：
 
 ```js run
 let numbers = [0, 1, 2];
@@ -111,22 +111,22 @@ numbers = new Proxy(numbers, {
     if (prop in target) {
       return target[prop];
     } else {
-      return 0; // default value
+      return 0; // 默认值
     }
   }
 });
 
 *!*
 alert( numbers[1] ); // 1
-alert( numbers[123] ); // 0 (no such item)
+alert( numbers[123] ); // 0 (没有这样的元素)
 */!*
 ```
 
-As we can see, it's quite easy to do with a `get` trap.
+如我们所见，使用 `get` 陷阱非常容易。
 
-We can use `Proxy` to implement any logic for "default" values.
+我们可以用 `Proxy` 来实现任何读取默认值的逻辑。
 
-Imagine we have a dictionary, with phrases and their translations:
+想象一下，我们有一本词典，上面有短语及其翻译：
 
 ```js run
 let dictionary = {
@@ -138,9 +138,9 @@ alert( dictionary['Hello'] ); // Hola
 alert( dictionary['Welcome'] ); // undefined
 ```
 
-Right now, if there's no phrase, reading from `dictionary` returns `undefined`. But in practice, leaving a phrase untranslated is usually better than `undefined`. So let's make it return an untranslated phrase in that case instead of `undefined`.
+现在，如果没有短语，从 `dictionary` 读取将返回 `undefined`。但实际上，返回一个未翻译短语通常比 `undefined` 要好。因此，让我们在这种情况下返回一个未翻译的短语，而不是 `undefined`。
 
-To achieve that, we'll wrap `dictionary` in a proxy that intercepts reading operations:
+为此，我们将包装 `dictionary` 进一个拦截读取操作的代理：
 
 ```js run
 let dictionary = {
@@ -150,58 +150,58 @@ let dictionary = {
 
 dictionary = new Proxy(dictionary, {
 *!*
-  get(target, phrase) { // intercept reading a property from dictionary
+  get(target, phrase) { // 拦截读取属性操作
 */!*
-    if (phrase in target) { // if we have it in the dictionary
-      return target[phrase]; // return the translation
+    if (phrase in target) { //如果字典包含该短语
+      return target[phrase]; // 返回译文
     } else {
-      // otherwise, return the non-translated phrase
+      // 否则返回未翻译的短语
       return phrase;
     }
   }
 });
 
-// Look up arbitrary phrases in the dictionary!
-// At worst, they're not translated.
+// 在字典中查找任意短语！
+// 最坏的情况也只是它们没有被翻译。
 alert( dictionary['Hello'] ); // Hola
 *!*
-alert( dictionary['Welcome to Proxy']); // Welcome to Proxy (no translation)
+alert( dictionary['Welcome to Proxy']); // Welcome to Proxy
 */!*
 ```
 
 ````smart
-Please note how the proxy overwrites the variable:
+请注意代理如何覆盖变量：
 
 ```js
 dictionary = new Proxy(dictionary, ...);
 ```
 
-The proxy should totally replace the target object everywhere. No one should ever reference the target object after it got proxied. Otherwise it's easy to mess up.
+代理应该在所有地方都完全替代了目标对象。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
 ````
 
-## Validation with "set" trap
+## 使用 "set" 陷阱进行验证
 
-Let's say we want an array exclusively for numbers. If a value of another type is added, there should be an error.
+假设我们想要一个专门用于数字的数组。如果添加了其他类型的值，则应该抛出一个错误。
 
-The `set` trap triggers when a property is written.
+当写入属性时 `set` 陷阱触发。
 
 `set(target, property, value, receiver)`:
 
-- `target` -- is the target object, the one passed as the first argument to `new Proxy`,
-- `property` -- property name,
-- `value` -- property value,
-- `receiver` -- similar to `get` trap, matters only for setter properties.
+- `target` —— 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
+- `property` —— 目标属性名称，
+- `value` —— 目标属性要设置的值，
+- `receiver` —— 与 `get` 陷阱类似，仅与 setter 访问器相关。
 
-The `set` trap should return `true` if setting is successful, and `false` otherwise (triggers `TypeError`).
+如果写入操作成功，`set` 陷阱应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
 
-Let's use it to validate new values:
+让我们用它来验证新值：
 
 ```js run
 let numbers = [];
 
 numbers = new Proxy(numbers, { // (*)
 *!*
-  set(target, prop, val) { // to intercept property writing
+  set(target, prop, val) { // 拦截写入操作
 */!*
     if (typeof val == 'number') {
       target[prop] = val;
@@ -212,44 +212,44 @@ numbers = new Proxy(numbers, { // (*)
   }
 });
 
-numbers.push(1); // added successfully
-numbers.push(2); // added successfully
+numbers.push(1); // 添加成功
+numbers.push(2); // 添加成功
 alert("Length is: " + numbers.length); // 2
 
 *!*
-numbers.push("test"); // TypeError ('set' on proxy returned false)
+numbers.push("test"); // TypeError （proxy 的 `set` 操作返回 false）
 */!*
 
 alert("This line is never reached (error in the line above)");
 ```
 
-Please note: the built-in functionality of arrays is still working! Values are added by `push`. The `length` property auto-increases when values are added. Our proxy doesn't break anything.
+请注意：Array 的内建方法依然生效！ 值使用 `push` 方法添加入数组。添加值时，`length` 属性会自动增加。我们的代理对象 Proxy 不会破坏任何东西。
 
-We don't have to override value-adding array methods like `push` and `unshift`, and so on, to add checks in there, because internally they use the `[[Set]]` operation that's intercepted by the proxy.
+我们不必重写诸如 `push` 和 `unshift` 等添加元素的数组方法，就可以在其中添加检查，因为在内部它们使用代理所拦截的 `[[Set]]` 操作。
 
-So the code is clean and concise.
+因此，代码简洁明了。
 
-```warn header="Don't forget to return `true`"
-As said above, there are invariants to be held.
+```warn header="别忘了返回 `true`"
+如上所述，要保持不变式。
 
-For `set`, it must return `true` for a successful write.
+对于 `set`操作, 它必须在成功写入时返回 `true`。
 
-If we forget to do it or return any falsy value, the operation triggers `TypeError`.
+如果我们忘记这样做或返回任何 falsy值，则该操作将触发 `TypeError`。
 ```
 
-## Iteration with "ownKeys" and "getOwnPropertyDescriptor"
+## 使用 "ownKeys" 和 "getOwnPropertyDescriptor" 进行迭代
 
-`Object.keys`, `for..in` loop and most other methods that iterate over object properties use `[[OwnPropertyKeys]]` internal method (intercepted by `ownKeys` trap) to get a list of properties.
+`Object.keys`，`for..in` 循环和大多数其他遍历对象属性的方法都使用 `[[OwnPropertyKeys]]` 内部方法（由 `ownKeys` 陷阱拦截) 来获取属性列表。
 
-Such methods differ in details:
-- `Object.getOwnPropertyNames(obj)` returns non-symbol keys.
-- `Object.getOwnPropertySymbols(obj)` returns symbol keys.
-- `Object.keys/values()` returns non-symbol keys/values with `enumerable` flag (property flags were explained in the chapter <info:property-descriptors>).
-- `for..in` loops over non-symbol keys with `enumerable` flag, and also prototype keys.
+这些方法在细节上有所不同：
+- `Object.getOwnPropertyNames(obj)` 返回非 Symbol 键。
+- `Object.getOwnPropertySymbols(obj)` 返回 symbol 键。
+- `Object.keys/values()` 返回带有 `enumerable` 标记的非 Symbol 键值对（属性标记在章节 <info:property-descriptors> 有详细描述).
+- `for..in` 循环遍历所有带有 `enumerable` 标记的非 Symbol 键，以及原型对象的键。
 
-...But all of them start with that list.
+……但是所有这些都从该列表开始。
 
-In the example below we use `ownKeys` trap to make `for..in` loop over `user`, and also `Object.keys` and `Object.values`, to skip properties starting with an underscore `_`:
+在下面的示例中，我们使用 `ownKeys` 陷阱拦截 `for..in` 对 `user` 的遍历，还使用 `Object.keys` 和 `Object.values` 来跳过以下划线  `_` 开头的属性：
 
 ```js run
 let user = {
@@ -266,17 +266,17 @@ user = new Proxy(user, {
   }
 });
 
-// "ownKeys" filters out _password
-for(let key in user) alert(key); // name, then: age
+// "ownKeys" 过滤掉 _password
+for(let key in user) alert(key); // name，然后是 age
 
-// same effect on these methods:
+// 对这些方法同样有效：
 alert( Object.keys(user) ); // name,age
 alert( Object.values(user) ); // John,30
 ```
 
-So far, it works.
+到目前为止，它仍然有效。
 
-Although, if we return a key that doesn't exist in the object, `Object.keys` won't list it:
+虽然，如果我们返回对象中不存在的键，`Object.keys` 并不会列出该键：
 
 ```js run
 let user = { };
@@ -292,25 +292,25 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // <empty>
 ```
 
-Why? The reason is simple: `Object.keys` returns only properties with the `enumerable` flag. To check for it, it calls the internal method `[[GetOwnProperty]]` for every property to get [its descriptor](info:property-descriptors). And here, as there's no property, its descriptor is empty, no `enumerable` flag, so it's skipped.
+为什么？原因很简单：`Object.keys` 仅返回带有 `enumerable` 标记的属性。为了检查它， 该方法会对每个属性调用 `[[GetOwnProperty]]` 来获得[属性描述符](info:property-descriptors)。在这里，由于没有属性，其描述符为空，没有 `enumerable` 标记，因此它将略过。
 
-For `Object.keys` to return a property, we need it to either exist in the object, with the `enumerable` flag, or we can intercept calls to `[[GetOwnProperty]]` (the trap `getOwnPropertyDescriptor` does it), and return a descriptor with `enumerable: true`.
+为了让 `Object.keys` 返回一个属性，我们要么需要将该属性及 `enumerable` 标记存入对象，或者我们可以拦截对它的调用 `[[GetOwnProperty]]` (陷阱 `getOwnPropertyDescriptor` 会执行此操作)，并返回描述符enumerable: true。
 
-Here's an example of that:
+这是一个例子：
 
 ```js run
 let user = { };
 
 user = new Proxy(user, {
-  ownKeys(target) { // called once to get a list of properties
+  ownKeys(target) { // 一旦被调用，就返回一个属性列表
     return ['a', 'b', 'c'];
   },
 
-  getOwnPropertyDescriptor(target, prop) { // called for every property
+  getOwnPropertyDescriptor(target, prop) { // 被每个属性调用
     return {
       enumerable: true,
       configurable: true
-      /* ...other flags, probable "value:..." */
+      /* 其他属性，类似于 "value:..." */
     };
   }
 
@@ -319,13 +319,13 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // a, b, c
 ```
 
-Let's note once again: we only need to intercept `[[GetOwnProperty]]` if the property is absent in the object.
+让我们再次注意：如果该属性在对象中不存在，则我们只需要拦截 `[[GetOwnProperty]]`。
 
-## Protected properties with "deleteProperty" and other traps
+## 具有 "deleteProperty" 和其他陷阱的受保护属性
 
-There's a widespread convention that properties and methods prefixed by an underscore `_` are internal. They shouldn't be accessed from outside the object.
+有一个普遍的约定，即下划线 `_` 前缀的属性和方法是内部的。不应从对象外部访问它们。
 
-Technically that's possible though:
+从技术上讲，这是可能的：
 
 ```js run
 let user = {
@@ -336,15 +336,15 @@ let user = {
 alert(user._password); // secret  
 ```
 
-Let's use proxies to prevent any access to properties starting with `_`.
+让我们使用代理来防止对以 `_` 开头的属性的任何访问。
 
-We'll need the traps:
-- `get` to throw an error when reading such property,
-- `set` to throw an error when writing,
-- `deleteProperty` to throw an error when deleting,
-- `ownKeys` to exclude properties starting with `_` from `for..in` and methods like `Object.keys`.
+我们需要以下陷阱：
+- `get` 读取此类属性时抛出错误，
+- `set` 写入属性时抛出错误，
+- `deleteProperty` 删除属性时抛出错误，
+- `ownKeys` 在使用 `for..in` 和类似 `Object.keys` 的方法时排除以 `_` 开头的属性。
 
-Here's the code:
+代码如下：
 
 ```js run
 let user = {
@@ -363,7 +363,7 @@ user = new Proxy(user, {
     return (typeof value === 'function') ? value.bind(target) : value; // (*)
   },
 *!*
-  set(target, prop, val) { // to intercept property writing
+  set(target, prop, val) { // 拦截写入操作
 */!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -373,7 +373,7 @@ user = new Proxy(user, {
     }
   },
 *!*
-  deleteProperty(target, prop) { // to intercept property deletion
+  deleteProperty(target, prop) { // 拦截属性删除
 */!*  
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -383,32 +383,32 @@ user = new Proxy(user, {
     }
   },
 *!*
-  ownKeys(target) { // to intercept property list
+  ownKeys(target) { // 拦截读取属性列表
 */!*
     return Object.keys(target).filter(key => !key.startsWith('_'));
   }
 });
 
-// "get" doesn't allow to read _password
+// “get” 不允许读取 _password
 try {
   alert(user._password); // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "set" doesn't allow to write _password
+//  “set” 不允许写入 _password
 try {
   user._password = "test"; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "deleteProperty" doesn't allow to delete _password
+// “deleteProperty” 不允许删除 _password 属性
 try {
   delete user._password; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "ownKeys" filters out _password
+// “ownKeys” 过滤排除 _password
 for(let key in user) alert(key); // name
 ```
 
-Please note the important detail in the `get` trap, in the line `(*)`:
+请注意在行 `(*)` 中 `get` 陷阱的重要细节：
 
 ```js
 get(target, prop) {
@@ -420,42 +420,42 @@ get(target, prop) {
 }
 ```
 
-Why do we need a function to call `value.bind(target)`?
+为什么我们需要一个函数调用 `value.bind(target)`？
 
-The reason is that object methods, such as `user.checkPassword()`, must be able to access `_password`:
+原因是对象方法（例如 `user.checkPassword()`）必须能够访问 `_password`：
 
 ```js
 user = {
   // ...
   checkPassword(value) {
-    // object method must be able to read _password
+    //对象方法必须能读取 _password
     return value === this._password;
   }
 }
 ```
 
 
-A call to `user.checkPassword()` call gets proxied `user` as `this` (the object before dot becomes `this`), so when it tries to access `this._password`, the `get` trap activates (it triggers on any property read) and throws an error.
+对 `user.checkPassword()` 的一个调用会调用代理对象 `user` 作为 `this`（点运算符之前的对象会成为 `this`），因此，当它尝试访问 `this._password` 时 `get` 陷阱将激活（它在读取任何属性时触发）并抛出错误。
 
-So we bind the context of object methods to the original object, `target`, in the line `(*)`. Then their future calls will use `target` as `this`, without any traps.
+因此，我们在行 `(*)` 中将对象方法的上下文绑定到原始对象，`target`。然后，它们将来的调用将使用 `target` 作为 `this`，不触发任何陷阱。
 
-That solution usually works, but isn't ideal, as a method may pass the unproxied object somewhere else, and then we'll get messed up: where's the original object, and where's the proxied one?
+该解决方案通常可行，但并不理想，因为一种方法可能会将未代理的对象传递到其他地方，然后我们会陷入困境：原始对象在哪里，代理的对象在哪里？
 
-Besides, an object may be proxied multiple times (multiple proxies may add different "tweaks" to the object), and if we pass an unwrapped object to a method, there may be unexpected consequences.
+此外，一个对象可能会被代理多次（多个代理可能会对该对象添加不同的“调整”），并且如果我们将未包装的对象传递给方法，则可能会产生意想不到的后果。
 
-So, such a proxy shouldn't be used everywhere.
+因此，在任何地方都不应使用这种代理。
 
-```smart header="Private properties of a class"
-Modern JavaScript engines natively support private properties in classes, prefixed with `#`. They are described in the chapter <info:private-protected-properties-methods>. No proxies required.
+```smart header="类的私有属性"
+现代 Javascript 引擎原生支持私有属性，其以 `#` 作为前缀。这在章节 <info:private-protected-properties-methods> 中有详细描述。Proxy并不是必需的。
 
-Such properties have their own issues though. In particular, they are not inherited.
+但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
 
-## "In range" with "has" trap
+## "In range" 及 "has" 陷阱
 
-Let's see more examples.
+让我们来看更多示例。
 
-We have a range object:
+我们有一个 range 对象：
 
 ```js
 let range = {
@@ -464,16 +464,16 @@ let range = {
 };
 ```
 
-We'd like to use the `in` operator to check that a number is in `range`.
+我们想使用 `in` 运算符来检查数字是否在 `range` 范围内。
 
-The `has` trap intercepts `in` calls.
+该 `has` 陷阱拦截 `in` 调用。
 
 `has(target, property)`
 
-- `target` -- is the target object, passed as the first argument to `new Proxy`,
-- `property` -- property name
+- `target` —— 是目标对象，作为第一个参数传递给 `new Proxy`
+- `property` —— 属性名称
 
-Here's the demo:
+示例如下
 
 ```js run
 let range = {
@@ -495,27 +495,27 @@ alert(50 in range); // false
 */!*
 ```
 
-Nice syntactic sugar, isn't it? And very simple to implement.
+漂亮的语法糖，不是吗？而且实现起来非常简单。
 
-## Wrapping functions: "apply" [#proxy-apply]
+## 包装函数："apply" [#proxy-apply]
 
-We can wrap a proxy around a function as well.
+我们也可以将代理包装在函数周围。
 
-The `apply(target, thisArg, args)` trap handles calling a proxy as function:
+`apply(target, thisArg, args)` 陷阱能使代理以函数的方式被调用：
 
-- `target` is the target object (function is an object in JavaScript),
-- `thisArg` is the value of `this`.
-- `args` is a list of arguments.
+- `target` 是目标对象（函数是 JavaScript 中的对象）
+- `thisArg` 是 `this` 的值
+- `args` 是参数列表
 
-For example, let's recall `delay(f, ms)` decorator, that we did in the chapter <info:call-apply-decorators>.
+例如，让我们回想一下 `delay(f, ms)` 装饰器，它是我们在 <info:call-apply-decorators> 一章中完成的。
 
-In that chapter we did it without proxies. A call to `delay(f, ms)` returned a function that forwards all calls to `f` after `ms` milliseconds.
+在该章中，我们没有用 proxy 来实现它。调用 `delay(f, ms)` 返回一个函数，该函数会将在 `ms` 毫秒后把所有调用转发到 `f`。
 
-Here's the previous, function-based implementation:
+这是以前的基于函数的实现：
 
 ```js run
 function delay(f, ms) {
-  // return a wrapper that passes the call to f after the timeout
+  // 返回一个超时后调用 f 函数的包装器
   return function() { // (*)
     setTimeout(() => f.apply(this, arguments), ms);
   };
@@ -525,15 +525,15 @@ function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-// after this wrapping, calls to sayHi will be delayed for 3 seconds
+// 这次包装后，sayHi 在3秒后被调用
 sayHi = delay(sayHi, 3000);
 
-sayHi("John"); // Hello, John! (after 3 seconds)
+sayHi("John"); // Hello, John! （3秒后）
 ```
 
-As we've seen already, that mostly works. The wrapper function `(*)` performs the call after the timeout.
+正如我们已经看到的那样，大多数情况下都是可行的。包装函数 `(*)` 在超时后执行调用。
 
-But a wrapper function does not forward property read/write operations or anything else. After the wrapping, the access is lost to properties of the original functions, such as `name`, `length` and others:
+但是包装函数不会转发属性读/写操作或其他任何操作。包装后，无法访问原有函数的属性，比如 `name`，`length`和其他：
 
 ```js run
 function delay(f, ms) {
@@ -547,19 +547,19 @@ function sayHi(user) {
 }
 
 *!*
-alert(sayHi.length); // 1 (function length is the arguments count in its declaration)
+alert(sayHi.length); // 1 （函数的 length 是其声明中的参数个数）
 */!*
 
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 0 (in the wrapper declaration, there are zero arguments)
+alert(sayHi.length); // 0 （在包装器声明中，参数个数为0)
 */!*
 ```
 
-`Proxy` is much more powerful, as it forwards everything to the target object.
+`Proxy` 功能强大得多，因为它将所有东西转发到目标对象。
 
-Let's use `Proxy` instead of a wrapping function:
+让我们使用 `Proxy` 而不是包装函数：
 
 ```js run
 function delay(f, ms) {
@@ -577,29 +577,29 @@ function sayHi(user) {
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 1 (*) proxy forwards "get length" operation to the target
+alert(sayHi.length); // 1 (*) proxy 转发“获取 length” 操作到目标对象
 */!*
 
-sayHi("John"); // Hello, John! (after 3 seconds)
+sayHi("John"); // Hello, John! （3秒后）
 ```
 
-The result is the same, but now not only calls, but all operations on the proxy are forwarded to the original function. So `sayHi.length` is returned correctly after the wrapping in the line `(*)`.
+结果是相同的，但现在不仅调用，而且代理上的所有操作都转发到原始函数。所以sayHi.length在 `(*)` 行包装后正确返回结果(*)。
 
-We've got a "richer" wrapper.
+我们有一个“更丰富”的包装器。
 
-Other traps exist: the full list is in the beginning of this chapter. Their usage pattern is similar to the above.
+还存在其他陷阱：完整列表在本章的开头。它们的使用模式与上述类似。
 
 ## Reflect
 
-`Reflect` is a built-in object that simplifies creation of `Proxy`.
+`Reflect` 是一个内置对象，可简化的创建 `Proxy`。
 
-It was said previously that internal methods, such as `[[Get]]`, `[[Set]]` and others are specification-only, they can't be called directly.
+以前的内部方法，比如`[[Get]]`，`[[Set]]` 等等都只是规范，不能直接调用。
 
-The `Reflect` object makes that somewhat possible. Its methods are minimal wrappers around the internal methods.
+`Reflect` 对象使调用这些内部方法成为可能。它的方法是内部方法的最小包装。
 
-Here are examples of operations and `Reflect` calls that do the same:
+这是 `Reflect` 执行相同操作和调用的示例：
 
-| Operation |  `Reflect` call | Internal method |
+| 操作 |  `Reflect` 调用 | 内部方法 |
 |-----------------|----------------|-------------|
 | `obj[prop]` | `Reflect.get(obj, prop)` | `[[Get]]` |
 | `obj[prop] = value` | `Reflect.set(obj, prop, value)` | `[[Set]]` |
@@ -607,7 +607,7 @@ Here are examples of operations and `Reflect` calls that do the same:
 | `new F(value)` | `Reflect.construct(F, value)` | `[[Construct]]` |
 | ... | ... | ... |
 
-For example:
+例如：
 
 ```js run
 let user = {};
@@ -617,13 +617,13 @@ Reflect.set(user, 'name', 'John');
 alert(user.name); // John
 ```
 
-In particular, `Reflect` allows us to call operators (`new`, `delete`...) as functions (`Reflect.construct`, `Reflect.deleteProperty`, ...). That's an interesting capability, but here another thing is important.
+尤其是，`Reflect` 允许我们使用函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行操作（`new`，`delete`，……）。这是一个有趣的功能，但是这里还有一点很重要。
 
-**For every internal method, trappable by `Proxy`, there's a corresponding method in `Reflect`, with the same name and arguments as `Proxy` trap.**
+**对于每个可被 `Proxy` 捕获的内部方法，`Reflect` 都有一个对应的方法 Reflect，其名称和参数与 `Proxy` 陷阱相同。**
 
-So we can use `Reflect` to forward an operation to the original object.
+因此，我们可以用 `Reflect` 来将操作转发到原始对象。
 
-In this example, both traps `get` and `set` transparently (as if they didn't exist) forward reading/writing operations to the object, showing a message:
+在此示例中，陷阱 `get` 和 `set` 透明地（好像它们都不存在）将读/写操作转发到对象，并显示一条消息：
 
 ```js run
 let user = {
@@ -649,22 +649,22 @@ let name = user.name; // shows "GET name"
 user.name = "Pete"; // shows "SET name=Pete"
 ```
 
-Here:
+这里:
 
-- `Reflect.get` reads an object property.
-- `Reflect.set` writes an object property and returns `true` if successful, `false` otherwise.
+- `Reflect.get` 读取一个对象属性
+- `Reflect.set` 写入对象属性，成功返回 `true` ，否则返回 `false`
 
-That is, everything's simple: if a trap wants to forward the call to the object, it's enough to call `Reflect.<method>` with the same arguments.
+就是说，一切都很简单：如果陷阱想要将调用转发给对象，则只需使用相同的参数调用 `Reflect.<method>` 就足够了。
 
-In most cases we can do the same without `Reflect`, for instance, reading a property `Reflect.get(target, prop, receiver)` can be replaced by `target[prop]`. There are important nuances though.
+在大多数情况下，我们可以不使用 `Reflect` 完成相同的事情，例如，使用`Reflect.get(target, prop, receiver)` 读取属性可以替换为 `target[prop]`。尽管有一些细微的差别。
 
-### Proxying a getter
+### 代理一个 getter 
 
-Let's see an example that demonstrates why `Reflect.get` is better. And we'll also see why `get/set` have the fourth argument `receiver`, that we didn't use before.
+让我们看一个示例，说明为什么 `Reflect.get` 更好。我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而我们以前没有使用过它。
 
-We have an object `user` with `_name` property and a getter for it.
+我们有一个带有一个 `_name` 属性和一个 getter 的对象 `user`。
 
-Here's a proxy around it:
+这是一个 Proxy：
 
 ```js run
 let user = {
@@ -685,11 +685,11 @@ let userProxy = new Proxy(user, {
 alert(userProxy.name); // Guest
 ```
 
-The `get` trap is "transparent" here, it returns the original property, and doesn't do anything else. That's enough for our example.
+该 `get` 陷阱在这里是“透明的”，它返回原来的属性，不会做别的任何事情。对于我们的示例而言，这就足够了。
 
-Everything seems to be all right. But let's make the example a little bit more complex.
+一切似乎都很好。但是让我们将示例变得更加复杂。
 
-After inheriting another object `admin` from `user`, we can observe the incorrect behavior:
+另一个对象 `admin`从 `user` 继承后，我们可以观察到错误的行为：
 
 ```js run
 let user = {
@@ -712,31 +712,31 @@ let admin = {
 };
 
 // Expected: Admin
-alert(admin.name); // outputs: Guest (?!?)
+alert(admin.name); // 输出：Guest （？！？）
 */!*
 ```
 
-Reading `admin.name` should return `"Admin"`, not `"Guest"`!
+读取 `admin.name` 应该返回 `"Admin"`，而不是 `"Guest"`！
 
-What's the matter? Maybe we did something wrong with the inheritance?
+怎么了？也许我们在继承方面做错了什么？
 
-But if we remove the proxy, then everything will work as expected.
+但是，如果我们删除代理，那么一切都会按预期进行。
 
-The problem is actually in the proxy, in the line `(*)`.
+问题实际上出在代理中，在 `(*)`行。
 
-1. When we read `admin.name`, as `admin` object doesn't have such own property, the search goes to its prototype.
-2. The prototype is `userProxy`.
-3. When reading `name` property from the proxy, its `get` trap triggers and returns it from the original object as `target[prop]` in the line `(*)`.
+1. 当我们读取 `admin.name`，由于 `admin` 对象自身没有对应的的属性，搜索将转到其原型。
+2. 原型是 `userProxy`。
+3. 从代理读取 `name` 属性时，`get` 陷阱会触发并从原始对象返回 `target[prop]` 属性，在 `(*)` 行
 
-    A call to `target[prop]`, when `prop` is a getter, runs its code in the context `this=target`. So the result is `this._name` from the original object `target`, that is: from `user`.
+    当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` 上下文中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name` 即来自 `user`。
 
-To fix such situations, we need `receiver`, the third argument of `get` trap. It keeps the correct `this` to be passed to a getter. In our case that's `admin`.
+为了解决这种情况，我们需要 `get` 陷阱的第三个参数 `receiver`。它保证传递正确的 `this` 给 getter。在我们的情况下是 `admin`。
 
-How to pass the context for a getter? For a regular function we could use `call/apply`, but that's a getter, it's not "called", just accessed.
+如何为 getter 传递上下文？对于常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不是“被调用”的，只是被访问的。
 
-`Reflect.get` can do that. Everything will work right if we use it.
+`Reflect.get` 可以做到的。如果我们使用它，一切都会正常运行。
 
-Here's the corrected variant:
+这是更正后的变体：
 
 ```js run
 let user = {
@@ -765,9 +765,9 @@ alert(admin.name); // Admin
 */!*
 ```
 
-Now `receiver` that keeps a reference to the correct `this` (that is `admin`), is passed to the getter using `Reflect.get` in the line `(*)`.
+现在 `receiver`，保留了对正确 `this` 的引用（即`admin`）的引用，该引用将在 `(*)` 行中使用`Reflect.get`传递给getter。
 
-We can rewrite the trap even shorter:
+我们可以将陷阱重写得更短： 
 
 ```js
 get(target, prop, receiver) {
@@ -776,25 +776,25 @@ get(target, prop, receiver) {
 ```
 
 
-`Reflect` calls are named exactly the same way as traps and accept the same arguments. They were specifically designed this way.
+`Reflect` 调用的命名方式与陷阱完全相同，并且接受相同的参数。它们是通过这种方式专门设计的。
 
-So, `return Reflect...` provides a safe no-brainer to forward the operation and make sure we don't forget anything related to that.
+因此， `return Reflect...` 会提供一个安全的提示程序来转发操作，并确保我们不会忘记与此相关的任何内容。
 
-## Proxy limitations
+## Proxy 的局限
 
-Proxies provide a unique way to alter or tweak the behavior of the existing objects at the lowest level. Still, it's not perfect. There are limitations.
+代理提供了一种独特的方法，可以在最底层更改或调整现有对象的行为。但是，它并不完美。有局限性。
 
-### Built-in objects: Internal slots
+### 内置对象：内部插槽（Internal slots）
 
-Many built-in objects, for example `Map`, `Set`, `Date`, `Promise` and others make use of so-called "internal slots".
+许多内置对象，例如 `Map`, `Set`, `Date`, `Promise` 等等都使用了所谓的 "内部插槽"。
 
-These are like properties, but reserved for internal, specification-only purposes. For instance, `Map` stores items in the internal slot `[[MapData]]`. Built-in methods access them directly, not via `[[Get]]/[[Set]]` internal methods. So `Proxy` can't intercept that.
+它们类似于属性，但仅限于内部使用，仅用于规范目的。例如， `Map` 将项目存储在 `[[MapData]]`中。内置方法直接访问它们，而不通过 `[[Get]]/[[Set]]` 内部方法。所以 `Proxy` 不能拦截。
 
-Why care? They're internal anyway!
+为什么要在意呢？他们是内部的！
 
-Well, here's the issue. After a built-in object like that gets proxied, the proxy doesn't have these internal slots, so built-in methods will fail.
+好吧，这就是问题。在像这样的内置对象被代理后，代理对象没有这些内部插槽，因此内置方法将失败。
 
-For example:
+例如：
 
 ```js run
 let map = new Map();
@@ -806,9 +806,9 @@ proxy.set('test', 1); // Error
 */!*
 ```
 
-Internally, a `Map` stores all data in its `[[MapData]]` internal slot. The proxy doesn't have such a slot. The [built-in method `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) method tries to access the internal property `this.[[MapData]]`, but because `this=proxy`, can't find it in `proxy` and just fails.
+在内部，一个 `Map` 将所有数据存储在其 `[[MapData]]` 内部插槽中。代理对象没有这样的插槽。[内建方法 `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) 方法试图访问内部属性 `this.[[MapData]]`，但由于 `this=proxy` 在 `proxy` 中不能找到它，只能失败。
 
-Fortunately, there's a way to fix it:
+幸运的是，有一种解决方法：
 
 ```js run
 let map = new Map();
@@ -826,21 +826,21 @@ proxy.set('test', 1);
 alert(proxy.get('test')); // 1 (works!)
 ```
 
-Now it works fine, because `get` trap binds function properties, such as `map.set`, to the target object (`map`) itself.
+现在它可以正常工作，因为 `get` 陷阱将函数属性（例如 `map.set`）绑定到目标对象（`map`）本身。
 
-Unlike the previous example, the value of `this` inside `proxy.set(...)` will be not `proxy`, but the original `map`. So when the internal implementation of `set` tries to access `this.[[MapData]]` internal slot, it succeeds.
+与前面的示例不同，`proxy.set(...)` 内部 `this` 的值并不是 `proxy`，而是原始对象 `map`。因此，当`set` 陷阱的内部实现尝试访问 `this.[[MapData]]` 内部插槽时，它会成功。
 
-```smart header="`Array` has no internal slots"
-A notable exception: built-in `Array` doesn't use internal slots. That's for historical reasons, as it appeared so long ago.
+```smart header="`Array` 没有内部插槽"
+一个明显的例外：内置 `Array` 不使用内部插槽。那是出于历史原因，因为它出现于很久以前。
 
-So there's no such problem when proxying an array.
+因此，代理数组时没有这种问题。
 ```
 
-### Private fields
+### 私有字段
 
-The similar thing happens with private class fields.
+类的私有字段也会发生类似的情况。
 
-For example, `getName()` method accesses the private `#name` property and breaks after proxying:
+例如，`getName()` 方法访问私有的 `#name` 属性并在代理后中断：
 
 ```js run
 class User {
@@ -860,11 +860,11 @@ alert(user.getName()); // Error
 */!*
 ```
 
-The reason is that private fields are implemented using internal slots. JavaScript does not use `[[Get]]/[[Set]]` when accessing them.
+原因是专用字段是使用内部插槽实现的。JavaScript 访问它们时不使用 `[[Get]]/[[Set]]`。
 
-In the call `getName()` the value of `this` is the proxied `user`, and it doesn't have the slot with private fields.
+在调用 `getName()` 时 `this` 的值是代理后的 `user`，它没有带私有字段的插槽。
 
-Once again, the solution with binding the method makes it work:
+再次，bind 方法的解决方案使它恢复正常：
 
 ```js run
 class User {
@@ -887,13 +887,13 @@ user = new Proxy(user, {
 alert(user.getName()); // Guest
 ```
 
-That said, the solution has drawbacks, as explained previously: it exposes the original object to the method, potentially allowing it to be passed further and breaking other proxied functionality.
+该解决方案有缺点，如前所述：将原始对象暴露给该方法，可能使其进一步传递并破坏其他代理功能。
 
 ### Proxy != target
 
-The proxy and the original object are different objects. That's natural, right?
+代理和原始对象是不同的对象。很自然吧？
 
-So if we use the original object as a key, and then proxy it, then the proxy can't be found:
+因此，如果我们使用原始对象作为键，然后对其进行代理，则找不到代理：
 
 ```js run
 let allUsers = new Set();
@@ -916,33 +916,33 @@ alert(allUsers.has(user)); // false
 */!*
 ```
 
-As we can see, after proxying we can't find `user` in the set `allUsers`, because the proxy is a different object.
+如我们所见，代理后，我们在 `allUsers` 中找不到 `user`，因为代理是一个不同的对象。
 
-```warn header="Proxies can't intercept a strict equality test `===`"
-Proxies can intercept many operators, such as `new` (with `construct`), `in` (with `has`), `delete` (with `deleteProperty`) and so on.
+```warn header="Proxy 无法拦截严格相等性测试 `===`"
+Proxy 可以拦截许多运算符，例如new（使用 `construct`），in（使用 `has`），delete（使用 `deleteProperty`）等。
 
-But there's no way to intercept a strict equality test for objects. An object is strictly equal to itself only, and no other value.
+但是没有办法拦截对象的严格相等性测试。一个对象严格只等于自身，没有其他值。
 
-So all operations and built-in classes that compare objects for equality will differentiate between the object and the proxy. No transparent replacement here.
+因此，比较对象是否相等的所有操作和内置类都会区分 target 和 proxy。这里没有透明的替代品。
 ```
 
-## Revocable proxies
+## 可取消的 Proxy
 
-A *revocable* proxy is a proxy that can be disabled.
+一个 *可撤销* 的代理是可以被禁用的代理。
 
-Let's say we have a resource, and would like to close access to it any moment.
+假设我们有一个资源，并且想随时关闭对该资源的访问。
 
-What we can do is to wrap it into a revocable proxy, without any traps. Such a proxy will forward operations to object, and we can disable it at any moment.
+我们可以做的是将其包装成可撤销的代理，而没有任何陷阱。这样的代理会将操作转发给对象，我们可以随时将其禁用。
 
-The syntax is:
+语法为：
 
 ```js
 let {proxy, revoke} = Proxy.revocable(target, handler)
 ```
 
-The call returns an object with the `proxy` and `revoke` function to disable it.
+该调用返回一个带有 `proxy` 和 `revoke` 函数的对象以将其禁用。
 
-Here's an example:
+这是一个例子：
 
 ```js run
 let object = {
@@ -951,19 +951,19 @@ let object = {
 
 let {proxy, revoke} = Proxy.revocable(object, {});
 
-// pass the proxy somewhere instead of object...
+// proxy 正常工作
 alert(proxy.data); // Valuable data
 
-// later in our code
+// 之后某处调用
 revoke();
 
-// the proxy isn't working any more (revoked)
+// proxy 不再工作（已吊销）
 alert(proxy.data); // Error
 ```
 
-A call to `revoke()` removes all internal references to the target object from the proxy, so they are no more connected. The target object can be garbage-collected after that.
+调用 `revoke()` 会从代理中删除对目标对象的所有内部引用，因此不再连接它们。之后可以对目标对象进行垃圾回收。
 
-We can also store `revoke` in a `WeakMap`, to be able to easily find it by a proxy object:
+我们还可以将 `revoke` 存储在 `WeakMap` 中，以便能够通过代理对象轻松找到它：
 
 ```js run
 *!*
@@ -982,25 +982,25 @@ revokes.set(proxy, revoke);
 revoke = revokes.get(proxy);
 revoke();
 
-alert(proxy.data); // Error (revoked)
+alert(proxy.data); // Error（已吊销）
 ```
 
-The benefit of such an approach is that we don't have to carry `revoke` around. We can get it from the map by `proxy` when needed.
+这种方法的好处是我们不必随身携带revoke。我们可以在需要时从 map `proxy` 上获取它。
 
-We use `WeakMap` instead of `Map` here because it won't block garbage collection. If a proxy object becomes "unreachable" (e.g. no variable references it any more), `WeakMap` allows it to be wiped from memory together with its `revoke` that we won't need any more.
+此处我们使用`WeakMap` 而不是 `Map` ，因为它不会阻止垃圾收集。如果代理对象变得“无法访问”（例如，没有变量再引用它），则 `WeakMap` 允许将其与 它的 `revoke` 对象一起从内存中擦除，因为我们不再需要它了。
 
-## References
+## 参考文献
 
-- Specification: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
+- 规范: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
 - MDN: [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
 
-## Summary
+## 总结
 
-`Proxy` is a wrapper around an object, that forwards operations on it to the object, optionally trapping some of them.
+`Proxy` 是对象的包装，将代理上的操作转发到对象，并可以选择捕获其中的一些操作。
 
-It can wrap any kind of object, including classes and functions.
+它可以包装任何类型的对象，包括类和函数。
 
-The syntax is:
+语法为：
 
 ```js
 let proxy = new Proxy(target, {
@@ -1008,23 +1008,23 @@ let proxy = new Proxy(target, {
 });
 ```
 
-...Then we should use `proxy` everywhere instead of `target`. A proxy doesn't have its own properties or methods. It traps an operation if the trap is provided, otherwise forwards it to `target` object.
+……然后，我们应该在所有地方使用 `proxy` 而不是 `target`。代理没有自己的属性或方法。如果提供了陷阱，它将捕获操作，否则将其转发给 `target` 对象。
 
-We can trap:
-- Reading (`get`), writing (`set`), deleting (`deleteProperty`) a property (even a non-existing one).
-- Calling a function (`apply` trap).
-- The `new` operator (`construct` trap).
-- Many other operations (the full list is at the beginning of the article and in the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)).
+我们可以捕获：
+- 读取（`get`），写入（`set`），删除（`deleteProperty`）属性（甚至是不存在的属性）。
+- 函数调用（`apply` 陷阱）。
+- `new` 操作（`construct` 陷阱）。
+- 许多其他操作（完整列表在本文开头和 [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 中）。
 
-That allows us to create "virtual" properties and methods, implement default values, observable objects, function decorators and so much more.
+这使我们能够创建“虚拟”属性和方法，实现默认值，可观察对象，函数装饰器等等。
 
-We can also wrap an object multiple times in different proxies, decorating it with various aspects of functionality.
+我们还可以将对象多次包装在不同的代理中，并用多个函数进行装饰。
 
-The [Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API is designed to complement [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). For any `Proxy` trap, there's a `Reflect` call with same arguments. We should use those to forward calls to target objects.
+该[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任何 `Proxy` 陷阱，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
 
-Proxies have some limitations:
+Proxy 有一些局限：
 
-- Built-in objects have "internal slots", access to those can't be proxied. See the workaround above.
-- The same holds true for private class fields, as they are internally implemented using slots. So proxied method calls must have the target object as `this` to access them.
-- Object equality tests `===` can't be intercepted.
-- Performance: benchmarks depend on an engine, but generally accessing a property using a simplest proxy takes a few times longer. In practice that only matters for some "bottleneck" objects though.
+- 内置对象具有“内部插槽”，对这些对象的访问无法被代理。请参阅上面的解决方法。
+- 私有类字段也是如此，因为它们是在内部使用插槽实现的。因此，代理方法的调用必须具有目标对象 `this` 才能访问它们。
+- 对象相等性测试 `===` 不能被拦截。
+- 性能：基准测试取决于引擎，但通常使用最简单的代理访问属性所需的时间要长几倍。实际上，这仅对某些“瓶颈”对象重要。

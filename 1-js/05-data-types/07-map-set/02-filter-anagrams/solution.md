@@ -36,7 +36,7 @@ alert( aclean(arr) );
 为了方便，我们把它分解为多行：
 
 ```js
-let sorted = arr[i] // PAN
+let sorted = word // PAN
   .toLowerCase() // pan
   .split('') // ['p','a','n']
   .sort() // ['a','n','p']
