@@ -219,7 +219,7 @@ alert(obj.orange); // 2
 
 调用 `map.entries()` 将返回含有键值对的数组，这刚好是 `Object.fromEntries` 所需要的格式。
 
-我们可以把带 `(*)` 这一行变得更短：
+我们可以把带 `(*)` 的这一行写得更短：
 
 ```js
 let obj = Object.fromEntries(map); // 省掉 .entries()
