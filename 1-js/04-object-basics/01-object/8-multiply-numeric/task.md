@@ -4,7 +4,7 @@ importance: 3
 
 # 数值属性都乘以 2
 
-创建一个 `multiplyNumeric(obj)` 方法，把 `obj` 所有的数值属性都乘以 `2`。
+创建一个 `multiplyNumeric(obj)` 函数，把 `obj` 所有的数值属性都乘以 `2`。
 
 例如：
 
@@ -18,7 +18,7 @@ let menu = {
 
 multiplyNumeric(menu);
 
-// 调用方法之后
+// 调用函数之后
 menu = {
   width: 400,
   height: 600,
@@ -26,8 +26,6 @@ menu = {
 };
 ```
 
-注意 `multiplyNumeric` 方法不返回任何值，它改变了传入的对象。
+注意 `multiplyNumeric` 函数不需要返回任何值，它应该就地修改对象。
 
 P.S. 用 `typeof` 检查值类型。
-
-
