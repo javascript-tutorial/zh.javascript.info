@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 计时器元素实例
 
 我们已经创建了 `<time-formatted>` 元素用于展示格式化好的时间。
@@ -9,6 +10,18 @@
 3. 每一秒钟都应该有一个自定义事件 `tick` 被生成，这个事件的 `event.detail` 属性带有当前日期。（参考章节 <info:dispatch-events> ）。
 
 使用方式：
+=======
+# Live timer element
+
+We already have `<time-formatted>` element to show a nicely formatted time.
+
+Create `<live-timer>` element to show the current time:
+1. It should use `<time-formatted>` internally, not duplicate its functionality.
+2. Ticks (updates) every second.
+3. For every tick, a custom event named `tick` should be generated, with the current date in `event.detail` (see chapter <info:dispatch-events>).
+
+Usage:
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 
 ```html
 <live-timer id="elem"></live-timer>
@@ -18,6 +31,10 @@
 </script>
 ```
 
+<<<<<<< HEAD
 例子：
+=======
+Demo:
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 
 [iframe src="solution" height=40]

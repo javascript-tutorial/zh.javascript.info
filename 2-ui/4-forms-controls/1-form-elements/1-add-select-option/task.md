@@ -15,6 +15,14 @@ importance: 5
 
 使用 JavaScript 来实现以下效果：
 
+<<<<<<< HEAD
 1. 显示所选选项的值和文本。
 2. 增加一个选项：`<option value="classic">Classic</option>`。
 3. 使之变为可选的。
+=======
+1. Show the value and the text of the selected option.
+2. Add an option: `<option value="classic">Classic</option>`.
+3. Make it selected.
+
+Note, if you've done everything right, your alert should show `blues`.
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912

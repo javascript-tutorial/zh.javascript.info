@@ -14,7 +14,7 @@ importance: 3
   }
 </script>
 
-<a href="http://w3.org" onclick="handler()">the browser will go to w3.org</a>
+<a href="https://w3.org" onclick="handler()">the browser will go to w3.org</a>
 ```
 
 浏览器在单击时会根据 URL 进行跳转，但这不是我们想要的。
