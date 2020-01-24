@@ -64,7 +64,7 @@
 与 `match` 相比有 3 个区别：
 
 1. 它返回包含匹配项的可迭代对象，而不是数组。我们可以用 `Array.from` 从中得到一个常规数组。
-2. 每个匹配项均以包含分组的数组形式返回（与 `str.match` 格式相同，但不带有 `pattern:g` 标记）。
+2. 每个匹配项均以包含分组的数组形式返回（返回格式与不带 `pattern:g` 标记的 `str.match` 相同）。
 3. 如果没有结果，则返回的不是 `null`，而是一个空的可迭代对象。
 
 用法示例：
@@ -344,4 +344,3 @@ alert( regexp.test("javascript") ); // false
 这正是因为在第二个测试中 `regexp.lastIndex` 不为零。
 
 如要解决这个问题，我们可以在每次搜索之前设置 `regexp.lastIndex = 0`。或者，不调用正则表达式的方法，而是使用字符串方法 `str.match/search/...`，这些方法不用 `lastIndex`。
-
