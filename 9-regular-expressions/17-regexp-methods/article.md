@@ -279,7 +279,7 @@ alert( regexp.exec(str) ); // world
 
 如果正则表达式带有标记 `pattern:y`，则搜索将精确地在 `regexp.lastIndex` 位置执行，不会再继续了。
 
-让我们将上例中的 `pattern:g` 替换为 `pattern:y`。现在没有找到匹配项了，因为在位置 `5` 处没有单词：
+让我们将上例中的 `pattern:g` 标记替换为 `pattern:y`。现在没有找到匹配项了，因为在位置 `5` 处没有单词：
 
 ```js run
 let str = 'Hello, world!';
