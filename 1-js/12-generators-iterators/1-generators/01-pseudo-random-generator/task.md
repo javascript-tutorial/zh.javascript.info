@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 伪随机（Pseudo-random）generator
 
 在许多场合下我们都需要随机数据。
@@ -10,11 +11,25 @@
 为此，我们使用所谓的“种子伪随机（seeded pseudo-random）generators”。它们采用“种子”，即第一个值，然后使用公式生成下一个值。因此相同的种子 yield 相同的序列，整个数据流很容易复现。我们只需要记住种子并重复它即可。
 
 一个公式示例如下，它生成一些统一分布的值：
+=======
+# Pseudo-random generator
+
+There are many areas where we need random data.
+
+One of them is testing. We may need random data: text, numbers, etc. to test things out well.
+
+In JavaScript, we could use `Math.random()`. But if something goes wrong, we'd like to be able to repeat the test, using exactly the same data.
+
+For that, so called "seeded pseudo-random generators" are used. They take a "seed", the first value, and then generate the next ones using a formula so that the same seed yields the same sequence, and hence the whole flow is easily reproducible. We only need to remember the seed to repeat it.
+
+An example of such formula, that generates somewhat uniformly distributed values:
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38
 
 ```
 next = previous * 16807 % 2147483647
 ```
 
+<<<<<<< HEAD
 如果我们使用 `1` 作为种子，它的值将会是：
 1. `16807`
 2. `282475249`
@@ -24,6 +39,17 @@ next = previous * 16807 % 2147483647
 那么，这里的任务是创建一个 generator 函数 `pseudoRandom(seed)`，它将 `seed` 作为参数然后以这个公式创建 generator。
 
 使用范例：
+=======
+If we use `1` as the seed, the values will be:
+1. `16807`
+2. `282475249`
+3. `1622650073`
+4. ...and so on...
+
+The task is to create a generator function `pseudoRandom(seed)` that takes `seed` and creates the generator with this formula.
+
+Usage example:
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38
 
 ```js
 let generator = pseudoRandom(1);

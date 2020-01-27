@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 为什么 this 会丢失
+=======
+# Fix a function that loses "this"
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38
 
 下面代码中对 `askPassword()` 的调用将会检查密码然后基于结果调用 `user.loginOk/loginFail`。
 
@@ -34,5 +38,3 @@ let user = {
 askPassword(user.loginOk, user.loginFail);
 */!*
 ```
-
-

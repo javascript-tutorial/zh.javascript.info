@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# 属性求和 Sum the properties
+# Sum the properties
 
-有一个 salaries 对象，包含了任意数量的薪水。
+There is a `salaries` object with arbitrary number of salaries. 
 
-使用 Object.values 和 for..of 循环语句写一个可以返回所有薪水的和的函数 sumSalaries(salaries)。
+Write the function `sumSalaries(salaries)` that returns the sum of all salaries using `Object.values` and the `for..of` loop.
 
-如果 `salaries` 是空对象，那么结果必须是 `0`。
+If `salaries` is empty, then the result must be `0`.
 
-举个例子：
+For instance:
 
 ```js
 let salaries = {

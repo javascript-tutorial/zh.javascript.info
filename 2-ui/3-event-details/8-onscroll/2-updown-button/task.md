@@ -11,6 +11,10 @@ importance: 5
 - 当页面滚动超过窗口高度时 —— 在左上角出现一个“向上”箭头。如果页面回滚，就会消失。
 - 单击箭头时，页面将滚动到顶部。
 
+<<<<<<< HEAD
 就像这样：
+=======
+Like this (top-left corner, scroll to see):
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38
 
 [iframe border="1" height="200" link src="solution"]

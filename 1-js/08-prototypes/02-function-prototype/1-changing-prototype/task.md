@@ -20,7 +20,11 @@ alert( rabbit.eats ); // true
 ```
 
 
+<<<<<<< HEAD:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 1. 我们增加了一个字符串（强调），`alert` 现在会显示什么？
+=======
+1. We added one more string (emphasized). What will `alert` show now?
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 
     ```js
     function Rabbit() {}
@@ -54,7 +58,11 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
+<<<<<<< HEAD:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 3. 像这样呢（换了一行）？
+=======
+3. And like this (replaced one line)?
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 
     ```js
     function Rabbit() {}

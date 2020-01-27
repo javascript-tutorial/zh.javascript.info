@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 迭代键
+# Iterable keys
 
-我们希望得到 `map.keys()` 的数组然后继续对它进行处理（脱离开 map 本身）。
+We'd like to get an array of `map.keys()` in a variable and then do apply array-specific methods to it, e.g. `.push`.
 
-但是有这样一个问题：
+But that doesn't work:
 
 ```js run
 let map = new Map();
@@ -16,9 +16,9 @@ map.set("name", "John");
 let keys = map.keys();
 
 *!*
-// 错误：numbers.push 不是一个函数
+// Error: keys.push is not a function
 keys.push("more");
 */!*
 ```
 
-为什么？我们如何修改代码让 `keys.push` 正常工作？
+Why? How can we fix the code to make `keys.push` work?

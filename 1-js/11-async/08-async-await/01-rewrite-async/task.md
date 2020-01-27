@@ -1,7 +1,11 @@
 
 # 用 async/await 来重写
 
+<<<<<<< HEAD:1-js/11-async/08-async-await/01-rewrite-async/task.md
 将 <info:promise-chaining> 章节一个例子中的 `.then/catch` 重写为 `async/await`：
+=======
+Rewrite this example code from the chapter <info:promise-chaining> using `async/await` instead of `.then/catch`:
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38:1-js/11-async/08-async-await/01-rewrite-async/task.md
 
 ```js run
 function loadJson(url) {
