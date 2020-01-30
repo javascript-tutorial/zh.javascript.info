@@ -534,7 +534,7 @@ alert( str );
 
 因此浏览器需要知道要比较的语言。
 
-幸运地是，所有现代浏览器（IE-10 需要额外的库 [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) 支持国际化标准 [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf)。
+幸运地是，所有现代浏览器（IE10- 需要额外的库 [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) 支持国际化标准 [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf)。
 
 它提供了一种特殊的方法来比较不同语言的字符串，遵循它们的规则。
 

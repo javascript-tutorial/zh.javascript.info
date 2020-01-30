@@ -718,7 +718,7 @@ alert(youngerUsers.length); // 2
 
 - [arr.fill(value, start, end)](mdn:js/Array/fill) — 从 `start` 到 `end` 用 `value` 重复填充数组。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) — 将 `开始` 位置到 `结束` 位置 [译注：不包含结束位元素] 元素复制到 *自身* `目标` 位置中（覆盖现有元素）。
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) — 将从 `start`（开始）位置到 `end`（结束）位置 [译注：不包含结束位元素] 的所有元素复制到 *自身* 的 `target`（目标）位置中（覆盖现有元素）。
 
 有关完整列表，请参阅[手册](mdn:js/Array)。
 
