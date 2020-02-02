@@ -90,6 +90,6 @@ alert( "Chapter 5.1".match(regexp) ); // 5.1
 
 ## Summary
 
-- To search for special characters `pattern:[ \ ^ $ . | ? * + ( )` literally, we need to prepend them with a backslash `\` ("escape them").
-- We also need to escape `/` if we're inside `pattern:/.../` (but not inside `new RegExp`).
-- When passing a string `new RegExp`, we need to double backslashes `\\`, cause string quotes consume one of them.
+- 要在字面（意义）上搜索特殊字符 `pattern:[ \ ^ $ . | ? * + ( )`，我们需要在它们前面加上反斜杠 `\`（"转义它们"）。
+- 如果我们在 `pattern:/.../` 内部（但不在 `new RegExp` 内部），还需要转义 `/`。
+- 传递一个字符串（参数）给 `new RegExp` 时，我们需要双倍反斜杠 `\\`，因为字符串引号会消费其中的一个。
