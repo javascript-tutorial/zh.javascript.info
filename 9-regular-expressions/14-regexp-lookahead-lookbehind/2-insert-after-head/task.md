@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Вставьте после фрагмента
 
 Есть строка с HTML-документом.
@@ -8,6 +9,18 @@
 
 ```js
 let regexp = /ваше регулярное выражение/;
+=======
+# Insert After Head
+
+We have a string with an HTML Document.
+
+Write a regular expression that inserts `<h1>Hello</h1>` immediately after `<body>` tag. The tag may have attributes.
+
+For instance:
+
+```js
+let regexp = /your regular expression/;
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 let str = `
 <html>
@@ -20,7 +33,11 @@ let str = `
 str = str.replace(regexp, `<h1>Hello</h1>`);
 ```
 
+<<<<<<< HEAD
 После этого значение `str`:
+=======
+After that the value of `str` should be:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 ```html
 <html>
   <body style="height: 200px"><h1>Hello</h1>

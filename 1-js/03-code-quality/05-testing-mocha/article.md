@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 # 使用 Mocha 进行自动化测试
 
 自动化测试将被用于进一步的任务中，并且还将被广泛应用在实际项目中。
 
 ## 为什么我们需要测试？
+=======
+# Automated testing with Mocha
+
+Automated testing will be used in further tasks, and it's also widely used in real projects.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 当我们在写一个函数时，我们通常可以想象出它应该做什么：哪些参数会给出哪些结果。
 
@@ -20,15 +26,27 @@
 
 **自动化测试意味着测试是独立于代码的。它们以各种方式运行我们的函数，并将结果与预期结果进行比较。**
 
+<<<<<<< HEAD
 ## 行为驱动开发（BDD）
+=======
+**Automated testing means that tests are written separately, in addition to the code. They run our functions in various ways and compare results with the expected.**
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 我们来使用一种名为 [行为驱动开发](http://en.wikipedia.org/wiki/Behavior-driven_development) 或简言为 BDD 的技术。
 
+<<<<<<< HEAD
 **BDD 包含了三部分内容：测试、文档和示例。**
+=======
+Let's start with a technique named [Behavior Driven Development](http://en.wikipedia.org/wiki/Behavior-driven_development) or, in short, BDD.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 为了理解 BDD，我们将研究一个实际的开发案例。
 
+<<<<<<< HEAD
 ## 开发 “pow”：规范
+=======
+To understand BDD, we'll examine a practical case of development.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 我们想要创建一个函数 `pow(x, n)` 来计算 `x` 的 `n` 次幂（`n` 为整数）。我们假设 `n≥0`。
 
@@ -36,7 +54,13 @@
 
 在创建函数 `pow` 的代码之前，我们可以想象函数应该做什么并且描述出来。
 
+<<<<<<< HEAD
 这样的描述被称作 **规范（specification, spec）**，包含用例的描述以及针对它们的测试，如下所示：
+=======
+Before creating the code of `pow`, we can imagine what the function should do and describe it.
+
+Such description is called a *specification* or, in short, a spec, and contains descriptions of use cases together with tests for them, like this:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js
 describe("pow", function() {
@@ -51,19 +75,32 @@ describe("pow", function() {
 正如你所看到的，一个规范包含三个主要的模块：
 
 `describe("title", function() { ... })`
+<<<<<<< HEAD
 : 表示我们正在描述的功能是什么。在我们的例子中我们正在描述函数 `pow`。用于组织“工人（workers）” —— `it` 代码块。
 
 `it("use case description", function() { ... })`
 : `it` 里面的描述部分，我们以一种 **易于理解** 的方式描述特定的用例，第二个参数是用于对其进行测试的函数。
+=======
+: What functionality we're describing. In our case we're describing the function `pow`. Used to group "workers" -- the `it` blocks.
+
+`it("use case description", function() { ... })`
+: In the title of `it` we *in a human-readable way* describe the particular use case, and the second argument is a function that tests it.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 `assert.equal(value1, value2)`
 : `it` 块中的代码，如果实现是正确的，它应该在执行的时候不产生任何错误。
 
     `assert.*` 函数用于检查 `pow` 函数是否按照预期工作。在这里我们使用了其中之一 —— `assert.equal`，它会对参数进行比较，如果它们不相等则会抛出一个错误。这里它检查了 `pow(2, 3)` 的值是否等于 `8`。还有其他类型的比较和检查，我们将在后面介绍到。
 
+<<<<<<< HEAD
 规范可以被执行，它将运行在 `it` 块中指定的测试。我们稍后会看到。
 
 ## 开发流程
+=======
+    Functions `assert.*` are used to check whether `pow` works as expected. Right here we're using one of them -- `assert.equal`, it compares arguments and yields an error if they are not equal. Here it checks that the result of `pow(2, 3)` equals `8`. There are other types of comparisons and checks, that we'll add later.
+
+The specification can be executed, and it will run the test specified in `it` block. We'll see that later.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 开发流程通常看起来像这样：
 
@@ -75,11 +112,27 @@ describe("pow", function() {
 6. 回到第 3 步，更新程序直到测试不会抛出错误。
 7. 重复第 3 步到第 6 步，直到功能完善。
 
+<<<<<<< HEAD
 如此来看，开发就是不断地 **迭代**。我们写规范，实现它，确保测试通过，然后写更多的测试，确保它们工作等等。最后，我们有了一个能工作的实现和针对它的测试。
+=======
+1. An initial spec is written, with tests for the most basic functionality.
+2. An initial implementation is created.
+3. To check whether it works, we run the testing framework [Mocha](http://mochajs.org/) (more details soon) that runs the spec. While the functionality is not complete, errors are displayed. We make corrections until everything works.
+4. Now we have a working initial implementation with tests.
+5. We add more use cases to the spec, probably not yet supported by the implementations. Tests start to fail.
+6. Go to 3, update the implementation till tests give no errors.
+7. Repeat steps 3-6 till the functionality is ready.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 让我们在我们的开发案例中看看这个开发流程吧。
 
+<<<<<<< HEAD
 在我们的案例中，第一步已经完成了：我们有一个针对 `pow` 的初始规范。因此让我们来实现它吧。但在此之前，让我们用一些 JavaScript 库来运行测试，就是看看测试是通过了还是失败了。
+=======
+Let's see this development flow in our practical case.
+
+The first step is already complete: we have an initial spec for `pow`. Now, before making the implementation, let's use few JavaScript libraries to run the tests, just to see that they are working (they will all fail).
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ## 行为规范
 
@@ -96,7 +149,11 @@ describe("pow", function() {
 ```html src="index.html"
 ```
 
+<<<<<<< HEAD
 该页面可分为五个部分：
+=======
+The page can be divided into five parts:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 1. `<head>` —— 添加用于测试的第三方库和样式文件。
 2. `<script>` 包含测试函数，在我们的例子中 —— 和 `pow` 相关的代码。
@@ -110,15 +167,24 @@ describe("pow", function() {
 
 到目前为止，测试失败了，出现了一个错误。这是合乎逻辑的：我们的 `pow` 是一个空函数，因此 `pow(2,3)` 返回了 `undefined` 而不是 `8`。
 
+<<<<<<< HEAD
 未来，我们会注意到有更高级的测试工具，像是 [karma](https://karma-runner.github.io/) 或其他的，使自动运行许多不同的测试变得更容易。
+=======
+For the future, let's note that there are more high-level test-runners, like [karma](https://karma-runner.github.io/) and others, that make it easy to autorun many different tests.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ## 初始实现
 
 为了可以通过测试，让我们写一个 `pow` 的简单实现：
 
 ```js
+<<<<<<< HEAD
 function pow() {
   return 8; // :) 我们作弊啦！
+=======
+function pow(x, n) {
+  return 8; // :) we cheat!
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 }
 ```
 
@@ -132,7 +198,11 @@ function pow() {
 
 ……但是这种情况却是在实际中相当典型例子。测试通过了，但是函数却是错误的。我们的规范是不完善的。我们需要给它添加更多的测试用例。
 
+<<<<<<< HEAD
 这里我们又添加了一个测试来检查 `pow(3, 4) = 81`。
+=======
+Let's add one more test to check that `pow(3, 4) = 81`.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 我们可以选择两种方式中的任意一种来组织测试代码：
 
@@ -182,7 +252,11 @@ function pow() {
 
 [iframe height=250 src="pow-2" edit border="1"]
 
+<<<<<<< HEAD
 正如我们可以想到的，第二条测试失败了。当然啦，我们的函数总会返回 `8`，而 `assert` 期望的是 `81`。
+=======
+As we could expect, the second test failed. Sure, our function always returns `8`, while the `assert` expects `81`.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ## 改进实现
 
@@ -296,7 +370,11 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
+<<<<<<< HEAD
 通常，`beforeEach/afterEach` 和 `before/after` 被用于执行初始化，清零计数器或做一些介于每个测试（或测试组）之间的事情。
+=======
+Usually, `beforeEach/afterEach` and `before/after` are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 ````
 
 ## 延伸规范
@@ -336,6 +414,7 @@ describe("pow", function() {
 新加的测试失败了，因为我们的实现方式是不支持它们的。这就是 BDD 的做法：我们首先写一些暂时无法通过的测试，然后去实现它们。
 
 ```smart header="Other assertions"
+<<<<<<< HEAD
 请注意断言语句 `assert.isNaN`：它用来检测 `NaN`。
 
 在 [Chai](http://chaijs.com) 中也有其他的断言，例如：
@@ -346,6 +425,18 @@ describe("pow", function() {
 - `assert.isTrue(value)` —— 检查 `value === true`。
 - `assert.isFalse(value)` —— 检查 `value === false`。
 - ……完整的列表请见 [docs](http://chaijs.com/api/assert/)
+=======
+Please note the assertion `assert.isNaN`: it checks for `NaN`.
+
+There are other assertions in [Chai](http://chaijs.com) as well, for instance:
+
+- `assert.equal(value1, value2)` -- checks the equality  `value1 == value2`.
+- `assert.strictEqual(value1, value2)` -- checks the strict equality `value1 === value2`.
+- `assert.notEqual`, `assert.notStrictEqual` -- inverse checks to the ones above.
+- `assert.isTrue(value)` -- checks that `value === true`
+- `assert.isFalse(value)` -- checks that `value === false`
+- ...the full list is in the [docs](http://chaijs.com/api/assert/)
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 ```
 
 因此我们应该给 `pow` 再加几行：
@@ -377,7 +468,13 @@ function pow(x, n) {
 
 在 BDD 中，规范先行，实现在后。最后我们同时拥有了规范和代码。
 
+<<<<<<< HEAD
 规范有三种使用方式：
+=======
+1. As **Tests** - they guarantee that the code works correctly.
+2. As **Docs** -- the titles of `describe` and `it` tell what the function does.
+3. As **Examples** -- the tests are actually working examples showing how a function can be used.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 1. 作为 **测试** —— 保证代码正确工作。
 2. 作为 **文档** —— `describe` 和 `it` 的标题告诉我们函数做了什么。
@@ -387,23 +484,40 @@ function pow(x, n) {
 
 这在一个函数会被用在多个地方的大型项目中尤其重要。当我们改变这样一个函数时，没有办法手动检查每个使用它们的地方是否仍旧正确。
 
+<<<<<<< HEAD
 如果没有测试，一般有两个办法：
 
 1. 展示修改，无论修改了什么。然后我们的用户遇到了 bug，这应该是我们没有手动完成某些检查。
 2. 如果对出错的惩罚比较严重，并且没有测试，那么大家会很害怕修改这样的函数，然后这些代码就会越来越陈旧，没有人会想接触它。这很不利于发展。
 
 **自动化测试则有助于避免这样的问题！**
+=======
+1. To perform the change, no matter what. And then our users meet bugs, as we probably fail to check something manually.
+2. Or, if the punishment for errors is harsh, as there are no tests, people become afraid to modify such functions, and then the code becomes outdated, no one wants to get into it. Not good for development.
+
+**Automatic testing helps to avoid these problems!**
+
+If the project is covered with tests, there's just no such problem. After any changes, we can run tests and see a lot of checks made in a matter of seconds.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 如果这个项目被测试代码覆盖了，就不会出现这种问题。在任何修改之后，我们都可以运行测试，并在几秒钟内看到大量的检查。
 
+<<<<<<< HEAD
 **另外，一个经过良好测试的代码通常都有更好的架构。**
+=======
+Naturally, that's because auto-tested code is easier to modify and improve. But there's also another reason.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 当然，这是因为覆盖了自动化测试的代码更容易修改和改进。但还有另一个原因。
 
 要编写测试，代码的组织方式应确保每个函数都有一个清晰描述的任务、定义良好的输入和输出。这意味着从一开始就有一个好的架构。
 
+<<<<<<< HEAD
 在实际开发中有时候可能并不容易，有时很难在写实际代码之前编写规范，因为还不清楚它应该如何表现。但一般来说，编写测试使得开发更快更稳定。
 
 在本教程的后面部分，你将遇到许多包含了测试的任务。所以你会看到更多的实际例子。
+=======
+Later in the tutorial you will meet many tasks with tests baked-in. So you'll see more practical examples.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 编写测试需要良好的 JavaScript 知识。但我们刚刚开始学习它。因此，为了解决所有问题，到目前为止，你不需要编写测试，但是你应该已经能够阅读测试了，即使它们比本章中的内容稍微复杂一些。

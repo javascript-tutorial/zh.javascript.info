@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 原型方法
 
 本章节我们会讨论原型（prototype）的附加方法。
@@ -10,18 +11,40 @@
 - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将 `obj` 对象的 `[[Prototype]]` 设置为 `proto`。
 
 举个例子：
+=======
+# Prototype methods, objects without __proto__
+
+In the first chapter of this section, we mentioned that there are modern methods to setup a prototype.
+
+The `__proto__` is considered outdated and somewhat deprecated (in browser-only part of the JavaScript standard).
+
+The modern methods are:
+
+- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- creates an empty object with given `proto` as `[[Prototype]]` and optional property descriptors.
+- [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) -- returns the `[[Prototype]]` of `obj`.
+- [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) -- sets the `[[Prototype]]` of `obj` to `proto`.
+
+These should be used instead of `__proto__`.
+
+For instance:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js run
 let animal = {
   eats: true
 };
 
+<<<<<<< HEAD
 // 以 animal 为原型创建一个新对象
+=======
+// create a new object with animal as a prototype
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 *!*
 let rabbit = Object.create(animal);
 */!*
 
 alert(rabbit.eats); // true
+<<<<<<< HEAD
 *!*
 alert(Object.getPrototypeOf(rabbit) === animal); // 获取 rabbit 的原型
 */!*
@@ -32,6 +55,19 @@ Object.setPrototypeOf(rabbit, {}); // 将 rabbit 的原型更改为 {}
 ```
 
 `Object.create` 有一个可选的第二参数：属性描述。我们可以给新对象提供额外的属性，就像这样：
+=======
+
+*!*
+alert(Object.getPrototypeOf(rabbit) === animal); // true
+*/!*
+
+*!*
+Object.setPrototypeOf(rabbit, {}); // change the prototype of rabbit to {}
+*/!*
+```
+
+`Object.create` has an optional second argument: property descriptors. We can provide additional properties to the new object there, like this:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js run
 let animal = {
@@ -47,6 +83,7 @@ let rabbit = Object.create(animal, {
 alert(rabbit.jumps); // true
 ```
 
+<<<<<<< HEAD
 参数的格式同 <info:property-descriptors> 章节中讨论的相同。
 
 我们可以利用 `Object.create` 来实现比 `for..in` 循环赋值属性方式更强大的对象复制功能：
@@ -81,6 +118,48 @@ let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescr
 ...但是如果我们尝试存储**用户提供的**键（比如说：一个用户输入的字典），我们可以发现一个有趣的错误：所有的键都运行正常，除了 `"__proto__"`。
 
 看一下这个例子：
+=======
+The descriptors are in the same format as described in the chapter <info:property-descriptors>.
+
+We can use `Object.create` to perform an object cloning more powerful than copying properties in `for..in`:
+
+```js
+// fully identical shallow clone of obj
+let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+```
+
+This call makes a truly exact copy of `obj`, including all properties: enumerable and non-enumerable, data properties and setters/getters -- everything, and with the right `[[Prototype]]`.
+
+## Brief history
+
+If we count all the ways to manage `[[Prototype]]`, there are a lot! Many ways to do the same!
+
+Why?
+
+That's for historical reasons.
+
+- The `"prototype"` property of a constructor function has worked since very ancient times.
+- Later, in the year 2012, `Object.create` appeared in the standard. It gave the ability to create objects with a given prototype, but did not provide the ability to get/set it. So browsers implemented the non-standard `__proto__` accessor that allowed the user to get/set a prototype at any time.
+- Later, in the year 2015, `Object.setPrototypeOf` and `Object.getPrototypeOf` were added to the standard, to perform the same functionality as `__proto__`. As `__proto__` was de-facto implemented everywhere, it was kind-of deprecated and made its way to the Annex B of the standard, that is: optional for non-browser environments.
+
+As of now we have all these ways at our disposal.
+
+Why was `__proto__` replaced by the functions `getPrototypeOf/setPrototypeOf`? That's an interesting question, requiring us to understand why `__proto__` is bad. Read on to get the answer.
+
+```warn header="Don't change `[[Prototype]]` on existing objects if speed matters"
+Technically, we can get/set `[[Prototype]]` at any time. But usually we only set it once at the object creation time and don't modify it anymore: `rabbit` inherits from `animal`, and that is not going to change.
+
+And JavaScript engines are highly optimized for this. Changing a prototype "on-the-fly" with `Object.setPrototypeOf` or `obj.__proto__=` is a very slow operation as it breaks internal optimizations for object property access operations. So avoid it unless you know what you're doing, or JavaScript speed totally doesn't matter for you.
+```
+
+## "Very plain" objects [#very-plain]
+
+As we know, objects can be used as associative arrays to store key/value pairs.
+
+...But if we try to store *user-provided* keys in it (for instance, a user-entered dictionary), we can see an interesting glitch: all keys work fine except `"__proto__"`.
+
+Check out the example:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js run
 let obj = {};
@@ -88,6 +167,7 @@ let obj = {};
 let key = prompt("What's the key?", "__proto__");
 obj[key] = "some value";
 
+<<<<<<< HEAD
 alert(obj[key]); // [object Object]，而不是 "some value"！
 ```
 
@@ -116,6 +196,38 @@ alert(obj[key]); // [object Object]，而不是 "some value"！
 就像开头所说：`__proto__` 是访问 `[[Prototype]]` 的方式，而不是 `[[prototype]]` 本身。
 
 现在，我们想要使用一个对象作为关联数组，我们可以用一个小技巧：
+=======
+alert(obj[key]); // [object Object], not "some value"!
+```
+
+Here, if the user types in `__proto__`, the assignment is ignored!
+
+That shouldn't surprise us. The `__proto__` property is special: it must be either an object or `null`. A string can not become a prototype.
+
+But we didn't *intend* to implement such behavior, right? We want to store key/value pairs, and the key named `"__proto__"` was not properly saved. So that's a bug!
+
+Here the consequences are not terrible. But in other cases we may be assigning object values, and then the prototype may indeed be changed. As a result, the execution will go wrong in totally unexpected ways.
+
+What's worse -- usually developers do not think about such possibility at all. That makes such bugs hard to notice and even turn them into vulnerabilities, especially when JavaScript is used on server-side.
+
+Unexpected things also may happen when assigning to `toString`, which is a function by default, and to other built-in methods.
+
+How can we avoid this problem?
+
+First, we can just switch to using `Map`, then everything's fine.
+
+But `Object` can also serve us well here, because language creators gave thought to that problem long ago.
+
+`__proto__` is not a property of an object, but an accessor property of `Object.prototype`:
+
+![](object-prototype-2.svg)
+
+So, if `obj.__proto__` is read or set, the corresponding getter/setter is called from its prototype, and it gets/sets `[[Prototype]]`.
+
+As it was said in the beginning of this tutorial section: `__proto__` is a way to access `[[Prototype]]`, it is not `[[Prototype]]` itself.
+
+Now, if we want to use an object as an associative array, we can do it with a little trick:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js run
 *!*
@@ -128,6 +240,7 @@ obj[key] = "some value";
 alert(obj[key]); // "some value"
 ```
 
+<<<<<<< HEAD
 `Object.create(null)` 创建了一个空对象，这个对象没有原型（`[[Prototype]]` 是 `null`）：
 
 ![](object-prototype-null.svg)
@@ -137,28 +250,54 @@ alert(obj[key]); // "some value"
 我们可以叫这样的对象「极简」或者「纯字典对象」，因此它们甚至比通常的简单对象 `{...}` 还要简单。
 
 这样的对象有一个缺点是缺少内置的对象方法，比如说 `toString`：
+=======
+`Object.create(null)` creates an empty object without a prototype (`[[Prototype]]` is `null`):
+
+![](object-prototype-null.svg)
+
+So, there is no inherited getter/setter for `__proto__`. Now it is processed as a regular data property, so the example above works right.
+
+We can call such objects "very plain" or "pure dictionary" objects, because they are even simpler than the regular plain object `{...}`.
+
+A downside is that such objects lack any built-in object methods, e.g. `toString`:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js run
 *!*
 let obj = Object.create(null);
 */!*
 
+<<<<<<< HEAD
 alert(obj); // Error （没有 toString 方法）
 ```
 
 ...但是它们通常对关联数组而言还是很友好。
 
 请注意，和对象关系最密切的方法是 `Object.something(...)`，比如 `Object.keys(obj)` —— 它们不在 prototype 中，因此在极简对象中它们还是可以继续使用：
+=======
+alert(obj); // Error (no toString)
+```
+
+...But that's usually fine for associative arrays.
+
+Note that most object-related methods are `Object.something(...)`, like `Object.keys(obj)` -- they are not in the prototype, so they will keep working on such objects:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 
 ```js run
 let chineseDictionary = Object.create(null);
+<<<<<<< HEAD
 chineseDictionary.hello = "ni hao";
 chineseDictionary.bye = "zai jian";
+=======
+chineseDictionary.hello = "你好";
+chineseDictionary.bye = "再见";
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 alert(Object.keys(chineseDictionary)); // hello,bye
 ```
 
+<<<<<<< HEAD
 ## 获取所有属性
 
 获取一个对象的键/值有很多种方法。
@@ -251,3 +390,36 @@ for(let prop in rabbit) {
 我们可以不借助 prototype 创建一个对象，那就是 `Object.create(null)`。这些对象被用作是「纯字典」，对于它们而言 `"__proto__"` 作为键没有问题。
 
 所有返回对象属性的方法（如 `Object.keys` 以及其他）—— 都返回「自身」属性。如果我们想继承它们，我们可以使用 `for...in`。
+=======
+## Summary
+
+Modern methods to set up and directly access the prototype are:
+
+- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- creates an empty object with a given `proto` as `[[Prototype]]` (can be `null`) and optional property descriptors.
+- [Object.getPrototypeOf(obj)](mdn:js/Object.getPrototypeOf) -- returns the `[[Prototype]]` of `obj` (same as `__proto__` getter).
+- [Object.setPrototypeOf(obj, proto)](mdn:js/Object.setPrototypeOf) -- sets the `[[Prototype]]` of `obj` to `proto` (same as `__proto__` setter).
+
+The built-in `__proto__` getter/setter is unsafe if we'd want to put user-generated keys into an object. Just because a user may enter `"__proto__"` as the key, and there'll be an error, with hopefully light, but generally unpredictable consequences.
+
+So we can either use `Object.create(null)` to create a "very plain" object without `__proto__`, or stick to `Map` objects for that.
+
+Also, `Object.create` provides an easy way to shallow-copy an object with all descriptors:
+
+```js
+let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+```
+
+We also made it clear that `__proto__` is a getter/setter for `[[Prototype]]` and resides in `Object.prototype`, just like other methods.
+
+We can create an object without a prototype by `Object.create(null)`. Such objects are used as "pure dictionaries", they have no issues with `"__proto__"` as the key.
+
+Other methods:
+
+- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of enumerable own string property names/values/key-value pairs.
+- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) -- returns an array of all own symbolic keys.
+- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) -- returns an array of all own string keys.
+- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) -- returns an array of all own keys.
+- [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty): returns `true` if `obj` has its own (not inherited) key named `key`.
+
+All methods that return object properties (like `Object.keys` and others) -- return "own" properties. If we want inherited ones, we can use `for..in`.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4

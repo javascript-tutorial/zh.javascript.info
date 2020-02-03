@@ -16,10 +16,19 @@ importance: 5
 这里是代码的演示：
 
 ```js
+<<<<<<< HEAD
 let accumulator = new Accumulator(1); // 初始 value 1
 accumulator.read(); // 添加用户输入 value
 accumulator.read(); // 添加用户输入 value
 alert(accumulator.value); // 显示这些值的总和
+=======
+let accumulator = new Accumulator(1); // initial value 1
+
+accumulator.read(); // adds the user-entered value
+accumulator.read(); // adds the user-entered value
+
+alert(accumulator.value); // shows the sum of these values
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 ```
 
 [demo]
