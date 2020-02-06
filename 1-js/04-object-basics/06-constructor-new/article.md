@@ -151,7 +151,7 @@ function BigUser() {
   return { name: "Godzilla" };  // <-- 返回这个对象
 }
 
-alert( new BigUser().name );  // 哇哦，得到了那个对象
+alert( new BigUser().name );  // Godzilla，得到了那个对象
 ```
 
 这里有一个 `return` 为空的例子（或者我们可以在它之后放置一个原函数，没有什么影响）：
