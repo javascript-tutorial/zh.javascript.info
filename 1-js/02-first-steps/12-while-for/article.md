@@ -256,7 +256,7 @@ for (let i = 0; i < 10; i++) {
 ````smart header="`continue` 指令利于减少嵌套"
 显示奇数的循环可以像下面这样：
 
-```js
+```js run
 for (let i = 0; i < 10; i++) {
 
   if (i % 2) {
