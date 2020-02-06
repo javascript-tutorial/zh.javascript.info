@@ -86,7 +86,7 @@ if (condition) {
 ```js
 // 回勾引号 ` 允许将字符串拆分为多行
 let str = `
-  Ecma International's TC39 is a group of JavaScript developers,
+  ECMA International's TC39 is a group of JavaScript developers,
   implementers, academics, and more, collaborating with the community
   to maintain and evolve the definition of JavaScript.
 `;

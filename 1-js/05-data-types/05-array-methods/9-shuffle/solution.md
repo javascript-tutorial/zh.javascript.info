@@ -67,7 +67,7 @@ JavaScript 引擎的代码结果可能会有所不同，但我们已经可以看
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // r 从 0 到 i 的随机索引
+    let j = Math.floor(Math.random() * (i + 1)); // 从 0 到 i 的随机索引
     [array[i], array[j]] = [array[j], array[i]]; // 交换元素
   }
 }

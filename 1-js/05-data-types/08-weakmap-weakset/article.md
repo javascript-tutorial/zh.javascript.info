@@ -1,6 +1,6 @@
 # WeakMap and WeakSet（弱映射和弱集合）
 
-我们从前面的[垃圾回收](<info:garbage-collection>)章节中知道，JavaScript 引擎在内存充足的情况下（或者可能被使用完）存储一个值
+我们从前面的[垃圾回收](<info:garbage-collection>)章节中知道， JavaScript 引擎在值可访问（并可能被使用）时将其存储在内存中。
 
 例如:
 ```js
@@ -74,7 +74,7 @@ weakMap.set("test", "Whoops"); // 错误, 因为 "test" 不是一个对象
 */!*
 ```
 
-现在, 如果我们在 weakMap 里使用对象作为键，并且当这个对象没有其它引用 -- 该对象将会从内存中被自动清除 ( map 也类似) 。
+现在, 如果我们在 weakMap 里使用对象作为键，并且当这个对象没有其它引用 -- 该对象将会从内存（和map）中被自动清除。
 
 ```js
 let john = { name: "John" };
@@ -89,7 +89,7 @@ john = null; // 覆盖引用
 
 与上面的常规 `Map` 例子比起来。 现在如果 `john` 仅仅是作为 `WeakMap` 的键而存在时 -- 它将会从 map （从内存中）自动删除。
 
-`WeakMap` 不支持迭代和`keys()`, `values()`, `entries()`方法, 所以没法从它里面获取键或者值。
+`WeakMap` 不支持迭代和`keys()`, `values()`, `entries()`方法, 所以没法从它里面获取所有键或值。
 
 `WeakMap` 只有以下方法:
 
@@ -273,7 +273,7 @@ john = null;
 // visitedSet 将被自动清理
 ```
 
- `WeakMap` 和 `WeakSet` 最出名的限制是不能迭代，获取多有的当前内容。那样可能会造成不便，但是依旧不能阻止 `WeakMap/WeakSet` 做很重要的事情 -- 成为在其它地方管理或者存储的对象 “额外的” 存储数据
+ `WeakMap` 和 `WeakSet` 最出名的限制是不能迭代，并且无法获取所有当前内容。那样可能会造成不便，但是依旧不能阻止 `WeakMap/WeakSet` 完成其主要工作 -- 成为在其它地方管理或者存储的对象的 “额外的” 数据存储
 
 ## 总结
 

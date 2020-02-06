@@ -14,10 +14,10 @@ let str = "color:#121212; background-color:#AA00ef bad-colors:f#fddee #fd2"
 alert( str.match(reg) );  // #121212,#AA00ef
 ```
 
-问题是匹配到颜色值过长：
+问题是其从更长的序列中匹配了颜色值：
 
 ```js run
-alert( "#12345678".match( /#[a-f0-9]{6}/gi ) ) // #12345678
+alert( "#12345678".match( /#[a-f0-9]{6}/gi ) ) // #123456
 ```
 
 为了解决这个问题，我们可以在末尾加上 `pattern:\b`：

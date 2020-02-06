@@ -17,7 +17,7 @@ importance: 5
 
     alert( calc.calculate("3 + 7") ); // 10
     ```
-2. 然后添加 calculate 的新操作方法 `addOperator(name, func)`。它需要运算符 `name` 和实现它的双参数函数 `func(a,b)`。
+2. 然后添加 calculator 的新操作方法 `addOperator(name, func)`。它需要运算符 `name` 和实现它的双参数函数 `func(a,b)`。
 
     例如，我们添加乘法 `*`，除法 `/` 和求幂 `**`：
 
