@@ -174,7 +174,7 @@ alert( new SmallUser().name );  // John
 
 ```js
 let user = new User; // <-- 没有参数
-// same as
+// 等同于
 let user = new User();
 ```
 
