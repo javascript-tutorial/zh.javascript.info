@@ -187,7 +187,7 @@ let user = new User();
 
 当然，我们不仅可以将属性添加到 `this` 中，还可以添加方法。
 
-例如，`new User(name)` 下面用给定的 `name` 和方法 `sayHi` 创建了一个对象：
+例如，下面的 `new User(name)` 用给定的 `name` 和方法 `sayHi` 创建了一个对象：
 
 ```js run
 function User(name) {
