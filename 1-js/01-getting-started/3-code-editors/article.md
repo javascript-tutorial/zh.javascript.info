@@ -32,6 +32,7 @@ IDE 加载项目（通常包含很多文件），并且允许在不同文件之�
 下面是一些值得你关注的“轻量编辑器”：
 
 - [Atom](https://atom.io/)（跨平台，免费）。
+- [Visual Studio Code](https://code.visualstudio.com/)（跨平台，免费）。
 - [Sublime Text](http://www.sublimetext.com)（跨平台，共享软件）。
 - [Notepad++](https://notepad-plus-plus.org/)（Windows，免费）。
 - [Vim](http://www.vim.org/) 和 [Emacs](https://www.gnu.org/software/emacs/) 很棒，前提是你知道怎么用。
