@@ -24,11 +24,11 @@
 
 ![](chrome-tabs.svg)
 
-在这里我们可以看到三个区域：
+资源（Sources）面板包含三个部分：
 
-1. **资源区域（resources zone）** 列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
-2. **源码区域（source zone）** 展示源码。
-3. **信息和控制区域（Information and control zone）** 是用来调试的，我们很快就会来探索它。
+1. **文件浏览（File Navigator）** 区域列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
+2. **代码编辑（Code Editor）** 区域展示源码。
+3. **JavaScript 调试（JavaScript Debugging）** 区域是用于调试的，我们很快就会来探索它。
 
 现在你可以再次点击切换按钮 <span class="devtools" style="background-position:-172px -122px"></span> 隐藏资源列表来给代码腾出一些空间。
 
