@@ -6,7 +6,7 @@ importance: 5
 
 写函数 `camelize(str)` 将诸如 "my-short-string" 之类的由短划线分隔的单词变成骆驼式的 "myShortString"。
 
-即：删除所有短横线，短横线后的第一个单词变为大写。
+即：删除所有短横线，短横线后的每一个单词变为首字母大写。
 
 例如：
 

@@ -15,13 +15,13 @@ let ladder = {
   down() { 
     this.step--;
   },
-  showStep: function() { // shows the current step
+  showStep: function() { // 显示当前的 step
     alert( this.step );
   }
 };
 ```
 
-现在如果我们要依次执行几次调用，可以这样做：
+现在，如果我们要按顺序执行几次调用，可以这样做：
 
 ```js
 ladder.up();
@@ -30,10 +30,10 @@ ladder.down();
 ladder.showStep(); // 1
 ```
 
-修改 `up` 和 `down` 的代码让调用可以链接，就像这样：
+修改 `up`，`down` 和 `showStep` 的代码，让调用可以链接，就像这样：
 
 ```js
 ladder.up().up().down().showStep(); // 1
 ```
 
-此种方法在 JavaScript 库中被广泛使用。
+这种方法在 JavaScript 库中被广泛使用。

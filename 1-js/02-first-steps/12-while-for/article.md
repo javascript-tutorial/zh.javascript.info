@@ -212,7 +212,7 @@ for (;;) {
 
 例如，下面这个循环要求用户输入一系列数字，在输入的内容不是数字时“终止”循环。
 
-```js
+```js run
 let sum = 0;
 
 while (true) {
@@ -256,7 +256,7 @@ for (let i = 0; i < 10; i++) {
 ````smart header="`continue` 指令利于减少嵌套"
 显示奇数的循环可以像下面这样：
 
-```js
+```js run
 for (let i = 0; i < 10; i++) {
 
   if (i % 2) {

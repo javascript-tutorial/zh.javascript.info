@@ -26,7 +26,7 @@ alert( "Voila".match(/V[oi]la/) ); // null，并没有匹配上
 
 - `pattern:V`，
 - 然后匹配其中的**一个字符** `pattern:[oi]`，
-- 然后匹配 `pattern:V`，
+- 然后匹配 `pattern:la`，
 
 所以可以匹配上 `match:Vola` 或者 `match:Vila`。
 
