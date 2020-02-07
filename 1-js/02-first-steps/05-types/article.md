@@ -62,23 +62,23 @@ n = 12.345;
 
 我们将在 <info:number> 一节中学习数字的更多细节。
 
-## BigInt
+## BigInt 类型
 
-In JavaScript, the "number" type cannot represent integer values larger than <code>2<sup>53</sup></code> (or less than <code>-2<sup>53</sup></code> for negatives), that's a technical limitation caused by their internal representation. That's about 16 decimal digits, so for most purposes the limitation isn't a problem, but sometimes we need really big numbers, e.g. for cryptography or microsecond-precision timestamps.
+在 JavaScript 中，"number" 类型无法代表大于 <code>2<sup>53</sup></code>（或小于 <code>-2<sup>53</sup></code>）的整数，这是其内部表示形式导致的技术限制。这大约是 16 位的十进制数字，因此在大多数情况下，这个限制不是问题，但有时我们需要很大的数字，例如用于加密或微秒精度的时间戳。
 
-`BigInt` type was recently added to the language to represent integers of arbitrary length.
+`BigInt` 类型是最近被添加到 JavaScript 语言中的，用于表示任意长度的整数。
 
-A `BigInt` is created by appending `n` to the end of an integer literal:
+通过将 `n` 附加到整数字段的末尾来创建 `BigInt`。
 
 ```js
-// the "n" at the end means it's a BigInt
+// 尾部的 "n" 表示这是一个 BigInt 类型
 const bigInt = 1234567890123456789012345678901234567890n;
 ```
 
-As `BigInt` numbers are rarely needed, we devoted them a separate chapter <info:bigint>.
+由于很少需要 `BigInt` 类型的数字，因此我们在单独的章节 <info：bigint> 中专门对其进行介绍。
 
-```smart header="Compatability issues"
-Right now `BigInt` is supported in Firefox and Chrome, but not in Safari/IE/Edge.
+```smart header="兼容性问题"
+目前 Firefox 和 Chrome 已经支持 `BigInt` 了，但 Safari/IE/Edge 还没有。
 ```
 
 ## String 类型
