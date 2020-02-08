@@ -14,7 +14,7 @@
 
 它的方法和属性如下：
 
-- `new Map()` － 创建映射。
+- `new Map()` － 创建 `Map`。
 - `map.set(key, value)` － 存储键值对。
 - `map.get(key)` － 根据键来返回值，如果 `key` 不在 `map` 里将会返回 `undefined`。
 - `map.has(key)` － 如果 `key` 存在则返回 `true`，否则返回 `false`。
