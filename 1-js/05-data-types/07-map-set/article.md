@@ -157,7 +157,7 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-如果我们想从一个已有的普通对象来创建 `Map`，可以使用内置方法 [Object.entries(obj)](mdn:js/Object/entries)，它返回一个该类型对象的键值对数组 //TODO。
+如果我们想从一个已有的普通对象来创建 `Map`，可以使用内置方法 [Object.entries(obj)](mdn:js/Object/entries)，它返回一个对象的键值对数组，该数组符合 `Map` 集合的格式。
 
 所以可以像下面这样利用一个对象来创建 `map`
 
