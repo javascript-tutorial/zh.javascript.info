@@ -272,7 +272,7 @@ for (let user of set) {
 
 ##  Set 迭代
 
-我们可以使用 `for..of` 或  `forEach` 来循环集合：
+我们可以使用 `for..of` 或  `forEach` 来循环 `Set` 集合：
 
 ```js run
 let set = new Set(["oranges", "apples", "bananas"]);
