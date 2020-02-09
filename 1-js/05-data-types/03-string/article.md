@@ -1,12 +1,12 @@
 # 字符串
 
-在 JavaScript 中，文本数据被作为字符串存储，字符没有单独的类型。
+在 JavaScript 中，文本数据被以字符串形式存储，单个字符没有单独的类型。
 
-字符串的内部格式总是 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)，它不会绑定到页面编码中。
+字符串的内部格式始终是 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)，它不依赖于页面编码。
 
 ## 引号（Quotes）
 
-让我们回忆一下这些引号。
+让我们回忆一下引号的种类。
 
 字符串可以包含在单引号、双引号或反引号中：
 
@@ -17,7 +17,7 @@ let double = "double-quoted";
 let backticks = `backticks`;
 ```
 
-单引号和双引号本质上是一样的。但是，反引号允许我们通过 `${…}` 将任何表达式嵌入到字符串中：
+单引号和双引号基本相同。但是，反引号允许我们通过 `${…}` 将任何表达式嵌入到字符串中：
 
 ```js run
 function sum(a, b) {
@@ -54,40 +54,40 @@ let guestList = "Guests: // Error: Unexpected token ILLEGAL
 
 ## 特殊字符
 
-我们仍然可以通过名为“换行符（newline character）”的方式用单引号和双引号来创建跨行字符串，其符号被写作 `\n`，用来表示换行：
+我们仍然可以通过使用“换行符（newline character）”，以支持使用单引号和双引号来创建跨行字符串。换行符写作 `\n`，用来表示换行：
 
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
 
-alert(guestList); // 多行 guests
+alert(guestList); // 一个多行的客人列表
 ```
 
-例如，这两行描述相同，只是书写方式不同：
+例如，这两行描述的是一样的，只是书写方式不同：
 
 ```js run
 let str1 = "Hello\nWorld"; // 使用“换行符”创建的两行字符串
 
-// 使用普通换行符和反引号创建的两行
+// 使用反引号和普通的换行创建的两行字符串
 let str2 = `Hello
 World`;
 
 alert(str1 == str2); // true
 ```
 
-还有其他不常见的“特殊字符”。
+还有其他不常见的“特殊”字符。
 
-这是其完整列表：
+这是完整列表：
 
 | 字符 | 描述 |
 |-----------|-------------|
 |`\n`|换行|
-|`\r`|回车：不单独使用。Windows 文本文件使用两个字符 `\r\n` 的组合来表示换行符。|
+|`\r`|回车：不单独使用。Windows 文本文件使用两个字符 `\r\n` 的组合来表示换行。|
 |`\'`, `\"`|引号|
 |`\\`|反斜线|
 |`\t`|制表符|
-|`\b`, `\f`, `\v`| 退格，换页，垂直标签 —— 为了兼容性，现在已经不使用了 |
-|`\xXX`|具有给定十六进制的 unicode `XX`，例如：`'\x7A'` 和 `'z'` 相同。|
-|`\uXXXX`|带有 UTF-16 编码的十六进制代码 `XXXX` 的 unicode 符号，例如 `\u00A9` —— 是版权符号 `©` 的 unicode。它必须是 4 个十六进制数字。|
+|`\b`, `\f`, `\v`| 退格，换页，垂直标签 —— 为了兼容性，现在已经不使用了。 |
+|`\xXX`|具有给定十六进制 Unicode `XX` 的 Unicode 字符，例如：`'\x7A'` 和 `'z'` 相同。|
+|`\uXXXX`|以 UTF-16 编码的十六进制代码 `XXXX` 的 unicode 字符，例如 `\u00A9` —— 是版权符号 `©` 的 unicode。它必须正好是 4 个十六进制数字。|
 |`\u{X…XXXXXX}`（1 到 6 个十六进制字符）|具有给定 UTF-32 编码的 unicode 符号。一些罕见的字符用两个 unicode 符号编码，占用 4 个字节。这样我们就可以插入长代码了。|
 
 unicode 示例：
@@ -108,7 +108,7 @@ alert( "\u{1F60D}" ); // 😍，笑脸符号（另一个长 unicode）
 alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 ```
 
-正如你所看到的，我们必须用反斜杠 `\'` 来预设值内部引号，否则就表示字符串结束。
+正如你所看到的，我们必须用内部引号前加上反斜杠 `\'`，否则它将表示字符串结束。
 
 当然，只有与外部闭合引号相同的引号才需要转义。因此，作为一个更优雅的解决方案，我们可以改用双引号或者反引号：
 
@@ -116,7 +116,7 @@ alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 alert( `I'm the Walrus!` ); // I'm the Walrus!
 ```
 
-注意反斜杠 `\` 在 JavaScript 中用于正确读取字符串，然后消失。内存中的字符串没有 `\`。从上述示例中的 `alert` 可以清楚地看到 。
+注意反斜杠 `\` 在 JavaScript 中用于正确读取字符串，然后消失。内存中的字符串没有 `\`。你从上述示例中的 `alert` 可以清楚地看到这一点。
 
 但是如果我们需要在字符串中显示一个实际的反斜杠 `\` 应该怎么做？
 
@@ -128,23 +128,23 @@ alert( `The backslash: \\` ); // The backslash: \
 
 ## 字符串长度
 
-`length` 属性有字符串长度：
+`length` 属性表示字符串长度：
 
 ```js run
 alert( `My\n`.length ); // 3
 ```
 
-注意 `\n` 是一个单独的“特殊”字符，所以长度确实是 `3`
+注意 `\n` 是一个单独的“特殊”字符，所以长度确实是 `3`。
 
 ```warn header="`length` 是一个属性"
-掌握其他语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
+掌握其他编程语言的人，有时会错误地调用 `str.length()` 而不是 `str.length`。这是行不通的。
 
-请注意 `str.length` 是一个数字属性，而不是函数。之后不需要添加括号。
+请注意 `str.length` 是一个数字属性，而不是函数。后面不需要添加括号。
 ```
 
 ## 访问字符
 
-在 `pos` 位置获取一个字符，可以使用方括号 `[pos]` 或者调用 [str.charAt(pos)](mdn:js/String/charAt) 方法。第一个字符从零位置开始：
+要获取在 `pos` 位置的一个字符，可以使用方括号 `[pos]` 或者调用 [str.charAt(pos)](mdn:js/String/charAt) 方法。第一个字符从零位置开始：
 
 ```js run
 let str = `Hello`;
@@ -165,18 +165,18 @@ alert( str[str.length - 1] ); // o
 let str = `Hello`;
 
 alert( str[1000] ); // undefined
-alert( str.charAt(1000) ); // '' （空字符串）
+alert( str.charAt(1000) ); // ''（空字符串）
 ```
 
 我们也可以使用 `for..of` 遍历字符：
 
 ```js run
 for (let char of "Hello") {
-  alert(char); // H,e,l,l,o （char 变为“H”，然后是“e”，然后是“l”等）
+  alert(char); // H,e,l,l,o（char 变为  "H"，然后是 "e"，然后是 "l" 等）
 }
 ```
 
-## 字符串不可变
+## 字符串是不可变的
 
 在 JavaScript 中，字符串不可更改。改变字符是不可能的。
 
@@ -196,23 +196,23 @@ alert( str[0] ); // 无法运行
 ```js run
 let str = 'Hi';
 
-str = 'h' + str[1];  // 字符串替换
+str = 'h' + str[1];  // 替换字符串
 
 alert( str ); // hi
 ```
 
-下面的文章，我们将看到更多的示例。
+在接下来的章节，我们将看到更多相关示例。
 
 ## 改变大小写
 
-[toLowerCase()](mdn:js/String/toLowerCase) 和 [toUpperCase()](mdn:js/String/toUpperCase) 可以改变大小写：
+[toLowerCase()](mdn:js/String/toLowerCase) 和 [toUpperCase()](mdn:js/String/toUpperCase) 方法可以改变大小写：
 
 ```js run
 alert( 'Interface'.toUpperCase() ); // INTERFACE
 alert( 'Interface'.toLowerCase() ); // interface
 ```
 
-或者我们想要一个小写字符：
+或者我们想要使一个字符变成小写：
 
 ```js
 alert( 'Interface'[0].toLowerCase() ); // 'i'
@@ -239,7 +239,7 @@ alert( str.indexOf('widget') ); // -1，没有找到，检索是大小写敏感�
 alert( str.indexOf("id") ); // 1，"id" 在位置 1 处（……idget 和 id）
 ```
 
-可选的第二个参数允许我们从给定的起始位置开始检索
+可选的第二个参数允许我们从给定的起始位置开始检索。
 
 例如，`"id"` 第一次出现的位置是 `1`。查询下一个存在位置时，我们从 `2` 开始检索：
 
