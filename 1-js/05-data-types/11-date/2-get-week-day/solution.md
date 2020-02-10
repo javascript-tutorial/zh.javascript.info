@@ -2,7 +2,7 @@
 
 我们创建一个星期数组，这样可以通过它的序号得到名称：
 
-```js run
+```js run demo
 function getWeekDay(date) {
   let days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 

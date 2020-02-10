@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 集合和范围 [...]
 
 在方括号 `[…]` 中的几个字符或者字符类意味着“搜索给定的字符中的任意一个”。
@@ -37,6 +38,47 @@ alert( "Voila".match(/V[oi]la/) ); // null，并没有匹配上
 比如说，`pattern:[a-z]` 会匹配从 `a` 到 `z` 范围内的字母，`pattern:[0-5]` 表示从 `0` 到 `5` 的数字。
 
 在下面的示例中，我们会查询首先匹配 `"x"` 字符，再匹配两个数字或者位于 `A` 到 `F` 范围内的字符。
+=======
+# Sets and ranges [...]
+
+Several characters or character classes inside square brackets `[…]` mean to "search for any character among given".
+
+## Sets
+
+For instance, `pattern:[eao]` means any of the 3 characters: `'a'`, `'e'`, or `'o'`.
+
+That's called a *set*. Sets can be used in a regexp along with regular characters:
+
+```js run
+// find [t or m], and then "op"
+alert( "Mop top".match(/[tm]op/gi) ); // "Mop", "top"
+```
+
+Please note that although there are multiple characters in the set, they correspond to exactly one character in the match.
+
+So the example below gives no matches:
+
+```js run
+// find "V", then [o or i], then "la"
+alert( "Voila".match(/V[oi]la/) ); // null, no matches
+```
+
+The pattern searches for:
+
+- `pattern:V`,
+- then *one* of the letters `pattern:[oi]`,
+- then `pattern:la`.
+
+So there would be a match for `match:Vola` or `match:Vila`.
+
+## Ranges
+
+Square brackets may also contain *character ranges*.
+
+For instance, `pattern:[a-z]` is a character in range from `a` to `z`, and `pattern:[0-5]` is a digit from `0` to `5`.
+
+In the example below we're searching for `"x"` followed by two digits or letters from `A` to `F`:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js run
 alert( "Exception 0xAF".match(/x[0-9A-F][0-9A-F]/g) ); // xAF
@@ -93,6 +135,7 @@ Unicode properties `pattern:p{…}` are not yet implemented in Edge and Firefox.
 Or just use ranges of characters in a language that interests us, e.g.  `pattern:[а-я]` for Cyrillic letters.
 ```
 
+<<<<<<< HEAD
 ## 排除范围
 
 除了普通的范围匹配，还有类似 `pattern:[^…]` 的“排除”范围匹配。
@@ -106,11 +149,27 @@ Or just use ranges of characters in a language that interests us, e.g.  `pattern
 - `pattern:[^\s]` —— 匹配任何非空字符，也可以使用 `\S` 来表示。
 
 下面的示例查询除了字母，数字和空格之外的任意字符：
+=======
+## Excluding ranges
+
+Besides normal ranges, there are "excluding" ranges that look like `pattern:[^…]`.
+
+They are denoted by a caret character `^` at the start and match any character *except the given ones*.
+
+For instance:
+
+- `pattern:[^aeyo]` -- any character except  `'a'`, `'e'`, `'y'` or `'o'`.
+- `pattern:[^0-9]` -- any character except a digit, the same as `pattern:\D`.
+- `pattern:[^\s]` -- any non-space character, same as `\S`.
+
+The example below looks for any characters except letters, digits and spaces:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js run
 alert( "alice15@gmail.com".match(/[^\d\sA-Z]/gi) ); // @ and .
 ```
 
+<<<<<<< HEAD
 ## 在 […] 中不转义
 
 通常当我们的确需要查询点字符时，我们需要把它转义成像 `pattern:\.` 这样的形式。如果我们需要查询一个反斜杠，我们需要使用 `pattern:\\`。
@@ -144,6 +203,39 @@ alert( "1 + 2 - 3".match(reg) ); // 匹配 +，-
 let reg = /[\-\(\)\.\^\+]/g;
 
 alert( "1 + 2 - 3".match(reg) ); // 仍能正常工作：+，-
+=======
+## Escaping in […]
+
+Usually when we want to find exactly a special character, we need to escape it like `pattern:\.`. And if we need a backslash, then we use `pattern:\\`, and so on.
+
+In square brackets we can use the vast majority of special characters without escaping:
+
+- Symbols `pattern:. + ( )` never need escaping.
+- A hyphen `pattern:-` is not escaped in the beginning or the end (where it does not define a range).
+- A caret `pattern:^` is only escaped in the beginning (where it means exclusion).
+- The closing square bracket `pattern:]` is always escaped (if we need to look for that symbol).
+
+In other words, all special characters are allowed without escaping, except when they mean something for square brackets.
+
+A dot `.` inside square brackets means just a dot. The pattern `pattern:[.,]` would look for one of characters: either a dot or a comma.
+
+In the example below the regexp `pattern:[-().^+]` looks for one of the characters `-().^+`:
+
+```js run
+// No need to escape
+let regexp = /[-().^+]/g;
+
+alert( "1 + 2 - 3".match(regexp) ); // Matches +, -
+```
+
+...But if you decide to escape them "just in case", then there would be no harm:
+
+```js run
+// Escaped everything
+let regexp = /[\-\(\)\.\^\+]/g;
+
+alert( "1 + 2 - 3".match(regexp) ); // also works: +, -
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 ```
 
 ## Ranges and flag "u"

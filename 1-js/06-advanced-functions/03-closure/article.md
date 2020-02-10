@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 闭包
 
 JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空间。函数创建后，可以赋值给其他变量或作为参数传递给另一个函数，并在完全不同的位置进行调用。
@@ -155,22 +156,89 @@ JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空
 这是因为上述的机制。旧的变量不会被存储。当函数需要它们时，它会从外部词法环境中或自身（内部词法环境）中获得当前值。
 
 所以第一个问题的答案是 `Pete`：
+=======
+# Variable scope
 
-```js run
-let name = "John";
+JavaScript is a very function-oriented language. It gives us a lot of freedom. A function can be created dynamically, passed as an argument to another function and called from a totally different place of code later.
 
-function sayHi() {
-  alert("Hi, " + name);
-}
+We already know that a function can access variables outside of it.
 
-name = "Pete"; // (*)
+Now let's expand our knowledge to include more complex scenarios.
 
-*!*
-sayHi(); // Pete
-*/!*
+```smart header="We'll talk about `let/const` variables here"
+In JavaScript, there are 3 ways to declare a variable: `let`, `const` (the modern ones), and `var` (the remnant of the past).
+
+- In this article we'll use `let` variables in examples.
+- Variables, declared with `const`, behave the same, so this article is about `const` too.
+- The old `var` has some notable differences, they will be covered in the article <info:var>.
 ```
 
+## Code blocks
 
+If a variable is declared inside a code block `{...}`, it's only visible inside that block.
+
+For example:
+
+```js run
+{
+  // do some job with local variables that should not be seen outside
+
+  let message = "Hello"; // only visible in this block
+
+  alert(message); // Hello
+}
+
+alert(message); // Error: message is not defined
+```
+
+We can use this to isolate a piece of code that does its own task, with variables that only belong to it:
+
+```js run
+{
+  // show message
+  let message = "Hello";
+  alert(message);
+}
+
+{
+  // show another message
+  let message = "Goodbye";
+  alert(message);
+}
+```
+
+````smart header="There'd be an error without blocks"
+Please note, without separate blocks there would be an error, if we use `let` with the existing variable name:
+
+```js run
+// show message
+let message = "Hello";
+alert(message);
+
+// show another message
+*!*
+let message = "Goodbye"; // Error: variable already declared
+*/!*
+alert(message);
+```
+````
+
+For `if`, `for`, `while` and so on, variables declared in `{...}` are also only visible inside:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
+
+```js run
+if (true) {
+  let phrase = "Hello!";
+
+  alert(phrase); // Hello!
+}
+
+alert(phrase); // Error, no such variable!
+```
+
+Here, after `if` finishes, the `alert` below won't see the `phrase`, hence the error.
+
+<<<<<<< HEAD
 上述代码的执行流程：
 
 1. 全局词法环境中有 `name: "John"`。
@@ -186,8 +254,22 @@ sayHi(); // Pete
 
 ```smart header="词法环境是一个规范对象"
 『词法环境』是一个规范对象。我们不能在代码中获取或直接操作该对象。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等，但显性行为应该是和上述的无差。
+=======
+That's great, as it allows us to create block-local variables, specific to an `if` branch.
+
+The similar thing holds true for `for` and `while` loops:
+
+```js run
+for (let i = 0; i < 3; i++) {
+  // the variable i is only visible inside this for
+  alert(i); // 0, then 1, then 2
+}
+
+alert(i); // Error, no such variable
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 ```
 
+Visually, `let i` is outside of `{...}`. But the `for` construct is special here: the variable, declared inside it, is considered a part of the block.
 
 ## 嵌套函数
 
@@ -211,6 +293,7 @@ function sayHiBye(firstName, lastName) {
 }
 ```
 
+<<<<<<< HEAD
 这里创建的**嵌套**函数 `getFullName()` 是为了方便说明。它可以访问外部变量，因此可以返回全名。
 
 更有意思的是，可以返回一个嵌套函数：把它作为一个新对象的属性（如果外部函数创建一个有方法的对象）或是将其直接作为结果返回。其后可以在别处调用它。不论在哪里调用，它都可以访问同样的外部变量。
@@ -232,13 +315,20 @@ user.sayHi(); // 该方法访问外部变量 "name"
 ```
 
 一个返回函数的例子：
+=======
+Here the *nested* function `getFullName()` is made for convenience. It can access the outer variables and so can return the full name. Nested functions are quite common in JavaScript.
+
+What's much more interesting, a nested function can be returned: either as a property of a new object or as a result by itself. It can then be used somewhere else. No matter where, it still has access to the same outer variables.
+
+Below, `makeCounter` creates the "counter" function that returns the next number on each invocation:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js run
 function makeCounter() {
   let count = 0;
 
   return function() {
-    return count++; // has access to the outer counter
+    return count++;
   };
 }
 
@@ -249,6 +339,7 @@ alert( counter() ); // 1
 alert( counter() ); // 2
 ```
 
+<<<<<<< HEAD
 让我们继续来看 `makeCounter` 这个例子。它返回一个函数，（返回的）该函数每次调用都会返回下一个数字。尽管它的代码很简单，但稍加变型就会有实际的用途，比如，作一个 [伪随机数生成器](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) 等等。所以这个例子并不像看起来那么造作。
 
 计数器内部的工作是怎样的呢？
@@ -291,14 +382,29 @@ function makeCounter() {
 
 let counter1 = makeCounter();
 let counter2 = makeCounter();
+=======
+Despite being simple, slightly modified variants of that code have practical uses, for instance, as a [random number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) to generate random values for automated tests.
 
-alert( counter1() ); // 0
-alert( counter1() ); // 1
+How does this work? If we create multiple counters, will they be independent? What's going on with the variables here?
 
+Undestanding such things is great for the overall knowledge of JavaScript and beneficial for more complex scenarios. So let's go a bit in-depth.
+
+## Lexical Environment
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
+
+```warn header="Here be dragons!"
+The in-depth technical explanation lies ahead.
+
+<<<<<<< HEAD
 alert( counter2() ); // 0 （独立的）
+=======
+As far as I'd like to avoid low-level language details, any understanding without them would be lacking and incomplete, so get ready.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 ```
 
+For clarity, the explanation is split into multiple steps.
 
+<<<<<<< HEAD
 希望现在你对外部变量的情况相当清楚了。但对于更复杂的情况，可能需要更深入的理解。所以让我们更加深入吧。
 
 ## 环境详情
@@ -392,21 +498,87 @@ alert( counter2() ); // 0 （独立的）
 上面的例子都集中于函数。但对于 `{...}` 代码块，词法环境同样也是存在的
 
 当代码块中包含块级局部变量并运行时，会创建词法环境。这里有几个例子。
+=======
+### Step 1. Variables
 
-## If
+In JavaScript, every running function, code block `{...}`, and the script as a whole have an internal (hidden) associated object known as the *Lexical Environment*.
 
+The Lexical Environment object consists of two parts:
+
+1. *Environment Record* -- an object that stores all local variables as its properties (and some other information like the value of `this`).
+2. A reference to the *outer lexical environment*, the one associated with the outer code.
+
+**A "variable" is just a property of the special internal object, `Environment Record`. "To get or change a variable" means "to get or change a property of that object".**
+
+In this simple code without functions, there is only one Lexical Environment:
+
+![lexical environment](lexical-environment-global.svg)
+
+This is the so-called *global* Lexical Environment, associated with the whole script.
+
+On the picture above, the rectangle means Environment Record (variable store) and the arrow means the outer reference. The global Lexical Environment has no outer reference, that's why the arrow points to `null`.
+
+As the code starts executing and goes on, the Lexical Environment changes.
+
+Here's a little bit longer code:
+
+![lexical environment](closure-variable-phrase.svg)
+
+Rectangles on the right-hand side demonstrate how the global Lexical Environment changes during the execution:
+
+1. When the script starts, the Lexical Environment is pre-populated with all declared variables.
+    - Initially, they are in the "Uninitialized" state. That's a special internal state, it means that the engine knows about the variable, but won't allow to use it before `let`. It's almost the same as if the variable didn't exist.
+2. Then `let phrase` definition appears. There's no assignment yet, so its value is `undefined`. We can use the variable since this moment.
+3. `phrase` is assigned a value.
+4. `phrase` changes the value.
+
+Everything looks simple for now, right?
+
+- A variable is a property of a special internal object, associated with the currently executing block/function/script.
+- Working with variables is actually working with the properties of that object.
+
+```smart header="Lexical Environment is a specification object"
+"Lexical Environment" is a specification object: it only exists "theoretically" in the [language specification](https://tc39.es/ecma262/#sec-lexical-environments) to describe how things work. We can't get this object in our code and manipulate it directly.
+
+JavaScript engines also may optimize it, discard variables that are unused to save memory and perform other internal tricks, as long as the visible behavior remains as described.
+```
+
+### Step 2. Function Declarations
+
+A function is also a value, like a variable.
+
+**The difference is that a Function Declaration is instantly fully initialized.**
+
+When a Lexical Environment is created, a Function Declaration immediately becomes a ready-to-use function (unlike `let`, that is unusable till the declaration).
+
+That's why we can use a function, declared as Function Declaration, even before the declaration itself.
+
+For example, here's the initial state of the global Lexical Environment when we add a function:
+
+![](closure-function-declaration.svg)
+
+Naturally, this behavior only applies to Function Declarations, not Function Expressions where we assign a function to a variable, such as `let say = function(name)...`.
+
+### Step 3. Inner and outer Lexical Environment
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
+
+When a function runs, at the beginning of the call, a new Lexical Environment is created automatically to store local variables and parameters of the call.
+
+<<<<<<< HEAD
 在上面的例子中，当代码执行入 `if` 块，新的 "if-only" 词法环境就会为此而创建：
+=======
+For instance, for `say("John")`, it looks like this (the execution is at the line, labelled with an arrow):
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 <!--
-    ```js run
+    ```js
     let phrase = "Hello";
-    
-    if (true) {
-        let user = "John";
 
-        alert(`${phrase}, ${user}`); // Hello, John
+    function say(name) {
+     alert( `${phrase}, ${name}` );
     }
 
+<<<<<<< HEAD
     alert(user); // 错误，无法访问该变量！
     ```-->
 
@@ -446,12 +618,46 @@ alert(i); // 错误，没有该变量
 ```js run
 {
   // 用局部变量完成一些不应该被外面访问的工作
+=======
+    say("John"); // Hello, John
+    ```-->
 
-  let message = "Hello";
+![](lexical-environment-simple.svg)
 
-  alert(message); // Hello
+During the function call we have two Lexical Environments: the inner one (for the function call) and the outer one (global):
+
+- The inner Lexical Environment corresponds to the current execution of `say`. It has a single property: `name`, the function argument. We called `say("John")`, so the value of the `name` is `"John"`.
+- The outer Lexical Environment is the global Lexical Environment. It has the `phrase` variable and the function itself.
+
+The inner Lexical Environment has a reference to the `outer` one.
+
+**When the code wants to access a variable -- the inner Lexical Environment is searched first, then the outer one, then the more outer one and so on until the global one.**
+
+If a variable is not found anywhere, that's an error in strict mode (without `use strict`, an assignment to a non-existing variable creates a new global variable, for compatibility with old code).
+
+In this example the search proceeds as follows:
+
+- For the `name` variable, the `alert` inside `say` finds it immediately in the inner Lexical Environment.
+- When it wants to access `phrase`, then there is no `phrase` locally, so it follows the reference to the outer Lexical Environment and finds it there.
+
+![lexical environment lookup](lexical-environment-simple-lookup.svg)
+
+
+### Step 4. Returning a function
+
+Let's return to the `makeCounter` example.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
+
+```js
+function makeCounter() {
+  let count = 0;
+
+  return function() {
+    return count++;
+  };
 }
 
+<<<<<<< HEAD
 alert(message); // 错误：message 未定义
 ```
 
@@ -469,10 +675,16 @@ alert(message); // 错误：message 未定义
   let message = "Hello";
 
   alert(message); // Hello
-
-})();
+=======
+let counter = makeCounter();
 ```
 
+At the beginning of each `makeCounter()` call, a new Lexical Environment object is created, to store variables for this `makeCounter` run.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
+
+So we have two nested Lexical Environments, just like in the example above:
+
+<<<<<<< HEAD
 这里创建了一个函数表达式并立即调用。因此代码拥有自己的私有变量并立即执行。
 
 函数表达式被括号 `(function {...})` 包裹起来，因为在 JavaScript 中，当代码流碰到 `"function"` 时，它会把它当成一个函数声明的开始。但函数声明必须有一个函数名，所以会导致错误：
@@ -480,47 +692,56 @@ alert(message); // 错误：message 未定义
 ```js run
 // Error: Unexpected token (
 function() { // <-- JavaScript 找不到函数名，遇到 ( 导致错误
+=======
+![](closure-makecounter.svg)
 
-  let message = "Hello";
+What's different is that, during the execution of `makeCounter()`, a tiny nested function is created of only one line: `return count++`. We don't run it yet, only create.
 
-  alert(message); // Hello
+All functions remember the Lexical Environment in which they were made. Technically, there's no magic here: all functions have the hidden property named `[[Environment]]`, that keeps the reference to the Lexical Environment where the function was created:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
-}();
-```
+![](closure-makecounter-environment.svg)
 
+So, `counter.[[Environment]]` has the reference to `{count: 0}` Lexical Environment. That's how the function remembers where it was created, no matter where it's called. The `[[Environment]]` reference is set once and forever at function creation time.
+
+Later, when `counter()` is called, a new Lexical Environment is created for the call, and its outer Lexical Environment reference is taken from `counter.[[Environment]]`:
+
+<<<<<<< HEAD
 我们可以说『好吧，让其变成函数声明，让我们增加一个名称』，但它是没有效果的。JavaScript 不允许立即调用函数声明。
+=======
+![](closure-makecounter-nested-call.svg)
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
-```js run
-// syntax error because of brackets below
-function go() {
+Now when the code inside `counter()` looks for `count` variable, it first searches its own Lexical Environment (empty, as there are no local variables there), then the Lexical Environment of the outer `makeCounter()` call, where finds it and changes.
 
-}(); // <-- can't call Function Declaration immediately
-```
+**A variable is updated in the Lexical Environment where it lives.**
 
+<<<<<<< HEAD
 因此，需要使用圆括号告诉给 JavaScript，这个函数是在另一个表达式的上下文中创建的，因此它是一个表达式。它不需要函数名也可以立即调用。
 
 在 JavaScript 中还有其他方式来定义函数表达式：
 
 ```js run
 // 创建 IIFE 的方法
+=======
+Here's the state after the execution:
 
-(function() {
-  alert("Brackets around the function");
-}*!*)*/!*();
+![](closure-makecounter-nested-call-2.svg)
 
-(function() {
-  alert("Brackets around the whole thing");
-}()*!*)*/!*;
+If we call `counter()` multiple times, the `count` variable will be increased to `2`, `3` and so on, at the same place.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
-*!*!*/!*function() {
-  alert("Bitwise NOT operator starts the expression");
-}();
+```smart header="Closure"
+There is a general programming term "closure", that developers generally should know.
 
-*!*+*/!*function() {
-  alert("Unary plus starts the expression");
-}();
+A [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)) is a function that remembers its outer variables and can access them. In some languages, that's not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript, all functions are naturally closures (there is only one exception, to be covered in <info:new-function>).
+
+That is: they automatically remember where they were created using a hidden `[[Environment]]` property, and then their code can access outer variables.
+
+When on an interview, a frontend developer gets a question about "what's a closure?", a valid answer would be a definition of the closure and an explanation that all functions in JavaScript are closures, and maybe a few more words about technical details: the `[[Environment]]` property and how Lexical Environments work.
 ```
 
+<<<<<<< HEAD
 在上面的例子中，我们声明一个函数表达式并立即调用：
 
 ## 垃圾收集
@@ -528,16 +749,19 @@ function go() {
 我们所讨论的词法环境和常规值都遵循同样的内存管理规则。
 
 - 通常，在函数运行后词法环境会被清理。举个例子：
+=======
+## Garbage collection
 
-    ```js
-    function f() {
-      let value1 = 123;
-      let value2 = 456;
-    }
+Usually, a Lexical Environment is removed from memory with all the variables after the function call finishes. That's because there are no references to it. As any JavaScript object, it's only kept in memory while it's reachable.
 
-    f();
-    ```
+...But if there's a nested function that is still reachable after the end of a function, then it has `[[Environment]]` property that references the lexical environment.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
+In that case the Lexical Environment is still reachable even after the completion of the function, so it stays alive.
+
+For example:
+
+<<<<<<< HEAD
     这里的两个值都是词法环境的属性。但是在 `f()` 执行完后，该词法环境变成不可达，因此它在内存中已被清理。
 
 - ...但是如果有一个嵌套函数在 `f` 结束后仍可达，那么它的 `[[Environment]]` 引用会继续保持着外部词法环境存在：
@@ -547,24 +771,38 @@ function go() {
       let value = 123;
 
       function g() { alert(value); }
+=======
+```js
+function f() {
+  let value = 123;
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
-    *!*
-      return g;
-    */!*
-    }
+  return function() {
+    alert(value);
+  }
+}
 
+<<<<<<< HEAD
     let g = f(); // g 是可达的，并且将其外部词法环境保持在内存中
     ```
 
 - 请注意如果多次调用 `f()`，返回的函数被保存，那么其对应的词法对象同样也会保留在内存中。下面代码中有三个这样的函数：
+=======
+let g = f(); // g.[[Environment]] stores a reference to the Lexical Environment
+// of the corresponding f() call
+```
 
-    ```js
-    function f() {
-      let value = Math.random();
+Please note that if `f()` is called many times, and resulting functions are saved, then all corresponding Lexical Environment objects will also be retained in memory. All 3 of them in the code below:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
-      return function() { alert(value); };
-    }
+```js
+function f() {
+  let value = Math.random();
 
+  return function() { alert(value); };
+}
+
+<<<<<<< HEAD
     // 数组中的三个函数，每个都有词法环境相关联。
     // 来自对应的 f() 
     //         LE   LE   LE
@@ -572,27 +810,48 @@ function go() {
     ```
 
 - 词法环境对象在变成不可达时会被清理：当没有嵌套函数引用（它）时。在下面的代码中，在 `g` 变得不可达后，`value` 同样会被从内存中清除；
+=======
+// 3 functions in array, every one of them links to Lexical Environment
+// from the corresponding f() run
+let arr = [f(), f(), f()];
+```
 
-    ```js
-    function f() {
-      let value = 123;
+A Lexical Environment object dies when it becomes unreachable (just like any other object). In other words, it exists only while there's at least one nested function referencing it.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
-      function g() { alert(value); }
+In the code below, after the nested function is removed, its enclosing Lexical Environment (and hence the `value`) is cleaned from memory;
 
-      return g;
-    }
+```js
+function f() {
+  let value = 123;
 
+  return function() {
+    alert(value);
+  }
+}
+
+<<<<<<< HEAD
     let g = f(); // 当 g 存在时
     // 对应的词法环境可达
 
     g = null; // ...在内存中被清理
     ```
+=======
+let g = f(); // while g function exists, the value stays in memory
+
+g = null; // ...and now the memory is cleaned up
+```
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ### 实际的优化
 
 正如我们所了解的，理论上当函数可达时，它外部的所有变量都将存在。
 
+<<<<<<< HEAD
 但实际上，JavaScript 引擎会试图优化它。它们会分析变量的使用情况，如果有变量没被使用的话它也会被清除。
+=======
+But in practice, JavaScript engines try to optimize that. They analyze variable usage and if it's obvious from the code that an outer variable is not used -- it is removed.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 **V8（Chrome、Opera）的一个重要副作用是这样的变量在调试是无法访问的。**
 
@@ -605,7 +864,11 @@ function f() {
   let value = Math.random();
 
   function g() {
+<<<<<<< HEAD
     debugger; // 在控制台中输入 alert( value );没有该值！
+=======
+    debugger; // in console: type alert(value); No such variable!
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
   }
 
   return g;
@@ -626,7 +889,11 @@ function f() {
   let value = "the closest value";
 
   function g() {
+<<<<<<< HEAD
     debugger; // 在控制台中：输入 alert( value )；Surprise!
+=======
+    debugger; // in console: type alert(value); Surprise!
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
   }
 
   return g;
@@ -636,9 +903,15 @@ let g = f();
 g();
 ```
 
+<<<<<<< HEAD
 ```warn header="再见！"
 V8 的这个特性了解一下也不错。如果用 Chrome/Opera 调试的话，迟早你会遇到。
 
 这并不是调试器的 bug ，而是 V8 的一个特别的特性。或许以后会进行修改。
 你可以经常运行本页的代码来进行检查（这个特性）。
 ```
+=======
+This feature of V8 is good to know. If you are debugging with Chrome/Opera, sooner or later you will meet it.
+
+That is not a bug in the debugger, but rather a special feature of V8. Perhaps it will be changed sometime. You always can check for it by running the examples on this page.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080

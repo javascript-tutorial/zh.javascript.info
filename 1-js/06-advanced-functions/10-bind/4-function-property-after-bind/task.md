@@ -4,7 +4,11 @@ importance: 5
 
 # bind 过后的函数属性
 
+<<<<<<< HEAD
 函数有一个包含某个值的属性。`bind` 之后它会改变吗？为什么，阐述一下？
+=======
+There's a value in the property of a function. Will it change after `bind`? Why, or why not?
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js run
 function sayHi() {

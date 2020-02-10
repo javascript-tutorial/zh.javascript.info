@@ -2,9 +2,15 @@
 
 我们深入研究下箭头函数
 
+<<<<<<< HEAD
 箭头功能不仅仅是用来简写的快速方法。
 
 JavaScript 充满了需要编写一个小函数其他地方执行的情况。
+=======
+Arrow functions are not just a "shorthand" for writing small stuff. They have some very specific and useful features.
+
+JavaScript is full of situations where we need to write a small function that's executed somewhere else.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 例如：
 
@@ -14,7 +20,11 @@ JavaScript 充满了需要编写一个小函数其他地方执行的情况。
 
 JavaScript 的精髓在于创建一个函数并将其传递到某个地方。
 
+<<<<<<< HEAD
 在这种函数依赖当前上下文。
+=======
+And in such functions we usually don't want to leave the current context. That's where arrow functions come in handy.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ## 箭头功能没有 "this"
 
@@ -118,9 +128,18 @@ function defer(f, ms) {
 
 箭头函数：
 
+<<<<<<< HEAD
 - 没有 `this`。
 - 没有 `arguments`。
 - 不能使用 `new`。
 - （他们也没有 `super`，我们将在这一章 <info:class-inheritance> 研究）。
 
 所以它们适用于没有自己的“上下文”的短代码片段，比如在当前的代码大放光彩。
+=======
+- Do not have `this`
+- Do not have `arguments`
+- Can't be called with `new`
+- They also don't have `super`, but we didn't study it yet. We will on the chapter <info:class-inheritance>
+
+That's because they are meant for short pieces of code that do not have their own "context", but rather work in the current one. And they really shine in that use case.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080

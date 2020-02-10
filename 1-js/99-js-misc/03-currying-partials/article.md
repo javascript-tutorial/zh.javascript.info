@@ -3,6 +3,7 @@ libs:
 
 ---
 
+<<<<<<< HEAD
 # 柯里化和偏函数
 
 到目前为止，对于 bind 我们只讨论过 bind `this`。让我们深入探讨一下 bind。
@@ -121,16 +122,41 @@ function curry(func) {
   return function(a) {
     return function(b) {
       return func(a, b);
+=======
+# Currying
+
+[Currying](https://en.wikipedia.org/wiki/Currying) is an advanced technique of working with functions. It's used not only in JavaScript, but in other languages as well.
+
+Currying is a transformation of functions that translates a function from callable as `f(a, b, c)` into callable as `f(a)(b)(c)`.
+
+Currying doesn't call a function. It just transforms it.
+
+Let's see an example first, to better understand what we're talking about, and then practical applications.
+
+We'll create a helper function `curry(f)` that performs currying for a two-argument `f`. In other words, `curry(f)` for two-argument `f(a, b)` translates it into a function that runs as `f(a)(b)`:
+
+```js run
+*!*
+function curry(f) { // curry(f) does the currying transform
+  return function(a) {
+    return function(b) {
+      return f(a, b);
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
     };
   };
 }
 */!*
 
+<<<<<<< HEAD
 // 用法
+=======
+// usage
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 function sum(a, b) {
   return a + b;
 }
 
+<<<<<<< HEAD
 let carriedSum = curry(sum);
 
 alert( carriedSum(1)(2) ); // 3
@@ -159,6 +185,37 @@ function curry(f) {
 高级的柯里化同时允许函数正常调用和获取偏函数。为了理解这样的好处，我们确实需要一个好的现实例子。
 
 举个例子，我们有一个打印函数 `log(date, importance, message)` 格式化和输出信息。在真实的项目中，这样的函数有很多有用的特性，比如：通过网络传输或者筛选：
+=======
+let curriedSum = curry(sum);
+
+alert( curriedSum(1)(2) ); // 3
+```
+
+As you can see, the implementation is straightforward: it's just two wrappers.
+
+- The result of `curry(func)` is a wrapper `function(a)`.
+- When it is called like `sum(1)`, the argument is saved in the Lexical Environment, and a new wrapper is returned `function(b)`.
+- Then this wrapper is called with `2` as an argument, and it passes the call to the original `sum`.
+
+More advanced implementations of currying, such as [_.curry](https://lodash.com/docs#curry) from lodash library, return a wrapper that allows a function to be called both normally and partially:
+
+```js run
+function sum(a, b) {
+  return a + b;
+}
+
+let curriedSum = _.curry(sum); // using _.curry from lodash library
+
+alert( curriedSum(1, 2) ); // 3, still callable normally
+alert( curriedSum(1)(2) ); // 3, called partially
+```
+
+## Currying? What for?
+
+To understand the benefits we need a worthy real-life example.
+
+For instance, we have the logging function `log(date, importance, message)` that formats and outputs the information. In real projects such functions have many useful features like sending logs over the network, here we'll just use `alert`:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js
 function log(date, importance, message) {
@@ -166,12 +223,17 @@ function log(date, importance, message) {
 }
 ```
 
+<<<<<<< HEAD
 让我们将它柯里化！
+=======
+Let's curry it!
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js
 log = _.curry(log);
 ```
 
+<<<<<<< HEAD
 操作之后 `log` 依然正常运行：
 
 ```js
@@ -179,11 +241,21 @@ log(new Date(), "DEBUG", "some debug");
 ```
 
 但是也可以用柯里化格式调用：
+=======
+After that `log` works normally:
+
+```js
+log(new Date(), "DEBUG", "some debug"); // log(a, b, c)
+```
+
+...But also works in the curried form:
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 ```
 
+<<<<<<< HEAD
 让我们来创建一个获取今天的日志的简易函数：
 
 ```js
@@ -211,6 +283,39 @@ todayDebug("message"); // [HH:mm] DEBUG message
 由于你可能感兴趣，下面是我们可以使用的「高级」柯里化实现
 
 ```js run
+=======
+Now we can easily make a convenience function for current logs:
+
+```js
+// logNow will be the partial of log with fixed first argument
+let logNow = log(new Date());
+
+// use it
+logNow("INFO", "message"); // [HH:mm] INFO message
+```
+
+Now `logNow` is `log` with fixed first argument, in other words "partially applied function" or "partial" for short.
+
+We can go further and make a convenience function for current debug logs:
+
+```js
+let debugNow = logNow("DEBUG");
+
+debugNow("message"); // [HH:mm] DEBUG message
+```
+
+So:
+1. We didn't lose anything after currying: `log` is still callable normally.
+2. We can easily generate partial functions such as for today's logs.
+
+## Advanced curry implementation
+
+In case you'd like to get in details, here's the "advanced" curry implementation for multi-argument functions that we could use above.
+
+It's pretty short:
+
+```js
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 function curry(func) {
 
   return function curried(...args) {
@@ -224,13 +329,22 @@ function curry(func) {
   };
 
 }
+<<<<<<< HEAD
 
+=======
+```
+
+Usage examples:
+
+```js
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 function sum(a, b, c) {
   return a + b + c;
 }
 
 let curriedSum = curry(sum);
 
+<<<<<<< HEAD
 // 依然可以被正常调用
 alert( curriedSum(1, 2, 3) ); // 6
 
@@ -247,6 +361,19 @@ alert( curriedSum(1)(2)(3) ); // 6
 
 ```js
 // func 是被转化的函数
+=======
+alert( curriedSum(1, 2, 3) ); // 6, still callable normally
+alert( curriedSum(1)(2,3) ); // 6, currying of 1st arg
+alert( curriedSum(1)(2)(3) ); // 6, full currying
+```
+
+The new `curry` may look complicated, but it's actually easy to understand.
+
+The result of `curry(func)` call is the wrapper `curried` that looks like this:
+
+```js
+// func is the function to transform
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 function curried(...args) {
   if (args.length >= func.length) { // (1)
     return func.apply(this, args);
@@ -258,6 +385,7 @@ function curried(...args) {
 };
 ```
 
+<<<<<<< HEAD
 当我们运行它的时候，有两种结果：
 
 1. 立刻执行：当传入的 `args` 的长度和初始函数中所定义的（`func.length`）相同或者更长，那么直接将它传入需要执行的函数。
@@ -294,3 +422,37 @@ function curried(...args) {
 - **柯里化**是将 `f(a,b,c)` 可以被以 `f(a)(b)(c)` 的形式被调用的转化。JavaScript 实现版本通常保留函数被正常调用和在参数数量不够的情况下返回偏函数这两个特性。
 
     当我们想要简单偏函数的时候，柯里化很棒。正如我们在 logging 例子中所看到的那样：通用函数 `log(date, importance, message)` 在柯里化之后，当我们在调用它的时候传入一个参数如 `log(date)` 或者两个参数 `log(date, importance)` 的时候，返回了偏函数。
+=======
+When we run it, there are two `if` execution branches:
+
+1. Call now: if passed `args` count is the same as the original function has in its definition (`func.length`) or longer, then just pass the call to it.
+2. Get a partial: otherwise, `func` is not called yet. Instead, another wrapper `pass` is returned, that will re-apply `curried` providing previous arguments together with the new ones. Then on a new call, again, we'll get either a new partial (if not enough arguments) or, finally, the result.
+
+For instance, let's see what happens in the case of `sum(a, b, c)`. Three arguments, so `sum.length = 3`.
+
+For the call `curried(1)(2)(3)`:
+
+1. The first call `curried(1)` remembers `1` in its Lexical Environment, and returns a wrapper `pass`.
+2. The wrapper `pass` is called with `(2)`: it takes previous args (`1`), concatenates them with what it got `(2)` and calls `curried(1, 2)` with them together. As the argument count is still less than 3, `curry` returns `pass`.
+3. The wrapper `pass` is called again with `(3)`,  for the next call `pass(3)` takes previous args (`1`, `2`) and adds `3` to them, making the call `curried(1, 2, 3)` -- there are `3` arguments at last, they are given to the original function.
+
+If that's still not obvious, just trace the calls sequence in your mind or on the paper.
+
+```smart header="Fixed-length functions only"
+The currying requires the function to have a fixed number of arguments.
+
+A function that uses rest parameters, such as `f(...args)`, can't be curried this way.
+```
+
+```smart header="A little more than currying"
+By definition, currying should convert `sum(a, b, c)` into `sum(a)(b)(c)`.
+
+But most implementations of currying in JavaScript are advanced, as described: they also keep the function callable in the multi-argument variant.
+```
+
+## Summary
+
+*Currying* is a transform that makes `f(a,b,c)` callable as `f(a)(b)(c)`. JavaScript implementations usually both keep the function callable normally and return the partial if arguments count is not enough.
+
+Currying allows to easily get partials. As we've seen in the logging example: the universal function `log(date, importance, message)` after currying gives us partials when called with one argument like `log(date)` or two arguments `log(date, importance)`.  
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
