@@ -1,10 +1,10 @@
-# Shadow DOM slots, composition
+# Shadow DOM 插槽, 组成
 
-Many types of components, such as tabs, menus, image galleries, and so on, need the content to render.
+许多类型的组件，例如标签、菜单、照片库等等，需要内容去渲染。
 
-Just like built-in browser `<select>` expects `<option>` items, our `<custom-tabs>` may expect the actual tab content to be passed. And a `<custom-menu>` may expect menu items.
+就像浏览器内建的 `<select>` 需要 `<option>` 子项，我们的 `<custom-tabs>` 可能需要实际的标签内容来起作用。并且一个 `<custom-menu>` 可能需要菜单子项。
 
-The code that makes use of `<custom-menu>` can look like this:
+使用了 `<custom-menu>` 的代码如下所示：
 
 ```html
 <custom-menu>
@@ -15,19 +15,19 @@ The code that makes use of `<custom-menu>` can look like this:
 </custom-menu>
 ```
 
-...Then our component should render it properly, as a nice menu with given title and items, handle menu events, etc.
+...接着我们的组件应该正确的渲染它，作为具有给定标题和项目，处理菜单事件等的漂亮菜单。
 
-How to implement it?
+如何执行呢？
 
-We could try to analyze the element content and dynamically copy-rearrange DOM nodes. That's possible, but if we're moving elements to shadow DOM, then CSS styles from the document do not apply in there, so the visual styling may be lost. Also that requires some coding.
+我们可以尝试分析元素内容并动态复制重新排列 DOM 节点。这是可能的，但是如果我们要将元素移动到 Shadow DOM，那么文档的 CSS 样式不能在那里应用，因此文档的视觉样式可能会丢失。看起来还需要做一些事情。
 
-Luckily, we don't have to. Shadow DOM supports `<slot>` elements, that are automatically filled by the content from light DOM.
+幸运的是我们不需要去做。Shadow DOM 支持 `<slot>` 元素，由普通 DOM 中的内容自动填充。
 
-## Named slots
+## 命名插槽
 
-Let's see how slots work on a simple example.
+让我们通过一个简单的例子看下插槽是如何工作的。
 
-Here, `<user-card>` shadow DOM provides two slots, filled from light DOM:
+在这里 `<user-card>` shadow DOM 提供两个插槽, 从普通 DOM 填充:
 
 ```html run autorun="no-epub" untrusted height=80
 <script>
@@ -56,9 +56,9 @@ customElements.define('user-card', class extends HTMLElement {
 </user-card>
 ```
 
-In the shadow DOM, `<slot name="X">` defines an "insertion point", a place where elements with `slot="X"` are rendered.
+在 shadow DOM 中，`<slot name="X">` 定义了一个 "插入点"，一个带有 `slot="X"` 的元素被渲染的地方。
 
-Then the browser performs "composition": it takes elements from the light DOM and renders them in corresponding slots of the shadow DOM. At the end, we have exactly what we want -- a generic component that can be filled with data.
+然后浏览器执行”组合“：它从普通DOM中获取元素并且渲染到 shadow DOM 中的对应插槽中。最后，正是我们想要的 -- 一个能被填充数据的通用组件。
 
 Here's the DOM structure after the script, not taking composition into account:
 
