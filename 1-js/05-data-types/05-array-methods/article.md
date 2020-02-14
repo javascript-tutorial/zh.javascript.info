@@ -1,6 +1,6 @@
 # 数组方法
 
-数组提供的方法很多。为了方便起见，在本章中，我们将按组讲解。
+数组提供的方法有很多。为了方便起见，在本章中，我们将按组讲解。
 
 ## 添加/移除数组元素
 
@@ -44,7 +44,7 @@ alert( arr.length ); // 3
 arr.splice(index[, deleteCount, elem1, ..., elemN])
 ```
 
-从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。
+从 `index` 开始：删除 `deleteCount` 个元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。
 
 通过例子我们可以很容易地掌握这个方法。
 
@@ -54,7 +54,7 @@ arr.splice(index[, deleteCount, elem1, ..., elemN])
 let arr = ["I", "study", "JavaScript"];
 
 *!*
-arr.splice(1, 1); // from index 1 remove 1 element
+arr.splice(1, 1); // 从索引 1 开始删除 1 个元素
 */!*
 
 alert( arr ); // ["I", "JavaScript"]
@@ -73,39 +73,39 @@ arr.splice(0, 3, "Let's", "dance");
 alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
-在这里我们可以看到 `splice` 返回已删除元素的数组：
+在这里我们可以看到 `splice` 返回了已删除元素的数组：
 
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
 
-// remove 2 first elements
+// 删除前两个元素
 let removed = arr.splice(0, 2);
 
-alert( removed ); // "I", "study" <-- 被删除元素的数组
+alert( removed ); // "I", "study" <-- 被从数组中删除了的元素
 ```
 
-我们可以将 `deleteCount` 设置为 `0`，`splice` 方法就能够插入元素而不用删除：
+我们可以将 `deleteCount` 设置为 `0`，`splice` 方法就能够插入元素而不用删除任何元素：
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
 
-// from index 2
-// delete 0
-// then insert "complex" and "language"
+// 从索引 2 开始
+// 删除 0 个元素
+// 然后插入 "complex" 和 "language"
 arr.splice(2, 0, "complex", "language");
 
 alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
 ````smart header="允许负向索引"
-在这里和其他数组方法中，负向索引是允许的。它们从数组末尾计算位置，如下所示：
+在这里和其他数组方法中，负向索引都是被允许的。它们从数组末尾计算位置，如下所示：
 
 ```js run
 let arr = [1, 2, 5];
 
-// from index -1 (one step from the end)
-// delete 0 elements,
-// then insert 3 and 4
+// 从索引 -1（尾端前一位）
+// 删除 0 个元素，
+// 然后插入 3 和 4
 arr.splice(-1, 0, 3, 4);
 
 alert( arr ); // 1,2,3,4,5
@@ -119,7 +119,7 @@ alert( arr ); // 1,2,3,4,5
 语法是：
 
 ```js
-arr.slice(start, end)
+arr.slice([start], [end])
 ```
 
 它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。`start` 和 `end` 都可以是负数，在这种情况下，从末尾计算索引。
