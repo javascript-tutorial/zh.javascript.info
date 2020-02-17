@@ -47,7 +47,7 @@ alert( map.size ); // 3
 所以我们应该使用 `map` 方法：`set` 和 `get` 等。
 ```
 
-**Map 还可以使用对象作为键**
+**Map 还可以使用对象作为键。**
 
 例如：
 
@@ -57,20 +57,20 @@ let john = { name: "John" };
 // 存储每个用户的来访次数
 let visitsCountMap = new Map();
 
-// john 是集合中的键
+// john 是 Map 中的键
 visitsCountMap.set(john, 123);
 
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-使用对象作为键是 `Map` 最值得注意和重要的功能之一。对于字符串键，`Object`（普通对象）能正常使用，但对于对象键则不能。
+使用对象作为键是 `Map` 最值得注意和重要的功能之一。对于字符串键，`Object`（普通对象）也能正常使用，但对于对象键则不行。
   
 我们来尝试一下：
 
 ```js run
 let john = { name: "John" };
 
-let visitsCountObj = {}; //  尝试使用对象
+let visitsCountObj = {}; // 尝试使用对象
 
 visitsCountObj[john] = 123; // 尝试将 john 对象作为键
 
@@ -80,34 +80,32 @@ alert( visitsCountObj["[object Object]"] ); // 123
 */!*
 ```
 
-因为 `visitsCountObj` 是一个普通对象，它会将所有的键如 `john` 转换为字符串，所以我们得到字符键 `"[object Object]"`。这显然不是我们想要的结果。
+因为 `visitsCountObj` 是一个对象，它会将所有的键如 `john` 转换为字符串，所以我们得到字符串键 `"[object Object]"`。这显然不是我们想要的结果。
 
 ```smart header="`Map` 是怎么比较键的？"
-
-`Map` 使用 [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero)算法来比较键是否相等。 它和严格等于 `===` 差不多，但区别是 `NaN` 被看成是等于 `NaN`。 所以 `NaN` 也可以被用作键。
+`Map` 使用 [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) 算法来比较键是否相等。它和严格等于 `===` 差不多，但区别是 `NaN` 被看成是等于 `NaN`。所以 `NaN` 也可以被用作键。
 
 这个算法不能被改变或者自定义。
-
 ```
 
 ````smart header="链式调用"
-
-每一次调用 `map.set` 都会返回集合本身，所以我们可以”连续“调用：
+每一次 `map.set` 调用都会返回 map 本身，所以我们可以进行“链式”调用：
 
 ```js
 map.set('1', 'str1')
   .set(1, 'num1')
   .set(true, 'bool1');
 ```
+````
 
 
-## `Map` 迭代
+## Map 迭代
 
 如果要在 `map` 里使用循环，可以使用以下三个方法：
 
-- `map.keys()` － 返回键名的遍历器，
-- `map.values()` － 返回键值的遍历器，
-- `map.entries()` － 返回实体 `[key, value]` 的遍历器，默认在 `for..of` 中使用。
+- `map.keys()` － 遍历并返回所有的键（key），
+- `map.values()` － 遍历并返回所有的值（value），
+- `map.entries()` － 遍历并返回所有的实体 `[key, value]`，`for..of` 在默认情况下使用的就是这个。
 
 例如：
 
@@ -118,42 +116,41 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
-// 迭代键（vegetables）
+// 遍历所有的键（vegetables）
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomatoes, onion
 }
 
-// 迭代值（amounts）
+// 遍历所有的值（amounts）
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
 
-// 迭代 [key, value] 对
-for (let entry of recipeMap) { // 效果跟 recipeMap.entries() 相同
-  alert(entry); // cucumber,500（以此类推）
+// 遍历所有的实体 [key, value]
+for (let entry of recipeMap) { // 与 recipeMap.entries() 相同
+  alert(entry); // cucumber,500 (and so on)
 }
 ```
 
 ```smart header="使用插入顺序"
-
-迭代的顺序与键的插入顺序相同。不同于普通的 `Object`，`Map` 会保留键的插入顺序。
+迭代的顺序与插入值的顺序相同。与普通的 `Object` 不同，`Map` 保留了此顺序。
 ```
 
-除此之外，`Map` 有个内置的 `forEach` 方法，跟 `Array` 类似：
+除此之外，`Map` 有内置的 `forEach` 方法，与 `Array` 类似：
 
 ```js
-// 对每个 (key, value) 键值对运行 forEach 函数
+// 对每个键值对 (key, value) 运行 forEach 函数
 recipeMap.forEach( (value, key, map) => {
-  alert(`${key}: ${value}`); // cucumber: 500 等
+  alert(`${key}: ${value}`); // cucumber: 500 etc
 });
 ```
 
-## Object.entries：把对象转化为 `map`
+## Object.entries：通过对象创建 Map
 
- 创建 `Map` 后，我们可以传入带有键值对的数组 (或其它可迭代的对象) 来进行初始化，像这样：
+当创建一个 `Map` 后，我们可以传入一个带有键值对的数组（或其它可迭代对象）来进行初始化，如下所示：
 
 ```js run
-// 包含 [key, value] 对的数组
+// 键值对 [key, value] 数组
 let map = new Map([
   ['1',  'str1'],
   [1,    'num1'],
@@ -163,9 +160,9 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-如果我们想从一个已有的 plain object 来创建 `Map`，可以使用内置方法 [Object.entries(obj)](mdn:js/Object/entries)，它返回一个对象的键值对数组，该数组符合 `Map` 集合的格式。
+如果我们想从一个已有的 plain object 来创建一个 `Map`，那么我们可以使用内建方法 [Object.entries(obj)](mdn:js/Object/entries)，该返回对象的键/值对数组，该数组格式完全按照 `Map` 所需的格式。
 
-所以可以像下面这样利用一个对象来创建 `map`
+所以可以像下面这样通过一个对象来创建一个 map：
 
 ```js run
 let obj = {
@@ -180,10 +177,10 @@ let map = new Map(Object.entries(obj));
 alert( map.get('name') ); // John
 ```
 
-这里，`Object.entries` 返回一个含有键值对的数组：`[ ["name","John"], ["age", 30] ]`。这就是 `Map` 所需要的参数格式。
+这里，`Object.entries` 返回键/值对数组：`[ ["name","John"], ["age", 30] ]`。这就是 `Map` 所需要的格式。
 
 
-## Object.fromEntries：把 `map` 转化为对象
+## Object.fromEntries：通过 Map 创建对象
 
 我们刚刚已经利用 `Object.entries(obj)` 把一个 plain object 转化成 `Map`。
 
