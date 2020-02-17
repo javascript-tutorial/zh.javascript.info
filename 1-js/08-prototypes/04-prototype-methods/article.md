@@ -56,7 +56,7 @@ alert(rabbit.jumps); // true
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
-这样实现了 `obj` 的完整复制，包含了所有属性：可枚举的和不可枚举的，数据属性以及 seeters/getters —— 所有属性，以及正确的 `[[Prototype]]`。
+这样实现了 `obj` 的完整复制，包含了所有属性：可枚举的和不可枚举的，数据属性以及 setters/getters —— 所有属性，以及正确的 `[[Prototype]]`。
 
 # 原型简史
 
