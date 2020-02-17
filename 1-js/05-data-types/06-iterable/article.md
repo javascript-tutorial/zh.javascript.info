@@ -197,7 +197,7 @@ for (let item of arrayLike) {}
 
 ## Array.from
 
-有一个全局方法 [Array.from](mdn:js/Array/from) 可以把它们全都结合起来。它以一个可迭代对象或者类数组对象作为参数并返回一个真正的 `Array` 数组。然后我们就可以用该对象调用数组的方法了。
+有一个全局方法 [Array.from](mdn:js/Array/from) 可以可以接受一个可迭代或类数组的值，并从中获取一个“真实的”数组。然后我们就可以对其调用数组方法了。
 
 例如：
 
@@ -211,17 +211,17 @@ let arrayLike = {
 *!*
 let arr = Array.from(arrayLike); // (*)
 */!*
-alert(arr.pop()); // World（pop 方法生效）
+alert(arr.pop()); // World（pop 方法有效）
 ```
 
-在行 `(*)`，`Array.from` 方法以一个对象为参数，检测到它是一个可迭代对象或类数组对象，然后将它转化为一个新的数组并将所有元素拷贝进去。
+在 `(*)` 行的 `Array.from` 方法接受对象，检测它是一个可迭代对象或类数组对象，然后创建一个新数组，并将该对象的所有元素复制到这个新数组。
 
 如果是可迭代对象，也是同样：
 
 ```js
-// 假设 range 来自上文例子中
+// 假设 range 来自上文的例子中
 let arr = Array.from(range);
-alert(arr); // 1,2,3,4,5 （数组的 toString 转化函数生效）
+alert(arr); // 1,2,3,4,5 （数组的 toString 转化方法生效）
 ```
 
 `Array.from` 的完整语法允许提供一个可选的 "mapping"（映射）函数：
@@ -229,7 +229,7 @@ alert(arr); // 1,2,3,4,5 （数组的 toString 转化函数生效）
 Array.from(obj[, mapFn, thisArg])
 ```
 
-第二个参数 `mapFn` 应是一个在元素被添加到数组前，施加于每个元素的方法，`thisArg` 允许设置方法的 `this` 对象。
+可选的第二个参数 `mapFn` 可以是一个函数，该函数会在对象中的元素被添加到数组前，被应用于每个元素，此外 `thisArg` 允许为该函数设置 `this`。
 
 例如：
 
@@ -242,7 +242,7 @@ let arr = Array.from(range, num => num * num);
 alert(arr); // 1,4,9,16,25
 ```
 
-现在我们用 `Array.from` 将一个字符串转化为单个字符的数组：
+现在我们用 `Array.from` 将一个字符串转换为单个字符的数组：
 
 ```js run
 let str = '𝒳😂';
@@ -255,14 +255,14 @@ alert(chars[1]); // 😂
 alert(chars.length); // 2
 ```
 
-不像 `str.split` 方法，上文的方法依赖于字符串的可迭代特性，所以就像 `for..of` 一样，能正确的处理 UTF-16 扩展字符。
+与 `str.split` 方法不同，它依赖于字符串的可迭代特性。因此，就像 `for..of` 一样，可以正确地处理代理对（surrogate pair）。（译注：代理对也就是 UTF-16 扩展字符。）
 
 技术上来说，它和下文做了同样的事：
 
 ```js run
 let str = '𝒳😂';
 
-let chars = []; // Array.from 内部完成了同样的循环
+let chars = []; // Array.from 内部执行相同的循环
 for (let char of str) {
   chars.push(char);
 }
@@ -270,9 +270,9 @@ for (let char of str) {
 alert(chars);
 ```
 
-...但是精简很多。
+……但 `Array.from` 精简很多。
 
-我们甚至可以基于 `Array.from` 创建能处理 UTF-16 扩展字符的 `slice` 方法：
+我们甚至可以基于 `Array.from` 创建代理感知（surrogate-aware）的`slice` 方法（译注：也就是能够处理 UTF-16 扩展字符的 `slice` 方法）：
 
 ```js run
 function slice(str, start, end) {
@@ -283,25 +283,25 @@ let str = '𝒳😂𩷶';
 
 alert( slice(str, 1, 3) ); // 😂𩷶
 
-// 原生方法不支持识别 UTF-16 扩展字符
+// 原生方法不支持识别代理对（译注：UTF-16 扩展字符）
 alert( str.slice(1, 3) ); // 乱码（两个不同 UTF-16 扩展字符碎片拼接的结果）
 ```
 
 
 ## 总结
 
-可以应用 `for..of` 的对象被称为**可迭代的**。
+可以应用 `for..of` 的对象被称为 **可迭代的**。
 
-- 技术上来说，可迭代对象必须实现方法 `Symbol.iterator`。
-    - `obj[Symbol.iterator]` 的结果被称为**迭代器**。由它处理更深入的迭代过程。
-    - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}`，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
-- `Symbol.iterator` 方法会被 `for..of` 自动调用，但我们也可以直接调用。
+- 技术上来说，可迭代对象必须实现 `Symbol.iterator` 方法。
+    - `obj[Symbol.iterator]` 的结果被称为 **迭代器（iterator）**。由它处理进一步的迭代过程。
+    - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}` 对象，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
+- `Symbol.iterator` 方法会被 `for..of` 自动调用，但我们也可以直接调用它。
 - 内置的可迭代对象例如字符串和数组，都实现了 `Symbol.iterator`。
-- 字符串迭代器能够识别 UTF-16 扩展字符。
+- 字符串迭代器能够识别代理对（surrogate pair）。（译注：代理对也就是 UTF-16 扩展字符。）
 
 
-有索引属性和 `length` 属性的对象被称为**类数组对象**。这种对象也许也有其他属性和方法，但是没有数组的内建方法。
+有索引属性和 `length` 属性的对象被称为 **类数组对象**。这种对象可能还具有其他属性和方法，但是没有数组的内建方法。
 
-如果我们深入了解规范 —— 我们将会发现大部分内建方法都假设它们需要处理可迭代对象或者类数组对象，而不是真正的数组，因为这样抽象度更高。
+如果我们仔细研究一下规范 —— 就会发现大多数内建方法都假设它们需要处理的是可迭代对象或者类数组对象，而不是“真正的”数组，因为这样抽象度更高。
 
-`Array.from(obj[, mapFn, thisArg])` 将可迭代对象或类数组对象 `obj` 转化为真正的 `Array` 数组，然后我们就可以对它应用数组的方法。可选参数 `mapFn` 和 `thisArg` 允许我们对每个元素都应用一个函数。
+`Array.from(obj[, mapFn, thisArg])` 将可迭代对象或类数组对象 `obj` 转化为真正的数组 `Array`，然后我们就可以对它应用数组的方法。可选参数 `mapFn` 和 `thisArg` 允许我们将函数应用到每个元素。
