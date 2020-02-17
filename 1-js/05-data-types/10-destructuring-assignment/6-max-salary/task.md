@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 最高薪资
+# The maximal salary 
 
-以下是一个 `salaries` 对象：
+There is a `salaries` object:
 
 ```js
 let salaries = {
@@ -14,9 +14,9 @@ let salaries = {
 };
 ```
 
-新建一个函数 `topSalary(salaries)`，返回拥有最高薪资的人。
+Create the function `topSalary(salaries)` that returns the name of the top-paid person.
 
-- 如果 `salaries` 是空的，函数应该返回 `null`。
-- 如果有多个最高薪资的人，返回其中任意一个。
+- If `salaries` is empty, it should return `null`.
+- If there are multiple top-paid persons, return any of them.
 
-提示：使用 `Object.entries` 和解构语法来遍历键/值对。
+P.S. Use `Object.entries` and destructuring to iterate over key/value pairs.
