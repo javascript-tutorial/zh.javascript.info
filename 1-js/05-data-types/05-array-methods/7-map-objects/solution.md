@@ -35,9 +35,9 @@ let usersMapped = users.map(user => *!*{*/!*
 });
 ```
 
-我们记得，有两个箭头函数写法：直接返回值`value => expr` 和带主体的 `value => {...}`。
+我们记得，有两种箭头函数的写法：直接返回值 `value => expr` 和带主体的 `value => {...}`。
 
-JavaScript 会把 `{` 作为函数体的开始，而不是对象的开始。解决方法是将它们包装在正常括号中：
+JavaScript 在这里会把 `{` 视为函数体的开始，而不是对象的开始。解决方法是将它们包装在普通括号 `()` 中：
 
 ```js
 let usersMapped = users.map(user => *!*({*/!*
@@ -46,6 +46,6 @@ let usersMapped = users.map(user => *!*({*/!*
 }));
 ```
 
-现在就好了。
+这样就可以了。
 
 
