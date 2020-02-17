@@ -6,21 +6,21 @@
 - 存储键集合的对象。
 - 存储有序集合的数组。
 
-但现实生活中远不止这些。这就是为什么 `Map` 和 `Set` 也存在的原因。
+但这还不足以应对现实情况。这就是为什么存在 `Map` 和 `Set`。
 
 ## Map
 
-[Map](mdn:js/Map) 是一个带键的数据集合，跟普通的 `Object` 一样。 但是它们最大的差别是 `Map` 允许键（key）是任何类型。
+[Map](mdn:js/Map) 是一个带键的数据项的集合，就像一个 `Object` 一样。 但是它们最大的差别是 `Map` 允许任何类型的键（key）。
 
 它的方法和属性如下：
 
 - `new Map()` － 创建 `Map`。
-- `map.set(key, value)` － 存储键值对。
-- `map.get(key)` － 根据键来返回值，如果 `key` 不在 `map` 里将会返回 `undefined`。
+- `map.set(key, value)` － 根据键存储值。
+- `map.get(key)` － 根据键来返回值，如果 `map` 中不存在对应的 `key`，则返回 `undefined`。
 - `map.has(key)` － 如果 `key` 存在则返回 `true`，否则返回 `false`。
 - `map.delete(key)` － 根据键来删除值。
-- `map.clear()` － 清空集合。
-- `map.size` － 返回当前的元素个数。
+- `map.clear()` － 清空 `Map`。
+- `map.size` － 返回当前元素个数。
 
 举个例子：
 
@@ -31,15 +31,21 @@ map.set('1', 'str1');   // 字符串键
 map.set(1, 'num1');     // 数字键
 map.set(true, 'bool1'); // 布尔值键
 
-// 还记得普通的 Object 对象吗? 它会将键转化为字符串
-// Map 则会保留类型，所以下面这两个结果不同：
+// 还记得普通的 Object 吗? 它会将键转化为字符串
+// Map 则会保留键的类型，所以下面这两个结果不同：
 alert( map.get(1)   ); // 'num1'
 alert( map.get('1') ); // 'str1'
 
 alert( map.size ); // 3
 ```
 
-如我们所见，与对象不同，键不会转换为字符串。键可以是任何类型。
+如我们所见，与对象不同，键不会被转换成字符串。键可以是任何类型。
+
+```smart header="`map[key]` 不是使用 `Map` 的正确方式"
+虽然 `map[key]` 也有效，例如我们可以设置 `map[key] = 2`，这样会将 `map` 视为 JavaScript 的 plain object，因此它暗含了所有相应的限制（没有对象键等）。
+
+所以我们应该使用 `map` 方法：`set` 和 `get` 等。
+```
 
 **Map 还可以使用对象作为键**
 
