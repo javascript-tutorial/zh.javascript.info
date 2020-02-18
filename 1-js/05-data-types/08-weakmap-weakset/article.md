@@ -146,9 +146,9 @@ countUser(john); // count his visits
 john = null;
 ```
 
-现在 `john` 这个对象应该被回收，但因为他的键还在`visitsCountMap` 中导致它依然留存在内存中。
+现在 `john` 这个对象应该被垃圾回收，但他仍在内存中，因为它是 `visitsCountMap` 中的一个键。
 
-对我们移除某个用户的时候需要清理 `visitsCountMap` ， 否则它们会在内存中无限增加。这种清理在复杂的架构系统中将会是很乏味的任务。
+当我们移除用户时，我们需要清理 `visitsCountMap`，否则它将在内存中无限增大。在复杂的架构中，这种清理会成为一项繁重的任务。
 
 我们可以通过使用 `WeakMap` 来避免这样的问题：
 
@@ -156,18 +156,18 @@ john = null;
 // 📁 visitsCount.js
 let visitsCountMap = new WeakMap(); // weakmap: user => visits count
 
-// 递增游客来访次数
+// 递增用户来访次数
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
 
-现在我们不需要去清理`visitsCountMap`了。`WeakMap` 里的 `john` 对象以及它携带的信息将会被回收（清除），其它所有途径都不能访问它除非是作为 `WeakMap` 的键。
+现在我们不需要去清理 `visitsCountMap` 了。当 `john` 对象变成不可访问时，即便它是 `WeakMap` 里的一个键，它也会连同它作为 `WeakMap` 里的键所对应的信息一同被从内存中删除。
 
-## 使用案例: 缓存
+## 使用案例：缓存
 
-另外一个很普遍的例子是缓存: 当函数的结果需要被记住（“缓存”），这样在后续的同一个对象调用的时候可以重用该被缓存的结果。
+另外一个普遍的例子是缓存：当一个函数的结果需要被记住（“缓存”），这样在后续的对同一个对象的调用时，就可以重用这个被缓存的结果。
 
 我们可以使用 `Map` 来存储结果，就像这样：
 
@@ -178,7 +178,7 @@ let cache = new Map();
 // 计算并记住结果
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* 计算 obj 值的结果 */ obj;
+    let result = /* calculations of the result for */ obj;
 
     cache.set(obj, result);
   }
@@ -187,26 +187,26 @@ function process(obj) {
 }
 
 *!*
-// 现在我们在其它文件中使用 process() ：
+// 现在我们在其它文件中使用 process()
 */!*
 
 // 📁 main.js
-let obj = {/* 假设有个对象 */};
+let obj = {/* 假设我们有个对象 */};
 
-let result1 = process(obj); // 计算中...
+let result1 = process(obj); // 计算完成
 
-// ...之后, 来自另外一个地方的代码...
-let result2 = process(obj); // remembered result taken from cache
+// ……稍后，来自代码的另外一个地方……
+let result2 = process(obj); // 取自缓存的被记忆的结果
 
-// ...之后, 改对象不再需要使用时:
+// ……稍后，我们不再需要这个对象时：
 obj = null;
 
-alert(cache.size); // 1 (啊! 该对象依然在 cache 中, 并占据着内存！)
+alert(cache.size); // 1（啊！该对象依然在 cache 中，并占据着内存！）
 ```
 
-对于同一个对象多次调用，它只是计算第一次，之后直接从 `cache` 中获取，这样做的缺点是当我们不再需要这个对象的时候需要清理 `cache`
+对于多次调用同一个对象，它只需在第一次调用时计算出结果，之后的调用可以直接从 `cache` 中获取。这样做的缺点是，当我们不再需要这个对象的时候需要清理 `cache`。
 
-如果我们用 `WeakMap` 代替`Map`这个问题便会消失： 缓存的结果在该对象背回收之后会自动从内存中释放。
+如果我们用 `WeakMap` 替代 `Map`，这个问题便会消失：当对象被垃圾回收时，对应的缓存的结果也会被自动地从内存中清除。
 
 ```js run
 // 📁 cache.js
@@ -217,7 +217,7 @@ let cache = new WeakMap();
 // 计算并记结果
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* 计算 obj 之后得出的结果 */ obj;
+    let result = /* calculate the result for */ obj;
 
     cache.set(obj, result);
   }
@@ -231,21 +231,22 @@ let obj = {/* some object */};
 let result1 = process(obj);
 let result2 = process(obj);
 
-// ...之后, 当该对象不再需要的时候:
+// ……稍后，我们不再需要这个对象时：
 obj = null;
 
-// 不能使用 cache.size, 因为它是一个 WeakMap,
-// 要么是 0 或者 很快变成 0
-// 当 obj 被回收时, 缓存的数据也会被清除
+// 无法获取 cache.size，因为它是一个 WeakMap，
+// 要么是 0，或即将变为 0
+// 当 obj 被垃圾回收，缓存的数据也会被清除
 ```
 
 ## WeakSet
 
-`WeakSet` 的作用类似:
+`WeakSet` 的表现类似：
 
-- 它跟 `Set` 类似, 但是我们只能添加对象到 `WeakSet` (非原始值)中。
-- 某个对象只有在其它任何地方都能访问的时候才能留在 set 里。
-- 跟 `Set` 一样, `WeakSet` 支持 `add`, `has` and `delete` 等方法, 但不支持 `size`, `keys()` 并且没有迭代。
+- 与 `Set` 类似，但是我们只能向 `WeakSet` 添加对象（而不能是原始值）。
+- 对象只有在其它某个（些）地方能被访问的时候，才能留在 set 中。
+- 跟 `Set` 一样，`WeakSet` 支持 `add`，`has` 和 `delete` 方法，但不支持 `size` 和 `keys()`，并且不可迭代。
+
 变 "弱" 的同时, 它也可以作为额外的存储空间，但并非任意数据，而是针对“是/否”的事实，在 `WeakSet` 里的成员代表着对象里的某个属性。
 例如, 我们可以添加 users 到 `WeakSet` 里来追踪谁访问了我们的网站：
 
