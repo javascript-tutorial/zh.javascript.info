@@ -1,18 +1,18 @@
 # WeakMap and WeakSet（弱映射和弱集合）
 
-我们从前面的[垃圾回收](<info:garbage-collection>)章节中知道， JavaScript 引擎在值可访问（并可能被使用）时将其存储在内存中。
+我们从前面的 <info:garbage-collection> 章节中知道，JavaScript 引擎在值可访问（并可能被使用）时将其存储在内存中。
 
 例如:
 ```js
 let john = { name: "John" };
 
-// 该对象能被访问, john 是它的引用
+// 该对象能被访问，john 是它的引用
 
 // 覆盖引用
 john = null;
 
 *!*
-// 该对象将会从内存中被清除
+// 该对象将会被从内存中清除
 */!*
 ```
 
