@@ -247,10 +247,9 @@ obj = null;
 - 对象只有在其它某个（些）地方能被访问的时候，才能留在 set 中。
 - 跟 `Set` 一样，`WeakSet` 支持 `add`，`has` 和 `delete` 方法，但不支持 `size` 和 `keys()`，并且不可迭代。
 
-变“弱（weak）”的同时，它也可以作为额外的存储空间。但并非针对任意数据，而是针对“是/否”的事实。
+变“弱（weak）”的同时，它也可以作为额外的存储空间。但并非针对任意数据，而是针对 "yes/no" facts。A membership in `WeakSet` may mean something about the object。
 
-在 `WeakSet` 里的成员代表着对象里的某个属性。
-例如, 我们可以添加 users 到 `WeakSet` 里来追踪谁访问了我们的网站：
+例如，我们可以将用户添加到 `WeakSet` 中，以追踪访问过我们网站的用户：
 
 ```js run
 let visitedSet = new WeakSet();
@@ -259,16 +258,16 @@ let john = { name: "John" };
 let pete = { name: "Pete" };
 let mary = { name: "Mary" };
 
-visitedSet.add(john); // John visited us
-visitedSet.add(pete); // Then Pete
-visitedSet.add(john); // John again
+visitedSet.add(john); // John 访问了我们
+visitedSet.add(pete); // 然后是 Pete
+visitedSet.add(john); // John 再次访问
 
-// 现在 visitedSet 有2个用户
+// visitedSet 现在有两个用户了
 
-// 检查 John 是否访问过?
+// 检查 John 是否来访过？
 alert(visitedSet.has(john)); // true
 
-// 检查 Mary 是否访问过?
+// 检查 Mary 是否来访过？
 alert(visitedSet.has(mary)); // false
 
 john = null;
@@ -276,14 +275,14 @@ john = null;
 // visitedSet 将被自动清理
 ```
 
- `WeakMap` 和 `WeakSet` 最出名的限制是不能迭代，并且无法获取所有当前内容。那样可能会造成不便，但是依旧不能阻止 `WeakMap/WeakSet` 完成其主要工作 -- 成为在其它地方管理或者存储的对象的 “额外的” 数据存储
+`WeakMap` 和 `WeakSet` 最明显的局限性就是不能迭代，并且无法获取所有当前内容。那样可能会造成不便，但是并不会阻止 `WeakMap/WeakSet` 完成其主要工作 — 成为在其它地方管理/存储对象的“额外”的数据存储。
 
 ## 总结
 
-` WeakMap` 是类似于 `Map` 的集合，它仅允许对象作为键，并在其他方式无法访问它们时将其与关联值一起删除。
+`WeakMap` 是类似于 `Map` 的集合，它仅允许对象作为键，并且一旦通过其他方式无法访问它们，便会将它们与其关联值一同删除。
 
-`WeakSet` 是类似于`Set`的集合，它仅存储对象，并在其他方式无法访问它们时将其删除。 
+`WeakSet` 是类似于 `Set` 的集合，它仅存储对象，并且一旦通过其他方式无法访问它们，便会将其删除。
 
-它们都不支持引用所有键或其计数的方法和属性。 仅允许单个操作。
+它们都不支持引用所有键或其计数的方法和属性。仅允许单个操作。
 
-`WeakMap` 和`WeakSet`还用作“辅助”数据结构。 一旦将对象从主存储器中删除，如果仅将其作为“ WeakMap”或“ WeakSet”的键，那么则将自动清除该对象。
+`WeakMap` 和 `WeakSet` 被用作“主要”对象存储之外的“辅助”数据结构。一旦将对象从主存储器中删除，如果该对象仅被用作 `WeakMap` 或 `WeakSet` 的键，那么它将被自动清除。
