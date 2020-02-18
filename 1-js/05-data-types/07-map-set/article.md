@@ -160,7 +160,7 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-如果我们想从一个已有的 plain object 来创建一个 `Map`，那么我们可以使用内建方法 [Object.entries(obj)](mdn:js/Object/entries)，该返回对象的键/值对数组，该数组格式完全按照 `Map` 所需的格式。
+如果我们想从一个已有的普通对象（plain object）来创建一个 `Map`，那么我们可以使用内建方法 [Object.entries(obj)](mdn:js/Object/entries)，该返回对象的键/值对数组，该数组格式完全按照 `Map` 所需的格式。
 
 所以可以像下面这样从一个对象创建一个 Map：
 
@@ -182,7 +182,7 @@ alert( map.get('name') ); // John
 
 ## Object.fromEntries：从 Map 创建对象
 
-我们刚刚已经学习了如何使用 `Object.entries(obj)` 从 plain object 创建 `Map`。
+我们刚刚已经学习了如何使用 `Object.entries(obj)` 从普通对象（plain object）创建 `Map`。
 
 `Object.fromEntries` 方法的作用是相反的：给定一个具有 `[key, value]` 键值对的数组，它会根据给定数组创建一个对象：
 
@@ -198,9 +198,9 @@ let prices = Object.fromEntries([
 alert(prices.orange); // 2
 ```
 
-我们可以使用 `Object.fromEntries` 从 `Map` 得到一个 plain object。
+我们可以使用 `Object.fromEntries` 从 `Map` 得到一个普通对象（plain object）。
 
-例如，我们在 `Map` 中存储了一些数据，但是我们需要把这些数据传给需要 plain object 的第三方代码。
+例如，我们在 `Map` 中存储了一些数据，但是我们需要把这些数据传给需要普通对象（plain object）的第三方代码。
 
 我们来开始：
 
@@ -211,7 +211,7 @@ map.set('orange', 2);
 map.set('meat', 4);
 
 *!*
-let obj = Object.fromEntries(map.entries()); // 创建一个 plain object (*)
+let obj = Object.fromEntries(map.entries()); // 创建一个普通对象（plain object）(*)
 */!*
 
 // 完成了！
@@ -227,7 +227,7 @@ alert(obj.orange); // 2
 let obj = Object.fromEntries(map); // 省掉 .entries()
 ```
 
-上面的代码作用也是一样的，因为 `Object.fromEntries` 期望得到一个可迭代对象作为参数，而不一定是数组。并且 `map` 的标准迭代会返回跟 `map.entries()` 一样的键/值对。因此，我们可以获得一个 plain object，其键/值对与 `map` 相同。
+上面的代码作用也是一样的，因为 `Object.fromEntries` 期望得到一个可迭代对象作为参数，而不一定是数组。并且 `map` 的标准迭代会返回跟 `map.entries()` 一样的键/值对。因此，我们可以获得一个普通对象（plain object），其键/值对与 `map` 相同。
 
 ## Set
 
