@@ -55,7 +55,7 @@ map.set(sorted, word);
 
 最后，`Array.from(map.values())` 将 map 的值迭代（我们不需要结果的键）为数组形式，并返回这个数组。
 
-在这里，我们也可以使用 plain object 而不用 `Map`，因为键就是字符串。
+在这里，我们也可以使用普通对象（plain object）而不用 `Map`，因为键就是字符串。
 
 下面是解决方案：
 
