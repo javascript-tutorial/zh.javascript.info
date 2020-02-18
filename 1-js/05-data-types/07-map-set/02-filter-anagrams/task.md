@@ -24,5 +24,5 @@ let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 alert( aclean(arr) ); // "nap,teachers,ear" or "PAN,cheaters,era"
 ```
 
-对于所有的字谜（anagram）组，应该保留其中一个词，但保留的具体是哪一个并不重要。
+对于所有的字谜（anagram）组，都应该保留其中一个词，但保留的具体是哪一个并不重要。
 
