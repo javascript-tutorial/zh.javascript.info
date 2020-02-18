@@ -247,7 +247,7 @@ obj = null;
 - 对象只有在其它某个（些）地方能被访问的时候，才能留在 set 中。
 - 跟 `Set` 一样，`WeakSet` 支持 `add`，`has` 和 `delete` 方法，但不支持 `size` 和 `keys()`，并且不可迭代。
 
-变“弱（weak）”的同时，它也可以作为额外的存储空间。但并非针对任意数据，而是针对 "yes/no" facts。A membership in `WeakSet` may mean something about the object。
+变“弱（weak）”的同时，它也可以作为额外的存储空间。但并非针对任意数据，而是针对“是/否”的事实。`WeakSet` 的元素可能代表着有关该对象的某些信息。
 
 例如，我们可以将用户添加到 `WeakSet` 中，以追踪访问过我们网站的用户：
 
