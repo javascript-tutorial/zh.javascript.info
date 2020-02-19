@@ -1,14 +1,14 @@
-# 条件运算符：if 和 '?'
+# Conditional operators: if, '?'
 
-有时我们需要根据不同条件执行不同的操作。
+Sometimes, we need to perform different actions based on different conditions.
 
-我们可以使用 `if` 语句和条件运算符 `?`（也称为“问号”运算符）来实现。
+To do that, we can use the `if` statement and the conditional operator `?`, that's also called a "question mark" operator.
 
-## "if" 语句
+## The "if" statement
 
-`if(...)` 语句计算括号里的条件表达式，如果计算结果是 `true`，就会执行对应的代码块。
+The `if(...)` statement evaluates a condition in parentheses and, if the result is `true`, executes a block of code.
 
-例如：
+For example:
 
 ```js run
 let year = prompt('In which year was ECMAScript-2015 specification published?', '');
@@ -18,9 +18,9 @@ if (year == 2015) alert( 'You are right!' );
 */!*
 ```
 
-在上面这个例子中，条件是一个简单的相等性检查（`year == 2015`），但它还可以更复杂。
+In the example above, the condition is a simple equality check (`year == 2015`), but it can be much more complex.
 
-如果有多个语句要执行，我们必须将要执行的代码块封装在大括号内：
+If we want to execute more than one statement, we have to wrap our code block inside curly braces:
 
 ```js
 if (year == 2015) {
@@ -29,66 +29,66 @@ if (year == 2015) {
 }
 ```
 
-建议每次使用 if 语句都用大括号 `{}` 来包装代码块，即使只有一条语句。这样可以提高代码可读性。
+We recommend wrapping your code block with curly braces `{}` every time you use an `if` statement, even if there is only one statement to execute. Doing so improves readability.
 
-## 布尔转换
+## Boolean conversion
 
-`if (…)` 语句会计算圆括号内的表达式，并将计算结果转换为布尔型。
+The `if (…)` statement evaluates the expression in its parentheses and converts the result to a boolean.
 
-让我们回顾一下 <info:type-conversions> 一章中的转换规则：
+Let's recall the conversion rules from the chapter <info:type-conversions>:
 
-- 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为他们被称为 “falsy” 值。
-- 其他值被转换为 `true`，所以它们被称为 “truthy”。
+- A number `0`, an empty string `""`, `null`, `undefined`, and `NaN` all become `false`. Because of that they are called "falsy" values.
+- Other values become `true`, so they are called "truthy".
 
-所以，下面这个条件下的代码永远不会执行：
+So, the code under this condition would never execute:
 
 ```js
-if (0) { // 0 是 falsy
+if (0) { // 0 is falsy
   ...
 }
 ```
 
-……但下面的条件 —— 始终有效：
+...and inside this condition -- it always will:
 
 ```js
-if (1) { // 1 是 truthy
+if (1) { // 1 is truthy
   ...
 }
 ```
 
-我们也可以将未计算的布尔值传入 `if` 语句，像这样：
+We can also pass a pre-evaluated boolean value to `if`, like this:
 
 ```js
-let cond = (year == 2015); // 相等运算符的结果是 true 或 false
+let cond = (year == 2015); // equality evaluates to true or false
 
 if (cond) {
   ...
 }
 ```
 
-## "else" 语句
+## The "else" clause
 
-`if` 语句有时会包含一个可选的 “else” 块。如果判断条件不成立，就会执行它内部的代码。
+The `if` statement may contain an optional "else" block. It executes when the condition is false.
 
-例如：
+For example:
 ```js run
-let year = prompt('In which year was ECMAScript-2015 specification published?', '');
+let year = prompt('In which year was the ECMAScript-2015 specification published?', '');
 
 if (year == 2015) {
   alert( 'You guessed it right!' );
 } else {
-  alert( 'How can you be so wrong?' ); // 2015 以外的任何值
+  alert( 'How can you be so wrong?' ); // any value except 2015
 }
 ```
 
-## 多个条件："else if"
+## Several conditions: "else if"
 
-有时我们需要测试一个条件的几个变体。我们可以通过使用 `else if` 子句实现。
+Sometimes, we'd like to test several variants of a condition. The `else if` clause lets us do that.
 
-例如：
+For example:
 
 ```js run
-let year = prompt('In which year was ECMAScript-2015 specification published?', '');
+let year = prompt('In which year was the ECMAScript-2015 specification published?', '');
 
 if (year < 2015) {
   alert( 'Too early...' );
@@ -99,15 +99,15 @@ if (year < 2015) {
 }
 ```
 
-在上面的代码中，JavaScript 先先检查 `year < 2015`。如果条件不符合，就会转到下一个条件 `year > 2015`。如果这个条件也不符合，则会显示最后一个 `alert`。
+In the code above, JavaScript first checks `year < 2015`. If that is falsy, it goes to the next condition `year > 2015`. If that is also falsy, it shows the last `alert`.
 
-可以有更多的 `else if` 块。结尾的 `else` 是可选的。
+There can be more `else if` blocks. The final `else` is optional.
 
-## 条件运算符 '?'
+## Conditional operator '?'
 
-有时我们需要根据一个条件去赋值一个变量。
+Sometimes, we need to assign a variable depending on a condition.
 
-如下所示：
+For instance:
 
 ```js run no-beautify
 let accessAllowed;
@@ -124,49 +124,49 @@ if (age > 18) {
 alert(accessAllowed);
 ```
 
-所谓的“条件”或“问号”操作符让我们可以更简短地达到目的。
+The so-called "conditional" or "question mark" operator lets us do that in a shorter and simpler way.
 
-这个操作符通过问号 `?` 表示。有时它被称为三元运算符，被称为“三元”是因为该操作符中有三个操作数。实际上它是 JavaScript 中唯一一个有这么多操作数的操作符。
+The operator is represented by a question mark `?`. Sometimes it's called "ternary", because the operator has three operands. It is actually the one and only operator in JavaScript which has that many.
 
-语法：
+The syntax is:
 ```js
 let result = condition ? value1 : value2;
 ```
 
-计算条件结果，如果结果为真，则返回 `value1`，否则返回 `value2`。
+The `condition` is evaluated: if it's truthy then `value1` is returned, otherwise -- `value2`.
 
-例如：
+For example:
 
 ```js
 let accessAllowed = (age > 18) ? true : false;
 ```
 
-技术上讲，我们可以省略 `age > 18` 外面的括号。问号运算符的优先级较低，所以它会在比较运算符 `>` 后执行。
+Technically, we can omit the parentheses around `age > 18`. The question mark operator has a low precedence, so it executes after the comparison `>`.
 
-下面这个示例会执行和前面那个示例相同的操作：
+This example will do the same thing as the previous one:
 
 ```js
-// 比较运算符 “age > 18” 首先执行
-//（不需要将其包含在括号中）
+// the comparison operator "age > 18" executes first anyway
+// (no need to wrap it into parentheses)
 let accessAllowed = age > 18 ? true : false;
 ```
 
-但括号可以使代码可读性更强，所以我们建议使用它们。
+But parentheses make the code more readable, so we recommend using them.
 
 ````smart
-在上面的例子中，你可以不适用问号运算符，因为比较本身就返回 `true/false`：
+In the example above, you can avoid using the question mark operator because the comparison itself returns `true/false`:
 
 ```js
-// 下面代码同样可以实现
+// the same
 let accessAllowed = age > 18;
 ```
 ````
 
-## 多个 '?'
+## Multiple '?'
 
-使用一系列问号 `?` 运算符可以返回一个取决于多个条件的值。
+A sequence of question mark operators `?` can return a value that depends on more than one condition.
 
-例如：
+For instance:
 ```js run
 let age = prompt('age?', 18);
 
@@ -178,14 +178,14 @@ let message = (age < 3) ? 'Hi, baby!' :
 alert( message );
 ```
 
-可能很难一下子看出发生了什么。但经过仔细观察，我们可以看到它只是一个普通的检查序列。
+It may be difficult at first to grasp what's going on. But after a closer look, we can see that it's just an ordinary sequence of tests:
 
-1. 第一个问号检查 `age < 3`。
-2. 如果为真 — 返回 `'Hi, baby!'`。否则，会继续执行冒号 `":"` 后的表达式，检查 `age < 18`。
-3. 如果为真 — 返回 `'Hello!'`。否则，会继续执行下一个冒号 `":"` 后的表达式，检查 `age < 100`。
-4. 如果为真 — 返回 `'Greetings!'`。否则，会继续执行最后一个冒号 `":"` 后面的表达式，返回 `'What an unusual age!'`。
+1. The first question mark checks whether `age < 3`.
+2. If true -- it returns `'Hi, baby!'`. Otherwise, it continues to the expression after the colon '":"', checking `age < 18`.
+3. If that's true -- it returns `'Hello!'`. Otherwise, it continues to the expression after the next colon '":"', checking `age < 100`.
+4. If that's true -- it returns `'Greetings!'`. Otherwise, it continues to the expression after the last colon '":"', returning `'What an unusual age!'`.
 
-这是使用 `if..else` 实现上面的逻辑的写法：
+Here's how this looks using `if..else`:
 
 ```js
 if (age < 3) {
@@ -199,9 +199,9 @@ if (age < 3) {
 }
 ```
 
-## '?' 的非常规使用
+## Non-traditional use of '?'
 
-有时可以使用问号 `?` 来代替 `if` 语句：
+Sometimes the question mark `?` is used as a replacement for `if`:
 
 ```js run no-beautify
 let company = prompt('Which company created JavaScript?', '');
@@ -212,15 +212,15 @@ let company = prompt('Which company created JavaScript?', '');
 */!*
 ```
 
-根据条件 `company =='Netscape'`，要么执行 `?` 后面的第一个表达式并显示对应内容，要么执行第二个表达式并显示对应内容。
+Depending on the condition `company == 'Netscape'`, either the first or the second expression after the `?` gets executed and shows an alert.
 
-在这里我们不是把结果赋值给变量。而是根据条件执行不同的代码。
+We don't assign a result to a variable here. Instead, we execute different code depending on the condition.
 
-**不建议这样使用问号运算符。**
+**It's not recommended to use the question mark operator in this way.**
 
-这种写法比 `if` 语句更短，对一些程序员很有吸引力。但它的可读性差。
+The notation is shorter than the equivalent `if` statement, which appeals to some programmers. But it is less readable.
 
-下面是使用 `if` 语句实现相同功能的代码，进行下比较：
+Here is the same code using `if` for comparison:
 
 ```js run no-beautify
 let company = prompt('Which company created JavaScript?', '');
@@ -234,6 +234,6 @@ if (company == 'Netscape') {
 */!*
 ```
 
-因为我们的眼睛垂直扫描代码。所以，跨越几行的代码块比长而水平的代码更易于理解。
+Our eyes scan the code vertically. Code blocks which span several lines are easier to understand than a long, horizontal instruction set.
 
-问号 `?` 的作用是根据条件返回一个或另一个值。请正确使用它。当需要执行不同的代码分支时，请使用 `if`。
+The purpose of the question mark operator `?` is to return one value or another depending on its condition. Please use it for exactly that. Use `if` when you need to execute different branches of code.

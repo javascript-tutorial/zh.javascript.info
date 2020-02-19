@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# 两个函数 — 一个对象
+# Two functions – one object
 
-是否可以创建像 `new A()==new B()` 这样的函数 `A` 和 `B`？
+Is it possible to create functions `A` and `B` such as `new A()==new B()`?
 
 ```js no-beautify
 function A() { ... }
@@ -16,4 +16,4 @@ let b = new B;
 alert( a == b ); // true
 ```
 
-如果可以，请提供一个它们的代码示例。
+If it is, then provide an example of their code.

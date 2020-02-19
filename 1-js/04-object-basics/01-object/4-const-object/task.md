@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 不可变对象
+# Constant objects?
 
-有可能改变用 `const` 声明的对象吗？你怎么看？
+Is it possible to change an object declared with `const`? What do you think?
 
 ```js
 const user = {
@@ -12,7 +12,7 @@ const user = {
 };
 
 *!*
-// 这样有效吗？
+// does it work?
 user.name = "Pete";
 */!*
 ```

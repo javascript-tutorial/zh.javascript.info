@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# 排除反向引用
+# Exclude backreferences
 
-在简单循环引用的情况下，我们可以通过名称排除序列化中匹配的属性。
+In simple cases of circular references, we can exclude an offending property from serialization by its name.
 
-但有时会有很多反向引用。可以同时用于循环引用和常规属性。
+But sometimes we can't just use the name, as it may be used both in circular references and normal properties. So we can check the property by its value.
 
-编写 `replacer` 函数，排除引用 `meetup` 的属性并将所有序列化：
+Write `replacer` function to stringify everything, but remove properties that reference `meetup`:
 
 ```js run
 let room = {
@@ -22,7 +22,7 @@ let meetup = {
 };
 
 *!*
-// circular references 
+// circular references
 room.occupiedBy = meetup;
 meetup.self = meetup;
 */!*
@@ -39,4 +39,3 @@ alert( JSON.stringify(meetup, function replacer(key, value) {
 }
 */
 ```
-

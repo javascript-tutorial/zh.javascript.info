@@ -2,12 +2,12 @@ importance: 4
 
 ---
 
-# 降序排列
+# Sort in decreasing order
 
 ```js
 let arr = [5, 2, 1, -10, 8];
 
-// ……你的代码以降序对其进行排序
+// ... your code to sort it in decreasing order
 
 alert( arr ); // 8, 5, 2, 1, -10
 ```

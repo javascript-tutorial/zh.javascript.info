@@ -2,17 +2,18 @@ importance: 3
 
 ---
 
-# 数组被拷贝了吗?
+# Is array copied?
 
-下面的代码将会显示什么？
+What is this code going to show?
 
 ```js
 let fruits = ["Apples", "Pear", "Orange"];
 
-// 在“副本”里 push 了一个新的值
+// push a new value into the "copy"
 let shoppingCart = fruits;
 shoppingCart.push("Banana");
 
-// fruits 里面是什么？
+// what's in fruits?
 alert( fruits.length ); // ?
 ```
+

@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# 链式（调用）
+# Chaining
 
-有一个可以上下移动的 `ladder` 对象：
+There's a `ladder` object that allows to go up and down:
 
 ```js
 let ladder = {
@@ -15,13 +15,13 @@ let ladder = {
   down() { 
     this.step--;
   },
-  showStep: function() { // 显示当前的 step
+  showStep: function() { // shows the current step
     alert( this.step );
   }
 };
 ```
 
-现在，如果我们要按顺序执行几次调用，可以这样做：
+Now, if we need to make several calls in sequence, can do it like this:
 
 ```js
 ladder.up();
@@ -30,10 +30,10 @@ ladder.down();
 ladder.showStep(); // 1
 ```
 
-修改 `up`，`down` 和 `showStep` 的代码，让调用可以链接，就像这样：
+Modify the code of `up`, `down` and `showStep` to make the calls chainable, like this:
 
 ```js
 ladder.up().up().down().showStep(); // 1
 ```
 
-这种方法在 JavaScript 库中被广泛使用。
+Such approach is widely used across JavaScript libraries.

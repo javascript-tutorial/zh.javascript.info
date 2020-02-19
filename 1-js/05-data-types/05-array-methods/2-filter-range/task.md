@@ -2,21 +2,21 @@ importance: 4
 
 ---
 
-# 过滤范围
+# Filter range
 
-写一个函数 `filterRange(arr, a, b)`，该函数获取一个数组 `arr`，在其中查找数值大小在 `a` 和 `b` 之间的元素，并返回它们的数组。
+Write a function `filterRange(arr, a, b)` that gets an array `arr`, looks for elements between `a` and `b` in it and returns an array of them. 
 
-该函数不应该修改原数组。它应该返回新的数组。
+The function should not modify the array. It should return the new array.
 
-例如：
+For instance:
 
 ```js
 let arr = [5, 3, 8, 1];
 
 let filtered = filterRange(arr, 1, 4); 
 
-alert( filtered ); // 3,1（匹配值）
+alert( filtered ); // 3,1 (matching values)
 
-alert( arr ); // 5,3,8,1（未修改）
+alert( arr ); // 5,3,8,1 (not modified)
 ```
 

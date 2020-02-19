@@ -1,7 +1,7 @@
 
-# 用箭头函数重写
+# Rewrite with arrow functions
 
-用箭头函数重写下面的函数表达式：
+Replace Function Expressions with arrow functions in the code below:
 
 ```js run
 function ask(question, yes, no) {

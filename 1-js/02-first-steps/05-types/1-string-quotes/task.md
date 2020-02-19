@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 字符串的引号
+# String quotes
 
-下面的脚本会输出什么？
+What is the output of the script?
 
 ```js
 let name = "Ilya";

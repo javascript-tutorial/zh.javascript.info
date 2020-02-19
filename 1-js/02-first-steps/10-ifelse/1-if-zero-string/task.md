@@ -2,12 +2,13 @@ importance: 5
 
 ---
 
-# if（值为 0 的字符串）
+# if (a string with zero)
 
-`alert` 弹窗会出来吗？
+Will `alert` be shown?
 
 ```js
 if ("0") {
   alert( 'Hello' );
 }
 ```
+

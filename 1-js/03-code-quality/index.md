@@ -1,3 +1,3 @@
-# 代码质量
+# Code quality
 
-本章介绍了我们将在开发中进一步使用的编码实践。
+This chapter explains coding practices that we'll use further in the development. 

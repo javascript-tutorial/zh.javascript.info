@@ -1,26 +1,26 @@
-为获取 `date` 距离当前时间的间隔 —— 我们将两个日期相减。
+To get the time from `date` till now -- let's substract the dates.
 
-```js run
+```js run demo
 function formatDate(date) {
-  let diff = new Date() - date; // 差值用毫秒表示
+  let diff = new Date() - date; // the difference in milliseconds
 
-  if (diff < 1000) { // 少于一秒
-    return 'right now';
+  if (diff < 1000) { // less than 1 second
+    return 'right now';
   }
 
-  let sec = Math.floor(diff / 1000); // 将间隔转化为秒
+  let sec = Math.floor(diff / 1000); // convert diff to seconds
 
   if (sec < 60) {
     return sec + ' sec. ago';
   }
 
-  let min = Math.floor(diff / 60000); // 将间隔转化为分钟
-  if (min < 60) {
+  let min = Math.floor(diff / 60000); // convert diff to minutes
+  if (min < 60) {
     return min + ' min. ago';
   }
 
-  // 格式化日期
-  // 在单个数值之前加 0 日/月/小时/分钟
+  // format the date
+  // add leading zeroes to single-digit day/month/hours/minutes
   let d = date;
   d = [
     '0' + d.getDate(),
@@ -28,10 +28,10 @@ function formatDate(date) {
     '' + d.getFullYear(),
     '0' + d.getHours(),
     '0' + d.getMinutes()
-  ].map(component => component.slice(-2)); // 得到每个组件的后两位
+  ].map(component => component.slice(-2)); // take last 2 digits of every component
 
-  // 将时间信息和日期组合在一起
- return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
+  // join the components into date
+  return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
 }
 
 alert( formatDate(new Date(new Date - 1)) ); // "right now"
@@ -40,11 +40,11 @@ alert( formatDate(new Date(new Date - 30 * 1000)) ); // "30 sec. ago"
 
 alert( formatDate(new Date(new Date - 5 * 60 * 1000)) ); // "5 min. ago"
 
-// 昨天的日期如： 31.12.2016, 20:00
+// yesterday's date like 31.12.2016, 20:00
 alert( formatDate(new Date(new Date - 86400 * 1000)) );
 ```
 
-另一种解法：
+Alternative solution:
 
 ```js run
 function formatDate(date) {
@@ -57,12 +57,14 @@ function formatDate(date) {
   let diffSec = Math.round(diffMs / 1000);
   let diffMin = diffSec / 60;
   let diffHour = diffMin / 60;
-      
-  // 格式化
-  year = year.toString().slice(-2);
+
+  // formatting
+  year = year.toString().slice(-2);
   month = month < 10 ? '0' + month : month;
   dayOfMonth = dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth;
-      
+  hour = hour < 10 ? '0' + hour : hour;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+
   if (diffSec < 1) {
     return 'right now';  
   } else if (diffMin < 1) {

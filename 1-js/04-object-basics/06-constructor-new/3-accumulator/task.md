@@ -2,26 +2,26 @@ importance: 5
 
 ---
 
-# 创建 new Accumulator
+# Create new Accumulator
 
-创建一个构造函数 `Accumulator(startingValue)`。
+Create a constructor function `Accumulator(startingValue)`.
 
-它创建的对象应该：
+Object that it creates should:
 
-- 将“当前 value”存储在属性 `value` 中。起始值被设置到构造函数的 `startingValue` 参数。
-- `read()` 方法应该使用 `prompt` 来读取一个新的数字，并将其添加到 `value` 中。
+- Store the "current value" in the property `value`. The starting value is set to the argument of the constructor `startingValue`.
+- The `read()` method should use `prompt` to read a new number and add it to `value`.
 
-换句话说，`value` 属性是所有用户输入值与初始值 `startingValue` 的总和。
+In other words, the `value` property is the sum of all user-entered values with the initial value  `startingValue`.
 
-下面是示例代码：
+Here's the demo of the code:
 
 ```js
-let accumulator = new Accumulator(1); // 初始值 1
+let accumulator = new Accumulator(1); // initial value 1
 
-accumulator.read(); // 添加用户输入的 value
-accumulator.read(); // 添加用户输入的 value
+accumulator.read(); // adds the user-entered value
+accumulator.read(); // adds the user-entered value
 
-alert(accumulator.value); // 显示这些值的总和
+alert(accumulator.value); // shows the sum of these values
 ```
 
 [demo]

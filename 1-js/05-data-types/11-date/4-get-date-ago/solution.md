@@ -1,4 +1,4 @@
-思路很简单：从 `date` 中减去给定的天数：
+The idea is simple: to substract given number of days from `date`:
 
 ```js
 function getDateAgo(date, days) {
@@ -7,11 +7,11 @@ function getDateAgo(date, days) {
 }
 ```
 
-...但是函数不能修改 `date`。这一点很重要，因为外部环境不希望它被修改。
+...But the function should not change `date`. That's an important thing, because the outer code which gives us the date does not expect it to change.
 
-要实现这一点，我们可以复制这个日期，就像这样：
+To implement it let's clone the date, like this:
 
-```js run
+```js run demo
 function getDateAgo(date, days) {
   let dateCopy = new Date(date);
 

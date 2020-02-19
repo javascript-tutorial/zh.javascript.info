@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# 数组去重
+# Filter unique array members
 
-`arr` 是一个数组。
+Let `arr` be an array.
 
-创建一个函数 `unique(arr)`，返回去除重复元素后的数组 `arr`。
+Create a function `unique(arr)` that should return an array with unique items of `arr`.
 
-例如：
+For instance:
 
 ```js
 function unique(arr) {

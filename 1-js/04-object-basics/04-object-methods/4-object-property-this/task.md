@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 在对象字面量中使用 "this"
+# Using "this" in object literal
 
-这里 `makeUser` 函数返回了一个对象。
+Here the function `makeUser` returns an object.
 
-访问 `ref` 的结果是什么？为什么？
+What is the result of accessing its `ref`? Why?
 
 ```js
 function makeUser() {
@@ -18,5 +18,6 @@ function makeUser() {
 
 let user = makeUser();
 
-alert( user.ref.name ); // 结果是什么？
+alert( user.ref.name ); // What's the result?
 ```
+

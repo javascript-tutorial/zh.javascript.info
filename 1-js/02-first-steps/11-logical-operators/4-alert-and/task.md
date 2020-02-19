@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# 与运算连接的 alerts 的结果是什么？
+# What is the result of AND'ed alerts?
 
-这段代码将会显示什么？
+What will this code show?
 
 ```js
 alert( alert(1) && alert(2) );

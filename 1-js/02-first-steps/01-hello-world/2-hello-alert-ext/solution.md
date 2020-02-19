@@ -1,8 +1,8 @@
-HTML 代码:
+The HTML code:
 
 [html src="index.html"]
 
-同一个文件夹中的 `alert.js` 文件：
+For the file `alert.js` in the same folder:
 
 [js src="alert.js"]
 

@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# 是否需要 “else”？
+# Is "else" required?
 
-如果参数 `age` 大于 `18`，那么下面的函数将返回 `true`。
+The following function returns `true` if the parameter `age` is greater than `18`.
 
-否则它将会要求进行确认，并返回确认结果：
+Otherwise it asks for a confirmation and returns its result:
 
 ```js
 function checkAge(age) {
@@ -21,7 +21,7 @@ function checkAge(age) {
 }
 ```
 
-如果 `else` 被删除，函数的工作方式会不同吗？
+Will the function work differently if `else` is removed?
 
 ```js
 function checkAge(age) {
@@ -35,4 +35,4 @@ function checkAge(age) {
 }
 ```
 
-这两个变体的行为是否有区别？
+Is there any difference in the behavior of these two variants?

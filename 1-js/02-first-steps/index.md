@@ -1,3 +1,3 @@
-# JavaScript 基础知识
+# JavaScript Fundamentals
 
-让我们来一起学习 JavaScript 脚本构建的基础知识。
+Let's learn the fundamentals of script building.

@@ -1,21 +1,21 @@
-## 代表我们星球的变量
+## The variable for our planet
 
-这很简单：
+That's simple:
 
 ```js
 let ourPlanetName = "Earth";
 ```
 
-注意，我们也可以用一个更简短的名字 `planet`，但这样可能并不能表达清楚它指的是哪个星球。再啰嗦一点也挺好的。至少让这个变量别太长就行。
+Note, we could use a shorter name `planet`, but it might be not obvious what planet it refers to. It's nice to be more verbose. At least until the variable isNotTooLong.
 
-## 网站当前访问者的名字
+## The name of the current visitor
 
 ```js
 let currentUserName = "John";
 ```
 
-同样，如果我们的确知道用户就是当前的用户的话，我们可以使用更短的变量名 `userName`。
+Again, we could shorten that to `userName` if we know for sure that the user is current.
 
-现代编辑器的自动补全可以让长变量名变得容易编写。不要浪费这个特性。一个名字中包含三个词挺好的。
+Modern editors and autocomplete make long variable names easy to write. Don't save on them. A name with 3 words in it is fine.
 
-如果你的编辑器没有合适的自动补全功能，换 [一个新的吧](/code-editors)。
+And if your editor does not have proper autocompletion, get [a new one](/code-editors).

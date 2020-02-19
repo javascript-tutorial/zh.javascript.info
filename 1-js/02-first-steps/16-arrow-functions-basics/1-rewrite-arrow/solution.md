@@ -14,4 +14,4 @@ ask(
 );
 ```
 
-是不是看起来精简多了？
+Looks short and clean, right?

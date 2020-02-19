@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 一个关于 "if" 的问题
+# A question about "if"
 
-下面哪一个 `alert` 将会被执行？
+Which of these `alert`s are going to execute?
 
-`if(...)` 语句内表达式的结果是什么？
+What will the results of the expressions be inside `if(...)`?
 
 ```js
 if (-1 || 0) alert( 'first' );

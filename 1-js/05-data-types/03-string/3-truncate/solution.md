@@ -1,6 +1,6 @@
-最大长度必须是 `maxlength`，因此为了给省略号留空间我们需要缩短它。
+The maximal length must be `maxlength`, so we need to cut it a little shorter, to give space for the ellipsis.
 
-请注意，省略号实际上有一个单独的 unicode 字符，而不是三个点。
+Note that there is actually a single unicode character for an ellipsis. That's not three dots.
 
 ```js run demo
 function truncate(str, maxlength) {

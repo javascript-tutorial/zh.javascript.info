@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 在数组上下文调用
+# Calling in an array context
 
-结果是什么？为什么？
+What is the result? Why?
 
 ```js
 let arr = ["a", "b"];

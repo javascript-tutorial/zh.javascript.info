@@ -2,10 +2,10 @@ importance: 5
 
 ---
 
-# 来自访客的总数
+# Sum numbers from the visitor
 
-创建一个脚本，提示访问者输入两个数字，然后显示它们的总和。
+Create a script that prompts the visitor to enter two numbers and then shows their sum.
 
 [demo]
 
-提示：类型会有一个问题。
+P.S. There is a gotcha with types.

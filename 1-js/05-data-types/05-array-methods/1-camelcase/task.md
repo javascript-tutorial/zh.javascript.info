@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# 将 border-left-width 转换成 borderLeftWidth
+# Translate border-left-width to borderLeftWidth
 
-编写函数 `camelize(str)` 将诸如 "my-short-string" 之类的由短划线分隔的单词变成骆驼式的 "myShortString"。
+Write the function `camelize(str)` that changes dash-separated words like "my-short-string" into camel-cased "myShortString".
 
-即：删除所有短横线，并将短横线后的每一个单词的首字母变为大写。
+That is: removes all dashes, each word after dash becomes uppercased.
 
-示例：
+Examples:
 
 ```js
 camelize("background-color") == 'backgroundColor';
@@ -16,4 +16,4 @@ camelize("list-style-image") == 'listStyleImage';
 camelize("-webkit-transition") == 'WebkitTransition';
 ```
 
-提示：使用 `split` 将字符串拆分成数组，对其进行转换之后再 `join` 回来。
+P.S. Hint: use `split` to split the string into an array, transform it and `join` back.

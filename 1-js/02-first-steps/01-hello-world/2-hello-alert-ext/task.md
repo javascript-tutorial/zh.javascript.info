@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# 使用外部的脚本显示一个提示语
+# Show an alert with an external script
 
-打开前一个任务 <info:task/hello-alert> 的答案。将脚本的内容提取到一个外部的 `alert.js` 文件中，放置在相同的文件夹中。
+Take the solution of the previous task <info:task/hello-alert>. Modify it by extracting the script content into an external file `alert.js`, residing in the same folder.
 
-打开页面，确保它能够工作。
+Open the page, ensure that the alert works.

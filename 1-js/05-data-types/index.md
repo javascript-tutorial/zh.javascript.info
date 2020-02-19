@@ -1,3 +1,3 @@
-# 数据类型
+# Data types
 
-更多的数据结构和更深入的类型研究。
+More data structures and more in-depth study of the types.

@@ -1,6 +1,6 @@
-让我们先遍历数字：
-- 对于每个元素，我们将检查结果数组是否已经有该元素。
-- 如果有，则忽略，否则将其添加到结果中。
+Let's walk the array items:
+- For each item we'll check if the resulting array already has that item.
+- If it is so, then ignore, otherwise add to results.
 
 ```js run demo
 function unique(arr) {
@@ -22,18 +22,18 @@ let strings = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(strings) ); // Hare, Krishna, :-O
 ```
 
-代码有效，但其中存在潜在的性能问题。
+The code works, but there's a potential performance problem in it.
 
-方法 `result.includes(str)` 在内部遍历数组 `result`，并将每个元素与 `str` 进行比较以找到匹配项。
+The method `result.includes(str)` internally walks the array `result` and compares each element against `str` to find the match.
 
-所以如果 `result` 中有 `100` 个元素，并且没有任何一项与 `str` 匹配，那么它将遍历整个 `result` 并进行 `100` 次比较。如果 `result` 很大，比如 `10000`，那么就会有 `10000` 次的比较。
+So if there are `100` elements in `result` and no one matches `str`, then it will walk the whole `result` and do exactly `100` comparisons. And if `result` is large, like `10000`, then there would be `10000` comparisons.
 
-这本身并不是问题，因为 JavaScript 引擎速度非常快，所以遍历一个有 `10000` 个元素的数组只需要几微秒。
+That's not a problem by itself, because JavaScript engines are very fast, so walk `10000` array is a matter of microseconds.
 
-但是我们在 `for `循环中对 `arr` 的每个元素都进行了一次检测。
+But we do such test for each element of `arr`, in the `for` loop.
 
-因此，如果 `arr.length` 是 `10000`，我们会有 `10000 * 10000` = 1 亿次的比较。那真的太多了。
+So if `arr.length` is `10000` we'll have something like `10000*10000` = 100 millions of comparisons. That's a lot.
 
-所以该解决方案仅适用于小型数组。
+So the solution is only good for small arrays.
 
-进一步，在后面的 <info:map-set> 一章中，我们将看到如何对该方法进行优化。
+Further in the chapter <info:map-set> we'll see how to optimize it.

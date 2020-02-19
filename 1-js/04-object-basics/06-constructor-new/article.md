@@ -1,17 +1,17 @@
-# 构造函数和操作符 "new"
+# Constructor, operator "new"
 
-常规的 `{...}` 语法允许创建一个对象。但是我们经常需要创建许多类似的对象，例如多个用户或菜单项等。
+The regular `{...}` syntax allows to create one object. But often we need to create many similar objects, like multiple users or menu items and so on.
 
-这可以使用构造函数和 `"new"` 操作符来实现。
+That can be done using constructor functions and the `"new"` operator.
 
-## 构造函数
+## Constructor function
 
-构造函数在技术上是常规函数。不过有两个约定：
+Constructor functions technically are regular functions. There are two conventions though:
 
-1. 它们的命名以大写字母开头。
-2. 它们只能由 `"new"` 操作符来执行。
+1. They are named with capital letter first.
+2. They should be executed only with `"new"` operator.
 
-例如：
+For instance:
 
 ```js run
 function User(name) {
@@ -27,31 +27,31 @@ alert(user.name); // Jack
 alert(user.isAdmin); // false
 ```
 
-当一个函数被使用 `new` 操作符执行时，它按照以下步骤：
+When a function is executed with `new`, it does the following steps:
 
-1. 一个新的空对象被创建并分配给 `this`。
-2. 函数体执行。通常它会修改 `this`，为其添加新的属性。
-3. 返回 `this` 的值。
+1. A new empty object is created and assigned to `this`.
+2. The function body executes. Usually it modifies `this`, adds new properties to it.
+3. The value of `this` is returned.
 
-换句话说，`new User(...)` 做的就是类似的事情：
+In other words, `new User(...)` does something like:
 
 ```js
 function User(name) {
 *!*
-  // this = {};（隐式创建）
+  // this = {};  (implicitly)
 */!*
 
-  // 添加属性到 this
+  // add properties to this
   this.name = name;
   this.isAdmin = false;
 
 *!*
-  // return this;（隐式返回）
+  // return this;  (implicitly)
 */!*
 }
 ```
 
-所以 `new User("Jack")` 的结果是相同的对象：
+So `let user = new User("Jack")` gives the same result as:
 
 ```js
 let user = {
@@ -60,134 +60,134 @@ let user = {
 };
 ```
 
-现在，如果我们想创建其他用户，我们可以调用 `new User("Ann")`，`new User("Alice")` 等。比每次都使用字面量创建要短得多，而且更易于阅读。
+Now if we want to create other users, we can call `new User("Ann")`, `new User("Alice")` and so on. Much shorter than using literals every time, and also easy to read.
 
-这是构造函数的主要目的 — 实现可重用的对象创建代码。
+That's the main purpose of constructors -- to implement reusable object creation code.
 
-让我们再强调一遍 — 从技术上讲，任何函数都可以用作构造函数。即：任何函数都可以通过 `new` 来运行，它会执行上面的算法。“首字母大写”是一个共同的约定，以明确表示一个函数将被使用 `new` 来运行。
+Let's note once again -- technically, any function can be used as a constructor. That is: any function can be run with `new`, and it will execute the algorithm above. The "capital letter first" is a common agreement, to make it clear that a function is to be run with `new`.
 
 ````smart header="new function() { ... }"
-如果我们有许多行用于创建单个复杂对象的代码，我们可以将它们封装在构造函数中，像这样：
+If we have many lines of code all about creation of a single complex object, we can wrap them in constructor function, like this:
 
 ```js
 let user = new function() {
   this.name = "John";
   this.isAdmin = false;
 
-  // ……用于用户创建的其他代码
-  // 也许是复杂的逻辑和语句
-  // 局部变量等
+  // ...other code for user creation
+  // maybe complex logic and statements
+  // local variables etc
 };
 ```
 
-构造函数不能被再次调用，因为它不保存在任何地方，只是被创建和调用。因此，这个技巧旨在封装构建单个对象的代码，而无需将来重用。
+The constructor can't be called again, because it is not saved anywhere, just created and called. So this trick aims to encapsulate the code that constructs the single object, without future reuse.
 ````
 
-## 双语法构造函数：new.target
+## Constructor mode test: new.target
 
-```smart header="进阶内容"
-本节涉及的语法内容很少使用，除非你想了解所有内容，否则你可以直接跳过该语法。
+```smart header="Advanced stuff"
+The syntax from this section is rarely used, skip it unless you want to know everything.
 ```
 
-在一个函数内部，我们可以使用 `new.target` 属性来检查它是否被使用 `new` 进行调用了。
+Inside a function, we can check whether it was called with `new` or without it, using a special `new.target` property.
 
-对于常规调用，它为空，对于使用 `new` 的调用，则等于该函数：
+It is empty for regular calls and equals the function if called with `new`:
 
 ```js run
 function User() {
   alert(new.target);
 }
 
-// 不带 "new"：
+// without "new":
 *!*
 User(); // undefined
 */!*
 
-// 带 "new"：
+// with "new":
 *!*
 new User(); // function User { ... }
 */!*
 ```
 
-它可以被用在函数内部，来判断该函数是被通过 `new` 调用的“构造函数模式”，还是没被通过 `new` 调用的“常规模式”。
+That can be used inside the function to know whether it was called with `new`, "in constructor mode", or without it, "in regular mode".
 
-我们也可以让 `new` 调用和常规调用做相同的工作，像这样：
+We can also make both `new` and regular calls to do the same, like this:
 
 ```js run
 function User(name) {
-  if (!new.target) { // 如果你没有通过 new 运行我
-    return new User(name); // ……我会给你添加 new
+  if (!new.target) { // if you run me without new
+    return new User(name); // ...I will add new for you
   }
 
   this.name = name;
 }
 
-let john = User("John"); // 将调用重定向到新用户
+let john = User("John"); // redirects call to new User
 alert(john.name); // John
 ```
 
-这种方法有时被用在库中以使语法更加灵活。这样人们在调用函数时，无论是否使用了 `new`，程序都能工作。
+This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
 
-不过，到处都使用它并不是一件好事，因为省略了 `new` 使得很难观察到代码中正在发生什么。而通过 `new` 我们都可以知道这创建了一个新对象。
+Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
 
-## 构造函数的 Return
+## Return from constructors
 
-通常，构造函数没有 `return` 语句。它们的任务是将所有必要的东西写入 `this`，并自动转换为结果。
+Usually, constructors do not have a `return` statement. Their task is to write all necessary stuff into `this`, and it automatically becomes the result.
 
-但是，如果这有一个 `return` 语句，那么规则就简单了：
+But if there is a `return` statement, then the rule is simple:
 
-- 如果 `return` 返回的是一个对象，则返回这个对象，而不是 `this`。
-- 如果 `return` 返回的是一个原始类型，则忽略。
+- If `return` is called with an object, then the object is returned instead of `this`.
+- If `return` is called with a primitive, it's ignored.
 
-换句话说，带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
+In other words, `return` with an object returns that object, in all other cases `this` is returned.
 
-例如，这里 `return` 通过返回一个对象覆盖 `this`：
+For instance, here `return` overrides `this` by returning an object:
 
 ```js run
 function BigUser() {
 
   this.name = "John";
 
-  return { name: "Godzilla" };  // <-- 返回这个对象
+  return { name: "Godzilla" };  // <-- returns this object
 }
 
-alert( new BigUser().name );  // Godzilla，得到了那个对象
+alert( new BigUser().name );  // Godzilla, got that object
 ```
 
-这里有一个 `return` 为空的例子（或者我们可以在它之后放置一个原始类型，没有什么影响）：
+And here's an example with an empty `return` (or we could place a primitive after it, doesn't matter):
 
 ```js run
 function SmallUser() {
 
   this.name = "John";
 
-  return; // <-- 返回 this
+  return; // <-- returns this
 }
 
 alert( new SmallUser().name );  // John
 ```
 
-通常构造函数没有 `return` 语句。这里我们主要为了完整性而提及返回对象的特殊行为。
+Usually constructors don't have a `return` statement. Here we mention the special behavior with returning objects mainly for the sake of completeness.
 
-````smart header="省略括号"
-顺便说一下，如果没有参数，我们可以省略 `new` 后的括号：
+````smart header="Omitting parentheses"
+By the way, we can omit parentheses after `new`, if it has no arguments:
 
 ```js
-let user = new User; // <-- 没有参数
-// 等同于
+let user = new User; // <-- no parentheses
+// same as
 let user = new User();
 ```
 
-这里省略括号不被认为是一种“好风格”，但是规范允许使用该语法。
+Omitting parentheses here is not considered a "good style", but the syntax is permitted by specification.
 ````
 
-## 构造函数中的方法
+## Methods in constructor
 
-使用构造函数来创建对象会带来很大的灵活性。构造函数可能有一些参数，这些参数定义了如何构造对象以及要放入什么。
+Using constructor functions to create objects gives a great deal of flexibility. The constructor function may have parameters that define how to construct the object, and what to put in it.
 
-当然，我们不仅可以将属性添加到 `this` 中，还可以添加方法。
+Of course, we can add to `this` not only properties, but methods as well.
 
-例如，下面的 `new User(name)` 用给定的 `name` 和方法 `sayHi` 创建了一个对象：
+For instance, `new User(name)` below creates an object with the given `name` and the method `sayHi`:
 
 ```js run
 function User(name) {
@@ -212,19 +212,19 @@ john = {
 */
 ```
 
-[类](info:classes) 是用于创建复杂对象的一个更高级的语法，我们稍后会讲到。
+To create complex objects, there's a more advanced syntax, [classes](info:classes), that we'll cover later.
 
-## 总结
+## Summary
 
-- 构造函数，或简称构造器，就是常规函数，但大家对于构造函数有个共同的约定，就是其命名首字母要大写。
-- 构造函数只能使用 `new` 来调用。这样的调用意味着在开始时创建了空的 `this`，并在最后返回填充了值的 `this`。
+- Constructor functions or, briefly, constructors, are regular functions, but there's a common agreement to name them with capital letter first.
+- Constructor functions should only be called using `new`. Such a call implies a creation of empty `this` at the start and returning the populated one at the end.
 
-我们可以使用构造函数来创建多个类似的对象。
+We can use constructor functions to make multiple similar objects.
 
-JavaScript 为许多内置的对象提供了构造函数：比如日期 `Date`、集合 `Set` 以及其他我们计划学习的内容。
+JavaScript provides constructor functions for many built-in language objects: like `Date` for dates, `Set` for sets and others that we plan to study.
 
-```smart header="对象，我们还会回来哒！"
-在本章中，我们只介绍了关于对象和构造函数的基础知识。它们对于我们在下一章中，学习更多关于数据类型和函数的相关知识非常重要。
+```smart header="Objects, we'll be back!"
+In this chapter we only cover the basics about objects and constructors. They are essential for learning more about data types and functions in the next chapters.
 
-在我们学习了那些之后，我们将回到对象，在 <info:prototypes> 和 <info:classes> 章节中深入介绍它们。
+After we learn that, we return to objects and cover them in-depth in the chapters <info:prototypes> and <info:classes>.
 ```

@@ -1,4 +1,4 @@
-让我们将已读消息存储在 `WeakSet` 中：
+Let's store read messages in `WeakSet`:
 
 ```js run
 let messages = [
@@ -9,35 +9,35 @@ let messages = [
 
 let readMessages = new WeakSet();
 
-// 两个消息已读
+// two messages have been read
 readMessages.add(messages[0]);
 readMessages.add(messages[1]);
-// readMessages 包含两个元素
+// readMessages has 2 elements
 
-// ……让我们再读一遍第一条消息！
+// ...let's read the first message again!
 readMessages.add(messages[0]);
-// readMessages 仍然有两个不重复的元素
+// readMessages still has 2 unique elements
 
-// 回答：message[0] 已读？
+// answer: was the message[0] read?
 alert("Read message 0: " + readMessages.has(messages[0])); // true
 
 messages.shift();
-// 现在 readMessages 有一个元素（技术上来讲，内存可能稍后才会被清理）
+// now readMessages has 1 element (technically memory may be cleaned later)
 ```
 
-`WeakSet` 允许存储一系列的消息，并且很容易就能检查它是否包含某个消息。
+The `WeakSet` allows to store a set of messages and easily check for the existance of a message in it.
 
-它会自动清理自身。代价是，我们不能对它进行迭代，也不能直接从中获取“所有已读消息”。但是，我们可以通过遍历所有消息，然后找出存在于 set 的那些消息来完成这个功能。
+It cleans up itself automatically. The tradeoff is that we can't iterate over it,  can't get "all read messages" from it directly. But we can do it by iterating over all messages and filtering those that are in the set.
 
-另一种不同的解决方案可以是，在读取消息后向消息添加诸如 `message.isRead=true` 之类的属性。由于 `messages` 对象是由另一个代码管理的，因此通常不建议这样做，但是我们可以使用 symbol 属性来避免冲突。
+Another, different solution could be to add a property like `message.isRead=true` to a message after it's read. As messages objects are managed by another code, that's generally discouraged, but we can use a symbolic property to avoid conflicts.
 
-像这样：
+Like this:
 ```js
-// symbol 属性仅对于我们的代码是已知的
+// the symbolic property is only known to our code
 let isRead = Symbol("isRead");
 messages[0][isRead] = true;
 ```
 
-现在，第三方代码可能看不到我们的额外属性。
+Now third-party code probably won't see our extra property.
 
-尽管 symbol 可以降低出现问题的可能性，但从架构的角度来看，还是使用 `WeakSet` 更好。
+Although symbols allow to lower the probability of problems, using `WeakSet` is better from the architectural point of view.

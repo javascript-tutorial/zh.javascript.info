@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 对象属性求和
+# Sum object properties
 
-我们有一个保存着团队成员工资的对象：
+We have an object storing salaries of our team:
 
 ```js
 let salaries = {
@@ -14,6 +14,6 @@ let salaries = {
 }
 ```
 
-写一段代码求出我们的工资总和，将计算结果保存到变量 `sum`。从所给的信息来看，结果应该是 `390`。
+Write the code to sum all salaries and store in the variable `sum`. Should be `390` in the example above.
 
-如果 `salaries` 是一个空对象，那结果就为 `0`。
+If `salaries` is empty, then the result must be `0`.

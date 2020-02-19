@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# 不好的风格
+# Bad style
 
-下面的代码风格有什么问题？
+What's wrong with the code style below?
 
 ```js no-beautify
 function pow(x,n)
@@ -25,4 +25,4 @@ else
 }
 ```
 
-修复它。
+Fix it.

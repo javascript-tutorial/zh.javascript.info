@@ -1,60 +1,60 @@
 
-# 对象
+# Objects
 
-正如我们在 <info:types> 一章学到的，JavaScript 中有七种数据类型。有六种原始类型，因为它们的值只包含一种东西（字符串，数字或者其他）。
+As we know from the chapter <info:types>, there are seven data types in JavaScript. Six of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
 
-相反，对象则用来存储键值对和更复杂的实体。在 JavaScript 中，对象几乎渗透到了这门编程语言的方方面面。所以，在我们深入理解这门语言之前，必须先理解对象。
+In contrast, objects are used to store keyed collections of various data and more complex entities. In JavaScript, objects penetrate almost every aspect of the language. So we must understand them first before going in-depth anywhere else.
 
-我们可以通过使用带有可选 **属性列表** 的花括号 `{…}` 来创建对象。一个属性就是一个键值对（"key: value"），其中键（`key`）是一个字符串（也叫做属性名），值（`value`）可以是任何值。
+An object can be created with figure brackets `{…}` with an optional list of *properties*. A property is a "key: value" pair, where `key` is a string (also called a "property name"), and `value` can be anything.
 
-我们可以把对象想象成一个带有签名文件的文件柜。每一条数据都基于键（`key`）存储在文件中。这样我们就可以很容易根据文件名（也就是“键”）查找文件或添加/删除文件了。
+We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
 
 ![](object.svg)
 
-我们可以用下面两种语法中的任一种来创建一个空的对象（“空柜子”）：
+An empty object ("empty cabinet") can be created using one of two syntaxes:
 
 ```js
-let user = new Object(); // “构造函数” 的语法
-let user = {};  // “字面量” 的语法
+let user = new Object(); // "object constructor" syntax
+let user = {};  // "object literal" syntax
 ```
 
 ![](object-user-empty.svg)
 
-通常，我们用花括号。这种方式我们叫做**字面量**。
+Usually, the figure brackets `{...}` are used. That declaration is called an *object literal*.
 
-## 文本和属性
+## Literals and properties
 
-我们可以在创建对象的时候，立即将一些属性以键值对的形式放到 `{...}` 中。
+We can immediately put some properties into `{...}` as "key: value" pairs:
 
 ```js
-let user = {     // 一个对象
-  name: "John",  // 键 "name"，值 "John"
-  age: 30        // 键 "age"，值 30
+let user = {     // an object
+  name: "John",  // by key "name" store value "John"
+  age: 30        // by key "age" store value 30
 };
 ```
 
-属性有键（或者也可以叫做“名字”或“标识符”），位于冒号 `":"` 的前面，值在冒号的右边。
+A property has a key (also known as "name" or "identifier") before the colon `":"` and a value to the right of it.
 
-在 `user` 对象中，有两个属性：
+In the `user` object, there are two properties:
 
-1. 第一个的键是 `"name"`，值是 `"John"`。
-2. 第二个的键是 `"age"`，值是 `30`。
+1. The first property has the name `"name"` and the value `"John"`.
+2. The second one has the name `"age"` and the value `30`.
 
-生成的 `user` 对象可以被想象为一个放置着两个标记有 "name" 和 "age" 的文件的柜子。
+The resulting `user` object can be imagined as a cabinet with two signed files labeled "name" and "age".
 
 ![user object](object-user.svg)
 
-我们可以随时添加、删除和读取文件。
+We can add, remove and read files from it any time.
 
-可以使用点符号访问属性值：
+Property values are accessible using the dot notation:
 
 ```js
-// 读取文件的属性：
+// get property values of the object:
 alert( user.name ); // John
 alert( user.age ); // 30
 ```
 
-属性的值可以是任意类型，让我们加个布尔类型：
+The value can be of any type. Let's add a boolean one:
 
 ```js
 user.isAdmin = true;
@@ -62,7 +62,7 @@ user.isAdmin = true;
 
 ![user object 2](object-user-isadmin.svg)
 
-我们可以用 `delete` 操作符移除属性：
+To remove a property, we can use `delete` operator:
 
 ```js
 delete user.age;
@@ -70,70 +70,70 @@ delete user.age;
 
 ![user object 3](object-user-delete.svg)
 
-我们也可以用多字词语来作为属性名，但必须给它们加上引号：
+We can also use multiword property names, but then they must be quoted:
 
 ```js
 let user = {
   name: "John",
   age: 30,
-  "likes birds": true  // 多词属性名必须加引号
+  "likes birds": true  // multiword property name must be quoted
 };
 ```
 
 ![](object-user-props.svg)
 
 
-列表中的最后一个属性应以逗号结尾：
+The last property in the list may end with a comma:
 ```js
 let user = {
   name: "John",
   age: 30*!*,*/!*
 }
 ```
-这叫做尾随（trailing）或悬挂（hanging）逗号。这样便于我们添加、删除和移动属性，因为所有的行都是相似的。
+That is called a "trailing" or "hanging" comma. Makes it easier to add/remove/move around properties, because all lines become alike.
 
-## 方括号
+## Square brackets
 
-对于多词属性，点操作就不能用了：
+For multiword properties, the dot access doesn't work:
 
 ```js run
-// 这将提示有语法错误
+// this would give a syntax error
 user.likes birds = true
 ```
 
-JavaScript 理解不了。它认为我们在处理 `user.likes`，然后在遇到意外的 `birds` 时给出了语法错误。
+JavaScript doesn't understand that. It thinks that we address `user.likes`, and then gives a syntax error when comes across unexpected `birds`.
 
-点符号要求 `key` 是有效的变量标识符。这意味着：不包含空格，不以数字开头，也不包含特殊字符（允许使用 `$` 和 `_`）。
+The dot requires the key to be a valid variable identifier. That implies: contains no spaces, doesn't start with a digit and doesn't include special characters (`$` и `_` are allowed).
 
-有另一种方法，就是使用方括号，可用于任何字符串：
+There's an alternative "square bracket notation" that works with any string:
 
 ```js run
 let user = {};
 
-// 设置
+// set
 user["likes birds"] = true;
 
-// 读取
+// get
 alert(user["likes birds"]); // true
 
-// 删除
+// delete
 delete user["likes birds"];
 ```
 
-现在一切都可行了。请注意方括号中的字符串要放在引号中，单引号或双引号都可以。
+Now everything is fine. Please note that the string inside the brackets is properly quoted (any type of quotes will do).
 
-方括号同样提供了一种可以通过任意表达式来获取属性名的方法 —— 跟语义上的字符串不同 —— 比如像类似于下面的变量：
+Square brackets also provide a way to obtain the property name as the result of any expression -- as opposed to a literal string -- like from a variable as follows:
 
 ```js
 let key = "likes birds";
 
-// 跟 user["likes birds"] = true; 一样
+// same as user["likes birds"] = true;
 user[key] = true;
 ```
 
-在这里，变量 `key` 可以是程序运行时计算得到的，也可以是根据用户的输入得到的。然后我们可以用它来访问属性。这给了我们很大的灵活性。
+Here, the variable `key` may be calculated at run-time or depend on the user input. And then we use it to access the property. That gives us a great deal of flexibility.
 
-例如：
+For instance:
 
 ```js run
 let user = {
@@ -143,11 +143,11 @@ let user = {
 
 let key = prompt("What do you want to know about the user?", "name");
 
-// 访问变量
-alert( user[key] ); // John（如果输入 "name"）
+// access by variable
+alert( user[key] ); // John (if enter "name")
 ```
 
-点符号不能以类似的方式使用：
+The dot notation cannot be used in a similar way:
 
 ```js run
 let user = {
@@ -159,40 +159,40 @@ let key = "name";
 alert( user.key ) // undefined
 ```
 
-### 计算属性
+### Computed properties
 
-我们可以在对象字面量中使用方括号。这叫做 **计算属性**。
+We can use square brackets in an object literal. That's called *computed properties*.
 
-例如：
+For instance:
 
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
 
 let bag = {
 *!*
-  [fruit]: 5, // 属性名是从 fruit 变量中得到的
+  [fruit]: 5, // the name of the property is taken from the variable fruit
 */!*
 };
 
-alert( bag.apple ); // 5 如果 fruit="apple"
+alert( bag.apple ); // 5 if fruit="apple"
 ```
 
-计算属性的含义很简单：`[fruit]` 含义是属性名应该从 `fruit` 变量中获取。
+The meaning of a computed property is simple: `[fruit]` means that the property name should be taken from `fruit`.
 
-所以，如果一个用户输入 `"apple"`，`bag` 将变为 `{apple: 5}`。
+So, if a visitor enters `"apple"`, `bag` will become `{apple: 5}`.
 
-本质上，这跟下面的语法效果相同：
+Essentially, that works the same as:
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
 let bag = {};
 
-// 从 fruit 变量中获取值
+// take property name from the fruit variable
 bag[fruit] = 5;
 ```
 
-……但是看起来更好。
+...But looks nicer.
 
-我们可以在方括号中使用更复杂的表达式：
+We can use more complex expressions inside square brackets:
 
 ```js
 let fruit = 'apple';
@@ -201,22 +201,22 @@ let bag = {
 };
 ```
 
-方括号比点符号更强大。它允许任何属性名和变量，但写起来也更加麻烦。
+Square brackets are much more powerful than the dot notation. They allow any property names and variables. But they are also more cumbersome to write.
 
-所以大部分时间里，当属性名是已知且简单的时候，就是用点符号。如果我们需要一些更复杂的内容，那么就用方括号。
+So most of the time, when property names are known and simple, the dot is used. And if we need something more complex, then we switch to square brackets.
 
-## 属性值简写
+## Property value shorthand
 
-在实际开发中，我们通常用已存在的变量当做属性名。
+In real code we often use existing variables as values for property names.
 
-例如：
+For instance:
 
 ```js run
 function makeUser(name, age) {
   return {
     name: name,
     age: age
-    // ……其他的属性
+    // ...other properties
   };
 }
 
@@ -224,158 +224,158 @@ let user = makeUser("John", 30);
 alert(user.name); // John
 ```
 
-在上面的例子中，属性名跟变量名一样。这种通过变量生成属性的应用场景很常见，在这有一种特殊的 **属性值缩写** 方法，使属性名变得更短。
+In the example above, properties have the same names as variables. The use-case of making a property from a variable is so common, that there's a special *property value shorthand* to make it shorter.
 
-可以用 `name` 来代替 `name:name` 像下面那样：
+Instead of `name:name` we can just write `name`, like this:
 
 ```js
 function makeUser(name, age) {
 *!*
   return {
-    name, // 与 name: name 相同
-    age   // 与 age: age 相同
+    name, // same as name: name
+    age   // same as age: age
     // ...
   };
 */!*
 }
 ```
 
-我们可以把属性名简写方式和正常方式混用：
+We can use both normal properties and shorthands in the same object:
 
 ```js
 let user = {
-  name,  // 与 name:name 相同
+  name,  // same as name:name
   age: 30
 };
 ```
 
-## 属性名称限制
+## Property names limitations
 
-属性名（key）必须是字符串或 Symbol（标识符的一种特殊类型，稍后将介绍）。
+Property names (keys) must be either strings or symbols (a special type for identifiers, to be covered later).
 
-其它类型将被自动地转化为字符串。
+Other types are automatically converted to strings.
 
-例如当我们使用数字 `0` 作为属性 `key` 时，它将被转化为字符串 `"0"`：
+For instance, a number `0` becomes a string `"0"` when used as a property key:
 
 ```js run
 let obj = {
-  0: "test" // 和 "0": "test" 相同
+  0: "test" // same as "0": "test"
 };
 
-// 两个 alert 访问的是同一个属性（数字 `0` 被转化为了字符串 "0"）
+// both alerts access the same property (the number 0 is converted to string "0")
 alert( obj["0"] ); // test
-alert( obj[0] ); // test（同一个属性）
+alert( obj[0] ); // test (same property)
 ```
 
-**保留字段可以被用作属性名。**
+**Reserved words are allowed as property names.**
 
-正如我们所知道的，像 "for"、"let" 和 "return" 等保留字段不能用作变量名。
+As we already know, a variable cannot have a name equal to one of language-reserved words like "for", "let", "return" etc.
 
-但是对于对象的属性，没有这些限制。任何名字都可以：
+But for an object property, there's no such restriction. Any name is fine:
 
 ```js run
 let obj = {
   for: 1,
   let: 2,
   return: 3
-}
+};
 
 alert( obj.for + obj.let + obj.return );  // 6
 ```
 
-我们可以将任意字符串作为属性键（key），只有一个特殊的：`__proto__` 因为历史原因要特别对待。
+We can use any string as a key, but there's a special property named `__proto__` that gets special treatment for historical reasons.
 
-比如，我们不能把它设置为非对象的值：
+For instance, we can't set it to a non-object value:
 
 ```js run
 let obj = {};
-obj.__proto__ = 5; // 分配一个数字
-alert(obj.__proto__); // [object Object] — 值为对象，与预期结果不同
+obj.__proto__ = 5; // assign a number
+alert(obj.__proto__); // [object Object] - the value is an object, didn't work as intended
 ```
 
-我们从代码中可以看出来，把它赋值为 `5` 的操作被忽略了。
+As we see from the code, the assignment to a primitive `5` is ignored.
 
-关于 `__proto__` 的详细信息将在稍后的 [](info:prototype-inheritance) 一章中详细介绍。
+The nature of `__proto__` will be revealed in detail later in the chapter [](info:prototype-inheritance).
 
-到目前为止，重要的是要知道，如果我们打算将用户提供的密钥存储在对象中，则 `__proto__` 的这种行为可能会成为错误甚至漏洞的来源。
+As for now, it's important to know that such behavior of `__proto__` can become a source of bugs and even vulnerabilities if we intend to store user-provided keys in an object.
 
-因为用户可能会选择 `__proto__` 作为键，这个赋值的逻辑就失败了（像上面那样）。
+The problem is that a visitor may choose `__proto__` as the key, and the assignment logic will be ruined (as shown above).
 
-有两个解决该问题的方法：
-1. 修改对象的行为，使其将 `__proto__` 作为常规属性对待。我们将在 [](info:prototype-methods) 一章中学习如何进行修改。
-2. 使用支持任意键的数据结构 [Map](info:map-set)。我们将在 <info:map-set> 章节学习它。
+There are two workarounds for the problem:
+1. Modify the object's behavior to treat `__proto__` as a regular property. We'll learn how to do it in the chapter [](info:prototype-methods).
+2. Using [Map](info:map-set) data structure which supports arbitrary keys. We'll learn it in the chapter <info:map-set>.
 
-## 属性存在性测试，"in" 操作符
+## Property existence test, "in" operator
 
-对象的一个显著的特点就是其所有的属性都是可访问的。如果某个属性不存在也不会报错！访问一个不存在的属性只是会返回 `undefined`。这提供了一种普遍的用于检查属性是否存在的方法 —— 获取值来与 undefined 比较：
+A notable objects feature is that it's possible to access any property. There will be no error if the property doesn't exist! Accessing a non-existing property just returns `undefined`. It provides a very common way to test whether the property exists -- to get it and compare vs undefined:
 
 ```js run
 let user = {};
 
-alert( user.noSuchProperty === undefined ); // true 意思是没有这个属性
+alert( user.noSuchProperty === undefined ); // true means "no such property"
 ```
 
-这里同样也有一个特别的操作符 `"in"` 来检查属性是否存在。
+There also exists a special operator `"in"` to check for the existence of a property.
 
-语法是：
+The syntax is:
 ```js
 "key" in object
 ```
 
-例如：
+For instance:
 
 ```js run
 let user = { name: "John", age: 30 };
 
-alert( "age" in user ); // true，user.age 存在
-alert( "blabla" in user ); // false，user.blabla 不存在。
+alert( "age" in user ); // true, user.age exists
+alert( "blabla" in user ); // false, user.blabla doesn't exist
 ```
 
-请注意，`in` 的左边必须是 **属性名**。通常是一个带引号的字符串。
+Please note that on the left side of `in` there must be a *property name*. That's usually a quoted string.
 
-如果我们省略引号，则意味着将测试包含实际名称的变量。例如：
+If we omit quotes, that would mean a variable containing the actual name will be tested. For instance:
 
 ```js run
 let user = { age: 30 };
 
 let key = "age";
-alert( *!*key*/!* in user ); // true，从 key 获取属性名并检查这个属性
+alert( *!*key*/!* in user ); // true, takes the name from key and checks for such property
 ```
 
-````smart header="对存储值为 `undefined` 的属性使用 \"in\""
-通常，检查属性是否存在时，使用严格比较 `"=== undefined"` 就够了。但在一种特殊情况下，这种方式会失败，而 `"in"` 却可以正常工作。
+````smart header="Using \"in\" for properties that store `undefined`"
+Usually, the strict comparison `"=== undefined"` check the property existence just fine. But there's a special case when it fails, but `"in"` works correctly.
 
-那就是属性存在，但是存储值为 `undefined`：
+It's when an object property exists, but stores `undefined`:
 
 ```js run
 let obj = {
   test: undefined
 };
 
-alert( obj.test ); // 显示 undefined，所以属性不存在？
+alert( obj.test ); // it's undefined, so - no such property?
 
-alert( "test" in obj ); // true，属性存在！
+alert( "test" in obj ); // true, the property does exist!
 ```
 
 
-在上面的代码中，属性 `obj.test` 事实上是存在的，所以 `in` 操作符检查通过。
+In the code above, the property `obj.test` technically exists. So the `in` operator works right.
 
-这种情况很少发生，因为通常情况下是不会给对象赋值 undefined 的，我们经常会用 `null` 来表示未知的或者空的值。
+Situations like this happen very rarely, because `undefined` is usually not assigned. We mostly use `null` for "unknown" or "empty" values. So the `in` operator is an exotic guest in the code.
 ````
 
-## "for..in" 循环
+## The "for..in" loop
 
-为了遍历一个对象的所有键（key），可以使用一个特殊形式的循环：`for..in`。这跟我们在前面学到的 `for(;;)` 循环是完全不一样的东西。
+To walk over all keys of an object, there exists a special form of the loop: `for..in`. This is a completely different thing from the `for(;;)` construct that we studied before.
 
-语法：
+The syntax:
 
 ```js
 for (key in object) {
-  // 对此对象属性中的每个键执行的代码
+  // executes the body for each key among object properties
 }
 ```
 
-例如，让我们列出 `user` 所有的属性：
+For instance, let's output all properties of `user`:
 
 ```js run
 let user = {
@@ -387,23 +387,23 @@ let user = {
 for (let key in user) {
   // keys
   alert( key );  // name, age, isAdmin
-  // 属性键的值
+  // values for the keys
   alert( user[key] ); // John, 30, true
 }
 ```
 
-注意，所有的 "for" 结构体都允许我们在循环中定义变量，像这里的 `let key`。
+Note that all "for" constructs allow us to declare the looping variable inside the loop, like `let key` here.
 
-同样，我们可以用其他属性名来替代 `key`。例如 `"for(let prop in obj)"` 也很常用。
+Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
 
 
-### 像对象一样排序
+### Ordered like an object
 
-对象有顺序吗？换句话说，如果我们遍历一个对象，我们获取属性的顺序是和属性添加时的顺序相同吗？这靠谱吗？
+Are objects ordered? In other words, if we loop over an object, do we get all properties in the same order they were added? Can we rely on this?
 
-简短的回答是：“有特别的顺序”：整数属性会被进行排序，其他属性则按照创建的顺序显示。详情如下：
+The short answer is: "ordered in a special fashion": integer properties are sorted, others appear in creation order. The details follow.
 
-例如，让我们考虑一个带有电话号码的对象：
+As an example, let's consider an object with the phone codes:
 
 ```js run
 let codes = {
@@ -415,54 +415,54 @@ let codes = {
 };
 
 *!*
-for(let code in codes) {
+for (let code in codes) {
   alert(code); // 1, 41, 44, 49
 }
 */!*
 ```
 
-对象可用于面向用户的建议选项列表。如果我们的网站主要面向德国观众，那么我们可能希望 `49` 排在第一。
+The object may be used to suggest a list of options to the user. If we're making a site mainly for German audience then we probably want `49` to be the first.
 
-但如果我们执行代码，会看到完全不同的景象：
+But if we run the code, we see a totally different picture:
 
-- USA (1) 排在了最前面
-- 然后是 Switzerland (41) 及其它。
+- USA (1) goes first
+- then Switzerland (41) and so on.
 
-因为这些电话号码是整数，所以它们以升序排列。所以我们看到的是 `1, 41, 44, 49`。
+The phone codes go in the ascending sorted order, because they are integers. So we see `1, 41, 44, 49`.
 
-````smart header="整数属性？那是什么？"
-这里的“整数属性”指的是一个可以在不作任何更改的情况下转换为整数的字符串（包括整数到整数）。
+````smart header="Integer properties? What's that?"
+The "integer property" term here means a string that can be converted to-and-from an integer without a change.
 
-所以，"49" 是一个整数属性名，因为我们把它转换成整数，再转换回来，它还是一样。但是 "+49" 和 "1.2" 就不行了：
+So, "49" is an integer property name, because when it's transformed to an integer number and back, it's still the same. But "+49" and "1.2" are not:
 
 ```js run
-// Math.trunc 是内置的去除小数部分的方法。
-alert( String(Math.trunc(Number("49"))) ); // "49"，相同，整数属性
-alert( String(Math.trunc(Number("+49"))) ); // "49"，不同于 "+49" ⇒ 不是整数属性
-alert( String(Math.trunc(Number("1.2"))) ); // "1"，不同于 "1.2" ⇒ 不是整数属性
+// Math.trunc is a built-in function that removes the decimal part
+alert( String(Math.trunc(Number("49"))) ); // "49", same, integer property
+alert( String(Math.trunc(Number("+49"))) ); // "49", not same "+49" ⇒ not integer property
+alert( String(Math.trunc(Number("1.2"))) ); // "1", not same "1.2" ⇒ not integer property
 ```
 ````
 
-……此外，如果属性名不是整数，那它们就按照创建时候的顺序来排序，例如：
+...On the other hand, if the keys are non-integer, then they are listed in the creation order, for instance:
 
 ```js run
 let user = {
   name: "John",
   surname: "Smith"
 };
-user.age = 25; // 增加一个
+user.age = 25; // add one more
 
 *!*
-// 非整数属性是按照创建的顺序来排列的
+// non-integer properties are listed in the creation order
 */!*
 for (let prop in user) {
   alert( prop ); // name, surname, age
 }
 ```
 
-所以，为了解决电话号码的问题，我们可以使用非整数属性名来 **欺骗** 程序。只需要给每个键名加一个加号 `"+"` 前缀就行了。
+So, to fix the issue with the phone codes, we can "cheat" by making the codes non-integer. Adding a plus `"+"` sign before each code is enough.
 
-像这样：
+Like this:
 
 ```js run
 let codes = {
@@ -478,30 +478,30 @@ for (let code in codes) {
 }
 ```
 
-现在跟预想的一样了。
+Now it works as intended.
 
-## 引用复制
+## Copying by reference
 
-对象和其他原始类型的一个根本的区别是，对象都是“通过引用”存储和复制的。
+One of the fundamental differences of objects vs primitives is that they are stored and copied "by reference".
 
-原始类型：字符串，数字，布尔类型 — 作为整体值被赋值或复制。
+Primitive values: strings, numbers, booleans -- are assigned/copied "as a whole value".
 
-例如：
+For instance:
 
 ```js
 let message = "Hello!";
 let phrase = message;
 ```
 
-结果是我们得到了两个独立变量，每个变量存的都是 `"Hello!"`。
+As a result we have two independent variables, each one is storing the string `"Hello!"`.
 
 ![](variable-copy-value.svg)
 
-对象跟这个不一样。
+Objects are not like that.
 
-**变量存储的不是对象本身，而是“内存中的地址”，换句话说就是对象的“引用”。**
+**A variable stores not the object itself, but its "address in memory", in other words "a reference" to it.**
 
-下面是这个对象的存储结构图：
+Here's the picture for the object:
 
 ```js
 let user = {
@@ -511,25 +511,25 @@ let user = {
 
 ![](variable-contains-reference.svg)
 
-在这里，对象被存储在内存中的某个位置。变量 `user` 有一个对它的引用。
+Here, the object is stored somewhere in memory. And the variable `user` has a "reference" to it.
 
-**当对象被复制的时候 — 引用被复制了一份, 对象并没有被复制。**
+**When an object variable is copied -- the reference is copied, the object is not duplicated.**
 
-如果我们将对象想象成是一个抽屉，那么变量就是一把钥匙。拷贝对象是复制了钥匙，但是并没有复制抽屉本身。
+If we imagine an object as a cabinet, then a variable is a key to it. Copying a variable duplicates the key, but not the cabinet itself.
 
-例如：
+For instance:
 
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; // 复制引用
+let admin = user; // copy the reference
 ```
 
-现在我们有了两个变量，但是都指向同一个对象：
+Now we have two variables, each one with the reference to the same object:
 
 ![](variable-copy-reference.svg)
 
-我们可以通过其中任意一个变量访问抽屉并改变其中的内容：
+We can use any variable to access the cabinet and modify its contents:
 
 ```js run
 let user = { name: 'John' };
@@ -537,46 +537,46 @@ let user = { name: 'John' };
 let admin = user;
 
 *!*
-admin.name = 'Pete'; //  被通过名为 "admin" 的引用修改了
+admin.name = 'Pete'; // changed by the "admin" reference
 */!*
 
-alert(*!*user.name*/!*); // 'Pete'，通过名为 "user" 的引用查看修改
+alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
 ```
 
-上面的例子证实了只存在一个对象。就像我们的一个抽屉带有两把钥匙，如果使用其中一把钥匙（`admin`）打开抽屉并改变抽屉里放的东西，稍后使用另外一把钥匙（`user`）打开抽屉的时候，就会看到变化。
+The example above demonstrates that there is only one object. As if we had a cabinet with two keys and used one of them (`admin`) to get into it. Then, if we later use the other key (`user`) we would see changes.
 
-### 比较引用
+### Comparison by reference
 
-等号 `==` 和严格相等 `===` 操作符对于对象来说没差别。
+The equality `==` and strict equality `===` operators for objects work exactly the same.
 
-**两个对象只有在它们其实是一个对象时才会相等。**
+**Two objects are equal only if they are the same object.**
 
-例如，如果两个变量引用指向同一个对象，那么它们相等：
+For instance, if two variables reference the same object, they are equal:
 
 ```js run
 let a = {};
-let b = a; // 复制引用
+let b = a; // copy the reference
 
-alert( a == b ); // true，两个变量指向同一个对象
+alert( a == b ); // true, both variables reference the same object
 alert( a === b ); // true
 ```
 
-以下两个独立的对象不相等，即使都是空对象。
+And here two independent objects are not equal, even though both are empty:
 
 ```js run
 let a = {};
-let b = {}; // 两个独立的对象
+let b = {}; // two independent objects
 
 alert( a == b ); // false
 ```
 
-对于像 `obj1 > obj2` 这样两个对象的比较，或对象与原始值的比较 `obj == 5`，对象会被转换成原始值。我们很快就会学习到对象的转化是如何实现的，但是事实上，这种比较真的极少用到，这种比较的出现经常是代码的 BUG 导致的。
+For comparisons like `obj1 > obj2` or for a comparison against a primitive `obj == 5`, objects are converted to primitives. We'll study how object conversions work very soon, but to tell the truth, such comparisons are necessary very rarely and usually are a result of a coding mistake.
 
-### 常量对象
+### Const object
 
-一个被 `const` 修饰的对象是 **可以** 被修改。
+An object declared as `const` *can* be changed.
 
-例如：
+For instance:
 
 ```js run
 const user = {
@@ -590,9 +590,9 @@ user.age = 25; // (*)
 alert(user.age); // 25
 ```
 
-看起来好像 `(*)` 这行代码会导致错误，但并没有，这里完全没问题。这是因为 `const` 修饰的只是 `user` 本身存储的值。在这里 `user` 始终存储的都是对同一个对象的引用。`(*)` 这行代码修改的是对象内部的内容，并没有改变 `user` 存储的对象的引用。
+It might seem that the line `(*)` would cause an error, but no, there's totally no problem. That's because `const` fixes only value of `user` itself. And here `user` stores the reference to the same object all the time. The line `(*)` goes *inside* the object, it doesn't reassign `user`.
 
-如果你想把其他内容赋值给 `user`，那就会报错了，例如：
+The `const` would give an error if we try to set `user` to something else, for instance:
 
 ```js run
 const user = {
@@ -600,26 +600,26 @@ const user = {
 };
 
 *!*
-// 错误（不能再给 user 赋值）
+// Error (can't reassign user)
 */!*
 user = {
   name: "Pete"
 };
 ```
 
-……那么如果我们想要创建不可变的对象属性，应该怎么做呢？想让 `user.age = 25` 这样的赋值报错，这也是可以的。我们会在 <info:property-descriptors> 这章学习这部分内容。
+...But what if we want to make constant object properties? So that `user.age = 25` would give an error. That's possible too. We'll cover it in the chapter <info:property-descriptors>.
 
-## 复制和合并，Object.assign
+## Cloning and merging, Object.assign
 
-复制一个对象变量会创建指向此对象的另一个引用。
+So, copying an object variable creates one more reference to the same object.
 
-那如果我们需要复制一个对象呢？创建一份独立的拷贝，一份克隆？
+But what if we need to duplicate an object? Create an independent copy, a clone?
 
-这也是可行的，但是有一点麻烦，因为 JavaScript 中没有支持这种操作的内置函数。实际上，我们很少这么做。在大多数时候，复制引用都很好用。
+That's also doable, but a little bit more difficult, because there's no built-in method for that in JavaScript. Actually, that's rarely needed. Copying by reference is good most of the time.
 
-但如果我们真想这么做，就需要创建一个新的对象，然后遍历现有对象的属性，在原始级别的状态下复制给新的对象。
+But if we really want that, then we need to create a new object and replicate the structure of the existing one by iterating over its properties and copying them on the primitive level.
 
-像这样：
+Like this:
 
 ```js run
 let user = {
@@ -628,32 +628,32 @@ let user = {
 };
 
 *!*
-let clone = {}; // 新的空对象
+let clone = {}; // the new empty object
 
-// 复制所有的属性值
+// let's copy all user properties into it
 for (let key in user) {
   clone[key] = user[key];
 }
 */!*
 
-// 现在的复制是独立的了
-clone.name = "Pete"; // 改变它的值
+// now clone is a fully independent clone
+clone.name = "Pete"; // changed the data in it
 
-alert( user.name ); // 原对象属性值不变
+alert( user.name ); // still John in the original object
 ```
 
-我们也可以用 [Object.assign](mdn:js/Object/assign) 来实现。
+Also we can use the method [Object.assign](mdn:js/Object/assign) for that.
 
-语法是：
+The syntax is:
 
 ```js
-Object.assign(dest,[ src1, src2, src3...])
+Object.assign(dest, [src1, src2, src3...])
 ```
 
-- 参数 `dest` 和 `src1, ..., srcN`（你需要多少就可以设置多少，没有限制）是对象。
-- 这个方法将 `src1, ..., srcN` 这些所有的对象复制到 `dest`。换句话说，从第二个参数开始，所有对象的属性都复制给了第一个参数对象，然后返回 `dest`。
+- Arguments `dest`, and `src1, ..., srcN` (can be as many as needed) are objects.
+- It copies the properties of all objects `src1, ..., srcN` into `dest`. In other words, properties of all arguments starting from the 2nd are copied into the 1st. Then it returns `dest`.
 
-例如，我们可以用这个方法来把几个对象合并成一个：
+For instance, we can use it to merge several objects into one:
 ```js
 let user = { name: "John" };
 
@@ -661,25 +661,25 @@ let permissions1 = { canView: true };
 let permissions2 = { canEdit: true };
 
 *!*
-// 把 permissions1 和 permissions2 的所有属性都拷贝给 user
+// copies all properties from permissions1 and permissions2 into user
 Object.assign(user, permissions1, permissions2);
 */!*
 
-// 现在 user = { name: "John", canView: true, canEdit: true }
+// now user = { name: "John", canView: true, canEdit: true }
 ```
 
-如果用于接收的对象（`user`）已经有了同样属性名的属性，已有的则会被覆盖：
+If the receiving object (`user`) already has the same named property, it will be overwritten:
 
 ```js
 let user = { name: "John" };
 
-// 覆盖 name，增加 isAdmin
+// overwrite name, add isAdmin
 Object.assign(user, { name: "Pete", isAdmin: true });
 
-// 现在 user = { name: "Pete", isAdmin: true }
+// now user = { name: "Pete", isAdmin: true }
 ```
 
-我们可以用 `Object.assign` 来替代循环赋值进行简单的克隆操作：
+We also can use `Object.assign` to replace the loop for simple cloning:
 
 ```js
 let user = {
@@ -692,11 +692,11 @@ let clone = Object.assign({}, user);
 */!*
 ```
 
-它将对象 `user` 的所有的属性复制给了一个空对象并返回。实际上和循环赋值没什么区别，只是更短了。
+It copies all properties of `user` into the empty object and returns it. Actually, the same as the loop, but shorter.
 
-直到现在，我们都是假设 `user` 的所有属性都是原始值。但是属性也可以是其他对象的引用。这种我们应该怎么操作呢？
+Until now we assumed that all properties of `user` are primitive. But properties can be references to other objects. What to do with them?
 
-例如：
+Like this:
 ```js run
 let user = {
   name: "John",
@@ -709,9 +709,9 @@ let user = {
 alert( user.sizes.height ); // 182
 ```
 
-现在，仅仅进行 `clone.sizes = user.sizes` 复制是不够的，因为 `user.sizes` 是一个对象，这个操作只能复制这个对象的引用。所以 `clone` 和 `user` 共享了一个对象。
+Now it's not enough to copy `clone.sizes = user.sizes`, because the `user.sizes` is an object, it will be copied by reference. So `clone` and `user` will share the same sizes:
 
-像这样：
+Like this:
 ```js run
 let user = {
   name: "John",
@@ -723,49 +723,49 @@ let user = {
 
 let clone = Object.assign({}, user);
 
-alert( user.sizes === clone.sizes ); // true，同一个对象
+alert( user.sizes === clone.sizes ); // true, same object
 
-// user 和 clone 共享 sizes 对象
-user.sizes.width++;       // 在这里改变一个属性的值
-alert(clone.sizes.width); // 51，在这里查看属性的值
+// user and clone share sizes
+user.sizes.width++;       // change a property from one place
+alert(clone.sizes.width); // 51, see the result from the other one
 ```
 
-为了解决这个问题，我们在复制的时候应该检查 `user[key]` 的每一个值，如果它是一个对象，那么把它也复制一遍，这叫做深拷贝（deep cloning）。
+To fix that, we should use the cloning loop that examines each value of `user[key]` and, if it's an object, then replicate its structure as well. That is called a "deep cloning".
 
-有一个标准的深拷贝算法，用于解决上面这种和一些更复杂的情况，叫做 [结构化克隆算法（Structured cloning algorithm）](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。为了不重复造轮子，我们可以使用它的一个 JavaScript 实现的库 [lodash](https://lodash.com)，方法名叫做 [\_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
+There's a standard algorithm for deep cloning that handles the case above and more complex cases, called the [Structured cloning algorithm](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data). In order not to reinvent the wheel, we can use a working implementation of it from the JavaScript library [lodash](https://lodash.com), the method is called [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
 
 
 
-## 总结
+## Summary
 
-对象是具有一些特殊特性的关联数组。
+Objects are associative arrays with several special features.
 
-它们存储属性（键值对），其中：
-- 属性的键必须是字符串或者 symbol（通常是字符串）。
-- 值可以是任何类型。
+They store properties (key-value pairs), where:
+- Property keys must be strings or symbols (usually strings).
+- Values can be of any type.
 
-我们可以用下面的方法访问属性：
-- 点符号: `obj.property`。
-- 方括号 `obj["property"]`，方括号允许从变量中获取键，例如 `obj[varWithKey]`。
+To access a property, we can use:
+- The dot notation: `obj.property`.
+- Square brackets notation `obj["property"]`. Square brackets allow to take the key from a variable, like `obj[varWithKey]`.
 
-其他操作：
-- 删除属性：`delete obj.prop`。
-- 检查是否存在给定键的属性：`"key" in obj`。
-- 遍历对象：`for(let key in obj)` 循环。
+Additional operators:
+- To delete a property: `delete obj.prop`.
+- To check if a property with the given key exists: `"key" in obj`.
+- To iterate over an object: `for (let key in obj)` loop.
 
-对象是通过引用被赋值或复制的。换句话说，变量存储的不是“对象的值”，而是值的“引用”（内存地址）。所以复制这样的变量或者将其作为函数参数进行传递时，复制的是引用，而不是对象。基于复制的引用（例如添加/删除属性）执行的所有的操作，都是在同一个对象上执行的。
+Objects are assigned and copied by reference. In other words, a variable stores not the "object value", but a "reference" (address in memory) for the value. So copying such a variable or passing it as a function argument copies that reference, not the object. All operations via copied references (like adding/removing properties) are performed on the same single object.
 
-我们可以使用 `Object.assign` 或者 [\_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) 进行“真正的复制”（一个克隆）。
+To make a "real copy" (a clone) we can use `Object.assign` or  [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
 
-我们在这一章学习的叫做“基本对象”，或者就叫对象。
+What we've studied in this chapter is called a "plain object", or just `Object`.
 
-JavaScript 中还有很多其他类型的对象：
+There are many other kinds of objects in JavaScript:
 
-- `Array` 用于存储有序数据集合，
-- `Date` 用于存储时间日期，
-- `Error` 用于存储错误信息。
-- ……等等。
+- `Array` to store ordered data collections,
+- `Date` to store the information about the date and time,
+- `Error` to store the information about an error.
+- ...And so on.
 
-它们有着各自特别的特性，我们将在后面学习到。有时候大家会说“数组类型”或“日期类型”，但其实它们并不是自身所属的类型，而是属于一个对象类型即 "object"。它们以不同的方式对 "object" 做了一些扩展。
+They have their special features that we'll study later. Sometimes people say something like "Array type" or "Date type", but formally they are not types of their own, but belong to a single "object" data type. And they extend it in various ways.
 
-JavaScript 中的对象非常强大。这里我们只接触了冰山一角。在后面的章节中，我们将频繁使用对象进行编程，并学习更多关于对象的知识。
+Objects in JavaScript are very powerful. Here we've just scratched the surface of a topic that is really huge. We'll be closely working with objects and learning more about them in further parts of the tutorial.

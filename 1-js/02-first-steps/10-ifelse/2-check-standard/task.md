@@ -2,13 +2,12 @@ importance: 2
 
 ---
 
-# JavaScript 的名字
+# The name of JavaScript
 
-使用 `if..else` 结构，实现提问 "What is the "official" name of JavaScript?" 的代码
+Using the `if..else` construct, write the code which asks: 'What is the "official" name of JavaScript?'
 
-如果访问者输入了 "ECMAScript"，输出就提示 "Right!"，否则 — 输出："Didn't know? ECMAScript!"
+If the visitor enters "ECMAScript", then output "Right!", otherwise -- output: "Didn't know? ECMAScript!"
 
 ![](ifelse_task2.svg)
 
 [demo src="ifelse_task2"]
-

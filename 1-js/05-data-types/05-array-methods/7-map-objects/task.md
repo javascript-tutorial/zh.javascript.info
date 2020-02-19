@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# 映射到对象
+# Map to objects
 
-你有一个 `user` 对象数组，每个对象都有 `name`，`surname` 和 `id`。
+You have an array of `user` objects, each one has `name`, `surname` and `id`.
 
-编写代码以该数组为基础，创建另一个具有 `id` 和 `fullName` 的对象数组，其中 `fullName` 由 `name` 和 `surname` 生成。
+Write the code to create another array from it, of objects with `id` and `fullName`, where `fullName` is generated from `name` and `surname`.
 
-例如：
+For instance:
 
 ```js no-beautify
 let john = { name: "John", surname: "Smith", id: 1 };
@@ -33,4 +33,4 @@ alert( usersMapped[0].id ) // 1
 alert( usersMapped[0].fullName ) // John Smith
 ```
 
-所以，实际上你需要将一个对象数组映射到另一个对象数组。在这儿尝试使用箭头函数 `=>` 来编写。
+So, actually you need to map one array of objects to another. Try using `=>` here. There's a small catch.

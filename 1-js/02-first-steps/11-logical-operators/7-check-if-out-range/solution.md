@@ -1,10 +1,10 @@
-第一个表达式：
+The first variant:
 
 ```js
 if (!(age >= 14 && age <= 90))
 ```
 
-第二个表达式：
+The second variant:
 
 ```js
 if (age < 14 || age > 90)

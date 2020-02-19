@@ -1,8 +1,8 @@
-是的，这是可以的。
+Yes, it's possible.
 
-如果一个函数返回一个对象，那么 `new` 返回那个对象而不是 `this`。
+If a function returns an object then `new` returns it instead of `this`.
 
-所以它们可以，例如，返回相同的外部定义的对象 `obj`：
+So they can, for instance, return the same externally defined object `obj`:
 
 ```js run no-beautify
 let obj = {};

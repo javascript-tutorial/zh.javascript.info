@@ -1,4 +1,4 @@
-使用 `if` 的解决方案：
+A solution using `if`:
 
 ```js
 function min(a, b) {
@@ -10,7 +10,7 @@ function min(a, b) {
 }
 ```
 
-使用问号运算符 `'?'` 的解决方案：
+A solution with a question mark operator `'?'`:
 
 ```js
 function min(a, b) {
@@ -18,4 +18,4 @@ function min(a, b) {
 }
 ```
 
-P.S. 在 `a == b` 的情况下，返回什么都无关紧要。
+P.S. In the case of an equality `a == b` it does not matter what to return.

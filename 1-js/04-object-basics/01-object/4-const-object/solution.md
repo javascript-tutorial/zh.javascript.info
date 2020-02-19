@@ -1,8 +1,8 @@
-当然，有效，没有问题。
+Sure, it works, no problem.
 
-关键字 `const` 只保护变量本身不被改变。
+The `const` only protects the variable itself from changing. 
 
-换句话说，`user` 保存的是对象的引用。引用不能被改变。但是对象可以。
+In other words, `user` stores a reference to the object. And it can't be changed. But the content of the object can.
 
 ```js run
 const user = {
@@ -10,10 +10,10 @@ const user = {
 };
 
 *!*
-// 成功
+// works
 user.name = "Pete";
 */!*
 
-// 报错
+// error
 user = 123;
 ```
