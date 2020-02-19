@@ -5,7 +5,7 @@
 
 截至目前，我们已经按照开放许可的条款，向几乎所有人免费提供了本教程的许可。如果有任何问题，都可以随时联系我。
 
-# 许可（短版本）
+## License (Short)
 
 本许可基于 [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/legalcode)，可撤销并保留专有权。
 
