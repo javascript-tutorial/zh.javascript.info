@@ -121,7 +121,7 @@ alert( "the result is ${1 + 2}" ); // the result is ${1 + 2}（使用双引号�
 我们会在 <info:string> 一节中学习字符串的更多细节。
 
 ```smart header="JavaScript 中没有 *character* 类型。"
-在一些语言中，单个字符有一个特殊的 “character” 类型，在 C 语言和 Java 语言中被称为 "char"。
+在一些语言中，单个字符有一个特殊的 "character" 类型，在 C 语言和 Java 语言中被称为 "char"。
 
 在 JavaScript 中没有这种类型。只有一种 `string` 类型，一个字符串可以包含一个或多个字符。
 ```
