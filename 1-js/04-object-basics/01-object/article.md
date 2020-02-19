@@ -301,9 +301,9 @@ alert(obj.__proto__); // [object Object] — 值为对象，与预期结果不�
 
 因为用户可能会选择 `__proto__` 作为键，这个赋值的逻辑就失败了（像上面那样）。
 
-稍后我们将看到该问题的解决方法：
-1. 我们将在 [](info:prototype-methods) 一章中了解，如何使对象将 `__proto__` 作为常规属性对待。
-2. 在 <info:map-set> 一章中还将研究另一种数据结构 [Map](info:map-set)，该结构支持任意键。
+有两个解决该问题的方法：
+1. 修改对象的行为，使其将 `__proto__` 作为常规属性对待。我们将在 [](info:prototype-methods) 一章中学习如何进行修改。
+2. 使用支持任意键的数据结构 [Map](info:map-set)。我们将在 <info:map-set> 章节学习它。
 
 ## 属性存在性测试，"in" 操作符
 
