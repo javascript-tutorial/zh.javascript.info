@@ -20,7 +20,7 @@ let users = [
 let usersById = groupById(users);
 
 /*
-// 调用函数后我们得到：
+// 调用函数后，我们应该得到：
 
 usersById = {
   john: {id: 'john', name: "John Smith", age: 20}
