@@ -27,17 +27,17 @@ messages.shift();
 
 `WeakSet` 允许存储一系列的消息，并且很容易就能检查它是否包含某个消息。
 
-它会自动清理自身。代价是，我们不能对它进行迭代，也不能直接从中获取“所有已读消息”。但是，我们可以通过迭代所有消息，然后找出存在于 set 的那些消息来完成这个功能。
+它会自动清理自身。代价是，我们不能对它进行迭代，也不能直接从中获取“所有已读消息”。但是，我们可以通过遍历所有消息，然后找出存在于 set 的那些消息来完成这个功能。
 
-Another, different solution could be to add a property like `message.isRead=true` to a message after it's read. As messages objects are managed by another code, that's generally discouraged, but we can use a symbolic property to avoid conflicts.
+另一种不同的解决方案可以是，在读取消息后向消息添加诸如 `message.isRead=true` 之类的属性。由于 `messages` 对象是由另一个代码管理的，因此通常不建议这样做，但是我们可以使用 symbol 属性来避免冲突。
 
 像这样：
 ```js
-// the symbolic property is only known to our code
+// symbol 属性仅对于我们的代码是已知的
 let isRead = Symbol("isRead");
 messages[0][isRead] = true;
 ```
 
 现在，第三方代码可能看不到我们的额外属性。
 
-Although symbols allow to lower the probability of problems, using `WeakSet` is better from the architectural point of view.
+尽管 symbol 可以降低出现问题的可能性，但从架构的角度来看，还是使用 `WeakSet` 更好。
