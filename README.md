@@ -3,6 +3,8 @@
 [![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/TheModernJavaScriptTutorial)
 
+本项目托管了现代 JavaScript 教程中文版的内容，该内容发布在 [https://zh.javascript.info](https://zh.javascript.info)
+
 | 微信扫码关注官方公众号，订阅更多精彩内容 |
 |-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="500px;" /> |
@@ -11,8 +13,6 @@
 
 - **微信群**：加微信 **`imleviding`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64596211-0fa63380-d3e6-11e9-983d-bd788ffe2370.jpg)，验证信息填写 **`JS 教程`**。
 - **QQ 群**：打开 QQ 搜索群号 **`576578767`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64609229-12f9e900-d3ff-11e9-96e8-147335f5e264.jpg)，验证信息填写 **`JS 教程`**。
-
-这个仓库托管了中文版的现代 JavaScript 教程。本教程发布在 [网站 https://zh.javascript.info](https://zh.javascript.info)。
 
 
 <!--
@@ -37,6 +37,9 @@
   - [外部链接](#外部链接)
   - [诠释资料](#诠释资料)
   - [Anchors](#Anchors)
+- [与英文版同步更新](#与英文版同步更新)
+- [管理员注意事项](#管理员注意事项)
+- [更多](#更多)
 - [在本地运行](#在本地运行)
 
 
@@ -44,30 +47,35 @@
 
 我们希望本教程可以以更多语言呈现。如果你感兴趣，那就快来和我们一起翻译吧。
 
-详见[翻译](https://javascript.info/translate)。
+详见 [翻译](https://javascript.info/translate)。
 
 
 ## 贡献指南 
 
 **翻译流程：**
 
-- 检查[中文翻译进度 issue (Chinese Translate Progress issue)](https://github.com/javascript-tutorial/zh.javascript.info/issues/324)。
-- 选择一篇还没有被选走（在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中被人勾选）的文章。
-- 在[该 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) 中添加以文章标题为内容的评论，如 `An Introduction to JavaScript`。
-    - 我们的 bot 会在[列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990)中勾选上对应的文章，这样其他人就知道你正在翻译该文章了。
+- 检查 [中文翻译进度 issue（Chinese Translate Progress issue）](https://github.com/javascript-tutorial/zh.javascript.info/issues/324)。
+- 选择一篇还没有被选走（在 [列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990) 中暂未被人勾选）的文章。
+- 在 [该 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) 中添加以文章标题为内容的评论，如 `An Introduction to JavaScript`。
+    - 我们的 bot 会在 [列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990) 中勾选上对应的文章，这样其他人就知道你正在翻译该文章了。
     - 不要在该评论中添加其他说明。
-- Fork 此仓库并开始翻译。完成翻译后，请提交一个 PR。
-    - PR 应以文章标题命名。Bot 会添加更多信息。
+    - 如果你发现有些文章索然已经被勾选，但是勾选人在认领任务后 15 天内未提交译文，此时你仍可以发表以该文章标题为内容的评论（并 @leviding），如 `An Introduction to JavaScript @leviding`。
+- Fork 此仓库并开始翻译。完成翻译后，请提交一个 PR（请在认领翻译后的 15 天内提交）。
+    - PR 应以文章标题命名。Bot 会自动补充更多信息。
 
 请给维护者时间来审核和 merge 你的翻译，或者提出对应的修改意见。
-   
-如果维护者没能回复，或者你想成为一个维护者，请在[主仓库给我们提新 issue](https://github.com/javascript-tutorial/en.javascript.info/issues/new)。
-    
+
+如果你想成为一个维护者，请在 [给我们提新 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/new)。
+
+<!--
+如果维护者没能回复，或者你想成为一个维护者，请在 [主仓库给我们提新 issue](https://github.com/javascript-tutorial/en.javascript.info/issues/new)。
+-->
+
 **如果你愿意的话，请让其他人知道你在翻译这个教程，并尝试邀请他们参与翻译。你可以通过微博或群聊来号召。**
 
 🎉 非常感谢！
 
-翻译版本上线后，我们会在“[关于本项目](https://zh.javascript.info/about)”页面写上你的名字和贡献。
+目前中文版已上线，我们会在“[关于本项目](https://zh.javascript.info/about)”页面写上你的名字和贡献。
 
 注：<https://javascript.info/translate> 列出了完整的语言列表。
 
@@ -76,17 +84,17 @@
 
 每一个章节或任务都在它自己的文件夹里。
 
-这个文件夹以 `N=url` 命名。`N` 为文章序号（文章遵循一定的顺序），`url` 是该网站上对应教程的净链接。
+这个文件夹以 `N-url` 命名，`N` 为用于排序的数字，`url` 是该内容在网站上的链接中带有内容标题的部分。
 
-这个文件夹含有以下一种文件：
+文件的类型是依据文件夹中的文件定义的：
 
 - `index.md` 对应一个章节，
 - `article.md` 对应一个文章，
-- `task.md` 对应一个任务（如果有答案的话还会有 `solution.md` 这个文件）。
+- `task.md` 对应一个任务（对应的答案必须在 `solution.md` 文件中提供）。
 
-每一个文件都以 `# 标题` 开始，然后是类 Markdown 格式的文本。一个简单的文字编辑器就可以编辑该文件。 
+每一个文件都以 `# 一级标题` 开始。 
 
-文章或任务中需要用到的资源也在同一个文件夹中。
+添加新内容非常容易。
 
 
 ## 翻译提示
@@ -220,6 +228,21 @@ importance: 5
 请不要翻译或者去掉 `[#...]` 部分，它是 URL 锚点元素的依赖。 
 
 
+## 与英文版同步更新
+
+详见 WIKI 中的「[如何进行此教程的后续更新](https://github.com/javascript-tutorial/zh.javascript.info/wiki#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%AD%A4%E6%95%99%E7%A8%8B%E7%9A%84%E5%90%8E%E7%BB%AD%E6%9B%B4%E6%96%B0)」。
+
+
+## 管理员注意事项
+
+详见 WIKI 中的「[管理员注意事项](https://github.com/javascript-tutorial/zh.javascript.info/wiki#%E7%AE%A1%E7%90%86%E5%91%98%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)」。
+
+
+## 更多
+
+更多说明请见 [WIKI](https://github.com/javascript-tutorial/zh.javascript.info/wiki)。
+
+
 ## 在本地运行
 
 你可以在本地运行本教程的服务端来预览你的翻译。
@@ -227,6 +250,7 @@ importance: 5
 运行服务端的教程请见 <https://github.com/javascript-tutorial/server>。 
 
 我们希望与大家合作维护本教程。本教程的贡献者列表请见：<https://zh.javascript.info/about>。
+
 
 ---
 
