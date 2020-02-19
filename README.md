@@ -1,9 +1,7 @@
 # 现代 JavaScript 教程中文版
 
-[![Gitter](https://badges.gitter.im/zh-javascript-info/community.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://img.shields.io/badge/chat-Gitter-forest.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/TheModernJavaScriptTutorial)
-
-本项目托管了现代 JavaScript 教程中文版的内容，该内容发布在 [https://zh.javascript.info](https://zh.javascript.info)
 
 | 微信扫码关注官方公众号，订阅更多精彩内容 |
 |-|
@@ -14,6 +12,8 @@
 - **微信群**：加微信 **`imleviding`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64596211-0fa63380-d3e6-11e9-983d-bd788ffe2370.jpg)，验证信息填写 **`JS 教程`**。
 - **QQ 群**：打开 QQ 搜索群号 **`576578767`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64609229-12f9e900-d3ff-11e9-96e8-147335f5e264.jpg)，验证信息填写 **`JS 教程`**。
 
+
+本项目托管了现代 JavaScript 教程中文版的内容，该内容发布在 [https://zh.javascript.info](https://zh.javascript.info)
 
 <!--
 
@@ -101,14 +101,14 @@
 
 请不要添加换行，段落或移除已有的行和段落。这样可以减少 merge 英文版中的新变化时出现的问题。
 
-如果你觉得英文版可以被改善 —— 欢迎，请给[英文版教程发 PR](https://github.com/javascript-tutorial/en.javascript.info/compare)。
+如果你觉得英文版可以被改善 —— 欢迎，请给 [英文版教程发 PR](https://github.com/javascript-tutorial/en.javascript.info/compare)。
 
 
 ### 专有词条
 
 - 一些具体的专有词不应被翻译。如 “Function Declaration”。
-- 对于其他专有词，如 `resolved promise`、`slash` 和 `regexp` 等等，请先找找本 Repository Wiki 內的[「英文－中文」用语对照表](https://github.com/javascript-tutorial/zh.javascript.info/wiki/%E3%80%8C%E8%8B%B1%E6%96%87%EF%BC%8D%E4%B8%AD%E6%96%87%E3%80%8D%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8)中是否已有对应的词条。
-  - 若沒有对应或近似的近似，则可以寻找其他教程（如：[MDN](https://developer.mozilla.org/en-US/)）的翻译。
+- 对于其他专有词，如 `resolved promise`、`slash` 和 `regexp` 等等，请先找找本项目 WIKI 中的[「英文－中文」术语对照表](https://github.com/javascript-tutorial/zh.javascript.info/wiki/%5B%E8%8B%B1%E6%96%87%EF%BC%8D%E4%B8%AD%E6%96%87%5D-%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8) 中是否已有对应的词条。
+  - 若没有对应或近似的近似，则可以寻找其他教程（如：[MDN](https://developer.mozilla.org/en-US/)）的翻译。
 
 **补充：**
 
