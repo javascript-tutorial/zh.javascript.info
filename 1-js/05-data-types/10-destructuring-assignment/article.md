@@ -413,9 +413,9 @@ alert(item2);  // Donut
 
 ## 智能函数参数
 
-有时候一个函数可能有很多参数，大部分的参数是可选的，对用户界面来说就尤其如此。想象一下这种情况：有一个创建菜单的函数，可能有宽度参数，高度参数，标题参数和菜单中的菜单项等等。
+有时，一个函数有很多参数，其中大部分的参数都是可选的。对用户界面来说更是如此。想象一个创建菜单的函数。它可能具有宽度参数，高度参数，标题参数和项目列表等。
 
-以下是这种函数的一个不好的写法：
+下面是实现这种函数的一个很不好的写法：
 
 ```js
 function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
@@ -423,15 +423,16 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
-现实情况下的问题就是你怎么记得住这么多参数的顺序，通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但… 另一个问题就是当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
+在实际开发中存在一个问题就是你怎么记得住这么多参数的顺序。通常集成开发环境工具（IDE）会尽力帮助我们，特别是当代码有良好的文档注释的时候，但是…… 另一个问题就是，当大部分的参数采用默认值就好的情况下，怎么调用这个函数。
 
 难道像这样？
 
 ```js
+// 在采用默认值就可以的位置设置 undefined
 showMenu("My Menu", undefined, undefined, ["Item1", "Item2"])
 ```
 
-这太难看了。而且当我们处理更多参数的时候可读性还会变得更差。
+这太难看了。而且，当我们处理更多参数的时候可读性会变得很差。
 
 解构赋值语法前来救援！
 
@@ -444,9 +445,9 @@ let options = {
   items: ["Item1", "Item2"]
 };
 
-// ...然后函数马上把对象展开成变量
+// ……然后函数马上把对象展开成变量
 function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}*/!*) {
-  // title, items – 从 options 参数提取出来,
+  // title, items – 提取于 options，
   // width, height – 使用默认值
   alert( `${title} ${width} ${height}` ); // My Menu 200 100
   alert( items ); // Item1, Item2
@@ -455,7 +456,7 @@ function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}
 showMenu(options);
 ```
 
-我们同样可以对含有嵌套对象的对象使用更加复杂的结构语句和冒号映射：
+我们同样可以使用带有嵌套对象和冒号映射的更加复杂的解构：
 
 ```js run
 let options = {
@@ -466,9 +467,9 @@ let options = {
 *!*
 function showMenu({
   title = "Untitled",
-  width: w = 100,  // width 赋值给 w
-  height: h = 200, // height 赋值给 h
-  items: [item1, item2] // items 第一个元素赋值给 item1, 第二个元素赋值给 item2
+  width: w = 100,  // width goes to w
+  height: h = 200, // height goes to h
+  items: [item1, item2] // items first element goes to item1, second to item2
 }) {
 */!*
   alert( `${title} ${w} ${h}` ); // My Menu 100 200
@@ -479,54 +480,54 @@ function showMenu({
 showMenu(options);
 ```
 
-语法和解构赋值是一样的：
+完整语法和解构赋值是一样的：
 ```js
 function({
-  incomingProperty: parameterName = defaultValue
+  incomingProperty: varName = defaultValue
   ...
 })
 ```
 
-请注意，这种解构假定了调用 `showMenu()` 函数时传递了一个参数，如果我们想让所有的参数都使用默认值，那我们应该传递一个空的对象：
+对于参数对象，属性 `incomingProperty` 对应的变量是 `varName`，默认值是 `defaultValue`。
+
+请注意，这种解构假定了 `showMenu()` 函数确实存在参数。如果我们想让所有的参数都使用默认值，那我们应该传递一个空对象：
 
 ```js
-showMenu({});
-
+showMenu({}); // 不错，所有值都取默认值
 
 showMenu(); // 这样会导致错误
 ```
 
-我们可以通过指定空对象 `{}` 为整个函数参数的默认值：
-
+我们可以通过指定空对象 `{}` 为整个参数对象的默认值来解决这个问题：
 
 ```js run
-// 清晰起见，精简了部分参数
-function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
+function showMenu({ title = "Menu", width = 100, height = 200 }*!* = {}*/!*) {
   alert( `${title} ${width} ${height}` );
 }
 
 showMenu(); // Menu 100 200
 ```
 
-在以上的代码中，整个参数对象默认就是 `{}`，因此总会有对象可以用来解构。
+在上面的代码中，整个参数对象的默认是 `{}`，因此总会有内容可以用来解构。
 
 ## 总结
 
-- 解构赋值允许将对象或数组立即映射到多个变量上。
-- 解构对象的语法：
-
+- 解构赋值可以立即将一个对象或数组映射到多个变量上。
+- 解构对象的完整语法：
     ```js
-    let {prop : varName = default, ...} = object
+    let {prop : varName = default, ...rest} = object
     ```
 
-    这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
+    这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用默认值 `default`。
+    
+    没有对应映射饿对象属性被复制到 `rest` 对象。
 
-- 解构数组的语法：
+- 解构数组的完整语法：
 
     ```js
     let [item1 = default, item2, ...rest] = array
     ```
 
-    数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
+    数组的第一个元素被赋值给 `item1`，第二个元素被赋值给 `item2`，剩下的所有元素被复制到另一个数组 `rest`。
 
-- 更多复杂的案例情况下，等号左侧必须和等号右侧有相同的结构。
+- 从嵌套数组/对象中提取数据也是可以的，此时等号左侧必须和等号右侧有相同的结构。
