@@ -21,20 +21,20 @@ let user = {
 alert(user); // {name: "John", age: 30}
 ```
 
-...但在开发过程中，新增了一些属性，旧的属性被重命名并删除。每次更新这种 `toString` 都会变得很痛苦。我们可以尝试遍历其中的属性，但是如果对象很复杂，并且在属性中嵌套对象呢？我们也需要对它们进行转换。如，如果我们通过网络发送对象，那么我们还需要提供代码来在接收端“读取”我们的对象。
+……但在开发过程中，会新增一些属性，旧的属性会被重命名和删除。每次更新这种 `toString` 都会非常痛苦。我们可以尝试遍历其中的属性，但是如果对象很复杂，并且在属性中嵌套了对象呢？我们也需要对它们进行转换。
 
-幸运的是，不需要编写代码来处理所有这些。这项任务已经解决了。
+幸运的是，不需要编写代码来处理所有这些问题。这项任务已经解决了。
 
 ## JSON.stringify
 
-[JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) 是表示值和对象的通用格式。它被描述为 [RFC 4627](http://tools.ietf.org/html/rfc4627) 标准。最初它是为 JavaScript 编写的，但许多其他语言也有库来处理它。因此，当客户端使用 JavaScript 而服务器使用 Ruby/PHP/Java/Whatever 编写时，使用 JSON 进行数据交换非常容易。
+[JSON](http://en.wikipedia.org/wiki/JSON)（JavaScript Object Notation）是表示值和对象的通用格式。在 [RFC 4627](http://tools.ietf.org/html/rfc4627) 标准中有对其的描述。最初它是为 JavaScript 而创建的，但许多其他编程语言也有用于处理它的库。因此，当客户端使用 JavaScript 而服务器端是使用 Ruby/PHP/Java 等语言编写的时，使用 JSON 可以很容易地进行数据交换。
 
-JavaScript 提供方法：
+JavaScript 提供了如下方法：
 
 - `JSON.stringify` 将对象转换为 JSON。
 - `JSON.parse` 将 JSON 转换回对象。
 
-例如，在这里我们 `JSON.stringify` 一名学生：
+例如，在这里我们 `JSON.stringify` 一个 `student` 对象：
 ```js run
 let student = {
   name: 'John',
@@ -64,35 +64,35 @@ alert(json);
 */!*
 ```
 
-方法 `JSON.stringify(student)` 接受对象并将其转换为一个字符串。
+方法 `JSON.stringify(student)` 接收对象并将其转换为字符串。
 
-得到的 `json` 字符串是一个被称为 **JSON 编码**或者**序列化**或者**字符串化**或者**编组**的对象。我们准备好通过网线传输或存储。
+得到的 `json` 字符串是一个被称为 **JSON 编码（JSON-encoded）** 或 **序列化（serialized）** 或 **字符串化（stringified）** 或 **编组化（marshalled）** 的对象。我们现在已经准备好通过有线发送它或将其放入普通数据存储。
 
 
 请注意，JSON 编码的对象与对象字面量有几个重要的区别：
 
-- 字符串使用双引号。JSON 中没有单引号或反引号。所以 `'John'` 转成 `"John"`。
-- 对象属性名称也是双引号的。这是强制性的。所以 `age:30` 转成 `"age":30`。
+- 字符串使用双引号。JSON 中没有单引号或反引号。所以 `'John'` 被转换为 `"John"`。
+- 对象属性名称也是双引号的。这是强制性的。所以 `age:30` 被转换成 `"age":30`。
 
-`JSON.stringify` 也可以应用于基本类型。
+`JSON.stringify` 也可以应用于原始（primitive）数据类型。
 
-原生支持的 JSON 类型是：
+JSON 支持一下数据类型：
 
 - Objects `{ ... }`
 - Arrays `[ ... ]`
-- Primitives:
-    - strings,
-    - numbers,
-    - boolean values `true/false`,
-    - `null`.
+- Primitives：
+    - strings，
+    - numbers，
+    - boolean values `true/false`，
+    - `null`。
 
 例如：
 
 ```js run
-// a number in JSON is just a number
+// 数字在 JSON 还是数字
 alert( JSON.stringify(1) ) // 1
 
-// a string in JSON is still a string, but double-quoted
+// 字符串在 JSON 中还是字符串，只是被双引号扩起来
 alert( JSON.stringify('test') ) // "test"
 
 alert( JSON.stringify(true) ); // true
@@ -100,9 +100,9 @@ alert( JSON.stringify(true) ); // true
 alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
 ```
 
-JSON 是跨语言的纯数据规范，因此一些特定于 JavaScript 的对象属性被 `JSON.stringify` 跳过。
+JSON 是语言无关的纯数据规范，因此一些特定于 JavaScript 的对象属性会被 `JSON.stringify` 跳过。
 
-如：
+即：
 
 - 函数属性（方法）。
 - Symbolic 属性。
@@ -110,19 +110,19 @@ JSON 是跨语言的纯数据规范，因此一些特定于 JavaScript 的对象
 
 ```js run
 let user = {
-  sayHi() { // ignored
+  sayHi() { // 被忽略
     alert("Hello");
   },
-  [Symbol("id")]: 123, // ignored
-  something: undefined // ignored
+  [Symbol("id")]: 123, // 被忽略
+  something: undefined // 被忽略
 };
 
-alert( JSON.stringify(user) ); // {} (empty object)
+alert( JSON.stringify(user) ); // {}（空对象）
 ```
 
-通常这很好。但有时候这也不是我们想要的，很快就会看到如何定制转换。
+通常这很好。如果这不是我们想要的方式，那么我们很快就会看到如何自定义转换方式。
 
-最棒的是嵌套对象可以自动支持和转换。
+最棒的是支持嵌套对象转换，并且可以自动对其进行转换。
 
 例如：
 
@@ -131,14 +131,14 @@ let meetup = {
   title: "Conference",
 *!*
   room: {
-    number: 123,
+    number: 23,
     participants: ["john", "ann"]
   }
 */!*
 };
 
 alert( JSON.stringify(meetup) );
-/* The whole structure is stringified:
+/* 整个解构都被字符串化了
 {
   "title":"Conference",
   "room":{"number":23,"participants":["john","ann"]},
@@ -160,15 +160,15 @@ let meetup = {
   participants: ["john", "ann"]
 };
 
-meetup.place = room;       // meetup references room
-room.occupiedBy = meetup; // room references meetup
+meetup.place = room;       // meetup 引用了 room
+room.occupiedBy = meetup; // room 引用了 meetup
 
 *!*
 JSON.stringify(meetup); // Error: Converting circular structure to JSON
 */!*
 ```
 
-在这里，转换失败，因为循环引用：`room.occupiedBy` 引用 `meetup`，`meetup.place` 引用 `room`：
+在这里，转换失败了，因为循环引用：`room.occupiedBy` 引用了 `meetup`，`meetup.place` 引用了 `room`：
 
 ![](json-meetup.svg)
 
