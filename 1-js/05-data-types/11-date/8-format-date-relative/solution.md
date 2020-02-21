@@ -20,7 +20,7 @@ function formatDate(date) {
   }
 
   // 格式化 date
-  // 将前置 0 加到单个数值的 day/month/hours/minutes 前
+  // 将前置 0 加到一位数 day/month/hours/minutes 前
   let d = date;
   d = [
     '0' + d.getDate(),
