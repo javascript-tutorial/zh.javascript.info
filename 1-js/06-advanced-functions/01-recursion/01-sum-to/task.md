@@ -21,12 +21,12 @@ sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050
 
 1. 使用循环。
 2. 使用递归，对 `n > 1` 执行 `sumTo(n) = n + sumTo(n-1)`。
-3. 使用[等差数列](https://en.wikipedia.org/wiki/Arithmetic_progression)求和公式.
+3. 使用 [等差数列](https://en.wikipedia.org/wiki/Arithmetic_progression) 求和公式.
 
 结果示例：
 
 ```js
-function sumTo(n) { /*... 你的代码 ... */ }
+function sumTo(n) { /*... your code ... */ }
 
 alert( sumTo(100) ); // 5050
 ```
