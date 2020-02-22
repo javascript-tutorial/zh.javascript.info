@@ -26,7 +26,7 @@ sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050
 结果示例：
 
 ```js
-function sumTo(n) { /*... your code ... */ }
+function sumTo(n) { /*... 你的代码 ... */ }
 
 alert( sumTo(100) ); // 5050
 ```
