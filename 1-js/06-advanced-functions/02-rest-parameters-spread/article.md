@@ -8,13 +8,13 @@
 - `Object.assign(dest, src1, ..., srcN)` —— 依次将属性从 `src1..N` 复制到 `dest`。
 - ……等。
 
-在本章中，我们将学会如何编写实现上述功能的代码。此外，我们要学会如何得心应手。
+在本章中，我们将学习如何编程实现支持函数可传入任意数量的参数。以及，如何将数组作为参数传递给这类函数。
 
-## Rest 参数（剩余参数）`...`
+## Rest 参数 `...`
 
-在 JavaScript 中，无论函数定义了多少个形参，你都可以传入任意个实参进行调用。
+在 JavaScript 中，无论函数是如何定义的，你都可以使用任意数量的参数调用函数。
 
-如下：
+例如：
 ```js run
 function sum(a, b) {
   return a + b;
@@ -23,14 +23,14 @@ function sum(a, b) {
 alert( sum(1, 2, 3, 4, 5) );
 ```
 
-虽然这里不会因为传入“过多”的参数而报错，但是多余的参数也不会起任何作用，函数只会返回前两个参数相加的结果。
+虽然这里不会因为传入“过多”的参数而报错。但是当然，在结果中只有前两个参数被计算进去了。
 
-针对上例，我们可以在定义函数时使用 Rest 参数，Rest 参数的操作符表示为3个点 `...`。直白地讲，它的意思就是“把剩余的参数都放到一个数组中”。
+剩余参数可以通过使用三个点 `...` 并在后面跟着包含剩余参数的数组名称，来将它们包含在函数定义中。这些点的字面意思是“将剩余参数收集到一个数组中”。
 
-举个例子，我们需要把所有的参数都放到数组 `args` 中：
+例如，我们需要把所有的参数都放到数组 `args` 中：
 
 ```js run
-function sumAll(...args) { // 数组变量名为 args
+function sumAll(...args) { // 数字名为 args
   let sum = 0;
 
   for (let arg of args) sum += arg;
@@ -43,16 +43,16 @@ alert( sumAll(1, 2) ); // 3
 alert( sumAll(1, 2, 3) ); // 6
 ```
 
-我们也可以显式地定义和取用前面部分的参数，而把后面部分的参数收集起来。
+我们也可以选择获取第一个参数作为变量，并将剩余的参数收集起来。
 
-下面的例子即把前两个参数定义为变量，同时把剩余的参数收集到 `titles` 数组中：
+下面的例子把前两个参数定义为变量，并把剩余的参数收集到 `titles` 数组中：
 
 ```js run
 function showName(firstName, lastName, ...titles) {
   alert( firstName + ' ' + lastName ); // Julius Caesar
 
-  // titles 数组中包含了剩余的参数
-  // 也就是有 titles = ["Consul", "Imperator"]
+  // 剩余的参数被放入 titles 数组中
+  // i.e. titles = ["Consul", "Imperator"]
   alert( titles[0] ); // Consul
   alert( titles[1] ); // Imperator
   alert( titles.length ); // 2
@@ -62,20 +62,20 @@ showName("Julius", "Caesar", "Consul", "Imperator");
 ```
 
 ````warn header="Rest 参数必须放到参数列表的末尾"
-Rest 参数会收集参数列表中剩余的所有参数，所以下面这种用法是行不通的：
+Rest 参数会收集剩余的所有参数，因此下面这种用法没有意义，并且会导致错误：
 
 ```js
-function f(arg1, ...rest, arg2) { // ...rest 后面还有个 arg2？！
+function f(arg1, ...rest, arg2) { // arg2 在 ...rest 后面？！
   // error
 }
 ```
 
-`...rest` 必须是最后一个参数哦。
+`...rest` 必须处在最后。
 ````
 
 ## "arguments" 变量
 
-函数的上下文会提供一个非常特殊的类数组对象 `arguments`，所有的参数被按序放置。
+有一个名为 `arguments` 的特殊的类数组对象，该对象按参数索引包含所有参数。
 
 例如：
 
@@ -89,22 +89,20 @@ function showName() {
   // for(let arg of arguments) alert(arg);
 }
 
-// 依次弹出提示：2，Julius，Caesar
+// 依次显示：2，Julius，Caesar
 showName("Julius", "Caesar");
 
-// 依次弹出提示：1，Ilya，undefined（不存在第二个参数）
+// 依次显示：1，Ilya，undefined（没有第二个参数）
 showName("Ilya");
 ```
 
-在 JavaScript 引入 Rest 参数之前，无论入参数是多是少，想获取所有的入参只能使用 `arguments`。
+在过去，JavaScript 中没有 rest 参数，而使用 `arguments` 是获取函数所有参数的唯一方法。现在它仍然有效，我们可以在一些老代码里找到它。
 
-时至今日，这仍是一个可用的方法。
+但是缺点是，尽管 `arguments` 是一个类数组且可遍历的变量，但它终究不是数组。它不支持数组方法，因此我们不能调用 `arguments.map(...)` 等方法。
 
-即使 `arguments` 是一个类数组且可遍历的变量，但它终究不是数组。它没有数组原型链上的函数，我们没法直接调用诸如 `arguments.map(...)` 等这样的函数。
+此外，它始终包含所有参数，我们不能像使用 rest 参数那样只截取入参的一部分。
 
-同样的，因为它总是包含所有的参数，我们并不能像使用 Rest 参数一样，期望它只截取入参的一部分。
-
-因此如果你不想受困于以上“缺点”，那么赶紧使用 Rest 参数吧。
+因此，当我们需要这些功能时，最好使用 rest 参数。
 
 ````smart header="箭头函数是没有 `\"arguments\"` 的"
 如果我们在箭头函数中访问 `arguments`，此时的 `arguments` 并不属于箭头函数，而是属于箭头函数外部的“普通”函数。
