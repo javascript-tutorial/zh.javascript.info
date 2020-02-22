@@ -70,7 +70,7 @@ pow(x, n) =
 
 我们也可以说 `pow` **递归地调用自身** 直到 `n == 1`。
 
-![recursive diagram of pow](recursion-pow.svg)
+![pow 的递归示意图](recursion-pow.svg)
 
 
 比如，为了计算 `pow(2, 4)`，递归变体经过了下面几个步骤：
@@ -379,7 +379,7 @@ alert(sumSalaries(company)); // 7700
 
 下面是调用图：
 
-![recursive salaries](recursive-salaries.svg)
+![递归 salaries 的示意图](recursive-salaries.svg)
 
 我们可以很容易地看到其原理：对于对象 `{...}` 会生成子调用，而数组 `[...]` 是递归树的“叶子”，它们会立即给出结果。
 
@@ -503,7 +503,7 @@ list = { value: "new item", next: list };
 list.next = list.next.next;
 ```
 
-![linked list](linked-list-remove-1.svg)
+![链表](linked-list-remove-1.svg)
 
 我们让 `list.next` 从 `1` 跳到值 `2`。现在值 `1` 就被从链表中移除了。如果它没有被存储在其它任何地方，那么它会被自动从内存中删除。
 
