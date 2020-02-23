@@ -268,21 +268,43 @@ function makeCounter() {
 let counter = makeCounter();
 ```
 
-At the beginning of each `makeCounter()` call, a new Lexical Environment object is created, to store variables for this `makeCounter` run.
+在每次 `makeCounter()` 调用的开始，都会创建一个新的词法环境对象，以存储该 `makeCounter` 运行时的变量。
 
+因此，我们有两个嵌套的词法环境，就像上面的示例一样：
 
-以下是 `makeCounter` 的执行过程，遵循它确保你理解所有的内容。请注意我们还没有介绍另外的 `[[Environment]]` 属性。
+![](closure-makecounter.svg)
 
-1. 在脚本开始时，只存在全局词法环境：
+不同的是，在执行 `makeCounter()` 的过程中创建了一个仅占一行的嵌套函数：`return count++`。我们尚未运行它，仅创建了它。
 
-    ![](lexenv-nested-makecounter-1.svg)
+所有的函数在“诞生”时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 `[[Environment]]` 的隐藏属性，该属性保存了对创建该函数的词法环境的引用。
 
-    在开始时里面只有一个 `makeCounter` 函数，因为它是一个函数声明。它还没有执行。
+![](closure-makecounter-environment.svg)
 
-    所有的函数在『诞生』时都会根据创建它的词法环境获得隐藏的 `[[Environment]]` 属性。我们还没有讨论到它，但这是函数知道它是在哪里被创建的原因。
+因此，`counter.[[Environment]]` 有对 `{count: 0}` 词法环境的引用。这就是函数记住它创建于何处的方式，与函数被在哪儿调用无关。`[[Environment]]` 引用在函数创建时被设置并永久保存。
 
-    在这里，`makeCounter` 创建于全局词法环境，那么 `[[Environment]]` 中保留了它的一个引用。
+稍后，当调用 `counter()` 时，会为该调用创建一个新的词法环境，并且其外部词法环境引用获取于 `counter.[[Environment]]`：
 
+![](closure-makecounter-nested-call.svg)
+
+Now when the code inside `counter()` looks for `count` variable, it first searches its own Lexical Environment (empty, as there are no local variables there), then the Lexical Environment of the outer `makeCounter()` call, where finds it and changes.
+
+**A variable is updated in the Lexical Environment where it lives.**
+
+Here's the state after the execution:
+
+![](closure-makecounter-nested-call-2.svg)
+
+If we call `counter()` multiple times, the `count` variable will be increased to `2`, `3` and so on, at the same place.
+
+```smart header="Closure"
+There is a general programming term "closure", that developers generally should know.
+
+A [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)) is a function that remembers its outer variables and can access them. In some languages, that's not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript, all functions are naturally closures (there is only one exception, to be covered in <info:new-function>).
+
+That is: they automatically remember where they were created using a hidden `[[Environment]]` property, and then their code can access outer variables.
+
+When on an interview, a frontend developer gets a question about "what's a closure?", a valid answer would be a definition of the closure and an explanation that all functions in JavaScript are closures, and maybe a few more words about technical details: the `[[Environment]]` property and how Lexical Environments work.
+```
     换句话说，函数会被创建处的词法环境引用『盖章』。隐藏函数属性 `[[Environment]]` 中有这个引用。
 
 2. 代码执行，`makeCounter()` 被执行。下图是当 `makeCounter()` 内执行第一行瞬间的快照：
@@ -352,56 +374,6 @@ At the beginning of each `makeCounter()` call, a new Lexical Environment object 
 
 在面试时，前端通常都会被问到『什么是闭包』，正确的答案应该是闭包的定义并且解释 JavaScript 中所有函数都是闭包，以及可能的关于 `[[Environment]]` 属性和词法环境原理的技术细节。
 ```
-
-当内部函数运行时，`count++` 会由内到外搜索该变量。在上面的例子中，步骤应该是：
-
-![](lexical-search-order.svg)
-
-1. 内部函数的本地。
-2. 外部函数的变量。
-3. 以此类推直到到达全局变量。
-
-在这个例子中，`count` 在第二步中被找到。当外部变量被修改时，在找到它的地方被修改。因此 `count++` 找到该外部变量并在它从属的词法环境中进行修改。好像我们有 `let count = 1` 一样。
-
-这里有两个要考虑的问题：
-
-1. 我们可以用某种方式在 `makeCounter` 以外的代码中改写 `counter` 吗？比如，在上例中的 `alert` 调用后。
-2. 如果我们多次调用 `makeCounter()` —— 它会返回多个 `counter` 函数。它们的 `count` 是独立的还是共享的同一个呢？
-
-在你继续读下去之前，请先回答这些问题。
-
-...
-
-想清楚了吗？
-
-好吧，我们来重复一下答案。
-
-1. 这是不可能做到的。`counter` 是一个局部函数的变量，我们不能从外部访问它。
-2. `makeCounter()` 的每次调用都会创建一个拥有独立 `counter` 的新词法环境。因此得到的 `counter` 是独立的。
-
-下面是一个例子：
-
-```js run
-function makeCounter() {
-  let count = 0;
-  return function() {
-    return count++;
-  };
-}
-
-let counter1 = makeCounter();
-let counter2 = makeCounter();
-
-alert( counter1() ); // 0
-alert( counter1() ); // 1
-
-alert( counter2() ); // 0 （独立的）
-```
-
-
-希望现在你对外部变量的情况相当清楚了。但对于更复杂的情况，可能需要更深入的理解。所以让我们更加深入吧。
-
-
 
 ## 垃圾收集
 
