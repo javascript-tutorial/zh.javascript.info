@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Which variables are available?
+# 哪些变量可用呢？
 
-The function `makeWorker` below makes another function and returns it. That new function can be called from somewhere else.
+下面的 `makeWorker` 函数创建了另一个函数并返回该函数。可以在其他地方调用这个新函数。
 
-Will it have access to the outer variables from its creation place, or the invocation place, or both?
+它是否可以从它被创建的位置或调用位置（或两者）访问外部变量？
 
 ```js
 function makeWorker() {
@@ -23,7 +23,7 @@ let name = "John";
 let work = makeWorker();
 
 // call it
-work(); // what will it show?
+work(); // 会显示什么？
 ```
 
-Which value it will show? "Pete" or "John"?
+会显示哪个值？"Pete" 还是 "John"？
