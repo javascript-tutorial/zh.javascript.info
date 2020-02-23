@@ -1,9 +1,19 @@
 
-# 闭包
+# 变量作用域
 
-JavaScript 是一种非常面向函数的语言。它给我们很大的发挥空间。函数创建后，可以赋值给其他变量或作为参数传递给另一个函数，并在完全不同的位置进行调用。
+JavaScript 是一种非常面向函数的语言。它给了我们很大的自由度。一个函数可以被动态创建，作为参数传递给另一个函数，然后被从一个完全不同的代码位置调用。
 
-我们知道函数可以访问其外部变量；这是一个常用的特性。
+我们已经知道函数可以访问其外部的变量。
+
+现在，让我们扩展知识，来看看更复杂的场景。
+
+```smart header="We'll talk about `let/const` variables here"
+In JavaScript, there are 3 ways to declare a variable: `let`, `const` (the modern ones), and `var` (the remnant of the past).
+
+- In this article we'll use `let` variables in examples.
+- Variables, declared with `const`, behave the same, so this article is about `const` too.
+- The old `var` has some notable differences, they will be covered in the article <info:var>.
+```
 
 但是当外部变量变化时会发生什么呢？函数获得的是最新的值还是创建时的值呢？
 
