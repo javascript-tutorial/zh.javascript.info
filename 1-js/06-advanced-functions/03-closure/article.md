@@ -149,7 +149,7 @@ alert( counter() ); // 2
 ```warn header="这是龙！"
 深入的技术讲解就在下面。
 
-尽管我很想避免编程语言的一些底层细节，但是如果没有这些细节，它们就是不完整的，所以请准备开始学习吧！
+尽管我很想避免编程语言的一些底层细节，但是如果没有这些细节，它们就不完整，所以请准备开始学习吧！
 ```
 
 为了使内容更清晰，这里将分步骤进行讲解。
@@ -299,11 +299,11 @@ let counter = makeCounter();
 ```smart header="闭包"
 开发者通常应该都知道“闭包”这个通用的编程术语。
 
-[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming)) 是指可以记住其外部变量并可以访问它们的函数。在某些编程语言中，这是不可能的，或者应该以特殊的方式编写函数来实现。但是如上所述，在 JavaScript 中，所有函数都是天生的闭包（只有一个例外，将在 <info:new-function> 中讲到）。
+[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming)) 是指内部函数总是可以访问其所在的外部函数中声明的变量和参数，即使在其外部函数被返回（寿命终结）了之后。在某些编程语言中，这是不可能的，或者应该以特殊的方式编写函数来实现。但是如上所述，在 JavaScript 中，所有函数都是天生闭包的（只有一个例外，将在 <info:new-function> 中讲到）。
 
 也就是说：JavaScript 中的函数会自动通过隐藏的 `[[Environment]]` 属性记住创建它们的位置，所以它们都可以访问外部变量。
 
-在面试时，前端开发者通常会被问到“什么是闭包？”，正确的回答应该是闭包的定义，并解释清除为什么 JavaScript 中的所有函数都是闭包，以及可能的关于 `[[Environment]]` 属性和词法环境原理的技术细节。
+在面试时，前端开发者通常会被问到“什么是闭包？”，正确的回答应该是闭包的定义，并解释清除为什么 JavaScript 中的所有函数都是闭包的，以及可能的关于 `[[Environment]]` 属性和词法环境原理的技术细节。
 ```
 
 ## 垃圾收集
@@ -376,7 +376,7 @@ function f() {
   let value = Math.random();
 
   function g() {
-    debugger; // 在 Console 中：输入 alert(value); 没有这样的变量！
+    debugger; // 在 Console 中：输入 alert(value); No such variable!
   }
 
   return g;
@@ -386,7 +386,7 @@ let g = f();
 g();
 ```
 
-正如你所见的 —— 没有这样的变量！理论上，它应该是可以访问的，但引擎把它优化掉了。
+正如你所见的 —— No such variable! 理论上，它应该是可以访问的，但引擎把它优化掉了。
 
 这可能会导致有趣的（如果不是那么耗时的）调试问题。其中之一 —— 我们可以看到的是一个同名的外部变量，而不是预期的变量：
 
@@ -397,7 +397,7 @@ function f() {
   let value = "the closest value";
 
   function g() {
-    debugger; // 在 console 中：输入 alert(value); 这是什么情况！
+    debugger; // 在 console 中：输入 alert(value); Surprise!
   }
 
   return g;
@@ -413,6 +413,8 @@ V8 引擎的这个特性你真的应该知道。如果你要使用 Chrome/Opera 
 
 
 ## 补充说明
+
+为了更清晰地讲解闭包，本文经过大幅重写，以下内容是重写时部分被优化掉的内容，译者认为有些内容还是很有学习价值，遂保留下来供大家学习。
 
 ### 代码块
 

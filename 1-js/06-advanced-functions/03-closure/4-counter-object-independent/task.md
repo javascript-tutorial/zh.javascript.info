@@ -6,7 +6,7 @@ importance: 5
 
 这里通过构造器函数创建了一个 counter 对象。
 
-行得通？它会显示什么呢？
+它能正常工作吗？它会显示什么呢？
 
 ```js
 function Counter() {
