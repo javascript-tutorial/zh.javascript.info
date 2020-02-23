@@ -2,7 +2,7 @@ importance: 4
 
 ---
 
-# 闭包 sum（函数）
+# 闭包 sum
 
 编写一个像 `sum(a)(b) = a+b` 这样工作的 `sum` 函数。
 
