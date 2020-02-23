@@ -1,19 +1,222 @@
 
 # 变量作用域
 
-JavaScript 是一种非常面向函数的语言。它给了我们很大的自由度。一个函数可以被动态创建，作为参数传递给另一个函数，然后被从一个完全不同的代码位置调用。
+JavaScript 是一种非常面向函数的语言。它给了我们很大的自由度。在 JavaScript 中，我们可以动态创建函数，可以将函数作为参数传递给另一个函数，并在完全不同的代码位置进行调用。
 
 我们已经知道函数可以访问其外部的变量。
 
 现在，让我们扩展知识，来看看更复杂的场景。
 
-```smart header="We'll talk about `let/const` variables here"
-In JavaScript, there are 3 ways to declare a variable: `let`, `const` (the modern ones), and `var` (the remnant of the past).
+```smart header="我们将在这探讨一下 `let/const`"
+在 JavaScript 中，有三种声明变量的方式：`let`，`const`（现代方式），`var`（过去留下来的方式）。
 
-- In this article we'll use `let` variables in examples.
-- Variables, declared with `const`, behave the same, so this article is about `const` too.
-- The old `var` has some notable differences, they will be covered in the article <info:var>.
+- 在本文的示例中，我们将使用 `let` 声明变量。
+- 用 `const` 声明的变量的行为也相同（译注：与 `let` 在作用域等特性上是相同的），因此，本文也涉及用 `const` 进行变量声明。
+- 旧的 `var` 与上面两个有着明显的区别，我们将在 <info:var> 中详细介绍。
 ```
+
+## 代码块
+
+如果在代码块 `{...}` 内声明了一个变量，那么这个变量只在该代码块内可见。
+
+例如：
+
+```js run
+{
+  // 使用在代码块外不可见的局部变量做一些工作
+
+  let message = "Hello"; // 只在此代码块内可见
+
+  alert(message); // Hello
+}
+
+alert(message); // Error: message is not defined
+```
+
+我们可以使用它来隔离一段代码，该段代码执行自己的任务，并使用仅属于自己的变量：
+
+```js run
+{
+  // 显示 message
+  let message = "Hello";
+  alert(message);
+}
+
+{
+  // 显示另一个 message
+  let message = "Goodbye";
+  alert(message);
+}
+```
+
+````smart header="这里如果没有代码块则会报错"
+请注意，如果我们使用 `let` 对已存在的变量进行重复声明，如果对应的变量没有单独的代码块，则会出现错误：
+
+```js run
+// 显示 message
+let message = "Hello";
+alert(message);
+
+// 显示另一个 message
+*!*
+let message = "Goodbye"; // Error: variable already declared
+*/!*
+alert(message);
+```
+````
+
+对于 `if`，`for` 和 `while` 等，在 `{...}` 中声明的变量也仅在内部可见：
+
+```js run
+if (true) {
+  let phrase = "Hello!";
+
+  alert(phrase); // Hello!
+}
+
+alert(phrase); // Error, no such variable!
+```
+
+在这儿，当 `if` 执行完毕，则下面的 `alert` 将看不到 `phrase`，因此会出现错误。（译注：就算下面的 `alert` 想在 `if` 没执行完成时去取 `phrase`（虽然这种情况不可能发生）也是取不到的，因为 `let` 声明的变量在代码块外不可见。）
+
+太好了，因为这就允许我们创建特定于 `if` 分支的块级局部变量。
+
+对于 `for` 和 `while` 循环也是如此：
+
+```js run
+for (let i = 0; i < 3; i++) {
+  // 变量 i 仅在这个 for 循环的内部可见
+  alert(i); // 0，然后是 1，然后是 2
+}
+
+alert(i); // Error, no such variable
+```
+
+从视觉上看，`let i` 位于 `{...}` 之外。但是 `for` 构造在这里很特殊：在其中声明的变量被视为块的一部分。
+
+## 嵌套函数
+
+当一个函数是在另一个函数中创建的时，那么该函数就被称为“嵌套”的。
+
+在 JavaScript 中很容易实现这一点。
+
+我们可以使用嵌套来组织代码，比如这样：
+
+```js
+function sayHiBye(firstName, lastName) {
+
+  // 辅助嵌套函数使用如下
+  function getFullName() {
+    return firstName + " " + lastName;
+  }
+
+  alert( "Hello, " + getFullName() );
+  alert( "Bye, " + getFullName() );
+
+}
+```
+
+这里创建的 **嵌套** 函数 `getFullName()` 是为了更加方便。它可以访问外部变量，因此可以返回全名。嵌套函数在 JavaScript 中很常见。
+
+更有意思的是，可以返回一个嵌套函数：作为一个新对象的属性或作为结果返回。之后可以在其他地方使用。不论在哪里调用，它仍然可以访问相同的外部变量。
+
+下面的 `makeCounter` 创建来一个 "counter" 函数，该函数在每次调用时返回下一个数字：
+
+```js run
+function makeCounter() {
+  let count = 0;
+
+  return function() {
+    return count++;
+  };
+}
+
+let counter = makeCounter();
+
+alert( counter() ); // 0
+alert( counter() ); // 1
+alert( counter() ); // 2
+```
+
+让我们继续来看 `makeCounter` 这个例子。它返回一个函数，（返回的）该函数每次调用都会返回下一个数字。尽管它的代码很简单，但稍加变型就会有实际的用途，比如，作一个 [伪随机数生成器](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) 等等。所以这个例子并不像看起来那么造作。
+
+计数器内部的工作是怎样的呢？
+
+一个构造函数的例子（请参考 <info:constructor-new>）：
+
+```js run
+// 构造函数返回一个新对象
+function User(name) {
+
+  // 这个对象方法为一个嵌套函数
+  this.sayHi = function() {
+    alert(name);
+  };
+}
+
+let user = new User("John");
+user.sayHi(); // 该方法访问外部变量 "name"
+```
+
+
+
+当内部函数运行时，`count++` 会由内到外搜索该变量。在上面的例子中，步骤应该是：
+
+![](lexical-search-order.svg)
+
+1. 内部函数的本地。
+2. 外部函数的变量。
+3. 以此类推直到到达全局变量。
+
+在这个例子中，`count` 在第二步中被找到。当外部变量被修改时，在找到它的地方被修改。因此 `count++` 找到该外部变量并在它从属的词法环境中进行修改。好像我们有 `let count = 1` 一样。
+
+这里有两个要考虑的问题：
+
+1. 我们可以用某种方式在 `makeCounter` 以外的代码中改写 `counter` 吗？比如，在上例中的 `alert` 调用后。
+2. 如果我们多次调用 `makeCounter()` —— 它会返回多个 `counter` 函数。它们的 `count` 是独立的还是共享的同一个呢？
+
+在你继续读下去之前，请先回答这些问题。
+
+...
+
+想清楚了吗？
+
+好吧，我们来重复一下答案。
+
+1. 这是不可能做到的。`counter` 是一个局部函数的变量，我们不能从外部访问它。
+2. `makeCounter()` 的每次调用都会创建一个拥有独立 `counter` 的新词法环境。因此得到的 `counter` 是独立的。
+
+下面是一个例子：
+
+```js run
+function makeCounter() {
+  let count = 0;
+  return function() {
+    return count++;
+  };
+}
+
+let counter1 = makeCounter();
+let counter2 = makeCounter();
+
+alert( counter1() ); // 0
+alert( counter1() ); // 1
+
+alert( counter2() ); // 0 （独立的）
+```
+
+
+希望现在你对外部变量的情况相当清楚了。但对于更复杂的情况，可能需要更深入的理解。所以让我们更加深入吧。
+
+
+
+
+
+
+
+
+
+
 
 但是当外部变量变化时会发生什么呢？函数获得的是最新的值还是创建时的值呢？
 
@@ -199,117 +402,7 @@ sayHi(); // Pete
 ```
 
 
-## 嵌套函数
 
-当在函数中创建函数时，这就是所谓的『嵌套』。
-
-在 JavaScript 中是很容易实现的。
-
-我们可以使用嵌套来组织代码，比如这样：
-
-```js
-function sayHiBye(firstName, lastName) {
-
-  // 辅助嵌套函数如下
-  function getFullName() {
-    return firstName + " " + lastName;
-  }
-
-  alert( "Hello, " + getFullName() );
-  alert( "Bye, " + getFullName() );
-
-}
-```
-
-这里创建的**嵌套**函数 `getFullName()` 是为了方便说明。它可以访问外部变量，因此可以返回全名。
-
-更有意思的是，可以返回一个嵌套函数：把它作为一个新对象的属性（如果外部函数创建一个有方法的对象）或是将其直接作为结果返回。其后可以在别处调用它。不论在哪里调用，它都可以访问同样的外部变量。
-
-一个构造函数的例子（请参考 <info:constructor-new>）：
-
-```js run
-// 构造函数返回一个新对象
-function User(name) {
-
-  // 这个对象方法为一个嵌套函数
-  this.sayHi = function() {
-    alert(name);
-  };
-}
-
-let user = new User("John");
-user.sayHi(); // 该方法访问外部变量 "name"
-```
-
-一个返回函数的例子：
-
-```js run
-function makeCounter() {
-  let count = 0;
-
-  return function() {
-    return count++; // has access to the outer counter
-  };
-}
-
-let counter = makeCounter();
-
-alert( counter() ); // 0
-alert( counter() ); // 1
-alert( counter() ); // 2
-```
-
-让我们继续来看 `makeCounter` 这个例子。它返回一个函数，（返回的）该函数每次调用都会返回下一个数字。尽管它的代码很简单，但稍加变型就会有实际的用途，比如，作一个 [伪随机数生成器](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) 等等。所以这个例子并不像看起来那么造作。
-
-计数器内部的工作是怎样的呢？
-
-当内部函数运行时，`count++` 会由内到外搜索该变量。在上面的例子中，步骤应该是：
-
-![](lexical-search-order.svg)
-
-1. 内部函数的本地。
-2. 外部函数的变量。
-3. 以此类推直到到达全局变量。
-
-在这个例子中，`count` 在第二步中被找到。当外部变量被修改时，在找到它的地方被修改。因此 `count++` 找到该外部变量并在它从属的词法环境中进行修改。好像我们有 `let count = 1` 一样。
-
-这里有两个要考虑的问题：
-
-1. 我们可以用某种方式在 `makeCounter` 以外的代码中改写 `counter` 吗？比如，在上例中的 `alert` 调用后。
-2. 如果我们多次调用 `makeCounter()` —— 它会返回多个 `counter` 函数。它们的 `count` 是独立的还是共享的同一个呢？
-
-在你继续读下去之前，请先回答这些问题。
-
-...
-
-想清楚了吗？
-
-好吧，我们来重复一下答案。
-
-1. 这是不可能做到的。`counter` 是一个局部函数的变量，我们不能从外部访问它。
-2. `makeCounter()` 的每次调用都会创建一个拥有独立 `counter` 的新词法环境。因此得到的 `counter` 是独立的。
-
-下面是一个例子：
-
-```js run
-function makeCounter() {
-  let count = 0;
-  return function() {
-    return count++;
-  };
-}
-
-let counter1 = makeCounter();
-let counter2 = makeCounter();
-
-alert( counter1() ); // 0
-alert( counter1() ); // 1
-
-alert( counter2() ); // 0 （独立的）
-```
-
-
-希望现在你对外部变量的情况相当清楚了。但对于更复杂的情况，可能需要更深入的理解。所以让我们更加深入吧。
 
 ## 环境详情
 
