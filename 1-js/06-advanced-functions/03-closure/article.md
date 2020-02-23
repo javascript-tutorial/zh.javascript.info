@@ -376,7 +376,7 @@ function f() {
   let value = Math.random();
 
   function g() {
-    debugger; // 在 Console 中：输入 alert(value); 没有这样的变量！
+    debugger; // 在 Console 中：输入 alert(value); No such variable!
   }
 
   return g;
@@ -386,7 +386,7 @@ let g = f();
 g();
 ```
 
-正如你所见的 —— 没有这样的变量！理论上，它应该是可以访问的，但引擎把它优化掉了。
+正如你所见的 —— No such variable! 理论上，它应该是可以访问的，但引擎把它优化掉了。
 
 这可能会导致有趣的（如果不是那么耗时的）调试问题。其中之一 —— 我们可以看到的是一个同名的外部变量，而不是预期的变量：
 
@@ -397,7 +397,7 @@ function f() {
   let value = "the closest value";
 
   function g() {
-    debugger; // 在 console 中：输入 alert(value); 这是什么情况！
+    debugger; // 在 console 中：输入 alert(value); Surprise!
   }
 
   return g;
