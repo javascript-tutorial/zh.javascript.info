@@ -1,6 +1,12 @@
 
 # 旧时的 "var"
 
+```smart header="This article is for understanding old scripts"
+The information in this article is useful for understanding old scripts.
+
+That's not how we write a new code.
+```
+
 在第一章关于[变量](info:variables)那部分，我们提到了变量声明的三种方式：
 
 1. `let`
