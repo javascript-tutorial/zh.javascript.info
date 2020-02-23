@@ -270,7 +270,7 @@ let counter = makeCounter();
 
 在每次 `makeCounter()` 调用的开始，都会创建一个新的词法环境对象，以存储该 `makeCounter` 运行时的变量。
 
-因此，我们有两个嵌套的词法环境，就像上面的示例一样：
+因此，我们有两层嵌套的词法环境，就像上面的示例一样：
 
 ![](closure-makecounter.svg)
 
@@ -286,178 +286,97 @@ let counter = makeCounter();
 
 ![](closure-makecounter-nested-call.svg)
 
-Now when the code inside `counter()` looks for `count` variable, it first searches its own Lexical Environment (empty, as there are no local variables there), then the Lexical Environment of the outer `makeCounter()` call, where finds it and changes.
+现在，当 `counter()` 中的代码查找 `count` 变量时，它首先搜索自己的词法环境（为空，因为那里没有局部变量），然后是外部 `makeCounter()` 的词法环境，并且在哪里找到就在哪里修改。
 
-**A variable is updated in the Lexical Environment where it lives.**
+**在变量所在的词法环境中更新变量。**
 
-Here's the state after the execution:
+这是执行后的状态：
 
 ![](closure-makecounter-nested-call-2.svg)
 
-If we call `counter()` multiple times, the `count` variable will be increased to `2`, `3` and so on, at the same place.
-
-```smart header="Closure"
-There is a general programming term "closure", that developers generally should know.
-
-A [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)) is a function that remembers its outer variables and can access them. In some languages, that's not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript, all functions are naturally closures (there is only one exception, to be covered in <info:new-function>).
-
-That is: they automatically remember where they were created using a hidden `[[Environment]]` property, and then their code can access outer variables.
-
-When on an interview, a frontend developer gets a question about "what's a closure?", a valid answer would be a definition of the closure and an explanation that all functions in JavaScript are closures, and maybe a few more words about technical details: the `[[Environment]]` property and how Lexical Environments work.
-```
-    换句话说，函数会被创建处的词法环境引用『盖章』。隐藏函数属性 `[[Environment]]` 中有这个引用。
-
-2. 代码执行，`makeCounter()` 被执行。下图是当 `makeCounter()` 内执行第一行瞬间的快照：
-
-    ![](lexenv-nested-makecounter-2.svg)
-
-    在 `makeCounter()` 执行时，包含其变量和参数的词法环境被创建。
-
-    词法环境中存储着两个东西：
-    1. 一个是环境记录，它保存着局部变量。在我们的例子中 `count` 是唯一的局部变量（当执行到 `let count` 这一行时出现）。
-    2. 另外一个是外部词法环境的引用，它被设置为函数的 `[[Environment]]` 属性。这里 `makeCounter` 的 `[[Environment]]` 属性引用着全局词法环境。
-
-    所以，现在我们有了两个词法环境：第一个是全局环境，第二个是 `makeCounter` 的词法环境，它拥有指向全局环境的引用。
-
-3. 在 `makeCounter()` 的执行中，创建了一个小的嵌套函数。
-
-    不管是使用函数声明或是函数表达式创建的函数都没关系，所有的函数都有 `[[Environment]]` 属性，该属性引用着所创建的词法环境。新的嵌套函数同样也拥有这个属性。
-
-    我们新的嵌套函数的 `[[Environment]]` 的值就是 `makeCounter()` 的当前词法环境（创建的位置）。
-
-    ![](lexenv-nested-makecounter-3.svg)
-
-    请注意在这一步中，内部函数并没有被立即调用。 `function() { return count++; }` 内的代码还没有执行，我们要返回它。
-
-4. 随着执行的进行，`makeCounter()` 调用完成，并且将结果（该嵌套函数）赋值给全局变量 `counter`。
-
-    ![](lexenv-nested-makecounter-4.svg)
-
-    这个函数中只有 `return count++` 这一行代码，当我们运行它时它会被执行。
-
-5. 当 `counter()` 执行时，它会创建一个『空』的词法环境。它本身没有局部变量，但是 `counter` 有 `[[Environment]]` 作为其外部引用，所以它可以访问前面创建的 `makeCounter()` 函数的变量。
-
-    ![](lexenv-nested-makecounter-5.svg)
-
-    如果它要访问一个变量，它首先会搜索它自身的词法环境（空），然后是前面创建的 `makeCounter()` 函数的词法环境，然后才是全局环境。
-
-    当它搜索 `count` ，它会在最近的外部词法环境 `makeCounter` 的变量中找到它。
-
-    请注意这里的内存管理工作机制。虽然 `makeCounter()` 执行已经结束，但它的词法环境仍保存在内存中，因为这里仍然有一个嵌套函数的 `[[Environment]]` 在引用着它。
-
-    通常，只要有一个函数会用到该词法环境对象，它就不会被清理。并且只有没有（函数）会用到时，才会被清除。
-
-6. `counter()` 函数不仅会返回 `count` 的值，也会增加它。注意修改是『就地』完成的。准确地说是在找到 `count` 值的地方完成的修改。
-
-    ![](lexenv-nested-makecounter-6.svg)
-
-    因此，上一步只有一处不同 —— `count` 的新值。下面的调用也是同理。
-
-7. 下面 `counter()` 的调用也是同理。
-
-本章开头问题的答案应该已经是显而易见了。
-
-下面代码中的 `work()` 函数通过外部词法环境引用使用到来自原来位置的 `name`。
-
-![](lexenv-nested-work.svg)
-
-所以，这里的结果是 `"Pete"`。
-
-但如果 `makeWorker()` 中没有 `let name` 的话，那么搜索会进行到外部，直到到达链未的全局环境。在这个例子，它应该会变成 `"John"`。
+如果我们调用 `counter()` 多次，`count` 变量将在同一位置增加到 `2`，`3` 等。
 
 ```smart header="闭包"
-开发者应该有听过『闭包』这个编程术语。
+开发者通常应该都知道“闭包”这个通用的编程术语。
 
-函数保存其外部的变量并且能够访问它们称之为[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming))。在某些语言中，是没有闭包的，或是以一种特别方式来实现。但正如上面所说的，在 JavaScript 中函数都是天生的闭包（只有一个例外，请参考 <info:new-function>）。
+[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming)) 是指可以记住其外部变量并可以访问它们的函数。在某些编程语言中，这是不可能的，或者应该以特殊的方式编写函数来实现。但是如上所述，在 JavaScript 中，所有函数都是天生的闭包（只有一个例外，将在 <info:new-function> 中讲到）。
 
-也就是说，他们会通过隐藏的 `[[Environment]]` 属性记住创建它们的位置，所以它们都可以访问外部变量。
+也就是说：JavaScript 中的函数会自动通过隐藏的 `[[Environment]]` 属性记住创建它们的位置，所以它们都可以访问外部变量。
 
-在面试时，前端通常都会被问到『什么是闭包』，正确的答案应该是闭包的定义并且解释 JavaScript 中所有函数都是闭包，以及可能的关于 `[[Environment]]` 属性和词法环境原理的技术细节。
+在面试时，前端开发者通常会被问到“什么是闭包？”，正确的回答应该是闭包的定义，并解释清除为什么 JavaScript 中的所有函数都是闭包，以及可能的关于 `[[Environment]]` 属性和词法环境原理的技术细节。
 ```
 
 ## 垃圾收集
 
-我们所讨论的词法环境和常规值都遵循同样的内存管理规则。
+通常，函数调用完成后，会将词法环境和其中的所有变量从内存中删除。因为现在没有任何对它们的引用了。与 JavaScript 中的任何其他对象一样，词法环境仅在可达时才会被保留在内存中。
 
-- 通常，在函数运行后词法环境会被清理。举个例子：
+……但是，如果有一个嵌套函数在函数结束后仍可达，则它具有引用词法环境的 `[[Environment]]` 属性。
 
-    ```js
-    function f() {
-      let value1 = 123;
-      let value2 = 456;
-    }
+在下面这个例子中，即使在函数执行完成后，词法环境仍然可达。因此，此嵌套函数仍然有效。
 
-    f();
-    ```
+例如：
 
-    这里的两个值都是词法环境的属性。但是在 `f()` 执行完后，该词法环境变成不可达，因此它在内存中已被清理。
+```js
+function f() {
+  let value = 123;
 
-- ...但是如果有一个嵌套函数在 `f` 结束后仍可达，那么它的 `[[Environment]]` 引用会继续保持着外部词法环境存在：
+  return function() {
+    alert(value);
+  }
+}
 
-    ```js
-    function f() {
-      let value = 123;
+let g = f(); // g.[[Environment]] 存储了对相应 f() 调用的词法环境的引用
+```
 
-      function g() { alert(value); }
+请注意，如果多次调用 `f()`，并且返回的函数被保存，那么所有相应的词法环境对象也会保留在内存中。下面代码中有三个这样的函数：
 
-    *!*
-      return g;
-    */!*
-    }
+```js
+function f() {
+  let value = Math.random();
 
-    let g = f(); // g 是可达的，并且将其外部词法环境保持在内存中
-    ```
+  return function() { alert(value); };
+}
 
-- 请注意如果多次调用 `f()`，返回的函数被保存，那么其对应的词法对象同样也会保留在内存中。下面代码中有三个这样的函数：
+// 数组中的 3 个函数，每个都与来自对应的 f() 的词法环境相关联
+let arr = [f(), f(), f()];
+```
 
-    ```js
-    function f() {
-      let value = Math.random();
+当词汇环境对象变得不可达时，它就会死去（就像其他任何对象一样）。换句话说，它仅在至少有一个嵌套函数引用它时才存在。
 
-      return function() { alert(value); };
-    }
+在下面的代码中，嵌套函数被删除后，其封闭的词法环境（以及其中的 `value`）也会被从内存中删除：
 
-    // 数组中的三个函数，每个都有词法环境相关联。
-    // 来自对应的 f() 
-    //         LE   LE   LE
-    let arr = [f(), f(), f()];
-    ```
+```js
+function f() {
+  let value = 123;
 
-- 词法环境对象在变成不可达时会被清理：当没有嵌套函数引用（它）时。在下面的代码中，在 `g` 变得不可达后，`value` 同样会被从内存中清除；
+  return function() {
+    alert(value);
+  }
+}
 
-    ```js
-    function f() {
-      let value = 123;
+let g = f(); // 当 g 函数存在时，该值会被保留在内存中
 
-      function g() { alert(value); }
+g = null; // ……现在内存被清理了
+```
 
-      return g;
-    }
+### 实际开发中的优化
 
-    let g = f(); // 当 g 存在时
-    // 对应的词法环境可达
+正如我们所看到的，理论上当函数可达时，它外部的所有变量也都将存在。
 
-    g = null; // ...在内存中被清理
-    ```
+但在实际中，JavaScript 引擎会试图优化它。它们会分析变量的使用情况，如果从代码中可以明显看出有未使用的外部变量，那么就会将其删除。
 
-### 实际的优化
+**在 V8（Chrome，Opera）中的一个重要的副作用是，此类变量在调试中将不可用。**
 
-正如我们所了解的，理论上当函数可达时，它外部的所有变量都将存在。
+打开 Chrome 浏览器的开发者工具，并尝试运行下面的代码。
 
-但实际上，JavaScript 引擎会试图优化它。它们会分析变量的使用情况，如果有变量没被使用的话它也会被清除。
-
-**V8（Chrome、Opera）的一个重要副作用是这样的变量在调试是无法访问的。**
-
-打开 Chrome 浏览器的开发者工具运行下面的代码。
-
-当它暂停时，在控制台输入 `alert(value)`。
+当代码执行暂停时，在控制台中输入 `alert(value)`。
 
 ```js run
 function f() {
   let value = Math.random();
 
   function g() {
-    debugger; // 在控制台中输入 alert( value );没有该值！
+    debugger; // 在 Console 中：输入 alert(value); 没有这样的变量！
   }
 
   return g;
@@ -467,9 +386,9 @@ let g = f();
 g();
 ```
 
-正如你所见的 ———— 没有该值！理论上，它应该是可以访问的，但引擎对此进行了优化。
+正如你所见的 —— 没有这样的变量！理论上，它应该是可以访问的，但引擎把它优化掉了。
 
-这可能会导致有趣的调试问题。其中之一 —— 我们可以看到的是一个同名的外部变量，而不是预期的变量：
+这可能会导致有趣的（如果不是那么耗时的）调试问题。其中之一 —— 我们可以看到的是一个同名的外部变量，而不是预期的变量：
 
 ```js run global
 let value = "Surprise!";
@@ -478,7 +397,7 @@ function f() {
   let value = "the closest value";
 
   function g() {
-    debugger; // 在控制台中：输入 alert( value )；Surprise!
+    debugger; // 在 console 中：输入 alert(value); 这是什么情况！
   }
 
   return g;
@@ -488,29 +407,20 @@ let g = f();
 g();
 ```
 
-```warn header="再见！"
-V8 的这个特性了解一下也不错。如果用 Chrome/Opera 调试的话，迟早你会遇到。
+V8 引擎的这个特性你真的应该知道。如果你要使用 Chrome/Opera 进行代码调试，迟早会遇到这样的问题。
 
-这并不是调试器的 bug ，而是 V8 的一个特别的特性。或许以后会进行修改。
-你可以经常运行本页的代码来进行检查（这个特性）。
-```
-
-```smart header="一次调用 —— 一个词法环境"
-请记住，每次函数运行会都会创建一个新的函数词法环境。
-
-如果一个函数被调用多次，那么每次调用也都会此创建一个拥有指定局部变量和参数的词法环境。
-```
+这不是调试器的 bug，而是 V8 的一个特别的特性。也许以后会被修改。你始终可以通过运行本文中的示例来进行检查。
 
 
-<!--
+## 补充说明
 
 ### 代码块
 
-我们也可以使用“空”的代码块将变量隔离到“局部作用域”中。
+我们可以使用“空”的代码块将变量隔离到“局部作用域”中。
 
 比如，在 Web 浏览器中，所有脚本都共享同一个全局环境。如果我们在一个脚本中创建一个全局变量，对于其他脚本来说它也是可用的。但是如果两个脚本有使用同一个变量并且相互覆盖，那么这会成为冲突的根源。
 
-如果变量名是一个被广泛使用的词，并且脚本作者可能彼此也不知道。
+如果变量名是一个被广泛使用的词，并且不同脚本的作者可能彼此也不知道。
 
 如果我们要避免这个，我们可以使用代码块来隔离整个脚本或其中一部分：
 
@@ -530,7 +440,7 @@ alert(message); // 错误：message 未定义
 
 ### IIFE
 
-在旧的脚本中，我们可以找到一个所谓的『立即调用函数表达式』（简称为 IIFE）用于此目的。
+在旧的脚本中，我们可以找到一个用于此目的的所谓的“立即调用函数表达式”（简称为 IIFE）。
 
 它们看起来像这样：
 
@@ -550,7 +460,7 @@ alert(message); // 错误：message 未定义
 
 ```js run
 // Error: Unexpected token (
-function() { // <-- JavaScript 找不到函数名，遇到 ( 导致错误
+function() { // <-- JavaScript 找不到函数名，遇到（导致错误）
 
   let message = "Hello";
 
@@ -559,13 +469,13 @@ function() { // <-- JavaScript 找不到函数名，遇到 ( 导致错误
 }();
 ```
 
-我们可以说『好吧，让其变成函数声明，让我们增加一个名称』，但它是没有效果的。JavaScript 不允许立即调用函数声明。
+我们可以说“好吧，让其变成函数声明，让我们增加一个名称”，但它是没有效果的。JavaScript 不允许立即调用函数声明。
 
 ```js run
-// syntax error because of brackets below
+// 由于下面的括号而导致语法错误
 function go() {
 
-}(); // <-- can't call Function Declaration immediately
+}(); // <-- 不能立即调用函数声明
 ```
 
 因此，需要使用圆括号告诉给 JavaScript，这个函数是在另一个表达式的上下文中创建的，因此它是一个表达式。它不需要函数名也可以立即调用。
@@ -592,6 +502,4 @@ function go() {
 }();
 ```
 
-在上面的例子中，我们声明一个函数表达式并立即调用：
-
--->
+在上面的例子中，我们声明一个函数表达式并立即调用。
