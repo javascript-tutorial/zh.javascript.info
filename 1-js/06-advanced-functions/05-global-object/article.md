@@ -92,17 +92,6 @@ if (!window.Promise) {
 为了更清晰地讲解全局对象，本文经过大幅重写，以下内容是重写时部分被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
 ```
 
-在 JavaScript 中，我们可以将 `alert` 称为 `window` 的方法：
-
-```js run
-alert("Hello");
-
-// 等同于
-window.alert("Hello");
-```
-
-我们还可以调用其他内建函数，例如把 `Array` 用作 `window.Array`，并在其中创建我们自己的属性。
-
 在 JavaScript 中，所有脚本共享相同的全局作用域，因此在某一个 `<script>` 中声明的变量，在其他的 `<script>` 中也可见：
 
 ```html run
@@ -119,50 +108,8 @@ window.alert("Hello");
 
 而且，虽然是小问题但仍然重要的一点是：全局范围内的 `this` 的值是 `window`。
 
-```js untrusted run no-strict refresh
+在此我们复习一下 `this` 知识点，在全局执行上下文中，无论是否在严格模式下，`this` 都指向全局对象 `window`。而在函数内部的 `this` 的值取决于函数被调用的方式。在非严格模式下，`this` 的默认值是全局对象，也就是 `window`。在严格模式下，`this` 的默认值为 `undefined`。
+
+```js untrusted refresh
 alert(this); // window
 ```
-
-为什么这样做？在语言创建时，将多个方面合并到单一 `window` 对象中的想法就是“简化”，但此后许多事情发生了变化，小型脚本变成了需要恰当构架的大型应用程序。
-
-不同脚本（可能来自不同的源）之间的变量可以互相访问好不好？并不好，因为它可能导致命名冲突：相同的变量名可以在两个脚本中被用于不同目的，因此这些变量名将相互冲突。
-
-目前，这个多用途的 `window` 被认为是语言中的设计错误。幸运的是，有一条“走出地狱的路”，被称为 “Javascript 模块”。
-
-如果我们在 `<script>` 标签上设置特性 `type="module"` ，那么这样的脚本被认为是个单独的“模块”，它有自己的顶级作用域（词法环境），不会干扰 `window`。
-
-- 在一个模块中，`var x` 不会成为 `window` 的属性：
-
-    ```html run
-    <script type="module">
-      var x = 5;
-
-      alert(window.x); // undefined
-    </script>
-    ```
-
-- 两个模块的变量彼此不可见：
-
-    ```html run
-    <script type="module">
-      let x = 5;
-    </script>
-
-    <script type="module">
-      alert(window.x); // undefined
-      alert(x); // 错误：未声明的变量
-    </script>
-    ```
-
-- 然后最后一个小问题是，模块中 `this` 的顶级值是 `undefined`（为什么它一定得是 `window` ？）：
-
-    ```html run
-    <script type="module">
-      alert(this); // undefined
-    </script>
-    ```
-
-**使用 `<script type="module">` 后，通过将顶级作用域与 `window` 分开的方式来修复语言的设计缺陷。**
-
-稍后我们将在[模块](info:modules)一章中介绍模块的更多功能。
-
