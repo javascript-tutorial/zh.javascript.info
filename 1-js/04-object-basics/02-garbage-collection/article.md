@@ -153,11 +153,19 @@ family = null;
 
 定期执行以下“垃圾回收”步骤：
 
+<<<<<<< HEAD
 - 垃圾收集器找到所有的根，并“标记”（记住）它们。
 - 然后它遍历并“标记”来自它们的所有引用。
 - 然后它遍历标记的对象并标记 **他们的** 引用。所有被遍历到的对象都会被记住，以免将来再次遍历到同一个对象。
 - ……如此操作，直到所有可达的（从根部）引用都被访问到。
 - 没有被标记的对象都会被删除。
+=======
+- The garbage collector takes roots and "marks" (remembers) them.
+- Then it visits and "marks" all references from them.
+- Then it visits marked objects and marks *their* references. All visited objects are remembered, so as not to visit the same object twice in the future.
+- ...And so on until every reachable (from the roots) references are visited.
+- All objects except marked ones are removed.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 例如，使我们的对象有如下的结构：
 
@@ -181,9 +189,15 @@ family = null;
 
 ![](garbage-collection-5.svg)
 
+<<<<<<< HEAD
 我们还可以将这个过程想象成从根溢出一个巨大的油漆桶，它流经所有引用并标记所有可到达的对象。然后移除未标记的。
 
 这是垃圾收集工作的概念。JavaScript 引擎做了许多优化，使垃圾回收运行速度更快，并且不影响正常代码运行。
+=======
+We can also imagine the process as spilling a huge bucket of paint from the roots, that flows through all references and marks all reachable objects. The unmarked ones are then removed.
+
+That's the concept of how garbage collection works. JavaScript engines apply many optimizations to make it run faster and not affect the execution.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 一些优化建议：
 
@@ -191,7 +205,11 @@ family = null;
 - **增量收集** —— 如果有许多对象，并且我们试图一次遍历并标记整个对象集，则可能需要一些时间，并在执行过程中带来明显的延迟。所以引擎试图将垃圾收集工作分成几部分来做。然后将这几部分会逐一进行处理。这需要他们之间有额外的标记来追踪变化，但是这样会有许多微小的延迟而不是一个大的延迟。
 - **闲时收集** —— 垃圾收集器只会在 CPU 空闲时尝试运行，以减少可能对代码执行的影响。
 
+<<<<<<< HEAD
 还有其他垃圾回收算法的优化和风格。尽管我想在这里描述它们，但我必须打住了，因为不同的引擎会有不同的调整和技巧。而且，更重要的是，随着引擎的发展，情况会发生变化，所以在没有真实需求的时候，“提前”学习这些内容是不值得的。当然，除非这是一个纯粹的利益关系。我在下面给你提供了一些相关链接。
+=======
+There exist other optimizations and flavours of garbage collection algorithms. As much as I'd like to describe them here, I have to hold off, because different engines implement different tweaks and techniques. And, what's even more important, things change as engines develop, so studying deeper "in advance", without a real need is probably not worth that. Unless, of course, it is a matter of pure interest, then there will be some links for you below.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 ## 总结
 
@@ -207,6 +225,10 @@ family = null;
 
 如果你熟悉底层（low-level）编程，关于 V8 引擎垃圾回收器的更详细信息请参阅文章 [V8 之旅：垃圾回收](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)。
 
+<<<<<<< HEAD
 [V8 博客](http://v8project.blogspot.com/) 还不时发布关于内存管理变化的文章。当然，为了学习垃圾收集，你最好通过学习 V8 引擎内部知识来进行准备，并阅读一个名为 [Vyacheslav Egorov](http://mrale.ph) 的 V8 引擎工程师的博客。我之所以说 “V8”，因为网上关于它的文章最丰富的。对于其他引擎，许多方法是相似的，但在垃圾收集上许多方面有所不同。
+=======
+[V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 当你需要底层的优化时，对引擎有深入了解将很有帮助。在熟悉了这门编程语言之后，把熟悉引擎作为下一步计划是明智之选。

@@ -4,7 +4,11 @@ importance: 4
 
 # 获取平均年龄
 
+<<<<<<< HEAD
 编写 `getAverageAge(users)` 函数，该函数获取一个具有 `age` 属性的对象数组，并返回平均年龄。
+=======
+Write the function `getAverageAge(users)` that gets an array of objects with property `age` and returns the average age.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 平均值的计算公式是 `(age1 + age2 + ... + ageN) / N`。
 
