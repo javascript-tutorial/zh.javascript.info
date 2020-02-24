@@ -435,73 +435,7 @@ V8 引擎的这个特性你真的应该知道。如果你要使用 Chrome/Opera 
   alert(message); // Hello
 }
 
-alert(message); // 错误：message 未定义
+alert(message); // Error: message is not defined
 ```
 
 这是因为代码块有其自身的词法环境，块之外（或另一个脚本内）的代码访问不到代码块内的变量。
-
-### IIFE
-
-在旧的脚本中，我们可以找到一个用于此目的的所谓的“立即调用函数表达式”（简称为 IIFE）。
-
-它们看起来像这样：
-
-```js run
-(function() {
-
-  let message = "Hello";
-
-  alert(message); // Hello
-
-})();
-```
-
-这里创建了一个函数表达式并立即调用。因此代码拥有自己的私有变量并立即执行。
-
-函数表达式被括号 `(function {...})` 包裹起来，因为在 JavaScript 中，当代码流碰到 `"function"` 时，它会把它当成一个函数声明的开始。但函数声明必须有一个函数名，所以会导致错误：
-
-```js run
-// Error: Unexpected token (
-function() { // <-- JavaScript 找不到函数名，遇到（导致错误）
-
-  let message = "Hello";
-
-  alert(message); // Hello
-
-}();
-```
-
-我们可以说“好吧，让其变成函数声明，让我们增加一个名称”，但它是没有效果的。JavaScript 不允许立即调用函数声明。
-
-```js run
-// 由于下面的括号而导致语法错误
-function go() {
-
-}(); // <-- 不能立即调用函数声明
-```
-
-因此，需要使用圆括号告诉给 JavaScript，这个函数是在另一个表达式的上下文中创建的，因此它是一个表达式。它不需要函数名也可以立即调用。
-
-在 JavaScript 中还有其他方式来定义函数表达式：
-
-```js run
-// 创建 IIFE 的方法
-
-(function() {
-  alert("Brackets around the function");
-}*!*)*/!*();
-
-(function() {
-  alert("Brackets around the whole thing");
-}()*!*)*/!*;
-
-*!*!*/!*function() {
-  alert("Bitwise NOT operator starts the expression");
-}();
-
-*!*+*/!*function() {
-  alert("Unary plus starts the expression");
-}();
-```
-
-在上面的例子中，我们声明一个函数表达式并立即调用。
