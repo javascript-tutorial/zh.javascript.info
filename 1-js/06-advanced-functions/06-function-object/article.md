@@ -24,21 +24,21 @@ function sayHi() {
 alert(sayHi.name); // sayHi
 ```
 
-更有趣的是，名称赋值的逻辑很智能。在函数被用于赋值时也能将正确的名字赋给它：
+更有趣的是，名称赋值的逻辑很智能。即使函数被创建时没有名字，名称赋值的逻辑也能给它赋予一个正确的名字，然后进行赋值：
 
 ```js run
 let sayHi = function() {
   alert("Hi");
-}
+};
 
-alert(sayHi.name); // sayHi（生效了!）
+alert(sayHi.name); // sayHi（有名字！）
 ```
 
-当以默认值的方式赋值时，它也有效：
+当以默认值的方式完成了赋值时，它也有效：
 
 ```js run
 function f(sayHi = function() {}) {
-  alert(sayHi.name); // sayHi （生效了！）
+  alert(sayHi.name); // sayHi（生效了！）
 }
 
 f();
@@ -65,14 +65,14 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
-这没有什么神奇的。有时会出现无法推测名字的情况。此时，属性 `name` 会是空，比如：
+这没有什么神奇的。有时会出现无法推测名字的情况。此时，属性 `name` 会是空，像这样：
 
 ```js
-// 函数在数组中创建
+// 函数是在数组中创建的
 let arr = [function() {}];
 
 alert( arr[0].name ); // <空字符串>
-// 引擎无法得到正确的名字，所以没有值
+// 引擎无法设置正确的名字，所以没有值
 ```
 
 而实际上，大多数函数都是有名字的。
@@ -93,7 +93,7 @@ alert(many.length); // 2
 
 可以看到，余参不参与计数。
 
-属性 `length` 有时用于在函数中操作其它函数的内省。
+属性 `length` 有时用于在函数中操作其它函数的内省。[introspection](https://en.wikipedia.org/wiki/Type_introspection)
 
 比如，下面的代码中函数 `ask` 接受一个询问的 `question` 和任意个会被调用的 `handler` 函数。
 
