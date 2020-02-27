@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# counter 是独立的吗？
+# Counter 是独立的吗？
 
 在这儿我们用相同的 `makeCounter` 函数创建了两个计数器（counters）：`counter` 和 `counter2`。
 
