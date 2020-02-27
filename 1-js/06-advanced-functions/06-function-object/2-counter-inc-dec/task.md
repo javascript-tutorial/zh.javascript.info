@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 为 `counter` 添加 `set` 和 `decrease` 方法
+# 为 counter 添加 set 和 decrease 方法
 
 修改 `makeCounter()` 代码，使得 counter 可以减一，还可以对值进行 set 操作：
 
