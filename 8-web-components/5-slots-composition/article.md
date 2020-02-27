@@ -60,7 +60,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 然后浏览器执行”组合“：它从普通DOM中获取元素并且渲染到 shadow DOM 中的对应插槽中。最后，正是我们想要的 -- 一个能被填充数据的通用组件。
 
-Here's the DOM structure after the script, not taking composition into account:
+这是编译后，不考虑组成的 DOM:
 
 ```html
 <user-card>
@@ -76,13 +76,13 @@ Here's the DOM structure after the script, not taking composition into account:
 </user-card>
 ```
 
-There's nothing odd here. We created the shadow DOM, so here it is. Now the element has both light and shadow DOM.
+这没什么奇怪的。我们创建了 shadow DOM，所以在这里。现在元素同时拥有 light DOM 和 shadow DOM。
 
-For rendering purposes, for each `<slot name="...">` in shadow DOM, the browser looks for `slot="..."` with the same name in the light DOM. These elements are rendered inside the slots:
+为了渲染 shadow DOM 中的每一个 `<slot name="...">` 元素，浏览器在 light DOM 中寻找相同名字的 `slot="..."` 。这些元素在插槽内被渲染：
 
 ![](shadow-dom-user-card.svg)
 
-The result is called "flattened" DOM:
+结果被叫做 "flattened" DOM:
 
 ```html
 <user-card>
@@ -101,21 +101,21 @@ The result is called "flattened" DOM:
 </user-card>
 ```
 
-...But the "flattened" DOM is only created for rendering and event-handling purposes. That's how things are shown. The nodes are actually not moved around!
+...但是 "flattened" DOM 仅仅被创建用来渲染和事件处理。那就是他们怎么被展现出来。节点事实上并没有到处移动！
 
-That can be easily checked if we run `querySelector`: nodes are still at their places.
+如果我们调用 `querySelector` 那就很容易验证：节点仍在它们的位置。
 
 ```js
 // light DOM <span> nodes are still at the same place, under `<user-card>`
 alert( document.querySelector('user-card span').length ); // 2
 ```
 
-It may look bizarre, but for shadow DOM with slots we have one more "DOM level", the "flattened" DOM -- result of slot insertion. The browser renders it and uses for style inheritance, event propagation. But JavaScript still sees the document "as is", before flattening.
+这可能看起来很奇怪，但是对于带有插槽的 shadow DOM 我们有多一个 "DOM 层次" 的 "flattened" DOM -- 插槽插入的结果。浏览器渲染它并且用于样式继承、事件传播。但是 JavaScript 在展平前仍按原样看到文档。
 
 ````warn header="Only top-level children may have slot=\"...\" attribute"
-The `slot="..."` attribute is only valid for direct children of the shadow host (in our example, `<user-card>` element). For nested elements it's ignored.
+`slot="..."` 属性仅仅对 shadow host 的直接子代 (在我们的例子中的 `<user-card>` 元素)  有效。对于嵌套元素它将被忽略。
 
-For example, the second `<span>` here is ignored (as it's not a top-level child of `<user-card>`):
+例如，这里的第二个 `<span>` 被忽略了 (因为它不是 `<user-card>` 的顶级子元素):
 ```html
 <user-card>
   <span slot="username">John Smith</span>
@@ -126,14 +126,14 @@ For example, the second `<span>` here is ignored (as it's not a top-level child 
 </user-card>
 ```
 
-In practice, there's no sense in slotting a deeply nested element, so this limitation just ensures the correct DOM structure.
+在实践中，放入深层嵌套的元素是没有意义的，所以这个限制只能确保正确的 DOM 结构。
 ````
 
-## Slot fallback content
+## 插槽后备内容
 
-If we put something inside a `<slot>`, it becomes the fallback content. The browser shows it if there's no corresponding filler in light DOM.
+如果我们在一个 `<slot>` 内部放点什么，它将成为后备内容。如果 light DOM 中没有相应填充物的话浏览器就展示它。
 
-For example, in this piece of shadow DOM, `Anonymous` renders if there's no `slot="username"` in light DOM.
+例如，在这里的 shadow DOM 中，如果 light DOM 中没有 `slot="username"` 的话 `Anonymous` 就被渲染。
 
 ```html
 <div>Name:
@@ -141,11 +141,11 @@ For example, in this piece of shadow DOM, `Anonymous` renders if there's no `slo
 </div>
 ```
 
-## Default slot
+## 默认插槽
 
-The first `<slot>` in shadow DOM that doesn't have a name is a "default" slot. It gets all nodes from the light DOM that aren't slotted elsewhere.
+shadow DOM 中第一个没有名字的 `<slot>` 是一个默认插槽。它从 light DOM 中获取没有放置在其他位置的所有节点。
 
-For example, let's add the default slot to our `<user-card>` that collects any unslotted information about the user:
+例如，让我们把默认插槽添加到 `<user-card>` ，该位置可以收集有关用户的所有未收集的信息：
 
 ```html run autorun="no-epub" untrusted height=140
 <script>
@@ -182,11 +182,11 @@ customElements.define('user-card', class extends HTMLElement {
 </user-card>
 ```
 
-All the unslotted light DOM content gets into the "Other information" fieldset.
+所有未被插入的 light DOM 内容进入 “其他信息” 字段集。
 
-Elements are appended to a slot one after another, so both unslotted pieces of information are in the default slot together.
+元素一个接一个的附加到插槽中，因此这两个未插入插槽的信息都在默认插槽中。
 
-The flattened DOM looks like this:
+扁平化的 DOM 看起来像这样：
 
 ```html
 <user-card>
