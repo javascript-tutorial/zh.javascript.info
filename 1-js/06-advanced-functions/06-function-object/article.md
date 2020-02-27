@@ -93,18 +93,18 @@ alert(many.length); // 2
 
 可以看到，余参不参与计数。
 
-属性 `length` 有时用于在函数中操作其它函数的内省。[introspection](https://en.wikipedia.org/wiki/Type_introspection)
+属性 `length` 有时用于对其他函数进行操作的函数的 [自我检查（introspection）](https://en.wikipedia.org/wiki/Type_introspection)。在函数中操作其它函数的内省。
 
-比如，下面的代码中函数 `ask` 接受一个询问的 `question` 和任意个会被调用的 `handler` 函数。
+比如，下面的代码中函数 `ask` 接受一个询问答案的参数 `question` 和可能包含任意数量 `handler` 的参数 `...handlers`。
 
-当用户提供了自己的答案后，函数会调用那些 `handlers`。我们可以传入两种 `handler`：
+当用户提供了自己的答案后，函数会调用那些 `handlers`。我们可以传入两种 `handlers`：
 
-- 一个无参函数，它在用户回答「是」时调用。
-- 一个有参函数，它在每种情况都会被调用，并且返回一个答案。
+- 一种是无参函数，它仅在用户回答给出积极的答案时被调用。
+- 一种是有参函数，它在两种情况都会被调用，并且返回一个答案。
 
-我们的想法是，一个简单无参的处理程序处理正向情况（最常见的变体），但也要能提供通用性的处理程序。
+为了正确地调用 `handler`，我们需要检查 `handler.length` 属性。
 
-为了正确的调用 `handlers`，我们检查属性 `length`：
+我们的想法是，我们用一个简单的无参数的 `hander` 语法用于 积极的回答（最常见的变体），处理程序处理正向情况（最常见的变体），但也要能够提供通用的 hander：
 
 ```js run
 function ask(question, ...handlers) {
@@ -120,12 +120,12 @@ function ask(question, ...handlers) {
 
 }
 
-// 正向回答，两个 handler 都会被调用
-// 负向回答，只有个第二个被调用
+// 对于积极的回答，两个 handler 都会被调用
+// 对于负面的回答，只有第二个 hander 被调用
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
-这种特别的情况就是所谓的[多态性](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) —— 根据参数的类型，或者根据在我们这种情况下的 `length` 来做不同的处理。这种思想在 JavaScript 的库里有应用。
+这种特别的情况就是所谓的 [多态性](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) —— 根据参数的类型，或者根据在我们的具体情景下的 `length` 来做不同的处理。这种思想在 JavaScript 的库里有应用。
 
 ## 自定义属性
 
