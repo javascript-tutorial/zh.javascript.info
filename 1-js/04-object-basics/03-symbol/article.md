@@ -141,7 +141,7 @@ let user = {
 
 ### Symbol 在 for..in 中会被跳过
 
-Symbolic 属性不参与 `for..in` 循环。
+Symbol 属性不参与 `for..in` 循环。
 
 例如：
 
