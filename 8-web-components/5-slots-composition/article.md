@@ -215,11 +215,11 @@ customElements.define('user-card', class extends HTMLElement {
 
 ## Menu example
 
-Now let's back to `<custom-menu>`, mentioned at the beginning of the chapter.
+现在让我们回到在本章开头提到的 `<custom-menu>` 。
 
-We can use slots to distribute elements.
+我们可以使用插槽来分配元素。
 
-Here's the markup for `<custom-menu>`:
+这是 `<custom-menu>`：
 
 ```html
 <custom-menu>
@@ -230,7 +230,7 @@ Here's the markup for `<custom-menu>`:
 </custom-menu>
 ```
 
-The shadow DOM template with proper slots:
+带有适当插槽的 shadow DOM 模版：
 
 ```html
 <template id="tmpl">
@@ -242,10 +242,10 @@ The shadow DOM template with proper slots:
 </template>
 ```
 
-1. `<span slot="title">` goes into `<slot name="title">`.
-2. There are many `<li slot="item">` in the template, but only one `<slot name="item">` in the template. That's perfectly normal. All elements with `slot="item"` get appended to `<slot name="item">` one after another, thus forming the list.
+1. `<span slot="title">` 进入 `<slot name="title">`。
+2. 模版中有许多 `<li slot="item">` ，但是只有一个 `<slot name="item">` 。完全正常。所有带有 `slot="item"` 的元素都一个接一个地附加到 `<slot name="item">` 上，从而形成列表。
 
-The flattened DOM becomes:
+扁平化的 DOM 变为：
 
 ```html
 <custom-menu>
@@ -266,9 +266,9 @@ The flattened DOM becomes:
 </custom-menu>
 ```
 
-One might notice that, in a valid DOM, `<li>` must be a direct child of `<ul>`. But that's flattened DOM, it describes how the component is rendered, such thing happens naturally here.
+可能会注意到，在有效的 DOM 中，`<li>` 必须是 `<ul>` 的直接子代。但这是扁平化的 DOM ，它描述了组件的渲染方式，这样的事情在这里自然发生。
 
-We just need to add a `click` handler to open/close the list, and the `<custom-menu>` is ready:
+我们只需要添加一个 `click` 事件处理程序来打开/关闭列表，并且 `<custom-menu>` 准备好了：
 
 ```js
 customElements.define('custom-menu', class extends HTMLElement {
@@ -287,15 +287,15 @@ customElements.define('custom-menu', class extends HTMLElement {
 });
 ```
 
-Here's the full demo:
+这是完整的演示：
 
 [iframe src="menu" height=140 edit]
 
-Of course, we can add more functionality to it: events, methods and so on.
+当然我们可以为它添加更多的功能：事件、方法等。
 
 ## Monitoring slots
 
-What if the outer code wants to add/remove menu items dynamically?
+如果外部代码想动态 添加/移除 菜单项怎么办？
 
 **The browser monitors slots and updates the rendering if slotted elements are added/removed.**
 
