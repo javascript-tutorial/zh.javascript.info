@@ -1,20 +1,20 @@
 # 装饰和转发，call/apply
 
-JavaScript 在处理函数时提供了非凡的灵活性。它们可以被传递，用作对象，现在我们将看到如何在它们之间**转发**并**装饰**它们。
+JavaScript 在处理函数时提供了非凡的灵活性。它们可以被传递，用作对象，现在我们将看到如何在它们之间 **转发（forward）** 调用并 **装饰（decorate）** 它们。
 
 ## 透明缓存
 
-假设我们有一个函数 `slow(x)` ，它是 CPU 重负载的，但它的结果是稳定的。换句话说，对于相同的 `x`，它总是返回相同的结果。
+假设我们有一个 CPU 重负载的函数 `slow(x)`，但它的结果是稳定的。换句话说，对于相同的 `x`，它总是返回相同的结果。
 
-如果经常调用该函数，我们可能希望缓存（记住）不同 `x` 的结果，以避免在重新计算上花费额外的时间。
+如果经常调用该函数，我们可能希望将结果缓存（记住）下来，以避免在重新计算上花费额外的时间。
 
-但是我们不是将这个功能添加到 `slow()` 中，而是创建一个包装器。正如我们将要看到的，这样做有很多好处。
+但是我们不是将这个功能添加到 `slow()` 中，而是创建一个包装器（wrapper）函数，该函数增加了缓存功能。正如我们将要看到的，这样做有很多好处。
 
 下面是代码和解释：
 
 ```js run
 function slow(x) {
-  // 这里可能会有重负载的CPU密集型工作
+  // 这里可能会有重负载的 CPU 密集型工作
   alert(`Called with ${x}`);
   return x;
 }
@@ -23,68 +23,65 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
-    if (cache.has(x)) { // 如果结果在 map 里
-      return cache.get(x); // 返回它
+    if (cache.has(x)) {    // 如果缓存中有对应的结果
+      return cache.get(x); // 从缓存中读取结果
     }
 
-    let result = func(x); // 否则就调用函数
+    let result = func(x);  // 否则就调用 func
 
-    cache.set(x, result); // 然后把结果缓存起来
+    cache.set(x, result);  // 然后将结果缓存（记住）下来
     return result;
   };
 }
 
 slow = cachingDecorator(slow);
 
-alert( slow(1) ); // slow(1) 被缓存起来了
+alert( slow(1) ); // slow(1) 被缓存下来了
 alert( "Again: " + slow(1) ); // 一样的
 
-alert( slow(2) ); // slow(2) 被缓存起来了
-alert( "Again: " + slow(2) ); // 也是一样
+alert( slow(2) ); // slow(2) 被缓存下来了
+alert( "Again: " + slow(2) ); // 和前面一行结果相同
 ```
 
-在上面的代码中，`cachingDecorator` 是一个**装饰器**：一个特殊的函数，它接受另一个函数并改变它的行为。
+在上面的代码中，`cachingDecorator` 是一个 **装饰器**：一个特殊的函数，它接受另一个函数并改变它的行为。
 
-我们的想法是，我们可以为任何函数调用 `cachingDecorator`，它将返回缓存包装器。这很好，因为我们有很多函数可以使用这样的特性，而我们需要做的就是将 `cachingDecorator` 应用于它们。
+其思想是，我们可以为任何函数调用 `cachingDecorator`，它将返回缓存包装器。这很棒啊，因为我们有很多函数可以使用这样的特性，而我们需要做的就是将 `cachingDecorator` 应用于它们。
 
 通过将缓存与主函数代码分开，我们还可以使主函数代码变得更简单。
 
-现在让我们详细了解它的工作原理吧。
-
-`cachingDecorator(func)` 的结果是一个“包装器”：`function(x)` 将 `func(x)` 的调用 "包装" 到缓存逻辑中：
+`cachingDecorator(func)` 的结果是一个“包装器”：`function(x)` 将 `func(x)` 的调用“包装”到缓存逻辑中：
 
 ![](decorator-makecaching-wrapper.svg)
 
-正如我们所看到的，包装器返回 `func(x)` "的结果"。从外部代码中，包装的 `slow` 函数仍然是一样的。它只是在其函数体中添加了一个缓存。
+从外部代码来看，包装的 `slow` 函数执行的仍然是与之前相同的操作。它只是在其行为上添加了缓存功能。
 
-总而言之，使用单独的 `cachingDecorator` 而不是改变 `slow` 本身的代码有几个好处：
+总而言之，使用分离的 `cachingDecorator` 而不是改变 `slow` 本身的代码有几个好处：
 
 - `cachingDecorator` 是可重用的。我们可以将它应用于另一个函数。
 - 缓存逻辑是独立的，它没有增加 `slow` 本身的复杂性（如果有的话）。
 - 如果需要，我们可以组合多个装饰器（其他装饰器将遵循同样的逻辑）。
 
+## 使用 "func.call" 设定上下文
 
-## 使用 “func.call” 作为上下文
+上面提到的缓存装饰器不适用于对象方法。
 
-上面提到的缓存装饰器不适合使用对象方法。
-
-例如，在下面的代码中，`worker.slow()` 装饰后停止工作：
+例如，在下面的代码中，`worker.slow()` 在装饰后停止工作：
 
 ```js run
-// 我们将让 work 缓存一个 slow 起来
+// 我们将对 worker.slow 的结果进行缓存
 let worker = {
   someMethod() {
     return 1;
   },
 
   slow(x) {
-    // 显然, 这里会有一个 CPU 重负载的任务
+    // 可怕的 CPU 过载任务
     alert("Called with " + x);
     return x * this.someMethod(); // (*)
   }
 };
 
-// 和之前一样的代码
+// 和之前例子中的代码相同
 function cachingDecorator(func) {
   let cache = new Map();
   return function(x) {
@@ -99,31 +96,31 @@ function cachingDecorator(func) {
   };
 }
 
-alert( worker.slow(1) ); // 之前的函数起作用了
+alert( worker.slow(1) ); // 原始方法有效
 
-worker.slow = cachingDecorator(worker.slow); // 现在让它缓存起来
+worker.slow = cachingDecorator(worker.slow); // 现在对其进行缓存
 
 *!*
-alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of undefined
+alert( worker.slow(2) ); // 蛤！Error: Cannot read property 'someMethod' of undefined
 */!*
 ```
 
-错误发生在试图访问 `this.someMethod` 并且失败的行 `(*)` 中。你能明白为什么吗？
+错误发生在试图访问 `this.someMethod` 并失败了的 `(*)` 行中。你能看出来为什么吗？
 
-原因是包装器将原始函数调用为 `(**)` 行中的 `func(x)`。并且，当这样调用时，函数得到 `this = undefined`。
+原因是包装器将原始函数调用为 `(**)` 行中的 `func(x)`。并且，当这样调用时，函数将得到 `this = undefined`。
 
-如果我们试图运行下面的代码，会观察到类似的问题：
+如果尝试运行下面这段代码，我们会观察到类似的问题：
 
 ```js
 let func = worker.slow;
 func(2);
 ```
 
-因此，包装器将调用传递给原始方法，但没有上下文 `this`。因此错误。
+因此，包装器将调用传递给原始方法，但没有上下文 `this`。因此，发生了错误。
 
-我们来解决这个问题。
+让我们来解决这个问题。
 
-有一个特殊的内置函数方法 [func.call(context, ...args)](mdn:js/Function/call)，允许调用一个显式设置 `this` 的函数。
+有一个特殊的内置函数方法 [func.call(context, ...args)](mdn:js/Function/call)，它允许调用一个显式设置 `this` 的函数。
 
 语法如下：
 
@@ -131,7 +128,7 @@ func(2);
 func.call(context, arg1, arg2, ...)
 ```
 
-它运行 `func`，提供的第一个参数作为 `this`，后面的作为参数。
+它运行 `func`，提供的第一个参数作为 `this`，后面的作为参数（arguments）。
 
 简单地说，这两个调用几乎相同：
 ```js
@@ -139,9 +136,9 @@ func(1, 2, 3);
 func.call(obj, 1, 2, 3)
 ```
 
-他们都调用的是 `func`，参数是 `1`，`2` 和 `3`。唯一的区别是 `func.call` 也将 `this` 设置为 `obj`。
+它们调用的都是 `func`，参数是 `1`、`2` 和 `3`。唯一的区别是 `func.call` 还会将 `this` 设置为 `obj`。
 
-例如，在下面的代码中，我们在不同对象的上下文中调用 `sayHi`:`sayHi.call(user)` 运行 `sayHi` 提供 `this=user`，下一行设置 `this=admin`：
+例如，在下面的代码中，我们在不同对象的上下文中调用 `sayHi`：`sayHi.call(user)` 运行 `sayHi` 并提供了 `this=user`，然后下一行设置 `this=admin`：
 
 ```js run
 function sayHi() {
@@ -152,11 +149,11 @@ let user = { name: "John" };
 let admin = { name: "Admin" };
 
 // 使用 call 将不同的对象传递为 "this"
-sayHi.call( user ); // this = John
-sayHi.call( admin ); // this = Admin
+sayHi.call( user ); // John
+sayHi.call( admin ); // Admin
 ```
 
-在这里我们用 `call` 用给定的上下文和短语调用 `say`：
+在这里我们用带有给定上下文和 phrase 的 `call` 调用 `say`：
 
 
 ```js run
@@ -166,13 +163,11 @@ function say(phrase) {
 
 let user = { name: "John" };
 
-// user becomes this, and "Hello" becomes the first argument
+// user 成为 this，"Hello" 成为第一个参数
 say.call( user, "Hello" ); // John: Hello
 ```
 
-
 在我们的例子中，我们可以在包装器中使用 `call` 将上下文传递给原始函数：
-
 
 ```js run
 let worker = {
@@ -193,26 +188,26 @@ function cachingDecorator(func) {
       return cache.get(x);
     }
 *!*
-    let result = func.call(this, x); // "this" 现在被正确的传递了
+    let result = func.call(this, x); // 现在 "this" 被正确地传递了
 */!*
     cache.set(x, result);
     return result;
   };
 }
 
-worker.slow = cachingDecorator(worker.slow); // 现在让他缓存起来
+worker.slow = cachingDecorator(worker.slow); // 现在对其进行缓存
 
-alert( worker.slow(2) ); // 生效了
-alert( worker.slow(2) ); // 生效了, 不会调用原始的函数了。被缓存起来了
+alert( worker.slow(2) ); // 工作正常
+alert( worker.slow(2) ); // 工作正常，没有调用原始函数（使用的缓存）
 ```
 
-现在一切都很好。
+现在一切都正常工作了。
 
-为了清楚地说明，让我们更深入地了解 `this` 是如何传递的：
+为了让大家理解地更清晰一些，让我们更深入地看看 `this` 是如何被传递的：
 
 1. 在经过装饰之后，`worker.slow` 现在是包装器 `function (x) { ... }`。
-2. 因此，当执行 `worker.slow(2)` 时，包装器将 `2` 作为参数并且 `this=worker`（它是点之前的对象）。
-3. 在包装器内部，假设结果尚未缓存，`func.call(this, x)` 将当前的 `this` (`=worker`) 和当前参数 (`=2`) 传递给原始方法。
+2. 因此，当 `worker.slow(2)` 执行时，包装器将 `2` 作为参数，并且 `this=worker`（它是点符号 `.` 之前的对象）。
+3. 在包装器内部，假设结果尚未缓存，`func.call(this, x)` 将当前的 `this`（`=worker`）和当前的参数（`=2`）传递给原始方法。
 
 ## 使用 “func.apply” 来传递多参数
 
