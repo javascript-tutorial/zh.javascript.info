@@ -4,7 +4,7 @@ importance: 5
 
 # 节流装饰器
 
-创建一个“节流”装饰器 `throttle(f, ms)` —— 返回一个包装器，每隔 “ms” 毫秒将调用最多传递给 `f` 一次。那些属于“冷却”时期的调用被忽略了。
+创建一个“节流”装饰器 `throttle(f, ms)` —— 返回一个包装器，最多每隔 `1ms` 将调用传递给 `f` 一次。那些属于“冷却”期的调用将被忽略。
 
 **与**`debounce` **的区别 —— 如果被忽略的调用是冷却期间的最后一次，那么它会在延迟结束时执行。**
 
@@ -31,8 +31,8 @@ importance: 5
 
 ```js
 function f(a) {
-  console.log(a)
-};
+  console.log(a);
+}
 
 // f1000 passes calls to f at maximum once per 1000 ms
 let f1000 = throttle(f, 1000);
@@ -45,4 +45,4 @@ f1000(3); // (throttling, 1000ms not out yet)
 // ...outputs 3, intermediate value 2 was ignored
 ```
 
-附：参数和传递给 `f1000` 的上下文 `this` 应该传递给原始的 `f`。
+P.S. 参数和传递给 `f1000` 的上下文 `this` 应该传递给原始的 `f`。
