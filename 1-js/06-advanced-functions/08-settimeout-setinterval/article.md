@@ -268,98 +268,40 @@ setTimeout(function run() {
   times.push(Date.now() - start); // 保存前一个调用的延时
 
   if (start + 100 < Date.now()) alert(times); // 100 毫秒之后，显示延时信息
-  else setTimeout(run); // 否则重新安排
+  else setTimeout(run); // 否则重新调度
 });
 
 // 输出示例：
 // 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
 ```
 
-第一次，定时器是立即执行的（正如规范里所描述的那样），接下来延时就出现了，像 `9, 15, 20, 24...`。（译者注：这里作者没说清楚，timer 数组里存放的是每次定时器运行的时刻与 start 的差值，所以数字只会越来越大，实际上前后调用的延时是数组值的差值。示例中前几次都是 1，所以延时为 0）
+第一次，定时器是立即执行的（正如规范里所描述的那样），接下来我们可以看到 `9, 15, 20, 24...`。两次调用之间必须经过 4 毫秒以上的强制延时。（译注：这里作者没说清楚，timer 数组里存放的是每次定时器运行的时刻与 start 的差值，所以数字只会越来越大，实际上前后调用的延时是数组值的差值。示例中前几次都是 1，所以延时为 0）
 
-这个限制也是因为历史原因以及很多脚本都依赖于这个机制才得以存在至今。
+如果我们使用 `setInterval` 而不是 `setTimeout`，也会发生类似的情况：`setInterval(f)` 会以零延时运行几次 `f`，然后以 4 毫秒以上的强制延时运行。
 
-服务端 JavaScript 就没这个限制了，而且除此之外还有其他办法来调度这种即时异步任务，例如 Node.JS 的 [process.nextTick](https://nodejs.org/api/process.html) 和 [setImmediate](https://nodejs.org/api/timers.html)。所以这个提醒也只是针对浏览器环境。
+这个限制来自“远古时代”，并且许多脚本都依赖于此，所以这个机制也就存在至今。
+
+对于服务端的 JavaScript，就没有这个限制，并且还有其他调度即时异步任务的方式。例如 Node.js 的 [setImmediate](https://nodejs.org/api/timers.html)。因此，这个提醒只是针对浏览器环境的。
 ````
-
-### 给浏览器渲染的机会
-
-行间脚本还有个益处，可以用来向用户展示进度条等。因为浏览器在所有脚本执行完后，才会开始“重绘（repainting）”过程。
-
-所以，如果运行一个非常耗时的函数，即便在这个函数中改变了文档内容，除非这个函数执行完，那么变化是不会立刻反映到页面上的。
-
-以下是一个示例：
-```html run
-<div id="progress"></div>
-
-<script>
-  let i = 0;
-
-  function count() {
-    for (let j = 0; j < 1e6; j++) {
-      i++;
-      // 将当前 i 值放到 <div> 内
-      // （innerHTML 在以后具体章节会讲到，这行代码看懂应该没问题）
-      progress.innerHTML = i;
-    }
-  }
-
-  count();
-</script>
-```
-
-运行后会发现，`i` 值只在整个计数过程完成后才显示。
-
-接下来用 `setTimeout` 对任务进行分割，这样就能在每一轮运行的间隙观察到变化了，效果要好得多：
-
-```html run
-<div id="progress"></div>
-
-<script>
-  let i = 0;
-
-  function count() {
-
-    // 每次只完成一部分 (*)
-    do {
-      i++;
-      progress.innerHTML = i;
-    } while (i % 1e3 != 0);
-
-    if (i < 1e9) {
-      setTimeout(count, 0);
-    }
-
-  }
-
-  count();
-</script>
-```
-
-现在就可以观察到 `<div>` 里 `i` 值的增长过程了。
 
 ## 总结
 
-- `setInterval(func, delay, ...args)` 和 `setTimeout(func, delay, ...args)` 可以让 `func` 定期或经历一段延时后一次性执行。
-- 要取消函数的执行需要调用 `clearInterval/clearTimeout`，只需将 `setInterval/setTimeout` 返回的值传入即可。
-- 嵌套 `setTimeout` 比 `setInterval` 用起来更加灵活，同时也能保证每一轮执行的最小时间间隔。
-- 0 延时调度 `setTimeout(...,0)` 用来安排在当前代码执行完时，需要尽快执行的函数。
+- `setTimeout(func, delay, ...args)` 和 `setInterval(func, delay, ...args)` 方法允许我们在 `delay` 毫秒之后运行 `func` 一次或以 `delay` 毫秒为时间间隔周期性运行 `func`。
+- 要取消函数的执行，我们应该调用 `clearInterval/clearTimeout`，并将 `setInterval/setTimeout` 返回的值作为入参传入。
+- 嵌套的 `setTimeout` 比 `setInterval` 用起来更加灵活，允许我们更精确地设置两次执行之间的时间。
+- 零延时调度 `setTimeout(func, 0)`（与 `setTimeout(func)` 相同）用来调度需要尽快执行的调用，但是会在当前脚本执行完成后进行调用。
+- 浏览器会将 `setTimeout` 或 `setInterval` 的五层或更多层嵌套调用（调用五次之后）的最小延时限制在 4ms。这是历史遗留问题。
 
-`setTimeout(...,0)` 的一些用法示例：
-- 将耗费 CPU 的任务分割成多块，这样脚本运行不会进入“挂起”状态。
-- 进程繁忙时也能让浏览器抽身做其它事情（例如绘制进度条）。
+请注意，所有的调度方法都不能 **保证** 确切的延时。
 
-有一点需要注意，所有的调度方法都不能**保证**延时的准确性，所以在调度代码中，万不可依赖它。
-
-浏览器内部的定时器会因各种原因而出现降速情况，譬如：
+例如，浏览器内的计时器可能由于许多原因而变慢：
 - CPU 过载。
-- 浏览器页签切换到了后台模式。
-- 笔记本电脑用的是电池供电（译者注：使用电池会以降低性能为代价提升续航）。
+- 浏览器页签处于后台模式。
+- 笔记本电脑用的是电池供电（译注：使用电池供电会以降低性能为代价提升续航）。
 
-如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。
+所有这些因素，可能会将定时器的最小计时器分辨率（最小延迟）增加到 300ms 甚至 1000ms，具体以浏览器及其设置为准。
 
 <!--
-
 
 ### 分割 CPU 高占用的任务
 
@@ -464,5 +406,61 @@ count();
 因为知道 `count()` 不会只执行一次，所以这一次在计数开始前就安排好下一次计数任务。
 
 如果你自己跑一遍，会观察到这次的耗时要短上不少。
+
+### 给浏览器渲染的机会
+
+行间脚本还有个益处，可以用来向用户展示进度条等。因为浏览器在所有脚本执行完后，才会开始“重绘（repainting）”过程。
+
+所以，如果运行一个非常耗时的函数，即便在这个函数中改变了文档内容，除非这个函数执行完，那么变化是不会立刻反映到页面上的。
+
+以下是一个示例：
+```html run
+<div id="progress"></div>
+
+<script>
+  let i = 0;
+
+  function count() {
+    for (let j = 0; j < 1e6; j++) {
+      i++;
+      // 将当前 i 值放到 <div> 内
+      // （innerHTML 在以后具体章节会讲到，这行代码看懂应该没问题）
+      progress.innerHTML = i;
+    }
+  }
+
+  count();
+</script>
+```
+
+运行后会发现，`i` 值只在整个计数过程完成后才显示。
+
+接下来用 `setTimeout` 对任务进行分割，这样就能在每一轮运行的间隙观察到变化了，效果要好得多：
+
+```html run
+<div id="progress"></div>
+
+<script>
+  let i = 0;
+
+  function count() {
+
+    // 每次只完成一部分 (*)
+    do {
+      i++;
+      progress.innerHTML = i;
+    } while (i % 1e3 != 0);
+
+    if (i < 1e9) {
+      setTimeout(count, 0);
+    }
+
+  }
+
+  count();
+</script>
+```
+
+现在就可以观察到 `<div>` 里 `i` 值的增长过程了。
 
 -->
