@@ -334,9 +334,9 @@ function hash(args) {
 }
 ```
 
-截至目前，它仅适用于两个参数。如果它可以适配任何数量的 `args` 会更好。
+截至目前，它仅适用于两个参数。如果它可以适用于任何数量的 `args` 就更好了。
 
-自然的解决方案是使用 [arr.join](mdn:js/Array/join) 函数:
+自然的解决方案是使用 [arr.join](mdn:js/Array/join) 方法：
 
 ```js
 function hash(args) {
@@ -344,14 +344,14 @@ function hash(args) {
 }
 ```
 
-...不幸的是，那不行。虽然我们调用 `hash(arguments)` 和 `arguments` 对象，它既可迭代又像数组一样，但它并不是真正的数组。
+……不幸的是，这不行。因为我们正在调用 `hash(arguments)`，`arguments` 对象既是可迭代对象又是类数组对象，但它并不是真正的数组。
 
 所以在它上面调用 `join` 会失败，我们可以在下面看到：
 
 ```js run
 function hash() {
 *!*
-  alert( arguments.join() ); // 报错：arguments.join 不是函数
+  alert( arguments.join() ); // Error: arguments.join is not a function
 */!*
 }
 
@@ -370,126 +370,56 @@ function hash() {
 hash(1, 2);
 ```
 
-这个技巧被称为 **方法借用**。
+这个技巧被称为 **方法借用（method borrowing）**。
 
-我们从常规数组 `[].join` 中获取（借用）连接方法。并使用 `[].join.call` 在 `arguments` 的上下文中运行它。
+我们从常规数组 `[].join` 中获取（借用）join 方法，并使用 `[].join.call` 在 `arguments` 的上下文中运行它。
 
 它为什么有效？
 
-那是因为本地方法 `arr.join(glue)` 的内部算法非常简单。
+那是因为原生方法 `arr.join(glue)` 的内部算法非常简单。
 
-从规范中得出几乎“原样”：
+从规范中几乎“按原样”解释如下：
 
 1. 让 `glue` 成为第一个参数，如果没有参数，则使用逗号 `","`。
 2. 让 `result` 为空字符串。
 3. 将 `this[0]` 附加到 `result`。
 4. 附加 `glue` 和 `this[1]`。
 5. 附加 `glue` 和 `this[2]`。
-6. ...直到 `this.length` 项目粘在一起。
+6. ……以此类推，直到 `this.length` 项目被粘在一起。
 7. 返回 `result`。
 
-因此，从技术上讲，它需要 `this` 并将 `this[0]`，`this[1]` ...... 等加在一起。它的编写方式是允许任何类似数组的 `this`（不是巧合，许多方法遵循这种做法）。这就是为什么它也适用于 `this=arguments`。
+因此，从技术上讲，它需要 `this` 并将 `this[0]`，`this[1]` ……等 join 在一起。它的编写方式是故意允许任何类数组的 `this` 的（不是巧合，很多方法都遵循这种做法）。这就是为什么它也可以和 `this=arguments` 一起使用。
+
+## 装饰器和函数属性
+
+通常，用装饰的函数替换一个函数或一个方法是安全的，除了一件小东西。如果原始函数有属性，例如 `func.calledCount` 或其他，则装饰后的函数将不再提供这些属性。因为这是装饰器。因此，如果有人使用它们，那么就需要小心。
+
+例如，在上面的示例中，如果 `slow` 函数具有任何属性，而 `cachingDecorator(slow)` 则是一个没有这些属性的包装器。
+
+一些包装器可能会提供自己的属性。例如，装饰器会计算一个函数被调用了多少次以及花费了多少时间，并通过包装器属性公开（expose）这些信息。
+
+存在一种创建装饰器的方法，该装饰器可保留对函数属性的访问权限，但这需要使用特殊的 `Proxy` 对象来包装函数。我们将在后面的 <info:proxy#proxy-apply> 中学习它。
 
 ## 总结
 
-**装饰器**是一个改变函数行为的包装器。主要工作仍由该函数来完成。
+**装饰器** 是一个围绕改变函数行为的包装器。主要工作仍由该函数来完成。
 
-除了一件小事，使用装饰器来替代函数或方法通常都是安全的。如果原始函数具有属性，例如 `func.calledCount` 或者其他什么，则装饰的函数将不提供它们。因为那是一个包装器。因此，如果使用它们，需要小心。一些装饰器提供它们自己的属性。
+装饰器可以被看作是可以添加到函数的 "features" 或 "aspects"。我们可以添加一个或添加多个。而这一切都无需更改其代码！
 
-装饰器可以被视为可以添加到函数中的“特征”或“方面”。我们可以添加一个或添加许多。而这一切都没有改变它的代码！
-
-为了实现 `cachingDecorator`，我们研究了方法：
+为了实现 `cachingDecorator`，我们研究了以下方法：
 
 - [func.call(context, arg1, arg2...)](mdn:js/Function/call) —— 用给定的上下文和参数调用 `func`。
-- [func.apply(context, args)](mdn:js/Function/apply) —— 调用 `func` 将 `context` 作为 `this` 和类似数组的 `args` 传递给参数列表。
+- [func.apply(context, args)](mdn:js/Function/apply) —— 调用 `func` 将 `context` 作为 `this` 和类数组的 `args` 传递给参数列表。
 
-通用 **呼叫转移** 通常使用 `apply` 完成：
+通用的 **呼叫转移（call forwarding）** 通常是使用 `apply` 完成的：
 
 ```js
 let wrapper = function() {
   return original.apply(this, arguments);
-}
-```
-
-当我们从一个对象中获取一个方法并在另一个对象的上下文中“调用”它时，我们也看到了一个 **方法借用** 的例子。采用数组方法并将它们应用于参数是很常见的。另一种方法是使用静态参数对象，它是一个真正的数组。
-
-
-在 js 领域里有很多装饰器的使用方法 。快通过解决本章的任务来检查你掌握它们的程度吧。
-
-
-
-
-要解决的第二个任务是如何将许多参数传递给 `func`。目前，包装器 `function(x)` 假设一个参数，`func.call(this, x)` 传递它。
-
-在这里我们可以使用另一种内置方法 [func.apply](mdn:js/Function/apply).
-
-语法如下：
-
-```js
-func.apply(context, args)
-```
-
-它运行 `func` 设置 `this=context` 并使用类似数组的对象 `args` 作为参数列表。
-
-
-例如，这两个调用几乎相同：
-
-```js
-func(1, 2, 3);
-func.apply(context, [1, 2, 3])
-```
-
-两个都运行 `func` 给定的参数是 `1,2,3`。但是 `apply` 也设置了 `this = context`。
-
-例如，这里 `say` 用 `this=user` 和 `messageData` 作为参数列表调用：
-
-```js run
-function say(time, phrase) {
-  alert(`[${time}] ${this.name}: ${phrase}`);
-}
-
-let user = { name: "John" };
-
-let messageData = ['10:00', 'Hello']; // 成为时间和短语
-
-*!*
-// user 成为 this，messageData 作为参数列表传递 (time, phrase)
-say.apply(user, messageData); // [10:00] John: Hello (this=user)
-*/!*
-```
-
-`call` 和 `apply` 之间唯一的语法区别是 `call` 接受一个参数列表，而 `apply` 则接受带有一个类似数组的对象。
-
-我们已经知道了 <info:rest-parameters-spread-operator> 一章中的扩展运算符 `...`，它可以将数组（或任何可迭代的）作为参数列表传递。因此，如果我们将它与 `call` 一起使用，就可以实现与 `apply` 几乎相同的功能。
-
-这两个调用结果几乎相同：
-
-```js
-let args = [1, 2, 3];
-
-*!*
-func.call(context, ...args); // 使用 spread 运算符将数组作为参数列表传递
-func.apply(context, args);   // 与使用 apply 相同
-*/!*
-```
-
-如果我们仔细观察，那么 `call` 和 `apply` 的使用会有一些细微的差别。
-
-- 扩展运算符 `...` 允许将 **可迭代的** `参数列表` 作为列表传递给 `call`。
-- `apply` 只接受 **类似数组一样的** `参数列表`。
-
-所以，这些调用方式相互补充。我们期望有一个可迭代的 `call` 实现，我们也期望有一个类似数组，`apply` 的实现。
-
-如果 `参数列表` 既可迭代又像数组一样，就像真正的数组一样，那么我们在技术上可以使用它们中的任何一个，但是 `apply` 可能会更快，因为它只是一个操作。大多数 JavaScript 引擎内部优化比一对 `call + spread` 更好。
-
-`apply` 最重要的用途之一是将调用传递给另一个函数，如下所示：
-
-```js
-let wrapper = function() {
-  return anotherFunction.apply(this, arguments);
 };
 ```
 
-这叫做 **呼叫转移**。`wrapper` 传递它获得的所有内容：上下文 `this` 和 `anotherFunction` 的参数并返回其结果。
+我们也可以看到一个 **方法借用（method borrowing）** 的例子，就是我们从一个对象中获取一个方法，并在另一个对象的上下文中“调用”它。采用数组方法并将它们应用于参数 `arguments` 是很常见的。另一种方法是使用 Rest 参数对象，该对象是一个真正的数组。
 
-当外部代码调用这样的 `wrapper` 时，它与原始函数的调用无法区分。
+
+在 JavaScript 领域里有很多装饰器。通过解决本章的任务，来检查你掌握它们的程度吧。
