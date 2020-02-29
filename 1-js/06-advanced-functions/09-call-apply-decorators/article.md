@@ -209,11 +209,11 @@ alert( worker.slow(2) ); // 工作正常，没有调用原始函数（使用的�
 2. 因此，当 `worker.slow(2)` 执行时，包装器将 `2` 作为参数，并且 `this=worker`（它是点符号 `.` 之前的对象）。
 3. 在包装器内部，假设结果尚未缓存，`func.call(this, x)` 将当前的 `this`（`=worker`）和当前的参数（`=2`）传递给原始方法。
 
-## 使用 “func.apply” 来传递多参数
+## 使用 "func.apply" 来传递多参数
 
-现在让我们让 `cachingDecorator` 变得更加通用。直到现在它只使用单参数函数。
+现在让我们把 `cachingDecorator` 写得更加通用。到现在为止，它只能用于单参数函数。
 
-现在如何缓存多参数 `worker.slow` 方法？
+现在如何缓存多参数 `worker.slow` 方法呢？
 
 ```js
 let worker = {
@@ -222,99 +222,23 @@ let worker = {
   }
 };
 
-// should remember same-argument calls
+// 应该记住相同参数的调用
 worker.slow = cachingDecorator(worker.slow);
 ```
 
-我们这里有两个要解决的任务。
+之前，对于单个参数 `x`，我们可以只使用 `cache.set(x, result)` 来保存结果，并使用 `cache.get(x)` 来检索并获取结果。但是现在，我们需要记住 **参数组合** `(min,max)` 的结果。原生的 `Map` 仅将单个值作为键（key）。
 
-首先是如何在 `cache` map 中使用参数 `min` 和 `max` 作为键。以前，对于单个参数 `x`，我们可以只使用 `cache.set(x, result)` 来保存结果，并使用 `cache.get(x)` 来检索它。但是现在我们需要记住参数组合 * `(min,max)` 的结果。原生 `Map` 仅将单个值作为键。
+这儿有许多解决方案可以实现：
 
-有许多解决方案可以实现：
+1. 实现一个新的（或使用第三方的）类似 map 的更通用并且允许多个键的数据结构。
+2. 使用嵌套 map：`cache.set(min)` 将是一个存储（键值）对 `(max, result)` 的 `Map`。所以我们可以使用 `cache.get(min).get(max)` 来获取 `result`。
+3. 将两个值合并为一个。为了灵活性，我们可以允许为装饰器提供一个“哈希函数”，该函数知道如何将多个值合并为一个值。
 
-1. 实现一个新的（或使用第三方）类似 map 的数据结构，它更通用并允许多键。
-2. 使用嵌套映射：`cache.set(min)` 将是一个存储对 `(max, result)` 的 `Map`。所以我们可以将 `result` 改为 `cache.get(min).get(max)`。
-3. 将两个值合并为一个。在我们的特定情况下，我们可以使用字符串 “min，max” 作为 `Map` 键。为了灵活性，我们可以允许为装饰器提供**散列函数**，它知道如何从多个中创建一个值。
+对于许多实际应用，第三种方式就足够了，所以我们就用这个吧。
 
+当然，我们需要将 `func.call(this, x)` 替换成 `func.call(this, ...arguments)`，以将所有参数传递给包装的函数调用，而不仅仅是只传递第一个参数。
 
-对于许多实际应用，第三种方式已经足够好，所以我们就用这个吧。
-
-要解决的第二个任务是如何将许多参数传递给 `func`。目前，包装器 `function(x)` 假设一个参数，`func.call(this, x)` 传递它。
-
-在这里我们可以使用另一种内置方法 [func.apply](mdn:js/Function/apply).
-
-语法如下：
-
-```js
-func.apply(context, args)
-```
-
-它运行 `func` 设置 `this=context` 并使用类似数组的对象 `args` 作为参数列表。
-
-
-例如，这两个调用几乎相同：
-
-```js
-func(1, 2, 3);
-func.apply(context, [1, 2, 3])
-```
-
-两个都运行 `func` 给定的参数是 `1,2,3`。但是 `apply` 也设置了 `this = context`。
-
-例如，这里 `say` 用 `this=user` 和 `messageData` 作为参数列表调用：
-
-```js run
-function say(time, phrase) {
-  alert(`[${time}] ${this.name}: ${phrase}`);
-}
-
-let user = { name: "John" };
-
-let messageData = ['10:00', 'Hello']; // 成为时间和短语
-
-*!*
-// user 成为 this，messageData 作为参数列表传递 (time, phrase)
-say.apply(user, messageData); // [10:00] John: Hello (this=user)
-*/!*
-```
-
-`call` 和 `apply` 之间唯一的语法区别是 `call` 接受一个参数列表，而 `apply` 则接受带有一个类似数组的对象。
-
-我们已经知道了 <info:rest-parameters-spread-operator> 一章中的扩展运算符 `...`，它可以将数组（或任何可迭代的）作为参数列表传递。因此，如果我们将它与 `call` 一起使用，就可以实现与 `apply` 几乎相同的功能。
-
-这两个调用结果几乎相同：
-
-```js
-let args = [1, 2, 3];
-
-*!*
-func.call(context, ...args); // 使用 spread 运算符将数组作为参数列表传递
-func.apply(context, args);   // 与使用 apply 相同
-*/!*
-```
-
-如果我们仔细观察，那么 `call` 和 `apply` 的使用会有一些细微的差别。
-
-- 扩展运算符 `...` 允许将 **可迭代的** `参数列表` 作为列表传递给 `call`。
-- `apply` 只接受 **类似数组一样的** `参数列表`。
-
-所以，这些调用方式相互补充。我们期望有一个可迭代的 `call` 实现，我们也期望有一个类似数组，`apply` 的实现。
-
-如果 `参数列表` 既可迭代又像数组一样，就像真正的数组一样，那么我们在技术上可以使用它们中的任何一个，但是 `apply` 可能会更快，因为它只是一个操作。大多数 JavaScript 引擎内部优化比一对 `call + spread` 更好。
-
-`apply` 最重要的用途之一是将调用传递给另一个函数，如下所示：
-
-```js
-let wrapper = function() {
-  return anotherFunction.apply(this, arguments);
-};
-```
-
-这叫做 **呼叫转移**。`wrapper` 传递它获得的所有内容：上下文 `this` 和 `anotherFunction` 的参数并返回其结果。
-
-当外部代码调用这样的 `wrapper` 时，它与原始函数的调用无法区分。
-
-现在让我们把它全部加入到更强大的 `cachingDecorator` 中：
+这是一个更强大的 `cachingDecorator`：
 
 ```js run
 let worker = {
@@ -335,7 +259,7 @@ function cachingDecorator(func, hash) {
     }
 
 *!*
-    let result = func.apply(this, arguments); // (**)
+    let result = func.call(this, ...arguments); // (**)
 */!*
 
     cache.set(key, result);
@@ -353,17 +277,56 @@ alert( worker.slow(3, 5) ); // works
 alert( "Again " + worker.slow(3, 5) ); // same (cached)
 ```
 
-现在，包装器可以使用任意数量的参数进行操作。
+现在这个包装器可以处理任意数量的参数了（尽管哈希函数还需要被进行调整以允许任意数量的参数。一种有趣的处理方法将在下面讲到）。
 
 这里有两个变化：
 
-- 在 `(*)` 行中它调用 `hash` 来从 `arguments` 创建一个单独的键。这里我们使用一个简单的 “连接” 函数，将参数 `(3, 5)` 转换为键 “3,5”。更复杂的情况可能需要其他散列函数。
-- 然后 `(**)` 使用 `func.apply` 传递上下文和包装器获得的所有参数（无论多少）到原始函数。
+- 在 `(*)` 行中它调用 `hash` 来从 `arguments` 创建一个单独的键。这里我们使用一个简单的“连接”函数，将参数 `(3, 5)` 转换为键 `"3,5"`。更复杂的情况可能需要其他哈希函数。
+- 然后 `(**)` 行使用 `func.call(this, ...arguments)` 将包装器获得的上下文和所有参数（不仅仅是第一个参数）传递给原始函数。
 
+我们可以使用 `func.apply(this, arguments)` 代替 `func.call(this, ...arguments)`。
+
+内建方法 [func.apply](mdn:js/Function/apply) 的语法是：
+
+```js
+func.apply(context, args)
+```
+
+它运行 `func` 设置 `this=context`，并使用类数组对象 `args` 作为参数列表（arguments）。
+
+`call` 和 `apply` 之间唯一的语法区别是，`call` 期望一个参数列表，而 `apply` 期望一个包含这些参数的类数组对象。
+
+因此，这两个调用几乎是等效的：
+
+```js
+func.call(context, ...args); // 使用 spread 语法将数组作为列表传递
+func.apply(context, args);   // 与使用 call 相同
+```
+
+这里只有很小的区别：
+
+- Spread 语法 `...` 允许将 **可迭代对象** `args` 作为列表传递给 `call`。
+- `apply` 仅接受 **类数组对象** `args`。
+
+因此，这些调用可以相互补充。当我们期望可迭代对象时，使用 `call`，当我们期望类数组对象时，使用 `apply`。
+
+对于即可迭代又是类数组的对象，例如一个真正的数组，从技术上讲我们使用 `call` 或 `apply` 都行，但是 `apply` 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。
+
+将所有参数连同上下文一起传递给另一个函数被称为“呼叫转移（call forwarding）”。
+
+这是它的最简形式：
+
+```js
+let wrapper = function() {
+  return func.apply(this, arguments);
+};
+```
+
+当外部代码调用这种包装器 `wrapper` 时，它与原始函数 `func` 的调用是无法区分的。
 
 ## 借用一种方法 [#method-borrowing]
 
-现在让我们在散列函数中做一个小改进：
+现在，让我们对哈希函数再做一个较小的改进：
 
 ```js
 function hash(args) {
@@ -452,3 +415,81 @@ let wrapper = function() {
 
 
 在 js 领域里有很多装饰器的使用方法 。快通过解决本章的任务来检查你掌握它们的程度吧。
+
+
+
+
+要解决的第二个任务是如何将许多参数传递给 `func`。目前，包装器 `function(x)` 假设一个参数，`func.call(this, x)` 传递它。
+
+在这里我们可以使用另一种内置方法 [func.apply](mdn:js/Function/apply).
+
+语法如下：
+
+```js
+func.apply(context, args)
+```
+
+它运行 `func` 设置 `this=context` 并使用类似数组的对象 `args` 作为参数列表。
+
+
+例如，这两个调用几乎相同：
+
+```js
+func(1, 2, 3);
+func.apply(context, [1, 2, 3])
+```
+
+两个都运行 `func` 给定的参数是 `1,2,3`。但是 `apply` 也设置了 `this = context`。
+
+例如，这里 `say` 用 `this=user` 和 `messageData` 作为参数列表调用：
+
+```js run
+function say(time, phrase) {
+  alert(`[${time}] ${this.name}: ${phrase}`);
+}
+
+let user = { name: "John" };
+
+let messageData = ['10:00', 'Hello']; // 成为时间和短语
+
+*!*
+// user 成为 this，messageData 作为参数列表传递 (time, phrase)
+say.apply(user, messageData); // [10:00] John: Hello (this=user)
+*/!*
+```
+
+`call` 和 `apply` 之间唯一的语法区别是 `call` 接受一个参数列表，而 `apply` 则接受带有一个类似数组的对象。
+
+我们已经知道了 <info:rest-parameters-spread-operator> 一章中的扩展运算符 `...`，它可以将数组（或任何可迭代的）作为参数列表传递。因此，如果我们将它与 `call` 一起使用，就可以实现与 `apply` 几乎相同的功能。
+
+这两个调用结果几乎相同：
+
+```js
+let args = [1, 2, 3];
+
+*!*
+func.call(context, ...args); // 使用 spread 运算符将数组作为参数列表传递
+func.apply(context, args);   // 与使用 apply 相同
+*/!*
+```
+
+如果我们仔细观察，那么 `call` 和 `apply` 的使用会有一些细微的差别。
+
+- 扩展运算符 `...` 允许将 **可迭代的** `参数列表` 作为列表传递给 `call`。
+- `apply` 只接受 **类似数组一样的** `参数列表`。
+
+所以，这些调用方式相互补充。我们期望有一个可迭代的 `call` 实现，我们也期望有一个类似数组，`apply` 的实现。
+
+如果 `参数列表` 既可迭代又像数组一样，就像真正的数组一样，那么我们在技术上可以使用它们中的任何一个，但是 `apply` 可能会更快，因为它只是一个操作。大多数 JavaScript 引擎内部优化比一对 `call + spread` 更好。
+
+`apply` 最重要的用途之一是将调用传递给另一个函数，如下所示：
+
+```js
+let wrapper = function() {
+  return anotherFunction.apply(this, arguments);
+};
+```
+
+这叫做 **呼叫转移**。`wrapper` 传递它获得的所有内容：上下文 `this` 和 `anotherFunction` 的参数并返回其结果。
+
+当外部代码调用这样的 `wrapper` 时，它与原始函数的调用无法区分。
