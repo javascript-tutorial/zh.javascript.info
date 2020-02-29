@@ -4,32 +4,32 @@
 
 目前有两种方式可以实现：
 
-- `setTimeout` 允许我们将函数的执行推迟到一段时间间隔之后再执行。
+- `setTimeout` 允许我们将函数推迟到一段时间间隔之后再执行。
 - `setInterval` 允许我们重复运行一个函数，从一段时间间隔之后开始运行，之后以该时间间隔连续重复运行该函数。
 
-这两个方法并不存在于 JavaScript 的规范中。但是大多数运行环境都有内置的调度器，而且也提供了这两个方法的实现。目前来讲，所有浏览器，包括 Node.js 都支持这两个方法。
+这两个方法并不在 JavaScript 的规范中。但是大多数运行环境都有内置的调度器，并且提供了这些方法。目前来讲，所有浏览器以及 Node.js 都支持这两个方法。
 
 ## setTimeout
 
-用法：
+语法：
 
 ```js
-let timerId = setTimeout(func|code, delay[, arg1, arg2...])
+let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
 ```
 
 参数说明：
 
 `func|code`
-：想要执行的函数或代码字符串。
-一般传入的都是函数，介于某些历史原因，代码字符串也支持，但是不建议使用这种方式。
+: 想要执行的函数或代码字符串。
+一般传入的都是函数。由于某些历史原因，支持传入代码字符串，但是不建议这样做。
 
 `delay`
-：执行前的延时，以毫秒为单位（1000 毫秒 = 1 秒）；
+: 执行前的延时，以毫秒为单位（1000 毫秒 = 1 秒），默认值是 0；
 
 `arg1`，`arg2`...
-：要传入被执行函数（或代码字符串）的参数列表（IE9 以下不支持）
+: 要传入被执行函数（或代码字符串）的参数列表（IE9 以下不支持）
 
-在下面这个示例中，`sayHi()` 方法会在 1 秒后执行：
+例如，在下面这个示例中，`sayHi()` 方法会在 1 秒后执行：
 
 ```js run
 function sayHi() {
@@ -61,25 +61,25 @@ setTimeout(sayHi, 1000, "Hello", "John"); // Hello, John
 setTimeout("alert('Hello')", 1000);
 ```
 
-但是，毕竟这种方式并不推崇，所以建议还是用函数格式：
+但是，不建议使用字符串，我们可以使用箭头函数代替它们，如下所示：
 
 ```js run no-beautify
 setTimeout(() => alert('Hello'), 1000);
 ```
 
-````smart header="要函数，但不要执行函数"
-新手有时候会误将一对括号 `()` 加在函数后面：
+````smart header="传入一个函数，但不要执行它"
+新手开发者有时候会误将一对括号 `()` 加在函数后面：
 
 ```js
 // 这样是不对的！
 setTimeout(sayHi(), 1000);
 ```
-为什么不行呢，因为 `setTimeout` 需要的是函数的引用。而这里的 `sayHi()` 很明显是在执行函数，所以实际上传入 `setTimeout` 的是**函数的执行结果**。在这个例子中，`sayHi()` 的执行结果是 `undefined`（也就是说函数没有返回任何结果），所以实际上什么也没有调度。
+这样不行，因为 `setTimeout` 期望得到一个对函数的引用。而这里的 `sayHi()` 很明显是在执行函数，所以实际上传入 `setTimeout` 的是 **函数的执行结果**。在这个例子中，`sayHi()` 的执行结果是 `undefined`（也就是说函数没有返回任何结果），所以实际上什么也没有调度。
 ````
 
 ### 用 clearTimeout 来取消调度
 
-`setTimeout` 在调用时会返回一个“定时器 id”—— 例子中为变量 `timerId` 持有，接下来用它取消调度。
+`setTimeout` 在调用时会返回一个“定时器标识符（timer identifier）”，在我们的例子中是 `timerId`，我们可以使用它来取消执行。
 
 取消调度的语法：
 
@@ -92,31 +92,31 @@ clearTimeout(timerId);
 
 ```js run no-beautify
 let timerId = setTimeout(() => alert("never happens"), 1000);
-alert(timerId); // 定时器 id
+alert(timerId); // 定时器标识符
 
 clearTimeout(timerId);
-alert(timerId); // 还是那个 id 没变（并没有因为调度被取消了而变成 null）
+alert(timerId); // 还是这个标识符（并没有因为调度被取消了而变成 null）
 ```
 
-从 `alert` 的输出来看，定时器 id 在浏览器中是一串数字，然而在其他运行环境下可能是别的东西。就比如 Node.js 返回的是一个定时器对象，这个对象包含一系列方法。
+从 `alert` 的输出来看，在浏览器中，定时器标识符是一个数字。在其他环境中，可能是其他的东西。例如 Node.js 返回的是一个定时器对象，这个对象包含一系列方法。
 
-我再重申一遍，这俩方法没有统一的规范定义，但也无伤大雅。
+我再重申一遍，这些方法没有统一的规范定义，所以这没什么问题。
 
 针对浏览器环境，定时器在 HTML5 的标准中有详细描述，详见 [timers section](https://www.w3.org/TR/html5/webappapis.html#timers)。
 
 ## setInterval
 
-`setInterval` 方法和 `setTimeout` 的用法是相同的：
+`setInterval` 方法和 `setTimeout` 的语法相同：
 
 ```js
-let timerId = setInterval(func|code, delay[, arg1, arg2...])
+let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
 ```
 
-所有参数的意义也是相同的，不过相对于 `setTimeout` 只执行一次，`setInterval` 是每间隔一定时间周期性执行。
+所有参数的意义也是相同的。不过与 `setTimeout` 只执行一次不同，`setInterval` 是每间隔给定的时间周期性执行。
 
 想要阻止后续调用，我们需要调用 `clearInterval(timerId)`。
 
-下面的例子中，每间隔 2 秒就会输出一条消息。5 秒之后，输出停止：
+下面的例子将每间隔 2 秒就会输出一条消息。5 秒之后，输出停止：
 
 ```js run
 // 每 2 秒重复一次
@@ -126,20 +126,20 @@ let timerId = setInterval(() => alert('tick'), 2000);
 setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
 ```
 
-```smart header="弹窗会让 Chrome/Opera/Safari 内的时钟停止"
-在众多浏览器中，IE 和 Firefox 在显示 `alert/confirm/prompt` 时，内部的定时器仍旧会继续滴答，但是在 Chrome、Opera 和 Safari 中，内部的定时器会暂停/冻结。
+```smart header="alert 弹窗显示的时候计时器依然在进行计时"
+在大多数浏览器中，包括 Chrome 和 Firefox，在显示 `alert/confirm/prompt` 弹窗时，内部的定时器仍旧会继续“嘀嗒”。
 
-所以，在执行以上代码时，如果在一定时间内没有关掉 `alert` 弹窗，那么在你关闭弹窗后，Firefox/IE 会立即显示下一个 `alert` 弹窗（前提是距离上一次执行超过了 2 秒），而 Chrome/Opera/Safari 这三个则需要再等待 2 秒以上的时间才会再显示（因为在 `alert` 弹窗期间，定时器并没有滴答）。
+所以，在运行上面的代码时，如果在一定时间内没有关掉 `alert` 弹窗，那么在你关闭弹窗后，下一个 `alert` 会立即显示。两次 `alert` 之间的时间间隔将小于 2 秒。
 ```
 
-## 递归版 setTimeout
+## 嵌套的 setTimeout
 
 周期性调度有两种方式。
 
-一种是使用 `setInterval`，另外一种就是递归版的 `setTimeout`，就像这样：
+一种是使用 `setInterval`，另外一种就是嵌套的 `setTimeout`，就像这样：
 
 ```js
-/** 这是一种：
+/** instead of:
 let timerId = setInterval(() => alert('tick'), 2000);
 */
 
@@ -151,18 +151,18 @@ let timerId = setTimeout(function tick() {
 }, 2000);
 ```
 
-`setTimeout` 在这一次函数执行完时，立即安排下一次调用 `(*)`。
+上面这个 `setTimeout` 在当前这一次函数执行完时 `(*)` 立即安排下一次调用。
 
-递归版的 `setTimeout` 其实要比 `setInterval` 灵活的多，采用这种方式可以根据当前执行结果来安排下一次调用。
+嵌套的 `setTimeout` 要比 `setInterval` 灵活得多。采用这种方式可以根据当前执行结果来安排下一次调用，因此下一次调用可以与当前这一次不同。
 
-譬如，我们要实现一个服务，每间隔 5 秒向服务器请求数据，如果服务器过载了，那么就要降低请求频率，比如将间隔增加到 10, 20, 40 秒等。
+例如，我们要实现一个服务（server），每间隔 5 秒向服务器发送一个数据请求，但如果服务器过载了，那么就要降低请求频率，比如将间隔增加到 10、20、40 秒等。
 
 以下是伪代码：
 ```js
 let delay = 5000;
 
 let timerId = setTimeout(function request() {
-  ...send request...
+  ...发送请求...
 
   if (request failed due to server overload) {
     // 下一次执行的间隔是当前的 2 倍
@@ -175,69 +175,69 @@ let timerId = setTimeout(function request() {
 ```
 
 
-如果不时有一些占用 CPU 的任务，我们可以通过衡量执行时间来安排下次调用是应该提前还是推迟。
+并且，如果我们调度的函数占用大量的 CPU，那么我们可以测量执行所需要花费的时间，并安排下次调用是应该提前还是推迟。
 
-**递归版 `setTimeout` 能保证每次执行间的延时都是准确的，`setInterval` 却不能够。**
+**嵌套的 `setTimeout` 能够精确地设置两次执行之间的延迟，而 `setInterval` 却不能。**
 
-下面来比较两段代码，一个是用 `setInterval`：
+下面来比较这两个代码片段。第一个使用的是 `setInterval`：
 
 ```js
 let i = 1;
 setInterval(function() {
-  func(i);
+  func(i++);
 }, 100);
 ```
 
-另一个用递归版 `setTimeout`：
+第二个使用的是嵌套的 `setTimeout`：
 
 ```js
 let i = 1;
 setTimeout(function run() {
-  func(i);
+  func(i++);
   setTimeout(run, 100);
 }, 100);
 ```
 
-对 `setInterval` 而言，内部的调度器会每间隔 100 毫秒执行一次 `func(i)`：
+对 `setInterval` 而言，内部的调度器会每间隔 100 毫秒执行一次 `func(i++)`：
 
 ![](setinterval-interval.svg)
 
-注意到了？
+注意到了吗？
 
-**使用 `setInterval` 时，`func` 函数的实际调用间隔要比代码给出的间隔时间要短**
+**使用 `setInterval` 时，`func` 函数的实际调用间隔要比代码中设定的时间间隔要短！**
 
-这也是无可厚非，因为 `func` 的执行时间抵消掉了一部分间隔时间。
+这也是正常的，因为 `func` 的执行所花费的时间“消耗”了一部分间隔时间。
 
-还有一种可能，如果 `func` 的执行时间超出了 100 毫秒呢？
+也可能出现这种情况，就是 `func` 的执行所花费的时间比我们预期的时间更长，并且超出了 100 毫秒。
 
-这时候，JavaScript 引擎会等待 `func` 执行完，然后向调度器询问是否时间已到，如果是，那么**立马**再执行一次
+在这种情况下，JavaScript 引擎会等待 `func` 执行完成，然后检查调度器，如果时间到了，则 **立即** 再次执行它。
 
-极端情况下，如果函数每次执行时间都超过 `delay` 设置的时间，那么每次调用之间将毫无停顿。
+极端情况下，如果函数每次执行时间都超过 `delay` 设置的时间，那么每次调用之间将完全没有停顿。
 
-再来看递归版 `setTimeout`：
+这是嵌套的 `setTimeout` 的示意图：
 
 ![](settimeout-interval.svg)
 
-**递归的 `setTimeout` 就能确保延时的固定（这里用的是 100 毫秒）。**
+**嵌套的 `setTimeout` 就能确保延时的固定（这里是 100 毫秒）。**
 
 这是因为下一次调用是在前一次调用完成时再调度的。
 
-````smart header="垃圾回收"
-当一个函数传入 `setInterval/setTimeout` 时，内部会为其创建一个引用，保存在调度器中。这样，即使这个函数没有被引用，也能防止垃圾回收器（GC）将其回收。
+````smart header="垃圾回收和 setInterval/setTimeout 回调（callback）"
+当一个函数传入 `setInterval/setTimeout` 时，将为其创建一个内部引用，并保存在调度器中。这样，即使这个函数没有其他引用，也能防止垃圾回收器（GC）将其回收。
 
 ```js
 // 在调度器调用这个函数之前，这个函数将一直存在于内存中
 setTimeout(function() {...}, 100);
 ```
 
-对于 `setInterval`，传入的函数也是存在于内存中，直到 `clearInterval` 被调用。
+对于 `setInterval`，传入的函数也是一直存在于内存中，直到 `clearInterval` 被调用。
 
-这里还要提到一个副作用。如果函数引用了外部变量（译者注：闭包），那么只要这个函数还存活着，外部变量也会随之存活，这样就可能会占用多于方法自身所需要的内存。所以，如果某个函数不需要再被调度，即使是个很小的函数，最好也将其取消。
+这里还要提到一个副作用。如果函数引用了外部变量（译注：闭包），那么只要这个函数还存在，外部变量也会随之存在。它们可能比函数本身占用更多的内存。因此，当我们不再需要调度函数时，最好取消它，即使这是个（占用内存）很小的函数。
 ````
 
-## setTimeout(...,0)
+## 零延时的 setTimeout
 
-还有一种特殊的用法：`setTimeout(func, 0)`。
+这儿有一种特殊的用法：`setTimeout(func, 0)`，或者仅仅是 `setTimeout(func)`。
 
 这样调度可以让 `func` 尽快执行，但是只有在当前代码执行完后，调度器才会对其进行调用。
 
