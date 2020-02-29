@@ -177,7 +177,7 @@ let timerId = setTimeout(function request() {
 
 并且，如果我们调度的函数占用大量的 CPU，那么我们可以测量执行所需要花费的时间，并安排下次调用是应该提前还是推迟。
 
-**嵌套的 `setTimeout` 能够精确地设置两次执行之间的延迟，而 `setInterval` 却不能。**
+**嵌套的 `setTimeout` 能够精确地设置两次执行之间的延时，而 `setInterval` 却不能。**
 
 下面来比较这两个代码片段。第一个使用的是 `setInterval`：
 
@@ -239,19 +239,127 @@ setTimeout(function() {...}, 100);
 
 这儿有一种特殊的用法：`setTimeout(func, 0)`，或者仅仅是 `setTimeout(func)`。
 
-这样调度可以让 `func` 尽快执行，但是只有在当前代码执行完后，调度器才会对其进行调用。
+这样调度可以让 `func` 尽快执行。但是只有在当前正在执行的脚本执行完成后，调度器才会调用它。
 
-也就是说，函数是在刚好当前代码执行完后执行，换而言之，那就是**异步**。
+也就是说，该函数被安排在当前脚本执行完成“之后”立即执行。
 
-下面例子中，代码会先输出 "Hello"，然后紧接着输出 "World"：
+例如，下面这段代码会先输出 "Hello"，然后立即输出 "World"：
 
 ```js run
-setTimeout(() => alert("World"), 0);
+setTimeout(() => alert("World"));
 
 alert("Hello");
 ```
 
-第一行代码“将调用安排到日程 0 毫秒处”，但是调度器只有在当前代码执行完毕时才会去“检查日程”，所以 `"Hello"` 先输出，然后才输出 `"World"`。
+第一行代码“将调用安排到日程（calendar）0 毫秒处”。但是调度器只有在当前脚本执行完毕时才会去“检查日程”，所以先输出 `"Hello"`，然后才输出 `"World"`。
+
+此外，还有与浏览器相关的 0 延时 timeout 的高级用例，我们将在 <info:event-loop> 一章中详细讲解。
+
+````smart header="零延时实际上不为零（在浏览器中）"
+在浏览器环境下，嵌套定时器的运行频率是受限制的。根据 [HTML5 标准](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers) 所讲：“经过 5 重嵌套定时器之后，时间间隔被强制设定为至少 4 毫秒”。
+
+让我们用下面的示例来看看这到底是什么意思。其中 `setTimeout` 调用会以零延时重新安排自身的调用。每次调用都会在 `times` 数组中记录上一次调用的实际时间。那么真正的延迟是什么样的？让我们来看看：
+
+```js run
+let start = Date.now();
+let times = [];
+
+setTimeout(function run() {
+  times.push(Date.now() - start); // 保存前一个调用的延时
+
+  if (start + 100 < Date.now()) alert(times); // 100 毫秒之后，显示延时信息
+  else setTimeout(run); // 否则重新安排
+});
+
+// 输出示例：
+// 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
+```
+
+第一次，定时器是立即执行的（正如规范里所描述的那样），接下来延时就出现了，像 `9, 15, 20, 24...`。（译者注：这里作者没说清楚，timer 数组里存放的是每次定时器运行的时刻与 start 的差值，所以数字只会越来越大，实际上前后调用的延时是数组值的差值。示例中前几次都是 1，所以延时为 0）
+
+这个限制也是因为历史原因以及很多脚本都依赖于这个机制才得以存在至今。
+
+服务端 JavaScript 就没这个限制了，而且除此之外还有其他办法来调度这种即时异步任务，例如 Node.JS 的 [process.nextTick](https://nodejs.org/api/process.html) 和 [setImmediate](https://nodejs.org/api/timers.html)。所以这个提醒也只是针对浏览器环境。
+````
+
+### 给浏览器渲染的机会
+
+行间脚本还有个益处，可以用来向用户展示进度条等。因为浏览器在所有脚本执行完后，才会开始“重绘（repainting）”过程。
+
+所以，如果运行一个非常耗时的函数，即便在这个函数中改变了文档内容，除非这个函数执行完，那么变化是不会立刻反映到页面上的。
+
+以下是一个示例：
+```html run
+<div id="progress"></div>
+
+<script>
+  let i = 0;
+
+  function count() {
+    for (let j = 0; j < 1e6; j++) {
+      i++;
+      // 将当前 i 值放到 <div> 内
+      // （innerHTML 在以后具体章节会讲到，这行代码看懂应该没问题）
+      progress.innerHTML = i;
+    }
+  }
+
+  count();
+</script>
+```
+
+运行后会发现，`i` 值只在整个计数过程完成后才显示。
+
+接下来用 `setTimeout` 对任务进行分割，这样就能在每一轮运行的间隙观察到变化了，效果要好得多：
+
+```html run
+<div id="progress"></div>
+
+<script>
+  let i = 0;
+
+  function count() {
+
+    // 每次只完成一部分 (*)
+    do {
+      i++;
+      progress.innerHTML = i;
+    } while (i % 1e3 != 0);
+
+    if (i < 1e9) {
+      setTimeout(count, 0);
+    }
+
+  }
+
+  count();
+</script>
+```
+
+现在就可以观察到 `<div>` 里 `i` 值的增长过程了。
+
+## 总结
+
+- `setInterval(func, delay, ...args)` 和 `setTimeout(func, delay, ...args)` 可以让 `func` 定期或经历一段延时后一次性执行。
+- 要取消函数的执行需要调用 `clearInterval/clearTimeout`，只需将 `setInterval/setTimeout` 返回的值传入即可。
+- 嵌套 `setTimeout` 比 `setInterval` 用起来更加灵活，同时也能保证每一轮执行的最小时间间隔。
+- 0 延时调度 `setTimeout(...,0)` 用来安排在当前代码执行完时，需要尽快执行的函数。
+
+`setTimeout(...,0)` 的一些用法示例：
+- 将耗费 CPU 的任务分割成多块，这样脚本运行不会进入“挂起”状态。
+- 进程繁忙时也能让浏览器抽身做其它事情（例如绘制进度条）。
+
+有一点需要注意，所有的调度方法都不能**保证**延时的准确性，所以在调度代码中，万不可依赖它。
+
+浏览器内部的定时器会因各种原因而出现降速情况，譬如：
+- CPU 过载。
+- 浏览器页签切换到了后台模式。
+- 笔记本电脑用的是电池供电（译者注：使用电池会以降低性能为代价提升续航）。
+
+如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。
+
+<!--
+
 
 ### 分割 CPU 高占用的任务
 
@@ -357,105 +465,4 @@ count();
 
 如果你自己跑一遍，会观察到这次的耗时要短上不少。
 
-````smart header="浏览器内，嵌套定时器运行的最小延时"
-在浏览器环境下，嵌套定时器的运行频率是受限制的。根据 [HTML5 标准](https://www.w3.org/TR/html5/webappapis.html#timers) 所言：“经过 5 重嵌套之后，定时器运行间隔强制要求至少达到 4 毫秒”。
-
-下面用具体示例来阐述。其中 `setTimeout` 每次都在 `0ms` 后就再安排一次递归，每次调用都会在 `times` 数组中记录上一次调用的实际时间。所以，最终延时如何？下面来揭晓：
-
-```js run
-let start = Date.now();
-let times = [];
-
-setTimeout(function run() {
-  times.push(Date.now() - start); // 保存上次调用的延时
-
-  if (start + 100 < Date.now()) alert(times); // 100 毫秒之后，显示延时信息
-  else setTimeout(run, 0); // 没超过 100 毫秒则再进行调度
-}, 0);
-
-// 示例输出：
-// 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
-```
-
-第一次，定时器是立即执行的（正如规范里所描述的那样），接下来延时就出现了，像 `9, 15, 20, 24...`。（译者注：这里作者没说清楚，timer 数组里存放的是每次定时器运行的时刻与 start 的差值，所以数字只会越来越大，实际上前后调用的延时是数组值的差值。示例中前几次都是 1，所以延时为 0）
-
-这个限制也是因为历史原因以及很多脚本都依赖于这个机制才得以存在至今。
-
-服务端 JavaScript 就没这个限制了，而且除此之外还有其他办法来调度这种即时异步任务，例如 Node.JS 的 [process.nextTick](https://nodejs.org/api/process.html) 和 [setImmediate](https://nodejs.org/api/timers.html)。所以这个提醒也只是针对浏览器环境。
-````
-
-### 给浏览器渲染的机会
-
-行间脚本还有个益处，可以用来向用户展示进度条等。因为浏览器在所有脚本执行完后，才会开始“重绘（repainting）”过程。
-
-所以，如果运行一个非常耗时的函数，即便在这个函数中改变了文档内容，除非这个函数执行完，那么变化是不会立刻反映到页面上的。
-
-以下是一个示例：
-```html run
-<div id="progress"></div>
-
-<script>
-  let i = 0;
-
-  function count() {
-    for (let j = 0; j < 1e6; j++) {
-      i++;
-      // 将当前 i 值放到 <div> 内
-      // （innerHTML 在以后具体章节会讲到，这行代码看懂应该没问题）
-      progress.innerHTML = i;
-    }
-  }
-
-  count();
-</script>
-```
-
-运行后会发现，`i` 值只在整个计数过程完成后才显示。
-
-接下来用 `setTimeout` 对任务进行分割，这样就能在每一轮运行的间隙观察到变化了，效果要好得多：
-
-```html run
-<div id="progress"></div>
-
-<script>
-  let i = 0;
-
-  function count() {
-
-    // 每次只完成一部分 (*)
-    do {
-      i++;
-      progress.innerHTML = i;
-    } while (i % 1e3 != 0);
-
-    if (i < 1e9) {
-      setTimeout(count, 0);
-    }
-
-  }
-
-  count();
-</script>
-```
-
-现在就可以观察到 `<div>` 里 `i` 值的增长过程了。
-
-## 总结
-
-- `setInterval(func, delay, ...args)` 和 `setTimeout(func, delay, ...args)` 可以让 `func` 定期或经历一段延时后一次性执行。
-- 要取消函数的执行需要调用 `clearInterval/clearTimeout`，只需将 `setInterval/setTimeout` 返回的值传入即可。
-- 嵌套 `setTimeout` 比 `setInterval` 用起来更加灵活，同时也能保证每一轮执行的最小时间间隔。
-- 0 延时调度 `setTimeout(...,0)` 用来安排在当前代码执行完时，需要尽快执行的函数。
-
-`setTimeout(...,0)` 的一些用法示例：
-- 将耗费 CPU 的任务分割成多块，这样脚本运行不会进入“挂起”状态。
-- 进程繁忙时也能让浏览器抽身做其它事情（例如绘制进度条）。
-
-有一点需要注意，所有的调度方法都不能**保证**延时的准确性，所以在调度代码中，万不可依赖它。
-
-浏览器内部的定时器会因各种原因而出现降速情况，譬如：
-- CPU 过载。
-- 浏览器页签切换到了后台模式。
-- 笔记本电脑用的是电池供电（译者注：使用电池会以降低性能为代价提升续航）。
-
-如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。
+-->
