@@ -205,21 +205,21 @@ for (let key in user) {
 JavaScript 库还提供了方便批量绑定的函数，例如 lodash 中的 [_.bindAll(obj)](http://lodash.com/docs#bindAll)。
 ````
 
-## Partial functions
+## 偏函数（Partial functions）
 
-Until now we have only been talking about binding `this`. Let's take it a step further.
+到现在位置，我们只在谈论绑定 `this`。让我们再深入一步。
 
-We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+我们不仅可以绑定 `this`，还可以绑定参数（arguments）。虽然很少这么做，但有时它可以派上用场。
 
-The full syntax of `bind`:
+`bind` 的完整语法如下：
 
 ```js
 let bound = func.bind(context, [arg1], [arg2], ...);
 ```
 
-It allows to bind context as `this` and starting arguments of the function.
+它允许将上下文绑定为 `this`，以及绑定函数的起始参数。
 
-For instance, we have a multiplication function `mul(a, b)`:
+例如，我们有一个乘法函数 `mul(a, b)`：
 
 ```js
 function mul(a, b) {
@@ -227,7 +227,7 @@ function mul(a, b) {
 }
 ```
 
-Let's use `bind` to create a function `double` on its base:
+让我们使用 `bind` 在该函数基础上创建一个 `double` 函数：
 
 ```js run
 function mul(a, b) {
@@ -243,13 +243,13 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
-The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+对 `mul.bind(null, 2)` 的调用创建了一个新函数 `double`，它将调用传递到 `mul`，将 `null` 绑定为上下文，并将 `2` 绑定为第一个参数。并且，参数（arguments）均被“原样”传递。
 
-That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+它被称为 [偏函数应用程序（partial function application）](https://en.wikipedia.org/wiki/Partial_application) —— 我们通过绑定先有函数的一些参数来创建一个新函数。
 
-Please note that here we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+请注意，这里我们实际上没有用到 `this`。但是 `bind` 需要它，所以我们必须传入 `null` 之类的东西。
 
-The function `triple` in the code below triples the value:
+下面这段代码中的 `triple` 函数将值乘了三倍：
 
 ```js run
 function mul(a, b) {
@@ -265,23 +265,23 @@ alert( triple(4) ); // = mul(3, 4) = 12
 alert( triple(5) ); // = mul(3, 5) = 15
 ```
 
-Why do we usually make a partial function?
+为什么我们通常会创建一个偏函数？
 
-The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide the first argument every time as it's fixed with `bind`.
+好处是我们可以创建一个具有可读性高的名字（`double`，`triple`）的独立函数。我们可以使用它，并且不必每次都提供一个参数，因为参数是被绑定了的。
 
-In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+另一方面，当我们有一个非常通用的函数，并希望有一个通用型更低的该函数的变体时，偏函数会非常有用。
 
-For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+例如，我们有一个函数 `send(from, to, text)`。然后，在一个 `user` 对象的内部，我们可能希望对它使用 `send` 的偏函数变体：从当前 user 发送 `sendTo(to, text)`。
 
-## Going partial without context
+## 在没有上下文情况下的 partial
 
-What if we'd like to fix some arguments, but not the context `this`? For example, for an object method.
+当我们想绑定一些参数（arguments），但是这里没有上下文 `this`，应该怎么办？例如，对于一个对象方法。
 
-The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+原生的 `bind` 不允许这种情况。我们不可以省略上下文直接跳到参数（arguments）。
 
-Fortunately, a function `partial` for binding only arguments can be easily implemented.
+幸运的是，仅绑定参数（arguments）的函数 `partial` 比较容易实现。
 
-Like this:
+像这样：
 
 ```js run
 *!*
@@ -292,7 +292,7 @@ function partial(func, ...argsBound) {
 }
 */!*
 
-// Usage:
+// 用法：
 let user = {
   firstName: "John",
   say(time, phrase) {
@@ -300,7 +300,7 @@ let user = {
   }
 };
 
-// add a partial method with fixed time
+// 添加一个带有绑定时间的 partial 方法
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
@@ -308,7 +308,7 @@ user.sayNow("Hello");
 // [10:00] John: Hello!
 ```
 
-The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
+`partial(func[, arg1, arg2...])` 调用的结果是一个包装器 `(*)`，它调用 `func` 并具有以下内容：
 - Same `this` as it gets (for `user.sayNow` call it's `user`)
 - Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
 - Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
