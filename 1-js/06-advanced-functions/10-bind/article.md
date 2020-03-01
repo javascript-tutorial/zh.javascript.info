@@ -11,9 +11,9 @@ libs:
 
 ## 丢失 "this"
 
-我们已经知道，在 JavaScript 中，`this` 很容易就会丢失。一旦一个方法被传递到另一个与对象分离的地方 —— `this` 就丢失了。
+我们已经看到了丢失 `this` 的例子。一旦方法被传递到与对象分开的某个地方 —— `this` 就丢失。
 
-下面是使用 `setTimeout` 时 `this` 时如何丢失的：
+下面是使用 `setTimeout` 时 `this` 是如何丢失的：
 
 ```js run
 let user = {
@@ -28,22 +28,22 @@ setTimeout(user.sayHi, 1000); // Hello, undefined!
 */!*
 ```
 
-正如我们看到的那样，`this.firstName` 不是输出为 "John"，而是 `undefined`！
+正如我们所看到的，输出没有像 `this.firstName` 那样显示 "John"，而显示了 `undefined`！
 
-这是因为 `setTimeout` 获取到了函数 `user.sayHi`，但它和对象分离开了。最后一行可以写为：
+这是因为 `setTimeout` 获取到了函数 `user.sayHi`，但它和对象分离开了。最后一行可以被重写为：
 
 ```js
 let f = user.sayHi;
-setTimeout(f, 1000); // 用户上下文丢失
+setTimeout(f, 1000); // 丢失了 user 上下文
 ```
 
-浏览器中的方法 `setTimeout` 有些特殊：它为函数的调用设定了 `this=window`（对于 Node.JS，`this` 则会成为时间对象，但其实 this 到底变成什么并不十分重要）。所以对于 `this.firstName` 它其实试图获取的是 `window.firstName`，这个变量并不存在。在其他一些类似的情况下，通常 `this` 就会成为 `undefined`。
+浏览器中的 `setTimeout` 方法有些特殊：它为函数调用设定了 `this=window`（对于 Node.js，`this` 则会变为计时器（timer）对象，但在这儿并不重要）。所以对于 `this.firstName`，它其实试图获取的是 `window.firstName`，这个变量并不存在。在其他类似的情况下，通常 `this` 会变为 `undefined`。
 
-这个需求很典型——我们希望将一个对象的方法传递到别的地方（这里——是为了调度程序）然后调用。如何确保它将会在正确的上下文中被调用呢？
+这个需求很典型 —— 我们想将一个对象方法传递到别的地方（这里 —— 是为了调度程序），然后在该位置调用它。如何确保在正确的上下文中调用它？
 
 ## 解决方案 1：包装层
 
-最简单的解决方案就是使用一个包装函数：
+最简单的解决方案是使用一个包装函数：
 
 ```js run
 let user = {
@@ -60,7 +60,7 @@ setTimeout(function() {
 */!*
 ```
 
-现在它可以正常工作了，因为它从外部词法环境中获取到了 `user`，就可以正常的调用方法了。
+现在它可以正常工作了，因为它从外部词法环境中获取到了 `user`，就可以正常地调用方法了。
 
 相同的功能，但是更简短：
 
@@ -68,9 +68,9 @@ setTimeout(function() {
 setTimeout(() => user.sayHi(), 1000); // Hello, John!
 ```
 
-看起来不错，但是代码结构看上去有一些漏洞。
+看起来不错，但是我们的代码结构中出现了一个小漏洞。
 
-如果在 `setTimeout` 触发之前（一个一秒的延迟）`user` 就改变了值又会怎么样呢？那么，突然间，函数就会被的错误地调用。
+如果在 `setTimeout` 触发之前（有一秒的延迟！）`user` 的值改变了怎么办？那么，突然间，它将调用错误的对象！
 
 
 ```js run
@@ -83,31 +83,32 @@ let user = {
 
 setTimeout(() => user.sayHi(), 1000);
 
-// ...在一秒之内
-user = { sayHi() { alert("Another user in setTimeout!"); } };
+// ……user 的值在不到 1 秒的时间内发生了改变
+user = {
+  sayHi() { alert("Another user in setTimeout!"); }
+};
 
-// 在 setTimeout 中是另外一个 user 了？！？
+// Another user in setTimeout!
 ```
 
 下一个解决方案保证了这样的事情不会发生。
 
 ## 解决方案 2：bind
 
-函数对象提供了一个内建方法 [bind](mdn:js/Function/bind)，它可以固定住 `this`。
+函数提供了一个内建方法 [bind](mdn:js/Function/bind)，它可以绑定 `this`。
 
 基本的语法是：
 
 ```js
 // 稍后将会有更复杂的语法
 let boundFunc = func.bind(context);
-````
+```
 
-`func.bind(context)` 的结果是一个特殊的像函数一样的“外来对象”，它可以像函数一样被调用并且透明的将调用传递给 `func` 并设置 `this=context`。
+`func.bind(context)` 的结果是一个特殊的类似于函数的“怪异对象（exotic object）”，它可以像函数一样被调用，并且透明地（transparently）将调用传递给 `func` 并设定 `this=context`。
 
+换句话说，`boundFunc` 调用就像绑定了 `this` 的 `func`。
 
-换句话说，调用 `boundFunc` 就像是调用 `func` 并且固定住了 `this`。
-
-举个例子，这里 `funcUser` 将调用传递给了 `func` 同时 `this=user`：
+举个例子，这里的 `funcUser` 将调用传递给了 `func` 同时 `this=user`：
 
 ```js run  
 let user = {
@@ -124,9 +125,9 @@ funcUser(); // John
 */!*
 ```
 
-这里 `func.bind(user)` 作为 `func` 的“边界变量”，同时固定了 `this=user`。
+这里的 `func.bind(user)` 作为 `func` 的“绑定的（bound）变体”，绑定了 `this=user`。
 
-所有的参数都会被传递给初始的 `func`，就像本来就是调用了它一样，例如：
+所有的参数（arguments）都被“原样”传递给了初始的 `func`，例如：
 
 ```js run  
 let user = {
@@ -137,15 +138,15 @@ function func(phrase) {
   alert(phrase + ', ' + this.firstName);
 }
 
-// 将 this 绑定给 user
+// 将 this 绑定到 user
 let funcUser = func.bind(user);
 
 *!*
-funcUser("Hello"); // Hello, John（参数 "Hello" 被传递了，并且 this=user）
+funcUser("Hello"); // Hello, John（参数 "Hello" 被传递，并且 this=user）
 */!*
 ```
 
-下面我们来尝试一个对象的方法：
+现在我们来尝试一个对象方法：
 
 
 ```js run
@@ -160,14 +161,21 @@ let user = {
 let sayHi = user.sayHi.bind(user); // (*)
 */!*
 
+// 可以在没有对象（译注：与对象分离）的情况下运行它
 sayHi(); // Hello, John!
 
 setTimeout(sayHi, 1000); // Hello, John!
+
+// 即使 user 的值在不到 1 秒内发生了改变
+// sayHi 还是会使用预先绑定（pre-bound）的值
+user = {
+  sayHi() { alert("Another user in setTimeout!"); }
+};
 ```
 
-在 `(*)` 之间的行中，我们取得了方法 `user.sayHi` 然后将它和 `user` 绑定。`sayHi` 是一个“边界”方法，它可以单独调用或者传递给 `setTimeout` —— 都没关系，函数上下文都将会是正确的。
+在 `(*)` 行，我们取了方法 `user.sayHi` 并将其绑定到 `user`。`sayHi` 是一个“绑定后（bound）”的方法，它可以被单独调用，也可以被传递给 `setTimeout` —— 都没关系，函数上下文都会是正确的。
 
-这里我们能够看到参数都被像正常调用原函数一样被传递了进去，但是 `this` 被 `bind` 方法固定了：
+这里我们能够看到参数（arguments）都被“原样”传递了，只是 `this` 被 `bind` 绑定了：
 
 ```js run
 let user = {
@@ -179,12 +187,12 @@ let user = {
 
 let say = user.say.bind(user);
 
-say("Hello"); // Hello, John ("Hello" 参数被传递给了函数 say)
-say("Bye"); // Bye, John ("Bye" 被传递给了函数 say)
+say("Hello"); // Hello, John（参数 "Hello" 被传递给了 say）
+say("Bye"); // Bye, John（参数 "Bye" 被传递给了 say）
 ```
 
-````smart header="Convenience method: `bindAll`"
-如果一个对象有很多方法，并且我们都打算将它们传递出去使用，那么我们可以在一个循环中完成绑定：
+````smart header="便捷方法：`bindAll`"
+如果一个对象有很多方法，并且我们都打算将它们都传递出去，那么我们可以在一个循环中完成所有方法的绑定：
 
 ```js
 for (let key in user) {
@@ -194,11 +202,127 @@ for (let key in user) {
 }
 ```
 
-JavaScript 库同样提供了方法来便捷的批量绑定，例如 lodash 中的 [_.bindAll(obj)](http://lodash.com/docs#bindAll)。
+JavaScript 库还提供了方便批量绑定的函数，例如 lodash 中的 [_.bindAll(obj)](http://lodash.com/docs#bindAll)。
 ````
+
+## Partial functions
+
+Until now we have only been talking about binding `this`. Let's take it a step further.
+
+We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+
+The full syntax of `bind`:
+
+```js
+let bound = func.bind(context, [arg1], [arg2], ...);
+```
+
+It allows to bind context as `this` and starting arguments of the function.
+
+For instance, we have a multiplication function `mul(a, b)`:
+
+```js
+function mul(a, b) {
+  return a * b;
+}
+```
+
+Let's use `bind` to create a function `double` on its base:
+
+```js run
+function mul(a, b) {
+  return a * b;
+}
+
+*!*
+let double = mul.bind(null, 2);
+*/!*
+
+alert( double(3) ); // = mul(2, 3) = 6
+alert( double(4) ); // = mul(2, 4) = 8
+alert( double(5) ); // = mul(2, 5) = 10
+```
+
+The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+
+That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+
+Please note that here we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+
+The function `triple` in the code below triples the value:
+
+```js run
+function mul(a, b) {
+  return a * b;
+}
+
+*!*
+let triple = mul.bind(null, 3);
+*/!*
+
+alert( triple(3) ); // = mul(3, 3) = 9
+alert( triple(4) ); // = mul(3, 4) = 12
+alert( triple(5) ); // = mul(3, 5) = 15
+```
+
+Why do we usually make a partial function?
+
+The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide the first argument every time as it's fixed with `bind`.
+
+In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+
+For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+
+## Going partial without context
+
+What if we'd like to fix some arguments, but not the context `this`? For example, for an object method.
+
+The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+
+Fortunately, a function `partial` for binding only arguments can be easily implemented.
+
+Like this:
+
+```js run
+*!*
+function partial(func, ...argsBound) {
+  return function(...args) { // (*)
+    return func.call(this, ...argsBound, ...args);
+  }
+}
+*/!*
+
+// Usage:
+let user = {
+  firstName: "John",
+  say(time, phrase) {
+    alert(`[${time}] ${this.firstName}: ${phrase}!`);
+  }
+};
+
+// add a partial method with fixed time
+user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
+
+user.sayNow("Hello");
+// Something like:
+// [10:00] John: Hello!
+```
+
+The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
+- Same `this` as it gets (for `user.sayNow` call it's `user`)
+- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
+- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+
+So easy to do it with the spread syntax, right?
+
+Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
 
 ## 总结
 
-方法 `func.bind(context, ...args)` 返回了一个函数 `func` 的“边界变量”，它固定了上下文 `this` 和参数（如果给定了）。
+方法 `func.bind(context, ...args)` 返回函数 `func` 的“绑定的（bound）变体”，它绑定了上下文 `this` 和第一个参数（如果给定了）。
 
-通常我们应用 `bind` 来固定对象方法的 `this`，这样我们就可以把它们传递到其他地方使用。例如，传递给 `setTimeout`。在现代开发中，需要使用`bind`的原因有很多，我们接下来将会遇到它们的。
+通常我们应用 `bind` 来绑定对象方法的 `this`，这样我们就可以把它们传递到其他地方使用。例如，传递给 `setTimeout`。
+
+When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
+
+Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
