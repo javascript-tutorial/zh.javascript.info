@@ -9,17 +9,17 @@
 
 ## 属性标志
 
-对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）：
+对象属性（properties），除 **`value`** 外，还有三个特殊的特性（attributes），也就是所谓的“标志”：
 
-- **`writable`** — 如果为 `true`，则可以修改，否则它是只读的。
-- **`enumerable`** — 如果是 `true`，则可在循环中列出，否则不列出。
-- **`configurable`** — 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
+- **`writable`** — 如果为 `true`，则值可以被修改，否则它是只可读的。
+- **`enumerable`** — 如果为 `true`，则会被在循环中列出，否则不会被列出。
+- **`configurable`** — 如果为 `true`，则此属性可以被删除，这些属性也可以被修改，否则不可以。
 
-我们还没看到它们，是因为它们通常不会出现当我们用“常用的方式”创建一个属性时，它们都是 `true`。但我们也可以随时更改它们。
+我们到现在还没看到它们，是因为它们通常不会出现。当我们用“常用的方式”创建一个属性时，它们都为 `true`。但我们也可以随时更改它们。
 
-首先，让我们看看如何获得这些标志。
+首先，让我们来看看如何获得这些标志。
 
-[Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的**完整**信息。
+[Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的 **完整** 信息。
 
 语法是：
 ```js
@@ -27,12 +27,12 @@ let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
 ```
 
 `obj`
-: 需要获取信息的对象。
+: 需要从中获取信息的对象。
 
 `propertyName`
 : 属性的名称。
 
-返回值是一个所谓的“属性描述符”对象：它包含值和所有的标志。
+返回值是一个所谓的“属性描述符”对象：它包含值和所有的标志。
 
 例如：
 
@@ -44,7 +44,7 @@ let user = {
 let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
 
 alert( JSON.stringify(descriptor, null, 2 ) );
-/* property descriptor:
+/* 属性描述符：
 {
   "value": "John",
   "writable": true,
