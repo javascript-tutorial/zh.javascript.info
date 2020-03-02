@@ -245,7 +245,7 @@ alert( double(5) ); // = mul(2, 5) = 10
 
 对 `mul.bind(null, 2)` 的调用创建了一个新函数 `double`，它将调用传递到 `mul`，将 `null` 绑定为上下文，并将 `2` 绑定为第一个参数。并且，参数（arguments）均被“原样”传递。
 
-它被称为 [偏函数应用程序（partial function application）](https://en.wikipedia.org/wiki/Partial_application) —— 我们通过绑定先有函数的一些参数来创建一个新函数。
+它被称为 [偏函数应用程序（partial function application）](https://en.wikipedia.org/wiki/Partial_application)—— 我们通过绑定先有函数的一些参数来创建一个新函数。
 
 请注意，这里我们实际上没有用到 `this`。但是 `bind` 需要它，所以我们必须传入 `null` 之类的东西。
 
@@ -304,18 +304,18 @@ let user = {
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
-// Something like:
+// 类似于这样的一些内容：
 // [10:00] John: Hello!
 ```
 
 `partial(func[, arg1, arg2...])` 调用的结果是一个包装器 `(*)`，它调用 `func` 并具有以下内容：
-- Same `this` as it gets (for `user.sayNow` call it's `user`)
-- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
-- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+- 与它获得的函数具有相同的 `this`（对于 `user.sayNow` 调用来说，它是 `user`）
+- 然后给它 `...argsBound` —— 来自于 `partial` 调用的参数（`"10:00"`）
+- 然后给它 `...args` —— 给包装器的参数（`"Hello"`）
 
-So easy to do it with the spread syntax, right?
+使用 spread 可以很容易实现这些操作，对吧？
 
-Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
+此外，还有来自 lodash 库的现成的 [_.partial](https://lodash.com/docs#partial) 实现。
 
 ## 总结
 
@@ -323,6 +323,6 @@ Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation
 
 通常我们应用 `bind` 来绑定对象方法的 `this`，这样我们就可以把它们传递到其他地方使用。例如，传递给 `setTimeout`。
 
-When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
+当我们绑定一个现有的函数的某些参数时，绑定后的（不太通用的）函数被称为 **partially applied** 或 **partial**。
 
-Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
+当我们不想一遍又一遍地重复相同的参数时，partial 非常有用。就像我们有一个 `send(from, to)` 函数，并且对于我们的任务来说，`from` 应该总是一样的，那么我们就可以搞一个 partial 并使用它。
