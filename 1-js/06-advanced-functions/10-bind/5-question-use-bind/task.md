@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 为什么 this 会丢失
+# 修复丢失了 "this" 的函数
 
 下面代码中对 `askPassword()` 的调用将会检查 password，然后基于结果调用 `user.loginOk/loginFail`。
 
