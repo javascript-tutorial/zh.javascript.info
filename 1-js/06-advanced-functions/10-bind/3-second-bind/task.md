@@ -4,7 +4,7 @@ importance: 5
 
 # 二次 bind
 
-我们可以通过附加的 bind 改变 `this` 吗？
+我们可以通过额外的绑定改变 `this` 吗？
 
 输出将会是什么？
 
