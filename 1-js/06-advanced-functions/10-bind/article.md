@@ -104,7 +104,7 @@ user = {
 let boundFunc = func.bind(context);
 ```
 
-`func.bind(context)` 的结果是一个特殊的类似于函数的 "exotic object"，它可以像函数一样被调用，并且透明地（transparently）将调用传递给 `func` 并设定 `this=context`。
+`func.bind(context)` 的结果是一个特殊的类似于函数的“外来对象（exotic object）”，它可以像函数一样被调用，并且透明地（transparently）将调用传递给 `func` 并设定 `this=context`。
 
 换句话说，`boundFunc` 调用就像绑定了 `this` 的 `func`。
 
