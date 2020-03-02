@@ -40,11 +40,11 @@ alert(generator); // [object Generator]
 
 ![](generateSequence-1.svg)
 
-generator 的主要方法是 `next()`。调用它后，就会恢复上面的执行过程直到最近的 `yield <value>` 语句（ `value` 可以省略，默认为 `undefined` ）。然后代码再次暂停执行，并将值 `value` 返回给外部代码。
+generator 的主要方法是 `next()`。调用它后，就会恢复上面的执行过程直到最近的 `yield <value>` 语句（ `value` 可以省略，默认为 `undefined` ）。然后代码再次暂停执行，并将值返回给外部代码。
 
 `next()`调用结果总是一个包含两个属性的对象：
 
-- `value`: “generator 函数”每次**产出（yielded）**的值。（译者注：yield翻译为产出，是为了配合**生产工厂（generator）**的语义。）
+- `value`: “generator 函数”每次 **产出（yielded）** 的值。（译者注：yield翻译为产出，是为了配合 **生产工厂（generator）** 的语义。）
 - `done`: `true` 表示“generator 函数”已经执行完成，否则为 `false`。
 
 举个栗子🌰，下面我们创建一个 generator 并获取其第一个**产出（yielded）**的值：
@@ -79,7 +79,7 @@ alert(JSON.stringify(two)); // {value: 2, done: false}
 
 ![](generateSequence-3.svg)
 
-如果我们第三次调用上面代码，代码将会执行到 `return` 语句，此时整个**generator 函数体**才执行完成：
+如果我们第三次调用上面代码，代码将会执行到 `return` 语句，此时将会完成这个函数的执行：
 
 ```js
 let three = generator.next();
@@ -319,7 +319,7 @@ alert(str); // 0..9A..Za..z
 
 目前看来，generators 和可迭代对象非常相似，仅仅是其产生 value 的语法有所不同。但实际上，generators 更加高效和灵活。
 
-这是因为 `yield` 是一个双向路径：它不仅向外面返回结果，而且可以将外部的值传递 generator 内。
+这是因为 `yield` 是一个双向路径：它不仅向外面返回结果，而且可以将外部的值传递到 generator 内。
 
 调用 `generator.next(arg)`，我们就将 `arg` 传递到了 generator 内部。这个 `arg` 参数就是 `yield` 的结果。
 
