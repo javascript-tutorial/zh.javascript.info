@@ -3,7 +3,7 @@
 
 我们知道，对象可以存储属性。
 
-到目前为止，属性对我们来说只是一个简单的“键—值”对。但对象属性实际上是更灵活且更强大的东西。
+到目前为止，属性对我们来说只是一个简单的“键值”对。但对象属性实际上是更灵活且更强大的东西。
 
 在本章中，我们将学习其他配置选项，在下一章中，我们将学习如何将它们无形地转换为 getter/setter 函数。
 
@@ -70,7 +70,7 @@ Object.defineProperty(obj, propertyName, descriptor)
 
 如果该属性存在，`defineProperty` 会更新其标志。否则，它会使用给定的值和标志创建属性；在这种情况下，如果没有提供标志，则会假定它是 `false`。
 
-例如，这里创建了一个属性 `name`，该属性的所有标志的值都是 `false`：
+例如，这里创建了一个属性 `name`，该属性的所有标志都为 `false`：
 
 ```js run
 let user = {};
@@ -96,13 +96,13 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
-将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志的值都是 `false`。如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为 `true`。
+将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志都为 `false`。如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为 `true`。
 
 现在让我们通过示例来看看标志的影响。
 
 ## 只读
 
-我们通过修改 `writable` 标志来把 `user.name` 设置为只读：
+让我们通过更改 `writable` 标志来把 `user.name` 设置为只读（不能被重新赋值）：
 
 ```js run
 let user = {
@@ -116,30 +116,33 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
-user.name = "Pete"; // 错误：不能设置只读属性'name'...
+user.name = "Pete"; // Error: Cannot assign to read only property 'name'
 */!*
 ```
 
-现在没有人可以改变我们的用户名称，除非他用自己的 `defineProperty` 来覆盖我们的用户。
+现在没有人可以改变我们的 `user` 的 `name`，除非他们应用自己的 `defineProperty` 来覆盖我们的 `user` 的 `name`。
 
-以下是相同的操作，但针对的是属性不存在的情况：
+```smart header="只在严格模式下会出现 Errors"
+在非严格模式下，在对不可写的属性等进行写入操作时，不会出现错误。但是操作仍然不会成功。在非严格模式下，违反标志的操作只会被默默的忽略掉。
+```
+
+这是相同的示例，但针对的是属性不存在的情况：
 
 ```js run
 let user = { };
 
 Object.defineProperty(user, "name", {
 *!*
-  value: "Pete",
-  // 对于新的属性，需要明确的列出哪些为 true
+  value: "John",
+  // 对于新属性，我们需要明确地列出哪些是 true
   enumerable: true,
   configurable: true
 */!*
 });
 
-alert(user.name); // Pete
-user.name = "Alice"; // Error
+alert(user.name); // John
+user.name = "Pete"; // Error
 ```
-
 
 ## 不可枚举
 
@@ -155,11 +158,11 @@ let user = {
   }
 };
 
-// 默认情况下，我们的两个属性都会列出：
+// 默认情况下，我们的两个属性都会被列出：
 for (let key in user) alert(key); // name, toString
 ```
 
-如果我们不喜欢它，那么我们可以设置 `enumerable:false`。然后它不会出现在 `for..in` 循环中，就像内置循环一样：
+如果我们不喜欢它，那么我们可以设置 `enumerable:false`。之后它就不会出现在 `for..in` 循环中了，就像内建的 `toString` 一样：
 
 ```js run
 let user = {
@@ -176,12 +179,12 @@ Object.defineProperty(user, "toString", {
 });
 
 *!*
-// 现在 toString 消失了：
+// 现在我们的 toString 消失了：
 */!*
 for (let key in user) alert(key); // name
 ```
 
-不可枚举的属性也会从 `Object.keys` 中排除：
+不可枚举的属性也会被 `Object.keys` 排除：
 
 ```js
 alert(Object.keys(user)); // name
@@ -189,9 +192,9 @@ alert(Object.keys(user)); // name
 
 ## 不可配置
 
-不可配置标志（`configurable:false`）有时会预设在内置对象和属性中。
+不可配置标志（`configurable:false`）有时会预设在内建对象和属性中。
 
-一个不可配置的属性不能被 `defineProperty` 删除或修改。
+不可配置的属性不能被删除。
 
 例如，`Math.PI` 是只读的、不可枚举和不可配置的：
 
@@ -208,17 +211,23 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 }
 */
 ```
-因此，开发人员无法改变 `Math.PI` 的值或覆盖它。
+因此，开发人员无法修改 `Math.PI` 的值或覆盖它。
 
 ```js run
-Math.PI = 3; // 错误
+Math.PI = 3; // Error
 
 // 删除 Math.PI 也不会起作用
 ```
 
-使属性不可配置是一条单行道。我们不能把它改回去，因为 `defineProperty` 不适用于不可配置的属性。
+使属性变成不可配置是一条单行道。我们无法使用 `defineProperty` 把它改回去。
 
-在这里，我们将 user.name 设置为“永久封闭”的常量：
+确切地说，不可配置性对 `defineProperty` 施加了一些限制：
+1. 不能修改 `configurable` 标志。
+2. 不能修改 `enumerable` 标志。
+3. 不能将 `writable: false` 修改为 `true`（反之亦然）。
+4. 不能修改访问者属性的 `get/set`（但是如果没有可以分配它们）。
+
+在这里，我们将 `user.name` 设置为“永久密封”的常量：
 
 ```js run
 let user = { };
@@ -230,17 +239,19 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
-// 不能修改 user.name 或 它的标志
+// 不能修改 user.name 或它的标志
 // 下面的所有操作都不起作用：
 //   user.name = "Pete"
 //   delete user.name
-//   defineProperty(user, "name", ...)
-Object.defineProperty(user, "name", {writable: true}); // 错误
+//   defineProperty(user, "name", { value: "Pete" })
+Object.defineProperty(user, "name", {writable: true}); // Error
 */!*
 ```
 
-```smart header="只在使用严格模式时才会出现错误"
-在非严格模式下，写入只读属性等时不会发生错误。但操作仍然不会成功。非严格模式下违反标志的行为只是默默地被忽略。
+```smart header="\"Non-configurable\" 并不意味着 \"non-writable\""
+值得注意的例外情况：不可配置但可写的属性的值是可以被更改的。
+
+`configurable: false` 的思想是防止更改属性标志或删除属性标志，而不是更改它的值。
 ```
 
 ## Object.defineProperties
@@ -267,19 +278,19 @@ Object.defineProperties(user, {
 });
 ```
 
-因此，我们可以一次性设置多个属性。
+所以，我们可以一次性设置多个属性。
 
 ## Object.getOwnPropertyDescriptors
 
 要一次获取所有属性描述符，我们可以使用 [Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors) 方法。
 
-与 `Object.defineProperties` 一起，它可以用作克隆对象的“标志感知”方式：
+它与 `Object.defineProperties` 一起可以用作克隆对象的“标志感知”方式：
 
 ```js
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 ```
 
-通常，当我们克隆一个对象时，我们使用赋值的方式来复制属性，如下所示：
+通常，当我们克隆一个对象时，我们使用赋值的方式来复制属性，像这样：
 
 ```js
 for (let key in user) {
@@ -287,34 +298,34 @@ for (let key in user) {
 }
 ```
 
-...但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
+……但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
 
-另一个区别是 `for..in` 忽略了 symbolic 属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的**所有**属性描述符。
+另一个区别是 `for..in` 会忽略 symbolic 属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的 **所有** 属性描述符。
 
-## 设定一个全局的封闭对象
+## 设定一个全局的密封对象
 
-属性描述符可以在各个属性的级别上工作。
+属性描述符在单个属性的级别上工作。
 
-还有一些限制访问**整个**对象的方法：
+还有一些限制访问 **整个** 对象的方法：
 
 [Object.preventExtensions(obj)](mdn:js/Object/preventExtensions)
-: 禁止向对象添加属性。
+: 禁止向对象添加新属性。
 
 [Object.seal(obj)](mdn:js/Object/seal)
-: 禁止添加/删除属性，为所有现有的属性设置 `configurable: false`。
+: 禁止添加/删除/修改属性。为所有现有的属性设置 `configurable: false`。
 
 [Object.freeze(obj)](mdn:js/Object/freeze)
-: 禁止添加/删除/更改属性，为所有现有属性设置 `configurable: false, writable: false`。
+: 禁止添加/删除/更改属性。为所有现有的属性设置 `configurable: false, writable: false`。
 
-还有对他们的测试：
+还有针对它们的测试：
 
 [Object.isExtensible(obj)](mdn:js/Object/isExtensible)
 : 如果添加属性被禁止，则返回 `false`，否则返回 `true`。
 
 [Object.isSealed(obj)](mdn:js/Object/isSealed)
-: 如果禁止添加/删除属性，则返回 `true`，并且所有现有属性都具有 `configurable: false`。
+: 如果添加/删除属性被禁止，并且所有现有的属性都具有 `configurable: false`则返回 `true`。
 
 [Object.isFrozen(obj)](mdn:js/Object/isFrozen)
-: 如果禁止添加/删除/更改属性，并且所有当前属性都是 `configurable: false, writable: false`，则返回 `true`。
+: 如果添加/删除/更改属性被禁止，并且所有当前属性都是 `configurable: false, writable: false`，则返回 `true`。
 
-这些方法在实践中很少使用。
+这些方法在实际中很少使用。
