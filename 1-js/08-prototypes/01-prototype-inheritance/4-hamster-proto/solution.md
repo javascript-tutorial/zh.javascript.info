@@ -69,11 +69,11 @@ let lazy = {
 */!*
 };
 
-// Speedy one found the food
+// 仓鼠 Speedy 找到了食物
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// Lazy one's stomach is empty
+// 仓鼠 Lazy 的胃是空的
 alert( lazy.stomach ); // <nothing>
 ```
 
