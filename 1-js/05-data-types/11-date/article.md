@@ -124,7 +124,7 @@ alert( date.getUTCHours() );
 : 返回日期的时间戳 —— 从 1970-1-1 00:00:00 UTC+0 开始到现在所经过的毫秒数。
 
 [getTimezoneOffset()](mdn:js/Date/getTimezoneOffset)
-: 返回本地时区与 UTC 之间的时差，以分钟为单位：
+: 返回 UTC 与本地时区之间的时差，以分钟为单位：
 
     ```js run
     // 如果你在时区 UTC-1，输出 60
