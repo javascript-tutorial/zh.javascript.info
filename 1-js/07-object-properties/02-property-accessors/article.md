@@ -155,7 +155,7 @@ Object.defineProperty({}, 'prop', {
 
 Getter/setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
 
-例如，如果我们想禁止为 `user` 设置太短的名称，我们可以将 `name` 存储在一个特殊的 `_name` 属性中。并在 setter 中过滤赋值操作：
+例如，如果我们想禁止太短的 `user` 的 name，我们可以创建一个 setter `name`，并将值存储在一个单独的属性 `_name` 中：
 
 ```js run
 let user = {
@@ -175,16 +175,19 @@ let user = {
 user.name = "Pete";
 alert(user.name); // Pete
 
-user.name = ""; // Name is too short...
+user.name = ""; // Name 太短了……
 ```
 
-从技术上讲，外部代码仍然可以通过使用 `user._name` 直接访问该名称。但是有一个众所周知的协议，即以下划线 `"_"` 开头的属性是内部的，不应该从对象外部访问。
+所以，name 被存储在 `_name` 属性中，并通过 getter 和 setter 进行访问。
+
+从技术上讲，外部代码可以使用 `user._name` 直接访问 name。但是，这儿有一个众所周知的约定，即以下划线 `"_"` 开头的属性是内部属性，不应该从对象外部进行访问。
+
 
 ## 兼容性
 
-getter 和 setter 背后的伟大设计思想之一 —— 它们允许控制“正常”数据属性并随时调整它。
+访问器的一大用途是，它们允许随时通过使用 getter 和 setter 替换“正常的”数据属性，来控制和调整这些属性的行为。
 
-例如，我们开始使用数据属性 `name` 和 `age` 来实现用户对象：
+想象一下，我们开始使用数据属性 `name` 和 `age` 来实现 user 对象：
 
 ```js
 function User(name, age) {
@@ -197,7 +200,7 @@ let john = new User("John", 25);
 alert( john.age ); // 25
 ```
 
-...但迟早，情况可能会发生变化。我们可能决定存储 `birthday`，而不是 `age`，因为它更加精确和方便：
+……但迟早，情况可能会发生变化。我们可能会决定存储 `birthday`，而不是 `age`，因为它更精确，更方便：
 
 ```js
 function User(name, birthday) {
@@ -208,11 +211,13 @@ function User(name, birthday) {
 let john = new User("John", new Date(1992, 6, 1));
 ```
 
-现在如何处理仍使用 `age` 属性的旧代码？
+现在应该如何处理仍使用 `age` 属性的旧代码呢？
 
-我们可以尝试找到所有这些地方并修复它们，但这需要时间，而且如果该代码是由其他人编写的，则很难做到。另外，`age` 放在 `user` 中也是一件好事，对吧？在某些地方，这正是我们想要的。
+我们可以尝试找到所有这些地方并修改它们，但这会花费很多时间，而且如果其他很多人都在使用该代码，那么可能很难完成所有修改。而且，`user` 中有 `age` 是一件好事，对吧？
 
-为 `age` 添加 getter 可缓解问题：
+那我们就把它保留下来吧。
+
+为 `age` 添加一个 getter 来解决这个问题：
 
 ```js run no-beautify
 function User(name, birthday) {
@@ -220,7 +225,7 @@ function User(name, birthday) {
   this.birthday = birthday;
 
 *!*
-  // age 是由当前日期和生日计算出来的
+  // 年龄是根据当前日期和生日计算得出的
   Object.defineProperty(this, "age", {
     get() {
       let todayYear = new Date().getFullYear();
@@ -233,7 +238,7 @@ function User(name, birthday) {
 let john = new User("John", new Date(1992, 6, 1));
 
 alert( john.birthday ); // birthday 是可访问的
-alert( john.age );      // ...age 也是可访问的
+alert( john.age );      // ……age 也是可访问的
 ```
 
-现在旧的代码也可以工作，而且我们拥有了一个很好的附加属性。
+现在旧的代码也可以工作，而且我们还拥有了一个不错的附加属性。
