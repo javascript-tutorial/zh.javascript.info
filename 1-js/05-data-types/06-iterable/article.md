@@ -224,12 +224,12 @@ let arr = Array.from(range);
 alert(arr); // 1,2,3,4,5 （数组的 toString 转化方法生效）
 ```
 
-`Array.from` 的完整语法允许提供一个可选的 "mapping"（映射）函数：
+`Array.from` 的完整语法允许我们提供一个可选的“映射（mapping）”函数：
 ```js
 Array.from(obj[, mapFn, thisArg])
 ```
 
-可选的第二个参数 `mapFn` 可以是一个函数，该函数会在对象中的元素被添加到数组前，被应用于每个元素，此外 `thisArg` 允许为该函数设置 `this`。
+可选的第二个参数 `mapFn` 可以是一个函数，该函数会在对象中的元素被添加到数组前，被应用于每个元素，此外 `thisArg` 允许我们为该函数设置 `this`。
 
 例如：
 
