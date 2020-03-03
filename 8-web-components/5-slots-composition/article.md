@@ -297,13 +297,14 @@ customElements.define('custom-menu', class extends HTMLElement {
 
 如果外部代码想动态 添加/移除 菜单项怎么办？
 
-**The browser monitors slots and updates the rendering if slotted elements are added/removed.**
+**如果 添加/删除 了插槽元素，浏览器将监视插槽并更新渲染。**
 
-Also, as light DOM nodes are not copied, but just rendered in slots, the changes inside them immediately become visible.
+另外，由于不复制 light DOM 节点，而是仅在插槽中进行渲染，所以内部的变化是立即可见的。
 
-So we don't have to do anything to update rendering. But if the component wants to know about slot changes, then `slotchange` event is available.
 
-For example, here the menu item is inserted dynamically after 1 second, and the title changes after 2 seconds:
+因此我们无需执行任何操作即可更新渲染。但是如果组件想知道插槽的更改，那么可以用 `slotchange` 事件。
+
+例如，这里的菜单子项在 1 秒后动态插入，而且标题在 2 秒后改变。
 
 ```html run untrusted height=80
 <custom-menu id="menu">
@@ -336,35 +337,35 @@ setTimeout(() => {
 </script>
 ```
 
-The menu rendering updates each time without our intervention.
+菜单每次都会更新渲染而无需我们干预。
 
-There are two `slotchange` events here:
+这里有两个 `slotchange` 事件：
 
-1. At initialization:
+1. 在初始化时:
 
-    `slotchange: title` triggers immediately, as the `slot="title"` from the light DOM gets into the corresponding slot.
-2. After 1 second:
+    `slotchange: title` 立即触发, 因为来自 light DOM 的 `slot="title"` 进入了相应的插槽。
+2. 1 秒后:
 
-    `slotchange: item` triggers, when a new `<li slot="item">` is added.
+    `slotchange: item` 触发, 当一个新的 `<li slot="item">` 被添加。
 
-Please note: there's no `slotchange` event after 2 seconds, when the content of `slot="title"` is modified. That's because there's no slot change. We modify the content inside the slotted element, that's another thing.
+请注意：2 秒后，如果修改了 `slot="title"` 的内容，则不会发生 `slotchange` 事件。因为没有插槽更改。我们修改了 slotted 元素的内容，这是另一回事。
 
-If we'd like to track internal modifications of light DOM from JavaScript, that's also possible using a more generic mechanism: [MutationObserver](info:mutation-observer).
+如果我们想通过 JavaScript 跟踪 light DOM 的内部修改，也可以使用更通用的机制: [MutationObserver](info:mutation-observer)。
 
 ## Slot API
 
-Finally, let's mention the slot-related JavaScript methods.
+最后让我们来谈谈与插槽相关的 JavaScript 方法。
 
 As we've seen before, JavaScript looks at the "real" DOM, without flattening. But, if the shadow tree has `{mode: 'open'}`, then we can figure out which elements assigned to a slot and, vise-versa, the slot by the element inside it:
+正如我们之前所见，JavaScript 会查看真实的 DOM，不展开。但是如果 shadow 树有 `{mode: 'open'}` ，那么我们可以找出哪个元素非配给了一个插槽，反之亦然，该插槽是由其中的元素分配的。
 
-- `node.assignedSlot` -- returns the `<slot>` element that the `node` is assigned to.
-- `slot.assignedNodes({flatten: true/false})` -- DOM nodes, assigned to the slot. The `flatten` option is `false` by default. If explicitly set to `true`, then it looks more deeply into the flattened DOM, returning nested slots in case of nested components and the fallback content if no node assigned.
-- `slot.assignedElements({flatten: true/false})` -- DOM elements, assigned to the slot (same as above, but only element nodes).
+- `node.assignedSlot` -- 返回将节点分配给的 `<slot>` 元素。
+- `slot.assignedNodes({flatten: true/false})` -- 分配给插槽的 DOM 节点。默认情况下，`flatten` 选项为 `false`。如果显式地设置为 `true` ，则它将更深入的关注 flattened DOM ，如果嵌套了组件，则返回嵌套的插槽，如果未分配节点，则返回备用内容。
+- `slot.assignedElements({flatten: true/false})` -- 分配给插槽的 DOM 元素（与上面相同，但仅元素节点）。
 
-These methods are useful when we need not just show the slotted content, but also track it in JavaScript.
+当我们不仅需要显示已插入内容的内容，还需要在 JavaScript 中对其进行跟踪时，这些方法非常有用。
 
-For example, if `<custom-menu>` component wants to know, what it shows, then it could track `slotchange` and get the items from `slot.assignedElements`:
-
+例如，如果 `<custom-menu>` 组件想知道它所显示的内容，那么它可以跟踪 `slotchange` 并从 `slot.assignedElements` 获取：
 ```html run untrusted height=120
 <custom-menu id="menu">
   <span slot="title">Candy menu</span>
@@ -404,29 +405,28 @@ setTimeout(() => {
 ```
 
 
-## Summary
+## 小结
 
-Slots allow to show light DOM children in shadow DOM.
+插槽允许在 shadow DOM 中显示 light DOM 子元素。
 
-There are two kinds of slots:
+插槽有两种：
 
-- Named slots: `<slot name="X">...</slot>` -- gets light children with `slot="X"`.
-- Default slot: the first `<slot>` without a name (subsequent unnamed slots are ignored) -- gets unslotted light children.
-- If there are many elements for the same slot -- they are appended one after another.
-- The content of `<slot>` element is used as a fallback. It's shown if there are no light children for the slot.
+- 命名插槽: `<slot name="X">...</slot>` -- 使用 `slot="X"` 获取 light 子元素。
+- 默认插槽: 第一个没有名字的 `<slot>` （随后的未命名插槽将被忽略）-- 接受不是插槽的 light 子元素。
+- 如果同一插槽中有很多元素 -- 它们会被一个接一个地添加。
+- `<slot>` 元素的内容作为备用。它显示了该插槽是否有 light 型的子元素。
 
-The process of rendering slotted elements inside their slots is called "composition". The result is called a "flattened DOM".
+在其槽内渲染插槽元素的过程称为 “合成”。结果称为 "flattened DOM"。
+合成不会真实的去移动节点，从 JavaScript 的视角看 DOM 仍然是相同的。
 
-Composition does not really move nodes, from JavaScript point of view the DOM is still same.
+JavaScript 可以使用以下的方法访问插槽：
+- `slot.assignedNodes/Elements()` -- 返回插槽内的 节点/元素。
+- `node.assignedSlot` -- 相反的方法，返回一个节点的插槽。
 
-JavaScript can access slots using methods:
-- `slot.assignedNodes/Elements()` -- returns nodes/elements inside the `slot`.
-- `node.assignedSlot` -- the reverse meethod, returns slot by a node.
+如果我们想知道显示的内容，可以使用以下方法跟踪插槽位的内容：
+- `slotchange` 事件 -- 在插槽第一次填充时触发，并且在插槽元素的 添加/删除/替换 操作（而不是其子元素）时触发，插槽是 `event.target` 。
+- [MutationObserver](info:mutation-observer) 要深入了解插槽内容，请查看其中的更改。
 
-If we'd like to know what we're showing, we can track slot contents using:
-- `slotchange` event -- triggers the first time a slot is filled, and on any add/remove/replace operation of the slotted element, but not its children. The slot is `event.target`.
-- [MutationObserver](info:mutation-observer) to go deeper into slot content, watch changes inside it.
+现在，在 shadow DOM 中有来自 light DOM 的元素时，让我们看看如何正确的设置样式。基本规则是 shadow 元素在内部设置样式，light 元素在外部设置样式，但是有一些例外。
 
-Now, as we have elements from light DOM in the shadow DOM, let's see how to style them properly. The basic rule is that shadow elements are styled inside, and light elements -- outside, but there are notable exceptions.
-
-We'll see the details in the next chapter.
+我们将在下一章中看到详细内容。
