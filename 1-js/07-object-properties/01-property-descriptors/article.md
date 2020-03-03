@@ -63,14 +63,14 @@ Object.defineProperty(obj, propertyName, descriptor)
 ```
 
 `obj`，`propertyName`
-: 要处理的对象和属性。
+: 要应用描述符的对象及其属性。
 
 `descriptor`
-: 要应用的属性描述符。
+: 要应用的属性描述符对象。
 
-如果该属性存在，则 `defineProperty` 更新其标志。否则，它会创建具有给定值和标志的属性；在这种情况下，如果没有提供标志，则会假定它是 `false`。
+如果该属性存在，`defineProperty` 会更新其标志。否则，它会使用给定的值和标志创建属性；在这种情况下，如果没有提供标志，则会假定它是 `false`。
 
-这里使用所有的伪造标志创建一个属性 `name`：
+例如，这里创建了一个属性 `name`，该属性的所有标志的值都是 `false`：
 
 ```js run
 let user = {};
@@ -96,9 +96,9 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
-将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志都是假定的。如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为 `true`。
+将它与上面的“以常用方式创建的” `user.name` 进行比较：现在所有标志的值都是 `false`。如果这不是我们想要的，那么我们最好在 `descriptor` 中将它们设置为 `true`。
 
-现在让我们通过示例来看看标志的效果。
+现在让我们通过示例来看看标志的影响。
 
 ## 只读
 
