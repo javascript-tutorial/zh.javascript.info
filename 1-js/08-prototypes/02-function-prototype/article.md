@@ -1,18 +1,18 @@
 # 函数原型
 
-正如我们已经知道的那样，`new F()` 创建一个新对象。
+我们还记得，可以使用诸如 `new F()` 这样的构造函数来创建一个新对象。
 
-当用 `new F()` 创建一个新对象时，该对象的 `[[Prototype]]` 被设置为 `F.prototype`。
+如果 `F.prototype` 是一个对象，那么 `new` 操作符会使用它为新对象设置 `[[Prototype]]`。
 
 ```smart
-JavaScript 从一开始就有了原型继承。这是该语言的核心特征之一。
+JavaScript 从一开始就有了原型继承。这是该语言的核心特性之一。
 
-但在过去，我们是无法直接对其进行访问的。唯一可靠的设置方法是使用构造函数的“prototype”属性。我们将在本章对其进行讨论。即使现在，还是有很多使用它的脚本。
+但是在过去，我们无法直接对其进行访问。唯一可靠的方法是构造函数的 `"prototype"` 属性，我们将在本章对其进行介绍。因此，目前仍有许多脚本仍在使用它。
 ```
 
-请注意，`F.prototype` 意味着在 `F` 上有一个名为 `"prototype"` 的常规属性。这听起来与“原型”这个术语很相似，但在这里我们的意思是指有这个名字的常规属性。
+请注意，这里的 `F.prototype` 指的是 `F` 的一个名为 `"prototype"` 的常规属性。这听起来与“原型”这个术语很类似，但在这里我们实际上指的是具有该名字的常规属性。
 
-这是一个例子：
+下面是一个例子：
 
 ```js run
 let animal = {
@@ -32,23 +32,23 @@ let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
 alert( rabbit.eats ); // true
 ```
 
-设置 `Rabbit.prototype = animal` 的这段代码表达的意思是：“当 `new Rabbit` 创建时，把它的 `[[Prototype]]` 赋值为 `animal`” 。
+设置 `Rabbit.prototype = animal` 的字面意思是：“当创建了 `new Rabbit` 时，把它的 `[[Prototype]]` 赋值为 `animal`”。
 
-这是结果图：
+这是结果示意图：
 
 ![](proto-constructor-animal-rabbit.svg)
 
-在图片上，`"prototype"` 是一个水平箭头，它是一个常规属性，`[[Prototype]]` 是垂直的，意味着是继承自 `animal` 的 `rabbit`。
+在上图中，`"prototype"` 是一个水平箭头，表示一个常规属性，`[[Prototype]]` 是垂直的，表示 `rabbit` 继承自 `animal`。
 
-```smart header="`F.prototype`仅用于`new F`时"
-`F.prototype` 属性仅在 `new F` 调用时使用，它为新对象的 `[[Prototype]]` 赋值。在此之后，`F.prototype` 和新对象之间就分道扬镳了。可以将其看为一个“单次赠与”效果。
+```smart header="`F.prototype` 仅用在 `new F` 时"
+`F.prototype` 属性仅在 `new F` 被调用时使用，它为新对象的 `[[Prototype]]` 赋值。之后，`F.prototype` 和新对象之间就没有任何联系了。可以将其看成“一次性礼物”。
 
-如果在创建之后 `F.prototype` 属性有了变化(`F.prototype = <another object>`)，那么 `new F` 创建的新对象也将随之拥有新的 `[[Prototype]]`。但已经存在的对象将保持旧有的值。
+如果在创建之后，`F.prototype` 属性有了变化（`F.prototype = <another object>`），那么通过 `new F` 创建的新对象也将随之拥有新的对象作为 `[[Prototype]]`。但已经存在的对象将保持旧有的值。
 ```
 
-##  默认的函数原型，构造函数属性
+##  默认的 F.prototype，构造器属性
 
-每个函数都有 `"prototype"` 属性，即使我们不设置它。
+每个函数都有 `"prototype"` 属性，即使我们没有提供它们。
 
 默认的 `"prototype"` 是一个只有属性 `constructor` 的对象，它指向函数本身。
 
