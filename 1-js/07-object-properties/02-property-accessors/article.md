@@ -1,11 +1,11 @@
 
 # 属性的 getter 和 setter
 
-有两种类型的属性
+有两种类型的属性。
 
-第一种是**数据属性**。我们已经知道如何使用它们。实际上，我们迄今为止使用的所有属性都是数据属性。
+第一种是 **数据属性**。我们已经知道如何使用它们了。到目前为止，我们使用过的所有属性都是数据属性。
 
-第二种类型的属性是新东西。它是 **访问器属性（accessor properties）**。它们本质上是获取和设置值的函数，但从外部代码来看像常规属性。
+第二种类型的属性是新东西。它是 **访问器属性（accessor properties）**。它们本质上是用于获取和设置值的函数，但从外部代码来看就像常规属性。
 
 ## Getter 和 setter
 
@@ -14,27 +14,27 @@
 ```js
 let obj = {
   *!*get propName()*/!* {
-    // getter, the code executed on getting obj.propName
+    // 当读取 obj.propName 时，getter 起作用
   },
 
   *!*set propName(value)*/!* {
-    // setter, the code executed on setting obj.propName = value
+    // 当执行 obj.propName = value 操作时，setter 起作用
   }
 };
 ```
 
-当读取 `obj.propName` 时，使用 getter，当设置值时，使用 setter。
+当读取 `obj.propName` 时，getter 起作用，当 `obj.propName` 被赋值时，setter 起作用。
 
-例如，我们有一个具有 `name` 和 `surname` 属性的 `user` 对象：
+例如，我们有一个具有 `name` 和 `surname` 属性的对象 `user`：
 
-```js run
+```js
 let user = {
   name: "John",
   surname: "Smith"
 };
 ```
 
-现在我们要添加一个 "fullName" 属性，该属性是 "John Smith"。当然，我们不想复制粘贴现有信息，因此我们可以用访问器来实现：
+现在我们想添加一个 `fullName` 属性，该属性值应该为 `"John Smith"`。当然，我们不想复制粘贴已有的信息，因此我们可以使用访问器来实现：
 
 ```js run
 let user = {
@@ -53,11 +53,23 @@ alert(user.fullName); // John Smith
 */!*
 ```
 
-从外表看，访问器属性看起来像一个普通的属性。这是访问器属性的设计思想。我们不以函数的方式**调用** `user.fullName`，我们通常**读取**它：getter 在幕后运行。
+从外表看，访问器属性看起来就像一个普通属性。这就是访问器属性的设计思想。我们不以函数的方式 **调用** `user.fullName`，我们正常 **读取** 它：getter 在幕后运行。
 
-截至目前，`fullName` 只有一个 getter。如果我们尝试赋值操作 `user.fullName=`，将会出现错误。
+截至目前，`fullName` 只有一个 getter。如果我们尝试赋值操作 `user.fullName=`，将会出现错误：
 
-我们通过为 `user.fullName` 添加一个 setter 来修复它：
+```js run
+let user = {
+  get fullName() {
+    return `...`;
+  }
+};
+
+*!*
+user.fullName = "Test"; // Error（属性只有一个 getter）
+*/!*
+```
+
+让我们通过为 `user.fullName` 添加一个 setter 来修复它：
 
 ```js run
 let user = {
@@ -75,27 +87,18 @@ let user = {
 */!*
 };
 
-// set fullName is executed with the given value.
+// set fullName 将以给定值执行
 user.fullName = "Alice Cooper";
 
 alert(user.name); // Alice
 alert(user.surname); // Cooper
 ```
 
-现在我们有一个“虚拟”属性。它是可读写的，但实际上并不存在。
-
-```smart header="访问器属性只能访问 get/set"
-属性可以是“数据属性”或“访问器属性”，但不能同时属于两者。
-
-一旦使用 `get prop()` 或 `set prop()` 定义了一个属性，它就是一个访问器属性。所以必须有一个getter来读取它，如果我们对它赋值，它必须是一个 setter。
-
-有时候只有一个 setter 或者只有一个 getter 是正常的。但在这种情况下，该属性将不可读或可写。
-```
-
+现在，我们就有一个“虚拟”属性。它是可读且可写的。
 
 ## 访问器描述符
 
-访问器属性的描述符与数据属性相比是不同的。
+访问器属性的描述符与数据属性的不同。
 
 对于访问器属性，没有 `value` 和 `writable`，但是有 `get` 和 `set` 函数。
 
@@ -103,10 +106,10 @@ alert(user.surname); // Cooper
 
 - **`get`** —— 一个没有参数的函数，在读取属性时工作，
 - **`set`** —— 带有一个参数的函数，当属性被设置时调用，
-- **`enumerable`** —— 与数据属性相同，
-- **`configurable`** —— 与数据属性相同。
+- **`enumerable`** —— 与数据属性的相同，
+- **`configurable`** —— 与数据属性的相同。
 
-例如，要使用 `defineProperty` 创建 `fullName` 的访问器，我们可以使用 `get` 和 `set` 来传递描述符：
+例如，要使用 `defineProperty` 创建一个 `fullName` 访问器，我们可以使用 `get` 和 `set` 来传递描述符：
 
 ```js run
 let user = {
@@ -131,9 +134,9 @@ alert(user.fullName); // John Smith
 for(let key in user) alert(key); // name, surname
 ```
 
-请再次注意，属性可以要么是访问器，要么是数据属性，而不能两者都是。
+请注意，一个属性要么是访问器（具有 `get/set` 方法），要么是数据属性（具有 `value`），但不能两者都是。
 
-如果我们试图在同一个描述符中提供 `get` 和 `value`，则会出现错误：
+如果我们试图在同一个描述符中同时提供 `get` 和 `value`，则会出现错误：
 
 ```js run
 *!*
@@ -148,7 +151,7 @@ Object.defineProperty({}, 'prop', {
 });
 ```
 
-## 更聪明的 getter/setters
+## 更聪明的 getter/setter
 
 Getter/setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
 
