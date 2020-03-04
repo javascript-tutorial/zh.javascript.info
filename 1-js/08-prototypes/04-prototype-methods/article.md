@@ -61,7 +61,7 @@ alert(rabbit.jumps); // true
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
-此调用可以对 `obj` 进行真正地拷贝，包括所有的属性：可枚举和不可枚举的，数据属性和 setters/getters —— 包括所有内容，并带有正确的 `[[Prototype]]`。
+此调用可以对 `obj` 进行真正准确地拷贝，包括所有的属性：可枚举和不可枚举的，数据属性和 setters/getters —— 包括所有内容，并带有正确的 `[[Prototype]]`。
 
 # 原型简史
 
@@ -180,102 +180,26 @@ alert(Object.keys(chineseDictionary)); // hello,bye
 - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`（与 `__proto__` 的 getter 相同）。
 - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`（与 `__proto__` 的 setter 相同）。
 
-The built-in `__proto__` getter/setter is unsafe if we'd want to put user-generated keys into an object. Just because a user may enter `"__proto__"` as the key, and there'll be an error, with hopefully light, but generally unpredictable consequences.
+如果要将一个用户生成的键放入一个对象，那么内建的 `__proto__` getter/setter 是不安全的。因为用户可能会输入 `"__proto__"` 作为键，这会导致一个 error，虽然我们希望这个问题不会造成什么大影响，但通常会造成不可预料的后果。
 
-So we can either use `Object.create(null)` to create a "very plain" object without `__proto__`, or stick to `Map` objects for that.
+因此，我们可以使用 `Object.create(null)` 创建一个没有 `__proto__` 的 "very plain" 对象，或者对此类场景坚持使用 `Map` 对象就可以了。
 
-Also, `Object.create` provides an easy way to shallow-copy an object with all descriptors:
+此外，`Object.create` 提供了一种简单的方式来浅拷贝一个对象的所有描述符：
 
 ```js
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
-同时我们还明确了 `__proto__` 是 `[[Prototype]]` 的 getter/setter，位置在 `Object.prototype`，和其他方法相同。
+此外，我们还明确了 `__proto__` 是 `[[Prototype]]` 的 getter/setter，就像其他方法一样，它位于 `Object.prototype`。
 
-我们可以不借助 prototype 创建一个对象，那就是 `Object.create(null)`。这些对象被用作是「纯字典」，对于它们而言 `"__proto__"` 作为键没有问题。
+我们可以通过 `Object.create(null)` 来创建没有原型的对象。这样的对象被用作 "pure dictionaries"，对于它们而言，使用 `"__proto__"` 作为键是没有问题的。
 
 其他方法：
 
-- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) —— 返回包含自身属性的名称/值/键值对的数组。
-- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) —— 返回包含所有自身 symbol 属性名称的数组。
-- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) —— 返回包含所有自身字符串属性名称的数组。
-- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) —— 返回包含所有自身属性名称的数组。
-- [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty)：如果 `obj` 拥有名为 `key` 的自身属性（非继承得来），返回 `true`。
+- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) —— 返回一个可枚举的由自身的字符串属性名/值/键值对组成的数组。
+- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) —— 返回一个由自身所有的 symbol 类型的键组成的数组。
+- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) —— 返回一个由自身所有的字符串键组成的数组。
+- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) —— 返回一个由自身所有键组成的数组。
+- [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty)：如果 `obj` 拥有名为 `key` 的自身的属性（非继承而来的），则返回 `true`。
 
-所有返回对象属性的方法（如 `Object.keys` 以及其他）—— 都返回「自身」属性。如果我们想继承它们，我们可以使用 `for...in`。
-
-<!--
-
-## 获取所有属性
-
-获取一个对象的键/值有很多种方法。
-
-我们已知的有：
-
-- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) -- 返回一个数组，包含所有可枚举字符串属性名称/值/键值对。这些方法只会列出**可枚举**属性，而且它们**键名为字符串形式**。
-
-如果我们想要 symbol 属性：
-
-- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) —— 返回包含所有 symbol 属性名称的数组。
-
-如果我们想要非可枚举属性：
-
-- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) —— 返回包含所有字符串属性名的数组。
-
-如果我们想要**所有**属性：
-
-- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) —— 返回包含所有属性名称的数组。
-
-这些方法和它们返回的属性有些不同，但它们都是对对象本身进行操作。prototype 的属性没有包含在内。
-
-`for...in` 循环有所不同：它会对继承得来的属性也进行循环。
-
-举个例子：
-
-```js run
-let animal = {
-  eats: true
-};
-
-let rabbit = {
-  jumps: true,
-  __proto__: animal
-};
-
-*!*
-// 这里只有自身的键
-alert(Object.keys(rabbit)); // jumps
-*/!*
-
-*!*
-// 这里包含了继承得来的键
-for(let prop in rabbit) alert(prop); // jumps，然后 eats
-*/!*
-```
-
-如果我们想要区分继承属性，有一个内置方法 [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty)：如果 `obj` 有名为 `key` 的自身属性（而非继承），返回值为 `true`。
-
-因此我们可以找出继承属性（或者对它们进行一些操作）：
-
-```js run
-let animal = {
-  eats: true
-};
-
-let rabbit = {
-  jumps: true,
-  __proto__: animal
-};
-
-for(let prop in rabbit) {
-  let isOwn = rabbit.hasOwnProperty(prop);
-  alert(`${prop}: ${isOwn}`); // jumps:true, then eats:false
-}
-```
-这个例子中我们有以下继承链：`rabbit`，然后 `animal`，然后 `Object.prototype` （因为 `animal` 是个字面量对象 `{...}`，因此默认是这样），然后最终到达 `null`：
-
-![](rabbit-animal-object.svg)
-
-请注意：这里有一个有趣的现象。`rabbit.hasOwnProperty` 这个方法来自哪里？观察继承链我们发现这个方法由 `Object.prototype.hasOwnProperty` 提供。换句话说，它是继承得来的。
-
-...但是如果说 `for...in` 列出了所有继承属性，为什么 `hasOwnProperty` 这个方法没有出现在其中？答案很简单：它是不可枚举的。就像所有其他在 `Object.prototype` 中的属性一样。这是为什么它们没有被列出的原因。
+所有返回对象属性的方法（如 `Object.keys` 及其他）—— 都返回“自身”的属性。如果我们想继承它们，我们可以使用 `for...in`。
