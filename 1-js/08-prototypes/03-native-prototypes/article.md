@@ -2,30 +2,30 @@
 
 `"prototype"` 属性在 JavaScript 自身的核心部分中被广泛地应用。所有的内置构造函数都用到了它。
 
-我们将会首先看到原型对于简单对象是什么样的，然后对于更多的复杂对象又是什么样的。
+首先，我们将看看原生原型的详细信息，然后学习如何使用它为内建对象添加新功能。
 
 ## Object.prototype
 
-假设我们输出一个空对象：
+假如我们输出一个空对象：
 
 ```js run
 let obj = {};
 alert( obj ); // "[object Object]" ?
 ```
 
-生成字符串 `"[object Object]"` 的代码在哪里？那就是内置的一个 `toString` 方法，但是它在哪里呢？`obj` 是空的！
+生成字符串 `"[object Object]"` 的代码在哪里？那就是一个内建的 `toString` 方法，但是它在哪里呢？`obj` 是空的！
 
-...然而简短的表达式 `obj = {}` 和 `obj = new Object()` 是一个意思，其中 `Object` 是一个内置的对象构造函数。并且这个方法有一个 `Object.prototype` 属性，这个属性引用了一个庞大的对象，这个庞大的对象有 `toString` 方法和其他的一些方法。
+……然而简短的表达式 `obj = {}` 和 `obj = new Object()` 是一个意思，其中 `Object` 就是一个内建的对象构造函数，其自身的 `prototype` 指向一个带有 `toString` 和其他方法的一个巨大的对象。
 
-就像这样（所有的这些都是内置的）：
+就像这样：
 
 ![](object-prototype.svg)
 
-当 `new Object()` 被调用来创建一个对象（或者一个字面量对象 `{...}` 被创建），按照前面章节的讨论规则，这个对象的 `[[Prototype]]` 属性被设置为 `Object.prototype`：
+当 `new Object()` 被调用（或一个字面量对象 `{...}` 被创建），按照前面章节中我们学习过的规则，这个对象的 `[[Prototype]]` 属性被设置为 `Object.prototype`：
 
 ![](object-prototype-1.svg)
 
-之后当 `obj.toString()` 被调用时，这个方法是在 `Object.prototype` 中被取到的。
+所以，之后当 `obj.toString()` 被调用时，这个方法是从 `Object.prototype` 中获取的。
 
 我们可以这样验证它：
 
@@ -36,21 +36,21 @@ alert(obj.__proto__ === Object.prototype); // true
 // obj.toString === obj.__proto__.toString == Object.prototype.toString
 ```
 
-请注意在 `Object.prototype` 上没有额外的 `[[Prototype]]` 属性：
+请注意在 `Object.prototype` 上方的链中没有更多的 `[[Prototype]]`：
 
 ```js run
 alert(Object.prototype.__proto__); // null
 ```
 
-## 其他内置原型
+## 其他内建原型
 
-像 `Array`、`Date`、`Function` 和其他的内置对象都在原型对象上挂载方法。
+其他内建对象，像 `Array`、`Date`、`Function` 及其他，都在 prototype 上挂载了方法。
 
-例如，当我们创建一个数组 `[1, 2, 3]`，内部使用默认的 `new Array()` 构造函数。因此这个数组数据被写进了这个新的数组对象，并且 `Array.prototype` 成为这个数组对象的原型且为数组对象提供数组的操作方法。这样内存的存储效率是很高的。
+例如，当我们创建一个数组 `[1, 2, 3]`，在内部会默认使用 `new Array()` 构造函数。因此 `Array.prototype` 变成了这个数组的 prototype，并为这个数组提供数组的操作方法。这样内存的存储效率是很高的。
 
-按照规范，所有的内置原型顶端都是 `Object.prototype`。有些时候人们说“一切都从对象上继承而来”。
+按照规范，所有的内建原型顶端都是 `Object.prototype`。这就是为什么有人说“一切都从对象继承而来”。
 
-下面是完整的示意图（3 个内置对象）：
+下面是完整的示意图（3 个内建对象）：
 
 ![](native-prototypes-classes.svg)
 
@@ -59,34 +59,34 @@ alert(Object.prototype.__proto__); // null
 ```js run
 let arr = [1, 2, 3];
 
-// it inherits from Array.prototype?
+// 它继承自 Array.prototype？
 alert( arr.__proto__ === Array.prototype ); // true
 
-// then from Object.prototype?
+// 接下来继承自 Object.prototype？
 alert( arr.__proto__.__proto__ === Object.prototype ); // true
 
-// and null on the top.
+// 原型链的顶端为 null。
 alert( arr.__proto__.__proto__.__proto__ ); // null
 ```
 
-一些方法可能在原型上发生重叠，例如，`Array.prototype` 有自己的 `toString` 方法来列举出来数组的所有元素并用逗号分隔每一个元素。
+一些方法在原型上可能会发生重叠，例如，`Array.prototype` 有自己的 `toString` 方法来列举出来数组的所有元素并用逗号分隔每一个元素。
 
 ```js run
 let arr = [1, 2, 3]
-alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
+alert(arr); // 1,2,3 <-- Array.prototype.toString 的结果
 ```
 
-正如我们之前看到的那样，`Object.prototype` 也有 `toString` 方法，但是 `Array.prototype` 在原型链上是更近的，所以数组对象原型上的方法会被使用。
+正如我们之前看到的那样，`Object.prototype` 也有 `toString` 方法，但是 `Array.prototype` 在原型链上更近，所以数组对象原型上的方法会被使用。
 
 
 ![](native-prototypes-array-tostring.svg)
 
 
-像 Chrome 开发者控制台这样的浏览器内置工具也显示继承关系的（可能需要对内置对象使用 `console.dir`）：
+浏览器内的工具，像 Chrome 开发者控制台也会显示继承性（可能需要对内置对象使用 `console.dir`）：
 
 ![](console_dir_array.png)
 
-其他内置对象以同样的方式运行。即使是函数。它们是内置构造函数 `Function` 创建出来的对象，并且他们的方法：`call/apply` 和其他方法都来自 `Function.prototype`。函数也有自己的 `toString` 方法。
+其他内建对象也以同样的方式运行。即使是函数 —— 它们是内建构造函数 `Function` 的对象，并且它们的方法（`call`/`apply` 及其他）都取自 `Function.prototype`。函数也有自己的 `toString` 方法。
 
 ```js run
 function f() {}
@@ -99,15 +99,15 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 最复杂的事情发生在字符串、数字和布尔值上。
 
-正如我们记忆中的那样，它们并不是对象。但是如果我们试图访问它们的属性，那么临时的包装对象将会被内置的构造函数`String`、 `Number` 或 `Boolean`创建，它们提供给我们操作字符串、数字和布尔值的方法然后藏匿起来。（译者注：这里的“隐匿起来”应该是指我们在打印这些值的时候看不到对象的方法）
+正如我们记忆中的那样，它们并不是对象。但是如果我们试图访问它们的属性，那么临时包装器对象将会通过内建的构造函数 `String`、`Number` 和 `Boolean` 被创建。它们提供给我们操作字符串、数字和布尔值的方法然后消失。
 
-这些对象对我们来说是被无形的创造出来的且大多数引擎优化了它们，而规范精准的描述了这种方式。这些对象的方法也驻留在它们的原型 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 中。
+这些对象对我们来说是无形地创建出来的。大多数引擎都会对其进行优化，但是规范中描述的就是通过这种方式。这些对象的方法也驻留在它们的 prototype 中，可以通过 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 进行获取。
 
-```warn header="值 `null` 和 `undefined` 没有对象包装"
-特殊值 `null` 和 `undefined` 要被区分看待。它们没有对象包装，所以它们没有自己的方法和属性。并且它们没有相应的原型。
+```warn header="值 `null` 和 `undefined` 没有对象包装器"
+特殊值 `null` 和 `undefined` 比较特殊。它们没有对象包装器，所以它们没有方法和属性。并且它们也没有相应的原型。
 ```
 
-## 更改原生原型 [#原生-原型-更改]
+## 更改原生原型 [#native-prototype-change]
 
 原生的原型是可以被修改的。例如，我们在 `String.prototype` 中添加一个方法，这个方法对所有的字符串都是可用的：
 
