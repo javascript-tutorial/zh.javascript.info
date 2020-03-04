@@ -174,20 +174,33 @@ alert(Object.keys(chineseDictionary)); // hello,bye
 
 ## 总结
 
-以下是我们在本章节讨论的方法 —— 作为一个总结：
+设置和直接访问原型的现代方法有：
 
-- [Object.create(proto[, descriptors])](mdn:js/Object/create) —— 利用给定的 `proto` 作为 `[[Prototype]]` 来创建一个空对象。
-- [Object.getPrototypeOf(obj)](mdn:js/Object.getPrototypeOf) —— 返回 `obj` 的 `[[Prototype]]`（和 `__proto__` getter 相同）。
-- [Object.setPrototypeOf(obj, proto)](mdn:js/Object.setPrototypeOf) —— 将 `obj` 的 `[[Prototype]]` 设置为 `proto`（和 `__proto__` setter 相同）。
+- [Object.create(proto[, descriptors])](mdn:js/Object/create) —— 利用给定的 `proto` 作为 `[[Prototype]]`（可以是 `null`）和可选的属性描述来创建一个空对象。
+- [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`（与 `__proto__` 的 getter 相同）。
+- [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`（与 `__proto__` 的 setter 相同）。
+
+The built-in `__proto__` getter/setter is unsafe if we'd want to put user-generated keys into an object. Just because a user may enter `"__proto__"` as the key, and there'll be an error, with hopefully light, but generally unpredictable consequences.
+
+So we can either use `Object.create(null)` to create a "very plain" object without `__proto__`, or stick to `Map` objects for that.
+
+Also, `Object.create` provides an easy way to shallow-copy an object with all descriptors:
+
+```js
+let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+```
+
+同时我们还明确了 `__proto__` 是 `[[Prototype]]` 的 getter/setter，位置在 `Object.prototype`，和其他方法相同。
+
+我们可以不借助 prototype 创建一个对象，那就是 `Object.create(null)`。这些对象被用作是「纯字典」，对于它们而言 `"__proto__"` 作为键没有问题。
+
+其他方法：
+
 - [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) —— 返回包含自身属性的名称/值/键值对的数组。
 - [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) —— 返回包含所有自身 symbol 属性名称的数组。
 - [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) —— 返回包含所有自身字符串属性名称的数组。
 - [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) —— 返回包含所有自身属性名称的数组。
 - [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty)：如果 `obj` 拥有名为 `key` 的自身属性（非继承得来），返回 `true`。
-
-同时我们还明确了 `__proto__` 是 `[[Prototype]]` 的 getter/setter，位置在 `Object.prototype`，和其他方法相同。
-
-我们可以不借助 prototype 创建一个对象，那就是 `Object.create(null)`。这些对象被用作是「纯字典」，对于它们而言 `"__proto__"` 作为键没有问题。
 
 所有返回对象属性的方法（如 `Object.keys` 以及其他）—— 都返回「自身」属性。如果我们想继承它们，我们可以使用 `for...in`。
 
