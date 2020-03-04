@@ -21,6 +21,7 @@ alert( rabbit.eats ); // true
 
 
 1. 我们增加了一个字符串（强调）。现在 `alert` 会显示什么？
+
     ```js
     function Rabbit() {}
     Rabbit.prototype = {
@@ -37,6 +38,7 @@ alert( rabbit.eats ); // true
     ```
 
 2. ……如果代码是这样的（修改了一行）？
+
     ```js
     function Rabbit() {}
     Rabbit.prototype = {
@@ -53,6 +55,7 @@ alert( rabbit.eats ); // true
     ```
 
 3. 像这样呢（修改了一行）？
+
     ```js
     function Rabbit() {}
     Rabbit.prototype = {
@@ -69,6 +72,7 @@ alert( rabbit.eats ); // true
     ```
 
 4. 最后一种变体：
+
     ```js
     function Rabbit() {}
     Rabbit.prototype = {
