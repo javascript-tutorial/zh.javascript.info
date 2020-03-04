@@ -43,7 +43,6 @@ alert(generator); // [object Generator]
 generator 对象的主要方法是 `next()`。被调用时，它会恢复上面的执行过程直到最近的 `yield <value>` 语句（ `value` 可以省略，默认为 `undefined` ）。然后代码再次暂停执行，并将值返回给外部代码。
 
 `next()` 调用结果总是一个包含两个属性的对象：
-
 - `value`: “generator 函数”每次 **产出（yielded）** 的值。（译者注：yield翻译为产出，是为了配合 **生成器（generator）** 的语义。）
 - `done`: `true` 表示“generator 函数”已经执行完成，否则为 `false`。
 
