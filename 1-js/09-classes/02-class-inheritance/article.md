@@ -28,53 +28,19 @@ class Animal {
 let animal = new Animal("My animal");
 ```
 
-Here's how we can represent `animal` object and `Animal` class graphically:
+这是我们对对象 `animal` 和 class `Animal` 的图形化表示：
 
 ![](rabbit-animal-independent-animal.svg)
 
-...和 `Rabbit`：
+……然后我们想创建另一个 `class Rabbit`：
+
+因为 rabbits 是 animals，所以 class `Rabbit` 应该是基于 class `Animal` 的，可以访问 animal 的方法，以便 rabbits 可以做“一般”动物可以做的事儿。
+
+扩展另一个类的语法是：`class Child extends Parent`。
+
+让我们创建一个继承自 `Animal` 的 `class Rabbit`：
 
 ```js
-class Rabbit {
-  constructor(name) {
-    this.name = name;
-  }
-  hide() {
-    alert(`${this.name} hides!`);
-  }
-}
-
-let rabbit = new Rabbit("My rabbit");
-```
-
-![](rabbit-animal-independent-rabbit.svg)
-
-
-现在，它们是完全独立的。
-
-但是，我们想要 `Rabbit` 继承自 `Animal`。换句话说，rabbits 应该基于 animals，能够访问 `Animal` 中的方法，并使用自己的方法扩展它们。
-
-要继承自另一个类，我们需要在 `{..}` 前指定 `“extends”` 和父类。
-
-在这里，`Rabbit` 继承自 `Animal`：
-
-```js run
-class Animal {
-  constructor(name) {
-    this.speed = 0;
-    this.name = name;
-  }
-  run(speed) {
-    this.speed += speed;
-    alert(`${this.name} runs with speed ${this.speed}.`);
-  }
-  stop() {
-    this.speed = 0;
-    alert(`${this.name} stopped.`);
-  }
-}
-
-// 通过指定“extends Animal”让 Rabbit 继承自 Animal
 *!*
 class Rabbit extends Animal {
 */!*
@@ -89,15 +55,18 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.hide(); // White Rabbit hides!
 ```
 
-现在 `Rabbit` 代码变简洁了一点，因为它默认以 `Animal` 作为其构造函数，并且它能 `run`，就像 animals 一样。
+Class `Rabbit` 的对象可以访问例如 `rabbit.hide()` 等 `Rabbit` 的方法，还可以访问例如 `rabbit.run()` 等 `Animal` 的方法。
 
-在其内部，`extends` 关键字添加了 `[[Prototype]]` 引用：从 `Rabbit.prototype` 到 `Animal.prototype`：
+在内部，关键字 `extends` 使用了很好的旧的原型机制进行工作。它将 `Rabbit.prototype.[[Prototype]]` 设置为 `Animal.prototype`。所以，如果在 `Rabbit.prototype` 中找不到一个方法，JavaScript 就会从 `Animal.prototype` 中获取该方法。
 
 ![](animal-rabbit-extends.svg)
 
-因此，如果在 `Rabbit.prototype` 中没有找到某个方法，JavaScript 将会从 `Animal.prototype` 中获取它。
+例如，要查找 `rabbit.run` 方法，JavaScript 引擎会进行如下检查（如图所示从下到上）：
+1. 查找对象 `rabbit`（没有 `run`）。
+2. 查找它的原型，即 `Rabbit.prototype`（有 `hide`，但没有 `run`）。
+3. 查找它的原型，即（由于 `extends`）`Animal.prototype`，在这儿找到了 `run` 方法。
 
-我们可以回忆一下这一章 <info:native-prototypes>，JavaScript 内置对象同样也是基于原型继承的。例如，`Date.prototype.[[Prototype]]` 是 `Object.prototype`，所以 dates 有通用的对象方法。
+我们可以回忆一下 <info:native-prototypes> 这一章的内容，JavaScript 内建对象同样也使用原型继承。例如，`Date.prototype.[[Prototype]]` 是 `Object.prototype`。这就是为什么日期可以访问通用对象的方法。
 
 ````smart header="`extends` 允许后接任何表达式"
 类语法不仅可以指定一个类，还可以指定 `extends` 之后的任何表达式。
