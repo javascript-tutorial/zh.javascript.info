@@ -25,9 +25,9 @@ class MyClass {
 }
 ```
 
-然后通过 `new MyClass()` 来创建具有上述列出的所有方法的新对象。
+然后使用 `new MyClass()` 来创建具有上述列出的所有方法的新对象。
 
-通过 `new` 关键词创建的对象会自动调用 `constructor()` 方法，因此我们可以在 `constructor()` 里初始化对象。
+`new` 会自动调用 `constructor()` 方法，因此我们可以在 `constructor()` 中初始化对象。
 
 例如：
 
@@ -44,29 +44,29 @@ class User {
 
 }
 
-// 使用方法：
+// 用法：
 let user = new User("John");
 user.sayHi();
 ```
 
 当 `new User("John")` 被调用：
 1. 一个新对象被创建。
-2. `constructor` 构造器使用给定的参数运行，并为其分配 `this.name`。
+2. `constructor` 使用给定的参数运行，并为其分配 `this.name`。
 
-...然后我们就可以调用诸如 `user.sayHi` 这样的方法了。
+……然后我们就可以调用对象方法了，例如 `user.sayHi`。
 
 
-```warn header="类方法之间没有逗号"
-经验不足的开发者常犯的语法错误是在类方法之间加一个逗号。
+```warn header="类的方法之间没有逗号"
+对于新手开发人员来说，常见的陷阱是在类的方法之间放置逗号，这会导致语法错误。
 
-这里的符号不要与对象字面量相混淆，在类中，不需要逗号。
+不要把这里的符号与对象字面量相混淆。在类中，不需要逗号。
 ```
 
 ## 什么是 class？
 
 所以，`class` 到底是什么？正如人们可能认为的那样，这不是一个全新的语言级实体。
 
-让我们揭开其神秘面纱，看看类究竟是什么。这将会有助于你理解许多复杂的方面。
+让我们揭开其神秘面纱，看看类究竟是什么。这将有助于我们理解许多复杂的方面。
 
 在 JavaScript 中，类是一种函数。
 
@@ -84,19 +84,18 @@ alert(typeof User); // function
 */!*
 ```
 
-`class User {...}` 构造器内部为我们做了什么：
-1. 创建一个以 `User` 为名称的函数，这是类声明的结果。
-    - 函数代码来自于 `constructor` 中的方法（如果我们不写这样的方法，那么就假设它为空的）。
-2. 储存所有方法，例如 `User.prototype` 中的 `sayHi`。
+`class User {...}` 构造实际上做了如下的事儿：
 
-然后，对于新的对象，当我们调用方法时，它取自原型，就像我们在 <info:function-prototype> 章节中描述的那样。所以 `new User` 对象可以访问类中的方法。
+1. 创建一个名为 `User` 的函数，该函数成为类声明的结果。该函数的代码来自于 `constructor` 方法（如果我们不编写这种方法，那么它就被假定为空）。
+2. 存储类中的方法，例如 `User.prototype` 中的 `sayHi`。
 
-我们可以将 `class User` 声明结果解释为：
+当 `new User` 对象被创建后，当我们调用其方法时，它会从原型中获取对应的方法，正如我们在 <info:function-prototype> 一章中所讲的那样。因此，对象 `new User` 可以访问类中的方法。
+
+我们可以将 `class User` 声明的结果解释为：
 
 ![](class-user.svg)
 
-下面这些代码很好的解释了它们：
-
+下面这些代码很好地解释了它们：
 
 ```js run
 class User {
@@ -104,48 +103,48 @@ class User {
   sayHi() { alert(this.name); }
 }
 
-// 类是函数
+// class 是函数 function
 alert(typeof User); // function
 
-// ...或者，更确切地说是构造方法
+// ...或者，更确切地说，是构造器方法
 alert(User === User.prototype.constructor); // true
 
-// User.prototype 中的方法，比如：
+// 方法在 User.prototype 中，例如：
 alert(User.prototype.sayHi); // alert(this.name);
 
-// 实际上在原型中有两个方法
+// 在原型中实际上有两个方法
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
 
 ## 不仅仅是语法糖
 
-人们常说 `class` 是 JavaScript 中的语法糖，主要是因为我们可以在没有 `class` 的情况下声明同样的内容：
+人们常说 `class` 是一个语法糖（旨在使内容更易阅读，但不引入任何新内容的语法），因为我们实际上可以在没有 `class` 的情况下声明相同的内容：
 
 ```js run
-// 以纯函数的重写 User 类
+// 用纯函数重写 class User
 
 // 1. 创建构造器函数
 function User(name) {
   this.name = name;
 }
-// 任何函数原型默认具有构造器属性，
+// 任何函数原型默认都具有构造器属性，
 // 所以，我们不需要创建它
 
-// 2. 向原型中添加方法
+// 2. 将方法添加到原型
 User.prototype.sayHi = function() {
   alert(this.name);
 };
 
-// 使用方法：
+// 用法：
 let user = new User("John");
 user.sayHi();
 ```
 
-这和定义的结果大致相同。因此，这确实是 `class` 被视为一种定义构造函数及其原型方法的语法糖的理由。
+这个定义的结果与使用类得到的结果基本相同。因此，这确实是将 `class` 视为一种定义构造函数及其原型方法的语法糖的理由。
 
-尽管它们存在重大差异：
+尽管，它们之间存在着重大差异：
 
-1. 首先，通过 `class` 创建的函数是由特殊内部属性标记的 `[[FunctionKind]]:"classConstructor"`。所以，相较于手动创建它还是有点不同的。
+1. 首先，通过 `class` 创建的函数具有特殊的内部属性标记 `[[FunctionKind]]:"classConstructor"`。因此，它与手动创建并不完全相同。
 
     不像普通函数，调用类构造器时必须要用 `new` 关键词：
 
@@ -155,10 +154,10 @@ user.sayHi();
     }
 
     alert(typeof User); // function
-    User(); // Error: 没有 ‘new’ 关键词，类构造器 User 无法调用 
+    User(); // Error: Class constructor User cannot be invoked without 'new'
     ```
 
-    此外，大多数 JavaScript 引擎中的类构造函数的字符串表示形式都以 “class” 开头
+    此外，大多数 JavaScript 引擎中的类构造器的字符串表示形式都以 "class..." 开头
 
     ```js run
     class User {
@@ -169,21 +168,20 @@ user.sayHi();
     ```
 
 2. 类方法不可枚举。
-    对于 `"prototype"` 中的所有方法，类定义将 `enumerable` 标记设为 `false。
+    类定义将 `"prototype"` 中的所有方法的 `enumerable` 标志设置为 `false`。
 
     这很好，因为如果我们对一个对象调用 `for..in` 方法，我们通常不希望 class 方法出现。
 
-3. 类默认使用 `use strict`。
-    在类构造函数中的所有方法自动使用严格模式。
+3. 类总是使用 `use strict`。
+    在类构造中的所有代码都将自动进入严格模式。
 
+此外，`class` 语法还带来了许多其他功能，我们稍后将会探索它们。
 
-此外，除了它的基础操作外，`class` 语法也带来许多其他功能，我们稍后将会探索它们。
+## 类表达式
 
-## 类表达式（Class Expression）
+就像函数一样，类可以在另外一个表达式中被定义，被传递，被返回，被赋值等。
 
-正如函数一样，类可以在另外一个表达式中定义，传递（passed around），返回（returned），调用（assigned）等
-
-这里是类表达式的例子：
+这是一个类表达式的例子：
 
 ```js
 let User = class {
@@ -193,30 +191,30 @@ let User = class {
 };
 ```
 
-类似于命名函数表达式（Named Function Expressions），类表达式可能也可能没有名称。
+类似于命名函数表达式（Named Function Expressions），类表达式可能也应该有一个名字。
 
-如果类表达式有名称，它仅在类内部可见：
+如果类表达式有名字，那么该名字仅在类内部可见：
 
 ```js run
-// “命名类表达式”
-// （规范中没有这样的术语，但是它和命名函数表达式类似）
+// “命名类表达式（Named Class Expression）”
+// (规范中没有这样的术语，但是它和命名函数表达式类似)
 let User = class *!*MyClass*/!* {
   sayHi() {
-    alert(MyClass); // MyClass 仅在其内部可见
+    alert(MyClass); // MyClass 这个名字仅在类内部可见
   }
 };
 
 new User().sayHi(); // 正常运行，显示 MyClass 中定义的内容
 
-alert(MyClass); // 错误，MyClass 在外部不可见
+alert(MyClass); // error，MyClass 在外部不可见
 ```
 
 
-我们甚至可以“按需”动态创建类，就像这样：
+我们甚至可以动态地“按需”创建类，就像这样：
 
 ```js run
 function makeClass(phrase) {
-  // 声明并返回类
+  // 声明一个类并返回它
   return class {
     sayHi() {
       alert(phrase);
@@ -224,14 +222,14 @@ function makeClass(phrase) {
   };
 }
 
-// 创建新类
+// 创建一个新的类
 let User = makeClass("Hello");
 
 new User().sayHi(); // Hello
 ```
 
 
-## Getters/setters 及其他 shorthands
+## Getters/setters 及其他速记
 
 就像对象字面量，类可能包括 getters/setters，generators，计算属性（computed properties）等。
 
