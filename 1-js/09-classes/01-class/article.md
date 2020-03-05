@@ -231,9 +231,9 @@ new User().sayHi(); // Hello
 
 ## Getters/setters 及其他速记
 
-就像对象字面量，类可能包括 getters/setters，generators，计算属性（computed properties）等。
+就像对象字面量，类可能包括 getters/setters，计算属性（computed properties）等。
 
-这是使用 `get/set` 实现 `user.name` 的示例：
+这是一个使用 `get/set` 实现 `user.name` 的示例：
 
 ```js run
 class User {
@@ -264,7 +264,7 @@ class User {
 let user = new User("John");
 alert(user.name); // John
 
-user = new User(""); // Name too short.
+user = new User(""); // Name is too short.
 ```
 
 类声明在 `User.prototype` 中创建 getters 和 setters，就像这样：
@@ -282,13 +282,14 @@ Object.defineProperties(User.prototype, {
 });
 ```
 
-这是计算属性的例子：
+这是一个 `[...]` 中有计算属性名称（computed property name）的例子：
 
 ```js run
-function f() { return "sayHi"; }
-
 class User {
-  [f()]() {
+
+*!*
+  ['say' + 'Hi']() {
+*/!*
     alert("Hello");
   }
 
@@ -297,19 +298,19 @@ class User {
 new User().sayHi();
 ```
 
-对于 generator 方法，类似的，在它前面添加 `*`。
-
 ## Class 属性
 
 ```warn header="旧的浏览器可能需要 polyfill"
 类级别的属性是最近才添加到语言中的。
 ```
 
-上面的例子中，`User` 只有方法。现在我们为其添加属性：
+在上面的例子中，`User` 只有方法。现在我们为其添加一个属性：
 
 ```js run
 class User {
+*!*
   name = "Anonymous";
+*/!*
 
   sayHi() {
     alert(`Hello, ${this.name}!`);
@@ -317,33 +318,35 @@ class User {
 }
 
 new User().sayHi();
+
+alert(User.prototype.sayHi); // 被放在 User.prototype 中
+alert(User.prototype.name); // undefined，没有被放在 User.prototype 中
 ```
 
-属性不在 `User.prototype` 内。相反它是通过 `new` 分别为每个对象创建的。所以，该属性永远不会在同一个类的不同对象之间共享。
-
+`name` 属性没有被放在 `User.prototype` 中。相反，它是在调用构造器之前通过 `new` 分创建的，它是对象自身的属性。
 
 ## 总结
 
-基本的类语法看起来是这样的：
+基本的类语法看起来像这样：
 
 ```js
 class MyClass {
-  prop = value; // field
+  prop = value; // 属性
 
   constructor(...) { // 构造器
     // ...
   }
 
-  method(...) {} // 方法
+  method(...) {} // method
 
   get something(...) {} // getter 方法
-  set something(...) {} // setter 方法
+  set something(...) {} // setter 方法 
 
-  [Symbol.iterator]() {} // 计算 name/symbol 名方法
+  [Symbol.iterator]() {} // 有计算名称（computed name）的方法（此处为 symbol）
   // ...
 }
 ```
 
-技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods，getters 和 settors 都被写入 `MyClass.prototype`。
+技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods、getters 和 settors 都被写入了 `MyClass.prototype`。
 
-在下一章，我们将会进一步研究类，包括继承在内的其他功能。
+在下一章，我们将会进一步学习类的相关知识，包括继承和其他功能。
