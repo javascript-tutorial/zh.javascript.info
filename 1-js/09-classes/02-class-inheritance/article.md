@@ -1,9 +1,13 @@
 
 # 类继承
 
-假设我们有两个类：
+类继承是一个类扩展另一个类的一种方式。
 
-`Animal`:
+因此，我们可以在现有功能之上创建新功能。
+
+## "extends" 关键字
+
+假设我们有 class `Animal`：
 
 ```js
 class Animal {
@@ -12,20 +16,21 @@ class Animal {
     this.name = name;
   }
   run(speed) {
-    this.speed += speed;
+    this.speed = speed;
     alert(`${this.name} runs with speed ${this.speed}.`);
   }
   stop() {
     this.speed = 0;
-    alert(`${this.name} stopped.`);
+    alert(`${this.name} stands still.`);
   }
 }
 
 let animal = new Animal("My animal");
 ```
 
-![](rabbit-animal-independent-animal.svg)
+Here's how we can represent `animal` object and `Animal` class graphically:
 
+![](rabbit-animal-independent-animal.svg)
 
 ...和 `Rabbit`：
 
