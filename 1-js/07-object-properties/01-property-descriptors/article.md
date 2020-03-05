@@ -102,7 +102,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 
 ## 只读
 
-让我们通过更改 `writable` 标志来把 `user.name` 设置为只读（不能被重新赋值）：
+让我们通过更改 `writable` 标志来把 `user.name` 设置为只读（`user.name` 不能被重新赋值）：
 
 ```js run
 let user = {
