@@ -118,7 +118,7 @@ for(let value of generator) {
 }
 ```
 
-`for ... of`写法是不是比 `.next().value` 优雅多了？
+`for ... of` 写法是不是比 `.next().value` 优雅多了？
 
 ……但是请注意：上面的迭代例子中，它先显示 `1`，然后是 `2`。它不会显示 `3`！
 
