@@ -1,6 +1,6 @@
-这是因为子类的构造函数必须调用 `super()`。
+这是因为子类的 constructor 必须调用 `super()`。
 
-这里是正确的代码：
+这里是修正后的代码：
 
 ```js run
 class Animal {
@@ -21,9 +21,7 @@ class Rabbit extends Animal {
 }
 
 *!*
-let rabbit = new Rabbit("White Rabbit"); // ok now
+let rabbit = new Rabbit("White Rabbit"); // 现在好了
 */!*
 alert(rabbit.name); // White Rabbit
 ```
-
-
