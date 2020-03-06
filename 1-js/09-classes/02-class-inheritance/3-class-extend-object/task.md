@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# 类继扩展对象？
+# 类扩展自对象？
 
 正如我们所知道的，所有的对象通常都继承自 `Object.prototype`，并且可以访问“通用”对象方法，例如 `hasOwnProperty` 等。
 
