@@ -68,8 +68,8 @@ Class `Rabbit` 的对象可以访问例如 `rabbit.hide()` 等 `Rabbit` 的方�
 
 我们可以回忆一下 <info:native-prototypes> 这一章的内容，JavaScript 内建对象同样也使用原型继承。例如，`Date.prototype.[[Prototype]]` 是 `Object.prototype`。这就是为什么日期可以访问通用对象的方法。
 
-````smart header="`extends` 允许后接任何表达式"
-类语法不仅可以指定一个类，还可以指定 `extends` 之后的任何表达式。
+````smart header="在 `extends` 后允许任意表达式"
+类语法不仅允许指定一个类，在 `extends` 后可以指定任意表达式。
 
 例如，一个生成父类的函数调用：
 
@@ -88,32 +88,32 @@ new User().sayHi(); // Hello
 ```
 这里 `class User` 继承自 `f("Hello")` 的结果。
 
-我们可以根据多种状况使用函数生成类，并继承它们，这对于高级编程模式来说可能很有用。
+这对于高级编程模式，例如当我们根据许多条件使用函数生成类，并继承它们时来说可能很有用。
 ````
 
 ## 重写方法
 
-现在，让我们继续前行并尝试重写一个方法。到目前为止，`Rabbit` 继承了 `Animal` 中的 `stop` 方法，该方法设置了 `this.speed = 0`。
+现在，让我们继续前行并尝试重写一个方法。默认情况下，所有未在 `class Rabbit` 中指定的方法均从 `class Animal` 中直接获取。
 
-如果我们在 `Rabbit` 中定义了我们自己的 `stop` 方法，那么它将被用来代替 `Animal` 中的 `stop`：
+但是如果我们在 `Rabbit` 中指定了我们自己的方法，例如 `stop()`，那么将会使用它：
 
 ```js
 class Rabbit extends Animal {
   stop() {
-    // ...这将用于 rabbit.stop()
+    // ……现在这个将会被用作 rabbit.stop()
+    // 而不是来自于 class Animal 的 stop()
   }
 }
 ```
 
+但是通常来说，我们不希望完全替换父类的方法，而是希望在父类方法的基础上进行调整或扩展其功能。我们在我们的方法中做一些事儿，但是在它之前或之后或在过程中会调用父类方法。
 
-...但是通常来说，我们不希望完全替换父类的方法，而是希望基于它做一些调整或者功能性的扩展。我们在我们的方法中做一些事情，但是在它之前/之后或在执行过程中调用父类方法。
+Class 为此提供了 `"super"` 关键字。
 
-为此，类提供了 `"super"` 关键字。
+- 执行 `super.method(...)` 来调用一个父类方法。
+- 执行 `super(...)` 来调用一个父类 constructor（只能在我们的 constructor 中）。
 
-- 执行 `super.method(...)` 调用父类方法。
-- 执行 `super(...)` 调用父类构造函数（只能在子类的构造函数中运行）。
-
-例如，让我们的兔子在停下来的时候自动隐藏：
+例如，让我们的 rabbit 在停下来的时候自动 hide：
 
 ```js run
 class Animal {
@@ -124,13 +124,13 @@ class Animal {
   }
 
   run(speed) {
-    this.speed += speed;
+    this.speed = speed;
     alert(`${this.name} runs with speed ${this.speed}.`);
   }
 
   stop() {
     this.speed = 0;
-    alert(`${this.name} stopped.`);
+    alert(`${this.name} stands still.`);
   }
 
 }
@@ -142,52 +142,52 @@ class Rabbit extends Animal {
 
 *!*
   stop() {
-    super.stop(); // 调用父类的 stop 函数
-    this.hide(); // 然后隐藏
+    super.stop(); // 调用父类的 stop
+    this.hide(); // 然后 hide
   }
 */!*
 }
 
 let rabbit = new Rabbit("White Rabbit");
 
-rabbit.run(5); // White Rabbit runs with speed 5.
-rabbit.stop(); // White Rabbit stopped. White rabbit hides!
+rabbit.run(5); // White Rabbit 以速度 5 奔跑
+rabbit.stop(); // White Rabbit 停止了。White rabbit hide 了！
 ```
 
-现在 `Rabbit` 拥有自己的 `stop` 方法，并且在执行中会调用父类的 `super.stop()`。
+现在，`Rabbit` 在执行过程中调用父类的 `super.stop()` 方法，所以 `Rabbit` 也具有了 `stop` 方法。
 
 ````smart header="箭头函数没有 `super`"
-正如我们在 <info:arrow-functions> 章节中所提到的，箭头函数没有 `super`。
+正如我们在 <info:arrow-functions> 一章中所提到的，箭头函数没有 `super`。
 
 如果被访问，它会从外部函数获取。例如：
 ```js
 class Rabbit extends Animal {
   stop() {
-    setTimeout(() => super.stop(), 1000); // 1 秒后调用父类 stop 方法
+    setTimeout(() => super.stop(), 1000); // 1 秒后调用父类的 stop
   }
 }
 ```
 
-箭头函数中的 `super` 与 `stop()` 中的是相同的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
+箭头函数中的 `super` 与 `stop()` 中的是一样的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
 
 ```js
-// Unexpected super
+// 意料之外的 super
 setTimeout(function() { super.stop() }, 1000);
 ```
 ````
 
 
-## 重写构造函数
+## 重写 constructor
 
-对于构造函数来说，重写则有点棘手。
+对于重写 constructor 来说，则有点棘手。
 
 到目前为止，`Rabbit` 还没有自己的 `constructor`。
 
-根据 [规范](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)，如果一个类继承了另一个类并且没有 `constructor`，那么将生成以下“空” `constructor`：
+根据 [规范](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)，如果一个类扩展了另一个类并且没有 `constructor`，那么将生成下面这样的“空” `constructor`：
 
 ```js
 class Rabbit extends Animal {
-  // 为没有构造函数的继承类生成以下的构造函数
+  // 为没有自己的 constructor 的扩展类生成的
 *!*
   constructor(...args) {
     super(...args);
@@ -196,9 +196,9 @@ class Rabbit extends Animal {
 }
 ```
 
-我们可以看到，它调用了父类的 `constructor`，并传递了所有的参数。如果我们不写自己的构造函数，就会出现这种情况。
+正如我们所看到的，它调用了父类的 `constructor`，并传递了所有的参数。如果我们没有写自己的 constructor，就会出现这种情况。
 
-现在，我们给 `Rabbit` 添加一个自定义的构造函数。除了 `name` 它还会定义 `earLength`。
+现在，我们给 `Rabbit` 添加一个自定义的 constructor。除了 `name` 之外，它还会指定 `earLength`。
 
 ```js run
 class Animal {
@@ -223,29 +223,29 @@ class Rabbit extends Animal {
 }
 
 *!*
-// 不生效！
+// 不工作！
 let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 */!*
 ```
 
-哎呦！我们得到一个报错。现在我们没法新建兔子了。是什么地方出错了？
+哎呦！我们得到了一个报错。现在我们没法新建 rabbit。是什么地方出错了？
 
-简短的解释下原因：继承类的构造函数必须调用 `super(...)`，并且 (!) 一定要在使用 this 之前调用。
+简短的解释是：继承类的 constructor 必须调用 `super(...)`，并且 (!) 一定要在使用 `this` 之前调用。
 
-...但这是为什么呢？这里发生了什么？这个要求确实看起来很奇怪。
+……但这是为什么呢？这里发生了什么？确实，这个要求看起来很奇怪。
 
-当然，本文会给出一个解释。让我们深入细节，这样你就可以真正的理解发生了什么。
+当然，本文会给出一个解释。让我们深入细节，这样你就可以真正地理解发生了什么。
 
-在 JavaScript 中，“继承类的构造函数”与所有其他的构造函数之间存在区别。在继承类中，相应的构造函数会被标记为特殊的内部属性 `[[ConstructorKind]]:"derived"`。
+在 JavaScript 中，继承类（所谓的“派生构造函数”，英文为 "derived constructor"）的构造函数与其他函数之间是有区别的。派生的构造函数具有特殊的内部属性 `[[ConstructorKind]]:"derived"`。这是一个特殊的内部标签。
 
-不同点就在于：
+该标签会影响它的 `new` 行为：
 
-- 当一个普通构造函数执行时，它会创建一个空对象作为 `this` 并继续执行。
-- 但是当继承的构造函数执行时，它并不会做这件事。它期望父类的构造函数来完成这项工作。
+- 当通过 `new` 执行一个常规函数时，它将创建一个空对象，并将这个空对象赋值给 `this`。
+- 但是当继承的 constructor 执行时，它不会执行此操作。它期望父类的 constructor 来完成这项工作。
 
-因此，如果我们构建了我们自己的构造函数，我们必须调用 `super`，因为如果不这样的话 `this` 指向的对象不会被创建。并且我们会收到一个报错。
+因此，派生的 constructor 必须调用 `super` 才能执行其父类（非派生的）的 constructor，否则 `this` 指向的那个对象将不会被创建。并且我们会收到一个报错。
 
-为了让 `Rabbit` 可以运行，我们需要在使用 `this` 之前调用 `super()`，就像下面这样：
+为了让 `Rabbit` 的 constructor 可以工作，它需要在使用 `this` 之前调用 `super()`，就像下面这样：
 
 ```js run
 class Animal {
@@ -279,19 +279,27 @@ alert(rabbit.earLength); // 10
 ```
 
 
-## Super 内部探究：[[HomeObject]]
+## 深入：内部探究和 [[HomeObject]]
 
-让我们再深入的去研究下 `super`。顺便说一句，我们会发现一些有趣的事情。
+```warn header="进阶内容"
+如果你是第一次阅读本教程，那么则可以跳过本节。
+
+这是关于继承和 `super` 背后的内部机制。
+```
+
+让我们更深入地研究 `super`。我们将在这个过程中发现一些有趣的事儿。
 
 首先要说的是，从我们迄今为止学到的知识来看，`super` 是不可能运行的。
 
-的确是这样，让我们问问自己，在技术上它是如何实现的？当一个对象方法运行时，它会将当前对象作为 `this`。如果之后我们调用 `super.method()`，它需要从当前对象的原型中调用 `method`。
+的确是这样，让我们问问自己，以技术的角度它是如何工作的？当一个对象方法执行时，它会将当前对象作为 `this`。随后如果我们调用 `super.method()`，那么引擎需要从当前对象的原型中获取 `method`。但这是怎么做到的？
 
-任务看起来是挺容易的，但其实并不简单。引擎知道当前对象的 `this`，因此它可以获取父 `method` 作为 `this.__proto__.method`。不幸的是，这个“天真”的解决方法是行不通的。
+这个任务看起来是挺容易的，但其实并不简单。引擎知道当前对象的 `this`，所以它可以获取父 `method` 作为 `this.__proto__.method`。不幸的是，这个“天真”的解决方法是行不通的。
 
-让我们来说明一下这个问题。没有类，为简单起见，使用普通对象。
+让我们演示一下这个问题。简单起见，我们使用普通对象而不使用类。
 
-在下面的例子中是 `rabbit.__proto__ = animal`。现在让我们尝试一下：在 `rabbit.eat()` 我们将会通过 `this.__proto__` 调用 `animal.eat()`：
+如果你不想知道更多的细节知识，你可以跳过此部分，并转到下面的 `[[HomeObject]]` 小节。这没关系的。但如果你感兴趣，想学习更深入的知识，那就继续阅读吧。
+
+在下面的例子中，`rabbit.__proto__ = animal`。现在让我们尝试一下：在 `rabbit.eat()` 我们将会使用 `this.__proto__` 调用 `animal.eat()`：
 
 ```js run
 let animal = {
@@ -306,7 +314,7 @@ let rabbit = {
   name: "Rabbit",
   eat() {
 *!*
-    // 这就是 super.eat() 可能运行的原因
+    // 这就是 super.eat() 可以大概工作的方式
     this.__proto__.eat.call(this); // (*)
 */!*
   }
