@@ -222,13 +222,13 @@ class MyClass {
 }
 ```
 
-技术上来说，静态声明等同于直接给类本身赋值：
+从技术上讲，静态声明与直接给类本身赋值相同：
 
 ```js
 MyClass.property = ...
 MyClass.method = ...
 ```
 
-静态属性和方法是被继承的。
+静态属性和方法是继承的。
 
 对于 `class B extends A`，类 `B` 的 prototype 指向了 `A`：`B.[[Prototype]] = A`。因此，如果一个字段在 `B` 中没有找到，会继续在 `A` 中查找。
