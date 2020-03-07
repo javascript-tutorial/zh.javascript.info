@@ -144,13 +144,13 @@ class CoffeeMachine {
 // 创建咖啡机
 let coffeeMachine = new CoffeeMachine(100);
 
-alert(`Power is: ${coffeeMachine.power}W`); // 功率：100W
+alert(`Power is: ${coffeeMachine.power}W`); // 功率是：100W
 
 coffeeMachine.power = 25; // Error（没有 setter）
 ```
 
 ````smart header="Getter/setter 函数"
-这里我们使用类 getter/setter 语法。
+这里我们使用了 getter/setter 语法。
 
 但大多数时候首选 `get.../set...` 函数，像这样：
 
@@ -176,21 +176,21 @@ new CoffeeMachine().setWaterAmount(100);
 另一方面，get/set 语法更短，所以最终没有严格的规定，而是由你自己来决定。
 ````
 
-```smart header="受保护的字段是继承的"
-如果我们继承 `class MegaMachine extends CoffeeMachine`，那么无法阻止我们从新的类中的方法访问 `this._waterAmount` 或 `this._power`。
+```smart header="受保护的字段是可以被继承的"
+如果我们继承 `class MegaMachine extends CoffeeMachine`，那么什么都无法阻止我们从新的类中的方法访问 `this._waterAmount` 或 `this._power`。
 
-所以受保护的字段是自然可继承的。不像我们接下来将看到的私有字段。
+所以受保护的字段是自然可被继承的。与我们接下来将看到的私有字段不同。
 ```
 
-## 私有的“#waterLimit”
+## 私有的 "#waterLimit"
 
 [recent browser=none]
 
-在标准中几乎有个已完成的 Javascript 提案，它为私有属性和方法提供语言级支持。
+这儿有一个马上就会被加到规范中的已完成的 Javascript 提案，它为私有属性和方法提供语言级支持。
 
-私有属性和方法应该以 `#` 开头。他们只能从类的内部访问。
+私有属性和方法应该以 `#` 开头。它们只在类的内部可被访问。
 
-例如，这有一个私有属性 `#waterLimit`，以及检查水量的私有方法 `#checkWater`：
+例如，这儿有一个私有属性 `#waterLimit` 和检查水量的私有方法 `#checkWater`：
 
 ```js run
 class CoffeeMachine {
@@ -210,7 +210,7 @@ class CoffeeMachine {
 let coffeeMachine = new CoffeeMachine();
 
 *!*
-// 不能从类的外部访问其私有方法
+// 不能从类的外部访问类的私有属性和方法
 coffeeMachine.#checkWater(); // Error
 coffeeMachine.#waterLimit = 1000; // Error
 */!*
@@ -218,9 +218,9 @@ coffeeMachine.#waterLimit = 1000; // Error
 
 在语言层面，`#` 是该字段为私有的特殊标志。我们无法从外部或从继承的类中访问它。
 
-私有字段不与公共字段发生冲突。我们可以同时拥有私有属性 `#waterAmount` 和公共属性 `waterAmount`。
+私有字段与公共字段不会发生冲突。我们可以同时拥有私有的 `#waterAmount` 和公共的 `waterAmount` 字段。
 
-例如，让 `waterAmount` 成为 `#waterAmount` 的访问器：
+例如，让我们使 `waterAmount` 成为 `#waterAmount` 的一个访问器：
 
 ```js run
 class CoffeeMachine {
