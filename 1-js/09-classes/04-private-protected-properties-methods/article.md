@@ -81,15 +81,15 @@ let coffeeMachine = new CoffeeMachine(100);
 coffeeMachine.waterAmount = 200;
 ```
 
-现在，属性 `waterAmount` 和 `power` 是公共的。我们可以轻松地从外部读取/设置它们为任何值。
+现在，属性 `waterAmount` 和 `power` 是公共的。我们可以轻松地从外部将它们 get/set 成任何值。
 
-让我们将 `waterAmount` 属性更改为受保护的属性以对其进行更多控制。例如，我们不希望任何人将其值设置为小于零的数。
+让我们将 `waterAmount` 属性更改为受保护的属性，以对其进行更多控制。例如，我们不希望任何人将它的值设置为小于零的数。
 
 **受保护的属性通常以下划线 `_` 作为前缀。**
 
-这不是在语言层面强制实施的，但是有一个在程序员之间人尽皆知的惯例是不应该从外部访问这些属性和方法。
+这不是在语言层面强制实施的，但是程序员之间有一个众所周知的约定，即不应该从外部访问此类型的属性和方法。
 
-所以我们的属性将被称为 `_waterAmount` ：
+所以我们的属性将被命名为 `_waterAmount`：
 
 ```js run
 class CoffeeMachine {
@@ -113,19 +113,19 @@ class CoffeeMachine {
 // 创建咖啡机
 let coffeeMachine = new CoffeeMachine(100);
 
-// 加入水
+// 加水
 coffeeMachine.waterAmount = -10; // Error: Negative water
 ```
 
-现在访问受到控制，因此将水量设置为小于零的数将会失败。
+现在访问已受到控制，因此将水量的值设置为小于零的数将会失败。
 
-## 只读的“power”
+## 只读的 "power"
 
-对于 `power` 属性，让我们将它设为只读的。有时候一个属性必须仅在创建时设置，然后不再修改。
+对于 `power` 属性，让我们将它设为只读。有时候一个属性必须只能被在创建时进行设置，之后不再被修改。
 
-这就是咖啡机的实际情况：功率永远不会改变。
+咖啡机就是这种情况：功率永远不会改变。
 
-要做到这一点，我们只需要设置 getter，而不是 setter：
+要做到这一点，我们只需要设置 getter，而不设置 setter：
 
 ```js run
 class CoffeeMachine {
@@ -144,13 +144,13 @@ class CoffeeMachine {
 // 创建咖啡机
 let coffeeMachine = new CoffeeMachine(100);
 
-alert(`Power is: ${coffeeMachine.power}W`); // 功率是：100W
+alert(`Power is: ${coffeeMachine.power}W`); // 功率：100W
 
-coffeeMachine.power = 25; // Error (no setter)
+coffeeMachine.power = 25; // Error（没有 setter）
 ```
 
 ````smart header="Getter/setter 函数"
-这里我们使用 getter/setter 语法。
+这里我们使用类 getter/setter 语法。
 
 但大多数时候首选 `get.../set...` 函数，像这样：
 
@@ -171,9 +171,9 @@ class CoffeeMachine {
 new CoffeeMachine().setWaterAmount(100);
 ```
 
-这看起来有点长，但函数更灵活。他们可以接受多个参数（即使我们现在不需要它们）。
+这看起来有点长，但函数更灵活。它们可以接受多个参数（即使我们现在还不需要）。
 
-另一方面，get/set 语法更短，所以最终没有严格的规则，而是由你自己来决定。
+另一方面，get/set 语法更短，所以最终没有严格的规定，而是由你自己来决定。
 ````
 
 ```smart header="受保护的字段是继承的"
