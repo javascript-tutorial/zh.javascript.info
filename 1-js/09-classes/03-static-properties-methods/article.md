@@ -127,9 +127,9 @@ Article.publisher = "Levi Ding";
 
 ## 继承静态属性和方法
 
-静态属性和方法是继承的。
+静态属性和方法是可被继承的。
 
-例如，下面这段代码中的 `Animal.compare` 和 `Animal.planet` 是继承的，可以通过 `Rabbit.compare` 和 `Rabbit.planet` 来访问：
+例如，下面这段代码中的 `Animal.compare` 和 `Animal.planet` 是可被继承的，可以通过 `Rabbit.compare` 和 `Rabbit.planet` 来访问：
 
 ```js run
 class Animal {
@@ -229,6 +229,6 @@ MyClass.property = ...
 MyClass.method = ...
 ```
 
-静态属性和方法是继承的。
+静态属性和方法是可被继承的。
 
 对于 `class B extends A`，类 `B` 的 prototype 指向了 `A`：`B.[[Prototype]] = A`。因此，如果一个字段在 `B` 中没有找到，会继续在 `A` 中查找。
