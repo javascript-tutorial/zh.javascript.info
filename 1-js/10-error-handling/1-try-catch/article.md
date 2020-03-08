@@ -72,10 +72,10 @@ try {
     ```
 
 
-````warn header="`try..catch` only works for runtime errors"
-要使得 `try..catch` 能工作，代码必须是可执行的，换句话说，它必须是有效的 JavaScript 代码。
+````warn header="`try..catch` 仅对运行时的 error 有效"
+要使得 `try..catch` 能工作，代码必须是可执行的。换句话说，它必须是有效的 JavaScript 代码。
 
-如果代码包含语法错误，那么 `try..catch` 不能正常工作，例如含有未闭合的花括号：
+如果代码包含语法错误，那么 `try..catch` 将无法正常工作，例如含有不匹配的花括号：
 
 ```js run
 try {
@@ -85,19 +85,19 @@ try {
 }
 ```
 
-JavaScript 引擎读取然后执行代码。发生在读取代码阶段的异常被称为 "parse-time" 异常，它们不会被 `try..catch` 覆盖到（包括那之间的代码）。这是因为引擎读不懂这段代码。
+JavaScript 引擎首先会读取代码，然后运行它。在读取阶段发生的错误被称为“解析时间（parse-time）”错误，并且无法恢复（从该代码内部）。这是因为引擎无法理解该代码。
 
-所以，`try..catch` 只能处理有效代码之中的异常。这类异常被称为 "runtime errors"，有时候也称为 "exceptions"。
+所以，`try..catch` 只能处理有效代码之出现的错误。这类错误被称为“运行时的错误（runtime errors）”，有时被称为“异常（exceptions）”。
 ````
 
 
-````warn header="`try..catch` works synchronously"
-如果一个异常是发生在计划中将要执行的代码中，例如在 `setTimeout` 中，那么 `try..catch` 不能捕捉到：
+````warn header="`try..catch` 同步工作"
+如果在“计划的（scheduled）”代码中发生异常，例如在 `setTimeout` 中，则 `try..catch` 不会捕捉到异常：
 
 ```js run
 try {
   setTimeout(function() {
-    noSuchVariable; // 代码在这里停止执行
+    noSuchVariable; // 脚本将在这里停止运行
   }, 1000);
 } catch (e) {
   alert( "won't work" );
