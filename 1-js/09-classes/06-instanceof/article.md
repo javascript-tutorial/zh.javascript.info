@@ -135,34 +135,34 @@ alert(obj); // [object Object]
 alert(obj.toString()); // 同上
 ```
 
-这也是它们的 `toString` 方法的实现如此。但是，`toString` 自有其潜质，可以让它变得更实用一点。甚至可以用来替代 `instanceof`，也可以视作为 `typeof` 的增强版。
+这就是它们 `toString` 方法的实现。但是这儿有一个隐藏的功能，该功能可以使 `toString` 实际上比这更强大。我们可以将其作为 `typeof` 的增强版或者 `instanceof` 的替代方法来使用。
 
 听起来挺不可思议？那是自然，精彩马上揭晓。
 
-按照 [规范](https://tc39.github.io/ecma262/#sec-object.prototype.tostring) 上所讲，内置的 `toString` 方法可以从对象中提取出来，以其他值作为上下文（context）对象进行调用，调用结果取决于传入的上下文对象。
+按照 [规范](https://tc39.github.io/ecma262/#sec-object.prototype.tostring) 所讲，内建的 `toString` 方法可以被从对象中提取出来，并在任何其他值的上下文中执行。其结果取决于该值。
 
-- 如果传入的是 number 类型，返回 `[object Number]`
-- 如果传入的是 boolean 类型，返回 `[object Boolean]`
-- 如果传入 `null`，返回 `[object Null]`
-- 传入 `undefined`，返回 `[object Undefined]`
-- 传入数组，返回 `[object Array]`
-- ...等等（例如一些自定义类型）
+- 对于 number 类型，结果是 `[object Number]`
+- 对于 boolean 类型，结果是 `[object Boolean]`
+- 对于 `null`：`[object Null]`
+- 对于 `undefined`：`[object Undefined]`
+- 对于数组：`[object Array]`
+- ……等（可自定义）
 
-下面进行阐述：
+让我们演示一下：
 
 ```js run
-// 保存 toString 方法的引用，方便后面使用
+// 方便起见，将 toString 方法复制到一个变量中
 let objectToString = Object.prototype.toString;
 
-// 猜猜是什么类型？
+// 它是什么类型的？
 let arr = [];
 
-alert( objectToString.call(arr) ); // [object Array]
+alert( objectToString.call(arr) ); // [object *!*Array*/!*]
 ```
 
-这里用到了章节 [](info:call-apply-decorators) 里提到的 [call](mdn:js/function/call) 方法来调用 `this=arr` 上下文的方法 `objectToString`。
+这里我们用到了在 [](info:call-apply-decorators) 一章中讲过的 [call](mdn:js/function/call) 方法来在上下文 `this=arr` 中执行函数 `objectToString`。
 
-`toString` 的内部算法会检查 `this` 对象，返回对应的结果。再来几个例子：
+在内部，`toString` 的算法会检查 `this`，并返回相应的结果。再举几个例子：
 
 ```js run
 let s = Object.prototype.toString;
@@ -174,9 +174,9 @@ alert( s.call(alert) ); // [object Function]
 
 ### Symbol.toStringTag
 
-对象的 `toString` 方法可以使用 `Symbol.toStringTag` 这个特殊的对象属性进行自定义输出。
+可以使用特殊的对象属性 `Symbol.toStringTag` 自定义对象的 `toString` 方法的行为。
 
-举例说明：
+例如：
 
 ```js run
 let user = {
@@ -186,10 +186,10 @@ let user = {
 alert( {}.toString.call(user) ); // [object User]
 ```
 
-大部分和环境相关的对象也有这个属性。以下输出可能因浏览器不同而异：
+对于大多数特定于环境的对象，都有一个这样的属性。下面是一些特定于浏览器的示例：
 
 ```js run
-// 环境相关对象和类的 toStringTag：
+// 特定于环境的对象和类的 toStringTag：
 alert( window[Symbol.toStringTag]); // window
 alert( XMLHttpRequest.prototype[Symbol.toStringTag] ); // XMLHttpRequest
 
@@ -197,22 +197,22 @@ alert( {}.toString.call(window) ); // [object Window]
 alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 ```
 
-输出结果和 `Symbol.toStringTag`（前提是这个属性存在）一样，只不过被包裹进了 `[object ...]` 里。
+正如我们所看到的，输出结果和 `Symbol.toStringTag`（如果存在）一样，只不过被包裹进了 `[object ...]` 里。
 
-这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检测基本数据类型，就是内置对象类型也不在话下，更可贵的是还支持自定义。
+这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检测原始数据类型，而且适用于内建对象，更可贵的是还支持自定义。
 
-所以，如果希望以字符串的形式获取内置对象类型信息，而不仅仅只是检测类型的话，可以用这个方法来替代 `instanceof`。
+所以，如果我们想要获取内建对象的类型，并希望把该信息以字符串的形式返回，而不仅仅只是检测类型的话，我们可以用 `{}.toString.call` 替代 `instanceof`。
 
 ## 总结
 
-下面，来总结下大家学到的类型检测方式：
+让我们总结一下我们知道的类型检查方法：
 
-|               | 用于 |  返回      |
+|               | 用于 |  返回值      |
 |---------------|-------------|---------------|
-| `typeof`      | 基本数据类型 |  string       |
-| `{}.toString` | 基本数据类型、内置对象以及包含 `Symbol.toStringTag` 属性的对象 |       string |
-| `instanceof`  | 任意对象     |  true/false   |
+| `typeof`      | 原始数据类型 |  string       |
+| `{}.toString` | 原始数据类型，内建对象，包含 `Symbol.toStringTag` 属性的对象 | string |
+| `instanceof`  | 对象     |  true/false   |
 
-看样子，`{}.toString` 基本就是一增强版  `typeof`。
+正如我们所看到的，从技术上讲，`{}.toString` 是一种“更高级的” `typeof`。
 
-`instanceof` 在涉及多层类结构的场合中比较实用，这种情况下需要将类的继承关系考虑在内。
+当我们使用多层类结构，并想要对该类进行检查，同时还要考虑继承时，这种场景下 `instanceof` 运算符确实很出色。
