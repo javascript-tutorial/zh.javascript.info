@@ -1,6 +1,6 @@
-# 类型检测："instanceof"
+# 类型检查："instanceof"
 
-`instanceof` 操作符用于检测一个对象是否属于某个特定的 class。同时，它还考虑了继承。
+`instanceof` 操作符用于检查一个对象是否属于某个特定的 class。同时，它还考虑了继承。
 
 在许多情况下，可能都需要进行此类检查。在这儿，我们将使用它来构建一个 **多态性（polymorphic）** 的函数，该函数根据参数的类型对参数进行不同的处理。
 
@@ -46,7 +46,7 @@ alert( arr instanceof Object ); // true
 
 有一点需要留意，`arr` 同时还隶属于 `Object` 类。因为从原型上来讲，`Array` 是继承自 `Object` 的。
 
-通常，`instanceof` 在检测中会将原型链考虑在内。此外，我们还可以在静态方法 `Symbol.hasInstance` 中设置自定义逻辑。
+通常，`instanceof` 在检查中会将原型链考虑在内。此外，我们还可以在静态方法 `Symbol.hasInstance` 中设置自定义逻辑。
 
 `obj instanceof Class` 算法的执行过程大致如下：
 
@@ -103,9 +103,9 @@ alert( arr instanceof Object ); // true
 
 ![](instanceof.svg)
 
-这里还要提到一个方法 [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf)，如果 `objA` 处在 `objB` 的原型链中，则返回 `true`。所以，可以将 `obj instanceof Class` 检测改为 `Class.prototype.isPrototypeOf(obj)`。
+这里还要提到一个方法 [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf)，如果 `objA` 处在 `objB` 的原型链中，则返回 `true`。所以，可以将 `obj instanceof Class` 检查改为 `Class.prototype.isPrototypeOf(obj)`。
 
-这很有趣，但是 `Class` 的 constructor 自身是不参与检测的！检测过程只和原型链以及 `Class.prototype` 有关。
+这很有趣，但是 `Class` 的 constructor 自身是不参与检查的！检查过程只和原型链以及 `Class.prototype` 有关。
 
 创建对象后，如果更改 `prototype` 属性，可能会导致有趣的结果。
 
@@ -199,9 +199,9 @@ alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 
 正如我们所看到的，输出结果和 `Symbol.toStringTag`（如果存在）一样，只不过被包裹进了 `[object ...]` 里。
 
-这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检测原始数据类型，而且适用于内建对象，更可贵的是还支持自定义。
+这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检查原始数据类型，而且适用于内建对象，更可贵的是还支持自定义。
 
-所以，如果我们想要获取内建对象的类型，并希望把该信息以字符串的形式返回，而不仅仅只是检测类型的话，我们可以用 `{}.toString.call` 替代 `instanceof`。
+所以，如果我们想要获取内建对象的类型，并希望把该信息以字符串的形式返回，而不仅仅只是检查类型的话，我们可以用 `{}.toString.call` 替代 `instanceof`。
 
 ## 总结
 
