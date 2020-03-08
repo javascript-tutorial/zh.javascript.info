@@ -1,42 +1,42 @@
 # 类型检测："instanceof"
 
-`instanceof` 操作符用于检测对象是否属于某个 class，同时，检测过程中也会将继承关系考虑在内。
+`instanceof` 操作符用于检测一个对象是否属于某个特定的 class。同时，它还考虑了继承。
 
-这种检测在多数情况下还是比较有用的，下面，我们就用它来构建一个具备 **多态** 性的函数，这个函数能识别出参数类型，从而作出不同的处理。
+在许多情况下，可能都需要进行此类检查。在这儿，我们将使用它来构建一个 **多态性（polymorphic）** 的函数，该函数根据参数的类型对参数进行不同的处理。
 
-## instanceof [#ref-instanceof]
+## instanceof 操作符 [#ref-instanceof]
 
-用法：
+语法：
 ```js
 obj instanceof Class
 ```
 
-如果 `obj` 隶属于 `Class` 类（或者是 `Class` 类的衍生类），表达式将返回 `true`。
+如果 `obj` 隶属于 `Class` 类（或 `Class` 类的衍生类），则返回 `true`。
 
-举例说明：
+例如：
 
 ```js run
 class Rabbit {}
 let rabbit = new Rabbit();
 
-// rabbit 是 Rabbit 类的实例对象吗?
+// rabbit 是 Rabbit class 的对象吗？
 *!*
 alert( rabbit instanceof Rabbit ); // true
 */!*
 ```
 
-使用构造函数结果也是一样的：
+它还可以与构造函数一起使用：
 
 ```js run
 *!*
-// 构造函数而非 class
+// 这里是构造函数，而不是 class
 function Rabbit() {}
 */!*
 
 alert( new Rabbit() instanceof Rabbit ); // true
 ```
 
-...再来看看内置类型 `Array`：
+……与诸如 `Array` 之类的内建 class 一起使用：
 
 ```js run
 let arr = [1, 2, 3];
@@ -44,16 +44,19 @@ alert( arr instanceof Array ); // true
 alert( arr instanceof Object ); // true
 ```
 
-有一点需要留意，`arr` 同时还隶属于 `Object` 类。因为从原型上来讲，`Array` 是继承自 `Object` 类的。
+有一点需要留意，`arr` 同时还隶属于 `Object` 类。因为从原型上来讲，`Array` 是继承自 `Object` 的。
 
-`instanceof` 在检测中会将原型链考虑在内，此外，还能借助静态方法 `Symbol.hasInstance` 来改善检测效果。
+通常，`instanceof` 在检测中会将原型链考虑在内。此外，我们还可以在静态方法 `Symbol.hasInstance` 中设置自定义逻辑。
 
-`obj instanceof Class` 语句的大致执行过程如下：
+`obj instanceof Class` 算法的执行过程大致如下：
 
-1. 如果提供了静态方法 `Symbol.hasInstance`，那就直接用这个方法进行检测：
+1. 如果这儿有静态方法 `Symbol.hasInstance`，那就直接调用这个方法：
+
+    例如：
 
     ```js run
-    // 假设具有 canEat 属性的对象为动物类
+    // 设置 instanceOf 检查
+    // 并假设具有 canEat 属性的都是 animal
     class Animal {
       static [Symbol.hasInstance](obj) {
         if (obj.canEat) return true;
@@ -61,22 +64,25 @@ alert( arr instanceof Object ); // true
     }
 
     let obj = { canEat: true };
-    alert(obj instanceof Animal); // 返回 true：调用 Animal[Symbol.hasInstance](obj)
+
+    alert(obj instanceof Animal); // true：Animal[Symbol.hasInstance](obj) 被调用
     ```
 
-2. 大部分的类是没有 `Symbol.hasInstance` 方法的，这时会检查 `Class.prototype` 是否与 `obj` 的原型链中的任何一个原型相等。
+2. 大多数 class 没有 `Symbol.hasInstance`。在这种情况下，标准的逻辑是：使用 `obj instanceOf Class` 检查 `Class.prototype` 是否等于 `obj` 的原型链中的原型之一。
 
-    简而言之，是这么比较的：
+    换句话说就是，一个接一个地比较：
     ```js
-    obj.__proto__ === Class.prototype
-    obj.__proto__.__proto__ === Class.prototype
-    obj.__proto__.__proto__.__proto__ === Class.prototype
+    obj.__proto__ === Class.prototype?
+    obj.__proto__.__proto__ === Class.prototype?
+    obj.__proto__.__proto__.__proto__ === Class.prototype?
     ...
+    // 如果任意一个的答案为 true，则返回 true
+    // 否则，如果我们已经检查到了原型链的尾端，则返回 false
     ```
 
-    在上一个例子中有 `Rabbit.prototype === rabbit.__proto__` 成立，所以结果是显然的。
+    在上面那个例子中，`rabbit.__proto__ === Rabbit.prototype`，所以立即就给出了结果。
 
-    再比如下面一个继承的例子，`rabbit` 对象同时也是父类的一个实例：
+    而在继承的例子中，匹配将在第二步进行：
 
     ```js run
     class Animal {}
@@ -86,19 +92,22 @@ alert( arr instanceof Object ); // true
     *!*
     alert(rabbit instanceof Animal); // true
     */!*
+
     // rabbit.__proto__ === Rabbit.prototype
+    *!*
     // rabbit.__proto__.__proto__ === Animal.prototype (match!)
+    */!*
     ```
 
 下图展示了 `rabbit instanceof Animal` 的执行过程中，`Animal.prototype` 是如何参与比较的：
 
 ![](instanceof.svg)
 
-这里还要提到一个方法 [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf)，如果 `objA` 处在 `objB` 的原型链中，调用结果为 `true`。所以，`obj instanceof Class` 也可以被视作为是调用 `Class.prototype.isPrototypeOf(obj)`。
+这里还要提到一个方法 [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf)，如果 `objA` 处在 `objB` 的原型链中，则返回 `true`。所以，可以将 `obj instanceof Class` 检测改为 `Class.prototype.isPrototypeOf(obj)`。
 
-虽然有点奇葩，其实 `Class` 的构造器自身是不参与检测的！检测过程只和原型链以及 `Class.prototype` 有关。
+这很有趣，但是 `Class` 的 constructor 自身是不参与检测的！检测过程只和原型链以及 `Class.prototype` 有关。
 
-所以，当 `prototype` 改变时，会产生意想不到的结果。
+创建对象后，如果更改 `prototype` 属性，可能会导致有趣的结果。
 
 就像这样：
 
@@ -106,18 +115,16 @@ alert( arr instanceof Object ); // true
 function Rabbit() {}
 let rabbit = new Rabbit();
 
-// 修改其 prototype
+// 修改了 prototype
 Rabbit.prototype = {};
 
-// ...再也不是只兔子了！
+// ...再也不是 rabbit 了！
 *!*
 alert( rabbit instanceof Rabbit ); // false
 */!*
 ```
 
-所以，为了谨慎起见，最好避免修改 `prototype`。
-
-## 福利：使用 Object 的 toString 方法来揭示类型
+## 福利：使用 Object.prototype.toString 方法来揭示类型
 
 大家都知道，一个普通对象被转化为字符串时为 `[object Object]`：
 
