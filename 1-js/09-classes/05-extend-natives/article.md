@@ -1,9 +1,9 @@
-# 继承内置类
 
-内置的类比如 `Array`，`Map` 等也都是可以继承的。
+# 扩展内建类
 
-比如，这里有一个 `PowerArray` 继承自原生的 `Array`： 
+内建的类，例如 `Array`，`Map` 等也都是可以扩展的（extendable）。
 
+例如，这里有一个继承自原生 `Array` 的类 `PowerArray`： 
 
 ```js run
 // 给 PowerArray 新增了一个方法（可以增加更多）
