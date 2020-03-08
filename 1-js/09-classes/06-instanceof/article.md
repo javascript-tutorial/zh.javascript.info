@@ -95,7 +95,7 @@ alert( arr instanceof Object ); // true
 
     // rabbit.__proto__ === Rabbit.prototype
     *!*
-    // rabbit.__proto__.__proto__ === Animal.prototype (match!)
+    // rabbit.__proto__.__proto__ === Animal.prototype（匹配！）
     */!*
     ```
 
@@ -135,7 +135,7 @@ alert(obj); // [object Object]
 alert(obj.toString()); // 同上
 ```
 
-这就是它们 `toString` 方法的实现。但是这儿有一个隐藏的功能，该功能可以使 `toString` 实际上比这更强大。我们可以将其作为 `typeof` 的增强版或者 `instanceof` 的替代方法来使用。
+这是通过 `toString` 方法实现的。但是这儿有一个隐藏的功能，该功能可以使 `toString` 实际上比这更强大。我们可以将其作为 `typeof` 的增强版或者 `instanceof` 的替代方法来使用。
 
 听起来挺不可思议？那是自然，精彩马上揭晓。
 
@@ -197,11 +197,11 @@ alert( {}.toString.call(window) ); // [object Window]
 alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 ```
 
-正如我们所看到的，输出结果和 `Symbol.toStringTag`（如果存在）一样，只不过被包裹进了 `[object ...]` 里。
+正如我们所看到的，输出结果恰好是 `Symbol.toStringTag`（如果存在），只不过被包裹进了 `[object ...]` 里。
 
 这样一来，我们手头上就有了个“磕了药似的 typeof”，不仅能检查原始数据类型，而且适用于内建对象，更可贵的是还支持自定义。
 
-所以，如果我们想要获取内建对象的类型，并希望把该信息以字符串的形式返回，而不仅仅只是检查类型的话，我们可以用 `{}.toString.call` 替代 `instanceof`。
+所以，如果我们想要获取内建对象的类型，并希望把该信息以字符串的形式返回，而不只是检查类型的话，我们可以用 `{}.toString.call` 替代 `instanceof`。
 
 ## 总结
 
