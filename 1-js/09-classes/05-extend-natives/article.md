@@ -86,4 +86,4 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 
 正如你所看到的，`Date` 和 `Object` 之间没有连结。它们是独立的，只有 `Date.prototype` 继承自 `Object.prototype`，仅此而已。
 
-与我们通过 `extends` 获得的继承相比，这是内建对象之间的继承的一个重要的区别。
+与我们所了解的通过 `extends` 获得的继承相比，这是内建对象之间的继承的一个重要的区别。
