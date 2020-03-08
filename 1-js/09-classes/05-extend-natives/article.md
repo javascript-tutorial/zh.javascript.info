@@ -68,7 +68,7 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 其他集合，例如 `Map` 和 `Set` 的工作方式类似。它们也使用 `Symbol.species`。
 ```
 
-### 内建类没有静态方法继承 No static inheritance in built-ins
+### 内建类没有静态方法继承
 
 内建对象有它们自己的静态方法，例如 `Object.keys`，`Array.isArray` 等。
 
@@ -76,14 +76,14 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 
 通常，当一个类扩展另一个类时，静态方法和非静态方法都会被继承。这已经在 [](info:static-properties-methods#statics-and-inheritance) 中详细地解释过了。
 
-但内建类却是一个例外。它们相互间不继承静态属性和方法。
+但内建类却是一个例外。它们相互间不继承静态方法。
 
-比如，`Array` 和 `Data` 都是继承自 `Object`，所以它们的实例都有来自 `Object.prototype` 的方法，但是 `Array.[[Prototype]]` 不指向 `Object`，所以它们没有例如 `Array.keys()`(或者 `Data.keys()`)的静态方法。
+例如，`Array` 和 `Data` 都继承自 `Object`，所以它们的实例都有来自 `Object.prototype` 的方法。但 `Array.[[Prototype]]` 并不指向 `Object`，所以它们没有例如 `Array.keys()`（或 `Data.keys()`）这些静态方法。
 
-这里有一张 `Date` 和 `Object` 结构关系的图片
+这里有一张 `Date` 和 `Object` 的结构关系图：
 
 ![](object-date-inheritance.svg)
 
-如你所见，`Date` 和 `Object` 之间没有连结。`Object` 和 `Date` 都是独立存在的。`Date.prototype` 继承自 `Object.prototype`，但也仅此而已。
+正如你所看到的，`Date` 和 `Object` 之间没有连结。它们是独立的，只有 `Date.prototype` 继承自 `Object.prototype`，仅此而已。
 
-与我们了解的继承（`extends`）相比，这是内置对象之间的继承的一个非常重要的区别。
+与我们通过 `extends` 获得的继承相比，这是内建对象之间的继承的一个重要的区别。
