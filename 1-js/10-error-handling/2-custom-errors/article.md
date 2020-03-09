@@ -1,10 +1,11 @@
-# 自定义错误及扩展错误
+# 自定义 Error，扩展 Error
 
-当我们在进行开发的时候，通常需要属于我们自己的错误类来反映任务中可能出现的特殊情况。对于网络操作错误，我们需要 `HttpError`，对于数据库操作错误，我们需要 `DbError`，对于搜索操作错误，我们需要 `NotFoundError`，等等。
+当我们在在开发某些东西时，经常会需要我们自己的 error 类来反映在我们的任务中可能出错的特定任务。对于网络操作中的 error，我们需要 `HttpError`，对于数据库操作中的 error，我们需要 `DbError`，对于搜索操作中的 error，我们需要 `NotFoundError`，等等。
 
-我们自定义的错误应该具有基本的错误属性，例如 `message`，`name` 以及更加详细的 `stack`。但是它们也会有属于自己的属性。举个例子，`HttpError` 对象会有一个 `statusCode` 属性，取值可能为 `404`、`403` 或 `500` 等。
+我们自定义的 error 应该支持基本的 error 的属性，例如 `message`，`name`，并且最好还有 `stack`。但是它们也可能会有其他属于它们自己的属性，例如，`HttpError` 对象可能会有一个 `statusCode` 属性，属性值可能为 `404`、`403` 或 `500` 等。
 
-JavaScript 允许我们在使用 `throw` 时带任何参数，所以从技术层面上说，我们自定义的错误不需要继承 `Error` 类，但如果我们继承了这个类，就能使用 `obj instanceof Error` 来鉴别错误对象，所以我们最好继承它。
+JavaScript 允许将 `throw` 与任何参数一起使用，所以从技术上讲，
+我们自定义的错误不需要继承 `Error` 类，但如果我们继承了这个类，就能使用 `obj instanceof Error` 来鉴别错误对象，所以我们最好继承它。
 
 在我们进行开发时，我们自己的异常类通常是有层次结构的，例如 `HttpTimeoutError` 可能继承自 `HttpError` 等。
 
