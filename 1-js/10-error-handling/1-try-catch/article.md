@@ -229,7 +229,7 @@ try {
 
 在这儿，我们将 `catch` 块仅仅用于显示信息，但是我们可以做更多的事儿：发送一个新的网络请求，向访问者建议一个替代方案，将有关错误的信息发送给记录日志的设备，……。所有这些都比代码“死掉”好得多。
 
-## 抛出我们自己的 error
+## 抛出我们自定义的 error
 
 如果这个 `json` 在语法上是正确的，但是没有所必须的 `name` 属性该怎么办？
 
@@ -569,7 +569,7 @@ function func() {
   try {
     // ...
   } finally {
-    // 完成前面我们需要完成的那件事，即使 try 里面的执行失败了
+    // 完成前面我们需要完成的那件事儿，即使 try 中的执行失败了
   }
 }
 ```
@@ -578,15 +578,15 @@ function func() {
 
 ## 全局 catch
 
-```warn header="Environment-specific"
+```warn header="环境特定"
 这个部分的内容并不是 JavaScript 核心的一部分。
 ```
 
-设想一下，`try..catch` 之外出现了一个严重的异常，代码停止执行，可能是因为编程异常或者其他更严重的异常。
+设想一下，在 `try..catch` 结构外有一个致命的 error，然后脚本死亡了。这个 error 就像编程错误或其他可怕的事儿那样。
 
-那么，有没办法来应对这种情况呢？我们希望记录这个异常，给用户一些提示信息（通常，用户是看不到提示信息的），或者做一些其他操作。
+有什么办法可以用来应对这种情况吗？我们可能想要记录这个 error，并向用户显示某些内容（通常用户看不到错误信息）等。
 
-虽然没有这方面的规范，但是代码的执行环境一般会提供这种机制，因为这真的很有用。例如，Node.JS 有 [process.on('uncaughtException')](https://nodejs.org/api/process.html#process_event_uncaughtexception) 。对于浏览器环境，我们可以绑定一个函数到 [window.onerror](mdn:api/GlobalEventHandlers/onerror)，当遇到未知异常的时候，它就会执行。
+规范中没有相关内容，但是代码的执行环境一般会提供这种机制，因为它确实很有用。例如，Node.JS 有 [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception)。在浏览器中，我们可以将将一个函数赋值给特殊的 [window.onerror](mdn:api/GlobalEventHandlers/onerror) 属性，该函数将在发生未捕获的 error 时执行。
 
 语法如下：
 
@@ -597,16 +597,16 @@ window.onerror = function(message, url, line, col, error) {
 ```
 
 `message`
-: 异常信息。
+: Error 信息。
 
 `url`
-: 发生异常的代码的 URL。
+: 发生 error 的脚本的 URL。
 
-`line`, `col`
-: 错误发生的代码的行号和列号。
+`line`，`col`
+: 发生 error 处的代码的行号和列号。
 
 `error`
-: 异常对象。
+: Error 对象。
 
 例如：
 
@@ -619,27 +619,27 @@ window.onerror = function(message, url, line, col, error) {
 */!*
 
   function readData() {
-    badFunc(); // 哦，出问题了！
+    badFunc(); // 啊，出问题了！
   }
 
   readData();
 </script>
 ```
 
-`window.onerror` 的目的不是去处理整个代码的执行中的所有异常 —— 这几乎是不可能的，这只是为了给开发者提供异常信息。
+全局错误处理程序 `window.onerror` 的作用通常不是回复脚本的执行 — 如果发生编程错误，那这几乎是不可能的，它的作用是将错误信息发送给开发者。
 
-也有针对这种情况提供异常日志的 web 服务，比如 <https://errorception.com> 或者 <http://www.muscula.com>。
+也有针对这种情况提供错误日志的 Web 服务，例如 <https://errorception.com> 或 <http://www.muscula.com>。
 
-它们会这样运行：
+它们会像这样运行：
 
-1. 我们注册这个服务，拿到一段 JS 代码（或者代码的 URL），然后插入到页面中。
-2. 这段 JS 代码会有一个客户端的 `window.onerror` 函数。
-3. 发生异常时，它会发送一个异常相关的网络请求到服务提供方。
-4. 我们只要登录服务方提供方的网络接口就可以看到这些异常。
+1. 我们注册该服务，并拿到一段 JS 代码（或脚本的 URL），然后插入到页面中。
+2. 该 JS 脚本设置了自定义的 `window.onerror` 函数。
+3. 当发生 error 时，它会发送一个此 error  相关的网络请求到服务提供方。
+4. 我们可以登录到服务方的 Web 界面来查看这些 error。
 
 ## 总结
 
-`try..catch` 结构允许我们处理执行时的异常，它允许我们尝试执行代码，并且捕获执行过程中可能发生的异常。
+`try..catch` 结构允许我们处理执行过程中出现的 error。从字面上看，它允许“尝试”运行代码并“捕获”其中可能发生的错误。
 
 语法如下：
 
@@ -647,23 +647,25 @@ window.onerror = function(message, url, line, col, error) {
 try {
   // 执行此处代码
 } catch(err) {
-  // 如果发生异常，跳到这里
-  // err 是一个异常对象
+  // 如果发生错误，跳转至此处
+  // err 是一个 error 对象
 } finally {
-  // 不管 try/catch 怎样都会执行
+  // 无论怎样都会在 try/catch 之后执行
 }
 ```
 
-可能会没有 `catch` 代码块，或者没有 `finally` 代码块。所以 `try..catch` 或者 `try..finally` 都是可用的。
+这儿可能会没有 `catch` 部分或者没有 `finally`，所以 `try..catch` 或 `try..finally` 都是可用的。
 
-异常对象包含下列属性：
+Error 对象包含下列属性：
 
-- `message` —— 我们能阅读的异常提示信息。
-- `name` —— 异常名称（异常对象的构造函数的名称）。
-- `stack`（没有标准） —— 异常发生时的调用栈。
+- `message` — 人类可读的 error 信息。
+- `name` — 具有 error 名称的字符串（Error 构造函数的名称）。
+- `stack`（没有标准，但得到了很好的支持）— Error 发生时的调用栈。
 
-我们也可以通过使用 `throw` 运算符来生成自定义的异常。技术上来讲，`throw` 的参数没有限制，但是通常它是一个继承自内置的 `Error` 类的异常对象。更多关于异常的扩展，请看下个章节。
+如果我们不需要 error 对象，我们可以通过使用 `catch {` 而不是 `catch(err) {` 来省略它。
 
-重新抛出异常，是一种异常处理的基本模式：`catch` 代码块通常处理某种已知的特定类型的异常，所以它应该抛出其他未知类型的异常。
+我们也可以使用 `throw` 操作符来生成自定义的 error。从技术上讲，`throw` 的参数可以是任何东西，但通常是继承自内建的 `Error` 类的 error 对象。下一章我们会详细介绍扩展 error。
 
-即使我们没有使用 `try..catch`，绝大多数执行环境允许我们设置全局的异常处理机制来捕获出现的异常。浏览器中，就是 `window.onerror`。
+再次抛出（rethrowing）是一种错误处理的重要模式：`catch` 块通常期望并知道如何处理特定的 error 类型，因此它应该再次抛出它不知道的 error。
+
+即使我们没有 `try..catch`，大多数执行环境也允许我们设置“全局”错误处理程序来捕获“掉出（fall out）”的 error。在浏览器中，就是 `window.onerror`。
