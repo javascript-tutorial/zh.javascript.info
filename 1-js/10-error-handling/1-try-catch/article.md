@@ -347,15 +347,15 @@ try {
   // ...
 } catch(err) {
   alert("JSON Error: " + err); // JSON Error: ReferenceError: user is not defined
-  // (实际上没有 JSON Error)
+  // (实际上并没有 JSON Error)
 }
 ```
 
 当然，一切皆有可能！程序员也会犯错。即使是被数百万人使用了几十年的开源项目中 — 也可能突然被发现了一个漏洞，并导致可怕的黑客入侵。
 
-对我们来说，`try..catch` 是用来捕捉“数据错误”的异常，但是 catch 本身会捕捉到**所有**来自于 `try` 的异常。这里，我们遇到了预料之外的错误，但是仍然抛出了 `"JSON Error"` 的信息，这是不正确的，同时也会让我们的代码变得更难调试。
+在我们的例子中，`try..catch` 旨在捕获“数据不正确”的 error。但是实际上，catch 会捕获到 **所有** 来自于 `try` 的 error。在这儿，它捕获到了一个预料之外的 error，但是仍然抛出的是同样的 `"JSON Error"` 信息。这是不正确的，并且也会使代码变得更难以调试。
 
-幸运的是，我们可以通过其他方式找出这个异常，例如通过它的 `name` 属性：
+幸运的是，我们可以通过其他方式找出我们捕获的是什么 error，例如通过它的 `name` 属性：
 
 ```js run
 try {
@@ -369,15 +369,15 @@ try {
 
 规则很简单：
 
-**`catch` 应该只捕获已知的异常，而重新抛出其他的异常。**
+**`catch` 应该只处理它知道的 error，并“抛出”所有其他 error。**
 
-"rethrowing" 技术可以被更详细的理解为：
+“再次抛出错误（rethrowing）”技术可以被更详细地解释为：
 
-1. 捕获全部异常。
-2. 在 `catch(err) {...}` 代码块，我们分析异常对象 `err`。
-3. 如果我们不知道如何处理它，那我们就做 `throw err` 操作。
+1. Catch 捕获所有 error。
+2. 在 `catch(err) {...}` 块中，我们对 error 对象 `err` 进行分析。
+3. 如果我们不知道如何处理它，那我们就 `throw err`。
 
-在下面的代码中，为了达到只在 `catch` 代码块处理 `SyntaxError` 的目的，我们使用重新抛出的方法：
+在下面的代码中，我们使用“再次抛出错误”，以达到在 `catch` 中只处理 `SyntaxError` 的目的：
 
 ```js run
 let json = '{ "age": 30 }'; // 不完整的数据
@@ -390,7 +390,7 @@ try {
   }
 
 *!*
-  blabla(); // 预料之外的异常
+  blabla(); // 预料之外的 error
 */!*
 
   alert( user.name );
@@ -401,18 +401,18 @@ try {
   if (e.name == "SyntaxError") {
     alert( "JSON Error: " + e.message );
   } else {
-    throw e; // rethrow (*)
+    throw e; // 再次抛出 (*)
   }
 */!*
 
 }
 ```
 
-`(*)` 标记的这行从 `catch` 代码块抛出的异常，是独立于我们期望捕获的异常之外的，它也能被它外部的 `try..catch` 捕捉到（如果存在该代码块的话），如果不存在，那么代码会停止执行。
+如果 `(*)` 标记的这行 `catch` 块中的 error 从 `try..catch` 中“掉了出来”，那么它也可以被外部的 `try..catch` 结构（如果存在）捕获到，如果外部不存在这种结构，那么脚本就会被杀死。
 
-所以，`catch` 代码块只处理已知如何处理的异常，并且跳过其他的异常。
+所以，`catch` 块实际上只处理它知道该如何处理的 error，并“跳过”所有其他的 error。
 
-下面这段代码将演示，这种类型的异常如何被另外一层 `try..catch` 代码捕获。
+下面这个示例演示了这种类型的 error 是如何被另外一级 `try..catch` 捕获的：
 
 ```js run
 function readData() {
@@ -421,13 +421,13 @@ function readData() {
   try {
     // ...
 *!*
-    blabla(); // 异常！
+    blabla(); // error!
 */!*
   } catch (e) {
     // ...
     if (e.name != 'SyntaxError') {
 *!*
-      throw e; //  重新抛出（不知道如何处理它）
+      throw e; // 再次抛出（不知道如何处理它）
 */!*
     }
   }
@@ -437,12 +437,12 @@ try {
   readData();
 } catch (e) {
 *!*
-  alert( "External catch got: " + e ); // 捕获到！
+  alert( "External catch got: " + e ); // 捕获了它！
 */!*
 }
 ```
 
-例子中的 `readData` 只能处理 `SyntaxError`，而外层的 `try..catch` 能够处理所有的异常。
+上面这个例子中的 `readData` 只知道如何处理 `SyntaxError`，而外部的 `try..catch` 知道如何处理任意的 error。
 
 ## try..catch..finally
 
