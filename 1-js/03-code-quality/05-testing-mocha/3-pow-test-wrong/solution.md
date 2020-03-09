@@ -4,7 +4,11 @@
 
 有时用这种方式编写会更容易，但是如果发生错误，那么到底什么出错了就很不明显。
 
+<<<<<<< HEAD
 如果错误发生在一个复杂的执行流的中间，那么我们就必须找出那个点的数据。我们必须 **调试测试**。
+=======
+If an error happens in the middle of a complex execution flow, then we'll have to figure out the data at that point. We'll actually have to *debug the test*.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
 将测试分成多个具有明确输入和输出的 `it` 代码块会更好。
 

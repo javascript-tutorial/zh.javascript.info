@@ -14,7 +14,11 @@ let url = location.host == 'localhost' ?
 
 let socket = new WebSocket(url);
 
+<<<<<<< HEAD
 // 从表单发送消息
+=======
+// send message from the form
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 document.forms.publish.onsubmit = function() {
   let outgoingMessage = this.message.value;
 
@@ -22,7 +26,11 @@ document.forms.publish.onsubmit = function() {
   return false;
 };
 
+<<<<<<< HEAD
 // 处理传入消息
+=======
+// handle incoming messages
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 socket.onmessage = function(event) {
   let incomingMessage = event.data;
   showMessage(incomingMessage);
@@ -30,7 +38,11 @@ socket.onmessage = function(event) {
 
 socket.onclose = event => console.log(`Closed ${event.code}`);
 
+<<<<<<< HEAD
 // 在 div#messages 节点上显示消息
+=======
+// show message in div#messages
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 function showMessage(message) {
   let messageElem = document.createElement('div');
   messageElem.textContent = message;

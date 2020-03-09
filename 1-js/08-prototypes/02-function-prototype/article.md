@@ -1,18 +1,18 @@
 # F.prototype
 
-我们还记得，可以使用诸如 `new F()` 这样的构造函数来创建一个新对象。
+Remember, new objects can be created with a constructor function, like `new F()`.
 
-如果 `F.prototype` 是一个对象，那么 `new` 操作符会使用它为新对象设置 `[[Prototype]]`。
+If `F.prototype` is an object, then the `new` operator uses it to set `[[Prototype]]` for the new object.
 
 ```smart
-JavaScript 从一开始就有了原型继承。这是 JavaScript 编程语言的核心特性之一。
+JavaScript had prototypal inheritance from the beginning. It was one of the core features of the language.
 
-但是在过去，没有直接对其进行访问的方式。唯一可靠的方法是本章中会介绍的构造函数的 `"prototype"` 属性。目前仍有许多脚本仍在使用它。
+But in the old times, there was no direct access to it. The only thing that worked reliably was a `"prototype"` property of the constructor function, described in this chapter. So there are many scripts that still use it.
 ```
 
-请注意，这里的 `F.prototype` 指的是 `F` 的一个名为 `"prototype"` 的常规属性。这听起来与“原型”这个术语很类似，但这里我们实际上指的是具有该名字的常规属性。
+Please note that `F.prototype` here means a regular property named `"prototype"` on `F`. It sounds something similar to the term "prototype", but here we really mean a regular property with this name.
 
-下面是一个例子：
+Here's the example:
 
 ```js run
 let animal = {
@@ -32,27 +32,27 @@ let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
 alert( rabbit.eats ); // true
 ```
 
-设置 `Rabbit.prototype = animal` 的字面意思是：“当创建了一个 `new Rabbit` 时，把它的 `[[Prototype]]` 赋值为 `animal`”。
+Setting `Rabbit.prototype = animal` literally states the following: "When a `new Rabbit` is created, assign its `[[Prototype]]` to `animal`".
 
-这是结果示意图：
+That's the resulting picture:
 
 ![](proto-constructor-animal-rabbit.svg)
 
-在上图中，`"prototype"` 是一个水平箭头，表示一个常规属性，`[[Prototype]]` 是垂直的，表示 `rabbit` 继承自 `animal`。
+On the picture, `"prototype"` is a horizontal arrow, meaning a regular property, and `[[Prototype]]` is vertical, meaning the inheritance of `rabbit` from `animal`.
 
-```smart header="`F.prototype` 仅用在 `new F` 时"
-`F.prototype` 属性仅在 `new F` 被调用时使用，它为新对象的 `[[Prototype]]` 赋值。之后，`F.prototype` 和新对象之间就没有任何联系了。可以把它看成“一次性的礼物”。
+```smart header="`F.prototype` only used at `new F` time"
+`F.prototype` property is only used when `new F` is called, it assigns `[[Prototype]]` of the new object. After that, there's no connection between `F.prototype` and the new object. Think of it as a "one-time gift".
 
-如果在创建之后，`F.prototype` 属性有了变化（`F.prototype = <another object>`），那么通过 `new F` 创建的新对象也将随之拥有新的对象作为 `[[Prototype]]`，但已经存在的对象将保持旧有的值。
+If, after the creation, `F.prototype` property changes (`F.prototype = <another object>`), then new objects created by `new F` will have another object as `[[Prototype]]`, but already existing objects keep the old one.
 ```
 
-##  默认的 F.prototype，构造函数属性
+## Default F.prototype, constructor property
 
-每个函数都有 `"prototype"` 属性，即使我们没有提供它。
+Every function has the `"prototype"` property even if we don't supply it.
 
-默认的 `"prototype"` 是一个只有属性 `constructor` 的对象，属性 `constructor` 指向函数自身。
+The default `"prototype"` is an object with the only property `constructor` that points back to the function itself.
 
-像这样：
+Like this:
 
 ```js
 function Rabbit() {}
@@ -64,7 +64,7 @@ Rabbit.prototype = { constructor: Rabbit };
 
 ![](function-prototype-constructor.svg)
 
-我们可以检查一下：
+We can check it:
 
 ```js run
 function Rabbit() {}
@@ -74,7 +74,7 @@ function Rabbit() {}
 alert( Rabbit.prototype.constructor == Rabbit ); // true
 ```
 
-通常，如果我们什么都不做，`constructor` 属性可以通过 `[[Prototype]]` 给所有 rabbits 使用：
+Naturally, if we do nothing, the `constructor` property is available to all rabbits through  `[[Prototype]]`:
 
 ```js run
 function Rabbit() {}
@@ -88,9 +88,9 @@ alert(rabbit.constructor == Rabbit); // true (from prototype)
 
 ![](rabbit-prototype-constructor.svg)
 
-我们可以使用 `constructor` 属性来创建一个新对象，该对象使用与现有对象相同的构造函数。
+We can use `constructor` property to create a new object using the same constructor as the existing one.
 
-像这样：
+Like here:
 
 ```js run
 function Rabbit(name) {
@@ -105,17 +105,17 @@ let rabbit2 = new rabbit.constructor("Black Rabbit");
 */!*
 ```
 
-当我们有一个对象，但不知道它使用了哪个构造函数（例如它来自第三方库），并且我们需要创建另一个类似的对象时，用这种方法就很方便。
+That's handy when we have an object, don't know which constructor was used for it (e.g. it comes from a 3rd party library), and we need to create another one of the same kind.
 
-但是，关于 `"constructor"` 最重要的是……
+But probably the most important thing about `"constructor"` is that...
 
-**……JavaScript 自身并不能确保正确的 `"constructor"` 函数值。**
+**...JavaScript itself does not ensure the right `"constructor"` value.**
 
-是的，它存在于函数的默认 `"prototype"` 中，但仅此而已。之后会发生什么 —— 完全取决于我们。
+Yes, it exists in the default `"prototype"` for functions, but that's all. What happens with it later -- is totally on us.
 
-特别是，如果我们将整个默认 prototype 替换掉，那么其中就不会有 `"constructor"` 了。
+In particular, if we replace the default prototype as a whole, then there will be no `"constructor"` in it.
 
-例如：
+For instance:
 
 ```js run
 function Rabbit() {}
@@ -129,18 +129,18 @@ alert(rabbit.constructor === Rabbit); // false
 */!*
 ```
 
-因此，为了确保正确的 `"constructor"`，我们可以选择添加/删除属性到默认 `"prototype"`，而不是将其整个覆盖：
+So, to keep the right `"constructor"` we can choose to add/remove properties to the default `"prototype"` instead of overwriting it as a whole:
 
 ```js
 function Rabbit() {}
 
-// 不要将 Rabbit.prototype 整个覆盖
-// 可以向其中添加内容 
+// Not overwrite Rabbit.prototype totally
+// just add to it
 Rabbit.prototype.jumps = true
-// 默认的 Rabbit.prototype.constructor 被保留了下来
+// the default Rabbit.prototype.constructor is preserved
 ```
 
-或者，也可以手动重新创建 `constructor` 属性：
+Or, alternatively, recreate the `constructor` property manually:
 
 ```js
 Rabbit.prototype = {
@@ -150,26 +150,26 @@ Rabbit.prototype = {
 */!*
 };
 
-// 这样的 constructor 也是正确的，因为我们手动添加了它
+// now constructor is also correct, because we added it
 ```
 
 
-## 总结
+## Summary
 
-在本章中，我们简要介绍了为通过构造函数创建的对象设置 `[[Prototype]]` 的方法。稍后我们将看到更多依赖于此的高级编程模式。
+In this chapter we briefly described the way of setting a `[[Prototype]]` for objects created via a constructor function. Later we'll see more advanced programming patterns that rely on it.
 
-一切都很简单，只需要记住几条重点就可以清晰地掌握了：
+Everything is quite simple, just a few notes to make things clear:
 
-- `F.prototype` 属性（不要把它与 `[[Prototype]]` 弄混了）在 `new F` 被调用时为新对象的 `[[Prototype]]` 赋值。
-- `F.prototype` 的值要么是一个对象，要么就是 `null`：其他值都不起作用。
-- `"prototype"` 属性仅在设置了一个构造函数（constructor function），并通过 `new` 调用时，才具有这种特殊的影响。
+- The `F.prototype` property (don't mistake it for `[[Prototype]]`) sets `[[Prototype]]` of new objects when `new F()` is called.
+- The value of `F.prototype` should be either an object or `null`: other values won't work.
+-  The `"prototype"` property only has such a special effect when set on a constructor function, and invoked with `new`.
 
-在常规对象上，`prototype` 没什么特别的：
+On regular objects the `prototype` is nothing special:
 ```js
 let user = {
   name: "John",
-  prototype: "Bla-bla" // 这里没有魔法了
+  prototype: "Bla-bla" // no magic at all
 };
 ```
 
-默认情况下，所有函数都有 `F.prototype = {constructor：F}`，所以我们可以通过访问它的 `"constructor"` 属性来获取一个对象的构造函数。
+By default all functions have `F.prototype = { constructor: F }`, so we can get the constructor of an object by accessing its `"constructor"` property.

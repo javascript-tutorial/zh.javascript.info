@@ -153,9 +153,15 @@ Luckily, there's an alternative, that works everywhere. We can use a regexp like
 alert( "A\nB".match(/A[\s\S]B/) ); // A\nB (match!)
 ```
 
+<<<<<<< HEAD
 The pattern `pattern:[\s\S]` literally says: "a space character OR not a space character". In other words, "anything". We could use another pair of complementary classes, such as `pattern:[\d\D]`, that doesn't matter.
 
 This trick works everywhere. Also we can use it if we don't want to set `pattern:s` flag, in cases when we want a regular "no-newline" dot too in the pattern.
+=======
+The pattern `pattern:[\s\S]` literally says: "a space character OR not a space character". In other words, "anything". We could use another pair of complementary classes, such as `pattern:[\d\D]`, that doesn't matter. Or even the `pattern:[^]` -- as it means match any character except nothing.
+
+Also we can use this trick if we want both kind of "dots" in the same pattern: the actual dot `pattern:.` behaving the regular way ("not including a newline"), and also a way to match "any character" with `pattern:[\s\S]` or alike.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 ````
 
 ````warn header="Pay attention to spaces"

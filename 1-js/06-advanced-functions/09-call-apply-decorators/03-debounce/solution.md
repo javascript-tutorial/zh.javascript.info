@@ -16,7 +16,11 @@ function debounce(f, ms) {
 }
 ```
 
+<<<<<<< HEAD
 对 `debounce` 的调用返回一个包装器。这儿可能会有两种状态：
+=======
+A call to `debounce` returns a wrapper. There may be two states:
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
 - `isCooldown = false` —— 准备好执行。
 - `isCooldown = true` —— 等待时间结束。

@@ -1,14 +1,14 @@
 
 
-1. 使用包装（wapper）函数，箭头函数很简洁：
+1. Either use a wrapper function, an arrow to be concise:
 
     ```js 
     askPassword(() => user.login(true), () => user.login(false)); 
     ```
 
-    现在它从外部变量中获得了 `user`，然后以常规方式运行它。
+    Now it gets `user` from outer variables and runs it the normal way.
 
-2. 或者从 `user.login` 创建一个偏函数，该函数使用 `user` 作为上下文，并具有正确的第一个参数：
+2. Or create a partial function from `user.login` that uses `user` as the context and has the correct first argument:
 
 
     ```js 

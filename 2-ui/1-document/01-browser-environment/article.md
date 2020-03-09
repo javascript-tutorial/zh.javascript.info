@@ -1,10 +1,18 @@
 # 浏览器环境，规格
 
+<<<<<<< HEAD
 JavaScript 语言最初是为 Web 浏览器创建的。此后，它发展成为一种有多种用途和平台的语言。
 
 平台可以是一个浏览器，一台网络服务器，一台洗衣机或其他**主机**。它们每个都提供特定于平台的功能。JavaScript 规范调用了**主机环境**。
 
 主机环境提供语言核心以外的平台特定对象和功能。Web 浏览器提供了一种控制网页的手段。Node.JS 提供了服务器端功能，等等。
+=======
+The JavaScript language was initially created for web browsers. Since then it has evolved and become a language with many uses and platforms.
+
+A platform may be a browser, or a web-server or another *host*, even a coffee machine. Each of them provides platform-specific functionality. The JavaScript specification calls that a *host environment*.
+
+A host environment provides own objects and functions additional to the language core. Web browsers give a means to control web pages. Node.js provides server-side features, and so on.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
 以下是浏览器在 JavaScript 中运行时的一个鸟瞰图：
 
@@ -22,7 +30,7 @@ function sayHi() {
   alert("Hello");
 }
 
-// global functions are accessible as properties of window
+// global functions are methods of the global object:
 window.sayHi();
 ```
 
@@ -34,11 +42,19 @@ alert(window.innerHeight); // inner window height
 
 还有更多窗口特定的方法和属性，我们稍后会介绍它们。
 
+<<<<<<< HEAD
 ## 文档对象模型（DOM）
 
 `document` 对象可以访问页面内容。我们可以使用它在页面上更改或创建任何内容。
 
 例如：
+=======
+## DOM (Document Object Model)
+
+Document Object Model, or DOM for short, represents all page content as objects that can be modified.
+
+The `document` object is the main "entry point" to the page. We can change or create anything on the page using it.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
 ```js run
 // change the background color to red
@@ -48,6 +64,7 @@ document.body.style.background = "red";
 setTimeout(() => document.body.style.background = "", 1000);
 ```
 
+<<<<<<< HEAD
 这里我们使用了 `document.body.style`，但还有很多很多其他的东西。规范中描述了属性和方法。正好有两个工作组在研发：
 
 1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) — 其文档位于 <https://www.w3.org/TR/dom>。
@@ -78,6 +95,27 @@ CSS 规则和样式表的结构不像 HTML。有一个单独的规范 [CSSOM](ht
 ## BOM（HTML 规范的一部分）
 
 浏览器对象模型（BOM）是浏览器（主机环境）提供的附加对象，用于处理除文档之外的所有内容。
+=======
+Here we used `document.body.style`, but there's much, much more. Properties and methods are described in the specification:
+
+- **DOM Living Standard** at <https://dom.spec.whatwg.org>
+
+```smart header="DOM is not only for browsers"
+The DOM specification explains the structure of a document and provides objects to manipulate it. There are non-browser instruments that use DOM too.
+
+For instance, server-side scripts that download HTML pages and process them can also use DOM. They may support only a part of the specification though.
+```
+
+```smart header="CSSOM for styling"
+CSS rules and stylesheets are structured in a different way than HTML. There's a separate specification, [CSS Object Model (CSSOM)](https://www.w3.org/TR/cssom-1/), that explains how they are represented as objects, and how to read and write them.
+
+CSSOM is used together with DOM when we modify style rules for the document. In practice though, CSSOM is rarely required, because usually CSS rules are static. We rarely need to add/remove CSS rules from JavaScript, but that's also possible.
+```
+
+## BOM (Browser Object Model)
+
+The Browser Object Model (BOM) represents additional objects provided by the browser (host environment) for working with everything except the document.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
 例如：
 
@@ -88,18 +126,25 @@ CSS 规则和样式表的结构不像 HTML。有一个单独的规范 [CSSOM](ht
 
 ```js run
 alert(location.href); // shows current URL
-if (confirm("Go to wikipedia?")) {
+if (confirm("Go to Wikipedia?")) {
   location.href = "https://wikipedia.org"; // redirect the browser to another URL
 }
 ```
 
 函数 `alert/confirm/prompt` 也是 BOM 的一部分：它们与文档并不直接相关，但它表示了与用户通信的纯浏览器方法。
 
+<<<<<<< HEAD
 
 ```smart header="HTML specification"
 BOM 是通用 [HTML 规范](https://html.spec.whatwg.org)的一部分。
 
 <https://html.spec.whatwg.org> 中的 HTML 规范不仅是关于“HTML 语言”（标签，属性），还涵盖了一堆对象、方法和浏览器特定的DOM扩展。这就是“广义的HTML”。
+=======
+```smart header="Specifications"
+BOM is the part of the general [HTML specification](https://html.spec.whatwg.org).
+
+Yes, you heard that right. The HTML spec at <https://html.spec.whatwg.org> is not only about the "HTML language" (tags, attributes), but also covers a bunch of objects, methods and browser-specific DOM extensions. That's "HTML in broad terms". Also, some parts have additional specs listed at <https://spec.whatwg.org>.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 ```
 
 ## 总结
@@ -115,8 +160,20 @@ CSSOM 标准
 HTML 标准
 : 介绍 HTML 语言（例如标签）以及 BOM（浏览器对象模型）—— 各种浏览器函数：`setTimeout`、`alert`、`location`等等，请参阅https://html.spec.whatwg.org。它采用了 DOM 规范并为其扩展了许多属性和方法。
 
+<<<<<<< HEAD
 现在我们开始学习 DOM，因为文档在 UI 中扮演着重要角色。
 
 请注意上面的链接，因为有太多东西需要学习，所以在这里不可能掌握和记住所有内容。
 
 当您想要了解某个属性或方法时，Mozilla 手册 <https://developer.mozilla.org/en-US/search> 是一个很好的资源，但阅读相应的规范可能会更好：它需要更复杂和更长的时间来阅读，但会使你的基本知识变得健全和完整。
+=======
+Additionally, some classes are described separately at <https://spec.whatwg.org/>.
+
+Please note these links, as there's so much stuff to learn it's impossible to cover and remember everything.
+
+When you'd like to read about a property or a method, the Mozilla manual at <https://developer.mozilla.org/en-US/search> is also a nice resource, but the corresponding spec may be better: it's more complex and longer to read, but will make your fundamental knowledge sound and complete.
+
+To find something, it's often convenient to use an internet search "WHATWG [term]" or "MDN [term]", e.g <https://google.com?q=whatwg+localstorage>, <https://google.com?q=mdn+localstorage>.
+
+Now we'll get down to learning DOM, because the document plays the central role in the UI.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a

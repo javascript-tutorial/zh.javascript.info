@@ -6,7 +6,11 @@ importance: 5
 
 `debounce(f, ms)` 装饰者的结果应该是一个包装器，该包装器最多允许每隔 `ms` 毫秒将调用传递给 `f` 一次。
 
+<<<<<<< HEAD
 换句话说，当我们调用 "debounced" 函数时，它保证之后所有在距离上一次调用的时间间隔少于 `ms` 毫秒的调用都会被忽略。
+=======
+In other words, when we call a "debounced" function, it guarantees that all future calls to the function made less than `ms` milliseconds after the previous call will be ignored.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
 例如：
 
@@ -21,4 +25,8 @@ setTimeout( () => f(4), 1100); // 运行
 setTimeout( () => f(5), 1500); // 被忽略（距上一次运行不超过 1000 ms）
 ```
 
+<<<<<<< HEAD
 在实际中，对于那些用于检索/更新某些内容的函数而言，当我们知道在短时间内不会有什么新内容的时候时，`debounce` 就显得很有用，因此最好不要浪费资源。
+=======
+In practice `debounce` is useful for functions that retrieve/update something when we know that nothing new can be done in such a short period of time, so it's better not to waste resources.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a

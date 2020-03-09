@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# 圆圈动画
+# Animated circle
 
-创建一个函数：`showCircle(cx, cy, radius)`，来显示一个不断变大的圆。
+Create a function `showCircle(cx, cy, radius)` that shows an animated growing circle.
 
-- `cx,cy` 为圆心相对于窗口的位置。
-- `radius` 为圆的半径。
+- `cx,cy` are window-relative coordinates of the center of the circle,
+- `radius` is the radius of the circle.
 
-点击下方的按钮以演示效果：
+Click the button below to see how it should look like:
 
 [iframe src="solution" height=260]
 
-源文件中提供了一个具有合适样式的圆样例，因此你需要做的就是创建合适的动画。
+The source document has an example of a circle with right styles, so the task is precisely to do the animation right.

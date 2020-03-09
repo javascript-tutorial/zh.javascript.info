@@ -58,7 +58,11 @@ function formatDate(date) {
   let diffMin = diffSec / 60;
   let diffHour = diffMin / 60;
 
+<<<<<<< HEAD:1-js/05-data-types/11-date/8-format-date-relative/solution.md
   // 格式化
+=======
+  // formatting
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a:1-js/05-data-types/11-date/8-format-date-relative/solution.md
   year = year.toString().slice(-2);
   month = month < 10 ? '0' + month : month;
   dayOfMonth = dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth;
