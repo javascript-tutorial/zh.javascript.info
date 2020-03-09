@@ -109,7 +109,7 @@ try {
 为了捕获到调度（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
 ```js run
 setTimeout(function() {
-  try {    
+  try {
     noSuchVariable; // try..catch 处理 error 了！
   } catch {
     alert( "error is caught here!" );
@@ -120,63 +120,76 @@ setTimeout(function() {
 
 ## Error 对象
 
-当一个异常发生之后，JavaScript 生成一个包含异常细节的对象。这个对象会作为一个参数传递给 `catch`：
+发生错误时，JavaScript 生成一个包含有关其详细信息的对象。然后将该对象作为参数传递给 `catch`：
 
 ```js
 try {
   // ...
-} catch(err) { // <-- “异常对象”，可以用其他参数名代替 err
+} catch(err) { // <-- “error 对象”，也可以用其他参数名代替 err
   // ...
 }
 ```
 
-对于所有内置的异常，`catch` 代码块捕捉到的相应的异常的对象都有两个属性：
+对于所有内建的 error，error 对象具有两个主要属性：
 
 `name`
-: 异常名称，对于一个未定义的变量，名称是 `"ReferenceError"`
+: Error 名称。例如，对于一个未定义的变量，名称是 `"ReferenceError"`。
 
 `message`
-: 异常详情的文字描述。
+: 关于 error 的详细文字描述。
 
-还有很多非标准的属性在绝大多数环境中可用。其中使用最广泛并且被广泛支持的是：
+还有其他非标准的属性在大多数环境中可用。其中被最广泛使用和支持的是：
 
 `stack`
-: 当前的调用栈：用于调试的,一个包含引发异常的嵌套调用序列的字符串。
+: 当前的调用栈：用于调试目的的一个字符串，其中包含有关导致 error 的嵌套调用序列的信息。
 
 例如：
 
 ```js run untrusted
 try {
 *!*
-  lalala; // 异常，变量未定义！
+  lalala; // error, variable is not defined!
 */!*
 } catch(err) {
   alert(err.name); // ReferenceError
-  alert(err.message); // lalala 未定义
-  alert(err.stack); // ReferenceError: lalala 在... 中未定义
+  alert(err.message); // lalala is not defined
+  alert(err.stack); // ReferenceError: lalala is not defined at (...call stack)
 
-  // 可以完整的显示一个异常
-  // 可以转化成 "name: message" 形式的字符串
-  alert(err); // ReferenceError: lalala 未定义
+  // 也可以将一个 error 作为整体显示出来as a whole
+  // Error 信息被转换为像 "name: message" 这样的字符串
+  alert(err); // ReferenceError: lalala is not defined
 }
 ```
 
+## 可选的 "catch" 绑定
+
+[recent browser=new]
+
+如果我们不需要 error 的详细信息，`catch` 也可以忽略它：
+
+```js
+try {
+  // ...
+} catch { // <-- 没有 (err)
+  // ...
+}
+```
 
 ## 使用 "try..catch"
 
-让我们一起探究一下真实使用场景中 `try..catch` 的使用。
+让我们一起探究一下真实场景中 `try..catch` 的用例。
 
-正如我们所知，JavaScript 支持 [JSON.parse(str)](mdn:js/JSON/parse) 方法来解析 JSON 编码的值。
+正如我们所知道的，JavaScript 支持 [JSON.parse(str)](mdn:js/JSON/parse) 方法来解析 JSON 编码的值。
 
-通常，它被用来解析从网络，从服务器或是从其他来源收到的数据。
+通常，它被用来解析从网络，从服务器或是从其他来源接收到的数据。
 
-我们收到数据后，像下面这样调用 `JSON.parse`：
+我们收到数据后，然后像下面这样调用 `JSON.parse`：
 
 ```js run
 let json = '{"name":"John", "age": 30}'; // 来自服务器的数据
 
 *!*
-let user = JSON.parse(json); // 将文本表示转化成 JS 对象
+let user = JSON.parse(json); // 将文本表示转换成 JS 对象
 */!*
 
 // 现在 user 是一个解析自 json 字符串的有自己属性的对象
@@ -184,15 +197,15 @@ alert( user.name ); // John
 alert( user.age );  // 30
 ```
 
-你可以在 <info:json> 这章找到更多的关于 JSON 的详细信息。
+你可以在 <info:json> 一章中找到更多关于 JSON 的详细内容。
 
-**如果 `json` 格式错误，`JSON.parse` 就会报错，代码就会停止执行。**
+**如果 `json` 格式错误，`JSON.parse` 就会生成一个 error，因此脚本就会“死亡”。**
 
-得到报错之后我们就应该满意了吗？当然不！
+我们对此满意吗？当然不！
 
-如果这样做，当拿到的数据出错，用户就不会知道（除非他们打开开发者控制台）。代码执行失败却没有提示信息会导致糟糕的用户体验。
+如果这样做，当拿到的数据出了问题，那么访问者永远都不会知道原因（除非他们打开开发者控制台）。代码执行失败却没有提示信息，这真的是很糟糕的用户体验。
 
-让我们来用 `try..catch` 来处理这个错误：
+让我们用 `try..catch` 来处理这个 error：
 
 ```js run
 let json = "{ bad json }";
@@ -200,13 +213,13 @@ let json = "{ bad json }";
 try {
 
 *!*
-  let user = JSON.parse(json); // <-- 当这里抛出异常...
+  let user = JSON.parse(json); // <-- 当出现一个 error 时...
 */!*
-  alert( user.name ); // 不工作
+  alert( user.name ); // doesn't work
 
 } catch (e) {
 *!*
-  // ...跳到这里继续执行
+  // ...执行会跳转到这里并继续执行
   alert( "Our apologies, the data has errors, we'll try to request it one more time." );
   alert( e.name );
   alert( e.message );
@@ -214,11 +227,11 @@ try {
 }
 ```
 
-我们用 `catch` 代码块来展示信息，但是我们可以做的更多：发送一个新的网络请求，给用户提供另外的选择，把异常信息发送给记录日志的工具，... 。所有这些都比让代码直接停止执行好的多。
+在这儿，我们将 `catch` 块仅仅用于显示信息，但是我们可以做更多的事儿：发送一个新的网络请求，向访问者建议一个替代方案，将有关错误的信息发送给记录日志的设备，……。所有这些都比代码“死掉”好得多。
 
-## 抛出自定义的异常
+## 抛出我们自己的 error
 
-如果这个 `json` 数据语法正确，但是少了我们需要的 `name` 属性呢？
+如果这个 `json` 在语法上是正确的，但是没有所必须的 `name` 属性该怎么办？
 
 像这样：
 
@@ -227,9 +240,9 @@ let json = '{ "age": 30 }'; // 不完整的数据
 
 try {
 
-  let user = JSON.parse(json); // <-- 不抛出异常
+  let user = JSON.parse(json); // <-- 没有 error
 *!*
-  alert( user.name ); // 没有 name!
+  alert( user.name ); // 没有 name！
 */!*
 
 } catch (e) {
@@ -237,13 +250,13 @@ try {
 }
 ```
 
-这里 `JSON.parse` 正常执行，但是缺少 `name` 属性对我们来说确实是个异常。
+这里 `JSON.parse` 正常执行，但是缺少 `name` 属性对我们来说确实是个 error。
 
-为了统一的异常处理，我们会使用 `throw` 运算符。
+为了统一进行 error 处理，我们将使用 `throw` 操作符。
 
-### "Throw" 运算符
+### "Throw" 操作符
 
-`throw` 运算符生成异常对象。
+`throw` 操作符会生成一个 error 对象。
 
 语法如下：
 
