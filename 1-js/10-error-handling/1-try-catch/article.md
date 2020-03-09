@@ -446,7 +446,7 @@ try {
 
 ## try..catch..finally
 
-等一下，以上并不是所有。
+等一下，以上并不是所有内容。
 
 `try..catch` 结构可能还有一个代码子句（clause）：`finally`。
 
@@ -482,16 +482,16 @@ try {
 
 这段代码有两种执行方式：
 
-1. 如果对于 "Make an error?" 你的回答是 "Yes"，那么执行 `try -> catch -> finally`。
+1. 如果你对于 "Make an error?" 的回答是 "Yes"，那么执行 `try -> catch -> finally`。
 2. 如果你的回答是 "No"，那么执行 `try -> finally`。
 
-`finally` 的语法通常用在：我们在 `try..catch` 之前开始一个操作，不管在该代码块中执行的结果怎样，我们都想结束的时候执行某个操作。
+`finally` 子句（clause）通常用在：当我们开始做某事的时候，希望无论出现什么情况都要完成完成某个任务。
 
-比如，生成斐波那契数的函数 `fib(n)` 的执行时间，通常，我们在开始和结束的时候测量。但是，如果该函数在被调用的过程中发生异常，就如执行下面的代码就会返回负数或者非整数的异常。
+例如，我们想要测量一个斐波那契数字函数 `fib(n)` 执行所需要花费的时间。通常，我们可以在运行它之前开始测量，并在运行完成时结束测量。但是，如果在该函数调用期间出现 error 该怎么办？特别是，下面这段 `fib(n)` 的实现代码在遇到负数或非整数数字时会返回一个 error。
 
-任何情况下，`finally` 代码块就是一个很好的结束测量的地方。
+无论如何，`finally` 子句都是一个结束测量的好地方。
 
-这里，不管前面的代码正确执行，或者抛出异常，`finally` 都保证了正确的时间测量。
+在这儿，`finally` 能够保证在两种情况下都能正确地测量时间 — 成功执行 `fib` 以及 `fib` 中出现 error 时：
 
 ```js run
 let num = +prompt("Enter a positive integer number?", 35)
@@ -517,23 +517,23 @@ try {
 }
 */!*
 
-alert(result || "error occured");
+alert(result || "error occurred");
 
 alert( `execution took ${diff}ms` );
 ```
 
-你可以通过后面的不同的输入来检验上面代码的执行：先在 `prompt` 弹框中先输入 `35` —— 它会正常执行，`try` 代码执行后执行 `finally` 里面的代码。然后再输入 `-1`，会立即捕获一个异常，执行时间将会是 `0ms`。两次的测量结果都是正确的。
+你可以通过运行上面这段代码并在 `prompt` 弹窗中输入 `35` 来进行检查 — 代码运行正常，先执行 `try` 然后是 `finally`。如果你输入的是 `-1` — 将立即出现 error，执行将只花费 `0ms`。以上两种情况下的时间测量都正确地完成了。
 
-换句话说，有两种方式退出这个函数的执行：`return` 或是 `throw`，`finally` 语法都能处理。
+换句话说，函数 `fib` 以 `return` 还是 `throw` 完成都无关紧要。在这两种情况下都会执行 `finally` 子句。
 
 
-```smart header="Variables are local inside `try..catch..finally`"
-请注意：上面代码中的 `result` 和 `diff` 变量，都需要在 `try..catch` **之前**声明。
+```smart header="变量和 `try..catch..finally` 中的局部变量"
+请注意，上面代码中的 `result` 和 `diff` 变量都是在 `try..catch` **之前** 声明的。
 
-否则，如果用 `let` 在 `{...}` 代码块里声明，那么只能在该代码块访问到。
+否则，如果我们使用 `let` 在 `try` 块中声明变量，那么该变量将只在 `try` 块中可见。
 ```
 
-````smart header="`finally` and `return`"
+````smart header="`finally` 和 `return`"
 `finally` 语法支持**任何**的结束 `try..catch` 执行的方式，包括明确的 `return`。
 
 下面就是 `try` 代码块包含 `return` 的例子。在代码执行的控制权转移到外部代码之前，`finally` 代码块会被执行。
