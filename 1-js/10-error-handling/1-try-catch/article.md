@@ -92,7 +92,7 @@ JavaScript 引擎首先会读取代码，然后运行它。在读取阶段发生
 
 
 ````warn header="`try..catch` 同步工作"
-如果在“计划的（scheduled）”代码中发生异常，例如在 `setTimeout` 中，则 `try..catch` 不会捕捉到异常：
+如果在“计划的（scheduled）”代码中发生异常，例如在 `setTimeout` 中，则 `try..catch` 不会捕获到异常：
 
 ```js run
 try {
@@ -104,14 +104,14 @@ try {
 }
 ```
 
-因为 `try..catch` 包裹了计划要执行的 `setTimeout` 函数。但是函数本身要稍后才能执行，这时引擎已经离开了 `try..catch` 结构。
+因为 `try..catch` 包裹了计划要执行的函数，该函数本身要稍后才执行，这时引擎已经离开了 `try..catch` 结构。
 
-要捕捉到计划中将要执行的函数中的异常，那么 `try..catch` 必须在这个函数之中：
+为了捕获到调度（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
 ```js run
 setTimeout(function() {
-  try {
-    noSuchVariable; // try..catch 处理异常！
-  } catch (e) {
+  try {    
+    noSuchVariable; // try..catch 处理 error 了！
+  } catch {
     alert( "error is caught here!" );
   }
 }, 1000);
