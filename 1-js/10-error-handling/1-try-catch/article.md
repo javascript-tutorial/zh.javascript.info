@@ -534,9 +534,9 @@ alert( `execution took ${diff}ms` );
 ```
 
 ````smart header="`finally` 和 `return`"
-`finally` 语法支持**任何**的结束 `try..catch` 执行的方式，包括明确的 `return`。
+`finally` 子句适用于 `try..catch` 的 **任何** 出口。这包括显式的 `return`。
 
-下面就是 `try` 代码块包含 `return` 的例子。在代码执行的控制权转移到外部代码之前，`finally` 代码块会被执行。
+在下面这个例子中，在 `try` 中国呢有一个 `return`。在这种情况下，`finally` 会在控制转向外部代码前被执行。
 
 ```js run
 function func() {
@@ -555,7 +555,7 @@ function func() {
   }
 }
 
-alert( func() ); // 先 alert "finally" 里面的内容，再执行这里
+alert( func() ); // 先执行 finally 中的 alert，然后执行这个 alert
 ```
 ````
 
