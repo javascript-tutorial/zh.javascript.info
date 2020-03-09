@@ -536,7 +536,7 @@ alert( `execution took ${diff}ms` );
 ````smart header="`finally` 和 `return`"
 `finally` 子句适用于 `try..catch` 的 **任何** 出口。这包括显式的 `return`。
 
-在下面这个例子中，在 `try` 中国呢有一个 `return`。在这种情况下，`finally` 会在控制转向外部代码前被执行。
+在下面这个例子中，在 `try` 中有一个 `return`。在这种情况下，`finally` 会在控制转向外部代码前被执行。
 
 ```js run
 function func() {
@@ -561,19 +561,19 @@ alert( func() ); // 先执行 finally 中的 alert，然后执行这个 alert
 
 ````smart header="`try..finally`"
 
-`try..finally` 结构也很有用，当我们希望确保代码执行完成不想在这里处理异常时，我们会使用这种结构。
+没有 `catch` 子句的 `try..finally` 结构也很有用。当我们不想在这儿处理 error（让它们 fall through），但是需要确保我们启动的处理需要被完成。
 
 ```js
 function func() {
-  // 开始做需要被完成的操作（比如测量）
+  // 开始执行需要被完成的操作（比如测量）
   try {
     // ...
   } finally {
-    // 完成前面要做的事情，即使 try 里面执行失败
+    // 完成前面我们需要完成的那件事，即使 try 里面的执行失败了
   }
 }
 ```
-上面的代码中，由于没有 `catch`，`try` 代码块中的异常会跳出这块代码的执行。但是，在跳出之前 `finally` 里面的代码会被执行。
+上面的代码中，由于没有 `catch`，所以 `try` 中的 error 总是会使代码执行跳转至函数 `func()` 外。但是，在跳出之前需要执行 `finally` 中的代码。
 ````
 
 ## 全局 catch
