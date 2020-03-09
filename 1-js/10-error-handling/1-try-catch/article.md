@@ -215,7 +215,7 @@ try {
 *!*
   let user = JSON.parse(json); // <-- 当出现一个 error 时...
 */!*
-  alert( user.name ); // doesn't work
+  alert( user.name ); // 不工作
 
 } catch (e) {
 *!*
@@ -264,21 +264,21 @@ try {
 throw <error object>
 ```
 
-技术上讲，我们可以使用任何东西来作为一个异常对象。甚至可以是基础类型，比如数字或者字符串。但是更好的方式是用对象，尤其是有 `name` 和 `message` 属性的对象（某种程度上和内置的异常有可比性）。
+技术上讲，我们可以将任何东西用作 error 对象。甚至可以时一个原始类型数据，例如数字或字符串，但最好使用对象，最好使用具有具有 `name` 和 `message` 属性的对象（某种程度上保持与内建 error 的兼容性）。
 
-JavaScript 有很多标准异常的内置的构造器：`Error`、 `SyntaxError`、`ReferenceError`、`TypeError` 和其他的。我们也可以用他们来创建异常对象。
+JavaScript 中有很多内建的标准 error 的构造函数：`Error`，`SyntaxError`，`ReferenceError`，`TypeError` 等。我们也可以使用它们来创建 error 对象。
 
-他们的语法是：
+它们的语法是：
 
 ```js
 let error = new Error(message);
-// 或者
+// 或
 let error = new SyntaxError(message);
 let error = new ReferenceError(message);
 // ...
 ```
 
-对于内置的异常对象（不是对于其他的对象，而是对于异常对象），`name` 属性刚好是构造器的名字。`message` 则来自于参数。
+对于内建的 error（不是对于其他任何对象，仅仅是对于 error），`name` 属性刚好就是构造函数的名字。`message` 则来自于参数（argument）。
 
 例如：
 
@@ -289,7 +289,7 @@ alert(error.name); // Error
 alert(error.message); // Things happen o_O
 ```
 
-让我们来看看 `JSON.parse` 会生成什么样的错误：
+让我们来看看 `JSON.parse` 会生成什么样的 error：
 
 ```js run
 try {
@@ -298,22 +298,22 @@ try {
 *!*
   alert(e.name); // SyntaxError
 */!*
-  alert(e.message); // Unexpected token o in JSON at position 0
+  alert(e.message); // Unexpected token b in JSON at position 2
 }
 ```
 
-如我们所见， 那是一个  `SyntaxError`。
+正如我们所看到的， 那是一个  `SyntaxError`。
 
-假定用户必须有一个 `name` 属性，在我们看来，该属性的缺失也可以看作语法问题。
+在我们的示例中，缺少 `name` 属性就是一个 error，因为用户必须有一个 `name`。
 
-所以，让我们抛出这个异常。
+所以，让我们抛出这个 error。
 
 ```js run
 let json = '{ "age": 30 }'; // 不完整的数据
 
 try {
 
-  let user = JSON.parse(json); // <-- 没有异常
+  let user = JSON.parse(json); // <-- 没有 error
 
   if (!user.name) {
 *!*
@@ -328,13 +328,13 @@ try {
 }
 ```
 
-在 `(*)` 标记的这一行，`throw` 操作符生成了包含着我们所给的 `message` 的 `SyntaxError`，就如同 JavaScript 自己生成的一样。`try` 里面的代码执行停止，控制权转交到 `catch` 代码块。
+在 `(*)` 标记的这一行，`throw` 操作符生成了包含着我们所给定的 `message` 的 `SyntaxError`，与 JavaScript 自己生成的方式相同。`try` 的执行立即停止，控制流转向 `catch` 块。
 
-现在 `catch` 代码块成为了处理包括 `JSON.parse` 在内和其他所有异常的地方。
+现在，`catch` 成为了所有 error 处理的唯一场所：对于 `JSON.parse` 和其他情况都适用。
 
-## 再次抛出异常
+## 再次抛出错误
 
-上面的例子中，我们用 `try..catch` 处理没有被正确返回的数据，但是也有可能在 `try {...}` 代码块内发生**另一个预料之外的**异常，例如变量未定义或者其他不是返回的数据不正确的异常。
+在上面的例子中，我们使用 `try..catch` 来处理不正确的数据。但是在 `try {...}` 块中是否可能发生 **另一个预料之外的 error**？例如编程错误（未定义变量）或其他错误，而不仅仅是这种“不正确的数据”。
 
 例如：
 
@@ -342,16 +342,16 @@ try {
 let json = '{ "age": 30 }'; // 不完整的数据
 
 try {
-  user = JSON.parse(json); // <-- 忘了在 user 前加 "let"
+  user = JSON.parse(json); // <-- 忘记在 user 前放置 "let"
 
   // ...
 } catch(err) {
   alert("JSON Error: " + err); // JSON Error: ReferenceError: user is not defined
-  // ( 实际上并没有 JSON Error)
+  // (实际上没有 JSON Error)
 }
 ```
 
-当然，一切皆有可能。程序员也是会犯错的。即使是一些开源的被数百万人用了几十年的项目 —— 一个严重的 bug 因为他引发的严重的黑客事件被发现（比如发生在 `ssh` 工具上的黑客事件）。
+当然，一切皆有可能！程序员也会犯错。即使是被数百万人使用了几十年的开源项目中 — 也可能突然被发现了一个漏洞，并导致可怕的黑客入侵。
 
 对我们来说，`try..catch` 是用来捕捉“数据错误”的异常，但是 catch 本身会捕捉到**所有**来自于 `try` 的异常。这里，我们遇到了预料之外的错误，但是仍然抛出了 `"JSON Error"` 的信息，这是不正确的，同时也会让我们的代码变得更难调试。
 
