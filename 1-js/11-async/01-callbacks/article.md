@@ -10,7 +10,7 @@
 但是，我们会尽全力使讲解变得更加清晰。在这儿不会有浏览器方面的真正复杂的东西。
 ```
 
-JavaScipt 中的许多行为都是 **异步的**。换句话说，我们现在启动它们，但在稍后再完成。
+JavaScipt 中的许多行为（action）都是 **异步的**。换句话说，我们现在启动它们，但在稍后再完成。
 
 例如，我们可以使用 `setTimeout` 来安排此类行为。
 
@@ -87,9 +87,9 @@ loadScript('/my/script.js', function() {
 });
 ```
 
-这是我们的想法：第二个参数是一个函数（通常是匿名的）会在动作完成后被执行。
+这是我们的想法：第二个参数是一个函数（通常是匿名函数），该函数会在动作（action）完成时运行。
 
-这是一个可运行的真实脚本示例：
+这是一个带有真实脚本的可运行的示例：
 
 ```js run
 function loadScript(src, callback) {
@@ -101,21 +101,21 @@ function loadScript(src, callback) {
 
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
-  alert(`Cool, the ${script.src} is loaded`);
+  alert(`Cool, the script ${script.src} is loaded`);
   alert( _ ); // 在加载的脚本中声明的函数
 });
 */!*
 ```
 
-这被称为“基于回调”的异步编程风格。异步执行某些动作的函数，应该提供一个在函数完成时可以运行的 `callback` 参数。
+这被称为“基于回调”的异步编程风格。异步执行某项功能的函数应该提供一个 `callback` 参数用于在相应事件完成时调用。（译注：上面这个例子中的相应事件是指脚本加载）
 
-我们 `loadScript` 中就是那么做的，但很明显这是一般性的方法。
+这里我们在 `loadScript` 中就是这么做的，但当然这是一种通用方法。
 
 ## 在回调中回调
 
-如何顺序加载两个脚本：先是第一个，然后是第二个？
+我们如何依次加载两个脚本：第一个，然后是第二个？
 
-最明显的方法是将第二个 `loadScript` 调用放在回调中，就像这样：
+自然的解决方案是将第二个 `loadScript` 调用放入回调中，如下所示：
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -131,7 +131,7 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-在外部 `loadScript` 完成时，内部回调就会被回调。
+在外部 `loadScript` 执行完成时，内部回调就会被回调。
 
 如果我们还想要一个脚本呢？
 
@@ -142,7 +142,7 @@ loadScript('/my/script.js', function(script) {
 
 *!*
     loadScript('/my/script3.js', function(script) {
-      // ...在所有脚本被加载后继续操作
+      // ...加载完所有脚本后继续
     });
 */!*
 
@@ -151,15 +151,15 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-因此，每一个动作都在回调内部。这对于新动作来说，非常好，但是其他动作却并不友好，因此我们接下来会看到一些此方法的变体。 
+因此，每一个新动作（action）都在回调内部。这对于几个动作来说还好，但对于许多动作来说就不好了，所以我们很快就会看到其他变体。 
 
-## 处理错误
+## 处理 Error
 
-上述示例中，我们并没有考虑错误因素。假如加载失败会如何？我们的回调应该可以立即对其做出响应。
+在上述示例中，我们并没有考虑出现 error 的情况。如果脚本加载失败怎么办？我们的回调应该能够对此作出反应。
 
-这是可以跟踪错误的 `loadScript` 改进版：
+这是 `loadScript` 的改进版本，可以跟踪加载错误：
 
-```js run
+```js
 function loadScript(src, callback) {
   let script = document.createElement('script');
   script.src = src;
@@ -173,32 +173,32 @@ function loadScript(src, callback) {
 }
 ```
 
-成功时，调用 `callback(null, script)`，否则调用 `callback(error)`。
+加载成功时，它会调用 `callback(null, script)`，否则调用 `callback(error)`。
 
 用法：
 ```js
 loadScript('/my/script.js', function(error, script) {
   if (error) {
-    // handle error
+    // 处理 error
   } else {
-    // 成功加载脚本
+    // 脚本加载成功
   }
 });
 ```
 
-再一次强调，我们使用的 `loadScript` 方法是非常常规的。它被称为 "error-first callback" 风格。
+再次强调，我们在 `loadScript` 中所使用的方案其实很普遍。它被称为“Error 优先回调（error-first callback）”风格。
 
-惯例是：
-1. `callback` 的第一个参数是为了错误发生而保留的。一旦发生错误，`callback(err)` 就会被调用。
-2. 第二个参数（如果有需要）用于成功的结果。此时 `callback(null, result1, result2…)` 将被调用。
+约定是：
+1. `callback` 的第一个参数是为 error 而保留的。一旦出现 error，`callback(err)` 就会被调用。
+2. 第二个参数（和下一个参数，如果需要的话）用于成功的结果。此时 `callback(null, result1, result2…)` 就会被调用。
 
-因此单个 `callback` 函数可以同时具有报告错误以及传递返回结果的作用。
+因此，单一的 `callback` 函数可以同时具有报告 error 和传递返回结果的作用。
 
-## 回调金字塔
+## 厄运金字塔
 
-从第一步可以看出，这是异步编码的一种可行性方案。的确如此，对于一个或两个的简单嵌套，这样的调用看起来非常好。
+乍一看，这是一种可行的异步编程方式。的确如此，对于一个或两个嵌套的调用看起来还不错。
 
-但对于一个接一个的多个异步动作，代码就会变成这样：
+但对于一个接一个的多个异步动作，代码将会变成这样：
 
 ```js
 loadScript('1.js', function(error, script) {
@@ -217,7 +217,7 @@ loadScript('1.js', function(error, script) {
             handleError(error);
           } else {
   *!*
-            // ...加载所有脚本后继续 (*)
+            // ...加载完所有脚本后继续 (*)
   */!*
           }
         });
@@ -228,22 +228,46 @@ loadScript('1.js', function(error, script) {
 });
 ```
 
-上述代码中：
+在上面这段代码中：
 1. 我们加载 `1.js`，如果没有发生错误。
 2. 我们加载 `2.js`，如果没有发生错误。
-3. 我们加载 `3.js`，如果没有发生错误 —— 做其他操作 `(*)`。
+3. 我们加载 `3.js`，如果没有发生错误 — 做其他操作 `(*)`。
 
-如果嵌套变多，代码层次就会变深，维护难度也随之增加，尤其是如果我们有一个不是 `...` 的真实代码，就会包含更多的循环，条件语句等。
+如果调用嵌套的增加，代码层次变得更深，维护难度也随之增加，尤其是我们使用的是可能包含了很多循环和条件语句的真实代码，而不是例子中的 `...`。
 
-这有时称为“回调地狱”或者“回调金字塔”。
+有时这些被称为“回调地狱”或“厄运金字塔”。
+
+<!--
+loadScript('1.js', function(error, script) {
+  if (error) {
+    handleError(error);
+  } else {
+    // ...
+    loadScript('2.js', function(error, script) {
+      if (error) {
+        handleError(error);
+      } else {
+        // ...
+        loadScript('3.js', function(error, script) {
+          if (error) {
+            handleError(error);
+          } else {
+            // ...
+          }
+        });
+      }
+    })
+  }
+});
+-->
 
 ![](callback-hell.svg)
 
-嵌套调用的“金字塔”在每一个异步动作中都会向右增长。很快就会失去控制。
+嵌套调用的“金字塔”随着每个异步行为会向右增长。很快它就失控了。
 
-因此这种编码方式并不可取。
+所以这种编码方式不是很好。
 
-我们可以通过为每个动作编写一个独立函数来解决这一问题，就像这样：
+我们可以通过使每个动作都成为一个独立的函数来尝试减轻这种问题，如下所示：
 
 ```js
 loadScript('1.js', step1);
@@ -270,17 +294,17 @@ function step3(error, script) {
   if (error) {
     handleError(error);
   } else {
-    // ...在所有脚本被加载后继续 (*)
+    // ...加载完所有脚本后继续 (*)
   }
 };
 ```
 
-看到了么？效果一样，但是没有深层的嵌套了，因为我们使每个动作都有一个独立的顶层函数。
+看到了吗？它的作用相同，但是没有深层的嵌套了，因为我们将每个动作都编写成了一个独立的顶层函数。
 
-这很有效，但代码看起来就像是一个被分裂的表格。你可能注意到了，它的可读性非常差。在阅读时，需要在块之间切换。这非常不方便，尤其是不熟悉代码的读者，他们甚至不知道该跳转到何处。
+它可以工作，但是代码看起来就像是一个被撕裂的表格。你可能已经注意到了，它的可读性很差，在阅读时你需要在各个代码块之间跳转。这很不方便，特别是如果读者对代码不熟悉，他们甚至不知道应该跳转到什么地方。
 
-名为 `step*` 的函数都是单一使用的，他们被创建的唯一作用就是避免“回调金字塔”。没有人会在动作链之外重复使用它们。因此这里的命名空间非常杂乱。
+此外，名为 `step*` 的函数都是一次性使用的，创建它们就是为了避免“厄运金字塔”。没有人会在动作链之外重用它们。因此，这里的命名空间有点混乱。
 
-或许还有更好的方法。
+我们希望还有更好的方法。
 
-幸运地是，有其他方法可以避免回调金字塔。其中一个最好的方法是使用 "promises"，我们将在下一章中详细描述。
+幸运地是，有其他方法可以避免此类金字塔。最好的方法之一就是 "promise"，我们将在下一章中介绍它。
