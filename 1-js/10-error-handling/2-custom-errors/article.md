@@ -173,7 +173,7 @@ try {
   } else if (err instanceof SyntaxError) {
     alert("JSON Syntax Error: " + err.message);
   } else {
-    throw err; // unknown error, rethrow it
+    throw err; // 为止 error，将其再次抛出
   }
 }
 ```
@@ -219,13 +219,9 @@ alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 
 通常答案是 "No"：外部代码希望“比它高一个级别”，外部代码只想具有几种“数据读取异常” — 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果能有一种方法能够获取 error 的详细信息那就更好了，但前提是我们需要这样做。
 
-因此，我们创建一个新的类 `ReadError` 来表示此类 error。如果在 `readUser` 内发生了 error，我们将会
+因此，让我们创建一个新的类 `ReadError` 来表示此类 error。如果在 `readUser` 内部发生了 error，我们将在那里捕获这个 error 并生成 `ReadError`。我们也会在其 `cause` 属性中保留对原始 error 的引用。然后，外部代码将只需要检查 `ReadError`。
 
-在那里捕获并生成`ReadError`。我们还将在“ cause”属性中保留对原始错误的引用。然后，外部代码将只需要检查“
-
-发生了异常，我们会将其捕获，并生成 `ReadError`。我们同时也会在其 `cause` 属性中保留对原始异常的引用。那么外部的代码就只需要检测 `ReadError`。
-
-下面的代码定义了 `ReadError` ，并演示了如何在 `readUser` 和 `try..catch` 中使用它：
+下面的代码定义了 `ReadError`，并在 `readUser` 和 `try..catch` 中演示了其用法：
 
 ```js run
 class ReadError extends Error {
@@ -284,7 +280,7 @@ try {
   if (e instanceof ReadError) {
 *!*
     alert(e);
-    // 原错误：语法错误：在位置 1 处不应有 b
+    // Original error: SyntaxError: Unexpected token b in JSON at position 1
     alert("Original error: " + e.cause);
 */!*
   } else {
@@ -293,14 +289,14 @@ try {
 }
 ```
 
-上述代码中，`readUser` 正如描述的一样正常工作 —— 捕获语法以及验证的异常并且抛出 `ReadError` 异常用来代替之前的行为（未知的异常依旧重新抛出）。
+在上面的代码中，`readUser` 正如所描述的那样正常工作 — 捕获语法和验证（validation）错误，并抛出 `ReadError`（对于未知错误将照常再次抛出）。
 
-所以外部代码负责检测 `instanceof ReadError`，不必列出所有可能的异常类型。
+所以外部代码检查 `instanceof ReadError`，并且它的确是。不必列出所有可能的 error 类型。
 
-这种途径称为“包装异常”，因为我们将“低级别的异常”包装为 `ReadError`，使得调用代码更加抽象和方便。它在面向对象编程中被广泛使用。
+这种方法被称为“包装异常（wrapping exceptions）”，因为我们将“低级别的异常”包装到 `ReadError` 中，这对于调用代码来说更加抽象和方便。它被广泛应用于面向对象的编程中。
 
 ## 总结
 
-- 我们能够正常地继承 `Error` 以及其他内置的错误类，只需要注意 `name` 属性以及不要忘了调用 `super`。
-- 大多数时候，我们应该使用 `instanceof` 来检测一些特定的异常。它也能够在继承中使用。但有时我们会发现来自第三方库的异常，并且不容易得到它的类。那么 `name` 属性就可用于这一类的检测。
-- 包装异常是一种广泛应用的技术，当一个函数处理低级别的异常时，用一个高级别的对象来报告错误。低级别的异常有时会变成这个对象的属性，就像上面例子中的 `err.cause`，但这并不严格要求。
+- 我们可以正常地从 `Error` 和其他内建的 error 类中进行继承，。我们只需要注意 `name` 属性以及不要忘了调用 `super`。
+- 我们可以使用 `instanceof` 来检查特定的 error。但有时我们有来自第三方库的 error 对象，并且在这儿没有简单的方法来获取它的类。那么可以将 `name` 属性用于这一类的检查。
+- 包装异常是一项广泛应用的技术：用于处理低级别异常并创建高级别 error 而不是各种低级别 error 的函数。在上面的示例中，低级别异常有时会成为该对象的属性，例如 `err.cause`，但这不是严格要求的。
