@@ -1,30 +1,59 @@
 # Promise
 
-想象一下，你自己是一位顶尖歌手，粉丝没日没夜地询问你下个单曲何时到来。
+想象一下，你是一位顶尖歌手，粉丝没日没夜地询问你下个单曲什么时候发。
 
-为了从中解放，你承诺会在单曲发布的第一时间通知他们。你让粉丝们填写了他们的个人信息，因此他们会在歌曲发布的第一时间获取到。即使遇到了不测，歌曲可能永远不会被发行，他们也会被通知到。
+为了从中解放，你承诺（promise）会在单曲发布的第一时间发给他们。你给了粉丝们一个列表。他们可以在上面填写他们的电子邮件地址，以便当歌曲发布后，让所有订阅了的人能够立即收到。即便遇到不测，例如录音室发生了火灾，以致你无法发布新歌，他们可能及时收到相关通知。
 
-每个人都很开心：你不会被任何人催促；粉丝也不会错过单曲发行的第一时间。
+每个人都很开心：你不会被任何人催促，粉丝们也不用担心错过单曲发行。
 
-在编程中，我们经常用现实世界中的事物进行类比：
+这是我们在编程中经常遇到的事儿与真实生活的类比：
 
-1. "生产者代码" 会做一些事情，也需要事件。比如，它加载一个远程脚本。此时它就像“歌手”。
-2. "消费者代码" 想要在它准备好时知道结果。许多函数都需要结果。此时它们就像是“粉丝”。
-3. **promise** 是将两者连接的一个特殊的 JavaScript 对象。就像是“列表”。生产者代码创建它，然后将它交给每个订阅的对象，因此它们都可以订阅到结果。
+1. “生产者代码（producing code）”会做一些事儿，并且会话费一些时间。例如，通过网络加载数据的代码。它就像一位“歌手”。
+2. “消费者代码（consuming code）”想要在“生产者代码”完成工作的第一时间就能获得其工作成果。许多函数可能都需要这个结果。这些就是“粉丝”。
+3. **Promise** 是将“生产者代码”和“消费者代码”链接在一起的一个特殊的 JavaScript 对象。用我们的类比来说：这就是就像是“订阅列表”。“生产者代码”花费它所需的任意长度时间来产出所承诺的结果，而 "promise" 将在它（指的是 "promise" 自身）准备时，将结果向所有订阅了的代码开放。
 
-这种类比并不精确，因为 JavaScipt promises 比简单的列表更加复杂：它们拥有额外的特性和限制。但是它们仍然有相似之处。
+这种类比并不十分准确，因为 JavaScipt 的 promise 比简单的订阅列表更加复杂：它们还拥有其他的功能和局限性。但以此开始挺好的。
 
-Promise 对象的构造语法是：
+Promise 对象的构造函数语法如下：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // executor (生产者代码，"singer")
+  // executor（生产者代码，“歌手”）
 });
 ```
 
-传递给 `new Promise`的函数称之为 **executor**。当 promise 被创建时，它会被自动调用。它包含生产者代码，这最终会产生一个结果。与上文类比，executor 就是“歌手”。
+传递给 `new Promise` 的函数被称为 **executor**。当 `new Promise` 被创建，executor 会自动运行。它包含最终应产出结果的生产者代码。按照上面的类比：executor 就是“歌手”。
 
-`promise` 对象有内部属性：
+它的参数 `resolve` 和 `reject` 是由 JavaScript 自身提供的回调。我们的代码仅在 executor 的内部。
+
+当 executor 获得了结果，不管是早还是晚都没关系，它应该调用以下回调之一：
+
+- `resolve(value)` — if the job finished successfully, with result `value`.
+- `reject(error)` — if an error occurred, `error` is the error object.
+
+So to summarize: the executor runs automatically and attempts to perform a job. When it is finished with the attempt it calls `resolve` if it was successful or `reject` if there was an error.
+
+The `promise` object returned by the `new Promise` constructor has these internal properties:
+
+- `state` — initially `"pending"`, then changes to either `"fulfilled"` when `resolve` is called or `"rejected"` when `reject` is called.
+- `result` — initially `undefined`, then changes to `value` when `resolve(value)` called or `error` when `reject(error)` is called.
+
+So the executor eventually moves `promise` to one of these states:
+
+![](promise-resolve-reject.svg)
+
+Later we'll see how "fans" can subscribe to these changes.
+
+Here's an example of a promise constructor and a simple executor function with  "producing code" that takes time (via `setTimeout`):
+
+```js run
+let promise = new Promise(function(resolve, reject) {
+  // the function is executed automatically when the promise is constructed
+
+  // after 1 second signal that the job is done with the result "done"
+  setTimeout(() => *!*resolve("done")*/!*, 1000);
+});
+```
 
 - `state` —— 最初是 "pending"，然后被改为 "fulfilled" 或 "rejected"，
 - `result` —— 一个任意值，最初是 `undefined`。
