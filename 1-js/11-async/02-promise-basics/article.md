@@ -280,9 +280,9 @@ Promise 则更加灵活。我们可以随时添加处理器（handler）：如�
 
 接下来，让我们看一下关于 promise 如何帮助我们编写异步代码的更多实际示例。
 
-## 示例：loadScript
+## 示例：loadScript [#loadscript]
 
-我们已经从之前的章节中加载了 `loadScript` 函数。
+我们从上一章获得了用于加载脚本的 `loadScript` 函数。
 
 这是基于回调函数的变体，记住它：
 
@@ -292,24 +292,24 @@ function loadScript(src, callback) {
   script.src = src;
 
   script.onload = () => callback(null, script);
-  script.onerror = () => callback(new Error(`Script load error ` + src));
+  script.onerror = () => callback(new Error(`Script load error for ${src}`));
 
   document.head.append(script);
 }
 ```
 
-我们用 promises 进行重写。
+让我们用 promise 重写它。
 
-`loadScript` 新函数不需要请求回调函数，取而代之的是它会创建并返回一个在加载完成时的 promise 对象。外部代码可以使用 `.then` 向其添加处理器：
+新函数 `loadScript` 将不需要回调。取而代之的是，它将创建并返回一个在加载完成时解析（resolve）的 promise 对象。外部代码可以使用 `.then` 向其添加处理器（订阅函数）：
 
 ```js run
-function loadScript(src) {  
+function loadScript(src) {
   return new Promise(function(resolve, reject) {
     let script = document.createElement('script');
     script.src = src;
 
     script.onload = () => resolve(script);
-    script.onerror = () => reject(new Error("Script load error: " + src));
+    script.onerror = () => reject(new Error(`Script load error for ${src}`));
 
     document.head.append(script);
   });
@@ -319,27 +319,31 @@ function loadScript(src) {
 用法：
 
 ```js run
-let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
+let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js");
 
 promise.then(
   script => alert(`${script.src} is loaded!`),
   error => alert(`Error: ${error.message}`)
 );
 
-promise.then(script => alert('One more handler to do something else!'));
+promise.then(script => alert('Another handler...'));
 ```
 
-我们立刻能发现 Promise 优于回调语法的地方：
+我们立刻就能发现 promise 相较于基于回调的模式的一些好处：
 
 | Promises | Callbacks |
 |----------|-----------|
-| Promises 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和 `.then` 来处理结果。| 在调用 `loadScript` 时，我们必须已经有了一个 `callback` 函数。换句话说，在调用 `loadScript` **之前**我们必须知道如何处理结果。|
-| 只要我们有需要，我们能在 promise 上调用 `.then` 无数次。每次调用仅需向“订阅者列表”增加一个新“粉丝”—— 一个新订阅函数。更多细节请参考下一章： [](info:promise-chaining). | 只能有一个回调。|
+| Promises 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，在我们处理的地方（disposal）必须有一个 `callback` 函数。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
+| 我们可以根据需要，在 promise 上多次调用 `.then`。每次调用，我们都会在“订阅列表”中添加一个新的“分析”，一个新的订阅函数。在下一章将对此内容进行详细介绍：[](info:promise-chaining)。 | 只能有一个回调。|
 
 
-因此，promise 已经为我们的编码带来了更好的编码方式和灵活性。我们会在之后章节看到更多相关内容。
+因此，promise 为我们提供了更好的代码流和灵活性。但其实还有更多相关内容。我们将在下一章看到。
 
-<!--
+## 补充内容
+
+```smart header="说明"
+为了更清晰地讲解 promise，本文经过大幅重写，以下内容是重写时被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
+```
 
 ````smart header="`.then/catch` 的处理器总是异步的"
 更确切地说，当 `.then/catch` 处理器应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理器，并在当前代码完成时执行 `setTimeout(..., 0)`。
@@ -349,14 +353,13 @@ promise.then(script => alert('One more handler to do something else!'));
 在下述示例中，promise 被立即 resolved，因此 `.then(alert)` 被立即触发：`alert` 会进入队列，在代码完成之后立即执行。
 
 ```js run
-// an immediately resolved promise
+// 一个被立即 resolved 的 promise
 let promise = new Promise(resolve => resolve("done!"));
 
-promise.then(alert); // 完成！（在当前代码完成之后）
+promise.then(alert); // done!（在当前代码完成之后）
 
 alert("code finished"); // 这个 alert 会最先显示
 ```
 
-因此在 `.then` 之后的代码总是在处理器之前被执行（即使实在预先解决 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
+因此在 `.then` 之后的代码总是在处理器之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
 ````
--->
