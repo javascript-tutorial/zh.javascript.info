@@ -3,27 +3,19 @@
 
 Promise 链在错误（error）处理中十分强大。当一个 promise 被 reject 时，控制权将移交至最近的 rejection 处理程序（handler）。这在实际开发中非常方便。
 
-例如，下面代码中的 URL 是错误的（没有这个网站）此时 `.catch` 可以处理这个错误：
+例如，下面代码中所 `fetch` 的 URL 是错的（没有这个网站），`.catch` 对这个 error 进行了处理：
 
 ```js run
 *!*
 fetch('https://no-such-server.blabla') // rejects
 */!*
   .then(response => response.json())
-  .catch(err => alert(err)) // TypeError: failed to fetch （文字可能有所不同）
+  .catch(err => alert(err)) // TypeError: failed to fetch（这里的文字可能有所不同）
 ```
 
-或者可能有这样的情况：网站一切正常，但是相应数据不是一个合法的 JSON：
+正如你所看到的，`.catch` 不必是立即的。它可能在一个或多个 `.then` 之后出现。
 
-```js run
-fetch('/') // 目前 fetch 能正常工作，服务器响应 HTML 页面
-*!*
-  .then(response => response.json()) // rejects：页面是 HTML，不是合法的 json
-*/!*
-  .catch(err => alert(err)) // SyntaxError: Unexpected token < in JSON at position 0
-```
-
-捕获所有错误最简单的方法是在链的末端加上 `.catch`：
+或者，可能该网站一切正常，但响应不是有效的 JSON。捕获所有 error 的最简单的方法是，将 `.catch` 附加到链的末尾：
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -46,13 +38,13 @@ fetch('/article/promise-chaining/user.json')
 */!*
 ```
 
-通常情况下 `.catch` 根本不会触发，因为没有错误发生。但是如果上述任意一个 promise reject（网络错误或者不合法的 json 等等），它就会被捕获。
+通常情况下，这样的 `.catch` 根本不会被触发。但是如果上述任意一个 promise 被 reject（网络问题或者无效的 json 或其他），`.catch` 就会捕获它。
 
 ## 隐式 try..catch
 
-Promise 执行（executor）和 promise 处理（handler）程序周围有一个“不可见 `try..catch`”。如果发生异常，它会被捕获并视为 rejection。
+Promise 的执行者（executor）和 promise 的处理程序（handler）周围有一个“隐式的 `try..catch`”。如果发生异常，它（译注：指异常）就会被捕获，并被视为 rejection 进行处理。
 
-例如，下面的代码：
+例如，下面这段代码：
 
 ```js run
 new Promise((resolve, reject) => {
@@ -62,17 +54,17 @@ new Promise((resolve, reject) => {
 }).catch(alert); // Error: Whoops!
 ```
 
-……与下面代码完全相同：
+……与下面这段代码工作上完全相同：
 
 ```js run
 new Promise((resolve, reject) => {
 *!*
   reject(new Error("Whoops!"));
-*/!*  
+*/!*
 }).catch(alert); // Error: Whoops!
 ```
 
-在执行程序周围 “不可见 `try..catch`” 自动捕获错误并视它为 rejection。
+在 executor 周围的“隐式 `try..catch`”自动捕获了 error，并将其变为 rejected promise。
 
 这不仅仅发生在执行程序上，同样也发生在处理程序上。如果我们在 `.then` 处理程序里 `throw`，这意味着被 rejected 的 promise，因此控制权移交最近的错误处理程序。
 
