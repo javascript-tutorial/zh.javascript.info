@@ -8,13 +8,13 @@
 
 这是我们在编程中经常遇到的事儿与真实生活的类比：
 
-1. “生产者代码（producing code）”会做一些事儿，并且会话费一些时间。例如，通过网络加载数据的代码。它就像一位“歌手”。
+1. “生产者代码（producing code）”会做一些事儿，并且会需要一些时间。例如，通过网络加载数据的代码。它就像一位“歌手”。
 2. “消费者代码（consuming code）”想要在“生产者代码”完成工作的第一时间就能获得其工作成果。许多函数可能都需要这个结果。这些就是“粉丝”。
-3. **Promise** 是将“生产者代码”和“消费者代码”链接在一起的一个特殊的 JavaScript 对象。用我们的类比来说：这就是就像是“订阅列表”。“生产者代码”花费它所需的任意长度时间来产出所承诺的结果，而 "promise" 将在它（指的是 "promise" 自身）准备时，将结果向所有订阅了的代码开放。
+3. **Promise** 是将“生产者代码”和“消费者代码”连接在一起的一个特殊的 JavaScript 对象。用我们的类比来说：这就是就像是“订阅列表”。“生产者代码”花费它所需的任意长度时间来产出所承诺的结果，而 "promise" 将在它（译注：指的是“生产者代码”，也就是下文所说的 executor）准备好时，将结果向所有订阅了的代码开放。
 
 这种类比并不十分准确，因为 JavaScipt 的 promise 比简单的订阅列表更加复杂：它们还拥有其他的功能和局限性。但以此开始挺好的。
 
-Promise 对象的构造函数语法如下：
+Promise 对象的构造函数（constructor）语法如下：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -26,172 +26,158 @@ let promise = new Promise(function(resolve, reject) {
 
 它的参数 `resolve` 和 `reject` 是由 JavaScript 自身提供的回调。我们的代码仅在 executor 的内部。
 
-当 executor 获得了结果，不管是早还是晚都没关系，它应该调用以下回调之一：
+当 executor 获得了结果，无论是早还是晚都没关系，它应该调用以下回调之一：
 
-- `resolve(value)` — if the job finished successfully, with result `value`.
-- `reject(error)` — if an error occurred, `error` is the error object.
+- `resolve(value)` — 如果任务成功完成并带有结果 `value`。
+- `reject(error)` — 如果出现了 error，`error` 即为 error 对象。
 
-So to summarize: the executor runs automatically and attempts to perform a job. When it is finished with the attempt it calls `resolve` if it was successful or `reject` if there was an error.
+所以总结一下就是：executor 会自动运行并尝试执行一项工作。尝试结束后，如果成功则调用 `resolve`，如果出现 error 则调用 `reject`。
 
-The `promise` object returned by the `new Promise` constructor has these internal properties:
+由 `new Promise` 构造函数（constructor）返回的 `promise` 对象具有以下内部属性：
 
-- `state` — initially `"pending"`, then changes to either `"fulfilled"` when `resolve` is called or `"rejected"` when `reject` is called.
-- `result` — initially `undefined`, then changes to `value` when `resolve(value)` called or `error` when `reject(error)` is called.
+- `state` — 最初是 `"pending"`，然后在 `resolve` 被调用时变为 `"fulfilled"`，或者在 `reject` 被调用时变为 `"rejected"`。
+- `result` — 最初是 `undefined`，然后在 `resolve(value)` 被调用时变为 `value`，或者在 `reject(error)` 被调用时变为 `error`。
 
-So the executor eventually moves `promise` to one of these states:
+所以，executor 最终将 `promise` 移至以下状态之一：
 
 ![](promise-resolve-reject.svg)
 
-Later we'll see how "fans" can subscribe to these changes.
+稍后我们将看到“粉丝”如何订阅这些更改。
 
-Here's an example of a promise constructor and a simple executor function with  "producing code" that takes time (via `setTimeout`):
+下面是一个 promise 构造函数（constructor）和一个简单的 executor 函数，该 executor 函数具有包含时间（即 `setTimeout`）的“生产者代码”：
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
-  // the function is executed automatically when the promise is constructed
+  // 当 promise 被构造完成时，自动执行此函数
 
-  // after 1 second signal that the job is done with the result "done"
+  // 1 秒后发出工作已经被完成的信号，并带有结果 "done"
   setTimeout(() => *!*resolve("done")*/!*, 1000);
 });
 ```
 
-- `state` —— 最初是 "pending"，然后被改为 "fulfilled" 或 "rejected"，
-- `result` —— 一个任意值，最初是 `undefined`。
+通过运行上面的代码，我们可以看到两件事儿：
 
-当 executor 完成任务时，应调用下列之一：
+1. executor 被自动且立即调用（通过 `new Promise`）。
+2. executor 接受两个参数：`resolve` 和 `reject`。这些函数由 JavaScipt 引擎预先定义，因此我们不需要创建它们。我们只需要在准备好（译注：指的是 executor 准备好）时调用其中之一即可。
 
-- `resolve(value)` —— 说明任务已经完成：
-    - 将 `state` 设置为 `"fulfilled"`，
-    - sets `result` to `value`。
-- `reject(error)` —— 表明有错误发生：
-    - 将 `state` 设置为 `"rejected"`，
-    - 将 `result` 设置为 `error`。
+    经过 1 秒的“处理”后，executor 调用 `resolve("done")` 来产生结果。这将改变 `promise` 对象的状态：
 
-![](promise-resolve-reject.svg)
+    ![](promise-resolve-1.svg)
 
-这是一个简单的 executor，可以把这一切都聚集在一起：
+这是一个成功完成任务的例子，一个“成功实现了的诺言”。
 
-```js run
-let promise = new Promise(function(resolve, reject) {
-  // 当 promise 被构造时，函数会自动执行
-
-  alert(resolve); // function () { [native code] }
-  alert(reject);  // function () { [native code] }
-
-  // 在 1 秒后，结果为“完成！”，表明任务被完成
-  setTimeout(() => *!*resolve("done!")*/!*, 1000);
-});
-```
-
-我们运行上述代码后发现两件事：
-
-1. 会自动并立即调用 executor（通过 `new Promise`）。
-2. executor 接受两个参数 `resolve` 和 `reject` —— 这些函数来自于 JavaScipt 引擎。我们不需要创建它们，相反，executor 会在它们准备好时进行调用。
-
-经过一秒钟的思考后，executor 调用 `resolve("done")` 来产生结果：
-
-![](promise-resolve-1.svg)
-
-这是“任务成功完成”的示例。
-
-现在的是示例则是 promise 的 reject 出现于错误的发生：
+现在的则是一个 executor 以 error 拒绝 promise 的示例：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // after 1 second signal that the job is finished with an error
+  // 1 秒后发出工作已经被完成的信号，并带有 error
   setTimeout(() => *!*reject(new Error("Whoops!"))*/!*, 1000);
 });
 ```
 
+对 `reject(...)` 的调用将 promise 对象的状态移至 `"rejected"`：
+
 ![](promise-reject-1.svg)
 
-总之，executor 应该完成任务（通常会需要时间），然后调用 `resolve` 或 `reject` 来改变 promise 对象的对应状态。
+总而言之，executor 应该执行一项工作（通常是需要花费一些时间的事儿），然后调用 `resolve` 或 `reject` 来改变对应的 promise 对象的状态。
 
-Promise 结果应该是 resolved 或 rejected 的状态被称为 "settled"，而不是 "pending" 状态的 promise。
+与最初的 "pending" promise 相反，一个 resolved 或 rejected 的 promise 都会被称为 "settled"。
 
-````smart header="There can be only one result or an error"
-executor 只会调用 `resolve` 或 `reject`。Promise 的最后状态一定会变化。
+````smart header="这儿只能有一个结果或一个 error"
+executor 只能调用一个 `resolve` 或一个 `reject`。任何状态的更改都是最终的。
 
-对 `resolve` 和 `reject` 的深层调用都会被忽略：
+所有其他的再对 `resolve` 和 `reject` 的调用都会被忽略：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
+*!*
   resolve("done");
+*/!*
 
   reject(new Error("…")); // 被忽略
   setTimeout(() => resolve("…")); // 被忽略
 });
 ```
 
-executor 所做的任务可能只有一个结果或者一个错误。在编程中，还有其他允许 "flowing" 结果的数据结构。例如流和队列。相对于 promise，它们有着自己的优势和劣势。它们不被 JavaScipt 核心支持，而且缺少 promise 所提供的某些语言特性，我们在这里不对 promise 进行过多的讨论。
+这儿的宗旨是，一个被 exector 完成的工作只能有一个结果或一个 error。
 
-同时，如果我们使用另一个参数调用 `resolve/reject` —— 只有第一个参数会被使用，下一个会被忽略。
+并且，`resolve/reject` 只需要一个参数（或不包含任何参数），并且将忽略额外的参数。
 ````
 
-```smart header="Reject with `Error` objects"
-从技术上来说，我们可以使用任何类型的参数来调用 `reject`（就像 `resolve`）。但建议在 `reject`（或从它们中继承）中使用 `Error` 对象。 错误原因就会显示出来。
+```smart header="以 `Error` object reject"
+如果什么东西出了问题， executor 应该调用 `reject`。这可以使用任何类型的参数来完成（就像 `resolve` 一样）。但是建议使用 `Error` 对象（或继承自 `Error` 的对象）。这样做的理由很快就会显而易见。
 ```
 
-````smart header="Resolve/reject can be immediate"
-实际上，executor 通常会异步执行一些动作，然后在一段时间后调用 `resolve/reject`，但它不必那么做。我们可以立即调用 `resolve` 或 `reject`，就像这样：
+````smart header="Resolve/reject 可以立即进行"
+实际上，executor 通常是异步执行某些操作，并在一段时间后调用 `resolve/reject`，但这不是必须的。我们还可以立即调用 `resolve` 或 `reject`，就像这样：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  resolve(123); // immediately give the result: 123
+  // 不花时间去做这项工作
+  resolve(123); // 立即给出结果：123
 });
 ```
 
-比如，当我们开始做一个任务时，它就会发生，然后发现一切都已经被做完了。从技术上来说，这非常好：我们现在有了一个 resolved promise。
+例如，当我们开始做一个任务时，但随后看到一切都已经完成并已被缓存时，可能就会发生这种情况。
+
+这挺好。我们立即就有了一个 resolved 的 promise。
 ````
 
-```smart header="The `state` and `result` are internal"
-Promise 的 `state` 和 `result` 属性是内部的。我们不能从代码中直接访问它们，但是我们可以使用 `.then/catch` 来访问，下面是对此的描述。
+```smart header="`state` 和 `result` 都是内部的"
+Promise 对象的 `state` 和 `result` 属性都是内部的。我们无法直接访问它们。但我们可以使用 `.then`/`.catch`/`.finally` 来访问。下面是对它们的描述。
 ```
 
-## 消费者：".then" 和 ".catch"
+## 消费者：then，catch，finally
 
-Promise 对象充当生产者（executor）和消费函数之间的连接 —— 那些希望接收结果/错误的函数。假设函数可以使用方法 `promise.then` 和 `promise.catch` 进行注册。
+Promise 对象充当的是 executor（“生产者代码”或“歌手”）和消费函数（“粉丝”）之间的连接，后者将接收结果或 error。可以通过使用 `.then`、`.catch` 和 `.finally` 方法为消费函数进行注册。
 
+### then
 
-`.then` 的语法：
+最重要最基础的一个就是 `.then`。
+
+语法如下：
 
 ```js
 promise.then(
-  function(result) { /* handle a successful result */ },
-  function(error) { /* handle an error */ }
+  function(result) { *!*/* handle a successful result */*/!* },
+  function(error) { *!*/* handle an error */*/!* }
 );
 ```
 
-第一个函数参数在 promise 为 resolved 时被解析，然后得到结果并运行。第二个参数 ——  在状态为 rejected 并得到错误时使用。
+`.then` 的第一个参数是一个函数，该函数将在 promise resolved 后运行并收到结果。
 
-例如：
+`.then` 的第二个参数也是一个函数，该函数将在 promise rejected 后运行并收到 error。
+
+例如，以下是对成功 resolved 的 promise 做出的反应：
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => resolve("done!"), 1000);
 });
 
-// resolve 在 .then 中运行第一个函数
+// resolve 运行 .then 中的第一个函数
 promise.then(
 *!*
-  result => alert(result), // 在 1 秒后显示“已经完成！”
+  result => alert(result), // 1 秒后显示 "done!"
 */!*
-  error => alert(error) // 不会运行
+  error => alert(error) // 不运行
 );
 ```
 
-在 rejection 的情况下：
+第一个函数被运行了。
+
+在 reject 的情况下，运行第二个：
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => reject(new Error("Whoops!")), 1000);
 });
 
-// reject 在 .then 中运行第二个函数
+// reject 运行 .then 中的第二个函数
 promise.then(
-  result => alert(result), // 无法运行
+  result => alert(result), // 不运行
 *!*
-  error => alert(error) // 在 1 秒后显示 "Error: Whoops!"
+  error => alert(error) // 1 秒后显示 "Error: Whoops!"
 */!*
 );
 ```
