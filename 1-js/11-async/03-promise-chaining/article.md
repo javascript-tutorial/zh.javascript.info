@@ -234,7 +234,7 @@ let promise = fetch(url);
 
 执行这条语句，向 `url` 发出网络请求并返回一个 promise。当远程服务器返回响应头（是在 **全部响应加载完成前**）时，该 promise 用使用一个 `response` 对象来 resolve 掉。
 
-为了读取完整的响应，我们应该调用 `response.text()` 方法：当全部文字（full text）内容从远程服务器下载完成后，它会返回一个 resolved 状态的 promise，同时该文字会被作为 result。
+为了读取完整的响应，我们应该调用 `response.text()` 方法：当全部文字（full text）内容从远程服务器下载完成后，它会返回一个 promise，该 promise 以刚刚下载完成的这个文本作为 result 进行 resolve。
 
 下面这段代码向 `user.json` 发送请求，并从服务器加载该文本：
 
@@ -242,39 +242,39 @@ let promise = fetch(url);
 fetch('/article/promise-chaining/user.json')
   // 当远程服务器响应时，下面的 .then 开始执行
   .then(function(response) {
-    // 当结束下载时，response.text() 会返回一个新的 resolved promise，该 promise 拥有全部响应文字response.text() returns a new promise that resolves with the full response text
-    // when it loads
+    // 当 user.json 加载完成时，response.text() 会返回一个新的 promise
+    // 该 promise 以加载的 user.json 为 result 进行 resolve
     return response.text();
   })
   .then(function(text) {
-    // ...and here's the content of the remote file
+    // ...这是远程文件的内容
     alert(text); // {"name": "iliakan", isAdmin: true}
   });
 ```
 
-其实还有一个方法，`response.json()` 会读取远程数据并把它解析成 JSON。我们的示例中用这个方法要更方便，所以让我们替换成此方法。
+从 `fetch` 返回的 `response` 对象还包括 `response.json()` 方法，该方法读取远程数据并将其解析为 JSON。在我们的例子中，这更加方便，所以让我们切换到这个方法。
 
-为了简洁，我们也使用箭头函数：
+为了简洁，我们还将使用箭头函数：
 
 ```js run
-// 同上，但是使用 response.json() 把远程内容解析为 JSON
+// 同上，但是使用 response.json() 将远程内容解析为 JSON
 fetch('/article/promise-chaining/user.json')
   .then(response => response.json())
-  .then(user => alert(user.name)); // iliakan
+  .then(user => alert(user.name)); // iliakan, got user name
 ```
 
-现在我们用加载好的用户信息搞点事情。
+现在，让我们用加载好的用户信息搞点事情。
 
-例如，我们可以多发一个请求到 GitHub，加载用户信息并显示头像：
+例如，我们可以多发一个到 GitHub 的请求，加载用户个人资料并显示头像：
 
 ```js run
-// 发一个 user.json 请求
+// 发送一个对 user.json 的请求
 fetch('/article/promise-chaining/user.json')
-  // 作为 json 加载
+  // 将其加载为 JSON
   .then(response => response.json())
-  // 发一个请求到 GitHub
+  // 发送一个到 GitHub 的请求
   .then(user => fetch(`https://api.github.com/users/${user.name}`))
-  // 响应作为 json 加载
+  // 将响应加载为 JSON
   .then(response => response.json())
   // 显示头像图片（githubUser.avatar_url）3 秒（也可以加上动画效果）
   .then(githubUser => {
@@ -287,11 +287,11 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-这段代码可以工作，具体细节请看注释。但是，有一个潜在的问题，一个新手使用 promise 的典型问题。
+这段代码可以工作，具体细节请看注释。但是，这儿有一个潜在的问题，一个新手使用 promise 的典型问题。
 
-请看 `(*)` 行：我们如何能在头像结束显示并在移除**之后**做点什么？例如，我们想显示一个可以编辑用户，或者别的表单。就目前而言是做不到的。
+请看 `(*)` 行：我们如何能在头像显示结束并被移除 **之后** 做点什么？例如，我们想显示一个用于编辑该用户或者其他内容的表单。就目前而言，是做不到的。
 
-为了使链可扩展，我们需要在头像结束显示时返回一个 resolved 状态的 promise。
+为了使链可扩展，我们需要返回一个在头像显示结束时 resolve 的 promise。
 
 就像这样：
 
@@ -315,11 +315,11 @@ fetch('/article/promise-chaining/user.json')
 */!*
     }, 3000);
   }))
-  // triggers after 3 seconds
+  // 3 秒后触发
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-现在，在 `setTimeout` 后运行 `img.remove()`，然后调用 `resolve(githubUser)`，这样链中的控制流程走到下一个 `.then` 并传入用户数据。
+也就是说， `.then` handler in line `(*)` now returns `new Promise`, that becomes settled only after the call of `resolve(githubUser)` in `setTimeout` `(**)`. The next `.then` in the chain will wait for that.在 `setTimeout` 后运行 `img.remove()`，然后调用 `resolve(githubUser)`，这样链中的控制流程走到下一个 `.then` 并传入用户数据。
 
 作为一个规律，一个异步动作应该永远返回一个 promise。
 
