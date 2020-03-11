@@ -182,7 +182,7 @@ promise.then(
 );
 ```
 
-如果我们只对成功完成的情况感兴趣，那么我们只为 `.then` 提供一个参数：
+如果我们只对成功完成的情况感兴趣，那么我们可以只为 `.then` 提供一个函数参数：
 
 ```js run
 let promise = new Promise(resolve => {
@@ -190,11 +190,13 @@ let promise = new Promise(resolve => {
 });
 
 *!*
-promise.then(alert); // 在 1 秒后显示 "done!"
+promise.then(alert); // 1 秒后显示 "done!"
 */!*
 ```
 
-如果我们只对错误感兴趣，那么我们可以对它使用 `.then(null, function)` 或 "alias"：`.catch(function)`
+### catch
+
+如果我们只对 error 感兴趣，那么我们可以使用 `null` 作为第一个参数：`.then(null, errorHandlingFunction)`。或者我们也可以使用 `.catch(errorHandlingFunction)`，其实是一样的：
 
 
 ```js run
@@ -203,50 +205,80 @@ let promise = new Promise((resolve, reject) => {
 });
 
 *!*
-// .catch(f) 等同于 promise.then(null, f)
-promise.catch(alert); // 在 1 秒后显示 "Error: Whoops!"
+// .catch(f) 与 promise.then(null, f) 一样
+promise.catch(alert); // 1 秒后显示 "Error: Whoops!"
 */!*
 ```
 
-调用 `.catch(f)` 是 `.then(null, f)` 的模拟，这只是一个简写。
+`.catch(f)` 调用是 `.then(null, f)` 的完全的模拟，它只是一个简写形式。
 
-````smart header="On settled promises `then` runs immediately"
-如果 promise 为 pending 状态，`.then/catch` 处理器必须要等待结果。相反，如果 promise 已经被处理，它们就会立即执行：
+### finally
 
-```js run
-// 一个立即变成 resolve 的 promise
-let promise = new Promise(resolve => resolve("done!"));
+就像常规 `try {...} catch {...}` 中的 `finally` 子句一样，promise 中也有 `finally`。
 
-promise.then(alert); // 完成！（现在显示）
+`.finally(f)` 调用与 `.then(f, f)` 类似，在某种意义上，`f` 总是在 promise 被 settled 时运行：即被 promise 被 resolve 或 reject。
+
+`finally` 是执行清理（cleanup）的很好的处理器（handler），例如无论结果如何，都停止使用不再需要的加载指示符（indicator）。
+
+像这样：
+
+```js
+new Promise((resolve, reject) => {
+  /* 做一些需要时间的事儿，然后调用 resolve/reject */
+})
+*!*
+  // 在 promise 被 settled 时运行，无论成功与否
+  .finally(() => stop loading indicator)
+*/!*
+  .then(result => show result, err => show error)
 ```
 
-这对于有时需要时间而且有时要立即完成的任务来说非常方便。确保处理器在两种情况下都能够运行。
+不过，它并不是 `then(f,f)` 的别名。它们之间有几个重要的区别：
 
-需要注意的是：这和真实生活中的”订阅列表“场景不同，并且更有效能：如果歌手已经发行了一首歌之后，人们才去注册订阅列表，这样很可能收不到那首歌。真实生活中，订阅必须发生在事件之前。
+1. `finally` 处理器（handler）没有参数。在 `finally` 中，我们不知道 promise 是否成功。没关系，因为我们的任务通常是执行“常规”的定稿程序（finalizing procedures）。
+2. `finally` 处理器将结果和 error 传递给下一个处理器。
 
-Promise 则更加灵活些。我们可以在任意时间添加处理器：如果结果已经在了，我们的处理器便会立即拿到这个结果。
-````
+    例如，在这儿结果被从 `finally` 传递给了 `then`：
+    ```js run
+    new Promise((resolve, reject) => {
+      setTimeout(() => resolve("result"), 2000)
+    })
+      .finally(() => alert("Promise ready"))
+      .then(result => alert(result)); // <-- .then 对结果进行处理
+    ```
 
-````smart header="`.then/catch` 的处理器总是异步的"
-更确切地说，当 `.then/catch` 处理器应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理器，并在当前代码完成时执行 `setTimeout(..., 0)`。
+    在这儿，promise 中有一个 error，这个 error 被从 `finally` 传递给了 `catch`：
 
-换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作。
+    ```js run
+    new Promise((resolve, reject) => {
+      throw new Error("error");
+    })
+      .finally(() => alert("Promise ready"))
+      .catch(err => alert(err));  // <-- .catch 对 error 对象进行处理
+    ```
 
-在下述示例中，promise 被立即 resolved，因此 `.then(alert)` 被立即触发：`alert` 会进入队列，在代码完成之后立即执行。
+    这非常方便，因为 `finally` 并不是意味着要处理 promise 的结果。所以它将结果传递了下去。
+
+    在下一章中，我们将详细讨论 promise 链以及处理器（handler）之间的结果传递。
+
+3. 最后，但并非最不重要的一点是，`.finally(f)` 是比 `.then(f, f)` 更为方便的语法：无需重复函数 `f`。
+
+````smart header="在 settled promise 上，`then` 会立即运行"
+如果 promise 为 pending 状态，`.then/catch/finally` 处理器（handler）将等待它。否则，如果 promise 已经是 settled 状态，它们就会立即执行：
 
 ```js run
-// an immediately resolved promise
+// the promise becomes resolved immediately upon creation
 let promise = new Promise(resolve => resolve("done!"));
 
-promise.then(alert); // 完成！（在当前代码完成之后）
-
-alert("code finished"); // 这个 alert 会最先显示
+promise.then(alert); // done!（现在显示）
 ```
 
-因此在 `.then` 之后的代码总是在处理器之前被执行（即使实在预先解决 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
+请注意，这和现实生活中的类比是不同的，并且比现实生活中的“订阅列表”方案强大得多。如果歌手已经发布了他们的单曲，然后某个人在订阅列表上进行了注册，则他们很可能不会收到该单曲。实际生活中的订阅必须在活动开始之前进行。
+
+Promise 则更加灵活。我们可以随时添加处理器（handler）：如果结果已经在了，我们的处理器便会立即获得这个结果。
 ````
 
-我们现在研究一下 promises 如何帮助我们编写异步代码的示例。
+接下来，让我们看一下关于 promise 如何帮助我们编写异步代码的更多实际示例。
 
 ## 示例：loadScript
 
@@ -306,3 +338,25 @@ promise.then(script => alert('One more handler to do something else!'));
 
 
 因此，promise 已经为我们的编码带来了更好的编码方式和灵活性。我们会在之后章节看到更多相关内容。
+
+<!--
+
+````smart header="`.then/catch` 的处理器总是异步的"
+更确切地说，当 `.then/catch` 处理器应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理器，并在当前代码完成时执行 `setTimeout(..., 0)`。
+
+换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作。
+
+在下述示例中，promise 被立即 resolved，因此 `.then(alert)` 被立即触发：`alert` 会进入队列，在代码完成之后立即执行。
+
+```js run
+// an immediately resolved promise
+let promise = new Promise(resolve => resolve("done!"));
+
+promise.then(alert); // 完成！（在当前代码完成之后）
+
+alert("code finished"); // 这个 alert 会最先显示
+```
+
+因此在 `.then` 之后的代码总是在处理器之前被执行（即使实在预先解决 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
+````
+-->
