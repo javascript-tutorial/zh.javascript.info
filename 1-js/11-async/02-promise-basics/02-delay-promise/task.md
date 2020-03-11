@@ -1,5 +1,5 @@
 
-# 延迟 promise
+# 基于 promise 的延时 
 
 内建函数 `setTimeout` 使用了回调函数。请创建一个基于 promise 的替代方案。
 
