@@ -1,11 +1,11 @@
 
-# Promises 链
+# Promise 链
 
-我们回顾一下 <info:callbacks> 章节提及的问题：我们有一系列的异步任务要一个接一个完成。例如，加载脚本。我们如何写出更好的代码呢？
+我们回顾一下 <info:callbacks> 一章中提到的问题：我们有一系列的异步任务要一个接一个地执行 — 例如，加载脚本。我们如何写出更好的代码呢？
 
-Promises 提供了几种方案来解决这个问题。
+Promise 提供了一些方案来做到这一点。
 
-本章节中我们来讲解 promise 链。
+在本章中，我们来一起学习 promise 链。
 
 它看起来就像这样：
 
@@ -32,36 +32,44 @@ new Promise(function(resolve, reject) {
 });
 ```
 
-它的理念是把 result 传入 `.then` 的处理程序链。
+它的理念是将 result 通过 `.then` 处理程序（handler）链进行传递。
 
 运行流程如下：
-1. 初始 promise 1 秒后 resolve `(*)`，
-2. 然后 `.then` 方法被调用 `(**)`。
-2. 它返回的值被传入下一个 `.then` 的处理程序 `(***)`
+1. 初始 promise 在 1 秒后 resolve `(*)`，
+2. 然后 `.then` 处理程序（handler）被调用 `(**)`。
+2. 它返回的值被传入下一个 `.then` 处理程序（handler）`(***)`
 4. ……依此类推。
 
-随着 result 在处理程序链中传递，我们会看到 `alert` 依次显示：`1` -> `2` -> `4`。
+随着 result 在处理程序（handler）链中传递，我们可以看到一系列的 `alert` 调用：`1` -> `2` -> `4`。
 
 ![](promise-then-chain.svg)
 
-之所以这么运行，是因为 `promise.then` 返回了一个 promise，所以我们可以用它调用下一个 `.then`。
+之所以这么运行，是因为对 `promise.then` 的调用会返回了一个 promise，所以我们可以在其之上调用下一个 `.then`。
 
-当控制函数返回一个值时，它会变成当前 promise 的 result，所以会用它调用下一个 `.then`。
+当处理程序返回一个值时，它将成为该 promise 的 result，所以将使用它调用下一个 `.then`。
 
-为了把这些话讲更清楚，我们看一下链的开头：
+**经典的新手常犯的错误：从技术上讲，我们也可以将多个 .then 添加到单个 promise 中。但这不是链。**
 
+例如：
 ```js run
-new Promise(function(resolve, reject) {
-
+let promise = new Promise(function(resolve, reject) {
   setTimeout(() => resolve(1), 1000);
+});
 
-}).then(function(result) {
+promise.then(function(result) {
+  alert(result); // 1
+  return result * 2;
+});
 
-  alert(result);
-  return result * 2; // <-- (1)
+promise.then(function(result) {
+  alert(result); // 1
+  return result * 2;
+});
 
-}) // <-- (2)
-// .then…
+promise.then(function(result) {
+  alert(result); // 1
+  return result * 2;
+});
 ```
 
 `.then` 返回的值是一个 promise，这是为什么我们可以在 `(2)` 处添加另一个 `.then`。在 `(1)` 处返回值时，当前 promise 变成 resolved，然后下一个处理程序使用这个返回值运行。
