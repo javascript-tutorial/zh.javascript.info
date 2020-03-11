@@ -1,9 +1,7 @@
 
-# Promise 错误处理
+# 使用 promise 进行错误处理
 
-异步操作有时候可能会失败：如果出现错误，相应的 promise 就会 reject。例如，如果远程服务器无法访问，`fetch` 就会失败。我们可以使用 `.catch` 去处理这些错误（rejections）。
-
-Promise 链在这方面做的很好。当 promise 被 reject，控制权就移交给链中最近的 rejection 处理程序。这在实际应用中很方便。
+Promise 链在错误（error）处理中十分强大。当一个 promise 被 reject 时，控制权将移交至最近的 rejection 处理程序（handler）。这在实际开发中非常方便。
 
 例如，下面代码中的 URL 是错误的（没有这个网站）此时 `.catch` 可以处理这个错误：
 
