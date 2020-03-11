@@ -218,7 +218,7 @@ promise.catch(alert); // 1 秒后显示 "Error: Whoops!"
 
 `.finally(f)` 调用与 `.then(f, f)` 类似，在某种意义上，`f` 总是在 promise 被 settled 时运行：即被 promise 被 resolve 或 reject。
 
-`finally` 是执行清理（cleanup）的很好的处理器（handler），例如无论结果如何，都停止使用不再需要的加载指示符（indicator）。
+`finally` 是执行清理（cleanup）的很好的处理程序（handler），例如无论结果如何，都停止使用不再需要的加载指示符（indicator）。
 
 像这样：
 
@@ -235,8 +235,8 @@ new Promise((resolve, reject) => {
 
 不过，它并不是 `then(f,f)` 的别名。它们之间有几个重要的区别：
 
-1. `finally` 处理器（handler）没有参数。在 `finally` 中，我们不知道 promise 是否成功。没关系，因为我们的任务通常是执行“常规”的定稿程序（finalizing procedures）。
-2. `finally` 处理器将结果和 error 传递给下一个处理器。
+1. `finally` 处理程序（handler）没有参数。在 `finally` 中，我们不知道 promise 是否成功。没关系，因为我们的任务通常是执行“常规”的定稿程序（finalizing procedures）。
+2. `finally` 处理程序将结果和 error 传递给下一个处理程序。
 
     例如，在这儿结果被从 `finally` 传递给了 `then`：
     ```js run
@@ -259,12 +259,12 @@ new Promise((resolve, reject) => {
 
     这非常方便，因为 `finally` 并不是意味着要处理 promise 的结果。所以它将结果传递了下去。
 
-    在下一章中，我们将详细讨论 promise 链以及处理器（handler）之间的结果传递。
+    在下一章中，我们将详细讨论 promise 链以及处理程序（handler）之间的结果传递。
 
 3. 最后，但并非最不重要的一点是，`.finally(f)` 是比 `.then(f, f)` 更为方便的语法：无需重复函数 `f`。
 
 ````smart header="在 settled promise 上，`then` 会立即运行"
-如果 promise 为 pending 状态，`.then/catch/finally` 处理器（handler）将等待它。否则，如果 promise 已经是 settled 状态，它们就会立即执行：
+如果 promise 为 pending 状态，`.then/catch/finally` 处理程序（handler）将等待它。否则，如果 promise 已经是 settled 状态，它们就会立即执行：
 
 ```js run
 // the promise becomes resolved immediately upon creation
@@ -275,7 +275,7 @@ promise.then(alert); // done!（现在显示）
 
 请注意，这和现实生活中的类比是不同的，并且比现实生活中的“订阅列表”方案强大得多。如果歌手已经发布了他们的单曲，然后某个人在订阅列表上进行了注册，则他们很可能不会收到该单曲。实际生活中的订阅必须在活动开始之前进行。
 
-Promise 则更加灵活。我们可以随时添加处理器（handler）：如果结果已经在了，我们的处理器便会立即获得这个结果。
+Promise 则更加灵活。我们可以随时添加处理程序（handler）：如果结果已经在了，我们的处理程序便会立即获得这个结果。
 ````
 
 接下来，让我们看一下关于 promise 如何帮助我们编写异步代码的更多实际示例。
@@ -300,7 +300,7 @@ function loadScript(src, callback) {
 
 让我们用 promise 重写它。
 
-新函数 `loadScript` 将不需要回调。取而代之的是，它将创建并返回一个在加载完成时解析（resolve）的 promise 对象。外部代码可以使用 `.then` 向其添加处理器（订阅函数）：
+新函数 `loadScript` 将不需要回调。取而代之的是，它将创建并返回一个在加载完成时解析（resolve）的 promise 对象。外部代码可以使用 `.then` 向其添加处理程序（订阅函数）：
 
 ```js run
 function loadScript(src) {
@@ -345,8 +345,8 @@ promise.then(script => alert('Another handler...'));
 为了更清晰地讲解 promise，本文经过大幅重写，以下内容是重写时被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
 ```
 
-````smart header="`.then/.catch/.finally` 处理器总是异步的"
-更确切地说，当 `.then/catch` 处理器应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理器，并在当前代码完成时执行 `setTimeout(..., 0)`。
+````smart header="`.then/.catch/.finally` 处理程序总是异步的"
+更确切地说，当 `.then/catch` 处理程序应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理程序，并在当前代码完成时执行 `setTimeout(..., 0)`。
 
 换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作。
 
@@ -361,5 +361,5 @@ promise.then(alert); // done!（在当前代码完成之后）
 alert("code finished"); // 这个 alert 会最先显示
 ```
 
-因此在 `.then` 之后的代码总是在处理器之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
+因此在 `.then` 之后的代码总是在处理程序之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
 ````
