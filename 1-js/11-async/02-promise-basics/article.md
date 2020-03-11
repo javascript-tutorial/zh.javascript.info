@@ -144,9 +144,9 @@ promise.then(
 );
 ```
 
-`.then` 的第一个参数是一个函数，该函数将在 promise resolved 后运行并收到结果。
+`.then` 的第一个参数是一个函数，该函数将在 promise resolved 后运行并接收结果。
 
-`.then` 的第二个参数也是一个函数，该函数将在 promise rejected 后运行并收到 error。
+`.then` 的第二个参数也是一个函数，该函数将在 promise rejected 后运行并接收 error。
 
 例如，以下是对成功 resolved 的 promise 做出的反应：
 
