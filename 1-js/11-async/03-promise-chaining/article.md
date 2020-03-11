@@ -48,7 +48,7 @@ new Promise(function(resolve, reject) {
 
 当处理程序返回一个值时，它将成为该 promise 的 result，所以将使用它调用下一个 `.then`。
 
-**经典的新手常犯的错误：从技术上讲，我们也可以将多个 .then 添加到单个 promise 中。但这不是链。**
+**新手常犯的一个经典错误：从技术上讲，我们也可以将多个 `.then` 添加到一个 promise 上。但这并不是 promise 链（chaining）。**
 
 例如：
 ```js run
@@ -72,43 +72,17 @@ promise.then(function(result) {
 });
 ```
 
-`.then` 返回的值是一个 promise，这是为什么我们可以在 `(2)` 处添加另一个 `.then`。在 `(1)` 处返回值时，当前 promise 变成 resolved，然后下一个处理程序使用这个返回值运行。
+我们在这里所做的只是一个 promise 的几个处理程序（handler）。他们不会相互传递 result；相反，它们之间彼此独立运行处理任务。
 
-**新手常犯的一个经典错误：从技术上讲我们仍然能添加许多 `.then` 到一个 promise 上。但这并不是 promise 链（chaining）。**
-
-例如：
-```js run
-let promise = new Promise(function(resolve, reject) {
-  setTimeout(() => resolve(1), 1000);
-});
-
-promise.then(function(result) {
-  alert(result); // 1
-  return result * 2;
-});
-
-promise.then(function(result) {
-  alert(result); // 1
-  return result * 2;
-});
-
-promise.then(function(result) {
-  alert(result); // 1
-  return result * 2;
-});
-```
-
-我们这里所做的仅仅是将几个处理程序（handler）添加到一个 promise 上。它们之间并不会互相传递数据，相反，它们之间彼此独立运行处理程序。
-
-这里有一张图片来解释它（对比上面的链式调用）：
+这里它的一张示意图（你可以将其与上面的链式调用做一下比较）：
 
 ![](promise-then-many.svg)
 
-在同一个 promise 上的所有 `.then` 会得到相同的结果 —— 该 promise 的 result。所以，以上代码中所有 `alert` 会显示相同的内容：`1`。
+在同一个 promise 上的所有 `.then` 获得的结果都相同 — 该 promise 的结果。所以，在上面的代码中，所有 `alert` 都显示相同的内容：`1`。
 
-实际上我们极少遇到一个 promise 需要多处理程序，而是更经常地使用链式调用。
+实际上我们极少遇到一个 promise 需要多处理程序（handler）的情况。使用链式调用的频率更高。
 
-## 返回 promises
+## 返回 promise
 
 正常来说，`.then` 处理程序返回的值会立即传入下一个处理程序。但是有一个例外。
 
