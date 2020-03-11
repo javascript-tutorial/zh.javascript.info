@@ -1,13 +1,13 @@
 
-# 延迟 promise
+# 基于 promise 的延时
 
-内置 `setTimeout` 函数会使用回调函数。创建一个基于 promise 的替代产物。
+内建函数 `setTimeout` 使用了回调函数。请创建一个基于 promise 的替代方案。
 
-`delay(ms)` 函数会返回一个 promise。这个 promise 应该在 `ms` 毫秒之后被处理。因此我们可以在这之后调用 `.then`，就像这样：
+函数 `delay(ms)` 应该返回一个 promise。这个 promise 应该在 `ms` 毫秒后被 resolve，所以我们可以向其中添加 `.then`，像这样：
 
 ```js
 function delay(ms) {
-  // your code
+  // 你的代码
 }
 
 delay(3000).then(() => alert('runs after 3 seconds'));
