@@ -345,7 +345,7 @@ promise.then(script => alert('Another handler...'));
 为了更清晰地讲解 promise，本文经过大幅重写，以下内容是重写时被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
 ```
 
-````smart header="`.then/catch` 的处理器总是异步的"
+````smart header="`.then/.catch/.finally` 处理器总是异步的"
 更确切地说，当 `.then/catch` 处理器应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理器，并在当前代码完成时执行 `setTimeout(..., 0)`。
 
 换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作。
