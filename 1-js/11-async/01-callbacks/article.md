@@ -62,7 +62,7 @@ newFunction(); // 没有这个函数！
 
 自然情况下，浏览器可能没有时间加载脚本。到目前为止，`loadScript` 函数并没有提供跟踪加载完成的方法。脚本加载并最终运行，仅此而已。但我们希望了解脚本何时加载完成，以使用其中的新函数和变量。
 
-让我们添加一个 `callback` 函数作为 `loadScript` 的第二个参数，该函数应在脚本加载时执行：
+让我们添加一个 `callback` 函数作为 `loadScript` 的第二个参数，该函数应在脚本加载完成时执行：
 
 ```js
 function loadScript(src, *!*callback*/!*) {
@@ -102,7 +102,7 @@ function loadScript(src, callback) {
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
   alert(`Cool, the script ${script.src} is loaded`);
-  alert( _ ); // 在加载的脚本中声明的函数
+  alert( _ ); // 所加载的脚本中声明的函数
 });
 */!*
 ```
