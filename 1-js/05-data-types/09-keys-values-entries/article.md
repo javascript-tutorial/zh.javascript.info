@@ -1,5 +1,5 @@
 
-# Object.keys, values, entries
+# Object.keys，values，entries
 
 对各个数据结构的学习至此告一段落，下面让我们讨论一下如何迭代它们。
 
@@ -15,7 +15,7 @@
 
 普通对象也支持类似的方法，但是语法上有一些不同。
 
-## Object.keys, values, entries
+## Object.keys，values，entries
 
 对于普通对象，下列这些方法是可用的：
 
