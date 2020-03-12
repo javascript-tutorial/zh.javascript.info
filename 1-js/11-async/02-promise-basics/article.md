@@ -2,7 +2,7 @@
 
 想象一下，你是一位顶尖歌手，粉丝没日没夜地询问你下个单曲什么时候发。
 
-为了从中解放，你承诺（promise）会在单曲发布的第一时间发给他们。你给了粉丝们一个列表。他们可以在上面填写他们的电子邮件地址，以便当歌曲发布后，让所有订阅了的人能够立即收到。即便遇到不测，例如录音室发生了火灾，以致你无法发布新歌，他们可能及时收到相关通知。
+为了从中解放，你承诺（promise）会在单曲发布的第一时间发给他们。你给了粉丝们一个列表。他们可以在上面填写他们的电子邮件地址，以便当歌曲发布后，让所有订阅了的人能够立即收到。即便遇到不测，例如录音室发生了火灾，以致你无法发布新歌，他们也能及时收到相关通知。
 
 每个人都很开心：你不会被任何人催促，粉丝们也不用担心错过单曲发行。
 
@@ -104,7 +104,7 @@ let promise = new Promise(function(resolve, reject) {
 并且，`resolve/reject` 只需要一个参数（或不包含任何参数），并且将忽略额外的参数。
 ````
 
-```smart header="以 `Error` object reject"
+```smart header="以 `Error` 对象 reject"
 如果什么东西出了问题， executor 应该调用 `reject`。这可以使用任何类型的参数来完成（就像 `resolve` 一样）。但是建议使用 `Error` 对象（或继承自 `Error` 的对象）。这样做的理由很快就会显而易见。
 ```
 
@@ -124,7 +124,7 @@ let promise = new Promise(function(resolve, reject) {
 ````
 
 ```smart header="`state` 和 `result` 都是内部的"
-Promise 对象的 `state` 和 `result` 属性都是内部的。我们无法直接访问它们。但我们可以使用 `.then`/`.catch`/`.finally` 来访问。下面是对它们的描述。
+Promise 对象的 `state` 和 `result` 属性都是内部的。我们无法直接访问它们。但我们可以对它们使用 `.then`/`.catch`/`.finally` 方法。我们在下面对这些方法进行了描述。
 ```
 
 ## 消费者：then，catch，finally
@@ -216,7 +216,7 @@ promise.catch(alert); // 1 秒后显示 "Error: Whoops!"
 
 就像常规 `try {...} catch {...}` 中的 `finally` 子句一样，promise 中也有 `finally`。
 
-`.finally(f)` 调用与 `.then(f, f)` 类似，在某种意义上，`f` 总是在 promise 被 settled 时运行：即被 promise 被 resolve 或 reject。
+`.finally(f)` 调用与 `.then(f, f)` 类似，在某种意义上，`f` 总是在 promise 被 settled 时运行：即 promise 被 resolve 或 reject。
 
 `finally` 是执行清理（cleanup）的很好的处理程序（handler），例如无论结果如何，都停止使用不再需要的加载指示符（indicator）。
 
@@ -263,7 +263,7 @@ new Promise((resolve, reject) => {
 
 3. 最后，但并非最不重要的一点是，`.finally(f)` 是比 `.then(f, f)` 更为方便的语法：无需重复函数 `f`。
 
-````smart header="在 settled promise 上，`then` 会立即运行"
+````smart header="在 settled 的 promise 上，`then` 会立即运行"
 如果 promise 为 pending 状态，`.then/catch/finally` 处理程序（handler）将等待它。否则，如果 promise 已经是 settled 状态，它们就会立即执行：
 
 ```js run
@@ -345,7 +345,8 @@ promise.then(script => alert('Another handler...'));
 为了更清晰地讲解 promise，本文经过大幅重写，以下内容是重写时被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
 ```
 
-````smart header="`.then/.catch/.finally` 处理程序总是异步的"
+### .then/.catch/.finally 处理程序（handler）总是异步的
+
 更确切地说，当 `.then/catch` 处理程序应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理程序，并在当前代码完成时执行 `setTimeout(..., 0)`。
 
 换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作。
@@ -362,4 +363,3 @@ alert("code finished"); // 这个 alert 会最先显示
 ```
 
 因此在 `.then` 之后的代码总是在处理程序之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
-````
