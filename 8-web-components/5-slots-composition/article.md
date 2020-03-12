@@ -1,4 +1,4 @@
-# Shadow DOM 插槽, 组成
+# Shadow DOM 插槽，组成
 
 许多类型的组件，例如标签、菜单、照片库等等，需要内容去渲染。
 
@@ -27,7 +27,7 @@
 
 让我们通过一个简单的例子看下插槽是如何工作的。
 
-在这里 `<user-card>` shadow DOM 提供两个插槽, 从普通 DOM 填充:
+在这里 `<user-card>` shadow DOM 提供两个插槽, 从普通 DOM 填充：
 
 ```html run autorun="no-epub" untrusted height=80
 <script>
@@ -78,11 +78,11 @@ customElements.define('user-card', class extends HTMLElement {
 
 这没什么奇怪的。我们创建了 shadow DOM，所以在这里。现在元素同时拥有 light DOM 和 shadow DOM。
 
-为了渲染 shadow DOM 中的每一个 `<slot name="...">` 元素，浏览器在 light DOM 中寻找相同名字的 `slot="..."` 。这些元素在插槽内被渲染：
+为了渲染 shadow DOM 中的每一个 `<slot name="...">` 元素，浏览器在 light DOM 中寻找相同名字的 `slot="..."`。这些元素在插槽内被渲染：
 
 ![](shadow-dom-user-card.svg)
 
-结果被叫做 "flattened" DOM:
+结果被叫做 "flattened" DOM：
 
 ```html
 <user-card>
@@ -115,7 +115,7 @@ alert( document.querySelector('user-card span').length ); // 2
 ````warn header="Only top-level children may have slot=\"...\" attribute"
 `slot="..."` 属性仅仅对 shadow host 的直接子代 (在我们的例子中的 `<user-card>` 元素)  有效。对于嵌套元素它将被忽略。
 
-例如，这里的第二个 `<span>` 被忽略了 (因为它不是 `<user-card>` 的顶级子元素):
+例如，这里的第二个 `<span>` 被忽略了 (因为它不是 `<user-card>` 的顶级子元素)：
 ```html
 <user-card>
   <span slot="username">John Smith</span>
@@ -145,7 +145,7 @@ alert( document.querySelector('user-card span').length ); // 2
 
 shadow DOM 中第一个没有名字的 `<slot>` 是一个默认插槽。它从 light DOM 中获取没有放置在其他位置的所有节点。
 
-例如，让我们把默认插槽添加到 `<user-card>` ，该位置可以收集有关用户的所有未收集的信息：
+例如，让我们把默认插槽添加到 `<user-card>`，该位置可以收集有关用户的所有未收集的信息：
 
 ```html run autorun="no-epub" untrusted height=140
 <script>
@@ -243,7 +243,7 @@ customElements.define('user-card', class extends HTMLElement {
 ```
 
 1. `<span slot="title">` 进入 `<slot name="title">`。
-2. 模版中有许多 `<li slot="item">` ，但是只有一个 `<slot name="item">` 。完全正常。所有带有 `slot="item"` 的元素都一个接一个地附加到 `<slot name="item">` 上，从而形成列表。
+2. 模版中有许多 `<li slot="item">`，但是只有一个 `<slot name="item">`。完全正常。所有带有 `slot="item"` 的元素都一个接一个地附加到 `<slot name="item">` 上，从而形成列表。
 
 扁平化的 DOM 变为：
 
@@ -411,12 +411,12 @@ setTimeout(() => {
 
 插槽有两种：
 
-- 命名插槽: `<slot name="X">...</slot>` -- 使用 `slot="X"` 获取 light 子元素。
-- 默认插槽: 第一个没有名字的 `<slot>` （随后的未命名插槽将被忽略）-- 接受不是插槽的 light 子元素。
+- 命名插槽：`<slot name="X">...</slot>` - 使用 `slot="X"` 获取 light 子元素。
+- 默认插槽: 第一个没有名字的 `<slot>` （随后的未命名插槽将被忽略）- 接受不是插槽的 light 子元素。
 - 如果同一插槽中有很多元素 -- 它们会被一个接一个地添加。
 - `<slot>` 元素的内容作为备用。它显示了该插槽是否有 light 型的子元素。
 
-在其槽内渲染插槽元素的过程称为 “合成”。结果称为 "flattened DOM"。
+在其槽内渲染插槽元素的过程称为“合成”。结果称为 "flattened DOM"。
 合成不会真实的去移动节点，从 JavaScript 的视角看 DOM 仍然是相同的。
 
 JavaScript 可以使用以下的方法访问插槽：
