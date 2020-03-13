@@ -203,9 +203,11 @@ new Promise(function() {
 - 如果没有办法从 error 中恢复的话，不使用 `.catch` 也可以。
 - 在任何情况下我们都应该有 `unhandledrejection` 事件处理程序（用于浏览器，以及其他环境的模拟），以跟踪未处理的 error 并告知用户（可能还有我们的服务器）有关信息，以使我们的应用程序永远不会“死掉”。
 
-<!--
+## 补充内容
 
-2020 年 03 月 13 日全面更新，英文版中被删掉的内容。
+```smart header="说明"
+为了更清晰地讲解 promise，本文经过大幅重写，以下内容是重写时被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
+```
 
 ## Fetch 错误处理示例
 
@@ -223,7 +225,6 @@ fetch('no-such-user.json') // (*)
   .catch(alert); // SyntaxError: Unexpected token < in JSON at position 0
   // ...
 ```
-
 
 到目前为止，代码试图以 JSON 格式加载响应数据，但无论如何都会因为语法错误而失败。你可以通过执行上述例子来查看相关信息，因为文件 `no-such-user.json` 不存在。
 
@@ -255,11 +256,11 @@ loadJson('no-such-user.json') // (3)
   .catch(alert); // HttpError: 404 for .../no-such-user.json
 ```
 
-1. 我们为 HTTP 错误创建一个自定义类用于区分 HTTP 错误和其他类型错误。此外，新的类有一个构造函数，它接受 `response` 对象，并将其保存到 error 中。因此，错误处理（error-handling）代码就能够获得响应数据了。
+1. 我们为 HTTP 错误创建一个自定义类用于区分 HTTP 错误和其他类型错误。此外，新的类有一个 constructor，它接受 `response` 对象，并将其保存到 error 中。因此，错误处理（error-handling）代码就能够获得响应数据了。
 2. 然后我们将请求（requesting）和错误处理代码包装进一个函数，它能够 fetch `url` **并** 将所有状态码不是 200 视为错误。这很方便，因为我们通常需要这样的逻辑。
 3. 现在 `alert` 显示更多有用的描述信息。
 
-拥有我们自己的错误处理类的好处是我们可以使用 `instanceof` 很容易的在错误处理代码中检查错误。
+拥有我们自己的错误处理类的好处是我们可以使用 `instanceof` 很容易地在错误处理代码中检查错误。
 
 例如，我们可以创建请求，如果我们得到 404 就可以告知用户修改信息。
 
@@ -289,13 +290,13 @@ function demoGithubUser() {
 demoGithubUser();
 ```
 
-请注意：这里的 `.catch` 会捕获所有错误，但是它仅仅“知道如何处理” `HttpError 404`。在那种特殊情况下它意味着没有这样的用户，而 `.catch` 仅仅在这种情况下重试。
+请注意：这里的 `.catch` 会捕获所有错误，但是它仅仅“知道如何处理” `HttpError 404`。在那种特殊情况下，它意味着没有这样的用户，而 `.catch` 仅仅在这种情况下重试。
 
-对于其他错误，它不知道会出现什么问题。可能是编程错误或者其他错误。所以它仅仅是在 `(*)` 行重新抛出。
+对于其他错误，它不知道会出现什么问题。可能是编程错误或者其他错误。所以它仅仅是在 `(*)` 行再次抛出。
 
----
+### 其他
 
-最后，如果我们有加载指示（load-indication），`.finally` 是一个很好的处理程序，在 fetch 完成时停止它：
+如果我们有加载指示（load-indication），`.finally` 是一个很好的处理程序（handler），在 fetch 完成时停止它：
 
 ```js run
 function demoGithubUser() {
@@ -333,6 +334,4 @@ demoGithubUser();
 
 当 promise 得以解决，fetch 可以是成功或者错误，`finally` 在 `(2)` 行触发并终止加载指示。
 
-有一个浏览器技巧 `(*)` 是从 `finally` 返回零延时（zero-timeout）的 promise。这是因为一些浏览器（比如 Chrome）需要“一点时间”外的 promise 处理程序来绘制文档的更改。因此它确保在进入链下一步之前，指示在视觉上是停止的。
-
--->
+有一个浏览器技巧，`(*)` 是从 `finally` 返回零延时（zero-timeout）的 promise。这是因为一些浏览器（比如 Chrome）需要“一点时间”外的 promise 处理程序来绘制文档的更改。因此它确保在进入链下一步之前，指示在视觉上是停止的。
