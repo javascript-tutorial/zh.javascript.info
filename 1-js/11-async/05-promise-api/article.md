@@ -2,72 +2,13 @@
 
 在 `Promise` 类中，有 5 种静态方法。我们在这里简单介绍下它们的使用场景。
 
-## Promise.resolve
-
-语法：
-
-```js
-let promise = Promise.resolve(value);
-```
-
-根据给定的 `value` 值返回 resolved promise。
-
-等价于：
-
-```js
-let promise = new Promise(resolve => resolve(value));
-```
-
-当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。
-
-例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返回：
-
-```js
-function loadCached(url) {
-  let cache = loadCached.cache || (loadCached.cache = new Map());
-
-  if (cache.has(url)) {
-*!*
-    return Promise.resolve(cache.get(url)); // (*)
-*/!*
-  }
-
-  return fetch(url)
-    .then(response => response.text())
-    .then(text => {
-      cache.set(url,text);
-      return text;
-    });
-}
-```
-
-我们可以使用 `loadCached(url).then(…)`，因为该函数必定返回一个 promise。这是 `Promise.resolve` 在 `(*)` 行的目的：它确保了接口的统一性。我们可以在 `loadCached` 之后使用 `.then`。
-
-## Promise.reject
-
-语法：
-
-```js
-let promise = Promise.reject(error);
-```
-
-创建一个带有 `error` 的 rejected promise。
-
-就像这样：
-
-```js
-let promise = new Promise((resolve, reject) => reject(error));
-```
-
-我们会在此讨论它的完整性，但在实际工作中，我们很少这样使用。
-
 ## Promise.all
 
-假设我想要并行执行多个 promise，并等待所有 promise 准备就绪。
+假设我们希望并行执行多个 promise，并等待所有 promise 都准备就绪。
 
-例如，并行下载几个 URL 并等到所有内容都下载完毕后才开始处理它们。
+例如，并行下载几个 URL，并等到所有内容都下载完毕后再对它们进行处理。
 
-这就是 `Promise.all` 的用途：
+这就是 `Promise.all` 的用途。
 
 语法：
 
@@ -75,25 +16,25 @@ let promise = new Promise((resolve, reject) => reject(error));
 let promise = Promise.all([...promises...]);
 ```
 
-它需要一个 promise 的数组作为其参数（严格来说可以是任何可迭代对象，但通常都是数组）并返回一个新的 promise。
+`Promise.all` 接受一个 promise 数组作为参数（从技术上将，它可以是任何可迭代的，但通常是一个数组）并返回一个新的 promise。
 
-当所有给定的 promise 都被处理并以数组的形式呈现其结果时，新的 promise 也就被 resolve。
+当所有给定的 promise 都被 settled 时，新的 promise 才会 resolve，并且其结果数组将成为新的 promise 的结果。
 
-例如，下面的 `Promise.all` 在 3 秒之后被处理，然后它的结果就是一个 `[1, 2, 3]` 数组：
+例如，下面的 `Promise.all` 在 3 秒之后被 settled，然后它的结果就是一个 `[1, 2, 3]` 数组：
 
 ```js run
 Promise.all([
   new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
   new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
   new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
-]).then(alert); // 1,2,3 当 promise 就绪：每一个 promise 即成为数组中的一员
+]).then(alert); // 1,2,3 当上面这些 promise 准备好时：每个 promise 都贡献了数组中的一个元素
 ```
 
-请注意，它们的相对顺序是相同的。即使第一个 promise 需要很长的时间来 resolve，但它仍然是结果数组中的第一个。
+请注意，结果数组中元素的顺序与其在源 promise 中的顺序相同。即使第一个 promise 花费了最长的时间才 resolve，但它仍是结果数组中的第一个。
 
-常见技巧是将一组作业数据映射到一个 promise 数组，然后再将它们封装进 `Promise.all`。
+一个常见的技巧是，将一个任务数据数组映射（map）到一个 promise 数组，然后将其包装到 `Promise.all`。
 
-例如，假设我们有一个存储 URL 的数组，我们就可以像这样来获取它们：
+例如，如果我们有一个存储 URL 的数组，我们可以像这样 fetch 它们：
 
 ```js run
 let urls = [
@@ -102,17 +43,17 @@ let urls = [
   'https://api.github.com/users/jeresig'
 ];
 
-// 将每个 url 映射到 fetch 的 promise 中
+// 将每个 url 映射（map）到 fetch 的 promise 中
 let requests = urls.map(url => fetch(url));
 
-// Promise.all 等待所有作业都被 resolve
+// Promise.all 等待所有任务都 resolved
 Promise.all(requests)
   .then(responses => responses.forEach(
     response => alert(`${response.url}: ${response.status}`)
   ));
 ```
 
-一个更真实的示例是通过用户名来为一组 GitHub 用户获取他们的信息（或者我们可以通过他们的 id 来获取一系列商品，逻辑都是一样的）：
+一个更真实的示例，通过 GitHub 用户名来获取一个 GitHub 用户数组中用户的信息（我们也可以通过商品 id 来获取商品数组中的商品信息，逻辑都是一样的）：
 
 ```js run
 let names = ['iliakan', 'remy', 'jeresig'];
@@ -121,20 +62,20 @@ let requests = names.map(name => fetch(`https://api.github.com/users/${name}`));
 
 Promise.all(requests)
   .then(responses => {
-    // 所有响应都就绪时，我们可以显示 HTTP 状态码
+    // 所有响应都被成功 resolved
     for(let response of responses) {
-      alert(`${response.url}: ${response.status}`); // 每个 url 都显示 200
+      alert(`${response.url}: ${response.status}`); // 对应每个 url 都显示 200
     }
 
     return responses;
   })
-  // 映射 response 数组到 response.json() 中以读取它们的内容
+  // 将响应数组映射（map）到 response.json() 数组中以读取它们的内容
   .then(responses => Promise.all(responses.map(r => r.json())))
-  // 所有 JSON 结果都被解析：“users” 是它们的数组
+  // 所有 JSON 结果都被解析："users" 是它们的数组
   .then(users => users.forEach(user => alert(user.name)));
 ```
 
-**如果任意一个 promise 为 reject，`Promise.all` 返回的 promise 就会立即 reject 这个错误。**
+**如果任意一个 promise 被 reject，由 `Promise.all` 返回的 promise 就会立即 reject 这个 error。**
 
 例如：
 
@@ -229,6 +170,65 @@ Promise.allSettled(urls.map(url => fetch(url)))
 ```
 
 因此，对于每个 promise，我们都能获取其状态（status）和 `value/reason`。
+
+## Promise.resolve
+
+语法：
+
+```js
+let promise = Promise.resolve(value);
+```
+
+根据给定的 `value` 值返回 resolved promise。
+
+等价于：
+
+```js
+let promise = new Promise(resolve => resolve(value));
+```
+
+当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。
+
+例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返回：
+
+```js
+function loadCached(url) {
+  let cache = loadCached.cache || (loadCached.cache = new Map());
+
+  if (cache.has(url)) {
+*!*
+    return Promise.resolve(cache.get(url)); // (*)
+*/!*
+  }
+
+  return fetch(url)
+    .then(response => response.text())
+    .then(text => {
+      cache.set(url,text);
+      return text;
+    });
+}
+```
+
+我们可以使用 `loadCached(url).then(…)`，因为该函数必定返回一个 promise。这是 `Promise.resolve` 在 `(*)` 行的目的：它确保了接口的统一性。我们可以在 `loadCached` 之后使用 `.then`。
+
+## Promise.reject
+
+语法：
+
+```js
+let promise = Promise.reject(error);
+```
+
+创建一个带有 `error` 的 rejected promise。
+
+就像这样：
+
+```js
+let promise = new Promise((resolve, reject) => reject(error));
+```
+
+我们会在此讨论它的完整性，但在实际工作中，我们很少这样使用。
 
 ### Polyfill
 
