@@ -99,8 +99,8 @@ Promise.all([
 `Promise.all` 没有采取任何措施来取消它们，因为 promise 中没有“取消”的概念。在 [另一个章节](info:fetch-abort) 中，我们将介绍可以帮助我们解决这个问题（译注：指的是“取消” promise）的 `AbortController`，但它不是 Promise API 的一部分。
 ```
 
-````smart header="`Promise.all(iterable)` 允许“迭代”中的非 promise（non-promise）的 \“常规\” 值"
-通常，`Promise.all(...)` 接受可迭代的 promise 集合（大部分情况下是数组）。但是如果这些对象中的任意一个不是 promise，它将会被直接包装进 `Promise.resolve`。
+````smart header="`Promise.all(iterable)` 允许在 `iterable` 中使用 non-promise 的“常规”值"
+通常，`Promise.all(...)` 接受可迭代对象（iterable）的 promise（大多数情况下是数组）。但是，如果这些对象中的任意一个都不是 promise，那么它将被“按原样”传递给结果数组。
 
 例如，这里的结果是 `[1, 2, 3]`：
 
@@ -109,12 +109,12 @@ Promise.all([
   new Promise((resolve, reject) => {
     setTimeout(() => resolve(1), 1000)
   }),
-  2, // 视为 Promise.resolve(2)
-  3  // 视为 Promise.resolve(3)
+  2,
+  3
 ]).then(alert); // 1, 2, 3
 ```
 
-所以我们可以很方便的将准备好的值传递给 `Promise.all`。
+所以我们可以在方便的地方将准备好的值传递给 `Promise.all`。
 ````
 
 ## Promise.allSettled
