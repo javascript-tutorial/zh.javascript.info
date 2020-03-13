@@ -347,9 +347,9 @@ promise.then(script => alert('Another handler...'));
 
 ### .then/.catch/.finally 处理程序（handler）总是异步的
 
-更确切地说，当 `.then/catch` 处理程序应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理程序，并在当前代码完成时执行 `setTimeout(..., 0)`。
+更确切地说，当 `.then/.catch/.finally` 处理程序（handler）应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理程序（handler），并在当前代码完成时执行 `setTimeout(..., 0)`。
 
-换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作。
+换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作（action）。
 
 在下述示例中，promise 被立即 resolved，因此 `.then(alert)` 被立即触发：`alert` 会进入队列，在代码完成之后立即执行。
 
@@ -362,4 +362,4 @@ promise.then(alert); // done!（在当前代码完成之后）
 alert("code finished"); // 这个 alert 会最先显示
 ```
 
-因此在 `.then` 之后的代码总是在处理程序之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
+因此在 `.then` 之后的代码总是在处理程序（handler）之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
