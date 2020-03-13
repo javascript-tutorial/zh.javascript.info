@@ -191,7 +191,7 @@ if(!Promise.allSettled) {
 
 在这段代码中，`promises.map` 获取输入值，并通过 `p => Promise.resolve(p)` 将输入值转换为 promise（以防传递了 non-promise），然后向每一个 promise 都添加 `.then` 处理器（handler）。
 
-这个处理器（handler）将成功的结果 `v` 转换为 `{state:'fulfilled', value:v}`，将 error `r` 转换为 `{state:'rejected', reason:r}`。这正是 `Promise.allSettled` 的格式。
+这个处理器（handler）将成功的结果 `value` 转换为 `{state:'fulfilled', value}`，将 error `reason` 转换为 `{state:'rejected', reason}`。这正是 `Promise.allSettled` 的格式。
 
 然后我们就可以使用 `Promise.allSettled` 来获取 **所有** 给定的 promise 的结果，即使其中一些被 reject。
 
