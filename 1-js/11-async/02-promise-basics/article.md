@@ -338,28 +338,3 @@ promise.then(script => alert('Another handler...'));
 
 
 因此，promise 为我们提供了更好的代码流和灵活性。但其实还有更多相关内容。我们将在下一章看到。
-
-## 补充内容
-
-```smart header="说明"
-为了更清晰地讲解 promise，本文经过大幅重写，以下内容是重写时被优化掉的内容，译者认为还是很有学习价值的，遂保留下来供大家学习。
-```
-
-### .then/.catch/.finally 处理程序（handler）总是异步的
-
-更确切地说，当 `.then/.catch/.finally` 处理程序（handler）应该执行时，它会首先进入内部队列。JavaScript 引擎从队列中提取处理程序（handler），并在当前代码完成时执行 `setTimeout(..., 0)`。
-
-换句话说，`.then(handler)` 会被触发，会执行类似于 `setTimeout(handler, 0)` 的动作（action）。
-
-在下述示例中，promise 被立即 resolved，因此 `.then(alert)` 被立即触发：`alert` 会进入队列，在代码完成之后立即执行。
-
-```js run
-// 一个被立即 resolved 的 promise
-let promise = new Promise(resolve => resolve("done!"));
-
-promise.then(alert); // done!（在当前代码完成之后）
-
-alert("code finished"); // 这个 alert 会最先显示
-```
-
-因此在 `.then` 之后的代码总是在处理程序（handler）之前被执行（即使是在预先 resolved 的 promise 的情况下）。通常这并不重要，只会在特定情况下才会重要。
