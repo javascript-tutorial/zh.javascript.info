@@ -121,22 +121,22 @@ Promise.all([
 
 [recent browser="new"]
 
-如果任意 promise reject，`Promise.all` 整个将会 reject。当我们需要*所有*结果来做些什么的时候，这样的情况就很好：
+如果任意的 promise reject，则 `Promise.all` 整个将会 reject。当我们需要 **所有** 结果都成功时，它对这种“全有或全无”的情况很有用：
 
 ```js
 Promise.all([
   fetch('/template.html'),
   fetch('/style.css'),
   fetch('/data.json')
-]).then(render); // render 方法需要上面所有数据
+]).then(render); // render 方法需要所有 fetch 的数据
 ```
 
-`Promise.allSettled` 等待所有的 promise 都被处理：即使其中一个 reject，它仍然会等待其他的 promise。处理完成后的数组有：
+`Promise.allSettled` 等待所有的 promise 都被 settle，无论结果如何。结果数组具有：
 
 - `{status:"fulfilled", value:result}` 对于成功的响应，
-- `{status:"rejected", reason:error}` 对于错误的响应。
+- `{status:"rejected", reason:error}` 对于 error。
 
-例如，我们想要获取多个用户的信息。即使其中一个请求失败，我们仍然对其他的感兴趣。
+例如，我们想要获取（fetch）多个用户的信息。即使其中一个请求失败，我们仍然对其他的感兴趣。
 
 让我们使用 `Promise.allSettled`：
 
@@ -160,7 +160,7 @@ Promise.allSettled(urls.map(url => fetch(url)))
   });
 ```
 
-上面的 `(*)` 行，`results` 将会是：
+上面的 `(*)` 行中的 `results` 将会是：
 ```js
 [
   {status: 'fulfilled', value: ...response...},
@@ -169,66 +169,7 @@ Promise.allSettled(urls.map(url => fetch(url)))
 ]
 ```
 
-因此，对于每个 promise，我们都能获取其状态（status）和 `value/reason`。
-
-## Promise.resolve
-
-语法：
-
-```js
-let promise = Promise.resolve(value);
-```
-
-根据给定的 `value` 值返回 resolved promise。
-
-等价于：
-
-```js
-let promise = new Promise(resolve => resolve(value));
-```
-
-当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。
-
-例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返回：
-
-```js
-function loadCached(url) {
-  let cache = loadCached.cache || (loadCached.cache = new Map());
-
-  if (cache.has(url)) {
-*!*
-    return Promise.resolve(cache.get(url)); // (*)
-*/!*
-  }
-
-  return fetch(url)
-    .then(response => response.text())
-    .then(text => {
-      cache.set(url,text);
-      return text;
-    });
-}
-```
-
-我们可以使用 `loadCached(url).then(…)`，因为该函数必定返回一个 promise。这是 `Promise.resolve` 在 `(*)` 行的目的：它确保了接口的统一性。我们可以在 `loadCached` 之后使用 `.then`。
-
-## Promise.reject
-
-语法：
-
-```js
-let promise = Promise.reject(error);
-```
-
-创建一个带有 `error` 的 rejected promise。
-
-就像这样：
-
-```js
-let promise = new Promise((resolve, reject) => reject(error));
-```
-
-我们会在此讨论它的完整性，但在实际工作中，我们很少这样使用。
+所以，对于每个 promise，我们都得到了其状态（status）和 `value/reason`。
 
 ### Polyfill
 
@@ -275,6 +216,72 @@ Promise.race([
 ```
 
 因此，第一个结果/错误会成为整个 `Promise.race` 的结果。在第一个 promise 被解决（“赢得比赛[wins the race]”）后，所有后面的结果/错误都会被忽略。
+
+
+## Promise.resolve/reject
+
+Methods `Promise.resolve` and `Promise.reject` are rarely needed in modern code, because `async/await` syntax (we'll cover it [a bit later](info:async-await)) makes them somewhat obsolete.
+
+We cover them here for completeness and for those who can't use `async/await` for some reason.
+
+### Promise.resolve
+
+语法：
+
+```js
+let promise = Promise.resolve(value);
+```
+
+根据给定的 `value` 值返回 resolved promise。
+
+等价于：
+
+```js
+let promise = new Promise(resolve => resolve(value));
+```
+
+当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。
+
+例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返回：
+
+```js
+function loadCached(url) {
+  let cache = loadCached.cache || (loadCached.cache = new Map());
+
+  if (cache.has(url)) {
+*!*
+    return Promise.resolve(cache.get(url)); // (*)
+*/!*
+  }
+
+  return fetch(url)
+    .then(response => response.text())
+    .then(text => {
+      cache.set(url,text);
+      return text;
+    });
+}
+```
+
+我们可以使用 `loadCached(url).then(…)`，因为该函数必定返回一个 promise。这是 `Promise.resolve` 在 `(*)` 行的目的：它确保了接口的统一性。我们可以在 `loadCached` 之后使用 `.then`。
+
+### Promise.reject
+
+语法：
+
+```js
+let promise = Promise.reject(error);
+```
+
+创建一个带有 `error` 的 rejected promise。
+
+就像这样：
+
+```js
+let promise = new Promise((resolve, reject) => reject(error));
+```
+
+我们会在此讨论它的完整性，但在实际工作中，我们很少这样使用。
 
 ## 总结
 
