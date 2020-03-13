@@ -220,7 +220,7 @@ Promise.race([
 
 ## Promise.resolve/reject
 
-在现代的代码中，很少会需要使用 `Promise.resolve` 和 `Promise.reject` 方法，因为 `async/await` 语法（我们会在 [稍后](info:async-await) 讲到）使它们变得有些过时了。
+在现代的代码中，很少需要使用 `Promise.resolve` 和 `Promise.reject` 方法，因为 `async/await` 语法（我们会在 [稍后](info:async-await) 讲到）使它们变得有些过时了。
 
 完整起见，以及考虑到那些出于某些原因而无法使用 `async/await` 的人，我们在这里对它们进行介绍。
 
@@ -234,22 +234,14 @@ Promise.race([
 let promise = new Promise(resolve => resolve(value));
 ```
 
-根据给定的 `value` 值返回 resolved promise。
+当一个函数被期望返回一个 promise 时，这个方法用于兼容性。（译注：这里的兼容性是指，我们直接从缓存中获取了当前操作的结果 `value`，但是期望返回的是一个 promise，所以可以使用 `Promise.resolve(value)` 将 `value` “封装”进 promise，以满足期望返回一个 promise 的这个需求。）
 
-等价于：
-
-```js
-let promise = new Promise(resolve => resolve(value));
-```
-
-当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。
-
-例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返回：
+例如，下面的 `loadCached` 函数获取（fetch）一个 URL 并记住其内容。以便将来对使用相同 URL 的调用，它能立即从缓存中获取先前的内容，但使用 `Promise.resolve` 创建了一个该内容的 promise，所以返回的值始终是一个 promise。
 
 ```js
+let cache = new Map();
+
 function loadCached(url) {
-  let cache = loadCached.cache || (loadCached.cache = new Map());
-
   if (cache.has(url)) {
 *!*
     return Promise.resolve(cache.get(url)); // (*)
