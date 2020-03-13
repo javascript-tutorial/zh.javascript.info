@@ -75,7 +75,7 @@ Promise.all(requests)
   .then(users => users.forEach(user => alert(user.name)));
 ```
 
-**如果任意一个 promise 被 reject，由 `Promise.all` 返回的 promise 就会立即 reject 这个 error。**
+**如果任意一个 promise 被 reject，由 `Promise.all` 返回的 promise 就会立即 reject，并且带有的就是这个 error。**
 
 例如：
 
@@ -89,14 +89,14 @@ Promise.all([
 ]).catch(alert); // Error: Whoops!
 ```
 
-这里的第二个 promise 在两秒内被 reject。这立即导致了对 `Promise.all` 的 reject。因此 `.catch` 被执行：reject 的错误成为整个 `Promise.all` 的结果。
+这里的第二个 promise 在两秒后 reject。这立即导致了 `Promise.all` 的 reject，因此 `.catch` 执行了：被 reject 的 error 成为了整个 `Promise.all` 的结果。
 
-```warn header="如果出现错误，其他 promise 就会被忽略"
-如果其中一个 promise 被 reject，`Promise.all` 就会立即被 reject 并忽略所有列表中其他的 promise。它们的结果也被忽略。
+```warn header="如果出现 error，其他 promise 将被忽略"
+如果其中一个 promise 被 reject，`Promise.all` 就会立即被 reject，完全忽略列表中其他的 promise。它们的结果也被忽略。
 
-例如，像上面例子中提到的那样，如果同时进行多个 `fetch` 操作，其中一个失败，其他的 `fetch` 操作仍然会继续执行，但是 `Promise.all` 会忽略它们。它们可能已经解决了某些问题，但是结果将会被忽略。
+例如，像上面那个例子，如果有多个同时进行的 `fetch` 调用，其中一个失败，其他的 `fetch` 操作仍然会继续执行，但是 `Promise.all` 将不会再关心（watch）它们。它们可能会 settle，但是它们的结果将被忽略。
 
-没有什么方法能取消 `Promise.all`，因为 promise 中没有 “cancellation” 这类概念。在 [其他章节](info:fetch-abort) 我们将会讨论可以“取消” promise 的 `AbortController`，但它不是 Promise API 的一部分。
+`Promise.all` 没有采取任何措施来取消它们，因为 promise 中没有“取消”的概念。在 [另一个章节](info:fetch-abort) 中，我们将介绍可以帮助我们解决这个问题（译注：指的是“取消” promise）的 `AbortController`，但它不是 Promise API 的一部分。
 ```
 
 ````smart header="`Promise.all(iterable)` 允许“迭代”中的非 promise（non-promise）的 \“常规\” 值"
