@@ -96,7 +96,7 @@ function promisify(f, manyArgs = false) {
   };
 };
 
-// 用法
+// 用法：
 f = promisify(f, true);
 f(...).then(arrayOfResults => ..., err => ...)
 ```
