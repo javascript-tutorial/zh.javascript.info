@@ -66,7 +66,7 @@ new Promise((resolve, reject) => {
 
 在 executor 周围的“隐式 `try..catch`”自动捕获了 error，并将其变为 rejected promise。
 
-这不仅仅发生在 executor 函数中，同样也发生在其 handler 中。如果我们在 `.then` 处理程序（handler）中 `throw`，这意味着被 rejected 的 promise，因此控制权移交至最近的 error 处理程序（handler）。
+这不仅仅发生在 executor 函数中，同样也发生在其 handler 中。如果我们在 `.then` 处理程序（handler）中 `throw`，这意味着 promise 被 rejected，因此控制权移交至最近的 error 处理程序（handler）。
 
 这是一个例子：
 
@@ -92,7 +92,7 @@ new Promise((resolve, reject) => {
 }).catch(alert); // ReferenceError: blabla is not defined
 ```
 
-最后的 `.catch` 不仅会捕获显式的 rejection，还会捕获上述处理程序（handler）中意外出现的 error。
+最后的 `.catch` 不仅会捕获显式的 rejection，还会捕获它上面的处理程序（handler）中意外出现的 error。
 
 ## 再次抛出（Rethrowing）
 
