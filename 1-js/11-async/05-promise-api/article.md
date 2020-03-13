@@ -173,31 +173,31 @@ Promise.allSettled(urls.map(url => fetch(url)))
 
 ### Polyfill
 
-如果浏览器不支持 `Promise.allSettled`，使用 polyfill 很容易让其支持：
+如果浏览器不支持 `Promise.allSettled`，很容易进行 polyfill：
 
 ```js
 if(!Promise.allSettled) {
   Promise.allSettled = function(promises) {
-    return Promise.all(promises.map(p => Promise.resolve(p).then(v => ({
+    return Promise.all(promises.map(p => Promise.resolve(p).then(value => ({
       state: 'fulfilled',
-      value: v,
-    }), r => ({
+      value
+    }), reason => ({
       state: 'rejected',
-      reason: r,
+      reason
     }))));
   };
 }
 ```
 
-在这段代码中，`promises.map` 获取输入值，并使用 `p => Promise.resolve(p)` 将该值转换为 promise（以防传递了非 promise），然后向其添加 `.then` 处理器。
+在这段代码中，`promises.map` 获取输入值，并通过 `p => Promise.resolve(p)` 将输入值转换为 promise（以防传递了 non-promise），然后向每一个 promise 都添加 `.then` 处理器（handler）。
 
-这个处理器将成功的结果 `v` 转换为 `{state:'fulfilled', value:v}`，将错误的结果 `r` 转换为 `{state:'rejected', reason:r}`。这正是 `Promise.allSettled` 的格式。
+这个处理器（handler）将成功的结果 `v` 转换为 `{state:'fulfilled', value:v}`，将 error `r` 转换为 `{state:'rejected', reason:r}`。这正是 `Promise.allSettled` 的格式。
 
-然后我们就可以使用 `Promise.allSettled` 来获取结果或*所有*给出的 promise，即使其中一些被 reject。
+然后我们就可以使用 `Promise.allSettled` 来获取 **所有** 给定的 promise 的结果，即使其中一些被 reject。
 
 ## Promise.race
 
-与 `Promise.all` 类似，它接受一个可迭代的 promise 集合，但是它只等待第一个完成（或者 error）而不会等待所有都完成，然后继续执行。
+与 `Promise.all` 类似，但只等待第一个 settled 的 promise 并获取其结果（或 error）。
 
 语法：
 
@@ -205,7 +205,7 @@ if(!Promise.allSettled) {
 let promise = Promise.race(iterable);
 ```
 
-例如，这里的结果会是 `1`：
+例如，这里的结果将是 `1`：
 
 ```js run
 Promise.race([
@@ -215,21 +215,23 @@ Promise.race([
 ]).then(alert); // 1
 ```
 
-因此，第一个结果/错误会成为整个 `Promise.race` 的结果。在第一个 promise 被解决（“赢得比赛[wins the race]”）后，所有后面的结果/错误都会被忽略。
+这里第一个 promise 最快，所以它变成了结果。第一个 settled 的 promise “赢得了比赛”之后，所有进一步的 result/error 都会被忽略。
 
 
 ## Promise.resolve/reject
 
-Methods `Promise.resolve` and `Promise.reject` are rarely needed in modern code, because `async/await` syntax (we'll cover it [a bit later](info:async-await)) makes them somewhat obsolete.
+在现代的代码中，很少会需要使用 `Promise.resolve` 和 `Promise.reject` 方法，因为 `async/await` 语法（我们会在 [稍后](info:async-await) 讲到）使它们变得有些过时了。
 
-We cover them here for completeness and for those who can't use `async/await` for some reason.
+完整起见，以及考虑到那些出于某些原因而无法使用 `async/await` 的人，我们在这里对它们进行介绍。
 
 ### Promise.resolve
 
-语法：
+`Promise.resolve(value)` 用结果 `value` 创建一个 resolved 的 promise。
+
+如同：
 
 ```js
-let promise = Promise.resolve(value);
+let promise = new Promise(resolve => resolve(value));
 ```
 
 根据给定的 `value` 值返回 resolved promise。
