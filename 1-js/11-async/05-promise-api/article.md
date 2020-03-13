@@ -257,36 +257,30 @@ function loadCached(url) {
 }
 ```
 
-我们可以使用 `loadCached(url).then(…)`，因为该函数必定返回一个 promise。这是 `Promise.resolve` 在 `(*)` 行的目的：它确保了接口的统一性。我们可以在 `loadCached` 之后使用 `.then`。
+我们可以使用 `loadCached(url).then(…)`，因为该函数保证了会返回一个 promise。我们就可以放心地在 `loadCached` 后面使用 `.then`。这就是 `(*)` 行中 `Promise.resolve` 的目的。
 
 ### Promise.reject
 
-语法：
+`Promise.reject(error)` 用 `error` 创建一个 rejected 的 promise。
 
-```js
-let promise = Promise.reject(error);
-```
-
-创建一个带有 `error` 的 rejected promise。
-
-就像这样：
+如同：
 
 ```js
 let promise = new Promise((resolve, reject) => reject(error));
 ```
 
-我们会在此讨论它的完整性，但在实际工作中，我们很少这样使用。
+实际上，这个方法几乎从未被使用过。
 
 ## 总结
 
 `Promise` 类有 5 种静态方法：
 
-1. `Promise.resolve(value)` - 根据给定值返回 resolved promise。
-2. `Promise.reject(error)` - 根据给定错误返回 rejected promise。
-3. `Promise.all(promises)` - 等待所有的 promise 为 resolve 时返回存放它们结果的数组。如果任意给定的 promise 为 reject，那么它就会变成 `Promise.all` 的错误结果，所有的其他结果都会被忽略。
-4. `Promise.allSettled(promises)` （新方法） - 等待所有 promise resolve 或者 reject，并以对象形式返回它们结果数组：
+1. `Promise.all(promises)` - 等待所有 promise 都 resolve 时返回存放它们结果的数组。如果给定的任意一个 promise 为 reject，那么它就会变成 `Promise.all` 的错误结果，所有的其他结果都会被忽略。
+2. `Promise.allSettled(promises)` （新方法） - 等待所有 promise resolve 或者 reject，并以对象形式返回它们结果数组：
     - `state`：`‘fulfilled’` 或 `‘rejected’`
     - `value`（如果 fulfilled）或 `reason`（如果 rejected）
-5. `Promise.race(promises)` - 等待第一个 promise 被解决，其结果/错误即为结果。
+3. `Promise.race(promises)` - 等待第一个 promise 被解决，其结果/错误即为结果。
+4. `Promise.resolve(value)` - 根据给定值返回 resolved promise。
+5. `Promise.reject(error)` - 根据给定错误返回 rejected promise。
 
-这五个方法中，`Promise.all` 在实战中使用的最多。
+这五个方法中，`Promise.all` 可能是在实战中使用最多的。
