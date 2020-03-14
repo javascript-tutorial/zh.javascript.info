@@ -1,5 +1,5 @@
 
-# 微任务（Microtasks）
+# 微任务（Microtask）
 
 Promise 的处理程序（handlers）`.then`、`.catch` 和 `.finally` 都是异步的。
 
@@ -21,7 +21,7 @@ alert("code finished"); // 这个 alert 先显示
 
 为什么 `.then` 会在之后才被触发？这是怎么回事？
 
-## 微任务队列（Microtasks queue）
+## 微任务队列（Microtask queue）
 
 异步任务需要适当的管理。为此，ECMA 标准规定了一个内部队列 `PromiseJobs`，通常被称为“微任务队列（microtask queue）”（ES8 术语）。
 
@@ -109,4 +109,4 @@ Promise 处理始终是异步的，因为所有 promise 操作都会通过内部
 
 如果我们需要确保一段代码在 `.then/catch/finally` 之后被执行，我们可以将它添加到链式调用的 `.then` 中。
 
-在大多数 JavaScript 引擎中（包括浏览器和 Node.js），微任务（microtasks）的概念与“事件循环（event loop）”和“宏任务（macrotasks）”紧密相关。由于这些概念跟 promise 没有直接关系，所以我们将在本教程另外一部分的 <info:event-loop> 一章中对它们进行介绍。
+在大多数 JavaScript 引擎中（包括浏览器和 Node.js），微任务（microtask）的概念与“事件循环（event loop）”和“宏任务（macrotasks）”紧密相关。由于这些概念跟 promise 没有直接关系，所以我们将在本教程另外一部分的 <info:event-loop> 一章中对它们进行介绍。
