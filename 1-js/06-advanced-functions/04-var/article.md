@@ -217,8 +217,8 @@ IIFE 看起来像这样：
 函数表达式被括号 `(function {...})` 包裹起来，因为在 JavaScript 中，当主代码流遇到 `"function"` 时，它会把它当成一个函数声明的开始。但函数声明必须有一个函数名，所以这样的代码会导致错误：
 
 ```js run
-// Try to declare and immediately call a function
-function() { // <-- Error: Unexpected token (
+// 尝试声明并立即调用一个函数
+function() { // <-- Error: Function statements require a function name
 
   let message = "Hello";
 
