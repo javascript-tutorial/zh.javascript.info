@@ -1,10 +1,10 @@
 # Async/await
 
-「async/await」是一种以更舒适的方式使用 promises 的特殊语法，同时它也更易于理解和使用。
+Async/await 是以更舒适的方式使用 promise 的一种特殊语法，同时它也非常易于理解和使用。
 
-## Async functions
+## Async function
 
-让我们以 `async` 这个关键字开始。它可以被放置在一个函数前面，像下面这样：
+让我们以 `async` 这个关键字开始。它可以被放置在一个函数前面，如下所示：
 
 ```js
 async function f() {
@@ -12,9 +12,9 @@ async function f() {
 }
 ```
 
-在函数前面的「async」这个单词表达了一个简单的事情：即这个函数总是返回一个 promise。即使这个函数实际上会返回一个非 promise 的值，函数定义前加上了「async」关键字会指示 JavaScript 引擎自动将返回值包装在一个已决议（resolved）的 promise 内。
+在函数前面的 "async" 这个单词表达了一个简单的事情：即这个函数总是返回一个 promise。其他值将自动被包装在一个 resolved 的 promise 中。
 
-例如，以下的代码就返回了一个以 `1` 为结果的决议后的 promise, 让我们试一下：
+例如，下面这个函数返回一个结果为 `1` 的 resolved promise，让我们测试一下：
 
 ```js run
 async function f() {
@@ -24,7 +24,7 @@ async function f() {
 f().then(alert); // 1
 ```
 
-...我们也可以显式返回一个 promise，结果是一样的：
+……我们也可以显式地返回一个 promise，结果是一样的：
 
 ```js run
 async function f() {
@@ -34,14 +34,14 @@ async function f() {
 f().then(alert); // 1
 ```
 
-所以说，`async` 确保了函数的返回值是一个 promise，也会包装非 promise 的值。很简单是吧？但是还没完。还有一个关键字叫 `await`，它只在 `async` 函数中有效，也非常酷。
+所以说，`async` 确保了函数返回一个 promise，也会将 non-promise 的值包装进去。很简单，对吧？但不仅仅这些。还有另外一个叫 `await` 的关键词，它只在 `async` 函数内工作，也非常酷。
 
 ## Await
 
 语法如下：
 
 ```js
-// 只在 async 函数中有效
+// 只在 async 函数内工作
 let value = await promise;
 ```
 
