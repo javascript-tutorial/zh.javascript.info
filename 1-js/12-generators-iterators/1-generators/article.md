@@ -1,4 +1,4 @@
-# Generators
+# Generator
 
 常规函数只会返回一个具体值（或者 `undefined`）。
 
