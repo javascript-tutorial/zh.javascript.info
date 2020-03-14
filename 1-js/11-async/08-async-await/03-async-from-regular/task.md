@@ -1,7 +1,7 @@
 
-# 从非 async 函数中调用 async 函数
+# 在非 async 函数中调用 async 函数
 
-我们有一个“普通”函数。如何 如何从中调用 `async` 函数并使用其结果？
+我们有一个“普通”函数。如何 如何在这个函数中调用 `async` 函数并使用其结果？
 
 ```js
 async function wait() {
