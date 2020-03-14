@@ -192,9 +192,9 @@ new Waiter()
 ````
 ## Error 处理
 
-如果一个 promise 正常决议，`await promise` 返回的就是其结果。但是如果 promise 被拒绝（rejected），就会抛出一个错误，就像在那一行有个 `throw` 语句那样。
+如果一个 promise 正常 resolve，`await promise` 返回的就是其结果。但是如果 promise 被 reject，它将 throw 这个 error，就像在这一行有一个 `throw` 语句那样。
 
-这里的代码：
+这个代码：
 
 ```js
 async function f() {
@@ -204,7 +204,7 @@ async function f() {
 }
 ```
 
-...和下面是一样的：
+……和下面是一样的：
 
 ```js
 async function f() {
@@ -214,9 +214,9 @@ async function f() {
 }
 ```
 
-在真实的环境下，promise 被拒绝前通常会等待一段时间。所以 `await` 会等待，然后抛出一个错误。
+在真实开发中，promise 可能需要一点时间后才 reject。在这种情况下，在 `await` 抛出（throw）一个 error 之前会有一个延时。
 
-我们可以用 `try..catch` 来捕获上面的错误，就像对一般的 `throw` 语句那样：
+我们可以用 `try..catch` 来捕获上面提到的那个 error，与常规的 `throw` 使用的是一样的方式：
 
 ```js run
 async function f() {
@@ -233,7 +233,7 @@ async function f() {
 f();
 ```
 
-如果有错误发生，代码就会跳到 `catch` 块中。当然也可以用 try 包裹多行 await 代码：
+如果有 error 发生，执行控制权马上就会被移交至 `catch` 块。我们也可以用 `try` 包装多行 `await` 代码：
 
 ```js run
 async function f() {
@@ -250,35 +250,33 @@ async function f() {
 f();
 ```
 
-如果我们不使用 `try..catch`，由`f()` 产生的 promise 就会被拒绝。我们可以在函数调用后添加 `.catch` 来处理错误：
+如果我们没有 `try..catch`，那么由异步函数 `f()` 的调用生成的 promise 将变为 rejected。我们可以在函数调用后面添加 `.catch` 来处理这个 error：
 
 ```js run
 async function f() {
   let response = await fetch('http://no-such-url');
 }
 
-// f() 变为一个被拒绝的 promise
+// f() 变成了一个 rejected 的 promise
 *!*
 f().catch(alert); // TypeError: failed to fetch // (*)
 */!*
 ```
 
-如果我们忘了添加 `.catch`，我们就会得到一个未处理的 promise 错误（显示在控制台）。我们可以通过在 <info:promise-error-handling> 章节讲的全局事件处理器来捕获这些。
+如果我们忘了在这添加 `.catch`，那么我们就会得到一个未处理的 promise error（可以在控制台中查看）。我们可以使用在 <info:promise-error-handling> 一章中所讲的全局事件处理器 `unhandledrejection` 来捕获这类 error。
 
 
 ```smart header="`async/await` 和 `promise.then/catch`"
-当我们使用 `async/await` 时，几乎就不会用到 `.then` 了，因为为我们 `await` 处理了异步等待。并且我们可以用 `try..catch` 来替代 `.catch`。这通常更加方便（当然不是绝对的）。
+当我们使用 `async/await` 时，几乎就不会用到 `.then` 了，因为 `await` 为我们处理了等待。并且我们使用常规的 `try..catch` 而不是 `.catch`。这通常（但不总是）更加方便。
 
-但是当我们在顶层代码，外面并没有任何 `async` 函数，我们在语法上就不能使用 `await` 了，所以这时候就可以用 `.then/catch` 来处理结果和异常。
-
-就像上面代码的 `(*)` 那行一样。
+但是当我们在代码的顶层时，也就是在所有 `async` 函数之外，我们在语法上就不能使用 `await` 了，所以这时候通常的做法是添加 `.then/catch` 来处理最终的结果（result）或掉出来的（falling-through）error，例如像上面那个例子中的 `(*)` 行那样。
 ```
 
 ````smart header="`async/await` 可以和 `Promise.all` 一起使用"
-当我们需要同时等待多个 promise 时，我们可以用 `Promise.all` 来包裹他们，然后使用 `await`：
+当我们需要同时等待多个 promise 时，我们可以用 `Promise.all` 把它们包装起来，然后使用 `await`：
 
 ```js
-// 等待多个 promise 结果
+// 等待结果数组
 let results = await Promise.all([
   fetch(url1),
   fetch(url2),
@@ -286,50 +284,22 @@ let results = await Promise.all([
 ]);
 ```
 
-如果发生错误，也会正常传递：先从失败的 promise 传到 `Promise.all`，然后变成我们能用 `try..catch` 处理的异常。
+如果出现 error，也会正常传递，从失败了的 promise 传到 `Promise.all`，然后变成我们能通过使用 `try..catch` 在调用周围捕获到的异常（exception）。
 
 ````
-
-## Microtask queue [#microtask-queue]
-
-我们在 <info:microtask-queue> 章节讲过，promise 回调是异步执行的。每个 `.then/catch/finally` 回调首先被放入「微任务队列」然后在当前代码执行完成后被执行。
-
-`Async/await` 是基于 promise 的，所以它内部使用相同的微任务队列，并且相对宏任务来说具有更高的优先级。
-
-例如，看代码：
-- `setTimeout(handler, 0)`，应该以零延迟运行 `handler` 函数。
-- `let x = await f()`，函数 `f()` 是异步的，但是会立即运行。
-
-那么如果 `await` 在 `setTimeout` 下面，哪一个先执行呢？
-
-```js run
-async function f() {
-  return 1;
-}
-
-(async () => {
-    setTimeout(() => alert('timeout'), 0);
-
-    await f();
-
-    alert('await');
-})();
-```
-
-这里很确定：`await` 总是先完成，因为（作为微任务）它相比 `setTimeout` 具有更高的优先级。
 
 ## 总结
 
 函数前面的关键字 `async` 有两个作用：
 
-1. 让这个函数返回一个 promise。
-2. 允许在函数内部使用 `await`。
+1. 让这个函数总是返回一个 promise。
+2. 允许在该函数内使用 `await`。
 
-这个 `await` 关键字又让 JavaScript 引擎等待直到 promise 完成，然后：
+Promise 前的关键字 `await` 使 JavaScript 引擎等待该 promise settle，然后：
 
-1. 如果有错误，就会抛出异常，就像那里有一个 `throw error` 语句一样。
-2. 否则，就返回结果，并赋值。
+1. 如果有 error，就会抛出异常 — 就像那里调用了 `throw error` 一样。
+2. 否则，就返回结果。
 
-这两个关键字一起用就提供了一个很棒的方式来控制异步代码，并且易于读写。
+这两个关键字一起提供了一个很好的用来编写异步代码的框架，这种代码易于阅读也易于编写。
 
-有了 `async/await` 我们就几乎不需要使用 `promise.then/catch`，但是不要忘了它们是基于 promise 的，所以在有些时候（如在最外层代码）我们就不得不使用这些方法。再有就是 `Promise.all` 可以帮助我们同时处理多个异步任务。
+有了 `async/await` 之后，我们就几乎不需要使用 `promise.then/catch`，但是不要忘了它们是基于 promise 的，因为有些时候（例如在最外层作用域）我们不得不使用这些方法。并且，当我们需要同时等待需要任务时，`Promise.all` 是很好用的。
