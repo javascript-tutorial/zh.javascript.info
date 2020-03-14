@@ -1,5 +1,5 @@
 
-这里没有什么技巧，只需要将 `demoGithubUser` 中的 `.catch` 替换为 `try...catch`，然后在需要的地方加上 `async/await` 即可：
+这里没有什么技巧。只需要将 `demoGithubUser` 中的 `.catch` 替换为 `try...catch`，然后在需要的地方加上 `async/await` 即可：
 
 ```js run
 class HttpError extends Error {
@@ -19,7 +19,7 @@ async function loadJson(url) {
   }
 }
 
-// 查询用户名直到 github 返回一个合法的用户
+// 询问用户名，直到 github 返回一个合法的用户
 async function demoGithubUser() {
 
   let user;
@@ -28,13 +28,13 @@ async function demoGithubUser() {
 
     try {
       user = await loadJson(`https://api.github.com/users/${name}`);
-      break; // 没有错误，退出循环
+      break; // 没有 error，退出循环
     } catch(err) {
       if (err instanceof HttpError && err.response.status == 404) {
-        // 循环将在警告后继续
+        // 循环将在 alert 后继续
         alert("No such user, please reenter.");
       } else {
-        // 未知错误，rethrow
+        // 未知的 error，再次抛出（rethrow）
         throw err;
       }
     }      
