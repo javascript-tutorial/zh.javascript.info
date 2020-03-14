@@ -45,9 +45,9 @@ f().then(alert); // 1
 let value = await promise;
 ```
 
-关键字 `await` 让 JavaScript 引擎等待直到 promise 完成并返回结果。
+关键字 `await` 让 JavaScript 引擎等待直到 promise 完成（settle）并返回结果。
 
-这里的例子就是一个 1 秒后决议的 promise：
+这里的例子就是一个 1 秒后 resolve 的 promise：
 ```js run
 async function f() {
 
@@ -56,7 +56,7 @@ async function f() {
   });
 
 *!*
-  let result = await promise; // 等待直到 promise 决议 (*)
+  let result = await promise; // 等待，直到 promise resolve (*)
 */!*
 
   alert(result); // "done!"
@@ -65,7 +65,10 @@ async function f() {
 f();
 ```
 
-这个函数在执行的时候，「暂停」在了 `(*)` 那一行，并且当 promise 完成后，拿到 `result` 作为结果继续往下执行。所以「done!」是在一秒后显示的。
+这个函数在执行的时候，“暂停”在了 `(*)` 那一行，
+
+
+并且当 promise 完成后，拿到 `result` 作为结果继续往下执行。所以「done!」是在一秒后显示的。
 
 划重点：`await` 字面的意思就是让 JavaScript 引擎等待直到 promise 状态完成，然后以完成的结果继续执行。这个行为不会耗费 CPU 资源，因为引擎可以同时处理其他任务：执行其他脚本，处理事件等。
 
