@@ -34,7 +34,7 @@ async function f() {
 f().then(alert); // 1
 ```
 
-所以说，`async` 确保了函数返回一个 promise，也会将 non-promise 的值包装进去。很简单，对吧？但不仅仅这些。还有另外一个叫 `await` 的关键词，它只在 `async` 函数内工作，也非常酷。
+所以说，`async` 确保了函数返回一个 promise，也会将非 promise 的值包装进去。很简单，对吧？但不仅仅这些。还有另外一个叫 `await` 的关键词，它只在 `async` 函数内工作，也非常酷。
 
 ## Await
 
@@ -143,9 +143,9 @@ let user = await response.json();
 
 ````
 ````smart header="`await` 接受 \"thenables\""
-像 `promise.then` 那样，`await` 被允许接收 thenable 对象（具有 `then` 方法的对象）。第三方对象虽然不是 promise，但是却兼容 promise，如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
+像 `promise.then` 那样，`await` 允许我们使用 thenable 对象（那些具有可调用的 `then` 方法的对象）。这里的想法是，第三方对象可能不是一个 promise，但却是 promise 兼容的：如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
 
-下面是一个 `Thenable` 类，`await` 接收了该类的实例：
+这儿有一个用于演示的 `Thenable` 类，下面的 `await` 接受了该类的实例：
 
 ```js run
 class Thenable {
@@ -154,13 +154,13 @@ class Thenable {
   }
   then(resolve, reject) {
     alert(resolve);
-    // 1 秒后决议为 this.num*2
+    // 1000ms 后使用 this.num*2 进行 resolve
     setTimeout(() => resolve(this.num * 2), 1000); // (*)
   }
 };
 
 async function f() {
-  // 等待 1 秒, result 变为 2
+  // 等待 1 秒，之后 result 变为 2
   let result = await new Thenable(1);
   alert(result);
 }
@@ -168,11 +168,11 @@ async function f() {
 f();
 ```
 
-如果 `await` 接收了一个非 promise 的但是提供了 `.then` 方法的对象，它就会调用这个 then 方法，并将原生函数 `resolve`，`reject` 作为参数传入。然后 `await` 等到这两个方法中的某个被调用（在例子中发生在（\*）的那一行），再处理得到的结果。
+如果 `await` 接收了一个非 promise 的但是提供了 `.then` 方法的对象，它就会调用这个 `.then` 方法，并将内建的函数 `resolve` 和 `reject` 作为参数传入（就像它对待一个常规的 `Promise` executor 时一样）。然后 `await` 等待直到这两个函数中的某个被调用（在上面这个例子中发生在 `(*)` 行），然后使用得到的结果继续执行后续任务。
 ````
 
-````smart header="Async methods"
-如果想定义一个 async 的类方法，在方法前面添加 `async` 就可以了：
+````smart header="Class 中的 async 方法"
+要声明一个 class 中的 async 方法，只需在对应方法前面加上 `async` 即可：
 
 ```js run
 class Waiter {
@@ -190,7 +190,7 @@ new Waiter()
 这里的含义是一样的：它确保了方法的返回值是一个 promise 并且可以在方法中使用 `await`。
 
 ````
-## Error handling
+## Error 处理
 
 如果一个 promise 正常决议，`await promise` 返回的就是其结果。但是如果 promise 被拒绝（rejected），就会抛出一个错误，就像在那一行有个 `throw` 语句那样。
 
