@@ -65,14 +65,11 @@ async function f() {
 f();
 ```
 
-这个函数在执行的时候，“暂停”在了 `(*)` 那一行，
+这个函数在执行的时候，“暂停”在了 `(*)` 那一行，并在 promise settle 时，拿到 `result` 作为结果继续往下执行。所以上面这段代码在一秒后显示 "done!"。
 
+让我们强调一下：`await` 字面的意思就是让 JavaScript 引擎等待直到 promise settle，然后以 promise 的结果继续执行。这个行为不会耗费任何 CPU 资源，因为引擎可以同时处理其他任务：执行其他脚本，处理事件等。
 
-并且当 promise 完成后，拿到 `result` 作为结果继续往下执行。所以「done!」是在一秒后显示的。
-
-划重点：`await` 字面的意思就是让 JavaScript 引擎等待直到 promise 状态完成，然后以完成的结果继续执行。这个行为不会耗费 CPU 资源，因为引擎可以同时处理其他任务：执行其他脚本，处理事件等。
-
-相比 `promise.then` 来获取 promise 结果，这只是一个更优雅的语法，同时也更可读和更易书写。
+相比于 `promise.then`，它只是获取 promise 的结果的一个更优雅的语法，同时也更易于读写。
 
 ````warn header="不能在普通函数中使用 `await`"
 如果我们尝试在非 async 函数中使用 `await` 的话，就会报语法错误：
@@ -89,15 +86,15 @@ function f() {
 如果函数前面没有 `async` 关键字，我们就会得到一个语法错误。就像前面说的，`await` 只在 `async 函数` 中有效。
 ````
 
-让我们拿 <info:promise-chaining> 那一章的 `showAvatar()` 例子改写成 `async/await` 的形式：
+让我们拿 <info:promise-chaining> 那一章的 `showAvatar()` 例子，并将其改写成 `async/await` 的形式：
 
-1. 用 `await` 替换掉 `.then` 的调用。
-2. 在函数前面加上 `async` 关键字。
+1. 我们需要用 `await` 替换掉 `.then` 的调用。
+2. 另外，我们需要在函数前面加上 `async` 关键字，以使它们能工作。
 
 ```js run
 async function showAvatar() {
 
-  // 读取 JSON
+  // 读取我们的 JSON
   let response = await fetch('/article/promise-chaining/user.json');
   let user = await response.json();
 
@@ -125,7 +122,7 @@ showAvatar();
 简洁明了，是吧？比之前可强多了。
 
 ````smart header="`await` 不能在顶层代码运行"
-刚开始使用 `await` 的人常常会忘记 `await` 不能用在顶层代码中。如，下面这样就不行：
+刚开始使用 `await` 的人常常会忘记 `await` 不能用在顶层代码中。例如，下面这样就不行：
 
 ```js run
 // 用在顶层代码中会报语法错误
@@ -133,9 +130,9 @@ let response = await fetch('/article/promise-chaining/user.json');
 let user = await response.json();
 ```
 
-我们可以将其包裹在一个匿名 async 函数中，如：
+但我们可以将其包裹在一个匿名 async 函数中，如下所示：
 
-```js run
+```js
 (async () => {
   let response = await fetch('/article/promise-chaining/user.json');
   let user = await response.json();
@@ -145,7 +142,7 @@ let user = await response.json();
 
 
 ````
-````smart header="`await` 可以接收「thenables」"
+````smart header="`await` 接受 \"thenables\""
 像 `promise.then` 那样，`await` 被允许接收 thenable 对象（具有 `then` 方法的对象）。第三方对象虽然不是 promise，但是却兼容 promise，如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
 
 下面是一个 `Thenable` 类，`await` 接收了该类的实例：
