@@ -145,7 +145,7 @@ let user = await response.json();
 ````smart header="`await` 接受 \"thenables\""
 像 `promise.then` 那样，`await` 允许我们使用 thenable 对象（那些具有可调用的 `then` 方法的对象）。这里的想法是，第三方对象可能不是一个 promise，但却是 promise 兼容的：如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
 
-这儿有一个用于演示的 `Thenable` 类，下面的 `await` 接受了该类的实例：
+这有一个用于演示的 `Thenable` 类，下面的 `await` 接受了该类的实例：
 
 ```js run
 class Thenable {
