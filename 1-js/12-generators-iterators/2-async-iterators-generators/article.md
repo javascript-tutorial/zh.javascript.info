@@ -116,9 +116,9 @@ let range = {
 
 |       | Iterator  | Async iterator |
 |-------|-----------|-----------------|
-| 提供 `iterator` 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` 返回的值是       | 任意值        | `Promise`  |
-| 要进行循环，使用                          | `for..of`  | `for await..of` |
+| 提供 iterator 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` 返回的值是     | 任意值             | `Promise` |
+| 要进行循环，使用         | `for..of`         | `for await..of` |
 
 ````warn header="Spread 语法 `...` 无法异步工作"
 需要常规的同步 iterator 的功能，无法与异步 iterator 一起使用。
@@ -128,7 +128,7 @@ let range = {
 alert( [...range] ); // Error, no Symbol.iterator
 ```
 
-这很正常，因为它期望找到 `Symbol.iterator`，跟 `for..of` 没有 `await` 一样。并非是 `Symbol.asyncIterator`。
+这很正常，因为它期望找到 `Symbol.iterator`，跟 `for..of` 没有 `await` 一样。并非 `Symbol.asyncIterator`。
 ````
 
 ## Async generator
@@ -174,7 +174,7 @@ for(let value of generateSequence(1, 5)) {
 
   let generator = generateSequence(1, 5);
   for *!*await*/!* (let value of generator) {
-    alert(value); // 1, then 2, then 3, then 4, then 5
+    alert(value); // 1，然后 2，然后 3，然后 4，然后 5
   }
 
 })();
@@ -342,22 +342,22 @@ async function* fetchCommits(repo) {
 
 常规的 iterator 和 generator 可以很好地处理那些不需要花费时间来生成的的数据。
 
-当我们需要异步获得数据的时候，它们的异步的同行则有了发挥的机会，`for await..of` 会去替代 `for..of`。
+当我们期望异步地，有延迟地获取数据时，可以使用它们的 async counterpart，并且使用 `for await..of` 替代 `for..of`。
 
-异步迭代器与常规迭代器的语法区别：
+Async iterator 与常规 iterator 在语法上的区别：
 
-|       | 常规迭代 | 异步迭代 |
+|       | Iterator  | Async iterator |
 |-------|-----------|-----------------|
-| 提供 `iterator` 的方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` 返回的值是          | `{value:…, done: true/false}`         | 被解析（resolves）成 `{value:…, done: true/false}` 的 `Promise`  |
+| 提供 iterator 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` 返回的值是     | `{value:…, done: true/false}`             | resolve 成 `{value:…, done: true/false}` 的 `Promise` |
 
-异步生成器与常规生成器的语法区别：
+Async generator 与常规 generator 在语法上的区别：
 
-|       | 常规生成器 | 异步生成器 |
+|       | Generator | Async generator |
 |-------|-----------|-----------------|
 | 声明方式 | `function*` | `async function*` |
-| `next()` 返回的值是          | `{value:…, done: true/false}`         | 被解析成 `{value:…, done: true/false}` 的 `Promise`  |
+| `next()` 返回的值是          | `{value:…, done: true/false}`         | resolve 成 `{value:…, done: true/false}` 的 `Promise`  |
 
-在网络开发中，我们经常会遇到数据流，例如下载或者上传大文件。
+在 Web 开发中，我们经常会遇到数据流，它们分段流动（flows chunk-by-chunk）。例如，下载或上传大文件。
 
-我们可以使用 `async generator` 来处理类似的数据。值得注意的是，在一些环境，例如浏览器环境下，还有另外一个 API 被叫做流（Streams），它提供一些特殊的接口来操作类似的数据流，来传输数据或将其从一个数据流传递到另一个数据流（例如，从一个地方下载后立刻将其发送到其他地方）。
+我们可以使用 async generator 来处理此类数据。值得注意的是，在一些环境，例如浏览器环境下，还有另一个被称为 Streams 的 API，它提供了特殊的接口来处理此类数据流，转换数据并将数据从一个数据流传递到另一个数据流（例如，从一个地方下载并立即发送到其他地方）。
