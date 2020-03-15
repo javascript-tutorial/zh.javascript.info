@@ -1,12 +1,12 @@
 # Generator
 
-常规函数只会返回一个具体值（或者 `undefined`）。
+常规函数只会返回一个单一值（或者不返回任何值）。
 
-而 Generators 可以按需逐个生成（“yield”）多个值。它们与 [iterables](info:iterable) 配合使用，可以轻松创建数据流。
+而 Generator 可以按需一个接一个地返回（"yield"）多个值。它们可与 [iterable](info:iterable) 完美配合使用，从而可以轻松地创建数据流。
 
 ## Generator 函数
 
-要创建 generator，我们需要一个特殊的语法结构：`function*`，即所谓的“generator 函数”。
+要创建一个 generator，我们需要一个特殊的语法结构：`function*`，即所谓的“generator 函数”。
 
 它看起来像这样：
 
@@ -18,25 +18,25 @@ function* generateSequence() {
 }
 ```
 
-“generator 函数”与常规函数的运行表现有所不同，当执行“generator 函数”时，它并不直接执行完**函数体**的代码，而是返回一个特殊的对象，即“generator 对象”，来管理执行流程。
+Generator 函数与常规函数的行为不同。在此类函数被调用时，它不会运行其代码。而是返回一个被称为 "generator object" 的特殊对象，来管理执行流程。
 
-来打印一下这种对象：
+我们来看一个例子：
 
-```js
+```js run
 function* generateSequence() {
   yield 1;
   yield 2;
   return 3;
 }
 
-// "generator function"（指 generateSequence()） 创建了一个 "generator 对象"
+// "generator function" 创建了一个 "generator object"
 let generator = generateSequence();
 *!*
 alert(generator); // [object Generator]
 */!*
 ```
 
-上面的代码中，**函数体**代码还没有开始执行:
+到目前为止，上面这段代码中的 **函数体** 代码还没有开始执行：
 
 ![](generateSequence-1.svg)
 
