@@ -43,7 +43,7 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 1 then 2, then 3, then 4, then 5
+  alert(value); // 1，然后 2，然后 3，然后 4，然后 5
 }
 ```
 
@@ -133,9 +133,9 @@ alert( [...range] ); // Error, no Symbol.iterator
 
 ## Async generator
 
-正如我们所知，JavaScript 也支持生成器，并且他们也是可迭代的。
+正如我们所知，JavaScript 也支持生成器（generator），并且它们也是可迭代的。
 
-让我们来回顾一下生成器所在的章节 <info:generators>。它从 `start` 到 `end` 生成了一系列的值：
+让我们回顾一下 <info:generators> 一章的序列生成器（generator）。它生成从 `start` 到 `end` 的一系列值：
 
 ```js run
 function* generateSequence(start, end) {
@@ -145,15 +145,15 @@ function* generateSequence(start, end) {
 }
 
 for(let value of generateSequence(1, 5)) {
-  alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+  alert(value); // 1，然后 2，然后 3，然后 4，然后 5
 }
 ```
 
-在常规的生成器中，我们无法使用 `await`，所有的值都必须同步获得：无法在 `for..of` 循环中延迟执行，这是一个同步的结构。
+在常规的 generator 中，我们无法使用 `await`。所有的值都必须同步获得：`for..of` 中没有延时的地方，它是一个同步结构。
 
-但如果我们在 `generator` 内使用 `await` 呢？我们可以以网络请求为例子。
+但是，如果我们需要在 `generator` 内使用 `await` 该怎么办呢？我们以执行网络请求为例子。
 
-很简单，只需要在前面加上 `async`，就像这样：
+没问题，只需要在它前面加上 `async` 即可，就像这样：
 
 ```js run
 *!*async*/!* function* generateSequence(start, end) {
@@ -161,7 +161,7 @@ for(let value of generateSequence(1, 5)) {
   for (let i = start; i <= end; i++) {
 
 *!*
-    // 很好，可以使用 await!
+    // 耶，可以使用 await 了！
     await new Promise(resolve => setTimeout(resolve, 1000));
 */!*
 
@@ -174,27 +174,27 @@ for(let value of generateSequence(1, 5)) {
 
   let generator = generateSequence(1, 5);
   for *!*await*/!* (let value of generator) {
-    alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+    alert(value); // 1, then 2, then 3, then 4, then 5
   }
 
 })();
 ```
 
-现在，我们有了 `async generator`，可以使用 `for await...of` 迭代。
+现在，我们有了 async generator，可以使用 `for await...of` 进行迭代。
 
-这确实非常简单。我们加了 `async` 关键字，然后我们就能在 生成器内部使用 `await`，依赖于 `promise` 和其他异步函数。
+这确实非常简单。我们加了 `async` 关键字，然后我们就能在 generator 内部使用 `await` 了，依赖于 `promise` 和其他异步函数。
 
-从技术上来讲，异步生成器的另一个不同之处在于，它的 `generatr.next()` 方法现在也是异步地，它返回 promises。
+从技术上来讲，async generator 的另一个不同之处在于，它的 `generatr.next()` 方法现在也是异步的，它返回 promise。
 
-在一个常规的 `generator` 中，我们使用 `result = generator.next()` 来获得值。但在一个 `async generator` 中，我们应该添加 `await` 关键字，如下：
+在一个常规的 generator 中，我们使用 `result = generator.next()` 来获得值。但在一个 `async generator` 中，我们应该添加 `await` 关键字，像这样：
 
 ```js
 result = await generator.next(); // result = {value: ..., done: true/false}
 ```
 
-## 异步可迭代对象
+## Async iterable
 
-如我们所知道的，要是一个对象可迭代，我们需要给它添加 `Symbol.iterator`。
+正如我们所知道的，要使一个对象可迭代，我们需要给它添加 `Symbol.iterator`。
 
 ```js
 let range = {
@@ -208,16 +208,16 @@ let range = {
 }
 ```
 
-对于 `Symbol.iterator` 来说，一个通常的做法是返回一个 `generator`，这好过返回一个带有 `next()` 方法的简单对象。
+对于 `Symbol.iterator` 来说，一个通常的做法是返回一个 generator，而不是像前面的例子中那样返回一个带有 `next()` 方法的普通对象。
 
-让我们来回想一下之前 [](info:generators) 章节中的一个示例：
+让我们回顾一下来自之前 [](info:generators) 一章中的一个示例：
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  *[Symbol.iterator]() { // 是 [Symbol.iterator]: function*() 的简写
+  *[Symbol.iterator]() { // [Symbol.iterator]: function*() 的简写形式
     for(let value = this.from; value <= this.to; value++) {
       yield value;
     }
@@ -225,13 +225,13 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+  alert(value); // 1，然后 2，然后 3，然后 4，然后 5
 }
 ```
 
-这有一个自定义对象 `range` 是可迭代的，并且它的生成器 `*[Symbol.iterator]` 实现了列出所有值的逻辑。
+这有一个自定义的对象 `range`，它是可迭代的，并且它的 generator `*[Symbol.iterator]` 实现了列出值的逻辑。
 
-如果们想要给 `generator` 加上异步操作，那么我们应该将 `Symbol.iterator` 带换成异步的 `Symbol.asyncIterator`：
+如果们想要给 generator 加上异步操作，那么我们应该将 `Symbol.iterator` 替换成异步的 `Symbol.asyncIterator`：
 
 ```js run
 let range = {
@@ -243,7 +243,7 @@ let range = {
 */!*
     for(let value = this.from; value <= this.to; value++) {
 
-      // 在获得 value 之间暂停，执行其他任务 
+      // 在 value 之间暂停一会儿，等待一些东西
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       yield value;
@@ -254,33 +254,33 @@ let range = {
 (async () => {
 
   for *!*await*/!* (let value of range) {
-    alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+    alert(value); // 1，然后 2，然后 3，然后 4，然后 5
   }
 
 })();
 ```
 
-现在 `value` 都是延迟 1 秒后才弹出
+现在，value 之间的延迟为 1 秒。
 
-## 实际例子
+## 实际的例子
 
-到目前为止，我们为了获得基础的了解，看到的都是简单的例子。接下来，我们就看一下实际应用的例子。
+到目前为止，我们为了获得基础的了解，看到的都是简单的例子。接下来，我们来看一个实际的用例。
 
-目前，有很多网络服务都是传递分页的数据。例如，当我们需要一个用户的清单，一个请求只返回了一个预定义数量的用户（例如：100 个用户） - “一页”，并且提供了一个前往下一页的 `URL`。
+目前，有很多在线服务都是发送的分页数据（paginated data）。例如，当我们需要一个用户列表时，一个请求只返回一个预定义数量的用户（例如 100 个用户）— “一页”，并提供了指向下一页的 URL。
 
-这种模式非常常见。不只是用户，基本所有数据都是。例如，GitHub 允许使用相同的，分页的方式找回提交记录：
+这种模式非常常见。不仅可用于获取用户列表，这种模式还可以用于任意东西。例如，GitHub 允许使用相同的分页提交（paginated fashion）的方式找回 commit：
 
-- 我们应该提交一个请求到这种格式的 `URL`： `https://api.github.com/repos/<repo>/commits`。
-- 它返回一个包含 30 条提交记录的 `JSON` 对象，并且在返回头的 `Link` 中提供了一个前往下一页的链接
-- 然后我们可以使用那个链接作为下一个请求地址，获得更多的提交记录。
+- 我们应该提交一个请求到这种格式的 URL：`https://api.github.com/repos/<repo>/commits`。
+- 它返回一个包含 30 条 commit 的 JSON，并在返回的 `Link` header 中提供了指向下一页的链接。
+- 然后我们可以将该链接用于下一个请求，以获取更多 commit，以此类推。
 
-但是我们可以有一个更简单的 API：一个带有提交记录的可迭代对象，然后我们可以像这样来访问它们：
+但是我们希望有一个更简单的 API：具有 commit 的可迭代对象，然后我们就可以像这样来遍历它们：
 
 ```js
-let repo = 'javascript-tutorial/en.javascript.info'; // 获得提交记录的 GitHub 仓库
+let repo = 'javascript-tutorial/en.javascript.info'; // 用于获取 commit 的 GitHub 仓库
 
 for await (let commit of fetchCommits(repo)) {
-  // 处理提交记录
+  // 处理 commit
 }
 ```
 
