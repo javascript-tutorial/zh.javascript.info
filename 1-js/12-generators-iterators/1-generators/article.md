@@ -6,7 +6,7 @@
 
 ## Generator 函数
 
-要创建一个 generator，我们需要一个特殊的语法结构：`function*`，即所谓的“generator 函数”。
+要创建一个 generator，我们需要一个特殊的语法结构：`function*`，即所谓的 "generator function"。
 
 它看起来像这样：
 
@@ -40,13 +40,13 @@ alert(generator); // [object Generator]
 
 ![](generateSequence-1.svg)
 
-generator 对象的主要方法是 `next()`。被调用时，它会恢复上面的执行过程直到最近的 `yield <value>` 语句（ `value` 可以省略，默认为 `undefined` ）。然后代码再次暂停执行，并将值返回给外部代码。
+一个 generator 的主要方法就是 `next()`。当被调用时（译注：指 `next()` 方法），它会恢复上图所示的运行，执行直到最近的 `yield <value>` 语句（`value` 可以被省略，默认为 `undefined`）。然后函数执行暂停，并将产生的（yielded）值返回到外部代码。
 
-`next()` 调用结果总是一个包含两个属性的对象：
-- `value`: “generator 函数”每次 **产出（yielded）** 的值。（译者注：yield翻译为产出，是为了配合 **生成器（generator）** 的语义。）
-- `done`: `true` 表示“generator 函数”已经执行完成，否则为 `false`。
+`next()` 的结果始终是一个具有两个属性的对象：
+- `value`: 产生的（yielded）的值。
+- `done`: 如果 generator 函数已执行完成则为 `true`，否则为 `false`。
 
-举个例子，下面我们创建一个 generator 并获取其第一个产出的值：
+例如，我们可以创建一个 generator 并获取其第一个产生的（yielded）值：
 
 ```js run
 function* generateSequence() {
@@ -64,11 +64,11 @@ let one = generator.next();
 alert(JSON.stringify(one)); // {value: 1, done: false}
 ```
 
-截至目前，我们只获得了第一个值，函数体停在了第二行：
+截至目前，我们只获得了第一个值，现在函数执行处在第二行：
 
 ![](generateSequence-2.svg)
 
-再次调用 `generator.next()`。代码恢复执行并返回下一个 `yield` 的产出值：
+让我们再次调用 `generator.next()`。代码恢复执行并返回下一个 `yield` 的值：
 
 ```js
 let two = generator.next();
@@ -78,7 +78,7 @@ alert(JSON.stringify(two)); // {value: 2, done: false}
 
 ![](generateSequence-3.svg)
 
-如果我们第三次调用上面代码，代码将会执行到 `return` 语句，此时将会完成这个函数的执行：
+如果我们第三次调用 `generator.next()`，代码将会执行到 `return` 语句，此时就完成这个函数的执行：
 
 ```js
 let three = generator.next();
@@ -88,21 +88,21 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 
 ![](generateSequence-4.svg)
 
-我们通过 `done:true` 可以看出函数执行完成了，此时 `value:3` 作为函数执行的最终结果。
+现在 generator 执行完成。我们通过 `done:true` 可以看出来这一点，并且将 `value:3` 处理为最终结果。
 
-再调用 `generator.next()` 已经没有什么意义了。这将总是返回相同的对象：`{done: true}`。
+再对 `generator.next()` 进行新的调用不再有任何意义。如果我们这样做，它将返回相同的对象：`{done: true}`。
 
-```smart header="`function* f(…)` 或者 `function *f(…)`？"
-这是一个小的书写习惯问题，两者的语法都是正确的。
+```smart header="`function* f(…)` 或 `function *f(…)`？"
+这两种语法都是对的。
 
-但是通常首选第一种语法，因为星号 `*` 表示它是一个 generator 函数，它描述的是函数种类而不是名称，因此`*`应该和 `function` 关键字紧贴一起。
+但是通常更倾向于第一种语法，因为星号 `*` 表示它是一个 generator 函数，它描述的是函数种类而不是名称，因此 `*` 应该和 `function` 关键字紧贴一起。
 ```
 
-## Generators 是可迭代的
+## Generator 是可迭代的
 
-看到 `next()` 方法，或许你都猜到了 generator 是 [可迭代](info:iterable) 的。（译者注：`next()` 是 iterator 的必要方法）
+当你看到 `next()` 方法，或许你已经猜到了 generator 是 [可迭代（iterable）](info:iterable)的。（译注：`next()` 是 iterator 的必要方法）
 
-我们可以通过 `for..of` 循环迭代所有值：
+我们可以使用 `for..of` 循环遍历它所有的值：
 
 ```js run
 function* generateSequence() {
@@ -114,15 +114,15 @@ function* generateSequence() {
 let generator = generateSequence();
 
 for(let value of generator) {
-  alert(value); // 1, then 2
+  alert(value); // 1，然后是 2
 }
 ```
 
-`for ... of` 写法是不是比 `.next().value` 优雅多了？
+`for..of` 写法是不是看起来比 `.next().value` 优雅多了？
 
-……但是请注意：上面的迭代例子中，它先显示 `1`，然后是 `2`。它不会显示 `3`！
+……但是请注意：上面这个例子会先显示 `1`，然后是 `2`，然后就没了。它不会显示 `3`！
 
-这是因为当 `done: true` 时，for-of 循环会忽略最后一个 `value`。因此，如果我们想要通过 `for..of` 循环显示所有结果时，我们必须使用 `yield` 而不是 `return`：
+这是因为当 `done: true` 时，`for..of` 循环会忽略最后一个 `value`。因此，如果我们想要通过 `for..of` 循环显示所有的结果，我们必须使用 `yield` 返回它们：
 
 ```js run
 function* generateSequence() {
@@ -136,11 +136,11 @@ function* generateSequence() {
 let generator = generateSequence();
 
 for(let value of generator) {
-  alert(value); // 1, then 2, then 3
+  alert(value); // 1，然后是 2，然后是 3
 }
 ```
 
-由于 generators 是可迭代的，我们可以充分发挥 ES6 中 iterator 的特性，例如：spread 操作 `...`：
+因为 generator 是可迭代的，我们可以使用 iterator 的所有相关功能，例如：spread 语法 `...`：
 
 ```js run
 function* generateSequence() {
@@ -154,7 +154,7 @@ let sequence = [0, ...generateSequence()];
 alert(sequence); // 0, 1, 2, 3
 ```
 
-在上面的代码中，`...generateSequence()` 将可迭代的“generator 对象”转换为了一个数组（关于 spread 操作可以参见相关章节 [](info:rest-parameters-spread-operator#spread-operator)）。
+在上面这段代码中，`...generateSequence()` 将可迭代的“generator 对象”转换为了一个数组（关于 spread 操作可以参见相关章节 [](info:rest-parameters-spread-operator#spread-operator)）。
 
 ## 使用 generator 进行迭代
 
