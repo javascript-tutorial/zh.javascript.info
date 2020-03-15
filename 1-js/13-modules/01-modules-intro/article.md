@@ -1,26 +1,27 @@
 
-# 模块 (Modules) 简介
+# 模块 (Module) 简介
 
-当我们的应用日益增大时，我们想要将应用分割成多个文件，即我们所说的“模块”。
-一个模块通常包含一些有用的函数类或者库。
+随着我们的应用越来越大，我们想要将其拆分成多个文件，即所谓的“模块（module）”。一个模块通常包含一个类或一个函数库。
 
-很长一段时间，JavaScript 都没有语言级（language-level）模块语法。这是因为初始的脚本都很小且简单，所以没必要将其模块化。
+很长一段时间，JavaScript 都没有语言级（language-level）的模块语法。这不是一个问题，因为最初的脚本又小又简单，所以没必要将其模块化。
 
-但是不管怎样，到最后，脚本文件都会变的越来越复杂，所以 JavaScript 社区发明了许多方法将代码组织为模块——一种特殊的可以按需加载的库。
+但是最终脚本变得越来越复杂，因此社区发明了许多种方法来将代码组织到模块中，使用特殊的库按需加载模块。
 
 例如：
 
-- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) — 最古老的模块化系统，最开始应用在 [require.js](http://requirejs.org/) 这个库中。
-- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) — 为 Node.js 创建的模块化系统。
-- [UMD](https://github.com/umdjs/umd) — 另外一个模块化系统，建议作为通用的模块化系统，它与 AMD 和 CommonJS 都是兼容的。
+- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) — 最古老的模块系统之一，最初由 [require.js](http://requirejs.org/) 库实现。
+- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) — 为 Node.js 服务器创建的模块系统。
+- [UMD](https://github.com/umdjs/umd) — 另外一个模块系统，建议作为通用的模块系统，它与 AMD 和 CommonJS 都兼容。
 
-现在这些都将成为过去，但是我们仍然能在一些旧的脚本中找到他们的踪迹。语言级的模块化系统在 2015 年的时候出现在标准中，从那时候起开始逐渐发展，现在已经得到了所有主流浏览器和 Node.js 的支持。
+现在，所有他们都在慢慢成为历史的一部分，但我们仍然可以在旧脚本中找到它们。
+
+语言级的模块系统在 2015 年的时候出现在了标准（ES6）中，此后逐渐发展，现在已经得到了所有主流浏览器和 Node.js 的支持。因此，我们将从现在开始学习它们。
 
 ## 什么是模块？
 
-模块仅仅是一个文件，一个脚本而已，它就是这么简单。
+一个模块（module）就是一个文件。一个脚本就是一个模块。
 
-用一些关键字比如 `export` 和 `import` 来交换模块之间的功能（functionality）或者从一个模块中调用另一个模块中的函数。
+模块可以相互加载，并可以使用特殊的指令 `export` 和 `import` 来交换功能，从另一个模块调用一个模块的函数：
 
 - `export` 关键字表示在当前模块之外可以访问的变量和功能。
 - `import` 关键字允许从其他模块中导入一些诸如函数之类的功能等等。
