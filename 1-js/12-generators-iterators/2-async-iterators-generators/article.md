@@ -1,36 +1,36 @@
 
-# 异步迭代器（iterators）与生成器（generators）
+# Async iterator 和 generator
 
-异步迭代器可以迭代异步请求得到的数据。例如，我们从网络分段（chunk-by-chunk）下载的数据。异步迭代器使这一步骤更加方便。
+异步迭代器（iterator）允许我们对按需通过异步请求而得到的数据进行迭代。例如，我们通过网络分段（chunk-by-chunk）下载数据时。异步生成器（generator）使这一步骤更加方便。
 
-首先，让我们来看一个简单的示例来掌握语法，然后再去看一些实际的用子。
+首先，让我们来看一个简单的示例以掌握语法，然后再看一个实际用例。
 
-## 异步迭代器
+## Async iterator
 
-异步迭代器与常规的迭代器相似，不过语法上有一点区别。
+异步迭代器（async iterator）与常规的迭代器类似，不过语法上有一点区别。
 
-一个“常规的”可迭代对象，即我们在 <info:iterable> 章节中提到的，是这样的：
+一个“常规的”可迭代对象，即我们在 <info:iterable> 一章中提到的，看起来像这样：
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  // 使用 for..of 语句的时候就会调用一次这个方法
+  // 在刚使用 for..of 循环时，for..of 就会调用这个方法一次
 *!*
   [Symbol.iterator]() {
 */!*
-    // ……它返回一个 iterator 对象：
-    // 进一步说, for..of 只能作用于可迭代对象,
-    // 使用 next() 方法获取下一个 values
+    // ...它返回 iterator object：
+    // 后续的操作中，for..of 将只针对这个对象
+    // 并使用 next() 向它请求下一个值
     return {
       current: this.from,
       last: this.to,
 
-      // next() 被 for..of 循环在每一次迭代过程中调用 
+      // for..of 循环在每次迭代时都会调用 next()
 *!*
       next() { // (2)
-        // 它应该返回一个类似 {done:.., value :...} 的对象
+        // 它应该以对象 {done:.., value :...} 的形式返回值
 */!*
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
@@ -43,11 +43,11 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+  alert(value); // 1 then 2, then 3, then 4, then 5
 }
 ```
 
-有需要的话，你可以返回关于 <info:iterable> 的章节查看常规的迭代器的详细内容。
+有需要的话，你可以返回 <info:iterable> 一章学习关于常规迭代器（iterator）的详细内容。
 
 为了使对象可以异步地迭代：
 1. 我们需要使用 `Symbol.asyncIterator` 取代 `Symbol.iterator`。
