@@ -346,7 +346,7 @@ async function* fetchCommits(repo) {
 
 Async iterator 与常规 iterator 在语法上的区别：
 
-|       | Iterator  | Async iterator |
+|       | Iterable  | Async Iterable |
 |-------|-----------|-----------------|
 | 提供 iterator 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
 | `next()` 返回的值是     | `{value:…, done: true/false}`             | resolve 成 `{value:…, done: true/false}` 的 `Promise` |
