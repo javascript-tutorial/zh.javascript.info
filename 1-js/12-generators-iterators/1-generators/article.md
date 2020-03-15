@@ -456,6 +456,6 @@ try {
 
 在现代 JavaScript 中，generator 很少被使用。但有时它们会派上用场，因为函数在执行过程中与调用代码交换数据的能力是非常独特的。而且，当然，它们非常适合创建可迭代对象。
 
-并且，在下一章我们将会学习 async generator，它们被用于在 `for await ... of` 循环中读取异步生成的数据流（例如，通过网络分页提取（paginated fetches over a network））。
+并且，在下一章我们将会学习 async generator，它们被用于在 `for await ... of` 循环中读取异步生成的数据流（例如，通过网络分页提取 (paginated fetches over a network)）。
 
 在网络编程中，我们经常使用数据流，因此这是另一个非常重要的使用场景。
