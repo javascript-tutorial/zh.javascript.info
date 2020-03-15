@@ -154,13 +154,13 @@ let sequence = [0, ...generateSequence()];
 alert(sequence); // 0, 1, 2, 3
 ```
 
-在上面这段代码中，`...generateSequence()` 将可迭代的“generator 对象”转换为了一个数组（关于 spread 操作可以参见相关章节 [](info:rest-parameters-spread-operator#spread-operator)）。
+在上面这段代码中，`...generateSequence()` 将可迭代的 generator 对象转换为了一个数组（关于 spread 语法的更多细节请见 []info:rest-parameters-spread#spread-syntax)）。
 
 ## 使用 generator 进行迭代
 
-在前面章节，[](info:iterable) 我们创建了可迭代的 `range` 对象，它返回 `from..to` 的值。
+在前面的 [](info:iterable) 一章中，我们创建了一个可迭代的 `range` 对象，它返回 `from..to` 的值。
 
-现在，我们一起回忆下之前的代码：
+现在，我们回忆一下代码：
 
 ```js run
 let range = {
@@ -169,15 +169,15 @@ let range = {
 
   // for..of range 在一开始就调用一次这个方法
   [Symbol.iterator]() {
-    // ……它返回 iterator 对象：
-    // 后续的操作中， for..of 将只针对这个 iterator 对象，通过不断的调用 next() 来获取下一个值
+    // ...它返回可迭代对象（iterator）：
+    // 后续的操作中，for..of 将只针对这个可迭代对象，要求它提供下一个值
     return {
       current: this.from,
       last: this.to,
 
-      // for..of 在每次迭代的时候都会调用 next() 
+      // for..of 循环在每次迭代时都会调用 next()
       next() {
-        // 必须返回特定结构的对象： {done:.., value :...} 
+        // 它应该以对象 {done:.., value :...} 的形式返回值
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
         } else {
@@ -188,13 +188,13 @@ let range = {
   }
 };
 
-// 迭代整个 range 对象，返回从 `range.from` 到 `range.to` 范围的所有数字的数组。
+// 迭代整个 range 对象，返回从 `range.from` 到 `range.to` 范围的所有数字
 alert([...range]); // 1,2,3,4,5
 ```
 
-我们可以通过提供一个 generator 函数作为对象的 `Symbol.iterator` 来使任何对象可被迭代。
+我们可以通过提供一个 generator 函数作为 `Symbol.iterator`，来使用 generator 进行迭代：
 
-以下是使用的另一种更紧凑的写法的 `range` 对象：
+下面是一个相同的 `range`，但紧凑得多：
 
 ```js run
 let range = {
@@ -211,11 +211,13 @@ let range = {
 alert( [...range] ); // 1,2,3,4,5
 ```
 
-代码正常工作，因为 `range[Symbol.iterator]()` 现在返回一个 generator，而 generator 方法正是 `for..of` 所期望的：
+之所以代码正常工作，是因为 `range[Symbol.iterator]()` 现在返回一个 generator，而 generator 方法正是 `for..of` 所期望的：
 - 它具有 `.next()` 方法
 - 它以 `{value: ..., done: true/false}` 的形式返回值
 
-当然，这不是巧合，Generators 被添加到 JavaScript 语言中时也考虑了 iterators，以便更容易实现。
+当然，这不是巧合。
+
+Generator 被添加到 JavaScript 语言中时也考虑了 iterators，以便更容易实现。
 
 带有 generator 的 `range` 对象比的原始可迭代代码简洁得多，还保持了功能的一致。
 
