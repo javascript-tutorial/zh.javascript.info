@@ -215,23 +215,21 @@ alert( [...range] ); // 1,2,3,4,5
 - 它具有 `.next()` 方法
 - 它以 `{value: ..., done: true/false}` 的形式返回值
 
-当然，这不是巧合。
+当然，这不是巧合。Generator 被添加到 JavaScript 语言中是有对 iterator 的考量的，以便更容易地实现 iterator。
 
-Generator 被添加到 JavaScript 语言中时也考虑了 iterators，以便更容易实现。
+带有 generator 的变体比原来的 `range` 迭代代码简洁得多，并且保持了相同的功能。
 
-带有 generator 的 `range` 对象比的原始可迭代代码简洁得多，还保持了功能的一致。
+```smart header="Generator 可以永远产生值"
+在上面的示例中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直 yield 值。例如，无序的伪随机数序列。
 
-```smart header="Generators 可以永远产生值"
-在上面的例子中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直 yield 值。例如，无序的伪随机数序列。
-
-这种情况下的 `for..of` generator 需要一个 `break`（或者 `return`）语句，否则循环将永远重复并挂起。
+这种情况下肯定需要在 generator 的 `for..of` 循环中添加一个 `break`（或者 `return`）。否则循环将永远重复下去并挂起。
 ```
 
-## Generator 组合（composition）
+## Generator 组合
 
-Generator 组合是 generator 的一个特殊功能，它可以显式地将 generator “嵌入”到一起。
+Generator 组合（composition）是 generator 的一个特殊功能，它允许透明地（transparently）将 generator 彼此“嵌入（embed）”到一起。
 
-如下，我们有个生成数字序列的函数：
+例如，我们有一个生成数字序列的函数：
 
 ```js
 function* generateSequence(start, end) {
@@ -239,18 +237,18 @@ function* generateSequence(start, end) {
 }
 ```
 
-接着，我们复用这个函数来生成更加复杂的包含三部分的序列：
-- 第一部分为数字 `0..9`（ASCII 可显示字符代码为 48..57），
-- 第二部分为大写字母字母 `A..Z`（ASCII 可显示字符代码为 65..90）
-- 第三部分为小写字母 `a...z`（ASCII 可显示字符代码为 97..122）
+现在，我们想重用它来生成一个更复杂的序列：
+- 首先是数字 `0..9`（字符代码为 48..57），
+- 接下来是大写字母 `A..Z`（字符代码为 65..90）
+- 接下来是小写字母 `a...z`（字符代码为 97..122）
 
-我们可以在这个序列中选择字符来创建密码（也可以添加其他特殊字符），现在先编写这个生成器。
+我们可以对这个序列进行应用，例如，我们可以从这个序列中选择字符来创建密码（也可以添加语法字符），但让我们先生成它。
 
-在常规函数的调用中，为了组合多个函数的结果，我们需要先依次调用它们，并分别将他们的结果存储起来，最后统一将它们合并到一起。
+在常规函数中，要合并其他多个函数的结果，我们需要调用它们，存储它们的结果，最后再将它们合并到一起。
 
-对于 generators 而言，我们可以使用 `yield*` 这个语法来将一个 generator 嵌入（组合）到另一个 generator 中：
+对于 generator 而言，我们可以使用 `yield*` 这个特殊的语法来将一个 generator “嵌入”（组合）到另一个 generator 中：
 
-组合式 generator 的例子：
+组合的 generator 的例子：
 
 ```js run
 function* generateSequence(start, end) {
@@ -281,9 +279,9 @@ for(let code of generatePasswordCodes()) {
 alert(str); // 0..9A..Za..z
 ```
 
-示例中的 `yield*` 指令负责将执行**委托**给另一个 generator。或者简单来说就是 `yield* gen` 迭代了名为 `gen` 的 generator 并显式地将 `gen` yield 的结果转发到最外部。好像这些值是由外部的 generator yield 的一样。
+`yield*` 指令将执行 **委托** 给另一个 generator。这个术语意味着 `yield* gen` 在 generator `gen` 上进行迭代，并将其 yield 的值透明地（transparently）转发到外部。就好像这些值就是由外部的 generator yield 的一样。
 
-执行结果和我们将嵌套的 generators 中的代码直接内联到外层generator一样：
+执行结果与我们内联嵌套 generator 中的代码获得的结果相同：
 
 ```js run
 function* generateSequence(start, end) {
@@ -314,23 +312,23 @@ for(let code of generateAlphaNum()) {
 alert(str); // 0..9A..Za..z
 ```
 
-**Generator 组合**是将一个 generator 流自然地插入到另一个 generator 的方式。它不需要使用额外的内存来存储中间结果。
+Generator 组合（composition）是将一个 generator 流插入到另一个 generator 流的自然的方式。它不需要使用额外的内存来存储中间结果。
 
-## “yield” 双向路径（two-way street）
+## "yield" 是一条双向路
 
-目前看来，generators 和可迭代对象非常相似，仅仅是其产生 value 的语法有所不同。但实际上，generators 更加高效和灵活。
+目前看来，generator 和可迭代对象类似，都具有用来生成值的特殊语法。但实际上，generator 更加强大且灵活。
 
-这是因为 `yield` 是一个双向路径：它不仅向外面返回结果，而且可以将外部的值传递到 generator 内。
+这是因为 `yield` 是一条双向路（two-way street）：它不仅可以向外返回结果，而且还可以将外部的值传递到 generator 内。
 
-调用 `generator.next(arg)`，我们就能将值 `arg` 传递到了 generator 内部。这个 `arg` 参数会变成 `yield` 语句的结果（返回值）。
+调用 `generator.next(arg)`，我们就能将参数 `arg` 传递到 generator 内部。这个 `arg` 参数会变成 `yield` 的结果。
 
 我们来看一个例子：
 
 ```js run
 function* gen() {
 *!*
-  // 向外部代码传递一个问题，然后等待答案
-  let result = yield "2 + 2?"; // (*)
+  // 向外部代码传递一个问题并等待答案
+  let result = yield "2 + 2 = ?"; // (*)
 */!*
 
   alert(result);
@@ -338,46 +336,46 @@ function* gen() {
 
 let generator = gen();
 
-let question = generator.next().value; // <-- yield 返回结果
+let question = generator.next().value; // <-- yield 返回的 value
 
-generator.next(4); // --> 向 generator 传入结果
+generator.next(4); // --> 将结果传递到 generator 中  
 ```
 
 ![](genYield2.svg)
 
-1. 第一次调用 `generator.next()` 总是没有参数。它开始执行并返回第一个 `yield`（“2+2”）的结果。此时，generator 暂停执行过程（仍然在该行上）。
-2. 然后，就像上面图片中显示的那样，`yield` 的结果进入调用代码的 `question` 变量。
-3. 在 `generator.next(4)`，generator 恢复，结果为 `4`：`let result = 4`。
+1. 第一次调用 `generator.next()` 应该是不带参数的（如果带参数，那么该参数会被忽略）。它开始执行并返回第一个 `yield "2+2=?"` 的结果。此时，generator 执行暂停，而停留在 `(*)` 行上。
+2. 然后，正如上面图片中显示的那样，`yield` 的结果进入调用代码中的 `question` 变量。
+3. 在 `generator.next(4)`，generator 恢复执行，并获得了 `4` 作为结果：`let result = 4`。
 
-请注意，外部代码不必马上调用 `next(4)`。它可能需要一点时间来计算值是多少。这不是问题：generator 将会在调用的时候恢复。
+请注意，外部代码不必立即调用 `next(4)`。外部代码可能需要一些时间。这没问题：generator 将等待它。
 
-下面是有效的代码：
+例如：
 
 ```js
 // 一段时间后恢复 generator
 setTimeout(() => generator.next(4), 1000);
 ```
 
-我们可以看到，与常规函数不同，generators 内部和外部调用环境可以通过 `next/yield` 来传递值，以交换结果。
+我们可以看到，与常规函数不同，generator 和调用 generator 的代码可以通过在 `next/yield` 中传递值来交换结果。
 
-为了使以上要点浅显易懂，我们来看另一个有更多调用的例子：
+为了讲得更浅显易懂，我们来看另一个例子，其中包含了许多调用：
 
 ```js run
 function* gen() {
-  let ask1 = yield "2 + 2?";
+  let ask1 = yield "2 + 2 = ?";
 
   alert(ask1); // 4
 
-  let ask2 = yield "3 * 3?"
+  let ask2 = yield "3 * 3 = ?"
 
   alert(ask2); // 9
 }
 
 let generator = gen();
 
-alert( generator.next().value ); // "2 + 2?"
+alert( generator.next().value ); // "2 + 2 = ?"
 
-alert( generator.next(4).value ); // "3 * 3?"
+alert( generator.next(4).value ); // "3 * 3 = ?"
 
 alert( generator.next(9).done ); // true
 ```
@@ -386,32 +384,32 @@ alert( generator.next(9).done ); // true
 
 ![](genYield2-2.svg)
 
-1. 第一个 `.next()` 开始执行……它到达第一个 `yield`。
-2. 结果返回到外部代码中。
-3. 第二个 `.next(4)` 将 `4` 作为第一个 `yield` 结果传递回 generator 并恢复执行过程。
-4. ……此时到达第二个 `yield`，它变成了 generator 调用的结果。
-5. 第三个 `next(9)` 将 `9` 作为第二个 `yield` 的结果传入 generator 并恢复执行过程，此时到达函数最底部，从而返回 `done: true`。
+1. 第一个 `.next()` 启动了 generator 的执行……执行到达第一个 `yield`。
+2. 结果被返回到外部代码中。
+3. 第二个 `.next(4)` 将 `4` 作为第一个 `yield` 的结果传递回 generator 并恢复 generator 的执行。
+4. ……执行到达第二个 `yield`，它变成了 generator 调用的结果。
+5. 第三个 `next(9)` 将 `9` 作为第二个 `yield` 的结果传入 generator 并恢复 generator 的执行，执行现在到达了函数的最底部，所以返回 `done: true`。
 
-它就像“乒乓球”游戏。每个 `next(value)`（除了第一个）传递一个值到 generator，这变成了当前 `yield` 的结果，然后返回到下一个 `yield` 的结果。
+这个过程就像“乒乓球”游戏。每个 `next(value)`（除了第一个）传递一个值到 generator 中，该值变成了当前 `yield` 的结果，然后获取下一个 `yield` 的结果。
 
 ## generator.throw
 
-正如我们在上面例子中观察到的那样，外部代码可以将值传递到 generator，作为 `yield` 的结果。
+正如我们在上面的例子中观察到的那样，外部代码可能会将一个值传递到 generator，作为 `yield` 的结果。
 
-……但是它也可以在那里发起（抛出）错误。这很自然，因为错误本身也是一种结果。
+……但是它也可以在那里发起（抛出）一个 error。这很自然，因为 error 本身也是一种结果。
 
-要向 `yield` 传递错误，我们应该调用 `generator.throw(err)`。然后，`err` 将在对应的 `yield` 那一行被抛出。
+要向 `yield` 传递一个 error，我们应该调用 `generator.throw(err)`。在这种情况下，`err` 将被抛到对应的 `yield` 所在的那一行。
 
-例如，`"2 + 2?"` 的 yield 导致一个错误：
+例如，`"2 + 2?"` 的 yield 导致了一个 error：
 
 ```js run
 function* gen() {
   try {
-    let result = yield "2 + 2?"; // (1)
+    let result = yield "2 + 2 = ?"; // (1)
 
     alert("The execution does not reach here, because the exception is thrown above");
   } catch(e) {
-    alert(e); // 显示错误
+    alert(e); // 显示这个 error
   }
 }
 
@@ -424,15 +422,15 @@ generator.throw(new Error("The answer is not found in my database")); // (2)
 */!*
 ```
 
-在 `(2)` 行引入 generator 的错误导致 `(1)` 行 `yield` 出现异常。在上面例子中，`try..catch` 可以捕获并显示错误。
+在 `(2)` 行引入到 generator 的 error 导致了在 `(1)` 行中的 `yield` 出现了一个异常。在上面这个例子中，`try..catch` 捕获并显示了这个 error。
 
-如果我们没有捕获它，就像其他的异常，它将从 generator “掉出”到调用代码中。
+如果我们没有捕获它，那么就会像其他的异常一样，它将从 generator “掉出”到调用代码中。
 
-调用代码的当前行是 `generator.throw`，标记为 `(2)`。所以我们可以在这里捕获它，就像这样：
+调用代码的当前行是 `generator.throw` 所在的那一行，标记为 `(2)`。所以我们可以在这里捕获它，就像这样：
 
 ```js run
 function* generate() {
-  let result = yield "2 + 2?"; // 这行出错
+  let result = yield "2 + 2 = ?"; // 这行出现 error
 }
 
 let generator = generate();
@@ -443,12 +441,12 @@ let question = generator.next().value;
 try {
   generator.throw(new Error("The answer is not found in my database"));
 } catch(e) {
-  alert(e); // 显示错误
+  alert(e); // 显示这个 error
 }
 */!*
 ```
 
-通常，如果我们没有在那里捕获错误，它会将错误转到外部代码（如果有的话），如果外部也没有捕获错误，则会结束脚本。
+如果我们没有在那里捕获这个 error，那么，通常，它会掉入外部调用代码（如果有），如果在外部也没有被捕获，则会杀死脚本。
 
 ## 总结
 
