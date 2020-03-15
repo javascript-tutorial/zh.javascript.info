@@ -343,7 +343,7 @@ generator.next(4); // --> 将结果传递到 generator 中
 
 ![](genYield2.svg)
 
-1. 第一次调用 `generator.next()` 应该是不带参数的（如果带参数，那么该参数会被忽略）。它开始执行并返回第一个 `yield "2+2=?"` 的结果。此时，generator 执行暂停，而停留在 `(*)` 行上。
+1. 第一次调用 `generator.next()` 应该是不带参数的（如果带参数，那么该参数会被忽略）。它开始执行并返回第一个 `yield "2 + 2 = ?"` 的结果。此时，generator 执行暂停，而停留在 `(*)` 行上。
 2. 然后，正如上面图片中显示的那样，`yield` 的结果进入调用代码中的 `question` 变量。
 3. 在 `generator.next(4)`，generator 恢复执行，并获得了 `4` 作为结果：`let result = 4`。
 
@@ -450,12 +450,12 @@ try {
 
 ## 总结
 
-- Generators 是被 generator 函数 `function* f(…) {…}` 创建的。
-- 在 generators（仅 generators）内部，存在 `yield` 操作。
-- 外部代码和 generator 可能会通过调用 `next/yield` 交换结果。
+- Generator 是通过 generator 函数 `function* f(…) {…}` 创建的。
+- 在 generator（仅在）内部，存在 `yield` 操作。
+- 外部代码和 generator 可能会通过 `next/yield` 调用交换结果。
 
-在现代 JavaScript 中，generators 很少使用。但是有时候它们会被派上用场，因为函数在执行期间与调用代码交换数据的能力是十分独特的。当然，它们非常适合制作可迭代对象。
+在现代 JavaScript 中，generator 很少被使用。但有时它们会派上用场，因为函数在执行过程中与调用代码交换数据的能力是非常独特的。而且，当然，它们非常适合创建可迭代对象。
 
-另外，在下一章我们将会学习 async generators，它们用于在 `for await ... of` 迭代中读取异步生成的数据流（例如，通过网络分页提取（paginated fetches over a network））。
+并且，在下一章我们将会学习 async generator，它们被用于在 `for await ... of` 循环中读取异步生成的数据流（例如，通过网络分页提取（paginated fetches over a network））。
 
 在网络编程中，我们经常使用数据流，因此这是另一个非常重要的使用场景。
