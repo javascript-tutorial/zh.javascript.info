@@ -284,9 +284,9 @@ for await (let commit of fetchCommits(repo)) {
 }
 ```
 
-我们可以使用一个函数 `fetchCommits(repo)` ，用来在任何需要的时候，为我们获取提交记录，发送请求等。并且让它关注于所有分页的数据。对于我们来说，它就是一个简单的 `for await..of`。
+我们想创建一个函数 `fetchCommits(repo)`，用来在任何我们有需要的时候发出请求，来为我们获取 commit。并且让它关注于所有分页的数据。对于我们来说，它就是一个简单的 `for await..of`。
 
-通过使用 `async generator`，我们可以很简单的实现它：
+通过使用 async generator，我们可以很容易地实现它：
 
 ```js
 async function* fetchCommits(repo) {
@@ -294,31 +294,30 @@ async function* fetchCommits(repo) {
 
   while (url) {
     const response = await fetch(url, { // (1)
-      headers: {'User-Agent': 'Our script'}, // github 要求 user-agent 头部
+      headers: {'User-Agent': 'Our script'}, // github 要求 user-agent header
     });
 
-    const body = await response.json(); // (2) 返回的数据是一个 JSON (提交记录的列表)
+    const body = await response.json(); // (2) 响应的是 JSON（array of commits）
 
-    // (3) 前往下一页的 URL 在头部，需要将其提取出来
+    // (3) 前往下一页的 URL 在 header 中，提取它
     let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
     nextPage = nextPage && nextPage[1];
 
     url = nextPage;
 
-    for(let commit of body) { // (4) 一个接一个地 yield 提交记录，直到最后一页
+    for(let commit of body) { // (4) 一个接一个地 yield commit，直到最后一页
       yield commit;
     }
   }
 }
 ```
 
-1. 我们使用浏览器的 <info:fetch> 方法从 `URL` 下载数据。它允许我们提供授权和其他需要的头部，这里 GitHub 需要的是 `User-Agent`
-2. `fetch` 的结果作为 `JSON` 被解析，那也是一个 `fetch` 的特殊方法
-3. 我们应该从返回头的 `Link` 中获得前往下一页的 `URL`。它有一个特殊的格式，所以我们可以使用正则表达式得到它。前往下一页的 `URL` 看起来像：`https://api.github.com/repositories/93253246/commits?page=2`，这是由 GitHub 自己生成的。
-4. 然后我们将接收的提交记录 `yield` 出来，当它结束的时候 -- 下一个 `while(url)` 迭代将会触发，从而发送下一个请求
+1. 我们使用浏览器的 [fetch](info:fetch) 方法从远程 URL 下载数据。它允许我们提供授权和其他 header，如果需要 — 这里 GitHub 需要的是 `User-Agent`。
+2. `fetch` 的结果被解析为 JSON。这又是 `fetch` 特定的方法。
+3. 我们应该从响应（response）的 `Link` header 中获取前往下一页的 URL。它有一个特殊的格式，所以我们对它使用正则表达式（regexp）。前往下一页的 URL 看起来就像这样 `https://api.github.com/repositories/93253246/commits?page=2`。这是由 GitHub 自己生成的。
+4. 然后我们将接收到的所有 commit 都 yield 出来，当它 yield 完成时，将触发下一个 `while(url)` 迭代，并发出下一个请求。
 
-这是一个使用的例子（将会在用户的控制台显示）
-
+这是一个使用示例（在控制台中显示 commit 的作者）
 
 ```js run
 (async () => {
@@ -329,18 +328,19 @@ async function* fetchCommits(repo) {
 
     console.log(commit.author.login);
 
-    if (++count == 100) { // 获取一百条数据后停止
+    if (++count == 100) { // 让我们在获取了 100 个 commit 时停止
       break;
     }
   }
 
 })();
 ```
-这就是我们想要的。从外面无法看到内部的是如何处理分页数据的请求的。对我们来说，那只是一个返回提交记录的异步生成器。
+
+这就是我们想要的。从外部看不到分页请求（paginated requests）的内部机制。对我们来说，它只是一个返回 commit 的 async generator。
 
 ## 总结
 
-对于无需花费时间生成的数据，常规的迭代器和生成器就能胜任。
+常规的 iterator 和 generator 可以很好地处理那些不需要花费时间来生成的的数据。
 
 当我们需要异步获得数据的时候，它们的异步的同行则有了发挥的机会，`for await..of` 会去替代 `for..of`。
 
