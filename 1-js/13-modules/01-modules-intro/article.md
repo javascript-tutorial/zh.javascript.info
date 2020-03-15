@@ -49,7 +49,7 @@ sayHi('John'); // Hello, John!
 
 让我们在浏览器中运行一下这个示例。
 
-由于模块支持特殊的关键字和功能，因此我们必须通过使用属性 `<script type="module">` 来告诉浏览器，此脚本应该被当作模块（module）来看待。
+由于模块支持特殊的关键字和功能，因此我们必须通过使用属性 `<script type="module">` 来告诉浏览器，此脚本应该被当作模块（module）来对待。
 
 像这样：
 
@@ -77,23 +77,23 @@ sayHi('John'); // Hello, John!
 
 每个模块都有自己的顶级作用域（top-level scope）。换句话说，一个模块中的顶级作用域变量和函数在其他脚本中是不可见的。
 
-在下面的这个例子中，我们导入了两个脚本，`hello.js` 尝试使用从 `user.js` 中导入的 `user` 变量。
+在下面这个例子中，我们导入了两个脚本，`hello.js` 尝试使用在 `user.js` 中声明的变量 `user`，失败了：
 
 [codetabs src="scopes" height="140" current="index.html"]
 
-模块可以导出 `export` 想要从外部访问的内容，也可以导入 `import` 想要的内容。
+模块期望 `export` 它们想要被外部访问的内容，并 `import` 它们所需要的内容。
 
-所以，我们应该在 `hello.js` 中直接导入 `user.js`，而不是在 `index.html` 中导入。
+所以，我们应该将 `user.js` 导入到 `hello.js` 中，并从中获取所需的功能，而不要依赖于全局变量。
 
-这是正确导入的方法：
+这是正确的变体：
 
 [codetabs src="scopes-working" height="140" current="hello.js"]
 
-在浏览器中，每个 `<script type="module">` 也存在独立的顶级范围的作用域。
+在浏览器中，每个 `<script type="module">` 也存在独立的顶级作用域。
 
 ```html run
 <script type="module">
-  // 变量仅可在模块脚本内部可见
+  // 变量仅在这个 module script 内可见
   let user = "John";
 </script>
 
@@ -104,15 +104,15 @@ sayHi('John'); // Hello, John!
 </script>
 ```
 
-如果我们真的需要创建一个窗口级别（window-level）的全局变量，我们可以显式地将它分配给 `window` 并以 `window.user` 来访问它。但是这样做需要你有足够充分的理由，否则就不要这样。
+如果我们真的需要创建一个 window-level 的全局变量，我们可以将其明确地赋值给 `window`，并以 `window.user` 来访问它。但是这需要你有足够充分的理由，否则就不要这样做。
 
-### 模块代码仅在第一次导入时解析
+### 模块代码仅在第一次导入时被评估
 
-如果将一个模块导入到多个其他位置，则仅在第一次导入时解析其代码，然后将导出提供给所有导入的位置。
+如果同一个模块被导入到多个其他位置，则仅会在第一次导入时执行其代码，然后将导出（export）的内容提供给所有的导入（importer）。
 
-这具有很重要的后果。我们来看一下下面的例子：
+这有很重要的影响。让我们通过示例来看一下：
 
-首先，如果执行一个模块中的代码带来一些副作用，比如显示一个消息，然后多次导入它但是只会显示一次，即第一次：
+首先，如果执行一个模块中的代码会带来副作用（side-effect），例如显示一条消息，然后多次导入它只会触发一次显示 — 即第一次：
 
 ```js
 // 📁 alert.js
@@ -120,13 +120,13 @@ alert("Module is evaluated!");
 ```
 
 ```js
-// 从不同的文件导入相同模块
+// 从不同的文件导入相同的模块
 
 // 📁 1.js
 import `./alert.js`; // Module is evaluated!
 
 // 📁 2.js
-import `./alert.js`; // (nothing)
+import `./alert.js`; // (什么都不显示)
 ```
 
 在日常开发中，顶级模块主要是用于初始化使用的。我们创建数据结构，预填充它们，如果我们想要可重用某些东西，只要导出即可。
