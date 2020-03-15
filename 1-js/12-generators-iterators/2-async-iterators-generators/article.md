@@ -16,7 +16,7 @@ let range = {
   from: 1,
   to: 5,
 
-  // 在刚使用 for..of 循环时，for..of 就会调用这个方法一次
+  // 在刚使用 for..of 循环时，for..of 就会调用一次这个方法
 *!*
   [Symbol.iterator]() {
 */!*
@@ -49,7 +49,7 @@ for(let value of range) {
 
 有需要的话，你可以返回 <info:iterable> 一章学习关于常规迭代器（iterator）的详细内容。
 
-为了使对象可以异步地迭代：
+为了使对象可以异步迭代：
 1. 我们需要使用 `Symbol.asyncIterator` 取代 `Symbol.iterator`。
 2. `next()` 方法应该返回一个 `promise`。
 3. 我们应该使用 `for await (let item of iterable)` 循环来迭代这样的对象
@@ -61,26 +61,26 @@ let range = {
   from: 1,
   to: 5,
 
-  // 使用 for await..of 语句的时候就会调用一次这个方法
+  // 在刚使用 for await..of 循环时，for await..of 就会调用一次这个方法
 *!*
   [Symbol.asyncIterator]() { // (1)
 */!*
-    // ……它返回一个迭代器对象：
-    // 进一步说, for await..of 只能作用于可迭代对象,
-    // 使用 next() 方法得到下一个值
+    // ...它返回 iterator object：
+    // 后续的操作中，for await..of 将只针对这个对象
+    // 并使用 next() 向它请求下一个值
     return {
       current: this.from,
       last: this.to,
 
-      // next() 被 for await..of 循环在每一次迭代过程中调用 
+      // for await..of 循环在每次迭代时都会调用 next()
 *!*
       async next() { // (2)
-        // 它应该返回一个形如  {done:.., value :...} 的对象
-        // (会被 async 关键字自动包装成一个 promise)
+        // 它应该以对象 {done:.., value :...} 的形式返回值
+        // (会被 async 自动包装成一个 promise)
 */!*
 
 *!*
-        // 可以在内部使用 await 关键字来执行异步任务:
+        // 可以在内部使用 await，执行异步任务：
         await new Promise(resolve => setTimeout(resolve, 1000)); // (3)
 */!*
 
@@ -105,34 +105,33 @@ let range = {
 })()
 ```
 
-正如我们看到的，其结构类似于常规的 iterators:
+正如我们所看到的，其结构与常规的 iterator 类似:
 
-1. 为了异步地迭代一个对象，这个对象必须有 `Symbol.asyncIterator` 方法 `(1)`。
-2. 这个方法必须返回一个带有 `next()` 方法的对象，该方法会返回一个 promise `(2)`。
-3. 这个 `next()` 方法可以不使用 `async` 关键字，它可以是一个常规的方法返回一个 `promise`，但是使用 `async` 关键字允许在方法内部使用 `await`，所以会更加方便。这里我们只是用来延迟 1 秒操作 `(3)`。
-4. 我们使用 `for await(let value of range)` 来执行迭代 `(4)`，也就是在 `for` 后面增加 `await`。它会调用一次 `range[Symbol.asyncIterator]()` 方法一次然后调用它的 `next()` 方法获取值。
+1. 为了使一个对象可以异步迭代，它必须具有方法 `Symbol.asyncIterator` `(1)`。
+2. 这个方法必须返回一个带有 `next()` 方法的对象，`next()` 方法会返回一个 promise `(2)`。
+3. 这个 `next()` 方法可以不是 `async` 的，它可以是一个返回值是一个 `promise` 的常规的方法，但是使用 `async` 关键字可以允许我们在方法内部使用 `await`，所以会更加方便。这里我们只是用于延迟 1 秒的操作 `(3)`。
+4. 我们使用 `for await(let value of range)` `(4)` 来进行迭代，也就是在 `for` 后面添加 `await`。它会调用一次 `range[Symbol.asyncIterator]()` 方法一次，然后调用它的 `next()` 方法获取值。
   
-这里有一个备忘单：
+这是一个小备忘单：
 
-|       | 迭代器 | 异步迭代器 |
+|       | Iterator  | Async iterator |
 |-------|-----------|-----------------|
 | 提供 `iterator` 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` 返回的值是             | 任意值        | `Promise`  |
-| 使用的循环语法是                          | `for..of`         | `for await..of` |
+| `next()` 返回的值是       | 任意值        | `Promise`  |
+| 要进行循环，使用                          | `for..of`  | `for await..of` |
 
+````warn header="Spread 语法 `...` 无法异步工作"
+需要常规的同步 iterator 的功能，无法与异步 iterator 一起使用。
 
-````warn header="展开运算符 `...` 无法执行异步操作"
-展开运算符要求常规的，同步的迭代器，无法工作于异步迭代器。
-
-例如，展开运算符在以下代码无法执行：
+例如，spread 语法无法工作：
 ```js
 alert( [...range] ); // Error, no Symbol.iterator
 ```
 
-这很正常，因为它要找到 `Symbol.iterator`，跟 `for..of` 没有 `await` 一样。并非是 `Symbol.asyncIterator`。
+这很正常，因为它期望找到 `Symbol.iterator`，跟 `for..of` 没有 `await` 一样。并非是 `Symbol.asyncIterator`。
 ````
 
-## 异步生成器
+## Async generator
 
 正如我们所知，JavaScript 也支持生成器，并且他们也是可迭代的。
 
