@@ -193,34 +193,38 @@ new User('John');
 | `export class User {...}` | `export default class User {...}` |
 | `import {User} from ...` | `import User from ...`|
 
-当然，每个文件只有一个“默认”导出。
+从技术上讲，我们可以在一个模块中同时有默认的导出和命名的导出，但是实际上人们通常不会混合使用它们。模块要么是命名的导出要么是默认的导出。
 
-我们可能在单个模块中同时使用默认导出和命名导出，但是在日常开发中，开发者一般不会这样做。模块要么是命名导出要么是默认导出。
+由于每个文件最多只能有一个默认导出，因此导出的实体可能没有名称。
 
-**另外需要注意的是命名导出必须（理应）具有名称，而 `export default` 可能是匿名的（没有名称）**
-
-例如，下面这些都是完全有效的默认导出：
+例如，下面这些都是完全有效的默认的导出：
 
 ```js
 export default class { // 没有类名
   constructor() { ... }
 }
+```
 
+```js
 export default function(user) { // 没有函数名
   alert(`Hello, ${user}!`);
 }
+```
 
-// 导出一个值而不使用变量
+```js
+// 导出单个值，而不使用变量
 export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 ```
 
-这些都是可行的，因为每个文件只有一个 `export default`。相反，省略命名导入的名称将会出错：
+不指定名称是可行的，因为每个文件只有一个 `export default`，因此不带花括号的 `import` 知道要导入的内容。
+
+如果没有 `default`，这样的导出将会出错：
 
 ```js
-export class { // Error!（非命名导出需要名称）
+export class { // Error! (非默认的导出需要名称)
   constructor() {}
 }
-```     
+```
 
 ### “Default” 别名
 
