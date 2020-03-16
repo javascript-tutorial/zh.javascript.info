@@ -164,34 +164,31 @@ say.*!*bye*/!*('John'); // Bye, John!
 
 模块提供了特殊的默认导出 `export default` 语法，以使“一个模块只做一件事”的方式看起来更好。
 
-默认导出要求下列的 `export` 和 `import` 语句：
-
-1. `export default` 放在模块“主导出（main export）”之前。
-2. `import` 导入时不使用花括号
-
-例如，`user.js` 导出 `class User`：
+将 `export default` 放在要导出的实体前：
 
 ```js
 // 📁 user.js
-export *!*default*/!* class User { // 只要添加“default”即可
+export *!*default*/!* class User { // 只需要添加 "default"
   constructor(name) {
     this.name = name;
   }
 }
 ```
 
-...在 `main.js` 中添加导入：
+每个文件可能只有一个 `export default`：
+
+……然后将其导入而不需要花括号：
 
 ```js
 // 📁 main.js
-import *!*User*/!* from './user.js'; // 不需要花括号 {User}, 仅仅是 User 就可以了
+import *!*User*/!* from './user.js'; // 不是 {User}，只需要写成 User 即可
 
 new User('John');
 ```
 
-不用花括号的导入看起来很酷。开始使用模块时常见的错误就是忘记花括号。所以请记住，命名导入需要使用花括号，而默认导入不需要。
+不用花括号的导入看起来很酷。刚开始使用模块时，一个常见的错误就是忘记写花括号。所以，请记住，`import` 命名的导出时需要花括号，而 `import` 默认的导出时不需要花括号。
 
-| 命名导出 | 默认导出 |
+| 命名的导出 | 默认的导出 |
 |--------------|----------------|
 | `export class User {...}` | `export default class User {...}` |
 | `import {User} from ...` | `import User from ...`|
