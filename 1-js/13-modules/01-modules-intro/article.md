@@ -157,7 +157,7 @@ alert(admin.name); // Pete
 
 *!*
 // 1.js 和 2.js 导入的是同一个对象
-// 在 1.js 中对对象做的更在，在 2.js 中也是可见的
+// 在 1.js 中对对象做的更改，在 2.js 中也是可见的
 */!*
 ```
 
@@ -256,7 +256,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 <script>
 *!*
-  alert(typeof button); // Error：button 是 undefined 的，脚本看不到下面的元素
+  alert(typeof button); // Error: button is undefined，脚本看不到下面的元素
 */!*
   // 常规脚本会立即运行，常规脚本的运行是在在处理页面的其余部分之前进行的
 </script>
@@ -266,22 +266,24 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 请注意：上面的第二个脚本实际上要先于前一个脚本运行！所以我们会先看到 `undefined`，然后才是 `object`。
 
-这是因为模块脚本是被延迟的，所以要等到文档被处理完成才会执行它。而常规脚本则会立即运行，所以我们会先看到常规脚本的输出。
+这是因为模块脚本是被延迟的，所以要等到 HTML 文档被处理完成才会执行它。而常规脚本则会立即运行，所以我们会先看到常规脚本的输出。
 
 当使用模块脚本时，我们应该知道 HTML 页面在加载时就会显示出来，在 HTML 页面加载完成后才会执行 JavaScript 模块，因此用户可能会在 JavaScript 应用程序准备好之前看到该页面。某些功能那时可能还无法正使用。我们应该放置“加载指示器（loading indicator）”，否则，请确保不会使用户感到困惑。
 
-### 异步适用于内联脚本（inline script）
+### Async 适用于内联脚本（inline script）
 
-内联脚本和外部脚本都允许使用 `<script async type="module">` 属性，当导入的模块被处理时，异步脚本会立即运行，与其他的脚本或者 HTML 文档无关。
+对于非模块脚本，`async` 属性仅适用于外部脚本。异步脚本会在准备好后立即运行，独立于其他脚本或 HTML 文档。
 
-例如，下面的脚本中有 `async` 属性，所以它不会等待其他任何加载完成就已经开始运行。
+对于模块脚本，它也适用于内联脚本。
 
-它导入（fetches `./analytics.js`）脚本，导入完成就开始运行，即使 HTML 文档还未解析完毕或者其他脚本仍在待处理的状态。
+例如，下面的内联脚本具有 `async` 属性，因此它不会等待任何东西。
 
-这对于不依赖任何其他东西的功能来说是非常棒的，比如计数器，广告和文档级的事件监听器。
+它执行导入（fetch `./analytics.js`），并在准备导入完成时运行，即使 HTML 文档还未完成，或者其他脚本仍在等待处理中。
+
+这对于不依赖任何其他东西的功能来说是非常棒的，例如计数器，广告，文档级事件监听器。
 
 ```html
-<!-- 所有依赖都获取(analytics.js)脚本，然后运行 -->
+<!-- 所有依赖都获取完成（analytics.js）然后脚本开始运行 -->
 <!-- 不会等待 HTML 文档或者其他 <script> 标签 -->
 <script *!*async*/!* type="module">
   import {counter} from './analytics.js';
@@ -292,35 +294,37 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 ### 外部脚本
 
-外部脚本相较于其他脚本有两个显著的差异：
+具有 `type="module"` 的外部脚本（external script）在两个方面有所不同：
 
-1. 具有相同 `src` 属性值的外部脚本仅运行一次：
+1. 具有相同 `src` 的外部脚本仅运行一次：
     ```html
-    <!-- my.js 脚本被加载，但它只运行一次 -->
+    <!-- 脚本 my.js 被加载完成（fetched）并只被运行一次 -->
     <script type="module" src="my.js"></script>
     <script type="module" src="my.js"></script>
     ```
 
-2. 从其他域名获取的外部脚本需要加上 [CORS](mdn:Web/HTTP/CORS) 头。换句话说，如果一个模块脚本是从其他域名获取的，那么它所在的远端服务器必须提供 `Access-Control-Allow-Origin: *`（可能使用加载的域名代替 `*`）响应头以指明当前请求是被允许的。
+2. 从另一个源（例如另一个网站）获取的外部脚本需要 [CORS](mdn:Web/HTTP/CORS) header，如我们在 <info:fetch-crossorigin> 一章中所讲的那样。换句话说，如果一个模块脚本是从另一个源获取的，则远程服务器必须提供允许获取的 header `Access-Control-Allow-Origin`。
+
+其他域名获取的，那么它所在的远端服务器必须提供 `Access-Control-Allow-Origin: *`（可能使用加载的域名代替 `*`）响应头以指明当前请求是被允许的。
     ```html
     <!-- another-site.com 必须提供 Access-Control-Allow-Origin -->
-    <!-- 否则，脚本不会执行 -->
+    <!-- 否则，脚本将无法执行 -->
     <script type="module" src="*!*http://another-site.com/their.js*/!*"></script>
     ```
 
-    这可以保证最基本的安全问题。
+    默认这样做可以确保更好的安全性。
 
-### 不允许裸模块（"bare" modules）
+### 不允许裸模块（"bare" module）
 
-在浏览器中，必须给与 `import` 一个相对或者绝对的 URL。没有给定路径的模块被称作“裸”模块。`import` 中不允许使用这些模块。
+在浏览器中，`import` 必须给出相对或绝对的 URL 路径。没有任何路径的模块被称为“裸（bare）”模块。在 `import` 中不允许这种模块。
 
-例如，下面这个 `import` 是不允许的：
+例如，下面这个 `import` 是无效的：
 ```js
-import {sayHi} from 'sayHi'; // Error，“裸”模块
-// 模块必须提供路径，例如 './sayHi.js'
+import {sayHi} from 'sayHi'; // Error, "bare" module
+// 模块必须有一个路径，例如 './sayHi.js' 或者其他任何路径
 ```
 
-在具体环境有所不同，比如 Node.js 或者打包工具中是可以使用裸模块的，因为它们有自己的查找模块和钩子的方法。但是目前浏览器还不支持裸模块。
+某些环境，像 Node.js 或者打包工具（bundle tool）允许没有任何路径的裸模块，因为它们有自己的查找模块的方法和钩子（hook）来对它们进行微调。但是浏览器尚不支持裸模块。
 
 ### 兼容性，"nomodule"
 
