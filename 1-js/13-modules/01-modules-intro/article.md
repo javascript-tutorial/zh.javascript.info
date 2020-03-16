@@ -318,7 +318,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 例如，下面这个 `import` 是无效的：
 ```js
-import {sayHi} from 'sayHi'; // Error, "bare" module
+import {sayHi} from 'sayHi'; // Error，“裸”模块
 // 模块必须有一个路径，例如 './sayHi.js' 或者其他任何路径
 ```
 
@@ -357,14 +357,14 @@ import {sayHi} from 'sayHi'; // Error, "bare" module
     - 可以使用 [Babel](https://babeljs.io/) 将前沿的现代的 JavaScript 语法转换为具有类似功能的旧的 JavaScript 语法。
     - 压缩生成的文件（删除空格，用短的名字替换变量等）。
 
-如果我们使用打包工具，当脚本被打包进一个单一文件（或者几个文件），在这些脚本中，`import/export` 语句被特殊的打包函数处理后替代。因此最终打包好的脚本不包含任何 `import/export` 语句，它也不需要 `type="module"` 属性，我们仅像普通脚本一样使用就好了：
+如果我们使用打包工具，那么脚本会被打包进一个单一文件（或者几个文件），在这些脚本中的 `import/export` 语句会被替换成特殊的打包函数（bundler function）。因此，最终打包好的脚本中不包含任何 `import/export`，它也不需要 `type="module"`，我们可以将其放入常规的 `<script>`：
 
 ```html
 <!-- 假设我们从诸如 Webpack 这类的打包工具中获得了 "bundle.js" 脚本 -->
 <script src="bundle.js"></script>
 ```
 
-也就是说，原生模块也是可以使用的。所以我们在这里不会使用 Webpack，你可以稍后再配置它。
+也就是说，原生模块也是可以使用的。所以，我们在这儿将不会使用 Webpack：你可以稍后再配置它。
 
 ## 总结
 
