@@ -78,7 +78,6 @@ sayBye('John'); // Bye, John!
 ```
 
 但是如果有很多要导入的内容，我们可以使用 `import * as <obj>` 将所有内容导入为一个对象，例如：
-导入所有内容，例如：
 
 ```js
 // 📁 main.js
@@ -94,27 +93,27 @@ say.sayBye('John');
 
 这里有几个原因。
 
-1. 现在的构建工具（[webpack](http://webpack.github.io) 或者其他的）把模块打包到一起，然后对其进行优化以获得更快的加载速度，并且还会删除无用的代码。
+1. 现代的构建工具（[webpack](http://webpack.github.io) 和其他工具）将模块打包到一起并对其进行优化，以加快加载速度并删除未使用的代码。
 
-    比如说，我们在项目里添加第三方库 `lib.js` 中的几个函数：
+    比如说，我们向我们的项目里添加一个第三方库 `say.js`，它具有许多函数：
     ```js
-    // 📁 lib.js
+    // 📁 say.js
     export function sayHi() { ... }
     export function sayBye() { ... }
     export function becomeSilent() { ... }
     ```
 
-    现在，如果我们只在项目里使用 `lib.js` 中的一个函数：
+    现在，如果我们只在我们的项目里使用了 `say.js` 中的一个函数：
     ```js
     // 📁 main.js
-    import {sayHi} from './lib.js';
+    import {sayHi} from './say.js';
     ```
-    ...然后，打包工具会自动检测优化它，并且在打包文件中完全删除其他无用的函数以使得打包后的文件更小，这就是所谓的“tree-shaking”技术。
+    ……那么，优化器（optimizer）就会检测到它，并从打包好的代码中删除那些未被使用的函数，从而使构建更小。这就是所谓的“摇树（tree-shaking）”。
 
-2. 明确列出要导入的内容会使得名称较短：`sayHi()` 取代 `lib.sayHi()`。
-3. 显示导入可以更好的概述代码结构：在哪里使用了什么。它使得代码阅读和重构更容易。
+2. 明确列出要导入的内容会使得名称较短：`sayHi()` 而不是 `say.sayHi()`。
+3. 导入的显式列表可以更好地概述代码结构：使用的内容和位置。它使得代码支持重构，并且重构起来更容易。
 
-## 导入为（import as）
+## Import "as"
 
 我们也可以使用 `as` 让导入具有不同的名字。
 
