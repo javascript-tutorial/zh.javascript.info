@@ -168,7 +168,7 @@ say.*!*bye*/!*('John'); // Bye, John!
 
 ```js
 // 📁 user.js
-export *!*default*/!* class User { // 只需要添加 "default"
+export *!*default*/!* class User { // 只需要添加 "default" 即可
   constructor(name) {
     this.name = name;
   }
@@ -181,7 +181,7 @@ export *!*default*/!* class User { // 只需要添加 "default"
 
 ```js
 // 📁 main.js
-import *!*User*/!* from './user.js'; // 不是 {User}，只需要写成 User 即可
+import *!*User*/!* from './user.js'; // 不需要花括号 {User}，只需要写成 User 即可
 
 new User('John');
 ```
@@ -195,7 +195,7 @@ new User('John');
 
 从技术上讲，我们可以在一个模块中同时有默认的导出和命名的导出，但是实际上人们通常不会混合使用它们。模块要么是命名的导出要么是默认的导出。
 
-由于每个文件最多只能有一个默认导出，因此导出的实体可能没有名称。
+由于每个文件最多只能有一个默认的导出，因此导出的实体可能没有名称。
 
 例如，下面这些都是完全有效的默认的导出：
 
@@ -216,7 +216,7 @@ export default function(user) { // 没有函数名
 export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 ```
 
-不指定名称是可行的，因为每个文件只有一个 `export default`，因此不带花括号的 `import` 知道要导入的内容。
+不指定名称是可以的，因为每个文件只有一个 `export default`，因此不带花括号的 `import` 知道要导入的内容是什么。
 
 如果没有 `default`，这样的导出将会出错：
 
@@ -228,7 +228,7 @@ export class { // Error!（非默认的导出需要名称）
 
 ### "default" 名称
 
-在某些情况下，`default` 关键词被用于引用默认导出。
+在某些情况下，`default` 关键词被用于引用默认的导出。
 
 例如，要将函数与其定义分开导出：
 
@@ -256,7 +256,7 @@ export function sayHi(user) {
 }
 ```
 
-这是导入默认导出以及命名导出的方法：
+这是导入默认的导出以及命名的导出的方法：
 
 ```js
 // 📁 main.js
