@@ -303,9 +303,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
     <script type="module" src="my.js"></script>
     ```
 
-2. 从另一个源（例如另一个网站）获取的外部脚本需要 [CORS](mdn:Web/HTTP/CORS) header，如我们在 <info:fetch-crossorigin> 一章中所讲的那样。换句话说，如果一个模块脚本是从另一个源获取的，则远程服务器必须提供允许获取的 header `Access-Control-Allow-Origin`。
-
-其他域名获取的，那么它所在的远端服务器必须提供 `Access-Control-Allow-Origin: *`（可能使用加载的域名代替 `*`）响应头以指明当前请求是被允许的。
+2. 从另一个源（例如另一个网站）获取的外部脚本需要 [CORS](mdn:Web/HTTP/CORS) header，如我们在 <info:fetch-crossorigin> 一章中所讲的那样。换句话说，如果一个模块脚本是从另一个源获取的，则远程服务器必须提供表示允许获取的 header `Access-Control-Allow-Origin`。
     ```html
     <!-- another-site.com 必须提供 Access-Control-Allow-Origin -->
     <!-- 否则，脚本将无法执行 -->
@@ -328,7 +326,7 @@ import {sayHi} from 'sayHi'; // Error, "bare" module
 
 ### 兼容性，"nomodule"
 
-旧时的浏览器不理解 `type="module"` 值。对于位置类型的脚本会被忽略掉。对于它们来说可以使用 `nomodule` 属性来提供后备：
+旧时的浏览器不理解 `type="module"`。未知类型的脚本会被忽略。对此，我们可以使用 `nomodule` 属性来提供一个后备：
 
 ```html run
 <script type="module">
@@ -341,30 +339,30 @@ import {sayHi} from 'sayHi'; // Error, "bare" module
 </script>
 ```
 
+## 构建工具
+
+在实际开发中，浏览器模块很少被以“原始”形式进行使用。通常，我们会使用一些特殊工具，例如 [Webpack](https://webpack.js.org/)，将它们打包在一起，然后部署到生产环境的服务器。
+
+使用打包工具的一个好处是 — 它们可以更好地控制模块的解析方式，允许我们使用裸模块和更多的功能，例如 CSS/HTML 模块等。
+
+构建工具做以下这些事儿：
+
+1. 从一个打算放在 HTML 中的 `<script type="module">` “主”模块开始。
+2. 分析它的依赖：它的导入，以及它的导入的导入等。
+3. 使用所有模块构建一个文件（或者多个文件，这是可调的），并用打包函数（bundler function）替代原生的 `import` 调用，以使其正常工作。还支持像 HTML/CSS 模块等“特殊”的模块类型。
+4. 在处理过程中，可能会应用其他转换和优化：
+    - 删除无法访问的代码。
+    - 删除未使用的导出（"tree-shaking"）。
+    - 删除特定于开发的像 `console` 和 `debugger` 这样的语句。
+    - 可以使用 [Babel](https://babeljs.io/) 将前沿的现代的 JavaScript 语法转换为具有类似功能的旧的 JavaScript 语法。
+    - 压缩生成的文件（删除空格，用短的名字替换变量等）。
+
 如果我们使用打包工具，当脚本被打包进一个单一文件（或者几个文件），在这些脚本中，`import/export` 语句被特殊的打包函数处理后替代。因此最终打包好的脚本不包含任何 `import/export` 语句，它也不需要 `type="module"` 属性，我们仅像普通脚本一样使用就好了：
 
 ```html
 <!-- 假设我们从诸如 Webpack 这类的打包工具中获得了 "bundle.js" 脚本 -->
 <script src="bundle.js"></script>
 ```
-
-## 构建工具
-
-在日常开发中，浏览器模块很少以原始形式使用，通常，我们用一些特殊工具，像 [Webpack](https://webpack.js.org/)，将他们打包在一起，然后部署到服务器。
-
-使用打包工具的一个好处是——它们对于如何解析模块给与了足够多的控制，比如允许使用裸模块，以及 CSS/HTML 模块等等。
-
-这里列出了一些构建工具做的事情：
-
-1. 从一个打算放在 HTML 中的 `<script type="module">` 主模块开始。
-2. 分析它的依赖：它的导入以及它的导入的导入等。
-3. 用打包函数替换掉原生的 `import` 调用，生成一个（或者多个，这是可调的）具有所有模块的文件，这就是打包工具的工作。特殊的模块类型，比如 HTML/CSS 模块也是可以这样做的。
-4. 在这个过程中，可能会应用其他的转换或者优化：
-    - 删除无法访问的代码
-    - 删除未使用的导出（"tree-shaking"）
-    - 删除开发中使用的如 `console` 和 `debugger` 这样的语句
-    - 使用 [Babel](https://babeljs.io/) 可以将现代的，前沿的 JavaScript 语法转换为具有类似功能的旧语法
-    - 最终生成压缩文件（删除无用空格，变量用短的名字替换等）
 
 也就是说，原生模块也是可以使用的。所以我们在这里不会使用 Webpack，你可以稍后再配置它。
 
