@@ -221,7 +221,7 @@ export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 如果没有 `default`，这样的导出将会出错：
 
 ```js
-export class { // Error! (非默认的导出需要名称)
+export class { // Error!（非默认的导出需要名称）
   constructor() {}
 }
 ```
@@ -241,7 +241,7 @@ function sayHi(user) {
 export {sayHi as default};
 ```
 
-又如，假设模块 `user.js` 导出一个默认导出“default”和几个命名导出（虽然很少出现，但是会发生）：
+或者，另一种情况，假设模块 `user.js` 导出了一个主要的“默认”的导出和一些命名的导出（虽然很少出现，但是会发生）：
 
 ```js
 // 📁 user.js
@@ -256,7 +256,7 @@ export function sayHi(user) {
 }
 ```
 
-那么，如何导入默认导出和命名导出：
+这是导入默认导出以及命名导出的方法：
 
 ```js
 // 📁 main.js
