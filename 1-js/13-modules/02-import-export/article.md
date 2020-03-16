@@ -226,18 +226,19 @@ export class { // Error! (非默认的导出需要名称)
 }
 ```
 
-### “Default” 别名
+### "default" 名称
 
-“default”关键词用于默认导出的别名，常用于我们需要引用单独导出和其他脚本的情况。
+在某些情况下，`default` 关键词被用于引用默认导出。
 
-例如，如果我们已经声明了一个函数，然后导出它 `export default`（和定义分开）：
+例如，要将函数与其定义分开导出：
 
 ```js
 function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-export {sayHi as default}; // 和我们在函数前添加“export default”一样
+// 就像我们在函数之前添加了 "export default" 一样
+export {sayHi as default};
 ```
 
 又如，假设模块 `user.js` 导出一个默认导出“default”和几个命名导出（虽然很少出现，但是会发生）：
