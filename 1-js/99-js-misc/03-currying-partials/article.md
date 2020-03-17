@@ -3,124 +3,24 @@ libs:
 
 ---
 
-# 柯里化和偏函数
+# 柯里化（Currying）
 
-到目前为止，对于 bind 我们只讨论过 bind `this`。让我们深入探讨一下 bind。
+[柯里化（Currying）](https://en.wikipedia.org/wiki/Currying)是一种关于函数的高阶技术。它不仅被用于 JavaScript，还被用于其他编程语言。
 
-我们能够绑定的不只是 `this`，还有参数。尽管很少这样做，但是有时候却很方便。
+柯里化是一种函数的转换，它是指将一个函数从可调用的 `f(a, b, c)` 转换为可调用的 `f(a)(b)(c)`。
 
-`bind` 的完整语法：
+柯里化不会调用函数。它只是对函数进行转换。
 
-```js
-let bound = func.bind(context, arg1, arg2, ...);
-```
+让我们先来看一个例子，以更好地理解我们正在讲的内容，然后再进行一个实际应用。
 
-可以看出，它允许将上下文绑定到 `this`，以及函数的前几个参数。
-
-举个例子，我们有一个做乘法运算的函数 `mul(a,b)`：
-
-```js
-function mul(a, b) {
-  return a * b;
-}
-```
-
-基于它，我们利用 `bind` 创造一个新函数 `double`：
+我们将创建一个辅助函数 `curry(f)`，该函数将对两个参数的函数 `f` 执行柯里化。换句话说，对于两个参数的函数 `f(a, b)` 执行 `curry(f)` 会将其转换为以 `f(a)(b)` 形式运行的函数：
 
 ```js run
 *!*
-let double = mul.bind(null, 2);
-*/!*
-
-alert( double(3) ); // = mul(2, 3) = 6
-alert( double(4) ); // = mul(2, 4) = 8
-alert( double(5) ); // = mul(2, 5) = 10
-```
-
-`mul.bind(null, 2)` 创造了一个新函数 `double`，传递调用到 `mul` 函数，以 `null` 为上下文，`2` 为第一个参数。之后的参数等待传入。
-
-这就是 [偏函数应用](https://en.wikipedia.org/wiki/Partial_application) —— 我们创造了一个新函数，同时将部分参数替换成特定值。
-
-请注意通常我们不在这里使用 `this`，但是 `bind` 需要一个值，我们必须传入，那么可以是 `null` 这样的值。
-
-以下代码中的 `triple` 函数对一个值做三倍运算：
-
-```js run
-*!*
-let triple = mul.bind(null, 3);
-*/!*
-
-alert( triple(3) ); // = mul(3, 3) = 9
-alert( triple(4) ); // = mul(3, 4) = 12
-alert( triple(5) ); // = mul(3, 5) = 15
-```
-
-为什么我们经常会创建一个偏函数？
-
-这里，我们从中受益的是我们创建了一个独立的非匿名函数（`double`，`triple`）。我们可以使用它，而不需要每次都传入第一个参数，因为 `bind` 帮我们搞定了。
-
-在其他的场景中，当我们有一个非常通用的函数，并且想要方便地获取它的特定变体，偏函数也是非常有用。
-
-举个例子，我们拥有函数 `send(from, to, text)`。然后，在 `user` 对象中，我们想要使用它的偏函数变体：`sendTo(to, text)`，该函数表明发送自一个当前的用户。
-
-## 无上下文使用偏函数
-
-如果我们想要输入一些参数，但是不想绑定 `this`，该怎么做？
-
-原生的 `bind` 不允许这样。我们不能忽略上下文，直接跳到参数。
-
-幸运的是，一个只绑定参数的 `偏函数` 很容易实现。
-
-就像这样：
-
-```js run
-*!*
-function partial(func, ...argsBound) {
-  return function(...args) { // (*)
-    return func.call(this, ...argsBound, ...args);
-  }
-}
-*/!*
-
-// 用法：
-let user = {
-  firstName: "John",
-  say(time, phrase) {
-    alert(`[${time}] ${this.firstName}: ${phrase}!`);
-  }
-};
-
-// 添加一个偏函数方法，现在 say 这个函数可以作为第一个函数
-user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
-
-user.sayNow("Hello");
-// 结果就像这样：
-// [10:00] John: Hello!
-```
-
-`partial(func[, arg1, arg2...])` 调用的结果是一个基于 `func` 的封装函数，以及：
-- 和它传入的函数一致的 `this` (对于 `user.sayNow` 调用是 `user`)
-- 然后传入 `...argsBound` —— 来自偏函数调用传入的参数（`"10:00"`）
-- 然后传入 `...args` —— 传入封装函数的参数（`Hello`）
-
-利用扩展操作符，一切都是那么简单，不是吗？
-
-同样这里有一个 lodash 库实现的偏函数[_.partial](https://lodash.com/docs#partial)
-
-## 柯里化
-
-有时候人们会把偏函数应用和另一个名为「柯里化」的东西混淆。那是另一个和函数有关的有趣的技术，我们在这里不得不提。
-
-[Currying](https://en.wikipedia.org/wiki/Currying) 是一项将一个调用形式为 `f(a, b, c)` 的函数转化为调用形式为 `f(a)(b)(c)` 的技术。
-
-接下来让我们创建将两个函数连接起来的「柯里」函数。换句话说，它将 `f(a, b)` 转化为 `f(a)(b)`：
-
-```js run
-*!*
-function curry(func) {
+function curry(f) { // curry(f) 执行柯里化转换
   return function(a) {
     return function(b) {
-      return func(a, b);
+      return f(a, b);
     };
   };
 }
@@ -131,34 +31,35 @@ function sum(a, b) {
   return a + b;
 }
 
-let carriedSum = curry(sum);
+let curriedSum = curry(sum);
 
-alert( carriedSum(1)(2) ); // 3
+alert( curriedSum(1)(2) ); // 3
 ```
 
-你可以看到，它的实现就是一系列的封装。
+正如你所看到的，实现非常简单：只有两个包装器（wapper）。
 
-- `curry(func)` 的结果就是一层封装 `function(a)`。
-- 当它被调用，就像 `sum(1)` 这样，它的参数被保存在词法环境中，然后返回一层新的封装 `function(b)`。
-- 然后 `sum(1)(2)` 最后调用 `function(b)`，传入参数 `2`，它将调用传递给初始的多参数函数 `sum`。
+- `curry(func)` 的结果就是一个包装器 `function(a)`。
+- 当它被像 `sum(1)` 这样调用时，它的参数被保存在词法环境中，然后返回一个新的包装器 `function(b)`。
+- 然后这个包装器被以 `2` 为参数调用，并且，它将该调用传递给原始的 `sum` 函数。
 
-关于柯里函数更多高级的实现，比如 lodash 库 [_.curry](https://lodash.com/docs#curry) 所做的那样，它们更加复杂。它们会返回一个封装，允许函数提供所有的参数时被正常调用**或者**返回一个偏函数。
+柯里化更高级的实现，例如 lodash 库的 [_.curry](https://lodash.com/docs#curry)，返回一个包装器，该包装器允许函数被正常调用或者 partially 调用：
 
-```js
-function curry(f) {
-  return function(...args) {
-    // 如果 args.length == f.length（args 和 f 的参数数量相同）
-    // 那么调用 f
-    // 否则的话返回一个偏函数，将 args 作为第一个参数      
-  };
+```js run
+function sum(a, b) {
+  return a + b;
 }
+
+let curriedSum = _.curry(sum); // 使用来自 lodash 库的 _.curry
+
+alert( curriedSum(1, 2) ); // 3，仍可正常调用
+alert( curriedSum(1)(2) ); // 3，partially 调用
 ```
 
 ## 柯里化？目的是什么？
 
-高级的柯里化同时允许函数正常调用和获取偏函数。为了理解这样的好处，我们确实需要一个好的现实例子。
+要了解它的好处，我们需要一个真实的例子。
 
-举个例子，我们有一个打印函数 `log(date, importance, message)` 格式化和输出信息。在真实的项目中，这样的函数有很多有用的特性，比如：通过网络传输或者筛选：
+例如，我们有一个用于格式化和输出信息的记录（logging）函数 `log(date, importance, message)`。在实际项目中，此类函数具有很多有用的功能，例如通过网络发送日志，在这儿我们仅使用 `alert`：
 
 ```js
 function log(date, importance, message) {
@@ -172,13 +73,13 @@ function log(date, importance, message) {
 log = _.curry(log);
 ```
 
-操作之后 `log` 依然正常运行：
+柯里化之后，`log` 依正常运行：
 
 ```js
-log(new Date(), "DEBUG", "some debug");
+log(new Date(), "DEBUG", "some debug"); // log(a, b, c)
 ```
 
-但是也可以用柯里化格式调用：
+……但是也可以以柯里化形式运行：
 
 ```js
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
@@ -286,10 +187,6 @@ function curried(...args) {
 ```
 
 ## 总结
-
-- 当我们确定一个函数的一些参数时，返回的函数（更加特定）被称为**偏函数**。我们可以使用 `bind` 来获取偏函数，但是也有其他方式获取。
-
-    当我们不想一遍又一遍重复相同的参数时，偏函数很方便。比如我们有函数 `send(from, to)`，并且在我们的任务中 `from` 始终是相同的，那么我们可以构造一个偏函数然后对它进行操作。
 
 - **柯里化**是将 `f(a,b,c)` 可以被以 `f(a)(b)(c)` 的形式被调用的转化。JavaScript 实现版本通常保留函数被正常调用和在参数数量不够的情况下返回偏函数这两个特性。
 
