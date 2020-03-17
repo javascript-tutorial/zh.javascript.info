@@ -13,7 +13,7 @@ let proxy = new Proxy(target, handler)
 ```
 
 - `target` — 是要包装的对象，可以是任何东西，包括函数。
-- `handler` —— 代理配置：带有“陷阱”（"traps"，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 的属性，`set` 陷阱用于写入 `target` 的属性，等等。
+- `handler` — proxy 配置：带有“陷阱”（"traps"，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 的属性，`set` 陷阱用于写入 `target` 的属性，等等。
 
 对 `proxy` 进行操作，如果在 `handler` 中存在相应的陷阱，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
@@ -49,18 +49,18 @@ for(let key in proxy) alert(key); // test，迭代也正常工作 (3)
 
 对于对象的大多数操作，JavaScript 规范中有一个所谓的“内部方法”，它描述了最底层的工作方式。例如 `[[Get]]`，用于读取属性的内部方法，`[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接通过方法名调用它们。
 
-Proxy 陷阱会拦截这些方法的调用。它们在[代理规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)和下表中列出。
+Proxy 陷阱会拦截这些方法的调用。它们在 [proxy 规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 和下表中被列出。
 
-对于每个内部方法，此表中都有一个陷阱：可用于添加到 `new Proxy` 时的 `handler` 参数中以拦截操作的方法名称：
+对于每个内部方法，此表中都有一个陷阱：可用于添加到 `new Proxy` 的 `handler` 参数中以拦截操作的方法名称：
 
 | 内部方法 | Handler 方法 | 何时触发 |
 |-----------------|----------------|-------------|
 | `[[Get]]` | `get` | 读取属性 |
 | `[[Set]]` | `set` | 写入属性 |
-| `[[HasProperty]]` | `has` | `in` 运算符 |
-| `[[Delete]]` | `deleteProperty` | `delete` 操作 |
-| `[[Call]]` | `apply` | proxy 对象作为函数被调用 |
-| `[[Construct]]` | `construct` | `new` 操作 |
+| `[[HasProperty]]` | `has` | `in` 操作符 |
+| `[[Delete]]` | `deleteProperty` | `delete` 操作符 |
+| `[[Call]]` | `apply` | 函数调用 |
+| `[[Construct]]` | `construct` | `new` 操作符 |
 | `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
 | `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
 | `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible) |
@@ -69,8 +69,8 @@ Proxy 陷阱会拦截这些方法的调用。它们在[代理规范](https://tc3
 | `[[GetOwnProperty]]` | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries` |
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
-```warn header="Invariants"
-JavaScript 强制执行某些不变式————当必须由内部方法和陷阱来完成操作时。
+```warn header="不变量（Invariant）"
+JavaScript 强制执行某些不变量 — 内部方法和陷阱必须满足的条件。。
 
 其中大多数用于返回值：
 - `[[Set]]` 如果值已成功写入，则必须返回 `true`，否则返回 `false`。
@@ -78,25 +78,25 @@ JavaScript 强制执行某些不变式————当必须由内部方法和陷
 - ……依此类推，我们将在下面的示例中看到更多内容。
 
 还有其他一些不变量，例如：
-- `[[GetPrototypeOf]]`, 应用于代理对象的，必须返回与 `[[GetPrototypeOf]]` 应用于被代理对象相同的值。换句话说，读取代理对象的原型必须始终返回被代理对象的原型。
+- 应用于代理对象的 `[[GetPrototypeOf]]`，必须返回与应用于被代理对象的 `[[GetPrototypeOf]]` 相同的值。换句话说，读取代理对象的原型必须始终返回被代理对象的原型。
 
-陷阱可以拦截这些操作，但是必须遵循这些规则。
+陷阱可以拦截这些操作，但是必须遵循下面这些规则。
 
-不变量确保语言功能的正确和一致的行为。完整的不变量列表在[规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)。如果您不做奇怪的事情，就不会违反它们。
+不变量确保语言功能的正确和一致的行为。完整的不变量列表在 [规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 中。如果你不做奇怪的事情，你可能就不会违反它们。
 ```
 
 让我们看看实际示例中的工作原理。
 
-## 带 "get" 陷阱的默认值
+## 带有 "get" 陷阱的默认值
 
-最常见的陷阱是用于读取/写入属性。
+最常见的陷阱是用于读取/写入的属性。
 
 要拦截读取操作，`handler` 应该有 `get(target, property, receiver)` 方法。
 
 读取属性时触发该方法，参数如下：
 
-- `target` —— 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
-- `property` —— 目标属性名,
+- `target` — 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
+- `property` — 目标属性名,
 - `receiver` —— 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从代理继承，则是从该代理继承的对象）。现在我们不需要此参数，因此稍后将对其进行详细说明。
 
 让我们用 `get` 实现对象的默认值。
