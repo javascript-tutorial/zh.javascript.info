@@ -2,7 +2,9 @@
 
 一个 `Proxy` 对象包装另一个对象并拦截诸如读取/写入属性和其他操作，可以选择自行处理它们，或者透明地允许该对象处理它们。
 
-Proxy 用于许多库和某些浏览器框架。在本章中，我们将看到许多实际应用。
+Proxy 被用于了许多库和某些浏览器框架。在本文中，我们将看到许多实际应用。
+
+## Proxy
 
 语法：
 
@@ -10,42 +12,42 @@ Proxy 用于许多库和某些浏览器框架。在本章中，我们将看到�
 let proxy = new Proxy(target, handler)
 ```
 
-- `target` —— 是要包装的对象，可以是任何东西，包括函数。
-- `handler` —— 代理配置：带有“陷阱”（“traps”，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 属性，`set` 陷阱写入 `target` 属性等等。
+- `target` — 是要包装的对象，可以是任何东西，包括函数。
+- `handler` —— 代理配置：带有“陷阱”（"traps"，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 的属性，`set` 陷阱用于写入 `target` 的属性，等等。
 
 对 `proxy` 进行操作，如果在 `handler` 中存在相应的陷阱，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
-首先，让我们创建一个没有任何陷阱的代理：
+首先，让我们创建一个没有任何陷阱的代理（proxy）：
 
 ```js run
 let target = {};
-let proxy = new Proxy(target, {}); // 空的handler对象
+let proxy = new Proxy(target, {}); // 空的 handler 对象
 
 proxy.test = 5; // 写入 Proxy 对象 (1)
-alert(target.test); // 返回 5，test属性出现在了 target 上！
+alert(target.test); // 5，test 属性出现在了 target 中！
 
-alert(proxy.test); // 还是 5，我们也可以从 proxy 对象读取它 (2)
+alert(proxy.test); // 5，我们也可以从 proxy 对象读取它 (2)
 
-for(let key in proxy) alert(key); // 返回 test，迭代也正常工作！ (3)
+for(let key in proxy) alert(key); // test，迭代也正常工作 (3)
 ```
 
-由于没有陷阱，所有对 `proxy` 的操作都直接转发给 `target`。
+由于没有陷阱，所有对 `proxy` 的操作都直接转发给了 `target`。
 
 1. 写入操作 `proxy.test=` 会将值写入 `target`。
 2. 读取操作 `proxy.test` 会从 `target` 返回对应的值。
 3. 迭代 `proxy` 会从 `target` 返回对应的值。
 
-我们可以看到，没有任何陷阱，`proxy` 是一个 `target` 的透明包装.
+我们可以看到，没有任何陷阱，`proxy` 是一个 `target` 的透明包装器（wapper）.
 
 ![](proxy.svg)  
 
-`Proxy` 是一种特殊的“奇异对象”。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
+`Proxy` 是一种特殊的“奇异对象（exotic object）”。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
 
 要激活更多功能，让我们添加陷阱。
 
 我们可以用它们拦截什么？
 
-对于对象的大多数操作，JavaScript 规范中都有一个所谓的“内部方法”，它描述了最底层的工作方式。 例如 `[[Get]]`，用于读取属性的内部方法， `[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接通过方法名调用它们。
+对于对象的大多数操作，JavaScript 规范中有一个所谓的“内部方法”，它描述了最底层的工作方式。例如 `[[Get]]`，用于读取属性的内部方法，`[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接通过方法名调用它们。
 
 Proxy 陷阱会拦截这些方法的调用。它们在[代理规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)和下表中列出。
 
