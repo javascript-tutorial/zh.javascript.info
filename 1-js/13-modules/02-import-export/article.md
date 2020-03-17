@@ -40,7 +40,7 @@ export function sayHi(user) {
 
 ````
 
-## 其他导出方式
+## 导出与声明分开
 
 另外，我们还可以将 `export` 分开放置。
 
