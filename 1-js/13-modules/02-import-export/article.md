@@ -311,51 +311,52 @@ import func from '/path/to/func.js';
 
 ## 重新导出
 
-“Re-export”语法 `export ... from ...` 允许直接导出刚刚导入的内容（可能是其他名字），就像这样：
+“重新导入（Re-export）”语法 `export ... from ...` 允许导入内容，并立即将其导出（可能是用的是其他的名字），就像这样：
 
 ```js
-export {sayHi} from './say.js';
-export {default as User} from './user.js';
+export {sayHi} from './say.js'; // 重新导出 sayHi
+
+export {default as User} from './user.js'; // 重新导出 default
 ```
 
-重点是，为什么要这样做？我们看一个开发中的用例：
+为什么要这样做？我们看一个实际开发中的用例。
 
-想象一下，我们正在编写一个“包（package）”：一个包含大量模块的文件夹，主要是内部需要的模块，其中一些功能是导出到外部的（像 NPM 这样的工具允许发布和分发包，但这里我们不细说）。
+想象一下，我们正在编写一个 "package"：一个包含大量模块的文件夹，其中一些功能是导出到外部的（像 NPM 这样的工具允许发布和分发这样的 package），并且其中一些模块仅仅是供其他 package 中的模块内部使用的“帮助器（helper）”。
 
-目录结构可能是这样的：
+文件结构可能是这样的：
 ```
 auth/
-  index.js  
-  user.js
-  helpers.js
-  tests/
-    login.js
-  providers/
-    github.js
-    facebook.js
-    ...
+    index.js  
+    user.js
+    helpers.js
+    tests/
+        login.js
+    providers/
+        github.js
+        facebook.js
+        ...
 ```
 
-我们想通过单个入口公开包的功能，主文件 `auth/index.js` 可以这样使用：
+我们想通过单个入口，即“主文件” `auth/index.js` 来公开 package 的功能，可以这样使用：
 
 ```js
 import {login, logout} from 'auth/index.js'
 ```
 
-我们的想法是，使用我们软件包的开发者，不应该干涉其内部结构。他们不应该搜索我们包文件夹中的文件。我们只导出 `auth/index.js` 中需要的内容，并保持其余部分“不可见”。
+我们的想法是，使用我们 package 的开发者，不应该干预其内部结构，不应该搜索我们 package 的文件夹中的文件。我们只导出 `auth/index.js` 中所必须的内容，并保持其他部分“不可见”。
 
-现在，由于实际导出的功能分散在包中，我们可以在 `auth/index.js` 中收集并“重新导出（re-export）”它：
+由于实际导出的功能分散在 package 中，所以我们可以将它们导入到 `auth/index.js`，然后再从中导出它们：
 
 ```js
 // 📁 auth/index.js
+
+// 导入 login/logout 然后立即导出它们
 import {login, logout} from './helpers.js';
 export {login, logout};
 
+// 将默认导出导入为 User，然后再导出它
 import User from './user.js';
 export {User};
-
-import Github from './providers/github.js';
-export {Github};
 ...
 ```
 
