@@ -59,7 +59,7 @@ alert( curriedSum(1)(2) ); // 3，partially 调用
 
 要了解它的好处，我们需要一个真实的例子。
 
-例如，我们有一个用于格式化和输出信息的记录（logging）函数 `log(date, importance, message)`。在实际项目中，此类函数具有很多有用的功能，例如通过网络发送日志，在这儿我们仅使用 `alert`：
+例如，我们有一个用于格式化和输出信息的日志（logging）函数 `log(date, importance, message)`。在实际项目中，此类函数具有很多有用的功能，例如通过网络发送日志（log），在这儿我们仅使用 `alert`：
 
 ```js
 function log(date, importance, message) {
@@ -73,7 +73,7 @@ function log(date, importance, message) {
 log = _.curry(log);
 ```
 
-柯里化之后，`log` 依正常运行：
+柯里化之后，`log` 仍正常运行：
 
 ```js
 log(new Date(), "DEBUG", "some debug"); // log(a, b, c)
@@ -85,22 +85,24 @@ log(new Date(), "DEBUG", "some debug"); // log(a, b, c)
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 ```
 
-让我们来创建一个获取今天的日志的简易函数：
+现在，我们可以轻松地为当前日志让创建便捷函数（convenience function）：
 
 ```js
-// todayLog 会是一个首个参数确定的偏函数
-let todayLog = log(new Date());
+// logNow 会是带有固定第一个参数的日志的偏函数（partial）
+let logNow = log(new Date());
 
 // 使用它
-todayLog("INFO", "message"); // [HH:mm] INFO message
+logNow("INFO", "message"); // [HH:mm] INFO message
 ```
 
-接下来是提供今天的调试信息的简便函数：
+现在，`logNow` 是具有固定第一个参数的 `log`，换句话说，就是更简短的“偏应用函数（partially applied function）”或“偏函数（partial）”。
+
+我们可以更进一步，为当前的调试日志（debug log）提供便捷函数：
 
 ```js
-let todayDebug = todayLog("DEBUG");
+let debugNow = logNow("DEBUG");
 
-todayDebug("message"); // [HH:mm] DEBUG message
+debugNow("message"); // [HH:mm] DEBUG message
 ```
 
 那么：
