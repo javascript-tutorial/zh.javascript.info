@@ -593,13 +593,13 @@ sayHi("John"); // Hello, John!（3 秒后）
 
 ## Reflect
 
-`Reflect` 是一个内置对象，可简化的创建 `Proxy`。
+`Reflect` 是一个内建对象，可简化 `Proxy` 的创建。
 
-以前的内部方法，比如`[[Get]]`，`[[Set]]` 等等都只是规范，不能直接调用。
+前面所讲过的内部方法，例如 `[[Get]]` 和 `[[Set]]` 等，都只是规范性的，不能直接调用。
 
-`Reflect` 对象使调用这些内部方法成为可能。它的方法是内部方法的最小包装。
+`Reflect` 对象使调用这些内部方法成为了可能。它的方法是内部方法的最小包装。
 
-这是 `Reflect` 执行相同操作和调用的示例：
+以下是执行相同操作和 `Reflect` 调用的示例：
 
 | 操作 |  `Reflect` 调用 | 内部方法 |
 |-----------------|----------------|-------------|
@@ -619,13 +619,13 @@ Reflect.set(user, 'name', 'John');
 alert(user.name); // John
 ```
 
-尤其是，`Reflect` 允许我们使用函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行操作（`new`，`delete`，……）。这是一个有趣的功能，但是这里还有一点很重要。
+尤其是，`Reflect` 允许我们将操作符（`new`，`delete`，……）作为函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行调用。这是一个有趣的功能，但是这里还有一点很重要。
 
-**对于每个可被 `Proxy` 捕获的内部方法，`Reflect` 都有一个对应的方法 Reflect，其名称和参数与 `Proxy` 陷阱相同。**
+**对于每个可被 `Proxy` 捕获的内部方法，在 `Reflect` 中都有一个对应的方法，其名称和参数与 `Proxy` 陷阱相同。**
 
-因此，我们可以用 `Reflect` 来将操作转发到原始对象。
+所以，我们可以使用 `Reflect` 来将操作转发给原始对象。
 
-在此示例中，陷阱 `get` 和 `set` 透明地（好像它们都不存在）将读/写操作转发到对象，并显示一条消息：
+在下面这个示例中，陷阱 `get` 和 `set` 均透明地（好像它们都不存在一样）将读取/写入操作转发到对象，并显示一条消息：
 
 ```js run
 let user = {
@@ -647,26 +647,26 @@ user = new Proxy(user, {
   }
 });
 
-let name = user.name; // shows "GET name"
-user.name = "Pete"; // shows "SET name=Pete"
+let name = user.name; // 显示 "GET name"
+user.name = "Pete"; // 显示 "SET name=Pete"
 ```
 
-这里:
+这里：
 
-- `Reflect.get` 读取一个对象属性
-- `Reflect.set` 写入对象属性，成功返回 `true` ，否则返回 `false`
+- `Reflect.get` 读取一个对象属性。
+- `Reflect.set` 写入一个对象属性，如果写入成功则返回 `true`，否则返回 `false`。
 
-就是说，一切都很简单：如果陷阱想要将调用转发给对象，则只需使用相同的参数调用 `Reflect.<method>` 就足够了。
+这样，一切都很简单：如果一个陷阱想要将调用转发给对象，则只需使用相同的参数调用 `Reflect.<method>` 就足够了。
 
-在大多数情况下，我们可以不使用 `Reflect` 完成相同的事情，例如，使用`Reflect.get(target, prop, receiver)` 读取属性可以替换为 `target[prop]`。尽管有一些细微的差别。
+在大多数情况下，我们可以不使用 `Reflect` 完成相同的事情，例如，用于读取属性的 `Reflect.get(target, prop, receiver)` 可以被替换为 `target[prop]`。尽管有一些细微的差别。
 
 ### 代理一个 getter 
 
-让我们看一个示例，说明为什么 `Reflect.get` 更好。我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而我们以前没有使用过它。
+让我们看一个示例，来说明为什么 `Reflect.get` 更好。此外，我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而且我们之前从来没有使用过它。
 
-我们有一个带有一个 `_name` 属性和一个 getter 的对象 `user`。
+我们有一个带有 `_name` 属性和 getter 的对象 `user`。
 
-这是一个 Proxy：
+这是对 `user` 对象对一个代理（proxy）：
 
 ```js run
 let user = {
@@ -687,11 +687,11 @@ let userProxy = new Proxy(user, {
 alert(userProxy.name); // Guest
 ```
 
-该 `get` 陷阱在这里是“透明的”，它返回原来的属性，不会做别的任何事情。对于我们的示例而言，这就足够了。
+其 `get` 陷阱在这里是“透明的”，它返回原来的属性，不会做任何其他的事。这对于我们的示例而言就足够了。
 
-一切似乎都很好。但是让我们将示例变得更加复杂。
+一切似乎都很好。但是让我们将示例变得稍微复杂一点。
 
-另一个对象 `admin`从 `user` 继承后，我们可以观察到错误的行为：
+另一个对象 `admin` 从 `user` 继承后，我们可以观察到错误的行为：
 
 ```js run
 let user = {
@@ -713,30 +713,30 @@ let admin = {
   _name: "Admin"
 };
 
-// Expected: Admin
-alert(admin.name); // 输出：Guest （？！？）
+// 期望输出：Admin
+alert(admin.name); // 输出：Guest (?!?)
 */!*
 ```
 
 读取 `admin.name` 应该返回 `"Admin"`，而不是 `"Guest"`！
 
-怎么了？也许我们在继承方面做错了什么？
+发生了什么？或许我们在继承方面做错了什么？
 
-但是，如果我们删除代理，那么一切都会按预期进行。
+但是，如果我们移除代理，那么一切都会按预期进行。
 
-问题实际上出在代理中，在 `(*)`行。
+问题实际上出在代理中，在 `(*)` 行。
 
-1. 当我们读取 `admin.name`，由于 `admin` 对象自身没有对应的的属性，搜索将转到其原型。
+1. 当我们读取 `admin.name` 时，由于 `admin` 对象自身没有对应的的属性，搜索将转到其原型。
 2. 原型是 `userProxy`。
-3. 从代理读取 `name` 属性时，`get` 陷阱会触发并从原始对象返回 `target[prop]` 属性，在 `(*)` 行
+3. 从代理读取 `name` 属性时，`get` 陷阱会被触发，并从原始对象返回 `target[prop]` 属性，在 `(*)` 行。
 
-    当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` 上下文中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name` 即来自 `user`。
+    当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` 上下文中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name`，即来自 `user`。
 
-为了解决这种情况，我们需要 `get` 陷阱的第三个参数 `receiver`。它保证传递正确的 `this` 给 getter。在我们的情况下是 `admin`。
+为了解决这种情况，我们需要 `get` 陷阱的第三个参数 `receiver`。它保证将正确的 `this` 传递给 getter。在我们的例子中是 `admin`。
 
-如何为 getter 传递上下文？对于常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不是“被调用”的，只是被访问的。
+如何把上下文传递给 getter？对于一个常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不能“被调用”，只能被访问。
 
-`Reflect.get` 可以做到的。如果我们使用它，一切都会正常运行。
+`Reflect.get` 可以做到。如果我们使用它，一切都会正常运行。
 
 这是更正后的变体：
 
@@ -767,9 +767,9 @@ alert(admin.name); // Admin
 */!*
 ```
 
-现在 `receiver`，保留了对正确 `this` 的引用（即`admin`）的引用，该引用将在 `(*)` 行中使用`Reflect.get`传递给getter。
+现在 `receiver` 保留了对正确 `this` 的引用（即 `admin`），该引用是在 `(*)` 行中被通过 `Reflect.get` 传递给 getter 的。
 
-我们可以将陷阱重写得更短： 
+我们可以把陷阱重写得更短： 
 
 ```js
 get(target, prop, receiver) {
@@ -778,15 +778,15 @@ get(target, prop, receiver) {
 ```
 
 
-`Reflect` 调用的命名方式与陷阱完全相同，并且接受相同的参数。它们是通过这种方式专门设计的。
+`Reflect` 调用的命名与陷阱的命名完全相同，并且接受相同的参数。它们是以这种方式专门设计的。
 
-因此， `return Reflect...` 会提供一个安全的提示程序来转发操作，并确保我们不会忘记与此相关的任何内容。
+因此，`return Reflect...` 提供了一个安全的方式，可以轻松地转发操作，并确保我们不会忘记与此相关的任何内容。
 
-## Proxy 的局限
+## Proxy 的局限性
 
 代理提供了一种独特的方法，可以在最底层更改或调整现有对象的行为。但是，它并不完美。有局限性。
 
-### 内置对象：内部插槽（Internal slots）
+### 内建对象：内部插槽（Internal slot）
 
 许多内置对象，例如 `Map`, `Set`, `Date`, `Promise` 等等都使用了所谓的 "内部插槽"。
 
