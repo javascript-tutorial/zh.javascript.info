@@ -788,13 +788,13 @@ get(target, prop, receiver) {
 
 ### 内建对象：内部插槽（Internal slot）
 
-许多内置对象，例如 `Map`, `Set`, `Date`, `Promise` 等等都使用了所谓的 "内部插槽"。
+许多内建对象，例如 `Map`，`Set`，`Date`，`Promise` 等，都使用了所谓的“内部插槽”。
 
-它们类似于属性，但仅限于内部使用，仅用于规范目的。例如， `Map` 将项目存储在 `[[MapData]]`中。内置方法直接访问它们，而不通过 `[[Get]]/[[Set]]` 内部方法。所以 `Proxy` 不能拦截。
+它们类似于属性，但仅限于内部使用，仅用于规范目的。例如，`Map` 将项目（item）存储在 `[[MapData]]` 中。内建方法可以直接访问它们，而不通过 `[[Get]]/[[Set]]` 内部方法。所以 `Proxy` 无法拦截它们。
 
-为什么要在意呢？他们是内部的！
+为什么要在意这些呢？毕竟它们是内部的！
 
-好吧，这就是问题。在像这样的内置对象被代理后，代理对象没有这些内部插槽，因此内置方法将失败。
+好吧，问题在这儿。在类似这样的内建对象被代理后，代理对象没有这些内部插槽，因此内建方法将会失败。
 
 例如：
 
@@ -808,9 +808,9 @@ proxy.set('test', 1); // Error
 */!*
 ```
 
-在内部，一个 `Map` 将所有数据存储在其 `[[MapData]]` 内部插槽中。代理对象没有这样的插槽。[内建方法 `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) 方法试图访问内部属性 `this.[[MapData]]`，但由于 `this=proxy` 在 `proxy` 中不能找到它，只能失败。
+在内部，一个 `Map` 将所有数据存储在其 `[[MapData]]` 内部插槽中。代理对象没有这样的插槽。[内建方法 `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) 方法试图访问内部属性 `this.[[MapData]]`，但由于 `this=proxy`，在 `proxy` 中无法找到它，只能失败。
 
-幸运的是，有一种解决方法：
+幸运的是，这儿有一种解决方法：
 
 ```js run
 let map = new Map();
@@ -825,24 +825,24 @@ let proxy = new Proxy(map, {
 });
 
 proxy.set('test', 1);
-alert(proxy.get('test')); // 1 (works!)
+alert(proxy.get('test')); // 1（工作了！）
 ```
 
-现在它可以正常工作，因为 `get` 陷阱将函数属性（例如 `map.set`）绑定到目标对象（`map`）本身。
+现在它正常工作了，因为 `get` 陷阱将函数属性（例如 `map.set`）绑定到了目标对象（`map`）本身。
 
-与前面的示例不同，`proxy.set(...)` 内部 `this` 的值并不是 `proxy`，而是原始对象 `map`。因此，当`set` 陷阱的内部实现尝试访问 `this.[[MapData]]` 内部插槽时，它会成功。
+与前面的示例不同，`proxy.set(...)` 内部 `this` 的值并不是 `proxy`，而是原始的 `map`。因此，当`set` 陷阱的内部实现尝试访问 `this.[[MapData]]` 内部插槽时，它会成功。
 
 ```smart header="`Array` 没有内部插槽"
-一个明显的例外：内置 `Array` 不使用内部插槽。那是出于历史原因，因为它出现于很久以前。
+一个值得注意的例外：内建 `Array` 没有使用内部插槽。那是出于历史原因，因为它出现于很久以前。
 
-因此，代理数组时没有这种问题。
+所以，代理数组时没有这种问题。
 ```
 
 ### 私有字段
 
 类的私有字段也会发生类似的情况。
 
-例如，`getName()` 方法访问私有的 `#name` 属性并在代理后中断：
+例如，`getName()` 方法访问私有的 `#name` 属性，并在代理后中断（break）：
 
 ```js run
 class User {
@@ -862,11 +862,11 @@ alert(user.getName()); // Error
 */!*
 ```
 
-原因是专用字段是使用内部插槽实现的。JavaScript 访问它们时不使用 `[[Get]]/[[Set]]`。
+原因是私有字段是通过内部插槽实现的。JavaScript 在访问它们时不使用 `[[Get]]/[[Set]]`。
 
-在调用 `getName()` 时 `this` 的值是代理后的 `user`，它没有带私有字段的插槽。
+在调用 `getName()` 时，`this` 的值是代理后的 `user`，它没有带有私有字段的插槽。
 
-再次，bind 方法的解决方案使它恢复正常：
+再次，带有 bind 方法的解决方案使它恢复正常：
 
 ```js run
 class User {
@@ -889,13 +889,13 @@ user = new Proxy(user, {
 alert(user.getName()); // Guest
 ```
 
-该解决方案有缺点，如前所述：将原始对象暴露给该方法，可能使其进一步传递并破坏其他代理功能。
+如前所述，该解决方案也有缺点：它将原始对象暴露给该方法，可能使其进一步传递并破坏其他代理功能。
 
 ### Proxy != target
 
-代理和原始对象是不同的对象。很自然吧？
+代理和原始对象是不同的对象。这很自然，对吧？
 
-因此，如果我们使用原始对象作为键，然后对其进行代理，则找不到代理：
+所以，如果我们使用原始对象作为键，然后对其进行代理，之后却无法找到代理了：
 
 ```js run
 let allUsers = new Set();
@@ -918,23 +918,23 @@ alert(allUsers.has(user)); // false
 */!*
 ```
 
-如我们所见，代理后，我们在 `allUsers` 中找不到 `user`，因为代理是一个不同的对象。
+如我们所见，进行代理后，我们在 `allUsers` 中找不到 `user`，因为代理是一个不同的对象。
 
-```warn header="Proxy 无法拦截严格相等性测试 `===`"
-Proxy 可以拦截许多运算符，例如new（使用 `construct`），in（使用 `has`），delete（使用 `deleteProperty`）等。
+```warn header="Proxy 无法拦截严格相等性检查 `===`"
+Proxy 可以拦截许多运算符，例如 `new`（使用 `construct`），`in`（使用 `has`），`delete`（使用 `deleteProperty`）等。
 
-但是没有办法拦截对象的严格相等性测试。一个对象严格只等于自身，没有其他值。
+但是没有办法拦截对于对象的严格相等性检查。一个对象只严格等于其自身，没有其他值。
 
-因此，比较对象是否相等的所有操作和内置类都会区分 target 和 proxy。这里没有透明的替代品。
+因此，比较对象是否相等的所有操作和内建类都会区分对象和代理。这里没有透明的替代品。
 ```
 
-## 可取消的 Proxy
+## 可撤销 Proxy
 
-一个 *可撤销* 的代理是可以被禁用的代理。
+一个 **可撤销** 的代理是可以被禁用的代理。
 
 假设我们有一个资源，并且想随时关闭对该资源的访问。
 
-我们可以做的是将其包装成可撤销的代理，而没有任何陷阱。这样的代理会将操作转发给对象，我们可以随时将其禁用。
+我们可以做的是将它包装成可一个撤销的代理，没有任何陷阱。这样的代理会将操作转发给对象，并且我们可以随时将其禁用。
 
 语法为：
 
@@ -953,19 +953,19 @@ let object = {
 
 let {proxy, revoke} = Proxy.revocable(object, {});
 
-// proxy 正常工作
+// 将 proxy 传递到其他某处，而不是对象...
 alert(proxy.data); // Valuable data
 
-// 之后某处调用
+// 稍后，在我们的代码中
 revoke();
 
-// proxy 不再工作（已吊销）
+// proxy 不再工作（revoked）
 alert(proxy.data); // Error
 ```
 
-调用 `revoke()` 会从代理中删除对目标对象的所有内部引用，因此不再连接它们。之后可以对目标对象进行垃圾回收。
+调用 `revoke()` 会从代理中删除对目标对象的所有内部引用，因此它们之间再无连接。之后可以对目标对象进行垃圾回收。
 
-我们还可以将 `revoke` 存储在 `WeakMap` 中，以便能够通过代理对象轻松找到它：
+我们还可以将 `revoke` 存储在 `WeakMap` 中，以更便于通过代理对象轻松找到它：
 
 ```js run
 *!*
@@ -980,14 +980,14 @@ let {proxy, revoke} = Proxy.revocable(object, {});
 
 revokes.set(proxy, revoke);
 
-// ..later in our code..
+// ...稍后，在我们的代码中...
 revoke = revokes.get(proxy);
 revoke();
 
-alert(proxy.data); // Error（已吊销）
+alert(proxy.data); // Error（revoked）
 ```
 
-这种方法的好处是我们不必随身携带revoke。我们可以在需要时从 map `proxy` 上获取它。
+这种方法的好处是，我们不必再随身携带 `revoke`。我们可以在有需要时从通过 `proxy` 从 map 上获取它。
 
 此处我们使用`WeakMap` 而不是 `Map` ，因为它不会阻止垃圾收集。如果代理对象变得“无法访问”（例如，没有变量再引用它），则 `WeakMap` 允许将其与 它的 `revoke` 对象一起从内存中擦除，因为我们不再需要它了。
 
