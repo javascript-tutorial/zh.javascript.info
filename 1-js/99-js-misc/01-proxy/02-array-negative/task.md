@@ -23,7 +23,7 @@ array[-3]; // 1，从尾端开始向前移动两步
 let array = [1, 2, 3];
 
 array = new Proxy(array, {
-  /* your code */
+  /* 你的代码 */
 });
 
 alert( array[-1] ); // 3
