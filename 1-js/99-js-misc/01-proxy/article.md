@@ -103,7 +103,7 @@ JavaScript 强制执行某些不变量 — 内部方法和陷阱必须满足的�
 
 我们将创建一个对不存在的数组项返回 `0` 的数组。
 
-通常，当人们尝试获取不存在的数组项时，他们会得到 `undefined`，但是我们会将常规数组包装到代理（proxy）中，以捕获读取操作，并在没有要读取的属性的时返回 `0`：
+通常，当人们尝试获取不存在的数组项时，他们会得到 `undefined`，但是我们在这将常规数组包装到代理（proxy）中，以捕获读取操作，并在没有要读取的属性的时返回 `0`：
 
 ```js run
 let numbers = [0, 1, 2];
@@ -120,13 +120,13 @@ numbers = new Proxy(numbers, {
 
 *!*
 alert( numbers[1] ); // 1
-alert( numbers[123] ); // 0（没有这个数组项)
+alert( numbers[123] ); // 0（没有这个数组项）
 */!*
 ```
 
-如我们所见，使用 `get` 陷阱非常容易。
+正如我们所看到的，使用 `get` 陷阱很容易实现。
 
-我们可以用 `Proxy` 来实现任何读取默认值的逻辑。
+我们可以用 `Proxy` 来实现“默认”值的任何逻辑。
 
 想象一下，我们有一本词典，上面有短语及其翻译：
 
@@ -140,9 +140,9 @@ alert( dictionary['Hello'] ); // Hola
 alert( dictionary['Welcome'] ); // undefined
 ```
 
-现在，如果没有短语，从 `dictionary` 读取将返回 `undefined`。但实际上，返回一个未翻译短语通常比 `undefined` 要好。因此，让我们在这种情况下返回一个未翻译的短语，而不是 `undefined`。
+现在，如果没有我们要读取的短语，那么从 `dictionary` 读取它将返回 `undefined`。但实际上，返回一个未翻译的短语通常比 `undefined` 要好。因此，让我们在这种情况下返回一个未翻译的短语来替代 `undefined`。
 
-为此，我们将包装 `dictionary` 进一个拦截读取操作的代理：
+为此，我们将把 `dictionary` 包装进一个拦截读取操作的代理：
 
 ```js run
 let dictionary = {
@@ -154,8 +154,8 @@ dictionary = new Proxy(dictionary, {
 *!*
   get(target, phrase) { // 拦截读取属性操作
 */!*
-    if (phrase in target) { //如果字典包含该短语
-      return target[phrase]; // 返回译文
+    if (phrase in target) { //如果词典中有该短语
+      return target[phrase]; // 返回其翻译
     } else {
       // 否则返回未翻译的短语
       return phrase;
@@ -163,11 +163,11 @@ dictionary = new Proxy(dictionary, {
   }
 });
 
-// 在字典中查找任意短语！
+// 在词典中查找任意短语！
 // 最坏的情况也只是它们没有被翻译。
 alert( dictionary['Hello'] ); // Hola
 *!*
-alert( dictionary['Welcome to Proxy']); // Welcome to Proxy
+alert( dictionary['Welcome to Proxy']); // Welcome to Proxy（没有被翻译）
 */!*
 ```
 
