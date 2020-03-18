@@ -304,7 +304,7 @@ alert( Object.keys(user) ); // <empty>
 let user = { };
 
 user = new Proxy(user, {
-  ownKeys(target) { // 一旦被调用，就返回一个属性列表
+  ownKeys(target) { // 一旦要获取属性列表就会被调用
     return ['a', 'b', 'c'];
   },
 
@@ -312,7 +312,7 @@ user = new Proxy(user, {
     return {
       enumerable: true,
       configurable: true
-      /* 其他属性，类似于 "value:..." */
+      /* 其他标志，可能是 "value:..." */
     };
   }
 
@@ -321,13 +321,13 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // a, b, c
 ```
 
-让我们再次注意：如果该属性在对象中不存在，则我们只需要拦截 `[[GetOwnProperty]]`。
+让我们再次注意：如果该属性在对象中不存在，那么我们只需要拦截 `[[GetOwnProperty]]`。
 
 ## 具有 "deleteProperty" 和其他陷阱的受保护属性
 
-有一个普遍的约定，即下划线 `_` 前缀的属性和方法是内部的。不应从对象外部访问它们。
+有一个普遍的约定，即以下划线 `_` 开头的属性和方法是内部的。不应从对象外部访问它们。
 
-从技术上讲，这是可能的：
+从技术上讲，我们也是能访问到这样的属性的：
 
 ```js run
 let user = {
@@ -340,11 +340,11 @@ alert(user._password); // secret
 
 让我们使用代理来防止对以 `_` 开头的属性的任何访问。
 
-我们需要以下陷阱：
+我们将需要以下陷阱：
 - `get` 读取此类属性时抛出错误，
 - `set` 写入属性时抛出错误，
 - `deleteProperty` 删除属性时抛出错误，
-- `ownKeys` 在使用 `for..in` 和类似 `Object.keys` 的方法时排除以 `_` 开头的属性。
+- `ownKeys` 在使用 `for..in` 和像 `Object.keys` 这样的的方法时排除以 `_` 开头的属性。
 
 代码如下：
 
@@ -365,7 +365,17 @@ user = new Proxy(user, {
     return (typeof value === 'function') ? value.bind(target) : value; // (*)
   },
 *!*
-  set(target, prop, val) { // 拦截写入操作
+  set(target, prop, val) { // to intercept property writing
+*/!*
+    if (prop.startsWith('_')) {
+      throw new Error("Access denied");
+    } else {
+      target[prop] = val;
+      return true;
+    }
+  },
+*!*
+  deleteProperty(target, prop) { // 拦截写入操作
 */!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
