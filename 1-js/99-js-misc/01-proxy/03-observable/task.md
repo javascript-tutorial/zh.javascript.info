@@ -1,9 +1,9 @@
 
-# Observable
+# 可观察的（Observable）
 
-创建一个通过返回代理“使对象可观察”的 `makeObservable(target)` 函数。
+创建一个函数 `makeObservable(target)`，该函数通过返回一个代理“使得对象可观察”。
 
-它的工作方式如下：
+其工作方式如下：
 
 ```js run
 function makeObservable(target) {
@@ -17,11 +17,11 @@ user.observe((key, value) => {
   alert(`SET ${key}=${value}`);
 });
 
-user.name = "John"; // alerts：设置 name 属性为 John
+user.name = "John"; // alerts: SET name=John
 ```
 
-换句话说，`makeObservable` 返回的对象就像原始对象一样，但是也具有将 `handler` 函数设置为在任何属性更改时都被调用的方法 `observe(handler)` 。
+换句话说，`makeObservable` 返回的对象就像原始对象一样，但是具有 `observe(handler)` 方法，该方法可以将 `handler` 函数设置为在任何属性被更改时，都会被调用的函数。
 
-每当属性更改时，都会使用属性的名称和值调用 `handler(key, value)` 。
+每当有属性被更改时，都会使用属性的名称和属性值调用 `handler(key, value)` 函数。
 
-P.S. 在此任务中，请仅注意写入属性。可以以类似方式实现其他操作。
+P.S. 在本任务中，你可以只关注属性写入。其他的操作可以通过类似的方式实现。
