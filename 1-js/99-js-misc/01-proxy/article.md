@@ -448,12 +448,12 @@ user = {
 因此，在任何地方都不应使用这种代理。
 
 ```smart header="类的私有属性"
-现代 Javascript 引擎原生支持 class 中的私有属性，这些私有属性以 `#` 为前缀。它们在 <info:private-protected-properties-methods> 这一章中有详细描述。无需代理（proxy）。
+现代 Javascript 引擎原生支持 class 中的私有属性，这些私有属性以 `#` 为前缀。它们在 <info:private-protected-properties-methods> 一章中有详细描述。无需代理（proxy）。
 
 但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
 
-## "In range" 及 "has" 陷阱
+## 带有 "has" 陷阱 的 "in range"
 
 让我们来看更多示例。
 
@@ -466,14 +466,14 @@ let range = {
 };
 ```
 
-我们想使用 `in` 运算符来检查数字是否在 `range` 范围内。
+我们想使用 `in` 操作符来检查一个数字是否在 `range` 范围内。
 
-该 `has` 陷阱拦截 `in` 调用。
+`has` 陷阱会拦截 `in` 调用。
 
 `has(target, property)`
 
-- `target` —— 是目标对象，作为第一个参数传递给 `new Proxy`
-- `property` —— 属性名称
+- `target` — 是目标对象，被作为第一个参数传递给 `new Proxy`，
+- `property` — 属性名称
 
 示例如下
 
@@ -501,23 +501,23 @@ alert(50 in range); // false
 
 ## 包装函数："apply" [#proxy-apply]
 
-我们也可以将代理包装在函数周围。
+我们也可以将代理（proxy）包装在函数周围。
 
 `apply(target, thisArg, args)` 陷阱能使代理以函数的方式被调用：
 
-- `target` 是目标对象（函数是 JavaScript 中的对象）
-- `thisArg` 是 `this` 的值
-- `args` 是参数列表
+- `target` 是目标对象（在 JavaScript 中，函数就是一个对象），
+- `thisArg` 是 `this` 的值。
+- `args` 是参数列表。
 
-例如，让我们回想一下 `delay(f, ms)` 装饰器，它是我们在 <info:call-apply-decorators> 一章中完成的。
+例如，让我们回忆一下我们在 <info:call-apply-decorators> 一章中所讲的 `delay(f, ms)` 装饰器。
 
-在该章中，我们没有用 proxy 来实现它。调用 `delay(f, ms)` 返回一个函数，该函数会将在 `ms` 毫秒后把所有调用转发到 `f`。
+在该章中，我们没有用 proxy 来实现它。调用 `delay(f, ms)` 会返回一个函数，该函数会在 `ms` 毫秒后把所有调用转发给 `f`。
 
 这是以前的基于函数的实现：
 
 ```js run
 function delay(f, ms) {
-  // 返回一个超时后调用 f 函数的包装器
+  // 返回一个包装器（wapper），该包装器将在时间到了的时候将调用转发给函数 f
   return function() { // (*)
     setTimeout(() => f.apply(this, arguments), ms);
   };
@@ -527,15 +527,15 @@ function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-// 这次包装后，sayHi 在3秒后被调用
+// 在进行这个包装后，sayHi 函数会被延迟 3 秒后被调用
 sayHi = delay(sayHi, 3000);
 
-sayHi("John"); // Hello, John! （3秒后）
+sayHi("John"); // Hello, John! (after 3 seconds)
 ```
 
-正如我们已经看到的那样，大多数情况下都是可行的。包装函数 `(*)` 在超时后执行调用。
+正如我们所看到的那样，大多数情况下它都是可行的。包装函数 `(*)` 在到达延迟的时间后后执行调用。
 
-但是包装函数不会转发属性读/写操作或其他任何操作。包装后，无法访问原有函数的属性，比如 `name`，`length`和其他：
+但是包装函数不会转发属性读取/写入操作或者任何其他操作。进行包装后，就失去了对原始函数属性的访问，例如 `name`，`length` 和其他属性：
 
 ```js run
 function delay(f, ms) {
@@ -549,19 +549,19 @@ function sayHi(user) {
 }
 
 *!*
-alert(sayHi.length); // 1 （函数的 length 是其声明中的参数个数）
+alert(sayHi.length); // 1（函数的 length 是函数声明中的参数个数）
 */!*
 
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 0 （在包装器声明中，参数个数为0)
+alert(sayHi.length); // 0（在包装器声明中，参数个数为 0)
 */!*
 ```
 
-`Proxy` 功能强大得多，因为它将所有东西转发到目标对象。
+`Proxy` 的功能要强大得多，因为它可以将所有东西转发到目标对象。
 
-让我们使用 `Proxy` 而不是包装函数：
+让我们使用 `Proxy` 来替换掉包装函数：
 
 ```js run
 function delay(f, ms) {
@@ -579,17 +579,17 @@ function sayHi(user) {
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 1 (*) proxy 转发“获取 length” 操作到目标对象
+alert(sayHi.length); // 1 (*) proxy 将“获取 length”的操作转发给目标对象
 */!*
 
-sayHi("John"); // Hello, John! （3秒后）
+sayHi("John"); // Hello, John!（3 秒后）
 ```
 
-结果是相同的，但现在不仅调用，而且代理上的所有操作都转发到原始函数。所以sayHi.length在 `(*)` 行包装后正确返回结果(*)。
+结果是相同的，但现在不仅仅调用，而且代理上的所有操作都能被转发到原始函数。所以在 `(*)` 行包装后的 `sayHi.length` 会返回正确的结果。
 
-我们有一个“更丰富”的包装器。
+我们得到了一个“更丰富”的包装器。
 
-还存在其他陷阱：完整列表在本章的开头。它们的使用模式与上述类似。
+还存在其他陷阱：完整列表在本文的开头。它们的使用模式与上述类似。
 
 ## Reflect
 
