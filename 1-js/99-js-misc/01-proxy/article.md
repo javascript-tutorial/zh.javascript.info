@@ -987,18 +987,18 @@ revoke();
 alert(proxy.data); // Error（revoked）
 ```
 
-这种方法的好处是，我们不必再随身携带 `revoke`。我们可以在有需要时从通过 `proxy` 从 map 上获取它。
+这种方法的好处是，我们不必再随身携带 `revoke`。我们可以在有需要时通过 `proxy` 从 map 上获取它。
 
-此处我们使用`WeakMap` 而不是 `Map` ，因为它不会阻止垃圾收集。如果代理对象变得“无法访问”（例如，没有变量再引用它），则 `WeakMap` 允许将其与 它的 `revoke` 对象一起从内存中擦除，因为我们不再需要它了。
+此处我们使用 `WeakMap` 而不是 `Map`，因为它不会阻止垃圾回收。如果一个代理对象变得“不可访问”（例如，没有变量再引用它），则 `WeakMap` 允许将其与它的 `revoke` 一起从内存中清除，因为我们不再需要它了。
 
-## 参考文献
+## 参考资料
 
-- 规范: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
-- MDN: [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
+- 规范：[Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)。
+- MDN：[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。
 
 ## 总结
 
-`Proxy` 是对象的包装，将代理上的操作转发到对象，并可以选择捕获其中的一些操作。
+`Proxy` 是对象的包装，将代理上的操作转发到对象，并可以选择捕获其中一些操作。
 
 它可以包装任何类型的对象，包括类和函数。
 
@@ -1006,27 +1006,27 @@ alert(proxy.data); // Error（revoked）
 
 ```js
 let proxy = new Proxy(target, {
-  /* traps */
+  /* trap */
 });
 ```
 
-……然后，我们应该在所有地方使用 `proxy` 而不是 `target`。代理没有自己的属性或方法。如果提供了陷阱，它将捕获操作，否则将其转发给 `target` 对象。
+……然后，我们应该在所有地方使用 `proxy` 而不是 `target`。代理没有自己的属性或方法。如果提供了陷阱（trap），它将捕获操作，否则会将其转发给 `target` 对象。
 
 我们可以捕获：
 - 读取（`get`），写入（`set`），删除（`deleteProperty`）属性（甚至是不存在的属性）。
 - 函数调用（`apply` 陷阱）。
 - `new` 操作（`construct` 陷阱）。
-- 许多其他操作（完整列表在本文开头和 [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 中）。
+- 许多其他操作（完整列表请见本文开头部分和 [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)）。
 
-这使我们能够创建“虚拟”属性和方法，实现默认值，可观察对象，函数装饰器等等。
+这使我们能够创建“虚拟”属性和方法，实现默认值，可观察对象，函数装饰器等。
 
-我们还可以将对象多次包装在不同的代理中，并用多个函数进行装饰。
+我们还可以将对象多次包装在不同的代理中，并用多个各个方面的功能对其进行装饰。
 
-该[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任何 `Proxy` 陷阱，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
+[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API 旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任意 `Proxy` 陷阱，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
 
 Proxy 有一些局限：
 
-- 内置对象具有“内部插槽”，对这些对象的访问无法被代理。请参阅上面的解决方法。
-- 私有类字段也是如此，因为它们是在内部使用插槽实现的。因此，代理方法的调用必须具有目标对象 `this` 才能访问它们。
-- 对象相等性测试 `===` 不能被拦截。
-- 性能：基准测试取决于引擎，但通常使用最简单的代理访问属性所需的时间要长几倍。实际上，这仅对某些“瓶颈”对象重要。
+- 内建对象具有“内部插槽”，对这些对象的访问无法被代理。请参阅上文中的解决方法。
+- 私有类字段也是如此，因为它们也是在内部使用插槽实现的。因此，代理方法的调用必须具有目标对象作为 `this` 才能访问它们。
+- 对象的严格相等性检查 `===` 无法被拦截。
+- 性能：基准测试（benchmark）取决于引擎，但通常使用最简单的代理访问属性所需的时间也要长几倍。实际上，这仅对某些“瓶颈”对象来说才重要。
