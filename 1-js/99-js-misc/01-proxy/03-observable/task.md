@@ -7,7 +7,7 @@
 
 ```js run
 function makeObservable(target) {
-  /* your code */
+  /* 你的代码 */
 }
 
 let user = {};
