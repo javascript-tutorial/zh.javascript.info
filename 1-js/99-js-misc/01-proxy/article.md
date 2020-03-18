@@ -312,7 +312,7 @@ user = new Proxy(user, {
     return {
       enumerable: true,
       configurable: true
-      /* 其他标志，可能是 "value:..." */
+      /* ...其他标志，可能是 "value:..." */
     };
   }
 
@@ -365,17 +365,7 @@ user = new Proxy(user, {
     return (typeof value === 'function') ? value.bind(target) : value; // (*)
   },
 *!*
-  set(target, prop, val) { // to intercept property writing
-*/!*
-    if (prop.startsWith('_')) {
-      throw new Error("Access denied");
-    } else {
-      target[prop] = val;
-      return true;
-    }
-  },
-*!*
-  deleteProperty(target, prop) { // 拦截写入操作
+  set(target, prop, val) { // 拦截属性写入
 */!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -401,22 +391,22 @@ user = new Proxy(user, {
   }
 });
 
-// “get” 不允许读取 _password
+// "get" 不允许读取 _password
 try {
   alert(user._password); // Error: Access denied
 } catch(e) { alert(e.message); }
 
-//  “set” 不允许写入 _password
+// "set" 不允许写入 _password
 try {
   user._password = "test"; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// “deleteProperty” 不允许删除 _password 属性
+// "deleteProperty" 不允许删除 _password
 try {
   delete user._password; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// “ownKeys” 过滤排除 _password
+// "ownKeys" 将 _password 过滤出去
 for(let key in user) alert(key); // name
 ```
 
