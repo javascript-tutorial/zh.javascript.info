@@ -13,7 +13,7 @@ let proxy = new Proxy(target, handler)
 ```
 
 - `target` — 是要包装的对象，可以是任何东西，包括函数。
-- `handler` — proxy 配置：带有“陷阱”（"traps"，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 的属性，`set` 陷阱用于写入 `target` 的属性，等等。
+- `handler` — 代理配置：带有“陷阱”（"traps"，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 的属性，`set` 陷阱用于写入 `target` 的属性，等等。
 
 对 `proxy` 进行操作，如果在 `handler` 中存在相应的陷阱，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
@@ -23,7 +23,7 @@ let proxy = new Proxy(target, handler)
 let target = {};
 let proxy = new Proxy(target, {}); // 空的 handler 对象
 
-proxy.test = 5; // 写入 Proxy 对象 (1)
+proxy.test = 5; // 写入 proxy 对象 (1)
 alert(target.test); // 5，test 属性出现在了 target 中！
 
 alert(proxy.test); // 5，我们也可以从 proxy 对象读取它 (2)
@@ -78,14 +78,14 @@ JavaScript 强制执行某些不变量 — 内部方法和陷阱必须满足的�
 - ……依此类推，我们将在下面的示例中看到更多内容。
 
 还有其他一些不变量，例如：
-- 应用于代理对象的 `[[GetPrototypeOf]]`，必须返回与应用于被代理对象的 `[[GetPrototypeOf]]` 相同的值。换句话说，读取代理对象的原型必须始终返回被代理对象的原型。
+- 应用于代理（proxy）对象的 `[[GetPrototypeOf]]`，必须返回与应用于被代理对象的 `[[GetPrototypeOf]]` 相同的值。换句话说，读取代理对象的原型必须始终返回被代理对象的原型。
 
 陷阱可以拦截这些操作，但是必须遵循下面这些规则。
 
 不变量确保语言功能的正确和一致的行为。完整的不变量列表在 [规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 中。如果你不做奇怪的事情，你可能就不会违反它们。
 ```
 
-让我们看看实际示例中的工作原理。
+让我们来看看它们是如何在实际示例中工作的。
 
 ## 带有 "get" 陷阱的默认值
 
@@ -96,14 +96,14 @@ JavaScript 强制执行某些不变量 — 内部方法和陷阱必须满足的�
 读取属性时触发该方法，参数如下：
 
 - `target` — 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
-- `property` — 目标属性名,
-- `receiver` —— 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从代理继承，则是从该代理继承的对象）。现在我们不需要此参数，因此稍后将对其进行详细说明。
+- `property` — 目标属性名，
+- `receiver` — 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从 proxy 继承，则是从该 proxy 继承的对象）。现在我们不需要此参数，因此稍后我们将对其进行详细介绍。
 
-让我们用 `get` 实现对象的默认值。
+让我们用 `get` 来实现一个对象的默认值。
 
-我们将创建一个对不存在的数组项返回0的数组。
+我们将创建一个对不存在的数组项返回 `0` 的数组。
 
-通常，当人们尝试获取不存在的数组项时，他们会得到 `undefined`, 但是我们会将常规数组包装到代理中，以捕获读取操作并在没有此类属性的情况下返回 `0`：
+通常，当人们尝试获取不存在的数组项时，他们会得到 `undefined`，但是我们会将常规数组包装到代理（proxy）中，以捕获读取操作，并在没有要读取的属性的时返回 `0`：
 
 ```js run
 let numbers = [0, 1, 2];
@@ -120,7 +120,7 @@ numbers = new Proxy(numbers, {
 
 *!*
 alert( numbers[1] ); // 1
-alert( numbers[123] ); // 0 (没有这样的元素)
+alert( numbers[123] ); // 0（没有这个数组项)
 */!*
 ```
 
