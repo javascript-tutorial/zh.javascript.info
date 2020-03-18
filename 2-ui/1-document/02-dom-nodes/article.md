@@ -6,26 +6,42 @@ libs:
 
 # DOM 树
 
-HTML 文档的骨干是标签。
+HTML 文档的主干是标签。
 
-根据文档对象模型（DOM），每个 HTML 标签都是一个对象。嵌套标签被称为闭合标签的“子标签”。
+根据文档对象模型（DOM），每个 HTML 标签都是一个对象。嵌套的标签是闭合标签的“子标签（children）”。标签内的文本也是一个对象。
 
-标签内的文本也是一个对象。
+所有这些对象都可以通过 JavaScript 来访问，我们可以使用它们来修改页面。
 
-所有这些对象都可以用 JavaScript 来操作。
+例如，`document.body` 是表示 `<body>` 标签的对象。
+
+运行这段代码会使 `<body>` 保持 3 秒红色状态:
+
+```js run
+document.body.style.background = 'red'; // 将背景设置为红色
+
+setTimeout(() => document.body.style.background = '', 3000); // 恢复回去
+```
+
+在这，我们使用了 `style.background` 来修改 `document.body` 的背景颜色，但是还有很多其他的属性，例如：
+
+- `innerHTML` — 节点的 HTML 内容。
+- `offsetWidth` — 节点宽度（以像素度量）
+- ……等。
+
+很快，我们将学习更多操作 DOM 的方法，但首先我们需要了解 DOM 的结构。
 
 ## DOM 的例子
 
-例如，我们来研究这个文档的 DOM：
+让我们从下面这个简单的文档开始：
 
 ```html run no-beautify
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>About elks</title>
+  <title>About elk</title>
 </head>
 <body>
-  The truth about elks.
+  The truth about elk.
 </body>
 </html>
 ```
