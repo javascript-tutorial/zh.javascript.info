@@ -178,23 +178,23 @@ alert( dictionary['Welcome to Proxy']); // Welcome to Proxy（没有被翻译）
 dictionary = new Proxy(dictionary, ...);
 ```
 
-代理应该在所有地方都完全替代了目标对象。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
+代理应该在所有地方都完全替代目标对象。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
 ````
 
 ## 使用 "set" 陷阱进行验证
 
 假设我们想要一个专门用于数字的数组。如果添加了其他类型的值，则应该抛出一个错误。
 
-当写入属性时 `set` 陷阱触发。
+当写入属性时 `set` 陷阱被触发。
 
-`set(target, property, value, receiver)`:
+`set(target, property, value, receiver)`：
 
-- `target` —— 是目标对象，该对象作为第一个参数传递给 `new Proxy`，
-- `property` —— 目标属性名称，
-- `value` —— 目标属性要设置的值，
-- `receiver` —— 与 `get` 陷阱类似，仅与 setter 访问器相关。
+- `target` — 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
+- `property` — 目标属性名称，
+- `value` — 目标属性的值，
+- `receiver` — 与 `get` 陷阱类似，仅与 setter 访问器属性相关。
 
-如果写入操作成功，`set` 陷阱应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
+如果写入操作（setting）成功，`set` 陷阱应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
 
 让我们用它来验证新值：
 
@@ -203,7 +203,7 @@ let numbers = [];
 
 numbers = new Proxy(numbers, { // (*)
 *!*
-  set(target, prop, val) { // 拦截写入操作
+  set(target, prop, val) { // 拦截写入属性操作
 */!*
     if (typeof val == 'number') {
       target[prop] = val;
@@ -219,39 +219,39 @@ numbers.push(2); // 添加成功
 alert("Length is: " + numbers.length); // 2
 
 *!*
-numbers.push("test"); // TypeError （proxy 的 `set` 操作返回 false）
+numbers.push("test"); // TypeError（proxy 的 'set' 返回 false）
 */!*
 
 alert("This line is never reached (error in the line above)");
 ```
 
-请注意：Array 的内建方法依然生效！ 值使用 `push` 方法添加入数组。添加值时，`length` 属性会自动增加。我们的代理对象 Proxy 不会破坏任何东西。
+请注意：数组的内建方法依然有效！值被使用 `push` 方法添加到数组。当值被添加到数组后，数组的 `length` 属性会自动增加。我们的代理对象 proxy 不会破坏任何东西。
 
 我们不必重写诸如 `push` 和 `unshift` 等添加元素的数组方法，就可以在其中添加检查，因为在内部它们使用代理所拦截的 `[[Set]]` 操作。
 
 因此，代码简洁明了。
 
 ```warn header="别忘了返回 `true`"
-如上所述，要保持不变式。
+如上所述，要保持不变量。
 
-对于 `set`操作, 它必须在成功写入时返回 `true`。
+对于 `set` 操作，它必须在成功写入时返回 `true`。
 
-如果我们忘记这样做或返回任何 falsy值，则该操作将触发 `TypeError`。
+如果我们忘记这样做，或返回任何假（falsy）值，则该操作将触发 `TypeError`。
 ```
 
 ## 使用 "ownKeys" 和 "getOwnPropertyDescriptor" 进行迭代
 
-`Object.keys`，`for..in` 循环和大多数其他遍历对象属性的方法都使用 `[[OwnPropertyKeys]]` 内部方法（由 `ownKeys` 陷阱拦截) 来获取属性列表。
+`Object.keys`，`for..in` 循环和大多数其他遍历对象属性的方法都使用内部方法 `[[OwnPropertyKeys]]`（由 `ownKeys` 陷阱拦截) 来获取属性列表。
 
 这些方法在细节上有所不同：
 - `Object.getOwnPropertyNames(obj)` 返回非 Symbol 键。
 - `Object.getOwnPropertySymbols(obj)` 返回 symbol 键。
-- `Object.keys/values()` 返回带有 `enumerable` 标记的非 Symbol 键值对（属性标记在章节 <info:property-descriptors> 有详细描述).
-- `for..in` 循环遍历所有带有 `enumerable` 标记的非 Symbol 键，以及原型对象的键。
+- `Object.keys/values()` 返回带有 `enumerable` 标志的非 Symbol 键/值（属性标志在 <info:property-descriptors> 一章有详细讲解)。
+- `for..in` 循环遍历所有带有 `enumerable` 标志的非 Symbol 键，以及原型对象的键。
 
 ……但是所有这些都从该列表开始。
 
-在下面的示例中，我们使用 `ownKeys` 陷阱拦截 `for..in` 对 `user` 的遍历，还使用 `Object.keys` 和 `Object.values` 来跳过以下划线  `_` 开头的属性：
+在下面这个示例中，我们使用 `ownKeys` 陷阱拦截 `for..in` 对 `user` 的遍历，并使用 `Object.keys` 和 `Object.values` 来跳过以下划线 `_` 开头的属性：
 
 ```js run
 let user = {
@@ -268,17 +268,17 @@ user = new Proxy(user, {
   }
 });
 
-// "ownKeys" 过滤掉 _password
+// "ownKeys" 过滤掉了 _password
 for(let key in user) alert(key); // name，然后是 age
 
-// 对这些方法同样有效：
+// 对这些方法的效果相同：
 alert( Object.keys(user) ); // name,age
 alert( Object.values(user) ); // John,30
 ```
 
 到目前为止，它仍然有效。
 
-虽然，如果我们返回对象中不存在的键，`Object.keys` 并不会列出该键：
+尽管如此，但如果我们返回对象中不存在的键，`Object.keys` 并不会列出这些键：
 
 ```js run
 let user = { };
@@ -294,11 +294,11 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // <empty>
 ```
 
-为什么？原因很简单：`Object.keys` 仅返回带有 `enumerable` 标记的属性。为了检查它， 该方法会对每个属性调用 `[[GetOwnProperty]]` 来获得[属性描述符](info:property-descriptors)。在这里，由于没有属性，其描述符为空，没有 `enumerable` 标记，因此它将略过。
+为什么？原因很简单：`Object.keys` 仅返回带有 `enumerable` 标志的属性。为了检查它，该方法会对每个属性调用内部方法 `[[GetOwnProperty]]` 来获取 [它的描述符（descriptor）](info:property-descriptors)。在这里，由于没有属性，其描述符为空，没有 `enumerable` 标志，因此它被略过。
 
-为了让 `Object.keys` 返回一个属性，我们要么需要将该属性及 `enumerable` 标记存入对象，或者我们可以拦截对它的调用 `[[GetOwnProperty]]` (陷阱 `getOwnPropertyDescriptor` 会执行此操作)，并返回描述符enumerable: true。
+为了让 `Object.keys` 返回一个属性，我们要么需要它要么存在于带有 `enumerable` 标志的对象，要么我们可以拦截对 `[[GetOwnProperty]]` 的调用（陷阱 `getOwnPropertyDescriptor` 可以做到这一点)，并返回带有 `enumerable: true` 的描述符。
 
-这是一个例子：
+这是关于此的一个例子：
 
 ```js run
 let user = { };
