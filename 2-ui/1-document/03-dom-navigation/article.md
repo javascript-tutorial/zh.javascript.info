@@ -239,12 +239,17 @@ alert( document.documentElement.parentNode ); // document
 alert( document.documentElement.parentElement ); // null
 ```
 
-换句话说，`documentElement`（对应 `<html>` 标签）是根节点。形式上来讲，它有 `document` 作为它的父节点。但是 `document` 并不是一个元素节点，所以 `parentNode` 返回了 `document` 而 `parentElement` 却没有。
+因为根节点 `document.documentElement`（`<html>`）的父节点是 `document`。但 `document` 不是一个元素节点，所以 `parentNode` 返回了 `document`，但 `parentElement` 返回的是 `null`。
 
-有时候，当我们要遍历父节点并且在每个遍历的节点调用方法时这很重要，但是 `document` 并没有父元素节点，所以我们要将它排除在外。
+当我们想从任意节点 `elem` 到 `<html>` 而不是到 `document` 时，这个细节可能很有用：
+```js
+while(elem = elem.parentElement) { // 向上，直到 <html>
+  alert( elem );
+}
+```
 ````
 
-让我们修改上面的其中一个例子：用 `children` 来替换 `childNodes`。现在它就只显示元素：
+让我们修改上面的一个示例：用 `children` 来替换 `childNodes`。现在它只显示元素：
 
 ```html run
 <html>
@@ -271,29 +276,29 @@ alert( document.documentElement.parentElement ); // null
 
 ## 更多链接：表 [#dom-navigation-tables]
 
-到现在为止我们描述了基本的导航属性。
+到现在，我们已经描述了基本的导航（nabigation）属性。
 
-为了方便起见，某些类型的 DOM 元素会提供特定于其类型的额外属性。
+方便起见，某些类型的 DOM 元素可能会提供特定于其类型的其他属性。
 
-Tables 是其中一个很好也是很重要的例子。
+表（Table）是一个很好的例子，它代表了一个特别重要的情况：
 
-**`<table>`** 元素支持 (除了上面给出的之外) 以下这些属性:
-- `table.rows` — 用于表示表中 `<tr>` 元素的集合。
-- `table.caption/tHead/tFoot` — 用于访问元素 `<caption>`、`<thead>`、`<tfoot>`。
-- `table.tBodies` — `<tbody>` 元素的集合（根据标准该元素数量可以很多）。
+**`<table>`** 元素支持 (除了上面给出的，之外) 以下这些属性:
+- `table.rows` — `<tr>` 元素的集合。
+- `table.caption/tHead/tFoot` — 引用元素 `<caption>`，`<thead>`，`<tfoot>`。
+- `table.tBodies` — `<tbody>` 元素的集合（根据标准还有很多元素，但是这里至少会有一个 — 即使没有被写在 HTML 源文件中，浏览器也会将其放入 DOM 中）。
 
-**`<thead>`、`<tfoot>`、`<tbody>`** 元素提供了 `rows` 属性：
+**`<thead>`，`<tfoot>`，`<tbody>`** 元素提供了 `rows` 属性：
 - `tbody.rows` — 表内部 `<tr>` 元素的集合。
 
 **`<tr>`：**
-- `tr.cells` — 在给定 `<tr>` 元素下 `<td>` 和 `<th>` 单元格的集合。
-- `tr.sectionRowIndex` — 在封闭的 `<thead>/<tbody>` 中 `<tr>` 的编号。
-- `tr.rowIndex` — 在表中 `<tr>` 元素的编号。
+- `tr.cells` — 在给定 `<tr>` 中的 `<td>` 和 `<th>` 单元格的集合。
+- `tr.sectionRowIndex` — 给定的 `<tr>` 在封闭的 `<thead>/<tbody>/<tfoot>` 中的位置（索引）。
+- `tr.rowIndex` — 在整个表中 `<tr>` 的编号（包括表的所有行）。
 
 **`<td>` 和 `<th>`：**
 - `td.cellIndex` — 在封闭的 `<tr>` 中单元格的编号。
 
-下面是使用这些属性的例子：
+用法示例：
 
 ```html run height=100
 <table id="table">
@@ -306,22 +311,23 @@ Tables 是其中一个很好也是很重要的例子。
 </table>
 
 <script>
-  // 获取第一行中第二个单元格的内容
-  alert( table.*!*rows[0].cells[1]*/!*.innerHTML ) // "two"
+  // 获取带有 "two" 的 td（第一行，第二列）
+  let td = table.*!*rows[0].cells[1]*/!*;
+  td.style.backgroundColor = "red"; // highlight it
 </script>
 ```
 
 规范：[tabular data](https://html.spec.whatwg.org/multipage/tables.html)。
 
-HTML 表单还有其它额外的导航属性。我们稍后会在开始使用表单时看到它们。
+HTML 表单还有其它导航（navigation）属性。稍后当我们开始使用表单时，我们将对其进行研究。
 
-# 总结
+## 总结
 
-给一个 DOM 节点，我们可以使用导航属性来立即访问和它直接相邻的节点。
+给定一个 DOM 节点，我们可以使用导航（navigation）属性访问其直接的邻居。
 
-这些属性主要分两组：
+这些属性主要分为两组：
 
-- 对于所有的节点：`parentNode`、`childNodes`、`firstChild`、`lastChild`、`previousSibling` 和 `nextSibling`。
-- 仅用于元素节点：`parentElement`、`children`、`firstElementChild`、`lastElementChild`、`previousElementSibling` 和 `nextElementSibling`。
+- 对于所有节点：`parentNode`，`childNodes`，`firstChild`，`lastChild`，`previousSibling`，`nextSibling`。
+- 仅对于元素节点：`parentElement`，`children`，`firstElementChild`，`lastElementChild`，`previousElementSibling`，`nextElementSibling`。
 
-某些类型的 DOM 元素，比如说像 tables，提供了额外的属性和集合用于访问其内容。
+某些类型的 DOM 元素，例如 table，提供了用于访问其内容的其他属性和集合。
