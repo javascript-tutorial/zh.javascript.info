@@ -7,22 +7,22 @@ libs:
 
 # 遍历 DOM
 
-DOM 让我们可以对元素和它们其中的内容做任何事，但是首先我们需要获取到对应的 DOM 对象，把这个对象赋予一个变量，然后我们才能修改这个对象。
+DOM 让我们可以对元素和它们中的内容做任何事，但是首先我们需要获取到对应的 DOM 对象。
 
-对 DOM 的所有操作都是从 `document` 对象开始的。从这个对象我们可以到达任何节点。
+对 DOM 的所有操作都是以 `document` 对象开始。它是 DOM 的主“入口点”。从它我们可以访问任何节点。
 
-这里是一张描述对象间链接的图片，通过这些链接我们可以在 DOM 节点之间遍历。
+这里是一张描述对象间链接的图片，通过这些链接我们可以在 DOM 节点之间移动。
 
 ![](dom-links.svg)
 
-让我们更详细地讨论这些。
+让我们更详细地讨论它们吧。
 
-## 在最顶上的：documentElement 和 body
+## 在最顶层：documentElement 和 body
 
-最上面的树节点可以直接通过 `document` 属性来使用：
+最顶层的树节点可以直接作为 `document` 的属性来使用：
 
 `<html>` = `document.documentElement`
-: 最上面的 document 节点是  `document.documentElement`。这是对应 `<html>` 标签的 DOM 节点。
+: 最顶层的 document 节点是 `document.documentElement`。这是对应 `<html>` 标签的 DOM 节点。
 
 `<body>` = `document.body`
 : 另一个被广泛使用的 DOM 节点是 `<body>` 元素 — `document.body`。
@@ -33,9 +33,9 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 ````warn header="这里有个问题：`document.body` 的值可能是 `null`"
 脚本无法访问在运行时不存在的元素。
 
-特别要注意的是，如果一个脚本是在 `<head>` 标签中，那么脚本中是访问不到 `document.body` 元素的，因为浏览器还没有读到其中的内容。
+尤其是，如果一个脚本是在 `<head>` 中，那么脚本是访问不到 `document.body` 的，因为浏览器还没有读到它。
 
-所以在下面的例子中第一个 `alert` 函数显示的是 `null`：
+所以，下面例子中的第一个 `alert` 显示 `null`：
 
 ```html run
 <html>
@@ -43,7 +43,7 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 <head>
   <script>
 *!*
-    alert( "From HEAD: " + document.body ); // null, there's no <body> yet
+    alert( "From HEAD: " + document.body ); // null，这里目前还没有 <body>
 */!*
   </script>
 </head>
@@ -51,7 +51,7 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 <body>
 
   <script>
-    alert( "From BODY: " + document.body ); // HTMLBodyElement, now it exists
+    alert( "From BODY: " + document.body ); // HTMLBodyElement，现在存在了
   </script>
 
 </body>
@@ -59,15 +59,15 @@ DOM 让我们可以对元素和它们其中的内容做任何事，但是首先�
 ```
 ````
 
-```smart header="在 DOM 世界中 `null` 就意味着“不存在”"
-在 DOM 中，`null` 值就意味着“不存在”或者“没有这样的节点”。 
+```smart header="在 DOM 的世界中，`null` 就意味着“不存在”"
+在 DOM 中，`null` 值就意味着“不存在”或者“没有这个节点”。 
 ```
 
-## 子元素：childNodes, firstChild, lastChild
+## 子节点：childNodes，firstChild，lastChild
 
 从现在开始，我们将使用下面这两个术语：
 
-- **子节点（或者叫做子）** —— 对应的是直系的子元素。换句话说它们会完全嵌套在指定的一个元素中。举个例子，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
+- **子节点（或者叫作子）** — 对应的是直系的子节点。换句话说，它们会完全嵌套在指定的一个元素中。举个例子，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
 - **子系元素** —— 对应的是所有嵌套在一个指定元素中的元素，包括这些元素的子元素，以此类推得到的所有元素。
 
 比如说，在这里 `<body>` 有子元素 `<div>` 和 `<ul>`（以及一些空白的文本节点）：
