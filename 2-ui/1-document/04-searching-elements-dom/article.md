@@ -108,17 +108,17 @@ CSS 选择器的伪类，例如 `:hover` 和 `:active` 也都是被支持的。�
 
 ## querySelector [#querySelector]
 
-`elem.querySelector(css)` 调用返回给定 CSS 选择器的第一个元素。
+`elem.querySelector(css)` 调用会返回给定 CSS 选择器的第一个元素。
 
-换句话说，结果与 `elem.querySelectorAll(css)[0]` 相同，但是后者会从**所有**找到的元素中选取一个，而 `elem.querySelector` 只会查找一个。因此编写会更快更简洁。
+换句话说，结果与 `elem.querySelectorAll(css)[0]` 相同，但是后者会查找 **所有** 元素，并从中选取一个，而 `elem.querySelector` 只会查找一个。因此它在速度上更快，并且写起来更短。
 
 ## matches
 
-之前的方法是搜索 DOM 的。
+之前的方法是搜索 DOM。
 
-[elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) 不会查找任何内容，它只会检查 `elem` 是否匹配给定的 CSS 选择器。它返回 `true` 或者 `false`。
+[elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) 不会查找任何内容，它只会检查 `elem` 是否与给定的 CSS 选择器匹配。它返回 `true` 或 `false`。
 
-当我们迭代元素（例如数组或者一些其他内容）并试图过滤那些我们感兴趣的元素时，这个方法会很方便。
+当我们遍历元素（例如数组或其他内容）并试图过滤那些我们感兴趣的元素时，这个方法会很有用。
 
 例如：
 
@@ -127,7 +127,7 @@ CSS 选择器的伪类，例如 `:hover` 和 `:active` 也都是被支持的。�
 <a href="http://ya.ru">...</a>
 
 <script>
-  // 不一定是 document.body.children，也可以是任何集合
+  // 不一定是 document.body.children，还可以是任何集合
   for (let elem of document.body.children) {
 *!*
     if (elem.matches('a[href$="zip"]')) {
@@ -140,13 +140,11 @@ CSS 选择器的伪类，例如 `:hover` 和 `:active` 也都是被支持的。�
 
 ## closest
 
-所有直接在给定元素之上的元素都被称为它的“祖先”。
+元素的祖先（ancestor）是：父级，父级的父级，它的父级等。祖先们一起组成了从元素到顶端的父级链。
 
-换句话说，祖先是：父类，父类的父类，它的父类等。祖先们一起组成了从元素到顶端的父类链。
+`elem.closest(css)` 方法会查找与 CSS 选择器匹配的最近的祖先。`elem` 自己也会被搜索。
 
-`elem.closest(css)` 方法会查找与 CSS 选择器匹配的最接近的祖先。`elem` 自己也会被搜索。
-
-换句话说，方法 `closest` 在元素中得到了提升，并检查每个父类。如果与选择器匹配，则停止搜索并返回祖先。
+换句话说，方法 `closest` 在元素中得到了提升，并检查每个父级。如果它与选择器匹配，则停止搜索并返回该祖先。
 
 例如：
 
@@ -172,19 +170,23 @@ CSS 选择器的伪类，例如 `:hover` 和 `:active` 也都是被支持的。�
 
 ## getElementsBy*
 
-也有其他的方法来搜索节点：
+还有其他通过标签，类等查找节点的方法。
 
-- `elem.getElementsByTagName(tag)` 用给定的标签来查找元素，并返回它们的集合。`tag` 参数也可以是“任何标签”的 `"*"`。
+如今，它们大多已经成为了历史，因为 `querySelector` 功能更强大，写起来更短。
+
+因此，这里我们介绍它们只是为了完整起见，而你仍然可以在就脚本中找到这些方法。
+
+- `elem.getElementsByTagName(tag)` 查找具有给定标签的元素，并返回它们的集合。`tag` 参数也可以是对于“任何标签”的星号 `"*"`。
+- `elem.getElementsByClassName(className)` 返回具有给定CSS类的元素。
+- `document.getElementsByName(name)` 返回在文档范围内具有给定 `name` 属性的元素。很少使用。
 
 例如：
 ```js
-// 获取所有在文档中的 div
+// 获取文档中的所有 div
 let divs = document.getElementsByTagName('div');
 ```
 
-此方法可以在任意 DOM 元素的上下文中调用。
-
-让我们找出在表格中的所有 `input` 标签：
+让我们查找 table 中的所有 `input` 标签：
 
 ```html run height=50
 <table id="table">
@@ -216,36 +218,31 @@ let divs = document.getElementsByTagName('div');
 </script>
 ```
 
-```warn header="Don't forget the `\"s\"` letter!"
-初级开发者会忽略字符 `"s"`。也就是说，它们会调用 `getElementByTagName` 而不是 <code>getElement<b>s</b>ByTagName</code>。
+```warn header="不要忘记字母 `\"s\"`！"
+新手开发者有时会忘记字符 `"s"`。也就是说，他们会调用 `getElementByTagName` 而不是 <code>getElement<b>s</b>ByTagName</code>。
 
-`"s"` 字符并不存在于 `getElementById`，因为它只返回单个元素。但是 `getElementsByTagName` 返回的是一个元素集合，所以 `"s"` 包含在内。
+`getElementById` 中没有字母 `"s"`，是因为它只返回单个元素。但是 `getElementsByTagName` 返回的是元素的集合，所以里面有 `"s"`。
 ```
 
-````warn header="It returns a collection, not an element!"
-另一个普遍存在的错误写法是：
+````warn header="它返回的是一个集合，不是一个元素！"
+新手的另一个普遍的错误是写：
 
 ```js
-// 无法运行
+// 行不通
 document.getElementsByTagName('input').value = 5;
 ```
 
-这无法运行，因为它接受输入的**集合**然后将值赋给它，而不是它里面的元素。
+这是行不通的，因为它需要的是一个 input 的 **集合**，并将值赋（assign）给它，而不是赋值给其中的一个元素。
 
-我们应该迭代集合或者按给定索引来获取元素，然后赋值，就像下述所示：
+我们应该遍历集合或通过对应的索引来获取元素，然后赋值，如下所示：
 
 ```js
-// 应该可以运行（如果有输入）
+// 应该可以运行（如果有 input）
 document.getElementsByTagName('input')[0].value = 5;
 ```
 ````
 
-还有其他很少使用的方法：
-
-- `elem.getElementsByClassName(className)` 返回具有给定 CSS 类的元素。元素也可能含有其他的类。
-- `document.getElementsByName(name)` 返回具有给定 `name` 属性的元素，文档范围。因为历史原因而很少使用。在这里提出，只是考虑到了完整性。
-
-例如：
+查找 `.article` 元素：
 
 ```html run height=50
 <form name="my-form">
@@ -254,28 +251,23 @@ document.getElementsByTagName('input')[0].value = 5;
 </form>
 
 <script>
-  // 按 name 查找属性
+  // 按 name 属性查找
   let form = document.getElementsByName('my-form')[0];
 
-  // 按在表单中的类查找
+  // 在 form 中按 class 查找
   let articles = form.getElementsByClassName('article');
   alert(articles.length); // 2, found two elements with class "article"
 </script>
 ```
 
+## 实时的集合
 
+所有的 `"getElementsBy*"` 方法都会返回一个 **实时的（live）** 集合。这样的集合始终反映的是文档的当前状态，并且在文档发生更改时会“自动更新”。
 
+在下面的例子中，有两个脚本。
 
-
-
-## Live 集合
-
-所有的 `"getElementsBy*"` 方法都会返回 **live** 集合。这类集合总是可以反映出文档的当前状态而且在文档变化时，可以自动更新。
-
-下面的实例中，有两个脚本。
-
-1. 第一个方法创建了对集合 `<div>` 的引用。到目前为止，它的长度是 `1`。
-2. 第二个脚本在浏览器再遇到一个 `<div>` 时，它的长度会变成 `2`。
+1. 第一个创建了对 `<div>` 的集合的引用。截至目前，它的长度是 `1`。
+2. 第二个脚本在浏览器再遇到一个 `<div>` 时运行，所以它的长度是 `2`。
 
 ```html run
 <div>First div</div>
@@ -294,7 +286,7 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-相反，`querySelectorAll` 会返回一个**static**集合。就像一个固定的元素数字。
+相反，`querySelectorAll` 返回的是一个 **静态的** 集合。就像元素的固定数组。
 
 如果我们使用它，那么两个脚本都会输出 `1`：
 
@@ -316,13 +308,11 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-现在我们可以很容易地看到不同之处。在文档中出现一个新的 `div` 后，静态集合并没有增加。
-
-我们在这里使用独立的脚本来说明元素添加是如何影响集合的，但是在此之后的任何 DOM 操作都会影响它们。很快我们就可以看到更多的细节。
+现在我们可以很容易地看到不同之处。在文档中出现新的 `div` 后，静态集合并没有增加。
 
 ## 总结
 
-有 6 种主要的方法，可以在 DOM 中进行搜素：
+有 6 种主要的方法，可以在 DOM 中搜素节点：
 
 <table>
 <thead>
@@ -334,6 +324,18 @@ document.getElementsByTagName('input')[0].value = 5;
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>querySelector</code></td>
+<td>CSS-selector</td>
+<td>✔</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>querySelectorAll</code></td>
+<td>CSS-selector</td>
+<td>✔</td>
+<td>-</td>
+</tr>
 <tr>
 <td><code>getElementById</code></td>
 <td><code>id</code></td>
@@ -358,29 +360,15 @@ document.getElementsByTagName('input')[0].value = 5;
 <td>✔</td>
 <td>✔</td>
 </tr>
-<tr>
-<td><code>querySelector</code></td>
-<td>CSS-selector</td>
-<td>✔</td>
-<td>-</td>
-</tr>
-<tr>
-<td><code>querySelectorAll</code></td>
-<td>CSS-selector</td>
-<td>✔</td>
-<td>-</td>
-</tr>
 </tbody>
 </table>
 
-请注意，只有在文档 `document.getElementById(...)` 的上下文中才能调用 `getElementById` 和 `getElementsByName`。但元素中没有  `elem.getElementById(...)` 会报错。
+目前为止，最常用的是 `querySelector` 和 `querySelectorAll`，但是 `getElementBy*` 可能会偶尔有用，或者可以在就脚本中找到。
 
-也可以在元素上调用其他方法，例如 `elem.querySelectorAll(...)` 将会在 `elem`（在 DOM 子树中）内部进行搜素。
-
-除此以外：
+此外：
 
 - `elem.matches(css)` 用于检查 `elem` 与给定的 CSS 选择器是否匹配。
 - `elem.closest(css)` 用于查找与给定 CSS 选择器相匹配的最近的祖先。`elem` 本身也会被检查。
 
-最后我们在提一种检查父子关系的方法：
--  如果 `elemB` 在 `elemA`（`elemA` 的后代）中或者当 `elemA==elemB` 时 `elemA.contains(elemB)` 将返回 true。
+让我们在这里提一下另一种用来检查子级与父级之间关系的方法，因为它有时很有用：
+- 如果 `elemB` 在 `elemA` 内（`elemA` 的后代）或者 `elemA==elemB`，`elemA.contains(elemB)` 将返回 true。
