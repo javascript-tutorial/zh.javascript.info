@@ -129,52 +129,52 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 
 ### DOM 集合
 
-正如我们看到的那样，`childNodes` 看起来就像一个数组。但是它实际上并不是一个数组，而是一个**集合** —— 一个类似数组的可迭代对象。
+正如我们看到的那样，`childNodes` 看起来就像一个数组。但实际上它并不是一个数组，而是一个 **集合** — 一个类数组的可迭代对象。
 
 这个性质会导致两个重要的结果：
 
-1. 我们可以使用 `for..of` 语法来迭代它：
+1. 我们可以使用 `for..of` 来迭代它：
   ```js
   for (let node of document.body.childNodes) {
-    alert(node); // shows all nodes from the collection
+    alert(node); // 显示集合中的所有节点
   }
   ```
   这是因为集合是可迭代的（提供了所需要的 `Symbol.iterator` 属性）。
 
-2. 并不能使用数组的方法，因为它并不是一个数组：
+2. 无法使用数组的方法，因为它不是一个数组：
   ```js run
-  alert(document.body.childNodes.filter); // undefined (there's no filter method!)
+  alert(document.body.childNodes.filter); // undefined（这里没有 filter 方法！）
   ```
 
-因为集合性质所得到的第一个结果很不错。第二个结果也还可以忍受，因为如果我们想调用数组的方法的话可以通过 `Array.from` 方法来从集合中创建一个“真”的数组：
+集合的性质所得到的第一个结果很不错。第二个结果也还可以忍受，因为如果我们想要使用数组的方法的话，我们可以使用 `Array.from` 方法来从集合创建一个“真”数组：
 
   ```js run
-  alert( Array.from(document.body.childNodes).filter ); // now it's there
+  alert( Array.from(document.body.childNodes).filter ); // function
   ```
 
 ```warn header="DOM 集合是只读的"
-DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的。
+DOM 集合，甚至可以说本章中列出的 **所有** 导航（navigation）属性都是只读的。
 
 我们不能通过类似 `childNodes[i] = ...` 的操作来替换一个子节点。
 
-修改子节点需要使用其它的方法，我们将会在下一章中看到它们。
+修改子节点需要使用其它方法。我们将会在下一章中看到它们。
 ```
 
 ```warn header="DOM 集合是实时的"
-除小部分例外之外几乎所有的 DOM 集合都是**实时**的。换句话说，它们都反映的是 DOM 的实时状态。
+除小部分例外，几乎所有的 DOM 集合都是 **实时** 的。换句话说，它们反映了 DOM 的当前状态。
 
-如果我们保留一个对 `elem.childNodes` 的引用，然后在 DOM 中添加/移除节点，那么这些新加的节点就会自动出现在这个集合中。
+如果我们保留一个对 `elem.childNodes` 的引用，然后向 DOM 中添加/移除节点，那么这些节点的更新会自动出现在集合中。
 ```
 
-````warn header="不要使用 `for..in` 来循环遍历集合"
-在使用 `for..of` 的情况下集合是可迭代的。但是有时候人们会尝试使用 `for..in` 来迭代集合。
+````warn header="不要使用 `for..in` 来遍历集合"
+可以使用 `for..of` 对集合进行迭代。但有时候人们会尝试使用 `for..in` 来迭代集合。
 
-请不要这么做。`for..in` 循环遍历的是所有列举的属性。集合会有一些“额外”很少用到的属性，这些属性我们通常不会获取到：
+请不要这么做。`for..in` 循环遍历的是所有可枚举的（enumerable）属性。集合还有一些“额外的”很少被用到的属性，通常这些属性也是我们不期望得到的：
 
 ```html run
 <body>
 <script>
-  // 显示 0、1、length、item、values 以及其它值。
+  // 显示 0，1，length，item，values 及其他。
   for (let prop in document.body.childNodes) alert(prop);
 </script>
 </body>
@@ -182,54 +182,57 @@ DOM 集合甚至可以说本章中列出的**所有**导航属性都是只读的
 
 ## 兄弟节点和父节点
 
-**兄弟节点**是指有同一个父节点的节点。比如说 `<head>` 和 `<body>` 就是兄弟节点：
+**兄弟节点（Sibling）** 是指有同一个父节点的节点。
+
+例如，`<head>` 和 `<body>` 就是兄弟节点：
+
+```html
+<html>
+  <head>...</head><body>...</body>
+</html>
+```
 
 - `<body>` 可以说是 `<head>` 的“下一个”或者“右边”兄弟节点。
 - `<head>` 可以说是 `<body>` 的“前一个”或者“左边”兄弟节点。
 
-父节点可以通过 `parentNode` 访问。
+下一个兄弟节点在 `nextSibling` 属性中，上一个是在 `previousSibling` 属性中。
 
-在同一个父节点中一个节点的下一个节点（下一个兄弟节点）可以通过 `nextSibling` 访问，上一个节点可以通过 `previousSibling` 访问。
+可以通过 `parentNode` 来访问父节点。
 
-比如说：
+例如：
 
-```html run
-<html><head></head><body><script>
-  //  HTML 代码是“密集”的用来避免额外的“空白”文本节点。
-  HTML is "dense" to evade extra "blank" text nodes.
+```js run
+// <body> 的父节点是 <html>
+alert( document.body.parentNode === document.documentElement ); // true
 
-  // <body> 的父节点是 <html>
-  alert( document.body.parentNode === document.documentElement ); // true
+// <head> 的后一个是 <body>
+alert( document.head.nextSibling ); // HTMLBodyElement
 
-  // <head> 的下一个兄弟节点是  <body>
-  alert( document.head.nextSibling ); // HTMLBodyElement
-
-  // <body> 的上一个兄弟节点是  <head>
-  alert( document.body.previousSibling ); // HTMLHeadElement
-</script></body></html>
+// <body> 的前一个是 <head>
+alert( document.body.previousSibling ); // HTMLHeadElement
 ```
 
-## 只在元素中导航
+## 纯元素导航
 
-上面列出的导航属性涉及到**所有**节点。比如说，在 `childNodes` 中我们可以看到文本节点，元素节点，甚至如果存在注释节点的话，也能访问到。 
+上面列出的导航（navigation）属性引用 **所有** 节点。例如，在 `childNodes` 中我们可以看到文本节点，元素节点，甚至如果注释节点存在的话，也能访问到。 
 
-但是对于很多任务来说，我们并不想要文本或者注释节点。我们希望可以操纵代表标签的元素节点以及构建整个页面的结构。
+但是对于很多任务来说，我们并不想要文本节点或注释节点。我们希望操纵的是代表标签的和形成页面结构的元素节点。
 
-所以让我们看看当只考虑**元素节点**时更多的导航链接：
+所以，让我们看看更多只考虑 **元素节点** 的导航链接（navigation link）：
 
 ![](dom-links-elements.svg)
 
-这些链接和之前上面的相似，只是在词中间加了 `Element`：
+这些链接和我们在上面提到过的类似，只是在词中间加了 `Element`：
 
-- `children` —— 只获取类型为元素节点的子节点。
-- `firstElementChild`，`lastElementChild` —— 第一个和最后一个子元素。
-- `previousElementSibling`，`nextElementSibling` —— 兄弟元素。
-- `parentElement` —— 父元素。
+- `children` — 仅那些作为元素节点的子代的节点。
+- `firstElementChild`，`lastElementChild` — 第一个和最后一个子元素。
+- `previousElementSibling`，`nextElementSibling` — 兄弟元素。
+- `parentElement` — 父元素。
 
 ````smart header="为什么是 `parentElement`? 父节点可以不是一个元素吗？"
-`parentElement` 属性返回的是“元素”父节点，而 `parentNode` 返回的是“任何类型”的父节点。这些属性通常来说是一样的：它们都获取父节点。
+`parentElement` 属性返回的是“元素类型”的父节点，而 `parentNode` 返回的是“任何类型”的父节点。这些属性通常来说是一样的：它们都是用于获取父节点。
 
-除了有一个例外就是 `document.documentElement`：
+唯一的例外就是 `document.documentElement`：
 
 ```js run
 alert( document.documentElement.parentNode ); // document
