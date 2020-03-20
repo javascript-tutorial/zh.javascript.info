@@ -1,6 +1,6 @@
-# 特性（Attribute）和属性（property）
+# 特性和属性（Attributes and properties）
 
-当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 并从中生成 DOM 对象。对于元素节点，大多数标准的 HTML 特性（attribute）会自动变成 DOM 对象的属性（property）。
+当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 并从中生成 DOM 对象。对于元素节点，大多数标准的 HTML 特性（attributes）会自动变成 DOM 对象的属性（properties）。
 
 例如，如果标签是 `<body id="page">`，那么 DOM 对象就会有 `body.id="page"`。
 
