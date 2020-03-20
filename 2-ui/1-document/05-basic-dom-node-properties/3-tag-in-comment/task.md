@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# 注释中的标记
+# 注释中的标签
 
-这个代码会显示什么？
+这段代码会显示什么？
 
 ```html
 <script>
@@ -12,6 +12,6 @@ importance: 3
 
   body.innerHTML = "<!--" + body.tagName + "-->";
 
-  alert( body.firstChild.data ); // what's here?
+  alert( body.firstChild.data ); // 这里会显示什么？
 </script>
 ```

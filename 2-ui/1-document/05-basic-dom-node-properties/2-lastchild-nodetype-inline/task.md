@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# nodeType 是什么？
+# nodeType 中是什么？
 
-脚本会显示什么？
+下面这个脚本会显示什么？
 
 ```html
 <html>
