@@ -12,6 +12,6 @@ importance: 3
 
   body.innerHTML = "<!--" + body.tagName + "-->";
 
-  alert( body.firstChild.data ); // what's here?
+  alert( body.firstChild.data ); // 这里会显示什么？
 </script>
 ```
