@@ -33,20 +33,20 @@
 
 它获取属性和方法，并将其作为下列类（按继承顺序列出）的叠加：
 
-- `HTMLInputElement` —— 该类提供特定于输入的属性，而且可以继承...
-- `HTMLElement` —— 它提供了通用 HTML 元素方法（getter 和setter），而且可以继承自其它属性。
-- `Element` —— 提供泛型元素方法，而且可以继承自其它属性。
-- `Node` —— 提供通用 DOM 节点属性，而且可以继承自其它属性。
-- `EventTarget` —— 为事件（包括事件本身）提供支持，
-- 最后，它继承了 `Object`，因为像 `hasOwnProperty` 的“纯对象”方法也是可用的。
+- `HTMLInputElement` — 该类提供特定于输入的属性，
+- `HTMLElement` — 它提供了通用（common）的 HTML 元素方法（以及 getter 和 setter）
+- `Element` — 提供通用（generic）元素方法，
+- `Node` — 提供通用 DOM 节点属性，
+- `EventTarget` — 为事件（包括事件本身）提供支持，
+- ……最后，它继承自 `Object`，因为像 `hasOwnProperty` 这样的“纯对象”方法也是可用的。
 
-要查看 DOM 节点类名，我们可以进行回调，因为对象通常都拥有 `constructor` 属性。它引用类的构造函数，`constructor.name` 就是它的名称：
+要查看 DOM 节点类名，我们可以进行回调，因为对象通常都具有 `constructor` 属性。它引用类的 constructor，`constructor.name` 就是它的名称：
 
 ```js run
 alert( document.body.constructor.name ); // HTMLBodyElement
 ```
 
-...或者我们可以使用 `toString` 方法：
+……或者我们可以将其进行 `toString` 处理：
 
 ```js run
 alert( document.body ); // [object HTMLBodyElement]
@@ -62,11 +62,11 @@ alert( document.body instanceof Node ); // true
 alert( document.body instanceof EventTarget ); // true
 ```
 
-正如我们所看到的，DOM 节点是规则的 JavaScript 对象。它们使用基于原型的类来继承。
+正如我们所看到的，DOM 节点是常规的 JavaScript 对象。它们使用基于原型的类进行继承。
 
-在浏览器中用 `console.dir(elem)` 输出元素来查看也是非常容易的。在控制台中，你可以看到 `HTMLElement.prototype` 和 `Element.prototype` 等。
+在浏览器中，使用 `console.dir(elem)` 输出元素来查看也是非常容易的。在控制台中，你可以看到 `HTMLElement.prototype` 和 `Element.prototype` 等。
 
-```smart header="`console.dir(elem)` versus `console.log(elem)`"
+```smart header="`console.dir(elem)` 与 `console.log(elem)`"
 大多数浏览器在其开发者工具中都支持这两个命令：`console.log` 和 `console.dir`。它们向控制台输出参数。对于 JavaScript 对象，这些命令也是如此。
 
 但对于 DOM 元素却并非如此：
