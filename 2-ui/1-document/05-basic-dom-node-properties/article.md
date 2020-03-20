@@ -46,7 +46,7 @@
 alert( document.body.constructor.name ); // HTMLBodyElement
 ```
 
-……或者我们可以对其进行 `toString` 处理：
+……或者我们可以对其使用 `toString` 方法：
 
 ```js run
 alert( document.body ); // [object HTMLBodyElement]
@@ -82,18 +82,18 @@ alert( document.body instanceof EventTarget ); // true
 
 在 IDL 中，所有属性以其类型开头。例如，`DOMString` 和 `boolean` 等。
 
-以下是附有评论的摘录：
+以下是摘录（excerpt），并附有注释：
 
 ```js
 // 定义 HTMLInputElement
 *!*
-// 冒号 ":"意思是 HTMLInputElement 继承自 HTMLElement
+// 冒号 ":" 表示 HTMLInputElement 继承自 HTMLElement
 */!*
 interface HTMLInputElement: HTMLElement {
-  // 下面是 <input> 元素的属性和方法
+  // 接下来是 <input> 元素的属性和方法
 
 *!*
-  // "DOMString" 意思是这些属性都是字符串
+  // "DOMString" 表示属性的值是字符串
 */!*
   attribute DOMString accept;
   attribute DOMString alt;
@@ -101,30 +101,28 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
-  // 布尔属性（true/false）
+  // 布尔值属性（true/false）
   attribute boolean autofocus;
 */!*
   ...
 *!*
-  //方法 "void" 意思是无返回值
+  // 现在方法："void" 表示方法没有返回值
 */!*
   void select();
   ...
 }
 ```
-
-其他类也大抵如此。
 ````
 
 ## "nodeType" 属性
 
-`nodeType` 属性提供了一个获取 DOM 节点类型的旧方法。
+`nodeType` 属性提供了另一种“过时的”用来获取 DOM 节点类型的方法。
 
-它有一个数值：
-- `elem.nodeType == 1` 是元素节点，
-- `elem.nodeType == 3` 是文本节点，
-- `elem.nodeType == 9` 是 document 对象，
-- 在[规范](https://dom.spec.whatwg.org/#node)中几乎没有其他值。
+它有一个数值型值（numeric value）：
+- 对于元素节点 `elem.nodeType == 1`，
+- 对于文本节点 `elem.nodeType == 3`，
+- 对于 document 对象 `elem.nodeType == 9`，
+- 在 [规范](https://dom.spec.whatwg.org/#node) 还有一些其他值。
 
 例如：
 
@@ -139,17 +137,17 @@ interface HTMLInputElement: HTMLElement {
   // 第一个子节点是
   alert(elem.firstChild.nodeType); // 3 => text
 
-  // 对于文档对象，类型是 9
+  // 对于 document 对象，类型是 9
   alert( document.nodeType ); // 9
   </script>
 </body>
 ```
 
-在现代脚本中，我们可以使用 `instanceof` 和其他基于类的测试来查看节点类型，但有时 `nodeType` 可能会更简单。我们只能读取 `nodeType` 而不能修改它。
+在现代脚本中，我们可以使用 `instanceof` 和其他基于类的检查方法来查看节点类型，但有时 `nodeType` 可能更简单。我们只能读取 `nodeType` 而不能修改它。
 
 ## 标签：nodeName 和 tagName
 
-给定一个 DOM 节点，我们可以从 `nodeName` 或者 `tagName` 属性中读取它的标记名：
+给定一个 DOM 节点，我们可以从 `nodeName` 或者 `tagName` 属性中读取它的标签名：
 
 例如：
 
@@ -158,16 +156,16 @@ alert( document.body.nodeName ); // BODY
 alert( document.body.tagName ); // BODY
 ```
 
-tagName 和 nodeName 之间有何不同？
+tagName 和 nodeName 之间有什么不同吗？
 
-当然，差异反映在它们的名字上，但是确实有些微妙。
+当然，差异就体现在它们的名字上，但确实有些微妙。
 
-- `tagName` 属性仅用于 `Element` 节点。
+- `tagName` 属性仅适用于 `Element` 节点。
 - `nodeName` 是为任意 `Node` 定义的：
     - 对于元素，它的意义与 `tagName` 相同。
-    - 对其他节点类型（text、comment 等），则是拥有一个字符串的节点类型。
+    - 对于其他节点类型（text，comment 等），它拥有一个对应节点类型的字符串。
 
-换句话说，`tagName` 只被元素节点支持（因为它起源于 `Element` 类），而 `nodeName` 则可以说明其他节点类型。
+换句话说，`tagName` 仅受元素节点支持（因为它起源于 `Element` 类），而 `nodeName` 则可以说明其他节点类型。
 
 例如，我们比较一下 `document` 的 `tagName` 和 `nodeName`，以及一个注释节点：
 
@@ -177,35 +175,34 @@ tagName 和 nodeName 之间有何不同？
 
   <script>
     // for comment
-    alert( document.body.firstChild.tagName ); // undefined (no element)
+    alert( document.body.firstChild.tagName ); // undefined（不是一个元素）
     alert( document.body.firstChild.nodeName ); // #comment
 
     // for document
-    alert( document.tagName ); // undefined (not element)
+    alert( document.tagName ); // undefined（不是一个元素）
     alert( document.nodeName ); // #document
   </script>
 </body>
 ```
 
-如果我们只处理元素，那么 `tagName` 是我们唯一应该使用的。
+如果我们只处理元素，那么 `tagName` 和 `nodeName` 这两种方法，我们都可以使用，没有区别。
 
+```smart header="标签名称始终是大写的，除非是在 XML 模式下"
+浏览器有两种处理文档（document）的模式：HTML 和 XML。通常，HTML 模式用于网页。只有在浏览器接收到带有 `Content-Type: application/xml+xhtml` 报头（header）的 XML-document 时，XML 模式才会被启用。
 
-```smart header="The tag name is always uppercase except XHTML"
-浏览器有两种处理 document 的模式：HTML 和 XML。通常，HTML 模式用于网页，只有浏览器接受带有 `Content-Type: application/xml+xhtml` 报头的 XML-document 时，我们才会使用 XML 模式。
+在 HTML 模式下，`tagName/nodeName` 始终是大写的：它是 `BODY`，而不是 `<body>` 或 `<BoDy>`。
 
-在 HTML 模式中，`tagName/nodeName` 总是大写的：它是 `BODY`，而不是 `<body>` 或 `<BoDy>`。
-
-在 XML 模式中，大小写保持为原样。目前，XML 模式很少被使用。
+在 XML 模式中，大小写保持为“原样”。如今，XML 模式很少被使用。
 ```
 
 
-## innerHTML: the contents
+## innerHTML：内容
 
-[innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) 属性允许将元素中的 HTML 作为字符串来获取。
+[innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) 属性允许将元素中的 HTML 获取为字符串形式。
 
-我们也可以修改它。因此，这是改变页面最有效的方法之一。
+我们也可以修改它。因此，它是更改页面最有效的方法之一。
 
-该示例显示了 `document.body` 的内容，然后完全替换它：
+下面这个示例显示了 `document.body` 中的内容，然后将其完全替换：
 
 ```html run
 <body>
@@ -213,35 +210,33 @@ tagName 和 nodeName 之间有何不同？
   <div>A div</div>
 
   <script>
-    alert( document.body.innerHTML ); // read the current contents
-    document.body.innerHTML = 'The new BODY!'; // replace it
+    alert( document.body.innerHTML ); // 读取当前内容
+    document.body.innerHTML = 'The new BODY!'; // 替换它
   </script>
 
 </body>
 ```
 
-我们可以尝试插入无效的 HTML，因为浏览器会为我们修复错误：
+我们可以尝试插入无效的 HTML，浏览器会修复我们的错误：
 
 ```html run
 <body>
 
   <script>
-    document.body.innerHTML = '<b>test'; // forgot to close the tag
-    alert( document.body.innerHTML ); // <b>test</b> (fixed)
+    document.body.innerHTML = '<b>test'; // 忘记闭合标签
+    alert( document.body.innerHTML ); // <b>test</b>（被修复了）
   </script>
 
 </body>
 ```
 
-```smart header="Scripts don't execute"
-如果 `innerHTML` 将 `<script>` 标签插入到 document 中 —— 它不会被执行。
-
-它会被变成 HTML 的一部分，就像已经运行的脚本一样。
+```smart header="脚本不会执行"
+如果 `innerHTML` 将一个 `<script>` 标签插入到 document 中 — 它会成为 HTML 的一部分，但是不会执行。
 ```
 
-### 小心："innerHTML+=" 会完全重写
+### 小心："innerHTML+=" 会进行完全重写
 
-我们可以通过使用 `elem.innerHTML+="something"` 来添加“更多的 HTML”。
+我们可以使用 `elem.innerHTML+="more html"` 将 HTML 附加到元素上。
 
 就像这样：
 
@@ -250,34 +245,34 @@ chatDiv.innerHTML += "<div>Hello<img src='smile.gif'/> !</div>";
 chatDiv.innerHTML += "How goes?";
 ```
 
-但我们必须非常谨慎地使用，因为我们所做的**不是**附加内容，而且完整的重写。
+但我们必须非常谨慎地使用它，因为我们所做的 **不是** 附加内容，而且完全地重写。
 
-从技术上来说，这两行的作用相同：
+从技术上来说，下面这两行代码的作用相同：
 
 ```js
 elem.innerHTML += "...";
-// is a shorter way to write:
+// 进行写入的一种更简短的方式：
 *!*
 elem.innerHTML = elem.innerHTML + "..."
 */!*
 ```
 
-换句话说，`innerHTML+=` 做了以下内容：
+换句话说，`innerHTML+=` 做了以下工作：
 
 1. 移除旧的内容。
-2. 新的 `innerHTML` 被书写（旧的和新的相连接）。
+2. 然后写入新的 `innerHTML`（新旧结合）。
 
-**因为内容“零输出”而且被从头重写，所有的图片和其他资源都会被重写加载。**
+**因为内容已“归零”并从头开始重写，因此所有的图片和其他资源都将重写加载。**
 
-在上面的 `chatDiv` 示例中，`chatDiv.innerHTML+="How goes?"` 重建了 HTML 内容并重新加载了 `smile.gif`（希望它是缓存的）。如果 `chatDiv` 有许多其他文本和图片，那么重新加载就变得清晰可见。
+在上面的 `chatDiv` 示例中，`chatDiv.innerHTML+="How goes?"` 重建了 HTML 内容并重新加载了 `smile.gif`（希望它是缓存的）。如果 `chatDiv` 有许多其他文本和图片，那么就很容易看到重新加载（译注：是指在有很多内容时，重新加载会耗费更多的时间，所以你就很容易看见页面重载的过程）。
 
-也会有其他副作用。例如，如果用鼠标选定现有文本，那么大多数浏览器都会在重写 `innerHTML` 时删除选定内容。如果浏览着输入的文本有一个 `<input>`，那么文本将被移除。诸如此类。
+并且还会有其他副作用。例如，如果现有的文本被用鼠标选中了，那么大多数浏览器都会在重写 `innerHTML` 时删除选定状态。如果这里有一个带有用户输入的文本的 `<input>`，那么这个被输入的文本将会被移除。诸如此类。
 
-幸运的是，除了 `innerHTML`，还有其他的可以添加 HTML 的方法，我们很快就会了解到。
+幸运的是，除了 `innerHTML`，还有其他可以添加 HTML 的方法，我们很快就会学到。
 
 ## outerHTML：元素的完整 HTML
 
-`outerHTML` 属性包含元素的完整 HTML。就像是 `innerHTML` 加上元素本身。
+`outerHTML` 属性包含了元素的完整 HTML。就像 `innerHTML` 加上元素本身一样。
 
 下面是一个示例：
 
@@ -289,11 +284,11 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-**注意：与 `innerHTML`不同，写入到 `outerHTML` 后，不会改变元素。相反，它在外部环境中作为一个整体取代了它。**
+**注意：与 `innerHTML` 不同，写入 `outerHTML` 不会改变元素。而是在 DOM 中替换它。**
 
-是的，虽然听起来很奇怪，更奇怪的是为什么我们在这里做一个单独的注释。看一下。
+是的，听起来很奇怪，它确实很奇怪，这就是为什么我们在这里对此做了一个单独的注释。看一下。
 
-考虑这个实例：
+考虑下面这个示例：
 
 ```html run
 <div>Hello, world!</div>
@@ -302,16 +297,18 @@ elem.innerHTML = elem.innerHTML + "..."
   let div = document.querySelector('div');
 
 *!*
-  // replace div.outerHTML with <p>...</p>
+  // 使用 <p>...</p> 替换 div.outerHTML
 */!*
-  div.outerHTML = '<p>A new element!</p>'; // (*)
+  div.outerHTML = '<p>A new element</p>'; // (*)
 
 *!*
-  // Wow! The div is still the same!
+  // 蛤！'div' 还是原来那样！
 */!*
-  alert(div.outerHTML); // <div>Hello, world!</div>
+  alert(div.outerHTML); // <div>Hello, world!</div> (**)
 </script>
 ```
+
+看起来真的很奇怪，对吧？
 
 在 `(*)` 行，我们取出 `<div>...</div>` 的完整 HTML，用 `<p>...</p>` 将其替换。在外部文档中，我们可以看到新的内容而不是 `<div>`。但是旧的 `div` 变量仍然是相同的。
 
