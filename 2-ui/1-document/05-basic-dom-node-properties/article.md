@@ -67,20 +67,20 @@ alert( document.body instanceof EventTarget ); // true
 在浏览器中，使用 `console.dir(elem)` 输出元素来查看也是非常容易的。在控制台中，你可以看到 `HTMLElement.prototype` 和 `Element.prototype` 等。
 
 ```smart header="`console.dir(elem)` 与 `console.log(elem)`"
-大多数浏览器在其开发者工具中都支持这两个命令：`console.log` 和 `console.dir`。它们向控制台输出参数。对于 JavaScript 对象，这些命令也是如此。
+大多数浏览器在其开发者工具中都支持这两个命令：`console.log` 和 `console.dir`。它们将它们的参数输出到控制台中。对于 JavaScript 对象，这些命令通常做的是相同的事。
 
-但对于 DOM 元素却并非如此：
+但对于 DOM 元素，它们是不同的：
 
-- `console.log(elem)` 显示 DOM 元素树。
-- `console.dir(elem)` 将元素视为 DOM 对象，以便更好地探究它的属性。
+- `console.log(elem)` 显示元素的 DOM 树。
+- `console.dir(elem)` 将元素显示为 DOM 对象，非常适合探索其属性。
 
-尝试 `document.body`。
+你可以在 `document.body` 上尝试一下。
 ```
 
-````smart header="IDL in the spec"
-在规范中，类不是用 JavaScript 描述的，而是一个特殊的[接口描述语言（IDL）](https://en.wikipedia.org/wiki/Interface_description_language)，它很容易理解。
+````smart header="规范中的 IDL"
+在规范中，DOM 类不是使用 JavaScript 来描述的，而是一种特殊的 [接口描述语言（Interface description language）](https://en.wikipedia.org/wiki/Interface_description_language)，简写为 IDL，它通常很容易理解。
 
-在 IDL 中，所有的属性都有它们的类型。比如，`DOMString` 和 `boolean` 等等。
+在 IDL 中，所有属性以其类型开头。例如，`DOMString` 和 `boolean` 等。
 
 以下是附有评论的摘录：
 
