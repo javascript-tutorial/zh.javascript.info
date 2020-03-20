@@ -122,7 +122,7 @@ interface HTMLInputElement: HTMLElement {
 - 对于元素节点 `elem.nodeType == 1`，
 - 对于文本节点 `elem.nodeType == 3`，
 - 对于 document 对象 `elem.nodeType == 9`，
-- 在 [规范](https://dom.spec.whatwg.org/#node) 还有一些其他值。
+- 在 [规范](https://dom.spec.whatwg.org/#node) 中还有一些其他值。
 
 例如：
 
