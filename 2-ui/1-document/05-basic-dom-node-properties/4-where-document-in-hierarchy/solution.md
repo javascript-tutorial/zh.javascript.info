@@ -15,7 +15,7 @@ alert(document.constructor.name); // HTMLDocument
 
 它位于 DOM 层次结构（hierarchy）中的什么位置？
 
-是的，我们可以浏览浏览规范，但是手动找出它会更快。
+是的，我们可以浏览规范，但是手动找出它会更快。
 
 我们通过 `__proto__` 来遍历原型链。
 
