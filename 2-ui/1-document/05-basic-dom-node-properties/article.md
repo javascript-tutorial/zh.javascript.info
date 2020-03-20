@@ -383,12 +383,12 @@ elem.innerHTML = elem.innerHTML + "..."
 
 在实际开发中，用到这样的文本读取的场景非常少。
 
-**写入 `textContent` 显然要有用得多，因为它允许以“安全方式”编辑文本。**
+**写入 `textContent` 要有用得多，因为它允许以“安全方式”写入文本。**
 
-比如我们有一个用户输入的字符串，我们希望将内容显示出了。
+假设我们有一个用户输入的任意字符串，我们希望将其显示出来。
 
-- 使用 `innerHTML`，我们将其“作为 HTML” 插入，包含所有 HTML标记。
-- 在 `textContent`中，我们将其“作为文本”插入，所有字符都当做字面量处理。
+- 使用 `innerHTML`，我们将其“作为 HTML”插入，带有所有 HTML 标签。
+- 使用 `textContent`，我们将其“作为文本”插入，所有符号（symbol）均按字面意义处理。
 
 比较两者：
 
@@ -404,16 +404,16 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-1. 第一个 `<div>` 获取名字“作为 HTML”：所有的标记都被标记，因为我们可以看到粗体名字。
-2. 第二个 `<div>` 获取名字“作为文本”，因此我们可以从字面上看到 `<b>Winnie-the-pooh!</b>`。
+1. 第一个 `<div>` 获取 name “作为 HTML”：所有标签都变成标签，所以我们可以看到粗体的 name。
+2. 第二个 `<div>` 获取 name “作为文本”，因此我们可以从字面上看到 `<b>Winnie-the-pooh!</b>`。
 
-在大多数情况下，我们期望用户提供文本，并希望将其视为文本。我们不想在我们的网站中出现预想不到的 HTML 属性。`textContent` 的赋值恰恰可以做到我们所期望的。
+在大多数情况下，我们期望来自用户的文本，并希望将其视为文本对待。我们不希望在我们的网站中出现意料不到的 HTML。对 `textContent` 的赋值正好可以做到这一点。
 
 ## "hidden" 属性
 
-"hidden" 属性和 DOM 属性指定元素是否可见。
+"hidden" 特性（attribute）和 DOM 属性（property）指定元素是否可见。
 
-我们可以在 HTML 使用它，或者使用 JavaScript 进行分配，就像这些：
+我们可以在 HTML 中使用它，或者使用 JavaScript 进行赋值，如下所示：
 
 ```html run height="80"
 <div>Both divs below are hidden</div>
@@ -427,7 +427,7 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-从技术上来说，`hidden` 与 `style="display:none"` 的运行方式相似。但写法更简洁。
+从技术上来说，`hidden` 与 `style="display:none"` 做的是相同的事。但 `hidden` 写法更简洁。
 
 这里有一个 blinking 元素：
 
@@ -442,12 +442,12 @@ elem.innerHTML = elem.innerHTML + "..."
 
 ## 更多属性
 
-DOM 元素还具有其他属性，其中许多属性由类提供：
+DOM 元素还有其他属性，特别是那些依赖于 class 的属性：
 
-- `value` -- the value for `<input>`, `<select>` and `<textarea>` (`HTMLInputElement`, `HTMLSelectElement`...).
-- `href` -- the "href" for `<a href="...">` (`HTMLAnchorElement`).
-- `id` -- the value of "id" attribute, for all elements (`HTMLElement`).
-- ...and much more...
+- `value` — `<input>`，`<select>` 和 `<textarea>`（`HTMLInputElement`，`HTMLSelectElement`……）的 value。
+- `href` — `<a href="...">`（`HTMLAnchorElement`）的 href。
+- `id` — 所有元素（`HTMLElement`）的 "id" 特性（attribute）的值。
+- ……以及更多其他内容……
 
 例如：
 
@@ -461,39 +461,39 @@ DOM 元素还具有其他属性，其中许多属性由类提供：
 </script>
 ```
 
-大部分标准 HTML 属性都具有与之对应的 DOM 属性，我们可以这样访问它。
+大多数标准 HTML 特性（attribute）都具有相应的 DOM 属性，我们可以像这样访问它。
 
-如果我们想知道给定类的支持属性的完整列表，我们可以在规范中找到它们。例如，<https://html.spec.whatwg.org/#htmlinputelement> 记录了 HTMLInputElement。
+如果我们想知道给定类的受支持属性的完整列表，我们可以在规范中找到它们。例如，在 <https://html.spec.whatwg.org/#htmlinputelement> 中记录了 `HTMLInputElement`。
 
-或者，如果我们想要快速获取它们，或者对具体的浏览器规范感兴趣 —— 我们总是可以使用 `console.dir(elem)` 输出元素并读取这些属性。或者在浏览器的开发者工具的功能选择中打开 "DOM properties"。
+或者，如果我们想要快速获取它们，或者对具体的浏览器规范感兴趣 — 我们总是可以使用 `console.dir(elem)` 输出元素并读取其属性。或者在浏览器的开发者工具的元素（Elements）标签页中探索“DOM 属性”。
 
 ## 总结
 
-每个 DOM 节点都属于某个类。这些类形成层次结构。完整的属性和方法集是继承的结果。
+每个 DOM 节点都属于一个特定的类。这些类形成层次结构（hierarchy）。完整的属性和方法集是继承的结果。
 
-DOM 节点的属性主要有：
+主要的 DOM 节点属性有：
 
 `nodeType`
-: 我们可以从 DOM 对象类中获取 `nodeType`，但我们通常只需要查看它是文本节点还是元素节点。`nodeType` 属性就可以我们的需求。它有数值，最重要的是：`1` —— 是元素，`3` —— 是文本。只读。
+: 我们可以使用它来查看节点是文本节点还是元素节点。它具有一个数值型值（numeric value）：`1` 表示元素，`3` 表示文本节点，其他一些则代表其他节点类型。只读。
 
 `nodeName/tagName`
-: 对于元素来说，标记名（除了 XML 模式外都要大写）。对于非元素节点，`nodeName` 则描述了它是什么。只读。
+: 用于元素名，标签名（除了 XML 模式，都要大写）。对于非元素节点，`nodeName` 描述了它是什么。只读。
 
 `innerHTML`
-: HTML 的元素内容。可以被修改。
+: 元素的 HTML 内容。可以被修改。
 
 `outerHTML`
-: 元素的完整 HTML。写入 `elem.outerHTML` 的操作不会涉及 `elem` 自身。相反，它会在外部上下文中被替换成新的 HTML。
+: 元素的完整 HTML。对 `elem.outerHTML` 的写入操作不会触及 `elem` 本身。而是在外部上下文中将其替换为新的 HTML。
 
 `nodeValue/data`
-: 非元素节点（文本、注释）内容。两者几乎一样，我们通常使用 `data`。允许被修改。
+: 非元素节点（文本、注释）的内容。两者几乎一样，我们通常使用 `data`。可以被修改。
 
 `textContent`
-: 元素中的文本，基本上是 HTML 减去所有 `<tags>`。将文本写入元素中，并把所有特殊字符和标记完全视为文本。可以安全地插入用户生成的文本，防止不必要的 HTML 插入。
+: 元素内的文本：HTML 减去所有 `<tags>`。写入文本会将文本放入元素内，所有特殊字符和标签均被视为文本。可以安全地插入用户生成的文本，并防止不必要的 HTML 插入。
 
 `hidden`
-: 当设置为 `true` 时，执行与 CSS `display:none` 相同的操作。
+: 当被设置为 `true` 时，执行与 CSS `display:none` 相同的事。
 
-DOM 节点还具有其他属性，具体内容则取决于它们的类。例如，`<input>`元素（`HTMLInputElement`）支持 `value`、`type`，而 `<a>` 元素（`HTMLAnchorElement`）则支持 `href` 等。大多数标准 HTML 属性都具有相应的 DOM 属性。
+DOM 节点还具有其他属性，具体有哪些属性则取决于它们的类。例如，`<input>` 元素（`HTMLInputElement`）支持 `value`，`type`，而 `<a>` 元素（`HTMLAnchorElement`）则支持 `href` 等。大多数标准 HTML 特性（attribute）都具有相应的 DOM 属性。
 
-但是 HTML 属性和 DOM 属性并不总是一致的，我们会在下一章中看到这点。
+然而，但是 HTML 特性（attribute）和 DOM 属性（property）并不总是相同的，我们将在下一章中看到。
