@@ -202,7 +202,7 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 </script>
 ```
 
-还有其他的例子。`style` 特性是一个字符串，但 `style` 属性是一个对象：
+还有其他的例子。`style` 特性是一个字符串类型的，但 `style` 属性是一个对象：
 
 ```html run
 <div id="div" style="color:red;font-size:120%">Hello</div>
