@@ -142,9 +142,9 @@ HTML 特性有以下几个特征：
 
 ## 属性—特性同步
 
-当一个标准化的特性被改变，相应的属性随之改变（有极个别除外），反之亦然。
+当一个标准的特性被改变，对应的属性也会自动更新，（除了几个特例）反之亦然。
 
-下面这个例子中 `id` 这个特性被改变了，我们可以看到属性也被改变了。反过来也是同样的效果。
+在下面这个示例中，`id` 被修改为特性，我们可以看到对应的属性也发生了变化。然后反过来也是同样的效果：
 
 ```html run
 <input>
@@ -154,15 +154,15 @@ HTML 特性有以下几个特征：
 
   // 特性 => 属性
   input.setAttribute('id', 'id');
-  alert(input.id); // id（更新了）
+  alert(input.id); // id（被更新了）
 
   // 属性 => 特性
   input.id = 'newId';
-  alert(input.getAttribute('id')); // newId（更新了）
+  alert(input.getAttribute('id')); // newId（被更新了）
 </script>
 ```
 
-这里有一些特殊情况下的例子，`input.value` 只能从特性同步到属性，反过来则不行：
+但这里也有些例外，例如 `input.value` 只能从特性同步到属性，反过来则不行：
 
 ```html run
 <input>
@@ -175,20 +175,20 @@ HTML 特性有以下几个特征：
   alert(input.value); // text
 
 *!*
-  // 这操作无效 属性 => 特性
+  // 这个操作无效，属性 => 特性
   input.value = 'newValue';
-  alert(input.getAttribute('value')); // text（没有更新！）
+  alert(input.getAttribute('value')); // text（没有被更新！）
 */!*
 </script>
 ```
 
-通过这两个例子可以看出：
-- 改变特性值 `value` 会更新到属性上。
-- 但是直接改变属性的值却不会作用在特性的值上。
+在上面这个例子中：
+- 改变特性值 `value` 会更新属性。
+- 但是属性的更改不会影响特性。
 
-这种“特征”是相当便利的，因为用户可能会经常修改 `value`，假设我们想要覆盖 HTML上“原始值”，只需要修改特性的值。
+这个“功能”在实际中会派上用场，因为用户操作可能会导致 `value` 的更改，然后在这些操作之后，如果我们想从 HTML 中恢复“原始”值，那么该值就在特性中。
 
-## DOM 属性的类型
+## DOM 属性是键入的
 
 DOM 并不总是字符串。例如 `input.checked` 属性（多选框）是一个布尔类型的值。
 
