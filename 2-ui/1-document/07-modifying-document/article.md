@@ -392,9 +392,9 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 我们在这儿列出这些方法的唯一原因是，你可能会在许多就脚本中遇到它们。
 
 `parentElem.appendChild(node)`
-: 将 `node` 作为 `parentElem` 最后一个子元素。
+: 将 `node` 附加为 `parentElem` 的最后一个子元素。
 
-    可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾：
+    下面这个示例在 `<ol>` 的末尾添加了一个新的 `<li>`：
 
     ```html run height=100
     <ol id="list">
@@ -412,9 +412,9 @@ ul.append(...getListContent()); // append + "..." operator = friends!
     ```
 
 `parentElem.insertBefore(node, nextSibling)`
-: 在 `parentElem` 的 `nextSibling` 插入 `node`。
+: 在 `parentElem` 的 `nextSibling` 前插入 `node`。
 
-    下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
+    下面这段代码在第二个 `<li>` 前插入了一个新的列表项：
 
     ```html run height=100
     <ol id="list">
@@ -431,36 +431,38 @@ ul.append(...getListContent()); // append + "..." operator = friends!
     */!*
     </script>
     ```
-    如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
+    如果要将 `newLi` 插入为第一个元素，我们可以这样做：
 
     ```js
     list.insertBefore(newLi, list.firstChild);
     ```
 
 `parentElem.replaceChild(node, oldChild)`
-: 将 `parentElem` 的 `oldChild` 替换为 `node`。
+: 将 `parentElem` 的后代中的 `oldChild` 替换为 `node`。
 
-所有这些插入节点的操作都会返回节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常返回的节点都没有用，只是插入方法的默认返回值。
+`parentElem.removeChild(node)`
+: 从 `parentElem` 中删除 `node`（假设 `node` 为 `parentElem` 的后代）。
 
-以上方法都是“旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸的是它们不够灵活。
+    下面这个示例从 `<ol>` 中删除了 `<li>`：
 
-例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，如何在不引用其父节点的情况下删除它？虽然也能完成需求开发，总归不是那么优雅的解决方式。
+    ```html run height=100
+    <ol id="list">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
 
-所以诞生了两种优雅插入方法来代替这些繁琐的插入操作。
+    <script>
+      let li = list.firstElementChild;
+      list.removeChild(li);
+    </script>
+    ```
 
-
-
-
-
-
-
-
-
-
+所有这些方法都会返回插入/删除的节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常我们不会使用返沪值，我们只是使用对应的方法。
 
 ## 聊一聊 "document.write"
 
-`document.write` 是一个很老的方法，用来为 web 页面添加内容。
+还有一个非常古老的向网页添加内容的方法：`document.write`。
 
 语法如下：
 
@@ -474,15 +476,15 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 <p>The end</p>
 ```
 
-调动 `document.write(html)` 时意味着将 `html` “就地并马上”放入到页面中。`html` 字符串会动态的创建，所以它以自动伸缩的方式放入到页面中。我们可以通过 JavaScript 创建一个完整的 HTML 页面并写入浏览器窗口中。
+调用 `document.write(html)` 意味着将 `html` “就地马上”写入页面。`html` 字符串可以是动态生成的，所以它很灵活。我们可以使用 JavaScript 创建一个完整的页面并对其进行写入。
 
-这个方法的起源于没有 DOM，没有 Web 标准的上古时期……，但是这个方法依旧保留了下来，因为很多的脚本使用它来实现一些功能。
+这个方法来自于没有 DOM，没有标准的上古时期……。但这个方法依被保留了下来，因为还有脚本在使用它。
 
-现代的脚本已经很少再看到这个方法，因为使用它有一个很重要的局限性：
+由于以下重要的限制，在现代脚本中我们很少看到它：
 
-**只能在页面加载的时候调用 `document.write`。**
+**`document.write` 调用只在页面加载时工作。**
 
-如果在加载完成以后，渲染好的页面会被擦除。
+如果我们稍后调用它，则现有文档内容将被擦除。
 
 例如：
 
@@ -490,27 +492,26 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 <p>After one second the contents of this page will be replaced...</p>
 *!*
 <script>
-  // 在一秒后调用 document.write
-  // 页面已经加载完毕，所以会被擦除
+  // 1 秒后调用 document.write
+  // 这时页面已经加载完成，所以它会擦除现有内容
   setTimeout(() => document.write('<b>...By this.</b>'), 1000);
 </script>
 */!*
 ```
 
-所以，不像其他 DOM 操作一样，一旦页面“加载完毕”最好就不使用 document.write 方法。
+因此，在某种程度上讲，它在“加载完成”阶段是不可用的，这与我们上面介绍的其他 DOM 方法不同。
 
 这是它的缺陷。
 
-从技术上讲，当浏览器正在读取（“解析”）传入的 HTML ，此时再调用 `document.write` 方法向文档中写入一些东西，浏览器会像它本来就在整个 HTML 文本的那个位置上（调用 document.write 的地方）一样处理它。
-“ it were initially there”
+还有一个好处。从技术上讲，当在浏览器正在读取（“解析”）传入的 HTML 时调用 `document.write` 方法来写入一些东西，浏览器会像它本来就在 HTML 文本中那样使用它。
 
-反过来说这也是一个优势 —— 它性能出奇的快，因为它不用**修改 DOM 结构**。它直接在 DOM 结构构建之前，对整个页面直接进行重写，再交给浏览器去构建 DOM 结构。
+所以它运行起来出奇的快，因为它 **不涉及 DOM 修改**。它直接写入到页面文本中，而此时 DOM 尚未构建。
 
-所以如果我们需要在 HTML 加载阶段动态的添加很多文本，它会很高效。不过能用到的机会不多就是了。在一些很老的脚本里倒是能经常看到。
+因此，如果我们需要向 HTML 动态地添加大量文本，并且我们正处于页面加载阶段，并且速度很重要，那么它可能会有帮助。但实际上，这些要求很少同时出现。我们可以在脚本中看到此方法，通常是因为这些脚本很旧。
 
 ## 总结
 
-创建节点的方法：
+创建新节点的方法：
 
 - `document.createElement(tag)` —— 用给定标签创建一个节点，
 - `document.createTextNode(value)` —— 创建一个文本节点（很少使用），
