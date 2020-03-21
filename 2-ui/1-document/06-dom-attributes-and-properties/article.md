@@ -94,43 +94,39 @@ document.body.sayHi(); // Hello, I'm BODY
 
 这些方法操作的实际上是 HTML 中的内容。
 
-我们也可以使用 `elem.attributes` 读取所有特性：
+我们也可以使用 `elem.attributes` 读取所有特性：属于内建 [Attr](https://dom.spec.whatwg.org/#attr) 类的对象的集合，具有 `name` 和 `value` 属性。
 
-
-
-这些特性都被一个名为 [Attr](https://dom.spec.whatwg.org/#attr) 的内置类以 `name` 和 `value` 这样的键-值对收集起来。
-
-下面是一个如何读取非标准化特性的 demo：
+下面是一个读取非标准的特性的示例：
 
 ```html run
 <body something="non-standard">
   <script>
 *!*
-    alert(document.body.getAttribute('something')); // non-standard
+    alert(document.body.getAttribute('something')); // 非标准的
 */!*
   </script>
 </body>
 ```
 
-HTML 特性有几个特征：
+HTML 特性有以下几个特征：
 
-- 它们的书写是大小写不敏感的（`id` 也可以写作 `ID`）。
-- 他们的值只能是字符串。
+- 它们的名字是大小写不敏感的（`id` 与 `ID` 相同）。
+- 它们的值总是字符串。
 
-下面是一个延伸出来的 demo，它描述了特性是怎么工作的：
+下面是一个使用特性的扩展示例：
 
 ```html run
 <body>
   <div id="elem" about="Elephant"></div>
 
   <script>
-    alert( elem.getAttribute('About') ); // (1) 'Elephant', reading
+    alert( elem.getAttribute('About') ); // (1) 'Elephant'，读取
 
-    elem.setAttribute('Test', 123); // (2), writing
+    elem.setAttribute('Test', 123); // (2) 写入
 
-    alert( elem.outerHTML ); // (3), see it's there
+    alert( elem.outerHTML ); // (3) 查看特性是否在 HTML 中（在）
 
-    for (let attr of elem.attributes) { // (4) list all
+    for (let attr of elem.attributes) { // (4) 列出所有
       alert( `${attr.name} = ${attr.value}` );
     }
   </script>
@@ -139,12 +135,12 @@ HTML 特性有几个特征：
 
 请注意：
 
-1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 里是全小写表示。这也就说明：特性的键名是大小写不敏感的。
-2. 我们可以赋予它任何值，这里我们把 `"123"` 作为它的值。
-3. 所有特性都有一个 `outerHTML` 给我们设置它在页面上的展示内容。
-4. `attributes` 以 `name` 和 `value` 这样的键—值对收集在一个可迭代对象里。
+1. `getAttribute('About')` — 这里的第一个字母是大写的，但是在 HTML 中，它们都是小写的。但这没有影响：特性的名称是大小写不敏感的。
+2. 我们可以将任何东西赋值给特性，但是这些东西会变成字符串。所以这里我们的值为 `"123"`。
+3. 所有特性，包括我们设置的那个特性，在 `outerHTML` 中都是可见的。
+4. `attributes` 集合是可迭代对象，该对象将所有元素的特性（标准和非标准的）作为 `name` 和 `value` 属性存储在对象中。
 
-## 属性—特性的同步
+## 属性—特性同步
 
 当一个标准化的特性被改变，相应的属性随之改变（有极个别除外），反之亦然。
 
