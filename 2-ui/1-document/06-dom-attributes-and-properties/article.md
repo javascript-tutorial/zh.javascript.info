@@ -239,40 +239,40 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 
 ## 非标准的特性，dataset
 
-当我们编写 HTML，会用到很多标准特性。但是哪些是标准化的哪些不是，怎么区分它们？首先，看看它们是否起作用？
+当编写 HTML 时，我们会用到很多标准的特性。但是非标准的，自定义的呢？首先，让我们看看它们是否有用？用来做什么？
 
-有时候非标准化特性常常用于在 HTML 中定义一些 JavaScript 数据，或者是给 HTML 元素打上“标记”。
+有时，非标准的特性常常用于将自定义的数据从 HTML 传递到 JavaScript，或者用于为 JavaScript “标记” HTML 元素。
 
 像这样：
 
 ```html run
-<!-- 标记这个 div 中要显示 "name" -->
+<!-- 标记这个 div 以在这显示 "name" -->
 <div *!*show-info="name"*/!*></div>
-<!-- 这里要显示 "age" -->
+<!-- 标记这个 div 以在这显示 "age" -->
 <div *!*show-info="age"*/!*></div>
 
 <script>
-  // 这段代码是找到该元素并且按照给定数据展示到页面上
+  // 这段代码找到带有标记的元素，并显示需要的内容
   let user = {
     name: "Pete",
     age: 25
   };
 
   for(let div of document.querySelectorAll('[show-info]')) {
-    // 插入相应的数据
+    // 在字段中插入相应的信息
     let field = div.getAttribute('show-info');
-    div.innerHTML = user[field]; // Pete，然后是年龄
+    div.innerHTML = user[field]; // 首先 Pete 成为 "name"，然后 25 成为 "age"
   }
 </script>
 ```
 
-我们还可以应用在元素的样式上。
+它们还可以用来设置元素的样式。
 
-例如，我们通过 `order-state` 设置不同状态下的颜色：
+例如，这里使用 `order-state` 特性来设置订单状态：
 
-```html
+```html run
 <style>
-  /* 按照 "order-state" 的设定产生对应样式 */
+  /* 样式依赖于自定义特性 "order-state" */
   .order[order-state="new"] {
     color: green;
   }
@@ -299,12 +299,12 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 </div>
 ```
 
-为什么使用特性值比使用 `.order-state-new`，`.order-state-pending`，`order-state-canceled` 这些样式类要好？
+为什么使用特性比使用 `.order-state-new`，`.order-state-pending`，`order-state-canceled` 这些样式类要好？
 
-因为特性值更容易管理，我们可以轻易的通过特性值的改变切换样式，比如下面这样：
+因为特性值更容易管理。我们可以轻松地更改状态：
 
 ```js
-// 可以轻易的移除或者添加一个新的类名。
+// 比删除旧的或者添加一个新的类要简单一些
 div.setAttribute('order-state', 'canceled');
 ```
 
