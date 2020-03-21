@@ -2,12 +2,12 @@ importance: 3
 
 ---
 
-# 使外来链接变橙色
+# 将外部链接设为橙色
 
-改变所有外来链接的 `style` 属性，使链接变橙色。
+通过修改 `style` 属性，将所有外部链接变为橙色。
 
-如果一个链接是外来的：
-- 这个 `href` 包含有 `://`
+如果一个链接是外部的：
+- 其 `href` 中包含 `://`
 - 但不是以 `http://internal.com` 开头。
 
 例如：
@@ -24,12 +24,12 @@ importance: 3
 </ul>
 
 <script>
-  // 简单地为这些链接设置样式
+  // 为单个链接设置样式
   let link = document.querySelector('a');
   link.style.color = 'orange';
 </script>
 ```
 
-结果应该是这样的：
+结果应该是：
 
 [iframe border=1 height=180 src="solution"]
