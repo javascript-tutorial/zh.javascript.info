@@ -24,7 +24,7 @@ importance: 3
 </ul>
 
 <script>
-  // 设置单个链接的样式
+  // 为单个链接设置样式
   let link = document.querySelector('a');
   link.style.color = 'orange';
 </script>
