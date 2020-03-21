@@ -7,12 +7,12 @@
   <div data-widget-name="menu">Choose the genre</div>
 
   <script>
-    // getting it
+    // 获取它
     let elem = document.querySelector('[data-widget-name]');
 
-    // reading the value
+    // 读取值
     alert(elem.dataset.widgetName);
-    // or
+    // 或
     alert(elem.getAttribute('data-widget-name'));
   </script>
 </body>
