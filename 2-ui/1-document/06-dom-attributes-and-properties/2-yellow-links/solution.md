@@ -24,7 +24,7 @@ for (let link of links) {
 
 请注意：我们用的是 `link.getAttribute('href')`。而不是 `link.href`，因为我们需要的是来自 HTML 的值。
 
-……另一种更简单的方法，是将检查添加到 CSS 选择器：利用 CSS 选择器的伪类选择器：
+……另一种更简单的方法，是使用 CSS 选择器进行检查：
 
 ```js
 // 查找所有 href 中包含 :// 的链接
