@@ -8,11 +8,11 @@
 
 ## DOM 属性
 
-我们已经见过内置的 DOM 属性了。它的数量很庞大，但是 DOM 技术实现上没有限制我们对这个对象进行添加 —— 如果我们需要额外的属性的话。
+我们已经见过了内建 DOM 属性。它们数量庞大。但是从技术上讲，没有人会限制我们，如果我们觉得这些 DOM 还不够，我们可以添加我们自己的。
 
-DOM 节点是一个标准的 JavaScript 对象。我们可以 alert 它。
+DOM 节点是常规的 JavaScript 对象。我们可以 alert 它们。
 
-在这个例子中，让我们在 `document.body` 创建一个新的属性：
+例如，让我们在 `document.body` 中创建一个新的属性：
 
 ```js run
 document.body.myData = {
@@ -23,17 +23,17 @@ document.body.myData = {
 alert(document.body.myData.title); // Imperator
 ```
 
-我们也能像下面这样添加一个方法：
+我们也可以像下面这样添加一个方法：
 
 ```js run
 document.body.sayTagName = function() {
   alert(this.tagName);
 };
 
-document.body.sayTagName(); // BODY（这个方法中的 "this" 指 document.body）
+document.body.sayTagName(); // BODY（这个方法中的 "this" 的值是 document.body）
 ```
 
-我们还可以修改内置属性的原型，比如修改 `Element.prototype` 会给所有元素添加一个方法：
+我们还可以修改内建属性的原型，例如修改 `Element.prototype` 为所有元素添加一个新方法：
 
 ```js run
 Element.prototype.sayHi = function() {
@@ -44,16 +44,16 @@ document.documentElement.sayHi(); // Hello, I'm HTML
 document.body.sayHi(); // Hello, I'm BODY
 ```
 
-所以，DOM 上的属性和方法其实就像是一个标准的 Javascript 对象：
+所以，DOM 属性和方法的行为就像常规的 Javascript 对象一样：
 
-- 它可以有很多值。
-- 它是大小写敏感的（要写成 `elem.nodeType`，而不是 `elem.NoDeTyPe`）。
+- 它们可以有很多值。
+- 它们是大小写敏感的（要写成 `elem.nodeType`，而不是 `elem.NoDeTyPe`）。
 
 ## HTML 特性
 
-在 HTML 语言中，标签可能拥有特性。当浏览器读取 HTML 文本并根据标签生成 DOM 对象，它会辨别**标准化**特性然后以此创建 DOM 属性。
+在 HTML 中，标签可能拥有特性（attributes）。当浏览器解析 HTML 文本，并根据标签创建 DOM 对象时，浏览器会辨别 **标准的** 特性并以此创建 DOM 属性。
 
-因此当一个元素有 `id` 或其他**标准化**特性，会生相应的 DOM 属性。但是非**标准化**的特性则会被忽略。
+所以，当一个元素有 `id` 或其他 **标准的** 特性，那么就会生成对应的 DOM 属性。但是非 **标准的** 特性则不会。
 
 例如：
 ```html run
@@ -61,40 +61,44 @@ document.body.sayHi(); // Hello, I'm BODY
   <script>
     alert(document.body.id); // test
 *!*
-    // 非标准特性不会生成相应属性
+    // 非标准的特性没有获得对应的属性
     alert(document.body.something); // undefined
 */!*
   </script>
 </body>
 ```
 
-请留意不是每一个元素的标准化特性都是相同的，`"type"` 是 `<input>` 的一个标准化特性（[HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)），但是 `<body>` 则没有（[HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)）。每一个元素的标准化特性都有确切的规范描述。
+请注意，一个元素的标准的特性对于另一个元素可能是未知的。例如 `"type"` 是 `<input>` 的一个标准的特性（[HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)），但对于 `<body>`（[HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)）来说则不是。规范中对相应元素类的标准的属性进行了详细的描述。
 
-以下我们可以看到：
+这里我们可以看到：
 ```html run
 <body id="body" type="...">
   <input id="input" type="text">
   <script>
     alert(input.type); // text
 *!*
-    alert(body.type); // undefined：DOM 属性不存在，因为这不是一个标准化的特性。
+    alert(body.type); // undefined：DOM 属性没有被创建，因为它不是一个标准的特性
 */!*
   </script>
 </body>
 ```
 
-如果一个特性不是标准化的，DOM 属性就不存在这个特性。那我们有没办法获取到这个特性？
+所以，如果一个特性不是标准的，那么就没有相对应的 DOM 属性。那我们有什么方法来访问这些特性吗？
 
-答案是肯定的。以下几个方法是针对元素特性的操作：
+当然。所有特性都可以通过使用以下方法进行访问：
 
-- `elem.hasAttribute(name)` —— 检验是否拥这个特性。
-- `elem.getAttribute(name)` —— 获取到这个特性值。
-- `elem.setAttribute(name, value)` —— 设置这个特性值。
-- `elem.removeAttribute(name)` —— 移除这个特性。
+- `elem.hasAttribute(name)` — 检查特性是否存在。
+- `elem.getAttribute(name)` — 获取这个特性值。
+- `elem.setAttribute(name, value)` — 设置这个特性值。
+- `elem.removeAttribute(name)` — 移除这个特性。
 
-以上的几个方法实际上也是 HTML 的原生方法。
+这些方法操作的实际上是 HTML 中的内容。
 
-我们可以通过 `elem.attributes` 读取到该元素的所有特性：这些特性都被一个名为 [Attr](https://dom.spec.whatwg.org/#attr) 的内置类以 `name` 和 `value` 这样的键-值对收集起来。
+我们也可以使用 `elem.attributes` 读取所有特性：
+
+
+
+这些特性都被一个名为 [Attr](https://dom.spec.whatwg.org/#attr) 的内置类以 `name` 和 `value` 这样的键-值对收集起来。
 
 下面是一个如何读取非标准化特性的 demo：
 
