@@ -219,7 +219,7 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 
 尽管大多数 DOM 属性都是字符串类型的。
 
-有一种非常少见的情况，即使一个 DOM 属性是字符串类型的，但它可能和 HTML 特性也是不同的。例如，`href` DOM 属性总是一个 **完整的** URL，即使该特性包含一个相对路径或者包含一个 `#hash`。
+有一种非常少见的情况，即使一个 DOM 属性是字符串类型的，但它可能和 HTML 特性也是不同的。例如，`href` DOM 属性一直是一个 **完整的** URL，即使该特性包含一个相对路径或者包含一个 `#hash`。
 
 这里有一个例子：
 
@@ -261,7 +261,7 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
   for(let div of document.querySelectorAll('[show-info]')) {
     // 在字段中插入相应的信息
     let field = div.getAttribute('show-info');
-    div.innerHTML = user[field]; // 首先 Pete 成为 "name"，然后 25 成为 "age"
+    div.innerHTML = user[field]; // 首先 "name" 变为 Pete，然后 "age" 变为 25
   }
 </script>
 ```
@@ -308,13 +308,13 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 div.setAttribute('order-state', 'canceled');
 ```
 
-但是自定义的特性也存在问题。如果我们使用了一个非标准化的特性，之后却变成了一个标准化的值并用来做其他事情，HTML 语言一直在发展，越来越多的标准化特性解决了开发者的开发需求。这就是一个不可控的例子。
+但是自定义的特性也存在问题。如果我们出于我们的目的使用了非标准的特性，之后它被引入到了标准中并有了其自己的用途，该怎么办？HTML 语言是在不断发展的，并且更多的特性出现在了标准中，以满足开发者的需求。在这种情况下，自定义的属性可能会产生意料不到的影响。
 
-为了解决这个冲突产生了 [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) 这个特性。
+为了避免冲突，存在 [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) 特性。
 
-**所有以 "data-" 开头的特性值可以给编程人员正常使用，同时它还是 `dataset` 合法值。**
+**所有以 "data-" 开头的特性均被保留供程序员使用。它们可在 `dataset` 属性中使用。**
 
-例如, 如果一个 `elem` 有一个键名是 `"data-about"` 的特性，那么可以通过 `elem.dataset.about` 取到这个合法值。
+例如，如果一个 `elem` 有一个名为 `"data-about"` 的特性，那么可以通过 `elem.dataset.about` 取到它。
 
 像这样：
 
@@ -325,9 +325,9 @@ div.setAttribute('order-state', 'canceled');
 </script>
 ```
 
-像 `data-order-state` 的多字特性键名可以写成驼峰式 `dataset.orderState`。
+像 `data-order-state` 这样的多词特性可以以驼峰式进行调用：`dataset.orderState`。
 
-这里是一个 "order state" 重构版：
+这里是 "order state" 那个示例的重构版：
 
 ```html run
 <style>
@@ -357,31 +357,31 @@ div.setAttribute('order-state', 'canceled');
 </script>
 ```
 
-使用 `data-*` 的特性值是一个合法值，保存着自定义数据。
+使用 `data-*` 特性是一种合法且安全的传递自定义数据的方式。
 
-请注意我们不但可以读取，还能修改 data-attributes。上面这个例子的最后一行：`(*)` 会变成蓝色。
+请注意，我们不仅可以读取数据，还可以修改数据属性（data-attributes）。然后 CSS 会更新相应的视图：在上面这个例子中的最后一行 `(*)` 将颜色更改为了蓝色。
 
 ## 总结
 
-- 特性 —— 写在 HTML 中。
-- 属性 —— 是一个 DOM 对象。
+- 特性（Attribute）— 写在 HTML 中的内容。
+- 属性（property）— DOM 对象中的内容。
 
 简略的对比：
 
 |            | 属性 | 特性 |
 |------------|------------|------------|
-|类型|一些值，标准化的属性值在规范中有类型描述|字符串|
-|名字|键名大小写敏感|键名大小写不敏感|
+|类型|任何值，标准的属性具有规范中描述的类型|字符串|
+|名字|名字（name）是大小写敏感的|名字（name）是大小写不敏感的|
 
-操作特性的一些方法：
+操作特性的方法：
 
-- `elem.hasAttribute(name)` —— 检查是否存在这个特性
-- `elem.getAttribute(name)` —— 获取这个特性
-- `elem.setAttribute(name, value)` —— 把这个特性设置为 name 值
-- `elem.removeAttribute(name)` —— 移除这个特性
-- `elem.attributes` —— 所有特性的集合
+- `elem.hasAttribute(name)` — 检查是否存在这个特性。
+- `elem.getAttribute(name)` — 获取这个特性值。
+- `elem.setAttribute(name, value)` — 设置这个特性值。
+- `elem.removeAttribute(name)` — 移除这个特性。
+- `elem.attributes` — 所有特性的集合。
 
-对于大多数需求，DOM 属性已经可以给予很好的支持。应当在 DOM 属性实在无法满足开发需求的情况下才使用特性，比如以下情况：
+在大多数情况下，最好使用 DOM 属性。仅当 DOM 属性无法满足开发需求，并且我们真的需要特性时，才使用特性，例如：
 
-- 我们需要一个非标准化的特性。但是如果我们用 `data-` 来设置特性值，那就要使用 `dataset` 来获取属性值。
-- 我们想要读取到 HTML 的展示内容。比如 `href` 属性总是一个绝对路径，但是我们只想要相对路径。
+- 我们需要一个非标准的特性。但是如果它以 `data-` 开头，那么我们应该使用 `dataset`。
+- 我们想要读取 HTML 中“所写的”值。对应的 DOM 属性可能不同，例如 `href` 属性一直是一个 **完整的** URL，但是我们想要的是“原始的”值。
