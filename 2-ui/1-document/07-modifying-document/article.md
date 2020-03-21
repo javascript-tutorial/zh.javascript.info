@@ -166,7 +166,7 @@ after
 
 所以，这些方法只能用来插入 DOM 节点或文本片段。
 
-但是，如果我们想在所有标签和内容正常工作的情况下，将这些内容“作为 html” 插入到 HTML 中，就像 `elem.innerHTML` 方法一样，那有什么方法可以实现吗？
+但是，如果我们想在所有标签和内容正常工作的情况下，将这些内容“作为 HTML” 插入到 HTML 中，就像 `elem.innerHTML` 方法一样，那有什么方法可以实现吗？
 
 ## insertAdjacentHTML/Text/Element
 
@@ -174,12 +174,12 @@ after
 
 该方法的第一个参数是代码字（code word），指定相对于 `elem` 的插入位置。必须为以下之一：
 
-- `"beforebegin"` —— 在 `elem` 开头位置前插入 `html`，
-- `"afterbegin"` —— 在 `elem` 开头位置后插入 `html`（译注：即 `elem` 元素内部的第一个子节点之前），
-- `"beforeend"` —— 在 `elem` 结束位置前插入 `html`（译注：即 `elem` 元素内部的最后一个子节点之后），
-- `"afterend"` —— 在 `elem` 结束位置后插入 `html`。
+- `"beforebegin"` — 将 `html` 插入到 `elem` 前插入，
+- `"afterbegin"` — 将 `html` 插入到 `elem` 开头，
+- `"beforeend"` — 将 `html` 插入到 `elem` 末尾，
+- `"afterend"` — 将 `html` 插入到 `elem` 后。
 
-第二个参数是 HTML 字符串，会以 HTML 的形式插入到页面中。
+第二个参数是 HTML 字符串，该字符串会被“作为 HTML” 插入。
 
 例如：
 
@@ -191,7 +191,7 @@ after
 </script>
 ```
 
-...将会表现为：
+……将导致：
 
 ```html run
 <p>Hello</p>
@@ -199,22 +199,22 @@ after
 <p>Bye</p>
 ```
 
-通过这个方法我们可以随意在 HTML任何位置插入值。
+这就是我们可以在页面上附加任意 HTML 的方式。
 
-这里有一张图片描述插入方式：
+这是插入变体的示意图：
 
 ![](insert-adjacent.svg)
 
-通过跟前面的图片做比较可以看出，两个方法的插入方式是一样的，只不过后者是插入 HTML 标签。
+我们很容易就会注意到这张图片和上一张图片的相似之处。插入点实际上是相同的，但此方法插入的是 HTML。
 
-这个方法还有两个变种：
+这个方法有两个兄弟：
 
-- `elem.insertAdjacentText(where, text)` —— 一样的语法，只不过把 `text` 作为“文本”直接插入到 HTML 中，
-- `elem.insertAdjacentElement(where, elem)` —— 一样的语法，只不过插入的是一个元素。
+- `elem.insertAdjacentText(where, text)` — 语法一样，但是将 `text` 字符串“作为文本”插入而不是作为 HTML，
+- `elem.insertAdjacentElement(where, elem)` — 语法一样，但是插入的是一个元素。
 
-他们存在的意义更多是为了使语法“整齐划一”，在实践中，通常只使用 `insertAdjacentHTML`，因为插入文本和元素的方法可以使用 `append/prepend/before/after` —— 同样的效果这样写起来更简洁。
+它们的存在主要是为了使语法“统一”。实际上，大多数时候只使用 `insertAdjacentHTML`。因为对于元素和文本，我们有 `append/prepend/before/after` 方法 — 它们也可以用于插入节点/文本片段，但写起来更短。
 
-这里有一个展示一条信息的变种写法：
+所以，下面是显示一条消息的另一种变体：
 
 ```html run
 <style>
@@ -228,75 +228,55 @@ after
 </style>
 
 <script>
-  document.body.insertAdjacentHTML("afterbegin", `<div class="alert alert-success">
+  document.body.insertAdjacentHTML("afterbegin", `<div class="alert">
     <strong>Hi there!</strong> You've read an important message.
   </div>`);
 </script>
 ```
 
+## 节点移除
 
+想要移除一个节点，可以使用 `node.remove()`。
 
+让我们的消息在一秒后消失：
 
+```html run untrusted
+<style>
+.alert {
+  padding: 15px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  color: #3c763d;
+  background-color: #dff0d8;
+}
+</style>
 
+<script>
+  let div = document.createElement('div');
+  div.className = "alert";
+  div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
-`parentElem.appendChild(node)`
-: 将 `node` 作为 `parentElem` 最后一个子元素。
+  document.body.append(div);
+*!*
+  setTimeout(() => div.remove(), 1000);
+*/!*
+</script>
+```
 
-    可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾：
+请注意：如果我们要将一个元素 **移动** 到另一个地方，则无需将其从原来的位置中删除。
 
-    ```html run height=100
-    <ol id="list">
-      <li>0</li>
-      <li>1</li>
-      <li>2</li>
-    </ol>
+**所有插入方法都会自动从旧位置删除该节点。**
 
-    <script>
-      let newLi = document.createElement('li');
-      newLi.innerHTML = 'Hello, world!';
+例如，让我们进行元素交换：
 
-      list.appendChild(newLi);
-    </script>
-    ```
-
-`parentElem.insertBefore(node, nextSibling)`
-: 在 `parentElem` 的 `nextSibling` 插入 `node`。
-
-    下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
-
-    ```html run height=100
-    <ol id="list">
-      <li>0</li>
-      <li>1</li>
-      <li>2</li>
-    </ol>
-    <script>
-      let newLi = document.createElement('li');
-      newLi.innerHTML = 'Hello, world!';
-
-    *!*
-      list.insertBefore(newLi, list.children[1]);
-    */!*
-    </script>
-    ```
-    如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
-
-    ```js
-    list.insertBefore(newLi, list.firstChild);
-    ```
-
-`parentElem.replaceChild(node, oldChild)`
-: 将 `parentElem` 的 `oldChild` 替换为 `node`。
-
-所有这些插入节点的操作都会返回节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常返回的节点都没有用，只是插入方法的默认返回值。
-
-以上方法都是“旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸的是它们不够灵活。
-
-例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，如何在不引用其父节点的情况下删除它？虽然也能完成需求开发，总归不是那么优雅的解决方式。
-
-所以诞生了两种优雅插入方法来代替这些繁琐的插入操作。
-
-
+```html run height=50
+<div id="first">First</div>
+<div id="second">Second</div>
+<script>
+  // 无需调用 remove
+  second.after(first); // 获取 #second，并在其后面插入 #first
+</script>
+```
 
 ## 克隆节点：cloneNode
 
@@ -334,7 +314,6 @@ after
 */!*
 </script>
 ```
-
 
 ## 文档片段（DocumentFragment） [#document-fragment]
 
@@ -400,64 +379,86 @@ ul.append(...getListContent()); // append + “...” 操作符 = 一对好朋�
 </script>
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
 我们在这里提及 `DocumentFragment` 主要是因为有一些概念是基于它的，比如 [模板](info:template-element) 元素，我们将在后面的章节中详细介绍它。
 
+`parentElem.appendChild(node)`
+: 将 `node` 作为 `parentElem` 最后一个子元素。
 
-## 移除
+    可以看到增加了一个 `<li>` 在 `<ol>` 的最末尾：
 
-想要移除节点，可以通过以下方法：
+    ```html run height=100
+    <ol id="list">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+
+    <script>
+      let newLi = document.createElement('li');
+      newLi.innerHTML = 'Hello, world!';
+
+      list.appendChild(newLi);
+    </script>
+    ```
+
+`parentElem.insertBefore(node, nextSibling)`
+: 在 `parentElem` 的 `nextSibling` 插入 `node`。
+
+    下面这段代码在第二个 `<li>` 标签前面插入一个新列表项：
+
+    ```html run height=100
+    <ol id="list">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+    <script>
+      let newLi = document.createElement('li');
+      newLi.innerHTML = 'Hello, world!';
+
+    *!*
+      list.insertBefore(newLi, list.children[1]);
+    */!*
+    </script>
+    ```
+    如果需要把 `newLi` 插入成为第一个子元素，我们可以这样做：
+
+    ```js
+    list.insertBefore(newLi, list.firstChild);
+    ```
+
+`parentElem.replaceChild(node, oldChild)`
+: 将 `parentElem` 的 `oldChild` 替换为 `node`。
+
+所有这些插入节点的操作都会返回节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常返回的节点都没有用，只是插入方法的默认返回值。
+
+以上方法都是“旧三板斧”：它们从很早就存在，我们在老的脚本里能看到它们的影子。很不幸的是它们不够灵活。
+
+例如，我们怎样在 **html** 插入字符串呢？又或者，给定你一个节点，如何在不引用其父节点的情况下删除它？虽然也能完成需求开发，总归不是那么优雅的解决方式。
+
+所以诞生了两种优雅插入方法来代替这些繁琐的插入操作。
 
 
-`parentElem.removeChild(node)`
-: 从 `parentElem` 中移除 `node`（假设它是元素中的子元素）。
 
-`node.remove()`
-: 从当前位置移除 `node`。
 
-能看出第二个方法更加简洁，第一个方法的存在是有其历史原因的。
 
-````smart
-如果我们想要**移动**一个元素到另一个地方 —— 不需要移除旧的元素。
 
-**所有插入操作都会从节点原来的位置把节点移除掉。**
 
-例如，这里有一些嵌套的元素：
 
-```html run height=50
-<div id="first">First</div>
-<div id="second">Second</div>
-<script>
-  // 没有用到移除方法
-  second.after(first); //在 id 为 #second 的元素后插入id为 #first 的元素
-</script>
-```
-````
 
-使信息一秒后消失：
 
-```html run untrusted
-<style>
-.alert {
-  padding: 15px;
-  border: 1px solid #d6e9c6;
-  border-radius: 4px;
-  color: #3c763d;
-  background-color: #dff0d8;
-}
-</style>
-
-<script>
-  let div = document.createElement('div');
-  div.className = "alert alert-success";
-  div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
-
-  document.body.append(div);
-*!*
-  setTimeout(() => div.remove(), 1000);
-  // or setTimeout(() => document.body.removeChild(div), 1000);
-*/!*
-</script>
-```
 
 ## 聊一聊 "document.write"
 
