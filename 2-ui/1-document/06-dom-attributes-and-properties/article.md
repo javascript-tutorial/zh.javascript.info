@@ -363,7 +363,7 @@ div.setAttribute('order-state', 'canceled');
 
 ## 总结
 
-- 特性（Attribute）— 写在 HTML 中的内容。
+- 特性（attribute）— 写在 HTML 中的内容。
 - 属性（property）— DOM 对象中的内容。
 
 简略的对比：
