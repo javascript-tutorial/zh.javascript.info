@@ -50,4 +50,4 @@ function clockStop() {
 }
 ```
 
-请注意，`update()` 不仅在 `clockStart()` 中被调度，而且还立即在 `(*)` 行运行。否则，访问者将不得不等到 `setInterval` 第一次执行。在那之前，始终将是空的。
+请注意，`update()` 不仅在 `clockStart()` 中被调度，而且还立即在 `(*)` 行运行。否则，访问者将不得不等到 `setInterval` 第一次执行。在那之前，时钟将是空的。
