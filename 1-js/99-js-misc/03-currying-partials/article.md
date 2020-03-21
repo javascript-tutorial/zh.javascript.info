@@ -36,7 +36,7 @@ let curriedSum = curry(sum);
 alert( curriedSum(1)(2) ); // 3
 ```
 
-正如你所看到的，实现非常简单：只有两个包装器（wapper）。
+正如你所看到的，实现非常简单：只有两个包装器（wrapper）。
 
 - `curry(func)` 的结果就是一个包装器 `function(a)`。
 - 当它被像 `sum(1)` 这样调用时，它的参数会被保存在词法环境中，然后返回一个新的包装器 `function(b)`。
