@@ -37,7 +37,7 @@ for(let key in proxy) alert(key); // test，迭代也正常工作 (3)
 2. 读取操作 `proxy.test` 会从 `target` 返回对应的值。
 3. 迭代 `proxy` 会从 `target` 返回对应的值。
 
-我们可以看到，没有任何陷阱，`proxy` 是一个 `target` 的透明包装器（wapper）.
+我们可以看到，没有任何陷阱，`proxy` 是一个 `target` 的透明包装器（wrapper）.
 
 ![](proxy.svg)  
 
@@ -517,7 +517,7 @@ alert(50 in range); // false
 
 ```js run
 function delay(f, ms) {
-  // 返回一个包装器（wapper），该包装器将在时间到了的时候将调用转发给函数 f
+  // 返回一个包装器（wrapper），该包装器将在时间到了的时候将调用转发给函数 f
   return function() { // (*)
     setTimeout(() => f.apply(this, arguments), ms);
   };
