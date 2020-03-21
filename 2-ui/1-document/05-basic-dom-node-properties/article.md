@@ -10,7 +10,7 @@
 
 每个 DOM 节点都属于相应的内建类。
 
-层次（hierarchy）的根节点是 [EventTarget](https://dom.spec.whatwg.org/#eventtarget)，[Node](http://dom.spec.whatwg.org/#interface-node) 继承自它，其他 DOM 节点也继承自它。
+层次结构（hierarchy）的根节点是 [EventTarget](https://dom.spec.whatwg.org/#eventtarget)，[Node](http://dom.spec.whatwg.org/#interface-node) 继承自它，其他 DOM 节点继承自 Node。
 
 下图做了进一步说明：
 
@@ -38,7 +38,7 @@
 - `Element` — 提供通用（generic）元素方法，
 - `Node` — 提供通用 DOM 节点属性，
 - `EventTarget` — 为事件（包括事件本身）提供支持，
-- ……最后，它继承自 `Object`，因为像 `hasOwnProperty` 这样的“纯对象”方法也是可用的。
+- ……最后，它继承自 `Object`，因为像 `hasOwnProperty` 这样的“普通对象”方法也是可用的。
 
 我们可以通过回调来查看 DOM 节点类名，因为对象通常都具有 `constructor` 属性。它引用类的 constructor，`constructor.name` 就是它的名称：
 
