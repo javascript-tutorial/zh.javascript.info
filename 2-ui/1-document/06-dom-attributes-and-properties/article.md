@@ -1,3 +1,4 @@
+
 # 特性和属性（Attributes and properties）
 
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 并从中生成 DOM 对象。对于元素节点，大多数标准的 HTML 特性（attributes）会自动变成 DOM 对象的属性（properties）。
@@ -111,7 +112,7 @@ document.body.sayHi(); // Hello, I'm BODY
 HTML 特性有以下几个特征：
 
 - 它们的名字是大小写不敏感的（`id` 与 `ID` 相同）。
-- 它们的值总是字符串。
+- 它们的值总是字符串类型。
 
 下面是一个使用特性的扩展示例：
 
@@ -136,7 +137,7 @@ HTML 特性有以下几个特征：
 请注意：
 
 1. `getAttribute('About')` — 这里的第一个字母是大写的，但是在 HTML 中，它们都是小写的。但这没有影响：特性的名称是大小写不敏感的。
-2. 我们可以将任何东西赋值给特性，但是这些东西会变成字符串。所以这里我们的值为 `"123"`。
+2. 我们可以将任何东西赋值给特性，但是这些东西会变成字符串类型。所以这里我们的值为 `"123"`。
 3. 所有特性，包括我们设置的那个特性，在 `outerHTML` 中都是可见的。
 4. `attributes` 集合是可迭代对象，该对象将所有元素的特性（标准和非标准的）作为 `name` 和 `value` 属性存储在对象中。
 
@@ -188,20 +189,20 @@ HTML 特性有以下几个特征：
 
 这个“功能”在实际中会派上用场，因为用户操作可能会导致 `value` 的更改，然后在这些操作之后，如果我们想从 HTML 中恢复“原始”值，那么该值就在特性中。
 
-## DOM 属性是键入的
+## DOM 属性是多类型的
 
-DOM 并不总是字符串。例如 `input.checked` 属性（多选框）是一个布尔类型的值。
+DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于 checkbox 的）是布尔型的。
 
 ```html run
 <input id="input" type="checkbox" checked> checkbox
 
 <script>
   alert(input.getAttribute('checked')); // 特性值是：空字符串
-  alert(input.checked); // 属性的值是：true
+  alert(input.checked); // 属性值是：true
 </script>
 ```
 
-类似的例子还有，`style` 特性值是一个字符串，但 `style` 属性是一个对象：
+还有其他的例子。`style` 特性是一个字符串，但 `style` 属性是一个对象：
 
 ```html run
 <div id="div" style="color:red;font-size:120%">Hello</div>
@@ -216,6 +217,14 @@ DOM 并不总是字符串。例如 `input.checked` 属性（多选框）是一�
 </script>
 ```
 
+尽管大多数属性都是字符串类型的。
+
+即使一个 DOM 属性类型是字符串
+
+
+
+尽管大多数属性都是字符串。
+尽管大多数属性都是字符串。
 还有一个非常重要的不同点。DOM 属性的字符串可能跟特性值的字符串所表示的不是同一个东西！
 
 例如 `href` DOM 属性总是一个绝对路径的，而特性值只包含相对路径或者只包含 `#hash` 这一部分。
