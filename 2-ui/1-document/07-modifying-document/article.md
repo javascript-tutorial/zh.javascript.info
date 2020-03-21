@@ -280,15 +280,15 @@ after
 
 ## 克隆节点：cloneNode
 
-怎么插入多条相同的信息？
+如何再插入一条类似的消息？
 
-我们可以声明一个函数来实现这个方法。但是怎样通过**克隆**的方式来替换掉那些原本存在的 `div` 并且更改里面的文本（如果有这样一个需求）。
+我们可以创建一个函数，并将代码放在其中。但是另一种方法是 **克隆** 现有的 `div`，并修改其中的文本（如果需要）。
 
-如果我们有一个很大的元素，克隆的方式要远比创建后插入来的更简单，性能也更好。
+当我们有一个很大的元素时，克隆的方式可能更快更简单。
 
-- `elem.cloneNode(true)` 方法用来对一个元素进行“深”克隆 —— 包括所有特性和子元素。`elem.cloneNode(false)` 方法只克隆该元素本身，不对子元素进行克隆。
+调用 `elem.cloneNode(true)` 来创建元素的一个“深”克隆 — 具有所有特性（attribute）和子元素。如果我们调用 `elem.cloneNode(false)`，那克隆就不包括子元素。
 
-一个复制信息的例子：
+一个拷贝消息的示例：
 
 ```html run height="120"
 <style>
@@ -307,21 +307,21 @@ after
 
 <script>
 *!*
-  let div2 = div.cloneNode(true); // 克隆信息
-  div2.querySelector('strong').innerHTML = 'Bye there!'; // 改变克隆信息
+  let div2 = div.cloneNode(true); // 克隆消息
+  div2.querySelector('strong').innerHTML = 'Bye there!'; // 修改克隆
 
-  div.after(div2); // 显示克隆信息在已经存在的 div 后
+  div.after(div2); // 在已有的 div 后显示克隆
 */!*
 </script>
 ```
 
-## 文档片段（DocumentFragment） [#document-fragment]
+## DocumentFragment [#document-fragment]
 
-`DocumentFragment` 是一个特殊的 DOM 节点，用于传递节点列表的包装器。
+`DocumentFragment` 是一个特殊的 DOM 节点，用作来传递节点列表的包装器（wrapper）。
 
-我们可以将其他节点附加到它上面，但是当我们将其插入到某个地方的时候，会以其内容的形式插入。
+我们可以向其附加其他节点，但是当我们将其插入某个位置时，则会插入其内容。
 
-例如，下面的代码中的 `getListContent` 函数生成一个具有 `<li>` 列表的片段，然后将它插入到 `<ul>` 中：
+例如，下面这段代码中的 `getListContent` 会生成带有 `<li>` 列表项的片段，然后将其插入到 `<ul>` 中：
 
 ```html run
 <ul id="ul"></ul>
@@ -345,7 +345,7 @@ ul.append(getListContent()); // (*)
 </script>
 ```
 
-请注意，在最后一行以 `(*)` 标示的位置，我们附加上 `DocumentFragment`，但是它和 `ul` “融为一体（blends in）”了，所以最终的文档结构应该是：
+请注意，在最后一行 `(*)` 我们附加了 `DocumentFragment`，但是它和 `ul` “融为一体（blends in）”了，所以最终的文档结构应该是：
 
 ```html
 <ul>
@@ -355,7 +355,7 @@ ul.append(getListContent()); // (*)
 </ul>
 ```
 
-我们很少明确使用 `DocumentFragment`。如果可以返回一个节点数组，有什么必要附加到特殊类型的节点？下面我们就来看个例子：
+`DocumentFragment` 很少被显式使用。如果可以改为返回一个节点数组，那为什么还要附加到特殊类型的节点上呢？重写示例：
 
 ```html run
 <ul id="ul"></ul>
@@ -374,24 +374,22 @@ function getListContent() {
 }
 
 *!*
-ul.append(...getListContent()); // append + “...” 操作符 = 一对好朋友！
+ul.append(...getListContent()); // append + "..." operator = friends!
 */!*
 </script>
 ```
 
+我们之所以提到 `DocumentFragment`，主要是因为它上面有一些概念，例如 [template](info:template-element) 元素，我们将在以后讨论。
 
+## 老式的 insert/remove 方法
 
+[old]
 
+由于历史原因，还存在“老式”的 DOM 操作方法。
 
+这些方法来自真正的远古时代。如今，没有理由再使用它们了，因为诸如 `append`，`prepend`，`before`，`after`，`remove`，`replaceWith` 这些现代方法更加灵活。
 
-
-
-
-
-
-
-
-我们在这里提及 `DocumentFragment` 主要是因为有一些概念是基于它的，比如 [模板](info:template-element) 元素，我们将在后面的章节中详细介绍它。
+我们在这儿列出这些方法的唯一原因是，你可能会在许多就脚本中遇到它们。
 
 `parentElem.appendChild(node)`
 : 将 `node` 作为 `parentElem` 最后一个子元素。
