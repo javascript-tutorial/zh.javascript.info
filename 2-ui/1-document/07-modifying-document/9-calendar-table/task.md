@@ -6,7 +6,7 @@ importance: 4
 
 编写一个函数 `createCalendar(elem, year, month)`。
 
-对该函数的调用，应该使用给定的年/月创建一个日历，并将创建的日历放入 `elem` 中。
+对该函数的调用，应该使用给定的 year/month 创建一个日历，并将创建的日历放入 `elem` 中。
 
 创建的日历应该是一个表格（table），其中每一周用 `<tr>` 表示，每一天用 `<td>` 表示。表格顶部应该是带有星期名的 `<th>`：第一天应该是 Monday，依此类推，直到 Sunday。
 
