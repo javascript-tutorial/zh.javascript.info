@@ -274,13 +274,13 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 </html>
 ```
 
-## 更多链接：表 [#dom-navigation-tables]
+## 更多链接：表格 [#dom-navigation-tables]
 
 到现在，我们已经描述了基本的导航（nabigation）属性。
 
 方便起见，某些类型的 DOM 元素可能会提供特定于其类型的其他属性。
 
-表（Table）是一个很好的例子，它代表了一个特别重要的情况：
+表格（Table）是一个很好的例子，它代表了一个特别重要的情况：
 
 **`<table>`** 元素支持 (除了上面给出的，之外) 以下这些属性:
 - `table.rows` — `<tr>` 元素的集合。
@@ -288,12 +288,12 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 - `table.tBodies` — `<tbody>` 元素的集合（根据标准还有很多元素，但是这里至少会有一个 — 即使没有被写在 HTML 源文件中，浏览器也会将其放入 DOM 中）。
 
 **`<thead>`，`<tfoot>`，`<tbody>`** 元素提供了 `rows` 属性：
-- `tbody.rows` — 表内部 `<tr>` 元素的集合。
+- `tbody.rows` — 表格内部 `<tr>` 元素的集合。
 
 **`<tr>`：**
 - `tr.cells` — 在给定 `<tr>` 中的 `<td>` 和 `<th>` 单元格的集合。
 - `tr.sectionRowIndex` — 给定的 `<tr>` 在封闭的 `<thead>/<tbody>/<tfoot>` 中的位置（索引）。
-- `tr.rowIndex` — 在整个表中 `<tr>` 的编号（包括表的所有行）。
+- `tr.rowIndex` — 在整个表格中 `<tr>` 的编号（包括表格的所有行）。
 
 **`<td>` 和 `<th>`：**
 - `td.cellIndex` — 在封闭的 `<tr>` 中单元格的编号。
@@ -319,7 +319,7 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 
 规范：[tabular data](https://html.spec.whatwg.org/multipage/tables.html)。
 
-HTML 表单还有其它导航（navigation）属性。稍后当我们开始使用表单时，我们将对其进行研究。
+HTML 表单（form）还有其它导航（navigation）属性。稍后当我们开始使用表单（form）时，我们将对其进行研究。
 
 ## 总结
 
