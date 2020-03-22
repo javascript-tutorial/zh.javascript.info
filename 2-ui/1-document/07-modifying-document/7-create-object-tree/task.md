@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-#  从对象创建树
+# 从对象创建树
 
 编写一个函数 `createTree`，从嵌套对象创建一个嵌套的 `ul/li` 列表（list）。
 
