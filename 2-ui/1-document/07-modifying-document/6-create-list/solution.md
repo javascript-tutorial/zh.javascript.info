@@ -1,1 +1,28 @@
-请留意 `textContent` 复制 `<li>` 内容的用法。
+请注意使用 `textContent` 来对 `<li>` 进行赋值的方法。
+
+```html run
+<!DOCTYPE HTML>
+<html>
+<body>
+  <h1>Create a list</h1>
+
+  <script>
+    let ul = document.createElement('ul');
+    document.body.append(ul);
+
+    while (true) {
+      let data = prompt("Enter the text for the list item", "");
+
+      if (!data) {
+        break;
+      }
+
+      let li = document.createElement('li');
+      li.textContent = data;
+      ul.append(li);
+    }
+  </script>
+
+</body>
+</html>
+```
