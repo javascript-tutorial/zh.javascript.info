@@ -39,7 +39,7 @@ function update() {
 ```js
 let timerId;
 
-function clockStart() { // run the clock
+function clockStart() { // 运行时钟
   timerId = setInterval(update, 1000);
   update(); // (*)
 }
