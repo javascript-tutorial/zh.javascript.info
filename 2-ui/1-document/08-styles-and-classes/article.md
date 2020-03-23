@@ -9,28 +9,27 @@
 
 JavaScript 既可以修改类，也可以修改 `style` 属性。
 
-CSS 总是首选的方式 —— 不仅用于 HTML，在 JavaScript 中也是如此。
+相较于将样式写入 `style` 属性，我们应该首选通过 CSS 类的方式来添加样式。仅当类“无法处理”时，才应选择使用 `style` 属性的方式。
 
-只有当类“无法处理时”，我们才会操作 `style` 属性。
-
-例如，如果我们动态地计算元素的坐标并希望通过 JavaScript 来设置它们，那么 `style` 是可接受的，如下所示：
+例如，如果我们动态地计算元素的坐标，并希望通过 JavaScript 来设置它们，那么使用 `style` 是可以接受的，如下所示：
 
 ```js
-let top = /* complex calculations */;
-let left = /* complex calculations */;
-elem.style.left = left; // e.g '123px'
-elem.style.top = top; // e.g '456px'
+let top = /* 复杂的计算 */;
+let left = /* 复杂的计算 */;
+
+elem.style.left = left; // 例如 '123px'，在运行时计算出的
+elem.style.top = top; // 例如 '456px'
 ```
 
-对于其他情况，比如文本变红色，添加一个背景图标 —— 在 CSS 中描述这个图标，然后应用这个类。这更加灵活，更容易支持。
+对于其他情况，例如将文本设为红色，添加一个背景图标 — 可以在 CSS 中对这些样式进行描述，然后添加类（JavaScript 可以做到）。这样更灵活，更易于支持。
 
-## className and classList
+## className 和 classList
 
-更改类在脚本中是最常见的一个操作。
+更改类是脚本中最常见的操作之一。
 
-在以前，JavaScript 有一个限制：像 `"class"` 这样的保留字不能作为对象属性。这一限制现在已经不存在了，但当时并不存在像 `elem.class` 这样的 `"class"` 属性。
+在很旧以前，JavaScript 中有一个限制：像 `"class"` 这样的保留字不能用作对象的属性。这一限制现在已经不存在了，但当时就不能存在像 `elem.class` 这样的 `"class"` 属性。
 
-因此对于类，引入了类似的属性 `"className"`： `elem.className` 对应于 `"class"` 特性:
+因此，对于类，引入了看起来类似的属性 `"className"`：`elem.className` 对应于 `"class"` 特性（attribute）。
 
 例如：
 
@@ -42,11 +41,11 @@ elem.style.top = top; // e.g '456px'
 </body>
 ```
 
-如果我们为 `elem.className` 分配一些东西，它将替换所有的类字符串。有时，这正是我们所需要的，但我们通常希望添加/删除单个类。
+如果我们对 `elem.className` 进行赋值，它将替换类中的整个字符串。有时，这正是我们所需要的，但通常我们希望添加/删除单个类。
 
-还有另一个属性：`elem.classList`。
+这里还有另一个属性：`elem.classList`。
 
-`elem.classList` 是一个特殊对象，它拥有 `add/remove/toggle` 的类方法。
+`elem.classList` 是一个特殊的对象，它具有 `add/remove/toggle` 单个类的方法。
 
 例如：
 
@@ -54,7 +53,7 @@ elem.style.top = top; // e.g '456px'
 <body class="main page">
   <script>
 *!*
-    // add a class
+    // 添加一个 class
     document.body.classList.add('article');
 */!*
 
