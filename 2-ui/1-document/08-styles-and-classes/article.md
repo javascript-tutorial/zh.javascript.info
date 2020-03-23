@@ -66,9 +66,9 @@ elem.style.top = top; // 例如 '456px'
 
 `classList` 的方法：
 
-- `elem.classList.add/remove("class")` — 添加/移除类。
-- `elem.classList.toggle("class")` — 如果类不存在就添加类，存在就移除它。
-- `elem.classList.contains("class")` — 检查给定类，返回 `true/false`。
+- `elem.classList.add/remove(class)` — 添加/移除类。
+- `elem.classList.toggle(class)` — 如果类不存在就添加类，存在就移除它。
+- `elem.classList.contains(class)` — 检查给定类，返回 `true/false`。
 
 此外，`classList` 是可迭代的，因此，我们可以像下面这样列出所有类：
 
@@ -101,7 +101,7 @@ document.body.style.backgroundColor = prompt('background color?', 'green');
 ```
 
 ````smart header="前缀属性"
-像 `-moz-border-radius` 和 `-webkit-border-radius` 这样的浏览器前缀属性，也遵循同样的规则：连字符 `"-"` 表示大写。
+像 `-moz-border-radius` 和 `-webkit-border-radius` 这样的浏览器前缀属性，也遵循同样的规则：连字符 `-` 表示大写。
 
 例如：
 
