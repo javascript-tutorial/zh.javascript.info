@@ -104,7 +104,7 @@ alert(many.length); // 2
 
 为了正确地调用 `handler`，我们需要检查 `handler.length` 属性。
 
-我们的想法是，我们用一个简单的无参数的 `hander` 语法用于 积极的回答（最常见的变体），处理程序处理正向情况（最常见的变体），但也要能够提供通用的 hander：
+我们的想法是，我们用一个简单的无参数的 `handler` 语法来处理积极的回答（最常见的变体），但也要能够提供通用的 handler：
 
 ```js run
 function ask(question, ...handlers) {
@@ -121,7 +121,7 @@ function ask(question, ...handlers) {
 }
 
 // 对于积极的回答，两个 handler 都会被调用
-// 对于负面的回答，只有第二个 hander 被调用
+// 对于负面的回答，只有第二个 handler 被调用
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
