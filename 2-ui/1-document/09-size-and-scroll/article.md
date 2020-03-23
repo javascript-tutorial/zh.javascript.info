@@ -55,11 +55,11 @@ JavaScript 中有许多属性可让我们读取有关元素宽度、高度和其
 
 这些属性很少使用，但它们仍然是“最外层”的几何属性，所以我们将从它们开始。
 
-`offsetParent` 是最近的祖先（ancestor），在浏览器渲染期间，它被用于计算坐标。
+`offsetParent` 是最接近的祖先（ancestor），在浏览器渲染期间，它被用于计算坐标。
 
 最近的祖先为下列之一：
 
-1. CSS 定位（`position` 为 `absolute`，`relative` 或 `fixed`），
+1. CSS 定位的（`position` 为 `absolute`，`relative` 或 `fixed`），
 2. 或 `<td>`，`<th>`，`<table>`，
 3. 或 `<body>`。
 
@@ -194,44 +194,44 @@ element.style.height = `${element.scrollHeight}px`;
 
 ## scrollLeft/scrollTop
 
-属性 `scrollLeft/scrollTop` 是元素隐藏、滚动部分的宽度/高度。
+属性 `scrollLeft/scrollTop` 是元素的隐藏、滚动部分的 width/height。
 
-下面的图片我们可以看到 `scrollHeight` 和 `scrollTop` 是一个垂直滚动块的属性。
+在下图中，我们可以看到带有垂直滚动块的 `scrollHeight` 和 `scrollTop`。
 
 ![](metric-scroll-top.svg)
 
-换种说法，`scrollTop` 就是 “滚动了多少” 的意思。
+换句话说，`scrollTop` 就是“已经滚动了多少”。
 
-````smart header="`scrollLeft/scrollTop` 可修改 "
-大多数几何属性是只读的，但是 `scrollLeft/scrollTop` 可以改变，浏览器将会直接滚动元素。
+````smart header="`scrollLeft/scrollTop` 是可修改的"
+大多数几何属性是只读的，但是 `scrollLeft/scrollTop` 是可修改的，并且浏览器会滚动该元素。
 
 ```online
-如果单击下面的元素，代码 `elem.scrollTop += 10` 将会执行，这使得元素向下滚动 `10px`。
+如果你单击下面的元素，则会执行代码 `elem.scrollTop += 10`。这使得元素内容向下滚动 `10px`。
 
 <div onclick="this.scrollTop+=10" style="cursor:pointer;border:1px solid black;width:100px;height:80px;overflow:auto">Click<br>Me<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
 ```
 
-将 `scrollTop` 设置为 `0` 或 `Infinity` 将使元素分别滚动到顶部/底部。
+将 `scrollTop` 设置为 `0` 或 `Infinity` 将会使元素滚动到顶部/底部。
 ````
 
-## 不要从 CSS 中获取宽高
+## 不要从 CSS 中获取 width/height
 
-我们刚刚介绍了 DOM 元素的几何属性。它们通常用于获得宽度、高度和计算距离。
+我们刚刚介绍了 DOM 元素的几何属性，它们可用于获得宽度、高度和计算距离。
 
-但是，正如我们从《信息：样式和类》一章所知道的，我们可以使用 `getComputedStyle` 来读取CSS的高度和宽度。
+但是，正如我们在 <info:styles-and-classes> 一章所知道的那样，我们可以使用 `getComputedStyle` 来读取 CSS-width 和 height。
 
-那么为什么不像这样读取一个元素的高度呢？
+那为什么不像这样用 `getComputedStyle` 读取元素的 width 呢？
 
 ```js run
 let elem = document.body;
 
-alert( getComputedStyle(elem).width ); // show CSS width for elem
+alert( getComputedStyle(elem).width ); // 显示 elem 的 CSS width
 ```
 
-为什么我们应该使用几何属性呢？有两个原因：
+为什么我们应该使用几何属性呢？这里有两个原因：
 
-1. 首先，CSS 宽度/高度取决于另一个属性：`box-sizing`，它定义了 “什么是” CSS 宽度和高度。用作 CSS 样式的 `box-sizing` 的更改可能会破坏这样的 JavaScript 定义。
-2. 其次，CSS 的 `width/height` 可能是 `auto`，例如内联元素：
+1. 首先，CSS `width/height` 取决于另一个属性：`box-sizing`，它定义了“什么是” CSS 宽度和高度。出于 CSS 的目的而对 `box-sizing` 进行的更改可能会破坏此类 JavaScript 操作。
+2. 其次，CSS 的 `width/height` 可能是 `auto`，例如内联（inline）元素：
 
     ```html run
     <span id="elem">Hello!</span>
@@ -243,34 +243,34 @@ alert( getComputedStyle(elem).width ); // show CSS width for elem
     </script>
     ```
 
-    从 CSS 的观点来看，`width:auto` 是完全正常的，但是在 JavaScript 中，我们需要一个精确的 `px` 大小，以便我们在计算过程中使用它，所以 CSS 宽度根本没用。
+    从 CSS 的观点来看，`width:auto` 是完全正常的，但在 JavaScript 中，我们需要一个确切的 `px` 大小，以便我们在计算中使用它。因此，这里的 CSS 宽度没什么用。
 
-还有一个原因：滚动条。有时，没有滚动条的代码工作得很好，因为它在一些浏览器中占据了内容的一部分空间。因此，内容的实际宽度比 CSS 宽度要小。而 `clientWidth/clientHeight` 考虑到这一点。
+还有另一个原因：滚动条。有时，在没有滚动条的情况下代码工作正常，当出现滚动条时，代码就出现了 bug，因为在某些浏览器中，滚动条会占用内容的空间。因此，可用于内容的实际宽度小于 CSS 宽度。而 `clientWidth/clientHeight` 则会考虑到这一点。
 
-但是，`getComputedStyle(elem).width` 的情况是不同的。一些浏览器（例如 Chrome）返回真正的内部宽度，这种情况不考虑滚动条，以及其中一些（例如Firefox）— CSS 宽度（忽略滚动条）。这样的跨浏览器差异是不使用 `getComputedStyle` 样式的原因，而是依赖于几何属性。
+……但是，使用 `getComputedStyle(elem).width` 时，情况就不同了。某些浏览器（例如 Chrome）返回的是实际内部宽度减去滚动条宽度，而某些浏览器（例如 Firefox）返回的是 CSS 宽度（忽略了滚动条）。这种跨浏览器的差异是不使用 `getComputedStyle` 而依靠几何属性的原因。
 
 ```online
-如果浏览器保留滚动条的空间（大多数 Windows 中的浏览器），那么你可以在下面测试它。
+如果你的浏览器保留了滚动条的空间（大多数 Windows 中的浏览器），那么你可以在下面测试它。
 
 [iframe src="cssWidthScroll" link border=1]
 
-包含文本的元素有这样的样式 `width:300px`。
+带有文本的元素具有 `width:300px`。
 
-在桌面 Windows 操作系统上，Firefox、Chrome、Edgy 都为滚动条保留空间，但 Firefox 显示 `300px`，而 Chrome 和 Edgy 显示较少。这是因为 Firefox 返回 CSS 宽度，其他浏览器返回“真实”宽度。
+在桌面 Windows 操作系统上，Firefox、Chrome、Edgy 都为滚动条保留了空间。但 Firefox 显示的是 `300px`，而 Chrome 和 Edgy 显示较少。这是因为 Firefox 返回 CSS 宽度，其他浏览器返回“真实”宽度。
 ```
 
-请注意，所描述的差异只是关于从 JavaScript 读取的 `getComputedStyle(...).width`，而视觉上一切都是正确的。
+请注意，所描述的差异只是关于从 JavaScript 读取的 `getComputedStyle(...).width`，而视觉上看，一切都是正确的。
 
 ## 总结
 
 元素具有以下几何属性：
 
-- `offsetParent` — 是最近的有定位属性的祖先元素，或者是 `td`、`th`、`table`、`body`。
-- `offsetLeft/offsetTop` — 是相对于 `offsetParent` 的左上角边缘坐标。
-- `offsetWidth/offsetHeight` — 元素的“外部”宽/高 ，边框尺寸计算在内。
-- `clientLeft/clientTop` — 从元素左上角外部到内部的距离，对于从左到右渲染元素的操作系统，它始终是左/顶部边界的宽度，而对于从右到左的操作系统，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
-- `clientWidth/clientHeight` — 内容的宽度/高度，包括内间距，但没有滚动条。
-- `scrollWidth/scrollHeight` — 内容的宽度/高度，包括可滚动的可视区域外的尺寸，也包括内间距，但不包括滚动条。
-- `scrollLeft/scrollTop` — 从左上角开始的元素的滚动部分的宽度/高度。
+- `offsetParent` — 是最接近的 CSS 定位的祖先，或 `td`，`th`，`table`，`body`。
+- `offsetLeft/offsetTop` — 是相对于 `offsetParent` 的左上角边缘的坐标。
+- `offsetWidth/offsetHeight` — 元素的“外部” width/height，边框（border）尺寸计算在内。
+- `clientLeft/clientTop` — 从元素左上角外角到左上角内角的距离。对于从左到右显示内容的操作系统来说，它们始终是左侧/顶部 border 的宽度。而对于从右到左显示内容的操作系统来说，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
+- `clientWidth/clientHeight` — 内容的 width/height，包括 padding，但不包括滚动条（scrollbar）。
+- `scrollWidth/scrollHeight` — 内容的 width/height，就像 `clientWidth/clientHeight` 一样，但还包括元素的滚动出的不可见的部分。
+- `scrollLeft/scrollTop` — 从元素的左上角开始，滚动出元素的上半部分的 width/height。
 
-除了 `scrollLeft/scrollTop` 之外，所有属性都是只读的。如果更改，浏览器会使元素滚动。
+除了 `scrollLeft/scrollTop` 外，所有属性都是只读的。如果我们修改 `scrollLeft/scrollTop`，浏览器会滚动对应的元素。
