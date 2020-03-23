@@ -9,12 +9,12 @@ importance: 5
 参数：
 
 ```js
-// shows an element with the text "Hello" near the right-top of the window
+// 在窗口的右上角附近显示一个带有文本 "Hello" 的元素
 showNotification({
-  top: 10, // 10px from the top of the window (by default 0px)
-  right: 10, // 10px from the right edge of the window (by default 0px)
-  html: "Hello!", // the HTML of notification
-  className: "welcome" // an additional class for the div (optional)
+  top: 10, // 距窗口顶部 10px（默认为 0px）
+  right: 10, // 距窗口右边缘 10px（默认为 0px）
+  html: "Hello!", // 通知中的 HTML
+  className: "welcome" // div 的附加类（可选）
 });
 ```
 
