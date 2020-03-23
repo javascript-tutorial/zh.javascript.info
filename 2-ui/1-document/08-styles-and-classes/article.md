@@ -66,9 +66,9 @@ elem.style.top = top; // 例如 '456px'
 
 `classList` 的方法：
 
-- `elem.classList.add/remove("class")` —— 添加/移除类。
-- `elem.classList.toggle("class")` —— 如果类不存在就添加类，存在就移除它。
-- `elem.classList.contains("class")` —— 检查给定类，返回 `true/false`。
+- `elem.classList.add/remove("class")` — 添加/移除类。
+- `elem.classList.toggle("class")` — 如果类不存在就添加类，存在就移除它。
+- `elem.classList.contains("class")` — 检查给定类，返回 `true/false`。
 
 此外，`classList` 是可迭代的，因此，我们可以像下面这样列出所有类：
 
@@ -289,12 +289,12 @@ JavaScript 看不到 `:visited` 所应用的样式。此外，CSS 中也有一�
 
 要管理 class，有两个 DOM 属性：
 
-- `className` —— 字符串值，可以很好地管理整个类的集合。
-- `classList` —— 具有 `add/remove/toggle/contains` 方法的对象，可以很好地支持单个类。
+- `className` — 字符串值，可以很好地管理整个类的集合。
+- `classList` — 具有 `add/remove/toggle/contains` 方法的对象，可以很好地支持单个类。
 
 要改变样式：
 
-- `style` 属性是具有驼峰（camelCased）样式的对象。对其进行读取和修改与修改 `"style"` 特性（attribute）中的各个属性具有相同的效果。要了解如何应用 `important` 和其他特殊内容 ——  在 [MDN](mdn:api/CSSStyleDeclaration) 中有一个方法列表。
+- `style` 属性是具有驼峰（camelCased）样式的对象。对其进行读取和修改与修改 `"style"` 特性（attribute）中的各个属性具有相同的效果。要了解如何应用 `important` 和其他特殊内容 — 在 [MDN](mdn:api/CSSStyleDeclaration) 中有一个方法列表。
 
 - `style.cssText` 属性对应于整个 `"style"` 特性（attribute），即完整的样式字符串。
 
