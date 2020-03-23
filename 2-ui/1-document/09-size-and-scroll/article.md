@@ -32,40 +32,40 @@ JavaScript 中有许多属性可让我们读取有关元素宽度、高度和其
 你可以 [在 sandbox 中打开这个文档](sandbox:metric)。
 
 ```smart header="注意滚动条"
-上图演示了元素具有滚动条时最复杂的情况。一些浏览器（并非全部）通过从内容（上面标记为 "content width"）中获取空间来为滚动条保留空间。
+上图演示了元素具有滚动条这种最复杂的情况。一些浏览器（并非全部）通过从内容（上面标记为 "content width"）中获取空间来为滚动条保留空间。
 
-因此，没有滚动条时，内容宽度将是 `300 px`，但是如果滚动条宽度是 `16px`（不同的设备和浏览器，宽度可能会不一样），那么还剩下 `300 - 16＝284px`，这是我们必须考虑到的事。这就是为什么本章的例子总是假设有滚动条的原因。如果没有滚动条，那么事情就会更简单一些。
+因此，如果没有滚动条，内容宽度将是 `300 px`，但是如果滚动条宽度是 `16px`（不同的设备和浏览器，滚动条的宽度可能有所不同），那么还剩下 `300 - 16 ＝ 284px`，我们应该考虑到这一点。这就是为什么本章的例子总是假设有滚动条。如果没有滚动条，一些计算会更简单。
 ```
 
 ```smart header="文本可能会溢出到 `padding-bottom` 中"
-内填充通常在插图中显示的是空的，但是如果元素中有很多文本，并且溢出，那么浏览器在 `padding-bottom` 中显示“溢出”文本，这可以在示例中看到。但是填充物仍然存在，除非另有说明。
+在我们的插图中的 padding 中通常显示为空，但是如果元素中有很多文本，并且溢出了，那么浏览器会在 `padding-bottom` 处显示“溢出”文本，这是正常现象。
 ```
 
-## 几何学
+## 几何
 
-提供宽度、高度和其他几何形状的元素属性通过数值来计算。它们被假定为像素。
-
-以下是显示总体情况的图片：
+这是带有几何属性的整体图片：
 
 ![](metric-all.svg)
 
-它们有很多属性，很难将它们全部放在单个图片中，但是它们的值很简单，容易理解。
+这些属性的值在技术上讲是数字，但这些数字其实是“像素（pixel）”，因此它们是像素测量值。
 
-让我们从元素的外部开始探索它们。
+让我们从元素外部开始探索属性。
 
-## offsetParent, offsetLeft/Top
+## offsetParent，offsetLeft/Top
 
-这些属性很少出现，但它们仍然是“最外层”的几何属性，所以我们将从它们开始。
+这些属性很少使用，但它们仍然是“最外层”的几何属性，所以我们将从它们开始。
 
- `offsetParent` 是最近的祖先元素:
+`offsetParent` 是最近的祖先（ancestor），在浏览器渲染期间，它被用于计算坐标。
 
-1. CSS 定位（`position` 为 `absolute`、`relative` 或 `fixed`），
-2. 或者 `<td>`、`<th>`、`<table>`，
-3. 或者 `<body>`。
+最近的祖先为下列之一：
 
-在大多数实际情况下，我们可以使用 `offsetParent` 来获得最近的 CSS 定位祖先。`offsetLeft/offsetTop` 提供相对于元素左上角的 x/y 坐标。
+1. CSS 定位（`position` 为 `absolute`，`relative` 或 `fixed`），
+2. 或 `<td>`，`<th>`，`<table>`，
+3. 或 `<body>`。
 
-在下面的例子中，内部 `<div>` 有 `<main>` 作为 `offsetParent`，并且 `offsetLeft/offsetTop` 让它从左上角位移（`180`）：
+属性 `offsetLeft/offsetTop` 提供相对于 `offsetParent` 左上角的 x/y 坐标。
+
+在下面这个例子中，内部的 `<div>` 有 `<main>` 作为 `offsetParent`，并且 `offsetLeft/offsetTop` 让它从左上角位移（`180`）：
 
 ```html run height=10
 <main style="position: relative" id="main">
@@ -75,39 +75,38 @@ JavaScript 中有许多属性可让我们读取有关元素宽度、高度和其
 </main>
 <script>
   alert(example.offsetParent.id); // main
-  alert(example.offsetLeft); // 180 (note: a number, not a string "180px")
+  alert(example.offsetLeft); // 180（注意：这是一个数字，不是字符串 "180px"）
   alert(example.offsetTop); // 180
 </script>
 ```
 
 ![](metric-offset-parent.svg)
 
+有以下几种情况下，`offsetParent` 的值为 `null`：
 
-有以下几种情况 `offsetParent` 的值为 `null`：
-
-1. 未显示的元素（`display:none` 或者不在文档中）。
-2. `<body>` 与 `<html>`。
-3. `position:fixed` 的元素。
+1. 对于未显示的元素（`display:none` 或者不在文档中）。
+2. 对于 `<body>` 与 `<html>`。
+3. 对于带有 `position:fixed` 的元素。
 
 ## offsetWidth/Height
 
-现在让我们关注元素本身。
+现在，让我们继续关注元素本身。
 
-这两个属性是最简单的。它们提供元素的“外部”宽度/高度。换句话说，它的完整大小包括边框。
+这两个属性是最简单的。它们提供了元素的“外部” width/height。或者，换句话说，它的完整大小（包括边框）。
 
 ![](metric-offset-width-height.svg)
 
-在我们的示例元素中：
+对于我们的示例元素：
 
-- `offsetWidth = 390` — 外部宽度，计算方法是内部 css 宽度（`300px`）加上内填充（`2 * 20px`）和边框宽度（`2 * 25px`）。
-- `offsetHeight = 290` — 外部高度。
+- `offsetWidth = 390` — 外部宽度（width），可以计算为内部 CSS-width（`300px`）加上 padding（`2 * 20px`）和 border（`2 * 25px`）。
+- `offsetHeight = 290` — 外部高度（height）。
 
-````smart header="未显示的几何元素的属性值为 0/null"
-几何属性仅为显示出来的元素计算。
+````smart header="对于未显示的元素，几何属性为 0/null"
+仅针对显示的元素计算几何属性。
 
-如果元素（或其任何祖先）在文档中显示为 `display:none` 或本身不在文档中，则所有几何属性都是 0 或者值为 `null`，这取决于它是什么。
+如果一个元素（或其任何祖先）具有 `display:none` 或不在文档中，则所有几何属性均为零（或 `offsetParent` 为 `null`）。
 
-例如，`offsetParent` 为 `null`，并且 `offsetWidth`，`offsetHeight` 为 `0`。
+例如，当我们创建了一个元素，但尚未将其插入文档中，或者它（或它的祖先）具有 `display:none` 时，`offsetParent` 为 `null`，并且 `offsetWidth` 和 `offsetHeight` 为 `0`。
 
 我们可以用它来检查一个元素是否被隐藏，像这样：
 
@@ -117,68 +116,71 @@ function isHidden(elem) {
 }
 ```
 
-请注意，`isHidden` 返回 `true` 表示元素不在页面中显示，但不代表尺寸为 0（like an empty `<div>`）。
+请注意，对于屏幕上显示，但大小为零的元素（例如空的 `<div>`），它们的 `isHidden` 返回 `true`。
 ````
 
 ## clientTop/Left
 
-在元素内部，我们有边框。
+在元素内部，我们有边框（border）。
 
-要测量它们，可使用 `clientTop` 和 `clientLeft`。
+为了测量它们，可以使用 `clientTop` 和 `clientLeft`。
 
-在例子中：
+在我们的例子中：
 
 - `clientLeft = 25` — 左边框宽度
 - `clientTop = 25` — 上边框宽度
 
 ![](metric-client-left-top.svg)
 
-...但确切地说，它们不是边框，而是内侧与外侧的相对坐标。
+……但准确地说 — 这些属性不是边框的 width/height，而是内侧与外侧的相对坐标。
 
 有什么区别？
 
-当文档是从右向左渲染时就会显现出来（操作系统是阿拉伯语或希伯来语）。此时滚动条不在右边，而是在左边，而 `clientLeft` 则包含了滚动条的宽度。
+当文档从右到左显示（操作系统为阿拉伯语或希伯来语）时，影响就显现出来了。此时滚动条不在右边，而是在左边，此时 `clientLeft` 则包含了滚动条的宽度。
 
-在这种情况下，`clientLeft` 的值将不是 `25`，而是加上滚动条的宽度 `25 + 16 = 41`：
+在这种情况下，`clientLeft` 的值将不是 `25`，而是加上滚动条的宽度 `25 + 16 = 41`。
+
+这是希伯来语的例子：
 
 ![](metric-client-left-top-rtl.svg)
 
 ## clientWidth/Height
 
-这些属性提供元素边框内区域的大小。
+这些属性提供了元素边框内区域的大小。
 
-他们包含内容宽度和内填充宽度，但不包括滚动条宽度：
+它们包括了 "content width" 和 "padding"，但不包括滚动条宽度（scrollbar）：
 
 ![](metric-client-width-height.svg)
 
-在上面的图片中，我们首先考虑 `clientHeight`：这很容易计算。没有水平滚动条，所以它正好是边界内的总和：CSS 高度 `200px` 加上顶部和底部的内填充宽度（`2 * 20px`），总计 `240px`。
+在上图中，我们首先考虑 `clientHeight`。
 
-这种情况下的 `clientWidth` — 这里的内容宽度不是 `300px`，而是`284px`，因为 `16px` 是滚动条的宽度。所以加起来就是 `284px` 加上左右内间距，总和 `324px`。
+这里没有水平滚动条，所以它恰好是 border 内的总和：CSS-width `200px` 加上顶部和底部的 padding（`2 * 20px`），总计 `240px`。
 
-**如果没有内间距，那么 `clientWidth/Height` 就是代表内容的宽度, 这里的内容指的是内间距和滚动条以内 (如果还有其他的)。**
+现在 `clientWidth` — 这里的 "content width" 不是 `300px`，而是 `284px`，因为被滚动条占用了 `16px`。所以加起来就是 `284px` 加上左侧和右侧的 padding，总计 `324px`。
+
+**如果这里没有 padding，那么 `clientWidth/Height` 代表的就是内容区域，即 border 和 scrollbar（如果有）内的区域。**
 
 ![](metric-client-width-nopadding.svg)
 
-因此，当没有内填充时，我们可以使用 `clientWidth/clientHeight` 来获取内容区域大小。
+因此，当没有 padding 时，我们可以使用 `clientWidth/clientHeight` 来获取内容区域的大小。
 
 ## scrollWidth/Height
 
-- 属性 `clientWidth/clientHeight` 只考虑元素的可见部分。
-- 属性 `scrollWidth/scrollHeight` 还包括滚动（隐藏）部分：
+这些属性就像 `clientWidth/clientHeight`，但它们还包括滚动出（隐藏）的部分：
 
 ![](metric-scroll-width-height.svg)
 
-上图：
+在上图中：
 
-- `scrollHeight = 723` — 是内容区域的完整内部高度，包括滚动部分。
-- `scrollWidth = 324` — 是完整的内部宽度，这里没有水平滚动条，所以它等于 `clientWidth`。
+- `scrollHeight = 723` — 是内容区域的完整内部高度，包括滚动出的部分。
+- `scrollWidth = 324` — 是完整的内部宽度，这里我们没有水平滚动，因此它等于 `clientWidth`。
 
-我们可以使用这些属性将元素扩展到其完全宽度/高度。
+我们可以使用这些属性将元素展开（expand）到整个 width/height。
 
-就像这样：
+像这样：
 
 ```js
-// 扩展元素高度到完全高度
+// 将元素展开（expand）到完整的内容高度
 element.style.height = `${element.scrollHeight}px`;
 ```
 
