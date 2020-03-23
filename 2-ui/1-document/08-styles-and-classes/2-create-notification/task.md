@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 创建通知
+# 创建一个通知
 
-编写 `showNotification(options)` 通知函数：`<div class="notification">` 包含给定内容。通知应该在 1.5 秒后自动消失。
+编写一个函数 `showNotification(options)`：该函数创建一个带有给定内容的通知 `<div class="notification">`。该通知应该在 1.5 秒后自动消失。
 
 参数：
 
@@ -21,4 +21,4 @@ showNotification({
 [demo src="solution"]
 
 
-使用 CSS 定位在给定 top/right 坐标处显示元素。源文档已经提供了必要的样式。
+使用 CSS 定位在给定的 top/right 坐标处显示元素。源文档已经提供了必要的样式。
