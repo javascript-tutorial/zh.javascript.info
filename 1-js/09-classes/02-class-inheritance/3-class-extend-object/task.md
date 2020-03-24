@@ -32,6 +32,7 @@ alert( rabbit.hasOwnProperty('name') ); // true
 ```js
 class Rabbit extends Object {
   constructor(name) {
+    super();
     this.name = name;
   }
 }
