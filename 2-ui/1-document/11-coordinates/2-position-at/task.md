@@ -2,14 +2,17 @@ importance: 5
 
 ---
 
-# 在元素旁边显示一个注释
+# 在元素旁显示一个 note
 
-基于 `anchor` 元素的上边（`"top"`），右边（`"right"`）或者底部（`"bottom"`）的 `position`，创建一个 `positionAt(anchor, position, elem)` 函数来定位 `elem` 元素。
+创建一个函数 `positionAt(anchor, position, elem)` 来定位 `elem`，具体取决于 `anchor` 元素附近的 `position`。
 
-使用这个函数构建一个 `showNote(anchor, position, html)` 函数，它使用类 `"note"` 和文本 `html` 标签在 anchor 位置旁边显示一个元素。
+`position` 必须具有下列三个字符串中的一个：
+- `"top"` — 将 `elem` 定位在 `anchor` 上方
+- `"right"` — 将 `elem` 定位在 `anchor` 右侧
+- `"bottom"` — 将 `elem` 定位在 `anchor` 下方
 
-注释像下面这样显示：
+`position` 被用在函数 `showNote(anchor, position, html)` 内，该函数使用给定的 `html` 创建一个 "note" 元素，并将其显示在 `anchor` 附近的 `position` 处。
+
+这是一个演示示例：
 
 [iframe src="solution" height="350" border="1" link]
-
-附：在这个任务中注释元素应该会有 `position:fixed` CSS 配置。
