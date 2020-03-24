@@ -1,23 +1,23 @@
-为小球设置 `position:absolute`。这意味着它的 `left/top` 坐标根据相对它最近的并且设置了定位的元素来测量，这个元素的有效范围就是 `#field`（因为它有 `position:relative`）。
+小球具有 `position:absolute`。这意味着它的 `left/top` 坐标是从最近的具有定位属性的元素开始测量的，这个元素即 `#field`（因为它有 `position:relative`）。
 
-坐标从设置了相对定位的最近的元素的左上角开始：
+坐标从场（field）的左上角内侧开始：
 
 ![](field.svg)
 
-该元素内容区域的宽/高是 `clientWidth/clientHeight`，所以该元素有效范围的中心的坐标为 `(clientWidth/2, clientHeight/2)`。
+内部的场（field）的 width/height 是 `clientWidth/clientHeight`。所以场（field）的中心坐标为 `(clientWidth/2, clientHeight/2)`。
 
-...不过如果我们将 `ball.style.left/top` 设置为上面计算出的值，那么最终的效果与有效范围的中心重合的不是小球的中心，而是小球左上角的坐标：
+……但是，如果我们将 `ball.style.left/top` 设置为这种值，那么在中心的会是球的左上边缘，而不是整个球：
 
 ```js
 ball.style.left = Math.round(field.clientWidth / 2) + 'px';
 ball.style.top = Math.round(field.clientHeight / 2) + 'px';
 ```
 
-这是它将显示出的效果：
+这是它将显示出来的效果：
 
 [iframe height=180 src="ball-half"]
 
-为了把球中心和有效范围中心对准，我们应该把球移到左边宽度的一半，把 top 设置为有效范围高度的一半：
+为了使球的中心与场（field）的中心重合，我们应该把球向左移动球宽度的一半，并向上移动球高度的一半：
 
 ```js
 ball.style.left = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
