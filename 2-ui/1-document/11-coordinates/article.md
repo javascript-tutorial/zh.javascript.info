@@ -25,7 +25,7 @@
 
 主要的 `DOMRect` 属性：
 
-- `x/y` — 矩形原点相对于窗口的 X/Y坐标，
+- `x/y` — 矩形原点相对于窗口的 X/Y 坐标，
 - `width/height` — 矩形的 width/height（可以为负）。
 
 此外，还有派生（derived）属性：
@@ -36,7 +36,7 @@
 ```online
 例如，单击下面这个按钮以查看其窗口坐标：
 
-<p><input id="brTest" type="button" value="使用 button.getBoundingClientRect() 获取此按钮的坐标" onclick='showRect(this)'/></p>
+<p><input id="brTest" type="button" value="Get coordinates using button.getBoundingClientRect() for this button" onclick='showRect(this)'/></p>
 
 <script>
 function showRect(elem) {
@@ -69,69 +69,50 @@ right:${r.right}
 
 请注意：
 
-- Coordinates may be decimal fractions, such as `10.5`. That's normal, internally browser uses fractions in calculations. We don't have to round them when setting to `style.left/top`.
-- Coordinates may be negative. For instance, if the page is scrolled so that `elem` is now above the window, then `elem.getBoundingClientRect().top` is negative.
+- 坐标可能是小数，例如 `10.5`。这是正常的，浏览器内部使用分数进行计算。在设置 `style.left/top` 时，我们不是必须对它们进行舍入。
+- 坐标可能是负数。例如滚动页面，使 `elem` 现在位于窗口的上方，则 `elem.getBoundingClientRect().top` 为负数。
 
-```smart header="Why derived properties are needed? Why does `top/left` exist if there's `x/y`?"
-Mathematically, a rectangle is uniquely defined with its starting point `(x,y)` and the direction vector `(width,height)`. So the additional derived properties are for convenience.
+```smart header="为什么需要派生（derived）属性？如果有了 `x/y`，为什么还要还会存在 `top/left`？"
+从数学上讲，一个矩形是使用其起点 `(x,y)` 和方向向量 `(width,height)` 唯一定义的。因此，其它派生属性是为了方便起见。
 
-Technically it's possible for `width/height` to be negative, that allows for "directed" rectangle, e.g. to represent mouse selection with properly marked start and end.
+从技术上讲，`width/height` 可能为负数，从而允许“定向（directed）”矩形，例如代表带有正确标记的开始和结束的鼠标选择。
 
-Negative `width/height` values mean that the rectangle starts at its bottom-right corner and then "grows" left-upwards.
+负的 `width/height` 值表示矩形从其右下角开始，然后向左上方“增长”。
 
-Here's a rectangle with negative `width` and `height` (e.g. `width=-200`, `height=-100`):
+这是一个矩形，其 `width` 和 `height` 均为负数（例如 `width=-200`，`height=-100`）：
 
 ![](coordinates-negative.svg)
 
-As you can see, `left/top` do not equal `x/y` in such case.
+正如你所看到的，在这个例子中，`left/top` 与 `x/y` 不相等。
 
-In practice though, `elem.getBoundingClientRect()` always returns positive width/height, here we mention negative `width/height` only for you to understand why these seemingly duplicate properties are not actually duplicates.
+但是实际上，`elem.getBoundingClientRect()` 总是返回正数的 width/height，这里我们提及负的 `width/height` 只是为了帮助你理解，为什么这些看起来重复的属性，实际上并不是重复的。
 ```
 
-```warn header="Internet Explorer and Edge: no support for `x/y`"
-Internet Explorer and Edge don't support `x/y` properties for historical reasons.
+```warn header="IE 和 Edge 浏览器不支持 `x/y`"
+由于历史原因，IE 和 Edge 浏览器不支持 `x/y` 属性。
 
-So we can either make a polyfill (add getters in `DomRect.prototype`) or just use `top/left`, as they are always the same as `x/y` for positive `width/height`, in particular in the result of `elem.getBoundingClientRect()`.
+因此，我们可以写一个 polyfill（在 `DomRect.prototype` 中添加一个 getter），或者仅使用 `top/left`，因为对于正值的 `width/height` 来说，它们和 `x/y` 一直是一样的，尤其是对于 `elem.getBoundingClientRect()` 的结果。
 ```
 
-```warn header="Coordinates right/bottom are different from CSS position properties"
-There are obvious similarities between window-relative coordinates and CSS `position:fixed`.
+```warn header="坐标的 right/bottom 与 CSS position 属性不同"
+相对于窗口（window）的坐标和 CSS `position:fixed` 之间有明显的相似之处。
 
-But in CSS positioning, `right` property means the distance from the right edge, and `bottom` property means the distance from the bottom edge.
+但是在 CSS 定位中，`right` 属性表示距右边缘的距离，而 `bottom` 属性表示距下边缘的距离。
 
-If we just look at the picture above, we can see that in JavaScript it is not so. All window coordinates are counted from the top-left corner, including these ones.
-```
-
-![](coords.png)
-
-
-
-额外说明：
-
-- 坐标可以是十进制的分数。这很正常，浏览器内部也是使用十进制分数来计算坐标。当设置元素的 `style.position.left/top` 时我们不需要舍入它们，浏览器可以支持十进制分数。
-- 坐标也可以是负数的。例如当我们滚动页面向下在 `elem` 的顶部超过窗口的时候，这时候我们调用 `elem.getBoundingClientRect().top` 返回的就是负数。
-- 一些浏览器（像 Chrome）还会在 `getBoundingClientRect` 的返回中增加 `width` 和 `height` 属性。我们可以通过减法计算 `height=bottom-top`，`width=right-left` 来得到这两个属性。
-
-```warn header="坐标的右/底部和 CSS 中的属性是不同的"
-
-如果我们把窗口的坐标和 CSS 中的位置相对照，那么其和 `position:fixed` 有明显的相似之处 — 也是相对于 viewport 的位置。
-
-但是在 CSS 中 `right` 属性表示的是到右边界的距离，而且 `bottom` 是到底部边界的距离。
-
-如果我们只看下面的图片，我们可以看到在 JavaScript 中并非如此。所有窗口坐标都是从左上角开始计算的，包括这些坐标。
+如果我们再看一下上面的图片，我们可以看到在 JavaScript 中并非如此。窗口的所有坐标都从左上角开始计数，包括这些坐标。
 ```
 
 ## elementFromPoint(x, y) [#elementFromPoint]
 
-调用 `document.elementFromPoint(x, y)` 方法返回窗口坐标 `(x, y)` 中最顶层的元素。
+对 `document.elementFromPoint(x, y)` 的调用会返回在窗口坐标 `(x, y)` 处嵌套最多（the most nested）的元素。
 
-语法如下所示：
+语法如下：
 
 ```js
 let elem = document.elementFromPoint(x, y);
 ```
 
-比方说，下面的代码会高亮显示并输出现在位于窗口中间元素的标签：
+例如，下面的代码会高亮显示并输出现在位于窗口中间的元素的标签：
 
 ```js run
 let centerX = document.documentElement.clientWidth / 2;
@@ -143,27 +124,27 @@ elem.style.background = "red";
 alert(elem.tagName);
 ```
 
-因为它使用的是窗口坐标，基于现在滚动的位置会显示不同的元素。
+因为它使用的是窗口坐标，所以元素可能会因当前滚动位置而有所不同。
 
-````warn header="对于在窗口之外的坐标 `elementFromPoint` 返回 `null`"
-方法 `document.elementFromPoint(x,y)` 只有在 `(x,y)` 坐标位于可是范围内才能正常调用。
+````warn header="对于在窗口之外的坐标，`elementFromPoint` 返回 `null`"
+方法 `document.elementFromPoint(x,y)` 只对在可见区域内的坐标 `(x,y)` 起作用。
 
-如果其中任何坐标是负数或者超过了窗口的宽/高，那么该函数就返回 `null`。
+如果任何坐标为负或者超过了窗口的 width/height，那么该方法就会返回 `null`。
 
 在大多数情况下，这种行为并不是一个问题，但是我们应该记住这一点。
 
-这里就是一个典型的错误，如果我们不检查，它就可能会发生。
+如果我们没有对其进行检查，可能就会发生下面这个典型的错误：
 
 ```js
 let elem = document.elementFromPoint(x, y);
-// 如果坐标正好是超过的窗口打下，那么 elem = null
+// 如果坐标恰好在窗口外，则 elem = null
 *!*
 elem.style.background = ''; // Error!
 */!*
 ```
 ````
 
-## 使用位置：fixed
+## 用于 "fixed" 定位
 
 大多数时候我们需要使用坐标来定位。在 CSS 中，为了相对于 viewport 来定位元素，我们同时使用 `position:fixed` 和 `left/top`（或者是 `right/bottom`）。
 
@@ -271,3 +252,11 @@ function getCoords(elem) {
 窗口坐标非常适合和 `position:fixed` 一起使用，文档坐标非常适合和 `position:absolute` 一起使用。
 
 这两个坐标系统有它们各自的“优点”和“缺点”，有些时候我们需要使用其中一个或另一个，就像 CSS `position` 中的 `absolute` 和 `fixed` 那样。
+
+
+
+额外说明：
+
+- 坐标可以是十进制的分数。这很正常，浏览器内部也是使用十进制分数来计算坐标。当设置元素的 `style.position.left/top` 时我们不需要舍入它们，浏览器可以支持十进制分数。
+- 坐标也可以是负数的。例如当我们滚动页面向下在 `elem` 的顶部超过窗口的时候，这时候我们调用 `elem.getBoundingClientRect().top` 返回的就是负数。
+- 一些浏览器（像 Chrome）还会在 `getBoundingClientRect` 的返回中增加 `width` 和 `height` 属性。我们可以通过减法计算 `height=bottom-top`，`width=right-left` 来得到这两个属性。
