@@ -9,50 +9,102 @@
 2. **相对于文档** — 与文档根（document root）中的 `position:absolute` 类似，从文档的顶部/左侧边缘计算得出。
     - 我们将它们表示为 `pageX/pageY`。
 
-当页面滚动到最开始时，此时窗口的左上角恰好是文档的左上角，它们的坐标彼此相等。但是，在文档移动之后，元素的窗口相对坐标会发生变化，因为元素在窗口中移动，而文档的相对坐标保持不变。
+当页面滚动到最开始时，此时窗口的左上角恰好是文档的左上角，它们的坐标彼此相等。但是，在文档移动之后，元素的窗口相对坐标会发生变化，因为元素在窗口中移动，而元素在文档中的相对坐标保持不变。
 
 在下图中，我们在文档中取一点，并演示了它滚动之前（左）和之后（右）的坐标：
 
 ![](document-and-window-coordinates-scrolled.svg)
 
 当文档滚动了：
-- `pageY` - document-relative coordinate stayed the same, it's counted from the document top (now scrolled out).
-- `clientY` - window-relative coordinate did change (the arrow became shorter), as the same point became closer to window top.
+- `pageY` — 元素在文档中的相对坐标保持不变，从文档顶部（现在已滚动出去）开始计算。
+- `clientY` — 窗口相对坐标确实发生了变化（箭头变短了），因为同一个点越来越靠近窗口顶部。
 
-## 窗口坐标：getBoundingClientRect
+## 元素坐标：getBoundingClientRect
 
-窗口的坐标是从窗口的左上角开始计算的。
+方法 `elem.getBoundingClientRect()` 返回最小矩形的窗口坐标，该矩形将 `elem` 作为内建 [DOMRect](https://www.w3.org/TR/geometry-1/#domrect) 类的对象。
 
-`elem.getBoundingClientRect()` 方法返回一个 `elem` 的窗口坐标对象，这个对象有以下这些属性：
+主要的 `DOMRect` 属性：
 
-- `top` — 元素顶部边缘的 Y 坐标
-- `left` — 元素左边边缘的 X 坐标
-- `right` — 元素右边边缘的 X 坐标
-- `bottom` — 元素底部边缘的 Y 坐标
+- `x/y` — 矩形原点相对于窗口的 X/Y坐标，
+- `width/height` — 矩形的 width/height（可以为负）。
 
-如下所示：
+此外，还有派生（derived）属性：
 
-![](coords.png)
-
-
-窗口坐标并不会考虑到文档滚动，它们就是基于窗口的左上角计算出来的。
-
-换句话说，当我们滚动这个页面，这个元素就会上升或者下降，**它的窗口坐标改变了**。这很重要。
+- `top/bottom` — 顶部/底部矩形边缘的 Y 坐标，
+- `left/right` — 左/右矩形边缘的 X 坐标。
 
 ```online
-点击按钮可以查看它的窗口坐标：
+例如，单击下面这个按钮以查看其窗口坐标：
 
-<input id="brTest" type="button" value="Show button.getBoundingClientRect() for this button" onclick='showRect(this)'/>
+<p><input id="brTest" type="button" value="使用 button.getBoundingClientRect() 获取此按钮的坐标" onclick='showRect(this)'/></p>
 
 <script>
 function showRect(elem) {
   let r = elem.getBoundingClientRect();
-  alert("{top:"+r.top+", left:"+r.left+", right:"+r.right+", bottom:"+ r.bottom + "}");
+  alert(`x:${r.x}
+y:${r.y}
+width:${r.width}
+height:${r.height}
+top:${r.top}
+bottom:${r.bottom}
+left:${r.left}
+right:${r.right}
+`);
 }
 </script>
 
-如果你滚动这个页面，这个按钮的位置就会改变，同时窗口坐标也会改变。
+如果你滚动此页面并重复点击上面那个按钮，你会发现随着窗口相对按钮位置的改变，其窗口坐标（如果你垂直滚动页面，则为 `y/top/bottom`）也随之改变。
 ```
+
+下面这张是 `elem.getBoundingClientRect()` 的输出的示意图：
+
+![](coordinates.svg)
+
+正如你所看到的，`x/y` 和 `width/height` 对举行进行了完整的描述。可以很容易地从它们计算出派生（derived）属性：
+
+- `left = x`
+- `top = y`
+- `right = x + width`
+- `bottom = y + height`
+
+请注意：
+
+- Coordinates may be decimal fractions, such as `10.5`. That's normal, internally browser uses fractions in calculations. We don't have to round them when setting to `style.left/top`.
+- Coordinates may be negative. For instance, if the page is scrolled so that `elem` is now above the window, then `elem.getBoundingClientRect().top` is negative.
+
+```smart header="Why derived properties are needed? Why does `top/left` exist if there's `x/y`?"
+Mathematically, a rectangle is uniquely defined with its starting point `(x,y)` and the direction vector `(width,height)`. So the additional derived properties are for convenience.
+
+Technically it's possible for `width/height` to be negative, that allows for "directed" rectangle, e.g. to represent mouse selection with properly marked start and end.
+
+Negative `width/height` values mean that the rectangle starts at its bottom-right corner and then "grows" left-upwards.
+
+Here's a rectangle with negative `width` and `height` (e.g. `width=-200`, `height=-100`):
+
+![](coordinates-negative.svg)
+
+As you can see, `left/top` do not equal `x/y` in such case.
+
+In practice though, `elem.getBoundingClientRect()` always returns positive width/height, here we mention negative `width/height` only for you to understand why these seemingly duplicate properties are not actually duplicates.
+```
+
+```warn header="Internet Explorer and Edge: no support for `x/y`"
+Internet Explorer and Edge don't support `x/y` properties for historical reasons.
+
+So we can either make a polyfill (add getters in `DomRect.prototype`) or just use `top/left`, as they are always the same as `x/y` for positive `width/height`, in particular in the result of `elem.getBoundingClientRect()`.
+```
+
+```warn header="Coordinates right/bottom are different from CSS position properties"
+There are obvious similarities between window-relative coordinates and CSS `position:fixed`.
+
+But in CSS positioning, `right` property means the distance from the right edge, and `bottom` property means the distance from the bottom edge.
+
+If we just look at the picture above, we can see that in JavaScript it is not so. All window coordinates are counted from the top-left corner, including these ones.
+```
+
+![](coords.png)
+
+
 
 额外说明：
 
