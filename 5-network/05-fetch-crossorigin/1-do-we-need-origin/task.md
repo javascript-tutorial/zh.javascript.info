@@ -25,4 +25,8 @@ As you can see, both `Referer` and `Origin` are present.
 The questions:
 
 1. Why `Origin` is needed, if `Referer` has even more information?
+<<<<<<< HEAD
 2. If it possible that there's no `Referer` or `Origin`, or it's incorrect?
+=======
+2. Is it possible that there's no `Referer` or `Origin`, or is it incorrect?
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a

@@ -16,12 +16,21 @@ importance: 5
 下面是示例代码：
 
 ```js
+<<<<<<< HEAD
 let accumulator = new Accumulator(1); // 初始值 1
 
 accumulator.read(); // 添加用户输入的 value
 accumulator.read(); // 添加用户输入的 value
 
 alert(accumulator.value); // 显示这些值的总和
+=======
+let accumulator = new Accumulator(1); // initial value 1
+
+accumulator.read(); // adds the user-entered value
+accumulator.read(); // adds the user-entered value
+
+alert(accumulator.value); // shows the sum of these values
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 [demo]

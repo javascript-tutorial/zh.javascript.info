@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 使用 finally 还是直接放在代码后面？
+# Finally or just the code?
 
-比较下面两个代码片段。
+Compare the two code fragments.
 
-1. 第一个代码片段，使用 `finally` 在 `try..catch` 之后执行代码：
+1. The first one uses `finally` to execute the code after `try..catch`:
 
     ```js
     try {
@@ -19,7 +19,7 @@ importance: 5
     */!*
     }
     ```
-2. 第二个代码片段，将清空工作空间的代码放在了 `try..catch` 之后：
+2. The second fragment puts the cleaning right after `try..catch`:
 
     ```js
     try {
@@ -33,6 +33,6 @@ importance: 5
     */!*
     ```
 
-我们肯定需要在工作后进行清理，无论工作过程中是否有 error 都不影响。
+We definitely need the cleanup after the work, doesn't matter if there was an error or not.
 
-在这儿使用 `finally` 更有优势，还是说两个代码片段效果一样？如果在这儿有这样的优势，如果需要，请举例说明。
+Is there an advantage here in using `finally` or both code fragments are equal? If there is such an advantage, then give an example when it matters.

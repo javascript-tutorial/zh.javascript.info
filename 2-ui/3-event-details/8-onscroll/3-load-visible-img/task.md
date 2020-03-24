@@ -4,7 +4,11 @@ importance: 4
 
 # 加载可视化图像
 
+<<<<<<< HEAD
 假设我们有一个速度较慢并希望节省自己移动流量客户。
+=======
+Let's say we have a slow-speed client and want to save their mobile traffic.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 为此，我们决定不立即显示图像，而是将其替换为占位符，如下所示：
 

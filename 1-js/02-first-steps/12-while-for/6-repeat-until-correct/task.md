@@ -3,7 +3,11 @@ importance: 5
 
 # 重复输入，直到正确为止
 
+<<<<<<< HEAD
 编写一个提示用户输入大于 `100` 的数字的循环。如果用户输入其他数值 —— 请他重新输入。
+=======
+Write a loop which prompts for a number greater than `100`. If the visitor enters another number -- ask them to input again.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 循环一直在请求一个数字，直到用户输入了一个大于 `100` 的数字、取消输入或输入了一个空行为止。
 

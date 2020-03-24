@@ -9,11 +9,19 @@ function setCookie(name, value, options = {}) {
 
   options = {
     path: '/',
+<<<<<<< HEAD
     // 如果需要的话可以在这里设置其他默认值
     ...options
   };
 
   if (options.expires.toUTCString) {
+=======
+    // add other defaults here if necessary
+    ...options
+  };
+
+  if (options.expires instanceof Date) {
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
     options.expires = options.expires.toUTCString();
   }
 

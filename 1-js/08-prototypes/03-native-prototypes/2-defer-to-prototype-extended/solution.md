@@ -13,12 +13,21 @@ function f(a, b) {
   alert( a + b );
 }
 
+<<<<<<< HEAD
 f.defer(1000)(1, 2); // 1 秒后显示 3
 ```
 
 请注意：我们在 `f.apply` 中使用 `this` 以使装饰者适用于对象方法。
 
 因此，如果将包装器函数作为对象方法调用，那么 `this` 将会被传递给原始方法 `f`。
+=======
+f.defer(1000)(1, 2); // shows 3 after 1 sec
+```
+
+Please note: we use `this` in `f.apply` to make our decoration work for object methods.
+
+So if the wrapper function is called as an object method, then `this` is passed to the original method `f`.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ```js run
 Function.prototype.defer = function(ms) {

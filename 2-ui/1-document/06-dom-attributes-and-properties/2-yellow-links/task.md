@@ -6,9 +6,15 @@ importance: 3
 
 通过修改 `style` 属性，将所有外部链接变为橙色。
 
+<<<<<<< HEAD
 如果一个链接是外部的：
 - 其 `href` 中包含 `://`
 - 但不是以 `http://internal.com` 开头。
+=======
+A link is external if:
+- Its `href` has `://` in it
+- But doesn't start with `http://internal.com`.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 例如：
 

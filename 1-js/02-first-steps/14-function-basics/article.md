@@ -20,7 +20,11 @@ function showMessage() {
 }
 ```
 
+<<<<<<< HEAD
 `function` 关键字首先出现，然后是 **函数名**，然后是括号之间的 **参数** 列表（用逗号分隔，在上述示例中为空），最后是花括号之间的代码（即“函数体”）。
+=======
+The `function` keyword goes first, then goes the *name of the function*, then a list of *parameters* between the parentheses (comma-separated, empty in the example above) and finally the code of the function, also named "the function body", between curly braces.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ```js
 function name(parameters) {
@@ -105,7 +109,11 @@ showMessage();
 alert( userName ); // *!*Bob*/!*，值被函数修改了
 ```
 
+<<<<<<< HEAD
 只有在没有局部变量的情况下才会使用外部变量。
+=======
+The outer variable is only used if there's no local one.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 如果在函数内部声明了同名变量，那么函数会 **遮蔽** 外部变量。例如，在下面的代码中，函数使用局部的 `userName`，而外部变量被忽略：
 
@@ -132,7 +140,11 @@ alert( userName ); // *!*John*/!*，未被更改，函数没有访问外部变�
 
 全局变量在任意函数中都是可见的（除非被局部变量遮蔽）。
 
+<<<<<<< HEAD
 减少全局变量的使用是一种很好的做法。现代的代码有很少甚至没有全局变量。大多数变量存在于它们的函数中。但是有时候，全局变量能够用于存储项目级别的数据。
+=======
+It's a good practice to minimize the use of global variables. Modern code has few or no globals. Most variables reside in their functions. Sometimes though, they can be useful to store project-level data.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 ## 参数
@@ -208,10 +220,17 @@ function showMessage(from, text = anotherFunction()) {
 }
 ```
 
+<<<<<<< HEAD
 ```smart header="默认参数的计算"
 在 JavaScript 中，每次函数在没带个别参数的情况下被调用，默认参数会被计算出来。
 
 在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用时，`anotherFunction()` 就会被调用。
+=======
+```smart header="Evaluation of default parameters"
+In JavaScript, a default parameter is evaluated every time the function is called without the respective parameter.
+
+In the example above, `anotherFunction()` is called every time `showMessage()` is called without the `text` parameter.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 ````smart header="旧式默认参数"
@@ -272,7 +291,7 @@ function checkAge(age) {
 */!*
   } else {
 *!*
-    return confirm('Got a permission from the parents?');
+    return confirm('Do you have permission from your parents?');
 */!*
   }
 }
@@ -339,9 +358,15 @@ return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
 
+<<<<<<< HEAD
 因此，实际上它的返回值变成了空值。
 
 如果我们想要将返回的表达式写成跨多行的形式，那么应该在 `return` 的同一行开始写此表达式。或者至少按照如下的方式放上左括号：
+=======
+So, it effectively becomes an empty return.
+
+If we want the returned expression to wrap across multiple lines, we should start it at the same line as `return`. Or at least put the opening parentheses there as follows:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ```js
 return (
@@ -350,12 +375,20 @@ return (
   whatever * f(a) + f(b)
   )
 ```
+<<<<<<< HEAD
 然后它就能像我们预想的那样正常运行了。
+=======
+And it will work just as we expect it to.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ````
 
 ## 函数命名 [#function-naming]
 
+<<<<<<< HEAD
 函数是行为。所以它们的名字通常是动词。它应该简短且尽可能准确地描述函数的作用。这样读代码的人就能清楚地知道这个函数的功能。
+=======
+Functions are actions. So their name is usually a verb. It should be brief, as accurate as possible and describe what the function does, so that someone reading the code gets an indication of what the function does.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 一种普遍的做法是用动词前缀来开始一个函数，这个前缀模糊地描述了这个动作。团队内部必须就前缀的含义达成一致。
 
@@ -387,19 +420,33 @@ checkPermission(..) // 检查权限并返回 true/false
 
 有几个违反这一规则的例子：
 
+<<<<<<< HEAD
 - `getAge` —— 如果它通过 `alert` 将 age 显示出来，那就有问题了（只应该是获取）。
 - `createForm` —— 如果它包含修改文档的操作，例如向文档添加一个表单，那就有问题了（只应该创建表单并返回）。
 - `checkPermission` —— 如果它显示 `access granted/denied` 消息，那就有问题了（只应执行检查并返回结果）。
 
 这些例子假设函数名前缀具有通用的含义。你和你的团队可以自定义这些函数名前缀的含义，但是通常都没有太大的不同。无论怎样，你都应该对函数名前缀的含义、带特定前缀的函数可以做什么以及不可以做什么有深刻的了解。所有相同前缀的函数都应该遵守相同的规则。并且，团队成员应该形成共识。
+=======
+- `getAge` -- would be bad if it shows an `alert` with the age (should only get).
+- `createForm` -- would be bad if it modifies the document, adding a form to it (should only create it and return).
+- `checkPermission` -- would be bad if it displays the `access granted/denied` message (should only perform the check and return the result).
+
+These examples assume common meanings of prefixes. You and your team are free to agree on other meanings, but usually they're not much different. In any case, you should have a firm understanding of what a prefix means, what a prefixed function can and cannot do. All same-prefixed functions should obey the rules. And the team should share the knowledge.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 ```smart header="非常短的函数命名"
 常用的函数有时会有**非常短**的名字。
 
+<<<<<<< HEAD
 例如，[jQuery](http://jquery.com) 框架用 `$` 定义一个函数。[LoDash](http://lodash.com/) 库的核心函数用 `_` 命名。
 
 这些都是例外，一般而言，函数名应简明扼要且具有描述性。
+=======
+For example, the [jQuery](http://jquery.com) framework defines a function with `$`. The [Lodash](http://lodash.com/) library has its core function named `_`.
+
+These are exceptions. Generally functions names should be concise and descriptive.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 ## 函数 == 注释

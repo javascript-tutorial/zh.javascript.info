@@ -10,7 +10,11 @@ importance: 5
 
 场（field）的中心坐标是多少？
 
+<<<<<<< HEAD
 计算它们，并将小球置于场（field）中心：
+=======
+Calculate them and use to place the ball into the center of the green field:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 [iframe src="solution" height=180]
 

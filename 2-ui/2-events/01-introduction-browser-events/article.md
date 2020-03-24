@@ -18,8 +18,13 @@
 **键盘事件**：
 - `keydown` and `keyup` —— 当访问者按下然后松开按钮时。
 
+<<<<<<< HEAD
 **Document 事件**：
 - `DOMContentLoaded` —— 当加载和处理 HTML 时，DOM 将会被完整地构建。
+=======
+**Document events:**
+- `DOMContentLoaded` -- when the HTML is loaded and processed, DOM is fully built.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **CSS 事件**：
 - `transitionend` —— 当 CSS 动画完成时。
@@ -30,7 +35,11 @@
 
 为了响应事件，我们可以通过分发**处理器** —— 在事件发生时运行的函数。
 
+<<<<<<< HEAD
 处理器是在用户操作时运行 JavaScript 代码的一种方法。
+=======
+Handlers are a way to run JavaScript code in case of user actions.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 有许多分发处理器的方法。我们来看看，从最简单的开始。
 
@@ -148,7 +157,11 @@ elem.onclick = sayThanks;
 
 ## 可能出现的错误
 
+<<<<<<< HEAD
 如果你刚开始处理事件 —— 请注意一些微妙的地方。
+=======
+If you're starting to work with events -- please note some subtleties.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **函数应该作为 `sayThanks` 进行分发，而不是 `sayThanks()`**。
 
@@ -160,17 +173,29 @@ button.onclick = sayThanks;
 button.onclick = sayThanks();
 ```
 
+<<<<<<< HEAD
 如果我们添加括号，那么就是 `sayThanks()` —— 将是函数执行的**结果**，所以最后一行代码中的 `onclick` 变成了 `undefined`（函数返回的内容将什么也没有）。这是不可取的。
 
 ...但在标记中，我们确实需要括号：
+=======
+If we add parentheses, `sayThanks()` --  is a function call. So the last line actually takes the *result* of the function execution, that is `undefined` (as the function returns nothing), and assigns it to `onclick`. That doesn't work.
+
+...On the other hand, in the markup we do need the parentheses:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
 ```
 
+<<<<<<< HEAD
 这个区别很容易解释。当浏览器读取属性时，它会从其内容中创建一个处理器函数。
 
 所以最后的示例相同：
+=======
+The difference is easy to explain. When the browser reads the attribute, it creates a handler function with *body from its content*: `sayThanks()`.
+
+So the markup generates this property:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```js
 button.onclick = function() {
 *!*
@@ -181,7 +206,11 @@ button.onclick = function() {
 
 **使用函数，而不是字符串**。
 
+<<<<<<< HEAD
 `elem.onclick = "alert(1)"` 也可以执行，这适用于兼容性原因，但是强烈建议不使用这种方式。
+=======
+The assignment `elem.onclick = "alert(1)"` would work too. It works for compatibility reasons, but is strongly not recommended.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **不要为处理器使用 `setAttribute`**。
 
@@ -216,7 +245,7 @@ Web 标准的开发者很久之前就明白了这一点，并提出了一种使�
 添加处理器的语法：
 
 ```js
-element.addEventListener(event, handler[, phase]);
+element.addEventListener(event, handler, [options]);
 ```
 
 `event`
@@ -225,15 +254,24 @@ element.addEventListener(event, handler[, phase]);
 `handler`
 : 处理器函数。
 
+<<<<<<< HEAD
 `phase`
 : 一个可选的参数，即处理器的工作“阶段”。之后会讨论。我们通常不会使用它。
 
 使用 `removeEventListener` 移除处理器：
+=======
+`options`
+: An additional optional object with properties:
+    - `once`: if `true`, then the listener is automatically removed after it triggers.
+    - `capture`: the phase where to handle the event, to be covered later in the chapter <info:bubbling-and-capturing>. For historical reasons, `options` can also be `false/true`, that's the same as `{capture: false/true}`.
+    - `passive`: if `true`, then the handler will not `preventDefault()`, we'll cover that later in <info:default-browser-action>.
 
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
+
+To remove the handler, use `removeEventListener`:
 
 ```js
-// exactly the same arguments as addEventListener
-element.removeEventListener(event, handler[, phase]);
+element.removeEventListener(event, handler, [options]);
 ```
 
 ````warn header="Removal requires the same function"
@@ -288,6 +326,7 @@ input.removeEventListener("click", handler);
 
 正如我们在以上所看到的那样，我们可以使用 DOM 属性**和** `addEventListener` 来设置处理器。但通常我们只使用其中一种方法。
 
+<<<<<<< HEAD
 ````warn header="有些事件处理器只能通过 `addEventListener` 设置"
 有些事件不能通过 DOM 属性分配。必须使用 `addEventListener`。
 
@@ -306,21 +345,34 @@ input.removeEventListener("click", handler);
     width: 300px;
   }
 </style>
+=======
+````warn header="For some events, handlers only work with `addEventListener`"
+There exist events that can't be assigned via a DOM-property. Must use `addEventListener`.
 
-<input type="button" id="elem" onclick="this.classList.toggle('wide')" value="Click me">
+For instance, the event `DOMContentLoaded`, that triggers when the document is loaded and DOM is built.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
-<script>
-  elem.ontransitionend = function() {
-    alert("DOM property"); // doesn't work
-  };
+```js
+document.onDOMContentLoaded = function() {
+  alert("DOM built"); // will never run
+};
+```
 
+<<<<<<< HEAD
 *!*
   elem.addEventListener("transitionend", function() {
     alert("addEventListener"); // 动画完成时显示
   });
 */!*
 </script>
+=======
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  alert("DOM built"); // this way it works
+});
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
+So `addEventListener` is more universal. Although, such events are an exception rather than the rule.
 ````
 
 ## 事件对象
@@ -349,12 +401,20 @@ input.removeEventListener("click", handler);
 : 事件类型，这里是 `"click"`。
 
 `event.currentTarget`
+<<<<<<< HEAD
 : 处理事件的元素。这与 `this` 相同，除非你将 `this` 绑定到其他东西上，之后 `event.currentTarget` 就会有效了。
+=======
+: Element that handled the event. That's exactly the same as `this`, unless the handler is an arrow function, or its `this` is bound to something else, then we can get the element from  `event.currentTarget`.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 `event.clientX / event.clientY`
 : 鼠标事件中光标相对于窗口的坐标。
 
+<<<<<<< HEAD
 还有更多属性。他们取决于事件类型，因此我们稍后将在详细讨论不同事件时来研究它们。
+=======
+There are more properties. They depend on the event type, so we'll study them later when we come to different events in details.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ````smart header="事件对象也可以从 HTML 访问"
 如果我们在 HTML 中分发一个处理器，我们也可以使用 `event` 对象，如下所示：
@@ -369,7 +429,11 @@ input.removeEventListener("click", handler);
 
 ## 对象处理器：handleEvent
 
+<<<<<<< HEAD
 我们可以使用 `addEventListener` 将对象赋值为事件处理器。当事件发生时，它的 `handleEvent` 方法就会和它一起被调用。
+=======
+We can assign not just a function, but an object as an event handler using `addEventListener`. When an event occurs, its `handleEvent` method is called.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 例如：
 
@@ -386,7 +450,11 @@ input.removeEventListener("click", handler);
 </script>
 ```
 
+<<<<<<< HEAD
 换句话说，当 `addEventListener` 接收一个对象作为处理器时候，就会调用 `object.handleEvent(event)` 来处理事件。
+=======
+As we can see, when `addEventListener` receives an object as the handler, it calls `object.handleEvent(event)` in case of an event.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 我们也可以使用一个类：
 
@@ -460,7 +528,11 @@ HTML 属性很少使用，因为 HTML 标签中的 JavaScript 看起来奇怪又
 
 DOM 属性可以使用，但我们不能为特定事件分发多个处理器。在许多场景中，这种限制并不严重。
 
+<<<<<<< HEAD
 最后一种方法是最灵活的，但也是编写内容最多的。有少数事件只能使用这种方式。例如 `transtionend` 和 `DOMContentLoaded`（有待讨论）。当然 `addEventListener` 也支持对象作为事件处理器。在这种场景下，事件发生时就需要调用 `handleEvent` 方法。
+=======
+The last way is the most flexible, but it is also the longest to write. There are few events that only work with it, for instance `transitionend` and `DOMContentLoaded` (to be covered). Also `addEventListener` supports objects as event handlers. In that case the method `handleEvent` is called in case of the event.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 无论你如何分发处理器 —— 它都会将事件对象作为第一个参数。该对象包含事件发生的细节。
 

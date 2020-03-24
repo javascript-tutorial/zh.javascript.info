@@ -1,6 +1,10 @@
 # Character classes
 
+<<<<<<< HEAD
 Consider a practical task -- we have a phone number like `"+7(903)-123-45-67"`, and we need to turn it into pure numbers: `79035419441`.
+=======
+Consider a practical task -- we have a phone number like `"+7(903)-123-45-67"`, and we need to turn it into pure numbers: `79031234567`.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 To do so, we can find and remove anything that's not a number. Character classes can help with that.
 
@@ -30,7 +34,11 @@ let regexp = /\d/g;
 alert( str.match(regexp) ); // array of matches: 7,9,0,3,1,2,3,4,5,6,7
 
 // let's make the digits-only phone number of them:
+<<<<<<< HEAD
 alert( str.match(regexp).join('') ); // 79035419441
+=======
+alert( str.match(regexp).join('') ); // 79031234567
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 That was a character class for digits. There are other character classes as well.

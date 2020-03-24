@@ -24,19 +24,34 @@ ball.style.left = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px
 ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'px';
 ```
 
+<<<<<<< HEAD
 **注意：陷阱！**
+=======
+Now the ball is finally centered.
+
+````warn header="Attention: the pitfall!"
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 当 `<img>` 没有 width/height 时，代码将无法可靠地工作：
 
 ```html
 <img src="ball.png" id="ball">
 ```
+````
 
 当浏览器不知道图片的 width/height（通过标签 attribute 或 CSS）时，它会假定它们等于 `0`，直到图片加载完成。
 
+<<<<<<< HEAD
 但在实际中，第一次加载后，浏览器通常会缓存该图片，并在下一次加载时，浏览器会立即拥有该图片的大小。但是在第一次加载时， `ball.offsetWidth` 的值为 `0`，这会导致错误的坐标。
 
 我们应该通过在 `<img>` 中添加 `width/height` 来解决这个问题：
+=======
+So the value of `ball.offsetWidth` will be `0` until the image loads. That leads to wrong coordinates in the code above.
+
+After the first load, the browser usually caches the image, and on reloads it will have the size immediately. But on the first load the value of `ball.offsetWidth` is `0`.
+
+We should fix that by adding `width/height` to `<img>`:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ```html
 <img src="ball.png" *!*width="40" height="40"*/!* id="ball">
