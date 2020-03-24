@@ -265,7 +265,7 @@ alert( getComputedStyle(elem).width ); // 显示 elem 的 CSS width
 
 元素具有以下几何属性：
 
-- `offsetParent` — 是最接近的 CSS 定位的祖先，或 `td`，`th`，`table`，`body`。
+- `offsetParent` — 是最接近的 CSS 定位的祖先，或者是 `td`，`th`，`table`，`body`。
 - `offsetLeft/offsetTop` — 是相对于 `offsetParent` 的左上角边缘的坐标。
 - `offsetWidth/offsetHeight` — 元素的“外部” width/height，边框（border）尺寸计算在内。
 - `clientLeft/clientTop` — 从元素左上角外角到左上角内角的距离。对于从左到右显示内容的操作系统来说，它们始终是左侧/顶部 border 的宽度。而对于从右到左显示内容的操作系统来说，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
