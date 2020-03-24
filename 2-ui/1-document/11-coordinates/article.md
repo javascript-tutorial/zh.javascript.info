@@ -4,10 +4,20 @@
 
 大多数 JavaScript 方法处理的是以下两种坐标系中的一个：
 
-1. 相对于窗口（或者另一个 viewport）顶部/左侧计算的坐标
-2. 相对于文档顶部/左侧计算的坐标
+1. **相对于窗口** — 类似于 `position:fixed`，从窗口的顶部/左侧边缘计算得出。
+    - 我们将这些坐标表示为 `clientX/clientY`，当我们研究事件属性时，就会明白为什么使用这种名称来表示坐标。
+2. **相对于文档** — 与文档根（document root）中的 `position:absolute` 类似，从文档的顶部/左侧边缘计算得出。
+    - 我们将它们表示为 `pageX/pageY`。
 
-理解这两种方式的区别以及在哪里用哪种类型是很重要的。
+当页面滚动到最开始时，此时窗口的左上角恰好是文档的左上角，它们的坐标彼此相等。但是，在文档移动之后，元素的窗口相对坐标会发生变化，因为元素在窗口中移动，而文档的相对坐标保持不变。
+
+在下图中，我们在文档中取一点，并演示了它滚动之前（左）和之后（右）的坐标：
+
+![](document-and-window-coordinates-scrolled.svg)
+
+当文档滚动了：
+- `pageY` - document-relative coordinate stayed the same, it's counted from the document top (now scrolled out).
+- `clientY` - window-relative coordinate did change (the arrow became shorter), as the same point became closer to window top.
 
 ## 窗口坐标：getBoundingClientRect
 
