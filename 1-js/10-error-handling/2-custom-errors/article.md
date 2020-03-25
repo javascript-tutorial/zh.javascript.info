@@ -215,11 +215,39 @@ alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 
 在上面代码中的函数 `readUser` 的目的就是“读取用户数据”。在这个过程中可能会出现不同类型的 error。目前我们有了 `SyntaxError` 和 `ValidationError`，但是将来，函数 `readUser` 可能会不断壮大，并可能会产生其他类型的 error。
 
-调用 `readUser` 的代码应该处理这些 error。现在它在 `catch` 块中使用了多个 `if` 语句来检查 error 类，处理已知的 error，并再次抛出未知的 error。但是如果函数 `readUser` 产生了多种 error，那么我们应该扪心自问：我们真的想在每个调用 `readUser` 的代码中都一一检查所有的 error 类型吗？
+调用 `readUser` 的代码应该处理这些 error。现在它在 `catch` 块中使用了多个 `if` 语句来检查 error 类，处理已知的 error，并再次抛出未知的 error。
 
-通常答案是 "No"：外部代码希望“比它高一个级别”，外部代码只想具有几种“数据读取异常” — 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果能有一种方法能够获取 error 的详细信息那就更好了，但前提是我们需要这样做。
+The scheme is like this:
 
-因此，让我们创建一个新的类 `ReadError` 来表示此类 error。如果在 `readUser` 内部发生了 error，我们将在那里捕获这个 error 并生成 `ReadError`。我们也会在其 `cause` 属性中保留对原始 error 的引用。然后，外部代码将只需要检查 `ReadError`。
+```js
+try {
+  ...
+  readUser()  // the potential error source
+  ...
+} catch (err) {
+  if (err instanceof ValidationError) {
+    // handle validation errors
+  } else if (err instanceof SyntaxError) {
+    // handle syntax errors
+  } else {
+    throw err; // unknown error, rethrow it
+  }
+}
+```
+
+In the code above we can see two types of errors, but there can be more.
+
+If the `readUser` function generates several kinds of errors, then we should ask ourselves: do we really want to check for all error types one-by-one every time?
+
+Often the answer is "No": we'd like to be "one level above all that". We just want to know if there was a "data reading error" -- why exactly it happened is often irrelevant (the error message describes it). Or, even better, we'd like to have a way to get the error details, but only if we need to.
+
+The technique that we describe here is called "wrapping exceptions".
+
+1. We'll make a new class `ReadError` to represent a generic "data reading" error.
+2. The function `readUser` will catch data reading errors that occur inside it, such as `ValidationError` and `SyntaxError`, and generate a `ReadError` instead.
+3. The `ReadError` object will keep the reference to the original error in its `cause` property.
+
+Then the code that calls `readUser` will only have to check for `ReadError`, not for every kind of data reading errors. And if it needs more details of an error, it can check its `cause` property.
 
 下面的代码定义了 `ReadError`，并在 `readUser` 和 `try..catch` 中演示了其用法：
 
@@ -293,7 +321,7 @@ try {
 
 所以外部代码检查 `instanceof ReadError`，并且它的确是。不必列出所有可能的 error 类型。
 
-这种方法被称为“包装异常（wrapping exceptions）”，因为我们将“低级别的异常”包装到 `ReadError` 中，这对于调用代码来说更加抽象和方便。它被广泛应用于面向对象的编程中。
+这种方法被称为“包装异常（wrapping exceptions）”，因为我们将“低级别”的异常“包装”到了更抽象的 `ReadError` 中。它被广泛应用于面向对象的编程中。
 
 ## 总结
 
