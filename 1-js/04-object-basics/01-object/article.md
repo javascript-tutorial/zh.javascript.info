@@ -215,7 +215,7 @@ let bag = {
 function makeUser(name, age) {
   return {
     name: name,
-    age: age
+    age: age,
     // ……其他的属性
   };
 }
@@ -233,7 +233,7 @@ function makeUser(name, age) {
 *!*
   return {
     name, // 与 name: name 相同
-    age   // 与 age: age 相同
+    age,  // 与 age: age 相同
     // ...
   };
 */!*
