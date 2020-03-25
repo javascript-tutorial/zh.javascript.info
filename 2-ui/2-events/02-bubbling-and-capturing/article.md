@@ -130,24 +130,29 @@
 
 ![](eventflow.svg)
 
-即：对于 `<td>` 的点击，事件首先通过祖先链向下传递到元素（捕获），然后到达目标，最后上升（冒泡），在途中调用处理器。
+也就是说：点击 `<td>`，事件首先通过祖先链向下到达元素（捕获阶段），然后到达目标（目标阶段），最后上升（冒泡阶段），在途中调用处理程序。
 
-**我们之前只讨论了冒泡，因为捕获阶段很少被使用。通常情况下，它对我们不可见**。
+**之前，我们只讨论了冒泡，因为捕获阶段很少被使用。通常我们看不到它。**
 
-处理器 `on<event>` 属性或使用 HTML 属性或者使用 `addEventListener(event, handler)` 添加的处理器，不知道捕获，它们只知道第 2 和第 3 阶段。
+使用 `on<event>` 属性或使用 HTML 特性（attribute）或使用两个参数的 `addEventListener(event, handler)` 添加的处理程序，对捕获一无所知，它们仅在第二阶段和第三阶段运行。
 
-要在捕获阶段捕获事件，我们需要将 `addEventListener` 的第三个参数设置为 `true`。
+为了在捕获阶段捕获事件，我们需要将处理程序的 `capture` 选项设置为 `true`：
 
-最后一个参数是可选的，有两个可能的值：
+```js
+elem.addEventListener(..., {capture: true})
+// 或者，用 {capture: true} 的别名 "true"
+elem.addEventListener(..., true)
+```
 
-- 如果为 `false`（默认值），则在冒泡阶段设置处理器。
-- 如果为 `true`，则在捕获阶段设置处理器。
+`capture` 选项有两个可能的值：
 
-注意，虽然形式上有 3 个阶段，但第 2 阶段（“目标阶段”：事件到达元素）没有单独被处理：捕获阶段和冒泡阶段的处理器在该阶段都会被触发。
+- 如果为 `false`（默认值），则在冒泡阶段设置处理程序。
+- 如果为 `true`，则在捕获阶段设置处理程序。
 
-如果将捕获阶段和冒泡阶段处理器放在目标上，捕获阶段处理器将在捕获阶段触发，而冒泡处理器将首先在冒泡阶段被触发。
 
-我们看一下效果：
+请注意，虽然形式上有 3 个阶段，但第 2 阶段（“目标阶段”：事件到达元素）没有被单独处理：捕获阶段和冒泡阶段的处理程序都在该阶段被触发。
+
+让我们来看看捕获和冒泡：
 
 ```html run autorun height=140 edit
 <style>
@@ -171,14 +176,28 @@
 </script>
 ```
 
-代码为文档中的**每个**元素设置点击处理器，以查看哪些元素上的点击事件处理器生效了。
+上面这段代码为文档中的 **每个** 元素都设置了点击处理程序，以查看哪些元素上的点击事件处理程序生效了。
 
 如果你点击了 `<p>`，那么顺序是：
 
-1. `HTML` -> `BODY` -> `FORM` -> `DIV` -> `P`（捕获阶段，第一个监听者），然后：
-2. `P` -> `DIV` -> `FORM` -> `BODY` -> `HTML`（冒泡阶段，第二个监听者）。
+1. `HTML` -> `BODY` -> `FORM` -> `DIV`（捕获阶段第一个侦监听器）：
+2. `P`（目标阶段，触发两次，因为我们设置了两个监听器：捕获和冒泡）
+3. `DIV` -> `FORM` -> `BODY` -> `HTML`（冒泡阶段，第二个监听器）。
 
-请注意，`P` 出现了两次：在捕获结束和开始冒泡时。
+这里有一个属性 `event.eventPhase`，它告诉我们捕获事件的阶段数。但它很少被使用，因为我们通常是从处理程序中了解到它。
+
+```smart header="To remove the handler, `removeEventListener` needs the same phase"
+If we `addEventListener(..., true)`, then we should mention the same phase in `removeEventListener(..., true)` to correctly remove the handler.
+```
+
+````smart header="Listeners on same element and same phase run in their set order"
+If we have multiple event handlers on the same phase, assigned to the same element with `addEventListener`, they run in the same order as they are created:
+
+```js
+elem.addEventListener("click", e => alert(1)); // guaranteed to trigger first
+elem.addEventListener("click", e => alert(2));
+```
+````
 
 有一个 `event.eventPhase` 属性，它告诉我们事件被捕获阶段的数量。但它很少使用，因为我们通常在处理器中了解到它。
 
