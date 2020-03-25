@@ -41,7 +41,7 @@ alert( rabbit.eats ); // true
 在上图中，`"prototype"` 是一个水平箭头，表示一个常规属性，`[[Prototype]]` 是垂直的，表示 `rabbit` 继承自 `animal`。
 
 ```smart header="`F.prototype` 仅用在 `new F` 时"
-`F.prototype` 属性仅在 `new F` 被调用时使用，它为新对象的 `[[Prototype]]` 赋值。之后，`F.prototype` 和新对象之间就没有任何联系了。可以把它看成“一次性的礼物”。
+`F.prototype` 属性仅在 `new F` 被调用时使用，它为新对象的 `[[Prototype]]` 赋值。
 
 如果在创建之后，`F.prototype` 属性有了变化（`F.prototype = <another object>`），那么通过 `new F` 创建的新对象也将随之拥有新的对象作为 `[[Prototype]]`，但已经存在的对象将保持旧有的值。
 ```
