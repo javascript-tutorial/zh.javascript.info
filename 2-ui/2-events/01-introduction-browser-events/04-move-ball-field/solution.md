@@ -36,7 +36,7 @@
 let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
-通常情况下，`ball.style.left` 表示“元素的左边缘”（球）。因此，如果我们将其指定为 `left`，那么球的边缘就将位于鼠标光标下方，而非球的中心。
+通常情况下，`ball.style.left` 表示“元素的左边缘”（球）。因此，如果我们将其指定为 `left`，那么球的边缘而非球的中心将位于鼠标光标下方。
 
 我们需要将球向左移动球宽度的一半，向上移动球高度的一半，以使其居中。
 
