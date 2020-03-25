@@ -125,25 +125,25 @@ function addJuice(container) {
 记录函数的参数和用法
 : 有一个专门用于记录函数的语法 [JSDoc](http://en.wikipedia.org/wiki/JSDoc)：用法、参数和返回值。
 
-    例如：
-    ```js
-    /**
-     * 返回 x 的 n 次幂的值。
-     *
-     * @param {number} x 要改变的值。
-     * @param {number} n 幂数，必须是一个自然数。
-     * @return {number} x 的 n 次幂的值。
-     */
-    function pow(x, n) {
-      ...
-    }
-    ```
+例如：
+```js
+/**
+ * 返回 x 的 n 次幂的值。
+ *
+ * @param {number} x 要改变的值。
+ * @param {number} n 幂数，必须是一个自然数。
+ * @return {number} x 的 n 次幂的值。
+ */
+function pow(x, n) {
+  ...
+}
+```
 
-    这种注释可以帮助我们理解函数的目的，并且不需要研究其内部的实现代码，就可以直接正确地使用它。
+这种注释可以帮助我们理解函数的目的，并且不需要研究其内部的实现代码，就可以直接正确地使用它。
 
-    顺便说一句，很多诸如 [WebStorm](https://www.jetbrains.com/webstorm/) 这样的编辑器，都可以很好地理解和使用这些注释，来提供自动补全和一些自动化代码检查工作。
+顺便说一句，很多诸如 [WebStorm](https://www.jetbrains.com/webstorm/) 这样的编辑器，都可以很好地理解和使用这些注释，来提供自动补全和一些自动化代码检查工作。
 
-    当然，也有一些像 [JSDoc 3](https://github.com/jsdoc3/jsdoc) 这样的工具，可以通过注释直接生成 HTML 文档。你可以在 <http://usejsdoc.org/> 阅读更多关于 JSDoc 的信息。
+当然，也有一些像 [JSDoc 3](https://github.com/jsdoc3/jsdoc) 这样的工具，可以通过注释直接生成 HTML 文档。你可以在 <http://usejsdoc.org/> 阅读更多关于 JSDoc 的信息。
 
 为什么任务以这种方式解决？
 : 写了什么代码很重要。但是为什么 **不** 那样写可能对于理解正在发生什么更重要。为什么任务是通过这种方式解决的？代码并没有给出答案。
