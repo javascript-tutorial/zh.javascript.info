@@ -111,20 +111,20 @@ HTML 特性不是编写大量代码的好位置，因此我们最好创建一个
 
 **因为这里只有一个 `onclick` 属性，所以我们无法分配更多事件处理器。**
 
-在下面这个示例中，我们使用 JavaScript 添加了一个处理器，重写了已有的处理器：
+在下面这个示例中，我们使用 JavaScript 添加了一个处理器，覆盖了现有的处理器：
 
 ```html run height=50 autorun
 <input type="button" id="elem" onclick="alert('Before')" value="Click me">
 <script>
 *!*
-  elem.onclick = function() { // 重写了已有的处理器
+  elem.onclick = function() { // 覆盖了现有的处理器
     alert('After'); // 只会显示此内容
   };
 */!*
 </script>
 ```
 
-顺便说一下，我们可以直接将已有的函数指定为处理器：
+顺便说一下，我们可以直接将现有的函数指定为处理器：
 
 ```js
 function sayThanks() {
@@ -138,9 +138,9 @@ elem.onclick = sayThanks;
 
 ## 访问元素：this
 
-处理器中的 `this` 的值是元素。上面有处理器的那个。
+处理器中的 `this` 的值是对应的元素。就是处理器所在的那个元素。
 
-下述代码中，`button` 使用 `this.innerHTML` 来显示内容：
+下面这行代码中的 `button` 使用 `this.innerHTML` 来显示它的内容：
 
 ```html height=50 autorun
 <button onclick="alert(this.innerHTML)">Click me</button>
@@ -148,75 +148,75 @@ elem.onclick = sayThanks;
 
 ## 可能出现的错误
 
-如果你刚开始处理事件 —— 请注意一些微妙的地方。
+如果你刚开始写事件 —— 请注意一些细微之处。
 
-**函数应该作为 `sayThanks` 进行分发，而不是 `sayThanks()`**。
+**函数应该被以 `sayThanks` 的形式进行非配，而不是 `sayThanks()`**。
 
 ```js
-// right
+// 正确
 button.onclick = sayThanks;
 
-// wrong
+// 错误
 button.onclick = sayThanks();
 ```
 
-如果我们添加括号，那么就是 `sayThanks()` —— 将是函数执行的**结果**，所以最后一行代码中的 `onclick` 变成了 `undefined`（函数返回的内容将什么也没有）。这是不可取的。
+如果我们添加了括号 `sayThanks()` —— 这是一个函数调用。所以，最后一行代码实际上获得的是函数执行的 **结果**，即 `undefined`（因为这个函数没有返回值）。此代码不会工作。
 
-...但在标记中，我们确实需要括号：
+……但在标记（markup，译注：也就是 HTML 标签）中，我们确实需要括号：
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
 ```
 
-这个区别很容易解释。当浏览器读取属性时，它会从其内容中创建一个处理器函数。
+这个区别很容易解释。当浏览器读取 HTML 特性（attribute）时，浏览器将会使用 **特性中的内容** 创建一个处理函数：`sayThanks()`。
 
-所以最后的示例相同：
+所以，标记会生成下面这个属性：
 ```js
 button.onclick = function() {
 *!*
-  sayThanks(); // the attribute content
+  sayThanks(); // 特性中的内容
 */!*
 };
 ```
 
-**使用函数，而不是字符串**。
+**使用函数，而不是字符串。**
 
-`elem.onclick = "alert(1)"` 也可以执行，这适用于兼容性原因，但是强烈建议不使用这种方式。
+`elem.onclick = "alert(1)"` 也可以执行。它能执行是出于兼容性，但强烈建议不要使用这种方式。
 
-**不要为处理器使用 `setAttribute`**。
+**不要对处理器使用 `setAttribute`。**
 
 这样的调用会失效：
 
 ```js run no-beautify
-// 单击 <body> 将产生错误,
-// 因为属性总是字符串，函数就变成了字符串。
+// 单击 <body> 将产生 error，
+// 因为特性总是字符串的，函数变成了一个字符串
 document.body.setAttribute('onclick', function() { alert(1) });
 ```
 
-**DOM 属性大小写的重要性**。
+**DOM 属性是大小写敏感的。**
 
-为 `elem.onclick` 分发处理器，而不是 `elem.ONCLICK`，因为 DOM 属性是大小写敏感的。
+将处理器分配给 `elem.onclick`，而不是 `elem.ONCLICK`，因为 DOM 属性是大小写敏感的。
 
 ## addEventListener
 
-前面提到分发处理器的基本问题是 —— 我们不能为一个事件分发多个处理器。
+上述分配处理器的方式的根本问题是 —— 我们不能为一个事件分配多个处理器。
 
-例如，我们代码的一部分希望在单击时高亮显示按钮，另一部分希望显示消息。
+例如，在我们点击了一个按钮时，我们代码中的一部分想要高亮显示这个按钮，另一部分则想要显示一条消息。
 
-我们想为此分发两个处理器。但是一个新的 DOM 属性将重写现有的 DOM 属性：
+我们想为此事件分配两个处理器。但是，新的 DOM 属性将覆盖现有的 DOM 属性：
 
 ```js no-beautify
 input.onclick = function() { alert(1); }
 // ...
-input.onclick = function() { alert(2); } // replaces the previous handler
+input.onclick = function() { alert(2); } // 替换了前一个处理器
 ```
 
-Web 标准的开发者很久之前就明白了这一点，并提出了一种使用特殊方法 `addEventListener` 和 `removeEventListener` 来管理处理器的替代方法。它们没有这样的问题。
+Web 标准的开发者很早就了解到了这一点，并提出了一种使用特殊方法 `addEventListener` 和 `removeEventListener` 来管理处理器的替代方法。它们没有这样的问题。
 
 添加处理器的语法：
 
 ```js
-element.addEventListener(event, handler[, phase]);
+element.addEventListener(event, handler, [options]);
 ```
 
 `event`
@@ -225,19 +225,21 @@ element.addEventListener(event, handler[, phase]);
 `handler`
 : 处理器函数。
 
-`phase`
-: 一个可选的参数，即处理器的工作“阶段”。之后会讨论。我们通常不会使用它。
+`options`
+: 具有以下属性的附加可选对象：
+    - `once`：如果为 `true`，那么会在被触发后自动删除监听器。
+    - `capture`：事件处理的阶段，我们稍后将在 <info:bubbling-and-capturing> 一章中介绍。由于历史原因，`options` 也可以是 `false/true`，它与 `{capture: false/true}` 相同。
+    - `passive`：如果为 `true`，那么处理器将不会 `preventDefault()`，我们稍后将在 <info:default-browser-action> 一章中介绍。
 
-使用 `removeEventListener` 移除处理器：
 
+要移除处理器，可以使用 `removeEventListener`：
 
 ```js
-// exactly the same arguments as addEventListener
-element.removeEventListener(event, handler[, phase]);
+element.removeEventListener(event, handler, [options]);
 ```
 
-````warn header="Removal requires the same function"
-要移除处理器，我们需要传入与分发函数完全相同的函数。
+````warn header="移除需要相同的函数"
+要移除处理器，我们需要传入与分配的函数完全相同的函数。
 
 这不起作用：
 
@@ -247,9 +249,9 @@ elem.addEventListener( "click" , () => alert('Thanks!'));
 elem.removeEventListener( "click", () => alert('Thanks!'));
 ```
 
-处理器不会被移除，因为 `removeEventListener` 将获取另一个函数 —— 相同的代码，但这并不起作用。
+处理器不会被移除，因为 `removeEventListener` 获取了另一个函数 —— 使用相同的代码，但这并不起作用。
 
-以下是正确方法：
+下面是正确方法：
 
 ```js
 function handler() {
@@ -261,10 +263,10 @@ input.addEventListener("click", handler);
 input.removeEventListener("click", handler);
 ```
 
-请注意 —— 如果我们不将函数存储在一个变量中，那么我们就无法移除它。由 `addEventListener` 分发的处理器将无法“读回”。
+请注意 —— 如果我们不将函数存储在一个变量中，那么我们就无法移除它。由 `addEventListener` 分配的处理器将无法被“读回”。
 ````
 
-多次调用 `addEventListener` 允许添加多个处理器，就像这样：
+多次调用 `addEventListener` 允许添加多个处理器，如下所示：
 
 ```html run no-beautify
 <input id="elem" type="button" value="Click me"/>
@@ -286,41 +288,25 @@ input.removeEventListener("click", handler);
 </script>
 ```
 
-正如我们在以上所看到的那样，我们可以使用 DOM 属性**和** `addEventListener` 来设置处理器。但通常我们只使用其中一种方法。
+正如我们在上面这个例子中所看到的，我们可以 **同时** 使用 DOM 属性和 `addEventListener` 来设置处理器。但通常我们只使用其中一种方式。
 
-````warn header="有些事件处理器只能通过 `addEventListener` 设置"
-有些事件不能通过 DOM 属性分配。必须使用 `addEventListener`。
+````warn header="对于某些事件，只能通过 `addEventListener` 设置处理器"
+有些事件无法通过 DOM 属性进行分配。必须使用 `addEventListener`。
 
-事件 `transitionend`（CSS 动画完成）就是如此。
+例如，`DOMContentLoaded` 事件，该事件在文档加载完成并且 DOM 构建完成时触发。
 
-尝试以下代码，大多数浏览器中只有第二个处理器正常运行，而不是第一个。
-
-```html run
-<style>
-  input {
-    transition: width 1s;
-    width: 100px;
-  }
-
-  .wide {
-    width: 300px;
-  }
-</style>
-
-<input type="button" id="elem" onclick="this.classList.toggle('wide')" value="Click me">
-
-<script>
-  elem.ontransitionend = function() {
-    alert("DOM property"); // doesn't work
-  };
-
-*!*
-  elem.addEventListener("transitionend", function() {
-    alert("addEventListener"); // 动画完成时显示
-  });
-*/!*
-</script>
+```js
+document.onDOMContentLoaded = function() {
+  alert("DOM built"); // 永远不会运行
+};
 ```
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  alert("DOM built"); // 这种方式可以运行
+});
+```
+所以 `addEventListener` 更通用。虽然这样的事件是特例而不是规则。
 ````
 
 ## 事件对象
