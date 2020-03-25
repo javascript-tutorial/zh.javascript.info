@@ -217,37 +217,37 @@ alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 
 调用 `readUser` 的代码应该处理这些 error。现在它在 `catch` 块中使用了多个 `if` 语句来检查 error 类，处理已知的 error，并再次抛出未知的 error。
 
-The scheme is like this:
+该方案是这样的：
 
 ```js
 try {
   ...
-  readUser()  // the potential error source
+  readUser()  // 潜在的 error 源
   ...
 } catch (err) {
   if (err instanceof ValidationError) {
-    // handle validation errors
+    // 处理 validation error
   } else if (err instanceof SyntaxError) {
-    // handle syntax errors
+    // 处理 syntax error
   } else {
-    throw err; // unknown error, rethrow it
+    throw err; // 未知 error，再次抛出它
   }
 }
 ```
 
-In the code above we can see two types of errors, but there can be more.
+在上面的代码中，我们可以看到两种类型的 error，但是可以有更多。
 
-If the `readUser` function generates several kinds of errors, then we should ask ourselves: do we really want to check for all error types one-by-one every time?
+如果 `readUser` 函数会产生多种 error，那么我们应该问问自己：我们是否真的想每次都一一检查所有的 error 类型？
 
-Often the answer is "No": we'd like to be "one level above all that". We just want to know if there was a "data reading error" -- why exactly it happened is often irrelevant (the error message describes it). Or, even better, we'd like to have a way to get the error details, but only if we need to.
+通常答案是 "No"：我们希望能够“比它高一个级别”。我们只想知道这里是否是“数据读取异常” — 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果我们有一种方法能够获取 error 的详细信息那就更好了，但前提是我们需要。
 
-The technique that we describe here is called "wrapping exceptions".
+我们所描述的这项技术被称为“包装异常”。
 
-1. We'll make a new class `ReadError` to represent a generic "data reading" error.
-2. The function `readUser` will catch data reading errors that occur inside it, such as `ValidationError` and `SyntaxError`, and generate a `ReadError` instead.
-3. The `ReadError` object will keep the reference to the original error in its `cause` property.
+1. 我们将创建一个新的类 `ReadError` 来表示一般的“数据读取” error。
+2. 函数`readUser` 将捕获内部发生的数据读取 error，例如 `ValidationError` 和 `SyntaxError`，并生成一个 `ReadError` 来进行替代。
+3. 对象 `ReadError` 会把对原始 error 的引用保存在其 `cause` 属性中。
 
-Then the code that calls `readUser` will only have to check for `ReadError`, not for every kind of data reading errors. And if it needs more details of an error, it can check its `cause` property.
+之后，调用 `readUser` 的代码只需要检查 `ReadError`，而不必检查每种数据读取 error。并且，如果需要更多 error 细节，那么可以检查 `readUser` 的 `cause` 属性。
 
 下面的代码定义了 `ReadError`，并在 `readUser` 和 `try..catch` 中演示了其用法：
 
