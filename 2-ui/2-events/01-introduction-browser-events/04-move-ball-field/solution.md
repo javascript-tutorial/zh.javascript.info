@@ -28,9 +28,9 @@
 
 ![](move-ball-coords.svg)
 
-我们有 `event.clientX/clientY` —— 单击位置的窗口相对坐标。
+我们有 `event.clientX/clientY` —— 点击位置的窗口相对坐标。
 
-要获取单击位置的球场相对坐标 `left`，我们可以减去球场左边缘和边框的宽度：
+要获取点击位置的球场相对坐标 `left`，我们可以减去球场左边缘和边框的宽度：
 
 ```js
 let left = event.clientX - fieldCoords.left - field.clientLeft;
