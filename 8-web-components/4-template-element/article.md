@@ -112,7 +112,7 @@ In the line `(*)` when we clone and insert `tmpl.content`, as its `DocumentFragm
 `<template>`标签非常独特，因为：
 
 * 浏览器将检查其中的HTML语法（与在脚本中使用模板字符串不同）。
-* 但允许使用任何顶级HTML标签，即使没有适当包装元素的无意义的元素（例如<tr>）。
+* 但允许使用任何顶级 HTML 标签，即使没有适当包装元素的无意义的元素（例如 `<tr>`）。
 * 其内容是交互式的：插入其文档后，脚本会运行，`<video autoplay>` 会自动播放。
 
 `<template>`元素不具有任何迭代机制，数据绑定或变量替换的功能，但我们可以自己实现这些功能。
