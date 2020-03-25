@@ -10,7 +10,7 @@ importance: 5
 
 场（field）的中心坐标是多少？
 
-计算它们，并将小球置于场（field）中心：
+计算它们，并将小球置于绿色的场（field）中心：
 
 [iframe src="solution" height=180]
 
