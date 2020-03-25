@@ -105,7 +105,7 @@ In the line `(*)` when we clone and insert `tmpl.content`, as its `DocumentFragm
 
 总结一下：
 
-* ` <template>` 的内容可以是任何语法正确的HTML。
+* `<template>` 的内容可以是任何语法正确的 HTML。
 * `<template> `内容被视为“超出文档范围”，因此它不会产生任何影响。
 * 我们可以在JavaScript 中访问`template.content`，将其克隆以在新组件中重复使用。
 
