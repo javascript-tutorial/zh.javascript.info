@@ -57,7 +57,7 @@ drawHtmlTree(node1, 'div.domtree', 690, 320);
 </script>
 
 ```online
-在上面的图片中，你可以单击元素（element）节点，它们的子节点会打开/折叠。
+在上面的图片中，你可以点击元素（element）节点，它们的子节点会打开/折叠。
 ```
 
 每个树的节点都是一个对象。
