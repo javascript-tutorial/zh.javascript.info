@@ -26,7 +26,7 @@
 
 还有很多其他事件。我们将在下一章中详细介绍具体事件。
 
-## 事件处理器
+## 事件处理程器
 
 为了对事件作出响应，我们可以分配一个 **处理器（handler）**—— 一个在事件发生时运行的函数。
 
@@ -46,11 +46,11 @@
 
 在鼠标单击时，`onclick` 中的代码就会运行。
 
-请注意在 `onclick` 中，我们使用单引号，因为属性本身是双引号。如果我们忘记了代码是在属性中而使用了双引号，比如这样：`onclick="alert("Click!")"`，那么它就无法正确运行。
+请注意，在 `onclick` 中，我们使用单引号，因为特性本身使用的是双引号。如果我们忘记了代码是在特性中的，而使用了双引号，像这样：`onclick="alert("Click!")"`，那么它就无法正确运行。
 
-使用 HTML 属性对于编写大量代码并不方便，因此我们最好创建一个 JavaScript 函数，然后在需要的地方调用。
+HTML 特性不是编写大量代码的好位置，因此我们最好创建一个 JavaScript 函数，然后在 HTML 特性中调用这个函数。
 
-在这里单击运行 `countRabbits()`：
+在这里单击会运行 `countRabbits()`：
 
 ```html autorun height=50
 <script>
@@ -64,13 +64,13 @@
 <input type="button" *!*onclick="countRabbits()"*/!* value="Count rabbits!">
 ```
 
-我们知道，HTML 属性名不区分大小写，因此 `ONCLICK` 和 `onClick` 以及 `onCLICK` 等都是一样可以运行的。但属性通常是小写的：`onclick`。
+我们知道，HTML 特性名是大小写不敏感的，所以 `ONCLICK` 和 `onClick` 以及 `onCLICK` 都一样可以运行。但是特性通常是小写的：`onclick`。
 
 ### DOM 属性
 
-我们可以使用 DOM 属性 `on<event>` 来分发处理器。
+我们可以使用 DOM 属性（property）`on<event>` 来分配处理器。
 
-比如 `elem.onclick`：
+例如 `elem.onclick`：
 
 ```html autorun
 <input id="elem" type="button" value="Click me">
@@ -83,13 +83,13 @@
 </script>
 ```
 
-如果使用 HTML 属性分发处理器，那么浏览器就会读取它，从属性内容中创建一个新函数并将其写入 DOM 属性。
+如果一个处理器是通过 HTML 特性（attribute）分配的，那么随后浏览器读取它，并从特性的内容创建一个新函数，并将这个函数写入 DOM 属性（property）。
 
-因此这个方法和之前的一样。
+因此，这种方法实际上与前一种方法相同。
 
-**处理器总是在 DOM 属性中：HTML 属性只是初始化它的方法之一**。
+**处理器总是在 DOM 属性中：HTML 特性只是初始化它的方法之一**。
 
-这两段的代码工作原理一致：
+这两段代码工作相同：
 
 1. 只有 HTML：
 
@@ -109,22 +109,22 @@
     </script>
     ```
 
-**因为只有一个 `onclick` 属性，因此我们不能分发多个事件处理器**。
+**因为这里只有一个 `onclick` 属性，所以我们无法分配更多事件处理器。**
 
-在下面的示例中，使用 JavaScript 添加一个处理器，重写现有的处理器：
+在下面这个示例中，我们使用 JavaScript 添加了一个处理器，重写了已有的处理器：
 
 ```html run height=50 autorun
 <input type="button" id="elem" onclick="alert('Before')" value="Click me">
 <script>
 *!*
-  elem.onclick = function() { // overwrites the existing handler
-    alert('After'); // only this will be shown
+  elem.onclick = function() { // 重写了已有的处理器
+    alert('After'); // 只会显示此内容
   };
 */!*
 </script>
 ```
 
-顺便说一下，我们可以直接将现有函数指定为处理器：
+顺便说一下，我们可以直接将已有的函数指定为处理器：
 
 ```js
 function sayThanks() {
@@ -134,7 +134,7 @@ function sayThanks() {
 elem.onclick = sayThanks;
 ```
 
-移除处理器 —— 分发 `elem.onclick = null`。
+要移除一个处理器 —— 赋值 `elem.onclick = null`。
 
 ## 访问元素：this
 
