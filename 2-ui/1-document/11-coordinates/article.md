@@ -34,7 +34,7 @@
 - `left/right` — 左/右矩形边缘的 X 坐标。
 
 ```online
-例如，单击下面这个按钮以查看其窗口坐标：
+例如，点击下面这个按钮以查看其窗口坐标：
 
 <p><input id="brTest" type="button" value="Get coordinates using button.getBoundingClientRect() for this button" onclick='showRect(this)'/></p>
 
