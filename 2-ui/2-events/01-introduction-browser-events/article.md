@@ -44,13 +44,13 @@
 <input value="Click me" *!*onclick="alert('Click!')"*/!* type="button">
 ```
 
-在鼠标单击时，`onclick` 中的代码就会运行。
+在鼠标点击时，`onclick` 中的代码就会运行。
 
 请注意，在 `onclick` 中，我们使用单引号，因为特性本身使用的是双引号。如果我们忘记了代码是在特性中的，而使用了双引号，像这样：`onclick="alert("Click!")"`，那么它就无法正确运行。
 
 HTML 特性不是编写大量代码的好位置，因此我们最好创建一个 JavaScript 函数，然后在 HTML 特性中调用这个函数。
 
-在这里单击会运行 `countRabbits()`：
+在这里点击会运行 `countRabbits()`：
 
 ```html autorun height=50
 <script>
@@ -188,7 +188,7 @@ button.onclick = function() {
 这样的调用会失效：
 
 ```js run no-beautify
-// 单击 <body> 将产生 error，
+// 点击 <body> 将产生 error，
 // 因为特性总是字符串的，函数变成了一个字符串
 document.body.setAttribute('onclick', function() { alert(1) });
 ```
