@@ -436,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 ## 总结
 
-这里有 3 种分配事件处理程序的方法：
+这里有 3 种分配事件处理程序的方式：
 
 1. HTML 特性（attribute）：`onclick="..."`。
 2. DOM 属性（property）：`elem.onclick = function`。
@@ -446,8 +446,8 @@ HTML 特性很少使用，因为 HTML 标签中的 JavaScript 看起来有些奇
 
 DOM 属性用起来还可以，但我们无法为特定事件分配多个处理程序。在许多场景中，这种限制并不紧迫。
 
-最后一种方法是最灵活的，但也是写起来最长的。有少数事件只能使用这种方式。例如 `transtionend` 和 `DOMContentLoaded`（有待讨论）。当然 `addEventListener` 也支持对象作为事件处理器。在这种场景下，事件发生时就需要调用 `handleEvent` 方法。
+最后一种方式是最灵活的，但也是写起来最长的。有少数事件只能使用这种方式。例如 `transtionend` 和 `DOMContentLoaded`（上文中讲到了）。`addEventListener` 也支持对象作为事件处理程序。在这种情况下，如果发生事件，则会调用 `handleEvent` 方法。
 
-无论你如何分发处理器 —— 它都会将事件对象作为第一个参数。该对象包含事件发生的细节。
+无论你如何分类处理程序 —— 它都会将获得一个事件对象作为第一个参数。该对象包含有关所发生事件的详细信息。
 
-我们将在下一章了解更多关于一般事件和不同类型事件的内容。
+在下一章中，我们将学习更多关于一般事件和不同类型事件的内容。
