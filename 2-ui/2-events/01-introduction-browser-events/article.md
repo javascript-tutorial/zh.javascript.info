@@ -1,44 +1,44 @@
 # 浏览器事件简介
 
-**事件**是某事发生的信号。所有的 DOM 节点都生成这样的信号（但事件不仅限于 DOM）。
+**事件** 是某事发生的信号。所有的 DOM 节点都生成这样的信号（但事件不仅限于 DOM）。
 
-这里有一张最有用的 DOM 事件列表，请看：
+这是最有用的 DOM 事件的列表，你可以浏览一下：
 
 **鼠标事件：**
-- `click` —— 当鼠标点击一个元素时（触摸屏设备在 tap 时生成）。
-- `contextmenu` —— 当鼠标右击一个元素时。
-- `mouseover` / `mouseout` —— 当鼠标光标移入或移出一个元素时。
-- `mousedown` / `mouseup` —— 当鼠标按下/释放一个元素时。
+- `click` —— 当鼠标点击一个元素时（触摸屏设备会在点击时生成）。
+- `contextmenu` —— 当鼠标右键点击一个元素时。
+- `mouseover` / `mouseout` —— 当鼠标光标移入/离开一个元素时。
+- `mousedown` / `mouseup` —— 当在元素上按下/释放鼠标按钮时。
 - `mousemove` —— 当鼠标移出时。
 
-**表单元素事件**：
+**表单（form）元素事件**：
 - `submit` —— 当访问者提交了一个 `<form>` 时。
-- `focus` —— 当访问者聚焦一个元素时，例如 `<input>`。
+- `focus` —— 当访问者聚焦于一个元素时，例如聚焦于一个 `<input>`。
 
 **键盘事件**：
-- `keydown` and `keyup` —— 当访问者按下然后松开按钮时。
+- `keydown` 和 `keyup` —— 当访问者按下然后松开按键时。
 
 **Document 事件**：
-- `DOMContentLoaded` —— 当加载和处理 HTML 时，DOM 将会被完整地构建。
+- `DOMContentLoaded` —— 当 HTML 的加载和处理均完成，DOM 被完全构建完成时。
 
 **CSS 事件**：
-- `transitionend` —— 当 CSS 动画完成时。
+- `transitionend` —— 当一个 CSS 动画完成时。
 
-还有许多其他事件。我们将在下一章中详细介绍具体事件。
+还有很多其他事件。我们将在下一章中详细介绍具体事件。
 
 ## 事件处理器
 
-为了响应事件，我们可以通过分发**处理器** —— 在事件发生时运行的函数。
+为了对事件作出响应，我们可以分配一个 **处理器（handler）**—— 一个在事件发生时运行的函数。
 
-处理器是在用户操作时运行 JavaScript 代码的一种方法。
+处理器是在发生用户操作（action）时运行 JavaScript 代码的一种方式。
 
-有许多分发处理器的方法。我们来看看，从最简单的开始。
+有几种分配处理器的方法。让我们来看看，从最简单的开始。
 
-### HTML 属性
+### HTML 特性
 
-处理器可以设置在 HTML 名为 `on<event>` 的属性中。
+处理器可以设置在 HTML 中名为 `on<event>` 的特性（attribute）中。
 
-例如，为 `input` 分发一个 `click` 处理器，我们就可以使用 `onclick`，就像这样；
+例如，要为一个 `input` 分配一个 `click` 处理器，我们可以使用 `onclick`，像这样；
 
 ```html run
 <input value="Click me" *!*onclick="alert('Click!')"*/!* type="button">
