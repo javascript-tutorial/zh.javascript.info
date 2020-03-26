@@ -32,7 +32,7 @@
 
 该表格有 9 个单元格（cell），但可以有 99 个或 9999 个单元格，这都不重要。
 
-**我们的任务是在单击时，高亮显示被点击的单元格 `<td>`。**
+**我们的任务是在点击时高亮显示被点击的单元格 `<td>`。**
 
 与其为每个 `<td>`（可能有很多）分配一个 `onclick` 处理程序 —— 我们可以在 `<table>` 元素上设置一个“捕获所有”的处理程序。
 
@@ -45,7 +45,7 @@ let selectedTd;
 
 *!*
 table.onclick = function(event) {
-  let target = event.target; // 在哪里单击的？
+  let target = event.target; // 在哪里点击的？
 
   if (target.tagName != 'TD') return; // 不在 TD 上？那么我们就不会在意
 
@@ -176,13 +176,13 @@ table.onclick = function(event) {
 
 我们还可以使用事件委托将“行为”以 **声明方式** 添加到具有特殊特性（attribute）和类的元素中。
 
-模式分为两步：
-1. 我们向元素添加一个特殊属性。
-2. 用文档范围级的处理器追踪事件，如果事件发生在具有特定属性的元素上 —— 则执行该操作。
+行为模式分为两个部分：
+1. 我们将自定义特性添加到描述其行为的元素。
+2. 用文档范围级的处理程序追踪事件，如果事件发生在具有特定特性的元素上 —— 则执行操作。
 
-### 计数
+### 行为：计数器
 
-例如，这里的 `data-counter` 属性给按钮添加了一个“点击增加”的行为。
+例如，这里的特性 `data-counter` 给按钮添加了一个“点击增加”的行为。
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>
@@ -191,7 +191,7 @@ One more counter: <input type="button" value="2" data-counter>
 <script>
   document.addEventListener('click', function(event) {
 
-    if (event.target.dataset.counter != undefined) { // if the attribute exists...
+    if (event.target.dataset.counter != undefined) { // 如果这个特性存在...
       event.target.value++;
     }
 
@@ -201,17 +201,17 @@ One more counter: <input type="button" value="2" data-counter>
 
 如果我们点击按钮 —— 它的值就会增加。但不仅仅是按钮，一般的方法在这里也很重要。
 
-我们可以有很多像 `data-counter` 一样的属性。我们可以在任何时候向 HTML 添加新的属性。使用事件委托，我们可以“扩展” HTML，添加一个描述新行为的属性。
+我们可以根据需要使用 `data-counter` 特性，多少都可以。我们可以随时向 HTML 添加新的特性。使用事件委托，我们属于对 HTML 进行了“扩展”，添加了描述新行为的特性。
 
-```warn header="对于文档级的处理器 —— 始终是 `addEventListener`"
-当我们将事件处理器分配给 `document` 对象，我们应该始终使用 `addEventListener`，而不是 `document.onclick`，因为后者会导致冲突：新的处理器会重写旧的。
+```warn header="对于文档级的处理程序 —— 始终使用的是 `addEventListener`"
+当我们将事件处理程序分配给 `document` 对象时，我们应该始终使用 `addEventListener`，而不是 `document.on<event>`，因为后者会引起冲突：新的处理程序会覆盖旧的处理程序。
 
-对于实际项目来说。代码的不同部分设置的 `document` 上有许多处理器是正常的。
+对于实际项目来说。在 `document` 上有许多由代码的不同部分设置的处理程序，这是很正常的。
 ```
 
-### 切换器
+### 行为：切换器
 
-再举一个例子，单击一个具有 `data-toggle-id` 属性的元素将显示/隐藏具有给定 `id` 的元素：
+再举一个例子。点击一个具有 `data-toggle-id` 特性的元素将显示/隐藏具有给定 `id` 的元素：
 
 ```html autorun run height=60
 <button *!*data-toggle-id="subscribe-mail"*/!*>
@@ -236,41 +236,37 @@ One more counter: <input type="button" value="2" data-counter>
 </script>
 ```
 
-让我们再一次指出我们做了什么。现在，要将切换功能添加到元素中 —— 不需要了解 JavaScript，只需要使用 `data-toggle-id` 属性。
+让我们再次注意我们做了什么。现在，要向元素添加切换功能 —— 无需了解 JavaScript，只需要使用特性 `data-toggle-id` 即可。
 
-这可能变得非常方便 —— 不需要为每个这样的元素编写 JavaScript。只需要使用行为。文档级处理器使其可以用于页面的任何元素。
+这可能变得非常方便 —— 无需为每个这样的元素编写 JavaScript。只需要使用行为。文档级处理程序使其适用于页面的任意元素。
 
-我们也可以结合单个元素上的多个行为。
+我们也可以组合单个元素上的多个行为。
 
-“行为型”模式可以替代 JavaScript 的小片段。
+“行为”模式可以替代 JavaScript 的小片段。
 
 ## 总结
 
 事件委托真的很酷！这是 DOM 事件最有用的模式之一。
 
-它通常用于为许多相似的元素添加相同的处理，但不仅仅只是这样。
+它通常用于为许多相似的元素添加相同的处理，但不仅限于此。
 
 算法：
 
-1. 在容器上设置一个处理器。
-2. 在处理器中 —— 检查源元素的 `event.target`。
-3. 如果事件发生在我们感兴趣的元素中，那么处理该事件。
+1. 在容器（container）上放一个处理程序。
+2. 在处理程序中 —— 检查源元素 `event.target`。
+3. 如果事件发生在我们感兴趣的元素内，那么处理该事件。
 
 好处：
 
 ```compare
-+ 简化初始化并节省内存：不需要添加许多处理器。
-+ 更少的代码：添加或移除元素时，不需要添加/移除处理器。
-+ DOM 修改 ：我们可以使用 `innerHTML` 等来大量添加/移除元素。
++ 简化初始化并节省内存：无需添加许多处理程序。
++ 更少的代码：添加或移除元素时，无需添加/移除处理程序。
++ DOM 修改 ：我们可以使用 `innerHTML` 等，来批量添加/移除元素。
 ```
 
-委托处理方式也有局限性：
+事件委托也有其局限性：
 
 ```compare
-- 首先，事件必须冒泡。而有些事件不会冒泡。此外，低级别的处理器不应该使用 `event.stopPropagation()`。
-- 其次，委托会增加 CPU 负载，因为容器等级的处理器对容器中任何位置的事件做出反应，不管它们是否会引起我们的兴趣。但是通常负载是可以忽略不计的，所以我们不考虑它。
+- 首先，事件必须冒泡。而有些事件不会冒泡。此外，低级别的处理程序不应该使用 `event.stopPropagation()`。
+- 其次，委托可能会增加 CPU 负载，因为容器级别的处理程序会对容器中任意位置的事件做出反应，而不管我们是否对该事件感兴趣。但是，通常负载可以忽略不计，所以我们不考虑它。
 ```
-
-事件委托可优化事件处理。我们使用单个处理器来对许多元素进行相似的操作。就像我们用于高亮显示 `<td>` 一样。
-
-但我们仍然可以使用单个处理器作为许多不同事件的入口点。
