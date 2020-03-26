@@ -1,19 +1,19 @@
 
 # 事件委托
 
-捕获和冒泡允许实现一种称为**事件委托**的强大的事件处理模式。
+捕获和冒泡允许我们实现一种被称为 **事件委托** 的强大的事件处理模式。
 
-我们的想法是，如果我们有许多元素是以类似的方式处理的，那么我们就不需要给每个元素分配一个处理器 —— 而是在它们共同的祖先上面添加一个处理器。
+这个想法是，如果我们有许多以类似方式处理的元素，那么就不必为每个元素分配一个处理程序 —— 而是将单个处理程序放在它们的共同祖先上。
 
-在处理器中，我们可以得到 `event.target`，查看事件实际发生的位置并处理它。
+在处理程序中，我们获得 `event.target`，查看事件实际发生的位置并进行处理。
 
-我们看一个示例 —— 反映中国古代哲学的[八卦图](http://en.wikipedia.org/wiki/Ba_gua)。
+让我们看一个示例 —— 反映中国古代哲学的 [八卦图](http://en.wikipedia.org/wiki/Ba_gua)。
 
-就是这个：
+如下所示：
 
 [iframe height=350 src="bagua" edit link]
 
-HTML 如下所示：
+其 HTML 如下所示：
 
 ```html
 <table>
@@ -21,24 +21,24 @@ HTML 如下所示：
     <th colspan="3"><em>Bagua</em> Chart: Direction, Element, Color, Meaning</th>
   </tr>
   <tr>
-    <td>...<strong>Northwest</strong>...</td>
-    <td>...</td>
-    <td>...</td>
+    <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+    <td class="n">...</td>
+    <td class="ne">...</td>
   </tr>
   <tr>...2 more lines of this kind...</tr>
   <tr>...2 more lines of this kind...</tr>
 </table>
 ```
 
-该表有 9 个单元格，但可能有 99 个或者 9999 个单元，这些都不重要。
+该表有 9 个单元格（cell），但可以有 99 个或 9999 个单元格，这都不重要。
 
-**我们的任务是在单击时高亮显示一个 `<td>` 单元格。**
+**我们的任务是在单击时，高亮显示被点击的单元格 `<td>`。**
 
-相比为每个 `<td>`（可能有很多）分配一个 `onclick` 处理器 —— 我们可以为 `<table>` 元素设置一个 "catch-all" 处理器。
+与其为每个 `<td>`（可能有很多）分配一个 `onclick` 处理程序 —— 我们可以在 `<table>` 元素上设置一个“捕获所有”的处理程序。
 
-它会使用 `event.target` 来获取单击的元素并高亮显示它。
+它将使用 `event.target` 来获取点击的元素并高亮显示它。
 
-代码：
+代码如下：
 
 ```js
 let selectedTd;
@@ -49,24 +49,24 @@ table.onclick = function(event) {
 
   if (target.tagName != 'TD') return; // 不在 TD 上？那么我们就不会在意
 
-  highlight(target); // 高亮显示
+  highlight(target); // 高亮显示它
 };
 */!*
 
 function highlight(td) {
-  if (selectedTd) { // 移除任何已存在的高亮显示内容
+  if (selectedTd) { // 移除现有的高亮显示，如果有的话
     selectedTd.classList.remove('highlight');
   }
   selectedTd = td;
-  selectedTd.classList.add('highlight'); // 高亮新的 td
+  selectedTd.classList.add('highlight'); // 高亮显示新的 td
 }
 ```
 
-代码不会关心在表中有多少单元格。随时可以动态添加/移除 `<td>`，高亮显示仍然有效。
+此代码不会关心在表格中有多少个单元格。我们可以随时动态添加/移除 `<td>`，高亮显示仍然有效。
 
-尽管如此，还是存在缺点。
+尽管如此，但还是存在缺点。
 
-单击可能不是发生在 `<td>` 上，而是发生在其内部。
+点击可能不是发生在 `<td>` 上，而是发生在其内部。
 
 在我们的例子中，如果我们查看 HTML 内部，我们可以看到 `<td>` 内的嵌套标签，比如 `<strong>`：
 
