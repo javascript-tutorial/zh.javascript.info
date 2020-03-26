@@ -5,19 +5,19 @@
 例如：
 
 - 点击一个链接 —— 触发导航（navigation）到该 URL。
-- 点击表单中的提交按钮 —— 触发提交到服务器的行为。
-- 在文本上按下鼠标按键并移动 —— 选中文本。
+- 点击表单的提交按钮 —— 触发提交到服务器的行为。
+- 在文本上按下鼠标按钮并移动 —— 选中文本。
 
-如果我们用 JavaScript 处理一个事件，我们通常不需要浏览器行为。幸运的是，它是可以阻止的。
+如果我们使用 JavaScript 处理一个事件，那么我们通常不希望发生相应的浏览器行为。而是想要实现其他行为进行替代。
 
 ## 阻止浏览器行为
 
-有两种方法可以告诉浏览器我们不希望它执行行为：
+有两种方式来告诉浏览器我们不希望它执行默认行为：
 
-- 主流的方法是使用 `event` 对象。有一个 `event.preventDefault()` 方法。
-- 如果使用 `on<event>`（而不是 `addEventListener`）分发处理器，那么我们只需要从它内部返回 `false` 即可。
+- 主流的方式是使用 `event` 对象。有一个 `event.preventDefault()` 方法。
+- 如果处理程序是使用 `on<event>`（而不是 `addEventListener`）分配的，那返回 `false` 也同样有效。
 
-在下面的示例中，点击链接不会导致 URL 改变：
+在下面这个示例中，点击链接不会触发导航（navigation），浏览器不会执行任何操作：
 
 ```html autorun height=60 no-beautify
 <a href="/" onclick="return false">Click here</a>
@@ -25,12 +25,14 @@ or
 <a href="/" onclick="event.preventDefault()">here</a>
 ```
 
-```warn header="没有必要去返回 `true`"
-事件处理器返回的值通常会被忽略。
- 
-唯一的例外 —— 是从使用 `on<event>` 分发的处理器中 `return false`。
+在下一个示例中，我们将使用此技术来创建 JavaScript 驱动的菜单。
 
-在所有其他情况下，返回都是不需要的，也不需要被处理。
+```warn header="从处理程序返回 `false` 是一个例外"
+事件处理程序返回的值通常会被忽略。
+
+唯一的例外是从使用 `on<event>` 分配的处理程序中返回的 `return false`。
+
+在所有其他情况下，`return` 值都会被忽略。并且，返回 `true` 没有意义。
 ```
 
 ### 示例：菜单
@@ -45,53 +47,68 @@ or
 </ul>
 ```
 
-下面是一些 CSS 的外观：
+下面经过 CSS 渲染的外观：
 
 [iframe height=70 src="menu" link edit]
 
-菜单项是 `<a>` 链接，而不是按钮。这有几个好处，比如：
+菜单项是通过使用 HTML 链接 `<a>` 实现的，而不是使用按钮 `<button>`。这样做有几个原因，例如：
 
-- 许多人喜欢使用“右键” —— “打开一个新窗口”。如果我们使用 `<button>` 或者 `<span>`，这些行为都会失效。
-- 搜索引擎在索引时遵循 `<a href="...">`。
+- 许多人喜欢使用“右键单击” —— “在一个新窗口打开链接”。如果我们使用 `<button>` 或 `<span>`，这个效果就无法实现。
+- 搜索引擎在建立索引时遵循 `<a href="...">` 链接。
 
-因为我们在标记中使用 `<a>`。但通常我们打算用 JavaScript 处理点击。因此我们应该阻止浏览器默认行为。
+因为我们在标记（markup）中使用了 `<a>`。但通常我们打算处理 JavaScript 中的点击。因此，我们应该阻止浏览器默认行为。
 
-就像这样：
+像这样：
 
 ```js
 menu.onclick = function(event) {
   if (event.target.nodeName != 'A') return;
 
   let href = event.target.getAttribute('href');
-  alert( href ); // ...可以从服务器和 UI 等加载
+  alert( href ); // ...可以从服务器加载，UI 生成等
 
 *!*
-  return false; // prevent browser action (don't go to the URL)
+  return false; // 阻止浏览器行为（不前往访问 URL）
 */!*
 };
 ```
 
-如果我们省略 `return false`，那么在我们的代码执行后，浏览器将执行它的“默认行为” —— 在  `href` 中跟踪 URL。
+如果我们省略 `return false`，那么在我们的代码执行完毕后，浏览器将执行它的“默认行为” —— 导航至在 `href` 中的 URL。
 
-顺便说一句，这里使用事件委托会使我们的菜单更灵活。我们可以添加嵌套列表并使用 CSS 对其样式设置 "slide down"。
+顺便说一句，这里使用事件委托会使我们的菜单更灵活。我们可以添加嵌套列表并使用 CSS 对其进行样式设置来实现 "slide down" 的效果。
 
+````smart header="后续事件"
+某些事件会相互转化。如果我们阻止了第一个事件，那就没有第二个事件了。
 
-## 阻止进一步的事件
+例如，在 `<input>` 字段上的 `mousedown` 会导致在其中获得焦点，以及 `focus` 事件。如果我们阻止 `mousedown` 事件，在这就没有焦点了。
 
-某些事件流入另一个事件。如果我们阻止第一个事件，就没有第二个事件。
-
-例如，在 `<input>` 上的 `mousedown` 会导致在其中获得焦点，也就是 `focus` 事件。如果我们阻止 `mousedown` 事件，就不会有焦点。
-
-尝试点击以下的 `<input>` —— `focus` 事件会发生。这很正常。
-
-但是如果你点击第二个，就会失去焦点。
+尝试点击下面的第一个 `<input>` —— 会发生 `focus` 事件。但是如果你点击第二个，则没有聚焦。
 
 ```html run autorun
 <input value="Focus works" onfocus="this.value=''">
 <input *!*onmousedown="return false"*/!* onfocus="this.value=''" value="Click me">
 ```
 
-这是因为浏览器行为在 `mousedown` 上被取消。如果我们用另一种方式进行输入，焦点仍然有用。例如，`key:Tab` 键用于从第一个输入切换到第二个输入。但不要再用鼠标点击了。
+这是因为浏览器行为在 `mousedown` 上被取消。如果我们用另一种方式进行输入，则仍然可以进行聚焦。例如，可以使用 `key:Tab` 键从第一个输入切换到第二个输入。但鼠标点击则不行。
+````
+
+## The "passive" handler option
+
+The optional `passive: true` option of `addEventListener` signals the browser that the handler is not going to call `preventDefault()`.
+
+Why that may be needed?
+
+There are some events like `touchmove` on mobile devices (when the user moves their finger across the screen), that cause scrolling by default, but that scrolling can be prevented using `preventDefault()` in the handler.
+
+So when the browser detects such event, it has first to process all handlers, and then if `preventDefault` is not called anywhere, it can proceed with scrolling. That may cause unnecessary delays and "jitters" in the UI.
+
+The `passive: true` options tells the browser that the handler is not going to cancel scrolling. Then browser scrolls immediately providing a maximally fluent experience, and the event is handled by the way.
+
+For some browsers (Firefox, Chrome), `passive` is `true` by default for `touchstart` and `touchmove` events.
+
+
+
+
 
 
 ## event.defaultPrevented
