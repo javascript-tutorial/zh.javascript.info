@@ -170,7 +170,7 @@ button.onclick = sayThanks();
 
 这个区别很容易解释。当浏览器读取 HTML 特性（attribute）时，浏览器将会使用 **特性中的内容** 创建一个处理函数：`sayThanks()`。
 
-所以，标记会生成下面这个属性：
+所以，标记（markup）会生成下面这个属性：
 ```js
 button.onclick = function() {
 *!*
