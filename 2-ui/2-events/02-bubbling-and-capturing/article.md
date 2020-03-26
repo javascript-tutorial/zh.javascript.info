@@ -184,43 +184,42 @@ elem.addEventListener(..., true)
 2. `P`（目标阶段，触发两次，因为我们设置了两个监听器：捕获和冒泡）
 3. `DIV` -> `FORM` -> `BODY` -> `HTML`（冒泡阶段，第二个监听器）。
 
-这里有一个属性 `event.eventPhase`，它告诉我们捕获事件的阶段数。但它很少被使用，因为我们通常是从处理程序中了解到它。
+有一个属性 `event.eventPhase`，它告诉我们捕获事件的阶段数。但它很少被使用，因为我们通常是从处理程序中了解到它。
 
-```smart header="To remove the handler, `removeEventListener` needs the same phase"
-If we `addEventListener(..., true)`, then we should mention the same phase in `removeEventListener(..., true)` to correctly remove the handler.
+```smart header="要移除处理程序，`removeEventListener` 需要同一阶段"
+如果我们 `addEventListener(..., true)`，那么我们应该在 `removeEventListener(..., true)` 中提到同一阶段，以正确删除处理程序。
 ```
 
-````smart header="Listeners on same element and same phase run in their set order"
-If we have multiple event handlers on the same phase, assigned to the same element with `addEventListener`, they run in the same order as they are created:
+````smart header="同一元素的同一阶段的监听器按其设置顺序运行"
+如果我们在同一阶段有多个事件处理程序，并通过 `addEventListener` 分配给了相同的元素，则它们的运行顺序与创建顺序相同：
 
 ```js
-elem.addEventListener("click", e => alert(1)); // guaranteed to trigger first
+elem.addEventListener("click", e => alert(1)); // 会先被触发
 elem.addEventListener("click", e => alert(2));
 ```
 ````
 
-有一个 `event.eventPhase` 属性，它告诉我们事件被捕获阶段的数量。但它很少使用，因为我们通常在处理器中了解到它。
 
 ## 总结
 
-事件处理过程：
+当一个事件发生时 —— 发生该事件的嵌套最深的元素被标记为“目标元素”（`event.target`）。
 
-- 当事件发生时 —— 嵌套最深的那个元素被标记为“目标事件”(`event.target`)。
-- 然后事件先从文档根节点向下移动到 `event.target`，过程中调用分配给 `addEventListener(...., true)` 的处理器。
-- 再然后事件从 `event.target` 向上移动到根，调用使用 `on<event>` 和 `addEventListener` 分配的处理器，不使用第三个参数或第三个参数设置为 `false`。
+- 然后，事件从文档根节点向下移动到 `event.target`，并在途中调用分配了 `addEventListener(..., true)` 的处理程序（`true` 是 `{capture: true}` 的一个简写形式）。
+- 然后，在目标元素自身上调用处理程序。
+- 然后，事件从 `event.target` 向上移动到根，调用使用 `on<event>` 和没有第三个参数的，或者第三个参数为 `false/{capture:false}` 的 `addEventListener` 分配的处理程序。
 
-每个处理器都可以访问 `event` 对象属性：
+每个处理程序都可以访问 `event` 对象的属性：
 
-- `event.target` —— 事件最深的元素。
-- `event.currentTarget` (=`this`) —— 处理事件的当前元素（有处理器在其上运行的）
-- `event.eventPhase` —— 当前阶段（capturing=1, bubbling=3）。
+- `event.target` —— 引发事件的最深层的元素。
+- `event.currentTarget`（=`this`）—— 处理事件的当前元素（具有处理程序的元素）
+- `event.eventPhase` —— 当前阶段（capturing=1，target=2，bubbling=3）。
 
-任何事件处理器都可以通过调用 `event.stopPropagation()` 来停止事件，但不建议如此，因为我们不确定是否后续会使用冒泡上来的事件，也许是完全不同的事情。
+任何事件处理程序都可以通过调用 `event.stopPropagation()` 来停止事件，但不建议这样做，因为我们不确定是否确实不需要冒泡上来的事件，也许是用于完全不同的事情。
 
-捕获阶段很少使用，我们通常处理冒泡事件。这背后有一个逻辑。
+捕获阶段很少使用，通常我们会在冒泡时处理事件。这背后有一个逻辑。
 
-现实世界中，当事故发生时，当地警方第一时间作出反应。他们最了解发生这件事的地方。如果需要更高级别的权威。那么就会向上申请。
+在现实世界中，当事故发生时，当地警方会首先做出反应。他们最了解发生这件事的地方。然后，如果需要，上级主管部门再进行处理。
 
-事件处理却也是如此。在特定元素上设置处理器的代码了解该元素最详尽的信息。特定 `<td>` 上的处理器可能恰好适合于 `<td>`，它知道关于它的一切。所以它应该首先获得机会。然后，它的直系父节点也会获取上下文，但是会少一些，以此类推。而最顶层的元素最后才获取到信息，且只能了解到大致的情况。
+事件处理程序也是如此。在特定元素上设置处理程序的代码，了解有关该元素最详尽的信息。特定于 `<td>` 的处理程序可能恰好适合于该 `<td>`，这个处理程序知道关于该元素的所有信息。所以该处理程序应该首先获得机会。然后，它的直接父元素也了解相关上下文，但了解的内容会少一些，以此类推，直到处理一般性概念并最后运行的最顶层的元素为止。
 
-冒泡和捕获为“事件委托”奠定了基础 —— 我们将在下一章中研究非常强大的事件处理模式。
+冒泡和捕获为“事件委托”奠定了基础 —— 一种非常强大的事件处理模式，我们将在下一章中进行研究。
