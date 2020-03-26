@@ -9,7 +9,7 @@
 - `contextmenu` —— 当鼠标右键点击一个元素时。
 - `mouseover` / `mouseout` —— 当鼠标光标移入/离开一个元素时。
 - `mousedown` / `mouseup` —— 当在元素上按下/释放鼠标按钮时。
-- `mousemove` —— 当鼠标移出时。
+- `mousemove` —— 当鼠标移动时。
 
 **表单（form）元素事件**：
 - `submit` —— 当访问者提交了一个 `<form>` 时。
