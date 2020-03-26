@@ -84,7 +84,7 @@ elem.style.top = top; // 例如 '456px'
 
 ## 元素样式
 
-`elem.style` 属性是一个对象，它对应于 `"style"` 特性（attribute）中所写的内容。`elem.style.width="100px"` 的效果等价于我们在 `style` 中有一个 `width:100px` 字符串。
+`elem.style` 属性是一个对象，它对应于 `"style"` 特性（attribute）中所写的内容。`elem.style.width="100px"` 的效果等价于我们在 `style` 特性中有一个 `width:100px` 字符串。
 
 对于多词（multi-word）属性，使用驼峰式 camelCase：
 
@@ -186,7 +186,7 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 
 例如，我们想知道元素的 size，margins 和 color。应该怎么获取？
 
-**`style` 属性仅对 `"style"` 属性值进行操作，而没有任何 CSS 级联（cascade）。**
+**`style` 属性仅对 `"style"` 特性（attribute）值起作用，而没有任何 CSS 级联（cascade）。**
 
 因此我们无法使用 `elem.style` 读取来自 CSS 类的任何内容。
 
