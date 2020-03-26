@@ -231,7 +231,7 @@ for(let value of range) {
 
 这有一个自定义的对象 `range`，它是可迭代的，并且它的 generator `*[Symbol.iterator]` 实现了列出值的逻辑。
 
-如果们想要给 generator 加上异步操作，那么我们应该将 `Symbol.iterator` 替换成异步的 `Symbol.asyncIterator`：
+如果们想要给 generator 加上异步行为，那么我们应该将 `Symbol.iterator` 替换成异步的 `Symbol.asyncIterator`：
 
 ```js run
 let range = {
