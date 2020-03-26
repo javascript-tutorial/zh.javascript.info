@@ -162,7 +162,7 @@ button.onclick = sayThanks();
 
 如果我们添加了括号 `sayThanks()` —— 这是一个函数调用。所以，最后一行代码实际上获得的是函数执行的 **结果**，即 `undefined`（因为这个函数没有返回值）。此代码不会工作。
 
-……但在标记（markup，译注：也就是 HTML 标签）中，我们确实需要括号：
+……但在标记（markup）中，我们确实需要括号：
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
