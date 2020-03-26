@@ -49,7 +49,7 @@ sayHi('John'); // Hello, John!
 
 让我们在浏览器中运行一下这个示例。
 
-由于模块支持特殊的关键字和功能，因此我们必须通过使用属性 `<script type="module">` 来告诉浏览器，此脚本应该被当作模块（module）来对待。
+由于模块支持特殊的关键字和功能，因此我们必须通过使用 `<script type="module">` 特性（attribute）来告诉浏览器，此脚本应该被当作模块（module）来对待。
 
 像这样：
 
@@ -233,7 +233,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 ### 模块脚本是延迟的
 
-模块脚本 **总是** 被延迟的，与 `defer` 属性（在 [](info:script-async-defer) 一章中描述的）对外部脚本和内联脚本（inline script）的影响相同。
+模块脚本 **总是** 被延迟的，与 `defer` 特性（在 [](info:script-async-defer) 一章中描述的）对外部脚本和内联脚本（inline script）的影响相同。
 
 也就是说：
   - 下载外部模块脚本 `<script type="module" src="...">` 不会阻塞 HTML 的处理，它们会与其他资源并行加载。
@@ -272,11 +272,11 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 ### Async 适用于内联脚本（inline script）
 
-对于非模块脚本，`async` 属性仅适用于外部脚本。异步脚本会在准备好后立即运行，独立于其他脚本或 HTML 文档。
+对于非模块脚本，`async` 特性（attribute）仅适用于外部脚本。异步脚本会在准备好后立即运行，独立于其他脚本或 HTML 文档。
 
 对于模块脚本，它也适用于内联脚本。
 
-例如，下面的内联脚本具有 `async` 属性，因此它不会等待任何东西。
+例如，下面的内联脚本具有 `async` 特性，因此它不会等待任何东西。
 
 它执行导入（fetch `./analytics.js`），并在准备导入完成时运行，即使 HTML 文档还未完成，或者其他脚本仍在等待处理中。
 
@@ -326,7 +326,7 @@ import {sayHi} from 'sayHi'; // Error，“裸”模块
 
 ### 兼容性，"nomodule"
 
-旧时的浏览器不理解 `type="module"`。未知类型的脚本会被忽略。对此，我们可以使用 `nomodule` 属性来提供一个后备：
+旧时的浏览器不理解 `type="module"`。未知类型的脚本会被忽略。对此，我们可以使用 `nomodule` 特性来提供一个后备：
 
 ```html run
 <script type="module">
