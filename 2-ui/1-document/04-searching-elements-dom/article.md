@@ -1,12 +1,12 @@
 # 搜索：getElement*，querySelector*
 
-当元素彼此靠得近时，DOM 导航（navigation）属性是最好的。如果不是，那该怎么办？如何去获取页面上的任意一个元素？ 
+当元素彼此靠得近时，DOM 导航属性（navigation property）非常有用。如果不是，那该怎么办？如何去获取页面上的任意元素？
 
 还有其他搜索方法。
 
 ## document.getElementById 或者只使用 id
 
-如果一个元素有 `id` 属性，那我们就可以使用 `document.getElementById(id)` 方法获取该元素，无论它在哪里。
+如果一个元素有 `id` 特性（attribute），那我们就可以使用 `document.getElementById(id)` 方法获取该元素，无论它在哪里。
 
 例如：
 
@@ -178,7 +178,7 @@ CSS 选择器的伪类，例如 `:hover` 和 `:active` 也都是被支持的。�
 
 - `elem.getElementsByTagName(tag)` 查找具有给定标签的元素，并返回它们的集合。`tag` 参数也可以是对于“任何标签”的星号 `"*"`。
 - `elem.getElementsByClassName(className)` 返回具有给定CSS类的元素。
-- `document.getElementsByName(name)` 返回在文档范围内具有给定 `name` 属性的元素。很少使用。
+- `document.getElementsByName(name)` 返回在文档范围内具有给定 `name` 特性的元素。很少使用。
 
 例如：
 ```js
@@ -251,7 +251,7 @@ document.getElementsByTagName('input')[0].value = 5;
 </form>
 
 <script>
-  // 按 name 属性查找
+  // 按 name 特性查找
   let form = document.getElementsByName('my-form')[0];
 
   // 在 form 中按 class 查找
