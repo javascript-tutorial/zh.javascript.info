@@ -123,7 +123,7 @@ user.name = "Pete"; // Error: Cannot assign to read only property 'name'
 现在没有人可以改变我们 `user` 的 `name`，除非它们应用自己的 `defineProperty` 来覆盖我们的 `user` 的 `name`。
 
 ```smart header="只在严格模式下会出现 Errors"
-在非严格模式下，在对不可写的属性等进行写入操作时，不会出现错误。但是操作仍然不会成功。在非严格模式下，违反标志的操作只会被默默的忽略掉。
+在非严格模式下，在对不可写的属性等进行写入操作时，不会出现错误。但是操作仍然不会成功。在非严格模式下，违反标志的行为（flag-violating action）只会被默默地忽略掉。
 ```
 
 这是相同的示例，但针对的是属性不存在的情况：
