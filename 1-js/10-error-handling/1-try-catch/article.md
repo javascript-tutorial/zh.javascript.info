@@ -106,7 +106,7 @@ try {
 
 因为 `try..catch` 包裹了计划要执行的函数，该函数本身要稍后才执行，这时引擎已经离开了 `try..catch` 结构。
 
-为了捕获到调度（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
+为了捕获到计划的（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
 ```js run
 setTimeout(function() {
   try {
