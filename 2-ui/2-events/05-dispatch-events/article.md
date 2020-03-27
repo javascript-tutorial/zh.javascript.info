@@ -116,27 +116,26 @@ alert(event.clientX); // 100
 
 ```js run
 let event = new Event("click", {
-  bubbles: true, // only bubbles and cancelable
-  cancelable: true, // work in the Event 构造器
+  bubbles: true, // 构造器 Event 中只有 bubbles 和 cancelable 可以工作
+  cancelable: true,
   clientX: 100,
   clientY: 100
 });
 
 *!*
-alert(event.clientX); // undefined, the unknown property is ignored!
+alert(event.clientX); // undefined，未知的属性被忽略了！
 */!*
 ```
 
-从技术上讲，我们可以通过在创建后直接分配 `event.clientX=100` 来解决这个问题。所以这是一个方便和遵守规则的问题。浏览器创建的事件总是具有正确的类型。
+从技术上讲，我们可以通过在创建后直接分配 `event.clientX=100` 来解决这个问题。所以，这是一个方便和遵守规则的问题。浏览器生成的事件始终具有正确的类型。
 
-不同 UI 事件的所有属性列表在说明书中，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
+规范中提供了不同 UI 事件的属性的完整列表，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
 
 ## 自定义事件
 
-对于我们自己的自定义事件，像 `"hello"`，我们应该使用 `new CustomEvent`。从技术上来说，[CustomEvent](https://dom.spec.whatwg.org/#customevent) 和 `Event` 一样。除了一点不同之外。
+对于我们自己的全新事件类型，例如 `"hello"`，我们应该使用 `new CustomEvent`。从技术上讲，[CustomEvent](https://dom.spec.whatwg.org/#customevent) 和 `Event` 一样。除了一点不同。
 
-在第二个参数（对象）中，我们可以在事件中为我们想要传递的任何自定义信息添加一个附加的属性 `detail`。
-
+在第二个参数（对象）中，我们可以为我们想要与事件一起传递的任何自定义信息添加一个附加的属性 `detail`。
 
 例如：
 
@@ -144,7 +143,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 <h1 id="elem">Hello for John!</h1>
 
 <script>
-  // additional details come with the event to the handler
+  // 事件附带给处理程序的其他详细信息
   elem.addEventListener("hello", function(event) {
     alert(*!*event.detail.name*/!*);
   });
@@ -153,31 +152,31 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
-`detail` 属性可以有任何数据。从技术上讲，我们可以不用，因为我们可以在创建后将任何属性分配到常规的 `new Event` 对象中。但是 `CustomEvent` 为它提供了特殊的 `detail` 字段，以避免与其他事件属性的冲突。
+`detail` 属性可以有任何数据。从技术上讲，我们可以不用，因为我们可以在创建后将任何属性分配给常规的 `new Event` 对象中。但是 `CustomEvent` 提供了特殊的 `detail` 字段，以避免与其他事件属性的冲突。
 
-事件类告诉一些关于“是什么类型的事件”的信息，如果事件是自定义的，那么我们应该使用 `CustomEvent` 来明确它是什么。
+此外，事件类描述了它是“什么类型的事件”，如果事件是自定义的，那么我们应该使用 `CustomEvent` 来明确它是什么。
 
 ## event.preventDefault()
 
-如果 `cancelable:true` 被指定，那么我们可以在脚本创建的事件上调用 `event.preventDefault()`。
+许多浏览器事件都有“默认行为”，例如，导航到链接，开始一个选择，等。
 
-当然，如果事件有一个非标准的名称，那么浏览器就不知道它，而且它也没有“默认浏览器行为”。
+对于新的，自定义的事件，绝对没有默认的浏览器行为，但是分派（dispatch）此类事件的代码可能有自己的计划，触发该事件之后应该做什么。
 
-但是事件创建代码可能会在 `dispatchEvent` 之后安排一些行为。
+通过调用 `event.preventDefault()`，事件处理程序可以发出一个信号，指出这些行为应该被取消。
 
-调用 `event.preventDefault()` 是处理程序发送不应该执行这些操作的信号的一种方法。
+在这种情况下，`elem.dispatchEvent(event)` 的调用会返回 `false`。那么分派（dispatch）该事件的代码就会知道不应该再继续。
 
-在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件创建代码知道处理程序不应该继续。
+让我们看一个实际的例子 —— 一只隐藏的兔子（可以是关闭菜单或者其他）。
 
-例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上创建 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
+在下面，你可以看到一个在其上分派了 `"hide"` 事件的 `#rabbit` 和 `hide()` 函数，以使所有感兴趣的各方面都知道这只兔子要隐藏起来。
 
-由 `rabbit.addEventListener('hide',...)` 设置的处理程序将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
+任何处理程序都可以使用 `rabbit.addEventListener('hide',...)` 来监听该事件，并在需要时使用 `event.preventDefault()` 来取消该行为。然后兔子就不会藏起来了：
 
-```html run refresh
+```html run refresh autorun
 <pre id="rabbit">
   |\   /|
    \|_|/
@@ -185,15 +184,16 @@ alert(event.clientX); // undefined, the unknown property is ignored!
   =\_Y_/=
    {>o<}
 </pre>
+<button onclick="hide()">Hide()</button>
 
 <script>
-  // hide() will be called automatically in 2 seconds
+  // hide() 将在 2 秒后被自动调用
   function hide() {
     let event = new CustomEvent("hide", {
-      cancelable: true // without that flag preventDefault doesn't work
+      cancelable: true // 没有这个标志，preventDefault 将不起作用
     });
     if (!rabbit.dispatchEvent(event)) {
-      alert('the action was prevented by a handler');
+      alert('The action was prevented by a handler');
     } else {
       rabbit.hidden = true;
     }
@@ -204,15 +204,12 @@ alert(event.clientX); // undefined, the unknown property is ignored!
       event.preventDefault();
     }
   });
-
-  // hide in 2 seconds
-  setTimeout(hide, 2000);
-
 </script>
 ```
 
+请注意：该事件必须具有 `cancelable: true` 标志，否则 `event.preventDefault()` 调用将会被忽略。
 
-## Events-in-events 同步
+## Events-in-events 是同步的
 
 事件通常都是同步处理的。也就是说：如果浏览器正在处理 `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
 
