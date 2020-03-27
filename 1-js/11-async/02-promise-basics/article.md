@@ -14,7 +14,7 @@
 
 这种类比并不十分准确，因为 JavaScipt 的 promise 比简单的订阅列表更加复杂：它们还拥有其他的功能和局限性。但以此开始挺好的。
 
-Promise 对象的构造函数（constructor）语法如下：
+Promise 对象的构造器（constructor）语法如下：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -33,7 +33,7 @@ let promise = new Promise(function(resolve, reject) {
 
 所以总结一下就是：executor 会自动运行并尝试执行一项工作。尝试结束后，如果成功则调用 `resolve`，如果出现 error 则调用 `reject`。
 
-由 `new Promise` 构造函数（constructor）返回的 `promise` 对象具有以下内部属性：
+由 `new Promise` 构造器返回的 `promise` 对象具有以下内部属性：
 
 - `state` — 最初是 `"pending"`，然后在 `resolve` 被调用时变为 `"fulfilled"`，或者在 `reject` 被调用时变为 `"rejected"`。
 - `result` — 最初是 `undefined`，然后在 `resolve(value)` 被调用时变为 `value`，或者在 `reject(error)` 被调用时变为 `error`。
@@ -44,7 +44,7 @@ let promise = new Promise(function(resolve, reject) {
 
 稍后我们将看到“粉丝”如何订阅这些更改。
 
-下面是一个 promise 构造函数（constructor）和一个简单的 executor 函数，该 executor 函数具有包含时间（即 `setTimeout`）的“生产者代码”：
+下面是一个 promise 构造器和一个简单的 executor 函数，该 executor 函数具有包含时间（即 `setTimeout`）的“生产者代码”：
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
