@@ -27,11 +27,11 @@ let event = new Event(type[, options]);
 
 ## dispatchEvent
 
-事件对象被创建后，我们应该调用 `elem.dispatchEvent(event)` 在元素上“运行”它。
+事件对象被创建后，我们应该使用 `elem.dispatchEvent(event)` 调用在元素上“运行”它。
 
-然后处理器对其作出反应，就好像它是一个正常的内置事件。如果事件是使用 `bubbles` 标志创建的，那么它就会冒泡。
+然后，处理程序会对它做出反应，就好像它是一个常规的浏览器事件一样。如果事件是用 `bubbles` 标志创建的，那么它会冒泡。
 
-在下面示例中，`click` 事件是用 JavaScript 初始化创建的。处理器执行效果和单击按钮的效果一样：
+在下面这个示例中，`click` 事件是用 JavaScript 初始化创建的。处理程序工作方式和点击按钮的方式相同：
 
 ```html run no-beautify
 <button id="elem" onclick="alert('Click!');">Autoclick</button>
@@ -43,9 +43,9 @@ let event = new Event(type[, options]);
 ```
 
 ```smart header="event.isTrusted"
-有一个可以区分 “真实”用户事件和 script 创建事件的方法。
+有一种方法可以区分“真实”用户事件和通过脚本生成的事件。
 
-`event.isTrusted` 属性为 `true`，则事件来自真实用户的行为，为 `false` ，则说明事件由脚本创建。
+对于来自真实用户操作的事件，`event.isTrusted` 属性为 `true`，对于脚本生成的事件，`event.isTrusted` 属性为 `false`。
 ```
 
 ## 冒泡示例
@@ -165,13 +165,13 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 但是事件创建代码可能会在 `dispatchEvent` 之后安排一些行为。
 
-调用 `event.preventDefault()` 是处理器发送不应该执行这些操作的信号的一种方法。
+调用 `event.preventDefault()` 是处理程序发送不应该执行这些操作的信号的一种方法。
 
-在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件创建代码知道处理器不应该继续。
+在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件创建代码知道处理程序不应该继续。
 
 例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上创建 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
 
-由 `rabbit.addEventListener('hide',...)` 设置的处理器将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
+由 `rabbit.addEventListener('hide',...)` 设置的处理程序将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
 
 ```html run refresh
 <pre id="rabbit">
@@ -214,7 +214,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 异常情况是一个事件从另一个事件中启动。
 
-然后控制器会跳到嵌套事件处理器中，并且（执行完成）之后返回。
+然后控制器会跳到嵌套事件处理程序中，并且（执行完成）之后返回。
 
 例如，这里的 `menu-open` 嵌套事件在 `onclick` 期间被同步处理：
 
@@ -274,15 +274,15 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 
-对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定事件的数据指派给它。然后处理器可以以 `event.detail` 的形式访问它。
+对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定事件的数据指派给它。然后处理程序可以以 `event.detail` 的形式访问它。
 
 尽管技术上有可能产生像 `click` 或者 `keydown` 这样的浏览器事件，但我们还是该谨慎使用。
 
-我们不应该创建浏览器事件，因为这是运行处理器的一种 hacky 方式。大多数来说，这都是一种糟糕的架构。
+我们不应该创建浏览器事件，因为这是运行处理程序的一种 hacky 方式。大多数来说，这都是一种糟糕的架构。
 
 可以创建原生事件：
 
 - 如果他们不提供其他的交互方式，脏黑客行为可以制作第三方库操作所需的方式。
-- 对于自动化测试，要在脚本中“单击按钮”并查看接口是否正确反应。
+- 对于自动化测试，要在脚本中“点击按钮”并查看接口是否正确反应。
 
 使用我们自己的名字来自定义的事件通常是为架构目的产生的，用来指示菜单、滑块、轮播等内部发生什么。
