@@ -1,35 +1,35 @@
 # 鼠标事件基础
 
-鼠标事件不仅来自于 "mouse manipulators"，而且还在触摸设备上被模拟，以便可以让它们相互兼容。
+在本章中，我们将详细介绍鼠标事件及其属性。
 
-在本章，我们将详细介绍鼠标事件及其属性。
+请注意：此类事件不仅可能来自于“鼠标设备”，还可能来自于对此类操作进行了模拟以实现兼容性的其他设备，例如手机和平板电脑。
 
 ## 鼠标事件类型
 
-我们可以将鼠标事件分成两类：“简单”和“复杂”
+我们可以将鼠标事件分成两类：“简单”和“复杂”。
 
 ### 简单事件
 
-最常用的简单事件是：
+最常用的简单事件有：
 
 `mousedown/mouseup`
-: 在元素上单击/释放鼠标按钮。
+: 在元素上点击/释放鼠标按键。
 
 `mouseover/mouseout`
-: 鼠标指针从一个元素上移入/出。
+: 鼠标指针从一个元素上移入/移出。
 
 `mousemove`
-: 鼠标每次移动到元素上时都会触发事件。
+: 鼠标在元素上的每个移动都会触发此事件。
 
-...还有其他几种事件类型，我们稍后会讨论它们。
+`contextmenu`
+: Triggers when opening a context menu is attempted. In the most common case, that happens when the right mouse button is pressed. Although, there are other ways to open a context menu, e.g. using a special keyboard key, so it's not exactly the mouse event.
+
+……还有其他几种事件类型，我们稍后会讨论它们。
 
 ### 复杂事件
 
 `click`
 : 如果使用鼠标左键，则在 `mousedown` 及 `mouseup` 相继触发后触发该事件。
-
-`contextmenu`
-: 如果使用鼠标右键，则在 `mousedown` 后触发。
 
 `dblclick`
 : 在对元素进行双击后触发。
@@ -40,12 +40,12 @@
 
 一个动作可能会触发多个事件。
 
-比如，在按下鼠标按钮时，单击会首先触发 `mousedown`，然后释放鼠标按钮时，会触发 `mouseup` 和 `click`。
+比如，在按下鼠标按钮时，点击会首先触发 `mousedown`，然后释放鼠标按钮时，会触发 `mouseup` 和 `click`。
 
 在单个动作触发多个事件时，它们的顺序是固定的。也就是说会遵循 `mousedown` -> `mouseup` -> `click` 的顺序。事件按照相同的顺序被处理：`onmouseup` 在 `onclick` 运行之前完成。
 
 ```online
-单击以下按钮，你会看到事件。也可以尝试双击。
+点击以下按钮，你会看到事件。也可以尝试双击。
 
 在测试台下面记录所有鼠标事件，如果它们之间有超过 1 秒的延迟，那么它们会被规则分开。
 
@@ -56,7 +56,7 @@
 
 ## 获取按钮：which
 
-与单击相关的事件始终具有 `which` 属性，该属性允许获取准确的鼠标按钮。 
+与点击相关的事件始终具有 `which` 属性，该属性允许获取准确的鼠标按钮。 
 
 它不用于 `click`和 `contextmenu` 事件，因为前者只发生在左键，而后者只发生在右击。
 
