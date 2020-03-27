@@ -46,7 +46,7 @@ alert(Object.prototype.__proto__); // null
 
 其他内建对象，像 `Array`、`Date`、`Function` 及其他，都在 prototype 上挂载了方法。
 
-例如，当我们创建一个数组 `[1, 2, 3]`，在内部会默认使用 `new Array()` 构造函数。因此 `Array.prototype` 变成了这个数组的 prototype，并为这个数组提供数组的操作方法。这样内存的存储效率是很高的。
+例如，当我们创建一个数组 `[1, 2, 3]`，在内部会默认使用 `new Array()` 构造器。因此 `Array.prototype` 变成了这个数组的 prototype，并为这个数组提供数组的操作方法。这样内存的存储效率是很高的。
 
 按照规范，所有的内建原型顶端都是 `Object.prototype`。这就是为什么有人说“一切都从对象继承而来”。
 
@@ -86,7 +86,7 @@ alert(arr); // 1,2,3 <-- Array.prototype.toString 的结果
 
 ![](console_dir_array.png)
 
-其他内建对象也以同样的方式运行。即使是函数 —— 它们是内建构造函数 `Function` 的对象，并且它们的方法（`call`/`apply` 及其他）都取自 `Function.prototype`。函数也有自己的 `toString` 方法。
+其他内建对象也以同样的方式运行。即使是函数 —— 它们是内建构造器 `Function` 的对象，并且它们的方法（`call`/`apply` 及其他）都取自 `Function.prototype`。函数也有自己的 `toString` 方法。
 
 ```js run
 function f() {}
@@ -99,7 +99,7 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 最复杂的事情发生在字符串、数字和布尔值上。
 
-正如我们记忆中的那样，它们并不是对象。但是如果我们试图访问它们的属性，那么临时包装器对象将会通过内建的构造函数 `String`、`Number` 和 `Boolean` 被创建。它们提供给我们操作字符串、数字和布尔值的方法然后消失。
+正如我们记忆中的那样，它们并不是对象。但是如果我们试图访问它们的属性，那么临时包装器对象将会通过内建的构造器 `String`、`Number` 和 `Boolean` 被创建。它们提供给我们操作字符串、数字和布尔值的方法然后消失。
 
 这些对象对我们来说是无形地创建出来的。大多数引擎都会对其进行优化，但是规范中描述的就是通过这种方式。这些对象的方法也驻留在它们的 prototype 中，可以通过 `String.prototype`、`Number.prototype` 和 `Boolean.prototype` 进行获取。
 
