@@ -236,7 +236,7 @@ let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 
 当然，本文会给出一个解释。让我们深入细节，这样你就可以真正地理解发生了什么。
 
-在 JavaScript 中，继承类（所谓的“派生构造函数”，英文为 "derived constructor"）的构造函数与其他函数之间是有区别的。派生的构造函数具有特殊的内部属性 `[[ConstructorKind]]:"derived"`。这是一个特殊的内部标签。
+在 JavaScript 中，继承类（所谓的“派生构造器”，英文为 "derived constructor"）的构造函数与其他函数之间是有区别的。派生构造器具有特殊的内部属性 `[[ConstructorKind]]:"derived"`。这是一个特殊的内部标签。
 
 该标签会影响它的 `new` 行为：
 
