@@ -89,7 +89,7 @@ customElements.define('user-card', class extends HTMLElement {
   #shadow-root
     <div>Name:
       <slot name="username">
-        <!-- slotted element is inserted into the slot as a whole -->
+        <!-- slotted element is inserted into the slot -->
         <span slot="username">John Smith</span>
       </slot>
     </div>
@@ -120,7 +120,7 @@ alert( document.querySelector('user-card span').length ); // 2
 <user-card>
   <span slot="username">John Smith</span>
   <div>
-    <!-- bad slot, not top-level: -->
+    <!-- invalid slot, must be direct child of user-card -->
     <span slot="birthday">01.01.2001</span>
   </div>
 </user-card>
@@ -293,14 +293,13 @@ customElements.define('custom-menu', class extends HTMLElement {
 
 当然我们可以为它添加更多的功能：事件、方法等。
 
-## Monitoring slots
+## Updating slots
 
 如果外部代码想动态 添加/移除 菜单项怎么办？
 
 **如果 添加/删除 了插槽元素，浏览器将监视插槽并更新渲染。**
 
 另外，由于不复制 light DOM 节点，而是仅在插槽中进行渲染，所以内部的变化是立即可见的。
-
 
 因此我们无需执行任何操作即可更新渲染。但是如果组件想知道插槽的更改，那么可以用 `slotchange` 事件。
 

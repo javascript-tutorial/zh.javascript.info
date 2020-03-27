@@ -16,7 +16,7 @@ alert(generator.next().value); // 282475249
 alert(generator.next().value); // 1622650073
 ```
 
-请注意，上面的代码也可以用普通函数来实现，就像这样：
+请注意，也可以使用常规函数来完成相同的操作，就像这样：
 
 ```js run
 function pseudoRandom(seed) {
@@ -35,4 +35,4 @@ alert(generator()); // 282475249
 alert(generator()); // 1622650073
 ```
 
-这也能正常工作。但是这样我们就不能用 `for..of` 来迭代，也不能用 generator 组合了，这样的形式可能在其他地方很有用。
+这也可以工作。但是这样我们就失去了使用 `for..of` 来进行迭代以及使用 generator 组合（composition）的能力，这些可能在其他地方很有用。

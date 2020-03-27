@@ -4,7 +4,7 @@ importance: 5
 
 # 解构赋值
 
-有以下对象：
+我们有一个对象：
 
 ```js
 let user = {
@@ -16,10 +16,10 @@ let user = {
 写一个解构赋值语句使得：
 
 - `name` 属性赋值给变量 `name`。
-- `years` 属性赋值给 `age`。
-- `isAdmin` 属性赋值给变量 `isAdmin`（如果属性缺失则赋值为 false）。
+- `years` 属性赋值给变量 `age`。
+- `isAdmin` 属性赋值给变量 `isAdmin`（如果属性缺失则取默认值 false）。
 
-赋值语句后的值必须是：
+下面是赋值完成后的值的情况：
 
 ```js
 let user = { name: "John", years: 30 };

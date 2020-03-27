@@ -6,7 +6,7 @@ importance: 5
 
 我们有两只仓鼠：`speedy` 和 `lazy` 都继承自普通的 `hamster` 对象。 
 
-当我们喂一只的同时，另一只也吃饱了。为什么？如何修复这件事？
+当我们喂其中一只的时候，另一只也吃饱了。为什么？如何修复它？
 
 ```js run
 let hamster = {
@@ -25,11 +25,11 @@ let lazy = {
   __proto__: hamster
 };
 
-// This one found the food
+// 这只仓鼠找到了食物
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// This one also has it, why? fix please.
+// 这只仓鼠也找到了食物，为什么？请修复它。
 alert( lazy.stomach ); // apple
 ```
 

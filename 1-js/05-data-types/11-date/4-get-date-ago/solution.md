@@ -7,11 +7,11 @@ function getDateAgo(date, days) {
 }
 ```
 
-...但是函数不能修改 `date`。这一点很重要，因为外部环境不希望它被修改。
+……但是函数不能修改 `date`。这一点很重要，因为我们提供日期的外部代码不希望它被修改。
 
 要实现这一点，我们可以复制这个日期，就像这样：
 
-```js run
+```js run demo
 function getDateAgo(date, days) {
   let dateCopy = new Date(date);
 

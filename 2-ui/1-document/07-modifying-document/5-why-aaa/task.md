@@ -4,7 +4,11 @@ importance: 1
 
 # 为什么留下 "aaa"？
 
-运行下面例子，为什么 `table.remove()` 没有删除 `"aaa"` 文本？
+在下面这个示例中，我们调用 `table.remove()` 从文档中删除表格。
+
+但如果运行它，你就会看到文本 `"aaa"` 并没有被删除。
+
+这是为什么？
 
 ```html height=100 run
 <table id="table">
@@ -15,9 +19,9 @@ importance: 1
 </table>
 
 <script>
-  alert(table); // table 应该显示出的样子
+  alert(table); // 表格，就是它应有的样子
 
   table.remove();
-  // 为什么 aaa 依旧在文档中
+  // 为什么 aaa 还存在于文档中？
 </script>
 ```

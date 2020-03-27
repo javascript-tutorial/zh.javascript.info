@@ -235,9 +235,9 @@ option = new Option(text, value, defaultSelected, selected);
 该方法调用参数如下：
 
 - `text` —— 选项中的文本，
-- `value —— 选项的默认值,
+- `value` —— 选项的默认值,
 - `defaultSelected` —— 如果这个值是 `true`，那么 `selected` 属性就会默认创建，
-- `selected —— 如果这个值是 `true`，那么这个选项就是已经被选择了。
+- `selected` —— 如果这个值是 `true`，那么这个选项就是已经被选择了。
 
 比如说：
 

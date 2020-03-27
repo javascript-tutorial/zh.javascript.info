@@ -1,17 +1,17 @@
-图像带可以表示为 `ul/li` 图像列表 `<img>`。
+图像带可以表示为图像 `<img>` 的 `ul/li` 列表。
 
-通常情况下，这样的带是很宽的，但我们还是在其周围设置了一个固定大小的 `<div>` 来“剪切”它，因此只会有一部分带是可见的：
+通常，这样的图像带是很宽的，但我们在其周围放置了一个固定大小的 `<div>` 来“剪切”它，因此，只有图像带的一部分是可见的：
 
 ![](carousel1.svg)
 
-为了使列表水平显示，我们需要为 `<li>` 应用正确的 CSS 属性，比如 `display: inline-block`。
+为了使列表水平显示，我们需要为 `<li>` 应用正确的 CSS 属性，例如 `display: inline-block`。
 
-对于 `<img>` 来说，我们应该调整 `display`，因为默认情况下它是 `inline`。由于在 `inline` 元素下方具有 "letter tails" 而存在额外空间，所以我们可以使用 `display:block` 来移除多余的空间。
+对于 `<img>` 来说，我们应该调整 `display`，因为默认情况下它是 `inline`。在 `inline` 元素下方为 "letter tails" 保留了额外的空间，因此，我们可以使用 `display:block` 来将其删除。
 
-我们可以移动 `<ul>` 来进行滚动。有很多方法都可以实现这一点，比如通过修改 `margin-left` 或者（性能更好）使用 `transform: translateX()`：
+我们可以移动 `<ul>` 来进行滚动。有很多方法可以实现这一点，例如，通过修改 `margin-left` 或者使用 `transform: translateX()`（性能更好）：
 
 ![](carousel2.svg)
 
-外部 `<div>` 具有固定的宽度，因此，"extra" 图像可以被剪切。
+外部的 `<div>` 具有固定的宽度，因此，会裁剪掉“多余”的图像。
 
-整个 carousel 是页面是一个自包含的 "graphical component"，因为我们最好将其封装成一个单独的 `<div class="carousel">`，并对其设置样式。
+整个轮播图是页面上的一个独立的“图形组件”，因此我们最好将其包装到一个单独的 `<div class="carousel">` 中，并在其中对其进行样式设置。

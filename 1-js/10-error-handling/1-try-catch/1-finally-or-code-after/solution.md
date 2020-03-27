@@ -1,8 +1,8 @@
-当我们看下面这个函数里面的代码，差异就很明显了。
+当我们看函数中的代码时，差异就变得很明显了。
 
-如果能够跳出 `try..catch`，表现就不同了。
+如果在这儿有“跳出” `try..catch` 的行为，那么这两种方式的表现就不同了。
 
-例如，当 `try..catch` 里有 `return` 的时候，`finally` 代码块会在退出 `try..catch` 后继续执行，即使是通过 `return` 语句退出的。它会在再后面的代码执行之前，在 `try..catch` 执行完之后立即执行。
+例如，当 `try..catch` 中有 `return` 时。`finally` 子句会在 `try..catch` 的 **任意** 出口处起作用，即使是通过 `return` 语句退出的也是如此：在 `try..catch` 刚刚执行完成后，但在调用代码获得控制权之前。
 
 ```js run
 function f() {
@@ -21,7 +21,7 @@ function f() {
 f(); // cleanup!
 ```
 
-...或者当有 `throw` 的时候，如下：
+……或者当有 `throw` 时，如下所示：
 
 ```js run
 function f() {
@@ -44,4 +44,4 @@ function f() {
 f(); // cleanup!
 ```
 
-正是这里的 `finally` 代码块保证了 `cleanup` 的显示，但是如果把 `finally` 里面的这行代码放在函数 `f` 的最后，那么，它不会执行。
+正是这里的 `finally` 保证了 cleanup。如果我们只是将代码放在函数 `f` 的末尾，则在这些情况下它不会运行。

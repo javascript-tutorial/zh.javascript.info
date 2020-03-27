@@ -1,156 +1,87 @@
 
 # 全局对象
 
-全局对象提供可在任何地方使用的变量和函数。大多数情况下，这些全局变量内置于语言或主机环境中。
+全局对象提供可在任何地方使用的变量和函数。默认情况下，这些全局变量内置于语言或环境中。
 
-浏览器中它被命名为 "window"，对 Node.JS 而言是 "global"，其它环境可能用的别的名字。
+在浏览器中，它的名字是 "window"，对 Node.js 而言，它的名字是 "global"，其它环境可能用的是别的名字。
 
-例如，我们可以将 `alert` 称为 `window` 的方法：
+最近，`globalThis` 被作为全局对象的标准名称加入到了 JavaScript 中，所有环境都应该支持该名称。在有些浏览器中，即 non-Chromium Edge，尚不支持 `globalThis`，但可以很容易地对其进行填充（polyfilled）。
+
+假设我们的环境是浏览器，我们将在这儿使用 "window"。如果你的脚本可能会用来在其他环境中运行，则最好使用 `globalThis`。
+
+全局对象的所有属性都可以被直接访问：
 
 ```js run
 alert("Hello");
-
 // 等同于
 window.alert("Hello");
 ```
 
-我们可以引用其他内置函数，如把 `Array` 用作 `window.Array`，并在其中创建我们自己的属性。
+在浏览器中，使用 `var`（而不是 `let/const`！）声明的全局函数和变量会成为全局对象的属性。
 
-## 浏览器："window" 对象
+```js run untrusted refresh
+var gVar = 5;
 
-由于历史原因，浏览器中的 `window` 对象被弄的有点乱。
+alert(window.gVar); // 5（成为了全局对象的属性）
+```
 
-1. 除了扮演全局对象的角色之外，它还提供“浏览器窗口”功能。
+请不要依赖它！这种行为是出于兼容性而存在的。现代脚本通过使用 [JavaScript modules](info:modules) 来避免这种情况的发生。
 
-    我们可以使用 `window` 来访问特定于浏览器窗口的属性和方法：
+如果我们使用 `let`，就不会发生这种情况：
 
-    ```js run
-    alert(window.innerHeight); // 显示浏览器窗口高度
+```js run untrusted refresh
+let gLet = 5;
 
-    window.open('http://google.com'); // 打开一个新的浏览器窗口
-    ```
+alert(window.gLet); // undefined（不会成为全局对象的属性）
+```
 
-2. 顶级 `var` 变量和函数声明后自动成为 `window` 的属性。
+如果一个值非常重要，以至于你想使它在全局范围内可用，那么可以直接将其作为属性写入：
 
-    例如:
-    ```js untrusted run no-strict refresh
-    var x = 5;
+```js run
+*!*
+// 将当前用户信息全局化，以允许所有脚本访问它
+window.currentUser = {
+  name: "John"
+};
+*/!*
 
-    alert(window.x); // 5 (变量 x 成为 window 的一个属性)
+// 代码中的另一个位置
+alert(currentUser.name);  // John
 
-    window.x = 0;
+// 或者，如果我们有一个名为 "currentUser" 的局部变量
+// 从 window 显示地获取它（这是安全的！）
+alert(window.currentUser.name); // John
+```
 
-    alert(x); // 0, 变量已修改
-    ```
+也就是说，一般不建议使用全局变量。全局变量应尽可能的少。与使用外部变量或全局变量相比，函数获取“输入”变量并产生特定“输出”的代码设计更加清晰，不易出错且更易于测试。
 
-    请注意，更现代的 `let / const` 声明不会发生这种情况：
+## 使用 polyfills
 
-    ```js untrusted run no-strict refresh
-    let x = 5;
+我们使用全局对象来测试对现代语言功能的支持。
 
-    alert(window.x); // undefined ("let" 不会创建窗口属性)
-    ```
+例如，测试是否存在内建的 `Promise` 对象（在版本特别旧的浏览器中不存在）：
+```js run
+if (!window.Promise) {
+  alert("Your browser is really old!");
+}
+```
 
-3. 此外，所有脚本共享相同的全局作用域，因此在某一个 `<script>` 中声明的变量在其他的里面也可见：
+如果没有（例如，我们使用的是旧版浏览器），那么我们可以创建 "polyfills"：添加环境不支持但在现代标准中存在的功能。
 
-    ```html run
-    <script>
-      var a = 1;
-      let b = 2;
-    </script>
+```js run
+if (!window.Promise) {
+  window.Promise = ... // 定制实现现代语言功能
+}
+```
 
-    <script>
-      alert(a); // 1
-      alert(b); // 2
-    </script>
-    ```
+## 总结
 
-4. 而且，虽然是小问题但仍然重要的一点是：全局范围内 `this` 的值是 `window`。
+- 全局对象包含应该在任何位置都可见的变量。
 
-    ```js untrusted run no-strict refresh
-    alert(this); // window
-    ```
+    其中包括 JavaScript 的内建方法，例如 "Array" 和环境特定（environment-specific）的值，例如 `window.innerHeight` — 浏览器中的窗口高度。
+- 全局对象有一个通用名称 `globalThis`。
 
-为什么这样做？在语言创建时，将多个方面合并到单一 `window` 对象中的想法就是“简化”，但此后许多事情发生了变化，小型脚本变成了需要恰当构架的大型应用程序。
-
-不同脚本（可能来自不同的源）之间的变量可以互相访问好不好？
-
-并不好，因为它可能导致命名冲突：相同的变量名可以在两个脚本中被用于不同目的，因此这些变量名将相互冲突。
-
-到现在为止，这个多用途的 `window` 被认为是语言中的设计错误。
-
-幸运的是，有一条 “走出地狱的道路”，被称为 “Javascript 模块”。
-
-如果我们在 `<script>` 标签上设置特性 `type="module"` ，那么这样的脚本被认为是个单独的“模块”，它有自己的顶级作用域（词法环境），不会干扰 `window`。
-
-- 在一个模块中，`var x` 不会成为 `window` 的属性：
-
-    ```html run
-    <script type="module">
-      var x = 5;
-
-      alert(window.x); // undefined
-    </script>
-    ```
-
-- 两个模块的变量彼此不可见：
-
-    ```html run
-    <script type="module">
-      let x = 5;
-    </script>
-
-    <script type="module">
-      alert(window.x); // undefined
-      alert(x); // 错误：未声明的变量
-    </script>
-    ```
-
-- 然后最后一个小问题是，模块中 `this` 的顶级值是 `undefined`（为什么它一定得是 `window` ？）：
-
-    ```html run
-    <script type="module">
-      alert(this); // undefined
-    </script>
-    ```
-
-**使用 `<script type="module">` 后，通过将顶级作用域与 `window` 分开的方式来修复语言的设计缺陷。**
-
-稍后我们将在[模块](info:modules)一章中介绍模块的更多功能。
-
-## 全局对象的有效用法
-
-1. 通常不鼓励使用全局变量。全局变量应尽可能的少，但如果我们需要让一些对象全局可见，我们可能希望将它放入 `window`（或Node.js的 `global`）中。
-
-    在这里，我们将当前用户的信息放入全局对象，以便在所有其他脚本中访问它们：
-
-    ```js run
-    // 明确地将它分配给 `window`
-    window.currentUser = {
-      name: "John",
-      age: 30
-    };
-
-    // 然后，在另一个脚本中
-    alert(window.currentUser.name); // John
-    ```
-
-2. 我们可以测试全局对象以验证是否支持现代语言特性。
-
-    例如，测试是否存在内置的 `Promise` 对象（它不存在于非常旧的浏览器中）：
-    
-    ```js run
-    if (!window.Promise) {
-      alert("Your browser is really old!");
-    }
-    ```
-
-3. 我们可以创建 "polyfills"：添加环境不支持（比如旧的浏览器）但存在于现代标准中的功能。
-
-    ```js run
-    if (!window.Promise) {
-      window.Promise = ... // 自定义实现现代语言特性
-    }
-    ```
-
-...当然，如果我们在浏览器中使用 `window` 访问浏览器窗口（而不是全局对象）就完全没问题。
+    ……但是更常见的是使用“老式”的环境特定（environment-specific）的名字，例如 `window`（浏览器）和 `global`（Node.js）。由于 `globalThis` 是最近的提议，因此在 non-Chromium Edge 中不受支持（但可以进行 polyfills）。
+- 仅当值对于我们的项目而言确实是全局的时，才应将其存储在全局对象中。并保持其数量最少。
+- 在浏览器中，除非我们使用 [modules](info:modules)，否则使用 `var` 声明的全局函数和变量会成为全局对象的属性。
+- 为了使我们的代码面向未来并更易于理解，我们应该使用直接的方式访问全局对象的属性，如 `window.x`。

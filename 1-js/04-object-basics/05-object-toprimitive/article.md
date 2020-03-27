@@ -60,17 +60,17 @@
 
     像 `<` 和 `>` 这样的小于/大于比较运算符，也可以同时用于字符串和数字。不过，它们使用 "number" hint，而不是 "default"。这是历史原因。
 
-    实际上，我们没有必要记住这些奇特的细节，除了一种情况（`Date` 对象，我们稍后会学到它）之外，所有内置对象都以和 `"number"` 相同的方式实现 `"default"` 转换。我们也可以这样做。
+    实际上，我们没有必要记住这些奇特的细节，除了一种情况（`Date` 对象，我们稍后会学到它）之外，所有内建对象都以和 `"number"` 相同的方式实现 `"default"` 转换。我们也可以这样做。
 
 ```smart header="没有 `\"boolean\"` hint"
 请注意 —— 只有三种 hint。就这么简单。
 
-没有 "boolean" hint（在布尔上下文中所有对象都是 `true`）或其他任何东西。如果我们将 `"default"` 和 `"number"` 视为相同，就像大多数内置函数一样，那么就只有两种转换了。
+没有 "boolean" hint（在布尔上下文中所有对象都是 `true`）或其他任何东西。如果我们将 `"default"` 和 `"number"` 视为相同，就像大多数内建函数一样，那么就只有两种转换了。
 ```
 
 **为了进行转换，JavaScript 尝试查找并调用三个对象方法：**
 
-1. 调用 `obj[Symbol.toPrimitive](hint)` — 带有符号键 `Symbol.toPrimitive`（系统 symbol）的方法，如果这个方法存在的话，
+1. 调用 `obj[Symbol.toPrimitive](hint)` — 带有 symbol 键 `Symbol.toPrimitive`（系统 symbol）的方法，如果这个方法存在的话，
 2. 否则，如果 hint 是 `"string"`
     — 尝试 `obj.toString()` 和 `obj.valueOf()`，无论哪个存在。
 3. 否则，如果 hint 是 `"number"` 或 `"default"`
@@ -78,7 +78,7 @@
 
 ## Symbol.toPrimitive
 
-我们从第一个方法开始。有一个名为 `Symbol.toPrimitive` 的内置 symbol，它被用来给转换方法命名，像这样：
+我们从第一个方法开始。有一个名为 `Symbol.toPrimitive` 的内建 symbol，它被用来给转换方法命名，像这样：
 
 ```js
 obj[Symbol.toPrimitive] = function(hint) {
@@ -235,14 +235,14 @@ alert(obj + 2); // 22（"2" + 2）被转换为原始值字符串 => 级联
 
 ## 总结
 
-对象到原始值的转换，是由许多期望以原始值作为值得内置函数和操作符自动调用的。
+对象到原始值的转换，是由许多期望以原始值作为值的内建函数和操作符自动调用的。
 
 这里有三种类型（hint）：
 - `"string"`（对于 `alert` 和其他需要字符串的操作）
 - `"number"`（对于数学运算）
 - `"default"`（少数操作符）
 
-规范明确描述了哪个操作符使用哪个 hint。很少有操作符“不知道期望什么”并使用 `"default"` hint。通常对于内置对象，`"default"` hint 的处理方式与 `"number"` 相同，因此在实践中，最后两个 hint 常常合并在一起。
+规范明确描述了哪个操作符使用哪个 hint。很少有操作符“不知道期望什么”并使用 `"default"` hint。通常对于内建对象，`"default"` hint 的处理方式与 `"number"` 相同，因此在实践中，最后两个 hint 常常合并在一起。
 
 转换算法是：
 

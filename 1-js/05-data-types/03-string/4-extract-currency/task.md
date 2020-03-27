@@ -8,7 +8,7 @@ importance: 4
 
 创建函数 `extractCurrencyValue(str)` 从字符串中提取数值并返回。
 
-比如：
+例如：
 
 ```js
 alert( extractCurrencyValue('$120') === 120 ); // true

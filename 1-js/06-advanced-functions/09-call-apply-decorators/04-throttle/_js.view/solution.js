@@ -1,4 +1,4 @@
-function throttle(func, ms) {
+function throttle(f, ms) {
 
   let isThrottled = false,
     savedArgs,
@@ -14,7 +14,7 @@ function throttle(func, ms) {
     }
 
     // otherwise go to cooldown state
-    func.apply(this, arguments);
+    f.apply(this, arguments);
 
     isThrottled = true;
 

@@ -11,7 +11,7 @@ let user = {
 
 并且，在现实世界中，用户可以进行 **操作**：从购物车中挑选某物、登录和注销等。
 
-在 JavaScript 中，操作通过属性中的函数来表示。
+在 JavaScript 中，行为（action）由属性中的函数来表示。
 
 ## 方法示例
 
@@ -63,7 +63,7 @@ user.sayHi(); // Hello!
 ```smart header="面向对象编程"
 当我们在代码中用对象表示实体时，就是所谓的 [面向对象编程](https://en.wikipedia.org/wiki/Object-oriented_programming)，简称为 "OOP"。
 
-OOP 是一门大学问，本身就是一门有趣的科学。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于这方面的书，例如 E.Gamma、R.Helm、R.Johnson 和 J.Vissides 所著的《设计模式：可复用面向对象软件的基础》，G.Booch 所著的《面向对象分析与设计》等。
+OOP 是一门大学问，本身就是一门有趣的科学。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于这方面的书，例如 E. Gamma、R. Helm、R. Johnson 和 J. Vissides 所著的《设计模式：可复用面向对象软件的基础》，G. Booch 所著的《面向对象分析与设计》等。
 ```
 ### 方法简写
 

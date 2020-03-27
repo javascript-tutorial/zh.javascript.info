@@ -2,7 +2,7 @@
 # 用 promise 重新解决？
 
 
-下列代码会输出什么？
+下列这段代码会输出什么？
 
 ```js
 let promise = new Promise(function(resolve, reject) {

@@ -1,8 +1,8 @@
-`date.getDay()` 方法返回星期数，从星期日开始。
+`date.getDay()` 方法返回从星期日开始的星期数。
 
-我们创建一个星期数组，这样可以通过它的序号得到名称：
+我们创建一个关于星期的数组，这样我们就可以通过编号获取正确的日期名称：
 
-```js run
+```js run demo
 function getWeekDay(date) {
   let days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 

@@ -20,8 +20,8 @@ loadJson('no-such-user.json')
 解析：
 
 1. 将函数 `loadJson` 变为 `async`。
-2. 将所有的 `.then` 替换为 `await`。
-3. 我们也可以不等待，直接 `return response.json()`，像这样:
+2. 将函数中所有的 `.then` 都替换为 `await`。
+3. 我们可以返回 `return response.json()` 而不用等待它，像这样:
 
     ```js
     if (response.status == 200) {
@@ -29,6 +29,5 @@ loadJson('no-such-user.json')
     }
     ```
 
-    然后外部的代码就可以用 `await` 来等待这个 promise 被决议。在本例中可忽略。
-4. `loadJson` 抛出的错误被 `.catch` 处理了。并且我们不能用 `await loadJson(…)`，因为不是在 `async` 函数中。
-
+    然后外部的代码就必须 `await` 这个 promise resolve。在本例中它无关紧要。
+4. `loadJson` 抛出的 error 被 `.catch` 处理了。在这儿我们我们不能使用 `await loadJson(…)`，因为我们不是在一个 `async` 函数中。

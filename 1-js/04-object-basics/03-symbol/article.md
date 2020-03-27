@@ -141,7 +141,7 @@ let user = {
 
 ### Symbol 在 for..in 中会被跳过
 
-Symbolic 属性不参与 `for..in` 循环。
+Symbol 属性不参与 `for..in` 循环。
 
 例如：
 
@@ -177,22 +177,6 @@ alert( clone[id] ); // 123
 ```
 
 这里并不矛盾，就是这样设计的。这里的想法是当我们克隆或者合并一个 object 时，通常希望 **所有** 属性被复制（包括像 `id` 这样的 Symbol）。
-
-````smart header="其他类型的属性键被强制为字符串"
-我们只能在对象中使用字符串或 symbol 作为键，其它类型会被转换为字符串。
-
-例如，在作为属性键使用时，数字 `0` 变成了字符串 `"0"`：
-
-```js run
-let obj = {
-  0: "test" // 和 "0": "test" 一样
-};
-
-// 两个 alert 都访问相同的属性（Number 0 被转换为字符串 "0"）
-alert( obj["0"] ); // test
-alert( obj[0] ); // test（同一个属性）
-```
-````
 
 ## 全局 symbol
 

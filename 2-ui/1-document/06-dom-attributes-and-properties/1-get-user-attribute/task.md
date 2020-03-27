@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 获取一个特性
+# 获取特性
 
-编写代码从文档中获取一个包含 `data-widget-name` 特性的元素，并且读取它的值。
+编写代码，从文档（document）中获取带有 `data-widget-name` 特性（attribute）的元素，并读取它的值。
 
 ```html run
 <!DOCTYPE html>

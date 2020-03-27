@@ -1,18 +1,18 @@
 我们仔细研究一下在调用 `speedy.eat("apple")` 的时候，发生了什么。
 
-1.  `speedy.eat` 方法在原型（`=hamster`）中被发现，然后执行 `this=speedy`（在点之前的对象）。
+1. `speedy.eat` 方法在原型（`=hamster`）中被找到，然后执行 `this=speedy`（在点符号前面的对象）。
 
-2. `this.stomach.push()` 需要查找到 `stomach` 属性，然后调用 `push` 来处理。它在 `this` (`=speedy`) 中查找 `stomach`，但并没有找到。
+2. `this.stomach.push()` 需要找到 `stomach` 属性，然后对其调用 `push`。它在 `this`（`=speedy`）中查找 `stomach`，但并没有找到。
 
 3. 然后它顺着原型链，在 `hamster` 中找到 `stomach`。
 
-4. 然后它调用 `push` ，将食物添加到**胃的原型链**中。
+4. 然后它对 `stomach` 调用 `push`，将食物添加到 **`stomach` 的原型** 中。
 
-因此所有的仓鼠都有共享一个胃！
+因此，所有的仓鼠共享了同一个胃！
 
-每次 `stomach` 从原型中获取，然后 `stomach.push` 修改它的“位置”。
+对于 `lazy.stomach.push(...)` 和 `speedy.stomach.push()` 而言，属性 `stomach` 被在原型中找到（不是在对象自身），然后向其中 `push` 了新数据。
 
-请注意，这种情况在 `this.stomach=` 进行简单的赋值情况下不会发生：
+请注意，在简单的赋值 `this.stomach=` 的情况下不会出现这种情况：
 
 ```js run
 let hamster = {
@@ -20,7 +20,7 @@ let hamster = {
 
   eat(food) {
 *!*
-    // assign to this.stomach instead of this.stomach.push
+    // 分配给 this.stomach 而不是 this.stomach.push
     this.stomach = [food];
 */!*
   }
@@ -34,15 +34,15 @@ let lazy = {
   __proto__: hamster
 };
 
-// Speedy one found the food
+// 仓鼠 Speedy 找到了食物
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// Lazy one's stomach is empty
+// 仓鼠 Lazy 的胃是空的
 alert( lazy.stomach ); // <nothing>
 ```
 
-现在，所有的都在正常运行，因为 `this.stomach=` 不会在 `stomach` 中执行查找。该值会被直接写入 `this` 对象。
+现在，一切都运行正常，因为 `this.stomach=` 不会执行对 `stomach` 的查找。该值会被直接写入 `this` 对象。
 
 此外，我们还可以通过确保每只仓鼠都有自己的胃来完全回避这个问题：
 
@@ -69,12 +69,12 @@ let lazy = {
 */!*
 };
 
-// Speedy one found the food
+// 仓鼠 Speedy 找到了食物
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// Lazy one's stomach is empty
+// 仓鼠 Lazy 的胃是空的
 alert( lazy.stomach ); // <nothing>
 ```
 
-作为一种常见的解决方案，描述特定对象状态的所有属性，如上述的 `stomach`，通常都被写入到该对象中。这防止了类似问题的出现。
+作为一种常见的解决方案，所有描述特定对象状态的属性，例如上面的 `stomach`，都应该被写入该对象中。这样可以避免此类问题。

@@ -317,7 +317,7 @@ JavaScript 在这种事件中不会触发错误。它尽最大努力使数字符
 ```js run
 let num = +prompt("Enter a number", '');
 
-// 结果会是 true，除非你输入无穷大，无穷大或不是数字
+// 结果会是 true，除非你输入无穷大、无穷小或不是数字
 alert( isFinite(num) );
 ```
 
