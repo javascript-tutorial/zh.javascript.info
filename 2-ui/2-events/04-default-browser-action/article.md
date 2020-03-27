@@ -221,7 +221,7 @@ menu.onclick = function(event) {
 - `mousedown` —— 开始选择（移动鼠标进行选择）。
 - 在 `<input type="checkbox">` 上的 `click` —— 选中/取消选中的 `input`。
 - `submit` —— 点击 `<input type="submit">` 或者在表单字段中按下 `key:Enter` 键会触发该事件，之后浏览器将提交表单。
-- `keydown` —— 按下一个按键可能会导致将字符添加到字段，或者触发其他行为。
+- `keydown` —— 按下一个按键会导致将字符添加到字段，或者触发其他行为。
 - `contextmenu` —— 事件发生在鼠标右键单击时，触发的行为是显示浏览器上下文菜单。
 - ……还有更多……
 
