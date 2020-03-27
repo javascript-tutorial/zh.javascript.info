@@ -66,7 +66,7 @@ group.showList();
 但箭头函数就没事，因为它们没有 `this`。
 
 ```warn header="不能对箭头函数进行 `new` 操作"
-不具有 `this` 自然也就意味着另一个限制：箭头函数不能用作构造函数。不能用 `new` 调用它们。
+不具有 `this` 自然也就意味着另一个限制：箭头函数不能用作构造器（constructor）。不能用 `new` 调用它们。
 ```
 
 ```smart header="箭头函数 VS bind"
