@@ -319,7 +319,7 @@ fetch('/article/promise-chaining/user.json')
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-也就是说，第 `(*)` 行的 `.then` 处理程序（handler）现在返回一个 `new Promise`，只有在 `setTimeout` `(**)` 中的 `resolve(githubUser)` 被调用后才会变为 settled。链中的下一个 `.then` 将一直等待这一时刻的到来。
+也就是说，第 `(*)` 行的 `.then` 处理程序（handler）现在返回一个 `new Promise`，只有在 `setTimeout` 中的 `resolve(githubUser)` `(**)` 被调用后才会变为 settled。链中的下一个 `.then` 将一直等待这一时刻的到来。
 
 作为一个好的做法，异步行为应该始终返回一个 promise。这样就可以使得之后我们计划后续的行为成为可能。即使我们现在不打算对链进行扩展，但我们之后可能会需要。
 
