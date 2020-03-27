@@ -81,7 +81,7 @@ alert( n.toFixed(2) ); // 1.23
 我们将在后面 <info:number> 和 <info:string> 章节中看到更多具体的方法。
 
 
-````warn header="构造函数 `String/Number/Boolean` 仅供内部使用"
+````warn header="构造器 `String/Number/Boolean` 仅供内部使用"
 像 Java 这样的一些语言允许我们使用 `new Number(1)` 或 `new Boolean(false)` 等语法，明确地为原始类型创建“对象包装器”。
 
 在 JavaScript 中，由于历史原因，这也是可以的，但极其 **不推荐**。因为这样会出问题。

@@ -236,7 +236,7 @@ let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 
 当然，本文会给出一个解释。让我们深入细节，这样你就可以真正地理解发生了什么。
 
-在 JavaScript 中，继承类（所谓的“派生构造函数”，英文为 "derived constructor"）的构造函数与其他函数之间是有区别的。派生的构造函数具有特殊的内部属性 `[[ConstructorKind]]:"derived"`。这是一个特殊的内部标签。
+在 JavaScript 中，继承类（所谓的“派生构造器”，英文为 "derived constructor"）的构造函数与其他函数之间是有区别的。派生构造器具有特殊的内部属性 `[[ConstructorKind]]:"derived"`。这是一个特殊的内部标签。
 
 该标签会影响它的 `new` 行为：
 
@@ -524,7 +524,7 @@ rabbit.eat();  // 错误调用 super（因为这里没有 [[HomeObject]]）
     - 在使用 `this` 之前，我们必须在 `Child` 的 constructor 中将父 constructor 调用为 `super()`。
 3. 重写一个方法：
     - 我们可以在一个 `Child` 方法中使用 `super.method()` 来调用 `Parent` 方法。
-4. 内部工作：
+4. 内部：
     - 方法在内部的 `[[HomeObject]]` 属性中记住了它们的类/对象。这就是 `super` 如何解析父方法的。
     - 因此，将一个带有 `super` 的方法从一个对象复制到另一个对象是不安全的。
 
