@@ -1,29 +1,29 @@
-# 生成自定义事件
+# 创建自定义事件
 
-我们不仅可以分发事件，还可以从 JavaScript 中生成事件。
+我们不仅可以分配事件处理程序，还可以从 JavaScript 生成事件。
 
-自定义事件可以用于创建“图形组件”。例如，菜单组件的根元素可以通过触发 `open`（打开菜单）、`select`（有一项被选中）等事件告诉菜单发生了什么。
+自定义事件可用于创建“图形组件”。例如，我们自己的基于 JavaScript 的菜单的根元素可能会触发 `open`（打开菜单），`select`（有一项被选中）等事件来告诉菜单发生了什么。另一个代码可能会监听事件，并观察菜单发生了什么。
 
-我们也可以生成一些像 `click`、`mousedown` 此类的内置事件，这些都有利于测试。
+我们不仅可以生成出于自身目的而创建的全新事件，还可以生成例如 `click` 和 `mousedown` 等内建事件。这可能会有助于自动化测试。
 
-## 事件构造器
+## 事件构造函数
 
-事件会像 DOM 元素类一样形成层次结构。事件的底层是内置的 [Event](http://www.w3.org/TR/dom/#event) 类。
+内建事件类形成一个层次结构，类似于 DOM 元素类。根是内建的 [Event](http://www.w3.org/TR/dom/#event) 类。
 
 我们可以像这样创建 `Event` 对象：
 
 ```js
-let event = new Event(event type[, options]);
+let event = new Event(type[, options]);
 ```
 
 参数：
 
-- **event type** —— 可以是任何字符串，比如 `"click"` 或者我们自己喜欢的 `"hey-ho!"`。
+- **type** —— 事件类型，可以是像这样 `"click"` 的字符串，或者我们自己的像这样 `"my-event"` 的参数。
 - **options** —— 具有两个可选属性的对象：
-  - `bubbles: true/false` —— 如果是 `true`，那么事件冒泡。
-  - `cancelable: true/false` —— 如果 `true`，那么“默认动作”就会被阻止。之后我们会看到对于自定义事件，这些意味着什么。
+  - `bubbles: true/false` —— 如果为 `true`，那么事件会冒泡。
+  - `cancelable: true/false` —— 如果为 `true`，那么“默认行为”就会被阻止。稍后我们会看到对于自定义事件，它意味着什么。
 
-  默认情况下，它们都是 false：`{bubbles: false, cancelable: false}`。
+  默认情况下，以上两者都为 false：`{bubbles: false, cancelable: false}`。
 
 ## dispatchEvent
 
@@ -31,7 +31,7 @@ let event = new Event(event type[, options]);
 
 然后处理器对其作出反应，就好像它是一个正常的内置事件。如果事件是使用 `bubbles` 标志创建的，那么它就会冒泡。
 
-在下面示例中，`click` 事件是用 JavaScript 初始化生成的。处理器执行效果和单击按钮的效果一样：
+在下面示例中，`click` 事件是用 JavaScript 初始化创建的。处理器执行效果和单击按钮的效果一样：
 
 ```html run no-beautify
 <button id="elem" onclick="alert('Click!');">Autoclick</button>
@@ -43,9 +43,9 @@ let event = new Event(event type[, options]);
 ```
 
 ```smart header="event.isTrusted"
-有一个可以区分 “真实”用户事件和 script 生成事件的方法。
+有一个可以区分 “真实”用户事件和 script 创建事件的方法。
 
-`event.isTrusted` 属性为 `true`，则事件来自真实用户的动作，为 `false` ，则说明事件由脚本生成。
+`event.isTrusted` 属性为 `true`，则事件来自真实用户的行为，为 `false` ，则说明事件由脚本创建。
 ```
 
 ## 冒泡示例
@@ -123,7 +123,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 */!*
 ```
 
-从技术上讲，我们可以通过在创建后直接分发 `event.clientX=100` 来解决这个问题。所以这是一个方便和遵守规则的问题。浏览器生成的事件总是具有正确的类型。
+从技术上讲，我们可以通过在创建后直接分配 `event.clientX=100` 来解决这个问题。所以这是一个方便和遵守规则的问题。浏览器创建的事件总是具有正确的类型。
 
 不同 UI 事件的所有属性列表在说明书中，例如 [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent)。
 
@@ -159,17 +159,17 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 ## event.preventDefault()
 
-如果 `cancelable:true` 被指定，那么我们可以在脚本生成的事件上调用 `event.preventDefault()`。
+如果 `cancelable:true` 被指定，那么我们可以在脚本创建的事件上调用 `event.preventDefault()`。
 
-当然，如果事件有一个非标准的名称，那么浏览器就不知道它，而且它也没有“默认浏览器动作”。
+当然，如果事件有一个非标准的名称，那么浏览器就不知道它，而且它也没有“默认浏览器行为”。
 
-但是事件生成代码可能会在 `dispatchEvent` 之后安排一些动作。
+但是事件创建代码可能会在 `dispatchEvent` 之后安排一些行为。
 
 调用 `event.preventDefault()` 是处理器发送不应该执行这些操作的信号的一种方法。
 
-在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件生成代码知道处理器不应该继续。
+在这种情况下，`elem.dispatchEvent(event)` 会返回 `false`。而且事件创建代码知道处理器不应该继续。
 
-例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上生成 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
+例如，在下面的示例中有一个 `hide()` 函数。它在元素 `#rabbit` 上创建 `"hide"` 事件。通知所有相关联部分兔子将要隐藏起来了。
 
 由 `rabbit.addEventListener('hide',...)` 设置的处理器将会知道这些，并且如果需要，可以通过调用 `event.preventDefault()` 来阻止该操作。然后兔子就不会隐藏了：
 
@@ -266,7 +266,7 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 ## 总结
 
-要生成一个事件，我们首先需要创建一个事件对象。
+要创建一个事件，我们首先需要创建一个事件对象。
 
 泛型 `Event(name, options)` 构造器接受任意事件名，`options` 对象具有两个属性：
   - `bubbles: true` ，如果事件应该冒泡的话。
@@ -278,9 +278,9 @@ alert(event.clientX); // undefined, the unknown property is ignored!
 
 尽管技术上有可能产生像 `click` 或者 `keydown` 这样的浏览器事件，但我们还是该谨慎使用。
 
-我们不应该生成浏览器事件，因为这是运行处理器的一种 hacky 方式。大多数来说，这都是一种糟糕的架构。
+我们不应该创建浏览器事件，因为这是运行处理器的一种 hacky 方式。大多数来说，这都是一种糟糕的架构。
 
-可以生成原生事件：
+可以创建原生事件：
 
 - 如果他们不提供其他的交互方式，脏黑客行为可以制作第三方库操作所需的方式。
 - 对于自动化测试，要在脚本中“单击按钮”并查看接口是否正确反应。
