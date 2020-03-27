@@ -524,7 +524,7 @@ rabbit.eat();  // 错误调用 super（因为这里没有 [[HomeObject]]）
     - 在使用 `this` 之前，我们必须在 `Child` 的 constructor 中将父 constructor 调用为 `super()`。
 3. 重写一个方法：
     - 我们可以在一个 `Child` 方法中使用 `super.method()` 来调用 `Parent` 方法。
-4. 内部工作：
+4. 内部：
     - 方法在内部的 `[[HomeObject]]` 属性中记住了它们的类/对象。这就是 `super` 如何解析父方法的。
     - 因此，将一个带有 `super` 的方法从一个对象复制到另一个对象是不安全的。
 
