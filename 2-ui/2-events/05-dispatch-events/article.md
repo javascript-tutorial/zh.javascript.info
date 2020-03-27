@@ -209,21 +209,20 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
 
 请注意：该事件必须具有 `cancelable: true` 标志，否则 `event.preventDefault()` 调用将会被忽略。
 
-## Events-in-events 是同步的
+## 事件中的事件是同步的
 
-事件通常都是同步处理的。也就是说：如果浏览器正在处理 `onclick`，而且在处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
+通常事件是被异步处理的。也就是说：如果浏览器正在处理 `onclick`，在此处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
 
-异常情况是一个事件从另一个事件中启动。
+唯一的例外就是，一个事件是在另一个事件中发起的。
 
-然后控制器会跳到嵌套事件处理程序中，并且（执行完成）之后返回。
+然后，程序执行的控制流会跳转到嵌套的事件的处理程序，执行完成后返回。
 
-例如，这里的 `menu-open` 嵌套事件在 `onclick` 期间被同步处理：
+例如，这里的嵌套事件 `menu-open` 在 `onclick` 期间被同步处理：
 
-```html run
+```html run autorun
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> nested -> 2
   menu.onclick = function() {
     alert(1);
 
@@ -235,55 +234,60 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
-```    
+```
 
-请注意 `menu-open` 嵌套事件会冒泡，而且是在 `document` 被处理。嵌套事件的传播是在处理返回到外部代码 (`onclick`) 之前就已经全部完成的。
+输出顺序为：1 -> nested -> 2。
 
-这不仅仅是 `dispatchEvent`，还有其他案例。JavaScript 在事件处理时可以调用导致其他事件的方法 —— 它们也是被同步处理的。
+请注意，嵌套事件 `menu-open` 会完全冒泡，并在 `document` 上被处理。嵌套事件的传播（propagation）和处理必须完全完成，然后处理过程才会返回到外部代码（`onclick`）。
 
-如果我们不喜欢，可以将 `dispatchEvent`（或者其他事件触发器调用）放在 `onclick` 结束，或者如果不方便，可以将其包装在 `setTimeout(...,0)` 中：
+这不仅与 `dispatchEvent` 有关，还有其他情况。事件处理程序中的 JavaScript 可以调用会引发其他事件的方法 —— 它们也是被同步处理的。
+
+如果我们不喜欢它，可以将 `dispatchEvent`（或者其他触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
 
 ```html run
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> 2 -> nested
   menu.onclick = function() {
     alert(1);
 
     // alert(2)
     setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
-    })), 0);
+    })));
 
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
-```    
+```
+
+现在，`dispatchEvent` 在当前代码执行完成之后异步运行，包括 `mouse.onclick`，因此，事件处理程序是完全独立的。
+
+输出顺序变成：1 -> 2 -> nested。
 
 ## 总结
 
-要创建一个事件，我们首先需要创建一个事件对象。
+要从代码生成一个事件，我们首先需要创建一个事件对象。
 
-泛型 `Event(name, options)` 构造器接受任意事件名，`options` 对象具有两个属性：
-  - `bubbles: true` ，如果事件应该冒泡的话。
-  - `cancelable: true` 则 `event.preventDefault()` 应该有效。
+通用的 `Event(name, options)` 构造器接受任意事件名称和具有两个属性的 `options` 对象：
+- 如果事件应该冒泡，则 `bubbles: true`。
+- 如果 `event.preventDefault()` 应该有效，则 `cancelable: true`。
 
-其他像 `MouseEvent`、`KeyboardEvent` 这样的原生事件构造器，接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
+其他像 `MouseEvent` 和 `KeyboardEvent` 这样的原生事件的构造器，都接受特定于该事件类型的属性。例如，鼠标事件的 `clientX`。
 
-对于自定义事件我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将特定事件的数据指派给它。然后处理程序可以以 `event.detail` 的形式访问它。
+对于自定义事件，我们应该使用 `CustomEvent` 构造器。它有一个名为 `detail` 的附加选项，我们应该将事件特定的数据分配给它。然后，所有处理程序可以以 `event.detail` 的形式来访问它。
 
-尽管技术上有可能产生像 `click` 或者 `keydown` 这样的浏览器事件，但我们还是该谨慎使用。
+尽管技术上有可能生成像 `click` 或 `keydown` 这样的浏览器事件，但我们还是应谨慎使用。
 
-我们不应该创建浏览器事件，因为这是运行处理程序的一种 hacky 方式。大多数来说，这都是一种糟糕的架构。
+我们不应该生成浏览器事件，因为这是运行处理程序的一种怪异（hacky）方式。大多数时候，这都是一种糟糕的架构。
 
-可以创建原生事件：
+可以生成原生事件：
 
-- 如果他们不提供其他的交互方式，脏黑客行为可以制作第三方库操作所需的方式。
-- 对于自动化测试，要在脚本中“点击按钮”并查看接口是否正确反应。
+- 如果第三方程序库不提供其他交互方式，那么这是使第三方程序库工作所需的一种肮脏手段。
+- 对于自动化测试，要在脚本中“点击按钮”并查看接口是否正确响应。
 
-使用我们自己的名字来自定义的事件通常是为架构目的产生的，用来指示菜单、滑块、轮播等内部发生什么。
+使用我们自己的名称的自定义事件通常是出于架构的目的而创建的，以指示发生在菜单（menu），滑块（slider），轮播（carousel）等内部发生了什么。
