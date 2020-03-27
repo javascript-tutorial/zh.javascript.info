@@ -6,7 +6,7 @@
 
 我们不仅可以生成出于自身目的而创建的全新事件，还可以生成例如 `click` 和 `mousedown` 等内建事件。这可能会有助于自动化测试。
 
-## 事件构造函数
+## 事件构造器
 
 内建事件类形成一个层次结构，类似于 DOM 元素类。根是内建的 [Event](http://www.w3.org/TR/dom/#event) 类。
 
@@ -58,40 +58,44 @@ let event = new Event(type[, options]);
 <h1 id="elem">Hello from the script!</h1>
 
 <script>
-  // catch on document...
+  // 在 document 上捕获...
   document.addEventListener("hello", function(event) { // (1)
     alert("Hello from " + event.target.tagName); // Hello from H1
   });
 
-  // ...dispatch on elem!
+  // ...在 elem 上 dispatch！
   let event = new Event("hello", {bubbles: true}); // (2)
   elem.dispatchEvent(event);
+
+  // 在 document 上的处理程序将被激活，并显示消息。
+
 </script>
 ```
 
+
 注意：
 
-1. 我们应该使用 `addEventListener` 定义我们的事件，因为 `on<event>` 仅存在于内置事件中，`document.onhello` 则无法运行。
+1. 我们应该对我们的自定义事件使用 `addEventListener`，因为 `on<event>` 仅存在于内建事件中，`document.onhello` 则无法运行。
 2. 必须设置 `bubbles:true`，否则事件不会向上冒泡。
 
-对于内置 (`click`) 和自定义 (`hello`) 的事件，冒泡机制是一样的。也有捕获和冒泡阶段。
+内建事件（`click`）和自定义事件（`hello`）的冒泡机制相同。自定义事件也有捕获阶段和冒泡阶段。
 
-## 鼠标事件，键盘事件和其他
+## MouseEvent，KeyboardEvent 及其他
 
-这里有一个在 [UI Event specification](https://www.w3.org/TR/uievents) 上的 UI 事件类短列表：
+这是一个摘自于 [UI 事件规范](https://www.w3.org/TR/uievents) 的一个简短的 UI 事件类列表：
 
- - `UIEvent`（UI 事件）
- - `FocusEvent`（焦点事件）
- - `MouseEvent`（鼠标事件）
- - `WheelEvent`（滚轮事件）
-- `KeyboardEvent`（键盘事件）
+- `UIEvent`
+- `FocusEvent`
+- `MouseEvent`
+- `WheelEvent`
+- `KeyboardEvent`
 - ...
 
-如果我们想要创建这样的事件，我们应该使用它们而不是“新事件”。例如，`new MouseEvent("click")`。
+如果我们想要创建这样的事件，我们应该使用它们而不是 `new Event`。例如，`new MouseEvent("click")`。
 
-正确的构造函数允许为该类型的事件指定标准属性。
+正确的构造器允许为该类型的事件指定标准属性。
 
-就像鼠标事件 `clientX/clientY` 一样：
+就像鼠标事件的 `clientX/clientY` 一样：
 
 ```js run
 let event = new MouseEvent("click", {
@@ -106,14 +110,14 @@ alert(event.clientX); // 100
 */!*
 ```
 
-请注意：通用 `Event` 构造器不允许这样做。
+请注意：通用的 `Event` 构造器不允许这样做。
 
 让我们试试：
 
 ```js run
 let event = new Event("click", {
   bubbles: true, // only bubbles and cancelable
-  cancelable: true, // work in the Event constructor
+  cancelable: true, // work in the Event 构造器
   clientX: 100,
   clientY: 100
 });
