@@ -66,15 +66,27 @@
 [codetabs height=360 src="mouseoverout-fast"]
 ```
 
-## 进入子元素时的“额外” mouseout
+```smart header="如果 `mouseover` 被触发了，则必须有 `mouseout`"
+在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果指针“正式地”进入了一个元素（生成了 `mouseover` 事件），那么一旦它离开，我们就会得到 `mouseout`。
+```
 
-想象一下 —— 鼠标指针进入一个元素。`mouseover` 被触发。然后指针进入一个子元素。有趣的是，在这种情况下 `mouseout` 会被触发。指针仍然在元素中，但我们从它那儿接收到了 `mouseout` 事件！
+## 当移动到一个子元素时 mouseout
+
+`mouseout` 的一个重要特性 —— 当指针从元素移动到其后代时触发，例如在下面的这个 HTML 中，从 `#parent` 到 `#child`：
+
+```html
+<div id="parent">
+  <div id="child">...</div>
+</div>
+```
+
+如果我们在 `#parent` 上，然后将指针更深入地移入 `#child`，但是在 `#parent` 上会得到 `mouseout`！
 
 ![](mouseover-to-child.svg)
 
 这听起来很奇怪，但很容易解释。
 
-**根据浏览器逻辑，鼠标指针在任意时间只会位于*单个*元素上 —— 嵌套最多的那个（而且是 z-index 最大的那个）。**
+**根据浏览器的逻辑，鼠标指针随时可能位于 **单个** 元素上 —— 嵌套最多的那个元素，（而且是 z-index 最大的那个）。**
 
 因此如果它转到另一个元素（甚至是一个子代），那么它将离开先前的那个。就这么简单。
 
