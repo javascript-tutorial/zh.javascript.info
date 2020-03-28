@@ -21,7 +21,7 @@
 - `event.relatedTarget` —— 是鼠标移动到的，当前指针位置下的元素（`target` -> `relatedTarget`）。
 
 ```online
-在下面这个示例中，每张脸及其特性都是单独的元素。当你移动鼠标时，你可以在文本区域中看到鼠标事件。
+在下面这个示例中，每张脸及其功能都是单独的元素。当你移动鼠标时，你可以在文本区域中看到鼠标事件。
 
 每个事件都具有关于 `target` 和 `relatedTarget` 的信息：
 
@@ -48,7 +48,7 @@
 
 如果鼠标从上图所示的 `#FROM` 快速移动到 `#TO` 元素，则中间的 `<div>`（或其中的一些）元素可能会被跳过。`mouseout` 事件可能会在 `#FROM` 上被触发，然后立即在 `#TO` 上触发 `mouseover`。
 
-这对性能很有好处，因为可能有很多中间元素。我们并不真的想要处理每一个进入和离开的过程。
+这对性能很有好处，因为可能有很多中间元素。我们并不真的想要处理每一个移入和离开的过程。
 
 另一方面，我们应该记住，鼠标指针并不会“访问”所有元素。它可以“跳过”一些元素。
 
@@ -67,12 +67,12 @@
 ```
 
 ```smart header="如果 `mouseover` 被触发了，则必须有 `mouseout`"
-在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果指针“正式地”进入了一个元素（生成了 `mouseover` 事件），那么一旦它离开，我们就会得到 `mouseout`。
+在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果指针“正式地”移入了一个元素（生成了 `mouseover` 事件），那么一旦它离开，我们就会得到 `mouseout`。
 ```
 
 ## 当移动到一个子元素时 mouseout
 
-`mouseout` 的一个重要特性 —— 当指针从元素移动到其后代时触发，例如在下面的这个 HTML 中，从 `#parent` 到 `#child`：
+`mouseout` 的一个重要功能 —— 当指针从元素移动到其后代时触发，例如在下面的这个 HTML 中，从 `#parent` 到 `#child`：
 
 ```html
 <div id="parent">
@@ -129,7 +129,7 @@ parent.onmouseover = function(event) {
 
 ## 事件 mouseenter 和 mouseleave
 
-事件 `mouseenter/mouseleave` 类似于 `mouseover/mouseout`。它们在鼠标指针进入/离开元素时触发。
+事件 `mouseenter/mouseleave` 类似于 `mouseover/mouseout`。它们在鼠标指针移入/离开元素时触发。
 
 但是有两个重要的区别：
 
@@ -138,7 +138,7 @@ parent.onmouseover = function(event) {
 
 这些事件非常简单。
 
-当指针进入一个元素时 —— 会触发 `mouseenter`。而指针在元素或其后代中的确切位置无关紧要。
+当指针移入一个元素时 —— 会触发 `mouseenter`。而指针在元素或其后代中的确切位置无关紧要。
 
 当鼠标指针离开该元素时，事件 `mouseleave` 才会触发。
 
@@ -152,20 +152,20 @@ parent.onmouseover = function(event) {
 
 ## 事件委托
 
-`mouseenter/leave` 事件非常简单，也非常容易使用。但它们不会冒泡。因此我们不能用它们来进行事件委托。
+事件 `mouseenter/leave` 非常简单且易用。但它们不会冒泡。因此，我们不能使用它们来进行事件委托。
 
-想象我们想要为表单元来处理鼠标的移入/移除。有几百个表单元。
+假设我们要处理表格的单元格的鼠标移入/离开。并且这里有数百个单元格。
 
-通常的解决方案是 —— 在 `<table>` 中设置处理器，并在那里处理事件。但 `mouseenter/leave` 不会冒泡。因此如果类似事件发生在 `<td>` 上，那么只有 `<td>` 上的处理器才能捕获到它。
+通常的解决方案是 —— 在 `<table>` 中设置处理程序，并在那里处理事件。但 `mouseenter/leave` 不会冒泡。因此，如果类似的事件发生在 `<td>` 上，那么只有 `<td>` 上的处理程序才能捕获到它。
 
-只有在移入/移出整个表单时才会触发处理器处理 `<table>` 上的 `mouseenter/leave`。在它内部转换的任何信息都无法获取。 
+`<table>` 上的 `mouseenter/leave` 的处理程序仅在指针移入/离开整个表格时才会触发。无法获取有关其内部移动的任何信息。
 
-没问题 —— 我们使用 `mouseover/mouseout`。
+因此，让我们使用 `mouseover/mouseout`。
 
-一个简单的处理器可能像这样：
+让我们从突出显示鼠标指针下的元素的简单处理程序开始：
 
 ```js
-// 高亮鼠标下的单元
+// 突出显示鼠标指针下的元素
 table.onmouseover = function(event) {
   let target = event.target;
   target.style.background = 'pink';
@@ -178,33 +178,34 @@ table.onmouseout = function(event) {
 ```
 
 ```online
+现在它们已经激活了。当鼠标在下面这个表格的各个元素上移动时，当前位于鼠标指针下的元素会被突出显示：
+
 [codetabs height=480 src="mouseenter-mouseleave-delegation"]
 ```
 
-进入到任何元素或者表格内的元素时，这些处理器都可以运行。
+在我们的例子中，我们想要处理表格的单元格 `<td>` 之间的移动：移入一个单元格并离开它。我们对其他移动并不感兴趣，例如在单元格内部或在所有单元格的外部。让我们把这些过滤掉。
 
-但我们只想处理整个 `<td>` 元素中的进出转换。高亮显示整个单元。我们不想处理 `<td>` 子级之间发生的转换。
+我们可以这样做：
 
-其中一个解决方案：
+- 在变量中记住当前被高亮显示的 `<td>`，让我们称它为 `currentElem`。
+- `mouseover` ——  如果我们仍然在当前的 `<td>` 中，则忽略该事件。
+- `mouseout` —— 如果没有离开当前的 `<td>`，则忽略。
 
-- 记住在变量中高亮显示的 `<td>`。
-- `mouseover` ——  如果我们仍然在当前 `<td>` 内，则忽略该事件。
-- `mouseout` —— 如果没有离开 `<td>`，则忽略。
+这是说明所有可能情况的代码示例：
 
-当我们在 `<td>` 的子代间移动时，会过滤掉“额外”事件。
+[js src="mouseenter-mouseleave-delegation-2/script.js"]
 
-```offline
-详细信息在[完整示例中](sandbox:mouseenter-mouseleave-delegation-2)。
-```
+再次，重要的功能是：
+1. 它使用事件委托来处理表格中任何 `<td>` 的移入/离开。因此，它依赖于 `mouseover/out` 而不是 `mouseenter/leave`，`mouseenter/leave` 不会冒泡，因此也不允许事件委托。
+2. 额外的事件，例如在 `<td>` 的后代之间移动都会被过滤掉，因此 `onEnter/Leave` 仅在指针离开/移入 `<td>` 整体时才会运行。
 
 ```online
-以下是包含所有细节的完整示例：
+这是带有所有详细信息的完整示例：
 
-[codetabs height=380 src="mouseenter-mouseleave-delegation-2"]
+[codetabs height=460 src="mouseenter-mouseleave-delegation-2"]
 
-尝试在表格单元之间或内部移动指针，太快或太慢都有问题。与之前不同的是只有 `<td>` 作为一个整体被高亮显示。
+尝试将鼠标指针移入和移出表格单元格及其内部。快还是慢都没关系。与前面的示例不同，只有 `<td>` 被作为一个整体被突出显示。
 ```
-
 
 ## 总结
 
@@ -215,4 +216,4 @@ table.onmouseout = function(event) {
 - 鼠标的快速移动可以使 `mouseover, mousemove, mouseout` 跳过一些中间元素。
 - `mouseover/out` 事件和 `mouseenter/leave` 事件有一个额外的目标：`relatedTarget`。这是作为起点/终点的元素，是对 `target` 的补充。
 - 即使从父元素转到子元素时，`mouseover/out` 也会被触发。它们假设鼠标一次只会移入一个元素 —— 最深的那个。 
-- `mouseenter/leave` 事件不会冒泡，而且当鼠标进入子元素时也不会被触发。它们只关注鼠标在整个元素的内部还是外部。
+- `mouseenter/leave` 事件不会冒泡，而且当鼠标移入子元素时也不会被触发。它们只关注鼠标在整个元素的内部还是外部。
