@@ -1,24 +1,24 @@
-# 移动：mouseover/out，mouseenter/leave
+# 移动鼠标：mouseover/out，mouseenter/leave
 
-我们将深入研究鼠标在元素之间移动时所发生事件的更多细节。
+我们将深入研究鼠标在元素之间移动时发生的事件。
 
 ## Mouseover/mouseout，relatedTarget
 
-当鼠标指针出现在一个元素上时，`mouseover` 事件就会发生，而 `mouseout` 事件则发生在鼠标指针离开时。
+当鼠标指针移到某个元素上时，`mouseover` 事件就会发生，而当鼠标移出该元素时，`mouseout` 事件就会发生。
 
 ![](mouseover-mouseout.svg)
 
-这些事件很特别，因为它们有 `relatedTarget`。
+这些事件很特别，因为它们具有 `relatedTarget` 属性。此属性是对 `target` 的补充。当鼠标从一个元素离开并去往另一个元素时，其中一个元素就变成了 `target`，另一个就变成了 `relatedTarget`。
 
 对于 `mouseover`：
 
-- `event.target` —— 是鼠标经过的那个元素。
-- `event.relatedTarget` —— 是鼠标上一次经过的元素。
+- `event.target` —— 是鼠标移过的那个元素。
+- `event.relatedTarget` —— 是鼠标来自的那个元素（`relatedTarget` -> `target`）。
 
 `mouseout` 则与之相反：
 
 - `event.target` —— 是鼠标离开的元素。
-- `event.relatedTarget` —— 是当前指针位置下的（鼠标进入的）元素。
+- `event.relatedTarget` —— 是鼠标移动到的，当前指针位置下的元素（`target` -> `relatedTarget`）。
 
 ```online
 在下面示例中，每个特性都是一个元素。当你移动鼠标时你可以看到文本区域的鼠标事件。
