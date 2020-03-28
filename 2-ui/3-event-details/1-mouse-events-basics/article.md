@@ -83,7 +83,7 @@
 
 如果在事件期间按下了相应的键，则它们为 `true`。
 
-比如，下面这个按钮仅在 `key:Alt+Shift` + 鼠标点击时才有效：
+比如，下面这个按钮仅在 `key:Alt+Shift`+click 时才有效：
 
 ```html autorun height=60
 <button id="button">Alt+Shift+Click on me!</button>
@@ -100,88 +100,59 @@
 ```
 
 ```warn header="注意：在 Mac 上我们通常使用 `Cmd` 代替 `Ctrl`"
-在 Windows 和 Linux 上修改键是 `key:Alt`、`key:Shift` 和 `key:Ctrl`。在 Mac 上还有：`key:Cmd`，它对应于属性 `metaKey`。
+在 Windows 和 Linux 上有 `key:Alt`，`key:Shift` 和 `key:Ctrl`。在 Mac 上还有：`key:Cmd`，它对应于属性 `metaKey`。
 
-在大多数情况下，当 Windows/Linux 使用 `key:Ctrl` 时，Mac 的用户会使用 `key:Cmd`。因此当 Windows 用户按下 `key:Ctrl+Enter` 或 `key:Ctrl+A` 时，Mac 用户会按下 `key:Cmd+Enter` 或 `key:Cmd+A` 等，大多数 app 使用 `key:Cmd` 而不是 `key:Ctrl`。
+在大多数情况下，当在 Windows/Linux 上使用 `key:Ctrl` 时，在 Mac 是使用 `key:Cmd`。
 
-因此如果我们想支持 `key:Ctrl`+click，那么对于 Mac 用户来说，使用 `key:Cmd`+click 也是有意义的。这对于 Mac 用户来说非常舒服。
+也就说：当 Windows 用户按下 `key:Ctrl+Enter` 或 `key:Ctrl+A` 时，Mac 用户会按下 `key:Cmd+Enter` 或 `key:Cmd+A`，以此类推。
 
-即使我们想迫使 Mac 用户使用 `key:Ctrl`+click —— 也非常困难。问题在于：Mac 上左击 `key:Ctrl` 被解释为**右击**，它会生成 `contextmenu` 事件，而不是像 Windows/Linxu 的 `click` 事件。
+因此，如果我们想支持 `key:Ctrl`+click，那么对于 Mac 应该使用 `key:Cmd`+click。对于 Mac 用户而言，这更舒适。
 
-因此如果我们想让所有操作系统的用户感觉舒适，那么我们应该和 `ctrlKey` 一起使用 `metaKey`。
+即使我们想强制 Mac 用户使用 `key:Ctrl`+click —— 这非常困难。问题是：在 MacOS 上左键单击和 `key:Ctrl` 一起使用会被解释为 **右键单击**，并且会生成 `contextmenu` 事件，而不是像 Windows/Linxu 中的 `click` 事件。
+
+因此，如果我们想让所有操作系统的用户都感到舒适，那么我们应该将 `ctrlKey` 与 `metaKey` 一起进行检查。
 
 对于 JS 代码，这意味着我们应该检查 `if (event.ctrlKey || event.metaKey)`。
 ```
 
 ```warn header="还有移动设备"
-键盘组合是工作流的一个补充。所以如果用户使用键盘操作 —— 它也能工作。
-如果你的设备没有 —— 那么还有另一个方法也可以实现。
+键盘组合是工作流的一个补充。这样，如果访客使用键盘操作 —— 它就会起作用。而且，如果访客的设备没有键盘 —— 那么这里应该有另一种方法来做到这一点。
 ```
 
 ## 坐标：clientX/Y，pageX/Y
 
 所有的鼠标事件都有两种形式的坐标：
 
-1. 对于窗口而言：`clientX` 和 `clientY`。
-2. 对于文档而言：`pageX` 和 `pageY`。
+1. 相对于窗口的坐标：`clientX` 和 `clientY`。
+2. 相对于文档的坐标：`pageX` 和 `pageY`。
 
-比如，如果我们有一个 500 x 500 的窗口，鼠标在左上方，那么 `clientX` 和 `clientY` 都是 `0`。如果鼠标在中间，那么 `clientX` 和 `clientY` 就是 `250`。和它在文档中的位置无关。它们类似于 `position:fixed`。
+比如，如果我们有一个大小为 500x500 的窗口，并且鼠标在左上角，那么 `clientX` 和 `clientY` 均为 `0`。如果鼠标位于中间，那么 `clientX` 和 `clientY` 均为 `250`。这与它在文档中的位置无关。它们类似于 `position:fixed`。
 
 ````online
-将鼠标移动到输入字段上，可以看到 `clientX/clientY`（它在 `iframe` 中，因此坐标是相对于 `iframe` 而言的）：
+将鼠标移动到输入字段上，可以看到 `clientX/clientY`（此示例位于 `iframe` 中，因此坐标是相对于 `iframe` 的）：
 
 ```html autorun height=50
 <input onmousemove="this.value=event.clientX+':'+event.clientY" value="Mouse over me">
 ```
 ````
 
-文档相对坐标是从文档的左上角而不是窗口中计算出来的。
-坐标 `pageX`，`pageY` 与文档级别上的 `position:absolute` 非常相似。
+文档相对坐标 `pageX` 和 `pageY` 是从文档的左上角而不是窗口开始计算的。你可以在 <info:coordinates> 一章中阅读有关坐标的更多细节。
 
-你可以在本章中阅读到更多关于坐标的内容 <info:coordinates>。
+## 禁用选择
 
-## Mousedown 没有选择
+双击鼠标会有副作用，在某些界面中可能会出现干扰：它会选择文本。
 
-鼠标点击有一个让人不安的副作用。双击可以选择文本。
-
-如果我们想自己处理点击事件，那么“额外”的选择就显得多余了。
-
-比如，对下面的文本双击，除了我们的触发事件之外，还会选择文本：
+比如，双击下面的文本，除了我们的处理程序外，还会选择文本：
 
 ```html autorun height=50
-<b ondblclick="alert('dblclick')">Double-click me</b>
+<span ondblclick="alert('dblclick')">Double-click me</span>
 ```
 
-还有 CSS 方法可以终止选择：[CSS UI 草案](https://www.w3.org/TR/css-ui-4/) 中的 `user-select` 属性。
+如果按下鼠标左键，并在不松开的情况下移动鼠标，这也常常会造成不必要的选择。
 
-大多数浏览器都支持它的前缀：
+有多种防止选择的方法，你可以在 <info:selection-range> 一章中详细阅读。
 
-```html autorun height=50
-<style>
-  b {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-</style>
-
-Before...
-<b ondblclick="alert('Test')">
-  Unselectable
-</b>
-...After
-```
-
-如果现在你双击“不可选”，它就不会被选中了。看起来好像起作用了。
-
-...但有一个潜在的问题！文本变得无法被选中。即使用户从“之前”开始选择，“之后”结束，选择也会跳过“不可选择”部分。我们真的想让文本不可选么？
-
-大部分时间，我们不会那么做。用户可能有合理的理由来选择文本，以便进行复制或其他需要。如果我们不让他那么做那么可能不太方便。所以这个解决方案没那么好。
-
-我们只是想阻止双击进行选择，仅此而已。
-
-文本选择是 `mousedown` 事件的默认浏览器操作。因此其他比较好的解决方案是处理 `mousedown` 并阻止它发生，就像这样：
+在这种情况下，最合理的方式是防止浏览器对 `mousedown` 进行操作。这样能够阻止刚刚提到的两种选择：
 
 ```html autorun height=50
 Before...
@@ -191,28 +162,12 @@ Before...
 ...After
 ```
 
-现在，在双击时不选择粗体元素。
+现在，在双击时，粗体元素不会被选中，并且在粗体元素上按下鼠标左键也不会开始选择。
 
-内部文字仍然可以被选中。但选择却不应该从文本自身开始，而是应该在文字之前或之后开始。通常情况下，都是正常的。
-
-````smart header="取消选择"
-我们可以在事件处理器中用 "post-factum" 取消它，而不是**阻止**选择它。
-
-这是方法：
-
-```html autorun height=50
-Before...
-<b ondblclick="*!*getSelection().removeAllRanges()*/!*">
-  Double-click me
-</b>
-...After
-```
-
-如果你双击粗体元素，则会出现所选内容，然后立即删除，不过看起来不太好。
-````
+请注意：其中的文本仍然是可选择的。但是，选择不应该开始于该文本自身，而应该在该文本之前或之后开始。通常，这对用户来说挺好的。
 
 ````smart header="防止复制"
-如果我们想要禁用选择以保护内容不被复制粘贴，那么我们可以使用另一个事件：`oncopy`。
+如果我们想禁用选择以保护我们页面的内容不被复制粘贴，那么我们可以使用另一个事件：`oncopy`。
 
 ```html autorun height=80 no-beautify
 <div *!*oncopy="alert('Copying forbidden!');return false"*/!*>
@@ -221,25 +176,22 @@ Before...
   If you know JS or HTML, then you can get everything from the page source though.
 </div>
 ```
-如果你试图在 `<div>` 中复制一段文本，这是行不通的，因为默认操作 `oncopy` 是被阻止的。
+如果你试图在 `<div>` 中复制一段文本，这是行不通的，因为默认行为 `oncopy` 被阻止了。
 
-当然，这不能阻止用户打开 HTML 源代码，但并不是每个人都知道如何做到这一点。
+当然，用户可以访问页面的 HTML 源码，并且可以从那里获取内容，但并不是每个人都知道如何做到这一点。
 ````
 
 ## 总结
 
-鼠标事件有如下属性：
+鼠标事件有以下属性：
 
 - 按钮：`which`。
-- 修饰符键（`true` 如果被按压）：`altKey`、`ctrlKey`、`shiftKey` 和 `metaKey`（Mac）。
-  - 如果想要处理 `key:Ctrl`，那么不要忘记 Mac 用户，他们使用的是 `key:Cmd`，所以最好检查 `if (e.metaKey || e.ctrlKey)`。
+- 组合键（如果被按下则为 `true`）：`altKey`，`ctrlKey`，`shiftKey` 和 `metaKey`（Mac）。
+  - 如果你想处理 `key:Ctrl`，那么不要忘记 Mac 用户，他们通常使用的是 `key:Cmd`，所以最好检查 `if (e.metaKey || e.ctrlKey)`。
 
 - 窗口相对坐标：`clientX/clientY`。
 - 文档相对坐标：`pageX/pageY`。
 
-处理文本选择虽然也是不必要的点击副作用，但是却很重要。
+`mousedown` 的默认浏览器操作是文本选择，如果它对界面不利，则应避免它。
 
-还有几种可以做到这一点的方法，比如：
-1. CSS 属性 `user-select:none`（带有浏览器前缀）完全禁用文本选择。
-2. 使用 `getSelection().removeAllRanges()` 取消选择后的内容。
-3. 处理 `mousedown` 并阻止默认操作（通常是最好的选择）。
+在下一章中，我们将看到有关指针移动后的事件，以及如何跟踪其下元素变化的更多详细信息。
