@@ -2,7 +2,7 @@
 
 我们将深入研究鼠标在元素之间移动时发生的事件。
 
-## Mouseover/mouseout，relatedTarget
+## 事件 mouseover/mouseout，relatedTarget
 
 当鼠标指针移到某个元素上时，`mouseover` 事件就会发生，而当鼠标移出该元素时，`mouseout` 事件就会发生。
 
@@ -86,44 +86,69 @@
 
 这听起来很奇怪，但很容易解释。
 
-**根据浏览器的逻辑，鼠标指针随时可能位于 **单个** 元素上 —— 嵌套最多的那个元素，（而且是 z-index 最大的那个）。**
+**根据浏览器的逻辑，鼠标指针随时可能位于单个元素上 —— 嵌套最多的那个元素（z-index 最大的那个）。**
 
-因此如果它转到另一个元素（甚至是一个子代），那么它将离开先前的那个。就这么简单。
+因此，如果它转到另一个元素（甚至是一个后代），那么它将离开前一个元素。
 
-我们可以从以下示例中看到一个有趣的结果。
+请注意事件处理的另一个重要的细节。
 
-红色的 `<div>` 嵌套在蓝色的 `<div>` 中。蓝色的 `<div>` 有 `mouseover/out` 处理器可以记录在文本区发生的所有事件。
+后代的 `mouseover` 事件会冒泡。因此，如果 `#parent` 具有 `mouseover` 处理程序，它将被触发：
 
-尝试进入蓝色元素，然后鼠标移动到红色的上面 —— 然后观察事件：
+![](mouseover-bubble-nested.svg)
+
+```online
+你可以在下面这个示例中很清晰地看到这一点：`<div id="child">` 位于 `<div id="parent">` 内部。`#parent` 元素上有 `mouseover/out` 的处理程序，这些处理程序用于输出事件详细信息。
+
+如果你将鼠标从 `#parent` 移动到 `#child`，那么你会看到在 `#parent` 上有两个事件:
+1. `mouseout [target: parent]`（离开 parent），然后
+2. `mouseover [target: child]`（来到 child，冒泡）。
 
 [codetabs height=360 src="mouseoverout-child"]
+```
 
-1. 在进入蓝色层时 —— 我们获取到了 `mouseover [target: blue]`。
-2. 之后从蓝色移动红色时 —— 我们获取到了 `mouseout [target: blue]`（离开父元素）。
-3. ...然后立即获取到的是 `mouseover [target: red]`。
+如上例所示，当指针从 `#parent` 元素移动到 `#child` 时，会在父元素上触发两个处理程序：`mouseout` 和 `mouseover`：
 
-因此，对于不考虑 `target` 的处理器，这看起来就像是在 `mouseout` 事件中，鼠标离开了父元素（第 `(2)` 步），然后在第 `(3)` 步的 `mouseover` 事件中鼠标又回到了父元素上。
+```js
+parent.onmouseout = function(event) {
+  /* event.target: parent element */
+};
+parent.onmouseover = function(event) {
+  /* event.target: child element (bubbled) */
+};
+```
 
-如果我们在进入/离开元素时执行一些动作，就会多执行很多“错误”操作。对于简单的事情可能不引人注目。但对于复杂的事情来说，会带来不必要的副作用。
+**如果我们不检查处理程序中的 `event.target`，那么似乎鼠标指针离开了 `#parent` 元素，然后立即回到了它上面。**
 
-我们可以通过使用 `mouseenter/mouseleave` 事件来解决这个问题。
+但是事实并非如此！指针仍然位于父元素上，它只是更深入地移入了子元素。
 
-## Mouseenter 和 mouseleave 事件
+如果离开父元素时有一些行为（action），例如一个动画在 `parent.onmouseout` 中运行，当指针深入 `#parent` 时，我们并不希望发生这种行为。
 
-`mouseenter/mouseleave` 事件类似于 `mouseover/mouseout`。当鼠标指针移入/移出元素时，它们也会被触发。
+为了避免它，我们可以在处理程序中检查 `relatedTarget`，如果鼠标指针仍在元素内，则忽略此类事件。
 
-但有两个不同之处：
+另外，我们可以使用其他事件：`mouseenter` 和 `mouseleave`，它们没有此类问题，接下来我们就对其进行详细介绍。
 
-1. 元素内部的转换不会有影响。
-2. `mouseenter/mouseleave` 事件不会冒泡。
+## 事件 mouseenter 和 mouseleave
 
-这些事件在直觉上非常清晰。
+事件 `mouseenter/mouseleave` 类似于 `mouseover/mouseout`。它们在鼠标指针进入/离开元素时触发。
 
-当指针进入一个元素时 —— `mouseenter` 被触发，而它在元素内部的去向并不重要。只有当鼠标指针离开时，`mouseleave` 事件才会被触发。
+但是有两个重要的区别：
 
-如果我们做个相同的例子，但将 `mouseenter/mouseleave` 放在蓝色 `<div>` 中，再做相同的操作 —— 我们就会看到只有移入或移出蓝色 `<div>` 时，事件才会被触发。当鼠标进入红色元素，再回到蓝色元素时，不会有任何反应。子代被全部忽略。
+1. 元素内部与后代之间的转换不会产生影响。
+2. 事件 `mouseenter/mouseleave` 不会冒泡。
+
+这些事件非常简单。
+
+当指针进入一个元素时 —— 会触发 `mouseenter`。而指针在元素或其后代中的确切位置无关紧要。
+
+当鼠标指针离开该元素时，事件 `mouseleave` 才会触发。
+
+```online
+这个例子和上面的例子相似，但是现在最顶层的元素有 `mouseenter/mouseleave` 而不是 `mouseover/mouseout`。
+
+正如你所看到的，唯一生成的事件是与将指针移入或移出顶部元素有关的事件。当指针移入 child 并返回时，什么也没发生。在后代之间的移动会被忽略。
 
 [codetabs height=340 src="mouseleave"]
+```
 
 ## 事件委托
 
