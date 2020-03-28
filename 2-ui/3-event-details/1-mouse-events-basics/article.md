@@ -13,7 +13,7 @@
 最常用的简单事件有：
 
 `mousedown/mouseup`
-: 在元素上点击/释放鼠标按键。
+: 在元素上点击/释放鼠标按钮。
 
 `mouseover/mouseout`
 : 鼠标指针从一个元素上移入/移出。
@@ -22,32 +22,32 @@
 : 鼠标在元素上的每个移动都会触发此事件。
 
 `contextmenu`
-: Triggers when opening a context menu is attempted. In the most common case, that happens when the right mouse button is pressed. Although, there are other ways to open a context menu, e.g. using a special keyboard key, so it's not exactly the mouse event.
+: 尝试打开上下文菜单时触发。在最常见的情况下，此事件发生在鼠标右键被按下时。虽然，还有其他打开上下文菜单的方式，例如使用特殊的键盘键，所以它不完全是一个鼠标事件。
 
 ……还有其他几种事件类型，我们稍后会讨论它们。
 
 ### 复杂事件
 
 `click`
-: 如果使用鼠标左键，则在 `mousedown` 及 `mouseup` 相继触发后触发该事件。
+: 如果使用的是鼠标左键，则在同一个元素上的 `mousedown` 及 `mouseup` 相继触发后，触发该事件。
 
 `dblclick`
-: 在对元素进行双击后触发。
+: 双击一个元素后触发。
 
-复杂事件是由简单事件组成的，因此理论上我们可以没有它们而运转。但它们的存在却给我们提供了极大的便利。
+复杂事件是由简单事件组成的，因此，从理论上讲，如果没有这些复杂事件，我们也能实现相应的功能。但它们的存在却给我们提供了极大的便利。
 
 ### 事件顺序
 
-一个动作可能会触发多个事件。
+一个行为可能会触发多个事件。
 
-比如，在按下鼠标按钮时，点击会首先触发 `mousedown`，然后释放鼠标按钮时，会触发 `mouseup` 和 `click`。
+比如，点击鼠标按钮，在按下鼠标按钮时，点击会首先触发 `mousedown`，然后释放鼠标按钮时，会触发 `mouseup` 和 `click`。
 
-在单个动作触发多个事件时，它们的顺序是固定的。也就是说会遵循 `mousedown` -> `mouseup` -> `click` 的顺序。事件按照相同的顺序被处理：`onmouseup` 在 `onclick` 运行之前完成。
+在单个动作触发多个事件时，事件的顺序是固定的。也就是说，会遵循 `mousedown` -> `mouseup` -> `click` 的顺序调用处理程序。
 
 ```online
-点击以下按钮，你会看到事件。也可以尝试双击。
+点击下面的按钮，你会看到事件。并尝试双击它。
 
-在测试台下面记录所有鼠标事件，如果它们之间有超过 1 秒的延迟，那么它们会被规则分开。
+在测试台下面记录了所有的鼠标事件，如果它们之间的延迟时间超过 1 秒，那么它们会被水平分割线分开。
 
 我们还可以看出 `which` 属性允许检测鼠标按钮。
 
@@ -56,11 +56,11 @@
 
 ## 获取按钮：which
 
-与点击相关的事件始终具有 `which` 属性，该属性允许获取准确的鼠标按钮。 
+与点击相关的事件始终具有 `which` 属性，该属性允许获取确切的鼠标按钮。 
 
-它不用于 `click`和 `contextmenu` 事件，因为前者只发生在左键，而后者只发生在右击。
+它不用于 `click` 和 `contextmenu` 事件，因为前者只在点击左键时发生，而后者只在点击右键时发生。
 
-但如果我们跟踪 `mousedown` 和 `mouseup`，那么我们就需要它，因为这些事件在任意鼠标按钮按下时都会触发，所以 `which` 允许区分 "right-mousedown" 和 "left-mousedown"。
+但是，如果我们跟踪 `mousedown` 和 `mouseup`，那么我们就需要它，因为这些事件会在任何按钮上触发，所以 `which` 让我们能够区分 "right-mousedown" 和 "left-mousedown"。
 
 有三个可能的值：
 
@@ -68,20 +68,22 @@
 - `event.which == 2` —— 中间按钮
 - `event.which == 3` —— 右按钮
 
-中间按钮现在有些特殊，所有很少被使用。
+中间按钮现在有些特殊，很少被使用了。
 
-## 组合键: shift、alt、ctrl 和 meta
+## 组合键：shift，alt，ctrl，meta
 
-所有的鼠标事件都包含有关按下的组合键信息。
+所有的鼠标事件都包含有关按下的组合键的信息。
 
-属性：
+事件属性：
 
-- `shiftKey`
-- `altKey`
-- `ctrlKey`
-- `metaKey` (`key:Cmd` for Mac)
+- `shiftKey`：`key:Shift`
+- `altKey`：`key:Alt`（或对于 Mac 是 `key:Opt`）
+- `ctrlKey`：`key:Ctrl`
+- `metaKey`：对于 Mac 是 `key:Cmd`
 
-比如，下述按钮仅仅在 `key:Alt+Shift`+click 上有效：
+如果在事件期间按下了相应的键，则它们为 `true`。
+
+比如，下面这个按钮仅在 `key:Alt+Shift` + 鼠标点击时才有效：
 
 ```html autorun height=60
 <button id="button">Alt+Shift+Click on me!</button>
@@ -97,7 +99,7 @@
 </script>
 ```
 
-```warn header="注意：在 Mac 上我们通常使用 `Cmd` 而不是 `Ctrl`"
+```warn header="注意：在 Mac 上我们通常使用 `Cmd` 代替 `Ctrl`"
 在 Windows 和 Linux 上修改键是 `key:Alt`、`key:Shift` 和 `key:Ctrl`。在 Mac 上还有：`key:Cmd`，它对应于属性 `metaKey`。
 
 在大多数情况下，当 Windows/Linux 使用 `key:Ctrl` 时，Mac 的用户会使用 `key:Cmd`。因此当 Windows 用户按下 `key:Ctrl+Enter` 或 `key:Ctrl+A` 时，Mac 用户会按下 `key:Cmd+Enter` 或 `key:Cmd+A` 等，大多数 app 使用 `key:Cmd` 而不是 `key:Ctrl`。
