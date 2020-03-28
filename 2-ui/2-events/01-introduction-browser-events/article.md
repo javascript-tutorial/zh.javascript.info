@@ -7,7 +7,7 @@
 **鼠标事件：**
 - `click` —— 当鼠标点击一个元素时（触摸屏设备会在点击时生成）。
 - `contextmenu` —— 当鼠标右键点击一个元素时。
-- `mouseover` / `mouseout` —— 当鼠标光标移入/离开一个元素时。
+- `mouseover` / `mouseout` —— 当鼠标指针移入/离开一个元素时。
 - `mousedown` / `mouseup` —— 当在元素上按下/释放鼠标按钮时。
 - `mousemove` —— 当鼠标移动时。
 
@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 ## 事件对象
 
-为了正确处理事件，我们需要更深入地了解发生了什么。不仅仅是 "click" 或 "keypress"，还包括鼠标光标的坐标是什么？按下了哪个键？等等。
+为了正确处理事件，我们需要更深入地了解发生了什么。不仅仅是 "click" 或 "keypress"，还包括鼠标指针的坐标是什么？按下了哪个键？等等。
 
 当事件发生时，浏览器会创建一个 **`event` 对象**，将详细信息放入其中，并将其作为参数传递给处理程序。
 
@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function() {
 : 处理事件的元素。这与 `this` 相同，除非处理程序是一个箭头函数，或者它的 `this` 被绑定到了其他东西上，之后我们就可以从 `event.currentTarget` 获取元素了。
 
 `event.clientX / event.clientY`
-: 鼠标事件的光标的窗口相对坐标。
+: 鼠标事件的指针的窗口相对坐标。
 
 还有很多属性。它们取决于事件类型，因此，稍后我们将详细讨论不同事件，那时我们再对其进行详细研究。
 
