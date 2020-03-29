@@ -1,4 +1,4 @@
-// 现在在鼠标下方的 <td>（如果有）
+// 现在位于鼠标下方的 <td>（如果有）
 let currentElem = null;
 
 table.onmouseover = function(event) {
