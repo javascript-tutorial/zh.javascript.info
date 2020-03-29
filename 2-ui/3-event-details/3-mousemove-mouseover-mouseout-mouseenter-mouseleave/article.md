@@ -48,7 +48,7 @@
 
 如果鼠标从上图所示的 `#FROM` 快速移动到 `#TO` 元素，则中间的 `<div>`（或其中的一些）元素可能会被跳过。`mouseout` 事件可能会在 `#FROM` 上被触发，然后立即在 `#TO` 上触发 `mouseover`。
 
-这对性能很有好处，因为可能有很多中间元素。我们并不真的想要处理每一个移入和离开的过程。
+这对性能很有好处，因为可能有很多中间元素。我们并不真的想要处理每一个移入和移出的过程。
 
 另一方面，我们应该记住，鼠标指针并不会“访问”所有元素。它可以“跳过”一些元素。
 
@@ -129,7 +129,7 @@ parent.onmouseover = function(event) {
 
 ## 事件 mouseenter 和 mouseleave
 
-事件 `mouseenter/mouseleave` 类似于 `mouseover/mouseout`。它们在鼠标指针移入/离开元素时触发。
+事件 `mouseenter/mouseleave` 类似于 `mouseover/mouseout`。它们在鼠标指针移入/移出元素时触发。
 
 但是有两个重要的区别：
 
@@ -154,11 +154,11 @@ parent.onmouseover = function(event) {
 
 事件 `mouseenter/leave` 非常简单且易用。但它们不会冒泡。因此，我们不能使用它们来进行事件委托。
 
-假设我们要处理表格的单元格的鼠标移入/离开。并且这里有数百个单元格。
+假设我们要处理表格的单元格的鼠标移入/移出。并且这里有数百个单元格。
 
 通常的解决方案是 —— 在 `<table>` 中设置处理程序，并在那里处理事件。但 `mouseenter/leave` 不会冒泡。因此，如果类似的事件发生在 `<td>` 上，那么只有 `<td>` 上的处理程序才能捕获到它。
 
-`<table>` 上的 `mouseenter/leave` 的处理程序仅在指针移入/离开整个表格时才会触发。无法获取有关其内部移动的任何信息。
+`<table>` 上的 `mouseenter/leave` 的处理程序仅在指针移入/移出整个表格时才会触发。无法获取有关其内部移动的任何信息。
 
 因此，让我们使用 `mouseover/mouseout`。
 
@@ -196,8 +196,8 @@ table.onmouseout = function(event) {
 [js src="mouseenter-mouseleave-delegation-2/script.js"]
 
 再次，重要的功能是：
-1. 它使用事件委托来处理表格中任何 `<td>` 的移入/离开。因此，它依赖于 `mouseover/out` 而不是 `mouseenter/leave`，`mouseenter/leave` 不会冒泡，因此也不允许事件委托。
-2. 额外的事件，例如在 `<td>` 的后代之间移动都会被过滤掉，因此 `onEnter/Leave` 仅在指针离开/移入 `<td>` 整体时才会运行。
+1. 它使用事件委托来处理表格中任何 `<td>` 的移入/移出。因此，它依赖于 `mouseover/out` 而不是 `mouseenter/leave`，`mouseenter/leave` 不会冒泡，因此也不允许事件委托。
+2. 额外的事件，例如在 `<td>` 的后代之间移动都会被过滤掉，因此 `onEnter/Leave` 仅在指针移入/移出 `<td>` 整体时才会运行。
 
 ```online
 这是带有所有详细信息的完整示例：
