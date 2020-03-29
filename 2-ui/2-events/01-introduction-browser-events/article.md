@@ -216,7 +216,7 @@ Web 标准的开发者很早就了解到了这一点，并提出了一种使用�
 添加处理程序的语法：
 
 ```js
-element.addEventListener(event, handler, [options]);
+element.addEventListener(event, handler[, options]);
 ```
 
 `event`
@@ -235,7 +235,7 @@ element.addEventListener(event, handler, [options]);
 要移除处理程序，可以使用 `removeEventListener`：
 
 ```js
-element.removeEventListener(event, handler, [options]);
+element.removeEventListener(event, handler[, options]);
 ```
 
 ````warn header="移除需要相同的函数"
@@ -440,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 1. HTML 特性（attribute）：`onclick="..."`。
 2. DOM 属性（property）：`elem.onclick = function`。
-3. 方法（method）：`elem.addEventListener(event, handler, [phase])` 用于添加，`removeEventListener` 用于移除。
+3. 方法（method）：`elem.addEventListener(event, handler[, phase])` 用于添加，`removeEventListener` 用于移除。
 
 HTML 特性很少使用，因为 HTML 标签中的 JavaScript 看起来有些奇怪且陌生。而且也不能在里面写太多代码。
 
