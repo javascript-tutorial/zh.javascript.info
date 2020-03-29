@@ -23,19 +23,19 @@
 下面是拖放一个球的算法：
 
 ```js
-ball.onmousedown = function(event) { // (1) 启动进程
+ball.onmousedown = function(event) { // (1) 启动处理
 
-  // (2) 准备移动：确保 absolute，以及用 z-index 确保在顶部
+  // (2) 准备移动：确保 absolute，并通过设置 z-index 以确保球在顶层
   ball.style.position = 'absolute';
   ball.style.zIndex = 1000;
-  // 将它从当前父亲中直接移到 body 中
-  // 确保它的位置是相对于 body 的
+  // 将其从当前父元素中直接移动到 body 中
+  // 以使其定位是相对于 body 的
   document.body.append(ball);  
-  // ...将绝对定位的球放在光标下
+  // ...并将绝对定位的球放在鼠标指针下方
 
   moveAt(event.pageX, event.pageY);
 
-  // 球中心在 (pageX, pageY) 坐标上
+  // 现在球的中心在 (pageX, pageY) 坐标上
   function moveAt(pageX, pageY) {
     ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
     ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
@@ -45,10 +45,10 @@ ball.onmousedown = function(event) { // (1) 启动进程
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) 在 mousemove 事件中移动球
+  // (3) 在 mousemove 事件上移动球
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) 释放球，移除不需要的处理器
+  // (4) 放下球，并移除不需要的处理程序
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
