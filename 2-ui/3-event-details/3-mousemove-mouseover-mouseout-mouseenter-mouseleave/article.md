@@ -204,17 +204,18 @@ table.onmouseout = function(event) {
 
 [codetabs height=460 src="mouseenter-mouseleave-delegation-2"]
 
-尝试将鼠标指针移入和移出表格单元格及其内部。快还是慢都没关系。与前面的示例不同，只有 `<td>` 被作为一个整体被突出显示。
+尝试将鼠标指针移入和移出表格单元格及其内部。快还是慢都没关系。与前面的示例不同，只有 `<td>` 被作为一个整体突出显示。
 ```
 
 ## 总结
 
 我们讲了 `mouseover`，`mouseout`，`mousemove`，`mouseenter` 和 `mouseleave` 事件。
 
-以下这些事情要注意：
+以下这些内容要注意：
 
 - 快速移动鼠标可能会跳过中间元素。
-- `mouseover/out` 事件和 `mouseenter/leave` 事件有一个额外的目标：`relatedTarget`。这是作为起点/终点的元素，是对 `target` 的补充。
+- `mouseover/out` 和 `mouseenter/leave` 事件还有一个附加属性：`relatedTarget`。这就是我们来自/到的元素，是对 `target` 的补充。
 
-- 即使从父元素转到子元素时，`mouseover/out` 也会被触发。它们假设鼠标一次只会移入一个元素 —— 最深的那个。 
-`mouseenter/leave` 事件不会冒泡，而且当鼠标移入子元素时也不会被触发。它们只关注鼠标在整个元素的内部还是外部。
+即使我们从父元素转到子元素时，也会触发 `mouseover/out` 事件。浏览器假定鼠标一次只会位于一个元素上 —— 最深的那个。
+
+`mouseenter/leave` 在这方面不同：它们仅在鼠标进入和离开元素时才触发。并且它们不会冒泡。
