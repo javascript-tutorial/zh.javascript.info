@@ -108,7 +108,7 @@
 
 因此，如果我们想支持 `key:Ctrl`+click，那么对于 Mac 应该使用 `key:Cmd`+click。对于 Mac 用户而言，这更舒适。
 
-即使我们想强制 Mac 用户使用 `key:Ctrl`+click —— 这非常困难。问题是：在 MacOS 上左键单击和 `key:Ctrl` 一起使用会被解释为 **右键单击**，并且会生成 `contextmenu` 事件，而不是像 Windows/Linxu 中的 `click` 事件。
+即使我们想强制 Mac 用户使用 `key:Ctrl`+click —— 这非常困难。问题是：在 MacOS 上左键单击和 `key:Ctrl` 一起使用会被解释为 **右键单击**，并且会生成 `contextmenu` 事件，而不是像 Windows/Linux 中的 `click` 事件。
 
 因此，如果我们想让所有操作系统的用户都感到舒适，那么我们应该将 `ctrlKey` 与 `metaKey` 一起进行检查。
 
