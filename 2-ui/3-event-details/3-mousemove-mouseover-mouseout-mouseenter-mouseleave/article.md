@@ -67,7 +67,7 @@
 ```
 
 ```smart header="如果 `mouseover` 被触发了，则必须有 `mouseout`"
-在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果指针“正式地”移入了一个元素（生成了 `mouseover` 事件），那么一旦它离开，我们就会得到 `mouseout`。
+在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果指针“正式地”移入了一个元素（生成了 `mouseover` 事件），那么一旦它移出，我们就会得到 `mouseout`。
 ```
 
 ## 当移动到一个子元素时 mouseout
@@ -140,7 +140,7 @@ parent.onmouseover = function(event) {
 
 当指针移入一个元素时 —— 会触发 `mouseenter`。而指针在元素或其后代中的确切位置无关紧要。
 
-当鼠标指针离开该元素时，事件 `mouseleave` 才会触发。
+当鼠标指针移出该元素时，事件 `mouseleave` 才会触发。
 
 ```online
 这个例子和上面的例子相似，但是现在最顶层的元素有 `mouseenter/mouseleave` 而不是 `mouseover/mouseout`。
