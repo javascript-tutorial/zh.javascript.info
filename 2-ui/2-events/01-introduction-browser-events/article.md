@@ -7,7 +7,7 @@
 **鼠标事件：**
 - `click` —— 当鼠标点击一个元素时（触摸屏设备会在点击时生成）。
 - `contextmenu` —— 当鼠标右键点击一个元素时。
-- `mouseover` / `mouseout` —— 当鼠标光标移入/离开一个元素时。
+- `mouseover` / `mouseout` —— 当鼠标光标移入/移出一个元素时。
 - `mousedown` / `mouseup` —— 当在元素上按下/释放鼠标按钮时。
 - `mousemove` —— 当鼠标移动时。
 
