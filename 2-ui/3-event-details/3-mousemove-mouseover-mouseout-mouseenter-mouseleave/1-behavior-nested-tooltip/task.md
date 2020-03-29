@@ -2,13 +2,15 @@ importance: 5
 
 ---
 
-# 改进工具提示行为
+# 改进的工具提示行为
 
-编写一个带有 `data-tooltip` 属性元素提示工具的 JavaScript 函数。
+编写 JavaScript，在带有 `data-tooltip` 特性（attribute）的元素上显示一个工具提示。该特性的值应该成为工具提示的文本。
 
-就像任务 <info:task/behavior-tooltip>，但这里可以嵌套带有注释的元素。下面显示了嵌套最深的工具提示。
+与任务 <info:task/behavior-tooltip> 类似，但这里可以嵌套带有注解（annotated）的元素。并且显示的是嵌套最深的工具提示。
 
-比如：
+同一时间只能显示一个工具提示。
+
+例如：
 
 ```html
 <div data-tooltip="Here – is the house interior" id="house">
@@ -21,5 +23,3 @@ importance: 5
 在 iframe 中的结果：
 
 [iframe src="solution" height=300 border=1]
-
-P.S. 提示：同一时间只显示一个工具提示。
