@@ -218,4 +218,4 @@ table.onmouseout = function(event) {
 
 即使我们从父元素转到子元素时，也会触发 `mouseover/out` 事件。浏览器假定鼠标一次只会位于一个元素上 —— 最深的那个。
 
-`mouseenter/leave` 在这方面不同：它们仅在鼠标进入和离开元素时才触发。并且它们不会冒泡。
+`mouseenter/leave` 事件在这方面不同：它们仅在鼠标进入和离开元素时才触发。并且它们不会冒泡。
