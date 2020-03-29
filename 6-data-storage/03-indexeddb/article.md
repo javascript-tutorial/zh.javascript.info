@@ -5,55 +5,55 @@ libs:
 
 # IndexedDB
 
-IndexedDB is a built-in database, much more powerful than `localStorage`.
+indexedDB是一个内置的数据库，它比 `localStorage` 强大的多。
 
-- Key/value storage: value can be (almost) anything, multiple key types.
-- Supports transactions for reliability.
-- Supports key range queries, indexes.
-- Can store much more data than `localStorage`.
+- 键/值 储存：值（几乎）可以是任何类型，键有多种类型。
+- 支撑事务的可靠性。
+- 支持键范围查询、索引。
+- 和 `localStorage` 相比，它可以存储更多数据 。
 
-That power is usually excessive for traditional client-server apps. IndexedDB is intended for offline apps, to be combined with ServiceWorkers and other technologies.
+对于传统的 客户端-服务器 应用，这些功能通常是没有必要的。IndexedDB 适用于离线应用，可与 ServiceWorkers 和其他技术相结合使用。
 
-The native interface to IndexedDB, described in the specification <https://www.w3.org/TR/IndexedDB>, is event-based.
+根据规范 <https://www.w3.org/TR/IndexedDB> 中的描述，IndexedDB 的本机接口是基于事件的。
 
-We can also use `async/await` with the help of a promise-based wrapper, like <https://github.com/jakearchibald/idb>. That's pretty convenient, but the wrapper is not perfect, it can't replace events for all cases. So we'll start with events, and  then, after we gain understanding of IndexedDb, we'll use the wrapper.
+我们还可以在基于 promise 的包装器（wrapper），如 <https://github.com/jakearchibald/idb> 的帮助下使用 `async/await` 。这要方便的多，但是包装器并不完美，它并不能替代所有情况下的事件。因此，我们先练习事件（events），在理解 IndexedDB 之后，我们将使用包装器。
 
-## Open database
+## 打开数据库
 
-To start working with IndexedDB, we first need to open a database.
+要想使用 IndexedDB，首先需要打开一个数据库。
 
-The syntax:
+语法：
 
 ```js
 let openRequest = indexedDB.open(name, version);
 ```
 
-- `name` -- a string, the database name.
-- `version` -- a positive integer version, by default `1` (explained below).
+- `name` —— 字符串，即数据库名称。
+- `version` —— 一个正整数版本，默认为 `1`（下面解释）。
 
-We can have many databases with different names, but all of them exist within the current origin (domain/protocol/port). Different websites can't access databases of each other.
+数据库可以有许多不同的名称，但是必须存在于当前的源（域/协议/端口）中。不同的网站不能相互访问对方的数据库。
 
-After the call, we need to listen to events on `openRequest` object:
-- `success`: database is ready, there's the "database object" in `openRequest.result`, that we should use it for further calls.
-- `error`: open failed.
-- `upgradeneeded`: database version is outdated (see below).
+调用之后，需要监听 `openRequest` 对象上的事件：
+- `success`： 数据库准备就绪，`openRequest.result` 中有了一个数据库对象"Database Object"，使用它进行进一步的调用。
+- `error`： 打开失败。
+- `upgradeneeded`： 数据库版本已过时（参见下文）。
 
-**IndexedDB has a built-in mechanism of "schema versioning", absent in server-side databases.**
+**IndexedDB 具有内建的“模式版本控制”机制，这在服务器端数据库中是不存在的。**
 
-Unlike server-side databases, IndexedDB is client-side, in the browser, so we don't have the data at hands. But when we publish a new version of our app, we may need to update the database.
+与服务器端数据库不同，IndexedDB 存在于客户端，数据存储在浏览器中。因此开发人员不能直接访问它。但当新版本的应用程序发布之后，我们可能需要更新数据库。
 
-If the local database version is less than specified in `open`, then a special event `upgradeneeded` is triggered, and we can compare versions and upgrade data structures as needed.
+如果本地数据库版本低于 `open` 中指定的版本，会触发一个特殊事件 `upgradeneeded`。我们可以根据需要比较版本和升级数据结构。
 
-The event also triggers when the database did not exist yet, so we can perform initialization.
+当数据库还不存在的时候，也会触发这个事件。因此，我们应该先执行初始化。
 
-For instance, when we first publish our app, we open it with version `1` and perform the initialization in `upgradeneeded` handler:
+例如，当我们第一次发布应用程序时，使用版本 `1` 打开它，并在 `upgradeneeded` 处理程序中执行初始化:
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
 
 openRequest.onupgradeneeded = function() {
-  // triggers if the client had no database
-  // ...perform initialization...
+  // 如果客户端没有数据库则触发
+  // ...执行初始化...
 };
 
 openRequest.onerror = function() {
@@ -62,54 +62,55 @@ openRequest.onerror = function() {
 
 openRequest.onsuccess = function() {
   let db = openRequest.result;
-  // continue to work with database using db object
+  // 继续使用 db 对象处理数据库
 };
 ```
 
-When we publish the 2nd version:
+当我们发布第二个版本时：
 
 ```js
 let openRequest = indexedDB.open("store", *!*2*/!*);
 
-//  check the existing database version, do the updates if needed:
+//  检查现有数据库版本，并根据需要进行更新：
 openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
-  switch(db.version) { // existing (old) db version
+  switch(db.version) { // 现有（旧）数据库版本
     case 0:
-      // version 0 means that the client had no database
-      // perform initialization
+      // 版本 0 表示客户端没有数据库
+      // 执行初始化
     case 1:
-      // client had version 1
-      // update
+      // 客户端版本为 1
+      // 更新
   }
 };
 ```
 
-After `openRequest.onsuccess` we have the database object in `openRequest.result`, that we'll use for further operations.
+在 `openRequest.onsuccess` 之后，我们在 `openRequest.result` 中有一个数据库对象，将用于进一步的操作。
 
-To delete a database:
+删除数据库：
 
 ```js
 let deleteRequest = indexedDB.deleteDatabase(name)
-// deleteRequest.onsuccess/onerror tracks the result
+// deleteRequest.onsuccess/onerror 追踪（tracks）结果
 ```
 
+## 对象库（object store）
 
-## Object store
+要在 `IndexedDB` 中存储某些内容，我们需要一个**对象库**。
 
-An object store is a core concept of IndexedDB. Counterparts in other databases are called "tables" or "collections". It's where the data is stored. A database may have multiple stores: one for users, another one for goods, etc.
+对象库是 IndexedDB 的核心概念，在其他数据库中对应的对象称为“表”或“集合”。它是储存数据的地方。一个数据库可能有多个存储区：一个用于存储用户数据，另一个用于商品，等等。
 
-Despite being named an "object store", primitives can be stored too.
+尽管被命名为“对象库”，但也可以存储原始类型。
 
-**We can store almost any value, including complex objects.**
+**几乎可以存储任何值，包括复杂的对象。**
 
-IndexedDB uses the [standard serialization algorithm](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) to clone-and-store an object. It's like `JSON.stringify`, but more powerful, capable of storing much more datatypes.
+IndexedDB 使用[标准序列化算法](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage)来克隆和存储对象。类似于 `JSON.stringify`，不过功能更加强大，能够存储更多的数据类型。
 
-An example of object that can't be stored: an object with circular references. Such objects are not serializable. `JSON.stringify` also fails for such objects.
+有一种对象不能被存储：循环引用的对象。此类对象不可序列化，也不能进行 `JSON.stringify`。
 
-**There must be a unique `key` for every value in the store.**     
+**库中的每个值都必须有唯一的键 `key`**     
 
-A key must have a type one of: number, date, string, binary, or array. It's an unique identifier: we can search/remove/update values by the key.
+键的类型必须为数字、日期、字符串、二进制或数组。它是唯一的标识符：通过键来 搜索/删除/更新 值。
 
 ![](indexeddb-structure.svg)
 
