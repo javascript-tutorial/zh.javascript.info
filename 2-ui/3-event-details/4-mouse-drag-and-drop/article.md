@@ -112,7 +112,7 @@ ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 
 1. 当访问者按下按钮（`mousedown`）时 —— 我们可以在变量 `shiftX/shiftY` 中记住鼠标指针到球左上角的距离。我们应该在拖动时保持这个距离。
 
-    我们可以通过坐标相减来获取这个距离：
+    我们可以通过坐标相减来获取这个偏移：
 
     ```js
     // onmousedown
@@ -120,7 +120,7 @@ ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
     let shiftY = event.clientY - ball.getBoundingClientRect().top;
     ```
 
-2. 然后，在拖动球时，我们将鼠标指针相对于球的这个距离也考虑在内，像这样：
+2. 然后，在拖动球时，我们将鼠标指针相对于球的这个偏移也考虑在内，像这样：
 
     ```js
     // onmousemove
@@ -182,7 +182,7 @@ In action (inside `<iframe>`):
 
 ## 潜在的放置目标（droppable）
 
-在前面的示例中，球可以被放置（drop）到“任何地方”。在实际中，我们通常是将一个元素放到另一个元素上。例如，将一个“文件”放入一个“文件夹”或者其他地方。
+在前面的示例中，球可以被放置（drop）到“任何地方”。在实际中，我们通常是将一个元素放到另一个元素上。例如，将一个“文件”放置到一个“文件夹”或者其他地方。
 
 抽象地讲，我们取一个 "draggable" 的元素，并将其放在 "droppable" 的元素上。
 
@@ -289,7 +289,7 @@ function onMouseMove(event) {
 关键部分：
 
 1. 事件流：`ball.mousedown` -> `document.mousemove` -> `ball.mouseup`（不要忘记取消原生 `ondragstart`）。
-2. 在拖动开始时 —— 记住鼠标指针相对于元素的初始移位（shift）：`shiftX/shiftY`，并在拖动过程中保持它不变。
+2. 在拖动开始时 —— 记住鼠标指针相对于元素的初始偏移（shift）：`shiftX/shiftY`，并在拖动过程中保持它不变。
 3. 使用 `document.elementFromPoint` 检测鼠标指针下的 "droppable" 的元素。
 
 我们可以在此基础上做很多事情。
