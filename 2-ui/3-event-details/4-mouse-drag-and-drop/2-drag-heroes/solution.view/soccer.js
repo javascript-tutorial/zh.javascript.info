@@ -86,7 +86,7 @@ document.addEventListener('mousedown', function(event) {
 
       // 快速移动鼠标将指针移至文档末端的外面
       // 如果发生这种情况 ——
-      // 使用最大的可能距离限制 newY（就是文档末端到顶端的距离）
+      //  使用最大的可能距离来限制 newY（就是文档末端到顶端的距离）
       newY = Math.min(newY, document.documentElement.clientHeight - dragElement.offsetHeight);
     }
 
