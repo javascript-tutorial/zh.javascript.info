@@ -1,4 +1,4 @@
-# 类型检查："instanceof"
+# 类检查："instanceof"
 
 `instanceof` 操作符用于检查一个对象是否属于某个特定的 class。同时，它还考虑了继承。
 
