@@ -162,10 +162,10 @@ parent.onmouseover = function(event) {
 
 因此，让我们使用 `mouseover/mouseout`。
 
-让我们从突出显示鼠标指针下的元素的简单处理程序开始：
+让我们从高亮显示鼠标指针下的元素的简单处理程序开始：
 
 ```js
-// 突出显示鼠标指针下的元素
+// 高亮显示鼠标指针下的元素
 table.onmouseover = function(event) {
   let target = event.target;
   target.style.background = 'pink';
@@ -178,7 +178,7 @@ table.onmouseout = function(event) {
 ```
 
 ```online
-现在它们已经激活了。当鼠标在下面这个表格的各个元素上移动时，当前位于鼠标指针下的元素会被突出显示：
+现在它们已经激活了。当鼠标在下面这个表格的各个元素上移动时，当前位于鼠标指针下的元素会被高亮显示：
 
 [codetabs height=480 src="mouseenter-mouseleave-delegation"]
 ```
@@ -204,7 +204,7 @@ table.onmouseout = function(event) {
 
 [codetabs height=460 src="mouseenter-mouseleave-delegation-2"]
 
-尝试将鼠标指针移入和移出表格单元格及其内部。快还是慢都没关系。与前面的示例不同，只有 `<td>` 被作为一个整体突出显示。
+尝试将鼠标指针移入和移出表格单元格及其内部。快还是慢都没关系。与前面的示例不同，只有 `<td>` 被作为一个整体高亮显示。
 ```
 
 ## 总结
