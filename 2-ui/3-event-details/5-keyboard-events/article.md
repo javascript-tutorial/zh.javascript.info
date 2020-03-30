@@ -67,9 +67,9 @@
 |--------------|-------------|--------------|
 | `key:F1`      |`F1`          |`F1`        |
 | `key:Backspace`      |`Backspace`          |`Backspace`        |
-| `key:Shift`|`Shift`          |`ShiftRight` or `ShiftLeft`        |
+| `key:Shift`|`Shift`          |`ShiftRight` 或 `ShiftLeft`       |
 
-请注意 `event.code` 确切地标明了哪个键被按下。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 确切地告诉我们按下了哪个键，并且 `event.key` 对按键的含义负责：它是什么（一个"Shift"）。
+请注意，`event.code` 准确地标明了哪个键被按下了。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 准确地告诉我们按下了哪个键，并且 `event.key` 对按键的“含义”负责：它是什么（一个 "Shift"）。
 
 比方说，我们想要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”动作挂在上面。我们可以在 `keydown` 上设置一个监听者，检查哪个键被按下 —— 用来检测我们什么时候需要热键。
 
