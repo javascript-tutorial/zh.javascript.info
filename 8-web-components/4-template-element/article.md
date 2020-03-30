@@ -16,7 +16,7 @@
 </template>
 ```
 
-通常，如果我们在 `<tr>` 内放置类似 `<div>` 的元素，浏览器会检测到无效的DOM结构并对其进行“修复”，然后用 `<table>` 封闭 `<tr>` ，那不是我们想要的。而 `<template>` 则完全保留我们储存的内容。
+通常，如果我们在 `<tr>` 内放置类似 `<div>` 的元素，浏览器会检测到无效的 DOM 结构并对其进行“修复”，然后用 `<table>` 封闭 `<tr>` ，那不是我们想要的。而 `<template>` 则完全保留我们储存的内容。
 
 我们也可以将样式和脚本放入 `<template>` 元素中：
 
@@ -37,9 +37,9 @@
 
 ## 插入模板
 
-模板的 `content` 属性可看作[DocumentFragment](info:modifying-document#document-fragment) —— 一种特殊的DOM节点。
+模板的 `content` 属性可看作[DocumentFragment](info:modifying-document#document-fragment) —— 一种特殊的 DOM 节点。
 
-我们可以将其视为普通的DOM节点，除了它有一个特殊属性：将其插入某个位置时，将代替为插入其子节点。
+我们可以将其视为普通的DOM节点，除了它有一个特殊属性：将其插入某个位置时，会被插入的则是其子节点。
 
 例如：
 
@@ -87,7 +87,7 @@
 </script>
 ```
 
-在`(*)`行，我们将 `tmpl.content` 作为 `DocumentFragment` 克隆和插入，那么它的子节点（ `<style>` ， `<p>` ）将代替其插入。
+在`(*)`行，我们将 `tmpl.content` 作为 `DocumentFragment` 克隆和插入，它的子节点（ `<style>` ， `<p>` ）将代为插入。
 
 它们会变成一个 Shadow DOM：
 
@@ -113,4 +113,4 @@
 * 但允许使用任何顶级 HTML 标签，即使没有适当包装元素的无意义的元素（例如 `<tr>` ）。
 * 其内容是交互式的：插入其文档后，脚本会运行， `<video autoplay>` 会自动播放。
 
-`<template>` 元素不具有任何迭代机制，数据绑定或变量替换的功能，但我们可以自己实现这些功能。
+`<template>` 元素不具有任何迭代机制，数据绑定或变量替换的功能，但我们可以在其基础上实现这些功能。
