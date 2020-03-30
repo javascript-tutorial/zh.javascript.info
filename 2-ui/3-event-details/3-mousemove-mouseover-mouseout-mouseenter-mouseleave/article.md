@@ -143,7 +143,7 @@ parent.onmouseover = function(event) {
 当鼠标指针离开该元素时，事件 `mouseleave` 才会触发。
 
 ```online
-这个例子和上面的例子相似，但是现在最顶层的元素有 `mouseenter/mouseleave` 而不是 `mouseover/mouseout`。
+这个例子和上面的例子相似，但是现在最顶部的元素有 `mouseenter/mouseleave` 而不是 `mouseover/mouseout`。
 
 正如你所看到的，唯一生成的事件是与将鼠标指针移入或移出顶部元素有关的事件。当鼠标指针进入 child 并返回时，什么也没发生。在后代之间的移动会被忽略。
 
