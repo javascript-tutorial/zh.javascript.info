@@ -4,7 +4,7 @@
 
 因此，如果我们想要跟踪 `<input>` 字段中的所有输入，那么键盘事件是不够的。无论如何，还需要一个名为 `input` 的事件来跟踪 `<input>` 字段中的更改。对于这样的任务来说，这可能是一个更好的选择。稍后我们将在 <info:events-change-input> 一章中介绍它们。
 
-当我们想要处理键盘行为时，应该使用键盘事件（虚拟键盘也算）。例如，对箭头键 `key:Up` 和 `key:Down` 或热键（包括键的组合）作出反应。
+当我们想要处理键盘行为时，应该使用键盘事件（虚拟键盘也算）。例如，对方向键 `key:Up` 和 `key:Down` 或热键（包括按键的组合）作出反应。
 
 
 ## 测试台 [#keyboard-test-stand]
@@ -28,9 +28,9 @@
 
 ### event.code 和 event.key
 
-事件对象 `key` 属性允许获取字符，而事件对象的 `code` 属性允许获取“物理秘钥代码”。
+事件对象的 `key` 属性允许获取字符，而事件对象的 `code` 属性则允许获取“物理秘钥代码”。
 
-例如，相同的键 `key:Z` 可以按下或者不按下 `Shift`。这给了我们两个不同的字符：小写的 `z` 和大写 `Z`。
+例如，同一个按键 `key:Z`，可以与或不与 `Shift` 一起按下。我们会得到两个不同的字符：小写的 `z` 和大写的 `Z`。
 
 `event.key` 正是这个字符，并且它将是不同的。但是，`event.code` 是相同的：
 
@@ -40,10 +40,10 @@
 | `key:Shift+Z`|`Z`（大写）     |`KeyZ`        |
 
 
-如果用户使用不同的语言，那么切换到另一种语言就会产生一个完全不同的字符，而不是 `"Z"`。这将成为 `event.key` 的值，而 `event.code` 则始终是一样的：`"KeyZ"`。
+如果用户使用不同的语言，那么切换到另一种语言将产生完全不同的字符，而不是 `"Z"`。它将成为 `event.key` 的值，而 `event.code` 则始终都是一样的：`"KeyZ"`。
 
 ```smart header="\"KeyZ\" 和其他密钥代码"
-每个键都有取决于其在键盘上位置的代码。[键值代码在 UI 事件代码规范中中的描述](https://www.w3.org/TR/uievents-code/)。
+每个按键都有取决于其在键盘上位置的代码。[键值代码在 UI 事件代码规范中中的描述](https://www.w3.org/TR/uievents-code/)。
 
 例如：
 - 字符键有代码 `"Key<letter>"`：`"KeyA"` 和 `"KeyB"` 等。
@@ -62,7 +62,7 @@
 ```
 
 
-如果键没有给出任何字符呢？例如，`key:Shift` 或 `key:F1` 或其他的。对于那些键的 `event.key` 则与 `event.code` 大致相同：
+如果按键没有给出任何字符呢？例如，`key:Shift` 或 `key:F1` 或其他的。对于那些按键的 `event.key` 则与 `event.code` 大致相同：
 
 
 | Key          | `event.key` | `event.code` |
@@ -71,7 +71,7 @@
 | `key:Backspace`      |`Backspace`          |`Backspace`        |
 | `key:Shift`|`Shift`          |`ShiftRight` 或 `ShiftLeft`        |
 
-请注意 `event.code` 确切地标明了哪个键被按下。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 确切地告诉我们按下了哪个键，并且 `event.key` 对键的含义负责：它是什么（一个"Shift"）。
+请注意 `event.code` 确切地标明了哪个键被按下。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 确切地告诉我们按下了哪个键，并且 `event.key` 对按键的含义负责：它是什么（一个"Shift"）。
 
 比方说，我们想要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”动作挂在上面。我们可以在 `keydown` 上设置一个监听者，检查哪个键被按下 —— 用来检测我们什么时候需要热键。
 
@@ -95,7 +95,7 @@ document.addEventListener('keydown', function(event) {
 
 如果按键时间足够长，它就会开始重复：`keydown` 会被一次又一次触发，并且当它释放时我们终于得到 `keyup`。所以有很多的 `keydown` 却只有一个 `keyup` 很正常。
 
-对于所有的重复键，事件对象的 `event.repeat` 属性都设置为 `true`。
+对于所有的重复按键，事件对象的 `event.repeat` 属性都设置为 `true`。
 
 
 ## 默认动作
@@ -110,9 +110,9 @@ document.addEventListener('keydown', function(event) {
 - 浏览器打开“保存页面”对话框（`key:Ctrl+S`）
 -  ...等等。
 
-阻止对 `keydown` 的默认动作可以取消其中的大多数操作，但基于操作系统的特殊键除外。例如在 Windows 里，`key:Alt+F4` 关闭当前浏览器窗口。也没有办法通过阻止 JavaScript 中的默认动作来阻止它。
+阻止对 `keydown` 的默认动作可以取消其中的大多数操作，但基于操作系统的特殊按键除外。例如在 Windows 里，`key:Alt+F4` 关闭当前浏览器窗口。也没有办法通过阻止 JavaScript 中的默认动作来阻止它。
 
-例如，下述的 `<input>` 期望输入值是电话号码，因此他不会接受除数字、`+`、`()` 或 `-`以外的其他键：
+例如，下述的 `<input>` 期望输入值是电话号码，因此他不会接受除数字、`+`、`()` 或 `-`以外的其他按键：
 
 ```html autorun height=60 run
 <script>
@@ -123,7 +123,7 @@ function checkPhoneKey(key) {
 <input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="Phone, please" type="tel">
 ```
 
-请注意，像 `key:Backspace`、`key:Left`、`key:Right`、`key:Ctrl+V` 这样的特殊键在输入中无效。这是严格过滤器 `checkPhoneKey` 的副作用。
+请注意，像 `key:Backspace`、`key:Left`、`key:Right`、`key:Ctrl+V` 这样的特殊按键在输入中无效。这是严格过滤器 `checkPhoneKey` 的副作用。
 
 让我们放松一下：
 
@@ -153,7 +153,7 @@ function checkPhoneKey(key) {
 
 ## 总结
 
-按一个键总是会产生一个键盘事件，无论是符号键还是特殊键，比如 `key:Shift` 或 `key:Ctrl` 等。唯一的例外是 `key:Fn`，它有时会出现在笔记本电脑键盘上。它没有键盘事件，因为它通常在比 OS 低的级别上实现的。
+按一个按键总是会产生一个键盘事件，无论是符号键还是特殊按键，比如 `key:Shift` 或 `key:Ctrl` 等。唯一的例外是 `key:Fn`，它有时会出现在笔记本电脑键盘上。它没有键盘事件，因为它通常在比 OS 低的级别上实现的。
 
 键盘事件：
 
