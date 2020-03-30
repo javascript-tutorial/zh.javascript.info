@@ -143,7 +143,7 @@ JavaScript 支持以下运算符：
 赋值
 : 简单的赋值：`a = b` 和合并了其他操作的赋值：`a * = 2`。
 
-按位操作符
+按位运算符
 : 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
 
 三元运算符
