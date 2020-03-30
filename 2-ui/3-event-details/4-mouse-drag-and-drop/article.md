@@ -260,16 +260,16 @@ function onMouseMove(event) {
   if (currentDroppable != droppableBelow) {
     // 我们正在飞入或飞出...
     // 注意：它们两个的值都可能为 null
-    //   currentDroppable=null —— if we were not over a droppable before this event (e.g over an empty space)
-    //   droppableBelow=null if we're not over a droppable now, during this event
+    //   currentDroppable=null —— 如果我们在此事件之前，鼠标指针不是在一个 droppable 的元素上（例如空白处）
+    //   droppableBelow=null —— 如果现在，在当前事件中，我们的鼠标指针不是在一个 droppable 的元素上
 
     if (currentDroppable) {
-      // the logic to process "flying out" of the droppable (remove highlight)
+      // 处理“飞出” droppable 的元素时的处理逻辑（移除高亮）
       leaveDroppable(currentDroppable);
     }
     currentDroppable = droppableBelow;
     if (currentDroppable) {
-      // the logic to process "flying in" of the droppable
+      // 处理“飞入” droppable 的元素时的逻辑
       enterDroppable(currentDroppable);
     }
   }
