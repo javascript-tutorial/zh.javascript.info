@@ -28,7 +28,7 @@
 
 ### event.code 和 event.key
 
-事件对象的 `key` 属性允许获取字符，而事件对象的 `code` 属性则允许获取“物理秘钥代码”。
+事件对象的 `key` 属性允许获取字符，而事件对象的 `code` 属性则允许获取“物理按键代码”。
 
 例如，同一个按键 `key:Z`，可以与或不与 `Shift` 一起按下。我们会得到两个不同的字符：小写的 `z` 和大写的 `Z`。
 
@@ -42,34 +42,32 @@
 
 如果用户使用不同的语言，那么切换到另一种语言将产生完全不同的字符，而不是 `"Z"`。它将成为 `event.key` 的值，而 `event.code` 则始终都是一样的：`"KeyZ"`。
 
-```smart header="\"KeyZ\" 和其他密钥代码"
-每个按键都有取决于其在键盘上位置的代码。[键值代码在 UI 事件代码规范中中的描述](https://www.w3.org/TR/uievents-code/)。
+```smart header="\"KeyZ\" 和其他按键代码"
+每个按键的代码都取决于该按键在键盘上的位置。[UI 事件代码规范](https://www.w3.org/TR/uievents-code/) 中描述了按键代码。
 
 例如：
-- 字符键有代码 `"Key<letter>"`：`"KeyA"` 和 `"KeyB"` 等。
-- 数字键有代码：`"Digit<number>"`：`"Digit0"` 和 `"Digit1"` 等。
-- 特殊秘钥按其名称编码：`"Enter"`、`"Backspace"` 和 `"Tab"` 等。
+- 字符键的代码为 `"Key<letter>"`：`"KeyA"`，`"KeyB"` 等。
+- 数字键的代码为：`"Digit<number>"`：`"Digit0"`，`"Digit1"` 等。
+- 特殊按键的代码为按键的名字：`"Enter"`，`"Backspace"`，`"Tab"` 等。
 
-有几种通用的键盘布局，规范中为它们每个给出了键值代码。
+有几种广泛应用的键盘布局，该规范给出了每种键盘的按键代码。
 
-有关更多代码，请参见[该规范的字母数字部分](https://www.w3.org/TR/uievents-code/#key-alphanumeric-section) 或者只是尝试上面的 [teststand](#keyboard-test-stand)。
+有关更多按键代码，请参见 [规范的字母数字部分](https://www.w3.org/TR/uievents-code/#key-alphanumeric-section)，或者只需在上面的 [测试台](#keyboard-test-stand) 中按下一个按键。
 ```
 
-```warn header="Case matters: `\"KeyZ\"`, not `\"keyZ\"`"
-显而易见的，但人们仍会搞错。
+```warn header="大小写敏感：`\"KeyZ\"`，不是 `\"keyZ\"`"
+这是显而易见的，但人们仍会搞错。
 
-请避开错误类型：它是 `KeyZ` 而不是 `keyZ`。像 `event.code=="keyZ"` 这样的检查不起作用：`"Key"` 的第一个字母必须大写。
+请规避错误类型：它是 `KeyZ`，而不是 `keyZ`。像 `event.code=="keyZ"` 这样的检查不起作用：`"Key"` 的首字母必须大写。
 ```
 
-
-如果按键没有给出任何字符呢？例如，`key:Shift` 或 `key:F1` 或其他的。对于那些按键的 `event.key` 则与 `event.code` 大致相同：
-
+如果按键没有给出任何字符呢？例如，`key:Shift` 或 `key:F1` 或其他。对于这些按键，它们的 `event.key` 与 `event.code` 大致相同：
 
 | Key          | `event.key` | `event.code` |
 |--------------|-------------|--------------|
 | `key:F1`      |`F1`          |`F1`        |
 | `key:Backspace`      |`Backspace`          |`Backspace`        |
-| `key:Shift`|`Shift`          |`ShiftRight` 或 `ShiftLeft`        |
+| `key:Shift`|`Shift`          |`ShiftRight` or `ShiftLeft`        |
 
 请注意 `event.code` 确切地标明了哪个键被按下。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 确切地告诉我们按下了哪个键，并且 `event.key` 对按键的含义负责：它是什么（一个"Shift"）。
 
