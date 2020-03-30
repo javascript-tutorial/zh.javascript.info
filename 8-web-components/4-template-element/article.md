@@ -87,7 +87,7 @@
 </script>
 ```
 
-在`(*)`行，我们将 `tmpl.content` 作为 `DocumentFragment` 克隆和插入，它的子节点（ `<style>` ， `<p>` ）将代为插入。
+在 `(*)` 行，我们将 `tmpl.content` 作为 `DocumentFragment` 克隆和插入，它的子节点（`<style>`，`<p>`）将代为插入。
 
 它们会变成一个 Shadow DOM：
 
