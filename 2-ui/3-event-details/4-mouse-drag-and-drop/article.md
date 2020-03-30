@@ -284,20 +284,20 @@ function onMouseMove(event) {
 
 ## 总结
 
-我们考虑了一种基础的`拖放`算法。
+我们考虑了一种基础的拖放算法。
 
 关键部分：
 
-1. 事件流：`ball.mousedown` -> `document.mousemove` -> `ball.mouseup`（取消原生 `ondragstart`）。
-2. 在拖拽启动时 —— 记住指针相对于元素的初始位移：shiftX/shiftY` 并在拖动过程保持状态。
-3. 使用 `document.elementFromPoint` 检测指针下可放置的元素。
+1. 事件流：`ball.mousedown` -> `document.mousemove` -> `ball.mouseup`（不要忘记取消原生 `ondragstart`）。
+2. 在拖动开始时 —— 记住鼠标指针相对于元素的初始移位（shift）：`shiftX/shiftY`，并在拖动过程中保持它不变。
+3. 使用 `document.elementFromPoint` 检测鼠标指针下的 droppable 的元素。
 
-我们可以在这个基础上做很多的工作。
+我们可以在此基础上做很多事情。
 
-- 在 `mouseup` 事件中我们可以完成释放：改变数据，移动元素
-- 我们可以高亮我们涉及的元素。
-- 我们可以把拖动范围限制在某个区域内
-- 我们可以对 `mousedown/up` 使用事件委托。一个大范围事件处理器可以检查 `event.target`，它可以管理数百个元素的拖放。
-- 等等。
+- 在 `mouseup` 上，我们可以智能地完成放置（drop）：更改数据，移动元素。
+- 我们可以高亮我们正在“飞过”的元素。
+- 我们可以将拖动限制在特定的区域或者方向。
+- 我们可以对 `mousedown/up` 使用事件委托。一个大范围的用于检查 `event.target` 的事件处理程序可以管理数百个元素的拖放。
+- 等。
 
-有一些已经构建好架构的框架：`DragZone`、`Droppable`、`Draggable` 和其他类。它们中的大多数都做了类似的事情，所以现在应该很容易理解了。或者我们自己滚动，因为你已经了解了如何处理这个过程，它可能比适应其他东西更灵活。
+有一些在此基础上已经将体系结构构建好的框架：`DragZone`，`Droppable`，`Draggable` 及其他 class。它们中的大多数做的都是与上述类似的事情，所以现在你应该很容易理解它们了。或者自己动手实现。正如你所看到的，其实挺简单的，有时候比基于第三方解决方案进行改写还容易。
