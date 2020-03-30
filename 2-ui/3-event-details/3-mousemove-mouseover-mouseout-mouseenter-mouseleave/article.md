@@ -52,7 +52,7 @@
 
 另一方面，我们应该记住，鼠标指针并不会“访问”所有元素。它可以“跳过”一些元素。
 
-特别是，指针可能会从窗口外跳到页面的中间。在这种情况下，`relatedTarget` 为 `null`，因为它是从石头缝里蹦出来的（nowhere）：
+特别是，鼠标指针可能会从窗口外跳到页面的中间。在这种情况下，`relatedTarget` 为 `null`，因为它是从石头缝里蹦出来的（nowhere）：
 
 ![](mouseover-mouseout-from-outside.svg)
 
@@ -61,18 +61,18 @@
 
 它的 HTML 有两个嵌套的元素：`<div id="child">` 在 `<div id="parent">` 内部。如果将鼠标快速移动到它们上，则可能只有 `<div id="child">` 或者只有 `<div id="parent">` 触发事件，或者根本没有事件触发。 
 
-还可以将指针移动到 `<div id="child">` 中，然后将其快速向下移动过其父级元素。如果移动速度足够快，则父元素就会被忽略。鼠标会越过父元素而不会引起其注意。
+还可以将鼠标指针移动到 `<div id="child">` 中，然后将其快速向下移动过其父级元素。如果移动速度足够快，则父元素就会被忽略。鼠标会越过父元素而不会引起其注意。
 
 [codetabs height=360 src="mouseoverout-fast"]
 ```
 
 ```smart header="如果 `mouseover` 被触发了，则必须有 `mouseout`"
-在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果指针“正式地”进入了一个元素（生成了 `mouseover` 事件），那么一旦它离开，我们就会得到 `mouseout`。
+在鼠标快速移动的情况下，中间元素可能会被忽略，但是我们可以肯定一件事：如果鼠标指针“正式地”进入了一个元素（生成了 `mouseover` 事件），那么一旦它离开，我们就会得到 `mouseout`。
 ```
 
 ## 当移动到一个子元素时 mouseout
 
-`mouseout` 的一个重要功能 —— 当指针从元素移动到其后代时触发，例如在下面的这个 HTML 中，从 `#parent` 到 `#child`：
+`mouseout` 的一个重要功能 —— 当鼠标指针从元素移动到其后代时触发，例如在下面的这个 HTML 中，从 `#parent` 到 `#child`：
 
 ```html
 <div id="parent">
@@ -80,7 +80,7 @@
 </div>
 ```
 
-如果我们在 `#parent` 上，然后将指针更深入地移入 `#child`，但是在 `#parent` 上会得到 `mouseout`！
+如果我们在 `#parent` 上，然后将鼠标指针更深入地移入 `#child`，但是在 `#parent` 上会得到 `mouseout`！
 
 ![](mouseover-to-child.svg)
 
@@ -106,7 +106,7 @@
 [codetabs height=360 src="mouseoverout-child"]
 ```
 
-如上例所示，当指针从 `#parent` 元素移动到 `#child` 时，会在父元素上触发两个处理程序：`mouseout` 和 `mouseover`：
+如上例所示，当鼠标指针从 `#parent` 元素移动到 `#child` 时，会在父元素上触发两个处理程序：`mouseout` 和 `mouseover`：
 
 ```js
 parent.onmouseout = function(event) {
@@ -119,9 +119,9 @@ parent.onmouseover = function(event) {
 
 **如果我们不检查处理程序中的 `event.target`，那么似乎鼠标指针离开了 `#parent` 元素，然后立即回到了它上面。**
 
-但是事实并非如此！指针仍然位于父元素上，它只是更深入地移入了子元素。
+但是事实并非如此！鼠标指针仍然位于父元素上，它只是更深入地移入了子元素。
 
-如果离开父元素时有一些行为（action），例如一个动画在 `parent.onmouseout` 中运行，当指针深入 `#parent` 时，我们并不希望发生这种行为。
+如果离开父元素时有一些行为（action），例如一个动画在 `parent.onmouseout` 中运行，当鼠标指针深入 `#parent` 时，我们并不希望发生这种行为。
 
 为了避免它，我们可以在处理程序中检查 `relatedTarget`，如果鼠标指针仍在元素内，则忽略此类事件。
 
@@ -138,14 +138,14 @@ parent.onmouseover = function(event) {
 
 这些事件非常简单。
 
-当指针进入一个元素时 —— 会触发 `mouseenter`。而指针在元素或其后代中的确切位置无关紧要。
+当鼠标指针进入一个元素时 —— 会触发 `mouseenter`。而鼠标指针在元素或其后代中的确切位置无关紧要。
 
 当鼠标指针离开该元素时，事件 `mouseleave` 才会触发。
 
 ```online
 这个例子和上面的例子相似，但是现在最顶层的元素有 `mouseenter/mouseleave` 而不是 `mouseover/mouseout`。
 
-正如你所看到的，唯一生成的事件是与将指针移入或移出顶部元素有关的事件。当指针进入 child 并返回时，什么也没发生。在后代之间的移动会被忽略。
+正如你所看到的，唯一生成的事件是与将鼠标指针移入或移出顶部元素有关的事件。当鼠标指针进入 child 并返回时，什么也没发生。在后代之间的移动会被忽略。
 
 [codetabs height=340 src="mouseleave"]
 ```
@@ -158,7 +158,7 @@ parent.onmouseover = function(event) {
 
 通常的解决方案是 —— 在 `<table>` 中设置处理程序，并在那里处理事件。但 `mouseenter/leave` 不会冒泡。因此，如果类似的事件发生在 `<td>` 上，那么只有 `<td>` 上的处理程序才能捕获到它。
 
-`<table>` 上的 `mouseenter/leave` 的处理程序仅在指针进入/离开整个表格时才会触发。无法获取有关其内部移动的任何信息。
+`<table>` 上的 `mouseenter/leave` 的处理程序仅在鼠标指针进入/离开整个表格时才会触发。无法获取有关其内部移动的任何信息。
 
 因此，让我们使用 `mouseover/mouseout`。
 
@@ -197,7 +197,7 @@ table.onmouseout = function(event) {
 
 再次，重要的功能是：
 1. 它使用事件委托来处理表格中任何 `<td>` 的进入/离开。因此，它依赖于 `mouseover/out` 而不是 `mouseenter/leave`，`mouseenter/leave` 不会冒泡，因此也不允许事件委托。
-2. 额外的事件，例如在 `<td>` 的后代之间移动都会被过滤掉，因此 `onEnter/Leave` 仅在指针进入/离开 `<td>` 整体时才会运行。
+2. 额外的事件，例如在 `<td>` 的后代之间移动都会被过滤掉，因此 `onEnter/Leave` 仅在鼠标指针进入/离开 `<td>` 整体时才会运行。
 
 ```online
 这是带有所有详细信息的完整示例：
