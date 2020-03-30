@@ -215,4 +215,4 @@ alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 
 正如我们所看到的，从技术上讲，`{}.toString` 是一种“更高级的” `typeof`。
 
-当我们使用多层类结构，并想要对该类进行检查，同时还要考虑继承时，这种场景下 `instanceof` 运算符确实很出色。
+当我们使用类的层次结构（hierarchy），并想要对该类进行检查，同时还要考虑继承时，这种场景下 `instanceof` 操作符确实很出色。
