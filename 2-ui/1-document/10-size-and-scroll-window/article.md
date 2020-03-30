@@ -2,7 +2,7 @@
 
 我们如何找到浏览器窗口（window）的宽度和高度呢？我们如何获得文档（document）的包括滚动部分在内的完整宽度和高度呢？我们如何使用 JavaScript 滚动页面？
 
-对于大多数此类请求，我们可以使用与 `<html>` 标签相对应的根文档元素 `document.documentElement`。但是还有很多其他方法，这些方法和特性非常重要，值得我们考虑。  
+对于大多数此类请求，我们可以使用与 `<html>` 标签相对应的根文档元素 `document.documentElement`。但是还有很多其他方法，这些方法和特性非常重要，值得我们考虑。
 
 ## 窗口的 width/height
 
@@ -33,7 +33,7 @@ alert( document.documentElement.clientWidth ); // 减去滚动条宽度后的窗
 ````
 
 ```warn header="`DOCTYPE` 很重要"
-请注意：当 HTML 中没有 `<!DOCTYPE HTML>` 时，顶层几何属性的工作方式可能就会有所不同。可能会出现一些稀奇古怪的情况。
+请注意：当 HTML 中没有 `<!DOCTYPE HTML>` 时，顶层级（top-level）几何属性的工作方式可能就会有所不同。可能会出现一些稀奇古怪的情况。
 
 在现代 HTML 中，我们始终都应该写 `DOCTYPE`。
 ```
