@@ -87,15 +87,15 @@ document.addEventListener('keydown', function(event) {
 });
 ```
 
-On the other hand, there's a problem with `event.code`. For different keyboard layouts, the same key may have different characters.
+另一方面，`event.code` 有一个问题。对于不同的键盘布局，相同的按键可能会具有不同的字符。
 
-For example, here are US layout ("QWERTY") and German layout ("QWERTZ") under it (from Wikipedia):
+例如，下面是美式布局（"QWERTY"）和德式布局（"QWERTZ"）—— 来自 Wikipedia：
 
 ![](us-layout.svg)
 
 ![](german-layout.svg)
 
-For the same key, US layout has "Z", while German layout has "Y" (letters are swapped).
+对于同一个按键，美式布局为 "Z"，而德式布局为 "Y"（字母被替换了）。
 
 Literally, `event.code` will equal `KeyZ` for people with German layout when they press `key:Y`.
 
