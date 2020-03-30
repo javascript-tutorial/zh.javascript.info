@@ -12,6 +12,7 @@ importance: 5
 
 **例如，我们想要跟踪鼠标移动。**
 
+<<<<<<< HEAD
 在浏览器中，我们可以设置一个函数，使其在每次鼠标移动时运行，并获取鼠标移动时的指针位置。在使用鼠标的过程中，此函数通常会执行地非常频繁，大概每秒 100 次（每 10 毫秒）。
 
 **当鼠标指针移动时，我们想要更新网页上的某些信息。**
@@ -19,13 +20,29 @@ importance: 5
 ……但是更新函数 `update()` 太重了，无法在每个微小移动上都执行。高于每 100ms 更新一次的更新频次也没有意义。
 
 因此，我们将其包装到装饰者中：使用 `throttle(update, 100)` 作为在每次鼠标移动时运行的函数，而不是原始的 `update()`。装饰者会被频繁地调用，但是最多每 100ms 将调用转发给 `update()` 一次。
+=======
+In a browser we can setup a function to run at every mouse movement and get the pointer location as it moves. During an active mouse usage, this function usually runs very frequently, can be something like 100 times per second (every 10 ms).
+
+**We'd like to update some information on the web-page when the pointer moves.**
+
+...But updating function `update()` is too heavy to do it on every micro-movement. There is also no sense in updating more often than once per 100ms.
+
+So we'll wrap it into the decorator: use `throttle(update, 100)` as the function to run on each mouse move instead of the original `update()`. The decorator will be called often, but forward the call to `update()` at maximum once per 100ms.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 在视觉上，它看起来像这样：
 
+<<<<<<< HEAD
 1. 对于第一个鼠标移动，装饰的变体立即将调用传递给 `update`。这很重要，用户会立即看到我们对其动作的反应。
 2. 然后，随着鼠标移动，直到 `100ms` 没有任何反应。装饰的变体忽略了调用。
 3. 在 `100ms` 结束时 —— 最后一个坐标又发生了一次 `update`。
 4. 然后，最后，鼠标停在某处。装饰的变体会等到 `100ms` 到期，然后用最后一个坐标运行一次 `update`。因此，非常重要的是，处理最终的鼠标坐标。
+=======
+1. For the first mouse movement the decorated variant immediately passes the call to `update`. That's important, the user sees our reaction to their move immediately.
+2. Then as the mouse moves on, until `100ms` nothing happens. The decorated variant ignores calls.
+3. At the end of `100ms` -- one more `update` happens with the last coordinates.
+4. Then, finally, the mouse stops somewhere. The decorated variant waits until `100ms` expire and then runs `update` with last coordinates. So, quite important, the final mouse coordinates are processed.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 一个代码示例：
 

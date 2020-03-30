@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# 将装饰者 "defer()" 添加到函数
+# Add the decorating "defer()" to functions
 
-在所有函数的原型中添加 `defer(ms)` 方法，该方法返回一个包装器，将函数调用延迟 `ms` 毫秒。
+Add to the prototype of all functions the method `defer(ms)`, that returns a wrapper, delaying the call by `ms` milliseconds.
 
-下面是它应该如何执行的例子：
+Here's an example of how it should work:
 
 ```js
 function f(a, b) {
   alert( a + b );
 }
 
-f.defer(1000)(1, 2); // 1 秒后显示 3
+f.defer(1000)(1, 2); // shows 3 after 1 second
 ```
 
-请注意，参数应该被传给原始函数。
+Please note that the arguments should be passed to the original function.

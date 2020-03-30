@@ -15,7 +15,11 @@ BB-tags 可以嵌套。但标签不能自嵌套，比如：
 [url] [b]http://google.com[/b] [/url]
 [quote] [b]text[/b] [/quote]
 
+<<<<<<< HEAD:9-regular-expressions/13-regexp-alternation/02-find-matching-bbtags/task.md
 不可行：
+=======
+Can't happen:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648:9-regular-expressions/13-regexp-alternation/02-find-matching-bbtags/task.md
 [b][b]text[/b][/b]
 ```
 
@@ -32,17 +36,17 @@ BB-tags 可以嵌套。但标签不能自嵌套，比如：
 举例：
 
 ```js
-let reg = /your regexp/g;
+let regexp = /your regexp/flags;
 
 let str = "..[url]http://google.com[/url]..";
-alert( str.match(reg) ); // [url]http://google.com[/url]
+alert( str.match(regexp) ); // [url]http://google.com[/url]
 ```
 
 如果标签嵌套，那么我们需要记录匹配的外层标签（如果希望继续查找匹配的标签内容的话）：
 
 ```js
-let reg = /your regexp/g;
+let regexp = /your regexp/flags;
 
 let str = "..[url][b]http://google.com[/b][/url]..";
-alert( str.match(reg) ); // [url][b]http://google.com[/b][/url]
+alert( str.match(regexp) ); // [url][b]http://google.com[/b][/url]
 ```

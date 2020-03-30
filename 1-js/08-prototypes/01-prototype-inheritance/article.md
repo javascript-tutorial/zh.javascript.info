@@ -1,22 +1,22 @@
-# 原型继承
+# Prototypal inheritance
 
-在编程中，我们经常会想获取并扩展一些东西。
+In programming, we often want to take something and extend it.
 
-例如，我们有一个 `user` 对象及其属性和方法，并希望将 `admin` 和 `guest` 作为基于 `user` 稍加修改的变体。我们想重用 `user` 中的内容，而不是复制/重新实现它的方法，而只是在其至上构建一个新的对象。
+For instance, we have a `user` object with its properties and methods, and want to make `admin` and `guest` as slightly modified variants of it. We'd like to reuse what we have in `user`, not copy/reimplement its methods, just build a new object on top of it.
 
-**原型继承（Prototypal inheritance）** 这个语言特性能够帮助我们实现这一需求。
+*Prototypal inheritance* is a language feature that helps in that.
 
 ## [[Prototype]]
 
-在 JavaScript 中，对象有一个特殊的隐藏属性 `[[Prototype]]`（如规范中所命名的），它要么为 `null`，要么就是对另一个对象的引用。该对象被称为“原型”：
+In JavaScript, objects have a special hidden property `[[Prototype]]` (as named in the specification), that is either `null` or references another object. That object is called "a prototype":
 
 ![prototype](object-prototype-empty.svg)
 
-原型有点“神奇”。当我们想要从 `object` 中读取一个缺失的属性时，JavaScript 会自动从原型中获取该属性。在编程中，这种行为被称为“原型继承”。许多炫酷的语言特性和编程技巧都基于此。
+The prototype is a little bit "magical". When we want to read a property from `object`, and it's missing, JavaScript automatically takes it from the prototype. In programming, such thing is called "prototypal inheritance". Many cool language features and programming techniques are based on it.
 
-属性 `[[Prototype]]` 是内部的而且是隐藏的，但是这儿有很多设置它的方式。
+The property `[[Prototype]]` is internal and hidden, but there are many ways to set it.
 
-其中之一就是使用特殊的名字 `__proto__`，就像这样：
+One of them is to use the special name `__proto__`, like this:
 
 ```js run
 let animal = {
@@ -31,17 +31,17 @@ rabbit.__proto__ = animal;
 */!*
 ```
 
-```smart header="`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter"
-请注意，`__proto__` 与 `[[Prototype]]` **不一样**。`__proto__` 是 `[[Prototype]]` 的 getter/setter。
+```smart header="`__proto__` is a historical getter/setter for `[[Prototype]]`"
+Please note that `__proto__` is *not the same* as `[[Prototype]]`. That's a getter/setter for it.
 
-`__proto__` 的存在是历史的原因。在现代编程语言中，将其替换为函数 `Object.getPrototypeOf/Object.setPrototypeOf` 也能 get/set 原型。我们稍后将学习造成这种情况的原因以及这些函数。
+It exists for historical reasons. In modern language it is replaced with functions `Object.getPrototypeOf/Object.setPrototypeOf` that also get/set the prototype. We'll study the reasons for that and these functions later.
 
-根据规范，`__proto__` 必须仅在浏览器环境下才能得到支持，但实际上，包括服务端在内的所有环境都支持它。目前，由于 `__proto__` 标记在观感上更加明显，所以我们在后面的示例中将使用它。
+By the specification, `__proto__` must only be supported by browsers, but in fact all environments including server-side support it. For now, as `__proto__` notation is a little bit more intuitively obvious, we'll use it in the examples.
 ```
 
-如果我们在 `rabbit` 中查找一个缺失的属性，JavaScript 会自动从 `animal` 中获取它。
+If we look for a property in `rabbit`, and it's missing, JavaScript automatically takes it from `animal`.
 
-例如：
+For instance:
 
 ```js
 let animal = {
@@ -55,24 +55,24 @@ let rabbit = {
 rabbit.__proto__ = animal; // (*)
 */!*
 
-// 现在这两个属性我们都能在 rabbit 中找到：
+// we can find both properties in rabbit now:
 *!*
 alert( rabbit.eats ); // true (**)
 */!*
 alert( rabbit.jumps ); // true
 ```
 
-这里的 `(*)` 行将 `animal` 设置为 `rabbit` 的原型。
+Here the line `(*)` sets `animal` to be a prototype of `rabbit`.
 
-当 `alert` 试图读取 `rabbit.eats` `(**)` 时，因为它不存在于 `rabbit` 中，所以 JavaScript 会顺着 `[[Prototype]]` 引用，在 `animal` 中查找（自下而上）：
+Then, when `alert` tries to read property `rabbit.eats` `(**)`, it's not in `rabbit`, so JavaScript follows the `[[Prototype]]` reference and finds it in `animal` (look from the bottom up):
 
 ![](proto-animal-rabbit.svg)
 
-在这儿我们可以说 "`animal` 是 `rabbit` 的原型"，或者说 "`rabbit` 的原型是从 `animal` 继承而来的"。
+Here we can say that "`animal` is the prototype of `rabbit`" or "`rabbit` prototypically inherits from `animal`".
 
-因此，如果 `animal` 有许多有用的属性和方法，那么它们将自动地变为在 `rabbit` 中可用。这种属性被称为“继承”。
+So if `animal` has a lot of useful properties and methods, then they become automatically available in `rabbit`. Such properties are called "inherited".
 
-如果我们在 `animal` 中有一个方法，它可以在 `rabbit` 中被调用：
+If we have a method in `animal`, it can be called on `rabbit`:
 
 ```js run
 let animal = {
@@ -89,17 +89,17 @@ let rabbit = {
   __proto__: animal
 };
 
-// walk 方法是从原型中获得的
+// walk is taken from the prototype
 *!*
 rabbit.walk(); // Animal walk
 */!*
 ```
 
-该方法是自动地从原型中获得的，像这样：
+The method is automatically taken from the prototype, like this:
 
 ![](proto-animal-rabbit-walk.svg)
 
-原型链可以很长：
+The prototype chain can be longer:
 
 ```js run
 let animal = {
@@ -123,33 +123,33 @@ let longEar = {
 */!*
 };
 
-// walk 是通过原型链获得的
+// walk is taken from the prototype chain
 longEar.walk(); // Animal walk
-alert(longEar.jumps); // true（从 rabbit）
+alert(longEar.jumps); // true (from rabbit)
 ```
 
 ![](proto-animal-rabbit-chain.svg)
 
-这里只有两个限制：
+There are only two limitations:
 
-1. 引用不能形成闭环。如果我们试图在一个闭环中分配 `__proto__`，JavaScript 会抛出错误。
-2. `__proto__` 的值可以是对象，也可以是 `null`。而其他的类型都会被忽略。
+1. The references can't go in circles. JavaScript will throw an error if we try to assign `__proto__` in a circle.
+2. The value of `__proto__` can be either an object or `null`. Other types are ignored.
 
-当然，这可能很显而易见，但是仍然要强调：只能有一个 `[[Prototype]]`。一个对象不能从其他两个对象获得继承。
+Also it may be obvious, but still: there can be only one `[[Prototype]]`. An object may not inherit from two others.
 
-## 写入不使用原型
+## Writing doesn't use prototype
 
-原型仅用于读取属性。
+The prototype is only used for reading properties.
 
-对于写入/删除操作可以直接在对象上进行。
+Write/delete operations work directly with the object.
 
-在下面的示例中，我们将为 `rabbit` 分配自己的 `walk`：
+In the example below, we assign its own `walk` method to `rabbit`:
 
 ```js run
 let animal = {
   eats: true,
   walk() {
-    /* rabbit 不会使用此方法 */  
+    /* this method won't be used by rabbit */  
   }
 };
 
@@ -166,13 +166,13 @@ rabbit.walk = function() {
 rabbit.walk(); // Rabbit! Bounce-bounce!
 ```
 
-从现在开始，`rabbit.walk()` 将立即在对象中找到该方法并执行，而无需使用原型：
+From now on, `rabbit.walk()` call finds the method immediately in the object and executes it, without using the prototype:
 
 ![](proto-animal-rabbit-walk-2.svg)
 
-访问器（accessor）属性是一个例外，因为分配（assignment）操作是由 setter 函数处理的。因此，写入此类属性实际上与调用函数相同。
+Accessor properties are an exception, as assignment is handled by a setter function. So writing to such a property is actually the same as calling a function.
 
-也就是这个原因，所以下面这段代码中的 `admin.fullName` 能够正常运行：
+For that reason `admin.fullName` works correctly in the code below:
 
 ```js run
 let user = {
@@ -199,26 +199,26 @@ alert(admin.fullName); // John Smith (*)
 admin.fullName = "Alice Cooper"; // (**)
 ```
 
-在 `(*)` 行中，属性 `admin.fullName` 在原型 `user` 中有一个 getter，因此它会被调用。在 `(**)` 行中，属性在原型中有一个 setter，因此它会被调用。
+Here in the line `(*)` the property `admin.fullName` has a getter in the prototype `user`, so it is called. And in the line `(**)` the property has a setter in the prototype, so it is called.
 
-## "this" 的值
+## The value of "this"
 
-在上面的例子中可能会出现一个有趣的问题：在 `set fullName(value)` 中 `this` 的值是什么？属性 `this.name` 和 `this.surname` 被写在哪里：在 `user` 还是 `admin`？
+An interesting question may arise in the example above: what's the value of `this` inside `set fullName(value)`? Where are the properties `this.name` and `this.surname` written: into `user` or `admin`?
 
-答案很简单：`this` 根本不受原型的影响。
+The answer is simple: `this` is not affected by prototypes at all.
 
-**无论在哪里找到方法：在一个对象还是在原型中。在一个方法调用中，`this` 始终是点符号 `.` 前面的对象。**
+**No matter where the method is found: in an object or its prototype. In a method call, `this` is always the object before the dot.**
 
-因此，setter 调用 `admin.fullName=` 使用 `admin` 作为 `this`，而不是 `user`。
+So, the setter call `admin.fullName=` uses `admin` as `this`, not `user`.
 
-这是一件非常重要的事儿，因为我们可能有一个带有很多方法的大对象，并且还有从其继承的对象。当继承的对象运行继承的方法时，它们将仅修改自己的状态，而不会修改大对象的状态。
+That is actually a super-important thing, because we may have a big object with many methods, and have objects that inherit from it. And when the inheriting objects run the inherited methods, they will modify only their own states, not the state of the big object.
 
-例如，这里的 `animal` 代表“方法存储”，`rabbit` 在使用其中的方法。
+For instance, here `animal` represents a "method storage", and `rabbit` makes use of it.
 
-调用 `rabbit.sleep()` 会在 `rabbit` 对象上设置 `this.isSleeping`：
+The call `rabbit.sleep()` sets `this.isSleeping` on the `rabbit` object:
 
 ```js run
-// animal 有一些方法
+// animal has methods
 let animal = {
   walk() {
     if (!this.isSleeping) {
@@ -235,26 +235,26 @@ let rabbit = {
   __proto__: animal
 };
 
-// 修改 rabbit.isSleeping
+// modifies rabbit.isSleeping
 rabbit.sleep();
 
 alert(rabbit.isSleeping); // true
-alert(animal.isSleeping); // undefined（原型中没有此属性）
+alert(animal.isSleeping); // undefined (no such property in the prototype)
 ```
 
-结果示意图：
+The resulting picture:
 
 ![](proto-animal-rabbit-walk-3.svg)
 
-如果我们还有从 `animal` 继承的其他对象，像 `bird` 和 `snake` 等，它们也将可以访问 `animal` 的方法。但是，每个方法调用中的 `this` 都是在调用时（点符号前）评估的对应的对象，而不是 `animal`。因此，当我们将数据写入 `this` 时，会将其存储到这些对象中。
+If we had other objects, like `bird`, `snake`, etc., inheriting from `animal`, they would also gain access to methods of `animal`. But `this` in each method call would be the corresponding object, evaluated at the call-time (before dot), not `animal`. So when we write data into `this`, it is stored into these objects.
 
-所以，方法是共享的，但对象状态不是。
+As a result, methods are shared, but the object state is not.
 
-## for..in 循环
+## for..in loop
 
-`for..in` 循环也会迭代继承的属性。
+The `for..in` loop iterates over inherited properties too.
 
-例如：
+For instance:
 
 ```js run
 let animal = {
@@ -267,19 +267,19 @@ let rabbit = {
 };
 
 *!*
-// Object.keys 只返回自己的 key
+// Object.keys only returns own keys
 alert(Object.keys(rabbit)); // jumps
 */!*
 
 *!*
-// for..in 会遍历自己以及继承的键
-for(let prop in rabbit) alert(prop); // jumps，然后是 eats
+// for..in loops over both own and inherited keys
+for(let prop in rabbit) alert(prop); // jumps, then eats
 */!*
 ```
 
-如果这不是我们想要的，并且我们想排除继承的属性，那么这儿有一个内建方法 [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty)：如果 `obj` 具有自己的（非继承的）名为 `key` 的属性，则返回 `true`。
+If that's not what we want, and we'd like to exclude inherited properties, there's a built-in method [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty): it returns `true` if `obj` has its own (not inherited) property named `key`.
 
-因此，我们可以过滤掉继承的属性（或对它们进行其他操作）：
+So we can filter out inherited properties (or do something else with them):
 
 ```js run
 let animal = {
@@ -302,28 +302,28 @@ for(let prop in rabbit) {
 }
 ```
 
-这里我们有以下继承链：`rabbit` 从 `animal` 中继承，`animal` 从 `Object.prototype` 中继承（因为 `animal` 是对象字面量 `{...}`，所以这是默认的继承），然后再向上是 `null`：
+Here we have the following inheritance chain: `rabbit` inherits from `animal`, that inherits from `Object.prototype` (because `animal` is a literal object `{...}`, so it's by default), and then `null` above it:
 
 ![](rabbit-animal-object.svg)
 
-注意，这有一件很有趣的事儿。方法 `rabbit.hasOwnProperty` 来自哪儿？我们并没有定义它。从上图中的原型链我们可以看到，该方法是 `Object.prototype.hasOwnProperty` 提供的。换句话说，它是继承的。
+Note, there's one funny thing. Where is the method `rabbit.hasOwnProperty` coming from? We did not define it. Looking at the chain we can see that the method is provided by `Object.prototype.hasOwnProperty`. In other words, it's inherited.
 
-……如果 `for..in` 循环会列出继承的属性，那为什么 `hasOwnProperty` 没有像 `eats` 和 `jumps` 那样出现在 `for..in` 循环中？
+...But why does `hasOwnProperty` not appear in the `for..in` loop like `eats` and `jumps` do, if `for..in` lists inherited properties?
 
-答案很简单：它是不可枚举的。就像 `Object.prototype` 的其他属性，`hasOwnProperty` 有 `enumerable:false` 标志。并且 `for..in` 只会列出可枚举的属性。这就是为什么它和其余的 `Object.prototype` 属性都未被列出。
+The answer is simple: it's not enumerable. Just like all other properties of `Object.prototype`, it has `enumerable:false` flag. And `for..in` only lists enumerable properties. That's why it and the rest of the `Object.prototype` properties are not listed.
 
-```smart header="几乎所有其他键/值获取方法都忽略继承的属性"
-几乎所有其他键/值获取方法，例如 `Object.keys` 和 `Object.values` 等，都会忽略继承的属性。
+```smart header="Almost all other key/value-getting methods ignore inherited properties"
+Almost all other key/value-getting methods, such as `Object.keys`, `Object.values` and so on ignore inherited properties.
 
-它们只会对对象自身进行操作。**不考虑** 继承自原型的属性。
+They only operate on the object itself. Properties from the prototype are *not* taken into account.
 ```
 
-## 总结
+## Summary
 
-- 在 JavaScript 中，所有的对象都有一个隐藏的 `[[Prototype]]` 属性，它要么是另一个对象，要么就是 `null`。
-- 我们可以使用 `obj.__proto__` 访问它（历史遗留下来的 getter/setter，这儿还有其他方法，很快我们就会讲到）。
-- 通过 `[[Prototype]]` 引用的对象被称为“原型”。
-- 如果我们想要读取 `obj` 的一个属性或者调用一个方法，并且它不存在，那么 JavaScript 就会尝试在原型中查找它。
-- 写/删除操作直接在对象上进行，它们不使用原型（假设它是数据属性，不是 setter）。
-- 如果我们调用 `obj.method()`，而且 `method` 是从原型中获取的，`this` 仍然会引用 `obj`。因此，方法始终与当前对象一起使用，即使方法是继承的。
-- `for..in` 循环在其自身和继承的属性上进行迭代。所有其他的键/值获取方法仅对对象本身起作用。
+- In JavaScript, all objects have a hidden `[[Prototype]]` property that's either another object or `null`.
+- We can use `obj.__proto__` to access it (a historical getter/setter, there are other ways, to be covered soon).
+- The object referenced by `[[Prototype]]` is called a "prototype".
+- If we want to read a property of `obj` or call a method, and it doesn't exist, then JavaScript tries to find it in the prototype.
+- Write/delete operations act directly on the object, they don't use the prototype (assuming it's a data property, not a setter).
+- If we call `obj.method()`, and the `method` is taken from the prototype, `this` still references `obj`. So methods always work with the current object even if they are inherited.
+- The `for..in` loop iterates over both its own and its inherited properties. All other key/value-getting methods only operate on the object itself.

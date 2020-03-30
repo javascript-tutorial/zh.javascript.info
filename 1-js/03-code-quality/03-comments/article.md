@@ -4,7 +4,11 @@
 
 我们通常通过注释来描述代码怎样工作和为什么这样工作。
 
+<<<<<<< HEAD
 乍一看，写注释可能很简单，但初学者在编程的时候，经常错误地使用注释。
+=======
+At first sight, commenting might be obvious, but novices in programming often use them wrongly.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ## 糟糕的注释
 
@@ -18,7 +22,11 @@ complex;
 code;
 ```
 
+<<<<<<< HEAD
 但在好的代码中，这种“解释性”注释的数量应该是最少的。严格地说，就算没有它们，代码也应该很容易理解。
+=======
+But in good code, the amount of such "explanatory" comments should be minimal. Seriously, the code should be easy to understand without them.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 关于这一点有一个很棒的原则：“如果代码不够清晰以至于需要一个注释，那么或许它应该被重写。”
 
@@ -119,6 +127,7 @@ function addJuice(container) {
 
 所以，解释性注释通常来说都是不好的。那么哪一种注释才是好的呢？
 
+<<<<<<< HEAD
 描述架构
 : 对组件进行高层次的整体概括，它们如何相互作用、各种情况下的控制流程是什么样的……简而言之 —— 代码的鸟瞰图。有一个专门用于构建代码的高层次架构图，以对代码进行解释的特殊编程语言 [UML](http://wikipedia.org/wiki/Unified_Modeling_Language)。绝对值得学习。
 
@@ -133,17 +142,41 @@ function addJuice(container) {
  * @param {number} x 要改变的值。
  * @param {number} n 幂数，必须是一个自然数。
  * @return {number} x 的 n 次幂的值。
+=======
+Describe the architecture
+: Provide a high-level overview of components, how they interact, what's the control flow in various situations... In short -- the bird's eye view of the code. There's a special language [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) to build high-level architecture diagrams explaining the code. Definitely worth studying.
+
+Document function parameters and usage
+: There's a special syntax [JSDoc](http://en.wikipedia.org/wiki/JSDoc) to document a function: usage, parameters, returned value.
+
+For instance:
+```js
+/**
+ * Returns x raised to the n-th power.
+ *
+ * @param {number} x The number to raise.
+ * @param {number} n The power, must be a natural number.
+ * @return {number} x raised to the n-th power.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
  */
 function pow(x, n) {
   ...
 }
 ```
 
+<<<<<<< HEAD
 这种注释可以帮助我们理解函数的目的，并且不需要研究其内部的实现代码，就可以直接正确地使用它。
 
 顺便说一句，很多诸如 [WebStorm](https://www.jetbrains.com/webstorm/) 这样的编辑器，都可以很好地理解和使用这些注释，来提供自动补全和一些自动化代码检查工作。
 
 当然，也有一些像 [JSDoc 3](https://github.com/jsdoc3/jsdoc) 这样的工具，可以通过注释直接生成 HTML 文档。你可以在 <http://usejsdoc.org/> 阅读更多关于 JSDoc 的信息。
+=======
+Such comments allow us to understand the purpose of the function and use it the right way without looking in its code.
+
+By the way, many editors like [WebStorm](https://www.jetbrains.com/webstorm/) can understand them as well and use them to provide autocomplete and some automatic code-checking.
+
+Also, there are tools like [JSDoc 3](https://github.com/jsdoc3/jsdoc) that can generate HTML-documentation from the comments. You can read more information about JSDoc at <http://usejsdoc.org/>.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 为什么任务以这种方式解决？
 : 写了什么代码很重要。但是为什么 **不** 那样写可能对于理解正在发生什么更重要。为什么任务是通过这种方式解决的？代码并没有给出答案。
@@ -162,7 +195,11 @@ function pow(x, n) {
 
 ## 总结
 
+<<<<<<< HEAD
 一个好的开发者的标志之一就是他的注释：它们的存在甚至它们的缺席（译注：在该注释的地方注释，在不需要注释的地方则不注释，甚至写得好的自描述函数本身就是一种注释）。
+=======
+An important sign of a good developer is comments: their presence and even their absence.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 好的注释可以使我们更好地维护代码，一段时间之后依然可以更高效地回到代码高效开发。
 
@@ -174,7 +211,12 @@ function pow(x, n) {
 
 **避免注释：**
 
+<<<<<<< HEAD
 - 描述“代码如何工作”和“代码做了什么”。
 - 避免在代码已经足够简单或代码有很好的自描述性而不需要注释的情况下，还写些没必要的注释。
+=======
+- That tell "how code works" and "what it does".
+- Put them in only if it's impossible to make the code so simple and self-descriptive that it doesn't require them.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 注释也被用于一些如 JSDoc3 等文档自动生成工具：他们读取注释然后生成 HTML 文档（或者其他格式的文档）。

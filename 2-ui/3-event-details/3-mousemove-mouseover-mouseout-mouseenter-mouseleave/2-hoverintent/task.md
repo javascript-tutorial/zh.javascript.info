@@ -4,18 +4,33 @@ importance: 5
 
 # “智能”工具提示
 
+<<<<<<< HEAD
 编写一个函数，该函数仅在访问者将鼠标 **移至** 元素而不是 **移过** 元素的情况下，在该元素上显示工具提示。
 
 换句话说，如果访问者将鼠标移至元素上，并停下来 —— 显示工具提示。如果他们只是将鼠标移过元素，那就没必要显示，谁想要多余的闪烁呢？
+=======
+Write a function that shows a tooltip over an element only if the visitor moves the mouse *to it*, but not *through it*.
+
+In other words, if the visitor moves the mouse to the element and stops there -- show the tooltip. And if they just moved the mouse through, then no need, who wants extra blinking?
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 从技术上说，我们可以测量元素上的鼠标移动速度，如果速度很慢，那么我们就假定它 **在元素上**，并显示工具提示，如果速度很快 —— 那么我们就忽略它。
 
+<<<<<<< HEAD
 为此，我们创建一个通用对象 `new HoverIntent(options)`。
 
 其 `options`：
 - `elem` —— 要跟踪的元素。
 - `over` —— 鼠标移动到元素上时要调用的函数：即，鼠标在元素上的移动速度很慢，或者停在该元素上。
 - `out` —— 当鼠标离开元素时调用的函数（如果 `over` 已经被调用过了）。
+=======
+Make a universal object `new HoverIntent(options)` for it.
+
+Its `options`:
+- `elem` -- element to track.
+- `over` -- a function to call if the mouse came to the element: that is, it moves slowly or stopped over it.
+- `out` -- a function to call when the mouse leaves the element (if `over` was called).
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 在工具提示中使用此类对象的示例：
 

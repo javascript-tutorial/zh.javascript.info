@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 将对象转换为 JSON，然后再转换回来
+# Turn the object into JSON and back
 
-将 `user` 转换为 JSON，然后将其转换回到另一个变量。
+Turn the `user` into JSON and then read it back into another variable.
 
 ```js
 let user = {

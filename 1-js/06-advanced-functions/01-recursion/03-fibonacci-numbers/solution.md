@@ -29,7 +29,11 @@ fib(4) = fib(3) + fib(2)
 
 这是完整的递归树：
 
+<<<<<<< HEAD
 ![斐波那契递归树](fibonacci-recursion-tree.svg)
+=======
+![fibonacci recursion tree](fibonacci-recursion-tree.svg)
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 我们可以清楚的看到 `fib(3)` 被计算了两次，`fib(2)` 被计算了三次。总计算量远远超过了 `n`，这造成仅仅对于计算 `n=77` 来讲，计算量就是巨量的。
 

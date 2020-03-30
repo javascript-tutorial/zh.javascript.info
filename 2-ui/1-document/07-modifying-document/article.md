@@ -1,14 +1,26 @@
 # 修改文档（document）
 
+<<<<<<< HEAD
 DOM 修改是创建“实时”页面的关键。
+=======
+DOM modification is the key to creating "live" pages.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 在这里，我们将会看到如何“即时”创建新元素并修改现有页面内容。
 
+<<<<<<< HEAD
 ## 例子：展示一条消息
 
 让我们使用一个示例进行演示。我们将在页面上添加一条比 `alert` 更好看的消息。
 
 它的外观如下：
+=======
+## Example: show a message
+
+Let's demonstrate using an example. We'll add a message on the page that looks nicer than `alert`.
+
+Here's how it will look:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html autorun height="80"
 <style>
@@ -28,6 +40,7 @@ DOM 修改是创建“实时”页面的关键。
 */!*
 ```
 
+<<<<<<< HEAD
 这是一个 HTML 示例。现在，让我们使用 JavaScript 创建一个相同的 `div`（假设样式在 HTML 或外部 CSS 文件中）。
 
 ## 创建一个元素
@@ -36,6 +49,16 @@ DOM 修改是创建“实时”页面的关键。
 
 `document.createElement(tag)`
 : 用给定的标签创建一个新 **元素节点（element node）**：
+=======
+That was an HTML example. Now let's create the same `div` with JavaScript (assuming that the styles are in the HTML or an external CSS file).
+
+## Creating an element
+
+To create DOM nodes, there are two methods:
+
+`document.createElement(tag)`
+: Creates a new *element node* with the given tag:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
     ```js
     let div = document.createElement('div');
@@ -50,7 +73,11 @@ DOM 修改是创建“实时”页面的关键。
 
 ### 创建一条消息
 
+<<<<<<< HEAD
 在我们的例子中，消息是一个带有 `alert` 类和 HTML 的 `div`：
+=======
+In our case the message is a `div` with `alert` class and the HTML in it:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```js
 let div = document.createElement('div');
@@ -58,13 +85,21 @@ div.className = "alert";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
+<<<<<<< HEAD
 我们创建了元素，但到目前为止，它还只是在变量中。我们无法在页面上看到该元素，因为它还不是文档的一部分。
+=======
+We created the element, but as of now it's only in a variable. We can't see the element on the page, as it's not yet a part of the document.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ## 插入方法
 
 为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，在 `document.body` 中。
 
+<<<<<<< HEAD
 对此有一个特殊的方法 `append`：`document.body.append(div)`。
+=======
+There's a special method `append` for that: `document.body.append(div)`.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 这是完整代码：
 
@@ -90,6 +125,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 </script>
 ```
 
+<<<<<<< HEAD
 下面这些方法提供了更多的插入方式：
 
 - `node.append(...nodes or strings)` — 在 `node` 末尾插入节点或字符串，
@@ -99,6 +135,17 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 - `node.replaceWith(...nodes or strings)` — 将 `node` 替换为给定的节点或字符串。
 
 下面是使用这些方法将列表项添加到列表中，以及将文本添加到列表前面和后面的示例：
+=======
+This set of methods provides more ways to insert:
+
+- `node.append(...nodes or strings)` -- append nodes or strings at the end of `node`,
+- `node.prepend(...nodes or strings)` -- insert nodes or strings at the beginning of `node`,
+- `node.before(...nodes or strings)` –- insert nodes or strings before `node`,
+- `node.after(...nodes or strings)` –- insert nodes or strings after `node`,
+- `node.replaceWith(...nodes or strings)` –- replaces `node` with the given nodes or strings.
+
+Here's an example of using these methods to add items to a list and the text before/after it:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html autorun
 <ol id="ol">
@@ -108,6 +155,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 </ol>
 
 <script>
+<<<<<<< HEAD
   ol.before('before'); // 将字符串 "before" 插入到 <ol> 前面
   ol.after('after'); // 将字符串 "after" 插入到 <ol> 后面
 
@@ -122,6 +170,22 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
 这张图片直观地显示了这些方法所做的工作：
+=======
+  ol.before('before'); // insert string "before" before <ol>
+  ol.after('after'); // insert string "after" after <ol>
+
+  let liFirst = document.createElement('li');
+  liFirst.innerHTML = 'prepend';
+  ol.prepend(liFirst); // insert liFirst at the beginning of <ol>
+
+  let liLast = document.createElement('li');
+  liLast.innerHTML = 'append';
+  ol.append(liLast); // insert liLast at the end of <ol>
+</script>
+```
+
+Here's a visual picture what methods do:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ![](before-prepend-append-after.svg)
 
@@ -170,6 +234,7 @@ after
 
 ## insertAdjacentHTML/Text/Element
 
+<<<<<<< HEAD
 为此，我们可以使用另一个非常通用的方法：`elem.insertAdjacentHTML(where, html)`。
 
 该方法的第一个参数是代码字（code word），指定相对于 `elem` 的插入位置。必须为以下之一：
@@ -180,6 +245,18 @@ after
 - `"afterend"` — 将 `html` 插入到 `elem` 后。
 
 第二个参数是 HTML 字符串，该字符串会被“作为 HTML” 插入。
+=======
+For that we can use another, pretty versatile method: `elem.insertAdjacentHTML(where, html)`.
+
+The first parameter is a code word, specifying where to insert relative to `elem`. Must be one of the following:
+
+- `"beforebegin"` -- insert `html` immediately before `elem`,
+- `"afterbegin"` -- insert `html` into `elem`, at the beginning,
+- `"beforeend"` -- insert `html` into `elem`, at the end,
+- `"afterend"` -- insert `html` immediately after `elem`.
+
+The second parameter is an HTML string, that is inserted "as HTML".
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 例如：
 
@@ -199,7 +276,11 @@ after
 <p>Bye</p>
 ```
 
+<<<<<<< HEAD
 这就是我们可以在页面上附加任意 HTML 的方式。
+=======
+That's how we can append arbitrary HTML to the page.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 这是插入变体的示意图：
 
@@ -209,10 +290,17 @@ after
 
 这个方法有两个兄弟：
 
+<<<<<<< HEAD
 - `elem.insertAdjacentText(where, text)` — 语法一样，但是将 `text` 字符串“作为文本”插入而不是作为 HTML，
 - `elem.insertAdjacentElement(where, elem)` — 语法一样，但是插入的是一个元素。
 
 它们的存在主要是为了使语法“统一”。实际上，大多数时候只使用 `insertAdjacentHTML`。因为对于元素和文本，我们有 `append/prepend/before/after` 方法 — 它们也可以用于插入节点/文本片段，但写起来更短。
+=======
+- `elem.insertAdjacentText(where, text)` -- the same syntax, but a string of `text` is inserted "as text" instead of HTML,
+- `elem.insertAdjacentElement(where, elem)` -- the same syntax, but inserts an element.
+
+They exist mainly to make the syntax "uniform". In practice, only `insertAdjacentHTML` is used most of the time. Because for elements and text, we have methods `append/prepend/before/after` -- they are shorter to write and can insert nodes/text pieces.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 所以，下面是显示一条消息的另一种变体：
 
@@ -234,9 +322,57 @@ after
 </script>
 ```
 
+<<<<<<< HEAD
 ## 节点移除
 
 想要移除一个节点，可以使用 `node.remove()`。
+=======
+## Node removal
+
+To remove a node, there's a method `node.remove()`.
+
+Let's make our message disappear after a second:
+
+```html run untrusted
+<style>
+.alert {
+  padding: 15px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  color: #3c763d;
+  background-color: #dff0d8;
+}
+</style>
+
+<script>
+  let div = document.createElement('div');
+  div.className = "alert";
+  div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
+
+  document.body.append(div);
+*!*
+  setTimeout(() => div.remove(), 1000);
+*/!*
+</script>
+```
+
+Please note: if we want to *move* an element to another place -- there's no need to remove it from the old one.
+
+**All insertion methods automatically remove the node from the old place.**
+
+For instance, let's swap elements:
+
+```html run height=50
+<div id="first">First</div>
+<div id="second">Second</div>
+<script>
+  // no need to call remove
+  second.after(first); // take #second and after it insert #first
+</script>
+```
+
+## Cloning nodes: cloneNode
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 让我们的消息在一秒后消失：
 
@@ -316,12 +452,21 @@ after
 ```
 
 ## DocumentFragment [#document-fragment]
+<<<<<<< HEAD
 
 `DocumentFragment` 是一个特殊的 DOM 节点，用作来传递节点列表的包装器（wrapper）。
 
 我们可以向其附加其他节点，但是当我们将其插入某个位置时，则会插入其内容。
 
 例如，下面这段代码中的 `getListContent` 会生成带有 `<li>` 列表项的片段，然后将其插入到 `<ul>` 中：
+=======
+
+`DocumentFragment` is a special DOM node that serves as a wrapper to pass around lists of nodes.
+
+We can append other nodes to it, but when we insert it somewhere, then its content is inserted instead.
+
+For example, `getListContent` below generates a fragment with `<li>` items, that are later inserted into `<ul>`:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html run
 <ul id="ul"></ul>
@@ -345,7 +490,11 @@ ul.append(getListContent()); // (*)
 </script>
 ```
 
+<<<<<<< HEAD
 请注意，在最后一行 `(*)` 我们附加了 `DocumentFragment`，但是它和 `ul` “融为一体（blends in）”了，所以最终的文档结构应该是：
+=======
+Please note, at the last line `(*)` we append `DocumentFragment`, but it "blends in", so the resulting structure will be:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html
 <ul>
@@ -355,7 +504,11 @@ ul.append(getListContent()); // (*)
 </ul>
 ```
 
+<<<<<<< HEAD
 `DocumentFragment` 很少被显式使用。如果可以改为返回一个节点数组，那为什么还要附加到特殊类型的节点上呢？重写示例：
+=======
+`DocumentFragment` is rarely used explicitly. Why append to a special kind of node, if we can return an array of nodes instead? Rewritten example:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html run
 <ul id="ul"></ul>
@@ -379,6 +532,7 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 </script>
 ```
 
+<<<<<<< HEAD
 我们之所以提到 `DocumentFragment`，主要是因为它上面有一些概念，例如 [template](info:template-element) 元素，我们将在以后讨论。
 
 ## 老式的 insert/remove 方法
@@ -386,6 +540,90 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 [old]
 
 由于历史原因，还存在“老式”的 DOM 操作方法。
+=======
+We mention `DocumentFragment` mainly because there are some concepts on top of it, like [template](info:template-element) element, that we'll cover much later.
+
+## Old-school insert/remove methods
+
+[old]
+
+There are also "old school" DOM manipulation methods, existing for historical reasons.
+
+These methods come from really ancient times. Nowadays, there's no reason to use them, as modern methods, such as `append`, `prepend`, `before`, `after`, `remove`, `replaceWith`, are more flexible.
+
+The only reason we list these methods here is that you can find them in many old scripts:
+
+`parentElem.appendChild(node)`
+: Appends `node` as the last child of `parentElem`.
+
+    The following example adds a new `<li>` to the end of `<ol>`:
+
+    ```html run height=100
+    <ol id="list">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+
+    <script>
+      let newLi = document.createElement('li');
+      newLi.innerHTML = 'Hello, world!';
+
+      list.appendChild(newLi);
+    </script>
+    ```
+
+`parentElem.insertBefore(node, nextSibling)`
+: Inserts `node` before `nextSibling` into `parentElem`.
+
+    The following code inserts a new list item before the second `<li>`:
+
+    ```html run height=100
+    <ol id="list">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+    <script>
+      let newLi = document.createElement('li');
+      newLi.innerHTML = 'Hello, world!';
+
+    *!*
+      list.insertBefore(newLi, list.children[1]);
+    */!*
+    </script>
+    ```
+    To insert `newLi` as the first element, we can do it like this:
+
+    ```js
+    list.insertBefore(newLi, list.firstChild);
+    ```
+
+`parentElem.replaceChild(node, oldChild)`
+: Replaces `oldChild` with `node` among children of `parentElem`.
+
+`parentElem.removeChild(node)`
+: Removes `node` from `parentElem` (assuming `node` is its child).
+
+    The following example removes first `<li>` from `<ol>`:
+
+    ```html run height=100
+    <ol id="list">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+
+    <script>
+      let li = list.firstElementChild;
+      list.removeChild(li);
+    </script>
+    ```
+
+All these methods return the inserted/removed node. In other words, `parentElem.appendChild(node)` returns `node`. But usually the returned value is not used, we just run the method.
+
+## A word about "document.write"
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 这些方法来自真正的远古时代。如今，没有理由再使用它们了，因为诸如 `append`，`prepend`，`before`，`after`，`remove`，`replaceWith` 这些现代方法更加灵活。
 
@@ -478,7 +716,11 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 
 调用 `document.write(html)` 意味着将 `html` “就地马上”写入页面。`html` 字符串可以是动态生成的，所以它很灵活。我们可以使用 JavaScript 创建一个完整的页面并对其进行写入。
 
+<<<<<<< HEAD
 这个方法来自于没有 DOM，没有标准的上古时期……。但这个方法依被保留了下来，因为还有脚本在使用它。
+=======
+The method comes from times when there was no DOM, no standards... Really old times. It still lives, because there are scripts using it.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 由于以下重要的限制，在现代脚本中我们很少看到它：
 
@@ -499,14 +741,25 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 */!*
 ```
 
+<<<<<<< HEAD
 因此，在某种程度上讲，它在“加载完成”阶段是不可用的，这与我们上面介绍的其他 DOM 方法不同。
 
 这是它的缺陷。
+=======
+So it's kind of unusable at "after loaded" stage, unlike other DOM methods we covered above.
+
+That's the downside.
+
+There's an upside also. Technically, when `document.write` is called while the browser is reading ("parsing") incoming HTML, and it writes something, the browser consumes it just as if it were initially there, in the HTML text.
+
+So it works blazingly fast, because there's *no DOM modification* involved. It writes directly into the page text, while the DOM is not yet built.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 还有一个好处。从技术上讲，当在浏览器正在读取（“解析”）传入的 HTML 时调用 `document.write` 方法来写入一些东西，浏览器会像它本来就在 HTML 文本中那样使用它。
 
 所以它运行起来出奇的快，因为它 **不涉及 DOM 修改**。它直接写入到页面文本中，而此时 DOM 尚未构建。
 
+<<<<<<< HEAD
 因此，如果我们需要向 HTML 动态地添加大量文本，并且我们正处于页面加载阶段，并且速度很重要，那么它可能会有帮助。但实际上，这些要求很少同时出现。我们可以在脚本中看到此方法，通常是因为这些脚本很旧。
 
 ## 总结
@@ -527,11 +780,30 @@ ul.append(...getListContent()); // append + "..." operator = friends!
     文本字符串被“作为文本”插入。
 
 - 这里还有“旧式”的方法：
+=======
+- Methods to create new nodes:
+    - `document.createElement(tag)` -- creates an element with the given tag,
+    - `document.createTextNode(value)` -- creates a text node (rarely used),
+    - `elem.cloneNode(deep)` -- clones the element, if `deep==true` then with all descendants.  
+
+- Insertion and removal:
+    - `node.append(...nodes or strings)` -- insert into `node`, at the end,
+    - `node.prepend(...nodes or strings)` -- insert into `node`, at the beginning,
+    - `node.before(...nodes or strings)` –- insert right before `node`,
+    - `node.after(...nodes or strings)` –- insert right after `node`,
+    - `node.replaceWith(...nodes or strings)` –- replace `node`.
+    - `node.remove()` –- remove the `node`.
+
+    Text strings are inserted "as text".
+
+- There are also "old school" methods:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
     - `parent.appendChild(node)`
     - `parent.insertBefore(node, nextSibling)`
     - `parent.removeChild(node)`
     - `parent.replaceChild(newElem, node)`
 
+<<<<<<< HEAD
     这些方法都返回 `node`。
 
 - 在 `html` 中给定一些 HTML，`elem.insertAdjacentHTML(where, html)` 会根据 `where` 的值来插入它：
@@ -546,3 +818,19 @@ ul.append(...getListContent()); // append + "..." operator = friends!
     - `document.write(html)`
 
     页面加载完成后，这样的调用将会擦除文档。多见于旧脚本。
+=======
+    All these methods return `node`.
+
+- Given some HTML in `html`, `elem.insertAdjacentHTML(where, html)` inserts it depending on the value of `where`:
+    - `"beforebegin"` -- insert `html` right before `elem`,
+    - `"afterbegin"` -- insert `html` into `elem`, at the beginning,
+    - `"beforeend"` -- insert `html` into `elem`, at the end,
+    - `"afterend"` -- insert `html` right after `elem`.
+
+    Also there are similar methods, `elem.insertAdjacentText` and `elem.insertAdjacentElement`, that insert text strings and elements, but they are rarely used.
+
+- To append HTML to the page before it has finished loading:
+    - `document.write(html)`
+
+    After the page is loaded such a call erases the document. Mostly seen in old scripts.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648

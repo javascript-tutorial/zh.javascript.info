@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 资源加载：onload 和 onerror
 
 浏览器允许跟踪外部资源的加载 —— 脚本、iframes、图像等。
@@ -12,6 +13,22 @@
 假设我们需要调用属于第三方脚本的函数。
 
 我们可以像这样动态加载：
+=======
+# Resource loading: onload and onerror
+
+The browser allows us to track the loading of external resources -- scripts, iframes, pictures and so on.
+
+There are two events for it:
+
+- `onload` -- successful load,
+- `onerror` -- an error occurred.
+
+## Loading a script
+
+Let's say we need to load a third-party script and call a function that resides there.
+
+We can load it dynamically, like this:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```js
 let script = document.createElement('script');
@@ -20,33 +37,56 @@ script.src = "my.js";
 document.head.append(script);
 ```
 
+<<<<<<< HEAD
 ……但如何运行声明在脚本中的函数？我们需要等到脚本被加载后才能调用它。
 
 ```smart
 对于我们自己的脚本，可以使用 [JavaScript modules](info:modules)，但它们并没有被第三方库广泛采用。
+=======
+...But how to run the function that is declared inside that script? We need to wait until the script loads, and only then we can call it.
+
+```smart
+For our own scripts we could use [JavaScript modules](info:modules) here, but they are not widely adopted by third-party libraries.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 ```
 
 ### script.onload
 
+<<<<<<< HEAD
 主要得力于 `load` 事件。它在脚本被加载和执行后才会触发。
 
 例如：
+=======
+The main helper is the `load` event. It triggers after the script was loaded and executed.
+
+For instance:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```js run untrusted
 let script = document.createElement('script');
 
+<<<<<<< HEAD
 // 可以从任意域名加载任意脚本
+=======
+// can load any script, from any domain
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
 *!*
 script.onload = function() {
+<<<<<<< HEAD
   // 脚本创建了一个辅助函数“_”
   alert(_); // 函数可用
+=======
+  // the script creates a helper function "_"
+  alert(_); // the function is available
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 };
 */!*
 ```
 
+<<<<<<< HEAD
 因此，在 `onload` 中我们可以使用脚本中的变量、运行函数等。
 
 ……如果加载失败怎么办？比如，没有这样的脚本（错误 404）或者服务器宕机（不可用）。
@@ -60,15 +100,35 @@ script.onload = function() {
 ```js run
 let script = document.createElement('script');
 script.src = "https://example.com/404.js"; // 没有这样的脚本
+=======
+So in `onload` we can use script variables, run functions etc.
+
+...And what if the loading failed? For instance, there's no such script (error 404) or the server is down (unavailable).
+
+### script.onerror
+
+Errors that occur during the loading of the script can be tracked in an `error` event.
+
+For instance, let's request a script that doesn't exist:
+
+```js run
+let script = document.createElement('script');
+script.src = "https://example.com/404.js"; // no such script
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 document.head.append(script);
 
 *!*
 script.onerror = function() {
+<<<<<<< HEAD
   alert("Error loading " + this.src); // 加载 https://example.com/404.js 发生错误
+=======
+  alert("Error loading " + this.src); // Error loading https://example.com/404.js
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 };
 */!*
 ```
 
+<<<<<<< HEAD
 请注意，我们无法在这里获取更多 HTTP 错误细节。我们不知道错误是 404 还是 500 或者其他情况，只知道是加载失败了。
 
 ```warn
@@ -82,6 +142,21 @@ script.onerror = function() {
 `load` 和 `error` 事件也适用于几乎任何具有外部 `src` 的资源。
 
 例如：
+=======
+Please note that we can't get HTTP error details here. We don't know if it was an error 404 or 500 or something else. Just that the loading failed.
+
+```warn
+Events `onload`/`onerror` track only the loading itself.
+
+Errors that may occur during script processing and execution are out of scope for these events. That is: if a script loaded successfully, then `onload` triggers, even if it has programming errors in it. To track script errors, one can use `window.onerror` global handler.
+```
+
+## Other resources
+
+The `load` and `error` events also work for other resources, basically for any resource that has an external `src`.
+
+For example:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```js run
 let img = document.createElement('img');
@@ -96,6 +171,7 @@ img.onerror = function() {
 };
 ```
 
+<<<<<<< HEAD
 但也有一些注意事项：
 
 - 对于大部分资源来说，当他们被添加到文档时就开始加载。但是 `<img>` 是个例外。它要等到获取 src `(*)` 属性后才开始加载。
@@ -114,12 +190,36 @@ img.onerror = function() {
 如果我们需要使用来自其他域名的脚本，并且脚本里面存在错误，那么我们就不能获取错误信息。
 
 例如，我们调用脚本中一个（错误）函数：
+=======
+There are some notes though:
+
+- Most resources start loading when they are added to the document. But `<img>` is an exception. It starts loading when it gets a src `(*)`.
+- For `<iframe>`, the `iframe.onload` event triggers when the iframe loading finished, both for successful load and in case of an error.
+
+That's for historical reasons.
+
+## Crossorigin policy
+
+There's a rule: scripts from one site can't access contents of the other site. So, e.g. a script at `https://facebook.com` can't read the user's mailbox at `https://gmail.com`.
+
+Or, to be more precise, one origin (domain/port/protocol triplet) can't access the content from another one. So even if we have a subdomain, or just another port, these are different origins with no access to each other.
+
+This rule also affects resources from other domains.
+
+If we're using a script from another domain, and there's an error in it, we can't get error details.
+
+For example, let's take a script `error.js` that consists of a single (bad) function call:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 ```js
 // 📁 error.js
 noSuchFunction();
 ```
 
+<<<<<<< HEAD
 现在从我们的域名中加载它：
+=======
+Now load it from the same site where it's located:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html run height=0
 <script>
@@ -130,14 +230,22 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script src="/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
+<<<<<<< HEAD
 我们可以看到一个很好的错误报告，就像这样：
+=======
+We can see a good error report, like this:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```
 Uncaught ReferenceError: noSuchFunction is not defined
 https://javascript.info/article/onload-onerror/crossorigin/error.js, 1:1
 ```
 
+<<<<<<< HEAD
 现在，再从其他域名中加载这个脚本：
+=======
+Now let's load the same script from another domain:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html run height=0
 <script>
@@ -148,13 +256,18 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
+<<<<<<< HEAD
 错误报告与上面不同，就像这样：
+=======
+The report is different, like this:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```
 Script error.
 , 0:0
 ```
 
+<<<<<<< HEAD
 错误细节可能因浏览器而异，但是原理是相同的：任何有关脚本内部的信息都是不可见的。确切来说是因为它来自于其他域。
 
 我们为什么需要细节信息？
@@ -182,6 +295,35 @@ Script error.
 我们可以选择“anonymous”（不会发送 cookies，但是需要一个服务端响应头）或者“use-credentials”（发送 cookes，需要设置两个服务端响应头）。
 
 如果我们不关心“cookies”，那么可以使用`“anonymous”`：
+=======
+Details may vary depending on the browser, but the idea is the same: any information about the internals of a script, including error stack traces, is hidden. Exactly because it's from another domain.
+
+Why do we need error details?
+
+There are many services (and we can build our own) that listen for global errors using `window.onerror`, save errors and provide an interface to access and analyze them. That's great, as we can see real errors, triggered by our users. But if a script comes from another origin, then there's not much information about errors in it, as we've just seen.
+
+Similar cross-origin policy (CORS) is enforced for other types of resources as well.
+
+**To allow cross-origin access, the `<script>` tag needs to have the `crossorigin` attribute, plus the remote server must provide special headers.**
+
+There are three levels of cross-origin access:
+
+1. **No `crossorigin` attribute** -- access prohibited.
+2. **`crossorigin="anonymous"`** -- access allowed if the server responds with the header `Access-Control-Allow-Origin` with `*` or our origin. Browser does not send authorization information and cookies to remote server.
+3. **`crossorigin="use-credentials"`** -- access allowed if the server sends back the header `Access-Control-Allow-Origin` with our origin and `Access-Control-Allow-Credentials: true`.  Browser sends authorization information and cookies to remote server.
+
+```smart
+You can read more about cross-origin access in the chapter <info:fetch-crossorigin>. It describes the `fetch` method for network requests, but the policy is exactly the same.
+
+Such thing as "cookies" is out of our current scope, but you can read about them in the chapter <info:cookie>.
+```
+
+In our case, we didn't have any crossorigin attribute. So the cross-origin access was prohibited. Let's add it.
+
+We can choose between `"anonymous"` (no cookies sent, one server-side header needed) and `"use-credentials"` (sends cookies too, two server-side headers needed).
+
+If we don't care about cookies, then `"anonymous"` is the way to go:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```html run height=0
 <script>
@@ -192,6 +334,7 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script *!*crossorigin="anonymous"*/!* src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
+<<<<<<< HEAD
 现在，假设服务器提供 `Access-Control-Allow-Origin` 头，一切都正常。我们有完整的错误报告。
 
 ## 总结
@@ -204,3 +347,17 @@ window.onerror = function(message, url, line, col, errorObj) {
 只有 `<iframe>` 特殊：出于历史原因，不管加载成功还是失败，即使页面没有被找到，它都会触发 `load` 事件。
 
 `readystatechange` 事件也适用于资源，但很少被使用，因为 `load/error` 事件更简单。
+=======
+Now, assuming that the server provides an `Access-Control-Allow-Origin` header, everything's fine. We have the full error report.
+
+## Summary
+
+Images `<img>`, external styles, scripts and other resources provide `load` and `error` events to track their loading:
+
+- `load` triggers on a successful load,
+- `error` triggers on a failed load.
+
+The only exception is `<iframe>`: for historical reasons it always triggers `load`, for any load completion, even if the page is not found.
+
+The `readystatechange` event also works for resources, but is rarely used, because `load/error` events are simpler.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648

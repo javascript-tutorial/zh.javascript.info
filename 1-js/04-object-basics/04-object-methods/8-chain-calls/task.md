@@ -30,7 +30,11 @@ ladder.down();
 ladder.showStep(); // 1
 ```
 
+<<<<<<< HEAD
 修改 `up`，`down` 和 `showStep` 的代码，让调用可以链接，就像这样：
+=======
+Modify the code of `up`, `down` and `showStep` to make the calls chainable, like this:
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 ```js
 ladder.up().up().down().showStep(); // 1
