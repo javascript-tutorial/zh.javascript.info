@@ -5,18 +5,18 @@ libs:
 
 # IndexedDB
 
-indexedDB是一个内置的数据库，它比 `localStorage` 强大的多。
+indexedDB 是一个内置的数据库，它比 `localStorage` 强大得多。
 
 - 键/值 储存：值（几乎）可以是任何类型，键有多种类型。
 - 支撑事务的可靠性。
 - 支持键范围查询、索引。
-- 和 `localStorage` 相比，它可以存储更多数据 。
+- 和 `localStorage` 相比，它可以存储更多数据。
 
 对于传统的 客户端-服务器 应用，这些功能通常是没有必要的。IndexedDB 适用于离线应用，可与 ServiceWorkers 和其他技术相结合使用。
 
 根据规范 <https://www.w3.org/TR/IndexedDB> 中的描述，IndexedDB 的本机接口是基于事件的。
 
-我们还可以在基于 promise 的包装器（wrapper），如 <https://github.com/jakearchibald/idb> 的帮助下使用 `async/await` 。这要方便的多，但是包装器并不完美，它并不能替代所有情况下的事件。因此，我们先练习事件（events），在理解 IndexedDB 之后，我们将使用包装器。
+我们还可以在基于 promise 的包装器（wrapper），如 <https://github.com/jakearchibald/idb> 的帮助下使用 `async/await`。这要方便的多，但是包装器并不完美，它并不能替代所有情况下的事件。因此，我们先练习事件（events），在理解 IndexedDB 之后，我们将使用包装器。
 
 ## 打开数据库
 
@@ -34,9 +34,9 @@ let openRequest = indexedDB.open(name, version);
 数据库可以有许多不同的名称，但是必须存在于当前的源（域/协议/端口）中。不同的网站不能相互访问对方的数据库。
 
 调用之后，需要监听 `openRequest` 对象上的事件：
-- `success`： 数据库准备就绪，`openRequest.result` 中有了一个数据库对象"Database Object"，使用它进行进一步的调用。
-- `error`： 打开失败。
-- `upgradeneeded`： 数据库已准备就绪，但其版本已过时（见下文）。
+- `success`：数据库准备就绪，`openRequest.result` 中有了一个数据库对象“Database Object”，使用它进行进一步的调用。
+- `error`：打开失败。
+- `upgradeneeded`：数据库已准备就绪，但其版本已过时（见下文）。
 
 
 **IndexedDB 具有内建的“模式版本控制”机制，这在服务器端数据库中是不存在的。**
@@ -74,10 +74,10 @@ openRequest.onsuccess = function() {
 let openRequest = indexedDB.open("store", *!*2*/!*);
 
 openRequest.onupgradeneeded = function() {
-  // 现有的数据库版本小于2（或不存在）
+  // 现有的数据库版本小于 2（或不存在）
   let db = openRequest.result;
 
-  switch(db.version) { // 现有的db版本
+  switch(db.version) { // 现有的 db 版本
     case 0:
       // 版本 0 表示客户端没有数据库
       // 执行初始化
@@ -100,7 +100,7 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 ```
 
 ```warn header="我们可以打开旧版本吗？"
-如果我们想打开一个比当前版本更低的数据库，该怎么办？例如，现有的数据库版本是3，但我们想打开版本2 `open(...2)`。
+如果我们想打开一个比当前版本更低的数据库，该怎么办？例如，现有的数据库版本是 3，但我们想打开版本 2 `open(...2)`。
 
 报错，触发 `openRequest.onerror`。
 
@@ -115,7 +115,7 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 
 这时网站更新到版本 2，这个用户在另一网页下打开了网站。这时两个网页都是我们的网站，但一个与数据库版本 1 有开放连接，而另一个试图在 `upgradeneeded` 处理程序中更新。
 
-问题是，这两个网页是同一个站点，同一个来源，共享同一个数据库。而数据库不能同时为版本 1 和版本 2。要执行版本 2 的更新，必须关闭版本 1 的所有连接。并=
+问题是，这两个网页是同一个站点，同一个来源，共享同一个数据库。而数据库不能同时为版本 1 和版本 2。要执行版本 2 的更新，必须关闭版本 1 的所有连接。
 
 为了完成这些，当尝试并行更新时，`versionchange` 事件会触发一个打开的数据库对象。我们应该监听这个对象，关闭数据库（还应该建议访问者重新加载页面，获取最新的代码）。
 
@@ -173,7 +173,7 @@ IndexedDB 使用[标准序列化算法](https://www.w3.org/TR/html53/infrastruct
 
 有一种对象不能被存储：循环引用的对象。此类对象不可序列化，也不能进行 `JSON.stringify`。
 
-**库中的每个值都必须有唯一的键 `key`**     
+**库中的每个值都必须有唯一的键 `key`**
 
 键的类型必须为数字、日期、字符串、二进制或数组。它是唯一的标识符：通过键来 搜索/删除/更新 值。
 
@@ -211,7 +211,7 @@ db.createObjectStore('books', {keyPath: 'id'});
 要执行数据库版本升级，主要有两种方法：
 
 1. 我们跨域实现每个版本的升级功能：从 1 到 2，从 2 到 3，从 3 到 4，等等。在 `upgradeneeded` 中，可以进行版本比较（例如，老版本是 2，需要升级到 4），并针对每个中间版本（2 到 3，然后 3 到 4）逐步运行每个版本的升级。
-2. 或者我们可以检查数据库：以 `db.objectStoreNames` 的形式获取现有对象库的列表。该对象是一个  [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) 提供 `contains(name)` 方法来检查 name 是否存在，再根据存在和不存在的内容进行更新。
+2. 或者我们可以检查数据库：以 `db.objectStoreNames` 的形式获取现有对象库的列表。该对象是一个 [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) 提供 `contains(name)` 方法来检查 name 是否存在，再根据存在和不存在的内容进行更新。
 
 对于小型数据库，第二种方法可能更简单。
 
@@ -223,7 +223,7 @@ let openRequest = indexedDB.open("db", 2);
 // 创建/升级 数据库而无需版本检查
 openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
-  if (!db.objectStoreNames.contains('books')) { // 如果没有 "books" 数据
+  if (!db.objectStoreNames.contains('books')) { // 如果没有 “books” 数据
     db.createObjectStore('books', {keyPath: 'id'}); // 创造它
   }
 };
@@ -258,7 +258,7 @@ db.deleteObjectStore('books')
 db.transaction(store[, type]);
 ```
 
-- `store` 是事务要访问的库名称，例如`"books"`。如果我们要访问多个库，则是库名称的数组。
+- `store` 是事务要访问的库名称，例如 `"books"`。如果我们要访问多个库，则是库名称的数组。
 - `type` – 交易类型，以下类型之一：
   - `readonly` —— 只读，默认值。
   - `readwrite` —— 只能读取和写入数据，而不能 创建/删除/更改 对象库。
@@ -302,7 +302,7 @@ request.onerror = function() {
 ```
 基本有四个步骤：
 1. 创建一个事务，在（1）表明要访问的所有存储。
-2. 使用 `transaction.objectStore(name)` ，在（2）中获取存储对象。
+2. 使用 `transaction.objectStore(name)`，在（2）中获取存储对象。
 3. 在（3）执行对对象库 `books.add(book)` 的请求。
 4. …处理请求 成功/错误（4），还可以根据需要发出其他请求。
 
@@ -326,7 +326,7 @@ request.onerror = function() {
 
 在下一个版本 3.0 规范中，可能会有一种手动方式来完成事务，但目前在 2.0 中还没有。
 
-**当所有事务的请求完成，并且[微任务队列](info:microtask-queue) 为空时，它将自动提交。**
+**当所有事务的请求完成，并且[微任务队列](info:microtask-queue)为空时，它将自动提交。**
 
 通常，我们可以假设事务在其所有请求完成时提交，并且当前代码完成。
 
@@ -334,7 +334,7 @@ request.onerror = function() {
 
 事务自动提交原则有一个重要的副作用。不能在事务中间插入 `fetch`, `setTimeout` 等异步操作。IndexedDB 不会让事务等待这些操作完成。
 
-在下面的代码中，`request2`中的行 `(*)` 失败，因为事务已经提交，不能在其中发出任何请求:
+在下面的代码中，`request2` 中的行 `(*)` 失败，因为事务已经提交，不能在其中发出任何请求:
 
 ```js
 let request1 = books.add(book);
@@ -350,6 +350,7 @@ request1.onsuccess = function() {
   });
 };
 ```
+
 这是因为 `fetch` 是一个异步操作，一个宏任务。事务在浏览器开始执行宏任务之前关闭。
 
 IndexedDB 规范的作者认为事务应该是短期的。主要是性能原因。
@@ -461,26 +462,26 @@ request.onerror = function(event) {
 ## 通过键搜索
 
 对象库有两种主要的搜索类型：
-1. 通过一个键或一个键范围。即：通过在 “books” 中存储的 `book.id`。
+1. 通过一个键或一个键范围。即：通过在“books”中存储的 `book.id`。
 2. 另一个对象字段，例如 `book.price`。
 
-首先，让我们来处理键和键区 `(1)` 。
+首先，让我们来处理键和键区 `(1)`。
 
 涉及到的搜索方法，包括支持精确键，也包括所谓的“范围查询” —— [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange) 对象指定一个“键范围”。
 
 使用以下调用函数创建范围：
 
-- `IDBKeyRange.lowerBound(lower, [open])` 表示: `≥lower` (如果 `open` 是 true，表示 `>lower`)
-- `IDBKeyRange.upperBound(upper, [open])` 表示: `≤upper` (如果 `open` 是 true，表示  `<upper`)
-- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` 表示: 在 `lower` 和 `upper` 之间。如果open 为 true，则相应的键不包括在范围中。
-- `IDBKeyRange.only(key)` – 仅包含一个键的范围 `key`，很少使用。
+- `IDBKeyRange.lowerBound(lower, [open])` 表示：`≥lower`（如果 `open` 是 true，表示 `>lower`）
+- `IDBKeyRange.upperBound(upper, [open])` 表示：`≤upper`（如果 `open` 是 true，表示  `<upper`）
+- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` 表示: 在 `lower` 和 `upper` 之间。如果 open 为 true，则相应的键不包括在范围中。
+- `IDBKeyRange.only(key)` —— 仅包含一个键的范围 `key`，很少使用。
 
 所有搜索方法都接受一个查询参数 `query`，该参数可以是精确键或者键范围：
 
 - `store.get(query)` —— 按键或范围搜索第一个值。
 - `store.getAll([query], [count])` —— 搜索所有值。如果 `count` 给定，则按 `count` 进行限制。
 - `store.getKey(query)` —— 搜索满足查询的第一个键，通常是一个范围。
-- `store.getAllKeys([query], [count])` —— 搜索满足查询的所有键，通常是一个范围。如果 `count` 给定，则最多为 count
+- `store.getAllKeys([query], [count])` —— 搜索满足查询的所有键，通常是一个范围。如果 `count` 给定，则最多为 count。
 - `store.count([query])` —— 获取满足查询的键的总数，通常是一个范围。
 
 例如，我们存储区里有很多书。因为 `id` 字段是键，因此所有方法都可以按 `id` 进行搜索。
@@ -546,14 +547,14 @@ openRequest.onupgradeneeded = function() {
 ```
 
 - 该索引将跟踪 `price` 字段。
-- 价格 price 不是唯一的，可能有多本书价格相同，所以我们不设置唯一 `unique` 选项。
+- 价格不是唯一的，可能有多本书价格相同，所以我们不设置唯一 `unique` 选项。
 - 价格不是一个数组，因此不适用多入口 `multiEntry` 标志。
 
 假设我们的库存里有4本书。下面的图片显示了该索引 `index` 的确切内容：
 
 ![](indexeddb-index.svg)
 
-如上所述，每个price值的索引（第二个参数）保存具有该价格的键的列表。
+如上所述，每个 price 值的索引（第二个参数）保存具有该价格的键的列表。
 
 索引自动保持最新，所以我们不必关心它。
 
@@ -631,17 +632,17 @@ books.clear(); // 清除存储。
 语法:
 
 ```js
-// 类似于getAll，但带有游标：
+// 类似于 getAll，但带有游标：
 let request = store.openCursor(query, [direction]);
 
-// 获取键，而不是值（例如getAllKeys）：store.openKeyCursor 
+// 获取键，而不是值（例如 getAllKeys）：store.openKeyCursor 
 ```
 
 - **`query`** 是一个键或键范围，与 `getAll` 相同。
 - **`direction`** 是一个可选参数，使用顺序是：
   - `"next"` —— 默认值，光标从有最小索引的记录向上移动。
   - `"prev"` —— 相反的顺序：从有最大的索引的记录开始下降。
-  - `"nextunique"`, `"prevunique"` —— 同上，但是跳过键相同的记录 （仅适用于索引上的光标，例如，对于价格为5的书，仅返回第一本）。
+  - `"nextunique"`，`"prevunique"` —— 同上，但是跳过键相同的记录 （仅适用于索引上的光标，例如，对于价格为5的书，仅返回第一本）。
 
 **光标对象的主要区别在于 `request.onSuccess` 多次触发：每个结果触发一次。**
 
@@ -671,7 +672,7 @@ request.onsuccess = function() {
 - `advance(count)` —— 将光标向前移动 `count` 次，跳过值。
 - `continue([key])` —— 将光标移至匹配范围中的下一个值（如果给定键，紧接键之后）。
 
-无论是否有更多的值匹配光标 —— 调用 `onsuccess`。结果中，我们可以获得指向下一条记录的光标，或者未定义的`undefined`。
+无论是否有更多的值匹配光标 —— 调用 `onsuccess`。结果中，我们可以获得指向下一条记录的光标，或者 `undefined`。
 
 在上面的示例中，光标是为对象库创建的。
 
@@ -686,9 +687,9 @@ let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let key = cursor.primaryKey; // 下一个对象存储键(id字段)
-    let value = cursor.value; // 下一个对象存储对象(book对象)
-    let key = cursor.key; // 下一个索引键(price)
+    let key = cursor.primaryKey; // 下一个对象存储键（id 字段）
+    let value = cursor.value; // 下一个对象存储对象（book 对象）
+    let key = cursor.key; // 下一个索引键（price）
     console.log(key, value);
     cursor.continue();
   } else {
@@ -699,11 +700,11 @@ request.onsuccess = function() {
 
 ## Promise 包装器
 
-将 `onsuccess/onerror`  添加到每个请求是一项相当麻烦的任务。我们可以通过使用事件委托（例如，在整个事务上设置处理程序）来简化我们的工作，但是 `async/await` 要方便的多。
+将 `onsuccess/onerror` 添加到每个请求是一项相当麻烦的任务。我们可以通过使用事件委托（例如，在整个事务上设置处理程序）来简化我们的工作，但是 `async/await` 要方便的多。
 
-在本章，我们会进一步使用一个轻便的承诺包装器 <https://github.com/jakearchibald/idb> 。它使用 [promisified](info:promisify) IndexedDB方法创建全局 `idb` 对象。 
+在本章，我们会进一步使用一个轻便的承诺包装器 <https://github.com/jakearchibald/idb> 。它使用 [promisified](info:promisify) IndexedDB 方法创建全局 `idb` 对象。 
 
-然后，我们可以不使用 `onsuccess/onerror` ，而是这样写：
+然后，我们可以不使用 `onsuccess/onerror`，而是这样写：
 
 ```js
 let db = await idb.openDb('store', 1, db => {
@@ -735,7 +736,7 @@ try {
 
 如果我们没有捕获到错误，那么程序将一直失败，直到外部最近的 `try..catch` 捕获到为止。
 
-未捕获的错误将成为 `window` 对象上的 “unhandled promise rejection” 事件。
+未捕获的错误将成为 `window` 对象上的“unhandled promise rejection”事件。
 
 我们可以这样处理这种错误：
 
@@ -775,7 +776,7 @@ await inventory.add({ id: 'js', price: 10, created: new Date() }); // 错误
 
 ### 获取本机对象
 
-在内部，包装器执行本机IndexedDB请求，并添加 `onerror/onsuccess` 方法，并返回 rejects/resolves 结果的 promise。
+在内部，包装器执行本机 IndexedDB 请求，并添加 `onerror/onsuccess` 方法，并返回 rejects/resolves 结果的 promise。
 
 在大多数情况下都可以运行， 示例在这 <https://github.com/jakearchibald/idb>。
 
@@ -787,25 +788,25 @@ let promise = books.add(book); // 获取 promise 对象(不要 await 结果)
 let request = promise.request; // 本地请求对象
 let transaction = request.transaction; // 本地事务对象
 
-// ...做些本地的IndexedDB的处理...
+// ...做些本地的 IndexedDB 的处理...
 
 let result = await promise; // 如果仍然需要
 ```
 
 ## 总结
 
-IndexedDB 可以被认为是 “localStorage on steroids”。这是一个简单的键值对数据库，功能强大到足以支持离线应用，而且用起来比较简单。
+IndexedDB 可以被认为是“localStorage on steroids”。这是一个简单的键值对数据库，功能强大到足以支持离线应用，而且用起来比较简单。
 
-最好的指南是官方文档。[目前的版本](https://w3c.github.io/IndexedDB) 是2.0，但是[3.0]((https://w3c.github.io/IndexedDB/) 版本中的一些方法（差别不大）也得到部分支持。
+最好的指南是官方文档。[目前的版本](https://w3c.github.io/IndexedDB)是2.0，但是[3.0](https://w3c.github.io/IndexedDB/)版本中的一些方法（差别不大）也得到部分支持。
 
 基本用法可以用几个短语来描述：
 
-1. 获取一个promise包装器，比如 [idb](https://github.com/jakearchibald/idb).
+1. 获取一个 promise 包装器，比如 [idb](https://github.com/jakearchibald/idb).
 2. 打开一个数据库：`idb.openDb(name, version, onupgradeneeded)`
     - 在 `onupgradeneeded` 处理程序中创建对象存储和索引，或者根据需要执行版本更新。
 3. 对于请求：
-    - 创建事务 `db.transaction('books')`（如果需要的话，设置readwrite）。
-    - 获取对象存储 `transaction.objectStore('books')`.
+    - 创建事务 `db.transaction('books')`（如果需要的话，设置 readwrite）。
+    - 获取对象存储 `transaction.objectStore('books')`。
 4. 按键搜索，可以直接调用对象库上的方法。
     - 要按对象字段搜索，需要创建索引。
 5. 如果内存中容纳不下数据，请使用光标。
