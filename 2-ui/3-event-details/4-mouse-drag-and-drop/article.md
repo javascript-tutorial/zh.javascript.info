@@ -100,19 +100,19 @@ ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
-不错，但这存在副作用。要启动拖放，我们可以在球上的任意位置 `mousedown`。但是，
+不错，但这存在副作用。要启动拖放，我们可以在球上的任意位置 `mousedown`。但是，如果从球的边缘“抓住”球，那么球会突然“跳转”以使球的中心位于鼠标指针下方。
 
-我们可以在球的任何地方使用 `mousedown` 来开始拖放。如果在边缘那么做，那么球就会突然“跳”到以指针为中心的位置。
+如果我们能够保持元素相对于鼠标指针的初始偏移，那就更好了。
 
-如果我们保持元素相对指针的初始位移，情况会更好。
-
-例如，我们从球的边缘处开始拖动，那么光标在拖动时应该保持在边缘。
+例如，我们按住球的边缘处开始拖动，那么在拖动时，鼠标指针应该保持在一开始所按住的边缘位置上。
 
 ![](ball_shift.svg)
 
-1. 当访问者按下按钮（`mousedown`）时 —— 我们可以使用变量 `shiftX/shiftY` 来记住光标到球左上角的距离。我们应该在拖动时保持这样的距离。
+让我们更新一下我们的算法：
 
-    我们可以减去坐标来获取位移：
+1. 当访问者按下按钮（`mousedown`）时 —— 我们可以在变量 `shiftX/shiftY` 中记住鼠标指针到球左上角的距离。我们应该在拖动时保持这个距离。
+
+    我们可以通过坐标相减来获取这个距离：
 
     ```js
     // onmousedown
@@ -120,18 +120,16 @@ ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
     let shiftY = event.clientY - ball.getBoundingClientRect().top;
     ```
 
-    请注意，在 JavaScript 中没有获取文档坐标的方法，因此我们在这里使用相对于窗口的坐标。
-
-2. 然后，在拖动球时，我们将球放置在相对于指针移动的位置上，就像这样：
+2. 然后，在拖动球时，我们将鼠标指针相对于球的这个距离也考虑在内，像这样：
 
     ```js
     // onmousemove
-    // ball has position:absoute
+    // 球具有 position:absoute
     ball.style.left = event.pageX - *!*shiftX*/!* + 'px';
     ball.style.top = event.pageY - *!*shiftY*/!* + 'px';
     ```
 
-具有更好定位的最终代码：
+能够更好地进行定位的最终代码：
 
 ```js
 ball.onmousedown = function(event) {
@@ -147,7 +145,8 @@ ball.onmousedown = function(event) {
 
   moveAt(event.pageX, event.pageY);
 
-  // 球中心在 (pageX, pageY) 坐标上
+  // 移动现在位于坐标 (pageX, pageY) 上的球
+  // 将初始的偏移考虑在内
   function moveAt(pageX, pageY) {
     ball.style.left = pageX - *!*shiftX*/!* + 'px';
     ball.style.top = pageY - *!*shiftY*/!* + 'px';
@@ -157,10 +156,10 @@ ball.onmousedown = function(event) {
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) 用 mousemove 移动球
+  // 在 mousemove 事件上移动球
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) 释放球，移除不需要的处理器
+  // 放下球，并移除不需要的处理程序
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -179,7 +178,7 @@ In action (inside `<iframe>`):
 [iframe src="ball3" height=230]
 ```
 
-如果我们按在球的右下角进行拖动，这种差异就会特别明显。在前面的示例中，球在指针下“跳动”。现在，它从当前位置跟随鼠标会很流畅。
+如果我们按住球的右下角来进行拖动，这种差异会尤其明显。在前面的示例中，球会在鼠标指针下“跳转”一下。现在，更新后的代码可以让我们从当前位置流畅地跟随鼠标。
 
 ## 检测是否可释放
 
