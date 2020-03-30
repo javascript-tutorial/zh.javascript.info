@@ -18,7 +18,7 @@
 2. 然后在 `mousemove` 上，通过更改 `left/top` 和 `position:absolute` 来移动它。
 3. 在 `mouseup` 上 —— 执行与完成的拖放相关的所有行为。
 
-这些是基础。稍后我们可以扩展它，例如，当鼠标悬停在元素上方时，突出显示 droppable（可用于放置到）的元素。
+这些是基础。稍后我们可以扩展它，例如，当鼠标悬停在元素上方时，高亮显示 droppable（可用于放置到）的元素。
 
 下面是拖放一个球的算法：
 
@@ -180,19 +180,19 @@ In action (inside `<iframe>`):
 
 如果我们按住球的右下角来进行拖动，这种差异会尤其明显。在前面的示例中，球会在鼠标指针下“跳转”一下。现在，更新后的代码可以让我们从当前位置流畅地跟随鼠标。
 
-## 潜在的释放目标（droppable）
+## 潜在的放置的目标（droppable）
 
-在前面的示例中，球可以被释放（drop）到“任何地方”。在实际中，我们通常是将一个元素放到另一个元素上。例如，将一个“文件”放入一个“文件夹”或者其他地方。
+在前面的示例中，球可以被放置（drop）到“任何地方”。在实际中，我们通常是将一个元素放到另一个元素上。例如，将一个“文件”放入一个“文件夹”或者其他地方。
 
 抽象地讲，我们取一个 draggable 的元素，并将其放在 droppable 的元素上。
 
 我们需要知道：
 - 在拖放结束时，所拖动的元素要放在哪里 —— 执行相应的行为
-- 并且，最好知道我们所拖动到的 droppable 的位置，并突出显示 droppable。
+- 并且，最好知道我们所拖动到的 droppable 的元素的位置，并高亮显示 droppable 的元素。
 
 这个解决方案很有意思，只是有点麻烦，所以我们在这儿对此进行介绍。
 
-第一个想法是什么？可能是将 `onmouseover/mouseup` 处理程序放在潜在的 droppable？
+第一个想法是什么？可能是将 `onmouseover/mouseup` 处理程序放在潜在的 droppable 的元素中？
 
 但这行不通。
 
@@ -215,32 +215,33 @@ In action (inside `<iframe>`):
 
 与可拖动的元素相同。球始终位于其他元素之上，因此事件会发生在球上。无论我们在较低的元素上设置什么处理程序，它们都不会起作用。
 
-这就是一开始的那个想法，将处理程序放在潜在的 droppable，在实际操作中不起作用的原因。它们不会运行。
+这就是一开始的那个想法，将处理程序放在潜在的 droppable 的元素，在实际操作中不起作用的原因。它们不会运行。
 
 那么，该怎么办？
 
 有一个叫做 `document.elementFromPoint(clientX, clientY)` 的方法。它会返回在给定的窗口相对坐标处的嵌套的最深的元素（如果给定的坐标在窗口外，则返回 `null`）。
 
-我们可以在我们的任何鼠标事件处理程序中使用它，以检测鼠标指针下的潜在的 droppable，就像这样：
+我们可以在我们的任何鼠标事件处理程序中使用它，以检测鼠标指针下的潜在的 droppable 的元素，就像这样：
 
 ```js
 // 在一个鼠标事件处理程序中
 ball.hidden = true; // (*) 隐藏我们拖动的元素
 
 let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-// elemBelow 是球下方的元素，可能是 droppable 的
+// elemBelow 是球下方的元素，可能是 droppable 的元素
 
 ball.hidden = false;
 ```
 
 请注意：我们需要在调用 `(*)` 之前隐藏球。否则，我们通常会在这些坐标上有一个球，因为它是在鼠标指针下的最顶部的元素：`elemBelow=ball`。
 
-在任何时候，我们都可以使用该代码检测我们“掠过”的东西。当它发生时会进行释放处理。
+我们可以使用该代码来检查我们正在“飞过”的元素是什么。并在放置（drop）时，对放置进行处理。
 
-拓展了 `onMouseMove` 方法，用来查找“可释放的”元素的代码：
+基于 `onMouseMove` 扩展的代码，用于查找 "droppable" 的元素：
 
 ```js
-let currentDroppable = null; // 我们正在通过的可释放元素
+// 我们当前正在飞过的潜在的 droppable 的元素
+let currentDroppable = null;
 
 function onMouseMove(event) {
   moveAt(event.pageX, event.pageY);
@@ -253,33 +254,33 @@ function onMouseMove(event) {
   // 如果 clientX/clientY 在窗口外，那么 elementfromPoint 会返回 null
   if (!elemBelow) return;
 
-  // 潜在的可释放的将被标记为 "droppable" 类（可以是其他逻辑）
+  // 潜在的 droppable 的元素被使用 "droppable" 类进行标记（也可以是其他逻辑）
   let droppableBelow = elemBelow.closest('.droppable');
 
-  if (currentDroppable != droppableBelow) { // 如果有任何改变
-    // 鼠标的进入或者离开状态
-    // 注意：它们的值都可能是 null
-    // 如果鼠标不在一个可释放的物体上（例如，通过任意空白区域），那么 currentDroppable=null
-    // droppableBelow=null 如果在这个事件中，我们不是在通过一个可释放的物体上
+  if (currentDroppable != droppableBelow) {
+    // 我们正在飞入或飞出...
+    // 注意：它们两个的值都可能为 null
+    //   currentDroppable=null —— if we were not over a droppable before this event (e.g over an empty space)
+    //   droppableBelow=null if we're not over a droppable now, during this event
 
     if (currentDroppable) {
-      // 处理“离开”可释放物体的逻辑
+      // the logic to process "flying out" of the droppable (remove highlight)
       leaveDroppable(currentDroppable);
     }
     currentDroppable = droppableBelow;
     if (currentDroppable) {
-      // 处理“进入”可释放物体的逻辑
+      // the logic to process "flying in" of the droppable
       enterDroppable(currentDroppable);
     }
   }
 }
 ```
 
-在下面的示例中，当球被拖过足球门时，门会被高亮显示。
+在下面这个示例中，当球被拖到球门上时，球门会被高亮显示。
 
 [codetabs height=250 src="ball4"]
 
-现在在整个过程中，我们在 `currentDroppable` 变量中存储了当前 “drop target”，并且可以使用它来高亮显示或任何其他内容。
+现在，我们在整个处理过程中，在当前变量 `currentDroppable` 中都存储了当前的“放置目标”，可以用它来进行高亮显示或者其他操作。
 
 ## 总结
 
