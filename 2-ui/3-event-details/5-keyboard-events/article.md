@@ -71,15 +71,13 @@
 
 请注意，`event.code` 准确地标明了哪个键被按下了。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 准确地告诉我们按下了哪个键，并且 `event.key` 对按键的“含义”负责：它是什么（一个 "Shift"）。
 
-比方说，我们想要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”动作挂在上面。我们可以在 `keydown` 上设置一个监听者，检查哪个键被按下 —— 用来检测我们什么时候需要热键。
+假设，我们要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”行为挂在其上。我们可以在 `keydown` 上设置一个监听器，并检查哪个键被按下了。
 
-请回答问题 —— 在这样的监听者中，我们要监测的是 `event.key` 还是 `event.code` 的值？
+这里有个难题：在这样的监听器中，我们应该检查 `event.key` 或 `event.code` 的值吗？
 
-请暂停并回答。
+一方面，`event.key` 的值是一个字符，它随语言而改变。如果访问者在 OS 中使用多种语言，并在它们之间进行切换，那么相同的按键将给出不同的字符。因此检查 `event.code` 会更好，因为它总是相同的。
 
-决定好了么？
-
-如果你已经理解了，那么答案当然是 `event.code`，因为在那里我们不想要 `event.key`。`event.key` 的值会因为语言的不同或者 `CapsLock` 的使用而改变。`event.code` 的值被严格绑定到秘钥上，因此我们现在开始：
+像这样：
 
 ```js run
 document.addEventListener('keydown', function(event) {
@@ -88,6 +86,32 @@ document.addEventListener('keydown', function(event) {
   }
 });
 ```
+
+On the other hand, there's a problem with `event.code`. For different keyboard layouts, the same key may have different characters.
+
+For example, here are US layout ("QWERTY") and German layout ("QWERTZ") under it (from Wikipedia):
+
+![](us-layout.svg)
+
+![](german-layout.svg)
+
+For the same key, US layout has "Z", while German layout has "Y" (letters are swapped).
+
+Literally, `event.code` will equal `KeyZ` for people with German layout when they press `key:Y`.
+
+If we check `event.code == 'KeyZ'` in our code, then for people with German layout such test will pass when they press `key:Y`.
+
+That sounds really odd, but so it is. The [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system) explicitly mentions such behavior.
+
+So, `event.code` may match a wrong character for unexpected layout. Same letters in different layouts may map to different physical keys, leading to different codes. Luckily, that happens only with several codes, e.g. `keyA`, `keyQ`, `keyZ` (as we've seen), and doesn't happen with special keys such as `Shift`. You can find the list in the [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system).
+
+To reliably track layout-dependent characters, `event.key` may be a better way.
+
+On the other hand, `event.code` has the benefit of staying always the same, bound to the physical key location, even if the visitor changes languages. So hotkeys that rely on it work well even in case of a language switch.
+
+Do we want to handle layout-dependant keys? Then `event.key` is the way to go.
+
+Or we want a hotkey to work even after a language switch? Then `event.code` may be better.
 
 ## 自动重复
 
@@ -147,7 +171,6 @@ function checkPhoneKey(key) {
 大多数的浏览器都不兼容，以至于开发者决定放弃这些。以前的代码仍然可以正常工作，因为浏览器还是支持它们的，但现在没有必要再使用这些代码了。
 
 这章有包括了它们详细描述的时间。但现在我们可以忘记它们了。
-
 
 ## 总结
 
