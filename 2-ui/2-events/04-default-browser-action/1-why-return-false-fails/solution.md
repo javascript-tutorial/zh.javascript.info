@@ -1,16 +1,16 @@
-当浏览器读取如 `onclick` 这样的 `on*` 属性时，它会根据内容创建一个处理程序。
+当浏览器读取诸如 `onclick` 之类的 `on*` 特性（attribute）时，浏览器会根据其内容创建对应的处理程序。
 
-对 `onclick="handler()"` 来说函数是：
+对于 `onclick="handler()"` 来说，函数是：
 
 ```js
 function(event) {
-  handler() // the content of onclick
+  handler() // onclick 的内容
 }
 ```
 
-现在我们可以看到 `handler()` 返回值没有被使用，也没有对结果产生影响。
+现在我们可以看到 `handler()` 的返回值并没有被使用，也没有对结果产生影响。
 
-修复方法很简单：
+修复起来很简单：
 
 ```html run
 <script>
@@ -20,10 +20,10 @@ function(event) {
   }
 </script>
 
-<a href="http://w3.org" onclick="*!*return handler()*/!*">w3.org</a>
+<a href="https://w3.org" onclick="*!*return handler()*/!*">w3.org</a>
 ```
 
-也可以像这样使用 `event.preventDefault()`：
+我们也可以使用 `event.preventDefault()`，像这样：
 
 ```html run
 <script>
@@ -35,5 +35,5 @@ function(event) {
 */!*
 </script>
 
-<a href="http://w3.org" onclick="*!*handler(event)*/!*">w3.org</a>
+<a href="https://w3.org" onclick="*!*handler(event)*/!*">w3.org</a>
 ```

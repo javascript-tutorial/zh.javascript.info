@@ -7,7 +7,7 @@ JavaScript 中的每个值都有一种类型，那么函数是什么类型呢？
 
 在 JavaScript 中，函数就是对象。
 
-一个容易理解的方式是把函数想象成可被调用的“动作对象（action object）”。我们不仅可以调用它们，还能把它们当作对象来处理：增/删属性，按引用传递等。
+一个容易理解的方式是把函数想象成可被调用的“行为对象（action object）”。我们不仅可以调用它们，还能把它们当作对象来处理：增/删属性，按引用传递等。
 
 
 ## 属性 "name"
@@ -104,7 +104,7 @@ alert(many.length); // 2
 
 为了正确地调用 `handler`，我们需要检查 `handler.length` 属性。
 
-我们的想法是，我们用一个简单的无参数的 `hander` 语法用于 积极的回答（最常见的变体），处理程序处理正向情况（最常见的变体），但也要能够提供通用的 hander：
+我们的想法是，我们用一个简单的无参数的 `handler` 语法来处理积极的回答（最常见的变体），但也要能够提供通用的 handler：
 
 ```js run
 function ask(question, ...handlers) {
@@ -121,7 +121,7 @@ function ask(question, ...handlers) {
 }
 
 // 对于积极的回答，两个 handler 都会被调用
-// 对于负面的回答，只有第二个 hander 被调用
+// 对于负面的回答，只有第二个 handler 被调用
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 

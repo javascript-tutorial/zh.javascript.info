@@ -189,9 +189,9 @@ if(!Promise.allSettled) {
 }
 ```
 
-在这段代码中，`promises.map` 获取输入值，并通过 `p => Promise.resolve(p)` 将输入值转换为 promise（以防传递了 non-promise），然后向每一个 promise 都添加 `.then` 处理器（handler）。
+在这段代码中，`promises.map` 获取输入值，并通过 `p => Promise.resolve(p)` 将输入值转换为 promise（以防传递了 non-promise），然后向每一个 promise 都添加 `.then` 处理程序（handler）。
 
-这个处理器（handler）将成功的结果 `value` 转换为 `{state:'fulfilled', value}`，将 error `reason` 转换为 `{state:'rejected', reason}`。这正是 `Promise.allSettled` 的格式。
+这个处理程序（handler）将成功的结果 `value` 转换为 `{state:'fulfilled', value}`，将 error `reason` 转换为 `{state:'rejected', reason}`。这正是 `Promise.allSettled` 的格式。
 
 然后我们就可以使用 `Promise.allSettled` 来获取 **所有** 给定的 promise 的结果，即使其中一些被 reject。
 
@@ -275,12 +275,12 @@ let promise = new Promise((resolve, reject) => reject(error));
 
 `Promise` 类有 5 种静态方法：
 
-1. `Promise.all(promises)` - 等待所有 promise 都 resolve 时，返回存放它们结果的数组。如果给定的任意一个 promise 为 reject，那么它就会变成 `Promise.all` 的 error，所有其他 promise 的结果都会被忽略。
-2. `Promise.allSettled(promises)`（ES2020 新增方法）- 等待所有 promise 都 settle 时，并以包含以下内容的对象数组的形式返回它们的结果：
+1. `Promise.all(promises)` —— 等待所有 promise 都 resolve 时，返回存放它们结果的数组。如果给定的任意一个 promise 为 reject，那么它就会变成 `Promise.all` 的 error，所有其他 promise 的结果都会被忽略。
+2. `Promise.allSettled(promises)`（ES2020 新增方法）—— 等待所有 promise 都 settle 时，并以包含以下内容的对象数组的形式返回它们的结果：
     - `state`: `"fulfilled"` 或 `"rejected"`
     - `value`（如果 fulfilled）或 `reason`（如果 rejected）。
-3. `Promise.race(promises)` - 等待第一个 settle 的 promise，并将其 result/error 作为结果。
-4. `Promise.resolve(value)` - 使用给定 value 创建一个 resolved 的 promise。
-5. `Promise.reject(error)` - 使用给定 error 创建一个 rejected 的 promise。
+3. `Promise.race(promises)` —— 等待第一个 settle 的 promise，并将其 result/error 作为结果。
+4. `Promise.resolve(value)` —— 使用给定 value 创建一个 resolved 的 promise。
+5. `Promise.reject(error)` —— 使用给定 error 创建一个 rejected 的 promise。
 
 这五个方法中，`Promise.all` 可能是在实战中使用最多的。

@@ -39,9 +39,9 @@ setTimeout(f, 1000); // 丢失了 user 上下文
 
 浏览器中的 `setTimeout` 方法有些特殊：它为函数调用设定了 `this=window`（对于 Node.js，`this` 则会变为计时器（timer）对象，但在这儿并不重要）。所以对于 `this.firstName`，它其实试图获取的是 `window.firstName`，这个变量并不存在。在其他类似的情况下，通常 `this` 会变为 `undefined`。
 
-这个需求很典型 —— 我们想将一个对象方法传递到别的地方（这里 —— 是为了调度程序），然后在该位置调用它。如何确保在正确的上下文中调用它？
+这个需求很典型 —— 我们想将一个对象方法传递到别的地方（这里 —— 传递到调度程序），然后在该位置调用它。如何确保在正确的上下文中调用它？
 
-## 解决方案 1：包装层
+## 解决方案 1：包装器
 
 最简单的解决方案是使用一个包装函数：
 
@@ -245,7 +245,7 @@ alert( double(5) ); // = mul(2, 5) = 10
 
 对 `mul.bind(null, 2)` 的调用创建了一个新函数 `double`，它将调用传递到 `mul`，将 `null` 绑定为上下文，并将 `2` 绑定为第一个参数。并且，参数（arguments）均被“原样”传递。
 
-它被称为 [偏函数应用程序（partial function application）](https://en.wikipedia.org/wiki/Partial_application)—— 我们通过绑定先有函数的一些参数来创建一个新函数。
+它被称为 [偏函数应用程序（partial function application）](https://en.wikipedia.org/wiki/Partial_application) —— 我们通过绑定先有函数的一些参数来创建一个新函数。
 
 请注意，这里我们实际上没有用到 `this`。但是 `bind` 需要它，所以我们必须传入 `null` 之类的东西。
 

@@ -40,13 +40,13 @@ alert(generator); // [object Generator]
 
 ![](generateSequence-1.svg)
 
-一个 generator 的主要方法就是 `next()`。当被调用时（译注：指 `next()` 方法），它会恢复上图所示的运行，执行直到最近的 `yield <value>` 语句（`value` 可以被省略，默认为 `undefined`）。然后函数执行暂停，并将产生的（yielded）值返回到外部代码。
+一个 generator 的主要方法就是 `next()`。当被调用时（译注：指 `next()` 方法），它会恢复上图所示的运行，执行直到最近的 `yield <value>` 语句（`value` 可以被省略，默认为 `undefined`）。然后函数执行暂停，并将产出的（yielded）值返回到外部代码。
 
 `next()` 的结果始终是一个具有两个属性的对象：
-- `value`: 产生的（yielded）的值。
+- `value`: 产出的（yielded）的值。
 - `done`: 如果 generator 函数已执行完成则为 `true`，否则为 `false`。
 
-例如，我们可以创建一个 generator 并获取其第一个产生的（yielded）值：
+例如，我们可以创建一个 generator 并获取其第一个产出的（yielded）值：
 
 ```js run
 function* generateSequence() {
@@ -169,8 +169,8 @@ let range = {
 
   // for..of range 在一开始就调用一次这个方法
   [Symbol.iterator]() {
-    // ...它返回可迭代对象（iterator）：
-    // 后续的操作中，for..of 将只针对这个可迭代对象，要求它提供下一个值
+    // ...它返回 iterator object：
+    // 后续的操作中，for..of 将只针对这个对象，并使用 next() 向它请求下一个值
     return {
       current: this.from,
       last: this.to,
@@ -219,8 +219,8 @@ alert( [...range] ); // 1,2,3,4,5
 
 带有 generator 的变体比原来的 `range` 迭代代码简洁得多，并且保持了相同的功能。
 
-```smart header="Generator 可以永远产生值"
-在上面的示例中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直 yield 值。例如，无序的伪随机数序列。
+```smart header="Generator 可以永远产出（yield）值"
+在上面的示例中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直产出（yield）值。例如，无序的伪随机数序列。
 
 这种情况下肯定需要在 generator 的 `for..of` 循环中添加一个 `break`（或者 `return`）。否则循环将永远重复下去并挂起。
 ```
@@ -279,7 +279,7 @@ for(let code of generatePasswordCodes()) {
 alert(str); // 0..9A..Za..z
 ```
 
-`yield*` 指令将执行 **委托** 给另一个 generator。这个术语意味着 `yield* gen` 在 generator `gen` 上进行迭代，并将其 yield 的值透明地（transparently）转发到外部。就好像这些值就是由外部的 generator yield 的一样。
+`yield*` 指令将执行 **委托** 给另一个 generator。这个术语意味着 `yield* gen` 在 generator `gen` 上进行迭代，并将其产出（yield）的值透明地（transparently）转发到外部。就好像这些值就是由外部的 generator yield 的一样。
 
 执行结果与我们内联嵌套 generator 中的代码获得的结果相同：
 
@@ -456,6 +456,6 @@ try {
 
 在现代 JavaScript 中，generator 很少被使用。但有时它们会派上用场，因为函数在执行过程中与调用代码交换数据的能力是非常独特的。而且，当然，它们非常适合创建可迭代对象。
 
-并且，在下一章我们将会学习 async generator，它们被用于在 `for await ... of` 循环中读取异步生成的数据流（例如，通过网络分页提取（paginated fetches over a network））。
+并且，在下一章我们将会学习 async generator，它们被用于在 `for await ... of` 循环中读取异步生成的数据流（例如，通过网络分页提取 (paginated fetches over a network)）。
 
 在网络编程中，我们经常使用数据流，因此这是另一个非常重要的使用场景。

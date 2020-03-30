@@ -146,9 +146,9 @@ function hello(name) {
 <span class="devtools" style="background-position:-4px -194px"></span> —— “步入（Step into）”，快捷键 `key:F11`。
 : 和“下一步（Step）”类似，但在异步函数调用情况下表现不同。如果你刚刚才开始学 JavaScript，那么你可以先忽略此差异，因为我们还没有用到异步调用。
 
-    至于以后，请记住“下一步（Step）”命令会忽略异步方法，例如 `setTimeout`（约定的函数调用），它会过一段时间后再执行。而“步入（Step into）”会进入到代码中并等待（如果需要）。浏览 [DevTools 手册](https://developers.google.com/web/updates/2018/01/devtools#async) 获取更多细节。
+    至于之后，只需要记住“下一步（Step）”命令会忽略异步行为，例如 `setTimeout`（计划的函数调用），它会过一段时间再执行。而“步入（Step into）”会进入到代码中并等待（如果需要）。详见 [DevTools 手册](https://developers.google.com/web/updates/2018/01/devtools#async)。
 
-<span class="devtools" style="background-position:-104px -76px"></span> —— “步出（Step out）”：继续执行到当前函数的末尾，快捷键 `key:Shift+F11`。
+<span class="devtools" style="background-position:-32px -194px"></span> —— “步出（Step out）”：继续执行到当前函数的末尾，快捷键 `key:Shift+F11`。
 : 继续执行代码并停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-200px -190px"></span> 偶然地进入到一个嵌套调用，但是我们又对这个函数不感兴趣时，我们想要尽可能的继续执行到最后的时候是非常方便的。
 
 <span class="devtools" style="background-position:-61px -74px"></span> —— 启用/禁用所有的断点。

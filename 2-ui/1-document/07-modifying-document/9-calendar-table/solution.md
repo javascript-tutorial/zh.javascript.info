@@ -1,9 +1,9 @@
-我们用字符串创建 table：`"<table>...</table>"`，然后派发给 `innerHTML`。
+我们将表格创建为字符串：`"<table>...</table>"`，然后将其赋值给 `innerHTML`。
 
 算法如下：
 
-1. 通过 `<th>` 创建 table 头和周末名字。
-1. 创建一个日期对象 `d = new Date(year, month-1)`。它是`月份`的第一天（注意 JavaScript 计算月份是从 `0` 开始，而不是 `1`）。
-2. 将每月第一天的日期生成单元格，直到月份的第一天 `d.getDay()` 是空的。然后将它们填充到 `<td></td>`。
-3. 天数增长 `d`：`d.setDate(d.getDate()+1)`。如果 `d.getMonth()` 不是下一个月，就添加新单元格 `<td>` 到日历表中，如果那天是星期日，就添加一行 <code>"&lt;/tr&gt;&lt;tr&gt;"</code>。
-4. 如果天数遍历完但 table 没有填满，就用空的 `<td>` 补齐。
+1. 使用 `<th>` 创建带有星期名的表头。
+2. 创建日期对象 `d = new Date(year, month-1)`。它是 `month` 的第一天（考虑到 JavaScript 中的月份从 `0` 开始，而不是从 `1` 开始）。
+3. 直到月份的第一天 `d.getDay()`，前面的几个单元格是空的。让我们用 `<td></td>` 填充它们。
+4. 天数增长 `d`：`d.setDate(d.getDate()+1)`。如果 `d.getMonth()` 还没到下一个月，那么就将新的单元格 `<td>` 添加到日历中。如果那天是星期日，就添加一个新行 <code>"&lt;/tr&gt;&lt;tr&gt;"</code>。
+5. 如果该月结束，但表格的行尚未填满，就用空的 `<td>` 补齐。

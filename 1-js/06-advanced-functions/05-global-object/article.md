@@ -3,7 +3,7 @@
 
 全局对象提供可在任何地方使用的变量和函数。默认情况下，这些全局变量内置于语言或环境中。
 
-在浏览器中，它被的名字是 "window"，对 Node.js 而言，它的名字是 "global"，其它环境可能用的是别的名字。
+在浏览器中，它的名字是 "window"，对 Node.js 而言，它的名字是 "global"，其它环境可能用的是别的名字。
 
 最近，`globalThis` 被作为全局对象的标准名称加入到了 JavaScript 中，所有环境都应该支持该名称。在有些浏览器中，即 non-Chromium Edge，尚不支持 `globalThis`，但可以很容易地对其进行填充（polyfilled）。
 

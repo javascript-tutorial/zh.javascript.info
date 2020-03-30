@@ -124,7 +124,7 @@ new Promise(function(resolve, reject) {
 
 所以输出与前面的示例相同：1 -> 2 -> 4，但是现在在每次 `alert` 调用之间会有 1 秒钟的延迟。
 
-返回 promise 使我们能够构建异步动作链。
+返回 promise 使我们能够构建异步行为链。
 
 ## 示例：loadScript
 
@@ -164,7 +164,7 @@ loadScript("/article/promise-chaining/one.js")
 
 在这儿，每个 `loadScript` 调用都返回一个 promise，并且在它 resolve 时下一个 `.then` 开始运行。然后，它启动下一个脚本的加载。所以，脚本是一个接一个地加载的。
 
-我们可以向链中添加更多的异步动作（action）。请注意，代码仍然是“扁平”的 — 它向下增长，而不是向右。这里没有“厄运金字塔”的迹象。
+我们可以向链中添加更多的异步行为（action）。请注意，代码仍然是“扁平”的 — 它向下增长，而不是向右。这里没有“厄运金字塔”的迹象。
 
 从技术上讲，我们可以向每个 `loadScript` 直接添加 `.then`，就像这样：
 
@@ -319,9 +319,9 @@ fetch('/article/promise-chaining/user.json')
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-也就是说，第 `(*)` 行的 `.then` 处理程序（handler）现在返回一个 `new Promise`，只有在 `setTimeout` `(**)` 中的 `resolve(githubUser)` 被调用后才会变为 settled。链中的下一个 `.then` 将一直等待这一时刻的到来。
+也就是说，第 `(*)` 行的 `.then` 处理程序（handler）现在返回一个 `new Promise`，只有在 `setTimeout` 中的 `resolve(githubUser)` `(**)` 被调用后才会变为 settled。链中的下一个 `.then` 将一直等待这一时刻的到来。
 
-作为一个好的做法，异步行为（action）应该始终返回一个 promise。这样就可以使得之后我们计划后续的行为（action）成为可能。即使我们现在不打算对链进行扩展，但我们之后可能会需要。
+作为一个好的做法，异步行为应该始终返回一个 promise。这样就可以使得之后我们计划后续的行为成为可能。即使我们现在不打算对链进行扩展，但我们之后可能会需要。
 
 最后，我们可以将代码拆分为可重用的函数：
 

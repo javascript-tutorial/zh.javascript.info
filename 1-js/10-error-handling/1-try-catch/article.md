@@ -106,7 +106,7 @@ try {
 
 因为 `try..catch` 包裹了计划要执行的函数，该函数本身要稍后才执行，这时引擎已经离开了 `try..catch` 结构。
 
-为了捕获到调度（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
+为了捕获到计划的（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
 ```js run
 setTimeout(function() {
   try {
@@ -266,7 +266,7 @@ throw <error object>
 
 技术上讲，我们可以将任何东西用作 error 对象。甚至可以时一个原始类型数据，例如数字或字符串，但最好使用对象，最好使用具有具有 `name` 和 `message` 属性的对象（某种程度上保持与内建 error 的兼容性）。
 
-JavaScript 中有很多内建的标准 error 的构造函数：`Error`，`SyntaxError`，`ReferenceError`，`TypeError` 等。我们也可以使用它们来创建 error 对象。
+JavaScript 中有很多内建的标准 error 的构造器：`Error`，`SyntaxError`，`ReferenceError`，`TypeError` 等。我们也可以使用它们来创建 error 对象。
 
 它们的语法是：
 
@@ -278,7 +278,7 @@ let error = new ReferenceError(message);
 // ...
 ```
 
-对于内建的 error（不是对于其他任何对象，仅仅是对于 error），`name` 属性刚好就是构造函数的名字。`message` 则来自于参数（argument）。
+对于内建的 error（不是对于其他任何对象，仅仅是对于 error），`name` 属性刚好就是构造器的名字。`message` 则来自于参数（argument）。
 
 例如：
 
@@ -659,7 +659,7 @@ try {
 Error 对象包含下列属性：
 
 - `message` — 人类可读的 error 信息。
-- `name` — 具有 error 名称的字符串（Error 构造函数的名称）。
+- `name` — 具有 error 名称的字符串（Error 构造器的名称）。
 - `stack`（没有标准，但得到了很好的支持）— Error 发生时的调用栈。
 
 如果我们不需要 error 对象，我们可以通过使用 `catch {` 而不是 `catch(err) {` 来省略它。

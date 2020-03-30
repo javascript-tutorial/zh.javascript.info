@@ -36,7 +36,8 @@ let openRequest = indexedDB.open(name, version);
 调用之后，需要监听 `openRequest` 对象上的事件：
 - `success`： 数据库准备就绪，`openRequest.result` 中有了一个数据库对象"Database Object"，使用它进行进一步的调用。
 - `error`： 打开失败。
-- `upgradeneeded`： 数据库版本已过时（参见下文）。
+- `upgradeneeded`： 数据库已准备就绪，但其版本已过时（见下文）。
+
 
 **IndexedDB 具有内建的“模式版本控制”机制，这在服务器端数据库中是不存在的。**
 
@@ -46,7 +47,8 @@ let openRequest = indexedDB.open(name, version);
 
 当数据库还不存在的时候，也会触发这个事件。因此，我们应该先执行初始化。
 
-例如，当我们第一次发布应用程序时，使用版本 `1` 打开它，并在 `upgradeneeded` 处理程序中执行初始化:
+
+当我们第一次发布应用程序时，使用版本 `1` 打开它，并在 `upgradeneeded` 处理程序中执行初始化:
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
@@ -71,10 +73,11 @@ openRequest.onsuccess = function() {
 ```js
 let openRequest = indexedDB.open("store", *!*2*/!*);
 
-//  检查现有数据库版本，并根据需要进行更新：
 openRequest.onupgradeneeded = function() {
+  // 现有的数据库版本小于2（或不存在）
   let db = openRequest.result;
-  switch(db.version) { // 现有（旧）数据库版本
+
+  switch(db.version) { // 现有的db版本
     case 0:
       // 版本 0 表示客户端没有数据库
       // 执行初始化
@@ -85,7 +88,9 @@ openRequest.onupgradeneeded = function() {
 };
 ```
 
-在 `openRequest.onsuccess` 之后，我们在 `openRequest.result` 中有一个数据库对象，将用于进一步的操作。
+因此，需要在 `openRequest.onupgradeneeded` 中更新数据库，很快我们就能知道运行结果。只有当程序处理完且不报错，才会触发 `openRequest.onsuccess`。
+
+在 `openRequest.onsuccess` 之后，`openRequest.result` 中有一个数据库对象，将用于我们的进一步操作。
 
 删除数据库：
 
@@ -93,6 +98,66 @@ openRequest.onupgradeneeded = function() {
 let deleteRequest = indexedDB.deleteDatabase(name)
 // deleteRequest.onsuccess/onerror 追踪（tracks）结果
 ```
+
+```warn header="我们可以打开旧版本吗？"
+如果我们想打开一个比当前版本更低的数据库，该怎么办？例如，现有的数据库版本是3，但我们想打开版本2 `open(...2)`。
+
+报错，触发 `openRequest.onerror`。
+
+当用户加载了旧代码（例如，代理缓存），可能会发生这种情况。这时我们应该检查 `db.version`，并建议用户重新加载页面。重新检查缓存标头，以确保用户永远不会获取旧代码。
+```
+
+### 并行更新问题
+
+提到版本控制，有一个相关的小问题。
+
+一个用户在网页中打开了数据库为版本 1 的网站。
+
+这时网站更新到版本 2，这个用户在另一网页下打开了网站。这时两个网页都是我们的网站，但一个与数据库版本 1 有开放连接，而另一个试图在 `upgradeneeded` 处理程序中更新。
+
+问题是，这两个网页是同一个站点，同一个来源，共享同一个数据库。而数据库不能同时为版本 1 和版本 2。要执行版本 2 的更新，必须关闭版本 1 的所有连接。并=
+
+为了完成这些，当尝试并行更新时，`versionchange` 事件会触发一个打开的数据库对象。我们应该监听这个对象，关闭数据库（还应该建议访问者重新加载页面，获取最新的代码）。
+
+如果旧连接不关闭，新连接会被 `blocked` 事件阻塞，而不是 `success`。
+
+下面是执行此操作的代码:
+
+```js
+let openRequest = indexedDB.open("store", 2);
+
+openRequest.onupgradeneeded = ...;
+openRequest.onerror = ...;
+
+openRequest.onsuccess = function() {
+  let db = openRequest.result;
+
+  *!*
+  db.onversionchange = function() {
+    db.close();
+    // 数据库已过时，请重新加载页面
+    alert("Database is outdated, please reload the page.")
+  };
+  */!*
+
+  // ...数据库已经准备好，使用它...
+};
+
+*!*
+openRequest.onblocked = function() {
+  // 到同一数据库的另一个开放连接
+  // 触发 db.onversionchange 后没有关闭 
+};
+*/!*
+```
+在这我们做两件事：
+
+1. 成功打开后添加 `db.onversionchange` 监听器，以得到尝试并行更新的消息。
+2. 添加 `openRequest.onblocked` 监听器来处理旧连接未关闭的情况。如果在 `db.onversionchange` 中关闭，就不会发生这种情况。
+
+还有其他方案。例如，我们可以在 `db.onversionchange` 中优雅地关闭一些东西，关闭连接之前提示用户保存数据。如果 `db.onversionchange` 完成但没有关闭，新的连接将立即阻塞。可以要求用户只保留新的网页，关闭旧网页，以此更新数据。
+
+这种更新冲突很少发生，但我们至少应该处理一下。例如使用 `onblocked` 处理程序，以防程序卡死影响用户体验。
 
 ## 对象库（object store）
 
@@ -114,103 +179,104 @@ IndexedDB 使用[标准序列化算法](https://www.w3.org/TR/html53/infrastruct
 
 ![](indexeddb-structure.svg)
 
+类似于 `localStorage`，我们向存储区添加值时，可以提供一个键。但当我们存储对象时，IndexedDB 允许设置一个对象属性作为键，这就更加方便了。或者，我们可以自动生成键。
 
-As we'll see very soon, we can provide a key when we add a value to the store, similar to `localStorage`. But when we store objects, IndexedDB allows to setup an object property as the key, that's much more convenient. Or we can auto-generate keys.
+但我们需要先创建一个对象库。
 
-But we need to create an object store first.
+创建对象库的语法：
 
-
-The syntax to create an object store:
 ```js
 db.createObjectStore(name[, keyOptions]);
 ```
 
-Please note, the operation is synchronous, no `await` needed.
+请注意，操作是同步的，不需要 `await`。
 
-- `name` is the store name, e.g. `"books"` for books,
-- `keyOptions` is an optional object with one of two properties:
-  - `keyPath` -- a path to an object property that IndexedDB will use as the key, e.g. `id`.
-  - `autoIncrement` -- if `true`, then the key for a newly stored object is generated automatically, as an ever-incrementing number.
+- `name` 是存储区名称，例如 `"books"` 表示书。
+- `keyOptions` 是具有以下两个属性之一的可选对象：
+  - `keyPath` —— 对象属性的路径，IndexedDB 将以此路径作为键，例如 `id`。
+  - `autoIncrement` —— 如果为 `true`，则自动生成新存储的对象的键，键是一个不断递增的数字。
 
-If we don't supply `keyOptions`, then we'll need to provide a key explicitly later, when storing an object.
+如果我们不提供 `keyOptions`，那么以后需要在存储对象时，显式地提供一个键。
 
-For instance, this object store uses `id` property as the key:
+例如，此对象库使用 `id` 属性作为键:
+
 ```js
 db.createObjectStore('books', {keyPath: 'id'});
 ```
 
-**An object store can only be created/modified while updating the DB version, in `upgradeneeded` handler.**
+**在 `upgradeneeded` 程序中，只有在创建数据库版本时，对象库被才能被 创建/修改。**
 
-That's a technical limitation. Outside of the handler we'll be able to add/remove/update the data, but object stores can be created/removed/altered only during version update.
+这是技术上的限制。在 upgradeneedHandler 之外，可以 添加/删除/更新数据，但是只能在版本更新期间 创建/删除/更改对象库。
 
-To perform database version upgrade, there are two main approaches:
-1. We can implement per-version upgrade functions: from 1 to 2, from 2 to 3, from 3 to 4 etc. Then, in `upgradeneeded` we can compare versions (e.g. old 2, now 4) and run per-version upgrades step by step, for every intermediate version (2 to 3, then 3 to 4).
-2. Or we can just examine the database: get a list of existing object stores as `db.objectStoreNames`. That object is a [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) that provides `contains(name)` method to check for existance. And then we can do updates depending on what exists and what doesn't.
+要执行数据库版本升级，主要有两种方法：
 
-For small databases the second path may be simpler.
+1. 我们跨域实现每个版本的升级功能：从 1 到 2，从 2 到 3，从 3 到 4，等等。在 `upgradeneeded` 中，可以进行版本比较（例如，老版本是 2，需要升级到 4），并针对每个中间版本（2 到 3，然后 3 到 4）逐步运行每个版本的升级。
+2. 或者我们可以检查数据库：以 `db.objectStoreNames` 的形式获取现有对象库的列表。该对象是一个  [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) 提供 `contains(name)` 方法来检查 name 是否存在，再根据存在和不存在的内容进行更新。
 
-Here's the demo of the second approach:
+对于小型数据库，第二种方法可能更简单。
+
+下面是第二种方法的演示:
 
 ```js
-let openRequest = indexedDB.open("db", 1);
+let openRequest = indexedDB.open("db", 2);
 
-// create/upgrade the database without version checks
+// 创建/升级 数据库而无需版本检查
 openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
-  if (!db.objectStoreNames.contains('books')) { // if there's no "books" store
-    db.createObjectStore('books', {keyPath: 'id'}); // create it
+  if (!db.objectStoreNames.contains('books')) { // 如果没有 "books" 数据
+    db.createObjectStore('books', {keyPath: 'id'}); // 创造它
   }
 };
 ```
 
 
-To delete an object store:
+删除对象库：
 
 ```js
 db.deleteObjectStore('books')
 ```
 
-## Transactions
+## 事务
 
-The term "transaction" is generic, used in many kinds of databases.
+术语“事务”是通用的，许多数据库中都有用到。
 
-A transaction is a group operations, that should either all succeed or all fail.
+事务是一组操作，要么全部成功，要么全部失败。
 
-For instance, when a person buys something, we need:
-1. Subtract the money from their account.
-2. Add the item to their inventory.
+例如，当一个人买东西时，我们需要：
+1. 从他们的账户中扣除这笔钱。
+2. 将该项目添加到他们的清单中。
 
-It would be pretty bad if we complete the 1st operation, and then something goes wrong, e.g. lights out, and we fail to do the 2nd. Both should either succeed (purchase complete, good!) or both fail (at least the person kept their money, so they can retry).
+如果完成了第一个操作，但是出了问题，比如停电。这时无法完成第二个操作，这非常糟糕。两件时应该要么都成功（购买完成，好！）或同时失败（这个人保留了钱，可以重新尝试）。
 
-Transactions can guarantee that.
+事务可以保证同时完成。
 
-**All data operations must be made within a transaction in IndexedDB.**
+**所有数据操作都必须在 IndexedDB 中的事务内进行。**
 
-To start a transaction:
+启动事务：
 
 ```js run
 db.transaction(store[, type]);
 ```
 
-- `store` is a store name that the transaction is going to access, e.g. `"books"`. Can be an array of store names if we're going to access multiple stores.
-- `type` – a transaction type, one of:
-  - `readonly` -- can only read, the default.
-  - `readwrite` -- can only read and write the data, but not create/remove/alter object stores.
+- `store` 是事务要访问的库名称，例如`"books"`。如果我们要访问多个库，则是库名称的数组。
+- `type` – 交易类型，以下类型之一：
+  - `readonly` —— 只读，默认值。
+  - `readwrite` —— 只能读取和写入数据，而不能 创建/删除/更改 对象库。
 
-There's also `versionchange` transaction type: such transactions can do everything, but we can't create them manually. IndexedDB automatically creates a `versionchange` transaction when opening the database, for `updateneeded` handler. That's why it's a single place where we can update the database structure, create/remove object stores.
+还有 `versionchange` 事务类型：这种事务可以做任何事情，但不能被手动创建。IndexedDB 在打开数据库时，会自动为 `updateneeded` 处理程序创建 `versionchange` 事务。这就是它为什么可以更新数据库结构、创建/删除 对象库的原因。
 
-```smart header="Why there exist different types of transactions?"
-Performance is the reason why transactions need to be labeled either `readonly` and `readwrite`.
+```smart header="为什么存在不同类型的事务？"
+性能是事务需要标记为 `只读（readonly）` 和 `读写（readwrite）` 的原因。
 
-Many `readonly` transactions are able to access concurrently the same store, but `readwrite` transactions can't. A `readwrite` transaction "locks" the store for writing. The next transaction must wait before the previous one finishes before accessing the same store.
+许多只读事务能够同时访问同一存储区，但读写事务不能。因为读写事务会“锁定”存储区进行写操作。下一个事务必须等待前一个事务完成，才能访问相同的存储区。
 ```
 
-After the transaction is created, we can add an item to the store, like this:
+创建事务后，我们可以将项目添加到库，就像这样：
 
 ```js
 let transaction = db.transaction("books", "readwrite"); // (1)
 
-// get an object store to operate on it
+// 获取对象库进行操作
 *!*
 let books = transaction.objectStore("books"); // (2)
 */!*
@@ -226,6 +292,7 @@ let request = books.add(book); // (3)
 */!*
 
 request.onsuccess = function() { // (4)
+  // 书已添加到存储区
   console.log("Book added to the store", request.result);
 };
 
@@ -233,44 +300,41 @@ request.onerror = function() {
   console.log("Error", request.error);
 };
 ```
+基本有四个步骤：
+1. 创建一个事务，在（1）表明要访问的所有存储。
+2. 使用 `transaction.objectStore(name)` ，在（2）中获取存储对象。
+3. 在（3）执行对对象库 `books.add(book)` 的请求。
+4. …处理请求 成功/错误（4），还可以根据需要发出其他请求。
 
-There were basically four steps:
-
-1. Create a transaction, mention all stores it's going to access, at `(1)`.
-2. Get the store object using `transaction.objectStore(name)`, at `(2)`.
-3. Perform the request to the object store `books.add(book)`, at `(3)`.
-4. ...Handle request success/error `(4)`, then we can make other requests if needed, etc.
-
-Object stores support two methods to store a value:
+对象库支持两种存储值的方法：
 
 - **put(value, [key])**
-    Add the `value` to the store. The `key` is supplied only if the object store did not have `keyPath` or `autoIncrement` option. If there's already a value with same key, it will be replaced.
+    将 `value` 添加到存储区。仅当对象库没有 `keyPath` 或 `autoIncrement` 时，才提供 `key`。如果已经存在具有相同键的值，则将替换该值。
 
 - **add(value, [key])**
-    Same as `put`, but if there's already a value with the same key, then the request fails, and an error with the name `"ConstraintError"` is generated.
+    与 `put` 相同，但是如果已经有一个值具有相同的键，则请求失败，并生成一个名为 `"ConstraInterror"` 的错误。
 
-Similar to opening a database, we can send a request: `books.add(book)`, and then wait for `success/error` events.
+与打开数据库类似，我们可以发送一个请求：`books.add(book)`，然后等待 `success/error` 事件。
+- `add` 的 `request.result` 是新对象的键。
+- 错误在 `request.error`（如果有的话）中。
 
-- The `request.result` for `add` is the key of the new object.
-- The error is in `request.error` (if any).
+## 事务的自动提交
 
-## Transactions' autocommit
+在上面的示例中，我们启动了事务并发出了 `add` 请求。但正如前面提到的，一个事务可能有多个相关的请求，这些请求必须全部成功或全部失败。那么如何标记事务为已完成，并不再请求呢？
 
-In the example above we started the transaction and made `add` request. But as we stated previously, a transaction may have multiple associated requests, that must either all success or all fail. How do we mark the transaction as finished, no more requests to come?
+简短的回答是：没有。
 
-The short answer is: we don't.
+在下一个版本 3.0 规范中，可能会有一种手动方式来完成事务，但目前在 2.0 中还没有。
 
-In the next version 3.0 of the specification, there will probably be a manual way to finish the transaction, but right now in 2.0 there isn't.
+**当所有事务的请求完成，并且[微任务队列](info:microtask-queue) 为空时，它将自动提交。**
 
-**When all transaction requests are finished, and the [microtasks queue](info:microtask-queue) is empty, it is committed automatically.**
+通常，我们可以假设事务在其所有请求完成时提交，并且当前代码完成。
 
-Usually, we can assume that a transaction commits when all its requests are complete, and the current code finishes.
+因此，在上面的示例中，不需要任何特殊调用即可完成事务。
 
-So, in the example above no special call is needed to finish the transaction.
+事务自动提交原则有一个重要的副作用。不能在事务中间插入 `fetch`, `setTimeout` 等异步操作。IndexedDB 不会让事务等待这些操作完成。
 
-Transactions auto-commit principle has an important side effect. We can't insert an async operation like `fetch`, `setTimeout` in the middle of transaction. IndexedDB will not keep the transaction waiting till these are done.
-
-In the code below `request2` in line `(*)` fails, because the transaction is already committed, can't make any request in it:
+在下面的代码中，`request2`中的行 `(*)` 失败，因为事务已经提交，不能在其中发出任何请求:
 
 ```js
 let request1 = books.add(book);
@@ -281,60 +345,58 @@ request1.onsuccess = function() {
     let request2 = books.add(anotherBook); // (*)
 */!*
     request2.onerror = function() {
-      console.log(request2.error.name); // TransactionInactiveError
+      console.log(request2.error.name); // 事务激活错误
     };
   });
 };
 ```
+这是因为 `fetch` 是一个异步操作，一个宏任务。事务在浏览器开始执行宏任务之前关闭。
 
-That's because `fetch` is an asynchronous operation, a macrotask. Transactions are closed before the browser starts doing macrotasks.
+IndexedDB 规范的作者认为事务应该是短期的。主要是性能原因。
 
-Authors of IndexedDB spec believe that transactions should be short-lived. Mostly for performance reasons.
+值得注意的是，只读事务将存储“锁定”以进行写入。因此，如果应用程序的一部分启动了 `books` 对象库上的读写操作，那么希望执行相同操作的另一部分必须等待新事务“挂起”，直到第一个事务完成。如果事务处理需要很长时间，将会导致奇怪的延迟。
 
-Notably, `readwrite` transactions "lock" the stores for writing. So if one part of application initiated `readwrite` on `books` object store, then another part that wants to do the same has to wait: the new transaction "hangs" till the first one is done. That can lead to strange delays if transactions take a long time.
+那么，该怎么办？
 
-So, what to do?
+在上面的示例中，我们可以在新请求 `(*)` 之前创建一个新的 `db.transaction`。
 
-In the example above we could make a new `db.transaction` right before the new request `(*)`.
+如果需要在一个事务中把所有操作保持一致，更好的做法是将 IndexedDB 事务和“其他”异步内容分开。
 
-But it will be even better, if we'd like to keep the operations together, in one transaction, to split apart IndexedDB transactions and "other" async stuff.
+首先，执行 `fetch`，并根据需要准备数据。然后创建事务并执行所有数据库请求，就可以工作了。
 
-First, make `fetch`, prepare the data if needed, afterwards create a transaction and perform all the database requests, it'll work then.
-
-To detect the moment of successful completion, we can listen to `transaction.oncomplete` event:
+为了检测到成功完成的时刻，我们可以监听 `transaction.oncomplete` 事件:
 
 ```js
 let transaction = db.transaction("books", "readwrite");
 
-// ...perform operations...
+// ...执行操作...
 
 transaction.oncomplete = function() {
-  console.log("Transaction is complete");
+  console.log("Transaction is complete"); // 事务执行完成
 };
 ```
 
-Only `complete` guarantees that the transaction is saved as a whole. Individual requests may succeed, but the final write operation may go wrong (e.g. I/O error or something).
+只有 `complete` 才能保证将事务作为一个整体保存。个别请求可能会成功，但最终的写入操作可能会出错（例如 I/O 错误或其他错误）。
 
-To manually abort the transaction, call:
+要手动中止事务，请调用：
 
 ```js
 transaction.abort();
 ```
+取消其中的请求所做的所有修改，并触发 `transaction.onabort` 事件。
 
-That cancels all modification made by the requests in it and triggers `transaction.onabort` event.
 
+## 错误处理
 
-## Error handling
+写入请求可能会失败。
 
-Write requests may fail.
+这是意料之中的事，不仅是事物可能出错，还有其他原因。例如超过了存储配额。因此，必须做好请求失败的处理。
 
-That's to be expected, not only because of possible errors at our side, but also for reasons not related to the transaction itself. For instance, the storage quota may be exceeded. So we must be ready to handle such case.
+**失败的请求将自动中止事务，并取消所有的更改。**
 
-**A failed request automatically aborts the transaction, canceling all its changes.**
+遇到需要不取消现有更改的情况下（例如尝试另一个请求）处理失败情况，并让事务继续的情况，可以调用 `request.onerror` 处理程序，在其中调用 `event.preventDefault()` 防止事务中止。
 
-In some situations, we may want to handle the failure (e.g. try another request), without canceling existing changes, and continue the transaction. That's possible. The `request.onerror` handler is able to prevent the transaction abort by calling `event.preventDefault()`.
-
-In the example below a new book is added with the same key (`id`) as the existing one. The `store.add` method generates a `"ConstraintError"` in that case. We handle it without canceling the transaction:
+在下面的示例中，添加了一本新书，键 (`id`) 与现有的书相同。`store.add` 方法生成一个 `"ConstraInterror"`。可以在不取消事务的情况下进行处理：
 
 ```js
 let transaction = db.transaction("books", "readwrite");
@@ -344,14 +406,14 @@ let book = { id: 'js', price: 10 };
 let request = transaction.objectStore("books").add(book);
 
 request.onerror = function(event) {
-  // ConstraintError occurs when an object with the same id already exists
+  // 有相同id的对象存在时，发生ConstraintError
   if (request.error.name == "ConstraintError") {
-    console.log("Book with such id already exists"); // handle the error
-    event.preventDefault(); // don't abort the transaction
-    // use another key for the book?
+    console.log("Book with such id already exists"); // 处理错误
+    event.preventDefault(); // 不要中止事务
+    // 这个 book 用另一个键？
   } else {
-    // unexpected error, can't handle it
-    // the transaction will abort
+    // 意外错误，无法处理
+    // 事务将中止
   }
 };
 
@@ -360,122 +422,122 @@ transaction.onabort = function() {
 };
 ```
 
-### Event delegation
+### 事件委托
 
-Do we need onerror/onsuccess for every request? Not every time. We can use event delegation instead.
+每个请求都需要调用 onerror/onsuccess ？并不，可以使用事件委托来代替。
 
-**IndexedDB events bubble: `request` -> `transaction` -> `database`.**
+**IndexedDB 事件冒泡：请求 -> 事务 -> 数据库。**
 
-All events are DOM events, with capturing and bubbling, but usually only bubbling stage is used.
+所有事件都是 DOM 事件，有捕获和冒泡，但通常只使用冒泡阶段。
 
-So we can catch all errors using `db.onerror` handler, for reporting or other purposes:
+因此，出于报告或其他原因，我们可以使用 `db.onerror` 处理程序捕获所有错误：
 
 ```js
 db.onerror = function(event) {
-  let request = event.target; // the request that caused the error
+  let request = event.target; // 导致错误的请求
 
   console.log("Error", request.error);
 };
 ```
 
-...But what if an error is fully handled? We don't want to report it in that case.
+…但是错误被完全处理了呢？报告这种情况不应该被报告。
 
-We can stop the bubbling and hence `db.onerror` by using `event.stopPropagation()` in `request.onerror`.
+我们可以通过在 `request.onerror` 中使用 `event.stopPropagation()` 来停止冒泡，从而停止 `db.onerror`。
 
 ```js
 request.onerror = function(event) {
   if (request.error.name == "ConstraintError") {
-    console.log("Book with such id already exists"); // handle the error
-    event.preventDefault(); // don't abort the transaction
-    event.stopPropagation(); // don't bubble error up, "chew" it
+    console.log("Book with such id already exists"); // 处理错误
+    event.preventDefault(); // 不要中止事务
+    event.stopPropagation(); // 不要让错误冒泡, 停止它的传播
   } else {
-    // do nothing
-    // transaction will be aborted
-    // we can take care of error in transaction.onabort
+    // 什么都不做
+    // 事务将中止
+    // 我们可以解决 transaction.onabort 中的错误
   }
 };
 ```
 
-## Searching by keys
+## 通过键搜索
 
-There are two main types of search in an object store:
-1. By a key or a key range. That is: by `book.id` in our "books" storage.
-2. By another object field, e.g. `book.price`.
+对象库有两种主要的搜索类型：
+1. 通过一个键或一个键范围。即：通过在 “books” 中存储的 `book.id`。
+2. 另一个对象字段，例如 `book.price`。
 
-First let's deal with the keys and key ranges `(1)`.
+首先，让我们来处理键和键区 `(1)` 。
 
-Methods that involve searching support either exact keys or so-called "range queries" -- [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange) objects that specify a "key range".
+涉及到的搜索方法，包括支持精确键，也包括所谓的“范围查询” —— [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange) 对象指定一个“键范围”。
 
-Ranges are created using following calls:
+使用以下调用函数创建范围：
 
-- `IDBKeyRange.lowerBound(lower, [open])` means: `>lower` (or `≥lower` if `open` is true)
-- `IDBKeyRange.upperBound(upper, [open])` means: `<upper` (or `≤upper` if `open` is true)
-- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` means: between `lower` and `upper`, with optional equality if the corresponding `open` is true.
-- `IDBKeyRange.only(key)` -- a range that consists of only one `key`, rarely used.
+- `IDBKeyRange.lowerBound(lower, [open])` 表示: `≥lower` (如果 `open` 是 true，表示 `>lower`)
+- `IDBKeyRange.upperBound(upper, [open])` 表示: `≤upper` (如果 `open` 是 true，表示  `<upper`)
+- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` 表示: 在 `lower` 和 `upper` 之间。如果open 为 true，则相应的键不包括在范围中。
+- `IDBKeyRange.only(key)` – 仅包含一个键的范围 `key`，很少使用。
 
-All searching methods accept a `query` argument that can be either an exact key or a key range:
+所有搜索方法都接受一个查询参数 `query`，该参数可以是精确键或者键范围：
 
-- `store.get(query)` -- search for the first value by a key or a range.
-- `store.getAll([query], [count])` -- search for all values, limit by `count` if given.
-- `store.getKey(query)` -- search for the first key that satisfies the query, usually a range.
-- `store.getAllKeys([query], [count])` -- search for all keys that satisfy the query, usually a range, up to `count` if given.
-- `store.count([query])` -- get the total count of keys that satisfy the query, usually a range.
+- `store.get(query)` —— 按键或范围搜索第一个值。
+- `store.getAll([query], [count])` —— 搜索所有值。如果 `count` 给定，则按 `count` 进行限制。
+- `store.getKey(query)` —— 搜索满足查询的第一个键，通常是一个范围。
+- `store.getAllKeys([query], [count])` —— 搜索满足查询的所有键，通常是一个范围。如果 `count` 给定，则最多为 count
+- `store.count([query])` —— 获取满足查询的键的总数，通常是一个范围。
 
-For instance, we have a lot of books in our store. Remember, the `id` field is the key, so all these methods can search by `id`.
+例如，我们存储区里有很多书。因为 `id` 字段是键，因此所有方法都可以按 `id` 进行搜索。
 
-Request examples:
+请求示例：
 
 ```js
-// get one book
+// 获取一本书
 books.get('js')
 
-// get books with 'css' < id < 'html'
+// 获取 'css' <= id <= 'html' 的书
 books.getAll(IDBKeyRange.bound('css', 'html'))
 
-// get books with 'html' <= id
-books.getAll(IDBKeyRange.lowerBound('html', true))
+// 获取 id < 'html' 的书
+books.getAll(IDBKeyRange.upperBound('html', true))
 
-// get all books
+// 获取所有书
 books.getAll()
 
-// get all keys: id >= 'js'
+// 获取所有 id > 'js' 的键
 books.getAllKeys(IDBKeyRange.lowerBound('js', true))
 ```
 
-```smart header="Object store is always sorted"
-Object store sorts values by key internally.
+```smart header="对象库始终是有序的"
+对象库按键对值进行内部排序。
 
-So requests that return many values always return them in sorted by key order.
+因此，请求的返回值，是按照键的顺序排列的。
 ```
 
 
-## Searching by any field with an index
+## 通过带索引的字段搜索
 
-To search by other object fields, we need to create an additional data structure named "index".
+要根据其他对象字段进行搜索，我们需要创建一个名为“索引（index）”的附加数据结构。
 
-An index is an "add-on" to the store that tracks a given object field. For each value of that field, it stores a list of keys for objects that have that value. There will be a more detailed picture below.
+索引是存储的"附加项"，用于跟踪给定的对象字段。对于该字段的每个值，它存储有该值的对象的键列表。下面会有更详细的图片。
 
-The syntax:
+语法：
 
 ```js
 objectStore.createIndex(name, keyPath, [options]);
 ```
 
-- **`name`** -- index name,
-- **`keyPath`** -- path to the object field that the index should track (we're going to search by that field),
-- **`option`** -- an optional object with properties:
-  - **`unique`** -- if true, then there may be only one object in the store with the given value at the `keyPath`. The index will enforce that by generating an error if we try to add a duplicate.
-  - **`multiEntry`** -- only used if the value on `keyPath` is an array. In that case, by default, the index will treat the whole array as the key. But if `multiEntry` is true, then the index will keep a list of store objects for each value in that array. So array members become index keys.
+- **`name`** —— 索引名称。
+- **`keyPath`** —— 索引应该跟踪的对象字段的路径（我们将根据该字段进行搜索）。
+- **`option`** —— 具有以下属性的可选对象：
+  - **`unique`** —— 如果为true，则存储中只有一个对象在 `keyPath` 上具有给定值。如果我们尝试添加重复项，索引将生成错误。
+  - **`multiEntry`** —— 只有 `keypath` 上的值是数组才时使用。这时，索引将默认把整个数组视为键。但是如果 `multiEntry` 为 true，那么索引将为该数组中的每个值保留一个存储对象的列表。所以数组成员成为了索引键。
 
-In our example, we store books keyed by `id`.
+在我们的示例中，是按照 `id` 键存储图书的。
 
-Let's say we want to search by `price`.
+假设我们想通过 `price` 进行搜索。
 
-First, we need to create an index. It must be done in `upgradeneeded`, just like an object store:
+首先，我们需要创建一个索引。它像对象库一样，必须在 `upgradeneeded` 中创建完成：
 
 ```js
 openRequest.onupgradeneeded = function() {
-  // we must create the index here, in versionchange transaction
+  // 在 versionchange 事务中，我们必须在这里创建索引
   let books = db.createObjectStore('books', {keyPath: 'id'});
 *!*
   let index = inventory.createIndex('price_idx', 'price');
@@ -483,22 +545,22 @@ openRequest.onupgradeneeded = function() {
 };
 ```
 
-- The index will track `price` field.
-- The price is not unique, there may be multiple books with the same price, so we don't set `unique` option.
-- The price is not an array, so `multiEntry` flag is not applicable.
+- 该索引将跟踪 `price` 字段。
+- 价格 price 不是唯一的，可能有多本书价格相同，所以我们不设置唯一 `unique` 选项。
+- 价格不是一个数组，因此不适用多入口 `multiEntry` 标志。
 
-Imagine that our `inventory` has 4 books. Here's the picture that shows exactly what the `index` is:
+假设我们的库存里有4本书。下面的图片显示了该索引 `index` 的确切内容：
 
 ![](indexeddb-index.svg)
 
-As said, the index for each value of `price` (second argument) keeps the list of keys that have that price.
+如上所述，每个price值的索引（第二个参数）保存具有该价格的键的列表。
 
-The index keeps itself up to date automatically, we don't have to care about it.
+索引自动保持最新，所以我们不必关心它。
 
-Now, when we want to search for a given price, we simply apply the same search methods to the index:
+现在，当我们想要搜索给定的价格时，只需将相同的搜索方法应用于索引：
 
 ```js
-let transaction = db.transaction("books"); // readonly
+let transaction = db.transaction("books"); // 只读
 let books = transaction.objectStore("books");
 let priceIndex = books.index("price_idx");
 
@@ -508,38 +570,37 @@ let request = priceIndex.getAll(10);
 
 request.onsuccess = function() {
   if (request.result !== undefined) {
-    console.log("Books", request.result); // array of books with price=10
+    console.log("Books", request.result); // 价格为 10 的书的数组
   } else {
     console.log("No such books");
   }
 };
 ```
-
-We can also use `IDBKeyRange` to create ranges and looks for cheap/expensive books:
+我们还可以使用 `IDBKeyRange` 创建范围，并查找 便宜/贵 的书：
 
 ```js
-// find books where price < 5
+// 查找价格<=5的书籍
 let request = priceIndex.getAll(IDBKeyRange.upperBound(5));
 ```
 
-Indexes are internally sorted by the tracked object field, `price` in our case. So when we do the search, the results are also sorted by `price`.
+在我们的例子中，索引是按照被跟踪对象字段价格 `price` 进行内部排序的。所以当我们进行搜索时，搜索结果也会按照价格排序。
 
-## Deleting from store
+## 从存储中删除
 
-The `delete` method looks up values to delete by a query, the call format is similar to `getAll`:
+`delete` 方法查找要由查询删除的值，调用格式类似于 `getAll`
 
-- **`delete(query)`** -- delete matching values by query.
+- **`delete(query)`** —— 通过查询删除匹配的值。
 
-For instance:
+例如：
 ```js
-// delete the book with id='js'
+// 删除 id='js' 的书
 books.delete('js');
 ```
 
-If we'd like to delete books based on a price or another object field, then we should first find the key in the index, and then call `delete`:
+如果要基于价格或其他对象字段删除书。首先需要在索引中找到键，然后调用 `delete`：
 
 ```js
-// find the key where price = 5
+// 找到价格 = 5 的钥匙
 let request = priceIndex.getKey(5);
 
 request.onsuccess = function() {
@@ -548,42 +609,43 @@ request.onsuccess = function() {
 };
 ```
 
-To delete everything:
+删除所有内容：
 ```js
-books.clear(); // clear the storage.
+books.clear(); // 清除存储。
 ```
 
-## Cursors
+## 光标
 
-Methods like `getAll/getAllKeys` return an array of keys/values.
+像 `getAll/getAllKeys` 这样的方法，会返回一个 键/值 数组。
 
-But an object storage can be huge, bigger than the available memory. Then `getAll` will fail to get all records as an array.
+但是一个对象库可能很大，比可用的内存还大。这时，`getAll` 就无法将所有记录作为一个数组获取。
 
-What to do?
+该怎么办呢？
 
-Cursors provide the means to work around that.
+光标提供了解决这一问题的方法。
 
-**A *cursor* is a special object that traverses the object storage, given a query, and returns one key/value at a time, thus saving memory.**
+**光标是一种特殊的对象，它在给定查询的情况下遍历对象库，一次返回一个键/值，从而节省内存。**
 
-As an object store is sorted internally by key, a cursor walks the store in key order (ascending by default).
+由于对象库是按键在内部排序的，因此游标按键顺序（默认为升序）遍历存储。
 
-The syntax:
+语法:
+
 ```js
-// like getAll, but with a cursor:
+// 类似于getAll，但带有游标：
 let request = store.openCursor(query, [direction]);
 
-// to get keys, not values (like getAllKeys): store.openKeyCursor
+// 获取键，而不是值（例如getAllKeys）：store.openKeyCursor 
 ```
 
-- **`query`** is a key or a key range, same as for `getAll`.
-- **`direction`** is an optional argument, which order to use:
-  - `"next"` -- the default, the cursor walks up from the record with the lowest key.
-  - `"prev"` -- the reverse order: down from the record with the biggest key.
-  - `"nextunique"`, `"prevunique"` -- same as above, but skip records with the same key (only for cursors over indexes, e.g. for multiple books with price=5 only the first one will be returned).
+- **`query`** 是一个键或键范围，与 `getAll` 相同。
+- **`direction`** 是一个可选参数，使用顺序是：
+  - `"next"` —— 默认值，光标从有最小索引的记录向上移动。
+  - `"prev"` —— 相反的顺序：从有最大的索引的记录开始下降。
+  - `"nextunique"`, `"prevunique"` —— 同上，但是跳过键相同的记录 （仅适用于索引上的光标，例如，对于价格为5的书，仅返回第一本）。
 
-**The main difference of the cursor is that `request.onsuccess` triggers multiple times: once for each result.**
+**光标对象的主要区别在于 `request.onSuccess` 多次触发：每个结果触发一次。**
 
-Here's an example of how to use a cursor:
+这有一个如何使用光标的例子：
 
 ```js
 let transaction = db.transaction("books");
@@ -591,12 +653,12 @@ let books = transaction.objectStore("books");
 
 let request = books.openCursor();
 
-// called for each book found by the cursor
+// 为光标找到的每本书调用
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let key = cursor.key; // book key (id field)
-    let value = cursor.value; // book object
+    let key = cursor.key; // 书的键（id字段）
+    let value = cursor.value; // 书本对象
     console.log(key, value);
     cursor.continue();
   } else {
@@ -604,50 +666,49 @@ request.onsuccess = function() {
   }
 };
 ```
+主要的光标方法有：
 
-The main cursor methods are:
+- `advance(count)` —— 将光标向前移动 `count` 次，跳过值。
+- `continue([key])` —— 将光标移至匹配范围中的下一个值（如果给定键，紧接键之后）。
 
-- `advance(count)` -- advance the cursor `count` times, skipping values.
-- `continue([key])` -- advance the cursor to the next value in range matching (or immediately after `key` if given).
+无论是否有更多的值匹配光标 —— 调用 `onsuccess`。结果中，我们可以获得指向下一条记录的光标，或者未定义的`undefined`。
 
-Whether there are more values matching the cursor or not -- `onsuccess` gets called, and then in `result` we can get the cursor pointing to the next record, or `undefined`.
+在上面的示例中，光标是为对象库创建的。
 
-In the example above the cursor was made for the object store.
+也可以在索引上创建一个光标。索引是允许按对象字段进行搜索的。在索引上的光标与在对象存储上的光标完全相同 — 它们通过一次返回一个值来节省内存。
 
-But we also can make a cursor over an index. As we remember, indexes allow to search by an object field. Cursors over indexes to precisely the same as over object stores -- they save memory by returning one value at a time.
-
-For cursors over indexes, `cursor.key` is the index key (e.g. price), and we should use `cursor.primaryKey` property the object key:
+对于索引上的游标，`cursor.key` 是索引键（例如：价格），我们应该使用 `cursor.primaryKey` 属性作为对象的键：
 
 ```js
 let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
 
-// called for each record
+// 为每条记录调用
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let key = cursor.primaryKey; // next object store key (id field)
-    let value = cursor.value; // next object store object (book object)
-    let key = cursor.key; // next index key (price)
+    let key = cursor.primaryKey; // 下一个对象存储键(id字段)
+    let value = cursor.value; // 下一个对象存储对象(book对象)
+    let key = cursor.key; // 下一个索引键(price)
     console.log(key, value);
     cursor.continue();
   } else {
-    console.log("No more books");
+    console.log("No more books"); // 没有书了
   }
 };
 ```
 
-## Promise wrapper
+## Promise 包装器
 
-Adding `onsuccess/onerror` to every request is quite a cumbersome task. Sometimes we can make our life easier by using event delegation, e.g. set handlers on the whole transactions, but `async/await` is much more convenient.
+将 `onsuccess/onerror`  添加到每个请求是一项相当麻烦的任务。我们可以通过使用事件委托（例如，在整个事务上设置处理程序）来简化我们的工作，但是 `async/await` 要方便的多。
 
-Let's use a thin promise wrapper <https://github.com/jakearchibald/idb> further in this chapter. It creates a global `idb` object with [promisified](info:promisify) IndexedDB methods.
+在本章，我们会进一步使用一个轻便的承诺包装器 <https://github.com/jakearchibald/idb> 。它使用 [promisified](info:promisify) IndexedDB方法创建全局 `idb` 对象。 
 
-Then, instead of `onsuccess/onerror` we can write like this:
+然后，我们可以不使用 `onsuccess/onerror` ，而是这样写：
 
 ```js
 let db = await idb.openDb('store', 1, db => {
   if (db.oldVersion == 0) {
-    // perform the initialization
+    // 执行初始化
     db.createObjectStore('books', {keyPath: 'id'});
   }
 });
@@ -668,33 +729,31 @@ try {
 
 ```
 
-So we have all the sweet "plain async code" and "try..catch" stuff.
+现在我们有了可爱的“简单异步代码”和「try..catch」捕获的东西。
 
-### Error handling
+### 错误处理
 
-If we don't catch an error, then it falls through, till the closest outer `try..catch`.
+如果我们没有捕获到错误，那么程序将一直失败，直到外部最近的 `try..catch` 捕获到为止。
 
-An uncaught error becomes an "unhandled promise rejection" event on `window` object.
+未捕获的错误将成为 `window` 对象上的 “unhandled promise rejection” 事件。
 
-We can handle such errors like this:
+我们可以这样处理这种错误：
 
 ```js
 window.addEventListener('unhandledrejection', event => {
-  let request = event.target; // IndexedDB native request object
-  let error = event.reason; //  Unhandled error object, same as request.error
-  ...report about the error...
+  let request = event.target; // IndexedDB 本机请求对象
+  let error = event.reason; //  未处理的错误对象，与 request.error 相同
+  // ...报告错误...
 });
 ```
 
-### "Inactive transaction" pitfall
+### “非活跃交易”陷阱
 
+我们都知道，浏览器一旦执行完成当前的代码和**微任务**之后，事务就会自动提交。因此，如果我们在事务中间放置一个类似 `fetch` 的宏任务，事务只是会自动提交，而不会等待它执行完成。因此，下一个请求会失败。
 
-As we already know, a transaction auto-commits as soon as the browser is done with the current code and microtasks. So if we put a *macrotask* like `fetch` in the middle of a transaction, then the transaction won't wait for it to finish. It just auto-commits. So the next request in it would fail.
+对于 promise 包装器和 `async/await`，情况是相同的。
 
-
-For a promise wrapper and `async/await` the situation is the same.
-
-Here's an example of `fetch` in the middle of the transaction:
+这是在事务中间进行 `fetch` 的示例：
 
 ```js
 let transaction = db.transaction("inventory", "readwrite");
@@ -704,53 +763,53 @@ await inventory.add({ id: 'js', price: 10, created: new Date() });
 
 await fetch(...); // (*)
 
-await inventory.add({ id: 'js', price: 10, created: new Date() }); // Error
+await inventory.add({ id: 'js', price: 10, created: new Date() }); // 错误
 ```
 
-The next `inventory.add` after `fetch` `(*)` fails with an "inactive transaction" error, because the transaction is already committed and closed at that time.
+`fetch` `(*)` 后的下一个 `inventory.add` 失败，出现“非活动事务”错误，因为这时事务已经被提交并且关闭了。
 
-The workaround is same as when working with native IndexedDB: either make a new transaction or just split things apart.
-1. Prepare the data and fetch all that's needed first.
-2. Then save in the database.
+解决方法与使用本机 IndexedDB 时相同：进行新事务，或者将事物分开。
 
-### Getting native objects
+1. 准备数据，先获取所有需要的信息。
+2. 然后保存在数据库中。
 
-Internally, the wrapper performs a native IndexedDB request, adding `onerror/onsuccess` to it, and returns a promise that rejects/resolves with the result.
+### 获取本机对象
 
-That works fine most of the time. The examples are at the lib page <https://github.com/jakearchibald/idb>.
+在内部，包装器执行本机IndexedDB请求，并添加 `onerror/onsuccess` 方法，并返回 rejects/resolves 结果的 promise。
 
-In few rare cases, when we need the original `request` object, we can access it as `promise.request` property of the promise:
+在大多数情况下都可以运行， 示例在这 <https://github.com/jakearchibald/idb>。
+
+极少数情况下，我们需要原始的 `request` 对象。可以将 `promise` 的 `promise.request` 属性，当作原始对象进行访问：
 
 ```js
-let promise = books.add(book); // get a promise (don't await for its result)
+let promise = books.add(book); // 获取 promise 对象(不要 await 结果)
 
-let request = promise.request; // native request object
-let transaction = request.transaction; // native transaction object
+let request = promise.request; // 本地请求对象
+let transaction = request.transaction; // 本地事务对象
 
-// ...do some native IndexedDB voodoo...
+// ...做些本地的IndexedDB的处理...
 
-let result = await promise; // if still needed
+let result = await promise; // 如果仍然需要
 ```
 
-## Summary
+## 总结
 
-IndexedDB can be thought of as a "localStorage on steroids". It's a simple key-value database, powerful enough for offline apps, yet simple to use.
+IndexedDB 可以被认为是 “localStorage on steroids”。这是一个简单的键值对数据库，功能强大到足以支持离线应用，而且用起来比较简单。
 
-The best manual is the specification, [the current one](https://w3c.github.io/IndexedDB) is 2.0, but few methods from [3.0](https://w3c.github.io/IndexedDB/) (it's not much different) are partially supported.
+最好的指南是官方文档。[目前的版本](https://w3c.github.io/IndexedDB) 是2.0，但是[3.0]((https://w3c.github.io/IndexedDB/) 版本中的一些方法（差别不大）也得到部分支持。
 
-The usage can be described with a few phrases:
+基本用法可以用几个短语来描述：
 
-1. Get a promise wrapper like [idb](https://github.com/jakearchibald/idb).
-2. Open a database: `idb.openDb(name, version, onupgradeneeded)`
-    - Create object storages in indexes in `onupgradeneeded` handlers.
-    - Update version if needed - either by comparing numbers or just checking what exists.
-3. For requests:
-    - Create transaction `db.transaction('books')` (readwrite if needed).
-    - Get the object store `transaction.objectStore('books')`.
-4. Then, to search by a key, call methods on the object store directly.
-    - To search by an object field, create an index.
-5. If the data does not fit in memory, use a cursor.
+1. 获取一个promise包装器，比如 [idb](https://github.com/jakearchibald/idb).
+2. 打开一个数据库：`idb.openDb(name, version, onupgradeneeded)`
+    - 在 `onupgradeneeded` 处理程序中创建对象存储和索引，或者根据需要执行版本更新。
+3. 对于请求：
+    - 创建事务 `db.transaction('books')`（如果需要的话，设置readwrite）。
+    - 获取对象存储 `transaction.objectStore('books')`.
+4. 按键搜索，可以直接调用对象库上的方法。
+    - 要按对象字段搜索，需要创建索引。
+5. 如果内存中容纳不下数据，请使用光标。
 
-Here's a small demo app:
+这里有一个小应用程序示例：
 
 [codetabs src="books" current="index.html"]

@@ -29,7 +29,7 @@ User.staticMethod = function() {
 User.staticMethod(); // true
 ```
 
-在 `User.staticMethod()` 调用中的 `this` 的值是类构造函数 `User` 自身（“点符号前面的对象”规则）。
+在 `User.staticMethod()` 调用中的 `this` 的值是类构造器 `User` 自身（“点符号前面的对象”规则）。
 
 通常来说，静态方法用来属于该类，但不属于该类的任何热定对象的函数。
 

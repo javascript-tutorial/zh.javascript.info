@@ -4,19 +4,19 @@
 
 `BigInt` 是一种特殊的数字类型，它提供了对任意长度整数的支持。
 
-创建 bigint 的方式有两种：在一个整数字面量后面加 `n` 或者调用 `BigInt` 函数，后者从字符串、数字等生成 bigints。
+创建 bigint 的方式有两种：在一个整数字面量后面加 `n` 或者调用 `BigInt` 函数，该函数从字符串、数字等中生成 bigint。
 
 ```js
 const bigint = 1234567890123456789012345678901234567890n;
 
 const sameBigint = BigInt("1234567890123456789012345678901234567890");
 
-const bigintFromNumber = BigInt(10); // 等同于 10n
+const bigintFromNumber = BigInt(10); // 与 10n 相同
 ```
 
-## 数学运算
+## 数学运算符
 
-`BigInt` 大多数情况下可以像普通数字类型一样使用，比如：
+`BigInt` 大多数情况下可以像常规数字类型一样使用，例如：
 
 ```js run
 alert(1n + 2n); // 3
@@ -24,44 +24,44 @@ alert(1n + 2n); // 3
 alert(5n / 2n); // 2
 ```
 
-请注意：除法 `5/2` 的结果经过四舍五入后，去掉了小数点后面的部分。bigints 上的所有运算，其返回结果也是 bigints。
+请注意：除法 `5/2` 的结果向零进行舍入，舍入后得到的结果没有了小数部分。对 bigint 的所有操作，返回的结果也是 bigint。
 
-我们不可以把 bigints 和普通数字类型混在一起：
+我们不可以把 bigint 和常规数字类型混合使用：
 
 ```js run
 alert(1n + 2); // Error: Cannot mix BigInt and other types
 ```
 
-在需要的情况下，我们应该使用 `BigInt()` 或者 `Number()` 对它们进行明确地转换，像这样：
+如果有需要，我们应该显式地转换它们：使用 `BigInt()` 或者 `Number()`，像这样：
 
 ```js run
 let bigint = 1n;
 let number = 2;
 
-// 数字转 bigint
+// 将 number 转换为 bigint
 alert(bigint + BigInt(number)); // 3
 
-// bigint 转数字
+// 将 bigint 转换为 number
 alert(Number(bigint) + number); // 3
 ```
 
-bigint 到数字的转换通常都不会报错，但是如果这个 bigint 太大而不适合数字类型，那么多余的字节将会被截断，从而导致精度损失。
+转换操作始终是静默的，绝不会报错，但是如果 bigint 太大而数字类型无法容纳，则会截断多余的位，因此我们应该谨慎进行此类转换。
 
-````smart header="bigints 不支持一元加法"
-一元加法运算符 `+value`，是大家熟知的将 `value` 转换成数字的方法。
+````smart header="BigInt 不支持一元加法"
+一元加法运算符 `+value`，是大家熟知的将 `value` 转换成数字类型的方法。
 
-在 bigint 中，这是不被支持的。为了避免混淆：
+为了避免混淆，在 bigint 中不支持一元加法：
 ```js run
 let bigint = 1n;
 
-alert( +bigint ); // 错误
+alert( +bigint ); // error
 ```
-所以我们应该用 `Number()` 来将一个 bigint 转换成一个数字。
+所以我们应该用 `Number()` 来将一个 bigint 转换成一个数字类型。
 ````
 
-## 比较
+## 比较运算符
 
-bigints 和数字类型的比较， 比如 `<`， `>`， 比较起来没有问题：
+比较运算符，例如 `<` 和 `>`，使用它们来对 bigint 和 number 类型的数字进行比较没有问题：
 
 ```js run
 alert( 2n > 1n ); // true
@@ -69,7 +69,7 @@ alert( 2n > 1n ); // true
 alert( 2n > 1 ); // true
 ```
 
-因为数字和 bigints 属于不同类型，它们可能在`==`的情况下相等，但在`===`（严格相等）的情况下不相等：
+但是请注意，由于 number 和 bigint 属于不同类型，它们可能在进行 `==` 比较时相等，但在进行 `===`（严格相等）比较时不相等：
 
 ```js run
 alert( 1 == 1n ); // true
@@ -77,52 +77,54 @@ alert( 1 == 1n ); // true
 alert( 1 === 1n ); // false
 ```
 
-## 布尔运算符
+## 布尔运算
 
-当在 `if` 判断或其他布尔运算中时，bigints 和数字用法一样。
+当在 `if` 或其他布尔运算中时，bigint 的行为类似于 number。
 
-打个比方，在 `if` 判断中，bigint `0n` 的判断结果为假，其他值为真：
+例如，在 `if` 中，bigint `0n` 为 `false`，其他值为 `true`：
 
 ```js run
 if (0n) {
-  // 不会被执行
+  // 永远不会执行
 }
 ```
 
-bigints 和布尔运算符，比如 `||`、`&&` 之类的用法与数字类型类似：
+布尔运算符，例如 `||`，`&&` 和其他运算符，处理 bigint 的方式也类似于 number：
 
 ```js run
-alert( 1n || 2 ); // 1 (1n 被认为是真)
+alert( 1n || 2 ); // 1（1n 被认为是 true）
 
-alert( 0n || 2 ); // 2 (0n 被认为是假)
+alert( 0n || 2 ); // 2（0n 被认为是 false）
 ```
 
-## Polyfills
+## Polyfill
 
-Polyfilling bigints 比较棘手。原因是许多 JavaScript 运算符，比如 `+`、`-` 之类的，用于 bigints 的时候与用在普通数字类型有所不同。
+Polyfilling bigint 比较棘手。原因是许多 JavaScript 运算符，比如 `+` 和 `-` 等，在对待 bigint 的行为上与常规 number 相比有所不同。
 
-比如说，bigints 的除法总是返回整数。
+例如，bigint 的除法总是返回 bigint（如果需要，会进行舍入）。
 
-想要模拟这样的行为，polyfill 需要写函数来替换所有这些运算符。但是这样做很麻烦，并且会耗费很多的性能。
+想要模拟这种行为，polyfill 需要分析代码，并用其函数替换所有此类运算符。但是这样做很麻烦，并且会耗费很多性能。
 
-所以，并没有一个众所周知且好用的 polyfill。
+所以，目前并没有一个众所周知的好用的 polyfill。
 
-不过，[JSBI](https://github.com/GoogleChromeLabs/jsbi) 这个库的开发者们提出了另一种办法。
+不过，[JSBI](https://github.com/GoogleChromeLabs/jsbi) 库的开发者提出了另一种解决方案。
 
-他们建议调用 JSBI 库来替代原生的 bigints：
+该库使用自己的方法实现了大的数字。我们可以使用它们替代原生的 bigint：
 
-| 运算        | 原生 `BigInt`      | JSBI                      |
-| -----------| ----------------- | ------------------------- |
-| 由数字创建   | `a = BigInt(789)` | `a = JSBI.BigInt(789)`    |
-| 加法        | `c = a + b`       | `c = JSBI.add(a, b)`      |
-| 减法        | `c = a - b`       | `c = JSBI.subtract(a, b)` |
-| ...        | ...               | ...                       |
+| 运算 | 原生 `BigInt` | JSBI |
+|-----------|-----------------|------|
+| 从 Number 创建 | `a = BigInt(789)` | `a = JSBI.BigInt(789)` |
+| 加法 | `c = a + b` | `c = JSBI.add(a, b)` |
+| 减法 | `c = a - b` | `c = JSBI.subtract(a, b)` |
+| ... | ... | ... |
 
-然后，对于那些支持 `BigInt` 的浏览器，用 polyfill（Babel 插件）来将 JSBI 的调用转换成原生的 bigints。
+……然后，对于那些支持 bigint 的浏览器，可以使用 polyfill（Babel 插件）将 JSBI 调用转换为原生的 bigint。
 
-换句话说，这个方法建议我们在写代码时用 JSBI 来替换原生的 bigints。因为 JSBI 在内部像用数字类型一样用 bigints，并且严格遵循规范，所以代码已经是准备好转换成 bigint（bigint-ready）了。
+换句话说，这个方法建议我们在写代码时使用 JSBI 替代原生的 bigint。但是 JSBI 在内部像使用 bigint 一样使用 number，并最大程度按照规范进行模拟，所以代码已经是准备好转换成 bigint 的了（bigint-ready）。
+
+对于不支持 bigint 的引擎，我们可以“按原样”使用此类 JSBI 代码，对于那些支持 bigint 的引擎 — polyfill 会将调用转换为原生的 bigint。
 
 ## 参考
 
-- [MDN docs on BigInt](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/BigInt)。
-- [Specification](https://tc39.es/ecma262/#sec-bigint-objects)。
+- [MDN 文档对 BigInt 的介绍](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)。
+- [ECMA262 规范](https://tc39.es/ecma262/#sec-bigint-objects)。

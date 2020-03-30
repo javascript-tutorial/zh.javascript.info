@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# 不同点：CSS 宽度与 clientWidth
+# CSS width 与 clientWidth 的不同点
 
-`getComputedStyle(elem).width` 与 `elem.clientWidth` 之间的差别在哪？
+`getComputedStyle(elem).width` 与 `elem.clientWidth` 之间有什么不同点？
 
-指出至少三种不同点，越多越好。
+指出至少三种不同点。当然越多越好。

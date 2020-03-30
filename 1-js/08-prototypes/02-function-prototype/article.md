@@ -41,12 +41,12 @@ alert( rabbit.eats ); // true
 在上图中，`"prototype"` 是一个水平箭头，表示一个常规属性，`[[Prototype]]` 是垂直的，表示 `rabbit` 继承自 `animal`。
 
 ```smart header="`F.prototype` 仅用在 `new F` 时"
-`F.prototype` 属性仅在 `new F` 被调用时使用，它为新对象的 `[[Prototype]]` 赋值。之后，`F.prototype` 和新对象之间就没有任何联系了。可以把它看成“一次性的礼物”。
+`F.prototype` 属性仅在 `new F` 被调用时使用，它为新对象的 `[[Prototype]]` 赋值。
 
 如果在创建之后，`F.prototype` 属性有了变化（`F.prototype = <another object>`），那么通过 `new F` 创建的新对象也将随之拥有新的对象作为 `[[Prototype]]`，但已经存在的对象将保持旧有的值。
 ```
 
-##  默认的 F.prototype，构造函数属性
+##  默认的 F.prototype，构造器属性
 
 每个函数都有 `"prototype"` 属性，即使我们没有提供它。
 
@@ -88,7 +88,7 @@ alert(rabbit.constructor == Rabbit); // true (from prototype)
 
 ![](rabbit-prototype-constructor.svg)
 
-我们可以使用 `constructor` 属性来创建一个新对象，该对象使用与现有对象相同的构造函数。
+我们可以使用 `constructor` 属性来创建一个新对象，该对象使用与现有对象相同的构造器。
 
 像这样：
 
@@ -105,7 +105,7 @@ let rabbit2 = new rabbit.constructor("Black Rabbit");
 */!*
 ```
 
-当我们有一个对象，但不知道它使用了哪个构造函数（例如它来自第三方库），并且我们需要创建另一个类似的对象时，用这种方法就很方便。
+当我们有一个对象，但不知道它使用了哪个构造器（例如它来自第三方库），并且我们需要创建另一个类似的对象时，用这种方法就很方便。
 
 但是，关于 `"constructor"` 最重要的是……
 
@@ -172,4 +172,4 @@ let user = {
 };
 ```
 
-默认情况下，所有函数都有 `F.prototype = {constructor：F}`，所以我们可以通过访问它的 `"constructor"` 属性来获取一个对象的构造函数。
+默认情况下，所有函数都有 `F.prototype = {constructor：F}`，所以我们可以通过访问它的 `"constructor"` 属性来获取一个对象的构造器。

@@ -215,11 +215,39 @@ alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 
 在上面代码中的函数 `readUser` 的目的就是“读取用户数据”。在这个过程中可能会出现不同类型的 error。目前我们有了 `SyntaxError` 和 `ValidationError`，但是将来，函数 `readUser` 可能会不断壮大，并可能会产生其他类型的 error。
 
-调用 `readUser` 的代码应该处理这些 error。现在它在 `catch` 块中使用了多个 `if` 语句来检查 error 类，处理已知的 error，并再次抛出未知的 error。但是如果函数 `readUser` 产生了多种 error，那么我们应该扪心自问：我们真的想在每个调用 `readUser` 的代码中都一一检查所有的 error 类型吗？
+调用 `readUser` 的代码应该处理这些 error。现在它在 `catch` 块中使用了多个 `if` 语句来检查 error 类，处理已知的 error，并再次抛出未知的 error。
 
-通常答案是 "No"：外部代码希望“比它高一个级别”，外部代码只想具有几种“数据读取异常” — 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果能有一种方法能够获取 error 的详细信息那就更好了，但前提是我们需要这样做。
+该方案是这样的：
 
-因此，让我们创建一个新的类 `ReadError` 来表示此类 error。如果在 `readUser` 内部发生了 error，我们将在那里捕获这个 error 并生成 `ReadError`。我们也会在其 `cause` 属性中保留对原始 error 的引用。然后，外部代码将只需要检查 `ReadError`。
+```js
+try {
+  ...
+  readUser()  // 潜在的 error 源
+  ...
+} catch (err) {
+  if (err instanceof ValidationError) {
+    // 处理 validation error
+  } else if (err instanceof SyntaxError) {
+    // 处理 syntax error
+  } else {
+    throw err; // 未知 error，再次抛出它
+  }
+}
+```
+
+在上面的代码中，我们可以看到两种类型的 error，但是可以有更多。
+
+如果 `readUser` 函数会产生多种 error，那么我们应该问问自己：我们是否真的想每次都一一检查所有的 error 类型？
+
+通常答案是 "No"：我们希望能够“比它高一个级别”。我们只想知道这里是否是“数据读取异常” — 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果我们有一种方法能够获取 error 的详细信息那就更好了，但前提是我们需要。
+
+我们所描述的这项技术被称为“包装异常”。
+
+1. 我们将创建一个新的类 `ReadError` 来表示一般的“数据读取” error。
+2. 函数`readUser` 将捕获内部发生的数据读取 error，例如 `ValidationError` 和 `SyntaxError`，并生成一个 `ReadError` 来进行替代。
+3. 对象 `ReadError` 会把对原始 error 的引用保存在其 `cause` 属性中。
+
+之后，调用 `readUser` 的代码只需要检查 `ReadError`，而不必检查每种数据读取 error。并且，如果需要更多 error 细节，那么可以检查 `readUser` 的 `cause` 属性。
 
 下面的代码定义了 `ReadError`，并在 `readUser` 和 `try..catch` 中演示了其用法：
 
@@ -293,7 +321,7 @@ try {
 
 所以外部代码检查 `instanceof ReadError`，并且它的确是。不必列出所有可能的 error 类型。
 
-这种方法被称为“包装异常（wrapping exceptions）”，因为我们将“低级别的异常”包装到 `ReadError` 中，这对于调用代码来说更加抽象和方便。它被广泛应用于面向对象的编程中。
+这种方法被称为“包装异常（wrapping exceptions）”，因为我们将“低级别”的异常“包装”到了更抽象的 `ReadError` 中。它被广泛应用于面向对象的编程中。
 
 ## 总结
 

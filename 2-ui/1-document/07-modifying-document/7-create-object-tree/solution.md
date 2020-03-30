@@ -1,4 +1,4 @@
-在对象间游走的最简单方式就是递归了。
+遍历对象的最简单的方法是使用递归。
 
-1. [The solution with innerHTML](sandbox:innerhtml).
-2. [The solution with DOM](sandbox:build-tree-dom).
+1. [使用 innerHTML 的解决方案](sandbox:innerhtml)。
+2. [使用 DOM 的解决方案](sandbox:build-tree-dom)。

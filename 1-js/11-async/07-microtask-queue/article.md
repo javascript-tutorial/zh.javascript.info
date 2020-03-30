@@ -103,7 +103,7 @@ window.addEventListener('unhandledrejection', event => alert(event.reason));
 
 ## 总结
 
-Promise 处理始终是异步的，因为所有 promise 操作都会通过内部的 "promise jobs" 队列，也被称为“微任务队列”（ES8 术语）。
+Promise 处理始终是异步的，因为所有 promise 行为都会通过内部的 "promise jobs" 队列，也被称为“微任务队列”（ES8 术语）。
 
 因此，`.then/catch/finally` 处理程序（handler）总是在当前代码完成后才会被调用。**
 
