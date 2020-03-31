@@ -3,6 +3,8 @@
 [![Gitter](https://img.shields.io/badge/chat-Gitter-forest.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/TheModernJavaScriptTutorial)
 
+- 本教程为 [React 官方文档](https://reactjs.org/docs/getting-started.html#javascript-resources) 推荐教程，持续更新，永久免费，欢迎扫码关注微信公众号，加入读者群。
+- 如果你正在使用本教程学习，并且认为对你有很大帮助，也请你考虑扫描赞助本项目，请我读一本书 📚
 
 | 微信扫码关注官方公众号，订阅更多精彩内容 | 赞助项目（支付宝）| 赞助项目（微信）|
 |-|-|-|
