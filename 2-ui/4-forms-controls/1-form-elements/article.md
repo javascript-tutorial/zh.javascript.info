@@ -29,14 +29,14 @@ document.forms[0] - 文档中的第一个表单
   // 获取表单
   let form = document.forms.my; // <form name="my"> 元素
 
-  // 获取元素
+  // 获取表单中的元素
   let elem = form.elements.one; // <input name="one"> 元素
 
   alert(elem.value); // 1
 </script>
 ```
 
-可能会有多个名称相同的元素，这种情况经常在处理单选按钮中出现。
+可能会有多个名字相同的元素，这种情况经常在处理单选按钮中出现。
 
 在这种情况下，`form.elements[name]` 将会是一个集合，例如：
 
@@ -59,6 +59,7 @@ alert(ageElems[0]); // [object HTMLInputElement]
 
 这些导航（navigation）属性并不依赖于标签的结构。所有的控件元素，无论它们在表单中有多深，都可以通过 `form.elements` 获取到。
 
+
 ````smart header="Fieldset 作为 \"subform\""
 一个表单内会有一个或多个 `<fieldset>` 元素。它们也具有 `elements` 属性，该属性列出了 `<fieldset>` 中的表单控件。
 
@@ -80,7 +81,7 @@ alert(ageElems[0]); // [object HTMLInputElement]
     let fieldset = form.elements.userFields;
     alert(fieldset); // HTMLFieldSetElement
 
-    // 我们可以通过名字从表单和 fieldset 中获取输入
+    // 我们可以通过名字从表单和 fieldset 中获取 input
     alert(fieldset.elements.login == form.elements.login); // true
 */!*
   </script>
@@ -91,11 +92,11 @@ alert(ageElems[0]); // [object HTMLInputElement]
 ````warn header="更简短的表示方式：`form.name`"
 还有一个更简短的表示方式：我们可以通过 `form[index/name]` 来访问元素。
 
-使用这种表示方式我们可以写 `form.login` 而不是 `form.elements.login` 来访问输入元素。
+换句话说，我们可以将 `form.elements.login` 写成 `form.login`。
 
-这也有效，但是会有一个小问题：如果我们访问一个元素，然后修改它的 `name`，它仍然可以通过旧的 name 访问到（当然也能通过新的 name 访问）。
+这也有效，但是会有一个小问题：如果我们访问一个元素，然后修改它的 `name`，之后它仍然可以被通过旧的 `name` 访问到（当然也能通过新的 `name` 访问）。
 
-我们可以很容易在一个例子中看到这个情况：
+我们可以很直观地通过一个例子看到这个情况：
 
 ```html run height=40
 <form id="form">
@@ -103,35 +104,34 @@ alert(ageElems[0]); // [object HTMLInputElement]
 </form>
 
 <script>
-  alert(form.elements.login == form.login); // true, the same <input>
-  alert(form.elements.login == form.login); // true，同样的 <input>
+  alert(form.elements.login == form.login); // true，与 <input> 相同
 
-  form.login.name = "username"; // 修改 input 的 name 属性
+  form.login.name = "username"; // 修改 input 的 name
 
-  // form.elements 更新 name 属性:
+  // form.elements 更新了 name：
   alert(form.elements.login); // undefined
-  alert(form.elements.username); // 输入
+  alert(form.elements.username); // input
 
 *!*
-  // 直接访问可以同时使用 input 的两个 name：旧的以及新的
+  // form 允许我们使用两个名字：新的名字和旧的名字
   alert(form.username == form.login); // true
 */!*
 </script>
 ```
 
-这通常来说并不是一个问题，因为我们很少修改表单元素的 name。
+这通常来说并不是一个问题，因为我们很少修改表单元素的名字。
 
 ````
 
 ## 反向引用：element.form
 
-对于任何元素，其对应的表单都可以通过 `element.form` 访问到。因此不仅表单可以引用所有元素，元素也可以引用表单。
+对于任何元素，其对应的表单都可以通过 `element.form` 访问到。因此，表单引用了所有元素，元素也引用了表单。
 
-这里有一个表示关系的图片：
+这是一张示意图：
 
 ![](form-navigation.svg)
 
-比如说：
+例如：
 
 ```html run height=40
 <form id="form">
@@ -151,23 +151,25 @@ alert(ageElems[0]); // [object HTMLInputElement]
 
 ## 表单元素
 
-让我们来谈谈表单控件，主要关注于它们具体的特性。
+让我们来谈谈表单控件。
 
 ### input 和 textarea
 
-通常来说，我们可以使用 `input.value` 或者 `input.checked` 来访问复选框的值。
+我们可以通过 `input.value`（字符串）或 `input.checked`（布尔值）来访问复选框（cjeckbox）中的它们的值。
 
-就像下面这样：
+像这样：
 
 ```js
 input.value = "New value";
 textarea.value = "New text";
 
-input.checked = true; // 用于复选框或者单选按钮
+input.checked = true; // 对于复选框（checkbox）或单选按钮（radio button）
 ```
 
 ```warn header="使用 `textarea.value` 而不是 `textarea.innerHTML`"
-请注意我们永远不应该使用 `textarea.innerHTML`：它只储存了最初在页面上的 HTML 内容，而不是当前的。
+请注意，即使 `<textarea>...</textarea>` 将它们的值作为嵌套的 HTML 标签来保存，我们也绝不能使用 `textarea.innerHTML` 来访问它。
+
+它仅存储最初在页面上的 HTML，而不是存储的当前值。
 ```
 
 ### select 和 option
