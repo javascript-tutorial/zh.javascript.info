@@ -1,23 +1,23 @@
 # 表单属性和方法
 
-表单以及例如 `<input>` 的控制元素有大量特殊的属性和事件。
+表单（form）以及例如 `<input>` 的控制元素有许多特殊的属性和事件。
 
-如果我们知道这些，那么处理表单可以变得更加简单。
+当我们学习了这些相关内容后，处理表单会变得更加方便。
 
 ## 导航：表单和元素
 
-文档中的表单是一个特殊集合 `document.forms` 中的成员。
+文档中的表单是特殊集合 `document.forms` 的成员。
 
-`document.forms` 是一个**命名**集合：我们既可以使用名字也可以使用索引来获取表单。
+这就是所谓的“命名的集合”：既是被命名了的，也是有序的。我们既可以使用名字，也可以使用在文档中的编号来获取表单。
 
 ```js no-beautify
-document.forms.my - 包含了 name="my" 的表单
+document.forms.my - name="my" 的表单
 document.forms[0] - 文档中的第一个表单
 ```
 
-当我们有了一个表单，其中任何的元素都可以通过命名集合 `form.elements` 来获取到。
+当我们有了一个表单时，其中的任何元素都可以通过命名的集合 `form.elements` 来获取到。
 
-比如说：
+例如：
 
 ```html run height=40
 <form name="my">
@@ -27,10 +27,10 @@ document.forms[0] - 文档中的第一个表单
 
 <script>
   // 获取表单
-  let form = document.forms.my; // <form name="my"> 元素
+  let form = document.forms.my; // <form name="my"> element
 
-  // 获取表单中的元素
-  let elem = form.elements.one; // <input name="one"> 元素
+  // 获取元素
+  let elem = form.elements.one; // <input name="one"> element
 
   alert(elem.value); // 1
 </script>
