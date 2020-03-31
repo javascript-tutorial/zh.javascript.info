@@ -1,11 +1,13 @@
-`onscroll` 处理器应该检查哪些图像是可见的，然后显示它们。
+`onscroll` 处理程序应该检查哪些图像是可见的，并显示它们。
 
-我们还希望在页面加载时运行它，以便在任何滚动之前立即检测图像可见性并加载它们。
+我们还希望在页面加载时运行它，以检测即将可见的图像并加载它们。
 
-如果我们把它放在 `<body>` 底部，那么它会在页面内容被加载时运行。
+该代码应该在文档加载完成时执行，以便可以访问文档内容。
+
+或者将该代码放在 `<body>` 底部：
 
 ```js
-// ...页面内容如上所述...
+// ...页面内容在上面...
 
 function isVisible(elem) {
 
@@ -13,11 +15,29 @@ function isVisible(elem) {
 
   let windowHeight = document.documentElement.clientHeight;
 
-  // 顶部可见或底部可见
+  // 顶部元素边缘可见吗？
   let topVisible = coords.top > 0 && coords.top < windowHeight;
+
+  // 底部元素边缘可见吗？
   let bottomVisible = coords.bottom < windowHeight && coords.bottom > 0;
 
   return topVisible || bottomVisible;
+}
+```
+
+`showVisible()` 函数使用通过 `isVisible()` 实现的可见性检查，来加载可见图像：
+
+```js
+function showVisible() {
+  for (let img of document.querySelectorAll('img')) {
+    let realSrc = img.dataset.src;
+    if (!realSrc) continue;
+
+    if (isVisible(img)) {
+      img.src = realSrc;
+      img.dataset.src = '';
+    }
+  }
 }
 
 *!*
@@ -26,6 +46,4 @@ window.onscroll = showVisible;
 */!*
 ```
 
-对于可视化图像，我们可以使用 `img.dataset.src` 并将其赋值 `img.src`（如果还没有这样做）。
-
-P.S. 解决方案还有一个 `isVisible` 的变体，即位于 1 个页面上方/下方的“预加载”图像（页面高度是 `document.documentElement.clientHeight`）。
+P.S. 此解决方案还有一个 `isVisible` 的变体，可以“预加载”当前文档滚动上方/下方 1 页内的图像
