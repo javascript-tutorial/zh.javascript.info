@@ -1,6 +1,6 @@
 # 表单属性和方法
 
-表单（form）以及例如 `<input>` 的控制元素有许多特殊的属性和事件。
+表单（form）以及例如 `<input>` 的控件（control）元素有许多特殊的属性和事件。
 
 当我们学习了这些相关内容后，处理表单会变得更加方便。
 
@@ -27,10 +27,10 @@ document.forms[0] - 文档中的第一个表单
 
 <script>
   // 获取表单
-  let form = document.forms.my; // <form name="my"> element
+  let form = document.forms.my; // <form name="my"> 元素
 
   // 获取元素
-  let elem = form.elements.one; // <input name="one"> element
+  let elem = form.elements.one; // <input name="one"> 元素
 
   alert(elem.value); // 1
 </script>
@@ -38,7 +38,7 @@ document.forms[0] - 文档中的第一个表单
 
 可能会有多个名称相同的元素，这种情况经常在处理单选按钮中出现。
 
-在那种情况下 `form.elements[name]` 将会是一个集合，比如说：
+在这种情况下，`form.elements[name]` 将会是一个集合，例如：
 
 ```html run height=40
 <form>
@@ -51,16 +51,18 @@ let form = document.forms[0];
 
 let ageElems = form.elements.age;
 
-alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
+*!*
+alert(ageElems[0]); // [object HTMLInputElement]
+*/!*
 </script>
 ```
 
-这些导航属性并不依赖于标签的结构。所有的元素，无论它们在表单中嵌套的有多么深，都可以通过 `form.elements` 获取到。
+这些导航（navigation）属性并不依赖于标签的结构。所有的控件元素，无论它们在表单中有多深，都可以通过 `form.elements` 获取到。
 
-````smart header="Fieldsets 来作为 \"subforms\""
-一个表单会包含一个或者多个 `<fieldset>` 元素。它们也支持 `elements` 属性。
+````smart header="Fieldset 作为 \"subform\""
+一个表单内会有一个或多个 `<fieldset>` 元素。它们也具有 `elements` 属性，该属性列出了 `<fieldset>` 中的表单控件。
 
-比如说：
+例如：
 
 ```html run height=80
 <body>
@@ -78,7 +80,7 @@ alert(ageElems[0].value); // 10，第一个单选按钮的 value 值
     let fieldset = form.elements.userFields;
     alert(fieldset); // HTMLFieldSetElement
 
-    // 我们可以从 form 或者 fieldset 中获取输入
+    // 我们可以通过名字从表单和 fieldset 中获取输入
     alert(fieldset.elements.login == form.elements.login); // true
 */!*
   </script>
