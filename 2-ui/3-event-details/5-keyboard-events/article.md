@@ -1,6 +1,6 @@
 # 键盘：keydown 和 keyup
 
-在我们开始学习键盘的相关内容之前，请注意，在现代设备商，还有其他“输入内容”的方法。例如，人们使用语音识别（尤其是在移动端设备上）或用鼠标复制/粘贴。
+在我们开始学习键盘的相关内容之前，请注意，在现代设备上，还有其他“输入内容”的方法。例如，人们使用语音识别（尤其是在移动端设备上）或用鼠标复制/粘贴。
 
 因此，如果我们想要跟踪 `<input>` 字段中的所有输入，那么键盘事件是不够的。无论如何，还需要一个名为 `input` 的事件来跟踪 `<input>` 字段中的更改。对于这样的任务来说，这可能是一个更好的选择。稍后我们将在 <info:events-change-input> 一章中介绍它们。
 
@@ -50,7 +50,7 @@
 - 数字键的代码为：`"Digit<number>"`：`"Digit0"`，`"Digit1"` 等。
 - 特殊按键的代码为按键的名字：`"Enter"`，`"Backspace"`，`"Tab"` 等。
 
-有几种广泛应用的键盘布局，该规范给出了每种键盘的按键代码。
+有几种广泛应用的键盘布局，该规范给出了每种布局的按键代码。
 
 有关更多按键代码，请参见 [规范的字母数字部分](https://www.w3.org/TR/uievents-code/#key-alphanumeric-section)，或者只需在上面的 [测试台](#keyboard-test-stand) 中按下一个按键。
 ```
@@ -69,11 +69,11 @@
 | `key:Backspace`      |`Backspace`          |`Backspace`        |
 | `key:Shift`|`Shift`          |`ShiftRight` 或 `ShiftLeft`       |
 
-请注意，`event.code` 准确地标明了哪个键被按下了。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 准确地告诉我们按下了哪个键，并且 `event.key` 对按键的“含义”负责：它是什么（一个 "Shift"）。
+请注意，`event.code` 准确地标明了哪个键被按下了。例如，大多数键盘有两个 `key:Shift` 键，一个在左边，一个在右边。`event.code` 会准确地告诉我们按下了哪个键，而 `event.key` 对按键的“含义”负责：它是什么（一个 "Shift"）。
 
 假设，我们要处理一个热键：`key:Ctrl+Z`（或 Mac 上的 `key:Cmd+Z`）。大多数文本编辑器将“撤销”行为挂在其上。我们可以在 `keydown` 上设置一个监听器，并检查哪个键被按下了。
 
-这里有个难题：在这样的监听器中，我们应该检查 `event.key` 或 `event.code` 的值吗？
+这里有个难题：在这样的监听器中，我们应该检查 `event.key` 的值还是 `event.code` 的值？
 
 一方面，`event.key` 的值是一个字符，它随语言而改变。如果访问者在 OS 中使用多种语言，并在它们之间进行切换，那么相同的按键将给出不同的字符。因此检查 `event.code` 会更好，因为它总是相同的。
 
@@ -107,22 +107,22 @@ document.addEventListener('keydown', function(event) {
 
 为了可靠地跟踪与受键盘布局影响的字符，使用 `event.key` 可能是一个更好的方式。
 
-另一方面，`event.code` 的好处是，即使访问者更改了语言，绑定到物理键位置的 `event.code` 会始终保持不变。因此，即使在切换了语言的情况下，依赖它的热键也能正常工作。
+另一方面，`event.code` 的好处是，即使访问者更改了语言，绑定到物理键位置的 `event.code` 会始终保持不变。因此，即使在切换了语言的情况下，依赖于它的热键也能正常工作。
 
-Do we want to handle layout-dependant keys? Then `event.key` is the way to go.
+我们想要处理与布局有关的按键？那么 `event.key` 是我们必选的方式。
 
-Or we want a hotkey to work even after a language switch? Then `event.code` may be better.
+或者我们希望一个热键即使在切换了语言后，仍能正常使用？那么 `event.code` 可能会更好。
 
 ## 自动重复
 
-如果按键时间足够长，它就会开始重复：`keydown` 会被一次又一次触发，并且当它释放时我们终于得到 `keyup`。所以有很多的 `keydown` 却只有一个 `keyup` 很正常。
+如果按下一个键足够长的时间，它就会开始“自动重复”：`keydown` 会被一次又一次地触发，然后当按键被释放时，我们最终会得到 `keyup`。因此，有很多 `keydown` 却只有一个 `keyup` 是很正常的。
 
-对于所有的重复按键，事件对象的 `event.repeat` 属性都设置为 `true`。
+对于由自动重复触发的事件，`event` 对象的 `event.repeat` 属性被设置为 `true`。
 
 
-## 默认动作
+## 默认行为
 
-默认动作各不相同，因为键盘可以开始许多可能的事情。
+默认行为各不相同，因为键盘可以开始许多可能的事情。
 
 比如：
 
@@ -132,7 +132,7 @@ Or we want a hotkey to work even after a language switch? Then `event.code` may 
 - 浏览器打开“保存页面”对话框（`key:Ctrl+S`）
 -  ...等等。
 
-阻止对 `keydown` 的默认动作可以取消其中的大多数操作，但基于操作系统的特殊按键除外。例如在 Windows 里，`key:Alt+F4` 关闭当前浏览器窗口。也没有办法通过阻止 JavaScript 中的默认动作来阻止它。
+阻止对 `keydown` 的默认行为可以取消其中的大多数操作，但基于操作系统的特殊按键除外。例如在 Windows 里，`key:Alt+F4` 关闭当前浏览器窗口。也没有办法通过阻止 JavaScript 中的默认行为来阻止它。
 
 例如，下述的 `<input>` 期望输入值是电话号码，因此他不会接受除数字、`+`、`()` 或 `-`以外的其他按键：
 
