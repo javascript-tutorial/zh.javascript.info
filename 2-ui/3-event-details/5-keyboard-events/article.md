@@ -97,17 +97,17 @@ document.addEventListener('keydown', function(event) {
 
 对于同一个按键，美式布局为 "Z"，而德式布局为 "Y"（字母被替换了）。
 
-Literally, `event.code` will equal `KeyZ` for people with German layout when they press `key:Y`.
+从字面上看，对于使用德式布局键盘的人来说，但他们按下 `key:Y` 时，`event.code` 将等于 `KeyZ`。
 
-If we check `event.code == 'KeyZ'` in our code, then for people with German layout such test will pass when they press `key:Y`.
+如果我们在代码中检查 `event.code == 'KeyZ'`，那么对于使用德式布局键盘的人来说，当他们按下 `key:Y` 时，这个测试就通过了。
 
-That sounds really odd, but so it is. The [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system) explicitly mentions such behavior.
+听起来确实很怪，但事实确实如此。[规范](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system) 中明确提到了这种行为。
 
-So, `event.code` may match a wrong character for unexpected layout. Same letters in different layouts may map to different physical keys, leading to different codes. Luckily, that happens only with several codes, e.g. `keyA`, `keyQ`, `keyZ` (as we've seen), and doesn't happen with special keys such as `Shift`. You can find the list in the [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system).
+因此，`event.code` 可能由于意外的键盘布局而与错误的字符进行了匹配。不同键盘布局中的相同字母可能会映射到不同的物理键，从而导致了它们有不同的代码。幸运的是，这种情况只发生在几个代码上，例如 `keyA`，`keyQ`，`keyZ`（我们已经看到了），而对于诸如 `Shift` 这样的特殊按键没有发生这种情况。你可以在 [规范](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system) 中找到该列表。
 
-To reliably track layout-dependent characters, `event.key` may be a better way.
+为了可靠地跟踪与受键盘布局影响的字符，使用 `event.key` 可能是一个更好的方式。
 
-On the other hand, `event.code` has the benefit of staying always the same, bound to the physical key location, even if the visitor changes languages. So hotkeys that rely on it work well even in case of a language switch.
+另一方面，`event.code` 的好处是，即使访问者更改了语言，绑定到物理键位置的 `event.code` 会始终保持不变。因此，即使在切换了语言的情况下，依赖它的热键也能正常工作。
 
 Do we want to handle layout-dependant keys? Then `event.key` is the way to go.
 
