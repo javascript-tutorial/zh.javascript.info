@@ -1,29 +1,29 @@
 # 页面生命周期：DOMContentLoaded，load，beforeunload，unload
 
-HTML 页面的生命周期有三个重要事件：
+HTML 页面的生命周期包含三个重要事件：
 
-- `DOMContentLoaded` —— 浏览器完成全部 HTML 的加载，并构建 DOM 树，但像 `<img>` 和样式这样的外部资源可能还没有加载完成。
-- `load` —— 浏览器加载完所有资源，包括 HTML 文档，图像，样式等。
-- `beforeunload/unload` —— 当用户离开页面时。
+- `DOMContentLoaded` —— 浏览器已完全加载 HTML，并构建了 DOM 树，但像 `<img>` 和样式表之类的外部资源可能尚未加载完成。
+- `load` —— 浏览器不仅加载完成了 HTML，还加载完成了所有外部资源：图片，样式等。
+- `beforeunload/unload` —— 当用户正在离开页面时。
 
 每个事件都是有用的：
 
-- `DOMContentLoaded` 事件 —— DOM 已经准备好，因此事件处理器可以查找 DOM 节点，并初始化接口。
-- `load` 事件 —— 外部资源加载完成后，我们就可以应用样式表，获取图像大小等。
-- `beforeunload` 事件 —— 用户即将离开：我们可以检查用户是否保存了修改，并询问他是否真的要离开。
-- `unload` 事件 —— 用户几乎已经离开了，但是我们仍然可以启动一些操作，比如发送统计数据。
+- `DOMContentLoaded` 事件 —— DOM 已经就绪，因此处理程序可以查找 DOM 节点，并初始化接口。
+- `load` 事件 —— 外部资源已加载完成，样式已被应用，图片大小也已知了。
+- `beforeunload` 事件 —— 用户正在离开：我们可以检查用户是否保存了更改，并询问他是否真的要离开。
+- `unload` 事件 —— 用户几乎已经离开了，但是我们仍然可以启动一些操作，例如发送统计数据。
 
-我们探讨一下这些事件的细节。
+我们探索一下这些事件的细节。
 
 ## DOMContentLoaded
 
 `DOMContentLoaded` 事件发生在 `document` 对象上。
 
-我们必须使用 `addEventListener` 来监听它：
+我们必须使用 `addEventListener` 来捕获它：
 
 ```js
 document.addEventListener("DOMContentLoaded", ready);
-// 不同于“document.onDOMContentLoaded = ...”
+// 不是 "document.onDOMContentLoaded = ..."
 ```
 
 例如：
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", ready);
   function ready() {
     alert('DOM is ready');
 
-    // 图像尚未加载（除非已经有了缓存）因此其大小是 0x0
+    // 图片目前尚未加载完成（除非已经被缓存），所以图片的大小为 0x0
     alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
   }
 
@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", ready);
 <img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
 ```
 
-在示例中，`DOMContentLoaded` 处理器在文档加载完成后触发，所以它可以访问到所有的元素，包括它下面的 `<img>` 元素。
+在示例中，`DOMContentLoaded` 处理程序在文档加载完成后触发，所以它可以查看所有元素，包括它下面的 `<img>` 元素。
 
-但是它不会等待图像加载完成，因此 `alert` 显示其大小为零。
+但是，它不会等待图像加载。因此，`alert` 显示其大小为零。
 
-初识 `DOMContentLoaded` 事件时，觉得它比较简单。DOM 树准备就绪 —— 这是它的触发条件。它并没有什么特别之处。
+乍一看，`DOMContentLoaded` 事件非常简单。DOM 树准备就绪 —— 这是它的触发条件。它并没有什么特别之处。
 
 ### DOMContentLoaded 和脚本
 
@@ -161,7 +161,7 @@ window.addEventListener("unload", function() {
 
 ## window.onbeforeunload [#window.onbeforeunload]
 
-如果访问中触发了离开页面的导航或试图关闭窗口，`beforeunload` 处理器将要求提供更多的确认信息。
+如果访问中触发了离开页面的导航或试图关闭窗口，`beforeunload` 处理程序将要求提供更多的确认信息。
 
 如果我们取消该事件，浏览器将会询问用户是否确定。
 
@@ -183,11 +183,11 @@ window.onbeforeunload = function() {
 };
 ```
 
-它的行为在某种意义上被改变了，因为一些站长通过显示误导性及恶意的信息滥用了这个事件处理器。所以，目前来看一些老旧的浏览器可能仍然显示为消息，但除此之外 —— 没有别的办法自定义显示给用户的消息。
+它的行为在某种意义上被改变了，因为一些站长通过显示误导性及恶意的信息滥用了这个事件处理程序。所以，目前来看一些老旧的浏览器可能仍然显示为消息，但除此之外 —— 没有别的办法自定义显示给用户的消息。
 
 ## readyState
 
-如果在文档加载之后设置 `DOMContentLoaded` 事件处理器会发生什么呢？
+如果在文档加载之后设置 `DOMContentLoaded` 事件处理程序会发生什么呢？
 
 很自然地，它不会被运行。
 
@@ -266,7 +266,7 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 方括号中的数字表示发生这种情况的大致时间。标记为相同数字的事件几乎是同时发生的（+- 几毫秒）。
 
 - `document.readyState` 在 `DOMContentLoaded` 之前会立即变成了 `interactive`。这两个事件的意义实际上是相同的。
-- 当所有资源（`iframe` 和 `img`）都被加载完成后，`document.readyState` 变成了 `complete`。这里我们可以发现，它大约发生在 `img.onload`（`img` 是最后的资源）和 `window.onload` 之间。转换到 `complete` 状态的意义与 `window.onload` 一致。区别在于 `window.onload` 在所有其他 `load` 处理器之后一直有效。
+- 当所有资源（`iframe` 和 `img`）都被加载完成后，`document.readyState` 变成了 `complete`。这里我们可以发现，它大约发生在 `img.onload`（`img` 是最后的资源）和 `window.onload` 之间。转换到 `complete` 状态的意义与 `window.onload` 一致。区别在于 `window.onload` 在所有其他 `load` 处理程序之后一直有效。
 
 ## 总结
 
@@ -277,7 +277,7 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
   - 图像和其他资源仍然可以继续被加载。
 - 当页面和所有资源被加载时，`window` 上的 `load` 事件会被触发。我们很少使用它，因为通常没有必要去等待那么久。
 - 当用户想要离开页面时，`window` 上的 `beforeunload` 事件会被触发。如果我们取消这个事件，浏览器会询问用户是否真的要离开（比如有未保存的内容）。
-- 当用户最终离开时，`window` 上的 `unload` 事件会被触发。在处理器中，我们只能做一些不会涉及到延迟或询问用户的简单事情。正是由于这个限制，它很少被使用。我们可以用 `navigator.sendBeacon` 来发送网络请求。
+- 当用户最终离开时，`window` 上的 `unload` 事件会被触发。在处理程序中，我们只能做一些不会涉及到延迟或询问用户的简单事情。正是由于这个限制，它很少被使用。我们可以用 `navigator.sendBeacon` 来发送网络请求。
 - `document.readyState` 是文档的当前状态，可以在 `readystatechange` 事件中跟踪状态变更：
   - `loading` —— 文档正在被加载。
   - `interactive` —— 文档被解析，大概是与 `DOMContentLoaded` 同时发生，而不是在它之前发生。
