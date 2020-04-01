@@ -155,7 +155,7 @@ alert(ageElems[0]); // [object HTMLInputElement]
 
 ### input 和 textarea
 
-我们可以通过 `input.value`（字符串）或 `input.checked`（布尔值）来访问复选框（cjeckbox）中的它们的值。
+我们可以通过 `input.value`（字符串）或 `input.checked`（布尔值）来访问复选框（cjeckbox）中的它们的 `value`。
 
 像这样：
 
@@ -167,9 +167,9 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 ```
 
 ```warn header="使用 `textarea.value` 而不是 `textarea.innerHTML`"
-请注意，即使 `<textarea>...</textarea>` 将它们的值作为嵌套的 HTML 标签来保存，我们也绝不应该使用 `textarea.innerHTML` 来访问它。
+请注意，即使 `<textarea>...</textarea>` 将它们的 `value` 作为嵌套的 HTML 标签来保存，我们也绝不应该使用 `textarea.innerHTML` 来访问它。
 
-它仅存储最初在页面上的 HTML，而不是存储的当前值。
+它仅存储最初在页面上的 HTML，而不是存储的当前 `value`。
 ```
 
 ### select 和 option
@@ -177,13 +177,13 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 一个 `<select>` 元素有 3 个重要的属性：
 
 1. `select.options` —— `<option>` 的子元素的集合，
-2. `select.value` —— 当前所选择的 `<option>` 的值，
+2. `select.value` —— 当前所选择的 `<option>` 的 `value`，
 3. `select.selectedIndex` —— 当前所选择的 `<option>` 的编号。
 
-它们提供了三种为 `<select>` 设置值饿不同方式：
+它们提供了三种为 `<select>` 设置 `value` 的不同方式：
 
 1. 找到对应的 `<option>` 元素，并将 `option.selected` 设置为 `true`。
-2. 将 `select.value` 设置为对应的值。
+2. 将 `select.value` 设置为对应的 `value`。
 3. 将 `select.selectedIndex` 设置为对应 `<option>` 的编号。
 
 第一个方式最明显，但是 `(2)` 和 `(3)` 通常来说会更方便。
@@ -217,7 +217,7 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 </select>
 
 <script>
-  // 从 multi-select 中获取所有选定的值
+  // 从 multi-select 中获取所有选定的 `value`
   let selected = Array.from(select.options)
     .filter(option => option.selected)
     .map(option => option.value);
@@ -230,20 +230,24 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 
 ### new Option
 
-在[选项元素](https://html.spec.whatwg.org/multipage/forms.html#the-option-element)的规范中，有一个很不错的简短语法用来创建 `<option>` 元素：
+这很少单独使用。但它仍然是一个有趣的东西。
+
+在 [规范](https://html.spec.whatwg.org/multipage/forms.html#the-option-element) 中，有一个很好的简短语法可以创建 `<option>` 元素：
 
 ```js
 option = new Option(text, value, defaultSelected, selected);
 ```
 
-该方法调用参数如下：
+参数：
 
-- `text` —— 选项中的文本，
-- `value` —— 选项的默认值,
-- `defaultSelected` —— 如果这个值是 `true`，那么 `selected` 属性就会默认创建，
-- `selected` —— 如果这个值是 `true`，那么这个选项就是已经被选择了。
+- `text` —— `<option>` 中的文本，
+- `value` —— `<option>` 的 `value`，
+- `defaultSelected` —— 如果为 `true`，那么 `selected` HTML-特性（attribute）就会被创建，
+- `selected` —— 如果为 `true`，那么这个 `<option>` 就会被选中。
 
-比如说：
+你可能会对 `defaultSelected` 和 `selected` 有一些疑惑。这很简单：`defaultSelected` 设置的是 HTML-特性（attribute），我们可以使用 `option.getAttribute('selected')` 来获得。而 `selected` —— 无论这个 `option` 是否被选则，它都很重要。通常，这两个值都设置为 `true`，或者都不设置（与设置为 `false` 是一样的）。
+
+例如：
 
 ```js
 let option = new Option("Text", "value");
@@ -256,18 +260,20 @@ let option = new Option("Text", "value");
 let option = new Option("Text", "value", true, true);
 ```
 
-```smart header="`<option>` 的额外属性"
-选项元素具有其它额外的属性：
+`<option>` 元素具有以下属性：
 
-`selected`
-: 是否选择了该选项。
+`option.selected`
+: `<option>` 是否被选择。
 
-`index`
-: 在该 option 所属的 `<select>` 其所对应的索引。
+`option.index`
+: `<option>` 在其所属的 `<select>` 中的编号。
 
-`text`
-: 选项的文本内容（可以被任何访问者看到）。
-```
+`option.text`
+: `<option>` 的文本内容（可以被访问者看到）。
+
+## 参考资料
+
+- 规范：<https://html.spec.whatwg.org/multipage/forms.html>.
 
 ## 总结
 
@@ -277,13 +283,15 @@ let option = new Option("Text", "value", true, true);
 : 一个表单元素可以通过 `document.forms[name/index]` 访问到。
 
 `form.elements`  
-: 表单元素以通过 `form.elements[name/index]` 的方式访问，或者也可以使用 `form[name/index]`。`elements` 属性也适用于 `<fieldset>`。
+: 表单元素可以通过 `form.elements[name/index]` 的方式访问，或者也可以使用 `form[name/index]`。`elements` 属性也适用于 `<fieldset>`。
 
 `element.form`
-: 元素通过 `form` 属性来访问它们所属的表单。
+: 元素通过 `form` 属性来引用它们所属的表单。
 
-值可以通过 `input.value`，`textarea.value`，`select.value` 等来获取到，对于单选框和复选框来说还可以使用 `input.checked`。
+`value` 可以被通过 `input.value`，`textarea.value`，`select.value` 等来获取到，对于单选按钮和复选框来说可以使用 `input.checked`。
 
-对于 `<select>` 元素我们可以通过索引 `select.selectedIndex` 来获取它的值，也可以使用选项集合 `select.options`。该元素和其它元素的完整规范可以看 <https://html.spec.whatwg.org/multipage/forms.html>。
+对于 `<select>` 元素，们可以通过索引 `select.selectedIndex` 来获取它的 `value`，也可以通过 `<option>` 集合 `select.options`。
 
-这些是开始使用表单的基础知识。在下一章中，我们将会介绍可能在任何元素上出现的 `focus` 和 `blur` 事件，但主要是在表单上处理这些。
+这些是开始使用表单的基础。我们将在本教程中进一步介绍更多示例。
+
+在下一章中，我们将介绍可能在任何元素上出现，但主要在表单上处理的 `focus` 和 `blur` 事件。
