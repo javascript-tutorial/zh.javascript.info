@@ -1,10 +1,10 @@
 # 聚焦：focus/blur
 
-当用户点击某个元素或使用键盘上的 `key:Tab` 键选中时，该元素将会获得聚焦（focus）。还有一个 HTML 特性（attribute）`autofocus`，默认情况下，当页面加载，并通过其它方式获取焦点时，它会将焦点放入元素中。
+当用户点击某个元素或使用键盘上的 `key:Tab` 键选中时，该元素将会获得聚焦（focus）。当网页加载时，HTML-特性（attribute）`autofocus` 也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获得焦点。
 
-聚焦到一个元素通常意味着：“准备在此处接受数据”，所以，这也是我们可以运行代码以初始化所需功能的时刻。
+聚焦到一个元素通常意味着：“准备在此处接受数据”，所以，这正是我们可以运行代码以初始化所需功能的时刻。
 
-失去焦点的时刻（“blur”）可能更为重要。它可能发生在用户点击页面的其它地方，或者按下 `key:Tab` 键跳转到下一个表单字段，亦或是其它方式。
+失去焦点的时刻（“blur”）可能更为重要。它可能发生在用户点击页面的其它地方，或者按下 `key:Tab` 键跳转到下一个表单字段，亦或是其它途径的时候。
 
 失去焦点通常意味着：“数据已经输入完成”，所以我们可以运行代码来检查它，甚至可以将其保存到服务器上，或进行其他操作。
 
@@ -14,12 +14,12 @@
 
 当元素聚焦时，会触发 `focus` 事件，当元素失去焦点时，会触发 `blur` 事件。
 
-让我们使用它们去校验一个输入字段。
+让我们使用它们来校验一个 `input` 字段。
 
-在下面的例子中：
+在下面这个示例中：
 
-- `blur` 事件处理器会检查这个域有没有输入邮箱，如果没有的话展示一个错误信息。
-- `focus` 事件处理器隐藏错误信息（当失去焦点的时候 `blur` 事件处理器还会再检查一遍）：
+- `blur` 事件处理程序检查这个字段是否输入了电子邮箱，如果没有输入，则显示一个 error。
+- `focus` 事件处理程序隐藏 error 信息（在 `blur` 事件处理程序上会被再检查一遍）：
 
 ```html run autorun height=60
 <style>
@@ -41,7 +41,7 @@ Your email please: <input type="email" id="input">
 
 *!*input.onfocus*/!* = function() {
   if (this.classList.contains('invalid')) {
-    // remove the "error" indication, because the user wants to re-enter something
+    // 移除 "error" 指示，因为用户想要重新输入一些内容
     this.classList.remove('invalid');
     error.innerHTML = "";
   }
@@ -49,14 +49,14 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-在现代的 HTML 中，可以使用 `required`、`pattern` 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
+现代 HTML 允许我们使用 `input` 特性（attribute）进行许多验证：`required`， `pattern` 等。有时它们正是我们所需要的。当我们需要更大的灵活性时，可以使用 JavaScript。如果数据是正确的，我们可以把它自动发送到服务器。
 
 
 ## focus/blur 方法
 
-方法 `elem.focus()` 和 `elem.blur()` 可以设置和移除元素上的焦点。
+`elem.focus()` 和 `elem.blur()` 方法可以设置和移除元素上的焦点。
 
-举个例子，如果输入值无效，我们可以让焦点一直保留在这个输入域上：
+例如，如果输入值无效，我们可以让焦点无法离开这个 `input` 字段：
 
 ```html run autorun height=80
 <style>
@@ -71,10 +71,10 @@ Your email please: <input type="email" id="input">
 <script>
   input.onblur = function() {
     if (!this.value.includes('@')) { // not email
-      // show the error
+      // 显示 error
       this.classList.add("error");
 *!*
-      // ...and put the focus back
+      // ...将焦点放回来
       input.focus();
 */!*
     } else {
@@ -84,9 +84,9 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-这在除了火狐（[bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)）之外的其它浏览器都可以正常工作。
+这段代码在除了火狐（[bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)）之外的浏览器上都可以正常工作。
 
-如果我们输入一些无效数据到这个输入域里，或者当我们尝试使用 `key:Tab` 和点击其它远离 `<input>` 的地方，那么 `onblur` 事件处理器会把焦点重新设置到这个输入域里。
+如果我们输入一些无效数据到这个 `input` 字段里，或者当我们尝试使用 `key:Tab` 和点击其它远离 `<input>` 的地方，那么 `onblur` 事件处理器会把焦点重新设置到这个 `input` 字段里。
 
 请注意，我们不可以通过在 `onblur` 事件处理器里调用 `event.preventDefault()` 来“阻止失去焦点”，因为 `onblur` 事件处理器是在元素失去焦点的**之后**运行的。
 
