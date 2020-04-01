@@ -60,7 +60,7 @@ alert(ageElems[0]); // [object HTMLInputElement]
 这些导航（navigation）属性并不依赖于标签的结构。所有的控件元素，无论它们在表单中有多深，都可以通过 `form.elements` 获取到。
 
 
-````smart header="Fieldset 作为 \"subform\""
+````smart header="Fieldset 作为“子表单”"
 一个表单内会有一个或多个 `<fieldset>` 元素。它们也具有 `elements` 属性，该属性列出了 `<fieldset>` 中的表单控件。
 
 例如：
@@ -167,7 +167,7 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 ```
 
 ```warn header="使用 `textarea.value` 而不是 `textarea.innerHTML`"
-请注意，即使 `<textarea>...</textarea>` 将它们的值作为嵌套的 HTML 标签来保存，我们也绝不能使用 `textarea.innerHTML` 来访问它。
+请注意，即使 `<textarea>...</textarea>` 将它们的值作为嵌套的 HTML 标签来保存，我们也绝不应该使用 `textarea.innerHTML` 来访问它。
 
 它仅存储最初在页面上的 HTML，而不是存储的当前值。
 ```
@@ -176,17 +176,17 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 
 一个 `<select>` 元素有 3 个重要的属性：
 
-1. `select.options` —— `<option>` 元素的集合，
-2. `select.value` —— 所选选项的值，
-3. `select.selectedIndex` —— 所选选项的索引。
+1. `select.options` —— `<option>` 的子元素的集合，
+2. `select.value` —— 当前所选择的 `<option>` 的值，
+3. `select.selectedIndex` —— 当前所选择的 `<option>` 的编号。
 
-所以我们会有三种方式来设置一个 `<select>` 元素的值：
+它们提供了三种为 `<select>` 设置值饿不同方式：
 
-1. 找到所需要的 `<option>` 元素之后设置 `option.selected` 为 `true`。
-2. 设置 `select.value` 为对应的值。
-3. 设置 `select.selectedIndex` 为对应选项的索引。
+1. 找到对应的 `<option>` 元素，并将 `option.selected` 设置为 `true`。
+2. 将 `select.value` 设置为对应的值。
+3. 将 `select.selectedIndex` 设置为对应 `<option>` 的编号。
 
-第一个方式是最显而易见的，但是 `(2)` 和 `(3)` 通常来说会更简便。
+第一个方式最明显，但是 `(2)` 和 `(3)` 通常来说会更方便。
 
 下面是一个例子：
 
@@ -205,9 +205,9 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 </script>
 ```
 
-和大多数其它控件不同，`<select multiple>` 允许多选。在这种情况下，我们需要遍历 `select.options` 来获取所有选定的值。
+和大多数其它控件不同，如果 `<select>` 具有 `multiple` 特性（attribute），则允许多选。这个功能很少使用。在这种情况下，我们需要使用第一种方式：从 `<option>` 的子元素中添加/移除 `selected` 属性。
 
-就像下面这样：
+我们可以通过 `select.options` 来获取它们的集合，例如：
 
 ```html run
 <select id="select" *!*multiple*/!*>
@@ -222,13 +222,13 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
     .filter(option => option.selected)
     .map(option => option.value);
 
-  alert(selected); // blues，rock  
+  alert(selected); // blues,rock  
 </script>
 ```
 
-`<select>` 元素完整的规范可以在 <https://html.spec.whatwg.org/multipage/forms.html#the-select-element> 上找到。
+`<select>` 元素的完整规范可以在规范 <https://html.spec.whatwg.org/multipage/forms.html#the-select-element> 中找到。
 
-### 新的选项
+### new Option
 
 在[选项元素](https://html.spec.whatwg.org/multipage/forms.html#the-option-element)的规范中，有一个很不错的简短语法用来创建 `<option>` 元素：
 
