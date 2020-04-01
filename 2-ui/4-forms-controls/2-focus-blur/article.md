@@ -124,14 +124,14 @@ Your email please: <input type="email" id="input">
 
 - `tabindex="0"` 会使该元素被与那些不具有 `tabindex` 的元素放在一起。也就是说，当我们切换元素时，具有 `tabindex="0"` 的元素将排在那些具有 `tabindex ≥ 1` 的元素的后面。
 
-- `tabindex="-1"` 意味着 `key:Tab` 应该忽略这个元素。
+    通常，它用于使元素具有焦点，但是保留默认的切换顺序。使元素成为与 `<input>` 一样的表单的一部分。
 
-**任何元素如果有属性 `tabindex`，它将会支持聚焦。**
+- `tabindex="-1"` 只允许以编程的方式聚焦于元素。`key:Tab` 键会忽略这样的元素，但是 `elem.focus()` 有效。
 
-举个例子，这里有个列表。点击第一个项目然后按下 `key:Tab`：
+举个例子，这里有一个列表。点击第一项，然后按 `key:Tab` 键：
 
 ```html autorun no-beautify
-Click the first item and press Tab. Keep track of the order. Please note that many subsequent Tabs can move the focus out of the iframe with the example.
+点击第一项，然后按 Tab 键。跟踪顺序。请注意，多按几次 Tab 键后，会将焦点移到这个通过 iframe 嵌入的示例的外面。
 <ul>
   <li tabindex="1">One</li>
   <li tabindex="0">Zero</li>
@@ -145,17 +145,17 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 </style>
 ```
 
-顺序就像这样：`1 - 2 - 0`（0 总是最后一个）。正常情况下，`<li>` 元素不支持被聚焦，但 `tabindex` 使这成为可能，顺带还会触发事件和使 `:focus` 样式生效。
+顺序就像这样：`1 - 2 - 0`。通常，`<li>` 不支持聚焦，但 `tabindex` 可以使它能聚焦，使这成为可能，并且还带有事件以及 `:focus` 样式。
 
-```smart header="`elem.tabIndex` 也一样有效"
-我们可以通过 JavaScript 使用 `elem.tabIndex` 来添加 `tabindex` 属性。效果是一样的。
+```smart header="属性 `elem.tabIndex` 也有效"
+我们可以使用 `elem.tabIndex` 通过 JavaScript 来添加 `tabindex`。效果是一样的。
 ```
 
 ## focus/blur 委托
 
-`focus` 和 `blur` 事件是不会向上冒泡的。
+`focus` 和 `blur` 事件不会向上冒泡。
 
-举个例子，我们不可以为了高亮 `<form>` 而把 `onfocus` 事件处理器放在它身上，像这样：
+例如，我们不能把 `onfocus` 放在 `<form>` 上来对其进行高亮，像这样：
 
 ```html autorun height=80
 <!-- on focusing in the form -- add the class -->
@@ -167,11 +167,11 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 <style> .focused { outline: 1px solid red; } </style>
 ```
 
-上面的例子并不会如我们所愿，因为当用户使 `<input>` 元素聚焦的时候，这个 `focus` 事件只会在这个 input 元素上触发。它不会向上冒泡。所以 `form.onfocus` 永远不会触发。
+上面这个示例并不工作，因为当用户聚焦于 `<input>` 时，`focus` 事件只会在该 `<input>` 上触发。它不会向上冒泡。所以 `form.onfocus` 永远不会触发。
 
-有两个解决方案。
+这里有两个解决方案。
 
-首先，有一个遗留下来的有趣的特性：`focus/blur` 不会向上冒泡，但是在捕获阶段会向下传播。
+方案一，有一个遗留下来的有趣的特性（feature）：`focus/blur` 不会向上冒泡，但会在捕获阶段向下传播。
 
 这样可以生效：
 
@@ -185,18 +185,18 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
+  // 将处理程序置于捕获阶段（最后一个参数为 true）
   form.addEventListener("focus", () => form.classList.add('focused'), true);
   form.addEventListener("blur", () => form.classList.remove('focused'), true);
 */!*
 </script>
 ```
 
-其次，有 `focusin` 和 `focusout` 事件可以使用 — 恰好和 `focus/blur` 事件很像，只不过它们会向上冒泡。
+方案二，可以使用 `focusin` 和 `focusout` 事件 —— 与 `focus/blur` 事件完全一样，只是它们会冒泡。
 
-值得注意的是它们必须使用 `elem.addEventListener` 来指定，而不是 `on<event>`。
+值得注意的是，必须使用 `elem.addEventListener` 来分配它们，而不是 `on<event>`。
 
-所以这里有另一个可以工作的版本：
+所以，这是另一个可行的变体：
 
 ```html autorun height=80
 <form id="form">
@@ -208,7 +208,6 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
   form.addEventListener("focusin", () => form.classList.add('focused'));
   form.addEventListener("focusout", () => form.classList.remove('focused'));
 */!*
@@ -217,10 +216,10 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 ## 总结
 
-元素获得/失去焦点会触发 `focus` 和 `blur` 事件。
+在元素获得/失去焦点时会触发 `focus` 和 `blur` 事件。
 
-它们的特性是：
-- 它们不向上冒泡。但是可以在捕获阶段触发或者使用 `focusin/focusout`。
-- 大多数元素默认不支持聚焦。使用 `tabindex` 可以让它们变成可聚焦的。
+它们的特点是：
+- 它们不会冒泡。但是可以改为在捕获阶段触发，或者使用 `focusin/focusout`。
+- 大多数元素默认不支持聚焦。使用 `tabindex` 可以使任何元素变成可聚焦的。
 
-可以通过 `document.activeElement` 来访问正在被聚焦的元素。
+可以通过 `document.activeElement` 来获取当前所聚焦的元素。
