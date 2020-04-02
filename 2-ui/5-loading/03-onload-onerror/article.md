@@ -5,7 +5,7 @@
 这里有两个事件：
 
 - `onload` —— 成功加载，
-- `onerror` —— 出现异常。
+- `onerror` —— 出现 error。
 
 ## 加载脚本
 
@@ -53,7 +53,7 @@ script.onload = function() {
 
 ### script.onerror
 
-发生在脚本加载期间的错误会被 `error` 事件跟踪到。
+发生在脚本加载期间的 error 会被 `error` 事件跟踪到。
 
 例如，我们请求一个不存在的脚本：
 
@@ -69,12 +69,12 @@ script.onerror = function() {
 */!*
 ```
 
-请注意，在这里我们无法获取更多 HTTP 错误详细信息。我们不知道错误是 404 还是 500 或者其他情况。只知道是加载失败了。
+请注意，在这里我们无法获取更多 HTTP error 的详细信息。我们不知道 error 是 404 还是 500 或者其他情况。只知道是加载失败了。
 
 ```warn
 `onload`/`onerror` 事件仅跟踪加载本身。
 
-在脚本处理和执行期间可能发生的错误超出了这些事件跟踪的范围。也就是说：如果脚本成功加载，则即使脚本中有编程错误，也会触发 `onload` 事件。如果要跟踪脚本错误，可以使用 `window.onerror` 全局处理程序。
+在脚本处理和执行期间可能发生的 error 超出了这些事件跟踪的范围。也就是说：如果脚本成功加载，则即使脚本中有编程 error，也会触发 `onload` 事件。如果要跟踪脚本 error，可以使用 `window.onerror` 全局处理程序。
 ```
 
 ## 其他资源
@@ -99,7 +99,7 @@ img.onerror = function() {
 但是有一些注意事项：
 
 - 大多数资源在被添加到文档中后，便开始加载。但是 `<img>` 是个例外。它要等到获得 src `(*)` 后才开始加载。
-- 对于 `<iframe>` 来说，iframe 加载完成时会触发 `iframe.onload` 事件，无论是成功加载还是出现错误。
+- 对于 `<iframe>` 来说，iframe 加载完成时会触发 `iframe.onload` 事件，无论是成功加载还是出现 error。
 
 这是出于历史原因。
 
@@ -111,7 +111,7 @@ img.onerror = function() {
 
 这个规则还影响其他域的资源。
 
-如果我们使用的是来自其他域的脚本，并且该脚本中存在错误，那么我们无法获取错误的详细信息。
+如果我们使用的是来自其他域的脚本，并且该脚本中存在 error，那么我们无法获取 error 的详细信息。
 
 例如，让我们使用一个脚本 `error.js`，该脚本只包含一个（错误）函数调用：
 ```js
@@ -130,7 +130,7 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script src="/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
-我们可以看到一个很好的错误报告，就像这样：
+我们可以看到一个很好的 error 报告，就像这样：
 
 ```
 Uncaught ReferenceError: noSuchFunction is not defined
@@ -148,18 +148,24 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
-错误报告与上面那个示例中的不同，就像这样：
+此报告与上面那个示例中的不同，就像这样：
 
 ```
 Script error.
 , 0:0
 ```
 
-错误详细信息可能因浏览器而异，但是原理是相同的：有关脚本内部的任何信息（包括错误堆栈跟踪）都被隐藏了。正是因为它来自于另一个域。
+error 的详细信息可能因浏览器而异，但是原理是相同的：有关脚本内部的任何信息（包括 error 堆栈跟踪）都被隐藏了。正是因为它来自于另一个域。
 
-为什么我们需要错误详细信息？
+为什么我们需要 error 的详细信息？
 
-因为有很多服务（我们也可以自己建立）监听 `window.onerror`，在服务器上保存错误信息，并分析它们，以提供用户相应的错误页面。这很棒，因为我们可以看到由用户触发的真实错误。但是我们不能获得来自其他域名的脚本的任何错误信息。
+因为有很多服务（我们也可以构建自己的服务）使用 `window.onerror` 监听全局 error，
+
+
+
+
+
+监听 `window.onerror`，在服务器上保存 error 信息，并分析它们，以提供用户相应的 error 页面。这很棒，因为我们可以看到由用户触发的真实 error。但是我们不能获得来自其他域名的脚本的任何 error 信息。
 
 类似的跨源策略（CORS）也适用于其他类型资源。
 
@@ -192,7 +198,7 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script *!*crossorigin="anonymous"*/!* src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
-现在，假设服务器提供 `Access-Control-Allow-Origin` 头，一切都正常。我们有完整的错误报告。
+现在，假设服务器提供 `Access-Control-Allow-Origin` 头，一切都正常。我们有完整的 error 报告。
 
 ## 总结
 
