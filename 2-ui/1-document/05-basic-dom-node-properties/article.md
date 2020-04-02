@@ -188,7 +188,7 @@ tagName 和 nodeName 之间有什么不同吗？
 如果我们只处理元素，那么 `tagName` 和 `nodeName` 这两种方法，我们都可以使用，没有区别。
 
 ```smart header="标签名称始终是大写的，除非是在 XML 模式下"
-浏览器有两种处理文档（document）的模式：HTML 和 XML。通常，HTML 模式用于网页。只有在浏览器接收到带有 `Content-Type: application/xml+xhtml` 报头（header）的 XML-document 时，XML 模式才会被启用。
+浏览器有两种处理文档（document）的模式：HTML 和 XML。通常，HTML 模式用于网页。只有在浏览器接收到带有 header `Content-Type: application/xml+xhtml` 的 XML-document 时，XML 模式才会被启用。
 
 在 HTML 模式下，`tagName/nodeName` 始终是大写的：它是 `BODY`，而不是 `<body>` 或 `<BoDy>`。
 
