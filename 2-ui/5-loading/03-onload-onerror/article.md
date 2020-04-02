@@ -23,7 +23,7 @@ document.head.append(script);
 ……但如何运行在该脚本中声明的函数？我们需要等到该脚本加载完成，之后才能调用它。
 
 ```smart
-对于我们自己的脚本，可以使用 [JavaScript 模块](info:modules)，但是它们并未被广泛应用于第三方库。
+对于我们自己的脚本，可以使用 [JavaScript module](info:modules)，但是它们并未被广泛应用于第三方库。
 ```
 
 ### script.onload
@@ -35,7 +35,7 @@ document.head.append(script);
 ```js run untrusted
 let script = document.createElement('script');
 
-// 可以从任意域名，加载任意脚本
+// 可以从任意域名（domain），加载任意脚本
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
@@ -69,7 +69,7 @@ script.onerror = function() {
 */!*
 ```
 
-请注意，在这里我们无法获取更多 HTTP 错误细节。我们不知道错误是 404 还是 500 或者其他情况。只知道是加载失败了。
+请注意，在这里我们无法获取更多 HTTP 错误详细信息。我们不知道错误是 404 还是 500 或者其他情况。只知道是加载失败了。
 
 ```warn
 `onload`/`onerror` 事件仅跟踪加载本身。
@@ -105,21 +105,21 @@ img.onerror = function() {
 
 ## 跨域策略
 
-这里有个规则：来自一个站点的脚本无法访问其他站点的内容。即 `https://facebook.com` 中的脚本不能获取 `https://gmail.com` 中的用户邮箱。
+这里有一条规则：来自一个站点的脚本无法访问其他站点的内容。例如，位于 `https://facebook.com` 的脚本无法读取位于 `https://gmail.com` 的用户邮箱。
 
-或者，更确切地说，一个源（domain/port/protocol 三者）不能获取另外一个源中的内容。因此，即使我们有一个子域名，或者仅仅是另外一个端口，这都是不同的源，彼此不能互相访问。
+或者，更确切地说，一个源（域/端口/协议三者）无法获取另一个源的内容。因此，即使我们有一个子域名，或者仅仅是另一个端口，这都是不同的源，彼此无法相互访问。
 
-这个规则同样适用于其他域中的资源。
+这个规则还影响其他域的资源。
 
-如果我们需要使用来自其他域名的脚本，并且脚本里面存在错误，那么我们就不能获取错误信息。
+如果我们使用的是来自其他域的脚本，并且该脚本中存在错误，那么我们无法获取错误的详细信息。
 
-例如，我们调用脚本中一个（错误）函数：
+例如，让我们使用一个脚本 `error.js`，该脚本只包含一个（错误）函数调用：
 ```js
 // 📁 error.js
 noSuchFunction();
 ```
 
-现在从我们的域名中加载它：
+现在从它所在的同一个站点加载它：
 
 ```html run height=0
 <script>
@@ -137,7 +137,7 @@ Uncaught ReferenceError: noSuchFunction is not defined
 https://javascript.info/article/onload-onerror/crossorigin/error.js, 1:1
 ```
 
-现在，再从其他域名中加载这个脚本：
+现在，让我们从另一个域名中加载相同的脚本：
 
 ```html run height=0
 <script>
@@ -148,16 +148,16 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
-错误报告与上面不同，就像这样：
+错误报告与上面那个示例中的不同，就像这样：
 
 ```
 Script error.
 , 0:0
 ```
 
-错误细节可能因浏览器而异，但是原理是相同的：任何有关脚本内部的信息都是不可见的。确切来说是因为它来自于其他域。
+错误详细信息可能因浏览器而异，但是原理是相同的：有关脚本内部的任何信息（包括错误堆栈跟踪）都被隐藏了。正是因为它来自于另一个域。
 
-我们为什么需要细节信息？
+为什么我们需要错误详细信息？
 
 因为有很多服务（我们也可以自己建立）监听 `window.onerror`，在服务器上保存错误信息，并分析它们，以提供用户相应的错误页面。这很棒，因为我们可以看到由用户触发的真实错误。但是我们不能获得来自其他域名的脚本的任何错误信息。
 
