@@ -1,15 +1,15 @@
 
 # DOM 变动观察器（Mutation observer）
 
-`MutationObserver` 是一个内置对象，它监控 DOM 元素，在其发生变动时触发回调。
+`MutationObserver` 是一个内建对象，它观察 DOM 元素，在其发生变动时触发回调。
 
-我们将首先看一下语法，然后研究实际的用例。
+我们将首先看一下语法，然后探究一个实际的用例，以了解它在什么地方有用。
 
 ## 语法
 
 `MutationObserver` 使用简单。
 
-首先，我们创建一个带有回调函数（callback-function）的观察器：
+首先，我们创建一个带有回调函数的观察器：
 
 ```js
 let observer = new MutationObserver(callback);
@@ -21,18 +21,20 @@ let observer = new MutationObserver(callback);
 observer.observe(node, config);
 ```
 
-`config` 是一个带布尔选项的对象，该布尔选项表示“将对哪些变动做出反应”：
-- `childList` － `node` 的直接子节点的变动，
-- `subtree` － `node` 的所有后代节点的变动，
-- `attributes` － `node` 的属性，
-- `attributeFilter` － 一组属性名称，只监控选定的属性。
-- `characterData` － 是否监测 `node.data`（文本内容），
+`config` 是一个具有布尔选项的对象，该布尔选项表示“将对哪些变动做出反应”：
+- `childList` —— `node` 的直接子节点的变动，
+- `subtree` —— `node` 的所有后代的变动，
+- `attributes` —— `node` 的特性（attribute），
+- `attributeFilter` —— 特性名称数组，只观察选定的特性。
+- `characterData` —— 是否观察 `node.data`（文本内容），
 
 其他几个选项：
-- `attributeOldValue` － 如果为 `true`，则将属性的旧值和新值都传递给回调函数（参见下文），否则只传新值（需要 `attributes` 选项），
-- `characterDataOldValue` － 如果为 `true`，则将 `node.data` 的旧值和新值都传递给回调函数（参见下文），否则只传新值（需要 `characterData` 选项）。
+- `attributeOldValue` —— 如果为 `true`，则将特性的旧值和新值都传递给回调（参见下文），否则仅传新值（需要 `attributes` 选项），
+- `characterDataOldValue` —— 如果为 `true`，则将 `node.data` 的旧值和新值都传递给回调（参见下文），否则仅传新值（需要 `characterData` 选项）。
 
-发生任何变动后，便执行 “回调” 函数：将变动作为一个 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象列表传入第一个参数，而观察器本身作为第二个参数。
+然后，在发生任何变动后，将执行“回调”：
+
+将变动作为一个 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象列表传入第一个参数，而观察器本身作为第二个参数。
 
 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象具有以下属性：
 
