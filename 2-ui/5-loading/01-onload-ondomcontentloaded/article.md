@@ -197,9 +197,9 @@ window.onbeforeunload = function() {
 
 它有 3 个可能值：
 
-- `“loading”` —— 文档正在被加载。
-- `“interactive”` —— 文档被全部读取。
-- `“complete”` —— 文档被全部读取，并且所有资源（例如图片等）都已加载完成。
+- `loading` —— 文档正在被加载。
+- `interactive` —— 文档被全部读取。
+- `complete` —— 文档被全部读取，并且所有资源（例如图片等）都已加载完成。
 
 所以，我们可以检查 `document.readyState` 并设置一个处理程序，或在代码准备就绪时立即执行它。
 
@@ -279,6 +279,6 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 - 当用户想要离开页面时，`window` 上的 `beforeunload` 事件就会被触发。如果我们取消这个事件，浏览器就会询问我们是否真的要离开（例如，我们有未保存的更改）。
 - 当用户最终离开时，`window` 上的 `unload` 事件就会被触发。在处理程序中，我们只能执行不涉及延迟或询问用户的简单操作。正是由于这个限制，它很少被使用。我们可以使用 `navigator.sendBeacon` 来发送网络请求。
 - `document.readyState` 是文档的当前状态，可以在 `readystatechange` 事件中跟踪状态更改：
-  - `“loading”` —— 文档正在被加载。
-  - `“interactive”` —— 文档已被解析完成，与 `DOMContentLoaded` 几乎同时发生，但是在 `DOMContentLoaded` 之前发生。
-  - `“complete”` —— 文档和资源均已加载完成，与 `window.onload` 几乎同时发生，但是在 `window.onload` 之前发生。
+  - `loading` —— 文档正在被加载。
+  - `interactive` —— 文档已被解析完成，与 `DOMContentLoaded` 几乎同时发生，但是在 `DOMContentLoaded` 之前发生。
+  - `complete` —— 文档和资源均已加载完成，与 `window.onload` 几乎同时发生，但是在 `window.onload` 之前发生。
