@@ -7,15 +7,15 @@
 
 这会导致两个重要的问题：
 
-1. 脚本不能访问到位于它们下面的 DOM 元素，因此，脚本不能给它们添加事件等。
-2. 如果页面顶部有一个庞大的脚本，它会“阻塞页面”。在脚本下载并执行结束前，用户都不能看到页面内容：
+1. 脚本不能访问到位于它们下面的 DOM 元素，因此，脚本无法给它们添加处理程序等。
+2. 如果页面顶部有一个笨重的脚本，它会“阻塞页面”。在该脚本下载并执行结束前，用户都不能看到页面内容：
 
 ```html run height=100
 <p>...content before script...</p>
 
 <script src="https://javascript.info/article/script-async-defer/long.js?speed=1"></script>
 
-<!-- 在脚本加载结束前都看不到下面的内容 -->
+<!-- This isn't visible until the script loads -->
 <p>...content after script...</p>
 ```
 
@@ -29,17 +29,17 @@
 </body>
 ```
 
-但是这样的方案绝非完美。例如：浏览器只有在下载完整的 HTML 文档后才会注意到脚本（并且开始下载它）。对于长的 HTML 文档来说，这样的延迟必须引起注意。
+但是这种解决方案远非完美。例如，浏览器只有在下载了完整的 HTML 文档之后才会注意到该脚本（并且可以开始下载它）。对于长的 HTML 文档来说，这样可能会造成明显的延迟。
 
-对于网络连接很快的人来说，这不值一提。但是这个世界上仍然有很多地区的人们他们使用很慢的网络连接，并且使用着远非完美的移动互联网。
+这对于使用高速连接的人来说，这不值一提，他们不会感受到这种延迟。但是这个世界上仍然有很多地区的人们所使用的网络速度很慢，并且使用的是远非完美的移动互联网连接。
 
-幸运的是，这里有两个 `<script>` 属性可以解决我们的这个问题：`defer` 和 `async`。
+幸运的是，这里有两个 `<script>` 特性（attribute）可以为我们解决这个问题：`defer` 和 `async`。
 
 ## defer
 
-`defer` 属性告诉浏览器它应该继续处理页面，并在“后台”下载脚本，然后等页面处理完成后才开始执行此脚本。
+`defer` 特性告诉浏览器它应该继续处理页面，并在“后台”下载脚本，然后等页面处理完成后才开始执行此脚本。
 
-接下来的这个例子和上面一样，但是是用 `defer` 属性：
+接下来的这个例子和上面一样，但是是用 `defer` 特性：
 
 ```html run height=100
 <p>...content before script...</p>
@@ -50,8 +50,8 @@
 <p>...content after script...</p>
 ```
 
-- 具有 `defer` 属性的脚本不会阻塞页面的加载。
-- 具有 `defer` 属性的脚本总是要等到 DOM 解析完毕，但在 `DOMContentLoaded` 事件之前执行。
+- 具有 `defer` 特性的脚本不会阻塞页面的加载。
+- 具有 `defer` 特性的脚本总是要等到 DOM 解析完毕，但在 `DOMContentLoaded` 事件之前执行。
 
 下面的例子演示了这一过程：
 
@@ -80,19 +80,19 @@ Defer 脚本保持他们的相对顺序，就像常规脚本一样。
 ```
 
 ```smart header="短脚本先下载完成，但是后执行"
-浏览器解析页面找到 script 属性并并行下载它们，以提高性能。因此，在上面的实例中，两个脚本并行下载。`small.js` 可能会先下载完成。
+浏览器解析页面找到 script 特性并并行下载它们，以提高性能。因此，在上面的实例中，两个脚本并行下载。`small.js` 可能会先下载完成。
 
 但是规范要求脚本按照文档顺序执行，因此它要等到 `long.js` 执行结束才会被执行。
 ```
 
-```smart header="`defer` 属性仅适用于外部脚本"
-`defer` 属性会忽略没有 `src` 属性的 `<script>` 脚本。
+```smart header="`defer` 特性仅适用于外部脚本"
+`defer` 特性会忽略没有 `src` 特性的 `<script>` 脚本。
 ```
 
 
 ## async
 
-`async` 属性意味着脚本是完全独立的：
+`async` 特性意味着脚本是完全独立的：
 
 - 页面不会等待异步脚本，它会继续处理页面并显示内容。
 - `DOMContentLoaded` 和 async 脚本不会彼此等待：
@@ -146,7 +146,7 @@ document.body.append(script); // (*)
 - 它们不会等待其他内容，其他的内容也不会等待它们。
 - 先加载完成的脚本先运行（“加载优先” 顺序）
 
-我们可以通过将 `async` 属性显示修改为 `false` 以将加载优先顺序修改为文档顺序（就像常规脚本一样）：
+我们可以通过将 `async` 特性显示修改为 `false` 以将加载优先顺序修改为文档顺序（就像常规脚本一样）：
 
 ```js run
 let script = document.createElement('script');
@@ -170,7 +170,7 @@ function loadScript(src) {
   document.body.append(script);
 }
 
-// 由于 async=false 属性存在，long.js 会先运行
+// 由于 async=false 特性存在，long.js 会先运行
 loadScript("/article/script-async-defer/long.js");
 loadScript("/article/script-async-defer/small.js");
 ```
@@ -178,7 +178,7 @@ loadScript("/article/script-async-defer/small.js");
 
 ## 总结
 
-`async` 和 `defer` 属性有一个共同点：它们都不会阻塞页面的渲染。因此，用户可以立即阅读并了解页面内容。
+`async` 和 `defer` 特性有一个共同点：它们都不会阻塞页面的渲染。因此，用户可以立即阅读并了解页面内容。
 
 但是它们之间也存在一些本质的区别：
 
@@ -195,4 +195,4 @@ loadScript("/article/script-async-defer/small.js");
 所以，这就需要在页面适当位置添加“加载”进度指示，禁用无效的按钮，以清楚地向用户显示什么准备好了什么没有准备好。
 ```
 
-在开发中，通常在脚本需要整个 DOM 文档或者脚本的相对执行顺序很重要的时候，使用 `defer` 属性。而当脚本之间互相独立，比如计数器或者广告，并且它们相对执行顺序不重要的时候，此时使用 `async` 属性。
+在开发中，通常在脚本需要整个 DOM 文档或者脚本的相对执行顺序很重要的时候，使用 `defer` 特性。而当脚本之间互相独立，比如计数器或者广告，并且它们相对执行顺序不重要的时候，此时使用 `async` 特性。
