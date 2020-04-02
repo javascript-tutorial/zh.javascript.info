@@ -267,17 +267,18 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 - 在 `DOMContentLoaded` 之前，`document.readyState` 会立即变成 `interactive`。它们俩的意义实际上是相同的。
 - 当所有资源（`iframe` 和 `img`）都加载完成后，`document.readyState` 变成 `complete`。这里我们可以发现，它与 `img.onload`（`img` 是最后一个资源）和 `window.onload` 几乎同时发生。转换到 `complete` 状态的意义与 `window.onload` 相同。区别在于 `window.onload` 始终在所有其他 `load` 处理程序之后运行。
 
+
 ## 总结
 
 页面生命周期事件：
 
-- 当 DOM 准备就绪时，`DOMContentLoaded` 事件就会在 `document` 上触发。在这个阶段，我们可以将 JavaScript 应用于元素。
-  - 诸如 `<script>...</script>` 或者 `<script src="..."></script>` 会阻塞 DOMContentLoaded，浏览器等待它们执行结束。
+- 当 DOM 准备就绪时，`document` 上的 `DOMContentLoaded` 事件就会被触发。在这个阶段，我们可以将 JavaScript 应用于元素。
+  - 诸如 `<script>...</script>` 或 `<script src="..."></script>` 之类的脚本会阻塞  `DOMContentLoaded`，浏览器将等待它们执行结束。
   - 图片和其他资源仍然可以继续被加载。
-- 当页面和所有资源被加载时，`window` 上的 `load` 事件会被触发。我们很少使用它，因为通常没有必要去等待那么久。
-- 当用户想要离开页面时，`window` 上的 `beforeunload` 事件会被触发。如果我们取消这个事件，浏览器会询问用户是否真的要离开（比如有未保存的内容）。
-- 当用户最终离开时，`window` 上的 `unload` 事件会被触发。在处理程序中，我们只能做一些不会涉及到延迟或询问用户的简单事情。正是由于这个限制，它很少被使用。我们可以用 `navigator.sendBeacon` 来发送网络请求。
-- `document.readyState` 是文档的当前状态，可以在 `readystatechange` 事件中跟踪状态变更：
-  - `loading` —— 文档正在被加载。
-  - `interactive` —— 文档被解析，大概是与 `DOMContentLoaded` 同时发生，而不是在它之前发生。
-  - `complete` —— 文档和资源被加载，大概是与 `window.onload` 同时发生，而不是在它之前发生。
+- 当页面和所有资源都加载完成时，`window` 上的 `load` 事件就会被触发。我们很少使用它，因为通常无需等待那么长时间。
+- 当用户想要离开页面时，`window` 上的 `beforeunload` 事件就会被触发。如果我们取消这个事件，浏览器就会询问我们是否真的要离开（例如，我们有未保存的更改）。
+- 当用户最终离开时，`window` 上的 `unload` 事件就会被触发。在处理程序中，我们只能执行不涉及延迟或询问用户的简单操作。正是由于这个限制，它很少被使用。我们可以使用 `navigator.sendBeacon` 来发送网络请求。
+- `document.readyState` 是文档的当前状态，可以在 `readystatechange` 事件中跟踪状态更改：
+  - `“loading”` —— 文档正在被加载。
+  - `“interactive”` —— 文档已被解析完成，与 `DOMContentLoaded` 几乎同时发生，但是在 `DOMContentLoaded` 之前发生。
+  - `“complete”` —— 文档和资源均已加载完成，与 `window.onload` 几乎同时发生，但是在 `window.onload` 之前发生。
