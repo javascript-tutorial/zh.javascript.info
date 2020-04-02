@@ -1,17 +1,17 @@
-# 资源加载：onload 和 onerror
+# 资源加载：onload，onerror
 
-浏览器允许跟踪外部资源的加载 —— 脚本、iframes、图像等。
+浏览器允许我们跟踪外部资源的加载 —— 脚本，iframe，图片等。
 
-它有两个事件：
+这里有两个事件：
 
 - `onload` —— 成功加载，
-- `onerror` —— 发生异常。
+- `onerror` —— 出现异常。
 
 ## 加载脚本
 
-假设我们需要调用属于第三方脚本的函数。
+假设我们需要加载第三方脚本，并调用其中的函数。
 
-我们可以像这样动态加载：
+我们可以像这样动态加载它：
 
 ```js
 let script = document.createElement('script');
@@ -20,66 +20,66 @@ script.src = "my.js";
 document.head.append(script);
 ```
 
-……但如何运行声明在脚本中的函数？我们需要等到脚本被加载后才能调用它。
+……但如何运行在该脚本中声明的函数？我们需要等到该脚本加载完成，之后才能调用它。
 
 ```smart
-对于我们自己的脚本，可以使用 [JavaScript modules](info:modules)，但它们并没有被第三方库广泛采用。
+对于我们自己的脚本，可以使用 [JavaScript 模块](info:modules)，但是它们并未被广泛应用于第三方库。
 ```
 
 ### script.onload
 
-主要得力于 `load` 事件。它在脚本被加载和执行后才会触发。
+我们的得力助手是 `load` 事件。它会在脚本加载并执行完成时触发。
 
 例如：
 
 ```js run untrusted
 let script = document.createElement('script');
 
-// 可以从任意域名加载任意脚本
+// 可以从任意域名，加载任意脚本
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
 *!*
 script.onload = function() {
-  // 脚本创建了一个辅助函数“_”
-  alert(_); // 函数可用
+  // 该脚本创建了一个辅助函数 "_"
+  alert(_); // 该函数可用
 };
 */!*
 ```
 
-因此，在 `onload` 中我们可以使用脚本中的变量、运行函数等。
+因此，在 `onload` 中我们可以使用脚本中的变量，运行函数等。
 
-……如果加载失败怎么办？比如，没有这样的脚本（错误 404）或者服务器宕机（不可用）。
+……如果加载失败怎么办？例如，这里没有这样的脚本（error 404）或者服务器宕机（不可用）。
 
 ### script.onerror
 
-发生在脚本加载期间的错误可以在 `error` 事件上进行追踪。
+发生在脚本加载期间的错误会被 `error` 事件跟踪到。
 
-比如，我们请求一个不存在的脚本：
+例如，我们请求一个不存在的脚本：
 
 ```js run
 let script = document.createElement('script');
-script.src = "https://example.com/404.js"; // 没有这样的脚本
+script.src = "https://example.com/404.js"; // 没有这个脚本
 document.head.append(script);
 
 *!*
 script.onerror = function() {
-  alert("Error loading " + this.src); // 加载 https://example.com/404.js 发生错误
+  alert("Error loading " + this.src); // Error loading https://example.com/404.js
 };
 */!*
 ```
 
-请注意，我们无法在这里获取更多 HTTP 错误细节。我们不知道错误是 404 还是 500 或者其他情况，只知道是加载失败了。
+请注意，在这里我们无法获取更多 HTTP 错误细节。我们不知道错误是 404 还是 500 或者其他情况。只知道是加载失败了。
 
 ```warn
-`onload`/`onerror` 事件仅仅跟踪加载本身。
+`onload`/`onerror` 事件仅跟踪加载本身。
 
-跟踪脚本处理和执行期间的错误超出了这些事件的范围。如果要追踪脚本错误，可以使用 `window.onerror` 全局处理器。
+在脚本处理和执行期间可能发生的错误超出了这些事件跟踪的范围。也就是说：如果脚本成功加载，则即使脚本中有编程错误，也会触发 `onload` 事件。如果要跟踪脚本错误，可以使用 `window.onerror` 全局处理程序。
 ```
 
 ## 其他资源
 
-`load` 和 `error` 事件也适用于几乎任何具有外部 `src` 的资源。
+`load` 和 `error` 事件也适用于其他资源，基本上（basically）适用于具有外部 `src` 的任何资源。
 
 例如：
 
@@ -96,12 +96,12 @@ img.onerror = function() {
 };
 ```
 
-但也有一些注意事项：
+但是有一些注意事项：
 
-- 对于大部分资源来说，当他们被添加到文档时就开始加载。但是 `<img>` 是个例外。它要等到获取 src `(*)` 属性后才开始加载。
-- 对于 `<iframe>` 来说，只要 iframe 加载完成，不论成功还是失败，`iframe.onload` 事件都会触发，
+- 大多数资源在被添加到文档中后，便开始加载。但是 `<img>` 是个例外。它要等到获得 src `(*)` 后才开始加载。
+- 对于 `<iframe>` 来说，iframe 加载完成时会触发 `iframe.onload` 事件，无论是成功加载还是出现错误。
 
-这是出于历史遗留原因。
+这是出于历史原因。
 
 ## 跨域策略
 
@@ -196,7 +196,7 @@ window.onerror = function(message, url, line, col, errorObj) {
 
 ## 总结
 
-`<img>` 图像、外部样式表、脚本和其他资源都提供了 `load` 和 `error` 事件来追踪它们的加载：
+`<img>` 图片，外部样式表，脚本和其他资源都提供了 `load` 和 `error` 事件来跟踪它们的加载：
 
 - `load` 在成功加载时被触发。
 - `error` 在加载失败时被触发。
