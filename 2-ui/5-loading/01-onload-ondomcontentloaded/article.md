@@ -187,37 +187,37 @@ window.onbeforeunload = function() {
 
 ## readyState
 
-如果在文档加载之后设置 `DOMContentLoaded` 事件处理程序会发生什么呢？
+如果我们将 `DOMContentLoaded` 事件处理程序设置在文档加载完成之后，会发生什么？
 
-很自然地，它不会被运行。
+很自然地，它永远不会运行。
 
-在某些情况下，我们不确定文档是否已经准备就绪。当 DOM 加载完成时，我们想要执行一些函数，可能是立即执行也可能是稍后执行。
+在某些情况下，我们不确定文档是否已经准备就绪。我们希望我们的函数在 DOM 加载完成时执行，无论现在还是以后。
 
-`document.readyState` 属性为我们提供了一些关于当前加载状态的信息。
+`document.readyState` 属性可以为我们提供当前加载状态的信息。
 
-它有三个可能的值：
+它有 3 个可能值：
 
 - `“loading”` —— 文档正在被加载。
 - `“interactive”` —— 文档被全部读取。
-- `“complete”` —— 文档被全部读取，并且所有的资源（图片之类的）都被加载。
+- `“complete”` —— 文档被全部读取，并且所有资源（例如图片等）都已加载完成。
 
-因此我们可以检查 `document.readyState` 并设置一个处理器，或在代码准备就绪时立即执行它。
+所以，我们可以检查 `document.readyState` 并设置一个处理程序，或在代码准备就绪时立即执行它。
 
-就像这样：
+像这样：
 
 ```js
 function work() { /*...*/ }
 
 if (document.readyState == 'loading') {
-  // 正在加载，等待事件
+  // 仍在加载，等待事件
   document.addEventListener('DOMContentLoaded', work);
 } else {
-  // DOM 已经准备就绪！
+  // DOM 已就绪！
   work();
 }
 ```
 
-还有一个 `readystatechange` 事件，当状态发生变化时触发，因此我们可以打印所有这些状态，就像这样：
+还有一个 `readystatechange` 事件，会在状态发生改变时触发，因此我们可以打印所有这些状态，就像这样：
 
 ```js run
 // 当前状态
@@ -229,13 +229,12 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 
 `readystatechange` 事件是跟踪文档加载状态的另一种机制，它很早就存在了。现在则很少被使用。
 
-但是为了完整起见，我们继续讨论一下它的全部事件。
+但是为了完整起见，让我们看看完整的事件流。
 
-这里有一个带有 `<iframe>`、`<img>` 和记录事件的处理程序的文档：
+这是一个带有 `<iframe>`，`<img>` 和记录事件的处理程序的文档：
 
 ```html
 <script>
-  function log(text) { /* output the time and message */ }
   log('initial readyState:' + document.readyState);
 
   document.addEventListener('readystatechange', () => log('readyState:' + document.readyState));
@@ -252,7 +251,7 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 </script>
 ```
 
-[在 sandbox](sandbox:readystate) 中的运行示例。
+此示例运行 [在 sandbox 中](sandbox:readystate)。
 
 典型输出：
 1. [1] initial readyState:loading
@@ -263,10 +262,10 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 6. [4] readyState:complete
 7. [4] window onload
 
-方括号中的数字表示发生这种情况的大致时间。标记为相同数字的事件几乎是同时发生的（+- 几毫秒）。
+方括号中的数字表示发生这种情况的大致时间。标有相同数字的事件几乎是同时发生的（+- 几毫秒）。
 
-- `document.readyState` 在 `DOMContentLoaded` 之前会立即变成了 `interactive`。这两个事件的意义实际上是相同的。
-- 当所有资源（`iframe` 和 `img`）都被加载完成后，`document.readyState` 变成了 `complete`。这里我们可以发现，它大约发生在 `img.onload`（`img` 是最后的资源）和 `window.onload` 之间。转换到 `complete` 状态的意义与 `window.onload` 一致。区别在于 `window.onload` 在所有其他 `load` 处理程序之后一直有效。
+- 在 `DOMContentLoaded` 之前，`document.readyState` 会立即变成 `interactive`。它们俩的意义实际上是相同的。
+- 当所有资源（`iframe` 和 `img`）都加载完成后，`document.readyState` 变成 `complete`。这里我们可以发现，它与 `img.onload`（`img` 是最后一个资源）和 `window.onload` 几乎同时发生。转换到 `complete` 状态的意义与 `window.onload` 相同。区别在于 `window.onload` 始终在所有其他 `load` 处理程序之后运行。
 
 ## 总结
 
