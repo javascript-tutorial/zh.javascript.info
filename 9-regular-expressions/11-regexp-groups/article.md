@@ -1,6 +1,6 @@
 # 捕获组
 
-模式的一部分可以用括号括起来 `pattern:(...)`。这称为“捕获组”。
+模式的一部分可以用括号括起来 `pattern:(...)`。这称为“捕获组（capturing group）”。
 
 这有两个影响：
 
@@ -155,7 +155,7 @@ let match = 'ac'.match(/a(z)?(c)?/)
 
 alert( match.length ); // 3
 alert( match[0] ); // ac（完全匹配）
-alert( match[1] ); // undefined, 因为 (z)? 没匹配项
+alert( match[1] ); // undefined，因为 (z)? 没匹配项
 alert( match[2] ); // c
 ```
 
@@ -223,7 +223,7 @@ for(let result of results) {
 }
 ```
 
-…或使用解构：
+……或使用解构：
 
 ```js
 let [tag1, tag2] = '<h1> <h2>'.matchAll(/<(.*?)>/gi);
@@ -342,9 +342,9 @@ let regexp = /(?:go)+ (\w+)/i;
 
 let result = str.match(regexp);
 
-alert( result[0] ); // Gogogo John (完全匹配)
+alert( result[0] ); // Gogogo John（完全匹配）
 alert( result[1] ); // John
-alert( result.length ); // 2 (数组中没有更多项)
+alert( result.length ); // 2（数组中没有更多项）
 ```
 
 ## 总结
