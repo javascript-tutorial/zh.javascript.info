@@ -1,5 +1,5 @@
 
-# Script 标签属性：async, defer
+# 脚本：async，defer
 
 现代的网站中，脚本往往比 HTML 更“重”：它们的大小通常更大，处理时间也更长。
 
