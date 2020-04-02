@@ -47,15 +47,15 @@ document.addEventListener("DOMContentLoaded", ready);
 
 在示例中，`DOMContentLoaded` 处理程序在文档加载完成后触发，所以它可以查看所有元素，包括它下面的 `<img>` 元素。
 
-但是，它不会等待图像加载。因此，`alert` 显示其大小为零。
+但是，它不会等待图片加载。因此，`alert` 显示其大小为零。
 
 乍一看，`DOMContentLoaded` 事件非常简单。DOM 树准备就绪 —— 这是它的触发条件。它并没有什么特别之处。
 
 ### DOMContentLoaded 和脚本
 
-当浏览器开始加载 HTML 文档并在文档中遇到 `<script>` 标签时，就会在继续构建 DOM 之前运行它。这是一个防范措施，因为脚本可能想要修改 DOM，甚至对其执行 `document.write` 操作，所以 `DOMContentLoaded` 必须等待它执行结束。
+当浏览器处理一个 HTML 文档，并在文档中遇到 `<script>` 标签时，就会在继续构建 DOM 之前运行它。这是一种防范措施，因为脚本可能想要修改 DOM，甚至对其执行 `document.write` 操作，所以 `DOMContentLoaded` 必须等待脚本执行结束。
 
-因此，在下面的这些脚本执行结束之后肯定会发生 DOMContentLoaded：
+因此，`DOMContentLoaded` 肯定在下面的这些脚本执行结束之后发生：
 
 ```html run
 <script>
@@ -71,54 +71,53 @@ document.addEventListener("DOMContentLoaded", ready);
 </script>
 ```
 
-在上面的例子中，我们首先会看到“Library loaded...”，然后才会看到“DOM ready!”（所有脚本都已经执行结束）。
+在上面这个例子中，我们首先会看到 "Library loaded..."，然后才会看到 "DOM ready!"（所有脚本都已经执行结束）。
 
-```warn header="具有 `async`, `defer` or `type=\"module\"` 属性的脚本不会阻塞 DOMContentLoaded"
-我们[稍后会提到的](info:script-async-defer)脚本属性 `async` 和 `defer`，它们不会阻塞 DOMContentLoaded。[JavaScript 模块](info:modules)的行为和 `defer` 相似，同样也不会阻塞 DOMContentLoaded。
-
-所以在这里，我们研究的是“普通”脚本，比如 `<script>...</script>` 或者 `<script src="..."></script>`。
+```warn header="不会阻塞 `DOMContentLoaded` 的脚本"
+此规则有两个例外：
+1. 具有 `async` 特性（attribute）的脚本不会阻塞 `DOMContentLoaded`，[稍后](info:script-async-defer) 我们会讲到。
+2. 使用 `document.createElement('script')` 动态生成并添加到网页的脚本也不会阻塞 `DOMContentLoaded`。
 ```
-
 
 ### DOMContentLoaded 和样式
 
-外部样式不会影响 DOM，因此 `DOMContentLoaded` 无需等待它们。
+外部样式表不会影响 DOM，因此 `DOMContentLoaded` 不会等待它们。
 
-但有一个陷阱。如果在样式之后有一个脚本，那么该脚本必须等待样式被加载：
+但这里有一个陷阱。如果在样式后面有一个脚本，那么该脚本必须等待样式表加载完成：
 
-```html
+```html run
 <link type="text/css" rel="stylesheet" href="style.css">
 <script>
-  // 在样式表加载之前，脚本都不会执行
+  // 在样式表加载完成之前，脚本都不会执行
   alert(getComputedStyle(document.body).marginTop);
 </script>
 ```
 
-原因是脚本可能希望获取如上述示例所描述的元素坐标和其他与样式相关的属性。因此，它必须等待样式被加载。
+原因是，脚本可能想要获取元素的坐标和其他与样式相关的属性，如上例所示。因此，它必须等待样式加载完成。
 
-当 `DOMContentLoaded` 等待脚本时，它也在等待脚本之前的样式。
+当 `DOMContentLoaded` 等待脚本时，它现在也在等待脚本前面的样式。
 
-### 浏览器内置的自动填充
+### 浏览器内建的自动填充
 
-Firefox、Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填写表单。
+Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填充表单。
 
-比如，如果页面有一个带有登录和密码的表单，并且浏览器记住了这些值，那么在 `DOMContentLoaded` 触发时，它就可以尝试自动填写它们（如果用户允许的话）。
+例如，如果页面有一个带有登录名和密码的表单，并且浏览器记住了这些值，那么在 `DOMContentLoaded` 上，浏览器会尝试自动填充它们（如果得到了用户允许）。
 
-因此，如果 `DOMContentLoaded` 被需要加载很长时间的脚本延迟触发，那么自动填充也在等待。你可能在某些站点上看到过（如果你使用浏览器自动填写） —— 登录/密码字段并不会立即自动填充，而是在页面被完全加载前会延迟填充。这实际上是 `DOMContentLoaded` 事件之前的延迟。
+因此，如果 `DOMContentLoaded` 被需要加载很长时间的脚本延迟触发，那么自动填充也会等待。你可能在某些网站上看到过（如果你使用浏览器自动填充）—— 登录名/密码字段不会立即自动填充，而是在页面被完全加载前会延迟填充。这实际上是 `DOMContentLoaded` 事件之前的延迟。
 
 
 ## window.onload [#window-onload]
 
-当包括样式、图像和其他资源的页面被全部加载时，`window` 对象上的 `load` 事件就会被触发。
+当整个页面，包括样式、图片和其他资源被加载完成时，会触发 `window` 对象上的 `load` 事件。可以通过 `onload` 属性获取此事件。
 
-以下示例正确地显示了图像大小，因为 `window.onload` 会等待所有的图像加载完毕：
+下面的这个示例正确显示了图片大小，因为 `window.onload` 会等待所有图片加载完毕：
 
 ```html run height=200 refresh
 <script>
-  window.onload = function() {
+  window.onload = function() { // 与此相同 window.addEventListener('load', (event) => {
     alert('Page loaded');
 
-    // 此时图像已经加载完成
+    // 此时图片已经加载完成
     alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
   };
 </script>
@@ -199,7 +198,7 @@ window.onbeforeunload = function() {
 
 - `“loading”` —— 文档正在被加载。
 - `“interactive”` —— 文档被全部读取。
-- `“complete”` —— 文档被全部读取，并且所有的资源（图像之类的）都被加载。
+- `“complete”` —— 文档被全部读取，并且所有的资源（图片之类的）都被加载。
 
 因此我们可以检查 `document.readyState` 并设置一个处理器，或在代码准备就绪时立即执行它。
 
@@ -274,7 +273,7 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 
 - 当 DOM 准备就绪时，`DOMContentLoaded` 事件就会在 `document` 上触发。在这个阶段，我们可以将 JavaScript 应用于元素。
   - 诸如 `<script>...</script>` 或者 `<script src="..."></script>` 会阻塞 DOMContentLoaded，浏览器等待它们执行结束。
-  - 图像和其他资源仍然可以继续被加载。
+  - 图片和其他资源仍然可以继续被加载。
 - 当页面和所有资源被加载时，`window` 上的 `load` 事件会被触发。我们很少使用它，因为通常没有必要去等待那么久。
 - 当用户想要离开页面时，`window` 上的 `beforeunload` 事件会被触发。如果我们取消这个事件，浏览器会询问用户是否真的要离开（比如有未保存的内容）。
 - 当用户最终离开时，`window` 上的 `unload` 事件会被触发。在处理程序中，我们只能做一些不会涉及到延迟或询问用户的简单事情。正是由于这个限制，它很少被使用。我们可以用 `navigator.sendBeacon` 来发送网络请求。
