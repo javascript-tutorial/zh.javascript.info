@@ -35,7 +35,7 @@ document.head.append(script);
 ```js run untrusted
 let script = document.createElement('script');
 
-// 可以从任意域名（domain），加载任意脚本
+// 可以从任意域（domain），加载任意脚本
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
@@ -107,7 +107,7 @@ img.onerror = function() {
 
 这里有一条规则：来自一个站点的脚本无法访问其他站点的内容。例如，位于 `https://facebook.com` 的脚本无法读取位于 `https://gmail.com` 的用户邮箱。
 
-或者，更确切地说，一个源（域/端口/协议三者）无法获取另一个源的内容。因此，即使我们有一个子域名，或者仅仅是另一个端口，这都是不同的源，彼此无法相互访问。
+或者，更确切地说，一个源（域/端口/协议三者）无法获取另一个源（origin）的内容。因此，即使我们有一个子域，或者仅仅是另一个端口，这都是不同的源，彼此无法相互访问。
 
 这个规则还影响其他域的资源。
 
@@ -137,7 +137,7 @@ Uncaught ReferenceError: noSuchFunction is not defined
 https://javascript.info/article/onload-onerror/crossorigin/error.js, 1:1
 ```
 
-现在，让我们从另一个域名中加载相同的脚本：
+现在，让我们从另一个域中加载相同的脚本：
 
 ```html run height=0
 <script>
@@ -159,29 +159,29 @@ error 的详细信息可能因浏览器而异，但是原理是相同的：有�
 
 为什么我们需要 error 的详细信息？
 
-因为有很多服务（我们也可以构建自己的服务）使用 `window.onerror` 监听全局 error，保存 error 并提供访问和分析 error 的接口。这很好，因为我们可以看到由用户触发的实际中的 error。但是，如果一个脚本来自于另一个源，那么正如我们刚刚看到的那样，其中没有太多有关 error 的信息。
+因为有很多服务（我们也可以构建自己的服务）使用 `window.onerror` 监听全局 error，保存 error 并提供访问和分析 error 的接口。这很好，因为我们可以看到由用户触发的实际中的 error。但是，如果一个脚本来自于另一个源（origin），那么正如我们刚刚看到的那样，其中没有太多有关 error 的信息。
 
 对其他类型的资源也执行类似的跨源策略（CORS）。
 
-**要允许跨源访问，我们需要 `crossorigin` 属性，同样对于服务器也需要提供特殊的响应头。**
+**要允许跨源访问，`<script>` 标签需要具有 `crossorigin` 特性（attribute），并且远程服务器必须提供特殊的 header。**
 
 这里有三个级别的跨源访问：
 
-1. **无 `crossorigin` 属性*** —— 禁止访问。
-2. **`crossorigin="anonymous"`** —— 如果服务器的响应头中提供了 `Access-Control-Allow-Origin` 为 `*` 或者为我们的源，那么就可以访问。浏览器不会将授权信息和 cookies 发送到远程服务器。
-3. **`crossorigin="use-credentials"`** —— 如果服务器的响应头提供了 `Access-Control-Allow-Origin` 为我们的源，且提供了 `Access-Control-Allow-Credentials: true`，那么我们就可以访问。浏览器此时会将授权信息和 cookies 发送到远程服务器。
+1. **无 `crossorigin` 特性** —— 禁止访问。
+2. **`crossorigin="anonymous"`** —— 如果服务器的响应带有包含 `*` 或我们的源（origin）的 header `Access-Control-Allow-Origin`，则允许访问。浏览器不会将授权信息和 cookie 发送到远程服务器。
+3. **`crossorigin="use-credentials"`** —— 如果服务器发送回带有我们的源的 header `Access-Control-Allow-Origin` 和 `Access-Control-Allow-Credentials: true`，则允许访问。浏览器会将授权信息和 cookie 发送到远程服务器。
 
 ```smart
-你可以在 <info:fetch-crossorigin> 中阅读更多关于跨源访问的信息。这里虽然它是以 `fetch` 方法作为网络请求的，但策略都是相同的。
+你可以在 <info:fetch-crossorigin> 一章中了解有关跨源访问的更多信息。这一章描述了用于网络请求的 `fetch` 方法，但策略是完全相同的。
 
-诸如“cookies”这类的内容超出了本章的范围，你可以在 <info:cookie> 章节获取到关于它的更多信息。
+诸如 "cookie" 之类的内容超出了本章的范围，但你可以在 <info:cookie> 一章学习它们。
 ```
 
-在我们的的例子中没有任何 crossorigin 属性。因此禁止跨源访问。让我们来加上它吧。
+在我们的示例中没有任何跨源特性（attribute）。因此，跨源访问被禁止。让我们来添加它吧。
 
-我们可以选择“anonymous”（不会发送 cookies，但是需要一个服务端响应头）或者“use-credentials”（发送 cookes，需要设置两个服务端响应头）。
+我们可以在 `"anonymous"`（不会发送 cookie，需要一个服务器端的 header）和 `"use-credentials"`（会发送 cookie，需要两个服务器端的 header）。
 
-如果我们不关心“cookies”，那么可以使用`“anonymous”`：
+如果我们不关心 cookie，那么可以选择 `"anonymous"`：
 
 ```html run height=0
 <script>
@@ -192,15 +192,15 @@ window.onerror = function(message, url, line, col, errorObj) {
 <script *!*crossorigin="anonymous"*/!* src="https://cors.javascript.info/article/onload-onerror/crossorigin/error.js"></script>
 ```
 
-现在，假设服务器提供 `Access-Control-Allow-Origin` 头，一切都正常。我们有完整的 error 报告。
+现在，假设服务器提供了 `Access-Control-Allow-Origin` header，一切都正常。我们有了完整的 error 报告。
 
 ## 总结
 
-`<img>` 图片，外部样式表，脚本和其他资源都提供了 `load` 和 `error` 事件来跟踪它们的加载：
+图片 `<img>`，外部样式，脚本和其他资源都提供了 `load` 和 `error` 事件以跟踪它们的加载：
 
 - `load` 在成功加载时被触发。
 - `error` 在加载失败时被触发。
 
-只有 `<iframe>` 特殊：出于历史原因，不管加载成功还是失败，即使页面没有被找到，它都会触发 `load` 事件。
+唯一的例外是 `<iframe>`：出于历史原因，不管加载成功还是失败，即使页面没有被找到，它都会触发 `load` 事件。
 
 `readystatechange` 事件也适用于资源，但很少被使用，因为 `load/error` 事件更简单。
