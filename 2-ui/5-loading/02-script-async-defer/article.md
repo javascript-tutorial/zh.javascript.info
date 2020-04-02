@@ -37,9 +37,9 @@
 
 ## defer
 
-`defer` 特性告诉浏览器它应该继续处理页面，并在“后台”下载脚本，然后等页面处理完成后才开始执行此脚本。
+`defer` 特性告诉浏览器它应该继续处理页面，并“在后台”下载脚本，然后等页面加载完成后，再执行此脚本。
 
-接下来的这个例子和上面一样，但是是用 `defer` 特性：
+这是与上面那个相同的示例，但是带有 `defer` 特性：
 
 ```html run height=100
 <p>...content before script...</p>
@@ -50,10 +50,10 @@
 <p>...content after script...</p>
 ```
 
-- 具有 `defer` 特性的脚本不会阻塞页面的加载。
+- 具有 `defer` 特性的脚本不会阻塞页面。
 - 具有 `defer` 特性的脚本总是要等到 DOM 解析完毕，但在 `DOMContentLoaded` 事件之前执行。
 
-下面的例子演示了这一过程：
+下面这个示例演示了这一过程：
 
 ```html run height=100
 <p>...content before scripts...</p>
@@ -68,11 +68,11 @@
 ```
 
 1. 页面内容立即显示。
-2. `DOMContentLoaded` 在等待 defer 脚本动作的完成。它仅在脚本 `(2)` 下载且执行结束后才被触发。
+2. `DOMContentLoaded` 等待具有 `defer` 特性的脚本执行完成。`DOMContentLoaded` 仅在脚本 `(2)` 下载且执行结束后才会被触发。
 
-Defer 脚本保持他们的相对顺序，就像常规脚本一样。
+具有 `defer` 特性的脚本保持其相对顺序，就像常规脚本一样。
 
-所以，如果我们有一个长脚本在前，一个短脚本在后，那么后者就会等待前者。
+因此，如果我们有一个长脚本在前，一个短脚本在后，那么后者就会等待前者。
 
 ```html
 <script defer src="https://javascript.info/article/script-async-defer/long.js"></script>
