@@ -1,13 +1,13 @@
-# 原始（primitive）类型的方法
+# 原始类型的方法
 
 JavaScript 允许我们像使用对象一样使用原始类型（字符串，数字等）。JavaScript 还提供了这样的调用方法。我们很快就会学习它们，但是首先我们将了解它的工作原理，毕竟基本类型不是对象（在这里我们会分析的更加清楚）。
 
-我们来看看基原始类型和对象之间的关键区别。
+我们来看看原始类型和对象之间的关键区别。
 
 一个原始值
 
 - 是原始类型中的一种值。
-- 在 JavaScript 中有 7 种原始类型：`string`、`number`、`bigint`、`boolean`、`symbol`、`null` 和 `undefined`。
+- 在 JavaScript 中有 7 种原始类型：`string`，`number`，`bigint`，`boolean`，`symbol`，`null` 和 `undefined`。
 
 一个对象
 
