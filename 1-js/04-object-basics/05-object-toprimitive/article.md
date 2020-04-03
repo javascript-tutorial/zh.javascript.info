@@ -192,9 +192,9 @@ alert(user + 500); // toString -> John500
 唯一强制性的事情是：这些方法必须返回一个原始值，而不是对象。
 
 ```smart header="历史原因"
-历史的原因，如果 `toString` 或 `valueOf` 返回了一个字符串，不会出现错误，但是这种值会被忽略（就像这种方法根本不存在）。这是因为在 JavaScript 这门语言发展的初期，没有很好的“错误”的概念。
+由于历史原因，如果 `toString` 或 `valueOf` 返回一个对象，则不会出现 error，但是这种值会被忽略（就像这种方法根本不存在）。这是因为在 JavaScript 语言发展初期，没有很好的 "error" 的概念。
 
-相反，`Symbol.toPrimitive` **必须** 返回一个原始值，否则就会出现错误。
+相反，`Symbol.toPrimitive` **必须** 返回一个原始值，否则就会出现 error。
 ```
 
 ## 进一步的转换
