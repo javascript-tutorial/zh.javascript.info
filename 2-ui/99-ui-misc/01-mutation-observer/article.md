@@ -115,7 +115,7 @@ mutationRecords = [{
 
 从架构的角度来看，在某些情况下，`MutationObserver` 有不错的作用。
 
-假设我们正在建立一个有关编程的网站。自然地，文章和其他材料中可能包含源代码片段。
+假设我们正在建立一个有关编程的网站。自然地，文章和其他材料中可能包含源代码段。
 
 在 HTML 标记（markup）中的此类片段如下所示：
 
@@ -133,11 +133,11 @@ mutationRecords = [{
 那什么时候运行该高亮显示方法呢？我们可以在 `DOMContentLoaded` 事件中或者在页面尾部运行。到那时，我们的 DOM 已准备就绪，我们可以搜索元素 `pre[class*="language"]` 并对其调用 `Prism.highlightElem`：
 
 ```js
-// 高亮显示页面上的所有代码片段
+// 高亮显示页面上的所有代码段
 document.querySelectorAll('pre[class*="language"]').forEach(Prism.highlightElem);
 ```
 
-到目前为止，一切都很简单，对吧？HTML 中有 `<pre>` 代码片段，我们高亮显示它们。
+到目前为止，一切都很简单，对吧？HTML 中有 `<pre>` 代码段，我们高亮显示它们。
 
 现在让我们继续。假设我们要从服务器动态获取资料。我们将 [在本教程的后续章节](info:fetch) 中学习进行此操作的方法。目前，只需要关心我们从网络服务器获取 HTML 文章并按需显示：
 
@@ -146,7 +146,7 @@ let article = /* 从服务器获取新内容 */
 articleElem.innerHTML = article;
 ```
 
-新的 `article` HTML 可能包含代码片段。我们需要对其调用 `Prism.highlightElem`，否则它们将不会被高亮显示。
+新的 `article` HTML 可能包含代码段。我们需要对其调用 `Prism.highlightElem`，否则它们将不会被高亮显示。
 
 **对于动态加载的文章，应该在何处何时调用 `Prism.highlightElem`？**
 
@@ -168,7 +168,7 @@ snippets.forEach(Prism.highlightElem);
 
 幸运的是，还有另一种选择。
 
-我们可以使用 `MutationObserver` 来自动检测何时在页面中插入了代码片段，并高亮显示之它们。
+我们可以使用 `MutationObserver` 来自动检测何时在页面中插入了代码段，并高亮显示之它们。
 
 因此，我们在一个地方处理高亮显示功能，从而使我们无需集成它。
 
@@ -176,7 +176,7 @@ snippets.forEach(Prism.highlightElem);
 
 这是一个工作示例。
 
-如果你运行这段代码，它将开始观察下面的元素，并高亮显示现在此处的所有代码片段：
+如果你运行这段代码，它将开始观察下面的元素，并高亮显示现在此处的所有代码段：
 
 ```js run
 let observer = new MutationObserver(mutations => {
@@ -188,12 +188,12 @@ let observer = new MutationObserver(mutations => {
       // 我们只跟踪元素，跳过其他节点（例如文本节点）
       if (!(node instanceof HTMLElement)) continue;
 
-      // 检查插入的元素是否为代码片段
+      // 检查插入的元素是否为代码段
       if (node.matches('pre[class*="language-"]')) {
         Prism.highlightElement(node);
       }
 
-      // 或者可能在子树的某个地方有一个代码片段？
+      // 或者可能在子树的某个地方有一个代码段？
       for(let elem of node.querySelectorAll('pre[class*="language-"]')) {
         Prism.highlightElement(elem);
       }
@@ -207,58 +207,60 @@ let demoElem = document.getElementById('highlight-demo');
 observer.observe(demoElem, {childList: true, subtree: true});
 ```
 
-下面有一个 HTML 元素，
+下面有一个 HTML 元素，以及使用 `innerHTML` 动态填充它的 JavaScript。
 
-和 JavaScript，该脚本使用 `innerHTML` 动态填充 HTML 元素。
+请先运行前面那段代码（上面那段，观察元素），然后运行下面这段代码。你将看到 `MutationObserver` 是如何检测并高亮显示代码段的。
 
-请先运行前面的代码（如前述，监测到该元素），然后运行下面的代码。您将看到 `MutationObserver` 如何检测并高亮显示该代码段。
+<p id="highlight-demo" style="border: 1px solid #ddd">一个具有 <code>id="highlight-demo"</code> 的示例元素，运行上面那段代码来观察它。</p>
 
-<p id="highlight-demo" style="border: 1px solid #ddd">A demo-element with <code>id="highlight-demo"</code>, run the code above to observe it.</p>
-
-以下代码填充了其 `innerHTML`。请先运行上面的代码，它将监测并高亮显示新内容：
+下面这段代码填充了其 `innerHTML`，这导致 `MutationObserver` 作出反应，并突出显示其内容：
 
 ```js run
 let demoElem = document.getElementById('highlight-demo');
 
 // 动态插入带有代码段的内容
-demoElem.innerHTML = `A code snippet is below:
+demoElem.innerHTML = `下面是一个代码段：
   <pre class="language-javascript"><code> let hello = "world!"; </code></pre>
-  <div>Another one:</div>
+  <div>另一个代码段：</div>
   <div>
     <pre class="language-css"><code>.class { margin: 5px; } </code></pre>
   </div>
 `;
 ```
 
-现在我们有了 `MutationObserver`，它可以跟踪在被监测的元素或整个“文档”中的所有高亮显示。我们可以在 HTML 中随意添加/删除代码段。
+现在我们有了 `MutationObserver`，它可以跟踪观察到的元素中的，或者整个 `document` 中的所有高亮显示。我们可以在 HTML 中添加/删除代码段，而无需考虑高亮问题。
 
 ## 其他方法
 
-有一个方法可以停止监测节点：
+有一个方法可以停止观察节点：
 
-- `observer.disconnect()` － 停止监测。
+- `observer.disconnect()` —— 停止观察。
 
-跟它经常一起使用的另一个方法：
+当我们停止观察时，观察器可能尚未处理某些更改。
 
-- `mutationRecords = observer.takeRecords()` － 获取尚未处理的变动记录列表，即发生了变动但回调函数还没有处理它们。
+- `observer.takeRecords()` —— 获取尚未处理的变动记录列表，表中记录的是已经发生，但回调暂未处理的变动。
+
+这些方法可以一起使用，如下所示：
 
 ```js
-// 我们想停止监测变动
+// 我们想要停止跟踪变动
 observer.disconnect();
 
-// 它可能尚未处理某些变动
+// 处理未处理的变动
 let mutationRecords = observer.takeRecords();
-// 处理 mutationRecords
+...
 ```
 
-## 垃圾回收
+```smart header="垃圾回收"
+观察器在内部对节点使用弱引用。也就是说：如果一个节点被从 DOM 中删除了，并且该节点变得不可访问，那么它就会被垃圾回收。
 
-观察器在内部对节点使用弱引用。即：如果一个节点从 DOM 中删除了，便访问不到了，那么它就成了要回收的垃圾，观察器不会阻止这种情况。
+观察到 DOM 节点这一事实并不能阻止垃圾回收。
+```
 
 ## 总结  
 
-`MutationObserver` 可以监测 DOM 的变动如：属性、添加/删除的元素、文本内容。
+`MutationObserver` 可以对 DOM 的变化作出反应：特性（attribute），添加/删除的元素，文本内容。
 
 我们可以用它来跟踪代码其他部分引入的更改，以及与第三方脚本集成。
 
-`MutationObserver` 可以监测任何更改。配置选项“监测哪些内容”用于优化监测，节省不必要的回调调用。
+`MutationObserver` 可以跟踪任何更改。`config` “要观察的内容”选项用于优化，避免不必要的回调调用以节省资源。
