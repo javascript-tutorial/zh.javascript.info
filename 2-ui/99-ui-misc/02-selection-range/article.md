@@ -90,15 +90,15 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
   // 范围的 toString 以文本形式返回其内容（不带标签）
   alert(range); // Example: italic
 
-  // 将此范围应用于文档选择（稍后解释）
+  // 将此范围应用于文档选择（稍后会解释）
   document.getSelection().addRange(range);
 </script>
 ```
 
-- `range.setStart(p, 0)` － 将起始位置设为 `<p>` 的第 0 个子节点（即文本节点 `"Example: "`）。
-- `range.setEnd(p, 2)` － 覆盖范围至（但不包括）`<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，最后选择的节点是 `<i>`）。
+- `range.setStart(p, 0)` —— 将起点设置为 `<p>` 的第 0 个子节点（即文本节点 `"Example: "`）。
+- `range.setEnd(p, 2)` —— 覆盖范围至（但不包括）`<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，所以最后选择的节点是 `<i>`）。
 
-下面的测试更加灵活，您可以在其中尝试更多不同的情况：
+这是一个更灵活的测试台，你可以在其中尝试更多不同的情况：
 
 ```html run autorun
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -114,7 +114,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
     range.setEnd(p, end.value);
   */!*
 
-    // 应用选择，后文有解释
+    // 应用选择，稍后会解释
     document.getSelection().removeAllRanges();
     document.getSelection().addRange(range);
   };
@@ -129,13 +129,13 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ### 选择文本节点的一部分
 
-让我们部分地选择文本，如下所示：
+让我们选择部分文本，像这样：
 
 ![](range-example-p-2-b-3.svg)
 
 这也是可以做到的，我们只需要将起点和终点设置为文本节点中的相对偏移量即可。
 
-我们需要创建一个范围，即：
+我们需要创建一个范围，它：
 - 从 `<p>` 的第一个子节点的位置 2 开始（选择 "Ex<b>ample:</b> " 中除头两个字符外的所有字符)
 - 到 `<b>` 的第一个子节点的位置 3 结束（选择 "<b>bol</b>d" 的头三个字符，就这些）：
 
