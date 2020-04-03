@@ -113,11 +113,11 @@ mutationRecords = [{
 
 ## 用于架构
 
-从架构的角度来看，`MutationObserver` 也有不错的适用场景。
+从架构的角度来看，在某些情况下，`MutationObserver` 有不错的作用。
 
-假设我们在建一个有关编程的网站。自然地，文章和其他材料中可能包含源代码片段。
+假设我们正在建立一个有关编程的网站。自然地，文章和其他材料中可能包含源代码片段。
 
-这些代码片段在 HTML 标记中如下所示：
+在 HTML 标记（markup）中的此类片段如下所示：
 
 ```html
 ...
@@ -128,29 +128,29 @@ mutationRecords = [{
 ...
 ```
 
-另外，我们还将在网站上使用 JavaScript 高亮显示库，例如 [Prism.js](https://prismjs.com/)。调用 `Prism.highlightElem(pre)` 会检查此类 `pre` 元素的内容，并在其中添加特殊标记和样式，进行彩色语法高亮显示，类似于您在本页面的示例中看到的那样。
+另外，我们还将在网站上使用 JavaScript 高亮显示库，例如 [Prism.js](https://prismjs.com/)。调用 `Prism.highlightElem(pre)` 会检查此类 `pre` 元素的内容，并在其中添加特殊标签（tag）和样式，以进行彩色语法高亮显示，类似于你在本文的示例中看到的那样。
 
-那什么时候运行该高亮显示方法呢？我们可以在 `DOMContentLoaded` 事件触发时运行，或在页尾运行。到那时，DOM 已加载完毕，我们可以搜索元素 `pre[class*="language"]` 并调用 `Prism.highlightElem` ：
+那什么时候运行该高亮显示方法呢？我们可以在 `DOMContentLoaded` 事件中或者在页面尾部运行。到那时，我们的 DOM 已准备就绪，我们可以搜索元素 `pre[class*="language"]` 并对其调用 `Prism.highlightElem`：
 
 ```js
-// 在页面上高亮显示所有代码片段
+// 高亮显示页面上的所有代码片段
 document.querySelectorAll('pre[class*="language"]').forEach(Prism.highlightElem);
 ```
 
-到目前为止，一切都很简单，对吧？HTML 中有 `<pre>` 代码片段，并高亮显示了。
+到目前为止，一切都很简单，对吧？HTML 中有 `<pre>` 代码片段，我们高亮显示它们。
 
-现在继续。假设我们要从服务器动态获取资料。我们会在 [后续教程](info:fetch) 中学习怎么做。当前我们只关心从网络服务器获取 HTML 文章后按需显示：
+现在让我们继续。假设我们要从服务器动态获取资料。我们将 [在本教程的后续章节](info:fetch) 中学习进行此操作的方法。目前，只需要关心我们从网络服务器获取 HTML 文章并按需显示：
 
 ```js
 let article = /* 从服务器获取新内容 */
 articleElem.innerHTML = article;
 ```
 
-新的 `article` HTML 可能包含代码片段。我们需要对其调用 `Prism.highlightElem`，否则它们将不会高亮显示。
+新的 `article` HTML 可能包含代码片段。我们需要对其调用 `Prism.highlightElem`，否则它们将不会被高亮显示。
 
-**对于动态加载的文章，在何处何时调用 `Prism.highlightElem`？**
+**对于动态加载的文章，应该在何处何时调用 `Prism.highlightElem`？**
 
-我们可以对加载文章的那段代码调用该方法，如下所示：
+我们可以将该调用附加到加载文章的代码中，如下所示：
 
 ```js
 let article = /* 从服务器获取新内容 */
@@ -162,38 +162,38 @@ snippets.forEach(Prism.highlightElem);
 */!*
 ```
 
-……但是，想象一下，代码中有很多地方可以加载内容：文章、测验、论坛帖子。我们需要在所有地方都进行高亮显示调用吗？那不太好办，也很容易遗漏。
+……但是，想象一下，代码中有很多地方可以加载内容：文章，测验，论坛帖子。我们是否需要在每个地方都附加一个高亮显示调用？那不太方便，也很容易忘记。
 
-而且，如果内容是由第三方模块加载的，怎么办？例如，我们有一个由他人编写的论坛，可以动态加载内容，我们想在论坛中添加语法高亮显示功能。没有人喜欢再接入第三方脚本。
+并且，如果内容是由第三方模块加载的，该怎么办？例如，我们有一个由其他人编写的论坛，该论坛可以动态加载内容，并且我们想为其添加语法高亮显示。没有人喜欢修补第三方脚本。
 
 幸运的是，还有另一种选择。
 
-我们可以使用 `MutationObserver` ，它能自动检测何时在页面中插入了代码片段，并高亮显示之。
+我们可以使用 `MutationObserver` 来自动检测何时在页面中插入了代码片段，并高亮显示之它们。
 
-因此，我们在一个地方处理高亮显示功能，不再需要集成。
+因此，我们在一个地方处理高亮显示功能，从而使我们无需集成它。
 
 ### 动态高亮显示示例
 
-这是运行示例。
+这是一个工作示例。
 
-如果运行此代码，它将开始监测下面的元素，并高亮显示该元素处出现的任何代码段：
+如果你运行这段代码，它将开始观察下面的元素，并高亮显示现在此处的所有代码片段：
 
 ```js run
 let observer = new MutationObserver(mutations => {
 
   for(let mutation of mutations) {
-    // 检查新节点，是否有需要高亮的？
+    // 检查新节点，有什么需要高亮显示的吗？
 
     for(let node of mutation.addedNodes) {
-      //我们只跟踪元素，忽略其他节点（例如文本节点）
+      // 我们只跟踪元素，跳过其他节点（例如文本节点）
       if (!(node instanceof HTMLElement)) continue;
 
-      // 检查插入的元素是否为代码段
+      // 检查插入的元素是否为代码片段
       if (node.matches('pre[class*="language-"]')) {
         Prism.highlightElement(node);
       }
 
-      // 或在子树的某处可能有一个代码片段？
+      // 或者可能在子树的某个地方有一个代码片段？
       for(let elem of node.querySelectorAll('pre[class*="language-"]')) {
         Prism.highlightElement(elem);
       }
@@ -207,7 +207,9 @@ let demoElem = document.getElementById('highlight-demo');
 observer.observe(demoElem, {childList: true, subtree: true});
 ```
 
-下面有一个 HTML 元素和 JavaScript，该脚本使用 `innerHTML` 动态填充 HTML 元素。
+下面有一个 HTML 元素，
+
+和 JavaScript，该脚本使用 `innerHTML` 动态填充 HTML 元素。
 
 请先运行前面的代码（如前述，监测到该元素），然后运行下面的代码。您将看到 `MutationObserver` 如何检测并高亮显示该代码段。
 
