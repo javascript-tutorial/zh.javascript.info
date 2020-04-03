@@ -4,12 +4,12 @@ JavaScript 允许我们像使用对象一样使用原始类型（字符串，数
 
 我们来看看原始类型和对象之间的关键区别。
 
-一个原始值
+一个原始值：
 
 - 是原始类型中的一种值。
 - 在 JavaScript 中有 7 种原始类型：`string`，`number`，`bigint`，`boolean`，`symbol`，`null` 和 `undefined`。
 
-一个对象
+一个对象：
 
 - 能够存储多个值作为属性。
 - 可以使用大括号 `{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
