@@ -90,7 +90,7 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
   // 范围的 toString 以文本形式返回其内容（不带标签）
   alert(range); // Example: italic
 
-  // 将此范围应用于文档选择（稍后会解释）
+  // 将此范围应用于文档选择（后文有解释）
   document.getSelection().addRange(range);
 </script>
 ```
@@ -114,7 +114,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
     range.setEnd(p, end.value);
   */!*
 
-    // 应用选择，稍后会解释
+    // 应用选择，后文有解释
     document.getSelection().removeAllRanges();
     document.getSelection().addRange(range);
   };
@@ -136,8 +136,8 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 这也是可以做到的，我们只需要将起点和终点设置为文本节点中的相对偏移量即可。
 
 我们需要创建一个范围，它：
-- 从 `<p>` 的第一个子节点的位置 2 开始（选择 "Ex<b>ample:</b> " 中除头两个字符外的所有字符)
-- 到 `<b>` 的第一个子节点的位置 3 结束（选择 "<b>bol</b>d" 的头三个字符，就这些）：
+- 从 `<p>` 的第一个子节点的位置 2 开始（选择 "Ex<b>ample:</b> " 中除前两个字母外的所有字母）
+- 到 `<b>` 的第一个子节点的位置 3 结束（选择 "<b>bol</b>d" 的前三个字母，就这些）：
 
 ```html run
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -150,7 +150,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
   alert(range); // ample: italic and bol
 
-  // 在选择中使用此范围（后文有解释）
+  // 使用此范围进行选择（后文有解释）
   window.getSelection().addRange(range);
 </script>
 ```
@@ -159,13 +159,13 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ![](range-example-p-2-b-3-range.svg)
 
-- `startContainer`、`startOffset` － 起始节点和偏移量，
+- `startContainer`，`startOffset` —— 起始节点和偏移量，
   - 在上例中：分别是 `<p>` 中的第一个文本节点和 `2`。
-- `endContainer`、`endOffset` － 结束节点和偏移量，
+- `endContainer`，`endOffset` —— 结束节点和偏移量，
   - 在上例中：分别是 `<b>` 中的第一个文本节点和 `3`。
-- `collapsed` － 布尔值，如果范围在同一点上开始和结束（因此范围内没有内容）则为 `true` ，
+- `collapsed` —— 布尔值，如果范围在同一点上开始和结束（所以范围内没有内容）则为 `true`，
   - 在上例中：`false`
-- `commonAncestorContainer` － 在范围内的所有节点中最近的祖先节点，
+- `commonAncestorContainer` —— 在范围内的所有节点中最近的共同祖先节点，
   - 在上例中：`<p> `
 
 ## Range 方法
