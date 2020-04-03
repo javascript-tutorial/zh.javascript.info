@@ -16,11 +16,11 @@ JavaScript 可以获取现有选择，选择/取消全部或部分选择，从�
 
 选择的基本概念是 [Range](https://dom.spec.whatwg.org/#ranges)：本质上是一对“边界点”：范围起点和范围终点。
 
-每个点都表示为一个父 DOM 节点，从起点偏移一段距离。如果父节点是元素节点，则偏移量是子节点个数，对于文本节点而言，则是文本中的位置。下面举例来说。
+每个点都被表示为一个带有相对于起点的相对偏移（offset）的父 DOM 节点。如果父节点是元素节点，则偏移量是子节点的编号，对于文本节点，则是文本中的位置。下面举例说明。
 
-让我们选择点什么。
+让我们选择一些东西。
 
-首先，我们可以创建一个范围（构造函数不带参数）：
+首先，我们可以创建一个范围（构造器没有参数）：
 
 ```js
 let range = new Range();
@@ -34,7 +34,7 @@ let range = new Range();
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
 ```
 
-这是它的 DOM 结构，请注意，这里的文本节点对我们很重要：
+这是其 DOM 结构，请注意，这里的文本节点对我们很重要：
 
 <div class="select-p-domtree"></div>
 
@@ -72,7 +72,7 @@ let selectPDomtree = {
 drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 </script>
 
-我们来选择 `"Example: <i>italic</i>"`。那是 `<p>` 的头两个子节点（文本节点包括在内）：
+让我们来选择 `"Example: <i>italic</i>"`。它是 `<p>` 的前两个子节点（文本节点也算在内）：
 
 ![](range-example-p-0-1.svg)
 
