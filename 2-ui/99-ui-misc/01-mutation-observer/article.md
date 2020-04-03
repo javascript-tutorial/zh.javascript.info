@@ -1,7 +1,7 @@
 
 # DOM 变动观察器（Mutation observer）
 
-`MutationObserver` 是一个内建对象，它观察 DOM 元素，在其发生变动时触发回调。
+`MutationObserver` 是一个内建对象，它观察 DOM 元素，在其发生更改时触发回调。
 
 我们将首先看一下语法，然后探究一个实际的用例，以了解它在什么地方有用。
 
@@ -21,34 +21,32 @@ let observer = new MutationObserver(callback);
 observer.observe(node, config);
 ```
 
-`config` 是一个具有布尔选项的对象，该布尔选项表示“将对哪些变动做出反应”：
-- `childList` —— `node` 的直接子节点的变动，
-- `subtree` —— `node` 的所有后代的变动，
+`config` 是一个具有布尔选项的对象，该布尔选项表示“将对哪些更改做出反应”：
+- `childList` —— `node` 的直接子节点的更改，
+- `subtree` —— `node` 的所有后代的更改，
 - `attributes` —— `node` 的特性（attribute），
 - `attributeFilter` —— 特性名称数组，只观察选定的特性。
 - `characterData` —— 是否观察 `node.data`（文本内容），
 
 其他几个选项：
-- `attributeOldValue` —— 如果为 `true`，则将特性的旧值和新值都传递给回调（参见下文），否则仅传新值（需要 `attributes` 选项），
-- `characterDataOldValue` —— 如果为 `true`，则将 `node.data` 的旧值和新值都传递给回调（参见下文），否则仅传新值（需要 `characterData` 选项）。
+- `attributeOldValue` —— 如果为 `true`，则将特性的旧值和新值都传递给回调（参见下文），否则只传新值（需要 `attributes` 选项），
+- `characterDataOldValue` —— 如果为 `true`，则将 `node.data` 的旧值和新值都传递给回调（参见下文），否则只传新值（需要 `characterData` 选项）。
 
-然后，在发生任何变动后，将执行“回调”：
-
-将变动作为一个 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象列表传入第一个参数，而观察器本身作为第二个参数。
+然后，在发生任何更改后，将执行“回调”：更改被作为一个 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象列表传入第一个参数，而观察器自身作为第二个参数。
 
 [MutationRecord](https://dom.spec.whatwg.org/#mutationrecord) 对象具有以下属性：
 
-- `type` － 变动类型，可以是以下类型中的一个：
-    - `"attributes"`：属性被修改了
-    - `"characterData"`：数据被修改了，用于文本节点。
-    - `"childList"`：添加/删除了子元素，
-- `target` － 变动发生在何处：`"attributes"` 所在的元素，`"characterData"` 所在的文本节点，或 `"childList"` 变动了的某元素，
-- `addedNodes/removedNodes`  － 添加/删除的节点
-- `previousSibling/nextSibling` － 添加/删除的节点的前后相邻节点
-- `attributeName/attributeNamespace` － 被更改的属性的名称/命名空间（用于 XML），
-- `oldValue` － 之前的值，仅用于属性或文本变动，如果设置了相应选项 `attributeOldValue`/`characterDataOldValue`。
+- `type` —— 变动类型，以下类型之一：
+    - `"attributes"`：特性被修改了，
+    - `"characterData"`：数据被修改了，用于文本节点，
+    - `"childList"`：添加/删除了子元素。
+- `target` —— 更改发生在何处：`"attributes"` 所在的元素，或 `"characterData"` 所在的文本节点，或 `"childList"` 变动所在的元素，
+- `addedNodes/removedNodes` —— 添加/删除的节点，
+- `previousSibling/nextSibling` —— 添加/删除的节点的上一个/下一个兄弟节点，
+- `attributeName/attributeNamespace` —— 被更改的特性的名称/命名空间（用于 XML），
+- `oldValue` —— 之前的值，仅适用于特性或文本更改，如果设置了相应选项 `attributeOldValue`/`characterDataOldValue`。
 
-例如，这里有一个 `<div>`，具有 `contentEditable` 属性。该属性用于聚焦和编辑节点。
+例如，这里有一个 `<div>`，它具有 `contentEditable` 特性。该特性使我们可以聚焦和编辑元素。
 
 ```html run
 <div contentEditable id="elem">Click and <b>edit</b>, please</div>
@@ -58,11 +56,11 @@ let observer = new MutationObserver(mutationRecords => {
   console.log(mutationRecords); // console.log(the changes)
 });
 
-// 监控属性外的所有变动
+// 观察除了特性之外的所有变动
 observer.observe(elem, {
-  childList: true, // 监控直接子节点
-  subtree: true, // 及其后代节点
-  characterDataOldValue: true // 将旧数据传递给回调函数
+  childList: true, // 观察直接子节点
+  subtree: true, // 及其更低的后代节点
+  characterDataOldValue: true // 将旧的数据传递给回调
 });
 </script>
 ```
