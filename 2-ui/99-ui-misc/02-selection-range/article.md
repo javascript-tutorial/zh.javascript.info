@@ -10,7 +10,7 @@ libs:
 
 JavaScript 可以获取现有选择，选择/取消全部或部分选择，从文档中删除所选部分，将其包装到一个标签（tag）中，等。
 
-你可以在本文最后的“总结”部分中找到使用方法。但是，如果你阅读整篇内容，将会有更多收获。基本的 `Range` 和 `Selection` 对象很容易掌握，因此，你不需要任何诀窍便可以使用它们做你想要做的事儿。
+你可以在本文最后的“总结”部分中找到使用方法。但是，如果你阅读整篇内容，将会有更多收获。基本的（underlying）`Range` 和 `Selection` 对象很容易掌握，因此，你不需要任何诀窍便可以使用它们做你想要做的事儿。
 
 ## 范围
 
@@ -282,43 +282,43 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 主要的选择属性有：
 
-- `anchorNode` － 选择的起始节点,
-- `anchorOffset` － 选择开始处 `anchorNode` 的偏移量，
-- `focusNode` － 选择的结束节点，
-- `focusOffset` － 选择开始处 `focusNode` 的偏移量，
-- `isCollapsed` － 如果未选择任何内容（空范围）或不存在，则为 `true` 。
-- `rangeCount` － 选择中的范围数，除 Firefox 外，其他浏览器最多为 `1`。
+- `anchorNode` —— 选择的起始节点，
+- `anchorOffset` —— 选择开始的 `anchorNode` 中的偏移量，
+- `focusNode` —— 选择的结束节点，
+- `focusOffset` —— 选择开始处 `focusNode` 的偏移量，
+- `isCollapsed` —— 如果未选择任何内容（空范围）或不存在，则为 `true` 。
+- `rangeCount` —— 选择中的范围数，除 Firefox 外，其他浏览器最多为 `1`。
 
 ````smart header="在文档中，选择的终点可能在起点之前"
-有很多选择内容的方法，视用户操作而定：鼠标、热键、手机上点击等。
+有很多选择内容的方式，取决于用户的操作：鼠标，热键，手机上的点击等。
 
-其中的某些方法，例如鼠标，可以在两个方向上创建相同的选择：“从左至右”和“从右至左”。
+其中的某些方式，例如鼠标，允许从两个方向创建相同的选择：“从左到右”和“从右到左”。
 
-如果在文档中选择的起点（锚点）在终点（焦点）之前，则称此选择具有“向前（forward）”方向。
+如果在文档中，选择的起点（anchor）在终点（focus）之前，则称此选择具有 "forward" 方向。
 
-例如，如果用户开始使用鼠标从 "Example" 选择到 "italic"：
+例如，如果用户使用鼠标从 "Example" 开始选择到 "italic"：
 
 ![](selection-direction-forward.svg)
 
-否则，如果是从 "italic" 的末尾选择到 "Example"，则该选择方向是“向后（backward）”，其焦点是在锚点之前：
+否则，如果是从 "italic" 的末尾开始选择到 "Example"，则所选内容将被定向为 "backward"，其焦点（focus）将在锚点（anchor）之前：
 
 ![](selection-direction-backward.svg)
 
-这与始终向前的 `Range` 对象不同：范围的起点不能在终点之后。
+这与始终指向前方的 `Range` 对象不同：范围的起点不能在终点之后。
 ````
 
 ## 选择事件
 
 有一些事件可以跟踪选择：
 
-- `elem.onselectstart` － 当在 `elem` 上开始选择时，例如，用户按下鼠标键并开始移动鼠标。
-    - 阻止默认操作会使选择无法开始。
-- `document.onselectionchange` － 当选择变动时
-    -请注意：此处理程序只能在 `document` 上设置。
+- `elem.onselectstart` —— 当选择从 `elem` 上开始时，例如，用户按下鼠标键并开始移动鼠标。
+    - 阻止默认行为会使选择无法开始。
+- `document.onselectionchange` —— 当选择变动时。
+    - 请注意：此处理程序只能在 `document` 上设置。
 
-### 选择跟踪示例代码
+### 选择跟踪演示
 
-下面是一小段代码，演示如何随选择的改变来动态显示其边界：
+下面是一个小型演示，它随更改动态显示选择边界：
 
 ```html run height=80
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -334,13 +334,13 @@ From <input id="from" disabled> – To <input id="to" disabled>
 </script>
 ```
 
-### 选择获取示例代码
+### 选择获取演示
 
-如要获取整个选择：
+要获取整个选择：
 - 作为文本：只需调用 `document.getSelection().toString()`。
-- 作为 DOM 节点：获取底层的范围并调用其 `cloneContents()` 方法（如果我们不支持 Firefox 多选择的话，则仅取第一个范围）。 
+- 作为 DOM 节点：获取基础的（underlying）范围，并调用它们的 `cloneContents()` 方法（如果我们不支持 Firefox 多选的话，则仅取第一个范围）。 
 
-下面是将选择选作为文本和 DOM 节点的示例代码：
+下面是将选择内容获取为文本和 DOM 节点的演示：
 
 ```html run height=100
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -360,7 +360,7 @@ As text: <span id="astext"></span>
       cloned.append(selection.getRangeAt(i).cloneContents());
     }
 
-    // 以文本形式获取
+    // 获取为文本形式
     astext.innerHTML += selection;
   };
 </script>
@@ -368,7 +368,7 @@ As text: <span id="astext"></span>
 
 ## 选择方法
 
-添加/删除范围的选择方法：
+添加/移除范围的选择方法：
 
 - `getRangeAt(i)` － 获取从 `0` 开始的第 i 个范围。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
 - `addRange(range)` － 将 `range` 添加到选择中。如果选择已有关联的范围，则除 Firefox 外的所有浏览器都将忽略该调用。
