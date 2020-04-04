@@ -170,42 +170,42 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ## Range 方法
 
-有许多方便的方法可以操作范围。
+有许多便利的方法可以操纵范围。
 
-设置范围的起始：
+设置范围的起点：
 
-- `setStart(node, offset)` 设置起始于：`node` 中的位置 `offset`
-- `setStartBefore(node)` 设置起始于：`node` 之前
-- `setStartAfter(node)` 设置起始于：`node` 之后
+- `setStart(node, offset)` 将起点设置在：`node` 中的位置 `offset`
+- `setStartBefore(node)` 将起点设置在：`node` 前面
+- `setStartAfter(node)` 将起点设置在：`node` 后面
 
-设置范围的结束（类似方法）：
+设置范围的终点（类似的方法）：
 
-- `setEnd(node, offset)` 设置结束于：`node` 中的位置 `offset`
-- `setEndBefore(node)` 设置结束于：`node` 之前
-- `setEndAfter(node)` 设置结束于：`node` 之后
+- `setEnd(node, offset)` 将终点设置为：`node` 中的位置 `offset`
+- `setEndBefore(node)` 将终点设置为：`node` 前面
+- `setEndAfter(node)` 将终点设置为：`node` 后面
 
-**如前所述，`node` 既可以是文本节点，也可以是元素节点：对于文本节点，`offset` 偏移的是字符数，而对于元素节点则是节点数。**
+**如前所述，`node` 既可以是文本节点，也可以是元素节点：对于文本节点，`offset` 偏移的是字符数，而对于元素节点则是子节点数。**
 
 其他：
 - `selectNode(node)` 设置范围以选择整个 `node`
 - `selectNodeContents(node)` 设置范围以选择整个 `node` 的内容
 - `collapse(toStart)` 如果 `toStart=true` 则设置 end=start，否则设置 start=end，从而折叠范围
-- `cloneRange()` 创建一个具有相同起始/结束的新范围
+- `cloneRange()` 创建一个具有相同起点/终点的新范围
 
-如要操作范围内的内容：
+如要操纵范围内的内容：
 
-- `deleteContents()` － 从文档中删除范围内容
-- `extractContents()` － 从文档中删除范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
-- `cloneContents()` － 复制范围内容，并返回 [DocumentFragment](info:modifying-document#document-fragment)
-- `insertNode(node)` － 在范围的起始处向文档中插入 `node`
-- `surroundContents(node)` － 以 `node` 包裹所选范围内容。要达到上述效果，则该范围内的所有元素都必须包含开始和结束标记：不能像 `<i>abc` 这样的部分范围。
+- `deleteContents()` —— 从文档中删除范围内容
+- `extractContents()` —— 从文档中删除范围内容，并将删除的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
+- `cloneContents()` —— 复制范围内容，并将删除的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
+- `insertNode(node)` —— 在范围的起始处将 `node` 插入文档
+- `surroundContents(node)` —— 使用 `node` 将所选范围内容包裹起来。要使此操作有效，则该范围必须包含其中所有元素的开始和结束标签：不能像 `<i>abc` 这样的部分范围。
 
 使用这些方法，我们基本上可以对选定的节点执行任何操作。
 
-以下测试显示它们的实际效果：
+这是在测试台上看到它们的实际效果：
 
 ```html run autorun height=260
-单击按钮来运行所选内容上的方法，单击 "resetExample" 重置。
+点击按钮运行所选内容上的方法，点击 "resetExample" 进行重置。
 
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
 
@@ -213,7 +213,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 <script>
   let range = new Range();
 
-  // 下面演示上述的各个方法：
+  // 下面演示了上述的每个方法：
   let methods = {
     deleteContents() {
       range.deleteContents()
@@ -259,7 +259,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 </script>
 ```
 
-还有比较范围的方法，但是很少使用。如您需要，请参考 [规范](https://dom.spec.whatwg.org/#interface-range) 或 [MDN 手册](https://developer.mozilla.org/en-US/docs/Web/API/Range)。
+还有比较范围的方法，但是很少使用。当你需要它们时，请参考 [规范](https://dom.spec.whatwg.org/#interface-range) 或 [MDN 手册](https://developer.mozilla.org/en-US/docs/Web/API/Range)。
 
 
 ## 选择
