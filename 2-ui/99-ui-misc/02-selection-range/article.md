@@ -155,7 +155,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 </script>
 ```
 
-范围对象具有以下属性：
+`range` 对象具有以下属性：
 
 ![](range-example-p-2-b-3-range.svg)
 
@@ -264,11 +264,11 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ## 选择
 
-`Range` 是用于管理选择范围的通用对象。我们可能会创建此类对象，传递范围 － 它们在视觉上不会自行选择任何内容。
+`Range` 是用于管理选择范围的通用对象。我们可能会创建此类对象，并传递它们 —— 它们在视觉上不会自行选择任何内容。
 
-文档的选择是由 `Selection` 对象表示的，可通过 `window.getSelection()` 或 `document.getSelection()` 来获取。
+文档选择是由 `Selection` 对象表示的，可通过 `window.getSelection()` 或 `document.getSelection()` 来获取。
 
-一个选择可以包括零个或多个范围。至少， [选择 API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (Mac 上用 `key:Cmd+click`) 在文档中选择多个范围。
+一个选择可以包括零个或多个范围。至少，[Selection API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (Mac 上用 `key:Cmd+click`) 在文档中选择多个范围。
 
 这是在 Firefox 中做的一个具有 3 个范围的选择截图：
 
