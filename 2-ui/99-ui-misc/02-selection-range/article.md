@@ -382,7 +382,7 @@ As text: <span id="astext"></span>
 - `setPosition(node, offset)` —— `collapse` 的别名。
 - `collapseToStart()` —— 折叠（替换为空范围）到选择起点，
 - `collapseToEnd()` —— 折叠到选择终点，
-- `extend(node, offset)` —— 将选择的焦点移到给定的 `node`，位置偏移 `oofset`，
+- `extend(node, offset)` —— 将选择的焦点（focus）移到给定的 `node`，位置偏移 `oofset`，
 - `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` —— 用给定的起点 `anchorNode/anchorOffset` 和终点 `focusNode/focusOffset` 来替换选择范围。选中它们之间的所有内容。
 - `selectAllChildren(node)` —— 选择 `node` 的所有子节点。
 - `deleteFromDocument()` —— 从文档中删除所选择的内容。
@@ -416,37 +416,37 @@ As text: <span id="astext"></span>
 ```
 
 ```smart header="如要选择，请先移除现有的选择"
-如果选择已存在，则先用 `removeAllRanges()` 删除之。然后添加范围。否则，除 Firefox 外的所有浏览器都将忽略新范围。
+如果选择已存在，则首先使用 `removeAllRanges()` 将其清空。然后添加范围。否则，除 Firefox 外的所有浏览器都将忽略新范围。
 
-某些选择方法是一个例外，它们会替换现有的选择，例如 `setBaseAndExtent`。
+某些选择方法例外，它们会替换现有的选择，例如 `setBaseAndExtent`。
 ```
 
 ## 表单控件中的选择
 
-表单元素如 `input` 和 `textarea` 提供 [选择专用 API](https://html.spec.whatwg.org/#textFieldSelection)，没有 `Selection` 或 `Range` 对象。由于输入值是纯文本而不是 HTML，因此不需要此类对象，一切都变得更加简单。
+诸如 `input` 和 `textarea` 等表单元素提供了 [专用的选择 API](https://html.spec.whatwg.org/#textFieldSelection)，没有 `Selection` 或 `Range` 对象。由于输入值是纯文本而不是 HTML，因此不需要此类对象，一切都变得更加简单。
 
 属性：
-- `input.selectionStart` － 选择的起始位置（可写），
-- `input.selectionEnd` － 选择的结束位置（可写），
-- `input.selectionDirection` － 选择方向，可以是："forward", "backward" 或 "none"（如通过双击选择），
+- `input.selectionStart` —— 选择的起始位置（可写），
+- `input.selectionEnd` —— 选择的结束位置（可写），
+- `input.selectionDirection` —— 选择方向，其中之一："forward"，"backward" 或 "none"（例如使用鼠标双击进行的选择），
 
 事件：
-- `input.onselect` － 选择某项时触发。
+- `input.onselect` —— 当某个东西被选择时触发。
 
 方法：
 
-- `input.select()` － 选择文本控件中的所有内容（可以是 `textarea` 而不是 `input`），
-- `input.setSelectionRange(start, end, [direction])` － 在给定方向上（可选），从 `start` 一直选择到 `end`。
-- `input.setRangeText(replacement, [start], [end], [selectionMode])` － 用新文本替换文本范围。
+- `input.select()` —— 选择文本控件中的所有内容（可以是 `textarea` 而不是 `input`），
+- `input.setSelectionRange(start, end, [direction])` —— 在给定方向上（可选），从 `start` 一直选择到 `end`。
+- `input.setRangeText(replacement, [start], [end], [selectionMode])` —— 用新文本替换范围中的文本。
 
-    可选参数 `start` 和 `end`，如果提供的话，则设置范围的起点和终点，否则使用用户选择。
+    可选参数 `start` 和 `end`，如果提供的话，则设置范围的起点和终点，否则使用用户的选择。
 
     最后一个参数 `selectionMode` 决定替换文本后如何设置选择。可能的值为：
 
-    - `"select"` － 将选择新插入的文本。
-    - `"start"` － 选择范围在插入的文本之前折叠（光标将在其之前）。
-    - `"end"` － 选择范围在插入的文本之后折叠（光标将在其后）。
-    - `"preserve"` － 尝试保留选择。这是默认值。
+    - `"select"` —— 将选择新插入的文本。
+    - `"start"` —— 选择范围将在插入的文本之前折叠（光标将在其之前）。
+    - `"end"` —— 选择范围将在插入的文本之后折叠（光标将紧随其后）。
+    - `"preserve"` —— 尝试保留选择。这是默认值。
 
 现在，让我们看看这些方法的实际使用。
 
@@ -470,17 +470,17 @@ From <input id="from" disabled> – To <input id="to" disabled>
 ```
 
 请注意：
-- `onselect` 是在选定某项时触发，而不是在删除选定项时触发。
-- 根据 [规范手册](https://w3c.github.io/selection-api/#dfn-selectionchange)，`document.onselectionchange` 事件不应触发表单控件内的选择，因为它与 `document` 选择和范围不相关。一些浏览器会生成它，但我们不应该依赖它。
+- `onselect` 是在某项被选择时触发，而在选择被删除时不触发。
+- 根据 [规范](https://w3c.github.io/selection-api/#dfn-selectionchange)，发表单控件内的选择不应该触发 `document.onselectionchange` 事件，因为它与 `document` 选择和范围不相关。一些浏览器会生成它，但我们不应该依赖它。
 
 
 ### 示例：移动光标
 
 我们可以更改 `selectionStart` 和 `selectionEnd`，二者设定了选择。
 
-一个重要的边界情况是 `selectionStart` 和 `selectionEnd` 彼此相等。那就正是光标位置。或者，换句话说，当未选择任何内容时，选择会在光标位置折叠。
+一个重要的边界情况是 `selectionStart` 和 `selectionEnd` 彼此相等。那正是光标位置。或者，换句话说，当未选择任何内容时，选择会折叠在光标位置。
 
-因此，通过设置 `selectionStart` 和 `selectionEnd` 为相同的值，我们可以移动光标。
+因此，通过将 `selectionStart` 和 `selectionEnd` 设置为相同的值，我们可以移动光标。
 
 例如：
 
@@ -491,10 +491,10 @@ Focus on me, the cursor will be at position 10.
 
 <script>
   area.onfocus = () => {
-    // 将 setTimeout 设为零延迟，以便在浏览器“焦点”操作完成后运行
+    // 设置零延迟 setTimeout 以在浏览器 "focus" 行为完成后运行
     setTimeout(() => {
       // 我们可以设置任何选择
-      // 如果 start=end，则将光标精确定位在该位置
+      // 如果 start=end，则光标就会在该位置
       area.selectionStart = area.selectionEnd = 10;
     });
   };
@@ -507,7 +507,7 @@ Focus on me, the cursor will be at position 10.
 
 那是一个有点复杂的方法。使用其最简单的单参数形式，它可以替换用户选择的范围并删除该选择。
 
-例如，在这里，用户选择将由 `*...*` 包裹：
+例如，这里的用户的选择将被包装在 `*...*` 中：
 
 ```html run autorun
 <input id="input" style="width:200px" value="Select here and click the button">
@@ -525,9 +525,9 @@ button.onclick = () => {
 </script>
 ```
 
-利用更多参数，我们可以设置范围 `start` 和 `end`。
+使用更多参数，我们可以设置范围 `start` 和 `end`。
 
-在本示例中，我们在输入文本中找到 `"THIS"`，替换它并保持被选中的状态：
+在下面这个示例中，我们在输入文本中找到 `"THIS"`，将其替换，并保持替换文本的选中状态：
 
 ```html run autorun
 <input id="input" style="width:200px" value="Replace THIS in text">
@@ -538,7 +538,7 @@ button.onclick = () => {
   let pos = input.value.indexOf("THIS");
   if (pos >= 0) {
     input.setRangeText("*THIS*", pos, pos + 4, "select");
-    input.focus(); // 选中它，使选择可见
+    input.focus(); // 聚焦（focus），以使选择可见
   }
 };
 </script>
@@ -546,11 +546,11 @@ button.onclick = () => {
 
 ### 示例：在光标处插入
 
-如果未选择任何内容，或者在 `setRangeText` 中使用相同的 `start` 和 `end`，则仅插入新文本，不会删除任何内容。
+如果未选择任何内容，或者我们在 `setRangeText` 中使用了相同的 `start` 和 `end`，则仅插入新文本，不会删除任何内容。
 
 我们也可以使用 `setRangeText` 在“光标处”插入一些东西。
 
-这是一个按钮，按下后会在光标位置插入 `"HELLO"`，然后光标紧随其后。如果选择不为空，则将其替换（我们可以通过比较`selectionStart!=selectionEnd` 来进行检测，否则如为空则做点别的事）：
+这是一个按钮，按下后会在光标位置插入 `"HELLO"`，然后光标紧随其后。如果选择不为空，则将其替换（我们可以通过比较 `selectionStart!=selectionEnd` 来进行检测，为空则执行其他操作）：
 
 ```html run autorun
 <input id="input" style="width:200px" value="Text Text Text Text Text">
@@ -580,12 +580,12 @@ button.onclick = () => {
     <div>Selectable <div id="elem">Unselectable</div> Selectable</div>
     ```
 
-    这样不允许选择从 `elem` 开始。但是用户可以在其他地方开始选择，并将 `elem`包含在内。
+    这样不允许选择从 `elem` 开始。但是用户可以在其他地方开始选择，并将 `elem` 包含在内。
 
-    然后 `elem` 便成为 `document.getSelection()` 的一部分，因此选择是有了，但其内容通常在复制粘贴中被忽略。
+    然后 `elem` 将成为 `document.getSelection()` 的一部分，因此选择实际发生了，但是在复制粘贴中，其内容通常会被忽略。
 
 
-2. 防止在 `onselectstart` 或 `mousedown` 事件中执行默认操作。
+2. 防止 `onselectstart` 或 `mousedown` 事件中的默认行为。
 
     ```html run
     <div>Selectable <div id="elem">Unselectable</div> Selectable</div>
@@ -597,36 +597,36 @@ button.onclick = () => {
 
     这样可以防止在 `elem` 上开始选择，但是访问者可以在另一个元素上开始选择，然后扩展到 `elem`。
 
-    当同一操作上有另一个事件处理程序该触发选择时（例如 `mousedown`），这便会很方便。因此我们禁用选择以避免冲突，仍然允许复制 `elem` 内容。
+    当同一行为上有另一个事件处理程序触发选择时（例如 `mousedown`），这会很方便。因此我们禁用选择以避免冲突，仍然允许复制 `elem` 内容。
 
-3. 我们也可以使用 `document.getSelection().empty()` 来清除选择。这很少使用，因为会在选择选中和消失时导致不必要的闪烁。
+3. 我们还可以使用 `document.getSelection().empty()` 来在选择发生后清除选择。很少使用这种方法，因为这会在选择项消失时导致不必要的闪烁。
 
 ## 参考
 
-- [DOM 规范: 范围（Range）](https://dom.spec.whatwg.org/#ranges)
+- [DOM 规范：范围（Range）](https://dom.spec.whatwg.org/#ranges)
 - [选择（Selection）API](https://www.w3.org/TR/selection-api/#dom-globaleventhandlers-onselectstart)
-- [HTML 规范: 用于文本控件选中的 APIs](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#textFieldSelection)
+- [HTML 规范：用于文本控件选择的 API](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#textFieldSelection)
 
 
 ## 总结
 
-我们介绍了选择的两种不同的 API：
+我们介绍了用于选择的两种不同的 API：
 
 1. 对于文档：`Selection` 和 `Range` 对象。
-2. 对于 `input`、`textarea`：其他方法和属性。
+2. 对于 `input`，`textarea`：其他方法和属性。
 
 第二个 API 非常简单，因为它处理的是文本。
 
-最常用的方法可能是：
+最常用的方案一般是：
 
 1. 获取选择：
     ```js run
     let selection = document.getSelection();
 
-    let cloned = /* 要将选中的节点复制到其内的元素 */;
+    let cloned = /* 要将所选的节点克隆到的元素 */;
 
-    // 然后将 Range 方法用于 selection.getRangeAt(0)
-    // 或如此处一样，用于所有范围，以支持多选
+    // 然后将 Range 方法应用于 selection.getRangeAt(0)
+    // 或者，像这样，用于所有范围，以支持多选
     for (let i = 0; i < selection.rangeCount; i++) {
       cloned.append(selection.getRangeAt(i).cloneContents());
     }
@@ -638,9 +638,9 @@ button.onclick = () => {
     // 直接：
     selection.setBaseAndExtent(...from...to...);
 
-    // 或我们可以创建范围并：
+    // 或者我们可以创建一个范围并：
     selection.removeAllRanges();
     selection.addRange(range);
     ```
 
-最后，关于光标。在可编辑元素如 `<textarea>` 中，光标位置始终位于选择的起点或重点。我们可以通过设置 `elem.selectionStart` 和 `elem.selectionEnd` 来获取光标位置或移动光标。
+最后，关于光标。在诸如 `<textarea>` 之类的可编辑元素中，光标的位置始终位于选择的起点或终点。我们可以通过设置 `elem.selectionStart` 和 `elem.selectionEnd` 来获取光标位置或移动光标。
