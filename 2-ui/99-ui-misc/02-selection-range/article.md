@@ -270,7 +270,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 一个选择可以包括零个或多个范围。至少，[Selection API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (Mac 上用 `key:Cmd+click`) 在文档中选择多个范围。
 
-这是在 Firefox 中做的一个具有 3 个范围的选择截图：
+这是在 Firefox 中做的一个具有 3 个范围的选择的截图：
 
 ![](selection-firefox.svg)
 
@@ -278,9 +278,9 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ## 选择属性
 
-与范围相似，选择的起点称为“锚点（anchor）”，终点称为“焦点（Focus）”。
+与范围相似，选择的起点称为“锚点（anchor）”，终点称为“焦点（focus）”。
 
-主要的选择属性是：
+主要的选择属性有：
 
 - `anchorNode` － 选择的起始节点,
 - `anchorOffset` － 选择开始处 `anchorNode` 的偏移量，
