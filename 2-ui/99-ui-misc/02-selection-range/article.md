@@ -10,7 +10,7 @@ libs:
 
 JavaScript 可以获取现有选择，选择/取消全部或部分选择，从文档中删除所选部分，将其包装到一个标签（tag）中，等。
 
-你可以在本文最后的“总结”部分中找到使用方法。但是，如果你阅读整篇内容，将会有更多收获。基本的（underlying）`Range` 和 `Selection` 对象很容易掌握，因此，你不需要任何诀窍便可以使用它们做你想要做的事儿。
+你可以在本文最后的“总结”部分中找到使用方法。但是，如果你阅读整篇内容，将会有更多收获。底层的（underlying）`Range` 和 `Selection` 对象很容易掌握，因此，你不需要任何诀窍便可以使用它们做你想要做的事儿。
 
 ## 范围
 
@@ -338,7 +338,7 @@ From <input id="from" disabled> – To <input id="to" disabled>
 
 要获取整个选择：
 - 作为文本：只需调用 `document.getSelection().toString()`。
-- 作为 DOM 节点：获取基础的（underlying）范围，并调用它们的 `cloneContents()` 方法（如果我们不支持 Firefox 多选的话，则仅取第一个范围）。 
+- 作为 DOM 节点：获取底层的（underlying）范围，并调用它们的 `cloneContents()` 方法（如果我们不支持 Firefox 多选的话，则仅取第一个范围）。 
 
 下面是将选择内容获取为文本和 DOM 节点的演示：
 
@@ -370,25 +370,25 @@ As text: <span id="astext"></span>
 
 添加/移除范围的选择方法：
 
-- `getRangeAt(i)` － 获取从 `0` 开始的第 i 个范围。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
-- `addRange(range)` － 将 `range` 添加到选择中。如果选择已有关联的范围，则除 Firefox 外的所有浏览器都将忽略该调用。
-- `removeRange(range)` － 从选择中删除 `range`。
-- `removeAllRanges()` － 删除所有范围。
-- `empty()` － `removeAllRanges` 的别名。
+- `getRangeAt(i)` —— 获取从 `0` 开始的第 i 个范围。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
+- `addRange(range)` —— 将 `range` 添加到选择中。如果选择已有关联的范围，则除 Firefox 外的所有浏览器都将忽略该调用。
+- `removeRange(range)` —— 从选择中删除 `range`。
+- `removeAllRanges()` —— 删除所有范围。
+- `empty()` —— `removeAllRanges` 的别名。
 
 另外，还有一些方便的方法可以直接操作选择范围，而无需使用 `Range`：
 
-- `collapse(node, offset)` － 用一个新的范围替换选定的范围，该新范围从给定的 `node` 处开始，到偏移 `offset` 处结束。
-- `setPosition(node, offset)` － `collapse` 的别名。
-- `collapseToStart()` － 折叠（以空范围替换）到选择起点，
-- `collapseToEnd()` － 折叠到选择终点，
-- `extend(node, offset)` － 将选择的焦点移到给定的 `node`，位置偏移 `oofset`，
-- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` － 用给定的起点 `anchorNode/anchorOffset` 和 终点 `focusNode/focusOffset` 来替换选择范围。选中它们之间的所有内容。
-- `selectAllChildren(node)` － 选择 `node` 的所有子节点。
-- `deleteFromDocument()` － 从文档中删除所选内容。
-- `containsNode(node, allowPartialContainment = false)` － 检查选择中是否包含 `node`（特别是如果第二个参数是 `true` 的话）
+- `collapse(node, offset)` —— 用一个新的范围替换选定的范围，该新范围从给定的 `node` 处开始，到偏移 `offset` 处结束。
+- `setPosition(node, offset)` —— `collapse` 的别名。
+- `collapseToStart()` —— 折叠（替换为空范围）到选择起点，
+- `collapseToEnd()` —— 折叠到选择终点，
+- `extend(node, offset)` —— 将选择的焦点移到给定的 `node`，位置偏移 `oofset`，
+- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` —— 用给定的起点 `anchorNode/anchorOffset` 和终点 `focusNode/focusOffset` 来替换选择范围。选中它们之间的所有内容。
+- `selectAllChildren(node)` —— 选择 `node` 的所有子节点。
+- `deleteFromDocument()` —— 从文档中删除所选择的内容。
+- `containsNode(node, allowPartialContainment = false)` —— 检查选择中是否包含 `node`（特别是如果第二个参数是 `true` 的话）
 
-因此，对于许多任务，我们可以调用 `Selection` 方法，而无需访问底层的 `Range` 对象。
+因此，对于许多任务，我们可以调用 `Selection` 方法，而无需访问底层的（underlying）`Range` 对象。
 
 例如，选择段落 `<p>` 的全部内容：
 
@@ -396,26 +396,26 @@ As text: <span id="astext"></span>
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
 <script>
-  // 从 <p> 的第 0 个子节点中选择到最后一个子节点
+  // 从 <p> 的第 0 个子节点选择到最后一个子节点
   document.getSelection().setBaseAndExtent(p, 0, p, p.childNodes.length);
 </script>
 ```
 
-同样用范围来做：
+使用范围来完成同一个操作：
 
 ```html run
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
 <script>
   let range = new Range();
-  range.selectNodeContents(p); // 或用 selectNode(p) 也选择 <p> 标记
+  range.selectNodeContents(p); // 或者也可以使用 selectNode(p) 来选择 <p> 标签
 
   document.getSelection().removeAllRanges(); // 清除现有选择（如果有的话）
   document.getSelection().addRange(range);
 </script>
 ```
 
-```smart header="如要选择，先删除现有的选择"
+```smart header="如要选择，请先移除现有的选择"
 如果选择已存在，则先用 `removeAllRanges()` 删除之。然后添加范围。否则，除 Firefox 外的所有浏览器都将忽略新范围。
 
 某些选择方法是一个例外，它们会替换现有的选择，例如 `setBaseAndExtent`。
