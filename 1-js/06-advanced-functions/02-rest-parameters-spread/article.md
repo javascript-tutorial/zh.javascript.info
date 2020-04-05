@@ -225,49 +225,49 @@ alert( Array.from(str) ); // H,e,l,l,o
 因此，对于将一些“东西”转换为数组的任务，`Array.from` 往往更通用。
 
 
-## Get a new copy of an object/array
+## 获取一个 object/array 的副本
 
-Remember when we talked about `Object.assign()` [in the past](https://javascript.info/object#cloning-and-merging-object-assign)?
+还记得我们 [之前讲过的](https://zh.javascript.info/object#fu-zhi-he-he-bing-objectassign) `Object.assign()` 吗？
 
-It is possible to do the same thing with the spread operator!
+使用 spread 操作符也可以做同样的事情。
 
 ```js run
 let arr = [1, 2, 3];
-let arrCopy = [...arr]; // spread the array into a list of parameters
-                        // then put the result into a new array
+let arrCopy = [...arr]; // 将数组 spread 到参数列表中
+                        // 然后将结果放到一个新数组
 
-// do the arrays have the same contents?
+// 两个数组中的内容相同吗？
 alert(JSON.stringify(arr) === JSON.stringify(arrCopy)); // true
 
-// are the arrays equal?
-alert(arr === arrCopy); // false (not same reference)
+// 两个数组相等吗？
+alert(arr === arrCopy); // false（它们的引用是不同的）
 
-// modifying our initial array does not modify the copy:
+// 修改我们初始的数组不会修改副本：
 arr.push(4);
 alert(arr); // 1, 2, 3, 4
 alert(arrCopy); // 1, 2, 3
 ```
 
-Note that it is possible to do the same thing to make a copy of an object:
+并且，也可以通过相同的方式来复制一个对象：
 
 ```js run
 let obj = { a: 1, b: 2, c: 3 };
-let objCopy = { ...obj }; // spread the object into a list of parameters
-                          // then return the result in a new object
+let objCopy = { ...obj }; // 将对象 spread 到参数列表中
+                          // 然后将结果返回到一个新对象
 
-// do the objects have the same contents?
+// 两个对象中的内容相同吗？
 alert(JSON.stringify(obj) === JSON.stringify(objCopy)); // true
 
-// are the objects equal?
+// 两个对象相等吗？
 alert(obj === objCopy); // false (not same reference)
 
-// modifying our initial object does not modify the copy:
+// 修改我们初始的对象不会修改副本：
 obj.d = 4;
 alert(JSON.stringify(obj)); // {"a":1,"b":2,"c":3,"d":4}
 alert(JSON.stringify(objCopy)); // {"a":1,"b":2,"c":3}
 ```
 
-This way of copying an object is much shorter than `let objCopy = Object.assign({}, obj);` or for an array `let arrCopy = Object.assign([], arr);` so we prefer to use it whenever we can.
+这种方式比使用 `let arrCopy = Object.assign([], arr);` 来复制数组，或使用 `let objCopy = Object.assign({}, obj);` 来复制对象写起来要短得多。因此，只要情况允许，我们更喜欢使用它。
 
 
 ## 总结
