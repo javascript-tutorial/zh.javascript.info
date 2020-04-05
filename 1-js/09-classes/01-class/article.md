@@ -298,13 +298,17 @@ class User {
 new User().sayHi();
 ```
 
-## Class 属性
+## Class 字段
 
 ```warn header="旧的浏览器可能需要 polyfill"
-类级别的属性是最近才添加到语言中的。
+类字段（field）是最近才添加到语言中的。
 ```
 
-在上面的例子中，`User` 只有方法。现在我们为其添加一个属性：
+Previously, classes only had methods.
+
+"Class fields" is a syntax that allows to add any properties.
+
+For instance, let's add `name` property to `class User`:
 
 ```js run
 class User {
@@ -323,7 +327,86 @@ alert(User.prototype.sayHi); // 被放在 User.prototype 中
 alert(User.prototype.name); // undefined，没有被放在 User.prototype 中
 ```
 
-`name` 属性没有被放在 `User.prototype` 中。相反，它是在调用构造器之前通过 `new` 分创建的，它是对象自身的属性。
+The important thing about class fields is that they are set on individual objects, not `User.prototype`.
+
+Technically, they are processed after the constructor has done it's job.
+
+### Making bound methods with class fields
+
+As demonstrated in the chapter <info:bind> functions in JavaScript have a dynamic `this`. It depends on the context of the call.
+
+So if an object method is passed around and called in another context, `this` won't be a reference to its object any more.
+
+For instance, this code will show `undefined`:
+
+```js run
+class Button {
+  constructor(value) {
+    this.value = value;
+  }
+
+  click() {
+    alert(this.value);
+  }
+}
+
+let button = new Button("hello");
+
+*!*
+setTimeout(button.click, 1000); // undefined
+*/!*
+```
+
+The problem is called "losing `this`".
+
+There are two approaches to fixing it, as discussed in the chapter <info:bind>:
+
+1. Pass a wrapper-function, such as `setTimeout(() => button.click(), 1000)`.
+2. Bind the method to object, e.g. in the constructor:
+
+```js run
+class Button {
+  constructor(value) {
+    this.value = value;
+*!*
+    this.click = this.click.bind(this);
+*/!*
+  }
+
+  click() {
+    alert(this.value);
+  }
+}
+
+let button = new Button("hello");
+
+*!*
+setTimeout(button.click, 1000); // hello
+*/!*
+```
+
+Class fields provide a more elegant syntax for the latter solution:
+
+```js run
+class Button {
+  constructor(value) {
+    this.value = value;
+  }
+*!*
+  click = () => {
+    alert(this.value);
+  }
+*/!*
+}
+
+let button = new Button("hello");
+
+setTimeout(button.click, 1000); // hello
+```
+
+The class field `click = () => {...}` creates an independent function on each `Button` object, with `this` bound to the object. Then we can pass `button.click` around anywhere, and it will be called with the right `this`.
+
+That's especially useful in browser environment, when we need to setup a method as an event listener.
 
 ## 总结
 
