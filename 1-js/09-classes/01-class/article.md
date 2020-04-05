@@ -304,11 +304,11 @@ new User().sayHi();
 类字段（field）是最近才添加到语言中的。
 ```
 
-Previously, classes only had methods.
+之前，类仅具有方法。
 
-"Class fields" is a syntax that allows to add any properties.
+“类字段”是一种允许添加任何属性的语法。
 
-For instance, let's add `name` property to `class User`:
+例如，让我们在 `class User` 中添加一个 `name` 属性：
 
 ```js run
 class User {
@@ -327,17 +327,17 @@ alert(User.prototype.sayHi); // 被放在 User.prototype 中
 alert(User.prototype.name); // undefined，没有被放在 User.prototype 中
 ```
 
-The important thing about class fields is that they are set on individual objects, not `User.prototype`.
+关于类字段的重要一点是，它们设置在单个对象上的，而不是设置在 `User.prototype` 上的。
 
-Technically, they are processed after the constructor has done it's job.
+从技术上讲，它们是在 constructor 完成工作后被处理的。
 
-### Making bound methods with class fields
+### 使用类字段制作绑定方法
 
-As demonstrated in the chapter <info:bind> functions in JavaScript have a dynamic `this`. It depends on the context of the call.
+正如 <info:bind> 一章中所讲的，JavaScript 中的函数具有动态的 `this`。它取决于调用上下文。
 
-So if an object method is passed around and called in another context, `this` won't be a reference to its object any more.
+因此，如果一个对象方法被传递到某处，或者在另一个上下文中被调用，则 `this` 将不再是对其对象的引用。
 
-For instance, this code will show `undefined`:
+例如，此代码将显示 `undefined`：
 
 ```js run
 class Button {
@@ -357,12 +357,12 @@ setTimeout(button.click, 1000); // undefined
 */!*
 ```
 
-The problem is called "losing `this`".
+这个问题被称为“丢失 `this`”。
 
-There are two approaches to fixing it, as discussed in the chapter <info:bind>:
+我们在 <info:bind> 一章中讲过，有两种可以修复它的方式：
 
-1. Pass a wrapper-function, such as `setTimeout(() => button.click(), 1000)`.
-2. Bind the method to object, e.g. in the constructor:
+1. 传递一个包装函数，例如 `setTimeout(() => button.click(), 1000)`。
+2. 将方法绑定到对象，例如在 constructor 中：
 
 ```js run
 class Button {
@@ -385,7 +385,7 @@ setTimeout(button.click, 1000); // hello
 */!*
 ```
 
-Class fields provide a more elegant syntax for the latter solution:
+类字段为后一种解决方案提供了更优雅的语法：
 
 ```js run
 class Button {
@@ -404,9 +404,9 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
-The class field `click = () => {...}` creates an independent function on each `Button` object, with `this` bound to the object. Then we can pass `button.click` around anywhere, and it will be called with the right `this`.
+类字段 `click = () => {...}` 在每个 `Button` 对象上创建一个独立的函数，并将 `this` 绑定到该对象上。然后，我们可以将 `button.click` 传递到任何地方，并且它会被以正确的 `this` 进行调用。
 
-That's especially useful in browser environment, when we need to setup a method as an event listener.
+这在浏览器环境中，当我们需要将一个方法设置为事件监听器时尤其有用。
 
 ## 总结
 
