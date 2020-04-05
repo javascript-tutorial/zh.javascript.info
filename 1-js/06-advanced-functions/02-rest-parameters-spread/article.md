@@ -225,6 +225,51 @@ alert( Array.from(str) ); // H,e,l,l,o
 因此，对于将一些“东西”转换为数组的任务，`Array.from` 往往更通用。
 
 
+## 获取一个 object/array 的副本
+
+还记得我们 [之前讲过的](https://zh.javascript.info/object#fu-zhi-he-he-bing-objectassign) `Object.assign()` 吗？
+
+使用 spread 操作符也可以做同样的事情。
+
+```js run
+let arr = [1, 2, 3];
+let arrCopy = [...arr]; // 将数组 spread 到参数列表中
+                        // 然后将结果放到一个新数组
+
+// 两个数组中的内容相同吗？
+alert(JSON.stringify(arr) === JSON.stringify(arrCopy)); // true
+
+// 两个数组相等吗？
+alert(arr === arrCopy); // false（它们的引用是不同的）
+
+// 修改我们初始的数组不会修改副本：
+arr.push(4);
+alert(arr); // 1, 2, 3, 4
+alert(arrCopy); // 1, 2, 3
+```
+
+并且，也可以通过相同的方式来复制一个对象：
+
+```js run
+let obj = { a: 1, b: 2, c: 3 };
+let objCopy = { ...obj }; // 将对象 spread 到参数列表中
+                          // 然后将结果返回到一个新对象
+
+// 两个对象中的内容相同吗？
+alert(JSON.stringify(obj) === JSON.stringify(objCopy)); // true
+
+// 两个对象相等吗？
+alert(obj === objCopy); // false (not same reference)
+
+// 修改我们初始的对象不会修改副本：
+obj.d = 4;
+alert(JSON.stringify(obj)); // {"a":1,"b":2,"c":3,"d":4}
+alert(JSON.stringify(objCopy)); // {"a":1,"b":2,"c":3}
+```
+
+这种方式比使用 `let arrCopy = Object.assign([], arr);` 来复制数组，或使用 `let objCopy = Object.assign({}, obj);` 来复制对象写起来要短得多。因此，只要情况允许，我们更喜欢使用它。
+
+
 ## 总结
 
 当我们在代码中看到 `"..."` 时，它要么是 rest 参数，要么就是 spread 语法。
