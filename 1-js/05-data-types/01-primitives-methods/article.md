@@ -68,7 +68,7 @@ alert( str.toUpperCase() ); // HELLO
 
 所以原始类型可以提供方法，但它们依然是轻量级的。
 
-JavaScript 引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创造了一样。
+JavaScript 引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创建了一样。
 
 数字有其自己的方法，例如，[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将数字四舍五入到给定的精度：
 
