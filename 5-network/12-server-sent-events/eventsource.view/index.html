@@ -2,9 +2,9 @@
 <script>
 let eventSource;
 
-function start() { // 当“Start”按钮被点击
+function start() { // when "Start" button pressed
   if (!window.EventSource) {
-    // IE 或者很老的浏览器
+    // IE or an old browser
     alert("The browser doesn't support EventSource.");
     return;
   }
@@ -33,7 +33,7 @@ function start() { // 当“Start”按钮被点击
   };
 }
 
-function stop() { // 当“Stop”按钮被点击
+function stop() { // when "Stop" button pressed
   eventSource.close();
   log("eventSource.close()");
 }
