@@ -3,7 +3,11 @@
 
 1. 它是一个常规的方法调用。
 
+<<<<<<< HEAD
 2. 同样，括号没有改变执行的顺序，点符号总是先执行。
+=======
+2. The same, parentheses do not change the order of operations here, the dot is first anyway.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 3. 这里我们有一个更复杂的 `(expression).method()` 调用。这个调用就像被分成了两行（代码）一样：
 

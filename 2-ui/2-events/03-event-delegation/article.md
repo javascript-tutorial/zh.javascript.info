@@ -1,7 +1,11 @@
 
 # 事件委托
 
+<<<<<<< HEAD
 捕获和冒泡允许我们实现一种被称为 **事件委托** 的强大的事件处理模式。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 这个想法是，如果我们有许多以类似方式处理的元素，那么就不必为每个元素分配一个处理程序 —— 而是将单个处理程序放在它们的共同祖先上。
 
@@ -105,6 +109,7 @@ table.onclick = function(event) {
 3. 在嵌套的表格的情况下，`event.target` 可能是位于当前表格之外的 `<td>`。因此我们需要检查这是否是 **我们的表格中的** `<td>`。
 4. 如果是的话，就高亮显示它。
 
+<<<<<<< HEAD
 最终，我们得到了一个快速、高效的用于高亮显示的代码，该代码与表格中的 `<td>` 的数量无关。
 
 ## 委托示例：标记中的行为
@@ -112,6 +117,15 @@ table.onclick = function(event) {
 事件委托还有其他用途。（译注：本节标题中的“标记中的行为”即 action in markup）
 
 例如，我们想要编写一个有“保存”、“加载”和“搜索”等按钮的菜单。并且，这里有一个具有 `save`、`load` 和 `search` 等方法的对象。如何匹配它们？
+=======
+As the result, we have a fast, efficient highlighting code, that doesn't care about the total number of `<td>` in the table.
+
+## Delegation example: actions in markup
+
+There are other uses for event delegation.
+
+Let's say, we want to make a menu with buttons "Save", "Load", "Search" and so on. And there's an object with methods `save`, `load`, `search`... How to match them?
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 第一个想法可能是为每个按钮分配一个单独的处理程序。但是有一个更优雅的解决方案。我们可以为整个菜单添加一个处理程序，并为具有方法调用的按钮添加 `data-action` 特性（attribute）：
 
@@ -161,9 +175,15 @@ table.onclick = function(event) {
 </script>
 ```
 
+<<<<<<< HEAD
 请注意，`this.onClick` 在 `(*)` 行中被绑定到了 `this`。这很重要，因为否则内部的 `this` 将引用 DOM 元素（`elem`），而不是 `Menu` 对象，那样的话，`this[action]` 将不是我们所需要的。
 
 那么，这里的委托给我们带来了什么好处？
+=======
+Please note that `this.onClick` is bound to `this` in `(*)`. That's important, because otherwise `this` inside it would reference the DOM element (`elem`), not the `Menu` object, and `this[action]` would not be what we need.
+
+So, what advantages does delegation give us here?
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```compare
 + 我们不需要编写代码来为每个按钮分配一个处理程序。只需要创建一个方法并将其放入标记（markup）中即可。
@@ -176,6 +196,7 @@ table.onclick = function(event) {
 
 我们还可以使用事件委托将“行为（behavior）”以 **声明方式** 添加到具有特殊特性（attribute）和类的元素中。
 
+<<<<<<< HEAD
 行为模式分为两个部分：
 1. 我们将自定义特性添加到描述其行为的元素。
 2. 用文档范围级的处理程序追踪事件，如果事件发生在具有特定特性的元素上 —— 则执行行为（action）。
@@ -183,6 +204,15 @@ table.onclick = function(event) {
 ### 行为：计数器
 
 例如，这里的特性 `data-counter` 给按钮添加了一个“点击增加”的行为。
+=======
+The pattern has two parts:
+1. We add a custom attribute to an element that describes its behavior.
+2. A document-wide handler tracks events, and if an event happens on an attributed element -- performs the action.
+
+### Behavior: Counter
+
+For instance, here the attribute `data-counter` adds a behavior: "increase value on click" to buttons:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>
@@ -203,15 +233,26 @@ One more counter: <input type="button" value="2" data-counter>
 
 我们可以根据需要使用 `data-counter` 特性，多少都可以。我们可以随时向 HTML 添加新的特性。使用事件委托，我们属于对 HTML 进行了“扩展”，添加了描述新行为的特性。
 
+<<<<<<< HEAD
 ```warn header="对于文档级的处理程序 —— 始终使用的是 `addEventListener`"
 当我们将事件处理程序分配给 `document` 对象时，我们应该始终使用 `addEventListener`，而不是 `document.on<event>`，因为后者会引起冲突：新的处理程序会覆盖旧的处理程序。
+=======
+```warn header="For document-level handlers -- always `addEventListener`"
+When we assign an event handler to the `document` object, we should always use `addEventListener`, not `document.on<event>`, because the latter will cause conflicts: new handlers overwrite old ones.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 对于实际项目来说。在 `document` 上有许多由代码的不同部分设置的处理程序，这是很正常的。
 ```
 
+<<<<<<< HEAD
 ### 行为：切换器
 
 再举一个例子。点击一个具有 `data-toggle-id` 特性的元素将显示/隐藏具有给定 `id` 的元素：
+=======
+### Behavior: Toggler
+
+One more example of behavior. A click on an element with the attribute `data-toggle-id` will show/hide the element with the given `id`:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```html autorun run height=60
 <button *!*data-toggle-id="subscribe-mail"*/!*>
@@ -242,13 +283,21 @@ One more counter: <input type="button" value="2" data-counter>
 
 我们也可以组合单个元素上的多个行为。
 
+<<<<<<< HEAD
 “行为”模式可以替代 JavaScript 的小片段。
+=======
+The "behavior" pattern can be an alternative to mini-fragments of JavaScript.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ## 总结
 
 事件委托真的很酷！这是 DOM 事件最有用的模式之一。
 
+<<<<<<< HEAD
 它通常用于为许多相似的元素添加相同的处理，但不仅限于此。
+=======
+It's often used to add the same handling for many similar elements, but not only for that.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 算法：
 
@@ -259,14 +308,25 @@ One more counter: <input type="button" value="2" data-counter>
 好处：
 
 ```compare
+<<<<<<< HEAD
 + 简化初始化并节省内存：无需添加许多处理程序。
 + 更少的代码：添加或移除元素时，无需添加/移除处理程序。
 + DOM 修改 ：我们可以使用 `innerHTML` 等，来批量添加/移除元素。
+=======
++ Simplifies initialization and saves memory: no need to add many handlers.
++ Less code: when adding or removing elements, no need to add/remove handlers.
++ DOM modifications: we can mass add/remove elements with `innerHTML` and the like.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 ```
 
 事件委托也有其局限性：
 
 ```compare
+<<<<<<< HEAD
 - 首先，事件必须冒泡。而有些事件不会冒泡。此外，低级别的处理程序不应该使用 `event.stopPropagation()`。
 - 其次，委托可能会增加 CPU 负载，因为容器级别的处理程序会对容器中任意位置的事件做出反应，而不管我们是否对该事件感兴趣。但是，通常负载可以忽略不计，所以我们不考虑它。
+=======
+- First, the event must be bubbling. Some events do not bubble. Also, low-level handlers should not use `event.stopPropagation()`.
+- Second, the delegation may add CPU load, because the container-level handler reacts on events in any place of the container, no matter whether they interest us or not. But usually the load is negligible, so we don't take it into account.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 ```

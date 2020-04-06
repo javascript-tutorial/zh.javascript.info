@@ -7,11 +7,19 @@ libs:
 
 # 遍历 DOM
 
+<<<<<<< HEAD
 DOM 让我们可以对元素和它们中的内容做任何事，但是首先我们需要获取到对应的 DOM 对象。
 
 对 DOM 的所有操作都是以 `document` 对象开始。它是 DOM 的主“入口点”。从它我们可以访问任何节点。
 
 这里是一张描述对象间链接的图片，通过这些链接我们可以在 DOM 节点之间移动。
+=======
+The DOM allows us to do anything with elements and their contents, but first we need to reach the corresponding DOM object.
+
+All operations on the DOM start with the `document` object. That's the main "entry point" to DOM. From it we can access any node.
+
+Here's a picture of links that allow for travel between DOM nodes:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ![](dom-links.svg)
 
@@ -22,7 +30,11 @@ DOM 让我们可以对元素和它们中的内容做任何事，但是首先我�
 最顶层的树节点可以直接作为 `document` 的属性来使用：
 
 `<html>` = `document.documentElement`
+<<<<<<< HEAD
 : 最顶层的 document 节点是 `document.documentElement`。这是对应 `<html>` 标签的 DOM 节点。
+=======
+: The topmost document node is `document.documentElement`. That's the DOM node of the `<html>` tag.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 `<body>` = `document.body`
 : 另一个被广泛使用的 DOM 节点是 `<body>` 元素 — `document.body`。
@@ -86,9 +98,15 @@ DOM 让我们可以对元素和它们中的内容做任何事，但是首先我�
 </html>
 ```
 
+<<<<<<< HEAD
 ……`<body>` 元素的子孙元素不仅包含直接的子元素 `<div>` 和 `<ul>`，还包含像 `<li>`（`<ul>` 的子元素）和 `<b>`（`<li>` 的子元素）这样的元素 — 整个子树。
 
 **`childNodes` 集合列出了所有子节点，包括文本节点。**
+=======
+...And descendants of `<body>` are not only direct children `<div>`, `<ul>` but also more deeply nested elements, such as `<li>` (a child of `<ul>`) and `<b>` (a child of `<li>`) -- the entire subtree.
+
+**The `childNodes` collection lists all child nodes, including text nodes.**
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 下面这个例子显示了 `document.body` 的子元素：
 
@@ -155,9 +173,15 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 ```warn header="DOM 集合是只读的"
 DOM 集合，甚至可以说本章中列出的 **所有** 导航（navigation）属性都是只读的。
 
+<<<<<<< HEAD
 我们不能通过类似 `childNodes[i] = ...` 的操作来替换一个子节点。
 
 修改子节点需要使用其它方法。我们将会在下一章中看到它们。
+=======
+We can't replace a child by something else by assigning `childNodes[i] = ...`.
+
+Changing DOM needs other methods. We will see them in the next chapter.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 ```
 
 ```warn header="DOM 集合是实时的"
@@ -182,10 +206,23 @@ DOM 集合，甚至可以说本章中列出的 **所有** 导航（navigation）
 
 ## 兄弟节点和父节点
 
+<<<<<<< HEAD
 **兄弟节点（Sibling）** 是指有同一个父节点的节点。
+=======
+*Siblings* are nodes that are children of the same parent.
+
+For instance, here `<head>` and `<body>` are siblings:
+
+```html
+<html>
+  <head>...</head><body>...</body>
+</html>
+```
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 例如，`<head>` 和 `<body>` 就是兄弟节点：
 
+<<<<<<< HEAD
 ```html
 <html>
   <head>...</head><body>...</body>
@@ -209,6 +246,22 @@ alert( document.body.parentNode === document.documentElement ); // true
 alert( document.head.nextSibling ); // HTMLBodyElement
 
 // <body> 的前一个是 <head>
+=======
+The next sibling is in `nextSibling` property, and the previous one - in `previousSibling`.
+
+The parent is available as `parentNode`.
+
+For example:
+
+```js run
+// parent of <body> is <html>
+alert( document.body.parentNode === document.documentElement ); // true
+
+// after <head> goes <body>
+alert( document.head.nextSibling ); // HTMLBodyElement
+
+// before <body> goes <head>
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 alert( document.body.previousSibling ); // HTMLHeadElement
 ```
 
@@ -224,10 +277,17 @@ alert( document.body.previousSibling ); // HTMLHeadElement
 
 这些链接和我们在上面提到过的类似，只是在词中间加了 `Element`：
 
+<<<<<<< HEAD
 - `children` — 仅那些作为元素节点的子代的节点。
 - `firstElementChild`，`lastElementChild` — 第一个和最后一个子元素。
 - `previousElementSibling`，`nextElementSibling` — 兄弟元素。
 - `parentElement` — 父元素。
+=======
+- `children` -- only those children that are element nodes.
+- `firstElementChild`, `lastElementChild` -- first and last element children.
+- `previousElementSibling`, `nextElementSibling` -- neighbor elements.
+- `parentElement` -- parent element.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ````smart header="为什么是 `parentElement`? 父节点可以不是一个元素吗？"
 `parentElement` 属性返回的是“元素类型”的父节点，而 `parentNode` 返回的是“任何类型”的父节点。这些属性通常来说是一样的：它们都是用于获取父节点。
@@ -239,11 +299,19 @@ alert( document.documentElement.parentNode ); // document
 alert( document.documentElement.parentElement ); // null
 ```
 
+<<<<<<< HEAD
 因为根节点 `document.documentElement`（`<html>`）的父节点是 `document`。但 `document` 不是一个元素节点，所以 `parentNode` 返回了 `document`，但 `parentElement` 返回的是 `null`。
 
 当我们想从任意节点 `elem` 到 `<html>` 而不是到 `document` 时，这个细节可能很有用：
 ```js
 while(elem = elem.parentElement) { // 向上，直到 <html>
+=======
+The reason is that the root node `document.documentElement` (`<html>`) has `document` as its parent. But `document` is not an element node, so `parentNode` returns it and `parentElement` does not.
+
+This detail may be useful when we want to travel up from an arbitrary element `elem` to `<html>`, but not to the `document`:
+```js
+while(elem = elem.parentElement) { // go up till <html>
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
   alert( elem );
 }
 ```
@@ -280,20 +348,36 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 
 方便起见，某些类型的 DOM 元素可能会提供特定于其类型的其他属性。
 
+<<<<<<< HEAD
 表格（Table）是一个很好的例子，它代表了一个特别重要的情况：
 
 **`<table>`** 元素支持 (除了上面给出的，之外) 以下这些属性:
 - `table.rows` — `<tr>` 元素的集合。
 - `table.caption/tHead/tFoot` — 引用元素 `<caption>`，`<thead>`，`<tfoot>`。
 - `table.tBodies` — `<tbody>` 元素的集合（根据标准还有很多元素，但是这里至少会有一个 — 即使没有被写在 HTML 源文件中，浏览器也会将其放入 DOM 中）。
+=======
+Tables are a great example of that, and represent a particularly important case:
+
+**The `<table>`** element supports (in addition to the given above) these properties:
+- `table.rows` -- the collection of `<tr>` elements of the table.
+- `table.caption/tHead/tFoot` -- references to elements `<caption>`, `<thead>`, `<tfoot>`.
+- `table.tBodies` -- the collection of `<tbody>` elements (can be many according to the standard, but there will always be at least one -- even if it is not in the source HTML, the browser will put it in the DOM).
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 **`<thead>`，`<tfoot>`，`<tbody>`** 元素提供了 `rows` 属性：
 - `tbody.rows` — 表格内部 `<tr>` 元素的集合。
 
+<<<<<<< HEAD
 **`<tr>`：**
 - `tr.cells` — 在给定 `<tr>` 中的 `<td>` 和 `<th>` 单元格的集合。
 - `tr.sectionRowIndex` — 给定的 `<tr>` 在封闭的 `<thead>/<tbody>/<tfoot>` 中的位置（索引）。
 - `tr.rowIndex` — 在整个表格中 `<tr>` 的编号（包括表格的所有行）。
+=======
+**`<tr>`:**
+- `tr.cells` -- the collection of `<td>` and `<th>` cells inside the given `<tr>`.
+- `tr.sectionRowIndex` -- the position (index) of the given `<tr>` inside the enclosing `<thead>/<tbody>/<tfoot>`.
+- `tr.rowIndex` -- the number of the `<tr>` in the table as a whole (including all table rows).
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 **`<td>` 和 `<th>`：**
 - `td.cellIndex` — 在封闭的 `<tr>` 中单元格的编号。
@@ -311,7 +395,11 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 </table>
 
 <script>
+<<<<<<< HEAD
   // 获取带有 "two" 的 td（第一行，第二列）
+=======
+  // get td with "two" (first row, second column)
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
   let td = table.*!*rows[0].cells[1]*/!*;
   td.style.backgroundColor = "red"; // highlight it
 </script>
@@ -319,11 +407,19 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 
 规范：[tabular data](https://html.spec.whatwg.org/multipage/tables.html)。
 
+<<<<<<< HEAD
 HTML 表单（form）还有其它导航（navigation）属性。稍后当我们开始使用表单（form）时，我们将对其进行研究。
 
 ## 总结
 
 给定一个 DOM 节点，我们可以使用导航（navigation）属性访问其直接的邻居。
+=======
+There are also additional navigation properties for HTML forms. We'll look at them later when we start working with forms.
+
+## Summary
+
+Given a DOM node, we can go to its immediate neighbors using navigation properties.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 这些属性主要分为两组：
 

@@ -40,7 +40,11 @@ alert( formatDate(new Date(new Date - 30 * 1000)) ); // "30 sec. ago"
 
 alert( formatDate(new Date(new Date - 5 * 60 * 1000)) ); // "5 min. ago"
 
+<<<<<<< HEAD:1-js/05-data-types/11-date/8-format-date-relative/solution.md
 // 昨天的日期如：31.12.2016 20:00
+=======
+// yesterday's date like 31.12.2016 20:00
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622:1-js/05-data-types/11-date/8-format-date-relative/solution.md
 alert( formatDate(new Date(new Date - 86400 * 1000)) );
 ```
 
@@ -58,7 +62,11 @@ function formatDate(date) {
   let diffMin = diffSec / 60;
   let diffHour = diffMin / 60;
 
+<<<<<<< HEAD:1-js/05-data-types/11-date/8-format-date-relative/solution.md
   // 格式化
+=======
+  // formatting
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622:1-js/05-data-types/11-date/8-format-date-relative/solution.md
   year = year.toString().slice(-2);
   month = month < 10 ? '0' + month : month;
   dayOfMonth = dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth;
