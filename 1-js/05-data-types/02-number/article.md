@@ -383,12 +383,12 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
 几个例子：
 
 `Math.random()`
-: 返回从 0 到 1 的随机数（不包括 1）
+: 返回一个从 0 到 1 的随机数（不包括 1）
 
     ```js run
     alert( Math.random() ); // 0.1234567894322
     alert( Math.random() ); // 0.5435252343232
-    alert( Math.random() ); // ... (any random numbers)
+    alert( Math.random() ); // ... (任何随机数)
     ```
 
 `Math.max(a, b, c...)` / `Math.min(a, b, c...)`
@@ -400,17 +400,17 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
     ```
 
 `Math.pow(n, power)`
-: 返回 n 的 power 次幂，即 n<sup>power</sup>
+: 返回 `n` 的给定（power）次幂
 
     ```js run
     alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
     ```
 
-这里有 `Math` 对象中的更多函数和常量，包括三角函数，你可以在 [Math 函数文档](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 中找到这些内容。
+`Math` 对象中还有更多函数和常量，包括三角函数，你可以在 [Math 函数文档](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 中找到这些内容。
 
 ## 总结
 
-写非常大的数字：
+要写有很多零的数字：
 
 - 附加 `"e"` 来省略 0，e 后面的数字就是零的个数。就像：`123e6` 是 `123` 后面接 6 个零。
 - `"e"` 后面的负数将导致数字除以 1 后面接着给定数量的零。e-6 那是一百万分之一。
