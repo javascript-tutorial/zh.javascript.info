@@ -183,7 +183,7 @@ document.domain = 'site.com';
 </script>
 ```
 
-一个 iframe 内可能嵌套了其他的 iframe，相应的 `window` 对象会也形成嵌套的层次结构。
+一个 iframe 内可能嵌套了其他的 iframe，相应的 `window` 对象会也形成嵌套的层次结构（hierarchy）。
 
 可以通过以下方式获取引用：
 

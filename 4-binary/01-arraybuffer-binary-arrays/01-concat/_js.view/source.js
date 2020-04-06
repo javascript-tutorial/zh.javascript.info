@@ -1,5 +1,5 @@
 function concat(arrays) {
-  // ……你的代码……
+  // ...your code...
 }
 
 let chunks = [

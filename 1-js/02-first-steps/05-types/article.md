@@ -75,7 +75,7 @@ n = 12.345;
 const bigInt = 1234567890123456789012345678901234567890n;
 ```
 
-由于很少需要 `BigInt` 类型的数字，因此我们在单独的章节 <info：bigint> 中专门对其进行介绍。
+由于很少需要 `BigInt` 类型的数字，因此我们在单独的章节 <info:bigint> 中专门对其进行介绍。
 
 ```smart header="兼容性问题"
 目前 Firefox 和 Chrome 已经支持 `BigInt` 了，但 Safari/IE/Edge 还没有。

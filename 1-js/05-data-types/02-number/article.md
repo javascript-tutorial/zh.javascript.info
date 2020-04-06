@@ -56,7 +56,7 @@ let ms = 1e-6; // six zeroes to the left from 1
 
 ### 十六进制，二进制和八进制数字
 
-[十六进制](https://en.wikipedia.org/wiki/Hexadecimal)数字在 JavaScript 中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法：`0x` 然后是数字。
+[十六进制](https://en.wikipedia.org/wiki/Hexadecimal) 数字在 JavaScript 中被广泛用于表示颜色，编码字符以及其他许多事物。所以很自然地，写一个更简短的方法：`0x` 然后是数字。
 
 例如：
 
@@ -279,7 +279,6 @@ JavaScript 在这种事件中不会触发错误。它尽最大努力使数字符
 ```
 
 
-
 ## 测试：isFinite 和 isNaN
 
 还记得这两个特殊的数值吗？
@@ -325,7 +324,7 @@ alert( isFinite(num) );
 
 ```smart header="与 Object.is 进行比较"
 
-有一种特殊的内置方法 [Object.is](mdn:js/Object/is)，它可以比较 `===` 等值，但对于两种边缘情况更可靠： 
+有一种特殊的内置方法 [`Object.is`](mdn:js/Object/is)，它可以比较 `===` 等值，但对于两种边缘情况更可靠： 
 
 1. 它适用于 `NaN`： `Object.is（NaN，NaN）=== true`，这是件好事。
 2. 值 `0` 和 `-0` 是不同的：`Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。
@@ -407,7 +406,7 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
     alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
     ```
 
-这里有 `Math` 对象中的更多函数和常量，包括三角函数，你可以在这里找到它 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math)。
+这里有 `Math` 对象中的更多函数和常量，包括三角函数，你可以在 [Math 函数文档](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 中找到这些内容。
 
 ## 总结
 
@@ -428,9 +427,9 @@ JavaScript 有一个内置的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 分数：
 
-- 使用 `Math.floor`、`Math.ceil`、`Math.trunc`、`Math.round` 或 `num.toFixed(precision)` 截取。
+- 使用 `Math.floor`，`Math.ceil`，`Math.trunc`，`Math.round` 或 `num.toFixed(precision)` 截取。
 - 请记住，使用分数时会损失精度。
 
 更多的数学函数：
 
-- 需要时请参阅 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象,虽然这个文档非常小,但是它可以满足基础的要求。
+- 需要时请参阅 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象，虽然这个文档非常小，但是它可以满足基础的要求。

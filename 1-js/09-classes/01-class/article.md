@@ -298,13 +298,17 @@ class User {
 new User().sayHi();
 ```
 
-## Class 属性
+## Class 字段
 
 ```warn header="旧的浏览器可能需要 polyfill"
-类级别的属性是最近才添加到语言中的。
+类字段（field）是最近才添加到语言中的。
 ```
 
-在上面的例子中，`User` 只有方法。现在我们为其添加一个属性：
+之前，类仅具有方法。
+
+“类字段”是一种允许添加任何属性的语法。
+
+例如，让我们在 `class User` 中添加一个 `name` 属性：
 
 ```js run
 class User {
@@ -323,7 +327,86 @@ alert(User.prototype.sayHi); // 被放在 User.prototype 中
 alert(User.prototype.name); // undefined，没有被放在 User.prototype 中
 ```
 
-`name` 属性没有被放在 `User.prototype` 中。相反，它是在调用构造器之前通过 `new` 分创建的，它是对象自身的属性。
+关于类字段的重要一点是，它们设置在单个对象上的，而不是设置在 `User.prototype` 上的。
+
+从技术上讲，它们是在 constructor 完成工作后被处理的。
+
+### 使用类字段制作绑定方法
+
+正如 <info:bind> 一章中所讲的，JavaScript 中的函数具有动态的 `this`。它取决于调用上下文。
+
+因此，如果一个对象方法被传递到某处，或者在另一个上下文中被调用，则 `this` 将不再是对其对象的引用。
+
+例如，此代码将显示 `undefined`：
+
+```js run
+class Button {
+  constructor(value) {
+    this.value = value;
+  }
+
+  click() {
+    alert(this.value);
+  }
+}
+
+let button = new Button("hello");
+
+*!*
+setTimeout(button.click, 1000); // undefined
+*/!*
+```
+
+这个问题被称为“丢失 `this`”。
+
+我们在 <info:bind> 一章中讲过，有两种可以修复它的方式：
+
+1. 传递一个包装函数，例如 `setTimeout(() => button.click(), 1000)`。
+2. 将方法绑定到对象，例如在 constructor 中：
+
+```js run
+class Button {
+  constructor(value) {
+    this.value = value;
+*!*
+    this.click = this.click.bind(this);
+*/!*
+  }
+
+  click() {
+    alert(this.value);
+  }
+}
+
+let button = new Button("hello");
+
+*!*
+setTimeout(button.click, 1000); // hello
+*/!*
+```
+
+类字段为后一种解决方案提供了更优雅的语法：
+
+```js run
+class Button {
+  constructor(value) {
+    this.value = value;
+  }
+*!*
+  click = () => {
+    alert(this.value);
+  }
+*/!*
+}
+
+let button = new Button("hello");
+
+setTimeout(button.click, 1000); // hello
+```
+
+类字段 `click = () => {...}` 在每个 `Button` 对象上创建一个独立的函数，并将 `this` 绑定到该对象上。然后，我们可以将 `button.click` 传递到任何地方，并且它会被以正确的 `this` 进行调用。
+
+这在浏览器环境中，当我们需要将一个方法设置为事件监听器时尤其有用。
 
 ## 总结
 
