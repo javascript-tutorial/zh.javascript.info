@@ -412,24 +412,24 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 要写有很多零的数字：
 
-- 附加 `"e"` 来省略 0，e 后面的数字就是零的个数。就像：`123e6` 是 `123` 后面接 6 个零。
-- `"e"` 后面的负数将导致数字除以 1 后面接着给定数量的零。e-6 那是一百万分之一。
+- 将 `"e"` 和 0 的数量附加到数字后。就像：`123e6` 与 `123` 后面接 6 个 0 相同。
+- `"e"` 后面的负数将使数字除以 1 后面接着给定数量的零的数字。例如 `123e-6` 表示 `0.000123`（`123` 的百万分之一）。
 
-对于不同的进制：
+对于不同的数字系统：
 
-- 可以在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中直接写入数字。
-- `parseInt(str，base)` 解析来自任何数字系统的整数，其基数为：`2≤base≤36`。
-- `num.toString(base)` 将数字转换为数字系统中具有给定 `base` 的字符串。
+- 可以直接在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中写入数字。
+- `parseInt(str，base)` 将字符串 `str` 解析为在给定的 `base` 数字系统中的整数，`2≤base≤36`。
+- `num.toString(base)` 将数字转换为在给定的 `base` 数字系统中的字符串。
 
-将 `12pt` 和 `100px` 等值转换为数字：
+要将 `12pt` 和 `100px` 之类的值转换为数字：
 
-- 使用 `parseInt / parseFloat` 进行 `软` 转换，它从字符串中读取一个数字，然后返回错误发生前可以读取的值。
+- 使用 `parseInt/parseFloat` 进行“软”转换，它从字符串中读取数字，然后返回在发生 error 前可以读取到的值。
 
 分数：
 
-- 使用 `Math.floor`，`Math.ceil`，`Math.trunc`，`Math.round` 或 `num.toFixed(precision)` 截取。
-- 请记住，使用分数时会损失精度。
+- 使用 `Math.floor`，`Math.ceil`，`Math.trunc`，`Math.round` 或 `num.toFixed(precision)` 进行舍入。
+- 请确保记住使用分数时会损失精度。
 
-更多的数学函数：
+更多数学函数：
 
-- 需要时请参阅 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象，虽然这个文档非常小，但是它可以满足基础的要求。
+- 需要时请查看 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象。这个库很小，但是可以满足基本的需求。
