@@ -148,7 +148,7 @@ newWindow.onload = function() {
 
 请注意：在刚刚进行了 `window.open` 的时候，新窗口还没有加载完成。我们可以通过 `(*)` 行中的 `alert` 证实这一点。因此，我们需要等待 `onload` 以对新窗口进行更改。我们也可以对 `newWin.document` 使用 `DOMContentLoaded` 处理程序。
 
-```warn header="通源策略"
+```warn header="同源策略"
 只有在窗口是同源的时，窗口才能自由访问彼此的内容（`相同的协议://domain:port`）。
 
 否则，例如，如果主窗口来自于 `site.com`，弹窗来自于 `gmail.com`，则处于安全性考虑，这两个窗口不能访问彼此的内容。有关详细信息，请参见 <info:cross-window-communication> 一章。
