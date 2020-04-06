@@ -1,4 +1,4 @@
-# 弹窗和 window 方法
+# 弹窗和 window 的方法
 
 弹窗（popup）是向用户显示其他文档的最古老的方法之一。
 
@@ -85,7 +85,7 @@ params
   - `scrollbars`（yes/no）—— 允许禁用新窗口的滚动条。不建议使用。
 
 
-还有一些不太受支持的特定于浏览器的功能，通常不使用。特有的功能。通常不使用这些功能。更多示例请见 <a href="https://developer.mozilla.org/en/DOM/window.open">MDN 中的 window.open</a>。
+还有一些不太受支持的特定于浏览器的功能，通常不使用。通常不使用这些功能。更多示例请见 <a href="https://developer.mozilla.org/en/DOM/window.open">MDN 中的 window.open</a>。
 
 ## 示例：一个最简窗口
 
@@ -136,7 +136,7 @@ newWin.document.write("Hello, world!");
 let newWindow = open('/', 'example', 'width=300,height=300')
 newWindow.focus();
 
-alert(newWindow.location.href); // (*) about:blank, loading hasn't started yet
+alert(newWindow.location.href); // (*) about:blank，加载尚未开始
 
 newWindow.onload = function() {
   let html = `<div style="font-size:30px">Welcome!</div>`;
