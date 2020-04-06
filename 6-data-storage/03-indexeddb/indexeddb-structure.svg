@@ -14,10 +14,10 @@
             <rect id="Rectangle-1-Copy-3" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="14" y="152" width="113" height="31"></rect>
             <rect id="Rectangle-1-Copy-5" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="14" y="183" width="113" height="31"></rect>
             <text id="Database" font-family="OpenSans-Regular, Open Sans" font-size="18" font-weight="normal" fill="#8A704D">
-                <tspan x="190" y="22">数据库</tspan>
+                <tspan x="190" y="22">Database</tspan>
             </text>
             <text id="objectStore" font-family="OpenSans-Regular, Open Sans" font-size="18" font-weight="normal" fill="#8A704D">
-                <tspan x="18" y="53">对象库</tspan>
+                <tspan x="18" y="53">objectStore</tspan>
             </text>
             <rect id="Rectangle-1-Copy-10" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="182" y="93" width="113" height="31"></rect>
             <rect id="Rectangle-1-Copy-9" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="182" y="124" width="113" height="31"></rect>
@@ -25,7 +25,7 @@
             <rect id="Rectangle-1-Copy-7" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="182" y="186" width="113" height="31"></rect>
             <rect id="Rectangle-1-Copy-6" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="182" y="217" width="113" height="31"></rect>
             <text id="objectStore" font-family="OpenSans-Regular, Open Sans" font-size="18" font-weight="normal" fill="#8A704D">
-                <tspan x="186" y="87">对象库</tspan>
+                <tspan x="186" y="87">objectStore</tspan>
             </text>
             <rect id="Rectangle-1-Copy-15" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="348" y="63" width="113" height="31"></rect>
             <rect id="Rectangle-1-Copy-14" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="348" y="94" width="113" height="31"></rect>
@@ -45,7 +45,7 @@
             <rect id="Rectangle-1-Copy-12" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="348" y="156" width="113" height="31"></rect>
             <rect id="Rectangle-1-Copy-11" stroke="#E8C48E" stroke-width="2" fill="#FFF9EB" x="348" y="187" width="113" height="31"></rect>
             <text id="objectStore-Copy" font-family="OpenSans-Regular, Open Sans" font-size="18" font-weight="normal" fill="#8A704D">
-                <tspan x="352" y="57">对象库</tspan>
+                <tspan x="352" y="57">objectStore</tspan>
             </text>
             <text id="key1:-value1" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal" fill="#8A704D">
                 <tspan x="190" y="113">key1: value1</tspan>
