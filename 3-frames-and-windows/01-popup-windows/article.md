@@ -194,50 +194,52 @@ newWindow.onload = function() {
 
 ## 滚动和调整大小
 
-There are methods to move/resize a window:
+有一些方法可以移动一个窗口，或者调整一个窗口的大小：
 
 `win.moveBy(x,y)`
-: Move the window relative to current position `x` pixels to the right and `y` pixels down. Negative values are allowed (to move left/up).
+: 将窗口相对于当前位置向右移动 `x` 像素，并向下移动 `y` 像素。允许负值（向上/向左移动）。
 
 `win.moveTo(x,y)`
-: Move the window to coordinates `(x,y)` on the screen.
+: 将窗口移动到屏幕上的坐标 `(x,y)` 处。
 
 `win.resizeBy(width,height)`
-: Resize the window by given `width/height` relative to the current size. Negative values are allowed.
+: 根据给定的相对于当前大小的 `width/height` 调整窗口大小。允许负值。
 
 `win.resizeTo(width,height)`
-: Resize the window to the given size.
+: 将窗口调整为给定的大小。
 
-There's also `window.onresize` event.
+还有 `window.onresize` 事件。
 
-```warn header="Only popups"
-To prevent abuse, the browser usually blocks these methods. They only work reliably on popups that we opened, that have no additional tabs.
+```warn header="仅对于弹窗"
+为了防止滥用，浏览器通常会阻止这些方法。它们仅在我们打开的，没有其他选项卡的弹窗中能够可靠地工作。
 ```
 
-```warn header="No minification/maximization"
-JavaScript has no way to minify or maximize a window. These OS-level functions are hidden from Frontend-developers.
+```warn header="没有 minification/maximization"
+JavaScript 无法最小化或者最大化一个窗口。这些操作系统级别的功能对于前端开发者而言是隐藏的。
 
-Move/resize methods do not work for maximized/minimized windows.
+移动或者调整大小的方法不适用于最大化/最小化的窗口。
 ```
 
-## Scrolling a window
+## 滚动窗口
 
-We already talked about scrolling a window in the chapter <info:size-and-scroll-window>.
+我们已经在 <info:size-and-scroll-window> 一章中讨论过了滚动窗口。
 
 `win.scrollBy(x,y)`
-: Scroll the window `x` pixels right and `y` down relative the current scroll. Negative values are allowed.
+: 相对于当前位置，将窗口向右滚动 `x` 像素，并向下滚动 `y` 像素。允许负值。
 
 `win.scrollTo(x,y)`
-: Scroll the window to the given coordinates `(x,y)`.
+: 将窗口滚动到给定坐标 `(x,y)`。
 
 `elem.scrollIntoView(top = true)`
-: Scroll the window to make `elem` show up at the top (the default) or at the bottom for `elem.scrollIntoView(false)`.
+: 滚动窗口，使 `elem` 显示在 `elem.scrollIntoView(false)` 的顶部（默认）或底部。
 
-There's also `window.onscroll` event.
+这里也有 `window.onscroll` 事件。
 
 ## 弹窗的聚焦/失焦
 
-理论上，用 `window.focus()` 或 `window.blur()` 方法可以使窗口获得或失去焦点。此外还有 `focus/blur` 事件，可以聚焦窗口并捕捉访问者切换到其他地方的时机。
+从理论上讲，使用 `window.focus()` 和 `window.blur()` 方法可以使窗口获得或失去焦点。此外，还有 `focus/blur` 事件，
+
+可以聚焦窗口并捕捉访问者切换到其他地方的时机。
 
 它们曾被恶意网站所滥用。例如，看这段代码:
 
@@ -269,15 +271,3 @@ window.onblur = () => window.focus();
 - `focus `和 `blur` 事件允许跟踪窗口的切换。但请注意，在 `blur` 之后，即使在后台，窗口仍有可能是可见的。
 
 此外，如果我们打开一个弹窗，通知用户是一种好的做法。带有图标的打开窗口可以帮助访客免受焦点切换的困扰并记住两个窗口。
-
-## 现代用法
-
-到目前位置，我们有很多方法可以使用 JavaScript 加载和显示页面上的数据。但是仍然有弹窗表现更好的情况。
-
-例如，许多购物网站为咨询的人们提供在线聊天。访问者点击按钮，就会执行 `window.open` 并打开聊天弹窗。
-
-为什么这种情况下弹窗更好，而不是在页面上？
-
-1. 弹窗是一个独立的窗口，具有自己独立的 JavaScript 运行环境。因此，聊天服务不需要和主要的购物网站的脚本集成在一起。
-2. 弹窗很容易附加到网站，几乎没有开销。只需要一个小按钮，不需要额外的脚本。
-3. 即使用户离开页面，弹窗依然可以存在。例如，一个咨询建议的用户访问了一个新的 “Super-Cooler” 活动页。用户从主窗口进入新页面，而不用退出聊天。
