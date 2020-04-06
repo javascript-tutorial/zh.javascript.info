@@ -17,7 +17,7 @@ window.open('https://javascript.info/')
 
 1. 弹窗是一个独立的窗口，具有自己的独立 JavaScript 环境。因此，使用弹窗打开一个不信任的第三方网站是安全的。
 2. 打开弹窗非常容易。
-3. 弹窗可以导航（修改 URL），并将消息发送到 `opener` 窗口。
+3. 弹窗可以导航（修改 URL），并将消息发送到 opener 窗口（译注：opener 窗口即指打开弹窗的窗口）。
 
 ## 阻止弹窗
 
@@ -74,21 +74,22 @@ params
 `params` 的设置项：
 
 - 位置:
-  - `left/top`（数字）—— 屏幕上窗口的左上角的坐标。这有一个限制：不能将新窗口置于屏幕外。
+  - `left/top`（数字）—— 屏幕上窗口的左上角的坐标。这有一个限制：不能将新窗口置于屏幕外（offscreen）。
   - `width/height`（数字）—— 新窗口的宽度和高度。宽度/高度的最小值是有限制的，因此不可能创建一个不可见的窗口。
-- 窗口特征：
-  - `menubar`（yes/no）— 显示或隐藏新窗口中的浏览器菜单。
-  - `toolbar`（yes/no）— 在新窗口中显示或隐藏浏览器导航栏（后退、前进和重新加载等）。
-  - `location`（yes/no）— 在新窗口中显示或隐藏 URL 字段。FF 和 IE 默认是不允许隐藏的。
-  - `status`（yes/no）— 显示或隐藏状态栏。同样，大多数浏览器强制它显示。
-  - `resizable`（yes/no）— 允许禁用新窗口调整大小。不建议使用。
-  - `scrollbars`（yes/no）— 允许禁用新窗口的滚动条。不建议使用。
+- 窗口功能：
+  - `menubar`（yes/no）—— 显示或隐藏新窗口的浏览器菜单。
+  - `toolbar`（yes/no）—— 显示或隐藏新窗口的浏览器导航栏（后退，前进，重新加载等）。
+  - `location`（yes/no）—— 显示或隐藏新窗口的 URL 字段。Firefox 和 IE 浏览器不允许默认隐藏它。
+  - `status`（yes/no）—— 显示或隐藏状态栏。同样，大多数浏览器都强制显示它。
+  - `resizable`（yes/no）—— 允许禁用新窗口大小调整。不建议使用。
+  - `scrollbars`（yes/no）—— 允许禁用新窗口的滚动条。不建议使用。
 
-还有一些不太受支持的，浏览器特有的功能。通常不使用这些功能。详情请看 <a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a>。
 
-## 示例：一个简单的窗口
+还有一些不太受支持的特定于浏览器的功能，通常不使用。特有的功能。通常不使用这些功能。更多示例请见 <a href="https://developer.mozilla.org/en/DOM/window.open">MDN 中的 window.open</a>。
 
-让我们打开一设置尽可能少的窗口，来看看哪些特性是浏览器允许禁用的：
+## 示例：一个最简窗口
+
+让我们打开一个包含最小功能集的新窗口，来看看哪些功能是浏览器允许禁用的：
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -97,7 +98,7 @@ width=0,height=0,left=-1000,top=-1000`;
 open('/', 'test', params);
 ```
 
-这里大多数的“窗口特征”都被禁用而且窗口的位置脱离屏幕。执行看看究竟会发生什么。大多数浏览器修复了像零 `width/height` 和脱离屏幕的 `left/top` 的奇怪设置。例如，Chrome 打开这样一个全 width/height 的窗口，使其占满整个屏幕。
+在这里，大多数“窗口功能”都被禁用了，并且窗口位于屏幕外。运行它，看看会发生什么。大多数浏览器都会“修复”奇怪的东西，例如 `width/height` 为零以及脱离屏幕（offscreen）的 `left/top` 设置。例如，Chrome 打开了一个全 `width/height` 的窗口，使其占满整个屏幕。
 
 让我们添加正常的定位选项和合理的 `width`、`height`、`left` 和 `top` 坐标：
 
@@ -108,25 +109,34 @@ width=600,height=300,left=100,top=100`;
 open('/', 'test', params);
 ```
 
-大多数浏览器根据需要显示了上面的示例。
+大多数浏览器会根据要求显示上面的示例。
 
-省略设置的规则：
+设置中的省略规则：
 
 - 如果 `open` 调用中没有第三个参数，或者它是空的，则使用默认的窗口参数。
-- 如果存在参数字符串，但是省略了某些 yes/no 的特性，那么如果浏览器允许，则禁用省略的特性。因此，如果指定参数，请确保将所有必需的特性明确设置为 yes。
-- 如果参数中没有 `left/top`，则浏览器会尝试在最后打开的窗口附近打开一个新窗口。
-- 如果没有“宽度/高度”，则新窗口的大小与上次打开的大小相同。
+- 如果这里有一个参数字符串，但是某些 `yes/no` 功能被省略了，那么被省略的功能则被默认值为 `no`。因此，如果你指定参数，请确保将所有必需的功能明确设置为 `yes`。
+- 如果参数中没有 `left/top`，那么浏览器会尝试在最后打开的窗口附近打开一个新窗口。
+- 如果没有 `width/height`，那么新窗口的大小将与上次打开的窗口大小相同。
 
+## 从窗口访问弹窗
 
-## 访问弹窗
+`open` 调用会返回对新窗口的引用。它可以用来操纵弹窗的属性，更改位置，甚至更多操作。
 
-`open` 的调用会返回对新窗口的引用。它可以用来操作弹窗的属性，改变位置甚至更多。
+在下面这个示例中，我们从 JavaScript 中生成弹窗：
 
-在下面的示例中，新窗口的内容在加载后被修改。
+```js
+let newWin = window.open("about:blank", "hello", "width=200,height=200");
+
+newWin.document.write("Hello, world!");
+```
+
+这里，我们在其加载完成后，修改其中的内容：
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300')
 newWindow.focus();
+
+alert(newWindow.location.href); // (*) about:blank, loading hasn't started yet
 
 newWindow.onload = function() {
   let html = `<div style="font-size:30px">Welcome!</div>`;
@@ -136,33 +146,94 @@ newWindow.onload = function() {
 };
 ```
 
-请注意，外部的 `document` 内容仅可被同源（相同的协议：//域名：端口）的 window 访问。
+请注意：在刚刚进行了 `window.open` 的时候，新窗口还没有加载完成。我们可以通过 `(*)` 行中的 `alert` 证实这一点。因此，我们需要等待 `onload` 以对新窗口进行更改。我们也可以对 `newWin.document` 使用 `DOMContentLoaded` 处理程序。
 
-对于具有来自其他站点的 URL 的窗口，我们可以通过指定 `newWindow.location=...` 来改变地址，但是我们无法读取地址或者访问内容。这是为了用户安全，这样一来恶意网站就无法打开 `http://gmail.com` 并获取数据。我们将在稍后进一步讨论。
+```warn header="通源策略"
+只有在窗口是同源的时，窗口才能自由访问彼此的内容（`相同的协议://domain:port`）。
 
-## 访问开启窗口 
+否则，例如，如果主窗口来自于 `site.com`，弹窗来自于 `gmail.com`，则处于安全性考虑，这两个窗口不能访问彼此的内容。有关详细信息，请参见 <info:cross-window-communication> 一章。
+```
 
-一个弹窗可以访问“开启者”窗口。其中的 JavaScript 可以通过 `window.opener` 来访问打开它的窗口。除了弹窗之外，对其他所有的窗口来说都是 `null`。
+## 从弹窗访问窗口
 
-因此主窗口和弹窗都有相互的引用。如果它们同源，则可以自由地相互修改。如果不是,他们仍然有沟通的手段, 将在下一章介绍 <info:cross-window-communication>。
+弹窗也可以使用 `window.opener` 来访问 opener 窗口。除了弹窗之外，对其他所有窗口来说，`window.opener` 均为 `null`。
+
+如果你运行下面这段代码，它将用 "Test" 替换 opener（也就是当前的）窗口的内容：
+
+```js run
+let newWin = window.open("about:blank", "hello", "width=200,height=200");
+
+newWin.document.write(
+  "<script>window.opener.document.body.innerHTML = 'Test'<\/script>"
+);
+```
+
+所以，窗口之间的连接是双向的：主窗口和弹窗之间相互引用。
 
 ## 关闭弹窗
 
-如果我们不再需要弹窗，我们可以在其上调用 `newWindow.close()`。
+关闭一个窗口：`win.close()`。
 
-技术上来将，`close()` 方法可以关闭任何 `window`，但是，如果 `window` 不是通过 `window.open()` 打开的，大多数浏览器会忽略 `window.close()` 方法。
+检查一个窗口是否被关闭：`win.closed`。
 
-如果窗口被关闭 `newWindow.closed` 会返回 `true`。 这对于检查弹窗（或主窗口）是否仍然打开非常有用。用户可以关闭它，我们的代码应该确定到这种可能性。
+从技术上讲，`close()` 方法可用于任何 `window`，但是如果 `window` 不是通过 `window.open()` 创建的，那么大多数浏览器都会忽略 `window.close()`。因此，`close()` 只对弹窗起作用。
 
-这段代码加载之后又关闭了弹窗：
+如果窗口被关闭了，那么 `closed` 属性则为 `true`。这对于检查弹窗（或主窗口）是否仍处于打开状态很有用。用户可以随时关闭它，我们的代码应该考虑到这种可能性。
+
+这段代码加载并关闭了窗口：
 
 ```js run
-let newWindow = open('/', 'example', 'width=300,height=300')
+let newWindow = open('/', 'example', 'width=300,height=300');
+
 newWindow.onload = function() {
   newWindow.close();
   alert(newWindow.closed); // true
 };
 ```
+
+
+## 滚动和调整大小
+
+There are methods to move/resize a window:
+
+`win.moveBy(x,y)`
+: Move the window relative to current position `x` pixels to the right and `y` pixels down. Negative values are allowed (to move left/up).
+
+`win.moveTo(x,y)`
+: Move the window to coordinates `(x,y)` on the screen.
+
+`win.resizeBy(width,height)`
+: Resize the window by given `width/height` relative to the current size. Negative values are allowed.
+
+`win.resizeTo(width,height)`
+: Resize the window to the given size.
+
+There's also `window.onresize` event.
+
+```warn header="Only popups"
+To prevent abuse, the browser usually blocks these methods. They only work reliably on popups that we opened, that have no additional tabs.
+```
+
+```warn header="No minification/maximization"
+JavaScript has no way to minify or maximize a window. These OS-level functions are hidden from Frontend-developers.
+
+Move/resize methods do not work for maximized/minimized windows.
+```
+
+## Scrolling a window
+
+We already talked about scrolling a window in the chapter <info:size-and-scroll-window>.
+
+`win.scrollBy(x,y)`
+: Scroll the window `x` pixels right and `y` down relative the current scroll. Negative values are allowed.
+
+`win.scrollTo(x,y)`
+: Scroll the window to the given coordinates `(x,y)`.
+
+`elem.scrollIntoView(top = true)`
+: Scroll the window to make `elem` show up at the top (the default) or at the bottom for `elem.scrollIntoView(false)`.
+
+There's also `window.onscroll` event.
 
 ## 弹窗的聚焦/失焦
 
