@@ -2,7 +2,7 @@
 
 “同源（Same Origin）”策略限制了窗口（window）和 frame 之间的相互访问。
 
-这个想法出于这样的考虑，如果一个用户有两个打开的窗口：一个窗口来自 `john-smith.com`，另一个是 `gmail.com`，那么用户将不希望 `john-smith.com` 的脚本可以读取 `gmail.com` 中的邮件。所以，“同源”策略的目的是保护用户免遭信息盗窃。
+这个想法出于这样的考虑，如果一个用户有两个打开的窗口：一个来自 `john-smith.com`，另一个是 `gmail.com`，那么用户将不希望 `john-smith.com` 的脚本可以读取 `gmail.com` 中的邮件。所以，“同源”策略的目的是保护用户免遭信息盗窃。
 
 ## 同源 [#same-origin]
 
@@ -28,14 +28,14 @@
 
 ### 实例：iframe
 
-一个 `<iframe>` 标签承载了一个单独的嵌入式窗口，它具有自己的 `document` 和 `window`。
+一个 `<iframe>` 标签承载了一个单独的嵌入的窗口，它具有自己的 `document` 和 `window`。
 
 我们可以使用以下属性访问它们：
 
 - `iframe.contentWindow` 来获取 `<iframe>` 中的 window。
 - `iframe.contentDocument` 来获取 `<iframe>` 中的 document，是 `iframe.contentWindow.document` 的简写形式。
 
-当我们访问嵌入式窗口中的东西时，浏览器会检查 iframe 是否具有相同的源。如果不是，则会拒绝访问（对 `location` 进行写入是一个例外，它是会被允许的）。
+当我们访问嵌入的窗口中的东西时，浏览器会检查 iframe 是否具有相同的源。如果不是，则会拒绝访问（对 `location` 进行写入是一个例外，它是会被允许的）。
 
 例如，让我们尝试对来自另一个源的 `<iframe>` 进行读取和写入：
 
@@ -44,7 +44,7 @@
 
 <script>
   iframe.onload = function() {
-    // 我们可以获取对内部窗口的引用
+    // 我们可以获取对内部 window 的引用
 *!*
     let iframeWindow = iframe.contentWindow; // OK
 */!*
@@ -79,7 +79,7 @@
 
 上述代码除了以下操作都会报错：
 
-- 通过 `iframe.contentWindow` 获取对内部窗口的引用
+- 通过 `iframe.contentWindow` 获取对内部 window 的引用 —— 这是被允许的。
 - 对 `location` 进行写入
 
 与此相反，如果 `<iframe>` 具有相同的源，我们可以使用它做任何事情：
@@ -97,21 +97,12 @@
 ```
 
 ```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
-`iframe.onload` 事件（在 `<iframe>` 标签上）与 `iframe.contentWindow.onload`（嵌入的窗口对象）基本相同。
+`iframe.onload` 事件（在 `<iframe>` 标签上）与 `iframe.contentWindow.onload`（在嵌入的 window 对象上）基本相同。当嵌入的窗口的所有资源都完全加载完毕时触发。
 
-
-当嵌入式窗口
-
-
-
-，当嵌入窗口内所有资源全部加载完后触发。
-...但是 `iframe.onload` 始终是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
-
+……但是，我们无法使用 `iframe.contentWindow.onload` 访问不同源的 iframe。因此，请使用 `iframe.onload`，
 ```
 
-
-
-````warn header="排除：子域可能是同源的"
+## 子域上的 window：document.domain
 
 在同源策略里有一个很重要的排除项。
 
@@ -126,7 +117,6 @@ document.domain = 'site.com';
 之后他们就可以无限制的互动了。
 
 但是这仅适用于具有相同二级域的页面。
-````
 
 
 
