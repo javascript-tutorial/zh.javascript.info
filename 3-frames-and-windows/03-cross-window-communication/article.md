@@ -79,28 +79,36 @@
 
 上述代码除了以下操作都会报错：
 
-- 通过 `iframe.contentWindow` 获取内部窗口的 window
-- 修改它的 `location`
+- 通过 `iframe.contentWindow` 获取对内部窗口的引用
+- 对 `location` 进行写入
 
-
-```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
-`iframe.onload` 实际上与 `iframe.contentWindow.onload` 相同，当嵌入窗口内所有资源全部加载完后触发。
-...但是 `iframe.onload` 始终是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
-
-```
-
-现在有一个同源窗口的例子，我们可以对嵌入的窗口做任何事：
+与此相反，如果 `<iframe>` 具有相同的源，我们可以使用它做任何事情：
 
 ```html run
+<!-- 来自同一个网站的 iframe -->
 <iframe src="/" id="iframe"></iframe>
 
 <script>
   iframe.onload = function() {
-    // 随便做任何事
+    // 可以做任何事儿
     iframe.contentDocument.body.prepend("Hello, world!");
   };
 </script>
 ```
+
+```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
+`iframe.onload` 事件（在 `<iframe>` 标签上）与 `iframe.contentWindow.onload`（嵌入的窗口对象）基本相同。
+
+
+当嵌入式窗口
+
+
+
+，当嵌入窗口内所有资源全部加载完后触发。
+...但是 `iframe.onload` 始终是可用的，然而 `iframe.contentWindow.onload` 需要满足同源策略。
+
+```
+
 
 
 ````warn header="排除：子域可能是同源的"
