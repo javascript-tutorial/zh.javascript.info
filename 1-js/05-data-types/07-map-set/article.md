@@ -14,13 +14,13 @@
 
 它的方法和属性如下：
 
-- `new Map()` － 创建 map。
-- `map.set(key, value)` － 根据键存储值。
-- `map.get(key)` － 根据键来返回值，如果 `map` 中不存在对应的 `key`，则返回 `undefined`。
-- `map.has(key)` － 如果 `key` 存在则返回 `true`，否则返回 `false`。
-- `map.delete(key)` － 删除指定键的值。
-- `map.clear()` － 清空 map。
-- `map.size` － 返回当前元素个数。
+- `new Map()` —— 创建 map。
+- `map.set(key, value)` —— 根据键存储值。
+- `map.get(key)` —— 根据键来返回值，如果 `map` 中不存在对应的 `key`，则返回 `undefined`。
+- `map.has(key)` —— 如果 `key` 存在则返回 `true`，否则返回 `false`。
+- `map.delete(key)` —— 删除指定键的值。
+- `map.clear()` —— 清空 map。
+- `map.size` —— 返回当前元素个数。
 
 举个例子：
 
@@ -103,9 +103,9 @@ map.set('1', 'str1')
 
 如果要在 `map` 里使用循环，可以使用以下三个方法：
 
-- `map.keys()` － 遍历并返回所有的键（returns an iterable for keys），
-- `map.values()` － 遍历并返回所有的值（returns an iterable for values），
-- `map.entries()` － 遍历并返回所有的实体（returns an iterable for entries）`[key, value]`，`for..of` 在默认情况下使用的就是这个。
+- `map.keys()` —— 遍历并返回所有的键（returns an iterable for keys），
+- `map.values()` —— 遍历并返回所有的值（returns an iterable for values），
+- `map.entries()` —— 遍历并返回所有的实体（returns an iterable for entries）`[key, value]`，`for..of` 在默认情况下使用的就是这个。
 
 例如：
 
@@ -235,12 +235,12 @@ let obj = Object.fromEntries(map); // 省掉 .entries()
 
 它的主要方法如下：
 
-- `new Set(iterable)` － 创建一个 `set`，如果提供了一个 `iterable` 对象（通常是数组），将会从数组里面复制值到 `set` 中。
-- `set.add(value)` － 添加一个值，返回 set 本身
-- `set.delete(value)` － 删除值，如果 `value` 在这个方法调用的时候存在则返回 `true` ，否则返回 `false`。
-- `set.has(value)` － 如果 `value` 在 set 中，返回 `true`，否则返回 `false`。
-- `set.clear()` － 清空 set。
-- `set.size` － 返回元素个数。
+- `new Set(iterable)` —— 创建一个 `set`，如果提供了一个 `iterable` 对象（通常是数组），将会从数组里面复制值到 `set` 中。
+- `set.add(value)` —— 添加一个值，返回 set 本身
+- `set.delete(value)` —— 删除值，如果 `value` 在这个方法调用的时候存在则返回 `true` ，否则返回 `false`。
+- `set.has(value)` —— 如果 `value` 在 set 中，返回 `true`，否则返回 `false`。
+- `set.clear()` —— 清空 set。
+- `set.size` —— 返回元素个数。
 
 它的主要特点是，重复使用同一个值调用 `set.add(value)` 并不会发生什么改变。这就是 `Set` 里面的每一个值只出现一次的原因。
 
@@ -293,9 +293,9 @@ set.forEach((value, valueAgain, set) => {
 
 `Map` 中用于迭代的方法在 `Set` 中也同样支持：
 
-- `set.keys()` － 遍历并返回所有的值（returns an iterable object for values），
-- `set.values()` － 与 `set.keys()` 作用相同，这是为了兼容 `Map`，
-- `set.entries()` － 遍历并返回所有的实体（returns an iterable object for entries）`[value, value]`，它的存在也是为了兼容 `Map`。
+- `set.keys()` —— 遍历并返回所有的值（returns an iterable object for values），
+- `set.values()` —— 与 `set.keys()` 作用相同，这是为了兼容 `Map`，
+- `set.entries()` —— 遍历并返回所有的实体（returns an iterable object for entries）`[value, value]`，它的存在也是为了兼容 `Map`。
 
 ## 总结
 
@@ -303,28 +303,28 @@ set.forEach((value, valueAgain, set) => {
 
 方法和属性如下：
 
-- `new Map([iterable])` － 创建 map，可选择带有 `[key,value]` 对的 `iterable`（例如数组）来进行初始化。
-- `map.set(key, value)` － 根据键存储值。
-- `map.get(key)` － 根据键来返回值，如果 `map` 中不存在对应的 `key`，则返回 `undefined`。
-- `map.has(key)` － 如果 `key` 存在则返回 `true`，否则返回 `false`。
-- `map.delete(key)` － 删除指定键的值。
-- `map.clear()` － 清空 map 。
-- `map.size` － 返回当前元素个数。
+- `new Map([iterable])` —— 创建 map，可选择带有 `[key,value]` 对的 `iterable`（例如数组）来进行初始化。
+- `map.set(key, value)` —— 根据键存储值。
+- `map.get(key)` —— 根据键来返回值，如果 `map` 中不存在对应的 `key`，则返回 `undefined`。
+- `map.has(key)` —— 如果 `key` 存在则返回 `true`，否则返回 `false`。
+- `map.delete(key)` —— 删除指定键的值。
+- `map.clear()` —— 清空 map 。
+- `map.size` —— 返回当前元素个数。
 
 与普通对象 `Object` 的不同点：
 
 - 任何键、对象都可以作为键。
 - 有其他的便捷方法，如 `size` 属性。
 
-`Set` － 是一组唯一值的集合。
+`Set` —— 是一组唯一值的集合。
 
 方法和属性：
 
-- `new Set([iterable])` － 创建 set，可选择带有 `iterable`（例如数组）来进行初始化。
-- `set.add(value)` － 添加一个值（如果 `value` 存在则不做任何修改），返回 set 本身。
-- `set.delete(value)` － 删除值，如果 `value` 在这个方法调用的时候存在则返回 `true` ，否则返回 `false`。
-- `set.has(value)` － 如果 `value` 在 set 中，返回 `true`，否则返回 `false`。
-- `set.clear()` － 清空 set。
-- `set.size` － 元素的个数。
+- `new Set([iterable])` —— 创建 set，可选择带有 `iterable`（例如数组）来进行初始化。
+- `set.add(value)` —— 添加一个值（如果 `value` 存在则不做任何修改），返回 set 本身。
+- `set.delete(value)` —— 删除值，如果 `value` 在这个方法调用的时候存在则返回 `true` ，否则返回 `false`。
+- `set.has(value)` —— 如果 `value` 在 set 中，返回 `true`，否则返回 `false`。
+- `set.clear()` —— 清空 set。
+- `set.size` —— 元素的个数。
 
 在 `Map` 和 `Set` 中迭代总是按照值插入的顺序进行的，所以我们不能说这些集合是无序的，但是我们不能对元素进行重新排序，也不能直接按其编号来获取元素。
