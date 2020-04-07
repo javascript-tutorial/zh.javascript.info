@@ -1,12 +1,12 @@
 # 跨窗口通信
 
-"同源"策略限制了窗口之间的互相访问。
+“同源（Same Origin）”策略限制了窗口（window）和 frame 之间的相互访问。
 
-这个想法出于这样的考虑，如果我们打开了两个窗口：一个窗口来自 `john-smith.com`，另一个是 `gmail.com`，那么我们就不希望 `john-smith.com` 的脚本可以阅读我们的邮件。
+这个想法出于这样的考虑，如果一个用户有两个打开的窗口：一个窗口来自 `john-smith.com`，另一个是 `gmail.com`，那么用户将不希望 `john-smith.com` 的脚本可以读取 `gmail.com` 中的邮件。所以，“同源”策略的目的是保护用户免遭信息盗窃。
 
-## 同源
+## 同源 [#same-origin]
 
-如果两个 URL 具有相同的协议，域名和端口，则称它们是"同源"的。
+如果两个 URL 具有相同的协议，域和端口，则称它们是“同源”的。
 
 以下的几个 URL 都是同源的：
 
@@ -14,12 +14,12 @@
 - `http://site.com/`
 - `http://site.com/my/page.html`
 
-但是下面几个不是：
+但是下面这几个不是：
 
-- <code>http://<b>www.</b>site.com</code> (`www.` 域名与其他不同)
-- <code>http://<b>site.org</b></code> (`.org` 域名与其他不同)
-- <code><b>https://</b>site.com</code> (协议与其他不同: `https`)
-- <code>http://site.com:<b>8080</b></code> (端口与其他不同：`8080`)
+- <code>http://<b>www.</b>site.com</code>（另一个域：`www.` 影响）
+- <code>http://<b>site.org</b></code>（另一个域：`.org` 影响）
+- <code><b>https://</b>site.com</code>（另一个协议：`https`）
+- <code>http://site.com:<b>8080</b></code>（另一个端口：`8080`）
 
 如果我们有另外一个窗口（一个弹出窗口或者 iframe）的引用，并且这个窗口是同源的，那么我们可以使用它做任何事情。
 
@@ -31,7 +31,7 @@
 
 在同源策略里有一个很重要的排除项。
 
-如果窗口有相同的二级域名，比如 `john.site.com`，`peter.site.com` 和 `site.com`，我们可以使用 JavaScript 将 `document.domain` 设置为他们相同的二级域名 `site.com`。此时这些窗口将被当做同源的站点对待。
+如果窗口有相同的二级域，比如 `john.site.com`，`peter.site.com` 和 `site.com`，我们可以使用 JavaScript 将 `document.domain` 设置为他们相同的二级域 `site.com`。此时这些窗口将被当做同源的站点对待。
 
 换句话说，所有的这些页面（包括来自 `site.com` 的页面）都添加这么一段代码：
 
@@ -41,7 +41,7 @@ document.domain = 'site.com';
 
 之后他们就可以无限制的互动了。
 
-但是这仅适用于具有相同二级域名的页面。
+但是这仅适用于具有相同二级域的页面。
 ````
 
 ## 访问 iframe 的内容
@@ -345,14 +345,14 @@ window.addEventListener("message", function(event) {
 - `window.parent`，`window.top` 是父窗口以及顶级窗口的引用
 - `iframe.contentWindow` 是 `<iframe>` 内网页的 window 对象。
 
-如果几个窗口的网页是同源的（域名，端口，协议都相同），那么这几个窗口可以互相操作任何事情。
+如果几个窗口的网页是同源的（域，端口，协议都相同），那么这几个窗口可以互相操作任何事情。
 
 否则，只能做以下操作：
 - 修改另一个窗口的地址（并且只能修改，不能读取）
 - 对它发送一个消息
 
 但也有一些例外情况：
-- 对于二级域名相同的页面：`a.site.com` 和 `b.site.com`。通过在它们的代码里执行 `document.domain='site.com'` 可以让他们处于"同源"状态。 
+- 对于二级域相同的页面：`a.site.com` 和 `b.site.com`。通过在它们的代码里执行 `document.domain='site.com'` 可以让他们处于"同源"状态。 
 - 如果 iframe 有 `sandbox` 属性，则会强制其处于"非同源"状态，除非在属性中指定了 `allow-same-origin`，这可可用于在同一站点的 iframe 中运行不受信任的代码。
 
 
