@@ -21,70 +21,58 @@
 - <code><b>https://</b>site.com</code>（另一个协议：`https`）
 - <code>http://site.com:<b>8080</b></code>（另一个端口：`8080`）
 
-如果我们有另外一个窗口（一个弹出窗口或者 iframe）的引用，并且这个窗口是同源的，那么我们可以使用它做任何事情。
+“同源”策略规定：
 
-如果它不是同源的，那么我们只能改变它的地址。请注意：不是**读取**地址，而是**改变**它，将其重定向到另外一个地址。因为 URL 可能包含一些敏感的参数，所以为了安全，禁止从一个非同源的站点获取地址，但是可以更改它。
+- 如果我们有对另外一个窗口（例如，一个使用 `window.open` 创建的弹窗，或者一个窗口中的 iframe）的引用，并且该窗口是同源的，那么我们就具有对该窗口的全部访问权限。
+- 否则，如果该窗口不是同源的，那么我们就无法访问该窗口中的内容：变量，文档，任何东西。唯一的例外是 `location`：我们可以修改它（进而重定向用户）。但是我们无法读取 `location`（因此，我们无法看到用户当前所处的位置，也就不会泄漏任何信息）。
 
-当然这些窗口也可以互通信息，后面我们很快会讲到这一点。
+### 实例：iframe
 
-````warn header="排除：子域可能是同源的"
+一个 `<iframe>` 标签承载了一个单独的嵌入式窗口，它具有自己的 `document` 和 `window`。
 
-在同源策略里有一个很重要的排除项。
+我们可以使用以下属性访问它们：
 
-如果窗口有相同的二级域，比如 `john.site.com`，`peter.site.com` 和 `site.com`，我们可以使用 JavaScript 将 `document.domain` 设置为他们相同的二级域 `site.com`。此时这些窗口将被当做同源的站点对待。
+- `iframe.contentWindow` 来获取 `<iframe>` 中的 window。
+- `iframe.contentDocument` 来获取 `<iframe>` 中的 document，是 `iframe.contentWindow.document` 的简写形式。
 
-换句话说，所有的这些页面（包括来自 `site.com` 的页面）都添加这么一段代码：
+当我们访问嵌入式窗口中的东西时，浏览器会检查 iframe 是否具有相同的源。如果不是，则会拒绝访问（对 `location` 进行写入是一个例外，它是会被允许的）。
 
-```js
-document.domain = 'site.com';
-```
-
-之后他们就可以无限制的互动了。
-
-但是这仅适用于具有相同二级域的页面。
-````
-
-## 访问 iframe 的内容
-
-一个 `<iframe>` 是一个两面派的野兽。从一方面看，它就是一个标签，就像 `<script>` 或者 `<img>`，从另一方面来说，它又是一个窗口内嵌套的窗口。
-
-嵌入的窗口有它单独的 `document` 和 `window` 对象。
-
-我们可以使用以下属性访问他们：
-
-- `iframe.contentWindow` 是对 `<iframe>` 里 window 的引用。
-- `iframe.contentDocument` 是对 `<iframe>` 里的 document 对象的引用。
-
-当我们访问嵌入式窗口时，浏览器会检查 iframe 是否具有相同的来源，如果不是这样会拒绝访问（除了上述提到的排除项）。
-
-举个例子，这里是来自不同源的 `<iframe>`：
+例如，让我们尝试对来自另一个源的 `<iframe>` 进行读取和写入：
 
 ```html run
 <iframe src="https://example.com" id="iframe"></iframe>
 
 <script>
   iframe.onload = function() {
-    // 我们可以通过它获取内部窗口的引用
-    let iframeWindow = iframe.contentWindow;
-
+    // 我们可以获取对内部窗口的引用
+*!*
+    let iframeWindow = iframe.contentWindow; // OK
+*/!*
     try {
-      // ..但是无法获取 document
-      let doc = iframe.contentDocument;
+      // ...但是无法获取其中的文档
+*!*
+      let doc = iframe.contentDocument; // ERROR
+*/!*
     } catch(e) {
-      alert(e); // 安全错误（非同源）
+      alert(e); // Security Error（另一个源）
     }
 
-    // 并且我们无法读取嵌入窗口的地址
+    // 并且，我们也无法 **读取** iframe 中页面的 URL
     try {
-      alert(iframe.contentWindow.location);
+      // 无法从 location 对象中读取 URL
+*!*
+      let href = iframe.contentWindow.location.href; // ERROR
+*/!*
     } catch(e) {
-      alert(e); // 安全错误
+      alert(e); // Security Error
     }
 
-    // ...但是我们可以修改这个地址（并且将其他内容加载到 iframe 里）
-    iframe.contentWindow.location = '/'; // 生效了
+    // ...我们可以 **写入** location（所以，在 iframe 中加载了其他内容）！
+*!*
+    iframe.contentWindow.location = '/'; // OK
+*/!*
 
-    iframe.onload = null; // 清除处理函数，保证代码只执行一次
+    iframe.onload = null; // 清空处理程序，在 location 更改后不要再运行它
   };
 </script>
 ```
@@ -113,6 +101,26 @@ document.domain = 'site.com';
   };
 </script>
 ```
+
+
+````warn header="排除：子域可能是同源的"
+
+在同源策略里有一个很重要的排除项。
+
+如果窗口有相同的二级域，比如 `john.site.com`，`peter.site.com` 和 `site.com`，我们可以使用 JavaScript 将 `document.domain` 设置为他们相同的二级域 `site.com`。此时这些窗口将被当做同源的站点对待。
+
+换句话说，所有的这些页面（包括来自 `site.com` 的页面）都添加这么一段代码：
+
+```js
+document.domain = 'site.com';
+```
+
+之后他们就可以无限制的互动了。
+
+但是这仅适用于具有相同二级域的页面。
+````
+
+
 
 ### 请等待 iframe 加载完成
 
