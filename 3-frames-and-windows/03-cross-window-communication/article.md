@@ -214,44 +214,41 @@ if (window == top) { // 当前 window == window.top?
 
 `sandbox` 特性（attribute）允许在 `<iframe>` 中禁止某些特定行为，以防止其执行不被信任的代码。它通过将 iframe 视为非同源的，或者应用其他限制来实现 iframe 的“沙盒化”。
 
-对于 `<iframe sandbox src="...">` 有一个
+对于 `<iframe sandbox src="...">`，有一个些默认的限制。但是，我们可以通过提供一个以空格分隔的限制列表作为特性的值，来放宽这些限制，该列表中的各项为不应该应用于这个 iframe 的限制，例如：`<iframe sandbox="allow-forms allow-popups">`。
 
+换句话说，一个空的 `"sandbox"` 特性会施加最严格的限制，但是我们用一个以空格分隔的列表，列出要移除的限制。
 
-会有一些"默认限制"被应用于 iframe。但是我们可以像 `<iframe sandbox="allow-forms allow-popups">` 这样，提供一个以空格分割的"排除"限制列表作为属性，此时被列出的限制将不会生效。
+以下是限制的列表：
 
-换句话说，一个空的 `"sandbox"` 可以带来最严格的限制，但是我们可以列出一个以空格分割的列表，列出我们想要提升的内容。
-
-以下是限制列表的一些属性：
-
-`allow-same-origin`： 默认情况下，`"sandbox"` 在 iframe 上强制执行"不同来源"的策略。换句话说，即使 `iframe` 的 `src` 是同源的，它也会其作为非同源的站点来处理，并且对脚本添加所有隐含的限制。添加此选项后会移除这些限制。
+`allow-same-origin`
+: 默认情况下，`"sandbox"` 会为 iframe 强制实施“不同来源”的策略。换句话说，它使浏览器将 `iframe` 视为来自另一个源，即使其 `src` 指向的是同一个网站也是如此。具有所有隐含的脚本限制。此选项会移除这些限制。
 
 `allow-top-navigation`
-: 允许 `iframe` 修改父窗口的地址。
+: 允许 `iframe` 更改 `parent.location`。
 
 `allow-forms`
-: 允许在 `iframe` 内提交表单。
+: 允许在 `iframe` 中提交表单。
 
 `allow-scripts`
-: 允许在 `iframe` 内运行脚本。
+: 允许在 `iframe` 中运行脚本。
 
 `allow-popups`
-: 允许来自 `iframe` 的 `window.open` 弹出窗口。
+: 允许在 `iframe` 中使用 `window.open` 打开弹窗。
 
+查看 [官方手册](mdn:/HTML/Element/iframe) 获取更多内容。
 
-查看 [官方手册](mdn:/HTML/Element/iframe) 以获取更多内容。
+下面的示例演示了一个具有默认限制集的沙盒 iframe：`<iframe sandbox src="...">`。它有一些 JavaScript 代码和一个表单。
 
-下面的示例演示了一个带有默认限制的沙盒 iframe：`<iframe sandbox src="...">`。它有一些 JavaScript 脚本和一个表单。
-
-请注意这里的代码没有任何作用。可见默认设置非常苛刻：
+请注意，这里没有东西会运行。可见默认设置非常苛刻：
 
 [codetabs src="sandbox" height=140]
 
 
 ```smart
-`"sandbox"` 属性的目的是为了*添加更多*限制。它不能移除这些限制，尤其是当 iframe 是非同源时，更不能放松同源策略。
+`"sandbox"` 特性的目的仅是 **添加更多** 限制。它无法移除这些限制。尤其是，如果 iframe 来自其他源，则无法放宽同源策略。
 ```
 
-## 跨窗口传递消息
+## 跨窗口通信
 
 通过 `postMessage` 这个接口，我们可以在不同源的窗口内进行通信。
 
