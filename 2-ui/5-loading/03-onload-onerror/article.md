@@ -105,7 +105,7 @@ img.onerror = function() {
 
 ## 跨源策略
 
-这里有一条规则：来自一个站点的脚本无法访问其他站点的内容。例如，位于 `https://facebook.com` 的脚本无法读取位于 `https://gmail.com` 的用户邮箱。
+这里有一条规则：来自一个网站的脚本无法访问其他网站的内容。例如，位于 `https://facebook.com` 的脚本无法读取位于 `https://gmail.com` 的用户邮箱。
 
 或者，更确切地说，一个源（域/端口/协议三者）无法获取另一个源（origin）的内容。因此，即使我们有一个子域，或者仅仅是另一个端口，这都是不同的源，彼此无法相互访问。
 
@@ -119,7 +119,7 @@ img.onerror = function() {
 noSuchFunction();
 ```
 
-现在从它所在的同一个站点加载它：
+现在从它所在的同一个网站加载它：
 
 ```html run height=0
 <script>
