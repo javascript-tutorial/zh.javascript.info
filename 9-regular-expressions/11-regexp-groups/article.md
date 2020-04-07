@@ -185,7 +185,7 @@ alert( tags ); // <h1>,<h2>
 
 要获取它们，我们应该使用方法 `str.matchAll(regexp)` 进行搜索。
 
-在使用 `match` 很长一段时间后，它作为“新的改进版本”被加入到 JavaScript 中
+在使用 `match` 很长一段时间后，它作为“新的改进版本”被加入到 JavaScript 中。
 
 就像 `match` 一样，它寻找匹配项，但有3个区别：
 
