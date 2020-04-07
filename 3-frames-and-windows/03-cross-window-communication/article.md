@@ -268,7 +268,7 @@ if (window == top) { // 当前 window == window.top?
 `targetOrigin`
 : 指定目标窗口的源，以便只有来自给定的源的窗口才能获得该消息。
 
-`targetOrigin` 是一种安全措施。请记住，如果目标窗口是非同源的，我们无法在发送消息的窗口读取它的 `location`。因此，我们无法确定当前在预期的窗口中打开的是哪个网站：用户随时可以导航离开，并且发送消息的窗口对此一无所知。
+`targetOrigin` 是一种安全措施。请记住，如果目标窗口是非同源的，我们无法在发送方窗口读取它的 `location`。因此，我们无法确定当前在预期的窗口中打开的是哪个网站：用户随时可以导航离开，并且发送方窗口对此一无所知。
 
 指定 `targetOrigin` 可以确保窗口仅在当前仍处于正确的网站时接收数据。在有敏感数据时，这非常重要。
 
@@ -301,65 +301,62 @@ if (window == top) { // 当前 window == window.top?
 
 ### onmessage
 
-为了接收消息，目标窗口应该在 `message` 事件上有一个处理程序。当 `postMessage` 被调用时这个事件会被触发（并且 `targetOrigin` 检查成功）。
+为了接收消息，目标窗口应该在 `message` 事件上有一个处理程序。当 `postMessage` 被调用时触发该事件（并且 `targetOrigin` 检查成功）。
 
-这个事件的 event 对象有一些特殊属性：
+event 对象具有特殊属性：
 
 `data`
 : 从 `postMessage` 传递来的数据。
 
 `origin`
-: 发送方的源，举个例子： `http://javascript.info`。
+: 发送方的源，例如 `http://javascript.info`。
 
 `source`
-: 对发送方窗口的引用。如果我们需要的话可以立即回复 `postMessage`。
+: 对发送方窗口的引用。如果我们想，我们可以立即 `source.postMessage(...)` 回去。
 
-为了处理这个事件，我们需要使用 `addEventListener`，简单使用 `window.onmessage` 不起作用。
+要为 `message` 事件分配处理程序，我们应该使用 `addEventListener`，简短的语法 `window.onmessage` 不起作用。
 
 这里有一个例子：
 
 ```js
 window.addEventListener("message", function(event) {
   if (event.origin != 'http://javascript.info') {
-    // 从未知源获取的消息，忽略它
+    // 来自未知的源的内容，我们忽略它
     return;
   }
 
   alert( "received: " + event.data );
+
+  // 可以使用 event.source.postMessage(...) 向回发送消息
 });
 ```
 
-这里有完整的示例：
+完整示例：
 
 [codetabs src="postmessage" height=120]
 
-```smart header="There's no delay"
-`postMessage` 和 `message` 事件之间完全没有延迟。他们是同步的，甚至比 `setTimeout(...,0)` 还要快。
-```
-
 ## 总结
 
-为了获取另一个窗口的内容以及调用它的方法，首先我们需要获取它的引用。
+要调用另一个窗口的方法或者访问另一个窗口的内容，我们应该首先拥有对其的引用。
 
-对于弹出窗口我们有两个属性
-- `window.open` —— 弹出一个新的窗口并返回它的引用,
-- `window.opener` —— 在弹出窗口内获取打开它的窗口的引用。
+对于弹窗，我们有两个引用：
+- 从打开窗口的（opener）窗口：`window.open` —— 打开一个新的窗口，并返回对它的引用，
+- 从弹窗：`window.opener` —— 是从弹窗中对打开此弹窗的窗口（opener）的引用。
 
-对于 iframes 来说，我们可以使用以下方法获得父窗口或子窗口：
-- `window.frames` —— 一个嵌套的 window 对象集合
-- `window.parent`，`window.top` 是父窗口以及顶级窗口的引用
-- `iframe.contentWindow` 是 `<iframe>` 内网页的 window 对象。
+对于 iframe，我们可以使用以下方式访问父/子窗口：
+- `window.frames` —— 一个嵌套的 window 对象的集合，
+- `window.parent`，`window.top` 是对父窗口和顶级窗口的引用，
+- `iframe.contentWindow` 是 `<iframe>` 标签内的 window 对象。
 
-如果几个窗口的网页是同源的（域，端口，协议都相同），那么这几个窗口可以互相操作任何事情。
+如果几个窗口共享相同的源（域，端口，协议），那么这几个窗口可以彼此进行所需的操作。
 
-否则，只能做以下操作：
-- 修改另一个窗口的地址（并且只能修改，不能读取）
-- 对它发送一个消息
+否则，只能进行以下操作：
+- 更改另一个窗口的 `location`（只能写入）。
+- 向其发送一个消息。
 
-但也有一些例外情况：
+例外情况：
 - 对于二级域相同的页面：`a.site.com` 和 `b.site.com`。通过在它们的代码里执行 `document.domain='site.com'` 可以让他们处于"同源"状态。 
 - 如果 iframe 有 `sandbox` 属性，则会强制其处于"非同源"状态，除非在属性中指定了 `allow-same-origin`，这可可用于在同一网站的 iframe 中运行不受信任的代码。
-
 
 `postMessage` 接口允许两个窗口之间进行通信（要通过安全检查）：
 
