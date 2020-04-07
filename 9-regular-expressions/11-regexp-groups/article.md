@@ -209,7 +209,7 @@ alert(results[0]); // <h1>,h1 (1st tag)
 alert(results[1]); // <h2>,h2 (2nd tag)
 ```
 
-我们可以看到，第一个区别非常重要，如 `(*)` 行所示。我们无法获得 `results[0]` 的匹配内容，因为该对象不是伪数组。我们可以使用 `Array.from` 把它变成一个真正的 `Array`。在 Iterable（可迭代对象）<info:iterable>一文中有关于伪数组和可迭代对象的更多详细信息。
+我们可以看到，第一个区别非常重要，如 `(*)` 行所示。我们无法获得 `results[0]` 的匹配内容，因为该对象是伪数组。我们可以使用 `Array.from` 把它变成一个真正的 `Array`。在 Iterable（可迭代对象）<info:iterable>一文中有关于伪数组和可迭代对象的更多详细信息。
 
 如果我们不需要遍历结果，则 `Array.from` 没有必要：
 
