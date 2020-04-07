@@ -214,7 +214,7 @@ if (window == top) { // 当前 window == window.top?
 
 `sandbox` 特性（attribute）允许在 `<iframe>` 中禁止某些特定行为，以防止其执行不被信任的代码。它通过将 iframe 视为非同源的，或者应用其他限制来实现 iframe 的“沙盒化”。
 
-对于 `<iframe sandbox src="...">`，有一个些默认的限制。但是，我们可以通过提供一个以空格分隔的限制列表作为特性的值，来放宽这些限制，该列表中的各项为不应该应用于这个 iframe 的限制，例如：`<iframe sandbox="allow-forms allow-popups">`。
+对于 `<iframe sandbox src="...">`，有一个应用于其上的默认的限制集。但是，我们可以通过提供一个以空格分隔的限制列表作为特性的值，来放宽这些限制，该列表中的各项为不应该应用于这个 iframe 的限制，例如：`<iframe sandbox="allow-forms allow-popups">`。
 
 换句话说，一个空的 `"sandbox"` 特性会施加最严格的限制，但是我们用一个以空格分隔的列表，列出要移除的限制。
 
@@ -250,27 +250,29 @@ if (window == top) { // 当前 window == window.top?
 
 ## 跨窗口通信
 
-通过 `postMessage` 这个接口，我们可以在不同源的窗口内进行通信。
+`postMessage` 接口允许窗口之间相互通信，无论它们来自什么源。
 
-它有两个部分。
+因此，这是解决“同源”策略的方式之一。它允许来自于 `john-smith.com` 的窗口与来自于 `gmail.com` 的窗口进行通信，并交换信息，但前提是它们双方必须均同意并调用相应的 JavaScript 函数。这可以保护用户的安全。
+
+这个接口有两个部分。
 
 ### postMessage
 
-想要发送消息的窗口需要调用接收窗口的 [postMessage](mdn:api/Window.postMessage) 方法来传递消息。换句话说，如果我们想把消息发送到 `win`，我们应该调用 `win.postMessage(data, targetOrigin)`。
+想要发送消息的窗口需要调用接收窗口的 [postMessage](mdn:api/Window.postMessage) 方法。换句话说，如果我们想把消息发送给 `win`，我们应该调用 `win.postMessage(data, targetOrigin)`。
 
-这个接口有以下参数：
+参数：
 
 `data`
-: 要发送的数据。可以是任何对象，接口内部会使用"结构化克隆算法"将数据克隆一份。IE 只支持字符串，因此我们需要对复杂对象调用 `JSON.stringify` 以支持该浏览器
+: 要发送的数据。可以是任何对象，数据会被通过使用“结构化克隆算法”进行克隆。IE 浏览器只支持字符串，因此我们需要对复杂的对象调用 `JSON.stringify` 方法进行处理，以支持该浏览器。
 
 `targetOrigin`
-: 指定目标窗口的源，以确保只有来自指定源的窗口才能获得该消息。
+: 指定目标窗口的源，以便只有来自给定的源的窗口才能获得该消息。
 
-`targetOrigin` 是一种安全措施。请记住，如果目标窗口是非同源的，我们无法读取它的 `location`，因此我们就无法确认当前在预期的窗口中打开的是哪个站点：因为用户随时可以跳转走。
+`targetOrigin` 是一种安全措施。请记住，如果目标窗口是非同源的，我们无法在发送消息的窗口读取它的 `location`。因此，我们无法确定当前在预期的窗口中打开的是哪个网站：用户随时可以导航离开，并且发送消息的窗口对此一无所知。
 
-指定 `targetOrigin` 可以确保窗口内指定的网站还存在时才会接收数据。在有敏感数据时非常重要。
+指定 `targetOrigin` 可以确保窗口仅在当前仍处于正确的网站时接收数据。在有敏感数据时，这非常重要。
 
-举个例子：这里只有当 `win` 内的站点是 `http://example.com` 这个源时才会接收消息：
+例如，这里的 `win` 仅在它拥有来自 `http://example.com` 这个源的文档时，才会接收消息：
 
 ```html no-beautify
 <iframe src="http://example.com" name="example">
@@ -282,7 +284,7 @@ if (window == top) { // 当前 window == window.top?
 </script>
 ```
 
-如果我们不希望做这个检测，可以将 `targetOrigin` 设置为 `*`。
+如果我们不希望做这个检查，可以将 `targetOrigin` 设置为 `*`。
 
 ```html no-beautify
 <iframe src="http://example.com" name="example">
@@ -299,7 +301,7 @@ if (window == top) { // 当前 window == window.top?
 
 ### onmessage
 
-为了接收消息，目标窗口应该在 `message` 事件上增加一个处理函数。当 `postMessage` 被调用时这个事件会被触发（并且 `targetOrigin` 检查成功）。
+为了接收消息，目标窗口应该在 `message` 事件上有一个处理程序。当 `postMessage` 被调用时这个事件会被触发（并且 `targetOrigin` 检查成功）。
 
 这个事件的 event 对象有一些特殊属性：
 
@@ -356,13 +358,13 @@ window.addEventListener("message", function(event) {
 
 但也有一些例外情况：
 - 对于二级域相同的页面：`a.site.com` 和 `b.site.com`。通过在它们的代码里执行 `document.domain='site.com'` 可以让他们处于"同源"状态。 
-- 如果 iframe 有 `sandbox` 属性，则会强制其处于"非同源"状态，除非在属性中指定了 `allow-same-origin`，这可可用于在同一站点的 iframe 中运行不受信任的代码。
+- 如果 iframe 有 `sandbox` 属性，则会强制其处于"非同源"状态，除非在属性中指定了 `allow-same-origin`，这可可用于在同一网站的 iframe 中运行不受信任的代码。
 
 
 `postMessage` 接口允许两个窗口之间进行通信（要通过安全检查）：
 
 1. 发送方调用 `targetWin.postMessage(data, targetOrigin)`。
-2. 如果 `targetOrigin` 不是 `'*'`，那么浏览器会检测 `targetWin` 的链接地址
+2. 如果 `targetOrigin` 不是 `'*'`，那么浏览器会检查 `targetWin` 的链接地址
 3. 如果满足条件，`targetWin` 会触发 `message` 事件，并且有以下三个属性：
     - `origin` —— 发送方窗口的源（比如 `http://my.site.com`）
     - `source` —— 对发送窗口的引用
