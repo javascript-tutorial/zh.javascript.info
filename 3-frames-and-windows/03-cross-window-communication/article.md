@@ -2,7 +2,7 @@
 
 “同源（Same Origin）”策略限制了窗口（window）和 frame 之间的相互访问。
 
-这个想法出于这样的考虑，如果一个用户有两个打开的窗口：一个来自 `john-smith.com`，另一个是 `gmail.com`，那么用户将不希望 `john-smith.com` 的脚本可以读取 `gmail.com` 中的邮件。所以，“同源”策略的目的是保护用户免遭信息盗窃。
+这个想法出于这样的考虑，如果一个用户有两个打开的页面：一个来自 `john-smith.com`，另一个是 `gmail.com`，那么用户将不希望 `john-smith.com` 的脚本可以读取 `gmail.com` 中的邮件。所以，“同源”策略的目的是保护用户免遭信息盗窃。
 
 ## 同源 [#same-origin]
 
@@ -104,27 +104,27 @@
 
 ## 子域上的 window：document.domain
 
-在同源策略里有一个很重要的排除项。
+根据定义，两个具有不同域的 URL 具有不同的源。
 
-如果窗口有相同的二级域，比如 `john.site.com`，`peter.site.com` 和 `site.com`，我们可以使用 JavaScript 将 `document.domain` 设置为他们相同的二级域 `site.com`。此时这些窗口将被当做同源的站点对待。
+但是，如果窗口共享一个二级域，例如 `john.site.com`，`peter.site.com` 和 `site.com`（它们共同的二级域是 `site.com`），我们可以使浏览器忽略该差异，使得它们可以被作为“同源”的来对待，以便进行跨窗口通信。
 
-换句话说，所有的这些页面（包括来自 `site.com` 的页面）都添加这么一段代码：
+为了做到这一点，每个这样的窗口都应该执行下面这行代码：
 
 ```js
 document.domain = 'site.com';
 ```
 
-之后他们就可以无限制的互动了。
+这样就可以了。现在它们可以无限制地进行交互了。但是再强调一遍，这仅适用于具有相同二级域的页面。
 
-但是这仅适用于具有相同二级域的页面。
+## Iframe：错误文档陷阱
 
+当一个 iframe 来自同一个源时，我们可能会访问其 `document`，但是这里有一个陷阱。它与跨源无关，但你一定要知道。
 
+在创建 iframe 后，iframe 会立即就拥有了一个文档。但是该文档不同于加载到其中的文档！
 
-### 请等待 iframe 加载完成
+因此，如果我们要立即对文档进行操作，就可能出问题。
 
-创建 iframe 时，它立刻就会有一个 document，但是这个 document 与最终页面加载完成后的 document 是不同的。
-
-看一下代码：
+看一下下面这段代码：
 
 
 ```html run
@@ -135,19 +135,20 @@ document.domain = 'site.com';
   iframe.onload = function() {
     let newDoc = iframe.contentDocument;
 *!*
-    // 加载完后，document 和之前的已经不同了！
+    // 加载的文档与初始的文档不同！
     alert(oldDoc == newDoc); // false
 */!*
   };
 </script>
 ```
 
-对于新的开发者来言，这实际上是一个众所周知的陷阱。我们不应该立即使用这个 document，因为这个是错误的。我们在它上面增加的任何事件处理函数都将被忽略。
+我们不应该对尚未加载完成的 iframe 的文档进行处理，因为那是 **错误的文档**。如果我们在其上设置了任何事件处理程序，它们将会被忽略。
 
-...但是只有当 iframe 内的所有资源加载完后才会触发 `onload` 事件，如果我们希望更早的在嵌入文档的 `DOMContentLoaded` 上做操作怎么办？
+如果检测文档加载完成的时刻呢？
 
+正确的文档是在 `iframe.onload` 触发时就会。但是，只有在整个 iframe 的所有资源都加载完成时，`iframe.onload` 才会触发。
 
-如果 iframe 不是同源的，那就无法完成这件事。但是对于同源的 iframe 来说，我们可以尝试捕捉新文档出现的时机，然后设置必要的处理逻辑，如下所示：
+我们可以尝试通过在 `setInterval` 中进行检查，以更早地捕获该时刻：
 
 ```html run
 <iframe src="/" id="iframe"></iframe>
@@ -155,30 +156,26 @@ document.domain = 'site.com';
 <script>
   let oldDoc = iframe.contentDocument;
 
-  // 每 100ms 检测 document 是否是新的
-    let timer = setInterval(() => {
-    if (iframe.contentDocument == oldDoc) return;
+  // 每 100ms 检查一次文档是否为新文档
+  let timer = setInterval(() => {
+    let newDoc = iframe.contentDocument;
+    if (newDoc == oldDoc) return;
 
-    // 如果是新的，设置处理函数
-    iframe.contentDocument.addEventListener('DOMContentLoaded', () => {
-      iframe.contentDocument.body.prepend('Hello, world!');
-    });
+    alert("New document is here!");
 
-    clearInterval(timer); // 清空定时器
+    clearInterval(timer); // 取消 setInterval，不再需要它做任何事儿
   }, 100);
 </script>
 ```
 
-如果您对这个问题有更好的解决方案，请在评论中告诉我。
+## 集合：window.frames
 
-## window.frames
+获取 `<iframe>` 的 window 对象的另一个方式是从命名集合 `window.frames` 中获取：
 
-获取 `<iframe>` 窗口对象的另一个方式是从命名集合 `window.frames` 上获取：
+- 通过索引获取：`window.frames[0]` —— 文档中的第一个 iframe 的 window 对象。
+- 通过名称获取：`window.frames.iframeName` —— 获取 `name="iframeName"` 的 iframe 的 window 对象。
 
-- 通过索引获取：`window.frames[0]` —— 当前文档里第一个 iframe 的窗口。
-- 通过名称获取：`window.frames.iframeName` —— 获取 `name="iframeName"` 的 iframe 窗口。
-
-举个例子：
+例如：
 
 ```html run
 <iframe src="/" style="height:80px" name="win" id="iframe"></iframe>
@@ -189,35 +186,38 @@ document.domain = 'site.com';
 </script>
 ```
 
-一个 iframe 内可能嵌套了其他的 iframe，相应的 `window` 对象会也形成嵌套的层次结构（hierarchy）。
+一个 iframe 内可能嵌套了其他的 iframe。相应的 `window` 对象会形成一个层次结构（hierarchy）。
 
-可以通过以下方式获取引用：
+可以通过以下方式获取：
 
-- `window.frames` —— 子窗口的集合（用于嵌套的 iframe）。
-- `window.parent` —— 对"父"（外部）窗口的引用。
-- `window.top` —— 对最顶级父窗口的引用。
+- `window.frames` —— “子”窗口的集合（用于嵌套的 iframe）。
+- `window.parent` —— 对“父”（外部）窗口的引用。
+- `window.top` —— 对最顶级级父窗口的引用。
 
-举例：
+例如：
 
 ```js run
 window.frames[0].parent === window; // true
 ```
 
-我们可以使用 `top` 属性来检测当前的文档是否是在 iframe 内打开：
+我们可以使用 `top` 属性来检查当前的文档是否是在 iframe 内打开的：
 
 ```js run
-if (window == top) { // current window == window.top?
+if (window == top) { // 当前 window == window.top?
   alert('The script is in the topmost window, not in a frame');
 } else {
   alert('The script runs in a frame!');
 }
 ```
 
-## sandbox 属性
+## "sandbox" iframe 特性
 
-`sandbox` 属性允许在 `<iframe>` 中禁止某些特定操作，以避免执行一些不被信任的代码。它通过将它当做非同源的网页对待以及添加一些限制以实现 iframe 的沙盒化。
+`sandbox` 特性（attribute）允许在 `<iframe>` 中禁止某些特定行为，以防止其执行不被信任的代码。它通过将 iframe 视为非同源的，或者应用其他限制来实现 iframe 的“沙盒化”。
 
-默认情况下，对于 `<iframe sandbox src="...">`，会有一些"默认限制"被应用于 iframe。但是我们可以像 `<iframe sandbox="allow-forms allow-popups">` 这样，提供一个以空格分割的"排除"限制列表作为属性，此时被列出的限制将不会生效。
+对于 `<iframe sandbox src="...">` 有一个
+
+
+会有一些"默认限制"被应用于 iframe。但是我们可以像 `<iframe sandbox="allow-forms allow-popups">` 这样，提供一个以空格分割的"排除"限制列表作为属性，此时被列出的限制将不会生效。
 
 换句话说，一个空的 `"sandbox"` 可以带来最严格的限制，但是我们可以列出一个以空格分割的列表，列出我们想要提升的内容。
 
