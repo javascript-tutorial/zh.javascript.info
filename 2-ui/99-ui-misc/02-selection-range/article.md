@@ -550,7 +550,7 @@ button.onclick = () => {
 
 我们也可以使用 `setRangeText` 在“光标处”插入一些东西。
 
-这是一个按钮，按下后会在光标位置插入 `"HELLO"`，然后光标紧随其后。如果选择不为空，则将其替换（我们可以通过比较 `selectionStart!=selectionEnd` 来进行检测，为空则执行其他操作）：
+这是一个按钮，按下后会在光标位置插入 `"HELLO"`，然后光标紧随其后。如果选择不为空，则将其替换（我们可以通过比较 `selectionStart!=selectionEnd` 来进行检查，为空则执行其他操作）：
 
 ```html run autorun
 <input id="input" style="width:200px" value="Text Text Text Text Text">

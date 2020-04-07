@@ -125,7 +125,7 @@ elem.childNodes[0] === elem.firstChild
 elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 ```
 
-这里还有一个特别的函数 `elem.hasChildNodes()` 用于检测节点是否有子节点。
+这里还有一个特别的函数 `elem.hasChildNodes()` 用于检查节点是否有子节点。
 
 ### DOM 集合
 
