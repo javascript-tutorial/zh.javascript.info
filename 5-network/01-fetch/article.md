@@ -31,9 +31,9 @@ let promise = fetch(url, [options])
 
 获取响应通常需要经过两个阶段。
 
-**第一阶段，当服务器发送了响应头，`promise` 就使用其内建的 [Response](https://fetch.spec.whatwg.org/#response-class) 类来解析该对象。
+**第一阶段，当服务器发送了响应头，`promise` 就使用其内建的 [Response](https://fetch.spec.whatwg.org/#response-class) 类来解析该对象。**
 
-因此，我们可以通过检测 HTTP 状态来确定请求是否成功，或者当响应体还没有返回时，通过检查响应头来确定状态。
+因此，我们可以通过检查 HTTP 状态来确定请求是否成功，或者当响应体还没有返回时，通过检查响应头来确定状态。
 
 如果 `fetch` 无法建立一个 HTTP 请求，例如网络问题，亦或是请求的网址不存在，那么 promise 就返回 reject。HTTP 错误，即使是 404 或者 500，也被视为正常的过程。
 
