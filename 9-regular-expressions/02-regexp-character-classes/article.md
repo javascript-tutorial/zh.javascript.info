@@ -38,7 +38,7 @@ alert( str.match(regexp).join('') ); // 79035419441
 最常用的是：
 
 `pattern:\d`（"d" 来自 "digit"）
-: 数字：从0到9的字符。
+: 数字：从 `0` 到 `9` 的字符。
 
 `pattern:\s`（"s" 来自 "space"）
 : 空格符号：包括空格，制表符 `\t`，换行符 `\n` 和其他少数稀有字符，例如 `\v`，`\f` 和 `\r`。
@@ -71,7 +71,7 @@ alert( "I love HTML5!".match(/\s\w\w\w\w\d/) ); // ' HTML5'
 
 ## 反向类
 
-对于每个字符类，都有一个“反向类”，用相同的字母表示，但大写。
+对于每个字符类，都有一个“反向类”，用相同的字母表示，但要以大写书写形式。
 
 “反向”表示它与所有其他字符匹配，例如：
 
@@ -100,7 +100,7 @@ let str = "+7(903)-123-45-67";
 alert( str.replace(/\D/g, "") ); // 79031234567
 ```
 
-## 点是“任何字符”
+## 点（.）是匹配“任何字符”
 
 点 `pattern:.` 是一种特殊字符类，它与 “除换行符之外的任何字符” 匹配。
 
@@ -126,7 +126,7 @@ alert( "CS 4".match(regexp) ); // CS 4 (space is also a character)
 alert( "CS4".match(/CS.4/) ); // null, no match because there's no character for the dot
 ```
 
-### 点字面意义上是带有"s"标志的任何字符
+### 带有“s”标志时点字符类严格匹配任何字符
 
 默认情况下，点与换行符 `\n` 不匹配。
 
@@ -144,8 +144,8 @@ alert( "A\nB".match(/A.B/) ); // null (no match)
 alert( "A\nB".match(/A.B/s) ); // A\nB (match!)
 ```
 
-````warn header="不支持Firefox, IE, Edge"
-检查 <https://caniuse.com/#search=dotall> 以获得最新的支持状态。在撰写本文时，它不包括Firefox，IE，Edge。
+````warn header="不支持 Firefox、IE、Edge"
+使用前可从 <https://caniuse.com/#search=dotall> 确认以获得最新的支持状态。在撰写本文时，它不包括 Firefox、IE、Edge。
 
 幸运的是，有一种替代方法可以在任何地方使用。我们可以使用诸如 `pattern:[\s\S]` 之类的正则表达式来匹配“任何字符”。
 
@@ -163,13 +163,13 @@ alert( "A\nB".match(/A[\s\S]B/) ); // A\nB (match!)
 
 但是，如果正则表达式未考虑空格，则可能无法正常工作。
 
-让我们尝试查找由连字符分隔的数字：
+让我们尝试查找由连字符（-）分隔的数字：
 
 ```js run
 alert( "1 - 5".match(/\d-\d/) ); // null, no match!
 ```
 
-让我们修复它，在regexp模式中添加空格：\ d-\ d`：
+让我们修复一下，在正则表达式中添加空格：\ d-\ d`：
 
 ```js run
 alert( "1 - 5".match(/\d - \d/) ); // 1 - 5, now it works
@@ -200,4 +200,4 @@ alert( "1 - 5".match(/\d\s-\s\d/) ); // 1 - 5, also works
 
 JavaScript 用于字符串的 Unicode 编码提供了许多字符属性，例如：这个字母属于哪一种语言（如果它是一个字母）？它是标点符号吗？等等。
 
-我们也可以通过这些属性进行搜索。这需要标记 `pattern:u`，在下一篇文章中介绍。
+我们也可以通过这些属性进行搜索。这需要标志 `pattern:u`，在下一篇文章中介绍。
