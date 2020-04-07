@@ -155,19 +155,19 @@ let eventMixin = {
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
-      return; // 该事件名称没有对应的事件处理函数（handlers）
+      return; // 该事件名称没有对应的事件处理程序（handler）
     }
 
-    // 调用事件处理函数（handlers）
+    // 调用事件处理程序（handler）
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
 ```
 
 
-1. `.on(eventName, handler)` — 指定函数 `handler` 以在具有对应名称的事件发生时运行。从技术上讲，这儿有一个用于存储每个事件名称对应的处理函数（handlers）的 `_eventHandlers` 属性，在这儿该属性就会将刚刚指定的这个 `handler` 添加到列表中。
+1. `.on(eventName, handler)` — 指定函数 `handler` 以在具有对应名称的事件发生时运行。从技术上讲，这儿有一个用于存储每个事件名称对应的处理程序（handler）的 `_eventHandlers` 属性，在这儿该属性就会将刚刚指定的这个 `handler` 添加到列表中。
 2. `.off(eventName, handler)` — 从处理程序列表中删除指定的函数。
-3. `.trigger(eventName, ...args)` — 生成事件：所有 `_eventHandlers[eventName]` 中的事件处理函数（handlers）都被调用，并且 `...args` 会被作为参数传递给它们。
+3. `.trigger(eventName, ...args)` — 生成事件：所有 `_eventHandlers[eventName]` 中的事件处理程序（handler）都被调用，并且 `...args` 会被作为参数传递给它们。
 
 用法：
 
@@ -183,12 +183,12 @@ Object.assign(Menu.prototype, eventMixin);
 
 let menu = new Menu();
 
-// 添加一个事件处理函数（handler），在被选择时被调用：
+// 添加一个事件处理程序（handler），在被选择时被调用：
 *!*
 menu.on("select", value => alert(`Value selected: ${value}`));
 */!*
 
-// 触发事件 => 运行上述的事件处理函数（handler）并显示：
+// 触发事件 => 运行上述的事件处理程序（handler）并显示：
 // 被选中的值：123
 menu.choose("123");
 ```
