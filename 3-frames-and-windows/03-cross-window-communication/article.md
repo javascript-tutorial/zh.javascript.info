@@ -106,7 +106,7 @@
 
 根据定义，两个具有不同域的 URL 具有不同的源。
 
-但是，如果窗口共享一个二级域，例如 `john.site.com`，`peter.site.com` 和 `site.com`（它们共同的二级域是 `site.com`），我们可以使浏览器忽略该差异，使得它们可以被作为“同源”的来对待，以便进行跨窗口通信。
+但是，如果窗口的二级域相同，例如 `john.site.com`，`peter.site.com` 和 `site.com`（它们共同的二级域是 `site.com`），我们可以使浏览器忽略该差异，使得它们可以被作为“同源”的来对待，以便进行跨窗口通信。
 
 为了做到这一点，每个这样的窗口都应该执行下面这行代码：
 
@@ -348,23 +348,23 @@ window.addEventListener("message", function(event) {
 - `window.parent`，`window.top` 是对父窗口和顶级窗口的引用，
 - `iframe.contentWindow` 是 `<iframe>` 标签内的 window 对象。
 
-如果几个窗口共享相同的源（域，端口，协议），那么这几个窗口可以彼此进行所需的操作。
+如果几个窗口的源相同（域，端口，协议），那么这几个窗口可以彼此进行所需的操作。
 
 否则，只能进行以下操作：
 - 更改另一个窗口的 `location`（只能写入）。
-- 向其发送一个消息。
+- 向其发送一条消息。
 
 例外情况：
-- 对于二级域相同的页面：`a.site.com` 和 `b.site.com`。通过在它们的代码里执行 `document.domain='site.com'` 可以让他们处于"同源"状态。 
-- 如果 iframe 有 `sandbox` 属性，则会强制其处于"非同源"状态，除非在属性中指定了 `allow-same-origin`，这可可用于在同一网站的 iframe 中运行不受信任的代码。
+- 对于二级域相同的窗口：`a.site.com` 和 `b.site.com`。通过在这些窗口中均设置 `document.domain='site.com'`，可以使它们处于“同源”状态。 
+- 如果一个 iframe 具有 `sandbox` 特性（attribute），则它会被强制处于“非同源”状态，除非在其特性值中指定了 `allow-same-origin`。这可用于在同一网站的 iframe 中运行不受信任的代码。
 
-`postMessage` 接口允许两个窗口之间进行通信（要通过安全检查）：
+`postMessage` 接口允许两个具有任何源的窗口之间进行通信：
 
 1. 发送方调用 `targetWin.postMessage(data, targetOrigin)`。
-2. 如果 `targetOrigin` 不是 `'*'`，那么浏览器会检查 `targetWin` 的链接地址
-3. 如果满足条件，`targetWin` 会触发 `message` 事件，并且有以下三个属性：
-    - `origin` —— 发送方窗口的源（比如 `http://my.site.com`）
-    - `source` —— 对发送窗口的引用
-    - `data` —— 数据，除 IE 只支持字符串意外，其余浏览器都是对象。
+2. 如果 `targetOrigin` 不是 `'*'`，那么浏览器会检查窗口 `targetWin` 是否具有源 `targetOrigin`。
+3. 如果它具有，`targetWin` 会触发具有特殊的属性的 `message` 事件：
+    - `origin` —— 发送方窗口的源（比如 `http://my.site.com`）。
+    - `source` —— 对发送方窗口的引用。
+    - `data` —— 数据，可以是任何对象。但是 IE 浏览器只支持字符串，因此我们需要对复杂的对象调用 `JSON.stringify` 方法进行处理，以支持该浏览器。
 
-    我们应该使用 `addEventListener` 在目标窗口监听这个事件。
+    我们应该使用 `addEventListener` 来在目标窗口中设置 `message` 事件的处理程序。
