@@ -172,9 +172,9 @@ function pow() {
 
 除此之外，还有一个规范值得遵循。
 
-**一个测试检测一个东西。**
+**一个测试检查一个东西。**
 
-如果我们在看测试代码的时候，发现在其中有两个相互独立的检测 —— 最好将它拆分成两个更简单的检测。
+如果我们在看测试代码的时候，发现在其中有两个相互独立的检查 —— 最好将它拆分成两个更简单的检查。
 
 因此让我们继续使用第二种方式。
 
@@ -336,12 +336,12 @@ describe("pow", function() {
 新加的测试失败了，因为我们的实现方式是不支持它们的。这就是 BDD 的做法：我们首先写一些暂时无法通过的测试，然后去实现它们。
 
 ```smart header="Other assertions"
-请注意断言语句 `assert.isNaN`：它用来检测 `NaN`。
+请注意断言语句 `assert.isNaN`：它用来检查 `NaN`。
 
 在 [Chai](http://chaijs.com) 中也有其他的断言，例如：
 
-- `assert.equal(value1, value2)` —— 检测相等 `value1 == value2`。
-- `assert.strictEqual(value1, value2)` —— 检测严格相等 `value1 === value2`。
+- `assert.equal(value1, value2)` —— 检查相等 `value1 == value2`。
+- `assert.strictEqual(value1, value2)` —— 检查严格相等 `value1 === value2`。
 - `assert.notEqual`，`assert.notStrictEqual` —— 执行和上面相反的检查。
 - `assert.isTrue(value)` —— 检查 `value === true`。
 - `assert.isFalse(value)` —— 检查 `value === false`。
