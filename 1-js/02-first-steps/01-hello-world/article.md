@@ -41,15 +41,15 @@ JavaScript 程序可以在 `<script>` 标签的帮助下插入到 HTML 文档的
 `<script>` 标签中包裹了 JavaScript 代码，当浏览器遇到 `<script>` 标签，代码会自动运行。
 
 
-## 现代的标记
+## 现代的标记（markup）
 
-`<script>` 标签有一些现在很少用到的属性，但是我们可以在老代码中找到它们：
+`<script>` 标签有一些现在很少用到的特性（attribute），但是我们可以在老代码中找到它们：
 
-`type` 属性：<code>&lt;script <u>type</u>=...&gt;</code>
-: 在老的 HTML4 标准中，要求 script 标签有 `type` 属性。通常是 `type="text/javascript"`。这样的属性声明现在已经不再需要。而且，现代 HTML 标准 —— HTML5 已经完全改变了此属性的实际含义。现在，该属性可以被用于 JavaScript 模块。但那是一个高级一点的话题，我们将会在此教程的其他章节中探讨 JavaScript 模块。
+`type` 特性：<code>&lt;script <u>type</u>=...&gt;</code>
+: 在老的 HTML4 标准中，要求 script 标签有 `type` 特性。通常是 `type="text/javascript"`。这样的特性声明现在已经不再需要。而且，现代 HTML 标准已经完全改变了此特性的含义。现在，它可以用于 JavaScript 模块。但这是一个高级话题，我们将在本教程的另一部分中探讨 JavaScript 模块。
 
-`language` 属性：<code>&lt;script <u>language</u>=...&gt;</code>
-: 这个属性是为了显示脚本使用的语言。这个属性现在已经没有任何意义，因为语言默认就是 JavaScript。不再需要使用它了。
+`language` 特性：<code>&lt;script <u>language</u>=...&gt;</code>
+: 这个特性是为了显示脚本使用的语言。这个特性现在已经没有任何意义，因为语言默认就是 JavaScript。不再需要使用它了。
 
 脚本前后的注释。
 : 在非常古老的书籍和指南中，你可能会在 `<script>` 标签里面找到注释，就像这样：
@@ -67,13 +67,13 @@ JavaScript 程序可以在 `<script>` 标签的帮助下插入到 HTML 文档的
 
 如果你有大量的 JavaScript 代码，我们可以将它放入一个单独的文件。
 
-脚本文件可以通过 `src` 属性添加到 HTML 文件中。
+脚本文件可以通过 `src` 特性（attribute）添加到 HTML 文件中。
 
 ```html
 <script src="/path/to/script.js"></script>
 ```
 
-这里，`/path/to/script.js` 是脚本文件从站点根目录开始的绝对路径。当然也可以提供当前页面的相对路径。例如，`src ="script.js"` 表示当前文件夹中的 `"script.js"` 文件。
+这里，`/path/to/script.js` 是脚本文件从网站根目录开始的绝对路径。当然也可以提供当前页面的相对路径。例如，`src ="script.js"` 表示当前文件夹中的 `"script.js"` 文件。
 
 我们也可以提供一个完整的 URL 地址，例如：
 
@@ -92,15 +92,15 @@ JavaScript 程序可以在 `<script>` 标签的帮助下插入到 HTML 文档的
 ```smart
 一般来说，只有最简单的脚本才嵌入到 HTML 中。更复杂的脚本存放在单独的文件中。
 
-使用独立文件的好处是浏览器会下载它，然后将它保存到浏览器的[缓存](https://en.wikipedia.org/wiki/Web_cache)中。
+使用独立文件的好处是浏览器会下载它，然后将它保存到浏览器的 [缓存](https://en.wikipedia.org/wiki/Web_cache) 中。
 
 之后，其他页面想要相同的脚本就会从缓存中获取，而不是下载它。所以文件实际上只会下载一次。
 
 这可以节省流量，并使得页面（加载）更快。
 ```
 
-````warn header="如果设置了 `src` 属性，`script` 标签内容将会被忽略。"
-一个单独的 `<script>` 标签不能同时有 `src` 属性和内部包裹的代码。
+````warn header="如果设置了 `src` 特性，`script` 标签内容将会被忽略。"
+一个单独的 `<script>` 标签不能同时有 `src` 特性和内部包裹的代码。
 
 这将不会工作：
 
@@ -125,7 +125,7 @@ JavaScript 程序可以在 `<script>` 标签的帮助下插入到 HTML 文档的
 ## 总结
 
 - 我们可以使用一个 `<script>` 标签将 JavaScript 代码添加到页面中。
-- `type` 和 `language` 属性不是必需的。
+- `type` 和 `language` 特性（attribute）不是必需的。
 - 外部的脚本可以通过 `<script src="path/to/script.js"></script>` 的方式插入。
 
 

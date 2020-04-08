@@ -1,13 +1,13 @@
 
-# Template element
+# 模板元素
 
-A built-in `<template>` element serves as a storage for HTML markup templates. The browser ignores it contents, only checks for syntax validity, but we can access and use it in JavaScript, to create other elements.
+内建的 `<template>` 元素用来存储 HTML 模板。浏览器将忽略它的内容，仅检查语法的有效性，但是我们可以在 JavaScript 中访问和使用它来创建其他元素。
 
-In theory, we could create any invisible element somewhere in HTML for HTML markup storage purposes. What's special about `<template>`?
+从理论上讲，我们可以在 HTML 中的任何位置创建不可见元素来储存 HTML 模板。那 `<template>` 元素有什么优势？
 
-First, its content can be any valid HTML, even if it normally requires a proper enclosing tag.
+首先，其内容可以是任何有效的HTML，即使它通常需要特定的封闭标签。
 
-For example, we can put there a table row `<tr>`:
+例如，我们可以在其中放置一行表格 `<tr>` ：
 ```html
 <template>
   <tr>
@@ -16,9 +16,9 @@ For example, we can put there a table row `<tr>`:
 </template>
 ```
 
-Usually, if we try to put `<tr>` inside, say, a `<div>`, the browser detects the invalid DOM structure and "fixes" it, adds `<table>` around. That's not what we want. On the other hand, `<template>` keeps exactly what we place there.
+通常，如果我们在 `<tr>` 内放置类似 `<div>` 的元素，浏览器会检测到无效的 DOM 结构并对其进行“修复”，然后用 `<table>` 封闭 `<tr>` ，那不是我们想要的。而 `<template>` 则完全保留我们储存的内容。
 
-We can put styles and scripts into `<template>` as well:
+我们也可以将样式和脚本放入 `<template>` 元素中：
 
 ```html
 <template>
@@ -31,17 +31,17 @@ We can put styles and scripts into `<template>` as well:
 </template>
 ```
 
-The browser considers `<template>` content "out of the document": styles are not applied, scripts are not executed, `<video autoplay>` is not run, etc.
+浏览器认为 `<template>` 的内容“不在文档中”：样式不会被应用，脚本也不会被执行， `<video autoplay>` 也不会运行，等。
 
-The content becomes live (styles apply, scripts run etc) when we insert it into the document.
+当我们将内容插入文档时，该内容将变为活动状态（应用样式，运行脚本等）。
 
-## Inserting template
+## 插入模板
 
-The template content is available in its `content` property as a [DocumentFragment](info:modifying-document#document-fragment) -- a special type of DOM node.
+模板的 `content` 属性可看作[DocumentFragment](info:modifying-document#document-fragment) —— 一种特殊的 DOM 节点。
 
-We can treat it as any other DOM node, except one special property: when we insert it somewhere, its children are inserted instead.
+我们可以将其视为普通的DOM节点，除了它有一个特殊属性：将其插入某个位置时，会被插入的则是其子节点。
 
-For example:
+例如：
 
 ```html run
 <template id="tmpl">
@@ -64,7 +64,7 @@ For example:
 </script>
 ```
 
-Let's rewrite a Shadow DOM example from the previous chapter using `<template>`:
+让我们用 `<template>` 重写上一章的 Shadow DOM 示例：
 
 ```html run untrusted autorun="no-epub" height=60
 <template id="tmpl">
@@ -87,9 +87,9 @@ Let's rewrite a Shadow DOM example from the previous chapter using `<template>`:
 </script>
 ```
 
-In the line `(*)` when we clone and insert `tmpl.content`, as it's `DocumentFragment`, its children (`<style>`, `<p>`) are inserted instead.
+在 `(*)` 行，我们将 `tmpl.content` 作为 `DocumentFragment` 克隆和插入，它的子节点（`<style>`，`<p>`）将代为插入。
 
-They form the shadow DOM:
+它们会变成一个 Shadow DOM：
 
 ```html
 <div id="elem">
@@ -99,18 +99,18 @@ They form the shadow DOM:
 </div>
 ```
 
-## Summary
+## 总结
 
-To summarize:
+总结一下：
 
-- `<template>` content can be any syntactically correct HTML.
-- `<template>` content is considered "out of the document", so it doesn't affect anything.
-- We can access `template.content` from JavaScript, clone it to reuse in a new component.
+* `<template>` 的内容可以是任何语法正确的 HTML。
+* `<template> ` 内容被视为“超出文档范围”，因此它不会产生任何影响。
+* 我们可以在JavaScript 中访问 `template.content` ，将其克隆以在新组件中重复使用。
 
-The `<template>` tag is quite unique, because:
+`<template>` 标签非常独特，因为：
 
-- The browser checks HTML syntax inside it (as opposed to using a template string inside a script).
-- ...But still allows to use any top-level HTML tags, even those that don't make sense without proper wrappers (e.g. `<tr>`).
-- The content becomes interactive: scripts run, `<video autoplay>` plays etc, when inserted into the document.
+* 浏览器将检查其中的HTML语法（与在脚本中使用模板字符串不同）。
+* 但允许使用任何顶级 HTML 标签，即使没有适当包装元素的无意义的元素（例如 `<tr>` ）。
+* 其内容是交互式的：插入其文档后，脚本会运行， `<video autoplay>` 会自动播放。
 
-The `<template>` element does not feature any iteration mechanisms, data binding or variable substitutions, but we can implement those on top of it.
+`<template>` 元素不具有任何迭代机制，数据绑定或变量替换的功能，但我们可以在其基础上实现这些功能。

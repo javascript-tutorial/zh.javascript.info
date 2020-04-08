@@ -1,14 +1,14 @@
-# 查找颜色，格式为 #abc 或 #abcdef
+# Find color in the format #abc or #abcdef
 
-编写一个正则来匹配 `#abc` 或 `#abcdef` 格式的颜色。即：`#` 后接三位或六位 16 进制数。
+Write a RegExp that matches colors in the format `#abc` or `#abcdef`. That is: `#` followed by 3 or 6 hexadecimal digits.
 
-使用案例：
+Usage example:
 ```js
-let reg = /your regexp/g;
+let regexp = /your regexp/g;
 
 let str = "color: #3f3; background-color: #AA00ef; and: #abcd";
 
-alert( str.match(reg) ); // #3f3 #AA0ef
+alert( str.match(regexp) ); // #3f3 #AA00ef
 ```
 
-注：必须为三位或六位，`#abcd` 这种不应该被匹配。
+P.S. This should be exactly 3 or 6 hex digits. Values with 4 digits, such as `#abcd`, should not match.

@@ -24,11 +24,11 @@
 
 ![](chrome-tabs.svg)
 
-在这里我们可以看到三个区域：
+资源（Sources）面板包含三个部分：
 
-1. **资源区域（resources zone）** 列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
-2. **源码区域（source zone）** 展示源码。
-3. **信息和控制区域（Information and control zone）** 是用来调试的，我们很快就会来探索它。
+1. **文件浏览（File Navigator）** 区域列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
+2. **代码编辑（Code Editor）** 区域展示源码。
+3. **JavaScript 调试（JavaScript Debugging）** 区域是用于调试的，我们很快就会来探索它。
 
 现在你可以再次点击切换按钮 <span class="devtools" style="background-position:-172px -122px"></span> 隐藏资源列表来给代码腾出一些空间。
 
@@ -134,7 +134,7 @@ function hello(name) {
 
     一次接一次地点击此按钮，整个脚本的所有语句会被逐个执行。
 
-<span class="devtools" style="background-position:-62px -192px"></span> -- “跨步（Step over）”：运行下一条指令，但 **不会进入到一个函数中**，快捷键 `key:F10`。
+<span class="devtools" style="background-position:-62px -192px"></span> —— “跨步（Step over）”：运行下一条指令，但 **不会进入到一个函数中**，快捷键 `key:F10`。
 : 跟上一条命令“下一步（Step）”类似，但如果下一条语句是函数调用则表现不同。这里的函数指的是：不是内置的如 `alert` 函数等，而是我们自己写的函数。
 
     “下一步（Step）”命令进入函数内部并在第一行暂停执行，而“跨步（Step over）”在无形中执行函数调用，跳过了函数的内部。
@@ -146,9 +146,9 @@ function hello(name) {
 <span class="devtools" style="background-position:-4px -194px"></span> —— “步入（Step into）”，快捷键 `key:F11`。
 : 和“下一步（Step）”类似，但在异步函数调用情况下表现不同。如果你刚刚才开始学 JavaScript，那么你可以先忽略此差异，因为我们还没有用到异步调用。
 
-    至于以后，请记住“下一步（Step）”命令会忽略异步方法，例如 `setTimeout`（约定的函数调用），它会过一段时间后再执行。而“步入（Step into）”会进入到代码中并等待（如果需要）。浏览 [DevTools 手册](https://developers.google.com/web/updates/2018/01/devtools#async) 获取更多细节。
+    至于之后，只需要记住“下一步（Step）”命令会忽略异步行为，例如 `setTimeout`（计划的函数调用），它会过一段时间再执行。而“步入（Step into）”会进入到代码中并等待（如果需要）。详见 [DevTools 手册](https://developers.google.com/web/updates/2018/01/devtools#async)。
 
-<span class="devtools" style="background-position:-104px -76px"></span> —— “步出（Step out）”：继续执行到当前函数的末尾，快捷键 `key:Shift+F11`。
+<span class="devtools" style="background-position:-32px -194px"></span> —— “步出（Step out）”：继续执行到当前函数的末尾，快捷键 `key:Shift+F11`。
 : 继续执行代码并停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-200px -190px"></span> 偶然地进入到一个嵌套调用，但是我们又对这个函数不感兴趣时，我们想要尽可能的继续执行到最后的时候是非常方便的。
 
 <span class="devtools" style="background-position:-61px -74px"></span> —— 启用/禁用所有的断点。
@@ -157,8 +157,8 @@ function hello(name) {
 <span class="devtools" style="background-position:-264px -4px"></span> —— 启用/禁用出现错误时自动暂停脚本执行。
 : 当启动此功能并且开发者工具是打开着的时候，任何一个脚本的错误都会导致该脚本执行自动暂停。然后我们可以分析变量来看一下什么出错了。因此如果我们的脚本因为错误挂掉的时候，我们可以打开调试器，启用这个选项然后重载页面，查看一下哪里导致它挂掉了和当时的上下文是什么。
 
-```smart header="继续到这"
-在代码中的某一行上右键，在显示的关联菜单（context menu）中点击一个非常有用的名为“继续到这里（Continue to here）”的选项。
+```smart header="Continue to here"
+在代码中的某一行上右键，在显示的关联菜单（context menu）中点击一个非常有用的名为 "Continue to here" 的选项。
 
 当你想要向前移动很多步到某一行为止，但是又懒得设置一个断点时非常的方便。
 ```

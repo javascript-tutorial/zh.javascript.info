@@ -1,36 +1,36 @@
 
-# 异步迭代器（iterators）与生成器（generators）
+# Async iterator 和 generator
 
-异步迭代器可以迭代异步请求得到的数据。例如，我们从网络分段（chunk-by-chunk）下载的数据。异步迭代器使这一步骤更加方便。
+异步迭代器（iterator）允许我们对按需通过异步请求而得到的数据进行迭代。例如，我们通过网络分段（chunk-by-chunk）下载数据时。异步生成器（generator）使这一步骤更加方便。
 
-首先，让我们来看一个简单的示例来掌握语法，然后再去看一些实际的用子。
+首先，让我们来看一个简单的示例以掌握语法，然后再看一个实际用例。
 
-## 异步迭代器
+## Async iterator
 
-异步迭代器与常规的迭代器相似，不过语法上有一点区别。
+异步迭代器（async iterator）与常规的迭代器类似，不过语法上有一点区别。
 
-一个“常规的”可迭代对象，即我们在 <info:iterable> 章节中提到的，是这样的：
+一个“常规的”可迭代对象，即我们在 <info:iterable> 一章中提到的，看起来像这样：
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  // 使用 for..of 语句的时候就会调用一次这个方法
+  // 在刚使用 for..of 循环时，for..of 就会调用一次这个方法
 *!*
   [Symbol.iterator]() {
 */!*
-    // ……它返回一个 iterator 对象：
-    // 进一步说, for..of 只能作用于可迭代对象,
-    // 使用 next() 方法获取下一个 values
+    // ...它返回 iterator object：
+    // 后续的操作中，for..of 将只针对这个对象
+    // 并使用 next() 向它请求下一个值
     return {
       current: this.from,
       last: this.to,
 
-      // next() 被 for..of 循环在每一次迭代过程中调用 
+      // for..of 循环在每次迭代时都会调用 next()
 *!*
       next() { // (2)
-        // 它应该返回一个类似 {done:.., value :...} 的对象
+        // 它应该以对象 {done:.., value :...} 的形式返回值
 */!*
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
@@ -43,13 +43,13 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+  alert(value); // 1，然后 2，然后 3，然后 4，然后 5
 }
 ```
 
-有需要的话，你可以返回关于 <info:iterable> 的章节查看常规的迭代器的详细内容。
+有需要的话，你可以返回 <info:iterable> 一章学习关于常规迭代器（iterator）的详细内容。
 
-为了使对象可以异步地迭代：
+为了使对象可以异步迭代：
 1. 我们需要使用 `Symbol.asyncIterator` 取代 `Symbol.iterator`。
 2. `next()` 方法应该返回一个 `promise`。
 3. 我们应该使用 `for await (let item of iterable)` 循环来迭代这样的对象
@@ -61,26 +61,26 @@ let range = {
   from: 1,
   to: 5,
 
-  // 使用 for await..of 语句的时候就会调用一次这个方法
+  // 在刚使用 for await..of 循环时，for await..of 就会调用一次这个方法
 *!*
   [Symbol.asyncIterator]() { // (1)
 */!*
-    // ……它返回一个迭代器对象：
-    // 进一步说, for await..of 只能作用于可迭代对象,
-    // 使用 next() 方法得到下一个值
+    // ...它返回 iterator object：
+    // 后续的操作中，for await..of 将只针对这个对象
+    // 并使用 next() 向它请求下一个值
     return {
       current: this.from,
       last: this.to,
 
-      // next() 被 for await..of 循环在每一次迭代过程中调用 
+      // for await..of 循环在每次迭代时都会调用 next()
 *!*
       async next() { // (2)
-        // 它应该返回一个形如  {done:.., value :...} 的对象
-        // (会被 async 关键字自动包装成一个 promise)
+        // 它应该以对象 {done:.., value :...} 的形式返回值
+        // (会被 async 自动包装成一个 promise)
 */!*
 
 *!*
-        // 可以在内部使用 await 关键字来执行异步任务:
+        // 可以在内部使用 await，执行异步任务：
         await new Promise(resolve => setTimeout(resolve, 1000)); // (3)
 */!*
 
@@ -105,38 +105,37 @@ let range = {
 })()
 ```
 
-正如我们看到的，其结构类似于常规的 iterators:
+正如我们所看到的，其结构与常规的 iterator 类似:
 
-1. 为了异步地迭代一个对象，这个对象必须有 `Symbol.asyncIterator` 方法 `(1)`。
-2. 这个方法必须返回一个带有 `next()` 方法的对象，该方法会返回一个 promise `(2)`。
-3. 这个 `next()` 方法可以不使用 `async` 关键字，它可以是一个常规的方法返回一个 `promise`，但是使用 `async` 关键字允许在方法内部使用 `await`，所以会更加方便。这里我们只是用来延迟 1 秒操作 `(3)`。
-4. 我们使用 `for await(let value of range)` 来执行迭代 `(4)`，也就是在 `for` 后面增加 `await`。它会调用一次 `range[Symbol.asyncIterator]()` 方法一次然后调用它的 `next()` 方法获取值。
+1. 为了使一个对象可以异步迭代，它必须具有方法 `Symbol.asyncIterator` `(1)`。
+2. 这个方法必须返回一个带有 `next()` 方法的对象，`next()` 方法会返回一个 promise `(2)`。
+3. 这个 `next()` 方法可以不是 `async` 的，它可以是一个返回值是一个 `promise` 的常规的方法，但是使用 `async` 关键字可以允许我们在方法内部使用 `await`，所以会更加方便。这里我们只是用于延迟 1 秒的操作 `(3)`。
+4. 我们使用 `for await(let value of range)` `(4)` 来进行迭代，也就是在 `for` 后面添加 `await`。它会调用一次 `range[Symbol.asyncIterator]()` 方法一次，然后调用它的 `next()` 方法获取值。
   
-这里有一个备忘单：
+这是一个小备忘单：
 
-|       | 迭代器 | 异步迭代器 |
+|       | Iterator  | Async iterator |
 |-------|-----------|-----------------|
-| 提供 `iterator` 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` 返回的值是             | 任意值        | `Promise`  |
-| 使用的循环语法是                          | `for..of`         | `for await..of` |
+| 提供 iterator 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` 返回的值是     | 任意值             | `Promise` |
+| 要进行循环，使用         | `for..of`         | `for await..of` |
 
+````warn header="Spread 语法 `...` 无法异步工作"
+需要常规的同步 iterator 的功能，无法与异步 iterator 一起使用。
 
-````warn header="展开运算符 `...` 无法执行异步操作"
-展开运算符要求常规的，同步的迭代器，无法工作于异步迭代器。
-
-例如，展开运算符在以下代码无法执行：
+例如，spread 语法无法工作：
 ```js
 alert( [...range] ); // Error, no Symbol.iterator
 ```
 
-这很正常，因为它要找到 `Symbol.iterator`，跟 `for..of` 没有 `await` 一样。并非是 `Symbol.asyncIterator`。
+这很正常，因为它期望找到 `Symbol.iterator`，跟 `for..of` 没有 `await` 一样。并非 `Symbol.asyncIterator`。
 ````
 
-## 异步生成器
+## Async generator
 
-正如我们所知，JavaScript 也支持生成器，并且他们也是可迭代的。
+正如我们所知，JavaScript 也支持生成器（generator），并且它们也是可迭代的。
 
-让我们来回顾一下生成器所在的章节 <info:generators>。它从 `start` 到 `end` 生成了一系列的值：
+让我们回顾一下 <info:generators> 一章的序列生成器（generator）。它生成从 `start` 到 `end` 的一系列值：
 
 ```js run
 function* generateSequence(start, end) {
@@ -146,15 +145,15 @@ function* generateSequence(start, end) {
 }
 
 for(let value of generateSequence(1, 5)) {
-  alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+  alert(value); // 1，然后 2，然后 3，然后 4，然后 5
 }
 ```
 
-在常规的生成器中，我们无法使用 `await`，所有的值都必须同步获得：无法在 `for..of` 循环中延迟执行，这是一个同步的结构。
+在常规的 generator 中，我们无法使用 `await`。所有的值都必须同步获得：`for..of` 中没有延时的地方，它是一个同步结构。
 
-但如果我们在 `generator` 内使用 `await` 呢？我们可以以网络请求为例子。
+但是，如果我们需要在 `generator` 内使用 `await` 该怎么办呢？我们以执行网络请求为例子。
 
-很简单，只需要在前面加上 `async`，就像这样：
+没问题，只需要在它前面加上 `async` 即可，就像这样：
 
 ```js run
 *!*async*/!* function* generateSequence(start, end) {
@@ -162,7 +161,7 @@ for(let value of generateSequence(1, 5)) {
   for (let i = start; i <= end; i++) {
 
 *!*
-    // 很好，可以使用 await!
+    // 耶，可以使用 await 了！
     await new Promise(resolve => setTimeout(resolve, 1000));
 */!*
 
@@ -175,27 +174,27 @@ for(let value of generateSequence(1, 5)) {
 
   let generator = generateSequence(1, 5);
   for *!*await*/!* (let value of generator) {
-    alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+    alert(value); // 1，然后 2，然后 3，然后 4，然后 5
   }
 
 })();
 ```
 
-现在，我们有了 `async generator`，可以使用 `for await...of` 迭代。
+现在，我们有了 async generator，可以使用 `for await...of` 进行迭代。
 
-这确实非常简单。我们加了 `async` 关键字，然后我们就能在 生成器内部使用 `await`，依赖于 `promise` 和其他异步函数。
+这确实非常简单。我们加了 `async` 关键字，然后我们就能在 generator 内部使用 `await` 了，依赖于 `promise` 和其他异步函数。
 
-从技术上来讲，异步生成器的另一个不同之处在于，它的 `generatr.next()` 方法现在也是异步地，它返回 promises。
+从技术上来讲，async generator 的另一个不同之处在于，它的 `generatr.next()` 方法现在也是异步的，它返回 promise。
 
-在一个常规的 `generator` 中，我们使用 `result = generator.next()` 来获得值。但在一个 `async generator` 中，我们应该添加 `await` 关键字，如下：
+在一个常规的 generator 中，我们使用 `result = generator.next()` 来获得值。但在一个 `async generator` 中，我们应该添加 `await` 关键字，像这样：
 
 ```js
 result = await generator.next(); // result = {value: ..., done: true/false}
 ```
 
-## 异步可迭代对象
+## Async iterable
 
-如我们所知道的，要是一个对象可迭代，我们需要给它添加 `Symbol.iterator`。
+正如我们所知道的，要使一个对象可迭代，我们需要给它添加 `Symbol.iterator`。
 
 ```js
 let range = {
@@ -209,16 +208,16 @@ let range = {
 }
 ```
 
-对于 `Symbol.iterator` 来说，一个通常的做法是返回一个 `generator`，这好过返回一个带有 `next()` 方法的简单对象。
+对于 `Symbol.iterator` 来说，一个通常的做法是返回一个 generator，而不是像前面的例子中那样返回一个带有 `next()` 方法的普通对象。
 
-让我们来回想一下之前 [](info:generators) 章节中的一个示例：
+让我们回顾一下来自之前 [](info:generators) 一章中的一个示例：
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  *[Symbol.iterator]() { // 是 [Symbol.iterator]: function*() 的简写
+  *[Symbol.iterator]() { // [Symbol.iterator]: function*() 的简写形式
     for(let value = this.from; value <= this.to; value++) {
       yield value;
     }
@@ -226,13 +225,13 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+  alert(value); // 1，然后 2，然后 3，然后 4，然后 5
 }
 ```
 
-这有一个自定义对象 `range` 是可迭代的，并且它的生成器 `*[Symbol.iterator]` 实现了列出所有值的逻辑。
+这有一个自定义的对象 `range`，它是可迭代的，并且它的 generator `*[Symbol.iterator]` 实现了列出值的逻辑。
 
-如果们想要给 `generator` 加上异步操作，那么我们应该将 `Symbol.iterator` 带换成异步的 `Symbol.asyncIterator`：
+如果们想要给 generator 加上异步行为，那么我们应该将 `Symbol.iterator` 替换成异步的 `Symbol.asyncIterator`：
 
 ```js run
 let range = {
@@ -244,7 +243,7 @@ let range = {
 */!*
     for(let value = this.from; value <= this.to; value++) {
 
-      // 在获得 value 之间暂停，执行其他任务 
+      // 在 value 之间暂停一会儿，等待一些东西
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       yield value;
@@ -255,39 +254,39 @@ let range = {
 (async () => {
 
   for *!*await*/!* (let value of range) {
-    alert(value); // 弹出 1, 然后 2, 然后 3, 然后 4, 然后 5
+    alert(value); // 1，然后 2，然后 3，然后 4，然后 5
   }
 
 })();
 ```
 
-现在 `value` 都是延迟 1 秒后才弹出
+现在，value 之间的延迟为 1 秒。
 
-## 实际例子
+## 实际的例子
 
-到目前为止，我们为了获得基础的了解，看到的都是简单的例子。接下来，我们就看一下实际应用的例子。
+到目前为止，我们为了获得基础的了解，看到的都是简单的例子。接下来，我们来看一个实际的用例。
 
-目前，有很多网络服务都是传递分页的数据。例如，当我们需要一个用户的清单，一个请求只返回了一个预定义数量的用户（例如：100 个用户） - “一页”，并且提供了一个前往下一页的 `URL`。
+目前，有很多在线服务都是发送的分页数据（paginated data）。例如，当我们需要一个用户列表时，一个请求只返回一个预定义数量的用户（例如 100 个用户）— “一页”，并提供了指向下一页的 URL。
 
-这种模式非常常见。不只是用户，基本所有数据都是。例如，GitHub 允许使用相同的，分页的方式找回提交记录：
+这种模式非常常见。不仅可用于获取用户列表，这种模式还可以用于任意东西。例如，GitHub 允许使用相同的分页提交（paginated fashion）的方式找回 commit：
 
-- 我们应该提交一个请求到这种格式的 `URL`： `https://api.github.com/repos/<repo>/commits`。
-- 它返回一个包含 30 条提交记录的 `JSON` 对象，并且在返回头的 `Link` 中提供了一个前往下一页的链接
-- 然后我们可以使用那个链接作为下一个请求地址，获得更多的提交记录。
+- 我们应该提交一个请求到这种格式的 URL：`https://api.github.com/repos/<repo>/commits`。
+- 它返回一个包含 30 条 commit 的 JSON，并在返回的 `Link` header 中提供了指向下一页的链接。
+- 然后我们可以将该链接用于下一个请求，以获取更多 commit，以此类推。
 
-但是我们可以有一个更简单的 API：一个带有提交记录的可迭代对象，然后我们可以像这样来访问它们：
+但是我们希望有一个更简单的 API：具有 commit 的可迭代对象，然后我们就可以像这样来遍历它们：
 
 ```js
-let repo = 'javascript-tutorial/en.javascript.info'; // 获得提交记录的 GitHub 仓库
+let repo = 'javascript-tutorial/en.javascript.info'; // 用于获取 commit 的 GitHub 仓库
 
 for await (let commit of fetchCommits(repo)) {
-  // 处理提交记录
+  // 处理 commit
 }
 ```
 
-我们可以使用一个函数 `fetchCommits(repo)` ，用来在任何需要的时候，为我们获取提交记录，发送请求等。并且让它关注于所有分页的数据。对于我们来说，它就是一个简单的 `for await..of`。
+我们想创建一个函数 `fetchCommits(repo)`，用来在任何我们有需要的时候发出请求，来为我们获取 commit。并且让它关注于所有分页的数据。对于我们来说，它就是一个简单的 `for await..of`。
 
-通过使用 `async generator`，我们可以很简单的实现它：
+通过使用 async generator，我们可以很容易地实现它：
 
 ```js
 async function* fetchCommits(repo) {
@@ -295,31 +294,30 @@ async function* fetchCommits(repo) {
 
   while (url) {
     const response = await fetch(url, { // (1)
-      headers: {'User-Agent': 'Our script'}, // github 要求 user-agent 头部
+      headers: {'User-Agent': 'Our script'}, // github 要求 user-agent header
     });
 
-    const body = await response.json(); // (2) 返回的数据是一个 JSON (提交记录的列表)
+    const body = await response.json(); // (2) 响应的是 JSON（array of commits）
 
-    // (3) 前往下一页的 URL 在头部，需要将其提取出来
+    // (3) 前往下一页的 URL 在 header 中，提取它
     let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
     nextPage = nextPage && nextPage[1];
 
     url = nextPage;
 
-    for(let commit of body) { // (4) 一个接一个地 yield 提交记录，直到最后一页
+    for(let commit of body) { // (4) 一个接一个地 yield commit，直到最后一页
       yield commit;
     }
   }
 }
 ```
 
-1. 我们使用浏览器的 <info:fetch> 方法从 `URL` 下载数据。它允许我们提供授权和其他需要的头部，这里 GitHub 需要的是 `User-Agent`
-2. `fetch` 的结果作为 `JSON` 被解析，那也是一个 `fetch` 的特殊方法
-3. 我们应该从返回头的 `Link` 中获得前往下一页的 `URL`。它有一个特殊的格式，所以我们可以使用正则表达式得到它。前往下一页的 `URL` 看起来像：`https://api.github.com/repositories/93253246/commits?page=2`，这是由 GitHub 自己生成的。
-4. 然后我们将接收的提交记录 `yield` 出来，当它结束的时候 -- 下一个 `while(url)` 迭代将会触发，从而发送下一个请求
+1. 我们使用浏览器的 [fetch](info:fetch) 方法从远程 URL 下载数据。它允许我们提供授权和其他 header，如果需要 — 这里 GitHub 需要的是 `User-Agent`。
+2. `fetch` 的结果被解析为 JSON。这又是 `fetch` 特定的方法。
+3. 我们应该从响应（response）的 `Link` header 中获取前往下一页的 URL。它有一个特殊的格式，所以我们对它使用正则表达式（regexp）。前往下一页的 URL 看起来就像这样 `https://api.github.com/repositories/93253246/commits?page=2`。这是由 GitHub 自己生成的。
+4. 然后我们将接收到的所有 commit 都 yield 出来，当它 yield 完成时，将触发下一个 `while(url)` 迭代，并发出下一个请求。
 
-这是一个使用的例子（将会在用户的控制台显示）
-
+这是一个使用示例（在控制台中显示 commit 的作者）
 
 ```js run
 (async () => {
@@ -330,35 +328,36 @@ async function* fetchCommits(repo) {
 
     console.log(commit.author.login);
 
-    if (++count == 100) { // 获取一百条数据后停止
+    if (++count == 100) { // 让我们在获取了 100 个 commit 时停止
       break;
     }
   }
 
 })();
 ```
-这就是我们想要的。从外面无法看到内部的是如何处理分页数据的请求的。对我们来说，那只是一个返回提交记录的异步生成器。
+
+这就是我们想要的。从外部看不到分页请求（paginated requests）的内部机制。对我们来说，它只是一个返回 commit 的 async generator。
 
 ## 总结
 
-对于无需花费时间生成的数据，常规的迭代器和生成器就能胜任。
+常规的 iterator 和 generator 可以很好地处理那些不需要花费时间来生成的的数据。
 
-当我们需要异步获得数据的时候，它们的异步的同行则有了发挥的机会，`for await..of` 会去替代 `for..of`。
+当我们期望异步地，有延迟地获取数据时，可以使用它们的 async counterpart，并且使用 `for await..of` 替代 `for..of`。
 
-异步迭代器与常规迭代器的语法区别：
+Async iterator 与常规 iterator 在语法上的区别：
 
-|       | 常规迭代 | 异步迭代 |
+|       | Iterable  | Async Iterable |
 |-------|-----------|-----------------|
-| 提供 `iterator` 的方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` 返回的值是          | `{value:…, done: true/false}`         | 被解析（resolves）成 `{value:…, done: true/false}` 的 `Promise`  |
+| 提供 iterator 的对象方法 | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` 返回的值是     | `{value:…, done: true/false}`             | resolve 成 `{value:…, done: true/false}` 的 `Promise` |
 
-异步生成器与常规生成器的语法区别：
+Async generator 与常规 generator 在语法上的区别：
 
-|       | 常规生成器 | 异步生成器 |
+|       | Generator | Async generator |
 |-------|-----------|-----------------|
 | 声明方式 | `function*` | `async function*` |
-| `next()` 返回的值是          | `{value:…, done: true/false}`         | 被解析成 `{value:…, done: true/false}` 的 `Promise`  |
+| `next()` 返回的值是          | `{value:…, done: true/false}`         | resolve 成 `{value:…, done: true/false}` 的 `Promise`  |
 
-在网络开发中，我们经常会遇到数据流，例如下载或者上传大文件。
+在 Web 开发中，我们经常会遇到数据流，它们分段流动（flows chunk-by-chunk）。例如，下载或上传大文件。
 
-我们可以使用 `async generator` 来处理类似的数据。值得注意的是，在一些环境，例如浏览器环境下，还有另外一个 API 被叫做流（Streams），它提供一些特殊的接口来操作类似的数据流，来传输数据或将其从一个数据流传递到另一个数据流（例如，从一个地方下载后立刻将其发送到其他地方）。
+我们可以使用 async generator 来处理此类数据。值得注意的是，在一些环境，例如浏览器环境下，还有另一个被称为 Streams 的 API，它提供了特殊的接口来处理此类数据流，转换数据并将数据从一个数据流传递到另一个数据流（例如，从一个地方下载并立即发送到其他地方）。

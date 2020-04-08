@@ -1,6 +1,6 @@
-首先，使用 HTML/CSS。
+首先，让我们编写 HTML/CSS。
 
-每个时间组件在`<span>`标签中看起来很棒：
+时间的每个组件都有其自己的 `<span>`，那将会看起来很棒：
 
 ```html
 <div id="clock">
@@ -8,9 +8,9 @@
 </div>
 ```
 
-我们还会用 CSS 丰富样式。
+另外，我们需要使用 CSS 为它们着色。
 
-`update` 会刷新时钟，它调用 `setInterval` 每秒刷新一次：
+函数 `update` 会刷新时钟，由 `setInterval` 每秒调用一次：
 
 ```js
 function update() {
@@ -32,14 +32,14 @@ function update() {
 }
 ```
 
-在这行 `(*)` 我们每秒检查当前时间。调用 `setInterval` 并不是完全可靠：它有可能发生延迟现象。
+在 `(*)` 行中，我们每次都检查当前时间。`setInterval` 调用并不可靠：它们可能会发生延迟现象。
 
 时钟管理函数：
 
 ```js
 let timerId;
 
-function clockStart() { // run the clock
+function clockStart() { // 运行时钟
   timerId = setInterval(update, 1000);
   update(); // (*)
 }
@@ -50,4 +50,4 @@ function clockStop() {
 }
 ```
 
-请留意 `update()`，它不单在 `clockStart()` 被间隔器调用，也会在 `(*)` 立即调用一次。如果不是这样，只有在 `setInterval` 第一次执行周期时，才能看到时钟，在此之前时钟一直都是空的。
+请注意，`update()` 不仅在 `clockStart()` 中被调度，而且还立即在 `(*)` 行运行。否则，访问者将不得不等到 `setInterval` 第一次执行。在那之前，时钟将是空的。

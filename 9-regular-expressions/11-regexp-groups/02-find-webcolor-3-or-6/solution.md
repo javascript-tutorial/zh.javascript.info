@@ -1,29 +1,27 @@
-查找三位颜色 `#abc` 的正则表达式为：`pattern:/#[a-f0-9]{3}/i`。
+A regexp to search 3-digit color `#abc`: `pattern:/#[a-f0-9]{3}/i`.
 
-我们可以添加额外三位 16 进制数，不多也不少。这三位可能有，也可能没有。
+We can add exactly 3 more optional hex digits. We don't need more or less. The color has either 3 or 6 digits.
 
-最简单的方式 —— 直接附加上去：`pattern:/#[a-f0-9]{3}([a-f0-9]{3})?/i`。
+Let's use the quantifier `pattern:{1,2}` for that: we'll have `pattern:/#([a-f0-9]{3}){1,2}/i`.
 
-但是，还有一种更讨巧的方法：`pattern:/#([a-f0-9]{3}){1,2}/i`。
+Here the pattern `pattern:[a-f0-9]{3}` is enclosed in parentheses to apply the quantifier `pattern:{1,2}`.
 
-这里我们把正则 `pattern:[a-f0-9]{3}` 放置在括号内，并且应用量词 `pattern:{1,2}`。
-
-实际操作：
+In action:
 
 ```js run
-let reg = /#([a-f0-9]{3}){1,2}/gi;
+let regexp = /#([a-f0-9]{3}){1,2}/gi;
 
 let str = "color: #3f3; background-color: #AA00ef; and: #abcd";
 
-alert( str.match(reg) ); // #3f3 #AA0ef #abc
+alert( str.match(regexp) ); // #3f3 #AA00ef #abc
 ```
 
-不过这里有个小问题：这个模式会在 `subject:#abcd` 中找到 `match:#abc`。为了避免这种情况，我们可以在最后加上 `pattern:\b`：
+There's a minor problem here: the pattern found `match:#abc` in `subject:#abcd`. To prevent that we can add `pattern:\b` to the end:
 
 ```js run
-let reg = /#([a-f0-9]{3}){1,2}\b/gi;
+let regexp = /#([a-f0-9]{3}){1,2}\b/gi;
 
 let str = "color: #3f3; background-color: #AA00ef; and: #abcd";
 
-alert( str.match(reg) ); // #3f3 #AA0ef
+alert( str.match(regexp) ); // #3f3 #AA00ef
 ```

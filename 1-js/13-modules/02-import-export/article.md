@@ -1,14 +1,14 @@
 # 导出和导入
 
-导出和导入语句非常有用。
+导出（export）和导入（import）指令有几种语法变体。
 
-在前面的章节里我们已经初试牛刀，那么现在让我们探索更多的应用吧。
+在上一章，我们看到了一个简单的用法，现在让我们来探索更多示例吧。
 
-## 声明前导出
+## 在声明前导出
 
-我们可以通过在声明之前放置 `export` 来标记任何声明为导出，无论声明的是变量，函数还是类都可以。
+我们可以通过在声明之前放置 `export` 来标记任意声明为导出，无论声明的是变量，函数还是类都可以。
 
-例如，这里的所有导出都是正确的：
+例如，这里的所有导出均有效：
 
 ```js
 // 导出数组
@@ -25,24 +25,24 @@
 }
 ```
 
-````smart header="导出类/函数后没有分号"
-注意，在类或者函数前的 `export` 不会让它们变成 [函数表达式](info:function-expressions-arrows)。尽管被导出了，但它仍然是一个函数声明。
+````smart header="导出 class/function 后没有分号"
+注意，在类或者函数前的 `export` 不会让它们变成 [函数表达式](info:function-expressions)。尽管被导出了，但它仍然是一个函数声明。
 
-大部分 JavaScript 样式指南都推荐在语句之后使用分号，但是不要在函数和类的声明后使用分号。
+大部分 JavaScript 样式指南都不建议在函数和类声明后使用分号。
 
-这就是为什么在 `export class` 和 `export function` 后不使用分号。
+这就是为什么在 `export class` 和 `export function` 的末尾不需要加分号：
 
 ```js
 export function sayHi(user) {
   alert(`Hello, ${user}!`);
-} *!* // no ; at the end */!*
+} *!* // 在这里没有分号 ; */!*
 ```
 
 ````
 
-## 其他导出声明方式
+## 导出与声明分开
 
-我们可以单独使用 `export` 导出。
+另外，我们还可以将 `export` 分开放置。
 
 下面的例子中，我们先声明函数，然后再导出它们：
 
@@ -61,11 +61,11 @@ export {sayHi, sayBye}; // 导出变量列表
 */!*
 ```
 
-...从技术上讲，我们也可以把 `export` 放在函数上面。
+……从技术上讲，我们也可以把 `export` 放在函数上面。
 
-## 导入所有（`import *`）
+## Import *
 
-通常，我们把要导入的东西列在 `import {...}` 中，就像这样：
+通常，我们把要导入的东西列在花括号 `import {...}` 中，就像这样：
 
 ```js
 // 📁 main.js
@@ -77,7 +77,7 @@ sayHi('John'); // Hello, John!
 sayBye('John'); // Bye, John!
 ```
 
-但是如果这个列表很长呢？我们可以使用 `import * as <obj>` 导入所有内容，例如：
+但是如果有很多要导入的内容，我们可以使用 `import * as <obj>` 将所有内容导入为一个对象，例如：
 
 ```js
 // 📁 main.js
@@ -89,35 +89,35 @@ say.sayHi('John');
 say.sayBye('John');
 ```
 
-乍一看，“通通导入”看起来很酷，语法也很短，但是我们通常为什么要明确列出我们需要导入的内容？
+乍一看，“通通导入”看起来很酷，写起来也很短，但是我们通常为什么要明确列出我们需要导入的内容？
 
-这里有几个原因：
+这里有几个原因。
 
-1. 现在的构建工具（[webpack](http://webpack.github.io) 或者其他的）把模块打包到一起，然后对其进行优化以获得更快的加载速度，并且还会删除无用的代码。
+1. 现代的构建工具（[webpack](http://webpack.github.io) 和其他工具）将模块打包到一起并对其进行优化，以加快加载速度并删除未使用的代码。
 
-    比如说，我们在项目里添加第三方库 `lib.js` 中的几个函数：
+    比如说，我们向我们的项目里添加一个第三方库 `say.js`，它具有许多函数：
     ```js
-    // 📁 lib.js
+    // 📁 say.js
     export function sayHi() { ... }
     export function sayBye() { ... }
     export function becomeSilent() { ... }
     ```
 
-    现在，如果我们只在项目里使用 `lib.js` 中的一个函数：
+    现在，如果我们只在我们的项目里使用了 `say.js` 中的一个函数：
     ```js
     // 📁 main.js
-    import {sayHi} from './lib.js';
+    import {sayHi} from './say.js';
     ```
-    ...然后，打包工具会自动检测优化它，并且在打包文件中完全删除其他无用的函数以使得打包后的文件更小，这就是所谓的“tree-shaking”技术。
+    ……那么，优化器（optimizer）就会检测到它，并从打包好的代码中删除那些未被使用的函数，从而使构建更小。这就是所谓的“摇树（tree-shaking）”。
 
-2. 明确列出要导入的内容会使得名称较短：`sayHi()` 取代 `lib.sayHi()`。
-3. 显示导入可以更好的概述代码结构：在哪里使用了什么。它使得代码阅读和重构更容易。
+2. 明确列出要导入的内容会使得名称较短：`sayHi()` 而不是 `say.sayHi()`。
+3. 导入的显式列表可以更好地概述代码结构：使用的内容和位置。它使得代码支持重构，并且重构起来更容易。
 
-## 导入为（import as）
+## Import "as"
 
 我们也可以使用 `as` 让导入具有不同的名字。
 
-例如，为了简洁起见，我们将 `sayHi` 导入到局部变量 `hi`，同样将 `sayBye` 导入到 `bye`：
+例如，简洁起见，我们将 `sayHi` 导入到局部变量 `hi`，将 `sayBye` 导入到 `bye`：
 
 ```js
 // 📁 main.js
@@ -129,9 +129,9 @@ hi('John'); // Hello, John!
 bye('John'); // Bye, John!
 ```
 
-## 导出为（export as）
+## Export "as"
 
-导出也具有以上相同的语法。
+导出也具有类似的语法。
 
 我们将函数导出为 `hi` 和 `bye`：
 
@@ -147,100 +147,101 @@ export {sayHi as hi, sayBye as bye};
 // 📁 main.js
 import * as say from './say.js';
 
-say.hi('John'); // Hello, John!
-say.bye('John'); // Bye, John!
+say.*!*hi*/!*('John'); // Hello, John!
+say.*!*bye*/!*('John'); // Bye, John!
 ```
 
-## 默认导出（export default）
+## Export default
 
-到目前为止，我们已经看到了如何导入/导出（import/export）多个内容，也可以用“as”语法导入/导出为其他名称。
+在实际中，主要有两种模块。
 
-在开发中，模块包含：
-- 一个库，一组函数，就像 `lib.js` 这样。
-- 或者在 `user.js` 中描述了一个实体，比如 `class User` 这样，整个模块只有这个类。
+- 包含库或函数包的模块，像上面的 `say.js`。
+- 声明单个实体的模块，例如模块 `user.js` 仅导出 `class User`。
 
-大部分情况下，开发者倾向于使用第二种方式，因此每个“thing”都存在于自己的模块中。
+大部分情况下，开发者倾向于使用第二种方式，以便每个“东西”都存在于它自己的模块中。
 
-当然，如果每个文件都需要自己的模块，这就使得文件很多，但是这不算什么大问题。实际上，如果文件命名以及文件夹结构得当，代码导航会变得更容易。
+当然，这需要大量文件，因为每个东西都需要自己的模块，但这根本不是问题。实际上，如果文件具有良好的命名，并且文件夹结构得当，那么代码导航会变得更容易。
 
-模块提供特殊的默认导出 `export default` 语法，以使得“一个模块只做一件事”看起来更好。
+模块提供了特殊的默认导出 `export default` 语法，以使“一个模块只做一件事”的方式看起来更好。
 
-默认导出要求下列的 `export` 和 `import` 语句：
-
-1. `export default` 放在模块“主导出（main export）”之前。
-2. `import` 导入时不使用花括号
-
-例如，`user.js` 导出 `class User`：
+将 `export default` 放在要导出的实体前：
 
 ```js
 // 📁 user.js
-export *!*default*/!* class User { // 只要添加“default”即可
+export *!*default*/!* class User { // 只需要添加 "default" 即可
   constructor(name) {
     this.name = name;
   }
 }
 ```
 
-...在 `main.js` 中添加导入：
+每个文件可能只有一个 `export default`：
+
+……然后将其导入而不需要花括号：
 
 ```js
 // 📁 main.js
-import *!*User*/!* from './user.js'; // 不需要花括号 {User}, 仅仅是 User 就可以了
+import *!*User*/!* from './user.js'; // 不需要花括号 {User}，只需要写成 User 即可
 
 new User('John');
 ```
 
-不用花括号的导入看起来很酷。开始使用模块时常见的错误就是忘记花括号。所以请记住，命名导入需要使用花括号，而默认导入不需要。
+不用花括号的导入看起来很酷。刚开始使用模块时，一个常见的错误就是忘记写花括号。所以，请记住，`import` 命名的导出时需要花括号，而 `import` 默认的导出时不需要花括号。
 
-| 命名导出 | 默认导出 |
+| 命名的导出 | 默认的导出 |
 |--------------|----------------|
 | `export class User {...}` | `export default class User {...}` |
 | `import {User} from ...` | `import User from ...`|
 
-当然，每个文件只有一个“默认”导出。
+从技术上讲，我们可以在一个模块中同时有默认的导出和命名的导出，但是实际上人们通常不会混合使用它们。模块要么是命名的导出要么是默认的导出。
 
-我们可能在单个模块中同时使用默认导出和命名导出，但是在日常开发中，开发者一般不会这样做。模块要么是命名导出要么是默认导出。
+由于每个文件最多只能有一个默认的导出，因此导出的实体可能没有名称。
 
-**另外需要注意的是命名导出必须（理应）具有名称，而 `export default` 可能是匿名的（没有名称）**
-
-例如，下面这些都是完全有效的默认导出：
+例如，下面这些都是完全有效的默认的导出：
 
 ```js
 export default class { // 没有类名
   constructor() { ... }
 }
+```
 
+```js
 export default function(user) { // 没有函数名
   alert(`Hello, ${user}!`);
 }
+```
 
-// 导出一个值而不使用变量
+```js
+// 导出单个值，而不使用变量
 export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 ```
 
-这些都是可行的，因为每个文件只有一个 `export default`。相反，省略命名导入的名称将会出错：
+不指定名称是可以的，因为每个文件只有一个 `export default`，因此不带花括号的 `import` 知道要导入的内容是什么。
+
+如果没有 `default`，这样的导出将会出错：
 
 ```js
-export class { // Error!（非命名导出需要名称）
+export class { // Error!（非默认的导出需要名称）
   constructor() {}
 }
-```     
+```
 
-### “Default” 别名
+### "default" 名称
 
-“default”关键词用于默认导出的别名，常用于我们需要引用单独导出和其他脚本的情况。
+在某些情况下，`default` 关键词被用于引用默认的导出。
 
-例如，如果我们已经声明了一个函数，然后导出它 `export default`（和定义分开）：
+例如，要将函数与其定义分开导出：
 
 ```js
 function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-export {sayHi as default}; // 和我们在函数前添加“export default”一样
+// 就像我们在函数之前添加了 "export default" 一样
+export {sayHi as default};
 ```
 
-又如，假设模块 `user.js` 导出一个默认导出“default”和几个命名导出（虽然很少出现，但是会发生）：
+或者，另一种情况，假设模块 `user.js` 导出了一个主要的默认的导出和一些命名的导出（虽然很少出现，但是会发生）：
 
 ```js
 // 📁 user.js
@@ -255,7 +256,7 @@ export function sayHi(user) {
 }
 ```
 
-那么，如何导入默认导出和命名导出：
+这是导入默认的导出以及命名的导出的方法：
 
 ```js
 // 📁 main.js
@@ -264,41 +265,38 @@ import {*!*default as User*/!*, sayHi} from './user.js';
 new User('John');
 ```
 
-再如，我们想要把 `*` 作为对象导入，那么 `default` 属性就是默认导出：
+如果我们将所有东西 `*` 作为一个对象导入，那么 `default` 属性正是默认的导出：
 
 ```js
 // 📁 main.js
 import * as user from './user.js';
 
-let User = user.default;
+let User = user.default; // 默认的导出
 new User('John');
 ```
 
+### 我应该使用默认的导出吗？
 
-### 我应该使用默认导出吗？
+命名的导出是明确的。它们确切地命名了它们要导出的内容，因此我们能从它们获得这些信息，这是一件好事。
 
-开发者应该谨慎使用默认导出，因为这将会使代码更难维护。
-
-命名导出是显式的。它们准确命名导入的内容，因此我们能得到更多的信息，这对于代码阅读与维护都是非常有利的。
-
-此外，命名导出会强制我们使用正确的名称来导入：
+命名的导出会强制我们使用正确的名称进行导入：
 
 ```js
 import {User} from './user.js';
-// 使用 {MyUser} 导入将不起作用，导入名字应该为 {User}
+// 导入 {MyUser} 不起作用，导入名字必须为 {User}
 ```
 
-对于默认导出，我们总是在导入时选择名称：
+……对于默认的导出，我们总是在导入时选择名称：
 
 ```js
-import User from './user.js'; // works
-import MyUser from './user.js'; // works too
+import User from './user.js'; // 有效
+import MyUser from './user.js'; // 也有效
 // 使用任何名称导入都没有问题
 ```
 
-对于相同的导入，团队成员可能使用不同的命名，因此，默认导入的命名可能会被滥用，
+因此，团队成员可能会使用不同的名称来导入相同的内容，这不好。
 
-通常，为了避免这种情况并保持代码的整洁一致，可以遵从这条规则，即导入的变量应该与文件名相对应，例如：
+通常，为了避免这种情况并使代码保持一致，可以遵从这条规则，即导入的变量应与文件名相对应，例如：
 
 ```js
 import User from './user.js';
@@ -307,135 +305,151 @@ import func from '/path/to/func.js';
 ...
 ```
 
-另一种解决方案是在任何地方都使用命名导出。即使只导出一个东西，也仍然使用命名导出，而不是默认导出 `default`。
+但是，一些团队仍然认为这是默认的导出的严重缺陷。因此，他们更倾向于始终使用命名的导出。即使只导出一个东西，也仍然使用命名的导出，而不是默认的导出。
 
-这也使得重新导出（见下一节）更容易。
+这也使得重新导出（见下文）更容易。
 
-## Re-export
+## 重新导出
 
-“Re-export”语法 `export ... from ...` 允许直接导出刚刚导入的内容（可能是其他名字），就像这样：
+“重新导入（Re-export）”语法 `export ... from ...` 允许导入内容，并立即将其导出（可能是用的是其他的名字），就像这样：
 
 ```js
-export {sayHi} from './say.js';
-export {default as User} from './user.js';
+export {sayHi} from './say.js'; // 重新导出 sayHi
+
+export {default as User} from './user.js'; // 重新导出 default
 ```
 
-重点是，为什么要这样做？我们看一个开发中的用例：
+为什么要这样做？我们看一个实际开发中的用例。
 
-想象一下，我们正在编写一个“包（package）”：一个包含大量模块的文件夹，主要是内部需要的模块，其中一些功能是导出到外部的（像 NPM 这样的工具允许发布和分发包，但这里我们不细说）。
+想象一下，我们正在编写一个 "package"：一个包含大量模块的文件夹，其中一些功能是导出到外部的（像 NPM 这样的工具允许发布和分发这样的 package），并且其中一些模块仅仅是供其他 package 中的模块内部使用的 "helpers"。
 
-目录结构可能是这样的：
+文件结构可能是这样的：
 ```
 auth/
-  index.js  
-  user.js
-  helpers.js
-  tests/
-    login.js
-  providers/
-    github.js
-    facebook.js
-    ...
+    index.js  
+    user.js
+    helpers.js
+    tests/
+        login.js
+    providers/
+        github.js
+        facebook.js
+        ...
 ```
 
-我们想通过单个入口公开包的功能，主文件 `auth/index.js` 可以这样使用：
+我们想通过单个入口，即“主文件” `auth/index.js` 来公开 package 的功能，进而可以像下面这样使用我们的 package：
 
 ```js
 import {login, logout} from 'auth/index.js'
 ```
 
-我们的想法是，使用我们软件包的开发者，不应该干涉其内部结构。他们不应该搜索我们包文件夹中的文件。我们只导出 `auth/index.js` 中需要的内容，并保持其余部分“不可见”。
+我们的想法是，使用我们 package 的开发者，不应该干预其内部结构，不应该搜索我们 package 的文件夹中的文件。我们只在 `auth/index.js` 中导出必须的内容，并保持其他内容“不可见”。
 
-现在，由于实际导出的功能分散在包中，我们可以在 `auth/index.js` 中收集并“重新导出（re-export）”它：
+由于实际导出的功能分散在 package 中，所以我们可以将它们导入到 `auth/index.js`，然后再从中导出它们：
 
 ```js
 // 📁 auth/index.js
+
+// 导入 login/logout 然后立即导出它们
 import {login, logout} from './helpers.js';
 export {login, logout};
 
+// 将默认导出导入为 User，然后导出它
 import User from './user.js';
 export {User};
-
-import Github from './providers/github.js';
-export {Github};
 ...
 ```
 
-“重新导出（re-export）”仅仅是一个短符号：
+现在使用我们 package 的人可以 `import {login} from "auth/index.js"`。
+
+语法 `export ... from ...` 只是下面这种导入-导出的简写：
 
 ```js
 // 📁 auth/index.js
+// 导入 login/logout 然后立即导出它们
 export {login, logout} from './helpers.js';
-// 或者，为了重新导出所有的 helpers 内容，我们可以使用：
-// export * from './helpers.js';
 
+// 将默认导出导入为 User，然后导出它
 export {default as User} from './user.js';
-
-export {default as Github} from './providers/github.js';
 ...
 ```
 
-````warn header="重新导出“默认导出”则很棘手"
-请注意：`export User from './user.js'` 语句无效。这实际上是一个语法错误。要重新导出默认导出，我们必须明确指出 `{default as ...}`，就像上面例子一样。
+### 重新导出默认导出
 
-另外，还有另外一个奇怪之处是，`export * from './user.js'` 只重新导出命名导出，不导出默认导出。再次重申，我们需要像上面那样明确指出 `{default as ...}`。
+重新导出时，默认导出需要单独处理。
 
-例如，重新导出所有内容，需要下面两条语句：
+假设我们有 `user.js`，我们想从中重新导出类 `User`：
+
 ```js
-export * from './module.js'; // 重新导出命名导出
-export {default} from './module.js'; // 重新导出默认导出
+// 📁 user.js
+export default class User {
+  // ...
+}
 ```
 
-只有在重新导出时才应该明确指出默认值：`import * as obj` 正常工作。它将默认导出导入为 `obj.default`。所以这里的导入和导出结构存在一些不对称。
-````
+1. `export User from './user.js'` 无效。什么出了问题？这实际上是一个语法错误。
+
+    要重新导出默认导出，我们必须明确写出 `export {default as User}`，就像上面的例子中那样。
+
+2. `export * from './user.js'` 重新导出只导出了命名的导出，但是忽略了默认的导出。
+
+    如果我们想将命名的导出和默认的导出都重新导出，那么需要两条语句：
+    ```js
+    export * from './user.js'; // 重新导出命名的导出
+    export {default} from './user.js'; // 重新导出默认的导出
+    ```
+
+重新导出默认的导出的这种奇怪现象是某些开发者不喜欢它们的原因之一。
 
 ## 总结
 
-导出 `export` 类型有以下几种：
+这是我们在本章和前面章节中介绍的所有 `export` 类型：
 
-- 声明之前：
+你可以阅读并回忆它们的含义来进行自查：
+
+- 在声明一个 class/function/.. 之前：
   - `export [default] class/function/variable ...`
-- 单个导出：
+- 独立的导出：
   - `export {x [as y], ...}`.
 - 重新导出：
-  - `export {x [as y], ...} from "mod"`
-  - `export * from "mod"`（不会重新导出 default）
-  - `export {default [as y]} from "mod"`（重新导出 default）
+  - `export {x [as y], ...} from "module"`
+  - `export * from "module"`（不会重新导出默认的导出）。
+  - `export {default [as y]} from "module"`（重新导出默认的导出）。
 
-导入 `import` 类型有以下几种：
+导入：
 
-- 模块中的命名导出：
-  - `import {x [as y], ...} from "mod"`
-- 默认导出：
-  - `import x from "mod"`
-  - `import {default as x} from "mod"`
-- 导入全部导出：
-  - `import * as obj from "mod"`
-- 导入模块（可运行），但是没有将其赋值给变量：
-  - `import "mod"`
+- 模块中命名的导出：
+  - `import {x [as y], ...} from "module"`
+- 默认的导出：
+  - `import x from "module"`
+  - `import {default as x} from "module"`
+- 所有：
+  - `import * as obj from "module"`
+- 导入模块（它的代码，并运行），但不要将其赋值给变量：
+  - `import "module"`
 
-我们把导入/导出语句放在脚本的顶部或者底部都是没问题的。
+我们把 `import/export` 语句放在脚本的顶部或底部，都没关系。
 
-下面这样的方式完全可以：
+因此，从技术上讲，下面这样的代码没有问题：
 ```js
 sayHi();
 
 // ...
 
-import {sayHi} from './say.js'; // 在脚本底部导入
+import {sayHi} from './say.js'; // 在文件底部导入
 ```
 
-在开发中，导入通常位于文件开头，但是这只是为了方便。
+在实际开发中，导入通常位于文件的开头，但是这只是为了更加方便。
 
-**请注意在 `{...}` 中的导入/导出语句无效。**
+**请注意在 `{...}` 中的 import/export 语句无效。**
 
-像这样的导入语句是无效的：
+像这样的有条件的导入是无效的：
 ```js
 if (something) {
   import {sayHi} from "./say.js"; // Error: import must be at top level
 }
 ```
 
-...但是，如果我们真的需要根据某些条件来导入东西呢？或者在某些合适的时间？就像根据要求加载模块，什么时候才是真正需要？
+……但是，如果我们真的需要根据某些条件来进行导入呢？或者在某些合适的时间？例如，根据请求（request）加载模块，什么时候才是真正需要呢？
 
-我们将在下一章探讨这些关于动态导入的内容。
+我们将在下一章中学习动态导入。

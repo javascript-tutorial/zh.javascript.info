@@ -12,18 +12,18 @@ shuffle(arr);
 alert(arr);
 ```
 
-这样是可以的，因为 `Math.random() - 0.5` 是一个可能是正数或负数的随机数，所以排序函数会随机地重新排序元素。
+这样是可以的，因为 `Math.random() - 0.5` 是一个可能是正数或负数的随机数，因此排序函数会随机地对数组中的元素进行重新排序。
 
-但是因为排序函数并不意味着以这种方式使用，所以并不是所有的排列都具有相同的概率。
+但是，由于排序函数并非旨在以这种方式使用，因此并非所有的排列都具有相同的概率。
 
-例如，请考虑下面的代码。它运行 100 万次 `shuffle` 并计算所有可能结果：
+例如，请考虑下面的代码。它运行 100 万次 `shuffle` 并计算所有可能结果的出现次数：
 
 ```js run
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-// 出现所有可能排列的次数
+// 所有可能排列的出现次数
 let count = {
   '123': 0,
   '132': 0,
@@ -39,13 +39,13 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// 显示所有可能的排列的数量
+// 显示所有可能排列的出现次数
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
 ```
 
-示例结果（V8，2017年七月）：
+示例结果（取决于 Javascript 引擎）：
 
 ```js
 123: 250706
@@ -56,24 +56,30 @@ for (let key in count) {
 321: 125223
 ```
 
-我们可以清楚地看到这种偏见：`123` 和 `213` 比其他人更频繁出现。
+我们可以清楚地看到这种倾斜：`123` 和 `213` 的出现频率比其他情况高得多。
 
-JavaScript 引擎的代码结果可能会有所不同，但我们已经可以看到这种方法是不可靠的。
+使用不同的 JavaScript 引擎运行这个示例代码得到的结果可能会有所不同，但是我们已经可以看到这种方法是不可靠的。
 
-为什么它不起作用？一般来说，`sort` 是一个“黑匣子”：我们向其中抛出一个数组和一个比较函数，并期望数组被排序。由于比较的完全随机性，黑盒子变得复杂，它究竟发生了什么取决于引擎之间的具体实现。
+为什么它不起作用？一般来说，`sort` 是一个“黑匣子”：我们将一个数组和一个比较函数放入其中，并期望其对数组进行排序。但是由于比较的完全随机性，这个黑匣子疯了，它发疯地确切程度取决于引擎中的具体实现方法。
 
-还有其他很好的方法来完成这项任务。例如，有一个很好的算法叫做 [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)。其思路是：逆向遍历数组，并将每个子项与前面随机的一个子项互相交换：
+还有其他很好的方法可以完成这项任务。例如，有一个很棒的算法叫作 [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)。其思路是：逆向遍历数组，并将每个元素与其前面的随机的一个元素互换位置：
 
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // r 从 0 到 i 的随机索引
-    [array[i], array[j]] = [array[j], array[i]]; // 交换元素
+    let j = Math.floor(Math.random() * (i + 1)); // 从 0 到 i 的随机索引
+
+    // 交换元素 array[i] 和 array[j]
+    // 我们使用“解构分配（destructuring assignment）”语法来实现它
+    // 你将在后面的章节中找到有关该语法的更多详细信息
+    // 可以写成：
+    // let t = array[i]; array[i] = array[j]; array[j] = t
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
 ```
 
-让我们以相同的方式测试它：
+让我们以相同的方式测试一下：
 
 ```js run
 function shuffle(array) {
@@ -83,7 +89,7 @@ function shuffle(array) {
   }
 }
 
-// 出现所有可能排列的次数
+// 所有可能排列的出现次数
 let count = {
   '123': 0,
   '132': 0,
@@ -99,7 +105,7 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// 出现所有可能排列的次数
+// 显示所有可能排列的出现次数
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
@@ -118,4 +124,4 @@ for (let key in count) {
 
 现在看起来不错：所有排列都以相同的概率出现。
 
-另外，性能方面 Fisher — Yates 算法要好得多，没有排序开销。
+另外，在性能方面，Fisher — Yates 算法要好得多，没有“排序”开销。

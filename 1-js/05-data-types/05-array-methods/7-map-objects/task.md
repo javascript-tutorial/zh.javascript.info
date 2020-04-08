@@ -6,7 +6,7 @@ importance: 5
 
 你有一个 `user` 对象数组，每个对象都有 `name`，`surname` 和 `id`。
 
-编写代码以从中创建另一个具有 `id` 和 `fullName` 的对象，其中 `fullName` 由 `name` 和 `surname` 生成。
+编写代码以该数组为基础，创建另一个具有 `id` 和 `fullName` 的对象数组，其中 `fullName` 由 `name` 和 `surname` 生成。
 
 例如：
 
@@ -33,4 +33,4 @@ alert( usersMapped[0].id ) // 1
 alert( usersMapped[0].fullName ) // John Smith
 ```
 
-所以，实际上你需要将一个对象数组映射到另一个对象数组。可以尝试使用箭头函数来编写。
+所以，实际上你需要将一个对象数组映射到另一个对象数组。在这儿尝试使用箭头函数 `=>` 来编写。

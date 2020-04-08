@@ -17,7 +17,7 @@ Rabbit.prototype.sayHi = function() {
 let rabbit = new Rabbit("Rabbit");
 ```
 
-以下调用得到的结果是否相同？
+以下调用做的是相同的事儿还是不同的？
 
 ```js
 rabbit.sayHi();

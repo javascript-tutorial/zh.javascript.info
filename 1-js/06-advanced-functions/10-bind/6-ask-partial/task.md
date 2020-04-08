@@ -8,7 +8,7 @@ importance: 5
 
 `user` 对象被修改了。现在不是两个函数 `loginOk/loginFail`，现在只有一个函数 `user.login(true/false)`。
 
-以下代码中，向 `askPassword` 传入什么参数，使得 `user.login(true)` 结果是 `ok`，`user.login(fasle)` 结果是 `fail`？
+在下面的代码中，我们应该向 `askPassword` 传入什么参数，以使得 `user.login(true)` 结果是 `ok`，`user.login(fasle)` 结果是 `fail`？
 
 ```js
 function askPassword(ok, fail) {
@@ -30,4 +30,4 @@ askPassword(?, ?); // ?
 */!*
 ```
 
-你只能更改高亮部分代码。
+你只能修改高亮部分的代码。

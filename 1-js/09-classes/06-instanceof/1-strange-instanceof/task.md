@@ -4,7 +4,7 @@ importance: 5
 
 # 不按套路出牌的 instanceof
 
-下面代码中，`instanceof` 为什么会返回 `true`？很显然，`a` 并不是通过 `B()` 创建的。
+在下面的代码中，为什么 `instanceof` 会返回 `true`？我们可以明显看到，`a` 并不是通过 `B()` 创建的。
 
 ```js run
 function A() {}

@@ -1,11 +1,11 @@
 
-首先我们需要选择一种定位球的方法。
+首先，我们需要选择一种定位球的方法。
 
-我们不能使用 `position:fixed`，因为滑动页面会让球在球场上移动。
+我们不能使用 `position:fixed`，因为滚动页面会造成球被移出球场。
 
-因此我们应该使用 `position:absolute`，并使定位稳定，让 `field` 自身定位。
+所以我们应该使用 `position:absolute`，并且要使定位真正可靠，应该使 `field` 自身具有 `position:absolute`。
 
-然后球会相对于球场定位：
+然后，球将相对于球场定位：
 
 ```css
 #field {
@@ -16,36 +16,36 @@
 
 #ball {
   position: absolute;
-  left: 0; /* 相对于最近位置的祖先（字段） */
+  left: 0; /* 相对于最接近的祖先（field） */
   top: 0;
-  transition: 1s all; /* 在左上方的 CSS 特效会让球飞起来 */
+  transition: 1s all; /* left/top 的 CSS 动画，使球飞起来 */
 }
 ```
 
-接下来我们需要指定正确的 `ball.style.position.left/top`。它们现在包含球场的相对坐标。
+接下来我们需要指定正确的 `ball.style.left/top`。它们现在包含相对于球场的坐标。
 
-这是图片：
+这是示意图：
 
 ![](move-ball-coords.svg)
 
-我们有 `event.clientX/clientY`—— 单击窗口时的相对坐标。
+我们有 `event.clientX/clientY` —— 点击位置的窗口相对坐标。
 
-要获取单击字段的相对 `left` 坐标，我们可以减去字段的左边缘和边框宽度：
-
-```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
-```
-
-通常情况下，`ball.style.position.left` 是指“元素的左边缘”（球）。因此，如果我们指定 `left`，那么球的边缘就会在鼠标光标下面。
-
-我们需要将球向左移动宽度的一半，向上移动高度的一半，使其居中。
-
-因此，最后 `left` 是：
+要获取点击位置的球场相对坐标 `left`，我们可以减去球场左边缘和边框的宽度：
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
+let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
-使用相同的逻辑计算垂直坐标。
+通常情况下，`ball.style.left` 表示“元素的左边缘”（球）。因此，如果我们将其指定为 `left`，那么球的边缘而非球的中心将位于鼠标光标下方。
 
-请注意，球的宽度/高度必须在我们设置 `ball.offsetWidth` 时就已知。应该在 HTML 或 CSS 中指定。
+我们需要将球向左移动球宽度的一半，向上移动球高度的一半，以使其居中。
+
+所以，最后的 `left` 将是：
+
+```js
+let left = event.clientX - fieldCoords.left - field.clientLeft - ball.offsetWidth/2;
+```
+
+使用相同的逻辑来计算垂直坐标。
+
+请注意，球的宽度/高度必须在我们访问 `ball.offsetWidth` 时就已知。应该在 HTML 或 CSS 中指定。

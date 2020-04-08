@@ -4,9 +4,9 @@ importance: 5
 
 # 迭代键
 
-我们希望得到 `map.keys()` 的数组然后继续对它进行处理（脱离开 map 本身）。
+我们期望使用 `map.keys()` 得到一个数组，然后使用特定的方法例如 `.push` 等，对其进行处理。
 
-但是有这样一个问题：
+但是运行不了：
 
 ```js run
 let map = new Map();
@@ -16,9 +16,9 @@ map.set("name", "John");
 let keys = map.keys();
 
 *!*
-// 错误：numbers.push 不是一个函数
+// Error: keys.push is not a function
 keys.push("more");
 */!*
 ```
 
-为什么？我们如何修改代码让 `keys.push` 正常工作？
+为什么？我们应该如何修改代码让 `keys.push` 工作？

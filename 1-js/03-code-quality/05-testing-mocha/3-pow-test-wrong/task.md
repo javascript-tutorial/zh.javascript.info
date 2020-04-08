@@ -4,7 +4,7 @@ importance: 5
 
 # 测试代码中有什么错误？
 
-下面测试代码中的 `pow` 有什么错误？
+下面这个 `pow` 的测试代码有什么错误？
 
 ```js
 it("Raises x to the power n", function() {
@@ -21,4 +21,4 @@ it("Raises x to the power n", function() {
 });
 ```
 
-附：从语法上来说这些测试代码是正确且能通过的。
+附：从语法上来说这些测试代码是正确且通过的。

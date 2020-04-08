@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# 许多天之前是该月的哪一天？
+# 许多天之前是哪个月几号？
 
-写一个函数 `getDateAgo(date, days)`，返回特定日期 `date` 往前 `days` 天数后，是当月的哪一天。
+写一个函数 `getDateAgo(date, days)`，返回特定日期 `date` 往前 `days` 天是哪个月的哪一天。
 
-举个例子，今天是 20 号，那么 `getDateAgo(new Date(), 1)` 应该是 19 号，`getDateAgo(new Date(), 2)` 应该是 18 号。
+例如，假设今天是 20 号，那么 `getDateAgo(new Date(), 1)` 的结果应该是 19 号，`getDateAgo(new Date(), 2)` 的结果应该是 18 号。
 
 跨月、年也应该是正确输出：
 
@@ -18,4 +18,4 @@ alert( getDateAgo(date, 2) ); // 31, (31 Dec 2014)
 alert( getDateAgo(date, 365) ); // 2, (2 Jan 2014)
 ```
 
-另：函数不能修改给定的 `date` 值。
+P.S. 函数不应该修改给定的 `date` 值。

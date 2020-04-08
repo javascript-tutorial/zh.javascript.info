@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 将对象转换为JSON并返回
+# 将对象转换为 JSON，然后再转换回来
 
-转换 `user` 为 JSON 然后将其存进另一个变量。
+将 `user` 转换为 JSON，然后将其转换回到另一个变量。
 
 ```js
 let user = {

@@ -1,22 +1,22 @@
-# JavaScript 中的 Mixin 模式
+# Mixin 模式
 
-在 JavaScript 中，我们只能继承单个对象。每个对象只能有一个 `[[Prototype]]` 原型。并且每个类只可以扩展另外一个类。
+在 JavaScript 中，我们只能继承单个对象。每个对象只能有一个 `[[Prototype]]`。并且每个类只可以扩展另外一个类。
 
-但是有些时候这种设定（译者注：单继承）会让人感到受限制。比如说我有一个 `StreetSweeper` 类和一个 `Bicycle` 类，现在我想要一个 `StreetSweepingBicycle` 类（译者注：实现两个父类的功能）。
+但是有些时候这种设定（译注：单继承）会让人感到受限制。例如，我有一个 `StreetSweeper` 类和一个 `Bicycle` 类，现在想要一个它们的 mixin：`StreetSweepingBicycle` 类。
 
-或者，在谈论编程的时候，我们有一个实现模板的 `Renderer` 类和一个实现事件处理的 `EventEmitter` 类，现在想要把这两个功能合并到一个 `Page` 类上以使得一个页面可以同时使用模板和触发事件。
+或者，我们有一个 `User` 类和一个 `EventEmitter` 类来实现事件生成（event generation），并且我们想将 `EventEmitter` 的功能添加到 `User` 中，以便我们的用户可以触发事件（emit event）。
 
-有一个概念可以帮助我们，叫做“mixins”。
+有一个概念可以帮助我们，叫做 "mixins"。
 
-根据维基百科的定义，[mixin](https://en.wikipedia.org/wiki/Mixin) 是一个包含许多供其它类使用的方法的类，而且这个类不必是其它类的父类。
+根据维基百科的定义，[mixin](https://en.wikipedia.org/wiki/Mixin) 是一个包含可被其他类使用而无需继承的方法的类。
 
-换句话说，一个 *mixin* 提供了许多实现具体行为的方法，但是我们不单独使用它，我们用它来将这些行为添加到其它类中。
+换句话说，*mixin* 提供了实现特定行为的方法，但是我们不单独使用它，而是使用它来将这些行为添加到其他类中。
 
 ## 一个 Mixin 实例
 
-在 JavaScript 中构造一个 mixin 最简单的方式就是构造一个拥有许多实用方法的对象，通过这个对象我们可以轻易地将这些实用方法合并到任何类的原型中。
+在 JavaScript 中构造一个 mixin 最简单的方式就是构造一个拥有实用方法的对象，以便我们可以轻松地将这些实用的方法合并到任何类的原型中。
 
-例如，这个叫做 `sayHiMixin` 的 mixin 用于给 `User` 添加一些“言语”。
+例如，这个名为 `sayHiMixin` 的 mixin 用于给 `User` 添加一些“语言功能”：
 
 ```js run
 *!*
@@ -43,11 +43,11 @@ class User {
 // 拷贝方法
 Object.assign(User.prototype, sayHiMixin);
 
-// 现在 User 可以说　hi 了
+// 现在 User 可以打招呼了
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
-没有继承，只有一个简单的方法拷贝。因此 `User` 可以扩展其它类并且同样包含 mixin 来“mix-in”其它方法，就像这样：
+这里没有继承，只有一个简单的方法拷贝。所以 `User` 可以从另一个类继承，还可以包括 mixin 来 "mix-in“ 其它方法，就像这样：
 
 ```js
 class User extends Person {
@@ -59,7 +59,7 @@ Object.assign(User.prototype, sayHiMixin);
 
 Mixin 可以在自己内部使用继承。
 
-比如，这里的 `sayHiMixin` 继承于 `sayMixin`：
+例如，这里的 `sayHiMixin` 继承自 `sayMixin`：
 
 ```js run
 let sayMixin = {
@@ -69,16 +69,16 @@ let sayMixin = {
 };
 
 let sayHiMixin = {
-  __proto__: sayMixin, // （或者，我们可以在这里通过 Object.create 来设置原型。）
+  __proto__: sayMixin, // (或者，我们可以在这儿使用 Object.create 来设置原型)
 
   sayHi() {
     *!*
-    // 调用父类中的方法
+    // 调用父类方法
     */!*
-    super.say(`Hello ${this.name}`);
+    super.say(`Hello ${this.name}`); // (*)
   },
   sayBye() {
-    super.say(`Bye ${this.name}`);
+    super.say(`Bye ${this.name}`); // (*)
   }
 };
 
@@ -91,31 +91,35 @@ class User {
 // 拷贝方法
 Object.assign(User.prototype, sayHiMixin);
 
-// 现在 User 可以说 hi 了
+// 现在 User 可以打招呼了
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
-请注意在 `sayHiMixin` 内部对于父类方法 `super.say()` 的调用会在 mixin 的原型上查找方法而不是在 class 自身查找。
+请注意，在 `sayHiMixin` 内部对父类方法 `super.say()` 的调用（在标有 `(*)` 的行）会在 mixin 的原型中查找方法，而不是在 class 中查找。
+
+这是示意图（请参见图中右侧部分）：
 
 ![](mixin-inheritance.svg)
 
-那是因为 `sayHiMixin` 内部的方法设置了 `[[HomeObject]]` 属性。因此 `super` 实际上就是 `sayHiMixin.__proto__` ，而不是 `User.__proto__`。
+这是因为方法 `sayHi` 和 `sayBye` 最初是在 `sayHiMixin` 中创建的。因此，即使复制了它们，但是它们的 `[[HomeObject]]` 内部属性仍引用的是 `sayHiMixin`，如上图所示。
+
+当 `super` 在 `[[HomeObject]].[[Prototype]]` 中寻找父方法时，意味着它搜索的是 `sayHiMixin.[[Prototype]]`，而不是 `User.[[Prototype]]`。
 
 ## EventMixin
 
-现在让我们为了实际运用构造一个 mixin。
+现在让我们为实际运用构造一个 mixin。
 
-许多对象的重要特征是与事件一起工作。
+例如，许多浏览器对象的一个重要功能是它们可以生成事件。事件是向任何有需要的人“广播信息”的好方法。因此，让我们构造一个 mixin，使我们能够轻松地将与事件相关的函数添加到任意 class/object 中。
 
-也就是说：对象应该有一个方法在发生重要事件时“生成事件”，其它对象应该能够“监听”这样的事件。
+- Mixin 将提供 `.trigger(name, [...data])` 方法，以在发生重要的事情时“生成一个事件”。`name` 参数（arguments）是事件的名称，`[...data]` 是可选的带有事件数据的其他参数（arguments）。
+- 此外还有 `.on(name, handler)` 方法，它为具有给定名称的事件添加了 `handler` 函数作为监听器（listener）。当具有给定 `name` 的事件触发时将调用该方法，并从 `.trigger` 调用中获取参数（arguments）。
+- ……还有 `.off(name, handler)` 方法，它会删除 `handler` 监听器（listener）。
 
-一个事件必须有一个名称，并可以选择性的捆绑一些额外的数据。
+添加完 mixin 后，对象 `user` 将能够在访客登录时生成事件 `"login"`。另一个对象，例如 `calendar` 可能希望监听此类事件以便为登录的人加载日历。
 
-比如说，一个 `user` 对象能够在访问者登录时产生`“login”`事件。另一个 `calendar` 对象可能在等待着接受一个这样的事件以便为登录后的用户加载日历。
+或者，当一个菜单项被选中时，`menu` 可以生成 `"select"` 事件，其他对象可以分配处理程序以对该事件作出反应。诸如此类。
 
-或者，`menu` 在菜单选项被选择之后会产生 `"select"` 事件，并且其它对象可能在等待着接受事件的信息并且对事件做出反应。
-
-事件是一种与任何想要得到信息的人分享信息的方式。它在任何类中都可以使用，因此现在为它构造一个 mixin。
+下面是代码：
 
 ```js run
 let eventMixin = {
@@ -146,59 +150,59 @@ let eventMixin = {
   },
 
   /**
-   * 触发事件并传递参数
+   * 生成具有给定名称和数据的事件
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
-      return; // 对应事件名没有事件处理函数。
+      return; // 该事件名称没有对应的事件处理程序（handler）
     }
 
-    // 调用事件处理函数
+    // 调用事件处理程序（handler）
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
 ```
 
-有三个方法：
 
-1. `.on(eventName, handler)` — 指定函数 `handler` 在具有对应事件名的事件发生时运行。这些事件处理函数存储在 `_eventHandlers` 属性中。
-2. `.off(eventName, handler)` — 在事件处理函数列表中移除指定的函数。
-3. `.trigger(eventName, ...args)` — 触发事件：所有被指定到对应事件的事件处理函数都会被调用并且 `args` 会被作为参数传递给它们。
+1. `.on(eventName, handler)` — 指定函数 `handler` 以在具有对应名称的事件发生时运行。从技术上讲，这儿有一个用于存储每个事件名称对应的处理程序（handler）的 `_eventHandlers` 属性，在这儿该属性就会将刚刚指定的这个 `handler` 添加到列表中。
+2. `.off(eventName, handler)` — 从处理程序列表中删除指定的函数。
+3. `.trigger(eventName, ...args)` — 生成事件：所有 `_eventHandlers[eventName]` 中的事件处理程序（handler）都被调用，并且 `...args` 会被作为参数传递给它们。
 
 用法：
 
 ```js run
-// 新建一个 class
+// 创建一个 class
 class Menu {
   choose(value) {
     this.trigger("select", value);
   }
 }
-// 添加 mixin
+// 添加带有事件相关方法的 mixin
 Object.assign(Menu.prototype, eventMixin);
 
 let menu = new Menu();
 
-// 被选中时调用事件处理函数：
+// 添加一个事件处理程序（handler），在被选择时被调用：
 *!*
 menu.on("select", value => alert(`Value selected: ${value}`));
 */!*
 
-// 触发事件 => 展示被选中的值：123
-menu.choose("123"); // 被选中的值
+// 触发事件 => 运行上述的事件处理程序（handler）并显示：
+// 被选中的值：123
+menu.choose("123");
 ```
 
-现在如果我们已经有了针对用户选择事件做出具体反应的代码，可以将代码使用 `menu.on(...)` 进行绑定。
+现在，如果我们希望任何代码对菜单选择作出反应，我们可以使用 `menu.on(...)` 进行监听。
 
-只要我们喜欢，就可以通过 `eventMixin` 将这些行为添加到任意个数的类中而不影响继承链。
+使用 `eventMixin` 可以轻松地将此类行为添加到我们想要的多个类中，并且不会影响继承链。
 
 ## 总结
 
 *Mixin* — 是一个通用的面向对象编程术语：一个包含其他类的方法的类。
 
-一些其它语言比如 python 允许通过多继承实现 mixin。JavaScript 不支持多继承，但是可以通过拷贝多个类中的方法到某个类的原型中实现 mixin。
+一些其它编程语言允许多重继承。JavaScript 不支持多重继承，但是可以通过将方法拷贝到原型中来实现 mixin。
 
-我们可以使用 mixin 作为一种通过多种行为来增强类的方式，就像我们上面看到的事件处理一样。
+我们可以使用 mixin 作为一种通过添加多种行为（例如上文中所提到的事件处理）来扩充类的方法。
 
-如果 Mixins 偶尔会重写原生类中的方法，那么 Mixins 可能会成为一个冲突点。因此通常情况下应该好好考虑 mixin 的命名，以减少这种冲突的可能性。
+如果 Mixins 意外覆盖了现有类的方法，那么它们可能会成为一个冲突点。因此，通常应该仔细考虑 mixin 的命名方法，以最大程度地降低发生这种冲突的可能性。

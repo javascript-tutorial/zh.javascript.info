@@ -1,6 +1,6 @@
 为了使搜索不区分大小写，我们将字符串改为小写，然后搜索：
 
-```js run
+```js run demo
 function checkSpam(str) {
   let lowerStr = str.toLowerCase();
 

@@ -1,3 +1,5 @@
+let isDragging = false;
+
 document.addEventListener('mousedown', function(event) {
 
   let dragElement = event.target.closest('.draggable');
@@ -5,13 +7,16 @@ document.addEventListener('mousedown', function(event) {
   if (!dragElement) return;
 
   event.preventDefault();
+
+  dragElement.ondragstart = function() {
+      return false;
+  };
+
   let coords, shiftX, shiftY;
 
-  startDrag(event.clientX, event.clientY);
+  startDrag(dragElement, event.clientX, event.clientY);
 
-  document.addEventListener('mousemove', onMouseMove);
-
-  dragElement.onmouseup = function() {
+  function onMouseUp(event) {
     finishDrag();
   };
 
@@ -19,74 +24,86 @@ document.addEventListener('mousedown', function(event) {
     moveAt(event.clientX, event.clientY);
   }
 
-  // on drag start:
-  //   remember the initial shift
-  //   move the element position:fixed and a direct child of body
-  function startDrag(clientX, clientY) {
+  // 在拖动开始时：
+  //   记住初始的移位
+  //   将元素设置为 position:fixed，并将此元素移动到作为 body 的直接子元素
+  function startDrag(element, clientX, clientY) {
+    if(isDragging) {
+      return;
+    }
 
-    shiftX = clientX - dragElement.getBoundingClientRect().left;
-    shiftY = clientY - dragElement.getBoundingClientRect().top;
+    isDragging = true;
 
-    dragElement.style.position = 'fixed';
+    document.addEventListener('mousemove', onMouseMove);
+    element.addEventListener('mouseup', onMouseUp);
 
-    document.body.append(dragElement);
+    shiftX = clientX - element.getBoundingClientRect().left;
+    shiftY = clientY - element.getBoundingClientRect().top;
+
+    element.style.position = 'fixed';
 
     moveAt(clientX, clientY);
   };
 
-  // switch to absolute coordinates at the end, to fix the element in the document
+  // 在最后，转换到绝对（absolute）坐标，以将元素固定在文档中
   function finishDrag() {
-    dragElement.style.top = parseInt(dragElement.style.top) + pageYOffset + 'px';
+    if(!isDragging) {
+      return;
+    }
+
+    isDragging = false;
+
+    dragElement.style.top = parseInt(dragElement.style.top) + window.pageYOffset + 'px';
     dragElement.style.position = 'absolute';
 
     document.removeEventListener('mousemove', onMouseMove);
-    dragElement.onmouseup = null;
+    dragElement.removeEventListener('mouseup', onMouseUp);
   }
 
   function moveAt(clientX, clientY) {
-    // new window-relative coordinates
+    // 新的窗口相对坐标
     let newX = clientX - shiftX;
     let newY = clientY - shiftY;
 
-    // check if the new coordinates are below the bottom window edge
+    // 检查新坐标是否在底部窗口边缘以下
     let newBottom = newY + dragElement.offsetHeight; // new bottom
 
-    // below the window? let's scroll the page
+    // 在窗口边缘以下？让我们滚动此页面
     if (newBottom > document.documentElement.clientHeight) {
-      // window-relative coordinate of document end
+      // 文档末端的窗口相对坐标
       let docBottom = document.documentElement.getBoundingClientRect().bottom;
 
-      // scroll the document down by 10px has a problem
-      // it can scroll beyond the end of the document
+      // 将文档向下滚动 10px 有一个问题
+      // 它可以滚动到文档末尾之后
       // Math.min(how much left to the end, 10)
       let scrollY = Math.min(docBottom - newBottom, 10);
 
-      // calculations are imprecise, there may be rounding errors that lead to scrolling up
-      // that should be impossible, fix that here
+      // 计算是不精确的，可能会有舍入误差导致页面向上滚动
+      // 这是不应该出现，我们在这儿解决它
       if (scrollY < 0) scrollY = 0;
 
       window.scrollBy(0, scrollY);
 
-      // a swift mouse move make put the cursor beyond the document end
-      // if that happens -
-      // limit the new Y by the maximally possible (right at the bottom of the document)
+      // 快速移动鼠标将指针移至文档末端的外面
+      // 如果发生这种情况 ——
+      //  使用最大的可能距离来限制 newY（就是文档末端到顶端的距离）
       newY = Math.min(newY, document.documentElement.clientHeight - dragElement.offsetHeight);
     }
 
-    // check if the new coordinates are above the top window edge (similar logic)
+    // 检查新坐标是否在顶部窗口边缘上方（类似的逻辑）
     if (newY < 0) {
       // scroll up
       let scrollY = Math.min(-newY, 10);
-      if (scrollY < 0) scrollY = 0; // check precision errors
+      if (scrollY < 0) scrollY = 0; // 检查精度损失
 
       window.scrollBy(0, -scrollY);
-      // a swift mouse move can put the cursor beyond the document start
-      newY = Math.max(newY, 0); // newY may not be below 0
+      // 快速移动鼠标可以使指针超出文档的顶端
+      newY = Math.max(newY, 0); // newY 不得小于 0
     }
 
 
-    // limit the new X within the window boundaries
-    // there's no scroll here so it's simple
+    // 将 newX 限制在窗口范围内
+    // 这里没有滚动，所以它很简单
     if (newX < 0) newX = 0;
     if (newX > document.documentElement.clientWidth - dragElement.offsetWidth) {
       newX = document.documentElement.clientWidth - dragElement.offsetWidth;

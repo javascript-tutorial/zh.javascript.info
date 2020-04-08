@@ -81,9 +81,10 @@ let x = 5;
 x = "John";
 ```
 
-有 7 种数据类型：
+有 8 种数据类型：
 
 - `number` — 可以是浮点数，也可以是整数，
+- `bigint` — 用于任意长度的整数，
 - `string` — 字符串类型，
 - `boolean` — 逻辑值：`true/false`，
 - `null` — 具有单个值 `null` 的类型，表示“空”或“不存在”，
@@ -142,7 +143,7 @@ JavaScript 支持以下运算符：
 赋值
 : 简单的赋值：`a = b` 和合并了其他操作的赋值：`a * = 2`。
 
-按位操作符
+按位运算符
 : 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
 
 三元运算符

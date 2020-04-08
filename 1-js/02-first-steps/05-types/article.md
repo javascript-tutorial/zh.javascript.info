@@ -10,9 +10,9 @@ message = 123456;
 
 允许这种操作的编程语言称为“动态类型”（dynamically typed）的编程语言，意思是虽然编程语言中有不同的数据类型，但是你定义的变量并不会在定义后，被限制为某一数据类型。
 
-在 JavaScript 中有七种基本的数据类型。这一章我们会学习数据类型的基本知识，在下一章我们会对他们一一进行详细讲解。
+在 JavaScript 中有八种基本的数据类型。这一章我们会学习数据类型的基本知识，在下一章我们会对他们一一进行详细讲解。
 
-## number 类型
+## Number 类型
 
 ```js
 let n = 123;
@@ -62,14 +62,33 @@ n = 12.345;
 
 我们将在 <info:number> 一节中学习数字的更多细节。
 
-## string 类型
+## BigInt 类型
+
+在 JavaScript 中，"number" 类型无法代表大于 <code>2<sup>53</sup></code>（或小于 <code>-2<sup>53</sup></code>）的整数，这是其内部表示形式导致的技术限制。这大约是 16 位的十进制数字，因此在大多数情况下，这个限制不是问题，但有时我们需要很大的数字，例如用于加密或微秒精度的时间戳。
+
+`BigInt` 类型是最近被添加到 JavaScript 语言中的，用于表示任意长度的整数。
+
+通过将 `n` 附加到整数字段的末尾来创建 `BigInt`。
+
+```js
+// 尾部的 "n" 表示这是一个 BigInt 类型
+const bigInt = 1234567890123456789012345678901234567890n;
+```
+
+由于很少需要 `BigInt` 类型的数字，因此我们在单独的章节 <info:bigint> 中专门对其进行介绍。
+
+```smart header="兼容性问题"
+目前 Firefox 和 Chrome 已经支持 `BigInt` 了，但 Safari/IE/Edge 还没有。
+```
+
+## String 类型
 
 JavaScript 中的字符串必须被括在引号里。
 
 ```js
 let str = "Hello";
 let str2 = 'Single quotes are ok too';
-let phrase = `can embed ${str}`;
+let phrase = `can embed another ${str}`;
 ```
 
 在 JavaScript 中，有三种包含字符串的方式。
@@ -78,7 +97,7 @@ let phrase = `can embed ${str}`;
 2. 单引号：`'Hello'`.
 3. 反引号：<code>&#96;Hello&#96;</code>.
 
-双引号和单引号都是“简单”引用，在 JavaScript 中两者并没有什么差别。
+双引号和单引号都是“简单”引用，在 JavaScript 中两者几乎没有什么差别。
 
 反引号是 **功能扩展** 引号。它们允许我们通过将变量和表达式包装在 `${…}` 中，来将它们嵌入到字符串中。例如：
 
@@ -96,18 +115,18 @@ alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
 
 需要注意的是，这仅仅在反引号内有效，其他引号不允许这种嵌入。
 ```js run
-alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} （使用双引号则不会计算 ${…} 中的内容）
+alert( "the result is ${1 + 2}" ); // the result is ${1 + 2}（使用双引号则不会计算 ${…} 中的内容）
 ```
 
 我们会在 <info:string> 一节中学习字符串的更多细节。
 
 ```smart header="JavaScript 中没有 *character* 类型。"
-在一些语言中，单个字符有一个特殊的 “character” 类型，在 C 语言和 Java 语言中是 `char`。
+在一些语言中，单个字符有一个特殊的 "character" 类型，在 C 语言和 Java 语言中被称为 "char"。
 
 在 JavaScript 中没有这种类型。只有一种 `string` 类型，一个字符串可以包含一个或多个字符。
 ```
 
-## boolean 类型（逻辑类型）
+## Boolean 类型（逻辑类型）
 
 boolean 类型仅包含两个值：`true` 和 `false`。
 
@@ -198,6 +217,8 @@ typeof undefined // "undefined"
 
 typeof 0 // "number"
 
+typeof 10n // "bigint"
+
 typeof true // "boolean"
 
 typeof "foo" // "string"
@@ -223,12 +244,12 @@ typeof alert // "function"  (3)
 2. `typeof null` 的结果是 `"object"`。这其实是不对的。官方也承认了这是 `typeof` 运算符的问题，现在只是为了兼容性而保留了下来。当然，`null` 不是一个 `object`。`null` 有自己的类型，它是一个特殊值。再次强调，这是 JavaScript 语言的一个错误。
 3. `typeof alert` 的结果是 `"function"`，因为 `alert` 在 JavaScript 语言中是一个函数。我们会在下一章学习函数，那时我们会了解到，在 JavaScript 语言中没有一个特别的 "function" 类型。函数隶属于 `object` 类型。但是 `typeof` 会对函数区分对待。这不是很正确的做法，但在实际编程中非常方便。
 
-
 ## 总结
 
-JavaScript 中有七种基本的数据类型（译注：前六种为基本数据类型，也属于原生类型，而 `object` 为复杂数据类型）。
+JavaScript 中有八种基本的数据类型（译注：前七种为基本数据类型，也称为原始类型，而 `object` 为复杂数据类型）。
 
-- `number` 用于任何类型的数字：整数或浮点数。
+- `number` 用于任何类型的数字：整数或浮点数，在 ±2<sup>53</sup> 范围内的整数。
+- `bigint` 用于任意长度的整数。
 - `string` 用于字符串：一个字符串可以包含一个或多个字符，所以没有单独的单字符类型。
 - `boolean` 用于 `true` 和 `false`。
 - `null` 用于未知的值 —— 只有一个 `null` 值的独立类型。

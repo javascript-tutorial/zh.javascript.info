@@ -1,6 +1,4 @@
-
-
-```js run no-beautify
+```js demo
 function debounce(f, ms) {
 
   let isCooldown = false;
@@ -18,14 +16,13 @@ function debounce(f, ms) {
 }
 ```
 
-对 `debounce` 的调用返回一个包装器。可能有两种状态：
+对 `debounce` 的调用返回一个包装器。这儿可能会有两种状态：
 
-- `isCooldown = false` —— 准备好执行
-- `isCooldown = true` —— 等待时间结束
+- `isCooldown = false` —— 准备好执行。
+- `isCooldown = true` —— 等待时间结束。
 
-在第一次调用 `isCooldown` 是假的，所以调用继续进行，状态变为 `true`。
+在第一次调用时，`isCooldown` 是 `false`，因此调用继续进行，状态变为 `true`。
 
-当 `isCooldown` 为真时，所有其他调用都被忽略。
+当 `isCooldown` 为 `true` 时，所有其他调用都被忽略。
 
-然后 `setTimeout` 在给定的延迟后将其恢复为 `false`。
-
+然后 `setTimeout` 在给定的延时结束后，将其恢复为 `false`。
