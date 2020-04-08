@@ -8,7 +8,7 @@
 
 ![](blob.svg)
 
-构造函数的语法为：
+构造器的语法为：
 
 ```js
 new Blob(blobParts, options);
@@ -48,7 +48,7 @@ blob.slice([byteStart], [byteEnd], [contentType]);
 参数值类似于 `array.slice`，也允许是负数。
 
 ```smart header="`Blob` 对象是不可改变的"
-我们无法直接在 `Blob` 中更改数据，但我们可以通过 slice 获得 `Blob` 的多个部分，从这些部分创建新的 `Blob` 对象，将它们组成新的 `Blob`，等。
+我们无法直接在 `Blob` 中更改数据，但我们可以通过 `slice` 获得 `Blob` 的多个部分，从这些部分创建新的 `Blob` 对象，将它们组成新的 `Blob`，等。
 
 这种行为类似于 JavaScript 字符串：我们无法更改字符串中的字符，但可以生成一个新的改动过的字符串。
 ```
