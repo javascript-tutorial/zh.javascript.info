@@ -57,7 +57,7 @@ alert(Uint32Array.BYTES_PER_ELEMENT); // 每个整数 4 个字节
 */!*
 
 alert(view.length); // 4，它存储了 4 个整数
-alert(view.byteLength); // 16，字节大小
+alert(view.byteLength); // 16，字节中的大小
 
 // 让我们写入一个值
 view[0] = 123456;
@@ -71,14 +71,17 @@ for(let num of view) {
 
 ## TypedArray
 
-所有这些视图（`Uint8Array`、`Uint32Array` 等）有一个通用术语是 [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects)。它们都享有同一组方法和属性。
+所有这些视图（`Uint8Array`，`Uint32Array` 等）的通用术语是 [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects)。它们都享有同一组方法和属性。
 
-它们更像普通数组：有索引，可遍历。
+请注意，没有名为 `TypedArray` 的构造器，它只是表示 `ArrayBuffer` 上的视图之一的通用 "umbrella" 术语：`Int8Array`，`Uint8Array` 及其他，很快就会有完整列表。
 
+当你看到 `new TypedArray` 之类的内容时，它表示 `new Int8Array`、`new Uint8Array` 及其他中之一。
 
-类型化数组的构造函数（无论是 `Int8Array` 或 `Float64Array`）各不相同，具体取决于参数类型。
+类型化数组的行为类似于常规数组：具有索引，并且是可迭代的。
 
-有 5 种参数变量：
+一个类型化数组的构造器（无论是 `Int8Array` 或 `Float64Array`，都无关紧要），其行为各不相同，并且取决于参数类型。
+
+参数有 5 种变体：
 
 ```js
 new TypedArray(buffer, [byteOffset], [length]);
@@ -88,18 +91,18 @@ new TypedArray(length);
 new TypedArray();
 ```
 
-1. 如果给定的是 `ArrayBuffer` 参数，则在其上创建视图。我们已经用过该语法了。
+1. 如果给定的是 `ArrayBuffer` 参数，则会在其上创建视图。我们已经用过该语法了。
 
-    根据需要，我们可以给定起始位置 `byteOffset`（默认为 0）以及 `length`（默认至缓存区的末尾），这样视图就会只涵盖  `buffer` 的一部分。
+    可选，我们可以给定起始位置 `byteOffset`（默认为 0）以及 `length`（默认至 buffer 的末尾），这样视图将仅涵盖 `buffer` 的一部分。
 
-2. 如果给定的是 `Array`、或任何类似数组的对象，则创建一个相同长度的类型化数组，并复制值。
+2. 如果给定的是 `Array`，或任何类数组对象，则会创建一个相同长度的类型化数组，并复制其内容。
 
-    我们可以使用它来预填充数据：
+    我们可以使用它来预填充数组的数据：
     ```js run
     *!*
     let arr = new Uint8Array([0, 1, 2, 3]);
     */!*
-    alert( arr.length ); // 4，创建相同长度的二进制数组
+    alert( arr.length ); // 4，创建了相同长度的二进制数组
     alert( arr[1] ); // 1，用给定值填充了 4 个字节（无符号 8 位整数）
     ```
 3. 如果给定的是另一个 `TypedArray`，也是如此：创建一个相同长度的类型化数组，并复制其内容。如果需要的话，数据在此过程中会被转换为新的类型。
@@ -112,20 +115,20 @@ new TypedArray();
     alert( arr8[1] ); // 232，试图复制 1000，但无法将 1000 放进 8 位字节中（详述见下文）。
     ```
 
-4. 对于整型参数 `length` — 创建包含 `length` 这么多元素的类型化数组。它的字节长度将是 `length` 乘以单个 `TypedArray.BYTES_PER_ELEMENT` 中的字节数：
+4. 对于数字参数 `length` —— 创建类型化数组以包含这么多元素。它的字节长度将是 `length` 乘以单个 `TypedArray.BYTES_PER_ELEMENT` 中的字节数：
     ```js run
     let arr = new Uint16Array(4); // 为 4 个整数创建类型化数组
     alert( Uint16Array.BYTES_PER_ELEMENT ); // 每个整数 2 个字节
-    alert( arr.byteLength ); // 8（大小，以字节为单位)
+    alert( arr.byteLength ); // 8（字节中的大小）
     ```
 
-5. 不带参数的情况下，创建零长度的类型化数组。
+5. 不带参数的情况下，创建长度为零的类型化数组。
 
-我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此除第一种情况（已提供 `ArrayBuffer`）外，其他所有情况都会自动创建 `ArrayBuffer`。
+我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此，除第一种情况（已提供 `ArrayBuffer`）外，其他所有情况都会自动创建 `ArrayBuffer`。
 
 如要访问 `ArrayBuffer`，可以用以下属性：
-- `arr.buffer` — 引用 `ArrayBuffer`。
-- `arr.byteLength` — `ArrayBuffer` 的长度。
+- `arr.buffer` —— 引用 `ArrayBuffer`。
+- `arr.byteLength` —— `ArrayBuffer` 的长度。
 
 因此，我们总是可以从一个视图转到另一个视图：
 ```js
@@ -138,24 +141,24 @@ let arr16 = new Uint16Array(arr8.buffer);
 
 下面是类型化数组的列表：
 
-- `Uint8Array`，`Uint16Array`，`Uint32Array` — 用于 8、16 和 32 位的整数。
-  - `Uint8ClampedArray` — 对于 8 位整数，在赋值时便“固定“其值（见下文）。
-- `Int8Array`，`Int16Array`，`Int32Array` — 用于有符号整数（可以为负数）。
-- `Float32Array`，`Float64Array` — 用于 32 位和 64 位的有符号浮点数。
+- `Uint8Array`，`Uint16Array`，`Uint32Array` —— 用于 8、16 和 32 位的整数。
+  - `Uint8ClampedArray` —— 用于 8 位整数，在赋值时便“固定“其值（见下文）。
+- `Int8Array`，`Int16Array`，`Int32Array` —— 用于有符号整数（可以为负数）。
+- `Float32Array`，`Float64Array` —— 用于 32 位和 64 位的有符号浮点数。
 
-```warn header="无 `int8` 或类似的单值类型"
-请注意，尽管有类似 `Int8Array` 这样的名称，JavaScript 中并没有像 `int`，或 `int8` 这样的单值类型。
+```warn header="没有 `int8` 或类似的单值类型"
+请注意，尽管有类似 `Int8Array` 这样的名称，但 JavaScript 中并没有像 `int`，或 `int8` 这样的单值类型。
 
-这是合乎逻辑的，因为 `Int8Array` 不是这些单值的数组，而是 `ArrayBuffer`上的视图。
+这是合乎逻辑的，因为 `Int8Array` 不是这些单值的数组，而是 `ArrayBuffer` 上的视图。
 ```
 
 ### 越界行为
 
-如果我们尝试将越界值写入类型化数组会出现什么情况？不会报错。但是多余的位被截断。
+如果我们尝试将越界值写入类型化数组会出现什么情况？不会报错。但是多余的位被切除。
 
-例如，我们试着将 256 放入 `Uint8Array`。256 的二进制格式是 `100000000`（9 位），但 `Uint8Array` 每个值只有 8 位，因此可用范围为 0 到 255。
+例如，我们尝试将 256 放入 `Uint8Array`。256 的二进制格式是 `100000000`（9 位），但 `Uint8Array` 每个值只有 8 位，因此可用范围为 0 到 255。
 
-对于更大的数字，仅存储最右边的（低位有效）8 位，其余部分被截断： 
+对于更大的数字，仅存储最右边的（低位有效）8 位，其余部分被切除： 
 
 ![](8bit-integer-256.svg)
 
@@ -182,29 +185,29 @@ alert(uint8array[0]); // 0
 alert(uint8array[1]); // 1
 ```
 
-`Uint8ClampedArray` 在这方面比较特殊，不太一样。对于大于 255 的任何数字，它将保存为 255；对于任何负数，它将保存为 0。这对于图像处理很有用。
+`Uint8ClampedArray` 在这方面比较特殊，它的表现不太一样。对于大于 255 的任何数字，它将保存为 255，对于任何负数，它将保存为 0。此行为对于图像处理很有用。
 
 ## TypedArray 方法
 
-`TypedArray` 有普通的 `Array` 方法，但有个明显的例外。
+`TypedArray` 具有常规的 `Array` 方法，但有个明显的例外。
 
-我们可以遍历（iterate）、`map`、`slice`、`find` 和 `reduce`等等。
+我们可以遍历（iterate），`map`，`slice`，`find` 和 `reduce` 等。
 
-但有几件事我们不能做：
+但有几件事我们做不了：
 
-- 无 `splice` — 我们不能“删除”一个值，因为类型化数组是缓存区上的视图，并且是固定的、连续的内存区域。我们所能做的就是分配一个零值。
+- 没有 `splice` —— 我们无法“删除”一个值，因为类型化数组是缓存区（buffer）上的视图，并且缓存区是固定的、连续的内存区域。我们所能做的就是分配一个零值。
 - 无 `concat` 方法。
 
 还有两种其他方法：
 
 - `arr.set(fromArr, [offset])` 将 `fromArr` 中从 `offset`（默认为 0）开始的所有元素复制到 `arr`。
-- `arr.subarray([begin, end])` 创建一个从 `begin` 到 `end`（不包括）相同类型的新视图。这类似于 `slice` 方法（同样也支持），但是不复制任何内容 - 只是创建一个新视图，对给定的数据进行操作。
+- `arr.subarray([begin, end])` 创建一个从 `begin` 到 `end`（不包括）相同类型的新视图。这类似于 `slice` 方法（同样也支持），但不复制任何内容 —— 只是创建一个新视图，以对给定片段的数据进行操作。
 
-有了这些方法，我们可以复制、混合类型化数组，从现有数组创建新数组，等等。
+有了这些方法，我们可以复制、混合类型化数组，从现有数组创建新数组，等。
 
 
 
-## 数据视图（DataView）
+## DataView
 
 [DataView](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/DataView) 在 `ArrayBuffer` 上层，是一种特殊的超灵活“无类型”视图。它允许以任何格式访问任何偏移量的数据。
 
