@@ -26,7 +26,7 @@
 
 资源（Sources）面板包含三个部分：
 
-1. **文件浏览（File Navigator）** 区域列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
+1. **文件导航（File Navigator）** 区域列出了 HTML、JavaScript、CSS 和包括图片在内的其他依附于此页面的文件。Chrome 扩展程序也会显示在这。
 2. **代码编辑（Code Editor）** 区域展示源码。
 3. **JavaScript 调试（JavaScript Debugging）** 区域是用于调试的，我们很快就会来探索它。
 
