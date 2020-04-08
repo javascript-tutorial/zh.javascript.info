@@ -154,11 +154,11 @@ window.onbeforeunload = function() {
 
 ## 显示禁用的功能
 
-`X-Frame-Options` 存在副作用。它无差别地禁止合法网站在 frame 中显示我们的页面。
+`X-Frame-Options` 有一个副作用。其他的网站即使有充分的理由也无法在 frame 中显示我们的页面。
 
-所以还有其他措施...例如，把设置了 `height: 100%; width: 100%;` 的 `<div>` “覆盖” 在页面上，这样就能监听所有的点击事件。在 `window == top` 或无需防御的情况下，此 `<div>` 则应该隐藏起来。
+因此，还有其他解决方案……例如，我们可以用一个样式为 `height: 100%; width: 100%;` 的 `<div>` “覆盖”页面，这样它就能拦截所有点击。如果 `window == top` 或者我们确定不需要保护时，再将该 `<div>` 移除。
 
-代码示例如下：
+像这样：
 
 ```html
 <style>
@@ -173,19 +173,19 @@ window.onbeforeunload = function() {
 </style>
 
 <div id="protector">
-  <a href="/" target="_blank">Go to the site</a>
+  <a href="/" target="_blank">前往网站</a>
 </div>
 
 <script>
-  // 如果顶层 window 来自不同的域，会报错
-  // 但是此处并没有报错
+  // 如果顶级窗口来自其他源，这里则会出现一个 error
+  // 但是在本例中没有问题
   if (top.document.domain == document.domain) {
     protector.remove();
   }
 </script>
 ```
 
-演示如下：
+演示示例：
 
 [codetabs src="protector"]
 
