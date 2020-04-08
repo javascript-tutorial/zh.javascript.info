@@ -111,28 +111,28 @@ blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 
 在上面最后一个示例中，我们打算仅使用一次 `Blob`，来进行即时下载，因此我们立即调用 `URL.revokeObjectURL(link.href)`。
 
-而在前一个带有可点击的 HTML 链接的示例中，我们不调用 `URL.revokeObjectURL(link.href)`，因为那样会使 `Blob` url 无效。在撤销后，由于映射被删除了，因此该 URL 也就不再起作用了。
+而在前一个带有可点击的 HTML 链接的示例中，我们不调用 `URL.revokeObjectURL(link.href)`，因为那样会使 `Blob` URL 无效。在调用该方法后，由于映射被删除了，因此该 URL 也就不再起作用了。
 
 ## Blob 转换为 base64
 
-`URL.createObjectURL` 的一个可替代方法是，将 blob 转换为 base64-编码 的字符串。
+`URL.createObjectURL` 的一个替代方法是，将 `Blob` 转换为 base64-编码的字符串。
 
-这种编码是将二进制数据表示为一个由 0 到 64 的 ASCII 码字符组成的字符串，非常安全且“可读“。而且更重要的是 -- 我们可以在数据 url 中使用此编码。
+这种编码将二进制数据表示为一个由 0 到 64 的 ASCII 码组成的字符串，非常安全且“可读“。更重要的是 —— 我们可以在 "data-url" 中使用此编码。
 
-[数据 url（data url）](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) 的格式是 `data:[<mediatype>][;base64],<data>`。我们可以在其他地方使用这种 url，如同使用 "普通" urls 一样。
+["data-url"](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) 的形式为 `data:[<mediatype>][;base64],<data>`。我们可以在任何地方使用这种 url，和使用“常规” url 一样。
 
-例如，这是一个笑容符：
+例如，这是一个笑脸：
 
 ```html
 <img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
 ```
 
-浏览器将字符串解码，显示图像：<img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
+浏览器将解码该字符串，并显示图像：<img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
 
 
-我们用自带的 `FileReader` 对象将 blob 转换为 base64。它可以从 Blobs 读取为多种格式的数据。在[下一章](info:file) 我们会做深入讲解。
+我们使用内建的 `FileReader` 对象来将 `Blob` 转换为 base64。它可以将 `Blob` 中的数据读取为多种格式。在[下一章](info:file) 我们将更深入地介绍它。
 
-以下是下载 blob 的示例代码，这次是通过 base-64 来实现：
+下面是下载 `Blob` 的示例，这次是通过 base-64：
 
 ```js run
 let link = document.createElement('a');
@@ -142,7 +142,7 @@ let blob = new Blob(['Hello, world!'], {type: 'text/plain'});
 
 *!*
 let reader = new FileReader();
-reader.readAsDataURL(blob); // 将 blob 转换为 base64 并调用 onload 方法
+reader.readAsDataURL(blob); // 将 Blob 转换为 base64 并调用 onload
 */!*
 
 reader.onload = function() {
@@ -151,25 +151,25 @@ reader.onload = function() {
 };
 ```
 
-这两种从 blob 创建 URL 的方法都可以用。但通常 `URL.createObjectURL(blob)` 更简单快捷一些。
+这两种从 `Blob` 创建 URL 的方法都可以用。但通常 `URL.createObjectURL(blob)` 更简单快捷。
 
-```compare title-plus="URL.createObjectURL(blob)" title-minus="Blob 转换为 数据 url"
-+ 如介意内存，我们需要撤销他们
-+ 直接访问 blob，无需”编码/解码“
-- 无需撤销任何操作。
-- 大的 blob 编码时，性能和内存会有损耗。
+```compare title-plus="URL.createObjectURL(blob)" title-minus="Blob 转换为 data url"
++ 如果介意内存，我们需要撤销（revoke）它们
++ 直接访问 `Blob`，无需“编码/解码”
+- 无需撤销（revoke）任何操作。
+- 对大的 `Blob` 进行编码时，性能和内存会有损耗。
 ```
 
 ## Image 转换为 blob
 
-我们可以从图像（image）、图像的一部分或甚至一个页面截图来创建 blob。这样便方便上传到其他地方。
+我们可以创建一个图像（image）的、图像的一部分、或者甚至创建一个页面截图的 `Blob`。这样方便将其上传至其他地方。
 
-Image 操作是通过 `<canvas>` 元素来实现：
+图像操作是通过 `<canvas>` 元素来实现的：
 
-1. 用 [canvas.drawImage](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage)在画布上画一个图像（或其中的一部分）。
-2. 调用 canvas 方法 [.toBlob(callback, format, quality)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)，创建一个 blob，并在创建后运行 `callback`。
+1. 使用 [canvas.drawImage](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage) 在画布上绘制图像（或图像的一部分）。
+2. 调用 canvas 方法 [.toBlob(callback, format, quality)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) 创建一个 `Blob`，并在创建完成后使用其运行 `callback`。
 
-在上例中，图像只是被复制（copy）了，不过我们可以在创建 blob 之前，在画布上进行剪裁（cut)，或转换（transform）：
+在下面这个示例中，图像只是被复制了，不过我们可以在创建 blob 之前，从中裁剪图像，或者在 canvas 上对其进行转换：
 
 ```js run
 // 获取任何图像
@@ -182,30 +182,30 @@ canvas.height = img.clientHeight;
 
 let context = canvas.getContext('2d');
 
-// 复制图像（此方法允许剪裁图像）
+// 向其中复制图像（此方法允许剪裁图像）
 context.drawImage(img, 0, 0);
-// 我们可以在画布上 context.rotate()，以及许多其他操作。
+// 我们 context.rotate()，并在 canvas 上做很多其他事情
 
 // toBlob 是异步操作，结束后会调用 callback
 canvas.toBlob(function(blob) {
-  // blob 创建完毕后，下载之
+  // blob 创建完成，下载它
   let link = document.createElement('a');
   link.download = 'example.png';
 
   link.href = URL.createObjectURL(blob);
   link.click();
 
-  // 删除内部 blob 引用，这样浏览器可以从内存中将其删除
+  // 删除内部 blob 引用，这样浏览器可以从内存中将其清楚
   URL.revokeObjectURL(link.href);
 }, 'image/png');
 ```
 
-如果我们想用 `async/await` 取代 callbacks:
+如果我们更喜欢 `async/await` 而不是 callback：
 ```js
 let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
 ```
 
-对于页面截屏，我们可以用一个库如 <https://github.com/niklasvh/html2canvas>。它做的事情是，在页面上扫一遍，并在 `<canvas>` 上画下来。然后我们便可以如上述操作一样从中获取 blob。
+对于页面截屏，我们可以使用诸如 <https://github.com/niklasvh/html2canvas> 之类的库。它所做的只是扫一遍浏览器页面，并将其绘制在 `<canvas>` 上。然后，我们就可以像上面一样获取一个它的 `Blob`。
 
 ## Blob 转换为 ArrayBuffer
 
