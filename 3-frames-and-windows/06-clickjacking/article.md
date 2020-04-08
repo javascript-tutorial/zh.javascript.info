@@ -189,33 +189,33 @@ window.onbeforeunload = function() {
 
 [codetabs src="protector"]
 
-## Samesite cookie attribute
+## Samesite cookie 特性
 
-The `samesite` cookie attribute can also prevent clickjacking attacks.
+`samesite` cookie 特性也可以阻止点击劫持攻击。
 
-A cookie with such attribute is only sent to a website if it's opened directly, not via a frame, or otherwise. More information in the chapter <info:cookie#samesite>.
+具有 `samesite` 特性的 cookie 仅在网站是通过直接方式打开（而不是通过 frame 或其他方式）的情况下才发送到网站。更多细节请见 <info:cookie#samesite>。
 
-If the site, such as Facebook, had `samesite` attribute on its authentication cookie, like this:
+如果网站，例如 Facebook，在其身份验证 cookie 中具有 `samesite` 特性，像这样：
 
 ```
 Set-Cookie: authorization=secret; samesite
 ```
 
-...Then such cookie wouldn't be sent when Facebook is open in iframe from another site. So the attack would fail.
+……那么，当在另一个网站中的 iframe 中打开 Facebook 时，此类 cookie 将不会被发送。因此，攻击将失败。
 
-The `samesite` cookie attribute will not have an effect when cookies are not used. This may allow other websites to easily show our public, unauthenticated pages in iframes.
+当不实用 cookie 时，`samesite` cookie 特性将不会有任何影响。这可以使其他网站能够轻松地在 iframe 中显示我们公开的、未进行身份认证的页面。
 
-However, this may also allow clickjacking attacks to work in a few limited cases. An anonymous polling website that prevents duplicate voting by checking IP addresses, for example, would still be vulnerable to clickjacking because it does not authenticate users using cookies.
+然而，这也可能会使得劫持攻击在少数情况下起作用。例如，通过检查 IP 地址来防止重复投票的匿名投票网站仍然会受到点击劫持的攻击，因为它不使用 cookie 对用户身份进行验证。
 
 ## 总结
 
-点击劫持是一种 “欺骗” 用户在不知情下点击恶意网站的方式。如果是重要的点击操作，这是非常危险的。
+点击劫持是一种“诱骗”用户在不知情的情况下点击恶意网站的方式。如果是重要的点击操作，这是非常危险的。
 
-黑客可以通过信息提交一个链接到他的恶意页面，或者通过某些手段引诱访问者访问他的页面。当然还有许多其他变体。
+黑客可以通过信息发布指向他的恶意页面的链接，或者通过某些手段引诱访问者访问他的页面。当然还有很多其他变体。
 
-一方面 —— 这种攻击方式是“浅层”的：黑客只需要拦截一次点击。但另一方面，如果被这次点击之后会开启另一个控制开关，那么黑客同样用狡猾的提示强制用户点击这些控制按钮。
+一方面 —— 这种攻击方式是“浅层”的：黑客所做的只是拦截一次点击。但另一方面，如果黑客知道在点击之后将出现另一个控件，则他们可能还会使用狡猾的消息来迫使用户也点击它们。
 
-这种攻击相当危险，因为在设计交互界面时，通常不会考虑到可能会有黑客代替真正的访问者点击界面。所以许多意想不到的地方可能发现攻击漏洞。
+这种攻击相当危险，因为在设计交互界面时，我们通常不会考虑到可能会有黑客代表用户点击界面。所以，在许多意想不到的地方可能发现攻击漏洞。
 
-- 推荐在页面上（或整个网站）使用 `X-Frame-Options: SAMEORIGIN`，这不会被 frame 内部读取。
-- 若要允许的页面在 frame 中显示，用一个 `<div>` 遮盖，这样仍然是安全的。
+- 建议在那些不希望被在 frame 中查看的页面上（或整个网站上）使用 `X-Frame-Options: SAMEORIGIN`。
+- 如果我们希望允许在 frame 中显示我们的页面，那我们使用一个 `<div>` 对整个页面进行遮盖，这样也是安全的。
