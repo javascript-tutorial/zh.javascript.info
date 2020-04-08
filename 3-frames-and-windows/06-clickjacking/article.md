@@ -85,31 +85,31 @@ if (top != window) {
 
 这个方法并不可靠，因为有许多方式可以绕过这个限制。下面我们就介绍几个。
 
-### 阻塞顶层容器
+### 阻止顶级导航
 
-在 [beforeunload](info:onload-ondomcontentloaded#window.onbeforeunload) 事件中阻塞 `top.location` 变更过渡。
+我们可以阻止因更改 [beforeunload](info:onload-ondomcontentloaded#window.onbeforeunload) 事件处理程序中的 `top.location` 而引起的过渡（transition）。
 
-顶层页面（从属于黑客）在 `beforeunload` 上添加一个处理方法：当 `iframe` 试图变更 `top.location` 时，访问者会收到询问是否离开的消息。
+顶级页面（从属于黑客）在 `beforeunload` 上设置了一个用于阻止的处理程序，像这样：
 
-如下所示：
 ```js
 window.onbeforeunload = function() {
-  window.onbeforeunload = null;
-  return "Want to leave without learning all the secrets (he-he)?";
+  return false;
 };
 ```
 
-大多数情况下，由于并不知道 iframe 的存在，访问者看到的只是顶层页面，即本来就要访问的页面，由此认为没有必要离开，所以会回答否。则 `top.location` 并不会变化！
+当 `iframe` 试图更改 `top.location` 时，访问者会收到一条消息，询问他们是否要离开页面。
 
-作用如下：
+在大多数情况下，访问者会做出否定的回答，因为他们并不知道还有这么一个 iframe，他们所看到的只有顶级页面，他们没有理由离开。所以 `top.location` 不会变化！
+
+演示示例：
 
 [codetabs src="top-location"]
 
-### 沙箱属性
+### Sandbox 特性
 
-一个受 `sandbox` 属性限制的对象是导航。沙箱化的 iframe 不能变更 `top.location`。
+`sandbox` 特性的限制之一就是导航。沙箱化的 iframe 不能更改 `top.location`。
 
-但可以添加带有 `sandbox="allow-scripts allow-forms"` 的 iframe 标签。从而放开限制，允许脚本和表单在 iframe 中执行。但 `allow-top-navigation` 禁止了 `top.location` 的变更。
+但我们可以添加具有 `sandbox="allow-scripts allow-forms"` 的 iframe。从而放开限制，允许脚本和表单。但我们没添加 `allow-top-navigation`，因此更改 `top.location` 是被禁止的。
 
 代码如下：
 
@@ -117,41 +117,42 @@ window.onbeforeunload = function() {
 <iframe *!*sandbox="allow-scripts allow-forms"*/!* src="facebook.html"></iframe>
 ```
 
-当然还有其他绕过这个弱鸡防御的方法。
+还有其他方式可以绕过这个弱鸡防御。
 
 ## X-Frame-Options
 
-服务端 header 字段 `X-Frame-Options` 能够允许或禁止 frame 内页面的显示。
+服务器端 header `X-Frame-Options` 可以允许或禁止在 frame 中显示页面。
 
-这个 header 必须由 **服务端** 发送：若浏览器发现 `<meta>` 标签里有该字段，则会忽略此字段。即，`<meta http-equiv="X-Frame-Options"...>` 不生效。
+它必须被完全作为 HTTP-header 发送：如果浏览器在 HTML `<meta>` 标签中找到它，则会忽略它。因此，`<meta http-equiv="X-Frame-Options"...>` 没有任何作用。
 
-该 header 有三个值：
+这个 header 可能包含 3 个值：
 
 
 `DENY`
-: 始终禁止 frame 中的页面加载。
+: 始终禁止在 frame 中显示此页面。
 
 `SAMEORIGIN`
-: 允许和父页面同一来源的 frame 进行页面加载。
+: 允许在和父文档同源的 frame 中显示此页面。
 
 `ALLOW-FROM domain`
-: 允许和父页面同一给定域的 frame 进行页面加载。
+: 允许在来自给定源的父文档的 frame 中显示此页面。
 
 例如，Twitter 使用的是 `X-Frame-Options: SAMEORIGIN`。
 
 ````online
-如下所示：
+结果如下：
 
 ```html
 <iframe src="https://twitter.com"></iframe>
 ```
 
+<!-- ebook: prerender/ chrome headless dies and timeouts on this iframe -->
 <iframe src="https://twitter.com"></iframe>
 
-取决于浏览器行为，以上 `iframe` 要么显示为空，要么提醒你浏览器不允许内部页面加载。
+上面这个 `iframe` 可能为空，或者通过 alert 告知你浏览器不允许以这种方式导航至该页面，这取决于你的浏览器。
 ````
 
-## 显示不可用功能
+## 显示禁用的功能
 
 `X-Frame-Options` 存在副作用。它无差别地禁止合法网站在 frame 中显示我们的页面。
 
@@ -187,6 +188,24 @@ window.onbeforeunload = function() {
 演示如下：
 
 [codetabs src="protector"]
+
+## Samesite cookie attribute
+
+The `samesite` cookie attribute can also prevent clickjacking attacks.
+
+A cookie with such attribute is only sent to a website if it's opened directly, not via a frame, or otherwise. More information in the chapter <info:cookie#samesite>.
+
+If the site, such as Facebook, had `samesite` attribute on its authentication cookie, like this:
+
+```
+Set-Cookie: authorization=secret; samesite
+```
+
+...Then such cookie wouldn't be sent when Facebook is open in iframe from another site. So the attack would fail.
+
+The `samesite` cookie attribute will not have an effect when cookies are not used. This may allow other websites to easily show our public, unauthenticated pages in iframes.
+
+However, this may also allow clickjacking attacks to work in a few limited cases. An anonymous polling website that prevents duplicate voting by checking IP addresses, for example, would still be vulnerable to clickjacking because it does not authenticate users using cookies.
 
 ## 总结
 
