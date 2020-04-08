@@ -166,7 +166,7 @@ reader.onload = function() {
 
 图像操作是通过 `<canvas>` 元素来实现的：
 
-1. 使用 [canvas.drawImage](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage) 在画布上绘制图像（或图像的一部分）。
+1. 使用 [canvas.drawImage](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage) 在 canvas 上绘制图像（或图像的一部分）。
 2. 调用 canvas 方法 [.toBlob(callback, format, quality)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) 创建一个 `Blob`，并在创建完成后使用其运行 `callback`。
 
 在下面这个示例中，图像只是被复制了，不过我们可以在创建 blob 之前，从中裁剪图像，或者在 canvas 上对其进行转换：
@@ -209,9 +209,9 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 
 ## Blob 转换为 ArrayBuffer
 
-`Blob` 构造函数允许从几乎任何对象创建 blob，包括任何 `BufferSource`。
+`Blob` 构造器允许从几乎所有东西创建 blob，包括任何 `BufferSource`。
 
-但如果我们需要做底层操作的话，我们可以用 `FileReader` 从 blob 中获取最底层的 `ArrayBuffer`：
+但是，如果我们需要执行低级别的操作的话，则可以使用 `FileReader` 从 blob 中获取最低级别的 `ArrayBuffer`：
 
 ```js
 // 从 blob 获取 arrayBuffer
@@ -229,13 +229,13 @@ fileReader.onload = function(event) {
 
 ## 总结
 
-`ArrayBuffer`、`Uint8Array` 和其他 `BufferSource` 是“二进制数据”，[Blob](https://www.w3.org/TR/FileAPI/#dfn-Blob) 则表示“带类型的二进制数据”。
+`ArrayBuffer`，`Uint8Array` 及其他 `BufferSource` 是“二进制数据”，而 [Blob](https://www.w3.org/TR/FileAPI/#dfn-Blob) 则表示“具有类型的二进制数据”。
 
-这样可以方便 blob用于在浏览器中非常普遍使用的上传/下载操作。
+这样可以方便 `Blob` 用于在浏览器中非常常见的上传/下载操作。
 
-[XMLHttpRequest](info:xmlhttprequest), [fetch](info:fetch-basics) 等进行网络请求的方法可以自然的使用 `Blob`，如同使用其他二进制类型数据一样。
+[XMLHttpRequest](info:xmlhttprequest)，[fetch](info:fetch-basics) 等进行 Web 请求的方法可以自然地使用 `Blob`，也可以使用其他类型的二进制数据。
 
-`Blob` 和底层二进制数据类型之间的转换也很容易：
+我们可以轻松地在 `Blob` 和低级别的二进制数据类型之间进行转换：
 
-- 我们可以用 `new Blob(...)` 构造函数从一个类型数组（typed array）创建 blob。
-- 我们可以用 `FileReader` 从 Blob 中取回 `ArrayBuffer`，然后在其上创建一个视图（view），用于底层二进制操作。
+- 我们可以使用 `new Blob(...)` 构造函数从一个类型化数组（typed array）创建 `Blob`。
+- 我们可以使用 `FileReader` 从 `Blob` 中取回 `ArrayBuffer`，然后在其上创建一个视图（view），用于低级别的二进制处理。
