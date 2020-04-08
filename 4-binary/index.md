@@ -1,3 +1,3 @@
-# Binary data, files
+# 二进制数据，文件
 
-Working with binary data and files in JavaScript.
+使用 JavaScript 处理二进制数据和文件。
