@@ -30,46 +30,46 @@ alert(buffer.byteLength); // 16
 
 **如要操作 `ArrayBuffer`，我们需要使用“视图”对象。**
 
-视图对象本身并不存储任何东西。它是一副“眼镜”，透过它来解析存储在 `ArrayBuffer` 中的字节。
+视图对象本身并不存储任何东西。它是一副“眼镜”，透过它来解释存储在 `ArrayBuffer` 中的字节。
 
 例如：
 
-- **`Uint8Array`** —— 将 "ArrayBuffer" 中的每个字节视为 0 到 255 之间的单个数字（每个字节是 8 位，因此只能容纳那么多）。此类值称为“8 位无符号整数”。
-- **`Uint16Array`** —— 将每 2 个字节视为一个 0 到 65535 的整数。此类值称为“16 位无符号整数”。
-- **`Uint32Array`** —— 将每 4 个字节视为一个 0 到 4294967295 之间的整数。此类值称为“32 位无符号整数”。
+- **`Uint8Array`** —— 将 `ArrayBuffer` 中的每个字节视为 0 到 255 之间的单个数字（每个字节是 8 位，因此只能容纳那么多）。这称为 “8 位无符号整数”。
+- **`Uint16Array`** —— 将每 2 个字节视为一个 0 到 65535 之间的整数。这称为 “16 位无符号整数”。
+- **`Uint32Array`** —— 将每 4 个字节视为一个 0 到 4294967295 之间的整数。这称为 “32 位无符号整数”。
 - **`Float64Array`** —— 将每 8 个字节视为一个 <code>5.0x10<sup>-324</sup></code> 到 <code>1.8x10<sup>308</sup></code> 之间的浮点数。
 
-因此，一个 16 字节 `ArrayBuffer` 中的二进制数据可以表示为 16 个“小数字”，或 8 个较大的数字（每个数字 2 个字节），或 4 个更大的数字（每个数字 4 个字节），或 2 个高精度的浮点数（每个数字 8 个字节）。
+因此，一个 16 字节 `ArrayBuffer` 中的二进制数据可以解释为 16 个“小数字”，或 8 个更大的数字（每个数字 2 个字节），或 4 个更大的数字（每个数字 4 个字节），或 2 个高精度的浮点数（每个数字 8 个字节）。
 
 ![](arraybuffer-views.svg)
 
-`ArrayBuffer` 是核心对象，是所有对象的基础，是原始二进制数据。
+`ArrayBuffer` 是核心对象，是所有的基础，是原始的二进制数据。
 
-但是，如果我们要写入值，或遍历之，基本上几乎任何操作 - 我们必须使用视图（view），例如：
+但是，如果我们要写入值或遍历它，基本上几乎所有操作 —— 我们必须使用视图（view），例如：
 
 ```js run
-let buffer = new ArrayBuffer(16); // 创建长度为 16 的缓存区
+let buffer = new ArrayBuffer(16); // 创建一个长度为 16 的 buffer
 
 *!*
-let view = new Uint32Array(buffer); // 将缓存区视为 32 位整数序列
+let view = new Uint32Array(buffer); // 将 buffer 视为一个 32 位整数的序列
 
 alert(Uint32Array.BYTES_PER_ELEMENT); // 每个整数 4 个字节
 */!*
 
-alert(view.length); // 4，储存了 4 个整数
-alert(view.byteLength); // 16，大小为 16，以字节为单位
+alert(view.length); // 4，它存储了 4 个整数
+alert(view.byteLength); // 16，字节大小
 
 // 让我们写入一个值
 view[0] = 123456;
 
 // 遍历值
 for(let num of view) {
-  alert(num); // 123456，然后是 0，0，0（一共 4 个值）
+  alert(num); // 123456，然后 0，0，0（一共 4 个值）
 }
 
 ```
 
-## 类型化数组（TypedArray）
+## TypedArray
 
 所有这些视图（`Uint8Array`、`Uint32Array` 等）有一个通用术语是 [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects)。它们都享有同一组方法和属性。
 
