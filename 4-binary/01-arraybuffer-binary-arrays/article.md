@@ -195,7 +195,7 @@ alert(uint8array[1]); // 1
 
 但有几件事我们做不了：
 
-- 没有 `splice` —— 我们无法“删除”一个值，因为类型化数组是缓存区（buffer）上的视图，并且缓存区（buffer）是固定的、连续的内存区域。我们所能做的就是分配一个零值。
+- 没有 `splice` —— 我们无法“删除”一个值，因为类型化数组是缓冲区（buffer）上的视图，并且缓冲区（buffer）是固定的、连续的内存区域。我们所能做的就是分配一个零值。
 - 无 `concat` 方法。
 
 还有两种其他方法：
@@ -220,7 +220,7 @@ alert(uint8array[1]); // 1
 new DataView(buffer, [byteOffset], [byteLength])
 ```
 
-- **`buffer`** —— 底层的 `ArrayBuffer`。与类型化数组不同，`DataView` 不会自行创建缓存区（buffer）。我们需要事先准备好。
+- **`buffer`** —— 底层的 `ArrayBuffer`。与类型化数组不同，`DataView` 不会自行创建缓冲区（buffer）。我们需要事先准备好。
 - **`byteOffset`** —— 视图的起始字节位置（默认为 0）。
 - **`byteLength`** —— 视图的字节长度（默认至 `buffer` 的末尾）。
 
@@ -244,7 +244,7 @@ alert( dataView.getUint32(0) ); // 4294967295（最大的 32 位无符号整数�
 dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0，即将所有字节都设为 0
 ```
 
-当我们将混合格式的数据存储在同一缓存区（buffer）中时，`DataView` 非常有用。例如，我们存储一个成对序列（16 位整数，32 位浮点数）。用 `DataView` 可以轻松访问它们。
+当我们将混合格式的数据存储在同一缓冲区（buffer）中时，`DataView` 非常有用。例如，我们存储一个成对序列（16 位整数，32 位浮点数）。用 `DataView` 可以轻松访问它们。
 
 ## 总结
 
