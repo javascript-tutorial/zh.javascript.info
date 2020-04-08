@@ -73,7 +73,7 @@ for(let num of view) {
 
 所有这些视图（`Uint8Array`，`Uint32Array` 等）的通用术语是 [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects)。它们都享有同一组方法和属性。
 
-请注意，没有名为 `TypedArray` 的构造器，它只是表示 `ArrayBuffer` 上的视图之一的通用 "umbrella" 术语：`Int8Array`，`Uint8Array` 及其他，很快就会有完整列表。
+请注意，没有名为 `TypedArray` 的构造器，它只是表示 `ArrayBuffer` 上的视图之一的通用总称术语：`Int8Array`，`Uint8Array` 及其他，很快就会有完整列表。
 
 当你看到 `new TypedArray` 之类的内容时，它表示 `new Int8Array`、`new Uint8Array` 及其他中之一。
 
@@ -195,7 +195,7 @@ alert(uint8array[1]); // 1
 
 但有几件事我们做不了：
 
-- 没有 `splice` —— 我们无法“删除”一个值，因为类型化数组是缓存区（buffer）上的视图，并且缓存区是固定的、连续的内存区域。我们所能做的就是分配一个零值。
+- 没有 `splice` —— 我们无法“删除”一个值，因为类型化数组是缓存区（buffer）上的视图，并且缓存区（buffer）是固定的、连续的内存区域。我们所能做的就是分配一个零值。
 - 无 `concat` 方法。
 
 还有两种其他方法：
@@ -209,10 +209,10 @@ alert(uint8array[1]); // 1
 
 ## DataView
 
-[DataView](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/DataView) 在 `ArrayBuffer` 上层，是一种特殊的超灵活“无类型”视图。它允许以任何格式访问任何偏移量的数据。
+[DataView](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/DataView) 是在 `ArrayBuffer` 上的一种特殊的超灵活“未类型化”视图。它允许以任何格式访问任何偏移量（offset）的数据。
 
-- 对于类型数组，构造器决定了其格式。整个数组应该是统一的。第 i 个数字是 `arr[i]`。
-- 通过 `DataView`，我们可以使用 `.getUint8(i)` 或 `.getUint16(i)` 之类的方法访问数据。我们在调用方法的时候选择格式，而不是在构造的时候。
+- 对于类型化的数组，构造器决定了其格式。整个数组应该是统一的。第 i 个数字是 `arr[i]`。
+- 通过 `DataView`，我们可以使用 `.getUint8(i)` 或 `.getUint16(i)` 之类的方法访问数据。我们在调用方法时选择格式，而不是在构造的时候。
 
 语法：
 
@@ -220,11 +220,11 @@ alert(uint8array[1]); // 1
 new DataView(buffer, [byteOffset], [byteLength])
 ```
 
-- **`buffer`** — 底层的 `ArrayBuffer`。与类型化数组不同，`DataView` 不会自行创建缓存区。我们需要事先准备好。
-- **`byteOffset`** — 视图的起始字节位置（默认为 0）。
-- **`byteLength`** — 视图的字节长度（默认至 `buffer` 的末尾）。
+- **`buffer`** —— 底层的 `ArrayBuffer`。与类型化数组不同，`DataView` 不会自行创建缓存区（buffer）。我们需要事先准备好。
+- **`byteOffset`** —— 视图的起始字节位置（默认为 0）。
+- **`byteLength`** —— 视图的字节长度（默认至 `buffer` 的末尾）。
 
-例如，这里我们从同一缓存区中提取不同格式的数字：
+例如，这里我们从同一个 buffer 中提取不同格式的数字：
 
 ```js run
 // 4 个字节的二进制数组，每个都是最大值 255
@@ -244,7 +244,7 @@ alert( dataView.getUint32(0) ); // 4294967295（最大的 32 位无符号整数�
 dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0，即将所有字节都设为 0
 ```
 
-当我们在同一缓存区内存储混合格式的数据时，`DataView` 非常有用。例如，我们存储一个成对序列（16 位整数，32 位浮点数）。用 `DataView` 来访问便很容易。
+当我们将混合格式的数据存储在同一缓存区（buffer）中时，`DataView` 非常有用。例如，我们存储一个成对序列（16 位整数，32 位浮点数）。用 `DataView` 可以轻松访问它们。
 
 ## 总结
 
@@ -253,19 +253,19 @@ dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0，即将所有字�
 几乎任何对 `ArrayBuffer` 的操作，都需要一个视图。
 
 - 它可以是 `TypedArray`：
-    - `Uint8Array`，`Uint16Array`，`Uint32Array` — 用于 8 位、16 位和 32 位无符号整数。
-    - `Uint8ClampedArray` — 用于 8 位整数，在赋值时便“固定”其值。
-    - `Int8Array`，`Int16Array`，`Int32Array` — 用于有符号整数（可以为负数）。
-    - `Float32Array`，`Float64Array` — 用于 32 位和 64 位的有符号浮点数。
-- 或 `DataView` — 通过方法（methods）来指定格式的视图，例如，`getUint8(offset)`。
+    - `Uint8Array`，`Uint16Array`，`Uint32Array` —— 用于 8 位、16 位和 32 位无符号整数。
+    - `Uint8ClampedArray` —— 用于 8 位整数，在赋值时便“固定”其值。
+    - `Int8Array`，`Int16Array`，`Int32Array` —— 用于有符号整数（可以为负数）。
+    - `Float32Array`，`Float64Array` —— 用于 32 位和 64 位的有符号浮点数。
+- 或 `DataView` —— 使用方法来指定格式的视图，例如，`getUint8(offset)`。
 
-在多数情况下，我们直接对类型化数组进行创建和操作，而将 “ArrayBuffer” 作为“普通区分器”隐藏起来。我们可以通过 `.buffer` 来访问它，并在需要时创建另一个视图。
+在大多数情况下，我们直接对类型化数组进行创建和操作，而将 `ArrayBuffer` 作为“通用标识符（common discriminator）”隐藏起来。我们可以通过 `.buffer` 来访问它，并在需要时创建另一个视图。
 
-还有另外两个术语，它们用在二进制数据操作的方法描述中：
+还有另外两个术语，用于对二进制数据进行操作的方法的描述：
 - `ArrayBufferView` 是所有这些视图的总称。
 - `BufferSource` 是 `ArrayBuffer` 或 `ArrayBufferView` 的总称。
 
-我们将在下一章中了解这些术语。`BufferSource` 是最常用的术语之一，因为它的意思是“任何类型的二进制数据” — `ArrayBuffer` 或其上的视图。
+我们将在下一章中学习这些术语。`BufferSource` 是最常用的术语之一，因为它的意思是“任何类型的二进制数据” —— `ArrayBuffer` 或其上的视图。
 
 这是一份备忘单：
 
