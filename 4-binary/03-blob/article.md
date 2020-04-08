@@ -107,11 +107,11 @@ blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 
 **因此，如果我们创建一个 URL，那么即使我们不再需要该 `Blob` 了，它也会被挂在内存中。**
 
-`URL.revokeObjectURL(url)` 从内部映射中删除引用，因此允许删除 blob（如果没有其他引用的话），并从内存中释放。
+`URL.revokeObjectURL(url)` 从内部映射中移除引用，因此允许 `Blob` 被删除（如果没有其他引用的话），并释放内存。
 
-在上一个示例中，为了快速下载，我们想只用一次 blob，因此我们立刻调用 `URL.revokeObjectURL(link.href)`。
+在上面最后一个示例中，我们打算仅使用一次 `Blob`，来进行即时下载，因此我们立即调用 `URL.revokeObjectURL(link.href)`。
 
-而在前一个示例中，利用可以点击的 HTML 链接，我们不调用 `URL.revokeObjectURL(link.href)`，因为那样会使 blob url 无效。在撤销后，由于映射被删除了，因此 url 也不再有效了。
+而在前一个带有可点击的 HTML 链接的示例中，我们不调用 `URL.revokeObjectURL(link.href)`，因为那样会使 `Blob` url 无效。在撤销后，由于映射被删除了，因此该 URL 也就不再起作用了。
 
 ## Blob 转换为 base64
 
