@@ -135,7 +135,7 @@ window.onbeforeunload = function() {
 : 允许在和父文档同源的 frame 中显示此页面。
 
 `ALLOW-FROM domain`
-: 允许在来自给定源的父文档的 frame 中显示此页面。
+: 允许在来自给定域的父文档的 frame 中显示此页面。
 
 例如，Twitter 使用的是 `X-Frame-Options: SAMEORIGIN`。
 
