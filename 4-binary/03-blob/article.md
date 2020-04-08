@@ -1,10 +1,10 @@
 # Blob
 
-`ArrayBuffer` 和视图（views）都是 JavaScript 中 ECMA 标准的一部分。
+`ArrayBuffer` 和视图（view）都是 ECMA 标准的一部分，是 JavaScript 的一部分。
 
-我们在 [File API](https://www.w3.org/TR/FileAPI/) 一节中描述过，在浏览器中，有其他高阶对象，特别是 `Blob`。
+在浏览器中，还有其他更高级的对象，特别是 `Blob`，在 [File API](https://www.w3.org/TR/FileAPI/) 中有相关描述。
 
-`Blob` 由一个可选的字符串 `type` (通常是 MIME 类型) 和 `blobParts` 组成 -- 一串其他 `Blob` 对象、字符串和 `BufferSources`。
+`Blob` 由一个可选的字符串 `type`（通常是 MIME 类型）和 `blobParts` 组成 —— 一系列其他 `Blob` 对象，字符串和 `BufferSource`。
 
 ![](blob.svg)
 
@@ -14,56 +14,55 @@
 new Blob(blobParts, options);
 ```
 
-- **`blobParts`** `Blob`/`BufferSource`/`String` 类型值的数组。
+- **`blobParts`** 是 `Blob`/`BufferSource`/`String` 类型的值的数组。
 - **`options`** 可选对象：
-  - **`type`** -- blob 类型，通常是 MIME 类型，如 `image/png`，
-  - **`endings`** -- 是否转换换行符，使 blob 符合当前操作系统的换行符（`\r\n` 或 `\n`）。默认为 `"transparent"`（啥也不做），不过也可以是 `"native"`（转换）。
+  - **`type`** —— `Blob` 类型，通常是 MIME 类型，例如 `image/png`，
+  - **`endings`** —— 是否转换换行符，使 `Blob` 对应于当前操作系统的换行符（`\r\n` 或 `\n`）。默认为 `"transparent"`（啥也不做），不过也可以是 `"native"`（转换）。
 
 例如：
 
 ```js
-// 从字符串创建 blob
+// 从字符串创建 Blob
 let blob = new Blob(["<html>…</html>"], {type: 'text/html'});
-// 请注意：第一个参数值必须是数组 [...]
+// 请注意：第一个参数必须是一个数组 [...]
 ```
 
 ```js
-// 从类型数组（typed array）和字符串创建 blob
+// 从类型化数组（typed array）和字符串创建 Blob
 let hello = new Uint8Array([72, 101, 108, 108, 111]); // 二进制格式的 "hello" 
 
 let blob = new Blob([hello, ' ', 'world'], {type: 'text/plain'});
 ```
 
 
-我们可以用 slice 方法来提取 blob 分段：
+我们可以用 `slice` 方法来提取 `Blob` 片段：
 
 ```js
 blob.slice([byteStart], [byteEnd], [contentType]);
 ```
 
-- **`byteStart`** -- 起始字节，默认为 0。
-- **`byteEnd`** -- 最后一个字节（不包括之，默认为最后）。
-- **`contentType`** -- 新 blob 的 `type`，默认与源 blob 相同。
+- **`byteStart`** —— 起始字节，默认为 0。
+- **`byteEnd`** —— 最后一个字节（专有，默认为最后）。
+- **`contentType`** —— 新 blob 的 `type`，默认与源 blob 相同。
 
-参数值与 `array.slice` 相同，也允许负数。
+参数值类似于 `array.slice`，也允许是负数。
 
-```smart header="Blob 是不可改变的"
-我们不能直接在 blob 中更改数据，但可以切割成多个部分，从每一部分创建新的 blobs，将他们组成新的 blob，以此类推。
+```smart header="`Blob` 对象是不可改变的"
+我们无法直接在 `Blob` 中更改数据，但我们可以通过 slice 获得 `Blob` 的多个部分，从这些部分创建新的 `Blob` 对象，将它们组成新的 `Blob`，等。
 
 这种行为类似于 JavaScript 字符串：我们无法更改字符串中的字符，但可以生成一个新的改动过的字符串。
 ```
 
-## Blob 作为 URL
+## Blob 用作 URL
 
-Blob 可以很容易当做 URL 用于 `<a>`、`<img>` 或其他标记（tags），来显示其内容。
+Blob 可以很容易用作 `<a>`、`<img>` 或其他标签的 URL，来显示它们的内容。
 
-有了 `type`，我们也可以下载/上传 blobs，很自然的便成了网络请求中的 `Content-Type`。
+多亏了 `type`，让我们也可以下载/上传 `Blob` 对象，而在网络请求中，`type` 自然地变成了 `Content-Type`。
 
-让我们来看一个简单的例子。通过\
- 点击一个链接，下载一个动态生成的 blob，文件内容是 `hello world`：
+让我们从一个简单的例子开始。通过点击链接，你可以下载一个具有动态生成的内容为 `hello world` 的 `Blob` 的文件：
 
 ```html run
-<!-- download 属性使浏览器下载而非浏览 -->
+<!-- download 特性（attribute）强制浏览器下载而不是导航 -->
 <a download="hello.txt" href='#' id="link">Download</a>
 
 <script>
@@ -73,9 +72,9 @@ link.href = URL.createObjectURL(blob);
 </script>
 ```
 
-我们也可以在 Javascript 中动态创建一个链接，通过 `link.click()` 模拟一个点击（click），然后便自动下载了。
+我们也可以在 Javascript 中动态创建一个链接，通过 `link.click()` 模拟一个点击，然后便自动下载了。
 
-以下是示例代码，用户无需任何 HTML 即可下载动态生成的 Blob：
+下面是类似的代码，此代码可以让用户无需任何 HTML 即可下载动态生成的 `Blob`（译注：也就是通过代码模拟用户点击，从而自动下载）：
 
 ```js run
 let link = document.createElement('a');
@@ -90,23 +89,23 @@ link.click();
 URL.revokeObjectURL(link.href);
 ```
 
-`URL.createObjectURL` 接受一个 blob，为其创建一个唯一的 URL，格式是 `blob:<origin>/<uuid>`。
+`URL.createObjectURL` 取一个 `Blob`，并为其创建一个唯一的 URL，形式为 `blob:<origin>/<uuid>`。
 
-`link.href` 的值就像这样：
+也就是 `link.href` 的值的样子：
 
 ```
 blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 ```
 
-浏览器内部为每个通过 `URL.createObjectURL` 生成的 url 存储了一个 url -> blob 映射。因此，这些 url 虽然短小，但可以访问 blob。
+浏览器内部为每个通过 `URL.createObjectURL` 生成的 URL 存储了一个 URL -> `Blob` 映射。因此，此类 URL 很短，但可以访问 `Blob`。
 
-生成的 url（即其链接）只在当前文档打开的状态下才有效。它允许引用 `<img>`、`<a>` 中的 blob，以及基本上任何其他接受 url 的对象。
+生成的 URL（即其链接）仅在当前文档打开的状态下才有效。它允许引用 `<img>`、`<a>` 中的 `Blob`，以及基本上任何其他期望 URL 的对象。
 
-不过有个问题是，当 blob 有映射的时候，blob 本身是在内存中的。浏览器无法释放它。
+不过它有个副作用。虽然这里有 `Blob` 的映射，但 `Blob` 本身只保存在内存中的。浏览器无法释放它。
 
-在文档退出时，该映射会被自动清除，因此 blob 也相应被释放了。但是如果应用程序长时间工作时，这个释放工作就不会很快发生了。
+在文档退出时（unload），该映射会被自动清除，因此 `Blob` 也相应被释放了。但是，如果应用程序寿命很长，那这个释放就不会很快发生。
 
-**因此，如果我们要创建一个 URL，那个 blob 会长留在内存中，即使已不再需要了。**
+**因此，如果我们创建一个 URL，那么即使我们不再需要该 `Blob` 了，它也会被挂在内存中。**
 
 `URL.revokeObjectURL(url)` 从内部映射中删除引用，因此允许删除 blob（如果没有其他引用的话），并从内存中释放。
 
