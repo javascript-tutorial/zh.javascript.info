@@ -1,24 +1,26 @@
 # Fetch：跨源请求
 
-如果我们对任意网站发起 `fetch` 请求，那可能会出现失败情况。
+如果我们向另一个网站发送 `fetch` 请求，则该请求可能会失败。
 
-这里的核心概念是 *origin* —— 域（domain）/端口（port）/协议（protocol）的组合。
-
-跨源请求 —— 那些发送到其他域（即使是子域）、协议或者端口 —— 要求服务端提供特殊的头。这个政策被称为“CORS”：跨域资源共享（Cross-Origin Resource Sharing）。
-
-例如，我们尝试获取 `http://example.com`：
+例如，让我们尝试向 `http://example.com` 发送 `fetch` 请求：
 
 ```js run async
 try {
   await fetch('http://example.com');
 } catch(err) {
-  alert(err); // 无法获取
+  alert(err); // Failed to fetch
 }
 ```
 
 不出意外，获取失败。
 
-## 为什么？跨源请求简明史
+这里的核心概念是 **源（origin）**—— 域（domain）/端口（port）/协议（protocol）的组合。
+
+跨源请求 —— 那些发送到其他域（即使是子域）、协议或端口的请求 —— 需要来自远程端的特殊 header。
+
+这个策略被称为 "CORS"：跨源资源共享（Cross-Origin Resource Sharing）。
+
+## 为什么需要 CORS？跨源请求简史
 
 因为跨源限制可以保护互联网免受恶意黑客攻击。
 
