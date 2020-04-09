@@ -33,36 +33,36 @@ let promise = fetch(url, [options])
 
 获取响应通常需要经过两个阶段。
 
-**第一阶段，当服务器发送了响应头，`promise` 就使用其内建的 [Response](https://fetch.spec.whatwg.org/#response-class) 类来解析该对象。**
+**第一阶段，当服务器发送了响应头（header），`fetch` 返回的 `promise` 就使用内建的 [Response](https://fetch.spec.whatwg.org/#response-class) class 对象来对响应头（header）进行解析。**
 
-因此，我们可以通过检查 HTTP 状态来确定请求是否成功，或者当响应体还没有返回时，通过检查响应头来确定状态。
+在这个阶段，我们可以通过检查响应头（header），来检查 HTTP 状态以确定请求是否成功，当前还没有响应体（body）。
 
-如果 `fetch` 无法建立一个 HTTP 请求，例如网络问题，亦或是请求的网址不存在，那么 promise 就返回 reject。HTTP 错误，即使是 404 或者 500，也被视为正常的过程。
+如果 `fetch` 无法建立一个 HTTP 请求，例如网络问题，亦或是请求的网址不存在，那么 promise 就会 reject。异常的 HTTP 状态，例如 404 或 500，不会导致出现 error。
 
-我们可以在 response 属性里看到它们：
+我们可以在 response 属性中看到 HTTP 状态：
 
-- **`ok`** —— 布尔值，如果 HTTP 状态码在 200-299 之间，返回 `true`。
-- **`status`** —— HTTP 状态码。
+- **`status`** —— HTTP 状态码，例如 200。
+- **`ok`** —— 布尔值，如果 HTTP 状态码为 200-299，则为 `true`。
 
 例如：
 
 ```js
 let response = await fetch(url);
 
-if (response.ok) { // 如果 HTTP 状态码在 200-299 之间
-  // 获取响应体（如下所示）
+if (response.ok) { // 如果 HTTP 状态码为 200-299
+  // 获取响应体（此方法会在下面解释）
   let json = await response.json();
 } else {
   alert("HTTP-Error: " + response.status);
 }
 ```
 
-**第二阶段，为了获取响应体，我们需要调用其他方法。**
+**第二阶段，为了获取响应体（body），我们需要使用一个其他的方法调用。**
 
-`Response` 提供了多种基于 promise 的方法来获取不同格式的响应正文：
+`Response` 提供了多种基于 promise 的方法，来以不同的格式访问响应体：
 
+- **`response.text()`** —— 读取以文本形式返回 response，
 - **`response.json()`** —— 将 response 解析为 JSON 对象，
-- **`response.text()`** —— 以文本形式返回 response，
 - **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码（encoding），我们将在[下一章](info:formdata)中了解到更多）的形式返回 response。
 - **`response.blob()`** —— 以 [Blob](info:blob) （具有类型的二进制数据）形式返回 response，
 - **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays) （纯二进制数据）形式返回 response，
