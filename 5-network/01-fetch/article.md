@@ -35,7 +35,7 @@ let promise = fetch(url, [options])
 
 **第一阶段，当服务器发送了响应头（header），`fetch` 返回的 `promise` 就使用内建的 [Response](https://fetch.spec.whatwg.org/#response-class) class 对象来对响应头（header）进行解析。**
 
-在这个阶段，我们可以通过检查响应头（header），来检查 HTTP 状态以确定请求是否成功，当前还没有响应体（body）。
+在这个阶段，我们可以通过检查响应头（header），来检查 HTTP 状态以确定请求是否成功，当前还没有响应体（response body）。
 
 如果 `fetch` 无法建立一个 HTTP 请求，例如网络问题，亦或是请求的网址不存在，那么 promise 就会 reject。异常的 HTTP 状态，例如 404 或 500，不会导致出现 error。
 
@@ -50,31 +50,32 @@ let promise = fetch(url, [options])
 let response = await fetch(url);
 
 if (response.ok) { // 如果 HTTP 状态码为 200-299
-  // 获取响应体（此方法会在下面解释）
+  // 获取 response body（此方法会在下面解释）
   let json = await response.json();
 } else {
   alert("HTTP-Error: " + response.status);
 }
 ```
 
-**第二阶段，为了获取响应体（body），我们需要使用一个其他的方法调用。**
+**第二阶段，为了获取 response body，我们需要使用一个其他的方法调用。**
 
-`Response` 提供了多种基于 promise 的方法，来以不同的格式访问响应体：
+`Response` 提供了多种基于 promise 的方法，来以不同的格式访问 body：
 
-- **`response.text()`** —— 读取以文本形式返回 response，
-- **`response.json()`** —— 将 response 解析为 JSON 对象，
-- **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码（encoding），我们将在[下一章](info:formdata)中了解到更多）的形式返回 response。
-- **`response.blob()`** —— 以 [Blob](info:blob) （具有类型的二进制数据）形式返回 response，
-- **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays) （纯二进制数据）形式返回 response，
-- 另外，`response.body` 是 [ReadableStream](https://streams.spec.whatwg.org/#rs-class) 对象，它允许逐块读取正文，我们稍后会用一个例子解释它。
+- **`response.text()`** —— 读取 response，并以文本形式返回 response，
+- **`response.json()`** —— 将 response 解析为 JSON，
+- **`response.formData()`** —— 以 `FormData` 对象（在 [下一章](info:formdata) 有解释）的形式返回 response。
+- **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
+- **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（低级别的二进制数据）形式返回 response，
+- 另外，`response.body` 是 [ReadableStream](https://streams.spec.whatwg.org/#rs-class) 对象，它允许你逐块读取 body，我们稍后会用一个例子解释它。
 
-例如，我们来获取 GitHub 上最新 commits 的 JSON 对象：
+例如，我们从 GitHub 获取最新 commits 的 JSON 对象：
 
 ```js run async
-let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
+let url = 'https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits';
+let response = await fetch(url);
 
 *!*
-let commits = await response.json(); // 获取 response body 并解析为 JSON
+let commits = await response.json(); // 读取 response body，并将其解析为 JSON
 */!*
 
 alert(commits[0].author.login);
@@ -88,11 +89,12 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
   .then(commits => alert(commits[0].author.login));
 ```
 
-要获取文本，可以使用 `await response.text()` 代替 `.json()`：
+要获取响应文本，可以使用 `await response.text()` 代替 `.json()`：
+
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
-let text = await response.text(); // 以 text 形式读取响应体
+let text = await response.text(); // 将 response body 读取为文本
 
 alert(text.slice(0, 80) + '...');
 ```
