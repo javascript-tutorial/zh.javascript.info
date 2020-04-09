@@ -63,7 +63,7 @@ if (response.ok) { // 如果 HTTP 状态码为 200-299
 
 - **`response.text()`** —— 读取 response，并以文本形式返回 response，
 - **`response.json()`** —— 将 response 解析为 JSON，
-- **`response.formData()`** —— 以 `FormData` 对象（在 [下一章](info:formdata) 有解释）的形式返回 response。
+- **`response.formData()`** —— 以 `FormData` 对象（在 [下一章](info:formdata) 有解释）的形式返回 response，
 - **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
 - **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（低级别的二进制数据）形式返回 response，
 - 另外，`response.body` 是 [ReadableStream](https://streams.spec.whatwg.org/#rs-class) 对象，它允许你逐块读取 body，我们稍后会用一个例子解释它。
@@ -135,33 +135,35 @@ let parsed = await response.json(); // 失败（已经被处理过了）
 
 ## Response header
 
-Response header 位于 `response.headers` 中的一个类-Map 的 header 对象。
+Response header 位于 `response.headers` 中的一个类似于 Map 的 header 对象。
 
 它不是真正的 Map，但是它具有类似的方法，我们可以按名称（name）获取各个 header，或迭代它们：
 
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
-// 获取其中一个 header
+// 获取一个 header
 alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
 
-// 迭代所有 headers
+// 迭代所有 header
 for (let [key, value] of response.headers) {
   alert(`${key} = ${value}`);
 }
 ```
 
-我们可以使用 `headers` 选项来设置 header，就像这样：
+## Request header
+
+要在 `fetch` 中设置 request header，我们可以使用 `headers` 选项。它有一个带有输出 header 的对象，如下所示：
 
 ```js
 let response = fetch(protectedUrl, {
   headers: {
-    Authentication: 'abcdef'
+    Authentication: 'secret'
   }
 });
 ```
 
-但是有一些 headers 我们无法去设置它（详细列表参见 [forbidden HTTP headers](https://fetch.spec.whatwg.org/#forbidden-header-name)）：
+……但是有一些我们无法设置的 header（详见 [forbidden HTTP headers](https://fetch.spec.whatwg.org/#forbidden-header-name)）：
 
 - `Accept-Charset`, `Accept-Encoding`
 - `Access-Control-Request-Headers`
@@ -184,18 +186,20 @@ let response = fetch(protectedUrl, {
 - `Proxy-*`
 - `Sec-*`
 
-这些 headers 保证了 HTTP 的正确性和安全性，所以它们仅由浏览器控制。
+这些 header 保证了 HTTP 的正确性和安全性，所以它们仅由浏览器控制。
 
 ## POST 请求
 
-创建一个 `POST` 请求，或者其他方法（HTTP method）的请求，我们需要使用 `fetch` 相关选项：
+要创建一个 `POST` 请求，或者其他方法的请求，我们需要使用 `fetch` 选项：
 
-- **`method`** —— HTTP 方法（HTTP-method），例如 `POST`，
-- **`body`** —— 其中之一：
-  - 字符串（例如 JSON），
+- **`method`** —— HTTP 方法，例如 `POST`，
+- **`body`** —— request body，其中之一：
+  - 字符串（例如 JSON 编码的），
   - `FormData` 对象，以 `form/multipart` 形式发送数据，
   - `Blob`/`BufferSource` 发送二进制数据，
   - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 编码形式发送数据，很少使用。
+
+JSON 形式是最常用的。
 
 例如，下面这段代码以 JSON 形式发送 `user` 对象：
 
@@ -219,13 +223,15 @@ let result = await response.json();
 alert(result.message);
 ```
 
-请注意，如果 body 是字符串，`Content-Type` 默认会设置为 `text/plain;charset=UTF-8`。所以我们使用 `headers` 值为 `application/json` 来代替默认值，这是 JSON 编码的数据的正确格式。
+请注意，如果请求的 `body` 是字符串，则 `Content-Type` 会默认设置为 `text/plain;charset=UTF-8`。
+
+但是，当我们要发送 JSON 时，我们会使用 `headers` 选项来发送 `application/json`，这是 JSON 编码的数据的正确的 `Content-Type`。
 
 ## 发送图片
 
-我们同样可以用 `Blob` 或者 `BufferSource` 来发送二进制数据。
+我们同样可以使用 `Blob` 或 `BufferSource` 对象通过 `fetch` 提交二进制数据。
 
-例如，这里有个我们可以通过移动鼠标来绘制图像的 `<canvas>` 元素。“submit” 按钮可以用来向服务器发送绘制的图片：
+例如，这里有一个 `<canvas>`，我们可以通过在其上移动鼠标来进行绘制。点击 "submit" 按钮将图片发送到服务器：
 
 ```html run autorun height="90"
 <body style="margin:0">
@@ -246,6 +252,8 @@ alert(result.message);
         method: 'POST',
         body: blob
       });
+
+      // 服务器给出确认信息和图片大小作为响应
       let result = await response.json();
       alert(result.message);
     }
@@ -254,9 +262,9 @@ alert(result.message);
 </body>
 ```
 
-同样，我们也不需要手动设置 `Content-Type`，因为 `Blob` 对象有一个内置的类型（这里是 `image/png`，通过 `toBlob` 自动生成的）。
+请注意，这里我们没有手动设置 `Content-Type` header，因为 `Blob` 对象具有内建的类型（这里是 `image/png`，通过 `toBlob` 生成的）。对于 `Blob` 对象，这个类型就变成了 `Content-Type` 的值。
 
-`submit()` 函数可以不使用 `async/await`，改写后如下：
+可以在不使用 `async/await` 的情况下重写 `submit()` 函数，像这样：
 
 ```js
 function submit() {
@@ -273,35 +281,36 @@ function submit() {
 
 ## 总结
 
-典型的 fetch 请求包含两个 `await`：
+典型的 fetch 请求由两个 `await` 调用组成：
 
 ```js
-let response = await fetch(url, options); // 解析 response headers
-let result = await response.json(); // 以 JSON 形式读取数据
+let response = await fetch(url, options); // 解析 response header
+let result = await response.json(); // 将 body 读取为 json
 ```
 
 或者以 promise 形式：
+
 ```js
 fetch(url, options)
   .then(response => response.json())
-  .then(result => /* 处理结果 */)
+  .then(result => /* process result */)
 ```
 
-响应属性：
+响应的属性：
 - `response.status` —— response 的 HTTP 状态码，
-- `response.ok` —— HTTP 状态码在 200-299 之间返回 `true`。
-- `response.headers` —— 类似于 Map 的 HTTP headers 对象。
+- `response.ok` —— HTTP 状态码为 200-299，则为 `true`。
+- `response.headers` —— 类似于 Map 的带有 HTTP header 的对象。
 
-获取响应体的方法：
-- **`response.json()`** —— 以 JSON 对象形式解析 response，
-- **`response.text()`** —— 以 text 形式返回 response，
-- **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码，参见下一章）形式返回 response，
+获取 response body 的方法：
+- **`response.text()`** —— 读取 response，并以文本形式返回 response，
+- **`response.json()`** —— 将 response 解析为 JSON 对象形式，
+- **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码，参见下一章）的形式返回 response，
 - **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
-- **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（纯二进制数据）返回 response。
+- **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（低级别的二进制数据）形式返回 response。
 
-到目前为止我们了解的 fetch 选项包括：
-- `method` —— HTTP 方法（HTTP-method）,
-- `headers` —— 具有请求头的 headers 对象（不是所有请求头都是被允许的）
-- `body` —— 以 `string`，`FormData`，`BufferSource`，`Blob` 或者 `UrlSearchParams` 对象发送数据。
+到目前为止我们了解到的 fetch 选项：
+- `method` —— HTTP 方法，
+- `headers` —— 具有 request header 的对象（不是所有 header 都是被允许的）
+- `body` —— 要以 `string`，`FormData`，`BufferSource`，`Blob` 或 `UrlSearchParams` 对象的形式发送的数据（request body）。
 
-在下一章中，我们将会看到更多关于 `fetch` 的选项以及使用场景。
+在下一章，我们将会看到更多 `fetch` 的选项和用例。
