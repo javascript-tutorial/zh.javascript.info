@@ -20,7 +20,7 @@ let formData = new FormData([form]);
 
 我们先来发送一个简单的表单。
 
-正如你所看得见的，它几乎就是一行代码：
+正如你所看到的，它几乎就是一行代码：
 
 ```html run autorun
 <form id="formElem">
@@ -53,21 +53,21 @@ let formData = new FormData([form]);
 
 我们可以使用以下方法修改 `FormData` 中的字段：
 
-- `formData.append(name, value)` - 添加给定的 `name` 和 `value` 的值到 form 表单，
-- `formData.append(name, blob, fileName)` - 当 form 为 `<input type="file">` 时，添加字段，第三个参数 `fileName` 设置文件名（不是 form 字段名）作为用户文件系统（filesystem）中的文件名，
-- `formData.delete(name)` - 移除给定 `name` 的字段，
-- `formData.get(name)` - 获取给定 `name` 的字段值，
-- `formData.has(name)` - 如果存在给定 `name` 的字段，则返回 `true`，否则返回 `false`
+- `formData.append(name, value)` —— 添加具有给定 `name` 和 `value` 的表单字段，
+- `formData.append(name, blob, fileName)` —— 添加一个字段，就像它是 `<input type="file">`，第三个参数 `fileName` 设置文件名（而不是表单字段名），因为它是用户文件系统中文件的名称，
+- `formData.delete(name)` —— 移除带有给定 `name` 的字段，
+- `formData.get(name)` —— 获取带有给定 `name` 的字段值，
+- `formData.has(name)` —— 如果存在带有给定 `name` 的字段，则返回 `true`，否则返回 `false`。
 
-从技术上来讲，form 允许有多个相同 `name` 的字段，因此，多次调用 `append` 将会添加多个相同名称的字段。
+从技术上来讲，一个表单可以包含多个具有相同 `name` 的字段，因此，多次调用 `append` 将会添加多个具有相同名称的字段。
 
-同样也有一个与 `append` 语法类似的 `set` 方法。不同之处在于 `.set` 移除所有给定 `name` 的字段，然后附加一个新字段。因此它确保了具有 `name` 名称的字段的唯一性。
+还有一个 `set` 方法，语法与 `append` 相同。不同之处在于 `.set` 移除所有具有给定 `name` 的字段，然后附加一个新字段。因此，它确保了只有一个具有这种 `name` 的字段，其他的和 `append` 一样：
 
-- `formData.set(name, value)`,
-- `formData.set(name, blob, fileName)`.
+- `formData.set(name, value)`，
+- `formData.set(name, blob, fileName)`。
 
 
-同样我们也可以使用 `for..of` 循环迭代所有 formData 字段：
+我们也可以使用 `for..of` 循环迭代 formData 字段：
 
 ```js run
 let formData = new FormData();
@@ -76,11 +76,11 @@ formData.append('key2', 'value2');
 
 // 列出 key/value 对
 for(let [name, value] of formData) {
-  alert(`${name} = ${value}`); // key1=value1，然后是 key2=value2
+  alert(`${name} = ${value}`); // key1=value1, then key2=value2
 }
 ```
 
-## 发送文件的表单
+## 发送带有文件的表单
 
 Form 默认以 `Content-Type: form/multipart` 来发送数据，这个编码允许发送文件。因此 `<input type="file">` 字段也能被发送，类似于普通的表单提交。
 
