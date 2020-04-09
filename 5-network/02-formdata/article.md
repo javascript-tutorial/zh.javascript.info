@@ -1,18 +1,22 @@
 
 # FormData
 
-这一章是关于发送 HTML 表单的：发送文件或者附加字段等。[FormData](https://xhr.spec.whatwg.org/#interface-formdata) 对象可以解决这个问题。
+这一章是关于发送 HTML 表单的：带有或不带文件，带有其他字段等。
+
+[FormData](https://xhr.spec.whatwg.org/#interface-formdata) 对象可以提供帮助。你可能已经猜到了，它是表示 HTML 表单数据的对象。
 
 构造函数是：
 ```js
 let formData = new FormData([form]);
 ```
 
-如果提供了 HTML `form` 元素，它会自动获取 `form` 元素字段。你可能已经猜到了，`FormData` 是用于保存和发送表单数据的对象。
+如果提供了 HTML `form` 元素，它会自动捕获 `form` 元素字段。
 
-`FormData` 特殊之处在于它的网络方法（network methods），比如 `fetch` 接受一个 `FormData` 对象作为 body。它会被编码并并且发送出去，该请求带有 `Content-Type: form/multipart`。因此，从服务器角度来看，它就像是一个普通的表单提交。
+`FormData` 的特殊之处在于网络方法（network methods），例如 `fetch` 可以接受一个 `FormData` 对象作为 body。它会被编码并发送出去，带有 `Content-Type: multipart/form-data`。
 
-## 发送一个简单 form
+从服务器角度来看，它就像是一个普通的表单提交。
+
+## 发送一个简单的表单
 
 我们首先来发送一个简单的 form。
 
