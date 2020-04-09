@@ -18,9 +18,9 @@ let formData = new FormData([form]);
 
 ## 发送一个简单的表单
 
-我们首先来发送一个简单的 form。
+我们先来发送一个简单的表单。
 
-正如你所见，它几乎就是一行命令：
+正如你所看得见的，它几乎就是一行代码：
 
 ```html run autorun
 <form id="formElem">
@@ -47,11 +47,11 @@ let formData = new FormData([form]);
 </script>
 ```
 
-服务器接受 form 的 POST 请求并回应消息“User saved”。
+在这个示例中，没有将服务器代码展示出来，因为它超出了我们当前的学习范围。服务器接受 POST 请求并回应 "User saved"。
 
 ## FormData 方法
 
-我们可以使用一些方法修改 `FormData` 中的字段：
+我们可以使用以下方法修改 `FormData` 中的字段：
 
 - `formData.append(name, value)` - 添加给定的 `name` 和 `value` 的值到 form 表单，
 - `formData.append(name, blob, fileName)` - 当 form 为 `<input type="file">` 时，添加字段，第三个参数 `fileName` 设置文件名（不是 form 字段名）作为用户文件系统（filesystem）中的文件名，
