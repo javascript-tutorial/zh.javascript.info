@@ -33,13 +33,13 @@ let promise = fetch(url, [options])
 
 获取响应通常需要经过两个阶段。
 
-**第一阶段，当服务器发送了响应头（header），`fetch` 返回的 `promise` 就使用内建的 [Response](https://fetch.spec.whatwg.org/#response-class) class 对象来对响应头（header）进行解析。**
+**第一阶段，当服务器发送了响应头（response header），`fetch` 返回的 `promise` 就使用内建的 [Response](https://fetch.spec.whatwg.org/#response-class) class 对象来对响应头进行解析。**
 
-在这个阶段，我们可以通过检查响应头（header），来检查 HTTP 状态以确定请求是否成功，当前还没有响应体（response body）。
+在这个阶段，我们可以通过检查响应头，来检查 HTTP 状态以确定请求是否成功，当前还没有响应体（response body）。
 
 如果 `fetch` 无法建立一个 HTTP 请求，例如网络问题，亦或是请求的网址不存在，那么 promise 就会 reject。异常的 HTTP 状态，例如 404 或 500，不会导致出现 error。
 
-我们可以在 response 属性中看到 HTTP 状态：
+我们可以在 response 的属性中看到 HTTP 状态：
 
 - **`status`** —— HTTP 状态码，例如 200。
 - **`ok`** —— 布尔值，如果 HTTP 状态码为 200-299，则为 `true`。
@@ -135,9 +135,9 @@ let parsed = await response.json(); // 失败（已经被处理过了）
 
 ## Response header
 
-`response.headers` 中有一个类似于 Map 的 headers 对象。
+Response header 位于 `response.headers` 中的一个类-Map 的 header 对象。
 
-我们可以获取单个的 headers 或者迭代它们：
+它不是真正的 Map，但是它具有类似的方法，我们可以按名称（name）获取各个 header，或迭代它们：
 
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
