@@ -99,40 +99,41 @@ let text = await response.text(); // 将 response body 读取为文本
 alert(text.slice(0, 80) + '...');
 ```
 
-我们以 fetch 并显示一张图像为例来了解一下读取二进制文件的情况（参见 [Blob](info:blob) 章节以了解更多关于 blob 的操作）：
+作为一个读取为二进制格式的演示示例，让我们 fetch 并显示一张 ["fetch" 规范](https://fetch.spec.whatwg.org) 中的图片（`Blob` 操作的有关内容请见 [Blob](info:blob)）：
 
 ```js async run
 let response = await fetch('/article/fetch/logo-fetch.svg');
 
 *!*
-let blob = await response.blob(); // 以 Blob 对象下载
+let blob = await response.blob(); // 下载为 Blob 对象
 */!*
 
-// 创建 <img> 元素
+// 为其创建一个 <img>
 let img = document.createElement('img');
 img.style = 'position:fixed;top:10px;left:10px;width:100px';
 document.body.append(img);
 
-// 显示图片
+// 显示它
 img.src = URL.createObjectURL(blob);
 
-setTimeout(() => { // 3 秒后隐藏
+setTimeout(() => { // 3 秒后将其隐藏
   img.remove();
   URL.revokeObjectURL(img.src);
 }, 3000);
 ```
 
 ````warn
-我们只能选择其中一种解析响应体的方式。
+我们只能选择一种读取 body 的方法。
 
-如果我们以 `response.text()` 方法来获取 response，那么如果我们再用 `response.json()` 方法的话，那么这个方法是不会生效的，因为正文内容已经被处理过了。
+如果我们已经使用了 `response.text()` 方法来获取 response，那么如果再用 `response.json()`，则不会生效，因为 body 内容已经被处理过了。
 
 ```js
-let text = await response.text(); // 响应体被处理
-let parsed = await response.json(); // 错误（已被处理）
+let text = await response.text(); // response body 被处理了
+let parsed = await response.json(); // 失败（已经被处理过了）
+```
 ````
 
-## Headers
+## Response header
 
 `response.headers` 中有一个类似于 Map 的 headers 对象。
 
