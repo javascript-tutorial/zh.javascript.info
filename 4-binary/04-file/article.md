@@ -1,23 +1,27 @@
-# 文件（File）和文件读取（FileReader）
+# File 和 FileReader
 
-文件对象 [File](https://www.w3.org/TR/FileAPI/#dfn-file) 继承自 Blob，并扩展了文件系统相关的功能。 
+[File](https://www.w3.org/TR/FileAPI/#dfn-file) 对象继承自 `Blob`，并扩展了与文件系统相关的功能。 
 
-获取文件对象的方法有两种。
+有两种方式可以获取它。
 
-首先，与 Blob 类似，有构造函数:
+第一种，与 `Blob` 类似，有一个构造器:
 
 ```js
 new File(fileParts, fileName, [options])
 ```
 
-- **`fileParts`** -- Blob/BufferSource/String 类型值的数组，同 `Blob`。
-- **`fileName`** -- 文件名字符串。
-- **`options`** -- 可选对象:
-    - **`lastModified`** -- 上次更新的时间戳（整型日期）。
+- **`fileParts`** —— Blob/BufferSource/String 类型值的数组。
+- **`fileName`** —— 文件名字符串。
+- **`options`** —— 可选对象：
+    - **`lastModified`** —— 最后一次修改的时间戳（整数日期）。
 
-其次，我们经常从 `<input type="file">` 或拖拽或其他浏览器接口来获取。 然后，再从操作系统（OS) 中获取文件。
+第二种，更常见的是，我们从 `<input type="file">` 或拖放或其他浏览器接口来获取文件。在这种情况下，file 将从操作系统（OS）获得 this 信息。
 
-例如:
+由于 `File` 是继承自 `Blob` 的，所以 `File` 对象具有相同的属性，附加：
+- `name` —— 文件名，
+- `lastModified` —— 最后一次修改的时间戳。
+
+这就是我们从 `<input type="file">` 中获取 `File` 对象的方式：
 
 ```html run
 <input type="file" onchange="showFile(this)">
@@ -33,43 +37,49 @@ function showFile(input) {
 ```
 
 ```smart
-输入（input）可以选择多个文件， 因此 `input.files` 是类似数组的对象。 此处我们只有一个文件，因此我们只取 `input.files[0]`。
+输入（input）可以选择多个文件，因此 `input.files` 是一个类数组对象。这里我们只有一个文件，所以我们只取 `input.files[0]`。
 ```
 
-## 文件读取（FileReader）
+## FileReader
 
-文件读取 [FileReader](https://www.w3.org/TR/FileAPI/#dfn-filereader) 是从 Blob（以及 `File` ）对象中读取数据的对象。
+[FileReader](https://www.w3.org/TR/FileAPI/#dfn-filereader) 是一个对象，器唯一目的是从 `Blob`（因此也从 `File`）对象中读取数据。
 
-由于从磁盘读取数据可能比较费时间，FileReader 通过事件（events）来传递数据。
+它使用事件来传递数据，因为从磁盘读取数据可能比较费时间。
 
-构造函数:
+构造函数：
 
 ```js
-let reader = new FileReader(); // 无参构造
+let reader = new FileReader(); // 没有参数
 ```
 
 主要方法:
 
-- **`readAsArrayBuffer(blob)`** -- 读取数据为 `ArrayBuffer`
-- **`readAsText(blob, [encoding])`** -- 读取数据为字符串（默认 `utf-8` 编码）
-- **`readAsDataURL(blob)`** -- 将数据编码为 base64 的数据 url。
-- **`abort()`** -- 取消操作。
+- **`readAsArrayBuffer(blob)`** —— 将数据读取为二进制格式的 `ArrayBuffer`。
+- **`readAsText(blob, [encoding])`** —— 将数据读取为给定编码（默认为 `utf-8` 编码）的文本字符串。
+- **`readAsDataURL(blob)`** —— 读取二进制数据，并将其编码为 base64 的 data url。
+- **`abort()`** —— 取消操作。
 
-数据读取期间，有以下事件:
-- `loadstart` -- 开始加载。
-- `progress` -- 读取过程中出现。
-- `load` -- 读取完毕，没有错误。
-- `abort` -- 调用 `abort()` 。
-- `error` -- 出现错误。
-- `loadend` -- 读取完成，或成功或失败。
+`read*` 方法的选择，取决于我们喜欢哪种格式，以及如何使用数据。
 
-读取完成后，我们可以如此访问读取的结果:
-- `reader.result` 是结果（如成功）
-- `reader.error` 是错误（如失败）。
+- `readAsArrayBuffer` —— 用于二进制文件，执行低级别的二进制操作。对于诸如切片（slicing）之类的高级别的操作，`File` 是继承自 `Blob` 的，所以我们可以直接调用它们，而无需读取。
+- `readAsText` —— 用于文本文件，当我们想要获取字符串时。
+- `readAsDataURL` —— 当我们想在 `src` 中使用此数据，并将其用于 `img` 或其他标签时。正如我们在  <info:blob> 一章中所讲的，还有一种用于此的读取文件的替代方案：`URL.createObjectURL(file)`。
 
-用的最广泛的事件无疑是 `load` 和 `error`。
+读取过程中，有以下事件：
+- `loadstart` —— 开始加载。
+- `progress` —— 在读取过程中出现。
+- `load` —— 读取完成，没有 error。
+- `abort` —— 调用了 `abort()`。
+- `error` —— 出现 error。
+- `loadend` —— 读取完成，无论成功还是失败。
 
-以下是读取一个文件的示例:
+读取完成后，我们可以通过以下方式访问读取结果：
+- `reader.result` 是结果（如果成功）
+- `reader.error` 是 error（如果失败）。
+
+使用最广泛的事件无疑是 `load` 和 `error`。
+
+这是一个读取文件的示例：
 
 ```html run
 <input type="file" onchange="readFile(this)">
@@ -94,35 +104,35 @@ function readFile(input) {
 </script>
 ```
 
-```smart header="`FileReader` 用于 blobs"
-在 <info:blob> 一章中我们提到，`FileReader` 适用于任何块（blobs），不仅仅适用于文件。
+```smart header="`FileReader` 用于 blob"
+正如我们在 <info:blob> 一章中所提到的，`FileReader` 不仅可读取文件，还可读取任何 blob。
 
-因此我们可以用它将一个 blob 转换为其他格式:
-- `readAsArrayBuffer(blob)` -- 转换为 `ArrayBuffer`,
-- `readAsText(blob, [encoding])` -- 转换为字符串（`TextDecoder` 的一个可替代方法）,
-- `readAsDataURL(blob)` -- 转换为 base64 的数据 url。
+我们可以使用它将 blob 转换为其他格式：
+- `readAsArrayBuffer(blob)` —— 转换为 `ArrayBuffer`，
+- `readAsText(blob, [encoding])` —— 转换为字符串（`TextDecoder` 的一个替代方案），
+- `readAsDataURL(blob)` —— 转换为 base64 的 data url。
 ```
 
 
-```smart header="`FileReaderSync` 只适用于 workers "
-对于 Web Workers，还有一种同步的 `FileReader` 变体，称为 [FileReaderSync](https://www.w3.org/TR/FileAPI/#FileReaderSync)。
+```smart header="在 Web Workers 中可以使用 `FileReaderSync`"
+对于 Web Worker，还有一种同步的 `FileReader` 变体，称为 [FileReaderSync](https://www.w3.org/TR/FileAPI/#FileReaderSync)。
 
-FileReader 的读取方法 `read*` 并不生成事件，而是会和普通函数一样返回一个结果。
+它的读取方法 `read*` 不会生成事件，但是会像常规函数那样返回一个结果。
 
-不过，那只是在 Web Worker 内部，因为在读取文件的时候，同步调用会有延迟，而在 Web Workers 则不是很重要，并不会影响页面。
+不过，这仅在 Web Worker 中可用，因为在读取文件的时候，同步调用会有延迟，而在 Web Worker 中，这种延迟并不是很重要。它不会影响页面。
 ```
 
 ## 总结
 
 `File` 对象继承自 `Blob`。
 
-除了 `Blob` 方法和属性，`File` 对象还有 `fileName` 和 `lastModified` 属性，以及从文件系统读取的内部方法。 我们通常从用户输入如 `<input>` 或拖拽（drag'n'drop）来获取 `File` 对象。
+除了 `Blob` 方法和属性外，`File` 对象还有 `name` 和 `lastModified` 属性，以及从文件系统读取的内部功能。我们通常从用户输入如 `<input>` 或拖放事件来获取 `File` 对象。
 
-`FileReader` 对象可以从文件或 blob 读取以下三种格式:
-- 字符串 (`readAsText`)。
-- `ArrayBuffer` (`readAsArrayBuffer`)。
-- 数据 url，base-64 编码（`readAsDataURL`)。
+`FileReader` 对象可以从文件或 blob 中读取数据，可以读取为以下三种格式：
+- 字符串（`readAsText`）。
+- `ArrayBuffer`（`readAsArrayBuffer`）。
+- data url，base-64 编码（`readAsDataURL`）。
 
-但是，多数情况下，我们不必读取文件内容。正如我们处理 blobs 一样，我们可以通过  `URL.createObjectURL(file)` 创建一个短小的 url，并将其赋给 `<a>` 或 `<img>`。 这样，文件便可以下载或者呈现为图像，作为画布（canvas）等的一部分。 
+但是，在很多情况下，我们不必读取文件内容。就像我们处理 blob 一样，我们可以使用 `URL.createObjectURL(file)` 创建一个短的 url，并将其赋给 `<a>` 或 `<img>`。这样，文件便可以下载文件或者将其呈现为图像，作为 canvas 等的一部分。
 
-而且，如果我们要通过网络发送一个文件（`File`），也简单，因为网络 API 如 `XMLHttpRequest` 或 `fetch` 本质上都接受 `File` 对象。
+而且，如果我们要通过网络发送一个 `File`，那也很容易：像 `XMLHttpRequest` 或 `fetch` 等网络 API 本身就接受 `File` 对象。
