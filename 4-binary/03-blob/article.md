@@ -8,7 +8,7 @@
 
 ![](blob.svg)
 
-构造器的语法为：
+构造函数的语法为：
 
 ```js
 new Blob(blobParts, options);
