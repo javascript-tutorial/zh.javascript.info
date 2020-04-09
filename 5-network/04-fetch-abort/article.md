@@ -1,11 +1,11 @@
 
 # Fetch：中止（Abort）
 
-中止 `fetch` 有一点点棘手。请记住，`fetch` 返回 promise。但是 JavaScript 并没有 “中止” promise 的概念。所以我们要如何取消 fetch 呢？
+正如我们所知道的，`fetch` 返回一个 promise。JavaScript 通常并没有“中止” promise 的概念。那么我们怎样才能中止 `fetch` 呢？
 
-有一个特殊的内置对象是基于此目的的：`AbortController`。
+为此有一个特殊的内建对象：`AbortController`，它不仅可以中止 `fetch`，还可以中止其他异步任务。
 
-使用起来很简单：
+用法很简单：
 
 - Step 1：创建一个控制器（controller）：
 
@@ -13,20 +13,27 @@
     let controller = new AbortController();
     ```
 
-    控制器是个极其简单的对象。它具有一个 `abort()` 方法和一个 `signal` 属性。当 `abort()` 被调用时，`abort` 事件就会在 `controller.signal` 上触发。
+    控制器是一个极其简单的对象。
 
-    就像这样：
+    - 它具有单个方法 `abort()`，和单个属性 `signal`。
+    - 当 `abort()` 被调用时：
+        - `abort` 事件就会在 `controller.signal` 上触发
+        - `controller.signal.aborted` 属性变为 `true`。
+
+    任何对 `abort()` 调用感兴趣的人，都可以在 `controller.signal` 上设置监听器来对其进行跟踪。
+
+    就像这样（目前还没有 `fetch`）：
 
     ```js run
     let controller = new AbortController();
     let signal = controller.signal;
 
-    // triggers when controller.abort() is called
+    // 当 controller.abort() 被调用时触发
     signal.addEventListener('abort', () => alert("abort!"));
 
     controller.abort(); // 中止！
 
-    alert(signal.aborted); // true（在中止之后）
+    alert(signal.aborted); // true
     ```
 
 - Step 2：将 `signal` 属性传递给 `fetch` 选项：
@@ -38,7 +45,7 @@
     });
     ```
 
-    现在 `fetch` 侦听 signal。
+    `fetch` 方法知道如何与 `AbortController` 一起使用，它会监听 `signal` 上的 `abort`。
 
 - Step 3：调用 `controller.abort()` 来中止：
 
@@ -46,9 +53,9 @@
     controller.abort();
     ```
 
-    我们完成啦：`fetch` 从 `signal` 那里获取事件并中止请求。
+    我们完成啦：`fetch` 从 `signal` 获取了事件并中止了请求。
 
-当一个 fetch 被中止，它的 promise rejects 一个名为 `AbortError` 的错误，所以我们应该处理它：
+当一个 fetch 被中止，它的 promise 就会以一个 error `AbortError` reject，因此我们应该对其进行处理：
 
 ```js run async
 // 1 秒后中止
@@ -68,12 +75,12 @@ try {
 }
 ```
 
-**`AbortController` 是可扩展的，它允许同时取消多个 fetch。**
+**`AbortController` 是可扩展的，它允许一次取消多个 fetch。**
 
-例如，这里我们并行 fetch 多个 `urls`，然后控制器将它们全部中止：
+例如，这里我们并行 fetch 多个 `urls`，然后 controller 将它们全部中止：
 
 ```js
-let urls = [...]; // 将要并行 fetch 的 urls 列表
+let urls = [...]; // 要并行 fetch 的 url 列表
 
 let controller = new AbortController();
 
@@ -83,28 +90,32 @@ let fetchJobs = urls.map(url => fetch(url, {
 
 let results = await Promise.all(fetchJobs);
 
-// 从其他地方：
-// controller.abort() 中止所有 fetches
+// 如果 controller.abort() 被从其他地方调用，
+// 它将中止所有 fetch
 ```
 
-如果我们有自己的不同于 `fetch` 的任务，我们可以使用一个 `AbortController` 去中止它们以及 fetches。
+如果我们有自己的与 `fetch` 不同的异步任务，我们可以使用单个 `AbortController` 中止这些任务以及 fetch。
 
+我们只需要监听其 `abort` 事件：
 
 ```js
 let urls = [...];
 let controller = new AbortController();
 
-let ourJob = new Promise((resolve, reject) => {
+let ourJob = new Promise((resolve, reject) => { // 我们的任务
   ...
   controller.signal.addEventListener('abort', reject);
 });
 
-let fetchJobs = urls.map(url => fetch(url, {
+let fetchJobs = urls.map(url => fetch(url, { // fetches
   signal: controller.signal
 }));
 
+// 等待完成我们的任务和所有 fetch
 let results = await Promise.all([...fetchJobs, ourJob]);
 
-// 从其他地方：
-// controller.abort() 中止所有 fetches 和 ourJob
+// 如果 controller.abort() 被从其他地方调用，
+// 它将中止所有 fetch 和 ourJob
 ```
+
+所以，`AbortController` 不仅适用于 `fetch`，它还是一个可以中止异步任务的通用对象，`fetch` 具有它的内建集成（译注：即 `fetch` 在内部集成了它）。
