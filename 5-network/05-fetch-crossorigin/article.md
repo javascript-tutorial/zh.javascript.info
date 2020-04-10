@@ -239,9 +239,9 @@ let response = await fetch('https://site.com/service.json', {
 
 ### Step 1 预检请求（preflight request）
 
-在我们发送请求之前，浏览器自身会发送类似这样的预检请求：
+在发送我们的请求前，浏览器会自己发送如下所示的预检请求：
 
-```
+```http
 OPTIONS /service.json
 Host: site.com
 Origin: https://javascript.info
@@ -254,36 +254,36 @@ Access-Control-Request-Headers: Content-Type,API-Key
 - 特殊跨源头：
     - `Origin` —— 来源。
     - `Access-Control-Request-Method` —— 请求方法。
-    - `Access-Control-Request-Headers` —— 以逗号分隔的“非简单”头列表。
+    - `Access-Control-Request-Headers` —— 以逗号分隔的“非简单” header 列表。
 
 ### Step 2 预检响应（preflight response）
 
-服务应响应状态 200 和响应头：
+服务应响应状态 200 和 header：
 - `Access-Control-Allow-Methods: PATCH`
-- `Access-Control-Allow-Headers: Content-Type,API-Key`.
+- `Access-Control-Allow-Headers: Content-Type,API-Key`。
 
 这将允许后续通信，否则会触发错误。
 
-如果服务器将来需要其他的方法和头，那么添加到列表中来提前允许它们是很有意义的：
+如果服务器将来期望其他方法和 header，则可以通过添加到列表中来预先允许它们：
 
-```
+```http
 200 OK
 Access-Control-Allow-Methods: PUT,PATCH,DELETE
 Access-Control-Allow-Headers: API-Key,Content-Type,If-Modified-Since,Cache-Control
 Access-Control-Max-Age: 86400
 ```
 
-现在，浏览器可以在允许的方法列表里找到 `PATCH`，并且这两个头也都在列表中，因此它发送主请求。
+现在，浏览器可以看到 `PATCH` 在 `Access-Control-Allow-Methods` 中，`Content-Type,API-Key` 在列表 `Access-Control-Allow-Headers` 中，因此它将发送主请求。
 
-此外，预检请求会按指定时间缓存，由 `Access-Control-Max-Age` 头指定（86400 秒，一天），因此，后续请求将不会再发送预检请求。假设它们符合配额，它们将直接发送。
+此外，预检响应会缓存一段时间，该时间由 `Access-Control-Max-Age` header 指定（86400 秒，一天），因此，后续请求将不会导致预检。假设它们符合缓存的配额，则将直接发送它们。
 
 ### Step 3 实际请求（actual request）
 
-当预检请求成功后，浏览器将会发送实际请求。这里的流程和简单请求相同。
+预检成功后，浏览器现在发出主请求。这里的算法与简单请求的算法相同。
 
-实际请求有 `Origin` 头（因为它是跨源的）：
+主请求具有 `Origin` header（因为它是跨源的）：
 
-```
+```http
 PATCH /service.json
 Host: site.com
 Content-Type: application/json
@@ -293,14 +293,19 @@ Origin: https://javascript.info
 
 ### Step 4 实际响应（actual response）
 
-服务器记得要在 response 中添加 Access-Control-Allow-Origin，因为一次成功预检并不能解除潜在的风险：
+服务器不应该忘记在主响应中添加 `Access-Control-Allow-Origin`。成功的预检并不能免除此要求：
 
-```
+```http
 Access-Control-Allow-Origin: https://javascript.info
 ```
 
-现在所有事情都是正确的。JavaScript 可以读取完整的响应了。
+然后，JavaScript 可以读取主服务器响应了。
 
+```smart
+预检请求发生在“幕后”，它对 JavaScript 不可见。
+
+JavaScript 仅获取对主请求的响应，如果没有服务器许可，则获得一个 error。
+```
 
 ## 凭据（Credentials）
 
