@@ -52,7 +52,7 @@ let promise = fetch(url, {
 
 **`referer` 选项允许设置在当前域名(origin) 的任何 `Referer`，或者移除它。**
 
-要不发送来源，可以将 `referer` 设置为空字符串：
+要不发送 referer，可以将 `referer` 设置为空字符串：
 ```js
 fetch('/page', {
 *!*
@@ -83,7 +83,7 @@ fetch('/page', {
 
 与 `referrer` 选项允许设置确切的 `Referer` 值不同，`referrerPolicy` 告诉浏览器针对各个请求类型的一般的规则。
 
-可能的值在 [Referrer Policy specification（来源协议规范）](https://w3c.github.io/webappsec-referrer-policy/)中有详细描述：
+可能的值在 [Referrer Policy 规范](https://w3c.github.io/webappsec-referrer-policy/)中有详细描述：
 
 - **`"no-referrer-when-downgrade"`** —— 默认值：除非我们从 HTTPS 发送请求到 HTTP（到安全性较低的协议），否则始终会发送完整的 `Referer`。
 - **`"no-referrer"`** —— 从不发送 `Referer`。
@@ -107,13 +107,13 @@ fetch('/page', {
 | `"strict-origin-when-cross-origin"` | 完整的 url | 仅域 | - |
 | `"unsafe-url"` | 完整的 url | 完整的 url | 完整的 url |
 
-假如说我们有一个从网站外部无法观察的带有 URL 结构的管理区域。
+假如我们有一个带有 URL 结构的管理区域（admin zone），它不应该被从网站外看到。
 
-如果我们发送了一个跨域的 `fetch`，然后它默认地发送带有我们网页完整 url 的 `Referer` 头部。(当我们从 HTTPS 向 HTTP 发送请求的除外，这种情况下是没有 `Referer` )。
+如果我们发送了一个 `fetch`，则默认情况下，它总是发送带有页面完整 url 的 `Referer` header（我们从 HTTPS 向 HTTP 发送请求的情况除外，这种情况下没有 `Referer`）。
 
-比如 `Referer: https://javascript.info/admin/secret/paths`。
+例如 `Referer: https://javascript.info/admin/secret/paths`。
 
-如果我们想要其他网址只知道域名部分，而不是 URL 的路径，我们可以这样设置选项：
+如果我们想让其他网站只知道域的部分，而不是 URL 路径，我们可以这样设置选项：
 
 ```js
 fetch('https://another.com/page', {
@@ -122,14 +122,14 @@ fetch('https://another.com/page', {
 });
 ```
 
-我们可以把它放在所有 `fetch` 的调用，也可以整合进我们项目所有用于请求和内部使用 `fetch` 的 JavaScript 库。
+我们可以将其置于所有 `fetch` 调用中，也可以将其集成到我们项目的执行所有请求并在内部使用 `fetch` 的 JavaScript 库中。
 
-与默认行为相比较，它的唯一区别是跨域请求的 `fetch` 只发送 URL 的域名部分(比如 `https://javascript.info`，没有路径)。对于同源请求，我们仍然能得到完整的 `Referer` (也许在 debug 中有用)。
+与默认行为相比，它的唯一区别在于，对于跨源请求，`fetch` 只发送 URL 域的部分（例如 `https://javascript.info`，没有路径）。对于同源请求，我们仍然可以获得完整的 `Referer`（可能对于调试目的是有用的）。
 
-```smart header="来源协议 (Referrer policy) 不只用于 `fetch`"
-在 [规范](https://w3c.github.io/webappsec-referrer-policy/) 中描述的来源协议，不只是用于 `fetch`，它用处更广泛。
+```smart header="Referrer policy 不只用于 `fetch`"
+在 [规范](https://w3c.github.io/webappsec-referrer-policy/) 中描述的 referrer policy，不仅适用于 `fetch`，它还具有全局性。
 
-具体来说，它可以使用 `Referrer-Policy` 的 HTTP 头部信息给整个页面设置默认来源协议，或者使用 `<a rel="noreferrer">` 给单一链接设置。
+特别是，可以使用 `Referrer-Policy` HTTP header，或者为每个链接设置 `<a rel="noreferrer">`，来为整个页面设置默认策略（policy）。
 ```
 
 ## mode
