@@ -13,10 +13,16 @@
 new URL(url, [base])
 ```
 
-- **`url`** —— URL 字符串（string）或者路径（path）（如果 base 被设置，我们会在下面介绍）。
-- **`base`** —— 可选的 base，如果设置了此参数并且 `url` 只有路径，那么就会根据这个 `base` 生成 URL。
+- **`url`** —— 完整的 URL，或者仅路径（如果设置了 base），
+- **`base`** —— 可选的 base URL：如果设置了此参数，且参数 `url` 只有路径，则会根据这个 `base` 生成 URL。
 
-例如，下面两个 URL 是相同的：
+例如：
+
+```js
+let url = new URL('https://javascript.info/profile/admin');
+```
+
+下面这两个 URL 是一样的：
 
 ```js run
 let url1 = new URL('https://javascript.info/profile/admin');
@@ -26,17 +32,16 @@ alert(url1); // https://javascript.info/profile/admin
 alert(url2); // https://javascript.info/profile/admin
 ```
 
-转到相对于当前 URL 的路径：
+我们可以根据相对于现有 URL 的路径轻松创建一个新的 URL：
 
 ```js run
 let url = new URL('https://javascript.info/profile/admin');
-let testerUrl = new URL('tester', url);
+let newUrl = new URL('tester', url);
 
-alert(testerUrl); // https://javascript.info/profile/tester
+alert(newUrl); // https://javascript.info/profile/tester
 ```
 
-
-`URL` 对象允许我们随时访问其组件，因此这是一个解析 URL 的好办法，例如：
+`URL` 对象立即允许我们访问其组件，因此这是一个解析 url 的好方法，例如：
 
 ```js run
 let url = new URL('https://javascript.info/url');
@@ -46,21 +51,21 @@ alert(url.host);     // javascript.info
 alert(url.pathname); // /url
 ```
 
-这是其组件列表：
+这是 URL 组件的备忘单：
 
 ![](url-object.svg)
 
 - `href` 是完整的 URL，与 `url.toString()` 相同
 - `protocol` 以冒号字符 `:` 结尾
-- `search` - 以问号 `?` 开始的一串参数
-- `hash` 以哈希字符 `#` 开始
-- 如果存在 HTTP 身份验证的话，还会有 `user` 和 `password` 属性：`http://login:password@site.com`（图片上没有，很少使用它）。
+- `search` —— 以问号 `?` 开头的一串参数
+- `hash` 以哈希字符 `#` 开头
+- 如果存在 HTTP 身份验证，则这里可能还会有 `user` 和 `password` 属性：`http://login:password@site.com`（图片上没有，很少被用到）。
 
 
-```smart header="我们可以在任意位置用 `URL` 代替字符串"
-我们可以在 `fetch` 或者 `XMLHttpRequest` 中使用 `URL` 对象，几乎在任何能使用字符串 URL 的地方都能使用 `URL` 对象。
+```smart header="我们可以将 `URL` 对象传递给网络（和大多数其他）方法，而不是字符串"
+我们可以在 `fetch` 或 `XMLHttpRequest` 中使用 `URL` 对象，几乎可以在任何需要 URL 字符串的地方都能使用 `URL` 对象。
 
-在绝大多数方法中，它会自动转换为字符串。
+通常，`URL` 对象在绝大多数方法中，它会自动转换为字符串。
 ```
 
 ## 搜索参数（SearchParams）“?...”
