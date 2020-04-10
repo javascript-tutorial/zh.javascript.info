@@ -201,40 +201,41 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 ## “非简单”请求
 
-我们可以使用任何 HTTP 方法：不仅仅是 `GET/POST`，也可以是 `PATCH`，`DELETE`  及其他。
+我们可以使用任何 HTTP 方法：不仅仅是 `GET/POST`，也可以是 `PATCH`，`DELETE` 及其他。
 
-之前，没有人能够设想网页能做出这样的请求。所以可能存在有些网络服务视非标准方法为一个信号：“这不是浏览器”。它们可以在检查访问权限时将其考虑在内。
+之前，没有人能够设想网页能发出这样的请求。因此，可能仍然存在有些网络服务将非标准方法视为一个信号：“这不是浏览器”。它们可以在检查访问权限时将其考虑在内。
 
-因此，为了避免误解，任何“非标准”请求 —— 在过去无法完成，浏览器不会立即发出此类请求。在它发送请求前，会先发送“预检请求”来获取权限。
+因此，为了避免误解，任何“非标准”请求 —— 浏览器不会立即发出在过去无法完成的这类请求。即在它发送这类请求前，会先发送“预检（preflight）”请求来请求许可。
 
-预检请求使用 `OPTIONS` 方法，并且没有 body。
-- `Access-Control-Request-Method` 头带有请求方法。
-- `Access-Control-Request-Headers` 头提供以逗号分隔的非简单 HTTP 头列表。
+预检请求使用 `OPTIONS` 方法，并且 body，但是有两个 header：
 
-如果服务器同意请求，那么它响应状态码应该为 200，没有 body。
+- `Access-Control-Request-Method` header 带有非简单请求的方法。
+- `Access-Control-Request-Headers` header 提供一个以逗号分隔的非简单 HTTP-header 列表。
 
-- 响应头 `Access-Control-Allow-Methods` 必须具有允许的方法。
-- 响应头 `Access-Control-Allow-Headers` 必须具有允许的头列表。
-- 另外，响应头 `Access-Control-Max-Age` 可以指定缓存此权限的秒数。因此，浏览器不必为满足给定权限的后续请求发送预检。
+如果服务器同意处理请求，那么它会进行响应，此响应的状态码应该为 200，没有 body，具有 header：
+
+- `Access-Control-Allow-Methods` 必须具有允许的方法。
+- `Access-Control-Allow-Headers` 必须具有一个允许的 header 列表。
+- 另外，header `Access-Control-Max-Age` 可以指定缓存此权限的秒数。因此，浏览器不是必须为满足给定权限的后续请求发送预检。
 
 ![](xhr-preflight.svg)
 
-让我们用一个例子来一步步展示它是怎么工作的，对于跨源的 `PATCH` 请求（这个方法通常被用来上传数据）：
+让我们用一个例子来一步步看一下它是怎么工作的，对于一个跨源的 `PATCH` 请求（此方法经常被用于更新数据）：
 
 ```js
 let response = await fetch('https://site.com/service.json', {
   method: 'PATCH',
   headers: {
-    'Content-Type': 'application/json'  
+    'Content-Type': 'application/json',
     'API-Key': 'secret'
   }
 });
 ```
 
 这里有三个理由解释为什么它不是一个简单请求（其实一个就够了）：
-- 方法：`PATCH`
-- `Content-Type` 不是这三个中的一个：`application/x-www-form-urlencoded`，`multipart/form-data`，`text/plain`。
-- “非简单（Non-simple）” `API-Key` 头。
+- 方法 `PATCH`
+- `Content-Type` 不是这三个中之一：`application/x-www-form-urlencoded`，`multipart/form-data`，`text/plain`。
+- “非简单” `API-Key` header。
 
 ### Step 1 预检请求（preflight request）
 
