@@ -1,110 +1,110 @@
 
 # Fetch API
 
-到目前为止，我们已经对 fetch 有一定的了解。
+到目前为止，我们已经对 `fetch` 相当了解了。
 
-现在让我们来看看 fetch 的其他 API，来了解它的全部功能吧。
+现在让我们来看看 `fetch` 的剩余 API，来了解它的全部本领吧。
 
 ```smart
-请注意：这些选项 (options) 大多很少使用。即使跳过这一章节，你也可以很好的使用 `fetch` 。
+请注意：这些选项 (option) 大多都很少使用。即使跳过本章，你也可以很好地使用 `fetch`。
 
-但是，知道 `fetch` 可以做什么也是很好的，所以如果你求知欲旺盛，你也可以来看看这些细节。
+但是，知道 `fetch` 可以做什么还是很好的，所以如果需要，你可以来看看这些细节内容。
 ```
 
-这个列表包含了 `fetch` 所有可能的选项和它们的默认值(可选值在注释中)：
+这是所有可能的 `fetch` 选项及其默认值（注释中标注了可选值）的完整列表：
 
 ```js
 let promise = fetch(url, {
-  method: "GET", // POST, PUT, DELETE, 等等.
+  method: "GET", // POST，PUT，DELETE，等。
   headers: {
-     // 内容类型头的值
-     // 通常会根据请求主体自动设置
+    // 内容类型 header 值通常是自动设置的
+    // 取决于 request body
     "Content-Type": "text/plain;charset=UTF-8"
   },
-  body: undefined // string, FormData, Blob, BufferSource, 或者 URLSearchParams
-  referrer: "about:client", // 要么为 "" 即不发送 Referer 头，
-  // 要么是一个来自当前域名的 url
-  referrerPolicy: "no-referrer-when-downgrade", // no-referrer, origin, same-origin...
-  mode: "cors", // same-origin, no-cors
-  credentials: "same-origin", // omit, include
-  cache: "default", // no-store, reload, no-cache, force-cache, 或者 only-if-cached
-  redirect: "follow", // manual, error
-  integrity: "", // 一个 hash 值, 比如 "sha256-abcdef1234567890"
+  body: undefined // string，FormData，Blob，BufferSource，或 URLSearchParams
+  referrer: "about:client", // 或 "" 以不发送 Referer header，
+  // 或者是当前源的 url
+  referrerPolicy: "no-referrer-when-downgrade", // no-referrer，origin，same-origin...
+  mode: "cors", // same-origin，no-cors
+  credentials: "same-origin", // omit，include
+  cache: "default", // no-store，reload，no-cache，force-cache，或 only-if-cached
+  redirect: "follow", // manual，error
+  integrity: "", // 一个 hash，像 "sha256-abcdef1234567890"
   keepalive: false, // true
-  signal: undefined, // 中止控制器（AbortController）用以中止请求
+  signal: undefined, // AbortController 来中止请求
   window: window // null
 });
 ```
 
-一个令人印象深刻的列表，是吧?
+一个令人印象深刻的列表，对吧?
 
-我们已经在这个章节 <info:fetch-basics> 详细介绍过 `method`, `headers` 和 `body` 了
+我们已经在 <info:fetch> 一章中详细介绍了 `method`，`headers` 和 `body`。
 
-`signal` 选项已经在 <info:fetch-abort> 章节讨论过了。
+在 <info:fetch-abort> 一章中介绍了 `signal` 选项。
 
-现在让我们探讨它其他的本领。
+现在让我们学习其余的本领。
 
-## referrer, referrerPolicy
+## referrer，referrerPolicy
 
-这些选项决定了 `fetch` 如何设置 HTTP 的 `Referer` 头
+这些选项决定了 `fetch` 如何设置 HTTP 的 `Referer` header。
 
-通常来说，这个头部被自动设置并包含了发出请求的页面的 url。在大部分情况下，它只是个无关紧要的小角色，但有些时候出于安全考虑，对它的移除或缩短是由必要的。
-.
+通常来说，这个 header 是被自动设置的，并包含了发出请求的页面的 url。在大多数情况下，它一点也不重要，但有时出于安全考虑，删除或缩短它是有意义的。
 
-**`referer` 选项允许设置任何在当前域名 (origin) 的 `Referer` 或者移除它。**
+**`referer` 选项允许设置在当前域名(origin) 的任何 `Referer`，或者移除它。**
 
-要发送无来源页，可以将 `referer` 设置为空字符串：
+要不发送来源，可以将 `referer` 设置为空字符串：
 ```js
 fetch('/page', {
 *!*
-  referrer: "" // 没有 Referer 头部信息
+  referrer: "" // 没有 Referer header
 */!*
 });
 ```
 
-设置在当前域名内的另一个 url：
+设置在当前域内的另一个 url：
 
 ```js
 fetch('/page', {
   // 假设我们在 https://javascript.info
-  // 我们可以设置任何 Referer 头部，但只能在当前网页源
+  // 我们可以设置任何 Referer header，但必须是在当前域内的
 *!*
   referrer: "https://javascript.info/anotherpage"
 */!*
 });
 ```
 
-**`referrerPolicy` 选项为 `Referer` 设置通用规则。**
+**`referrerPolicy` 选项为 `Referer` 设置一般的规则。**
 
-请求被分为 3 种类型：
+请求分为 3 种类型：
+
 1. 同源请求。
 2. 跨域请求。
-3. HTTPS 到 HTTP 的请求 (从安全协议到不安全协议)。
+3. 从 HTTPS 到 HTTP 的请求 (从安全协议到不安全协议)。
 
-与 `referrer` 选项允许设置确切的 `Referer` 值不同， `referrerPolicy` 告诉浏览器针对各个请求类型的使用的通常的规则。
+与 `referrer` 选项允许设置确切的 `Referer` 值不同，`referrerPolicy` 告诉浏览器针对各个请求类型的一般的规则。
 
-可能的值在 [Referrer Policy specification (来源协议规范)](https://w3c.github.io/webappsec-referrer-policy/) 中有介绍:
+可能的值在 [Referrer Policy specification（来源协议规范）](https://w3c.github.io/webappsec-referrer-policy/)中有详细描述：
 
-- **`"no-referrer-when-downgrade"`** -- 默认值: 完整的 `Referer` 总被发送，除非我们从 HTTPS 发送请求到 HTTP (到较不安全协议)。
-- **`"no-referrer"`** -- 从不发送 `Referer`.
-- **`"origin"`** -- 只发送在 `Referer` 的域名，而不是整个页面 URL，比如，是发送 `http://site.com` 而不是 `http://site.com/path`。
-- **`"origin-when-cross-origin"`** -- 同源情况下，发送完整的 referer，但在跨域情况下，则只发送域名部分(同上)。
-- **`"same-origin"`** -- 同源情况下，发送完整的 referer，但在跨域情况下，则不发送 referer。
-- **`"strict-origin"`** -- 只发送域名，但在 HTTPS→HTTP 请求中则不发送 referer。
-- **`"strict-origin-when-cross-origin"`** -- 对于同源情况下则发送完整的 refererm 对于跨域情况下则只发送域名，如果是 HTTPS→HTTP 请求，则什么都不发送。
-- **`"unsafe-url"`** -- 在 `Referer` 中总是发送完整的 url，即使是 HTTPS→HTTP 请求。
+- **`"no-referrer-when-downgrade"`** —— 默认值：除非我们从 HTTPS 发送请求到 HTTP（到安全性较低的协议），否则始终会发送完整的 `Referer`。
+- **`"no-referrer"`** —— 从不发送 `Referer`。
+- **`"origin"`** —— 只发送在 `Referer` 中的域，而不是完整的页面 URL，例如，只发送 `http://site.com` 而不是 `http://site.com/path`。
+- **`"origin-when-cross-origin"`** —— 发送完整的 `Referer` 到相同的源，但对于跨源请求，只发送域部分（同上）。
+- **`"same-origin"`** —— 发送完整的 `Referer` 到相同的源，但对于跨源请求，不发送 `Referer`。
+- **`"strict-origin"`** —— 只发送域，对于 HTTPS→HTTP 请求，则不发送中则不发送 `Referer`。
+- **`"strict-origin-when-cross-origin"`** —— 对于同源情况下则发送完整的 `Referer`，对于跨源情况下，则只发送域，如果是 HTTPS→HTTP 请求，则什么都不发送。
+- **`"unsafe-url"`** —— 在 `Referer` 中始终发送完整的 url，即使是 HTTPS→HTTP 请求。
 
-这是一个包含各种组合的表格：
+这是一个包含所有组合的表格：
 
-| 值 | 同源 | 跨域 | HTTPS→HTTP |
+| 值 | 同源 | 跨源 | HTTPS→HTTP |
 |-------|----------------|-------------------|------------|
 | `"no-referrer"` | - | - | - |
-| `"no-referrer-when-downgrade"` 或者 `""` (默认) | 完整的 url | 完整的 url | - |
-| `"origin"` | 仅域名 | 仅域名 | 仅域名 |
-| `"origin-when-cross-origin"` | 完整的 url | 仅域名 | 仅域名 |
+| `"no-referrer-when-downgrade"` 或 `""`（默认） | 完整的 url | 完整的 url | - |
+| `"origin"` | 仅域 | 仅域 | 仅域 |
+| `"origin-when-cross-origin"` | 完整的 url | 仅域 | 仅域 |
 | `"same-origin"` | 完整的 url | - | - |
-| `"strict-origin"` | 仅域名 | 仅域名 | - |
-| `"strict-origin-when-cross-origin"` | 完整的 url | 仅域名 | - |
+| `"strict-origin"` | 仅域 | 仅域 | - |
+| `"strict-origin-when-cross-origin"` | 完整的 url | 仅域 | - |
 | `"unsafe-url"` | 完整的 url | 完整的 url | 完整的 url |
 
 假如说我们有一个从网站外部无法观察的带有 URL 结构的管理区域。
