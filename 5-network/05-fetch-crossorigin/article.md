@@ -56,48 +56,48 @@ CORS 的存在是为了保护互联网免受黑客攻击。
 
 确切地说，实际上有一些技巧能够解决这个问题，这在 iframe 和页面中都需要添加特殊脚本。因此，与 iframe 的通信在技术上是可能的。现在我们没必要讲其细节内容，我们还是让这些古董代码不要再出现了吧。
 
-### 使用 scripts
+### 使用 script
 
-另一个技巧是使用 `<script src="http://another.com/…">` 标签。脚本元素可以有来自任何域的任何 `src` 值。但同样 —— 无法访问此类脚本的原始内容。
+另一个技巧是使用 `script` 标签。`script` 可以具有任何域的 `src`，例如 `<script src="http://another.com/…">`。也可以执行来自任何网站的 `script`。
 
-如果 `another.com` 试图公开这种访问的数据，则使用所谓的“JSONP（JSON with padding）”协议。
+如果一个网站，例如 `another.com` 试图公开这种访问方式的数据，则会使用所谓的 "JSONP (JSON with padding)" 协议。
 
-假设我们需要以这种方式从 `http://another.com` 网站获取数据：
+这是它的工作方式。
 
-1. 首先，我们提前声明一个全局函数来接收数据，例如 `gotWeather`。
+假设在我们的网站，需要以这种方式从 `http://another.com` 网站获取数据，例如天气：
+
+1. 首先，我们先声明一个全局函数来接收数据，例如 `gotWeather`。
 
     ```js
-    // 1. 声明处理数据的函数
+    // 1. 声明处理天气数据的函数
     function gotWeather({ temperature, humidity }) {
       alert(`temperature: ${temperature}, humidity: ${humidity}`);
     }
-    ```    
-2. 然后我们创建属性为 `src="http://another.com/weather.json?callback=gotWeather"` 的 `<script>` 标签，请注意我们的函数名是作为它的 `callback` 参数。
+    ``` 
+2. 然后我们创建一个特性（attribute）为 `src="http://another.com/weather.json?callback=gotWeather"` 的 `<script>` 标签，使用我们的函数名作为它的 `callback` URL-参数。
 
     ```js
     let script = document.createElement('script');
     script.src = `http://another.com/weather.json?callback=gotWeather`;
     document.body.append(script);
     ```
-3. 服务器动态生成一个名为 `gotWeather(...)` 的脚本，脚本内包含我们想要接收的数据。
+3. 远程服务器 `another.com` 动态生成一个脚本，该脚本调用 `gotWeather(...)` 的脚本，发送它想让我们接收的数据。
     ```js
-    // 期望从服务器获取到的结果类似于此：
+    // 我们期望来自服务器的回答看起来像这样：
     gotWeather({
       temperature: 25,
       humidity: 78
     });
     ```
-4. 当远端脚本加载并执行的时候，`gotWeather` 函数被调用，并且因为它是我们的函数，我们就有需要的数据了。
+4. 当远程脚本加载并执行时，`gotWeather` 函数将运行，并且因为它是我们的函数，我们就有了需要的数据。
 
+这是可行的，并且不违反安全规定，因为双方都同意以这种方式传递数据。而且，既然双方都同意这种行为，那这肯定不是黑客攻击了。现在仍然有提供这种访问的服务，因为即使是非常旧的浏览器它依然适用。
 
+不久之后，网络方法出现在了浏览器 JavaScript 中。
 
-这是可行的，并且不违反安全规定，因为双方网站都接受这种传递数据的方式。既然双方网站都同意这种行为，那么它肯定不是网络攻击了。现在仍然有提供这种访问的服务，因为即使是非常旧的浏览器也依然可行。
+起初，跨源请求是被禁止的。但是，经过长时间的讨论，跨源请求被允许了，但是任何新功能都需要服务器明确允许，以特殊的 header 表述。
 
-不久之后，出现了具体的网络处理方法，例如 `XMLHttpRequest`。
-
-起初，跨源请求是被禁止的。但是由于长时间的讨论，跨源请求最终被允许：除非服务器明确允许，否则不会添加任何功能。
-
-## 简单请求（Simple requests）
+## 简单的请求
 
 有两种跨域（cross-domain）请求：
 1. 简单请求。
