@@ -81,7 +81,7 @@ CORS 的存在是为了保护互联网免受黑客攻击。
     script.src = `http://another.com/weather.json?callback=gotWeather`;
     document.body.append(script);
     ```
-3. 远程服务器 `another.com` 动态生成一个脚本，该脚本调用 `gotWeather(...)` 的脚本，发送它想让我们接收的数据。
+3. 远程服务器 `another.com` 动态生成一个脚本，该脚本调用 `gotWeather(...)`，发送它想让我们接收的数据。
     ```js
     // 我们期望来自服务器的回答看起来像这样：
     gotWeather({
@@ -99,42 +99,43 @@ CORS 的存在是为了保护互联网免受黑客攻击。
 
 ## 简单的请求
 
-有两种跨域（cross-domain）请求：
-1. 简单请求。
-2. 除简单请求以外的其他请求。
+有两种类型的跨源请求：
 
-顾名思义，简单请求很简单，所以我们先从它开始。
+1. 简单的请求。
+2. 所有其他请求。
 
-一个 [简单请求](http://www.w3.org/TR/cors/#terminology) 是指满足下列条件的请求：
+顾名思义，简单的请求很简单，所以我们先从它开始。
 
-1. [简单请求方法](http://www.w3.org/TR/cors/#simple-method)：GET, POST 或 HEAD
-2. [简单请求头](http://www.w3.org/TR/cors/#simple-header) — 仅允许自定义下列请求头：
+一个 [简单的请求](http://www.w3.org/TR/cors/#terminology) 是指满足以下两个条件的请求：
+
+1. [简单的方法](http://www.w3.org/TR/cors/#simple-method)：GET，POST 或 HEAD
+2. [简单的 header](http://www.w3.org/TR/cors/#simple-header) —— 仅允许自定义下列 header：
     - `Accept`，
     - `Accept-Language`，
     - `Content-Language`，
-    - `Content-Type` 的值为 `application/x-www-form-urlencoded`， `multipart/form-data` 或 `text/plain`.
+    - `Content-Type` 的值为 `application/x-www-form-urlencoded`，`multipart/form-data` 或 `text/plain`。
 
-任何其他的请求都被视为“非简单请求（non-simple）”。例如，具有 `PUT` 方法或者 `API-Key` HTTP 头的请求就不是简单请求了。
+任何其他请求都被认为是“非简单请求”。例如，具有 `PUT` 方法或 `API-Key` HTTP-header 的请求就不是简单请求。
 
-**本质区别在于，可以使用 `<form>` 或者 `<script>` 进行“简单请求”，而无需任何特殊方法。**
+**本质区别在于，可以使用 `<form>` 或 `<script>` 进行“简单请求”，而无需任何其他特殊方法。**
 
-所以，即使是非常旧的服务器也能很好地接收简单请求。
+因此，即使是非常旧的服务器也能很好地接收简单请求。
 
-与此相反，使用非标准头，或者说比如 `DELETE` 这样的方法就不能以这种方式创建。在很长一段时间内，JavaScript 都不能建立这样的请求。所以，旧的服务器可能会认为此类请求来自具有特权的来源，“因为网页无法发送它们”。
+与此相反，带有非标准 header 或者例如 `DELETE` 方法的请求，无法通过这种方式创建。在很长一段时间里，JavaScript 都不能进行这样的请求。所以，旧的服务器可能会认为此类请求来自具有特权的来源（privileged source），“因为网页无法发送它们”。
 
-当我们试图建立非简单请求时，浏览器发送一个特殊的“预检（preflight）”请求到服务器 —— 是否接受这类跨源请求吗？
+当我们尝试发送一个非简单请求时，浏览器会发送一个特殊的“预检（preflight）”请求到服务器 —— 询问服务器，你接受此类跨源请求吗？
 
-并且，除非服务器明确通过头确认，否则非简单请求不会被发送。
+并且，除非服务器明确通过 header 进行确认，否则非简单请求不会被发送。
 
-现在，我们将详细介绍它们。所有这些都有一个目的 —— 那就是确保只有来自服务器的明确许可才能访问新的跨源功能。
+现在，我们来详细介绍它们。
 
 ## 用于简单请求的 CORS
 
-如果一个请求是跨源的，浏览器始终会向其添加 `Origin` 头。
+如果一个请求是跨源的，浏览器始终会向其添加 `Origin` header。
 
-例如，如果我们从 `https://javascript.info/page` 请求 `https://anywhere.com/request`，请求头就类似于：
+例如，如果我们从 `https://javascript.info/page` 请求 `https://anywhere.com/request`，请求的 header 将会如下：
 
-```
+```http
 GET /request
 Host: anywhere.com
 *!*
@@ -143,18 +144,18 @@ Origin: https://javascript.info
 ...
 ```
 
-正如你所见，`Origin` 包含完整的源（domain/protocol/port），没有路径。
+正如你所见，`Origin` 包含了确切的源（domain/protocol/port），没有路径。
 
-服务器可以检查 `Origin`，如果同意接受这样的请求，就会在响应中添加一个特殊的头 `Access-Control-Allow-Origin`。该头包含了允许的源（在我们示例中是 `https://javascript.info`），或者星号 `*`。然后响应成功，否则报错。
+服务器可以检查 `Origin`，如果同意接受这样的请求，就会在响应中添加一个特殊的 header `Access-Control-Allow-Origin`。该 header 包含了允许的源（在我们的示例中是 `https://javascript.info`），或者一个星号 `*`。然后响应成功，否则报错。
 
-浏览器在这里扮演受信任的中间人角色：
-1. 它确保通过跨域请求发送正确的 `Origin`。
-2. 如果在响应中检查出正确的 `Access-Control-Allow-Origin`，如果是，则 JavaScript 能正常访问（目标资源），否则被禁止并报错。
+浏览器在这里扮演受被信任的中间人的角色：
+1. 它确保发送的跨源请求带有正确的 `Origin`。
+2. 它检查响应中的许可 `Access-Control-Allow-Origin`，如果存在，则允许 JavaScript 访问响应，否则将失败并报错。
 
 ![](xhr-another-domain.svg)
 
-这是一个得到服务器许可的响应示例：
-```
+这是一个带有服务器许可的响应示例：
+```http
 200 OK
 Content-Type:text/html; charset=UTF-8
 *!*
@@ -162,9 +163,9 @@ Access-Control-Allow-Origin: https://javascript.info
 */!*
 ```
 
-## 响应头（Response headers）
+## Response header
 
-对于跨源请求，默认情况下 JavaScript 只能访问“简单响应头”：
+对于跨源请求，默认情况下，JavaScript 只能访问“简单” response header：
 
 - `Cache-Control`
 - `Content-Language`
@@ -173,19 +174,19 @@ Access-Control-Allow-Origin: https://javascript.info
 - `Last-Modified`
 - `Pragma`
 
-任何其他响应头都是禁止的。
+访问任何其他 response header 都将导致 error。
 
-```smart header="请注意：没有 `Content-Length`"
-请注意：列表中没有 `Content-Length` 头！
+```smart
+请注意：列表中没有 `Content-Length` header！
 
-这个头包含了完整响应长度。所以，如果我们想要追踪下载内容的进度百分比，则需要额外的权限才能访问该头（参见下文）。
+该 header 包含完整的响应长度。因此，如果我们正在下载某些内容，并希望跟踪进度百分比，则需要额外的权限才能访问该 header（请见下文）。
 ```
 
-要允许 JavaScript 访问任何其他响应头，服务器必须在响应头中列出 `Access-Control-Expose-Headers`。
+要授予 JavaScript 对任何其他 response header 的访问权限，服务器必须发送 `Access-Control-Expose-Headers` header。它包含一个以逗号分隔的应该被设置为可访问的非简单 header 名称列表。
 
 例如：
 
-```
+```http
 200 OK
 Content-Type:text/html; charset=UTF-8
 Content-Length: 12345
@@ -196,10 +197,9 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 */!*
 ```
 
-有了 `Access-Control-Expose-Headers` 响应头，脚本就有权限访问响应的 `Content-Length` 和 `API-Key` 头。
+有了这种 `Access-Control-Expose-Headers` header，此脚本就被允许读取响应的 `Content-Length` 和 `API-Key` header。
 
-
-## "非简单" requests
+## “非简单”请求
 
 我们可以使用任何 HTTP 方法：不仅仅是 `GET/POST`，也可以是 `PATCH`，`DELETE`  及其他。
 
@@ -219,7 +219,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 ![](xhr-preflight.svg)
 
-让我们用一个例子来一步步展示它是怎么工作的，对于跨域的 `PATCH` 请求（这个方法通常被用来上传数据）：
+让我们用一个例子来一步步展示它是怎么工作的，对于跨源的 `PATCH` 请求（这个方法通常被用来上传数据）：
 
 ```js
 let response = await fetch('https://site.com/service.json', {
