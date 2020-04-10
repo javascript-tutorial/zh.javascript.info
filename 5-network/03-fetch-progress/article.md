@@ -91,7 +91,7 @@ alert(commits[0].author.login);
     请注意，我们不能同时使用这两种方法来读取相同的响应。要么使用流读取器，要么使用 reponse 方法来获取结果。
 2. 在读取数据之前，我们可以从 `Content-Length` header 中得到完整的响应长度。
 
-    跨域请求中可能不存在这个 header（请参见 <info:fetch-crossorigin>），并且从技术上讲，服务器可以不设置它。但是通常情况下它都会在那里。
+    跨源请求中可能不存在这个 header（请参见 <info:fetch-crossorigin>），并且从技术上讲，服务器可以不设置它。但是通常情况下它都会在那里。
 3. 调用 `await reader.read()`，直到它完成。
 
     我们将响应块收集到数组 `chunks` 中。这很重要，因为在使用完（consumed）响应后，我们将无法使用 `response.json()` 或者其他方式（你可以试试，将会出现 error）去“重新读取”它。
