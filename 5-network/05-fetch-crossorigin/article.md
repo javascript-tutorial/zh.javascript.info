@@ -329,63 +329,54 @@ fetch('http://another.com', {
 });
 ```
 
-现在，`fetch` 会发送源自 `another.com` 的 cookies，但不会向该网站发出请求。
+现在，`fetch` 将把源自 `another.com` 的 cookie 和我们的请求发送到该网站。
 
-如果服务器想要接受带有凭据的请求，则除了 `Access-Control-Allow-Origin` 外，它还需要向响应头中添加 `Access-Control-Allow-Credentials: true`。
+如果服务器同意接受 **带有凭据** 的请求，则除了 `Access-Control-Allow-Origin` 外，服务器还应该在响应中添加 header `Access-Control-Allow-Credentials: true`。
 
 例如：
 
-```
+```http
 200 OK
 Access-Control-Allow-Origin: https://javascript.info
 Access-Control-Allow-Credentials: true
 ```
 
-请注意：对于具有凭据的请求，禁止使用 `Access-Control-Allow-Origin` 为 `*`。它必须有一个确切的源，像上面一样。这是一项额外的安全措施，以确保服务器真正知道它信任谁。
-
+请注意：对于具有凭据的请求，禁止 `Access-Control-Allow-Origin` 使用星号 `*`。如上所示，它必须有一个确切的源。这是另一项安全措施，以确保服务器真的知道它信任的发出此请求的是谁。
 
 ## 总结
 
-网络方法将跨源请求分为两类：“简单”请求和除“简单”请求之外其他的请求。
+从浏览器角度来看，有两种跨源请求：“简单”请求和其他请求。
 
 [简单请求](http://www.w3.org/TR/cors/#terminology) 必须满足下列条件：
 - 方法：GET，POST 或 HEAD。
-- 头 —— 我们仅能设置：
+- header —— 我们仅能设置：
     - `Accept`
     - `Accept-Language`
     - `Content-Language`
     - `Content-Type` 的值为 `application/x-www-form-urlencoded`，`multipart/form-data` 或 `text/plain`。
 
-简单请求和其他请求的本质区别在于，自古以来使用 `<form>` 或 `<script>` 标签就可以发送简单请求，而长期来浏览器都不能使用非简单请求。
+简单请求和其他请求的本质区别在于，自古以来使用 `<form>` 或 `<script>` 标签进行简单请求就是可行的，而长期以来浏览器都不能进行非简单请求。
 
-所以，实际区别在于简单请求会使用 `Origin` 头并立即发送，而对于其他请求，浏览器会发出初步的预检请求，请求获得许可。
+所以，实际区别在于，简单请求会使用 `Origin` header 并立即发送，而对于其他请求，浏览器会发出初步的“预检”请求，以请求许可。
 
 **对于简单请求：**
 
-- → 浏览器发送带有源的 `Origin` 头。
+- → 浏览器发送带有源的 `Origin` header。
 - ← 对于没有凭据的请求（默认不发送），服务器应该设置：
-    - `Access-Control-Allow-Origin` 为 `*` 或与 `Origin` 值相同
+    - `Access-Control-Allow-Origin` 为 `*` 或与 `Origin` 的值相同
 - ← 对于具有凭据的请求，服务器应该设置：
-    - `Access-Control-Allow-Origin` 值与 `Origin` 相同
+    - `Access-Control-Allow-Origin` 值与 `Origin` 的相同
     - `Access-Control-Allow-Credentials` 为 `true`
 
-此外，如果 JavaScript 期望访问非简单响应头：
-- `Cache-Control`
-- `Content-Language`
-- `Content-Type`
-- `Expires`
-- `Last-Modified`
-- `Pragma`
-
-...服务器应列出 `Access-Control-Expose-Headers` 头中允许的那些。
+此外，要授予 JavaScript 访问除 `Cache-Control`，`Content-Language`，`Content-Type`，`Expires`，`Last-Modified` 或 `Pragma` 外的任何 response header 的权限，服务器应该在 header `Access-Control-Expose-Headers` 中列出允许的那些 header。
 
 **对于非简单请求，会在请求之前发出初步“预检”请求：
 
-- → 浏览器发送 `OPTIONS` 请求到相同的 url，同时具有下列头：
-    - `Access-Control-Request-Method` 请求方法。
-    - `Access-Control-Request-Headers` 非简单请求头列表
-- ← 服务器应该响应状态码为 200 和响应头：
-    - `Access-Control-Allow-Methods` 具有一系列允许方法的列表，
-    - `Access-Control-Allow-Headers` 具有一系列允许头的列表，
-    - `Access-Control-Max-Age` 用指定数字来设置缓存权限的时间。
-- 最后发出实际请求，应用先前的“简单”方案。
+- → 浏览器将具有以下 header 的 `OPTIONS` 请求发送到相同的 URL：
+    - `Access-Control-Request-Method` 有请求方法。
+    - `Access-Control-Request-Headers` 以逗号分隔的“非简单” header 列表。
+- ← 服务器应该响应状态码为 200 和 header：
+    - `Access-Control-Allow-Methods` 带有允许的方法的列表，
+    - `Access-Control-Allow-Headers` 带有允许的 header 的列表，
+    - `Access-Control-Max-Age` 带有指定缓存权限的秒数。
+- 然后，发出实际请求，应用先前的“简单”方案。
