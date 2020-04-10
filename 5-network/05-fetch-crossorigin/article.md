@@ -311,17 +311,17 @@ JavaScript 仅获取对主请求的响应，如果没有服务器许可，则获
 
 默认情况下，跨源请求不会带来任何凭据（cookies 或者 HTTP 认证（HTTP authentication））。
 
-这对于 HTTP 请求来说并不常见。通常，对 `http://site.com` 的请求附带来自该域的所有 cookies。但是对于 JavaScript 方法建立的跨源请求是个例外。
+这对于 HTTP 请求来说并不常见。通常，对 `http://site.com` 的请求附带有该域的所有 cookie。但是由 JavaScript 方法发出的跨源请求是个例外。
 
-例如，`fetch('http://another.com')` 不会发送任何 cookies，甚至那些属于 `another.com` 域的 cookies。
+例如，`fetch('http://another.com')` 不会发送任何 cookie，即使那些 (!) 属于 `another.com` 域的 cookie。
 
 为什么？
 
-这是因为具有凭据的请求比匿名请求具有的权限更大。如果被允许，它授予 JavaScript 代表用户行为和访问敏感信息的全部权限。
+这是因为具有凭据的请求比没有凭据的请求要强大得多。如果被允许，它会使用它们的凭据授予 JavaScript 代表用户行为和访问敏感信息的全部权力。
 
-服务器真的这么信任来自 `Origin` 的页面吗？是的，它必须明确地允许带有附加请求头凭据的请求。
+服务器真的这么信任这种脚本吗？是的，它必须显式地带有允许请求的凭据和附加 header。
 
-要发送凭据，我们需要添加选项 `credentials: "include"`，就像这样：
+要在 `fetch` 中发送凭据，我们需要添加 `credentials: "include"` 选项，像这样：
 
 ```js
 fetch('http://another.com', {
