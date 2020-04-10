@@ -126,7 +126,7 @@ fetch('https://another.com/page', {
 
 与默认行为相比，它的唯一区别在于，对于跨源请求，`fetch` 只发送 URL 域的部分（例如 `https://javascript.info`，没有路径）。对于同源请求，我们仍然可以获得完整的 `Referer`（可能对于调试目的是有用的）。
 
-```smart header="Referrer policy 不只用于 `fetch`"
+```smart header="Referrer policy 不仅适用于 `fetch`"
 在 [规范](https://w3c.github.io/webappsec-referrer-policy/) 中描述的 referrer policy，不仅适用于 `fetch`，它还具有全局性。
 
 特别是，可以使用 `Referrer-Policy` HTTP header，或者为每个链接设置 `<a rel="noreferrer">`，来为整个页面设置默认策略（policy）。
@@ -134,21 +134,21 @@ fetch('https://another.com/page', {
 
 ## mode
 
-`mode` 选项服务类似安全守卫，用以阻止跨域请求：
+`mode` 选项是一种安全措施，可以防止偶发的跨源请求：
 
-- **`"cors"`** -- 默认值，允许跨域请求，可见于 <info:fetch-crossorigin>，
-- **`"same-origin"`** -- 禁止跨域请求，
-- **`"no-cors"`** -- 只允许简单的跨域请求。
+- **`"cors"`** —— 默认值，允许跨源请求，如 <info:fetch-crossorigin> 一章所述，
+- **`"same-origin"`** —— 禁止跨源请求，
+- **`"no-cors"`** —— 只允许简单的跨源请求。
 
-当 `fetch` 的 url 来自于第三方，我们想要一个 "停电开关" 来限制跨域能力时，这也许会很有用。
+当 `fetch` 的 URL 来自于第三方，并且我们想要一个“断电开关”来限制跨源能力时，此选项可能很有用。
 
 ## credentials
 
-`credentials` 选项确定 `fetch` 是否应该在请求中发送 cookies 和 HTTP-Authorization 头部信息。
+`credentials` 选项指定 `fetch` 是否应该随请求发送 cookie 和 HTTP-Authorization header。
 
-- **`"same-origin"`** -- 默认值，在跨域请求中不发送，
-- **`"include"`** -- 总是发送，需要在跨域服务器中设置 `Accept-Control-Allow-Credentials` 来使 JavaScript 能够接受响应，这部分在这一章节<info:fetch-crossorigin> 有所讨论，
-- **`"omit"`** -- 不发送，即使在同源请求。
+- **`"same-origin"`** —— 默认值，对于跨源请求不发送，
+- **`"include"`** —— 总是发送，需要来自跨源服务器的 `Accept-Control-Allow-Credentials`，才能使 JavaScript 能够访问响应，详细内容在 <info:fetch-crossorigin> 一章有详细介绍，
+- **`"omit"`** —— 不发送，即使对于同源请求。
 
 ## cache
 
