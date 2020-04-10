@@ -152,16 +152,16 @@ fetch('https://another.com/page', {
 
 ## cache
 
-`fetch` 请求会默认地利用标准的 HTTP 缓存。就是说，它遵从 `Expires`,， `Cache-Control` 头部信息，发送 `If-Modified-Since`，和其他头部信息。就像常规的 HTTP 请求。
+默认情况下，`fetch` 请求使用标准的 HTTP 缓存。就是说，它遵从 `Expires`，`Cache-Control` header，发送 `If-Modified-Since`，等。就像常规的 HTTP 请求那样。
 
-`cache` 选项允许无视 HTTP 缓存或者微调它的用法：
+使用 `cache` 选项可以忽略 HTTP 缓存或者对其用法进行微调：
 
-- **`"default"`** -- `fetch` 使用标准的 HTTP 缓存规则和头部信息，
-- **`"no-store"`** -- 完全无视 HTTP 缓存，如果我们设置了头部信息 `If-Modified-Since`, `If-None-Match`, `If-Unmodified-Since`, `If-Match`, 或者 `If-Range`，这个模式会成为默认值，
-- **`"reload"`** -- 不从 HTTP 缓存获取结果(如果有)，但使用响应填充缓存(如果响应头允许)，
-- **`"no-cache"`** -- 如果有一个已缓存的响应则创建一个有条件的请求，否则创建一个常规的请求。使用响应填充 HTTP 缓存，
-- **`"force-cache"`** -- 从 HTTP 缓存使用一个响应，即使该缓存已过时。如果在 HTTP 缓存中无响应，则创建一个常规的 HTTP 请求，
-- **`"only-if-cached"`** -- 从 HTTP 缓存使用一个响应，即使该缓存已过时。如果在 HTTP 缓存中无响应，则报错。只有当 `mode` 为 `same-origin` 时生效。
+- **`"default"`** —— `fetch` 使用标准的 HTTP 缓存规则和 header，
+- **`"no-store"`** —— 完全忽略 HTTP 缓存，如果我们设置 header `If-Modified-Since`，`If-None-Match`，`If-Unmodified-Since`，`If-Match`，或 `If-Range`，则此模式会成为默认模式，
+- **`"reload"`** —— 不从 HTTP 缓存中获取结果（如果有），而是使用响应填充缓存（如果 response header 允许），
+- **`"no-cache"`** —— 如果有一个已缓存的响应，则创建一个有条件的请求，否则创建一个普通的请求。使用响应填充 HTTP 缓存，
+- **`"force-cache"`** —— 使用来自 HTTP 缓存的响应，即使该响应已过时（stale）。如果 HTTP 缓存中没有响应，则创建一个常规的 HTTP 请求，行为像正常那样，
+- **`"only-if-cached"`** —— 使用来自 HTTP 缓存的响应，即使该响应已过时（stale）。如果 HTTP 缓存中没有响应，则报错。只有当 `mode` 为 `same-origin` 时生效。
 
 ## redirect
 
