@@ -8,7 +8,7 @@ importance: 5
 
 例如，当从 `http://javascript.info/some/url` fetch `http://google.com` 时，header 看起来如下：
 
-```
+```http
 Accept: */*
 Accept-Charset: utf-8
 Accept-Encoding: gzip,deflate,sdch
