@@ -57,7 +57,7 @@ async function subscribe() {
     // 获取并显示消息
     let message = await response.text();
     showMessage(message);
-    //再次调用 subscribe() 以获取下一条消息
+    // 再次调用 subscribe() 以获取下一条消息
     await subscribe();
   }
 }
@@ -68,27 +68,29 @@ subscribe();
 正如你所看到的，`subscribe` 函数发起了一个 `fetch`，然后等待响应，处理它，并再次调用自身。
 
 ```warn header="服务器应该可以处理许多挂起的连接"
-服务器架构必须能够处理许多挂起连接。
+服务器架构必须能够处理许多挂起的连接。
 
-某些服务器架构是每个连接对应一个进程。对于许多连接的情况，可能会有许多进程，每个进程占用很多内存。因此连接越多消耗也就越多。
+某些服务器架构是每个连接对应一个进程。对于许多连接的情况，将会有很多进程，并且每个进程占用大量内存。因此，过多的连接会消耗掉全部内存。
 
-这种情况通常是对于使用 PHP，Ruby 语言的后端，但是从技术上来说，它不是一种语言，而是实现的问题。
+使用 PHP，Ruby 语言编写的后端程序会经常遇到这个问题，但是从技术上讲，它不是语言问题，而是实现问题。大多数现代编程语言都允许实现适当的后端，但是其中一些语言比其他语言更容易实现。
 
 使用 Node.js 写的后端通常不会出现这样的问题。
 ```
 
-## Demo：chat
+## 示例：聊天
 
-这是一个 demo：
+这是一个聊天演示，你可以下载它并在本地运行（如果你熟悉 Node.js 并且可以安装模块）：
 
 [codetabs src="longpoll" height=500]
+
+浏览器代码在 `browser.js` 中。
 
 ## 使用场景
 
 在消息很少的情况下，长轮询很有效。
 
-如果消息比较频繁，那么上面描绘的请求接收（requesting-receiving）消息的图表就会变成锯状（saw-like）。
+如果消息比较频繁，那么上面描绘的请求-接收（requesting-receiving）消息的图表就会变成锯状状（saw-like）。
 
-每条消息都是单独的请求，带有 headers，authentication 等开销。
+每个消息都是一个单独的请求，并带有 header，身份验证开销（authentication overhead）等。
 
-因此，在这种情况下，首选另一种方法，例如：[Websocket](info:websocket) 或者 [Server Sent Events](info:server-sent-events)。
+因此，在这种情况下，首选另一种方法，例如：[Websocket](info:websocket) 或 [Server Sent Events](info:server-sent-events)。
