@@ -268,16 +268,16 @@ HTTP-header 有三种方法：
     ```
 
     ```warn header="Header 的限制"
-    一些请求头可能由浏览器专门管理，比如，`Referer` 和 `Host`。
-    参见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method) 以获取更多信息。
+    一些 header 是由浏览器专门管理的，例如 `Referer` 和 `Host`。
+    完整列表请见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method)。
 
-    为了用户安全和请求的正确性，`XMLHttpRequest` 不允许修改请求头。
+    为了用户安全和请求的正确性，`XMLHttpRequest` 不允许更改它们。
     ```
 
     ````warn header="不能移除 header"
-    `XMLHttpRequest` 的另一个特点是无法撤销 `setRequestHeader`。
+    `XMLHttpRequest` 的另一个特点是不能撤销 `setRequestHeader`。
 
-    一旦请求头被设置，它就无法撤销。其他的调用会向请求头中添加信息，但不会覆盖它们。
+    一旦设置了 header，就无法撤销了。其他调用会向 header 中添加信息，但不会覆盖它。
 
     例如：
 
@@ -285,13 +285,13 @@ HTTP-header 有三种方法：
     xhr.setRequestHeader('X-Auth', '123');
     xhr.setRequestHeader('X-Auth', '456');
 
-    // 请求头可能是：
+    // header 将是：
     // X-Auth: 123, 456
     ```
     ````
 
 `getResponseHeader(name)`
-: 通过给定的 `name` 来获取响应头（除了 `Set-Cookie` 和 `Set-Cookie2`）。
+: 获取具有给定 `name` 的 header（`Set-Cookie` 和 `Set-Cookie2` 除外）。
 
     例如：
 
@@ -300,22 +300,22 @@ HTTP-header 有三种方法：
     ```
 
 `getAllResponseHeaders()`
-: 返回除 `Set-Cookie` 和 `Set-Cookie2` 外的所有响应头。
+: 返回除 `Set-Cookie` 和 `Set-Cookie2` 外的所有 response header。
 
-    响应头以单行形式返回，形如：
+    header 以单行形式返回，例如：
 
-    ```
+    ```http
     Cache-Control: max-age=31536000
     Content-Length: 4260
     Content-Type: image/png
     Date: Sat, 08 Sep 2012 16:53:16 GMT
     ```
 
-    响应头中的换行符总是 `"\r\n"`（不依赖于操作系统），所以我们可以很轻易地将其分割成单一的响应头部。name 和 value 之间总是会以冒号后跟空格 `": "` 分隔开。这在规范中已经得到修复。
+    header 之间的换行符始终为 `"\r\n"`（不依赖于操作系统），所以我们可以很容易地将其拆分为单独的 header。name 和 value 之间总是以冒号后跟一个空格 `": "` 分隔。这是标准格式。
 
-    因此，如果我们想要获取具有 name/value 对的对象，我们用一点点 JS 代码来处理它们。
+    因此，如果我们想要获取具有 name/value 对的对象，则需要用一点 JavaScript 代码来处理它们。
 
-    就像这样（假设有两个响应头具有相同的名称，那么后者会覆盖前者）：
+    像这样（假设如果两个 header 具有相同的名称，那么后者就会覆盖前者）：
 
     ```js
     let headers = xhr
@@ -326,52 +326,55 @@ HTTP-header 有三种方法：
         result[name] = value;
         return result;
       }, {});
+
+    // headers['Content-Type'] = 'image/png'
     ```
 
-## POST, FormData
+## POST，FormData
 
-要建立 POST 请求，我们可以使用内置的 [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) 对象。
+要建立一个 POST 请求，我们可以使用内建的 [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) 对象。
 
 语法为：
 
 ```js
-let formData = new FormData([form]); // 创建对象，可以用表单元素 <form> 来填充
-formData.append(name, value); // 追加一个字段
+let formData = new FormData([form]); // 创建一个对象，可以选择从 <form> 中获取数据
+formData.append(name, value); // 附加一个字段
 ```
 
-我们可以从一个表单中创建它，如果需要的话还可以`追加（append）`更多的字段：
+我们创建它，可以选择从一个表单中获取数据，如果需要，还可以 `append` 更多字段，然后：
 
-1. `xhr.open('POST', ...)` — 使用 `POST` 方法。
-2. `xhr.send(formData)` 发送表单到服务器。
+1. `xhr.open('POST', ...)` —— 使用 `POST` 方法。
+2. `xhr.send(formData)` 将表单发送到服务器。
 
 例如：
 
-```html run
+```html run refresh
 <form name="person">
   <input name="name" value="John">
   <input name="surname" value="Smith">
 </form>
 
 <script>
-  // 从表单中预填充 FormData
+  // 从表单预填充 FormData
   let formData = new FormData(document.forms.person);
 
-  // 追加更多字段
+  // 附加一个字段
   formData.append("middle", "Lee");
 
-  // 发送它
+  // 将其发送出去
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "/article/xmlhttprequest/post/user");
   xhr.send(formData);
 
+  xhr.onload = () => alert(xhr.response);
 </script>
 ```
 
-表单以 `multipart/form-data` 编码发送。
+以 `multipart/form-data` 编码发送表单。
 
 或者，如果我们更喜欢 JSON，那么可以使用 `JSON.stringify` 并以字符串形式发送。
 
-不过，不要忘记设置请求头 `Content-Type: application/json` 哦。许多服务端框架都能自动解码 JSON：
+只是，不要忘记设置 header `Content-Type: application/json`，只要有了它，很多服务端框架都能自动解码 JSON：
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -387,29 +390,29 @@ xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 xhr.send(json);
 ```
 
-`.send(body)` 方法就像一个非常杂食性的动物。它可以发送几乎所有内容，包括 `Blob` 和 `BufferSource` 对象。
+`.send(body)` 方法就像一个非常杂食性的动物。它几乎可以发送任何 `body`，包括 `Blob` 和 `BufferSource` 对象。
 
-## 上传进度（Upload progress）
+## 上传进度
 
-`progress` 事件仅仅在下载阶段工作。
+`progress` 事件仅在下载阶段触发。
 
-也就是说：如果 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据（请求体（request body）），然后下载响应数据。
+也就是说：如果我们 `POST` 一些内容，`XMLHttpRequest` 首先上传我们的数据（request body），然后下载响应。
 
-如果我们正在上传的文件很大，这时我们肯定对追踪上传进度感兴趣。但是 `xhr.onprogress` 在这里并不起作用。
+如果我们要上传的东西很大，那么我们肯定会对跟踪上传进度感兴趣。但是 `xhr.onprogress` 在这里并不起作用。
 
-这里有个其他对象 `xhr.upload`，没有方法，专门用于上传事件。
+这里有另一个对象，它没有方法，它专门用于跟踪上传事件：`xhr.upload`。
 
-XMLHttpRequest 事件和 `xhr` 类似，但是 `xhr.upload` 可以在上传阶段被触发：
+它会生成事件，类似于 `xhr`，但是 `xhr.upload` 仅在上传时触发它们：
 
-- `loadstart` — 上传开始。
-- `progress` — 上传期间定期触发。
-- `abort` — 上传终止。
-- `error` — 非 HTTP 错误。
-- `load` — 上传成功完成。
-- `timeout` — 上传超时（如果设置了 `timeout` 属性）。
-- `loadend` — 上传操作完成，可能成功也可能失败。
+- `loadstart` —— 上传开始。
+- `progress` —— 上传期间定期触发。
+- `abort` —— 上传中止。
+- `error` —— 非 HTTP 错误。
+- `load` —— 上传成功完成。
+- `timeout` —— 上传超时（如果设置了 `timeout` 属性）。
+- `loadend` —— 上传完成，无论成功还是 error。
 
-handlers 示例：
+handler 示例：
 
 ```js
 xhr.upload.onprogress = function(event) {
@@ -425,7 +428,7 @@ xhr.upload.onerror = function() {
 };
 ```
 
-下面是个应用示例：带有进度指示的文件上传：
+这是一个真实示例：带有进度指示的文件上传：
 
 ```html run
 <input type="file" onchange="upload(this.files[0])">
@@ -441,7 +444,7 @@ function upload(file) {
   };
 */!*
 
-  // 跟踪完成：不论成功与否
+  // 跟踪完成：无论成功与否
   xhr.onloadend = function() {
     if (xhr.status == 200) {
       console.log("success");
@@ -456,11 +459,11 @@ function upload(file) {
 </script>
 ```
 
-## 跨域请求（Cross-origin requests）
+## 跨源请求
 
-`XMLHttpRequest` 可以使用和 [fetch](info:fetch-crossorigin) 相同的跨域资源共享（CORS）策略建立跨域请求。
+`XMLHttpRequest` 可以使用和 [fetch](info:fetch-crossorigin) 相同的 CORS 策略进行跨源请求。
 
-类似于 `fetch`，默认情况下不会发送 cookies 和 HTTP 认证到其他域。如果要使用它们请设置 `xhr.withCredentials` 值为 `true`：
+就像 `fetch` 一样，默认情况下不会将 cookie 和 HTTP 授权发送到其他域。要启用它们，可以将 `xhr.withCredentials` 设置为 `true`：
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -472,7 +475,7 @@ xhr.open('POST', 'http://anywhere.com/request');
 ...
 ```
 
-参见 <info:fetch-crossorigin> 章节以了解更多关于 cross-origin headers 的信息。
+有关跨源 header 的详细信息，请见 <info:fetch-crossorigin> 一章。
 
 
 ## 总结
