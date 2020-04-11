@@ -109,7 +109,7 @@ alert(url); // https://google.com/search?q=test+me%21&tbs=qdr%3Ay
 
 // 遍历搜索参数（被解码）
 for(let [name, value] of url.searchParams) {
-  alert(`${name}=${value}`); // q=test me!, then tbs=qdr:y
+  alert(`${name}=${value}`); // q=test me!，然后是 tbs=qdr:y
 }
 ```
 
