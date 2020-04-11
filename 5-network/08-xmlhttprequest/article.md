@@ -114,15 +114,15 @@ xhr.onerror = function() {
 一旦服务器有了响应，我们可以在以下 `xhr` 属性中接收结果：
 
 `status`
-: HTTP 状态码（一个数字）：`200`，`404`，`403` 等等，如果出现非 HTTP 错误，它的结果为 `0`。
+: HTTP 状态码（一个数字）：`200`，`404`，`403` 等，如果出现非 HTTP 错误，则为 `0`。
 
 `statusText`
-: HTTP 状态消息（字符串）：如果状态码是 `200` 的话它的消息值通常为 `OK`，`404` 对应的值为 `Not Found`，`403` 对应的值为 `Forbidden`。
+: HTTP 状态消息（一个字符串）：状态码为 `200` 对应于 `OK`，`404` 对应于 `Not Found`，`403` 对应于 `Forbidden`。
 
-`response`（以前的脚本可能用的是 `responseText`）
-: 服务器响应。
+`response`（旧脚本可能用的是 `responseText`）
+: 服务器 response body。
 
-我们还可以使用相应的属性指定超时（timeout）时间：
+我们还可以使用相应的属性指定超时（timeout）：
 
 ```js
 xhr.timeout = 10000; // timeout 单位是 ms，此处即 10 秒
@@ -131,7 +131,7 @@ xhr.timeout = 10000; // timeout 单位是 ms，此处即 10 秒
 如果在给定时间内请求没有成功执行，请求就会被取消，并且触发 `timeout` 事件。
 
 ````smart header="URL 搜索参数（URL search parameters）"
-要传递诸如 `?name=value` 这样的 URL 参数，并确保参数被正确编码，我们可以使用 [URL](info:url) 对象：
+为了向 URL 添加像 `?name=value` 这样的参数，并确保正确的编码，我们可以使用 [URL](info:url) 对象：
 
 ```js
 let url = new URL('https://google.com/search');
@@ -147,12 +147,12 @@ xhr.open('GET', url); // https://google.com/search?q=test+me%21
 
 我们可以使用 `xhr.responseType` 属性来设置响应格式：
 
-- `""` （默认） — 响应格式为字符串，
-- `"text"` — 响应格式为字符串，
-- `"arraybuffer"` — 响应格式为 `ArrayBuffer`（对于二进制数据，请参见 <info:arraybuffer-binary-arrays>），
-- `"blob"` — 响应格式为 `Blob`（对于二进制数据，请参见 <info:blob>），
-- `"document"` — 响应格式为 XML document（可以使用 XPath 和其他 XML 方法），
-- `"json"` — 响应格式为 JSON（自动解析）。
+- `""`（默认）—— 响应格式为字符串，
+- `"text"` —— 响应格式为字符串，
+- `"arraybuffer"` —— 响应格式为 `ArrayBuffer`（对于二进制数据，请参见 <info:arraybuffer-binary-arrays>），
+- `"blob"` —— 响应格式为 `Blob`（对于二进制数据，请参见 <info:blob>），
+- `"document"` —— 响应格式为 XML document（可以使用 XPath 和其他 XML 方法），
+- `"json"` —— 响应格式为 JSON（自动解析）。
 
 例如，我们以 JSON 格式获取响应：
 
@@ -167,7 +167,7 @@ xhr.responseType = 'json';
 
 xhr.send();
 
-// 响应数据为 {"message": "Hello, world!"}
+// 响应为 {"message": "Hello, world!"}
 xhr.onload = function() {
   let responseObj = xhr.response;
   alert(responseObj.message); // Hello, world!
@@ -175,33 +175,33 @@ xhr.onload = function() {
 ```
 
 ```smart
-在旧的脚本中，你可能会看到 `xhr.responseText` 甚至是 `xhr.responseXML` 属性。
+在旧的脚本中，你可能会看到 `xhr.responseText`，甚至会看到 `xhr.responseXML` 属性。
 
-基于一些历史原因，我们使用它们来获取字符串或者 XML 文档。现今，我们应该设置格式为 `xhr.responseType`，然后就能获取如上所示的 `xhr.response` 了。
+它们是由于历史原因而存在的，以获取字符串或 XML 文档。如今，我们应该在 `xhr.responseType` 中设置格式，然后就能获取如上所示的 `xhr.response` 了。
 ```
 
-## 准备状态（Ready states）
+## readyState
 
-`XMLHttpRequest` 的状态（states）会随着它的处理进度变化而变化。可以用 `xhr.readyState` 来了解当前状态。
+`XMLHttpRequest` 的状态（state）会随着它的处理进度变化而变化。可以通过 `xhr.readyState` 来了解当前状态。
 
 [规范](https://xhr.spec.whatwg.org/#states) 中提到的所有状态如下：
 
 ```js
-UNSENT = 0; // 初始化状态
-OPENED = 1; // 调用 open 方法
-HEADERS_RECEIVED = 2; // 收到响应头
-LOADING = 3; // 响应正在被加载（收到数据包）
+UNSENT = 0; // 初始状态
+OPENED = 1; // open 被调用
+HEADERS_RECEIVED = 2; // 接收到 response header
+LOADING = 3; // 响应正在被加载（接收到一个数据包）
 DONE = 4; // 请求完成
 ```
 
-`XMLHttpRequest` 对象按顺序传送这些状态：`0` -> `1` -> `2` -> `3` -> ... -> `3` -> `4`。在网络中每收到一个数据包，状态 `3` 就会被传送一次。
+`XMLHttpRequest` 对象以 `0` -> `1` -> `2` -> `3` -> ... -> `3` -> `4` 的顺序在它们之间转变。每当通过网络接收到一个数据包，就会重复一次状态 `3`。
 
-我们可以使用 `readystatechange` 事件来跟踪它们；
+我们可以使用 `readystatechange` 事件来跟踪它们：
 
 ```js
 xhr.onreadystatechange = function() {
   if (xhr.readyState == 3) {
-    // 加载
+    // 加载中
   }
   if (xhr.readyState == 4) {
     // 请求完成
@@ -209,11 +209,9 @@ xhr.onreadystatechange = function() {
 };
 ```
 
-你可能在古老的代码中发现 `readystatechange` 这样的事件监听器，它的存在是基于一些历史原因，因为在很长一段时间内都没有 `load` 以及其他事件。
+你可能在非常老的代码中找到 `readystatechange` 这样的事件监听器，它的存在是有历史原因的，因为曾经有很长一段时间都没有 `load` 以及其他事件。如今，它已被 `load/error/progress` 事件处理程序所替代。
 
-如今，它们已被 `load/error/progress` 事件替代。
-
-## 终止请求（aborting）
+## 中止请求（aborting）
 
 我们可以随时终止请求。调用 `xhr.abort()` 即可：
 
@@ -221,15 +219,15 @@ xhr.onreadystatechange = function() {
 xhr.abort(); // 终止请求
 ```
 
-它将会触发 `abort` 事件且 `xhr.status` 变为 `0`。
+它会触发 `abort` 事件，且 `xhr.status` 变为 `0`。
 
 ## 同步请求
 
-在 `open` 方法中，如果第三个参数 `async` 被设置为 `false`，那么请求就以同步的方式处理。
+如果在 `open` 方法中将第三个参数 `async` 设置为 `false`，那么请求就会以同步的方式进行。
 
-换句话说就是在 `send()` 阶段 JavaScript 停止执行，并且等到响应被接收时才继续执行剩余的代码。这有点儿像 `alert` 或 `prompt` 命令。
+换句话说，JavaScript 执行在 `send()` 处暂停，并在收到响应后恢复执行。这有点儿像 `alert` 或 `prompt` 命令。
 
-下面重写上面的例子，`open` 函数的第三个参数设置为 `false`：
+下面是重写的示例，`open` 的第三个参数为 `false`：
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -248,20 +246,20 @@ try {
 }
 ```
 
-它可能看起来很不错，但是同步调用很少使用，因为它们会阻塞页面内（in-page）的 JavaScript 直到加载完成。在一些浏览器中，滚动可能无法正常运行。如果一个同步调用执行很长时间，浏览器可能会建议关闭“挂起”（hanging）的页面。
+这看起来好像不错，但是很少使用同步调用，因为它们会阻塞页面内的 JavaScript，直到加载完成。在某些浏览器中，滚动可能无法正常进行。如果一个同步调用执行时间过长，浏览器可能会建议关闭“挂起（hanging）”的网页。
 
-`XMLHttpRequest` 的许多高级功能在同步请求中都无效，比如向其他域发起请求或者设置超时时间。同时，你也可以看到，它们没有进度指示。
+`XMLHttpRequest` 的很多高级功能在同步请求中都不可用，例如向其他域发起请求或者设置超时。并且，正如你所看到的，没有进度指示。
 
-基于这些原因，同步请求使用的非常少，几乎是不使用。在此，我们不再讨论它了。
+基于这些原因，同步请求使用的非常少，几乎从不使用。在这我们就不再讨论它了。
 
-## HTTP 头（HTTP-headers）
+## HTTP-header
 
-`XMLHttpRequest` 允许发送自定义请求头，并且可以读取服务器发送过来的响应头。
+`XMLHttpRequest` 允许发送自定义 header，并且可以从响应中读取 header。
 
-HTTP-headers 有三种方法：
+HTTP-header 有三种方法：
 
 `setRequestHeader(name, value)`
-: 通过给定的 `name` 和 `value` 设置请求头。
+: 使用给定的 `name` 和 `value` 设置 request header。
 
     例如：
 
@@ -269,7 +267,7 @@ HTTP-headers 有三种方法：
     xhr.setRequestHeader('Content-Type', 'application/json');
     ```
 
-    ```warn header="Headers 的限制"
+    ```warn header="Header 的限制"
     一些请求头可能由浏览器专门管理，比如，`Referer` 和 `Host`。
     参见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method) 以获取更多信息。
 
