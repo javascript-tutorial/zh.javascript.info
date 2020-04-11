@@ -6,18 +6,17 @@
 - 本教程为 [React 官方文档](https://reactjs.org/docs/getting-started.html#javascript-resources) 推荐教程，持续更新，永久免费，欢迎扫码关注微信公众号，加入读者群。
 - 如果你正在使用本教程学习，并且认为对你有很大帮助，也请你考虑扫码赞助本项目，请我读一本书 📚
 
+<!--
+
 | 微信扫码关注官方公众号，订阅更多精彩内容 | 赞助项目（支付宝）| 赞助项目（微信）|
 |-|-|-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="400px;" /> | <img src="https://user-images.githubusercontent.com/26959437/77983009-62264d80-7340-11ea-8af9-0690289599af.jpeg" width="200px;" /> | <img src="https://user-images.githubusercontent.com/26959437/77983315-496a6780-7341-11ea-9e44-c28a942feabe.jpeg" width="200px;" /> |
 
-
-<!--
+-->
 
 | 微信扫码关注官方公众号，订阅更多精彩内容 |
 |-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="500px;" /> |
-
--->
 
 **加入读者交流群：**
 
