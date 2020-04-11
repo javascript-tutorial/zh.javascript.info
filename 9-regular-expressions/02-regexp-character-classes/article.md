@@ -153,7 +153,7 @@ alert( "A\nB".match(/A.B/s) ); // A\nB (match!)
 alert( "A\nB".match(/A[\s\S]B/) ); // A\nB (match!)
 ```
 
-模式 `pattern:[\s\S]` 从字面上说：“空格字符或非空格字符”。换句话说，“任何东西”。我们可以使用另一对互补的类，例如 `pattern:[\d\D]`。甚至是 `pattern:[^]` - 意思是匹配任何字符，除了什么都没有。
+模式 `pattern:[\s\S]` 从字面上说：“空格字符或非空格字符”。换句话说，“任何东西”。我们可以使用另一对互补的类，例如 `pattern:[\d\D]`。甚至是 `pattern:[^]` —— 意思是匹配任何字符，除了什么都没有。
 
 如果我们希望两种“点”都使用相同的模式，也可以使用此技巧：实际的点 `pattern:.` 具有常规方式（“不包括换行符”）以及一种使用 `pattern:[\s\S]` 或类似形式匹配“任何字符”。
 ````
@@ -188,13 +188,13 @@ alert( "1 - 5".match(/\d\s-\s\d/) ); // 1 - 5, also works
 
 存在以下字符类：
 
-- `pattern:\d` - 数字。
-- `pattern:\D` - 非数字。
-- `pattern:\s` - 空格符号，制表符，换行符。
-- `pattern:\S` - 除了 `pattern:\s` 。
-- `pattern:\w` - 拉丁字母，数字，下划线 `'_'`。
-- `pattern:\W` - 除了 `pattern:\w`。
-- `pattern:.` - 任何带有 `'s'` 标志的字符，否则为除换行符 `\n`之外的任何字符。
+- `pattern:\d` —— 数字。
+- `pattern:\D` —— 非数字。
+- `pattern:\s` —— 空格符号，制表符，换行符。
+- `pattern:\S` —— 除了 `pattern:\s` 。
+- `pattern:\w` —— 拉丁字母，数字，下划线 `'_'`。
+- `pattern:\W` —— 除了 `pattern:\w`。
+- `pattern:.` —— 任何带有 `'s'` 标志的字符，否则为除换行符 `\n`之外的任何字符。
 
 ……但这还不是全部！
 
