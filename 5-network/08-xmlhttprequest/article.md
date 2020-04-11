@@ -437,7 +437,7 @@ xhr.upload.onerror = function() {
 function upload(file) {
   let xhr = new XMLHttpRequest();
 
-  // 追踪上传进度
+  // 跟踪上传进度
 *!*
   xhr.upload.onprogress = function(event) {
     console.log(`Uploaded ${event.loaded} of ${event.total}`);
@@ -480,7 +480,7 @@ xhr.open('POST', 'http://anywhere.com/request');
 
 ## 总结
 
-使用 `XMLHttpRequest` GET 方式请求数据的典型代码：
+使用 `XMLHttpRequest` 的 GET 请求的典型代码：
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -490,13 +490,13 @@ xhr.open('GET', '/my/url');
 xhr.send();
 
 xhr.onload = function() {
-  if (xhr.status != 200) { // HTTP 出错？
-    // 处理错误
+  if (xhr.status != 200) { // HTTP error?
+    // 处理 error
     alert( 'Error: ' + xhr.status);
     return;
   }
 
-  // 从 xhr.response 中获取响应
+  // 获取来自 xhr.response 的响应
 };
 
 xhr.onprogress = function(event) {
@@ -505,24 +505,24 @@ xhr.onprogress = function(event) {
 };
 
 xhr.onerror = function() {
-  // 处理非 HTTP 错误（如网络中断）
+  // 处理非 HTTP error（例如网络中断）
 };
 ```
 
-实际上还有更多事件，[现代规范](http://www.w3.org/TR/XMLHttpRequest/#events)中列出了它们（按生命周期排序）：
+实际上还有很多事件，在 [现代规范](http://www.w3.org/TR/XMLHttpRequest/#events) 中有详细列表（按生命周期排序）：
 
-- `loadstart` — 请求开始。
-- `progress` — 一个响应数据包到达，此时整个响应体都在 `responseText` 里。
-- `abort` — 请求被 `xhr.abort()` 取消。
-- `error` — 发生连接错误，例如，域名错误。不会响应诸如 404 这类的 HTTP 错误。
-- `load` — 请求成功完成。
-- `timeout` — 请求超时被取消（仅仅发生在 timeout 被设置的情况下）。
-- `loadend` — 在 `load`，`error`，`timeout` 或者 `abort` 之后触发。
+- `loadstart` —— 请求开始。
+- `progress` —— 一个响应数据包到达，此时整个 response body 都在 `response` 中。
+- `abort` —— 调用 `xhr.abort()` 取消了请求。
+- `error` —— 发生连接错误，例如，域名错误。不会发生诸如 404 这类的 HTTP 错误。
+- `load` —— 请求成功完成。
+- `timeout` —— 由于请求超时而取消了该请求（仅发生在设置了 timeout 的情况下）。
+- `loadend` —— 在 `load`，`error`，`timeout` 或 `abort` 之后触发。
 
-`error`，`abort`，`timeout` 和 `load` 事件是互斥的，即一次只能有一个事件发生。
+`error`，`abort`，`timeout` 和 `load` 事件是互斥的。其中只有一种可能发生。
 
-最常用的事件是加载完成（load completion）（`load`），加载失败（load failure）（`error`），或者我们可以只用 `loadend` 处理程序来检查响应，看看其发生了什么。
+最常用的事件是加载完成（`load`），加载失败（`error`），或者我们可以使用单个 `loadend` 处理程序并检查请求对象 `xhr` 的属性，以查看发生了什么。
 
-我们还了解了一些其他事件：`readystatechange`。由于历史原因，它在规范建立之前就已经出现。现如今已经没有必要使用他们了，我们可以用新的事件代替它，但是在旧的代码中仍然比较常见。
+我们还了解了另一个事件：`readystatechange`。由于历史原因，它早在规范制定之前就出现了。如今我们已经无需使用它了，我们可以用新的事件代替它，但通常可以在旧的代码中找到它。
 
-如果我们需要专门追踪上传，那么我们需要在 `xhr.upload` 对象上监听同样的事件。
+如果我们需要专门跟踪上传，那么我们应该在 `xhr.upload` 对象上监听相同的事件。
