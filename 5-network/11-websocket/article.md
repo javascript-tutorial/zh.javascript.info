@@ -2,7 +2,7 @@
 
 在 [RFC 6455](http://tools.ietf.org/html/rfc6455) 规范中描述的 `WebSocket` 协议提供了一种在浏览器和服务器之间建立持久连接来交换数据的方法。数据可以作为“数据包”在两个方向上传递，而不会断开连接和其他 HTTP 请求。
 
-对于需要连续数据交换的服务，例如网络游戏，实时交易系统等，WebSocket尤其有用。
+对于需要连续数据交换的服务，例如网络游戏，实时交易系统等，WebSocket 尤其有用。
 
 ## 一个简单例子
 
@@ -60,23 +60,23 @@ socket.onerror = function(error) {
 };
 ```
 
-出于演示目的，这里有一个用 Node.js 写的小型服务器 [server.js](demo/server.js)，你可以运行它以体验上面的例子。它以“hello”响应，等待 5 秒后关闭连接。
+出于演示目的，在上面的示例中，运行着一个用 Node.js 写的小型服务器 [server.js](demo/server.js)。它响应为 "Hello from server, John"，然后等待 5 秒，关闭连接。
 
 所以你看到的事件顺序为：`open` -> `message` -> `close`。
 
 这就是 WebSocket，我们已经可以使用 WebSocket 通信了。很简单，不是吗？
 
-现在我们更深入讨论一下。
+现在让我们更深入地学习它。
 
 ## 建立 WebSocket
 
-当 `new WebSocket(url)` 被创建后，它立即开始连接。
+当 `new WebSocket(url)` 被创建后，它将立即开始连接。
 
-在连接期间，浏览器（通过请求头）问服务器：“你支持 Websocket 吗？”如果服务器回复说“我支持 Websocket”，那么通信就以 Websocket 协议继续进行，而不是 HTTP 形式。
+在连接期间，浏览器（使用 header）问服务器：“你支持 Websocket 吗？”如果服务器回复说“我支持”，那么通信就以 Websocket 协议继续进行，该协议和 HTTP 无关。
 
 ![](websocket-handshake.svg)
 
-这是一个浏览器请求的例子：`new WebSocket("wss://javascript.info/chat")`。
+这是由 `new WebSocket("wss://javascript.info/chat")` 发出的请求的浏览器 header 示例。
 
 ```
 GET /chat
