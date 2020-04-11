@@ -16,30 +16,31 @@
 
 ## XMLHttpRequest 基础
 
-XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asynchronous）。
+XMLHttpRequest 有两种执行模式：同步（synchronous）和异步（asynchronous）。
 
 我们首先来看看最常用的异步模式：
 
-发送请求需要 3 个步骤：
+要发送请求，需要 3 个步骤：
 
 1. 创建 `XMLHttpRequest`：
     ```js
-    let xhr = new XMLHttpRequest(); // 构造函数没有参数
+    let xhr = new XMLHttpRequest();
     ```
+    此构造器没有参数。
 
-2. 初始化 `XMLHttpRequest`：
+2. 初始化它，通常就在 `new XMLHttpRequest` 之后：
     ```js
     xhr.open(method, URL, [async, user, password])
     ```
 
-    在 `new XMLHttpRequest` 之后我们通常调用 `xhr.open` 函数。它指定了请求的主要参数：
+    此方法指定请求的主要参数：
 
-    - `method` — HTTP 方法。通常是 `"GET"` 或者 `"POST"`。
-    - `URL` — 要执行请求（request）的 URL 字符串，可以是 [URL](info:url) 对象。
-    - `async` — 如果显式的设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讨论它。
-    - `user`，`password` — HTTP 基本身份认证（如果需要的话）的登录名和密码。
+    - `method` —— HTTP 方法。通常是 `"GET"` 或 `"POST"`。
+    - `URL` —— 要请求的 URL，通常是一个字符串，也可以是 [URL](info:url) 对象。
+    - `async` —— 如果显式地设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讲到它。
+    - `user`，`password` —— HTTP 基本身份认证（如果需要的话）的登录名和密码。
 
-    请注意。调用 `xhr.open` 函数的时候并不会建立连接。它的作用仅仅是作为当前请求的配置，而网络活动要到 `send` 调用后才开启。
+    请注意，`open` 调用与其名称相反，不会建立连接。它仅配置请求，而网络活动仅以 `send` 调用开启。
 
 3. 发送请求。
 
@@ -47,52 +48,52 @@ XMLHttpRequest 有两种执行模式：同步（synchronous） 和 异步（asyn
     xhr.send([body])
     ```
 
-    这个方法建立连接，并发送请求到服务器。可选参数 `body` 包含了请求主体。
+    这个方法会建立连接，并将请求发送到服务器。可选参数 `body` 包含了 request body。
 
-    我们稍后会看到一些不同请求方式的示例，比如 `GET` 没有请求体。而 `POST` 这类请求方式会用 `body` 来发送数据到服务器。
+    一些请求方法，像 `GET` 没有 request body。还有一些请求方法，像 `POST` 使用 `body` 将数据发送到服务器。我们稍后会看到相应示例。
 
-4. 监听响应事件。
+4. 监听 `xhr` 事件以获取响应。
 
     这三个事件是最常用的：
-    - `load` — 当请求结果已经返回，包括像 404 这样的 HTTP 错误。
-    - `error` — 当无法完成请求时，比如网络中断或者无效的 URL。
-    - `progress` — 下载期间定时触发，报告已经下载了多少。
+    - `load` —— 当请求完成（即使 HTTP 状态为 400 或 500 等），并且响应已完全下载。
+    - `error` —— 当无法发出请求，例如网络中断或者无效的 URL。
+    - `progress` —— 在下载响应期间定期触发，报告已经下载了多少。
 
     ```js
     xhr.onload = function() {
       alert(`Loaded: ${xhr.status} ${xhr.response}`);
     };
 
-    xhr.onerror = function() { // 只有在请求无法完成时才会触发
+    xhr.onerror = function() { // 仅在根本无法发出请求时触发
       alert(`Network Error`);
     };
 
-    xhr.onprogress = function(event) { // 定时触发
-      // event.loaded - 已经下载了多少字节
-      // event.lengthComputable = true 当服务器返回了 Content-Length 响应头时
-      // event.total - 总字节数（如果 lengthComputable 为 true）
+    xhr.onprogress = function(event) { // 定期触发
+      // event.loaded —— 已经下载了多少字节
+      // event.lengthComputable = true，当服务器发送了 Content-Length header 时
+      // event.total —— 总字节数（如果 lengthComputable 为 true）
       alert(`Received ${event.loaded} of ${event.total}`);
     };
     ```
 
-下面是一个完整的示例。它从服务器加载 `/article/xmlhttprequest/example/load`，并显示加载进度：
+下面是一个完整的示例。它从服务器加载 `/article/xmlhttprequest/example/load`，并打印加载进度：
 
 ```js run
-// 1. 创建一个新的 XMLHttpRequest 对象
+// 1. 创建一个 new XMLHttpRequest 对象
 let xhr = new XMLHttpRequest();
 
-// 2. 配置该对象：对 URL /article/.../load 采用 GET 方式请求数据
+// 2. 配置它：从 URL /article/.../load GET-request
 xhr.open('GET', '/article/xmlhttprequest/example/load');
 
-// 3. 通过网络发送请求数据
+// 3. 通过网络发送请求
 xhr.send();
 
-// 4. 当收到响应数据的时候，下面这个函数就会被调用
+// 4. 当接收到响应后，将调用此函数
 xhr.onload = function() {
-  if (xhr.status != 200) { // 分析响应的状态码
-    alert(`Error ${xhr.status}: ${xhr.statusText}`); // 比如 404：Not Found
+  if (xhr.status != 200) { // 分析响应的 HTTP 状态
+    alert(`Error ${xhr.status}: ${xhr.statusText}`); // 例如 404: Not Found
   } else { // 显示结果
-    alert(`Done, got ${xhr.response.length} bytes`); // 响应文本是服务器传回的数据
+    alert(`Done, got ${xhr.response.length} bytes`); // response 是服务器响应
   }
 };
 
@@ -110,7 +111,7 @@ xhr.onerror = function() {
 };
 ```
 
-一旦服务器有了响应，我们可以在下面这些请求对象的属性中获取相关的返回结果：
+一旦服务器有了响应，我们可以在以下 `xhr` 属性中接收结果：
 
 `status`
 : HTTP 状态码（一个数字）：`200`，`404`，`403` 等等，如果出现非 HTTP 错误，它的结果为 `0`。
