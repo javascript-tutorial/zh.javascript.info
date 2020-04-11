@@ -1,57 +1,56 @@
 # WebSocket
 
-在 [RFC 6455](http://tools.ietf.org/html/rfc6455) 规范中描述的 `WebSocket` 协议提供了一种在浏览器和服务器之间建立持久连接的通信方法。
+在 [RFC 6455](http://tools.ietf.org/html/rfc6455) 规范中描述的 `WebSocket` 协议提供了一种在浏览器和服务器之间建立持久连接来交换数据的方法。数据可以作为“数据包”在两个方向上传递，而不会断开连接和其他 HTTP 请求。
 
-一旦 Websocket 连接建立，客户端和服务端就能互相发送数据了。
-
-WebSocket 特别适用于连续数据交换的服务，例如在线游戏，实时交易系统等等。
+对于需要连续数据交换的服务，例如网络游戏，实时交易系统等，WebSocket尤其有用。
 
 ## 一个简单例子
 
-要打开 Websocket 连接，我们需要在 url 中使用特殊的协议 `ws` 创建 `new WebSocket`：
+要打开一个 Websocket 连接，我们需要在 url 中使用特殊的协议 `ws` 创建 `new WebSocket`：
 
 ```js
 let socket = new WebSocket("*!*ws*/!*://javascript.info");
 ```
 
-同样也有一个加密协议 `wss://`。类似于 Websocket 中的 HTTPS。
+同样也有一个加密的 `wss://` 协议。类似于 Websocket 中的 HTTPS。
 
 ```smart header="始终使用 `wss://`"
 `wss://` 协议不仅能加密，而且更可靠。
 
-一方面是因为 `ws://` 数据不是加密的，对于任何中间人来说其数据都是可见的。另一方面是因为过去的代理服务还不知道 WebSocket，它们可能因为识别到这个“奇怪的”头而终止连接。
+因为 `ws://` 数据不是加密的，对于任何中间人来说其数据都是可见的。并且，旧的代理服务器不了解 WebSocket，它们可能会因为看到“奇怪的” header 而中止连接。
 
-另外，`wss://` 是基于 TLS 的 WebSocket，（类似于 HTTPS 是 HTTP 基于 TLS），传输安全层（transport security layer）加密发送方的数据并在接收方解密，因此它通过代理加密传递。它们看不到传输的内容且会让这些数据通过。
+另一方面，`wss://` 是基于 TLS 的 WebSocket，类似于 HTTPS 是基于 TLS 的 HTTP），传输安全层在发送方对数据进行了加密，在接收方进行解密。因此，数据包是通过代理加密传输的。它们看不到传输的里面的内容，且会让这些数据通过。
 ```
 
-当 socket 建立后，我们就应该侦听 socket 上的事件。一共有 4 个事件：
-- **`open`** —— 连接建立，
-- **`message`** —— 数据接收，
+一旦 socket 被建立，我们就应该监听 socket 上的事件。一共有 4 个事件：
+- **`open`** —— 连接已建立，
+- **`message`** —— 接收到数据，
 - **`error`** —— Websocket 错误，
-- **`close`** —— 连接关闭。
+- **`close`** —— 连接已关闭。
 
-……如果我们想要发送数据，可以使用 `socket.send(data)`。
+……如果我们想发送一些东西，那么可以使用 `socket.send(data)`。
 
-下面是它的一个例子：
+这是一个示例：
 
 ```js run
 let socket = new WebSocket("wss://javascript.info/article/websocket/demo/hello");
 
 socket.onopen = function(e) {
-  alert("[open] Connection established, send -> server");
+  alert("[open] Connection established");
+  alert("Sending to server");
   socket.send("My name is John");
 };
 
 socket.onmessage = function(event) {
-  alert(`[message] Data received: ${event.data} <- server`);
+  alert(`[message] Data received from server: ${event.data}`);
 };
 
 socket.onclose = function(event) {
   if (event.wasClean) {  
     alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
   } else {
-    // 例如，服务进程关闭或者网络出现问题
-    // 在这种情况下 event.code 通常是 1006
+    // 例如服务器进程被杀死或网络中断
+    // 在这种情况下，event.code 通常为 1006
     alert('[close] Connection died');
   }
 };
