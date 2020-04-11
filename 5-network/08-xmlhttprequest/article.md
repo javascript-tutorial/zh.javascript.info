@@ -211,7 +211,7 @@ xhr.onreadystatechange = function() {
 
 你可能在非常老的代码中找到 `readystatechange` 这样的事件监听器，它的存在是有历史原因的，因为曾经有很长一段时间都没有 `load` 以及其他事件。如今，它已被 `load/error/progress` 事件处理程序所替代。
 
-## 中止请求（aborting）
+## 中止请求（Aborting）
 
 我们可以随时终止请求。调用 `xhr.abort()` 即可：
 
