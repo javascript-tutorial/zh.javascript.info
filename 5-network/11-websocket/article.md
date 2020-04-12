@@ -6,13 +6,13 @@
 
 ## 一个简单例子
 
-要打开一个 Websocket 连接，我们需要在 url 中使用特殊的协议 `ws` 创建 `new WebSocket`：
+要打开一个 WebSocket 连接，我们需要在 url 中使用特殊的协议 `ws` 创建 `new WebSocket`：
 
 ```js
 let socket = new WebSocket("*!*ws*/!*://javascript.info");
 ```
 
-同样也有一个加密的 `wss://` 协议。类似于 Websocket 中的 HTTPS。
+同样也有一个加密的 `wss://` 协议。类似于 WebSocket 中的 HTTPS。
 
 ```smart header="始终使用 `wss://`"
 `wss://` 协议不仅能加密，而且更可靠。
@@ -25,7 +25,7 @@ let socket = new WebSocket("*!*ws*/!*://javascript.info");
 一旦 socket 被建立，我们就应该监听 socket 上的事件。一共有 4 个事件：
 - **`open`** —— 连接已建立，
 - **`message`** —— 接收到数据，
-- **`error`** —— Websocket 错误，
+- **`error`** —— WebSocket 错误，
 - **`close`** —— 连接已关闭。
 
 ……如果我们想发送一些东西，那么可以使用 `socket.send(data)`。
@@ -72,7 +72,7 @@ socket.onerror = function(error) {
 
 当 `new WebSocket(url)` 被创建后，它将立即开始连接。
 
-在连接期间，浏览器（使用 header）问服务器：“你支持 Websocket 吗？”如果服务器回复说“我支持”，那么通信就以 Websocket 协议继续进行，该协议根本不是 HTTP。
+在连接期间，浏览器（使用 header）问服务器：“你支持 WebSocket 吗？”如果服务器回复说“我支持”，那么通信就以 WebSocket 协议继续进行，该协议根本不是 HTTP。
 
 ![](websocket-handshake.svg)
 
@@ -98,7 +98,7 @@ Sec-WebSocket-Version: 13
 我们不能使用 `XMLHttpRequest` 或 `fetch` 来进行这种 HTTP 请求，因为不允许 JavaScript 设置这些 header。
 ```
 
-如果服务器同意切换为 WebSocket 协议，服务器应该返回响应代码 101：
+如果服务器同意切换为 WebSocket 协议，服务器应该返回响应码 101：
 
 ```
 101 Switching Protocols
@@ -221,7 +221,7 @@ socket.close([code], [reason]);
 - `code` 是一个特殊的 WebSocket 关闭码（可选）
 - `reason` 是一个描述关闭原因的字符串（可选）
 
-然后，另外一方通过 `close` 事件处理器获取了状态码和关闭原因，例如：
+然后，另外一方通过 `close` 事件处理器获取了关闭码和关闭原因，例如：
 
 ```js
 // 关闭方：
@@ -231,39 +231,39 @@ socket.close(1000, "Work complete");
 socket.onclose = event => {
   // event.code === 1000
   // event.reason === "Work complete"
-  // event.wasClean === true（完成关闭）
+  // event.wasClean === true (clean close)
 };
 ```
 
-常见状态码：
+最常见的数字码：
 
 - `1000` —— 默认，正常关闭（如果没有指明 `code` 时使用它），
-- `1006` —— 没有办法手动指定这个值，表示连接丢失（没有 close frame）。
+- `1006` —— 没有办法手动设定这个数字码，表示连接丢失（没有 close frame）。
 
-以及其他值：
+还有其他数字码，例如：
 
-- `1001` —— 一方打算离开，例如：服务器正在关机，或者从浏览器上离开页面，
-- `1009` —— 消息太长而不能处理，
-- `1011` —— 服务器意外出错，
-- ……等等。
+- `1001` —— 一方正在离开，例如服务器正在关闭，或者浏览器离开了该页面，
+- `1009` —— 消息太大，无法处理，
+- `1011` —— 服务器上发生意外错误，
+- ……等。
 
-请参阅 [RFC6455, §7.4.1](https://tools.ietf.org/html/rfc6455#section-7.4.1) 以了解更多连接关闭状态码。
+完整列表请见 [RFC6455, §7.4.1](https://tools.ietf.org/html/rfc6455#section-7.4.1)。
 
-WebSocket 状态码有点像 HTTP 状态码，但它们是不同的。特别是当我们尝试设置任何小于 `1000` 的状态码时将会出错。
+WebSocket 码有点像 HTTP 码，但它们是不同的。特别是，小于 `1000` 的码都是被保留的，如果我们尝试设置这样的码，将会出现错误。
 
 ```js
-// 如果连接断开
+// 再连接断开的情况下
 socket.onclose = event => {
   // event.code === 1006
   // event.reason === ""
-  // event.wasClean === false（没有 closing frame）
+  // event.wasClean === false（未关闭 frame）
 };
 ```
 
 
-## 连接状态（Connection state）
+## 连接状态
 
-要获取连接状态，可以通过 `socket.readyState` 属性值来获取：
+要获取连接状态，可以通过带有值的 `socket.readyState` 属性：
 
 - **`0`** —— “CONNECTING”：连接还未建立，
 - **`1`** —— “OPEN”：通信中，
@@ -271,29 +271,32 @@ socket.onclose = event => {
 - **`3`** —— “CLOSED”：连接已关闭。
 
 
-## Chat 例子
+## 聊天示例
 
-让我们通过浏览器的 WebSocket API 和 Node.js 的 WebSocket 模块 <https://github.com/websockets/ws> 来回顾一下上述 chat 例子。
+让我们来看一个使用浏览器 WebSocket API 和 Node.js 的 WebSocket 模块 <https://github.com/websockets/ws> 的聊天示例。我们将主要精力放在客户端上，但是服务端也很简单。
 
-HTML：`<form>` 用于发送消息，`<div>` 用于显示接收到的消息：
+HTML：我们需要一个 `<form>` 来发送消息，并且需要一个 `<div>` 来接收消息：
 
 ```html
-<!-- 消息 form -->
+<!-- 消息表单 -->
 <form name="publish">
   <input type="text" name="message">
   <input type="submit" value="Send">
 </form>
 
-<!-- div 显示消息 -->
+<!-- 带有消息的 div -->
 <div id="messages"></div>
 ```
 
-JavaScript 代码也很简单。我们打开一个 socket，然后提交表单 —— `socket.send(message)`，对于传入的消息 —— 附加到 `div#messages` 上即可：
+在 JavaScript 中，我们想要做三件事：
+1. 打开连接。
+2. 在表单提交中 —— `socket.send(message)` 用于消息。
+3. 对于传入的消息 —— 将其附加（append）到 `div#messages` 上。
 
 ```js
 let socket = new WebSocket("wss://javascript.info/article/websocket/chat/ws");
 
-// form 发送消息
+// 从表单发送消息
 document.forms.publish.onsubmit = function() {
   let outgoingMessage = this.message.value;
 
@@ -301,7 +304,7 @@ document.forms.publish.onsubmit = function() {
   return false;
 };
 
-// div#messages 显示消息
+// 收到消息 —— 在 div#messages 中显示消息
 socket.onmessage = function(event) {
   let message = event.data;
 
@@ -311,15 +314,14 @@ socket.onmessage = function(event) {
 }
 ```
 
-服务端代码有点超出我们的范围。我们使用的是浏览器 WebSocket API，服务端有其他库可用。
+服务端代码有点超出我们的范围。在这里，我们将使用 Node.js，但你不必这样做。其他平台也有使用 WebSocket 的方法。
 
-但它仍然很简单。我们将 Node.js 与 <https://github.com/websockets/ws> 模块一起用于 Websocket。
+服务器端的算法为：
 
-服务端算法为：
-1. 创建 `clients = new Set()` —— 一系列 sockets。
-2. 对于每个可接受的 Websocket，`clients.add(socket)` 并为其消息添加 `message` 事件侦听器。
-3. 当接收到消息：迭代所有客户端，并将消息发送给每个人。
-4. 当连接关闭时：`clients.delete(socket)`。
+1. 创建 `clients = new Set()` —— 一系列 socket。
+2. 对于每个被接受的 WebSocket，将其添加到 `clients.add(socket)`，并为其设置 `message` 事件侦听器以获取其消息。
+3. 当接收到消息：便利客户端，并将消息发送给所有人。
+4. 当连接被关闭：`clients.delete(socket)`。
 
 ```js
 const ws = new require('ws');
@@ -328,8 +330,8 @@ const wss = new ws.Server({noServer: true});
 const clients = new Set();
 
 http.createServer((req, res) => {
-  // 我们在这里仅处理 Websocket 连接
-  // 在实际例子中我们将会有其他代码来处理非 Websocket 请求
+  // 在这里，我们仅处理 WebSocket 连接
+  // 在实际项目中，我们在这里还会有其他代码，来处理非 WebSocket 请求
   wss.handleUpgrade(req, req.socket, Buffer.alloc(0), onSocketConnect);
 });
 
@@ -337,7 +339,7 @@ function onSocketConnect(ws) {
   clients.add(ws);
 
   ws.on('message', function(message) {
-    message = message.slice(0, 50); // 最大消息长度为 50
+    message = message.slice(0, 50); // message 的最大长度为 50
 
     for(let client of clients) {
       client.send(message);
