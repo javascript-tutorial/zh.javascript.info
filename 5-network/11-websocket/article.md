@@ -72,7 +72,7 @@ socket.onerror = function(error) {
 
 当 `new WebSocket(url)` 被创建后，它将立即开始连接。
 
-在连接期间，浏览器（使用 header）问服务器：“你支持 Websocket 吗？”如果服务器回复说“我支持”，那么通信就以 Websocket 协议继续进行，该协议和 HTTP 无关。
+在连接期间，浏览器（使用 header）问服务器：“你支持 Websocket 吗？”如果服务器回复说“我支持”，那么通信就以 Websocket 协议继续进行，该协议根本不是 HTTP。
 
 ![](websocket-handshake.svg)
 
@@ -179,7 +179,7 @@ WebSocket 通信由 "frames"（即数据片段）组成，可以从任何一方�
 
 它是由 `socket.bufferType` 属性设置的，默认为 `"blob"`，因此二进制数据通常以 `Blob` 对象呈现。
 
-[Blob](info:blob) 是高级的二进制对象，它直接与 `<a>`，`<img>` 及其他标签集成在一起，因此，默认以 `Blob` 形式是一个明智的选择。但是对于二进制处理，要访问单个数据字节，我们可以将其改为 `"arraybuffer"`：
+[Blob](info:blob) 是高级的二进制对象，它直接与 `<a>`，`<img>` 及其他标签集成在一起，因此，默认以 `Blob` 格式是一个明智的选择。但是对于二进制处理，要访问单个数据字节，我们可以将其改为 `"arraybuffer"`：
 
 ```js
 socket.bufferType = "arraybuffer";
