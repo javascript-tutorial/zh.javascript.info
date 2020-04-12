@@ -131,62 +131,62 @@ alert(document.cookie); // 有 cookie user=John
 
 ## expires，max-age
 
-默认情况下，如果一个 cookie 没有设置这两个参数中的任何一个，那么在浏览器关闭后，它就会消失。此类 cookies 被称为 "session cookies”。
+默认情况下，如果一个 cookie 没有设置这两个参数中的任何一个，那么在关闭浏览器之后，它就会消失。此类 cookie 被称为 "session cookie”。
 
-为了让 cookies 在浏览器关闭后仍然存在，我们可以设置 `expires` 或 `max-age` 其中一个选项。
+为了让 cookie 在浏览器关闭后仍然存在，我们可以设置 `expires` 或 `max-age` 选项中的一个。
 
 - **`expires=Tue, 19 Jan 2038 03:14:07 GMT`**
 
-cookie 过期日期，当到了过期时间浏览器会自动删除它。
+cookie 的到期日期，那时浏览器会自动删除它。
 
-日期必须是这种格式，GMT 时区。我们可以使用 `date.toUTCString` 方法得到。举个例子，我们可以设置 cookie 在 1 天后过期。
+日期必须完全采用 GMT 时区的这种格式。我们可以使用 `date.toUTCString` 来获取它。例如，我们可以将 cookie 设置为 1 天后过期。
 
 ```js
-// 在当前时间上加 1 天
+// 当前时间 +1 天
 let date = new Date(Date.now() + 86400e3);
 date = date.toUTCString();
 document.cookie = "user=John; expires=" + date;
 ```
 
-如果我们设置 `expires` 为已经过去的时间，cookie 会被删除。
+如果我们将 `expires` 设置为过去的时间，则 cookie 会被删除。
 
 -  **`max-age=3600`**
 
-一个可以替代 `expires` 的选项，具体说明 cookie 的过期时间距离当前时间的秒数。
+`expires` 的替代选项，具指明 cookie 的过期时间距离当前时间的秒数。
 
-如果是 0 或者负数，cookie 会被删除：
+如果为 0 或负数，则 cookie 会被删除：
 
 ```js
-// 1 小时后 cookie 会失效
+// cookie 会在一小时后失效
 document.cookie = "user=John; max-age=3600";
 
-// 删除 cookie (让 cookie 马上过期)
+// 删除 cookie（让它立即过期）
 document.cookie = "user=John; max-age=0";
-```  
+``` 
 
 ## secure
 
 - **`secure`**
 
-cookie 应仅在 HTTPS 环境下传输。
+Cookie 应只能被通过 HTTPS 传输。
 
-**默认情况下，如果我们在 `http://site.com` 设置了 cookie，然后 cookie 在 `https://site.com` 中也会出现，反之亦然。**
+**默认情况下，如果我们在 `http://site.com` 上设置了 cookie，那么该 cookie 也会出现在 `https://site.com` 上，反之亦然。**
 
-也就是说，cookies 是基于域的，它们不是通过协议来区分的。
+也就是说，cookie 是基于域的，它们不区分协议。
 
-有了这个选项，如果一个 cookie 通过 `https://site.com` 设置，然后它不会在相同域的 HTTP 环境下出现，例如 `http://site.com`。所以，如果一个 cookie 存有敏感内容，不应该在不安全的 HTTP 环境下发送，此时这个选项就派上用场了。
+使用此选项，如果一个 cookie 是通过 `https://site.com` 设置的，那么它不会在相同域的 HTTP 环境下出现，例如 `http://site.com`。所以，如果一个 cookie 包含绝不应该通过未加密的 HTTP 协议发送的敏感内容，那么就应该设置这个选项。
 
 ```js
 // 假设我们现在在 HTTPS 环境下
-// 设置 cookie secure（只在 HTTPS 环境下传输）
+// 设置 cookie secure（只在 HTTPS 环境下可访问）
 document.cookie = "user=John; secure";
 ```  
 
 ## samesite
 
-这是另外一个关于安全的选项，为了防止 XSRF（跨站点请求伪造）攻击。
+这是另外一个关于安全的特性。它旨在防止 XSRF（跨站点请求伪造）攻击。
 
-为了理解它什么时候起效，我们来介绍下以下的攻击情况。
+为了了解它是如何工作的，以及何时有用，让我们看一下 XSRF 攻击。
 
 ### XSRF 攻击
 
