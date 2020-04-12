@@ -184,62 +184,62 @@ document.cookie = "user=John; secure";
 
 ## samesite
 
-这是另外一个关于安全的特性。它旨在防止 XSRF（跨站点请求伪造）攻击。
+这是另外一个关于安全的特性。它旨在防止 XSRF（跨网站请求伪造）攻击。
 
 为了了解它是如何工作的，以及何时有用，让我们看一下 XSRF 攻击。
 
 ### XSRF 攻击
 
-想象一下，你登录了 `bank.com` 网站。此时：你有了该站点的身份验证 cookie。你的浏览器会随着每次请求把它发送到 `bank.com`，因此，`bank.com` 承认你的身份和你做出的所有敏感经济操作。
+想象一下，你登录了 `bank.com` 网站。此时：你有了来自该网站的身份验证 cookie。你的浏览器会在每次请求时将其发送到 `bank.com`，以便识别你，并执行所有敏感的财务上的操作。
 
-现在，在另外一个窗口浏览网页时，你偶然访问了另外一个网站 `evil.com`，该网站有 JavaScript 代码提交了一个表单 `<form action="https://bank.com/pay">` 到 `bank.com`，提交的表单字段能够开始一笔到黑客账户的交易。
+现在，在另外一个窗口中浏览网页时，你不小心访问了另一个网站 `evil.com`。该网站具有向 `bank.com` 网站提交一个具有启动与黑客账户交易的字段的表单 `<form action="https://bank.com/pay">` 的 JavaScript 代码。
 
-你每次访问 `bank.com` 时 cookie 都会发送，即使表单在 `evil.com` 上提交。所以银行识别你的身份并实际执行付款。
+你每次访问 `bank.com` 时，浏览器都会发送 cookie，即使该表单是从 `evil.com` 提交过来的。因此，银行会识别你的身份，并执行真实的付款。
 
 ![](cookie-xsrf.svg)
 
-这就被称为一个跨站点请求伪造（Cross-Site Request Forgery，简称 XSRF）攻击。
+这就是“跨网站请求伪造（Cross-Site Request Forgery，简称 XSRF）”攻击。
 
-当然，真正的银行会防止出现这种情况。所有 `bank.com` 生成的表单都有一个特殊的字段，所谓的 "xsrf 保护令牌”，邪恶页面既不能生成或者从远程页面获取（它可以在那里提交表单，但是无法获取数据）。而且站点 `bank.com` 每次都会检查收到的表单上的令牌。
+当然，实际的银行会防止出现这种情况。所有由 `bank.com` 生成的表单都具有一个特殊的字段，即所谓的 “XSRF 保护令牌”，恶意页面既不能生成，也不能从远程页面提取它（它可以在那里提交表单，但是无法获取数据）。并且，网站 `bank.com` 会对收到的每个表单都进行这种令牌的检查。
 
-但这种防护需要时间来实现：我们需要确保每个表单都有 token 字段，而且必须检查所有的请求。
+但是，实现这种防护需要花费时间：我们需要确保每个表单都具有 token 字段，并且还必须检查所有请求。
 
 ### 输入 cookie samesite 选项
 
-cookie 的 `samesite` 选项提供了另一种防止此类攻击的方法，（理论上）应该不需要 "xsrf 保护令牌”。
+Cookie 的 `samesite` 选项提供了另一种防止此类攻击的方式，（理论上）不需要要求 “XSRF 保护令牌”。
 
-它有两个可选的值：
+它有两个可能的值：
 
-- **`samesite=strict` (和 `samesite` 没有值一样)**
+- **`samesite=strict`（和没有值的 `samesite` 一样)**
 
-如果用户来自同一站点之外，那么设置了 `samesite=strict` 的 cookie 永远不会发送。
+如果用户来自同一网站之外，那么设置了 `samesite=strict` 的 cookie 永远不会被发送。
 
-换句话说，无论用户是跟踪邮件链接或从 `evil.com` 提交表单，或者来自其他域下的任何操作，cookie 都不会发送。
+换句话说，无论用户是通过邮件链接还是从 `evil.com` 提交表单，或者进行了任何来自其他域下的操作，cookie 都不会被发送。
 
-如果身份验证的 cookies 存在 `samesite` 选项，XSRF 攻击是没有机会成功的，因为 `evil.com` 发起的提交没有 cookies。所以 `bank.com` 无法识别用户，并且不会继续付款。
+如果身份验证 cookie 具有 `samesite` 选项，那么 XSRF 攻击是没有机会成功的，因为来自 `evil.com` 的提交没有 cookie。因此，`bank.com` 将无法识别用户，也就不会继续进行付款。
 
-保护非常有效。只有来自 `bank.com` 的操作才会发送 `samesite` cookie，例如来自 `bank.com` 上另一页面的表单发送。
+这种保护是相当可靠的。只有来自 `bank.com` 的操作才会发送 `samesite` cookie，例如来自 `bank.com` 的另一页面的表单提交。
 
-虽然，这样有一点点不方便。
+虽然，这样有一些不方便。
 
-当用户跟随合法链接来到 `bank.com`，例如他们自己的笔记，他们会感到惊讶，`bank.com` 不能识别他们的身份。实际上，在这种情况下 `samesite=strict` cookies 不会发送。
+当用户通过合法的链接访问 `bank.com` 时，例如从他们自己的笔记，他们会感到惊讶，`bank.com` 无法识别他们的身份。实际上，在这种情况下不会发送 `samesite=strict` cookie。
 
-我们可以使用两个 cookies 来解决这个问题：一个 cookie 用来 "大致识别"，仅用来说 "Hello, John"，另外一个带有 `samesite=strict` 的 cookie 用来验证数据改变的操作。然后来自外部网站的用户会看到欢迎页面，但必须在银行的网站上发起付款，为了第二个 cookie 能被发送。
+我们可以通过使用两个 cookie 来解决这个问题：一个 cookie 用于“一般识别”，仅用于说 "Hello, John"，另一个带有 `samesite=strict` 的 cookie 用于进行数据更改的操作。这样，从网站外部来的用户会看到欢迎信息，但是支付操作必须是从银行网站启动的，这样第二个 cookie 才能被发送。
 
 - **`samesite=lax`**
 
-一种更轻松的方法也能防止 XSRF 攻击并且不会破坏用户体验。
+一种更轻松的方法，该方法还可以防止 XSRF 攻击，并且不会破坏用户体验。
 
-lax 模式，和 `strict` 模式类似，禁止浏览器发送来自外部网站的 cookie，但是增加了一个例外。
+宽松（lax）模式，和 `strict` 模式类似，当从外部来到网站，则禁止浏览器发送 cookie，但是增加了一个例外。
 
-`samesite=lax` cookie 在以下两个条件都成立时会被发送：
-1. HTTP 方法是安全的（例如 GET 方法，不是 POST）。
+如果以下两个条件均为 true，则会发送 `samesite=lax` cookie：
+1. HTTP 方法是“安全的”（例如 GET 方法，而不是 POST）。
 
-    所有安全的 HTTP 方法列表可以看 [RFC7231 规范](https://tools.ietf.org/html/rfc7231)。基本上，这些都是只能用来读取数据但是不能写入数据的方法。他们不能执行任何更改数据的操作。以下链接都是 GET 安全方法。
+    所有安全的 HTTP 方法详见 [RFC7231 规范](https://tools.ietf.org/html/rfc7231)。基本上，这些都是用于读取而不是写入数据的方法。它们不得执行任何更改数据的操作。跟随链接始终是 GET，是安全的方法。
 
-2. 操作执行顶级导航（在浏览器地址栏中改变 URL）。
+2. 该操作执行顶级导航（更改浏览器地址栏中的 URL）。
 
-    这通常是正确的，但是如果导航是在一个 `<iframe>` 中执行，那么它不是顶级的。此外，JavaScript 的网络请求不执行任何导航，因为它们不适合。
+    这通常是 true，但是如果导航是在一个 `<iframe>` 中执行的，那么它就不是顶级的。此外，用于网络请求的 JavaScript 方法不会执行任何导航，因此它们不适合。
 
 所以，`samesite=lax` 基本上允许最常见的跳转 URL 的操作来获取 cookie。例如，在符合条件的笔记中打开网站链接。
 
@@ -369,7 +369,7 @@ function deleteCookie(name) {
     ![](cookie-third-party-3.svg)
 
 
-由于它的性质，第三方 cookies 传统上用于跟踪和广告服务。它们绑定在原始域上，因此 `ads.com` 可以跟踪到不同站点下的相同用户，如果他们访问的话。
+由于它的性质，第三方 cookies 传统上用于跟踪和广告服务。它们绑定在原始域上，因此 `ads.com` 可以跟踪到不同网站下的相同用户，如果他们访问的话。
 
 当然，一些用户不喜欢被跟踪，所以浏览器禁止此类 cookies。
 
