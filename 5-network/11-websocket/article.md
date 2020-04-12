@@ -293,6 +293,8 @@ HTML：我们需要一个 `<form>` 来发送消息，并且需要一个 `<div>` 
 2. 在表单提交中 —— `socket.send(message)` 用于消息。
 3. 对于传入的消息 —— 将其附加（append）到 `div#messages` 上。
 
+代码如下
+
 ```js
 let socket = new WebSocket("wss://javascript.info/article/websocket/chat/ws");
 
@@ -353,35 +355,34 @@ function onSocketConnect(ws) {
 ```
 
 
-这里是运行示例：
+这是运行示例：
 
 [iframe src="chat" height="100" zip]
 
-你也可以下载它（点击 iframe 右上角按钮可下载）然后在本地运行。运行之前请记得安装 [Node.js](https://nodejs.org/en/) 和 `npm install ws`。
-
+你也可以下载它（点击 iframe 右上角的按钮）然后在本地运行。运行之前请记得安装 [Node.js](https://nodejs.org/en/) 和 `npm install ws`。
 
 ## 总结
 
 WebSocket 是一种在浏览器和服务器之间建立持久连接的现代方式。
 
-- WebSockets 没有跨域限制。
-- 浏览器对 WebSockets 支持很好。
+- WebSocket 没有跨源限制。
+- 浏览器对 WebSocket 支持很好。
 - 可以发送/接收字符串和二进制数据。
 
-WebSockets 的 API 很简单。
+WebSocket 的 API 很简单。
 
-WebSockets 方法：
+WebSocket 方法：
 - `socket.send(data)`，
 - `socket.close([code], [reason])`。
 
-WebSockets 事件：
+WebSocket 事件：
 - `open`，
 - `message`，
 - `error`，
 - `close`。
 
-WebSocket 自身并不包含重新连接（reconnection），身份验证（authentication）和许多其他高级机制。因此有针对于此的客户端/服务端的库，并且可以手动实现这些功能。
+WebSocket 自身并不包含重新连接（reconnection），身份验证（authentication）和很多其他高级机制。因此，有针对于此的客户端/服务端的库，并且也可以手动实现这些功能。
 
-有时候，为了将 WebSocket 集成到现有项目中，人们将主 HTTP 服务与 WebSocket 服务并行运行，并且它们之间共享同一个数据库。对于 WebSocket 请求使用一个通向 WebSocket 服务器的子域 `wss://ws.site.com`，而 `https://site.com` 则转到主 HTTP 服务器。
+有时为了将 WebSocket 集成到现有项目中，人们将主 HTTP 服务器与 WebSocket 服务器并行运行，并且它们之间共享同一个数据库。对于 WebSocket 请求使用一个通向 WebSocket 服务器的子域 `wss://ws.site.com`，而 `https://site.com` 则通向主 HTTP 服务器。
 
-当然，其他集成方式也是可行的。许多服务器（例如 Node.js）可以同时支持 HTTP 和 WebSocket 协议。
+当然，其他集成方式也是可行的。
