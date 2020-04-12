@@ -38,7 +38,7 @@ XMLHttpRequest 有两种执行模式：同步（synchronous）和异步（asynch
     - `method` —— HTTP 方法。通常是 `"GET"` 或 `"POST"`。
     - `URL` —— 要请求的 URL，通常是一个字符串，也可以是 [URL](info:url) 对象。
     - `async` —— 如果显式地设置为 `false`，那么请求将会以同步的方式处理，我们稍后会讲到它。
-    - `user`，`password` —— HTTP 基本身份认证（如果需要的话）的登录名和密码。
+    - `user`，`password` —— HTTP 基本身份验证（如果需要的话）的登录名和密码。
 
     请注意，`open` 调用与其名称相反，不会建立连接。它仅配置请求，而网络活动仅以 `send` 调用开启。
 
