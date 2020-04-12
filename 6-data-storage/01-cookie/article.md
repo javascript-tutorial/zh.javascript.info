@@ -1,41 +1,41 @@
-# Cookies, document.cookie
+# Cookie，document.cookie
 
-cookies 是直接保存在浏览器上的小数据串。它们是 HTTP 协议的一部分，由 [RFC 6265](https://tools.ietf.org/html/rfc6265) 规范定义。
+Cookie 是直接存储在浏览器中的一小串数据。它们是 HTTP 协议的一部分，由 [RFC 6265](https://tools.ietf.org/html/rfc6265) 规范定义。
 
-大多数情况下，cookies 是由 web 服务器设置的。然后它们会自动添加到相同域名下的每次请求中。
+Cookie 通常是由网络服务器使用响应 `Set-Cookie` HTTP-header 设置的。然后浏览器使用 `Cookie` HTTP-header 将它们自动添加到（几乎）每个对相同域的请求中。
 
-最常见的用处之一是身份验证：
+最常见的用处之一就是身份验证：
 
-1. 登录后，服务端通过 `Set-Cookie` 在响应的 HTTP-header 中设置了一个带有 "会话标识符" 的 cookie。
-2. 下次如果相同域名发起了请求，浏览器会发送带有 `Cookie` 的 HTTP-header。
-3. 所以服务端知道是谁发起了请求。
+1. 登录后，服务器在响应中使用 `Set-Cookie` HTTP-header 来设置具有唯一“会话标识符”的 cookie。
+2. 下次如果请求是由相同域发起的，浏览器会使用 `Cookie` HTTP-header 通过网络发送 cookie。
+3. 所以服务器知道是谁发起了请求。
 
-我们还可以使用 `document.cookie` 属性在浏览器上访问 cookies。
+我们还可以使用 `document.cookie` 属性从浏览器访问 cookie。
 
-有关 cookies 和它们的选项有很多棘手的事情。在本章节中，我们将会详细介绍。
+关于 cookie 及其选项，有很多棘手的事情。在本章中，我们将详细介绍它们。
 
 ## 从 document.cookie 中读取
 
 ```online
-你在这个网站上有 cookies 吗？让我们来看看：
+你的浏览器是否存储了本网站的任何 cookie？让我们来看看：
 ```
 
 ```offline
-假设你在网站上可以看到 cookies，像这样：
+假设你在一个网站上，则可以看到来自该网站的 cookie，像这样：
 ```
 
 ```js run
-// 在 javascript.info，我们使用谷歌分析来统计，
-// 所以应该存在一些 cookies
+// 在 javascript.info，我们使用谷歌分析来进行统计，
+// 所以应该存在一些 cookie
 alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 ```
 
 
-`document.cookie` 的值由一个个 `name=value` 组成，以 `; ` 相隔。每一个都是独立的 cookie。
+`document.cookie` 的值由 `name=value` 对组成，以 `; ` 分隔。每一个都是独立的 cookie。
 
-为了找到一个特定的 cookie，我们可以通过 `; ` 截取 `document.cookie`，然后找到合适的名字。我们可以使用正则表达式或者数组的方法来实现。
+为了找到一个特定的 cookie，我们可以以 `; ` 作为分隔，将 `document.cookie` 分开，然后找到对应的名字。我们可以使用正则表达式或者数组函数来实现。
 
-我们把这个留给读者当作练习。此外，在本章节的结尾，你可以找到一些操作 cookies 的辅助函数。
+我们把这个留给读者当作练习。此外，在本章的最后，你可以找到一些操作 cookie 的辅助函数。
 
 ## 写入 document.cookie
 
