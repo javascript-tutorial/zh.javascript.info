@@ -192,15 +192,15 @@ socket.onmessage = (event) => {
 
 想象一下：我们的应用程序正在生成大量要发送的数据。但是用户的网速却很慢，可能是在乡下的移动设备上。
 
-我们可以一次又一次地调用 `socket.send(data)`。但是数据将会缓冲（储存）在内存中，并且只能在网速允许的情况下尽快将数据发送出去。
+我们可以反复地调用 `socket.send(data)`。但是数据将会缓冲（储存）在内存中，并且只能在网速允许的情况下尽快将数据发送出去。
 
-`socket.bufferedAmount` 属性储存目前已缓冲的字节的数量，等待通过网络发送。
+`socket.bufferedAmount` 属性储存目前已缓冲的字节数，等待通过网络发送。
 
 我们可以检查它以查看 socket 是否真的可用于传输。
 
 ```js
-// 每 100ms 检查一次 socket 并发送更多数据
-// 仅当所有现有的数据都被发送出去
+// 每 100ms 检查一次 socket
+// 仅当所有现有的数据都已被发送出去时，再发送更多数据
 setInterval(() => {
   if (socket.bufferedAmount == 0) {
     socket.send(moreData());
@@ -211,15 +211,15 @@ setInterval(() => {
 
 ## 连接关闭
 
-通常，当一方想要关闭连接时（浏览器和服务器都有相同的权限），它们会发送带有状态码（numeric code）和文本形式的原因的 “connection close frame”。
+通常，当一方想要关闭连接时（浏览器和服务器都具有相同的权限），它们会发送一个带有数字码（numeric code）和文本形式的原因的 "connection close frame"。
 
 它的方法是：
 ```js
 socket.close([code], [reason]);
 ```
 
-- `code` 是一个特殊的 WebSocket 状态码（可选）
-- `reason` 是一个描述关闭连接的原因的字符串（可选）
+- `code` 是一个特殊的 WebSocket 关闭码（可选）
+- `reason` 是一个描述关闭原因的字符串（可选）
 
 然后，另外一方通过 `close` 事件处理器获取了状态码和关闭原因，例如：
 
