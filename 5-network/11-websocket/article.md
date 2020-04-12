@@ -88,17 +88,17 @@ Sec-WebSocket-Key: Iv8io/9s+lYFgZWcXczP8Q==
 Sec-WebSocket-Version: 13
 ```
 
-- `Origin` —— 客户端页面的 origin，例如：`https://javascript.info`。WebSocket 对象原生支持 cross-origin。没有特殊的头与限制。以前的服务器不能处理 WebSocket，因此不存在任何兼容性问题。但是 `Origin` 请求头很重要，因为它允许服务器做出决定是否使用 WebSocket 与该网站通信。
+- `Origin` —— 客户端页面的源，例如 `https://javascript.info`。WebSocket 对象是原生支持跨源的。没有特殊的 header 或其他限制。旧的服务器无法处理 WebSocket，因此不存在兼容性问题。但是 `Origin` header 很重要，因为它允许服务器决定是否使用 WebSocket 与该网站通信。
 - `Connection: Upgrade` —— 表示客户端想要更改协议。
-- `Upgrade: websocket` —— 请求更改为“websocket”协议。
+- `Upgrade: websocket` —— 请求的协议是 "websocket"。
 - `Sec-WebSocket-Key` —— 浏览器随机生成的安全密钥。
 - `Sec-WebSocket-Version` —— WebSocket 协议版本，当前为 13。
 
-```smart header="无法模拟 WebSocket 握手（handshake）"
-我们不能使用 `XMLHttpRequest` 或者 `fetch` 来模拟这种 HTTP 请求，因为 JavaScript 不允许设置这些请求头。
+```smart header="无法模拟 WebSocket 握手"
+我们不能使用 `XMLHttpRequest` 或 `fetch` 来进行这种 HTTP 请求，因为不允许 JavaScript 设置这些 header。
 ```
 
-如果服务器同意转换为 WebSocket 协议，服务器就会返回响应代码 101：
+如果服务器同意切换为 WebSocket 协议，服务器应该返回响应代码 101：
 
 ```
 101 Switching Protocols
@@ -107,31 +107,29 @@ Connection: Upgrade
 Sec-WebSocket-Accept: hsBlbuDTkk24srzEOTBUlZAlC2g=
 ```
 
-`Sec-WebSocket-Accept` 是 `Sec-WebSocket-Key`，使用特殊的算法重新编码。浏览器以此来确保响应正确的请求。
+这里 `Sec-WebSocket-Accept` 是 `Sec-WebSocket-Key`，是使用特殊的算法重新编码的。浏览器使用它来确保响应与请求相对应。
 
-然后，数据就使用 WebSocket 协议传输，我们很快就会看到它的结构（“frames”）。它和 HTTP 有着本质上的区别。
+然后，就使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它根本不是 HTTP。
 
-### 扩展（extensions）和子协议（subprotocols）
+### 扩展和子协议
 
-WebSocket 有其他的头 `Sec-WebSocket-Extensions` 和 `Sec-WebSocket-Protocol` 描述扩展和子协议。
+WebSocket 可能还有其他 header，`Sec-WebSocket-Extensions` 和 `Sec-WebSocket-Protocol`，它们描述了扩展和子协议。
 
 例如：
 
-- `Sec-WebSocket-Extensions: deflate-frame` 表示浏览器支持数据压缩。扩展与传输数据有关而与数据本身无关。
+- `Sec-WebSocket-Extensions: deflate-frame` 表示浏览器支持数据压缩。扩展与传输数据有关，扩展了 WebSocket 协议的功能。`Sec-WebSocket-Extensions` header 有浏览器自动发送，其中包含其支持的所有扩展的列表。
 
-- `Sec-WebSocket-Protocol: soap, wamp` 表示我们不仅要传输任何数据，还要传输 [SOAP](http://en.wikipedia.org/wiki/SOAP) 或者 WAMP（“The WebSocket Application Messaging Protocol”）协议内的数据。WebSocket 子协议已经在 [IANA catalogue](http://www.iana.org/assignments/websocket/websocket.xml) 中注册。
+- `Sec-WebSocket-Protocol: soap, wamp` 表示我们不仅要传输任何数据，还要传输 [SOAP](http://en.wikipedia.org/wiki/SOAP) 或 WAMP（"The WebSocket Application Messaging Protocol"）协议中的数据。WebSocket 子协议已经在 [IANA catalogue](http://www.iana.org/assignments/websocket/websocket.xml) 中注册。
 
-`Sec-WebSocket-Extensions` 请求头是浏览器自动发送的，其中包含可能支持的扩展列表。
+    这个可选的 header 是使用 `new WebSocket` 的第二个参数设置的。它是子协议数组，例如，如果我们想使用 SOAP 或 WAMP：
 
-`Sec-WebSocket-Protocol` 请求头由我们设置：我们确定我们发送的是什么类型的数据。`new WebSocket` 的第二个可选参数就是为此而生，子协议列表为：
+    ```js
+    let socket = new WebSocket("wss://javascript.info/chat", ["soap", "wamp"]);
+    ```
 
-```js
-let socket = new WebSocket("wss://javascript.info/chat", ["soap", "wamp"]);
-```
+服务器应该使用同意使用的协议和扩展的列表进行响应。
 
-服务器应响应它支持的协议和扩展的列表。
-
-例如，请求如下：
+例如，这个请求：
 
 ```
 GET /chat
@@ -160,37 +158,37 @@ Sec-WebSocket-Protocol: soap
 */!*
 ```
 
-通过服务器响应可以知道它支持“deflate-frame”扩展以及仅支持 SOAP 的请求子协议。
+在这里服务器响应 —— 它支持扩展 "deflate-frame"，并且仅支持所请求的子协议中的 SOAP。
 
-## WebSocket 数据
+## 数据传输
 
-WebSocket 通信由“frames”组成 —— 数据片段，可以从任何一方发送，有以下几种：
+WebSocket 通信由 "frames"（即数据片段）组成，可以从任何一方发送，并且有以下几种类型：
 
 - "text frames" —— 包含各方发送给彼此的文本数据。
 - "binary data frames" —— 包含各方发送给彼此的二进制数据。
-- "ping/pong frames" 被用来检查从服务器发送的连接，浏览器自动响应这些数据。
-- "connection close frame" 以及其他服务 frames。
+- "ping/pong frames" 被用于检查从服务器发送的连接，浏览器会自动响应它们。
+- 还有 "connection close frame" 以及其他服务 frames。
 
-在浏览器里，我们只直接使用文本或者二进制数据。
+在浏览器里，我们仅直接使用文本或二进制 frames。
 
-**WebSocket `.send()` 方法也可以发送文本或者二进制数据。**
+**WebSocket `.send()` 方法可以发送文本或二进制数据。**
 
-一个名为 `socket.send(body)` 的方法允许 `body` 是字符串或者二进制格式，包括 `Blob`，`ArrayBuffer` 等等。不需要额外的设置：直接发送它们就可以了。
+`socket.send(body)` 调用允许 `body` 是字符串或二进制格式，包括 `Blob`，`ArrayBuffer` 等。不需要额外的设置：直接发送它们就可以了。
 
-**当我们接收到了数据后，文本总是以字符串形式呈现。而对于二进制数据，我们可以选择 `Blob` 和 `ArrayBuffer` 形式。**
+**当我们收到数据时，文本总是以字符串形式呈现。而对于二进制数据，我们可以在 `Blob` 和 `ArrayBuffer` 格式之间进行选择。**
 
-`socket.bufferType` 默认为 `"blob"`，因此二进制数据通常以 Blob 形式呈现。
+它是由 `socket.bufferType` 属性设置的，默认为 `"blob"`，因此二进制数据通常以 `Blob` 对象呈现。
 
-[Blob](info:blob) 是高级的（high-level）二进制对象，它直接与 `<a>`，`<img>` 等其他标签集成，因此以 Blob 为默认形式是合理的行为。但是对于二进制处理，要访问单个数据字节，我们可以将默认的 Blob 修改为 `"arraybuffer"`：
+[Blob](info:blob) 是高级的二进制对象，它直接与 `<a>`，`<img>` 及其他标签集成在一起，因此，默认以 `Blob` 形式是一个明智的选择。但是对于二进制处理，要访问单个数据字节，我们可以将其改为 `"arraybuffer"`：
 
 ```js
 socket.bufferType = "arraybuffer";
 socket.onmessage = (event) => {
-  // event.data 是字符串（如果是文本）或者 arraybuffer（如果是二进制）
+  // event.data 可以是文本（如果是文本），也可以是 arraybuffer（如果是二进制数据）
 };
 ```
 
-## 限速（Rate limiting）
+## 限速
 
 想象一下这种情况：我们的应用生成了很多要发送的数据。但是用户端的网速却很慢，可能是在乡下的移动设备上。
 
