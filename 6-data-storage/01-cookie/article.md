@@ -39,42 +39,42 @@ alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 
 ## 写入 document.cookie
 
-我们可以写入 `document.cookie`。但是这不是一个数据属性，它是一个访问者（getter/setter）。赋值操作会被特殊处理。
+我们可以写入 `document.cookie`。但这不是一个数据属性，它是一个访问器（getter/setter）。对其的赋值操作会被特殊处理。
 
-**浏览器的 `document.cookie` 写入操作只会更新已存在的 cookies，而不会影响其他 cookies。**
+**对 `document.cookie` 的写入操作只会更新其中提到的 cookie，而不会涉及其他 cookie。**
 
-例如，这里设置了一个名称为 `user` 和值为 `John` 的 cookie：
+例如，此调用设置了一个名称为 `user` 且值为 `John` 的 cookie：
 
 ```js run
 document.cookie = "user=John"; // 只会更新名称为 user 的 cookie
-alert(document.cookie); // 展示所有 cookies
+alert(document.cookie); // 展示所有 cookie
 ```
 
-如果你运行了代码，你很可能会看到多个 cookies。这是因为 `document.cookie=` 操作不是重写整个 cookies。它只设置代码中提到的 cookie `user`。
+如果你运行了上面这段代码，你会看到多个 cookie。这是因为 `document.cookie=` 操作不是重写整所有 cookie。它只设置代码中提到的 cookie `user`。
 
-从技术层面看，cookie 的名称和值能是任何字符，为了保持格式有效，它们应该使用 `encodeURIComponent` 内置方法来编码一下：
+从技术上讲，cookie 的名称和值可以是任何字符，为了保持有效的格式，它们应该使用内建的 `encodeURIComponent` 函数对其进行转义：
 
 ```js run
-// 特殊字符（空白符），需要编码
+// 特殊字符（空格），需要编码
 let name = "my name";
 let value = "John Smith"
 
-// 编码后变成 my%20name=John%20Smith
+// 将 cookie 编码为 my%20name=John%20Smith
 document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
 alert(document.cookie); // ...; my%20name=John%20Smith
 ```
 
 
-```warn header="局限性"
-存在一些局限性：
-- `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4kb。所以我们不能在一个 cookie 中保存大数据。
-- 每个域名下所有 cookies 的总数限制在 20 几个，实际的限制数量取决于浏览器。
+```warn header="限制"
+存在一些限制：
+- `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4kb。因此，我们不能在一个 cookie 中保存大的东西。
+- 每个域的 cookie 总数不得超过 20+ 左右，具体限制取决于浏览器。
 ```
 
-cookies 有好几个选项，很多选项都很重要并且应该设置它。
+Cookie 有几个选项，其中很多都很重要，应该设置它。
 
-选项列在 `key=value` 后面，使用 `;` 间隔，像这样：
+选项被列在 `key=value` 之后，以 `;` 分隔，像这样：
 
 ```js run
 document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
@@ -84,21 +84,21 @@ document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 
 - **`path=/mypath`**
 
-可访问到 cookie 的 url 路径前缀。必须是绝对路径。默认值为当前路径。
+url 路径前缀，该路径下的页面可以访问该 cookie。必须是绝对路径。默认为当前路径。
 
-如果一个 cookie 设置了 `path=/admin`，那么在 `/admin` 和 `/admin/something` 下都是可见的，但是在 `/home` 或 `/adminpage` 下不可见。
+如果一个 cookie 带有 `path=/admin` 设置，那么该 cookie 在 `/admin` 和 `/admin/something` 下都是可见的，但是在 `/home` 或 `/adminpage` 下不可见。
 
-通常，我们设置 `path=/` 来允许网站下所有页面访问 cookie。
+通常，我们应该将 `path` 设置为根目录：`path=/`，以使 cookie 对此网站的所有页面可见。
 
 ## domain
 
 - **`domain=site.com`**
 
-可访问到 cookie 的域名。但是在实践中，存在局限性。我们不能设置任何域名。
+可访问 cookie 的域。但是在实际中，有一些限制。我们无法设置任何域。
 
-默认情况下，cookie 只能在设置的域名下才能访问到。所以，如果 cookie 设置在 `site.com` 下，我们不能在任何其他域名下（`other.com`）访问它。
+默认情况下，cookie 只有在设置的域下才能被访问到。所以，如果 cookie 设置在 `site.com` 下，我们在 `other.com` 下就无法获取它。
 
-……但是棘手的是，我们在子域名下同样不能获取到 cookie（`forum.site.com`）！
+……但是棘手的是，我们在子域 `forum.site.com` 下也无法获取它！
 
 ```js
 // 在 site.com
@@ -108,28 +108,28 @@ document.cookie = "user=John"
 alert(document.cookie); // 没有 user
 ```
 
-**让 cookie 在另外一个二级域名下可以访问到是没有办法的，所以其他域名 `other.com` 将不会接收到设置在 `site.com` 的 cookie。**
+**无法使 cookie 可以被从另一个二级域访问，因此，`other.com` 将永远不会收到设置在 `site.com` 的 cookie。**
 
-这是一个安全限制，为了允许我们可以在 cookie 中保存敏感信息。
+这是一项安全限制，为了允许我们可以将敏感信息保存在 cookie 中。
 
-……但是如果我们想要批准像 `forum.site.com` 这样的子域名访问，这是可以做到的。我们应该明确设置 `domain` 选项为根域名：`domain=site.com`：
+……但是，如果我们想要批准像 `forum.site.com` 这样的子域访问 cookie，这是可以做到的。当我们设置一个在 `site.com` 的 cookie 时，我们应该将 `domain` 选项显式地设置为根域：`domain=site.com`：
 
 ```js
-// 在 site.com 中
-// 使 cookie 在其任何子域名下可以访问：
+// 在 site.com
+// 使 cookie 可以被在任何子域 *.site.com 访问：
 document.cookie = "user=John; domain=site.com"
 
 // 之后
 
 // 在 forum.site.com
-alert(document.cookie); // 也存在 user
+alert(document.cookie); // 有 cookie user=John
 ```
 
-因为历史原因，`domain=.site.com`（以点开头）也可以正常使用，最好添加点来支持老版本的浏览器。
+出于历史原因，`domain=.site.com`（`site.com` 前面有一个点符号）也以相同的方式工作，允许从子域访问 cookie。这是一个旧的表示法，如果我们需要支持非常旧的浏览器，则应该使用它。
 
-所以，`domain` 选项允许子域名访问 cookie。
+所以，`domain` 选项允许设置一个可以在子域访问的 cookie。
 
-## expires, max-age
+## expires，max-age
 
 默认情况下，如果一个 cookie 没有设置这两个参数中的任何一个，那么在浏览器关闭后，它就会消失。此类 cookies 被称为 "session cookies”。
 
@@ -172,9 +172,9 @@ cookie 应仅在 HTTPS 环境下传输。
 
 **默认情况下，如果我们在 `http://site.com` 设置了 cookie，然后 cookie 在 `https://site.com` 中也会出现，反之亦然。**
 
-也就是说，cookies 是基于域名的，它们不是通过协议来区分的。
+也就是说，cookies 是基于域的，它们不是通过协议来区分的。
 
-有了这个选项，如果一个 cookie 通过 `https://site.com` 设置，然后它不会在相同域名的 HTTP 环境下出现，例如 `http://site.com`。所以，如果一个 cookie 存有敏感内容，不应该在不安全的 HTTP 环境下发送，此时这个选项就派上用场了。
+有了这个选项，如果一个 cookie 通过 `https://site.com` 设置，然后它不会在相同域的 HTTP 环境下出现，例如 `http://site.com`。所以，如果一个 cookie 存有敏感内容，不应该在不安全的 HTTP 环境下发送，此时这个选项就派上用场了。
 
 ```js
 // 假设我们现在在 HTTPS 环境下
@@ -214,7 +214,7 @@ cookie 的 `samesite` 选项提供了另一种防止此类攻击的方法，（�
 
 如果用户来自同一站点之外，那么设置了 `samesite=strict` 的 cookie 永远不会发送。
 
-换句话说，无论用户是跟踪邮件链接或从 `evil.com` 提交表单，或者来自其他域名下的任何操作，cookie 都不会发送。
+换句话说，无论用户是跟踪邮件链接或从 `evil.com` 提交表单，或者来自其他域下的任何操作，cookie 都不会发送。
 
 如果身份验证的 cookies 存在 `samesite` 选项，XSRF 攻击是没有机会成功的，因为 `evil.com` 发起的提交没有 cookies。所以 `bank.com` 无法识别用户，并且不会继续付款。
 
@@ -344,7 +344,7 @@ function deleteCookie(name) {
 ```
 
 ```warn header="Updating or deleting must use same path and domain"
-请注意：当我们更新或者删除一个 cookie 时，我们应该使用和设置 cookie 时相同的路径和域名选项。
+请注意：当我们更新或者删除一个 cookie 时，我们应该使用和设置 cookie 时相同的路径和域选项。
 ```
 
 代码放在: [cookie.js](cookie.js).
@@ -352,11 +352,11 @@ function deleteCookie(name) {
 
 ## 附录：第三方 cookies
 
-如果 cookie 在用户正在访问的页面外的域名网站设置，则被称为第三方 cookie。
+如果 cookie 在用户正在访问的页面外的域网站设置，则被称为第三方 cookie。
 
 例如：
 1. `site.com` 网站的一个页面加载了另外一个网站的 banner：`<img src="https://ads.com/banner.png">`。
-2. 和 banner 一起，`ads.com` 的远程服务器可能设置 `Set-Cookie` 标头比如 `id=1234`。此类 cookie 源自 `ads.com` 域名，并且只在 `ads.com` 下是可见的：
+2. 和 banner 一起，`ads.com` 的远程服务器可能设置 `Set-Cookie` 标头比如 `id=1234`。此类 cookie 源自 `ads.com` 域，并且只在 `ads.com` 下是可见的：
 
     ![](cookie-third-party.svg)
 
@@ -369,13 +369,13 @@ function deleteCookie(name) {
     ![](cookie-third-party-3.svg)
 
 
-由于它的性质，第三方 cookies 传统上用于跟踪和广告服务。它们绑定在原始域名上，因此 `ads.com` 可以跟踪到不同站点下的相同用户，如果他们访问的话。
+由于它的性质，第三方 cookies 传统上用于跟踪和广告服务。它们绑定在原始域上，因此 `ads.com` 可以跟踪到不同站点下的相同用户，如果他们访问的话。
 
 当然，一些用户不喜欢被跟踪，所以浏览器禁止此类 cookies。
 
 此外，一些现代浏览器对此类 cookies 采用特殊策略：
 - Safari 浏览器根本不允许第三方 cookies。
-- Firefox 浏览器附带一个第三方域名的黑名单，可以阻止第三方 cookies。
+- Firefox 浏览器附带一个第三方域的黑名单，可以阻止第三方 cookies。
 
 
 ```smart
@@ -419,7 +419,7 @@ GDPR 不仅只涉及 cookie，还涉及其他与隐私相关的问题，但这�
 
 Cookie 选项：
 - `path=/`，默认为当前路径，使 cookie 仅在该路径下可见。
-- `domain=site.com`，默认 cookie 仅在当前域名下可见，如果明确设置了域名，可以让 cookie 在子域名下也可见。
+- `domain=site.com`，默认 cookie 仅在当前域下可见，如果明确设置了域，可以让 cookie 在子域下也可见。
 - `expires` 或 `max-age` 设置 cookie 过期时间，如果没有设置，则当浏览器关闭时 cookie 就失效了。
 - `secure` 使 cookie 仅在 HTTPS 下有效。
 - `samesite` 如果请求来自外部网站，禁止浏览器发送 cookie，这样有助于防止 XSRF 攻击。
