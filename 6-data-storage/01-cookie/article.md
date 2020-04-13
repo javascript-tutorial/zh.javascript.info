@@ -6,7 +6,7 @@ Cookie 通常是由 Web 服务器使用响应 `Set-Cookie` HTTP-header 设置的
 
 最常见的用处之一就是身份验证：
 
-1. 登录后，服务器在响应中使用 `Set-Cookie` HTTP-header 来设置具有唯一“会话标识符”的 cookie。
+1. 登录后，服务器在响应中使用 `Set-Cookie` HTTP-header 来设置具有唯一“会话标识符（session identifier）”的 cookie。
 2. 下次如果请求是由相同域发起的，浏览器会使用 `Cookie` HTTP-header 通过网络发送 cookie。
 3. 所以服务器知道是谁发起了请求。
 
