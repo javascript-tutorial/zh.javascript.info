@@ -514,7 +514,7 @@ xhr.onerror = function() {
 - `loadstart` —— 请求开始。
 - `progress` —— 一个响应数据包到达，此时整个 response body 都在 `response` 中。
 - `abort` —— 调用 `xhr.abort()` 取消了请求。
-- `error` —— 发生连接错误，例如，域名错误。不会发生诸如 404 这类的 HTTP 错误。
+- `error` —— 发生连接错误，例如，域错误。不会发生诸如 404 这类的 HTTP 错误。
 - `load` —— 请求成功完成。
 - `timeout` —— 由于请求超时而取消了该请求（仅发生在设置了 timeout 的情况下）。
 - `loadend` —— 在 `load`，`error`，`timeout` 或 `abort` 之后触发。
