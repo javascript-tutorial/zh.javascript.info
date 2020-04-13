@@ -5,7 +5,7 @@ libs:
 
 # IndexedDB
 
-indexedDB 是一个内置的数据库，它比 `localStorage` 强大得多。
+IndexedDB 是一个内置的数据库，它比 `localStorage` 强大得多。
 
 - 键/值 储存：值（几乎）可以是任何类型，键有多种类型。
 - 支撑事务的可靠性。
@@ -39,11 +39,11 @@ let openRequest = indexedDB.open(name, version);
 - `upgradeneeded`：数据库已准备就绪，但其版本已过时（见下文）。
 
 
-**IndexedDB 具有内建的“模式版本控制”机制，这在服务器端数据库中是不存在的。**
+**IndexedDB 具有内建的“模式（scheme）版本控制”机制，这在服务器端数据库中是不存在的。**
 
 与服务器端数据库不同，IndexedDB 存在于客户端，数据存储在浏览器中。因此开发人员不能直接访问它。但当新版本的应用程序发布之后，我们可能需要更新数据库。
 
-如果本地数据库版本低于 `open` 中指定的版本，会触发一个特殊事件 `upgradeneeded`。我们可以根据需要比较版本和升级数据结构。
+如果本地数据库版本低于 `open` 中指定的版本，会触发一个特殊事件 `upgradeneeded`。我们可以根据需要比较版本并升级数据结构。
 
 当数据库还不存在的时候，也会触发这个事件。因此，我们应该先执行初始化。
 
@@ -140,7 +140,7 @@ openRequest.onsuccess = function() {
   };
   */!*
 
-  // ...数据库已经准备好，使用它...
+  // ……数据库已经准备好，请使用它……
 };
 
 *!*
@@ -204,13 +204,13 @@ db.createObjectStore(name[, keyOptions]);
 db.createObjectStore('books', {keyPath: 'id'});
 ```
 
-**在 `upgradeneeded` 程序中，只有在创建数据库版本时，对象库被才能被 创建/修改。**
+**在 `upgradeneeded` 处理程序中，只有在创建数据库版本时，对象库被才能被 创建/修改。**
 
 这是技术上的限制。在 upgradeneedHandler 之外，可以 添加/删除/更新数据，但是只能在版本更新期间 创建/删除/更改对象库。
 
 要执行数据库版本升级，主要有两种方法：
 
-1. 我们跨域实现每个版本的升级功能：从 1 到 2，从 2 到 3，从 3 到 4，等等。在 `upgradeneeded` 中，可以进行版本比较（例如，老版本是 2，需要升级到 4），并针对每个中间版本（2 到 3，然后 3 到 4）逐步运行每个版本的升级。
+1. 我们实现每个版本的升级功能：从 1 到 2，从 2 到 3，从 3 到 4，等等。在 `upgradeneeded` 中，可以进行版本比较（例如，老版本是 2，需要升级到 4），并针对每个中间版本（2 到 3，然后 3 到 4）逐步运行每个版本的升级。
 2. 或者我们可以检查数据库：以 `db.objectStoreNames` 的形式获取现有对象库的列表。该对象是一个 [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) 提供 `contains(name)` 方法来检查 name 是否存在，再根据存在和不存在的内容进行更新。
 
 对于小型数据库，第二种方法可能更简单。
@@ -259,7 +259,7 @@ db.transaction(store[, type]);
 ```
 
 - `store` 是事务要访问的库名称，例如 `"books"`。如果我们要访问多个库，则是库名称的数组。
-- `type` – 交易类型，以下类型之一：
+- `type` – 事务类型，以下类型之一：
   - `readonly` —— 只读，默认值。
   - `readwrite` —— 只能读取和写入数据，而不能 创建/删除/更改 对象库。
 
@@ -304,7 +304,7 @@ request.onerror = function() {
 1. 创建一个事务，在（1）表明要访问的所有存储。
 2. 使用 `transaction.objectStore(name)`，在（2）中获取存储对象。
 3. 在（3）执行对对象库 `books.add(book)` 的请求。
-4. …处理请求 成功/错误（4），还可以根据需要发出其他请求。
+4. ……处理请求 成功/错误（4），还可以根据需要发出其他请求。
 
 对象库支持两种存储值的方法：
 
@@ -326,7 +326,7 @@ request.onerror = function() {
 
 在下一个版本 3.0 规范中，可能会有一种手动方式来完成事务，但目前在 2.0 中还没有。
 
-**当所有事务的请求完成，并且[微任务队列](info:microtask-queue)为空时，它将自动提交。**
+**当所有事务的请求完成，并且 [微任务队列](info:microtask-queue) 为空时，它将自动提交。**
 
 通常，我们可以假设事务在其所有请求完成时提交，并且当前代码完成。
 
@@ -345,7 +345,7 @@ request1.onsuccess = function() {
     let request2 = books.add(anotherBook); // (*)
 */!*
     request2.onerror = function() {
-      console.log(request2.error.name); // 事务激活错误
+      console.log(request2.error.name); // TransactionInactiveError
     };
   });
 };
@@ -355,7 +355,7 @@ request1.onsuccess = function() {
 
 IndexedDB 规范的作者认为事务应该是短期的。主要是性能原因。
 
-值得注意的是，只读事务将存储“锁定”以进行写入。因此，如果应用程序的一部分启动了 `books` 对象库上的读写操作，那么希望执行相同操作的另一部分必须等待新事务“挂起”，直到第一个事务完成。如果事务处理需要很长时间，将会导致奇怪的延迟。
+值得注意的是，`readwrite` 事务将存储“锁定”以进行写入。因此，如果应用程序的一部分启动了 `books` 对象库上的 `readwrite` 操作，那么希望执行相同操作的另一部分必须等待新事务“挂起”，直到第一个事务完成。如果事务处理需要很长时间，将会导致奇怪的延迟。
 
 那么，该怎么办？
 
@@ -363,14 +363,14 @@ IndexedDB 规范的作者认为事务应该是短期的。主要是性能原因�
 
 如果需要在一个事务中把所有操作保持一致，更好的做法是将 IndexedDB 事务和“其他”异步内容分开。
 
-首先，执行 `fetch`，并根据需要准备数据。然后创建事务并执行所有数据库请求，就可以工作了。
+首先，执行 `fetch`，并根据需要准备数据。然后创建事务并执行所有数据库请求，然后就正常了。
 
 为了检测到成功完成的时刻，我们可以监听 `transaction.oncomplete` 事件:
 
 ```js
 let transaction = db.transaction("books", "readwrite");
 
-// ...执行操作...
+// ……执行操作……
 
 transaction.oncomplete = function() {
   console.log("Transaction is complete"); // 事务执行完成
@@ -384,18 +384,18 @@ transaction.oncomplete = function() {
 ```js
 transaction.abort();
 ```
-取消其中的请求所做的所有修改，并触发 `transaction.onabort` 事件。
+取消请求里所做的所有修改，并触发 `transaction.onabort` 事件。
 
 
 ## 错误处理
 
 写入请求可能会失败。
 
-这是意料之中的事，不仅是事物可能出错，还有其他原因。例如超过了存储配额。因此，必须做好请求失败的处理。
+这是意料之中的事，不仅是我们可能会犯的粗心失误，还有与事务本身相关的其他原因。例如超过了存储配额。因此，必须做好请求失败的处理。
 
 **失败的请求将自动中止事务，并取消所有的更改。**
 
-遇到需要不取消现有更改的情况下（例如尝试另一个请求）处理失败情况，并让事务继续的情况，可以调用 `request.onerror` 处理程序，在其中调用 `event.preventDefault()` 防止事务中止。
+在一些情况下，我们会想自己去处理失败事务（例如尝试另一个请求）并让它继续执行，而不是取消现有的更改。可以调用 `request.onerror` 处理程序，在其中调用 `event.preventDefault()` 防止事务中止。
 
 在下面的示例中，添加了一本新书，键 (`id`) 与现有的书相同。`store.add` 方法生成一个 `"ConstraInterror"`。可以在不取消事务的情况下进行处理：
 
@@ -407,7 +407,7 @@ let book = { id: 'js', price: 10 };
 let request = transaction.objectStore("books").add(book);
 
 request.onerror = function(event) {
-  // 有相同id的对象存在时，发生ConstraintError
+  // 有相同 id 的对象存在时，发生 ConstraintError
   if (request.error.name == "ConstraintError") {
     console.log("Book with such id already exists"); // 处理错误
     event.preventDefault(); // 不要中止事务
@@ -441,9 +441,9 @@ db.onerror = function(event) {
 };
 ```
 
-…但是错误被完全处理了呢？报告这种情况不应该被报告。
+……但是错误被完全处理了呢？这种情况不应该被报告。
 
-我们可以通过在 `request.onerror` 中使用 `event.stopPropagation()` 来停止冒泡，从而停止 `db.onerror`。
+我们可以通过在 `request.onerror` 中使用 `event.stopPropagation()` 来停止冒泡，从而停止 `db.onerror` 事件。
 
 ```js
 request.onerror = function(event) {
@@ -465,7 +465,7 @@ request.onerror = function(event) {
 1. 通过一个键或一个键范围。即：通过在“books”中存储的 `book.id`。
 2. 另一个对象字段，例如 `book.price`。
 
-首先，让我们来处理键和键区 `(1)`。
+首先，让我们来处理键和键范围 `(1)`。
 
 涉及到的搜索方法，包括支持精确键，也包括所谓的“范围查询” —— [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange) 对象指定一个“键范围”。
 
@@ -528,7 +528,7 @@ objectStore.createIndex(name, keyPath, [options]);
 - **`keyPath`** —— 索引应该跟踪的对象字段的路径（我们将根据该字段进行搜索）。
 - **`option`** —— 具有以下属性的可选对象：
   - **`unique`** —— 如果为true，则存储中只有一个对象在 `keyPath` 上具有给定值。如果我们尝试添加重复项，索引将生成错误。
-  - **`multiEntry`** —— 只有 `keypath` 上的值是数组才时使用。这时，索引将默认把整个数组视为键。但是如果 `multiEntry` 为 true，那么索引将为该数组中的每个值保留一个存储对象的列表。所以数组成员成为了索引键。
+  - **`multiEntry`** —— 只有 `keypath` 上的值是数组才时使用。这时，默认情况下，索引将默认把整个数组视为键。但是如果 `multiEntry` 为 true，那么索引将为该数组中的每个值保留一个存储对象的列表。所以数组成员成为了索引键。
 
 在我们的示例中，是按照 `id` 键存储图书的。
 
@@ -580,7 +580,7 @@ request.onsuccess = function() {
 我们还可以使用 `IDBKeyRange` 创建范围，并查找 便宜/贵 的书：
 
 ```js
-// 查找价格<=5的书籍
+// 查找价格 <=5 的书籍
 let request = priceIndex.getAll(IDBKeyRange.upperBound(5));
 ```
 
@@ -615,7 +615,7 @@ request.onsuccess = function() {
 books.clear(); // 清除存储。
 ```
 
-## 光标
+## 光标（Cursors）
 
 像 `getAll/getAllKeys` 这样的方法，会返回一个 键/值 数组。
 
@@ -627,12 +627,12 @@ books.clear(); // 清除存储。
 
 **光标是一种特殊的对象，它在给定查询的情况下遍历对象库，一次返回一个键/值，从而节省内存。**
 
-由于对象库是按键在内部排序的，因此游标按键顺序（默认为升序）遍历存储。
+由于对象库是按键在内部排序的，因此光标按键顺序（默认为升序）遍历存储。
 
 语法:
 
 ```js
-// 类似于 getAll，但带有游标：
+// 类似于 getAll，但带有光标：
 let request = store.openCursor(query, [direction]);
 
 // 获取键，而不是值（例如 getAllKeys）：store.openKeyCursor 
@@ -642,7 +642,7 @@ let request = store.openCursor(query, [direction]);
 - **`direction`** 是一个可选参数，使用顺序是：
   - `"next"` —— 默认值，光标从有最小索引的记录向上移动。
   - `"prev"` —— 相反的顺序：从有最大的索引的记录开始下降。
-  - `"nextunique"`，`"prevunique"` —— 同上，但是跳过键相同的记录 （仅适用于索引上的光标，例如，对于价格为5的书，仅返回第一本）。
+  - `"nextunique"`，`"prevunique"` —— 同上，但是跳过键相同的记录 （仅适用于索引上的光标，例如，对于价格为 5 的书，仅返回第一本）。
 
 **光标对象的主要区别在于 `request.onSuccess` 多次触发：每个结果触发一次。**
 
@@ -744,11 +744,11 @@ try {
 window.addEventListener('unhandledrejection', event => {
   let request = event.target; // IndexedDB 本机请求对象
   let error = event.reason; //  未处理的错误对象，与 request.error 相同
-  // ...报告错误...
+  // ……报告错误……
 });
 ```
 
-### “非活跃交易”陷阱
+### “非活跃事务”陷阱
 
 我们都知道，浏览器一旦执行完成当前的代码和**微任务**之后，事务就会自动提交。因此，如果我们在事务中间放置一个类似 `fetch` 的宏任务，事务只是会自动提交，而不会等待它执行完成。因此，下一个请求会失败。
 
@@ -769,7 +769,7 @@ await inventory.add({ id: 'js', price: 10, created: new Date() }); // 错误
 
 `fetch` `(*)` 后的下一个 `inventory.add` 失败，出现“非活动事务”错误，因为这时事务已经被提交并且关闭了。
 
-解决方法与使用本机 IndexedDB 时相同：进行新事务，或者将事物分开。
+解决方法与使用本机 IndexedDB 时相同：进行新事务，或者将事情分开。
 
 1. 准备数据，先获取所有需要的信息。
 2. 然后保存在数据库中。
@@ -788,7 +788,7 @@ let promise = books.add(book); // 获取 promise 对象(不要 await 结果)
 let request = promise.request; // 本地请求对象
 let transaction = request.transaction; // 本地事务对象
 
-// ...做些本地的 IndexedDB 的处理...
+// ……做些本地的 IndexedDB 的处理……
 
 let result = await promise; // 如果仍然需要
 ```
