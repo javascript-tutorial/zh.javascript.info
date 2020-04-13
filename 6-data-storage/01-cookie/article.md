@@ -200,13 +200,13 @@ document.cookie = "user=John; secure";
 
 这就是“跨网站请求伪造（Cross-Site Request Forgery，简称 XSRF）”攻击。
 
-当然，实际的银行会防止出现这种情况。所有由 `bank.com` 生成的表单都具有一个特殊的字段，即所谓的 “XSRF 保护令牌”，恶意页面既不能生成，也不能从远程页面提取它（它可以在那里提交表单，但是无法获取数据）。并且，网站 `bank.com` 会对收到的每个表单都进行这种令牌的检查。
+当然，实际的银行会防止出现这种情况。所有由 `bank.com` 生成的表单都具有一个特殊的字段，即所谓的 “XSRF 保护 token”，恶意页面既不能生成，也不能从远程页面提取它（它可以在那里提交表单，但是无法获取数据）。并且，网站 `bank.com` 会对收到的每个表单都进行这种 token 的检查。
 
 但是，实现这种防护需要花费时间：我们需要确保每个表单都具有 token 字段，并且还必须检查所有请求。
 
 ### 输入 cookie samesite 选项
 
-Cookie 的 `samesite` 选项提供了另一种防止此类攻击的方式，（理论上）不需要要求 “XSRF 保护令牌”。
+Cookie 的 `samesite` 选项提供了另一种防止此类攻击的方式，（理论上）不需要要求 “XSRF 保护 token”。
 
 它有两个可能的值：
 
@@ -241,37 +241,37 @@ Cookie 的 `samesite` 选项提供了另一种防止此类攻击的方式，（�
 
     这通常是成立的，但是如果导航是在一个 `<iframe>` 中执行的，那么它就不是顶级的。此外，用于网络请求的 JavaScript 方法不会执行任何导航，因此它们不适合。
 
-所以，`samesite=lax` 基本上允许最常见的跳转 URL 的操作来获取 cookie。例如，在符合条件的笔记中打开网站链接。
+所以，`samesite=lax` 所做的是基本上允许最常见的“去往 URL”操作具有 cookie。例如，从笔记本中打开网站链接就满足这些条件。
 
-但是任何更复杂的事，比如来自另一网站的网络请求或表单提交都会丢失 cookie。
+但是，任何更复杂的事儿，例如来自另一网站的网络请求或表单提交都会丢失 cookie。
 
 如果这种情况适合你，那么添加 `samesite=lax` 将不会破坏用户体验并且可以增加保护。
 
-总体来看，`samesite` 是一个很好的选项，但是它有一个重要的缺点：
-- `samesite` 会被老版本的浏览器忽略（不兼容），2017 年左右。
+总体而言，`samesite` 是一个很好的选项，但是它有一个重要的缺点：
+- `samesite` 会被到 2017 年左右的旧版本浏览器忽略（不兼容）。
 
-**所以如果我们完全依赖 `samesite` 提供保护，那么老版本的浏览器是容易受到攻击的。**
+**因此，如果我们仅依靠 `samesite` 提供保护，那么在旧版本的浏览器上将很容易受到攻击。**
 
-但是我们肯定可以同时使用 `samesite` 和其他的保护措施，例如 xsrf tokens，这样可以增加多一层保护，将来，当老版本的浏览器淘汰时，我们可能会丢弃 xsrf tokens 这种方式。
+但是，我们肯定可以将 `samesite` 与其他保护措施（例如 XSRF token）一起使用，例如 xsrf token，这样可以多增加一层保护，将来，当旧版本的浏览器淘汰时，我们可能就可以删除 xsrf token 这种方式了。
 
 ## httpOnly
 
-这个选项和 JavaScript 没有关系，但是为了完整性我们也提一下它。
+这个选项和 JavaScript 没有关系，但是我们必须为了完整性也提一下它。
 
-web 服务器使用 `Set-Cookie` 标头来设置 cookie。它可以设置 `httpOnly` 这个选项。
+Web 服务器使用 `Set-Cookie` header 来设置 cookie。并且，它可以设置 `httpOnly` 选项。
 
-这个选项禁止任何 JavaScript 操作访问 cookie。我们使用 `document.cookie` 不能看到 cookie 或操作 cookie。
+这个选项禁止任何 JavaScript 访问 cookie。我们使用 `document.cookie` 看不到此类 cookie，也无法对此类 cookie 进行操作。
 
-这被用作预防措施，以保护黑客将自己的 JavaScript 代码注入页面并等待用户访问页面时发起的攻击。这应该是不可能发生的，黑客应该不可能将他们的代码注入我们的网站，但是网站有可能存在漏洞让黑客利用来实现这样的操作。
+这是一种预防措施，当黑客将自己的 JavaScript 代码注入页面，并等待用户访问该页面时发起攻击，而这个选项可以防止此时的这种攻击。这应该是不可能发生的，黑客应该无法将他们的代码注入我们的网站，但是网站有可能存在 bug，使得黑客能够实现这样的操作。
 
 
-通常来说，如果发生了这种情况，并且让用户访问了带有黑客 JavaScript 代码的页面，黑客代码执行并获取到 `document.cookie` 包括用户身份验证的 cookie。这样就很糟糕了。
+通常来说，如果发生了这种情况，并且用户访问了带有黑客 JavaScript 代码的页面，黑客代码将执行并通过 `document.cookie` 获取到包含用户身份验证信息的 cookie。这就很糟糕了。
 
-但是如果 cookie 设置了 `httpOnly`，然后 `document.cookie` 不能看到这个 cookie，所以它是受保护的。
+但是，如果 cookie 设置了 `httpOnly`，那么 `document.cookie` 则看不到 cookie，所以它受到了保护。
 
 ## 附录: Cookie 函数
 
-这里有一小组有关 cookies 操作的函数，比 `document.cookie` 手动修改更加方便。
+这里有一组有关 cookie 操作的函数，比手动修改 `document.cookie` 方便得多。
 
 有很多这种 cookie 库，所以这些函数只用于演示。虽然它们都能正常使用。
 
@@ -280,11 +280,11 @@ web 服务器使用 `Set-Cookie` 标头来设置 cookie。它可以设置 `httpO
 
 获取 cookie 最简短的方式是使用 [正则表达式](info:regular-expressions)。
 
-`getCookie(name)` 函数返回该 `name` 对应的 cookie：
+`getCookie(name)` 函数返回具有给定 `name` 的 cookie：
 
 ```js
-// 返回该 `name` 对应的 cookie,
-// 如果没找到返回 undefined
+// 返回具有给定 name 的 cookie，
+// 如果没找到，则返回 undefined
 function getCookie(name) {
   let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -293,24 +293,24 @@ function getCookie(name) {
 }
 ```
 
-这里的 `new RegExp` 是动态生成的，为了匹配 `; name=<value>`。
+这里的 `new RegExp` 是动态生成的，以匹配 `; name=<value>`。
 
-请注意 cookie 的值是经过编码的，所以 `getCookie` 使用内置方法 `decodeURIComponent` 来解码。
+请注意 cookie 的值是经过编码的，所以 `getCookie` 使用了内建方法 `decodeURIComponent` 函数对其进行解码。
 
 ### setCookie(name, value, options)
 
-使用给定的 `value` 设置 `name` cookie，默认值是 `path=/`（可以修改或添加其他默认值）：
+将 cookie `name` 设置为具有默认值 `path=/`（可以修改以添加其他默认值）和给定值 `value`：
 
 ```js run
 function setCookie(name, value, options = {}) {
 
   options = {
     path: '/',
-    // 如果需要的话，在这里添加其他默认值
+    // 如果需要，可以在这里添加其他默认值
     ...options
   };
 
-  if (options.expires.toUTCString) {
+  if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
   }
 
@@ -327,13 +327,13 @@ function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
-// 使用举例：
+// 使用范例：
 setCookie('user', 'John', {secure: true, 'max-age': 3600});
 ```
 
 ### deleteCookie(name)
 
-要删除 cookie，我们可以给它设置一个负数的过期时间：
+要删除一个 cookie，我们可以给它设置一个负的过期时间来调用它：
 
 ```js
 function deleteCookie(name) {
@@ -343,87 +343,87 @@ function deleteCookie(name) {
 }
 ```
 
-```warn header="Updating or deleting must use same path and domain"
-请注意：当我们更新或者删除一个 cookie 时，我们应该使用和设置 cookie 时相同的路径和域选项。
+```warn header="更新或删除必须使用相同的路径和域"
+请注意：当我们更新或删除一个 cookie 时，我们应该使用和设置 cookie 时相同的路径和域选项。
 ```
 
-代码放在: [cookie.js](cookie.js).
+代码放在：[cookie.js](cookie.js)。
 
 
-## 附录：第三方 cookies
+## 附录：第三方 cookie
 
-如果 cookie 在用户正在访问的页面外的域网站设置，则被称为第三方 cookie。
+如果 cookie 是由用户所访问的页面的域以外的域放置的，则称其为第三方 cookie。
 
 例如：
 1. `site.com` 网站的一个页面加载了另外一个网站的 banner：`<img src="https://ads.com/banner.png">`。
-2. 和 banner 一起，`ads.com` 的远程服务器可能设置 `Set-Cookie` 标头比如 `id=1234`。此类 cookie 源自 `ads.com` 域，并且只在 `ads.com` 下是可见的：
+2. 与 banner 一起，`ads.com` 的远程服务器可能会设置带有 `id=1234` 这样的 cookie 的 `Set-Cookie` header。此类 cookie 源自 `ads.com` 域，并且仅在 `ads.com` 中可见：
 
     ![](cookie-third-party.svg)
 
-3. 下次访问 `ads.com` 网站时，远程服务器获取 `id` cookie 并且识别用户身份。
+3. 下次访问 `ads.com` 网站时，远程服务器获取 cookie `id` 并识别用户：
 
     ![](cookie-third-party-2.svg)
 
-4. 更为重要的是，当用户从 `site.com` 网站移动到另外一个带有 banner 的 `other.com` 上时，然后 `ads.com` 获取它所属的 cookie，从而识别用户身份并跟踪他在网站之间跳转：
+4. 更为重要的是，当用户从 `site.com` 网站跳转至另一个也带有 banner 的网站 `other.com` 时，`ads.com` 会获得该 cookie，因为它属于 `ads.com`，从而识别用户并在他在网站之间切换时对其进行跟踪：
 
     ![](cookie-third-party-3.svg)
 
 
-由于它的性质，第三方 cookies 传统上用于跟踪和广告服务。它们绑定在原始域上，因此 `ads.com` 可以跟踪到不同网站下的相同用户，如果他们访问的话。
+由于它的性质，第三方 cookie 通常用于跟踪和广告服务。它们被绑定在原始域上，因此 `ads.com` 可以在不同网站之间跟踪同一用户，如果这些网站都可以访问 `ads.com` 的话。
 
-当然，一些用户不喜欢被跟踪，所以浏览器禁止此类 cookies。
+当然，有些人不喜欢被跟踪，因此浏览器允许禁止此类 cookie。
 
-此外，一些现代浏览器对此类 cookies 采用特殊策略：
-- Safari 浏览器根本不允许第三方 cookies。
-- Firefox 浏览器附带一个第三方域的黑名单，可以阻止第三方 cookies。
+此外，一些现代浏览器对此类 cookie 采取特殊策略：
+- Safari 浏览器完全不允许第三方 cookie。
+- Firefox 浏览器附带了一个第三方域的黑名单，它阻止了来自名单内的域的第三方 cookie。
 
 
 ```smart
-如果我们加载了一段第三方域的脚本，例如 `<script src="https://google-analytics.com/analytics.js">`，并且这段脚本使用 `document.cookie` 设置了 cookie，然后此类 cookie 不是第三方。
+如果我们加载了一个来自第三方域的脚本，例如 `<script src="https://google-analytics.com/analytics.js">`，并且该脚本使用 `document.cookie` 设置了 cookie，那么此类 cookie 就不是第三方的。
 
-如果脚本设置了一个 cookie，那么无论脚本来自何处 —— 这个 cookie 都属于当前网页的域下。
+如果一个脚本设置了一个 cookie，那么无论脚本来自何处 —— 这个 cookie 都属于当前网页的域。
 ```
 
 ## 附录: GDPR
 
-本主题和 JavaScript 无关，只是设置 cookies 时的一些注意事项。
+本主题和 JavaScript 无关，只是设置 cookie 时的一些注意事项。
 
-欧洲有一项名为 GDPR 的立法，它对网站实施一套尊重用户隐私的规则。其中一条规则是要求用户明确许可了才可以跟踪 cookies。
+欧洲有一项名为 GDPR 的立法，该法规针对网站尊重用户实施了一系列规则。其中之一就是需要明确的许可才可以跟踪用户的 cookie。
 
-请注意，这只是关于跟踪/识别/授权 cookies。
+请注意，这仅与 跟踪/识别/授权 cookie 有关。
 
-所以，如果我们设置一个只保存了一些信息的 cookie，但是既不跟踪也不识别用户，那么我们可以自由的设置它。
+所以，如果我们设置一个只保存了一些信息的 cookie，但是既不跟踪也不识别用户，那么我们可以自由地设置它。
 
-但是如果我们要设置带有身份验证的 cookie 或跟踪 id，那么必须得到用户允许。
+但是，如果我们要设置带有身份验证会话（session）或跟踪 id 的 cookie，那么必须得到用户的允许。
 
-网站在遵循 GDPR 下通常有两种做法。你应该已经在网站中看到过它们了：
+网站为了遵循 GDPR 通常有两种做法。你一定已经在网站中看到过它们了：
 
-1. 如果一个网站想要为已经经过身份验证的用户设置跟踪 cookies。
+1. 如果一个网站想要仅为已经经过身份验证的用户设置跟踪的 cookie。
 
-    为此，注册表格必须要有一个选择框，例如“接受隐私政策”（描述怎么使用 cookie），用户必须勾选它，然后网站才可以自由设置身份验证 cookies。
+    为此，注册表单中必须要有一个复选框，例如“接受隐私政策”（描述怎么使用 cookie），用户必须勾选它，然后网站就可以自由设置身份验证 cookie 了。
 
-2. 如果一个网站想要为每个人设置跟踪 cookies。
+2. 如果一个网站想要为所有人设置跟踪的 cookie。
 
-    为了合法实现，网站为新用户显示一个模态框，然后要求他们同意设置 cookies。然后网站才设置 cookie 并且让用户看到网站内容。虽然这对新用户来说可能是令人不安的。没有人喜欢看到 "必须点击" 的模态框而不是网站内容。但是 GDPR 要求得到用户明确的同意。
+    为了合法地这样做，网站为每个新用户显示一个模态“初始屏幕”，并要求他们同意设置 cookie。之后网站就可以设置 cookie，并可以让用户看到网站内容了。不过，这可能会使新用户感到反感。没有人喜欢看到“必须点击”的模态初始屏幕而不是网站内容。但是 GDPR 要求必须得到用户明确地准许。
 
 
-GDPR 不仅只涉及 cookie，还涉及其他与隐私相关的问题，但这超出了我们的讨论范围。
+GDPR 不仅涉及 cookie，还涉及其他与隐私相关的问题，但这超出了我们的讨论范围。
 
 
 ## 总结
 
-`document.cookie` 提供了对 cookies 的访问
-- 写入操作只会修改其中存在的 cookie。
-- name/value 必须编码。
-- 一个 cookie 最大 4kb，每个网站最多 20+ 个 cookies（取决于浏览器）。
+`document.cookie` 提供了对 cookie 的访问
+- 写入操作只会修改其中提到的 cookie。
+- name/value 必须被编码。
+- 一个 cookie 最大为 4kb，每个网站最多有 20+ 个左右的 cookie（具体取决于浏览器）。
 
 Cookie 选项：
 - `path=/`，默认为当前路径，使 cookie 仅在该路径下可见。
-- `domain=site.com`，默认 cookie 仅在当前域下可见，如果明确设置了域，可以让 cookie 在子域下也可见。
+- `domain=site.com`，默认 cookie 仅在当前域下可见，如果显式设置了域，可以使 cookie 在子域下也可见。
 - `expires` 或 `max-age` 设置 cookie 过期时间，如果没有设置，则当浏览器关闭时 cookie 就失效了。
 - `secure` 使 cookie 仅在 HTTPS 下有效。
-- `samesite` 如果请求来自外部网站，禁止浏览器发送 cookie，这样有助于防止 XSRF 攻击。
+- `samesite`，如果请求来自外部网站，禁止浏览器发送 cookie，这有助于防止 XSRF 攻击。
 
 另外：
-- 浏览器可能会禁用第三方 cookies，例如 Safari 浏览器默认就会这样做。
-- 在为欧洲人民设置跟踪 cookie 时，GDPR 要求得到用户明确许可。
+- 浏览器可能会禁用第三方 cookie，例如 Safari 浏览器默认禁止所有第三方 cookie。
+- 在为欧盟公民设置跟踪 cookie 时，GDPR 要求必须得到用户明确许可。
