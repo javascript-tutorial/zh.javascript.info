@@ -1,6 +1,6 @@
 class LiveTimer extends HTMLElement {
 
-  /* 你的代码写在这里 */
+  /* your code here */
 
 }
 
