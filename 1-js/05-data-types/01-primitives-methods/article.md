@@ -1,15 +1,17 @@
-# 原始（primitive）类型的方法
+# 原始类型的方法
 
-JavaScript 允许我们像使用对象一样使用原始类型（字符串，数字等）。JavaScript 还提供了这样的调用方法。我们很快就会学习它们，但是首先我们将了解它的工作原理，毕竟基本类型不是对象（在这里我们会分析的更加清楚）。
+JavaScript 允许我们像使用对象一样使用原始类型（字符串，数字等）。JavaScript 还提供了这样的调用方法。我们很快就会学习它们，但是首先我们将了解它的工作原理，毕竟原始类型不是对象（在这里我们会分析地更加清楚）。
 
-我们来看看基原始类型和对象之间的关键区别。
+我们来看看原始类型和对象之间的关键区别。
 
-一个原始值
+Let's look at the key distinctions between primitives and objects.
+
+一个原始值：
 
 - 是原始类型中的一种值。
-- 在 JavaScript 中有 7 种原始类型：`string`、`number`、`bigint`、`boolean`、`symbol`、`null` 和 `undefined`。
+- 在 JavaScript 中有 7 种原始类型：`string`，`number`，`bigint`，`boolean`，`symbol`，`null` 和 `undefined`。
 
-一个对象
+一个对象：
 
 - 能够存储多个值作为属性。
 - 可以使用大括号 `{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
@@ -68,7 +70,7 @@ alert( str.toUpperCase() ); // HELLO
 
 所以原始类型可以提供方法，但它们依然是轻量级的。
 
-JavaScript 引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创造了一样。
+JavaScript 引擎高度优化了这个过程。它甚至可能跳过创建额外的对象。但是它仍然必须遵守规范，并且表现得好像它创建了一样。
 
 数字有其自己的方法，例如，[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将数字四舍五入到给定的精度：
 
@@ -125,4 +127,4 @@ alert(null.test); // error
 ## 总结
 
 - 除 `null` 和 `undefined` 以外的原始类型都提供了许多有用的方法。我们将在即将到来的章节中研究这些内容。
-- 从形式上讲，这些方法通过临时对象工作，但 JavaScript 引擎可以很好地调整以在内部对齐进行优化，因此调用它们并不需要太高的成本。
+- 从形式上讲，这些方法通过临时对象工作，但 JavaScript 引擎可以很好地调整，以在内部对其进行优化，因此调用它们并不需要太高的成本。

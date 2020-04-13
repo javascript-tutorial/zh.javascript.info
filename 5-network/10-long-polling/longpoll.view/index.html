@@ -13,6 +13,6 @@ All visitors of this page will see messages of each other.
 
 <script>
   new PublishForm(document.forms.publish, 'publish');
-  // 通过随机 url 参数避免任何缓存问题
+  // random url parameter to avoid any caching issues
   new SubscribePane(document.getElementById('subscribe'), 'subscribe?random=' + Math.random());
 </script>

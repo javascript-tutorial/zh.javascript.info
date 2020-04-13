@@ -26,7 +26,7 @@
 
 ……并且这个家伙能飞，它让人类在太空中能够生存！
 
-这些复杂的设备是如何被创造的？
+这些复杂的设备是如何被创建的？
 
 我们可以从中借鉴哪些原则，让我们的开发项目同样的可靠并且可大规模化呢？或者至少让我们可以接近这些目标。
 
@@ -69,7 +69,7 @@
 而现在浏览器已经原生支持了「Web Components」，我们就可以不用再自己去模拟组件化的结构了。
 
 - [Custom elements](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements) —— 用于自定义 HTML 元素.
-- [Shadow DOM](https://dom.spec.whatwg.org/#shadow-trees) —— 为组件创造内部 DOM，它对外部是不可见的。
+- [Shadow DOM](https://dom.spec.whatwg.org/#shadow-trees) —— 为组件创建内部 DOM，它对外部是不可见的。
 - [CSS Scoping](https://drafts.csswg.org/css-scoping/) —— 申明仅应用于组件的 Shadow DOM 内的样式。
 - [Event retargeting](https://dom.spec.whatwg.org/#retarget) 以及更多的小东西，让自定义组件更适用于开发工作。
 

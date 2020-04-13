@@ -1,4 +1,4 @@
-// 发送消息，一个简单的 POST 请求
+// Sending messages, a simple POST
 function PublishForm(form, url) {
 
   function sendMessage(message) {
@@ -18,7 +18,7 @@ function PublishForm(form, url) {
   };
 }
 
-// 通过长轮询（long polling）接收消息
+// Receiving messages with long polling
 function SubscribePane(elem, url) {
 
   function showMessage(message) {
@@ -31,18 +31,18 @@ function SubscribePane(elem, url) {
     let response = await fetch(url);
 
     if (response.status == 502) {
-      // 连接超时
-      // 当连接等待时间过长时发生
-      // 重新连接
+      // Connection timeout
+      // happens when the connection was pending for too long
+      // let's reconnect
       await subscribe();
     } else if (response.status != 200) {
-      // 显示错误
+      // Show Error
       showMessage(response.statusText);
-      // 1 秒后重新连接
+      // Reconnect in one second
       await new Promise(resolve => setTimeout(resolve, 1000));
       await subscribe();
     } else {
-      // 得到消息
+      // Got message
       let message = await response.text();
       showMessage(message);
       await subscribe();

@@ -4,9 +4,9 @@ importance: 5
 
 # 存款计算器
 
-创建一个界面，允许输入银行存款的总和以及利率，然后计算过了一段时间后会达到多少钱。
+创建一个界面，允许输入银行存款总额以及存款利率，然后计算在给定时间段后，钱会变成多少。
 
-这里是例子：
+这是示例：
 
 [iframe src="solution" height="350" border="1"]
 
@@ -15,7 +15,7 @@ importance: 5
 公式如下：
 ```js
 // initial: 总存款的初始值
-// interest: e.g. 0.05 意味着每年涨幅 5% 
-// years: 需要等待多少年
+// interest: 例如 0.05 意味着每年涨幅 5% 
+// years: 要等待多少年
 let result = Math.round(initial * (1 + interest * years));
 ```

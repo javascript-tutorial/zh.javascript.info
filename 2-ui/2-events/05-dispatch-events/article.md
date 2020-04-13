@@ -8,7 +8,7 @@
 
 ## 事件构造器
 
-内建事件类形成一个层次结构，类似于 DOM 元素类。根是内建的 [Event](http://www.w3.org/TR/dom/#event) 类。
+内建事件类形成一个层次结构（hierarchy），类似于 DOM 元素类。根是内建的 [Event](http://www.w3.org/TR/dom/#event) 类。
 
 我们可以像这样创建 `Event` 对象：
 

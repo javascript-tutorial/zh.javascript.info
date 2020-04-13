@@ -29,7 +29,7 @@ importance: 5
 
 在这里你将需要两个事件：
 - `mouseover` 当鼠标指针出现在元素上方时触发。
-- `mouseout` 当指针离开元素时触发。
+- `mouseout` 当鼠标指针离开元素时触发。
 
 请使用事件委托：在 `document` 上设置两个处理程序，以跟踪带有 `data-tooltip` 的元素中的所有 "over" 和 "out"，并从那里管理工具提示。
 

@@ -921,7 +921,7 @@ alert(allUsers.has(user)); // false
 如我们所见，进行代理后，我们在 `allUsers` 中找不到 `user`，因为代理是一个不同的对象。
 
 ```warn header="Proxy 无法拦截严格相等性检查 `===`"
-Proxy 可以拦截许多运算符，例如 `new`（使用 `construct`），`in`（使用 `has`），`delete`（使用 `deleteProperty`）等。
+Proxy 可以拦截许多操作符，例如 `new`（使用 `construct`），`in`（使用 `has`），`delete`（使用 `deleteProperty`）等。
 
 但是没有办法拦截对于对象的严格相等性检查。一个对象只严格等于其自身，没有其他值。
 

@@ -1,25 +1,25 @@
 # 聚焦：focus/blur
 
-当一个元素被用户点击或使用键盘上的 `key:Tab` 选中时，该元素会被聚焦。当网页加载时 HTML `autofocus` 属性也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获取焦点。
+当用户点击某个元素或使用键盘上的 `key:Tab` 键选中时，该元素将会获得聚焦（focus）。当网页加载时，HTML-特性（attribute）`autofocus` 也可以让一个焦点落在元素上，不仅如此，还有其它途径可以获得焦点。
 
-聚焦通常表示：“这里准备好接受数据了”，而这也正是我们运行代码去初始化或加载一些东西的时候。
+聚焦到一个元素通常意味着：“准备在此处接受数据”，所以，这正是我们可以运行代码以初始化所需功能的时刻。
 
-失去焦点的时刻可能更为重要。它可能发生在用户点击网页其它地方或者点击 `key:Tab` 跳转到下一个表单域，亦或是其它途径的时候。
+失去焦点的时刻（“blur”）可能更为重要。它可能发生在用户点击页面的其它地方，或者按下 `key:Tab` 键跳转到下一个表单字段，亦或是其它途径的时候。
 
-失去焦点通常表示：“数据已经完成输入了”，所以我们可以运行代码来检查它，甚至可以是保存到服务器上。
+失去焦点通常意味着：“数据已经输入完成”，所以我们可以运行代码来检查它，甚至可以将其保存到服务器上，或进行其他操作。
 
-当操作聚焦事件的时候有一些重要的特性需要注意。我们会尽量在这里介绍。
+当处理焦点事件时，有一些重要的特性。我们将尽力把这些内容介绍完整。
 
 ## focus/blur 事件
 
-当元素聚焦时它的 `focus` 事件被触发，还有当元素失去焦点的时候它的 `blur` 事件被触发。
+当元素聚焦时，会触发 `focus` 事件，当元素失去焦点时，会触发 `blur` 事件。
 
-让我们使用它们去校验一个输入字段。
+让我们使用它们来校验一个 `input` 字段。
 
-在下面的例子中：
+在下面这个示例中：
 
-- `blur` 事件处理器会检查这个域有没有输入邮箱，如果没有的话展示一个错误信息。
-- `focus` 事件处理器隐藏错误信息（当失去焦点的时候 `blur` 事件处理器还会再检查一遍）：
+- `blur` 事件处理程序检查这个字段是否输入了电子邮箱，如果没有输入，则显示一个 error。
+- `focus` 事件处理程序隐藏 error 信息（在 `blur` 事件处理程序上会被再检查一遍）：
 
 ```html run autorun height=60
 <style>
@@ -41,7 +41,7 @@ Your email please: <input type="email" id="input">
 
 *!*input.onfocus*/!* = function() {
   if (this.classList.contains('invalid')) {
-    // remove the "error" indication, because the user wants to re-enter something
+    // 移除 "error" 指示，因为用户想要重新输入一些内容
     this.classList.remove('invalid');
     error.innerHTML = "";
   }
@@ -49,14 +49,14 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-在现代的 HTML 中，可以使用 `required`、`pattern` 等诸多输入属性校验表单输入内容，并且这些属性在很多时候满足了我们的使用需求。JavaScript 可以让我们以更灵活的方式去实现。如果数据是正确的，我们可以把它自动发送到服务器上。
+现代 HTML 允许我们使用 `input` 特性（attribute）进行许多验证：`required`，`pattern` 等。有时它们正是我们所需要的。当我们需要更大的灵活性时，可以使用 JavaScript。如果数据是正确的，我们可以把它自动发送到服务器。
 
 
 ## focus/blur 方法
 
-方法 `elem.focus()` 和 `elem.blur()` 可以设置和移除元素上的焦点。
+`elem.focus()` 和 `elem.blur()` 方法可以设置和移除元素上的焦点。
 
-举个例子，如果输入值无效，我们可以让焦点一直保留在这个输入域上：
+例如，如果输入值无效，我们可以让焦点无法离开这个 `input` 字段：
 
 ```html run autorun height=80
 <style>
@@ -71,10 +71,10 @@ Your email please: <input type="email" id="input">
 <script>
   input.onblur = function() {
     if (!this.value.includes('@')) { // not email
-      // show the error
+      // 显示 error
       this.classList.add("error");
 *!*
-      // ...and put the focus back
+      // ...将焦点放回来
       input.focus();
 */!*
     } else {
@@ -84,49 +84,54 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-这在除了火狐（[bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)）之外的其它浏览器都可以正常工作。
+这段代码在除了火狐（[bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)）之外的浏览器上都可以正常工作。
 
-如果我们输入一些无效数据到这个输入域里，或者当我们尝试使用 `key:Tab` 和点击其它远离 `<input>` 的地方，那么 `onblur` 事件处理器会把焦点重新设置到这个输入域里。
+如果我们在 `input` 中输入一些内容，然后尝试使用 `key:Tab` 键或点击远离 `<input>` 的位置，那么 `onblur` 事件处理程序会把焦点重新设置到这个 `input` 字段上。
 
-请注意，我们不可以通过在 `onblur` 事件处理器里调用 `event.preventDefault()` 来“阻止失去焦点”，因为 `onblur` 事件处理器是在元素失去焦点的**之后**运行的。
+请注意，我们无法通过在 `onblur` 事件处理程序中调用 `event.preventDefault()` 来“阻止失去焦点”，因为 `onblur` 事件处理程序是在元素失去焦点 **之后** 运行的。
 
 ```warn header="JavaScript 导致的焦点丢失"
-很多种原因可以导致失去焦点。
+很多种原因可以导致焦点丢失。
 
-其中之一是用户点击了其它的地方。当然 JavaScript 本身也会导致这种事情发生，举个例子：
+其中之一就是用户点击了其它位置。当然 JavaScript 自身也可能导致焦点丢失，例如：
 
-- 一个 `alert` 对话框会争夺焦点，所以这会导致元素失去焦点（触发 `blur` 事件），还有当这个 `alert` 对话框消失的时候，焦点重新回到原元素上（触发`focus`事件）。
-- 如果一个元素被移出 DOM，那么它会导致焦点丢失。就算它被重新添加到 DOM，焦点也不会回到它身上。
+- 一个 `alert` 会将焦点移至自身，因此会导致元素失去焦点（触发 `blur` 事件），而当 `alert` 对话框被取消时，焦点又回重新回到原元素上（触发 `focus` 事件）。
+- 如果一个元素被从 DOM 中移除，那么也会导致焦点丢失。如果稍后它被重新插入到 DOM，焦点也不会回到它身上。
 
-有时候这些特性导致发生的 `focus/blur` 事件处理器会让人苦恼 — 它们在不被需要的时候发生。
+这些特性有时候会导致 `focus/blur` 处理程序发生异常 —— 在不需要它们时触发。
 
-最好的秘诀就是当使用这些事件的时候小心点。如果我们想要追踪用户发起的去焦事件，那么我们自己应该避免去触发它们。
+最好的秘诀就是在使用这些事件时小心点。如果我们想要跟踪用户导致的焦点丢失，则应该避免自己造成的焦点丢失。
 ```
 ## 允许在任何元素上聚焦：tabindex
 
-默认情况下，很多元素不支持获取焦点。
+默认情况下，很多元素不支持聚焦。
 
-list 标签在不同的浏览器表现不同，但有一件事总是正确的：`focus/blur` 保证支持那些用户可以交互的元素：比如 `<button>`、`<input>`、`<select>` 和 `<a>` 等等。
+列表（list）在不同的浏览器表现不同，但有一件事总是正确的：`focus/blur` 保证支持那些用户可以交互的元素：`<button>`，`<input>`，`<select>`，`<a>` 等。
 
-从另一方面说，为了格式化某些东西而存在的元素像 `<div>`、`<span>` 和 `<table>` — 默认是不能被聚焦的。`elem.focus()` 方法不能作用于它们，而且 `focus/blur` 事件也绝不会被触发。
+另一方面，为了格式化某些东西而存在的元素像 `<div>`，`<span>` 和 `<table>` —— 默认是不能被聚焦的。`elem.focus()` 方法不适用于它们，并且 `focus/blur` 事件也绝不会被触发。
 
-使用 HTML 属性 `tabindex` 可以改变这种默认情况。
+使用 HTML-特性（attribute）`tabindex` 可以改变这种情况。
 
-这个属性的目的是当使用 `key:Tab` 在元素之间切换的时候指定它们的排列顺序。
+任何具有 `tabindex` 特性的元素，都会变成可聚焦的。该特性的 `value` 是当使用 `key:Tab`（或类似的东西）在元素之间进行切换时，元素的顺序号。
 
-也就是说：如果我们有两个元素，第一个有属性 `tabindex="1"`，第二个有 `tabindex="2"`，然后当焦点在第一个元素的时候，按下 `key:Tab` 键，会让焦点移动到第二个元素身上。
+也就是说：如果我们有两个元素，第一个具有 `tabindex="1"`，第二个具有 `tabindex="2"`，然后当焦点在第一个元素的时候，按下 `key:Tab` 键，会使焦点移动到第二个元素身上。
 
-这里有两个特别的值：
+切换顺序为：从 `1` 开始的具有 `tabindex` 的元素排在第一位（按 `tabindex` 顺序），然后是不具有 `tabindex` 的元素（例如常规的 `<input>`）。
 
-- `tabindex="0"` 让元素成为最后一个。
-- `tabindex="-1"` 意味着 `key:Tab` 应该忽略这个元素。
+具有 `tabindex` 的元素按文档源顺序（默认顺序）切换。
 
-**任何元素如果有属性 `tabindex`，它将会支持聚焦。**
+这里有两个特殊的值：
 
-举个例子，这里有个列表。点击第一个项目然后按下 `key:Tab`：
+- `tabindex="0"` 会使该元素被与那些不具有 `tabindex` 的元素放在一起。也就是说，当我们切换元素时，具有 `tabindex="0"` 的元素将排在那些具有 `tabindex ≥ 1` 的元素的后面。
+
+    通常，它用于使元素具有焦点，但是保留默认的切换顺序。使元素成为与 `<input>` 一样的表单的一部分。
+
+- `tabindex="-1"` 只允许以编程的方式聚焦于元素。`key:Tab` 键会忽略这样的元素，但是 `elem.focus()` 有效。
+
+举个例子，这里有一个列表。点击第一项，然后按 `key:Tab` 键：
 
 ```html autorun no-beautify
-Click the first item and press Tab. Keep track of the order. Please note that many subsequent Tabs can move the focus out of the iframe with the example.
+点击第一项，然后按 Tab 键。跟踪顺序。请注意，多按几次 Tab 键后，会将焦点移到这个通过 iframe 嵌入的示例的外面。
 <ul>
   <li tabindex="1">One</li>
   <li tabindex="0">Zero</li>
@@ -140,17 +145,17 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 </style>
 ```
 
-顺序就像这样：`1 - 2 - 0`（0 总是最后一个）。正常情况下，`<li>` 元素不支持被聚焦，但 `tabindex` 使这成为可能，顺带还会触发事件和使 `:focus` 样式生效。
+顺序就像这样：`1 - 2 - 0`。通常，`<li>` 不支持聚焦，但 `tabindex` 可以使它能聚焦，使这成为可能，并且还带有事件以及 `:focus` 样式。
 
-```smart header="`elem.tabIndex` 也一样有效"
-我们可以通过 JavaScript 使用 `elem.tabIndex` 来添加 `tabindex` 属性。效果是一样的。
+```smart header="属性 `elem.tabIndex` 也有效"
+我们可以使用 `elem.tabIndex` 通过 JavaScript 来添加 `tabindex`。效果是一样的。
 ```
 
 ## focus/blur 委托
 
-`focus` 和 `blur` 事件是不会向上冒泡的。
+`focus` 和 `blur` 事件不会向上冒泡。
 
-举个例子，我们不可以为了高亮 `<form>` 而把 `onfocus` 事件处理器放在它身上，像这样：
+例如，我们不能把 `onfocus` 放在 `<form>` 上来对其进行高亮，像这样：
 
 ```html autorun height=80
 <!-- on focusing in the form -- add the class -->
@@ -162,11 +167,11 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 <style> .focused { outline: 1px solid red; } </style>
 ```
 
-上面的例子并不会如我们所愿，因为当用户使 `<input>` 元素聚焦的时候，这个 `focus` 事件只会在这个 input 元素上触发。它不会向上冒泡。所以 `form.onfocus` 永远不会触发。
+上面这个示例并不工作，因为当用户聚焦于 `<input>` 时，`focus` 事件只会在该 `<input>` 上触发。它不会向上冒泡。所以 `form.onfocus` 永远不会触发。
 
-有两个解决方案。
+这里有两个解决方案。
 
-首先，有一个遗留下来的有趣的特性：`focus/blur` 不会向上冒泡，但是在捕获阶段会向下传播。
+方案一，有一个遗留下来的有趣的特性（feature）：`focus/blur` 不会向上冒泡，但会在捕获阶段向下传播。
 
 这样可以生效：
 
@@ -180,18 +185,18 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
+  // 将处理程序置于捕获阶段（最后一个参数为 true）
   form.addEventListener("focus", () => form.classList.add('focused'), true);
   form.addEventListener("blur", () => form.classList.remove('focused'), true);
 */!*
 </script>
 ```
 
-其次，有 `focusin` 和 `focusout` 事件可以使用 — 恰好和 `focus/blur` 事件很像，只不过它们会向上冒泡。
+方案二，可以使用 `focusin` 和 `focusout` 事件 —— 与 `focus/blur` 事件完全一样，只是它们会冒泡。
 
-值得注意的是它们必须使用 `elem.addEventListener` 来指定，而不是 `on<event>`。
+值得注意的是，必须使用 `elem.addEventListener` 来分配它们，而不是 `on<event>`。
 
-所以这里有另一个可以工作的版本：
+所以，这是另一个可行的变体：
 
 ```html autorun height=80
 <form id="form">
@@ -203,7 +208,6 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
   form.addEventListener("focusin", () => form.classList.add('focused'));
   form.addEventListener("focusout", () => form.classList.remove('focused'));
 */!*
@@ -212,10 +216,10 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 
 ## 总结
 
-元素获得/失去焦点会触发 `focus` 和 `blur` 事件。
+在元素获得/失去焦点时会触发 `focus` 和 `blur` 事件。
 
-它们的特性是：
-- 它们不向上冒泡。但是可以在捕获阶段触发或者使用 `focusin/focusout`。
-- 大多数元素默认不支持聚焦。使用 `tabindex` 可以让它们变成可聚焦的。
+它们的特点是：
+- 它们不会冒泡。但是可以改为在捕获阶段触发，或者使用 `focusin/focusout`。
+- 大多数元素默认不支持聚焦。使用 `tabindex` 可以使任何元素变成可聚焦的。
 
-可以通过 `document.activeElement` 来访问正在被聚焦的元素。
+可以通过 `document.activeElement` 来获取当前所聚焦的元素。
