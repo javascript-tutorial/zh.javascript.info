@@ -1024,7 +1024,7 @@ let proxy = new Proxy(target, {
 
 [Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API 旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任意 `Proxy` 陷阱，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
 
-Proxy 有一些局限：
+Proxy 有一些局限性：
 
 - 内建对象具有“内部插槽”，对这些对象的访问无法被代理。请参阅上文中的解决方法。
 - 私有类字段也是如此，因为它们也是在内部使用插槽实现的。因此，代理方法的调用必须具有目标对象作为 `this` 才能访问它们。
