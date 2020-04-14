@@ -300,7 +300,7 @@ for (let key in user) {
 
 ……但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
 
-另一个区别是 `for..in` 会忽略 symbolic 属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的 **所有** 属性描述符。
+另一个区别是 `for..in` 会忽略 symbol 类型的属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbol 类型的属性。在内的 **所有** 属性描述符。
 
 ## 设定一个全局的密封对象
 
