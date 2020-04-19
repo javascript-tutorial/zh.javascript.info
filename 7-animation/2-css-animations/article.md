@@ -40,7 +40,7 @@ CSS 过渡的理念非常简单，我们只需要定义某一个属性以及如�
 </script>
 ```
 
-CSS 提供了五个属性来描述一个过渡：
+CSS 提供了四个属性来描述一个过渡：
 
 - `transition-property`
 - `transition-duration`
