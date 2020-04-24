@@ -148,7 +148,7 @@ alert( "1 + 2 - 3".match(reg) ); // 仍能正常工作：+，-
 
 ## 范围和标志“u”
 
-如果集合中有代理对，则需要标志 `pattern:u` 以使其正常工作。
+如果集合中有代理对（surrogate pairs），则需要标志 `pattern:u` 以使其正常工作。
 
 例如，让我们在字符串 `subject:𝒳` 中查找 `pattern:[𝒳𝒴]`：
 
