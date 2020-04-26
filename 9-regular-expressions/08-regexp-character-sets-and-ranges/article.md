@@ -42,39 +42,39 @@ alert( "Voila".match(/V[oi]la/) ); // null，并没有匹配上
 alert( "Exception 0xAF".match(/x[0-9A-F][0-9A-F]/g) ); // xAF
 ```
 
-Here `pattern:[0-9A-F]` has two ranges: it searches for a character that is either a digit from `0` to `9` or a letter from `A` to `F`.
+`pattern:[0-9A-F]` 表示两个范围：它搜索一个字符，满足数字 `0` 到 `9` 或字母 `A` 到 `F`。
 
-If we'd like to look for lowercase letters as well, we can add the range `a-f`: `pattern:[0-9A-Fa-f]`. Or add the flag `pattern:i`.
+如果我们还想查找小写字母，则可以添加范围 `a-f`：`pattern:[0-9A-Fa-f]`。或添加标志 `pattern:i`。
 
-We can also use character classes inside `[…]`.
+我们也可以在 `[…]` 里面使用字符类。
 
-For instance, if we'd like to look for a wordly character `pattern:\w` or a hyphen `pattern:-`, then the set is `pattern:[\w-]`.
+例如，如果我们想要查找单词字符 `pattern:\w` 或连字符 `pattern:-`，则该集合为 `pattern:[\w-]`。
 
-Combining multiple classes is also possible, e.g. `pattern:[\s\d]` means "a space character or a digit".
+也可以组合多个类，例如 `pattern:[\s\d]` 表示 “空格字符或数字”。
 
-```smart header="Character classes are shorthands for certain character sets"
-For instance:
+```smart header="字符类是某些字符集的简写"
+例如：
 
-- **\d** -- is the same as `pattern:[0-9]`,
-- **\w** -- is the same as `pattern:[a-zA-Z0-9_]`,
-- **\s** -- is the same as `pattern:[\t\n\v\f\r ]`, plus few other rare unicode space characters.
+* **\d** —— 和 `pattern:[0-9]` 相同，
+* **\w** —— 和 `pattern:[a-zA-Z0-9_]` 相同，
+* **\s** —— 和 `pattern:[\t\n\v\f\r ]` 外加少量罕见的 unicode 空格字符相同。
 ```
 
-### Example: multi-language \w
+### 示例：多语言 \w
 
-As the character class `pattern:\w` is a shorthand for `pattern:[a-zA-Z0-9_]`, it can't find Chinese hieroglyphs, Cyrillic letters, etc.
+由于字符类 `pattern:\w` 是简写的 `pattern:[a-zA-Z0-9_]`，因此无法找到中文象形文字，西里尔字母等。
 
-We can write a more universal pattern, that looks for wordly characters in any language. That's easy with unicode properties: `pattern:[\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]`.
+我们可以编写一个更通用的模式，该模式可以查找任何语言中的文字字符。这很容易想到就 Unicode 属性：`pattern:[\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]`。
 
-Let's decipher it. Similar to `pattern:\w`, we're making a set of our own that includes characters with following unicode properties:
+让我们理解它。类似于 `pattern:\w`，我们在制作自己的一套字符集，包括以下 unicode 字符：
 
-- `Alphabetic` (`Alpha`) - for letters,
-- `Mark` (`M`) - for accents,
-- `Decimal_Number` (`Nd`) - for digits,
-- `Connector_Punctuation` (`Pc`) - for the underscore `'_'` and similar characters,
-- `Join_Control` (`Join_C`) - two special codes `200c` and `200d`, used in ligatures, e.g. in Arabic.
+* `Alphabetic` (`Alpha`) —— 字母，
+* `Mark` (`M`) —— 重读，
+* `Decimal_Number` (`Nd`) —— 数字，
+* `Connector_Punctuation` (`Pc`) —— 下划线 `'_'` 和类似的字符，
+* `Join_Control` (`Join_C`) —— 两个特殊代码 `200c` and `200d`，用于连字，例如阿拉伯语。
 
-An example of use:
+使用示例：
 
 ```js run
 let regexp = /[\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]/gu;
@@ -85,12 +85,12 @@ let str = `Hi 你好 12`;
 alert( str.match(regexp) ); // H,i,你,好,1,2
 ```
 
-Of course, we can edit this pattern: add unicode properties or remove them. Unicode properties are covered in more details in the article <info:regexp-unicode>.
+当然，我们可以编辑此模式：添加 unicode 属性或删除它们。文章 <info:regexp-unicode> 中包含了更多 Unicode 属性的细节。
 
-```warn header="Unicode properties aren't supported in Edge and Firefox"
-Unicode properties `pattern:p{…}` are not yet implemented in Edge and Firefox. If we really need them, we can use library [XRegExp](http://xregexp.com/).
+```warn header="Edge 和 Firefox 不支持 Unicode 属性"
+Edge 和 Firefox 尚未实现 Unicode 属性 `pattern:p{…}`。如果确实需要它们，可以使用库 [XRegExp](http://xregexp.com/)。
 
-Or just use ranges of characters in a language that interests us, e.g.  `pattern:[а-я]` for Cyrillic letters.
+或者只使用我们想要的语言范围的字符，例如西里尔字母 `pattern:[а-я]`。
 ```
 
 ## 排除范围
@@ -146,26 +146,26 @@ let reg = /[\-\(\)\.\^\+]/g;
 alert( "1 + 2 - 3".match(reg) ); // 仍能正常工作：+，-
 ```
 
-## Ranges and flag "u"
+## 范围和标志“u”
 
-If there are surrogate pairs in the set, flag `pattern:u` is required for them to work correctly.
+如果集合中有代理对（surrogate pairs），则需要标志 `pattern:u` 以使其正常工作。
 
-For instance, let's look for `pattern:[𝒳𝒴]` in the string `subject:𝒳`:
+例如，让我们在字符串 `subject:𝒳` 中查找 `pattern:[𝒳𝒴]`：
 
 ```js run
-alert( '𝒳'.match(/[𝒳𝒴]/) ); // shows a strange character, like [?]
-// (the search was performed incorrectly, half-character returned)
+alert( '𝒳'.match(/[𝒳𝒴]/) ); // 显示一个奇怪的字符，像 [?]
+//（搜索执行不正确，返回了半个字符）
 ```
 
-The result is incorrect, because by default regular expressions "don't know" about surrogate pairs.
+结果不正确，因为默认情况下正则表达式“不知道”代理对。
 
-The regular expression engine thinks that `[𝒳𝒴]` -- are not two, but four characters:
-1. left half of `𝒳` `(1)`,
-2. right half of `𝒳` `(2)`,
-3. left half of `𝒴` `(3)`,
-4. right half of `𝒴` `(4)`.
+正则表达式引擎认为 `[𝒳𝒴]` —— 不是两个，而是四个字符：
+1. `𝒳` `(1)` 的左半部分，
+2. `𝒳` `(2)` 的右半部分，
+3. `𝒴` `(3)` 的左半部分，
+4. `𝒴` `(4)` 的右半部分。
 
-We can see their codes like this:
+我们可以看到他们的代码，如下所示：
 
 ```js run
 for(let i=0; i<'𝒳𝒴'.length; i++) {
@@ -173,27 +173,27 @@ for(let i=0; i<'𝒳𝒴'.length; i++) {
 };
 ```
 
-So, the example above finds and shows the left half of `𝒳`.
+因此，以上示例查找并显示了 `𝒳` 的左半部分。
 
-If we add flag `pattern:u`, then the behavior will be correct:
+如果我们添加标志 `pattern:u`，那么行为将是正确的：
 
 ```js run
 alert( '𝒳'.match(/[𝒳𝒴]/u) ); // 𝒳
 ```
 
-The similar situation occurs when looking for a range, such as `[𝒳-𝒴]`.
+当我们查找范围时也会出现类似的情况，就像 `[𝒳-𝒴]`。
 
-If we forget to add flag `pattern:u`, there will be an error:
+如果我们忘记添加标志 `pattern:u`，则会出现错误：
 
 ```js run
-'𝒳'.match(/[𝒳-𝒴]/); // Error: Invalid regular expression
+'𝒳'.match(/[𝒳-𝒴]/); // 错误：无效的正则表达式
 ```
 
-The reason is that without flag `pattern:u` surrogate pairs are perceived as two characters, so `[𝒳-𝒴]` is interpreted as `[<55349><56499>-<55349><56500>]` (every surrogate pair is replaced with its codes). Now it's easy to see that the range `56499-55349` is invalid: its starting code `56499` is greater than the end `55349`. That's the formal reason for the error.
+原因是，没有标志 `pattern:u` 的代理对被视为两个字符，因此 `[𝒳-𝒴]` 被解释为 `[<55349><56499>-<55349><56500>]`（每个代理对都替换为其代码）。现在很容易看出范围 `56499-55349` 是无效的：其起始代码 `56499` 大于终止代码 `55349`。这就是错误的原因。
 
-With the flag `pattern:u` the pattern works correctly:
+使用标志 `pattern:u`，该模式可以正常匹配：
 
 ```js run
-// look for characters from 𝒳 to 𝒵
+// 查找字符从 𝒳 到 𝒵
 alert( '𝒴'.match(/[𝒳-𝒵]/u) ); // 𝒴
 ```
