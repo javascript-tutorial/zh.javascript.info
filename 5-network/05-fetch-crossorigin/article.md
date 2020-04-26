@@ -207,7 +207,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 因此，为了避免误解，任何“非标准”请求 —— 浏览器不会立即发出在过去无法完成的这类请求。即在它发送这类请求前，会先发送“预检（preflight）”请求来请求许可。
 
-预检请求使用 `OPTIONS` 方法，并且 body，但是有两个 header：
+预检请求使用 `OPTIONS` 方法，它没有 body，但是有两个 header：
 
 - `Access-Control-Request-Method` header 带有非简单请求的方法。
 - `Access-Control-Request-Headers` header 提供一个以逗号分隔的非简单 HTTP-header 列表。
