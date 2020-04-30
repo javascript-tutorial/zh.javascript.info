@@ -4,7 +4,7 @@
 
 我们自定义的 error 应该支持基本的 error 的属性，例如 `message`，`name`，并且最好还有 `stack`。但是它们也可能会有其他属于它们自己的属性，例如，`HttpError` 对象可能会有一个 `statusCode` 属性，属性值可能为 `404`、`403` 或 `500` 等。
 
-JavaScript 允许将 `throw` 与任何参数一起使用，所以从技术上讲，我们自定义的 error 不需要继承从 `Error` 中继承。但是，如果我们继承，那么就可以使用 `obj instanceof Error` 来识别 error 对象。因此，最好继承它。
+JavaScript 允许将 `throw` 与任何参数一起使用，所以从技术上讲，我们自定义的 error 不需要从 `Error` 中继承。但是，如果我们继承，那么就可以使用 `obj instanceof Error` 来识别 error 对象。因此，最好继承它。
 
 随着虽开发的应用程序的增长，我们自己的 error 自然会形成形成一个层次结构（hierarchy）。例如，`HttpTimeoutError` 可能继承自 `HttpError`，等等。
 
