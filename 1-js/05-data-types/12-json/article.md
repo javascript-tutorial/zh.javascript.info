@@ -76,7 +76,7 @@ alert(json);
 
 `JSON.stringify` 也可以应用于原始（primitive）数据类型。
 
-JSON 支持一下数据类型：
+JSON 支持以下数据类型：
 
 - Objects `{ ... }`
 - Arrays `[ ... ]`
