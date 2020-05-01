@@ -99,7 +99,7 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-这儿的宗旨是，一个被 exector 完成的工作只能有一个结果或一个 error。
+这儿的宗旨是，一个被 executor 完成的工作只能有一个结果或一个 error。
 
 并且，`resolve/reject` 只需要一个参数（或不包含任何参数），并且将忽略额外的参数。
 ````
