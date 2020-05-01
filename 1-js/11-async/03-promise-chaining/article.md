@@ -248,7 +248,7 @@ fetch('/article/promise-chaining/user.json')
   })
   .then(function(text) {
     // ...这是远程文件的内容
-    alert(text); // {"name": "iliakan", isAdmin: true}
+    alert(text); // {"name": "iliakan", "isAdmin": true}
   });
 ```
 
