@@ -1,21 +1,21 @@
-# Shadow DOM styling
+# 给 Shadow DOM 添加样式
 
-Shadow DOM may include both `<style>` and `<link rel="stylesheet" href="…">` tags. In the latter case, stylesheets are HTTP-cached, so they are not redownloaded for multiple components that use same template.
+shadow DOM 可以包含 `<style>` 和 `<link rel="stylesheet" href="…"` 标签。在后一种情况下，样式表是 http 缓存的，因此不会为使用同一模板的多个组件重新下载样式表。
 
-As a general rule, local styles work only inside the shadow tree, and document styles work outside of it. But there are few exceptions.
+一般来说，局部样式只在 shadow 树内起作用，文档样式在 shadow 树外起作用。但也有少数例外。
 
 ## :host
 
-The `:host` selector allows to select the shadow host (the element containing the shadow tree).
+ `:host`  选择器允许选择 shadow 宿主（包含 shadow 树的元素）。
 
-For instance, we're making `<custom-dialog>` element that should be centered. For that we need to style the `<custom-dialog>` element itself.
+例如，我们正在创建 `<custom-dialog>`元素，并且想使它居中。为此，我们需要对 `<custom-dialog>` 元素本身设置样式。
 
-That's exactly what `:host` does:
+这正是 `:host` 所能做的：
 
 ```html run autorun="no-epub" untrusted height=80
 <template id="tmpl">
   <style>
-    /* the style will be applied from inside to the custom-dialog element */
+    /* 这些样式将从内部应用到 custom-dialog 元素上 */
     :host {
       position: fixed;
       left: 50%;
@@ -42,13 +42,14 @@ customElements.define('custom-dialog', class extends HTMLElement {
 </custom-dialog>
 ```
 
-## Cascading
+## 级联
 
-The shadow host (`<custom-dialog>` itself) resides in the light DOM, so it's affected by document CSS rules.
+shadow 宿主（ `<custom-dialog>` 本身）驻留在 light DOM 中，因此它受到文档 CSS 规则的影响。
 
-If there's a property styled both in `:host` locally, and in the document, then the document style takes precedence.
+如果在局部的 `:host` 和文档中都给一个属性设置样式，那么文档样式优先。
 
-For instance, if in the document we had:
+例如，如果在文档中我们有如下样式：
+
 ```html
 <style>
 custom-dialog {
@@ -56,18 +57,18 @@ custom-dialog {
 }
 </style>
 ```
-...Then the `<custom-dialog>` would be without padding.
+那么 `<custom-dialog>` 将没有 padding 。
 
-It's very convenient, as we can setup "default" component styles in its `:host` rule, and then easily override them in the document.
+这是非常有利的，因为我们可以在其 `:host` 规则中设置 “默认” 组件样式，然后在文档中轻松地覆盖它们。
 
-The exception is when a local property is labelled `!important`, for such properties, local styles take precedence.
+唯一的例外是当局部属性被标记 `!important` 时，对于这样的属性，局部样式优先。
 
 
 ## :host(selector)
 
-Same as `:host`, but applied only if the shadow host matches the `selector`.
+与 `:host` 相同，但仅在 shadow 宿主与 `selector` 匹配时才应用样式。
 
-For example, we'd like to center the `<custom-dialog>` only if it has `centered` attribute:
+例如，我们希望仅当 `<custom-dialog>` 具有 `centered` 属性时才将其居中:
 
 ```html run autorun="no-epub" untrusted height=80
 <template id="tmpl">
@@ -109,32 +110,33 @@ customElements.define('custom-dialog', class extends HTMLElement {
 </custom-dialog>
 ```
 
-Now the additional centering styles are only applied to the first dialog: `<custom-dialog centered>`.
+现在附加的居中样式只应用于第一个对话框：`custom-dialog centered` 。
 
 ## :host-context(selector)
 
-Same as `:host`, but applied only if the shadow host or any of its ancestors in the outer document matches the `selector`.
+与 `:host` 相同，但仅当外部文档中的 shadow 宿主或它的任何祖先节点与选择器匹配时才应用样式。
 
-E.g. `:host-context(.dark-theme)` matches only if there's `dark-theme` class on `<custom-dialog>` on anywhere above it:
+例如，`:host-context(.dark-theme)` 只有在 `<custom-dialog>` 或者 `<custom-dialog>` 的任何祖先节点上有 `dark-theme` 类时才匹配：
 
 ```html
 <body class="dark-theme">
   <!--
-    :host-context(.dark-theme) applies to custom-dialogs inside .dark-theme
+    :host-context(.dark-theme) 只应用于 .dark-theme 内部的 custom-dialog
   -->
   <custom-dialog>...</custom-dialog>
 </body>
 ```
 
-To summarize, we can use `:host`-family of selectors to style the main element of the component, depending on the context. These styles (unless `!important`) can be overridden by the document.
+总之，我们可以使用 `:host`-family 系列的选择器来对组件的主元素进行样式设置，具体取决于上下文。这些样式（除 `!important` 外）可以被文档样式覆盖。
 
-## Styling slotted content
+## 给开槽（slotted）内容添加样式
 
-Now let's consider the situation with slots.
+现在让我们考虑有插槽的情况。
 
-Slotted elements come from light DOM, so they use document styles. Local styles do not affect slotted content.
+开槽元素来自 light DOM，所以它们使用文档样式。局部样式不会影响开槽内容。
 
-In the example below, slotted `<span>` is bold, as per document style, but does not take `background` from the local style:
+在下面的例子中，按照文档样式，开槽的 `<span>` 是粗体，但是它不从局部样式中获取 `background` ：
+
 ```html run autorun="no-epub" untrusted height=80
 <style>
 *!*
@@ -163,11 +165,11 @@ customElements.define('user-card', class extends HTMLElement {
 </script>
 ```
 
-The result is bold, but not red.
+结果是粗体，但不是红色。
 
-If we'd like to style slotted elements in our component, there are two choices.
+如果我们想要在我们的组件中设置开槽元素的样式，有两种选择。
 
-First, we can style the `<slot>` itself and rely on CSS inheritance:
+首先，我们可以对 `<slot>` 本身进行样式化，并借助 CSS 继承：
 
 ```html run autorun="no-epub" untrusted height=80
 <user-card>
@@ -191,14 +193,14 @@ customElements.define('user-card', class extends HTMLElement {
 </script>
 ```
 
-Here `<p>John Smith</p>` becomes bold, because CSS inheritance is in effect between the `<slot>` and its contents. But in CSS itself not all properties are inherited.
+这里 `<p>John Smith</p>`  变成粗体，因为CSS继承在 `<slot>` 和它的内容之间有效。但是在 CSS 中，并不是所有的属性都是继承的。
 
-Another option is to use `::slotted(selector)` pseudo-class. It matches elements based on two conditions:
+另一个选项是使用 `::slotted (selector)` 伪类。它根据两个条件来匹配元素：
 
-1. That's a slotted element, that comes from the light DOM. Slot name doesn't matter. Just any slotted element, but only the element itself, not its children.
-2. The element matches the `selector`.
+1. 这是一个开槽元素，来自于 light DOM 。插槽名并不重要，任何开槽元素都可以，但只能是元素本身，而不是它的子元素 。
+2. 该元素与 `selector` 匹配。
 
-In our example, `::slotted(div)` selects exactly `<div slot="username">`, but not its children:
+在我们的例子中， `::slotted(div)` 正好选择了 `<div slot="username">` ，但是没有选择它的子元素：
 
 ```html run autorun="no-epub" untrusted height=80
 <user-card>
@@ -224,37 +226,37 @@ customElements.define('user-card', class extends HTMLElement {
 </script>
 ```
 
-Please note, `::slotted` selector can't descend any further into the slot. These selectors are invalid:
+请注意， `::slotted` 选择器不能用于任何插槽中更深层的内容。下面这些选择器是无效的：
 
 ```css
 ::slotted(div span) {
-  /* our slotted <div> does not match this */
+  /* 我们插入的 <div> 不会匹配这个选择器 */
 }
 
 ::slotted(div) p {
-  /* can't go inside light DOM */
+  /* 不能进入 light DOM 中选择元素 */
 }
 ```
 
-Also, `::slotted` can only be used in CSS. We can't use it in `querySelector`.
+此外， `::sloated` 只能在 CSS 中使用，我们不能在 `querySelector` 中使用。
 
-## CSS hooks with custom properties
+## 用自定义 CSS 属性作为勾子
 
-How do we style internal elements of a component from the main document?
+如何在主文档中设置组件的内建元素的样式?
 
-Selectors like `:host` apply rules to `<custom-dialog>` element or `<user-card>`, but how to style shadow DOM elements inside them?
+像 `:host` 这样的选择器应用规则到 `<custom-dialog>` 元素或 `<user-card>` ，但是如何设置在它们内部的 shadow DOM 元素的样式呢？
 
-There's no selector that can directly affect shadow DOM styles from the document. But just as we expose methods to interact with our component, we can expose CSS variables (custom CSS properties) to style it.
+没有选择器可以从文档中直接影响 shadow DOM 样式。但是，正如我们暴露用来与组件交互的方法那样，我们也可以暴露 CSS 变量（自定义 CSS 属性）来对其进行样式设置。
 
-**Custom CSS properties exist on all levels, both in light and shadow.**
+自定义CSS属性存在于所有层次，包括 light DOM 和 shadow DOM 。
 
-For example, in shadow DOM we can use `--user-card-field-color` CSS variable to  style fields, and the outer document can set its value:
+例如，在 shadow DOM 中，我们可以使用 `--user-card-field-color`  CSS 变量来设置字段的样式，而外部文档可以设置它的值：
 
 ```html
 <style>
   .field {
     color: var(--user-card-field-color, black);
-    /* if --user-card-field-color is not defined, use black color */
+    /* 如果 --user-card-field-color 没有被声明过, 则取值为 black */
   }
 </style>
 <div class="field">Name: <slot name="username"></slot></div>
@@ -262,7 +264,7 @@ For example, in shadow DOM we can use `--user-card-field-color` CSS variable to 
 </style>
 ```
 
-Then, we can declare this property in the outer document for `<user-card>`:
+然后，我们可以在外部文档中为 `<user-card>` 声明此属性：
 
 ```css
 user-card {
@@ -270,9 +272,9 @@ user-card {
 }
 ```
 
-Custom CSS properties pierce through shadow DOM, they are visible everywhere, so the inner `.field` rule will make use of it.
+自定义 CSS 属性穿透 shadow DOM，它们在任何地方都可见，因此内部的 `.field` 规则将使用它。
 
-Here's the full example:
+以下是完整的示例：
 
 ```html run autorun="no-epub" untrusted height=80
 <style>
@@ -310,26 +312,25 @@ customElements.define('user-card', class extends HTMLElement {
 </user-card>
 ```
 
+## 小结
 
+shadow DOM 可以引入样式，如 `<style>` 或 `<link rel="stylesheet">` 。
 
-## Summary
+局部样式可以影响：
 
-Shadow DOM can include styles, such as `<style>` or `<link rel="stylesheet">`.
+- shadow 树,
+- shadow 宿主（通过 `:host`-family 系列伪类），
+- 开槽元素 （来自 light DOM），`::slotted(selector)` 允许选择开槽元素本身，但不能选择它们的子元素。
 
-Local styles can affect:
-- shadow tree,
-- shadow host with `:host`-family pseudoclasses,
-- slotted elements (coming from light DOM), `::slotted(selector)` allows to select  slotted elements themselves, but not their children.
+文档样式可以影响：
+- shadow 宿主（因为它位于外部文档中）
+- 开槽元素及开槽元素的内容（因为它们同样位于外部文档中）
 
-Document styles can affect:
-- shadow host (as it lives in the outer document)
-- slotted elements and their contents (as that's also in the outer document)
+当 CSS 属性冲突时，通常文档样式具有优先级，除非属性被标记为 `!important` ，那么局部样式优先。
 
-When CSS properties conflict, normally document styles have precedence, unless the property is labelled as `!important`. Then local styles have precedence.
+CSS 自定义属性穿透 shadow DOM。它们被用作 “勾子” 来设计组件的样式：
 
-CSS custom properties pierce through shadow DOM. They are used as "hooks" to style the component:
-
-1. The component uses a custom CSS property to style key elements, such as `var(--component-name-title, <default value>)`.
-2. Component author publishes these properties for developers, they are same important as other public component methods.
-3. When a developer wants to style a title, they assign `--component-name-title` CSS property for the shadow host or above.
-4. Profit!
+1. 组件使用自定义 CSS 属性对关键元素进行样式设置，比如 `var(--component-name-title, <default value>)` 。
+2. 组件作者为开发人员发布这些属性，它们和其他公共的组件方法一样重要。
+3. 当开发人员想要对一个标题进行样式设计时，他们会为 shadow 宿主或宿主上层的元素赋值 `--component-name-title` CSS 属性。
+4. 奥力给！
