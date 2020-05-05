@@ -129,13 +129,13 @@ customElements.define('custom-dialog', class extends HTMLElement {
 
 总之，我们可以使用 `:host`-family 系列的选择器来对组件的主元素进行样式设置，具体取决于上下文。这些样式（除 `!important` 外）可以被文档样式覆盖。
 
-## 给开槽（slotted）内容添加样式
+## 给占槽（ slotted ）内容添加样式
 
 现在让我们考虑有插槽的情况。
 
-开槽元素来自 light DOM，所以它们使用文档样式。局部样式不会影响开槽内容。
+占槽元素来自 light DOM，所以它们使用文档样式。局部样式不会影响占槽内容。
 
-在下面的例子中，按照文档样式，开槽的 `<span>` 是粗体，但是它不从局部样式中获取 `background` ：
+在下面的例子中，按照文档样式，占槽的 `<span>` 是粗体，但是它不从局部样式中获取 `background` ：
 
 ```html run autorun="no-epub" untrusted height=80
 <style>
@@ -167,7 +167,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 结果是粗体，但不是红色。
 
-如果我们想要在我们的组件中设置开槽元素的样式，有两种选择。
+如果我们想要在我们的组件中设置占槽元素的样式，有两种选择。
 
 首先，我们可以对 `<slot>` 本身进行样式化，并借助 CSS 继承：
 
@@ -197,7 +197,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 另一个选项是使用 `::slotted (selector)` 伪类。它根据两个条件来匹配元素：
 
-1. 这是一个开槽元素，来自于 light DOM 。插槽名并不重要，任何开槽元素都可以，但只能是元素本身，而不是它的子元素 。
+1. 这是一个占槽元素，来自于 light DOM 。插槽名并不重要，任何占槽元素都可以，但只能是元素本身，而不是它的子元素 。
 2. 该元素与 `selector` 匹配。
 
 在我们的例子中， `::slotted(div)` 正好选择了 `<div slot="username">` ，但是没有选择它的子元素：
@@ -320,11 +320,11 @@ shadow DOM 可以引入样式，如 `<style>` 或 `<link rel="stylesheet">` 。
 
 - shadow 树,
 - shadow 宿主（通过 `:host`-family 系列伪类），
-- 开槽元素 （来自 light DOM），`::slotted(selector)` 允许选择开槽元素本身，但不能选择它们的子元素。
+- 占槽元素 （来自 light DOM），`::slotted(selector)` 允许选择占槽元素本身，但不能选择它们的子元素。
 
 文档样式可以影响：
 - shadow 宿主（因为它位于外部文档中）
-- 开槽元素及开槽元素的内容（因为它们同样位于外部文档中）
+- 占槽元素及占槽元素的内容（因为它们同样位于外部文档中）
 
 当 CSS 属性冲突时，通常文档样式具有优先级，除非属性被标记为 `!important` ，那么局部样式优先。
 
