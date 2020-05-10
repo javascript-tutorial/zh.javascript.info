@@ -102,7 +102,7 @@ alert(word[0]); // varName
 alert(word.index); // 4
 ```
 
-...所以，用标志 `pattern:g` 属性 `lastIndex` 设置搜索的起始位置。
+……所以，用标志 `pattern:g` 属性 `lastIndex` 设置搜索的起始位置。
 
 **标记 `pattern:y` 使 `regexp.exec` 正好在 `lastIndex` 位置，而不是在它之前，也不是在它之后。
 
