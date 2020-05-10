@@ -1,24 +1,24 @@
 
-# Fetch：下载过程
+# Fetch：下载进度
 
-`fetch` 方法允许去追踪 *download* 过程。
+`fetch` 方法允许去跟踪 **下载** 进度。
 
-请注意：到目前为止，对于 `fetch` 方法的 *upload* 过程，还没有方法去追踪它。基于这个目的，请使用 [XMLHttpRequest](info:xmlhttprequest)，我们将会在后面讲到它。
+请注意：到目前为止，`fetch` 方法无法跟踪 **上传** 进度。对于这个目的，请使用 [XMLHttpRequest](info:xmlhttprequest)，我们在后面章节会讲到。
 
-要追踪下载过程，可以使用 `response.body` 属性。它是一个“可读流（readable stream）”——当他们下载的时候提供一个个响应体块（chunk）的特殊对象。
+要跟踪下载进度，我们可以使用 `response.body` 属性。它是 `ReadableStream` —— 一个特殊的对象，它可以逐块（chunk）提供 body。在 [Streams API](https://streams.spec.whatwg.org/#rs-class) 规范中有对 `ReadableStream` 的详细描述。
 
-与 `response.text()`，`response.json()` 和其他方法不同，`response.body` 完全控制了读取过程，我们可以随时计算下载了多少。
+与 `response.text()`，`response.json()` 和其他方法不同，`response.body` 给予了对进度读取的完全控制，我们可以随时计算下载了多少。
 
-下面是从 `response.body` 读取 response 的代码草图：
+这是从 `response.body` 读取 response 的示例代码：
 
 ```js
 // 代替 response.json() 以及其他方法
 const reader = response.body.getReader();
 
-// 无限循环执行直到 body 下载完成
+// 在 body 下载时，一直为无限循环
 while(true) {
   // 当最后一块下载完成时，done 值为 true
-  // value 是存放块字节码的 Uint8Array
+  // value 是块字节的 Uint8Array
   const {done, value} = await reader.read();
 
   if (done) {
@@ -29,28 +29,32 @@ while(true) {
 }
 ```
 
-`await reader.read()` 的结果是一个具有两个属性的对象：
-- **`done`** —— 当块全部下载完毕时，其值为 true。
-- **`value`** —— 一个存放字节码的类型数组：`Uint8Array`。
+`await reader.read()` 调用的结果是一个具有两个属性的对象：
+- **`done`** —— 当读取完成时为 `true`，否则为 `false`。
+- **`value`** —— 字节的类型化数组：`Uint8Array`。
 
-我们在循环中等待更多的块（chunk），直到 `done` 是 `true`。
+```smart
+Streams API 还描述了如果使用 `for await..of` 循环异步迭代 `ReadableStream`，但是目前为止，它还未得到很好的支持（参见 [浏览器问题](https://github.com/whatwg/streams/issues/778#issuecomment-461341033)），所以我们使用了 `while` 循环。
+```
 
-要打印 progress 的话，我们只需向 counter 添加每个 `value` 的长度。
+我们在循环中接收响应块（response chunk），直到加载完成，也就是：直到 `done` 为 `true`。
 
-这是完整的获取响应并打印进度的代码，更多解释如下：
+要将进度打印出来，我们只需要将每个接收到的片段 `value` 的长度（length）加到 counter 即可。
+
+这是获取响应，并在控制台中记录进度的完整工作示例，下面有更多说明：
 
 ```js run async
-// Step 1：启动 fetch 并赋值给 reader
+// Step 1：启动 fetch，并获得一个 reader
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits?per_page=100');
 
 const reader = response.body.getReader();
 
-// Step 2：获取总长度（总块数）
+// Step 2：获得总长度（length）
 const contentLength = +response.headers.get('Content-Length');
 
 // Step 3：读取数据
-let receivedLength = 0; // 当前长度
-let chunks = []; // 存放接收到的二进制块的数组（包括 body）
+let receivedLength = 0; // 当前接收到了这么多字节
+let chunks = []; // 接收到的二进制块的数组（包括 body）
 while(true) {
   const {done, value} = await reader.read();
 
@@ -64,7 +68,7 @@ while(true) {
   console.log(`Received ${receivedLength} of ${contentLength}`)
 }
 
-// Step 4：将块合并成单个 Uint8Array
+// Step 4：将块连接到单个 Uint8Array
 let chunksAll = new Uint8Array(receivedLength); // (4.1)
 let position = 0;
 for(let chunk of chunks) {
@@ -80,29 +84,29 @@ let commits = JSON.parse(result);
 alert(commits[0].author.login);
 ```
 
-让我们一步步阐释这个过程：
+让我们一步步解释下这个过程：
 
-1. 我们像往常一样执行 `fetch`，但不是调用 `response.json()`，而是获取一个流读取器（stream reader）`response.body.getReader()`。
+1. 我们像往常一样执行 `fetch`，但不是调用 `response.json()`，而是获得了一个流读取器（stream reader）`response.body.getReader()`。
 
-    请注意，我们不能同时使用这些方法来读取相同的响应。要么使用流读取器，要么使用 reponse 方法来获得响应结果。
-2. 在阅读之前，我们可以从 `Content-Length` 头中找出完整的响应长度。
+    请注意，我们不能同时使用这两种方法来读取相同的响应。要么使用流读取器，要么使用 reponse 方法来获取结果。
+2. 在读取数据之前，我们可以从 `Content-Length` header 中得到完整的响应长度。
 
-    跨域请求可能不存在这个（请参见 <info:fetch-crossorigin>），并且从技术上讲，服务器可以不设置它。但是通常情况下响应头中都会存在。
-3. 调用 `await reader.read()` 直到它已经完成。
+    跨源请求中可能不存在这个 header（请参见 <info:fetch-crossorigin>），并且从技术上讲，服务器可以不设置它。但是通常情况下它都会在那里。
+3. 调用 `await reader.read()`，直到它完成。
 
-    我们将响应的数据 `chunks` 收集到数组中。这很重要，因为当响应结束后，我们就不能再使用 `response.json()` 或者 其他方法（你可以试试，它将会出错）去“重新读取”它。
-4. 最后，我们有了一个 `Uint8Array` 字节块数组。我们需要将这些块合并成一个响应结果。但不幸的是，没有一个方法来合并它们，所以这里需要一些代码来实现：
-    1. 我们创建 `new Uint8Array(receivedLength)` —— 一个具有所有数据块合并后的长度的同类型数组。
-    2. 然后使用 `.set(chunk, position)` 方法从数组中一个个复制这些 `chunk`。
-5. 我们的结果现在储存在 `chunksAll` 中。它是字节组成的数组而不是字符串。
+    我们将响应块收集到数组 `chunks` 中。这很重要，因为在使用完（consumed）响应后，我们将无法使用 `response.json()` 或者其他方式（你可以试试，将会出现 error）去“重新读取”它。
+4. 最后，我们有了一个 `chunks` —— 一个 `Uint8Array` 字节块数组。我们需要将这些块合并成一个结果。但不幸的是，没有单个方法可以将它们串联起来，所以这里需要一些代码来实现：
+    1. 我们创建 `chunksAll = new Uint8Array(receivedLength)` —— 一个具有所有数据块合并后的长度的同类型数组。
+    2. 然后使用 `.set(chunk, position)` 方法，从数组中一个个地复制这些 `chunk`。
+5. 我们的结果现在储存在 `chunksAll` 中。但它是一个字节数组，不是字符串。
 
-    要创建字符串，我们需要解析这些字节。可以使用内置的 [TextDecoder](info:text-decoder) 对象来操作。然后我们就可以对其使用 `JSON.parse`。
+    要创建一个字符串，我们需要解析这些字节。可以使用内建的 [TextDecoder](info:text-decoder) 对象完成。然后，我们可以 `JSON.parse` 它，如果有必要的话。
 
-    如果我们需要二进制内容而不是 JSON 呢？这甚是简单。只需要调用所有块中的 blob 来代替步骤 4 和步骤 5。
+    如果我们需要的是二进制内容而不是字符串呢？这更简单。用下面这行代码替换掉第 4 和第 5 步，这行代码从所有块创建一个 `Blob`：
     ```js
     let blob = new Blob(chunks);
     ```
 
-最终我们将得到结果（以 string 或者 blob 呈现，什么方便就用什么）以及进程中的跟踪进度。
+最后，我们得到了结果（以字符串或 blob 的形式表示，什么方便就用什么），并在过程中对进度进行了跟踪。
 
-再一次提醒，这个进度仅仅是对于 *download* 来说的而不是 *upload* 过程（`fetch` 目前还没办法做到这点）。
+再强调一遍，这不能用于 **上传** 过程（现在无法通过 `fetch` 获取），仅用于 **下载** 过程。

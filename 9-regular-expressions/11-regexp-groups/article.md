@@ -1,31 +1,31 @@
-# Capturing groups
+# 捕获组
 
-A part of a pattern can be enclosed in parentheses `pattern:(...)`. This is called a "capturing group".
+模式的一部分可以用括号括起来 `pattern:(...)`。这称为“捕获组（capturing group）”。
 
-That has two effects:
+这有两个影响：
 
-1. It allows to get a part of the match as a separate item in the result array.
-2. If we put a quantifier after the parentheses, it applies to the parentheses as a whole.
+1. 它允许将匹配的一部分作为结果数组中的单独项。
+2. 如果我们将量词放在括号后，则它将括号视为一个整体。
 
-## Examples
+## 示例
 
-Let's see how parentheses work in examples.
+让我们看看在示例中的括号是如何工作的。
 
-### Example: gogogo
+### 示例：gogogo
 
-Without parentheses, the pattern `pattern:go+` means `subject:g` character, followed by `subject:o` repeated one or more times. For instance, `match:goooo` or `match:gooooooooo`.
+不带括号，模式 `pattern:go+` 表示 `subject:g` 字符，其后 `subject:o` 重复一次或多次。例如 `match:goooo` 或 `match:gooooooooo`。
 
-Parentheses group characters together, so `pattern:(go)+` means `match:go`, `match:gogo`, `match:gogogo` and so on.
+括号将字符组合，所以 `pattern:(go)+` 匹配 `match:go`，`match:gogo`，`match:gogogo`等。
 
 ```js run
 alert( 'Gogogo now!'.match(/(go)+/i) ); // "Gogogo"
 ```
 
-### Example: domain
+### 示例：域名
 
-Let's make something more complex -- a regular expression to search for a website domain.
+让我们做些更复杂的事 —— 搜索域名的正则表达式。
 
-For example:
+例如：
 
 ```
 mail.com
@@ -33,9 +33,9 @@ users.mail.com
 smith.users.mail.com
 ```
 
-As we can see, a domain consists of repeated words, a dot after each one except the last one.
+正如我们所看到的，一个域名由重复的单词组成，每个单词后面有一个点，除了最后一个单词。
 
-In regular expressions that's `pattern:(\w+\.)+\w+`:
+在正则表达式中是 `pattern:(\w+\.)+\w+`：
 
 ```js run
 let regexp = /(\w+\.)+\w+/g;
@@ -43,17 +43,17 @@ let regexp = /(\w+\.)+\w+/g;
 alert( "site.com my.site.com".match(regexp) ); // site.com,my.site.com
 ```
 
-The search works, but the pattern can't match a domain with a hyphen, e.g. `my-site.com`, because the hyphen does not belong to class `pattern:\w`.
+搜索有效，但是该模式无法匹配带有连字符的域名，例如 my-site.com，因为连字符不属于 `pattern:\w` 类。
 
-We can fix it by replacing `pattern:\w` with `pattern:[\w-]` in every word except the last one: `pattern:([\w-]+\.)+\w+`.
+我们可以通过用 `pattern:[\w-]` 替换 `pattern:\w` 来匹配除最后一个的每个单词：`pattern:([\w-]+\.)+\w+`。
 
-### Example: email
+### 示例：email
 
-The previous example can be extended. We can create a regular expression for emails based on it.
+前面的示例可以扩展。我们可以基于它为电子邮件创建一个正则表达式。
 
-The email format is: `name@domain`. Any word can be the name, hyphens and dots are allowed. In regular expressions that's `pattern:[-.\w]+`.
+email 格式为：`name@domain`。名称可以是任何单词，可以使用连字符和点。在正则表达式中为 `pattern:[-.\w]+`。
 
-The pattern:
+模式：
 
 ```js run
 let regexp = /[-.\w]+@([\w-]+\.)+[\w-]+/g;
@@ -61,24 +61,24 @@ let regexp = /[-.\w]+@([\w-]+\.)+[\w-]+/g;
 alert("my@mail.com @ his@site.com.uk".match(regexp)); // my@mail.com, his@site.com.uk
 ```
 
-That regexp is not perfect, but mostly works and helps to fix accidental mistypes. The only truly reliable check for an email can only be done by sending a letter.
+该正则表达式并不完美的，但多数情况下都可以工作，并且有助于修复意外的错误类型。唯一真正可靠的 email 检查只能通过发送 email 来完成。
 
-## Parentheses contents in the match
+## 匹配括号中的内容
 
-Parentheses are numbered from left to right. The search engine memorizes the content matched by each of them and allows to get it in the result.
+括号从左到右编号。正则引擎会记住它们各自匹配的内容，并允许在结果中获得它。
 
-The method `str.match(regexp)`, if `regexp` has no flag `g`, looks for the first match and returns it as an array:
+方法 `str.match(regexp)`，如果 `regexp` 没有 `g` 标志，将查找第一个匹配并将它作为一个数组返回：
 
-1. At index `0`: the full match.
-2. At index `1`: the contents of the first parentheses.
-3. At index `2`: the contents of the second parentheses.
-4. ...and so on...
+1. 在索引 `0` 处：完全匹配。
+2. 在索引 `1` 处：第一个括号的内容。
+3. 在索引 `2` 处：第二个括号的内容。
+4. …等等…
 
-For instance, we'd like to find HTML tags `pattern:<.*?>`, and process them. It would be convenient to have tag content (what's inside the angles), in a separate variable.
+例如，我们想找到 HTML 标记 `pattern:<.*?>` 并进行处理。这将很方便的把标签内容（尖括号内的内容）放在单独的变量中。
 
-Let's wrap the inner content into parentheses, like this: `pattern:<(.*?)>`.
+让我们将内部内容包装在括号中，像这样：`pattern:<(.*?)>`。
 
-Now we'll get both the tag as a whole `match:<h1>` and its contents `match:h1` in the resulting array:
+现在，我们能在结果数组中获取标签的整体 `match:<h1>` 及其内容 `match:h1`：
 
 ```js run
 let str = '<h1>Hello, world!</h1>';
@@ -89,23 +89,23 @@ alert( tag[0] ); // <h1>
 alert( tag[1] ); // h1
 ```
 
-### Nested groups
+### 嵌套组
 
-Parentheses can be nested. In this case the numbering also goes from left to right.
+括号可以嵌套。在这种情况下，编号也从左到右。
 
-For instance, when searching a tag in `subject:<span class="my">` we may be interested in:
+例如，在搜索标签 `subject:<span class="my">` 时我们可能会对以下内容感兴趣：
 
-1. The tag content as a whole: `match:span class="my"`.
-2. The tag name: `match:span`.
-3. The tag attributes: `match:class="my"`.
+1. 整个标签内容：`match:span class="my"`。
+2. 标签名称：`match:span`。
+3. 标签属性：`match:class="my"`。
 
-Let's add parentheses for them: `pattern:<(([a-z]+)\s*([^>]*))>`.
+让我们为它们添加括号：`pattern:<(([a-z]+)\s*([^>]*))>`。
 
-Here's how they are numbered (left to right, by the opening paren):
+这是它们的编号方式（从左到右，由左括号开始）：
 
 ![](regexp-nested-groups-pattern.svg)
 
-In action:
+实际上：
 
 ```js run
 let str = '<span class="my">';
@@ -119,59 +119,59 @@ alert(result[2]); // span
 alert(result[3]); // class="my"
 ```
 
-The zero index of `result` always holds the full match.
+`result` 的零索引始终保持完全匹配。
 
-Then groups, numbered from left to right by an opening paren. The first group is returned as `result[1]`. Here it encloses the whole tag content.
+然后按左括号将组从左到右编号。第一组返回为 `result[1]`。它包含了整个标签内容。
 
-Then in `result[2]` goes the group from the second opening paren `pattern:([a-z]+)` - tag name, then in `result[3]` the tag: `pattern:([^>]*)`.
+然后 `result[2]` 从第二个开始的括号中进入该组 `pattern:([a-z]+)` —— 标签名称，然后在 `result[3]` 标签中：`pattern:([^>]*)`。
 
-The contents of every group in the string:
+字符串中每个组的内容：
 
 ![](regexp-nested-groups-matches.svg)
 
-### Optional groups
+### 可选组
 
-Even if a group is optional and doesn't exist in the match (e.g. has the quantifier `pattern:(...)?`), the corresponding `result` array item is present and equals `undefined`.
+即使组是可选的并且在匹配项中不存在（例如，具有数量词 `pattern:(...)?`），也存在相应的 `result` 数组项，并且等于 `undefined`。
 
-For instance, let's consider the regexp `pattern:a(z)?(c)?`. It looks for `"a"` optionally followed by `"z"` optionally followed by `"c"`.
+例如，让我们考虑正则 `pattern:a(z)?(c)?`。它寻找 `"a"` ，然后是可选的 `"z"`，然后是可选的 `"c"`。
 
-If we run it on the string with a single letter `subject:a`, then the result is:
+如果我们在单个字母的字符串上运行 `subject:a`，则结果为：
 
 ```js run
 let match = 'a'.match(/a(z)?(c)?/);
 
 alert( match.length ); // 3
-alert( match[0] ); // a (whole match)
+alert( match[0] ); // a（完全匹配）
 alert( match[1] ); // undefined
 alert( match[2] ); // undefined
 ```
 
-The array has the length of `3`, but all groups are empty.
+数组的长度为 `3`，但所有组均为空。
 
-And here's a more complex match for the string `subject:ac`:
+这是字符串的一个更复杂的匹配 `subject:ac`：
 
 ```js run
 let match = 'ac'.match(/a(z)?(c)?/)
 
 alert( match.length ); // 3
-alert( match[0] ); // ac (whole match)
-alert( match[1] ); // undefined, because there's nothing for (z)?
+alert( match[0] ); // ac（完全匹配）
+alert( match[1] ); // undefined，因为 (z)? 没匹配项
 alert( match[2] ); // c
 ```
 
-The array length is permanent: `3`. But there's nothing for the group `pattern:(z)?`, so the result is `["ac", undefined, "c"]`.
+数组长度是恒定的：`3`。但是对于组 `pattern:(z)?` 而言，什么都没有，所以结果是 `["ac", undefined, "c"]`。
 
-## Searching for all matches with groups: matchAll
+## 搜索所有具有组的匹配项：matchAll
 
-```warn header="`matchAll` is a new method, polyfill may be needed"
-The method `matchAll` is not supported in old browsers.
+```warn header="`matchAll` 是一个新方法，可能需要使用 polyfill"
+旧的浏览器不支持 `matchAll`。
 
-A polyfill may be required, such as <https://github.com/ljharb/String.prototype.matchAll>.
+可能需要一个 polyfill，例如 <https://github.com/ljharb/String.prototype.matchAll>.
 ```
 
-When we search for all matches (flag `pattern:g`), the `match` method does not return contents for groups.
+当我们搜索所有匹配项（标志 `pattern:g`）时，`match` 方法不会返回组的内容。
 
-For example, let's find all tags in a string:
+例如，让我们查找字符串中的所有标签：
 
 ```js run
 let str = '<h1> <h2>';
@@ -181,19 +181,19 @@ let tags = str.match(/<(.*?)>/g);
 alert( tags ); // <h1>,<h2>
 ```
 
-The result is an array of matches, but without details about each of them. But in practice we usually need contents of capturing groups in the result.
+结果是一个匹配数组，但没有每个匹配项的详细信息。但是实际上，我们通常需要在结果中获取捕获组的内容。
 
-To get them, we should search using the method `str.matchAll(regexp)`.
+要获取它们，我们应该使用方法 `str.matchAll(regexp)` 进行搜索。
 
-It was added to JavaScript language long after `match`, as its "new and improved version".
+在使用 `match` 很长一段时间后，它作为“新的改进版本”被加入到 JavaScript 中。
 
-Just like `match`, it looks for matches, but there are 3 differences:
+就像 `match` 一样，它寻找匹配项，但有 3 个区别：
 
-1. It returns not an array, but an iterable object.
-2. When the flag `pattern:g` is present, it returns every match as an array with groups.
-3. If there are no matches, it returns not `null`, but an empty iterable object.
+1. 它返回的不是数组，而是一个可迭代的对象。
+2. 当标志 `pattern:g` 存在时，它将每个匹配组作为一个数组返回。
+3. 如果没有匹配项，则不返回 `null`，而是返回一个空的可迭代对象。
 
-For instance:
+例如：
 
 ```js run
 let results = '<h1> <h2>'.matchAll(/<(.*?)>/gi);
@@ -209,27 +209,27 @@ alert(results[0]); // <h1>,h1 (1st tag)
 alert(results[1]); // <h2>,h2 (2nd tag)
 ```
 
-As we can see, the first difference is very important, as demonstrated in the line `(*)`. We can't get the match as `results[0]`, because that object isn't pseudoarray. We can turn it into a real `Array` using `Array.from`. There are more details about pseudoarrays and iterables in the article <info:iterable>.
+我们可以看到，第一个区别非常重要，如 `(*)` 行所示。我们无法获得 `results[0]` 的匹配内容，因为该对象是伪数组。我们可以使用 `Array.from` 把它变成一个真正的 `Array`。在 Iterable（可迭代对象）<info:iterable>一文中有关于伪数组和可迭代对象的更多详细信息。
 
-There's no need in `Array.from` if we're looping over results:
+如果我们不需要遍历结果，则 `Array.from` 没有必要：
 
 ```js run
 let results = '<h1> <h2>'.matchAll(/<(.*?)>/gi);
 
 for(let result of results) {
   alert(result);
-  // первый вывод: <h1>,h1
-  // второй: <h2>,h2
+  // 第一个结果: <h1>,h1
+  // 第二个结果: <h2>,h2
 }
 ```
 
-...Or using destructuring:
+……或使用解构：
 
 ```js
 let [tag1, tag2] = '<h1> <h2>'.matchAll(/<(.*?)>/gi);
 ```
 
-Every match, returned by `matchAll`, has the same format as returned by `match` without flag `pattern:g`: it's an array with additional properties `index` (match index in the string) and `input` (source string):
+由 `matchAll` 所返回的每个匹配，其格式与不带标志 `pattern:g` 的 `match` 所返回的格式相同：它是一个具有额外的 `index`（字符串中的匹配索引）属性和 `input`（源字符串）的数组：
 
 ```js run
 let results = '<h1> <h2>'.matchAll(/<(.*?)>/gi);
@@ -242,23 +242,23 @@ alert( tag1.index ); // 0
 alert( tag1.input ); // <h1> <h2>
 ```
 
-```smart header="Why is a result of `matchAll` an iterable object, not an array?"
-Why is the method designed like that? The reason is simple - for the optimization.
+```smart header="为什么 `matchAll` 的结果是可迭代对象而不是数组？"
+为什么这个方法这样设计？原因很简单 — 为了优化。
 
-The call to `matchAll` does not perform the search. Instead, it returns an iterable object, without the results initially. The search is performed each time we iterate over it, e.g. in the loop.
+调用 `matchAll` 不会执行搜索。相反，它返回一个可迭代的对象，最初没有结果。每当我们对它进行迭代时才会执行搜索，例如在循环中。
 
-So, there will be found as many results as needed, not more.
+因此，这将根据需要找到尽可能多的结果，而不是全部。
 
-E.g. there are potentially 100 matches in the text, but in a `for..of` loop we found 5 of them, then decided it's enough and make a `break`. Then the engine won't spend time finding other 95 mathces.
+例如，文本中可能有 100 个匹配项，但是在一个 `for..of` 循环中，我们已经找到了 5 个匹配项，然后觉得足够了并做出一个 `break`。这时引擎就不会花时间查找其他 95 个匹配。
 ```
 
-## Named groups
+## 命名组
 
-Remembering groups by their numbers is hard. For simple patterns it's doable, but for more complex ones counting parentheses is inconvenient. We have a much better option: give names to parentheses.
+用数字记录组很困难。对于简单模式，它是可行的，但对于更复杂的模式，计算括号很不方便。我们有一个更好的选择：给括号起个名字。
 
-That's done by putting `pattern:?<name>` immediately after the opening paren.
+这是通过在开始括号之后立即放置 `pattern:?<name>` 来完成的。
 
-For example, let's look for a date in the format "year-month-day":
+例如，让我们查找 "year-month-day" 格式的日期：
 
 ```js run
 *!*
@@ -273,11 +273,12 @@ alert(groups.month); // 04
 alert(groups.day); // 30
 ```
 
-As you can see, the groups reside in the `.groups` property of the match.
+如您所见，匹配的组在 `.groups` 属性中。
 
-To look for all dates, we can add flag `pattern:g`.
+要查找所有日期，我们可以添加标志 `pattern:g`。
 
 We'll also need `matchAll` to obtain full matches, together with groups:
+我们还需要 `matchAll` 获取完整的组匹配：
 
 ```js run
 let dateRegexp = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/g;
@@ -290,16 +291,16 @@ for(let result of results) {
   let {year, month, day} = result.groups;
 
   alert(`${day}.${month}.${year}`);
-  // first alert: 30.10.2019
-  // second: 01.01.2020
+  // 第一个 alert：30.10.2019
+  // 第二个：01.01.2020
 }
 ```
 
-## Capturing groups in replacement
+## 替换捕获组
 
-Method `str.replace(regexp, replacement)` that replaces all matches with `regexp` in `str` allows to use parentheses contents in the `replacement` string. That's done using `pattern:$n`, where `pattern:n` is the group number.
+方法 `str.replace(regexp, replacement)` 用 `replacement` 替换 `str` 中匹配 `regexp` 的所有捕获组。这使用 `pattern:$n` 来完成，其中 `pattern:n` 是组号。
 
-For example,
+例如，
 
 ```js run
 let str = "John Bull";
@@ -308,9 +309,9 @@ let regexp = /(\w+) (\w+)/;
 alert( str.replace(regexp, '$2, $1') ); // Bull, John
 ```
 
-For named parentheses the reference will be `pattern:$<name>`.
+对于命名括号，引用为 `pattern:$<name>`。
 
-For example, let's reformat dates from "year-month-day" to "day.month.year":
+例如，让我们将日期格式从 "year-month-day" 更改为 "day.month.year"：
 
 ```js run
 let regexp = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/g;
@@ -321,44 +322,44 @@ alert( str.replace(regexp, '$<day>.$<month>.$<year>') );
 // 30.10.2019, 01.01.2020
 ```
 
-## Non-capturing groups with ?:
+## 非捕获组 ?:
 
-Sometimes we need parentheses to correctly apply a quantifier, but we don't want their contents in results.
+有时我们需要括号才能正确应用量词，但我们不希望它们的内容出现在结果中。
 
-A group may be excluded by adding `pattern:?:` in the beginning.
+可以通过在开头添加 `pattern:?:` 来排除组。
 
-For instance, if we want to find `pattern:(go)+`, but don't want the parentheses contents (`go`) as a separate array item, we can write: `pattern:(?:go)+`.
+例如，如果我们要查找 `pattern:(go)+`，但不希望括号内容（`go`）作为一个单独的数组项，则可以编写：`pattern:(?:go)+`。
 
-In the example below we only get the name `match:John` as a separate member of the match:
+在下面的示例中，我们仅将名称 `match:John` 作为匹配项的单独成员：
 
 ```js run
 let str = "Gogogo John!";
 
 *!*
-// ?: exludes 'go' from capturing
+// ?: 从捕获组中排除 'go'
 let regexp = /(?:go)+ (\w+)/i;
 */!*
 
 let result = str.match(regexp);
 
-alert( result[0] ); // Gogogo John (full match)
+alert( result[0] ); // Gogogo John（完全匹配）
 alert( result[1] ); // John
-alert( result.length ); // 2 (no more items in the array)
+alert( result.length ); // 2（数组中没有更多项）
 ```
 
-## Summary
+## 总结
 
-Parentheses group together a part of the regular expression, so that the quantifier applies to it as a whole.
+括号将正则表达式的一部分组合在一起，以便量词可以整体应用。
 
-Parentheses groups are numbered left-to-right, and can optionally be named with  `(?<name>...)`.
+括号组从左到右编号，可以选择用 `(?<name>...)` 命名。
 
-The content, matched by a group, can be obtained in the results:
+可以在结果中获得按组匹配的内容：
 
-- The method `str.match` returns capturing groups only without flag `pattern:g`.
-- The method `str.matchAll` always returns capturing groups.
+* 方法 `str.match` 仅当不带标志 `pattern:g` 时返回捕获组。
+* 方法 `str.matchAll` 始终返回捕获组。
 
-If the parentheses have no name, then their contents is available in the match array by its number. Named parentheses are also available in the property `groups`.
+如果括号没有名称，则匹配数组按编号提供其内容。命名括号还可使用属性 `groups`。
 
-We can also use parentheses contents in the replacement string in `str.replace`: by the number `$n` or the name `$<name>`.
+我们还可以使用 `str.replace` 来替换括号内容中的字符串：使用 `$n` 或者名称 `$<name>`。
 
-A group may be excluded from numbering by adding `pattern:?:` in its start. That's used when we need to apply a quantifier to the whole group, but don't want it as a separate item in the results array. We also can't reference such parentheses in the replacement string.
+可以通过在组的开头添加 `pattern:?:` 来排除编号组。当我们需要对整个组应用量词，但不希望将其作为结果数组中的单独项时这很有用。我们也不能在替换字符串时引用此类括号。

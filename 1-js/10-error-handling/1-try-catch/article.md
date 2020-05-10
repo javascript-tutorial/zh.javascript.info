@@ -626,7 +626,7 @@ window.onerror = function(message, url, line, col, error) {
 </script>
 ```
 
-全局错误处理程序 `window.onerror` 的作用通常不是回复脚本的执行 — 如果发生编程错误，那这几乎是不可能的，它的作用是将错误信息发送给开发者。
+全局错误处理程序 `window.onerror` 的作用通常不是恢复脚本的执行 — 如果发生编程错误，那这几乎是不可能的，它的作用是将错误信息发送给开发者。
 
 也有针对这种情况提供错误日志的 Web 服务，例如 <https://errorception.com> 或 <http://www.muscula.com>。
 

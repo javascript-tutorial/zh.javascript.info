@@ -76,7 +76,7 @@ alert(json);
 
 `JSON.stringify` 也可以应用于原始（primitive）数据类型。
 
-JSON 支持一下数据类型：
+JSON 支持以下数据类型：
 
 - Objects `{ ... }`
 - Arrays `[ ... ]`
@@ -105,7 +105,7 @@ JSON 是语言无关的纯数据规范，因此一些特定于 JavaScript 的对
 即：
 
 - 函数属性（方法）。
-- Symbolic 属性。
+- Symbol 类型的属性。
 - 存储 `undefined` 的属性。
 
 ```js run

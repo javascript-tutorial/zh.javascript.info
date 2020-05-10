@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Why do we need Origin?
+# 我们为什么需要源（Origin）？
 
-As you probably know, there's HTTP-header `Referer`, that usually contains an url of the page which initiated a network request.
+你可能知道有一个 HTTP-header `Referer`，它通常包含发起网络请求的页面的 url。
 
-For instance, when fetching `http://google.com` from `http://javascript.info/some/url`, the headers look like this:
+例如，当从 `http://javascript.info/some/url` fetch `http://google.com` 时，header 看起来如下：
 
-```
+```http
 Accept: */*
 Accept-Charset: utf-8
 Accept-Encoding: gzip,deflate,sdch
@@ -20,9 +20,9 @@ Referer: http://javascript.info/some/url
 */!*
 ```
 
-As you can see, both `Referer` and `Origin` are present.
+正如你所看到的，存在 `Referer` 和 `Origin`。
 
-The questions:
+问题是：
 
-1. Why `Origin` is needed, if `Referer` has even more information?
-2. If it possible that there's no `Referer` or `Origin`, or it's incorrect?
+1. 为什么需要 `Origin`，如果 `Referer` 甚至具有更多信息？
+2. 如果这里没有 `Referer` 或 `Origin` 可行吗，还是说会出问题？

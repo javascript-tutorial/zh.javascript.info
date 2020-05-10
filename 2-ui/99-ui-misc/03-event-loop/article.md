@@ -329,7 +329,7 @@ alert("code");
 所以，我们可以使用 `queueMicrotask` 来在保持环境状态一致的情况下，异步地执行一个函数。
 
 ```smart header="Web Workers"
-对于不应该阻塞时间循环的耗时长的繁重计算任务，我们可以使用 [Web Workers](https://html.spec.whatwg.org/multipage/workers.html)。
+对于不应该阻塞事件循环的耗时长的繁重计算任务，我们可以使用 [Web Workers](https://html.spec.whatwg.org/multipage/workers.html)。
 
 这是在另一个并行线程中运行代码的方式。
 

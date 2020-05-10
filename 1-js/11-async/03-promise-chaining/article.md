@@ -216,7 +216,7 @@ new Promise(resolve => resolve(1))
   .then(alert); // 1000ms 后显示 2
 ```
 
-JavaScript 检查在 `(*)` 行中由 `.then` 处理程序（handler）返回的对象：如果它具有名为 `then` 的可调用方法，那么它将调用该方法并提供原生的函数 `resolve` 和 `reject 作为参数（类似于 executor），并等待直到其中一个函数被调用。在上面的示例中，`resolve(2)` 在 1 秒后被调用 `(**)`。然后，result 会被进一步沿着链向下传递。
+JavaScript 检查在 `(*)` 行中由 `.then` 处理程序（handler）返回的对象：如果它具有名为 `then` 的可调用方法，那么它将调用该方法并提供原生的函数 `resolve` 和 `reject` 作为参数（类似于 executor），并等待直到其中一个函数被调用。在上面的示例中，`resolve(2)` 在 1 秒后被调用 `(**)`。然后，result 会被进一步沿着链向下传递。
 
 这个特性允许我们将自定义的对象与 promise 链集成在一起，而不必继承自 `Promise`。
 ````
@@ -248,7 +248,7 @@ fetch('/article/promise-chaining/user.json')
   })
   .then(function(text) {
     // ...这是远程文件的内容
-    alert(text); // {"name": "iliakan", isAdmin: true}
+    alert(text); // {"name": "iliakan", "isAdmin": true}
   });
 ```
 

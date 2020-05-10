@@ -276,7 +276,7 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 
 ## 更多链接：表格 [#dom-navigation-tables]
 
-到现在，我们已经描述了基本的导航（nabigation）属性。
+到现在，我们已经描述了基本的导航（navigation）属性。
 
 方便起见，某些类型的 DOM 元素可能会提供特定于其类型的其他属性。
 

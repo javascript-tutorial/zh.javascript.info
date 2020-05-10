@@ -192,7 +192,7 @@ document.domain = 'site.com';
 
 - `window.frames` —— “子”窗口的集合（用于嵌套的 iframe）。
 - `window.parent` —— 对“父”（外部）窗口的引用。
-- `window.top` —— 对最顶级级父窗口的引用。
+- `window.top` —— 对最顶级父窗口的引用。
 
 例如：
 
