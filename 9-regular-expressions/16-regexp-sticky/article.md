@@ -120,7 +120,7 @@ regexp.lastIndex = 4;
 alert( regexp.exec(str) ); // varName（在位置 4 的单词）
 ```
 
-我们可以看到，regexp `pattern:/\w+/y` 在位置 `3` 处不匹配(不像标志 `pattern:g` )，而是在位置 `4` 处匹配。
+我们可以看到，regexp `pattern:/\w+/y` 在位置 `3` 处不匹配(不同于标志 `pattern:g` )，而是在位置 `4` 处匹配。
 
 想象一下，我们有一个长的文本，而里面根本没有匹配。那么用标志 `pattern:g` 搜索将一直到文本的最后，这将比用标志 `pattern:y` 搜索要花费更多的时间。
 
