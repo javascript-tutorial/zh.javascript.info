@@ -320,7 +320,7 @@ shadow DOM 可以引入样式，如 `<style>` 或 `<link rel="stylesheet">`。
 
 - shadow 树,
 - shadow 宿主（通过 `:host`-family 系列伪类），
-- 占槽元素 （来自 light DOM），`::slotted(selector)` 允许选择占槽元素本身，但不能选择它们的子元素。
+- 占槽元素（来自 light DOM），`::slotted(selector)` 允许选择占槽元素本身，但不能选择它们的子元素。
 
 文档样式可以影响：
 - shadow 宿主（因为它位于外部文档中）
