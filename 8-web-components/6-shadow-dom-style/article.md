@@ -114,7 +114,7 @@ customElements.define('custom-dialog', class extends HTMLElement {
 
 ## :host-context(selector)
 
-与 `:host` 相同，但仅当外部文档中的 shadow 宿主或它的任何祖先节点与选择器匹配时才应用样式。
+与 `:host` 相同，但仅当外部文档中的 shadow 宿主或它的任何祖先节点与 `selector` 匹配时才应用样式。
 
 例如，`:host-context(.dark-theme)` 只有在 `<custom-dialog>` 或者 `<custom-dialog>` 的任何祖先节点上有 `dark-theme` 类时才匹配：
 
