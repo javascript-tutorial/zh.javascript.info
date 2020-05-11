@@ -250,7 +250,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 自定义CSS属性存在于所有层次，包括 light DOM 和 shadow DOM 。
 
-例如，在 shadow DOM 中，我们可以使用 `--user-card-field-color`  CSS 变量来设置字段的样式，而外部文档可以设置它的值：
+例如，在 shadow DOM 中，我们可以使用 `--user-card-field-color` CSS 变量来设置字段的样式，而外部文档可以设置它的值：
 
 ```html
 <style>
