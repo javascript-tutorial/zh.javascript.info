@@ -110,7 +110,7 @@ customElements.define('custom-dialog', class extends HTMLElement {
 </custom-dialog>
 ```
 
-现在附加的居中样式只应用于第一个对话框：`custom-dialog centered` 。
+现在附加的居中样式只应用于第一个对话框：`<custom-dialog centered>`。
 
 ## :host-context(selector)
 
