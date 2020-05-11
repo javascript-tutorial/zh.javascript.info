@@ -197,7 +197,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 另一个选项是使用 `::slotted(selector)` 伪类。它根据两个条件来匹配元素：
 
-1. 这是一个占槽元素，来自于 light DOM 。插槽名并不重要，任何占槽元素都可以，但只能是元素本身，而不是它的子元素 。
+1. 这是一个占槽元素，来自于 light DOM。插槽名并不重要，任何占槽元素都可以，但只能是元素本身，而不是它的子元素 。
 2. 该元素与 `selector` 匹配。
 
 在我们的例子中， `::slotted(div)` 正好选择了 `<div slot="username">` ，但是没有选择它的子元素：
