@@ -195,7 +195,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 这里 `<p>John Smith</p>` 变成粗体，因为 CSS 继承在 `<slot>` 和它的内容之间有效。但是在 CSS 中，并不是所有的属性都是继承的。
 
-另一个选项是使用 `::slotted (selector)` 伪类。它根据两个条件来匹配元素：
+另一个选项是使用 `::slotted(selector)` 伪类。它根据两个条件来匹配元素：
 
 1. 这是一个占槽元素，来自于 light DOM 。插槽名并不重要，任何占槽元素都可以，但只能是元素本身，而不是它的子元素 。
 2. 该元素与 `selector` 匹配。
