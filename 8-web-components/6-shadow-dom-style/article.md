@@ -6,7 +6,7 @@ shadow DOM 可以包含 `<style>` 和 `<link rel="stylesheet" href="…">` 标�
 
 ## :host
 
- `:host`  选择器允许选择 shadow 宿主（包含 shadow 树的元素）。
+ `:host` 选择器允许选择 shadow 宿主（包含 shadow 树的元素）。
 
 例如，我们正在创建 `<custom-dialog>`元素，并且想使它居中。为此，我们需要对 `<custom-dialog>` 元素本身设置样式。
 
