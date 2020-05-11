@@ -314,7 +314,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 ## 小结
 
-shadow DOM 可以引入样式，如 `<style>` 或 `<link rel="stylesheet">` 。
+shadow DOM 可以引入样式，如 `<style>` 或 `<link rel="stylesheet">`。
 
 局部样式可以影响：
 
