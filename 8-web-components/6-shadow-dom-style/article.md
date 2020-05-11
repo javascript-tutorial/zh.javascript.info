@@ -248,7 +248,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 没有选择器可以从文档中直接影响 shadow DOM 样式。但是，正如我们暴露用来与组件交互的方法那样，我们也可以暴露 CSS 变量（自定义 CSS 属性）来对其进行样式设置。
 
-自定义CSS属性存在于所有层次，包括 light DOM 和 shadow DOM 。
+**自定义 CSS 属性存在于所有层次，包括 light DOM 和 shadow DOM。**
 
 例如，在 shadow DOM 中，我们可以使用 `--user-card-field-color` CSS 变量来设置字段的样式，而外部文档可以设置它的值：
 
