@@ -226,7 +226,7 @@ customElements.define('user-card', class extends HTMLElement {
 </script>
 ```
 
-请注意， `::slotted` 选择器不能用于任何插槽中更深层的内容。下面这些选择器是无效的：
+请注意，`::slotted` 选择器不能用于任何插槽中更深层的内容。下面这些选择器是无效的：
 
 ```css
 ::slotted(div span) {
