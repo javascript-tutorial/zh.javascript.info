@@ -135,7 +135,7 @@ customElements.define('custom-dialog', class extends HTMLElement {
 
 占槽元素来自 light DOM，所以它们使用文档样式。局部样式不会影响占槽内容。
 
-在下面的例子中，按照文档样式，占槽的 `<span>` 是粗体，但是它不从局部样式中获取 `background` ：
+在下面的例子中，按照文档样式，占槽的 `<span>` 是粗体，但是它不从局部样式中获取 `background`：
 
 ```html run autorun="no-epub" untrusted height=80
 <style>
