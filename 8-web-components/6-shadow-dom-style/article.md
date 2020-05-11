@@ -1,6 +1,6 @@
 # 给 Shadow DOM 添加样式
 
-shadow DOM 可以包含 `<style>` 和 `<link rel="stylesheet" href="…"` 标签。在后一种情况下，样式表是 http 缓存的，因此不会为使用同一模板的多个组件重新下载样式表。
+shadow DOM 可以包含 `<style>` 和 `<link rel="stylesheet" href="…">` 标签。在后一种情况下，样式表是 HTTP 缓存的，因此不会为使用同一模板的多个组件重新下载样式表。
 
 一般来说，局部样式只在 shadow 树内起作用，文档样式在 shadow 树外起作用。但也有少数例外。
 
