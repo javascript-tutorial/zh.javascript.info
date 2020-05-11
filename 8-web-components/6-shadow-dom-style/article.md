@@ -244,7 +244,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 如何在主文档中设置组件的内建元素的样式?
 
-像 `:host` 这样的选择器应用规则到 `<custom-dialog>` 元素或 `<user-card>` ，但是如何设置在它们内部的 shadow DOM 元素的样式呢？
+像 `:host` 这样的选择器应用规则到 `<custom-dialog>` 元素或 `<user-card>`，但是如何设置在它们内部的 shadow DOM 元素的样式呢？
 
 没有选择器可以从文档中直接影响 shadow DOM 样式。但是，正如我们暴露用来与组件交互的方法那样，我们也可以暴露 CSS 变量（自定义 CSS 属性）来对其进行样式设置。
 
