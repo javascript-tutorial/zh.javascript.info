@@ -256,7 +256,7 @@ customElements.define('user-card', class extends HTMLElement {
 <style>
   .field {
     color: var(--user-card-field-color, black);
-    /* 如果 --user-card-field-color 没有被声明过, 则取值为 black */
+    /* 如果 --user-card-field-color 没有被声明过，则取值为 black */
   }
 </style>
 <div class="field">Name: <slot name="username"></slot></div>
