@@ -193,7 +193,7 @@ customElements.define('user-card', class extends HTMLElement {
 </script>
 ```
 
-这里 `<p>John Smith</p>`  变成粗体，因为CSS继承在 `<slot>` 和它的内容之间有效。但是在 CSS 中，并不是所有的属性都是继承的。
+这里 `<p>John Smith</p>` 变成粗体，因为 CSS 继承在 `<slot>` 和它的内容之间有效。但是在 CSS 中，并不是所有的属性都是继承的。
 
 另一个选项是使用 `::slotted (selector)` 伪类。它根据两个条件来匹配元素：
 
