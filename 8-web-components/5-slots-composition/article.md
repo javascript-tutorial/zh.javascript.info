@@ -318,7 +318,7 @@ customElements.define('custom-menu', class extends HTMLElement {
 
 当然我们可以为它添加更多的功能：事件、方法等。
 
-## Updating slots
+## 更新插槽
 
 如果外部代码想动态 添加/移除 菜单项怎么办？
 
@@ -328,7 +328,7 @@ customElements.define('custom-menu', class extends HTMLElement {
 
 因此我们无需执行任何操作即可更新渲染。但是如果组件想知道插槽的更改，那么可以用 `slotchange` 事件。
 
-例如，这里的菜单子项在 1 秒后动态插入，而且标题在 2 秒后改变。
+例如，这里的菜单项在 1 秒后动态插入，而且标题在 2 秒后改变。
 
 ```html run untrusted height=80
 <custom-menu id="menu">
@@ -376,14 +376,14 @@ setTimeout(() => {
 
 如果我们想通过 JavaScript 跟踪 light DOM 的内部修改，也可以使用更通用的机制: [MutationObserver](info:mutation-observer)。
 
-## Slot API
+## 插槽 API
 
 最后让我们来谈谈与插槽相关的 JavaScript 方法。
 
 正如我们之前所见，JavaScript 会查看真实的 DOM，不展开。但是如果 shadow 树有 `{mode: 'open'}` ，那么我们可以找出哪个元素被放进一个插槽，反之亦然，哪个插槽分配了给这个元素：
 
-- `node.assignedSlot` -- 返回将节点分配给的 `<slot>` 元素。
-- `slot.assignedNodes({flatten: true/false})` -- 分配给插槽的 DOM 节点。默认情况下，`flatten` 选项为 `false`。如果显式地设置为 `true` ，则它将更深入地关注扁平化 DOM ，如果嵌套了组件，则返回嵌套的插槽，如果未分配节点，则返回备用内容。
+- `node.assignedSlot` -- 返回 `node` 分配给的 `<slot>` 元素。
+- `slot.assignedNodes({flatten: true/false})` -- 分配给插槽的 DOM 节点。默认情况下，`flatten` 选项为 `false`。如果显式地设置为 `true`，则它将更深入地查看扁平化 DOM ，如果嵌套了组件，则返回嵌套的插槽，如果未分配节点，则返回备用内容。
 - `slot.assignedElements({flatten: true/false})` -- 分配给插槽的 DOM 元素（与上面相同，但仅元素节点）。
 
 当我们不仅需要显示已插入内容的内容，还需要在 JavaScript 中对其进行跟踪时，这些方法非常有用。
@@ -435,10 +435,10 @@ setTimeout(() => {
 
 插槽有两种：
 
-- 命名插槽：`<slot name="X">...</slot>` - 使用 `slot="X"` 获取 light 子元素。
-- 默认插槽：第一个没有名字的 `<slot>` （随后的未命名插槽将被忽略）- 接受不是插槽的 light 子元素。
+- 具名插槽：`<slot name="X">...</slot>` - 使用 `slot="X"` 获取 light 子元素。
+- 默认插槽：第一个没有名字的 `<slot>`（随后的未命名插槽将被忽略）- 接受不是插槽的 light 子元素。
 - 如果同一插槽中有很多元素 - 它们会被一个接一个地添加。
-- `<slot>` 元素的内容作为备用。它显示了该插槽是否有 light 型的子元素。
+- `<slot>` 元素的内容作为备用。如果插槽没有 light 型的子元素，就会显示。
 
 在其槽内渲染插槽元素的过程称为“组合”。结果称为“扁平化 DOM”。
 
