@@ -21,9 +21,9 @@
 
 我们可以尝试分析元素内容并动态复制重新排列 DOM 节点。这是可能的，但是如果我们要将元素移动到 Shadow DOM，那么文档的 CSS 样式不能在那里应用，因此文档的视觉样式可能会丢失。看起来还需要做一些事情。
 
-幸运的是我们不需要去做。Shadow DOM 支持 `<slot>` 元素，由普通 DOM 中的内容自动填充。
+幸运的是我们不需要去做。Shadow DOM 支持 `<slot>` 元素，由 light DOM 中的内容自动填充。
 
-## 命名插槽
+## 具名插槽
 
 让我们通过一个简单的例子看下插槽是如何工作的。
 
@@ -56,7 +56,7 @@ customElements.define('user-card', class extends HTMLElement {
 </user-card>
 ```
 
-在 shadow DOM 中，`<slot name="X">` 定义了一个 “插入点”，一个带有 `slot="X"` 的元素被渲染的地方。
+在 shadow DOM 中，`<slot name="X">` 定义了一个“插入点”，一个带有 `slot="X"` 的元素被渲染的地方。
 
 然后浏览器执行”组合“：它从 light DOM 中获取元素并且渲染到 shadow DOM 中的对应插槽中。最后，正是我们想要的 —— 一个能被填充数据的通用组件。
 
@@ -76,7 +76,7 @@ customElements.define('user-card', class extends HTMLElement {
 </user-card>
 ```
 
-这没什么奇怪的。我们创建了 shadow DOM，所以在这里。现在元素同时拥有 light DOM 和 shadow DOM。
+我们创建了 shadow DOM，所以它当然就存在了，位于 `#shadow-root` 之下。现在元素同时拥有 light DOM 和 shadow DOM。
 
 为了渲染 shadow DOM 中的每一个 `<slot name="...">` 元素，浏览器在 light DOM 中寻找相同名字的 `slot="..."`。这些元素在插槽内被渲染：
 
@@ -106,11 +106,11 @@ customElements.define('user-card', class extends HTMLElement {
 如果我们调用 `querySelector` 那就很容易验证：节点仍在它们的位置。
 
 ```js
-// 普通 DOM <span> 节点位置依然不变，在 `<user-card>` 里
+// light DOM <span> 节点位置依然不变，在 `<user-card>` 里
 alert( document.querySelector('user-card span').length ); // 2
 ```
 
-这可能看起来很奇怪，但是对于带有插槽的 shadow DOM 我们有多一个 "DOM 层次" 的扁平化 DOM —— 插槽插入的结果。浏览器渲染它并且用于样式继承、事件传播。但是 JavaScript 在展平前仍按原样看到文档。
+因此，扁平化 DOM 是通过插入插槽从 shadow DOM 派生出来的。浏览器渲染它并且用于样式继承、事件传播。但是 JavaScript 在展平前仍按原样看到文档。
 
 ````warn header="仅顶层子元素可以设置 slot=\"...\" 特性"
 `slot="..."` 属性仅仅对 shadow host 的直接子代 (在我们的例子中的 `<user-card>` 元素)  有效。对于嵌套元素它将被忽略。
@@ -125,9 +125,34 @@ alert( document.querySelector('user-card span').length ); // 2
   </div>
 </user-card>
 ```
-
-在实践中，放入深层嵌套的元素是没有意义的，所以这个限制只能确保正确的 DOM 结构。
 ````
+
+如果在 light DOM 里有多个相同插槽名的元素，那么它们会被一个接一个地添加到插槽中。
+
+例如这样：
+```html
+<user-card>
+  <span slot="username">John</span>
+  <span slot="username">Smith</span>
+</user-card>
+```
+
+给这个扁平化 DOM 两个元素，插入到 `<slot name="username">` 里：
+
+```html
+<user-card>
+  #shadow-root
+    <div>Name:
+      <slot name="username">
+        <span slot="username">John</span>
+        <span slot="username">Smith</span>
+      </slot>
+    </div>
+    <div>Birthday:
+      <slot name="birthday"></slot>
+    </div>
+</user-card>
+```
 
 ## 插槽后备内容
 
@@ -141,7 +166,7 @@ alert( document.querySelector('user-card span').length ); // 2
 </div>
 ```
 
-## 默认插槽
+## 默认插槽：第一个不具名的插槽
 
 shadow DOM 中第一个没有名字的 `<slot>` 是一个默认插槽。它从 light DOM 中获取没有放置在其他位置的所有节点。
 
@@ -243,7 +268,7 @@ customElements.define('user-card', class extends HTMLElement {
 ```
 
 1. `<span slot="title">` 进入 `<slot name="title">`。
-2. 模版中有许多 `<li slot="item">`，但是只有一个 `<slot name="item">`。完全正常。所有带有 `slot="item"` 的元素都一个接一个地附加到 `<slot name="item">` 上，从而形成列表。
+2. 模版中有许多 `<li slot="item">`，但是只有一个 `<slot name="item">`。因此所有带有 `slot="item"` 的元素都一个接一个地附加到 `<slot name="item">` 上，从而形成列表。
 
 扁平化的 DOM 变为：
 
@@ -355,8 +380,7 @@ setTimeout(() => {
 
 最后让我们来谈谈与插槽相关的 JavaScript 方法。
 
-As we've seen before, JavaScript looks at the "real" DOM, without flattening. But, if the shadow tree has `{mode: 'open'}`, then we can figure out which elements assigned to a slot and, vise-versa, the slot by the element inside it:
-正如我们之前所见，JavaScript 会查看真实的 DOM，不展开。但是如果 shadow 树有 `{mode: 'open'}` ，那么我们可以找出哪个元素被放进一个插槽，反之亦然，哪个插槽分配了给这个元素。
+正如我们之前所见，JavaScript 会查看真实的 DOM，不展开。但是如果 shadow 树有 `{mode: 'open'}` ，那么我们可以找出哪个元素被放进一个插槽，反之亦然，哪个插槽分配了给这个元素：
 
 - `node.assignedSlot` -- 返回将节点分配给的 `<slot>` 元素。
 - `slot.assignedNodes({flatten: true/false})` -- 分配给插槽的 DOM 节点。默认情况下，`flatten` 选项为 `false`。如果显式地设置为 `true` ，则它将更深入地关注扁平化 DOM ，如果嵌套了组件，则返回嵌套的插槽，如果未分配节点，则返回备用内容。
@@ -365,6 +389,7 @@ As we've seen before, JavaScript looks at the "real" DOM, without flattening. Bu
 当我们不仅需要显示已插入内容的内容，还需要在 JavaScript 中对其进行跟踪时，这些方法非常有用。
 
 例如，如果 `<custom-menu>` 组件想知道它所显示的内容，那么它可以跟踪 `slotchange` 并从 `slot.assignedElements` 获取：
+
 ```html run untrusted height=120
 <custom-menu id="menu">
   <span slot="title">Candy menu</span>
@@ -383,7 +408,7 @@ customElements.define('custom-menu', class extends HTMLElement {
       <ul><slot name="item"></slot></ul>
     </div>`;
 
-    // slottable is added/removed/replaced
+    // 插槽能被添加/删除/代替
 *!*
     this.shadowRoot.firstElementChild.addEventListener('slotchange', e => {
       let slot = e.target;
@@ -396,7 +421,7 @@ customElements.define('custom-menu', class extends HTMLElement {
   }
 });
 
-// items update after 1 second
+// items 在 1 秒后更新
 setTimeout(() => {
   menu.insertAdjacentHTML('beforeEnd', '<li slot="item">Cup Cake</li>')
 }, 1000);
@@ -406,24 +431,25 @@ setTimeout(() => {
 
 ## 小结
 
-插槽允许在 shadow DOM 中显示 light DOM 子元素。
+通常，如果一个元素含有 shadow DOM，那么其 light DOM 就不会被展示出来。插槽允许在 shadow DOM 中显示 light DOM 子元素。
 
 插槽有两种：
 
 - 命名插槽：`<slot name="X">...</slot>` - 使用 `slot="X"` 获取 light 子元素。
-- 默认插槽: 第一个没有名字的 `<slot>` （随后的未命名插槽将被忽略）- 接受不是插槽的 light 子元素。
-- 如果同一插槽中有很多元素 -- 它们会被一个接一个地添加。
+- 默认插槽：第一个没有名字的 `<slot>` （随后的未命名插槽将被忽略）- 接受不是插槽的 light 子元素。
+- 如果同一插槽中有很多元素 - 它们会被一个接一个地添加。
 - `<slot>` 元素的内容作为备用。它显示了该插槽是否有 light 型的子元素。
 
 在其槽内渲染插槽元素的过程称为“组合”。结果称为“扁平化 DOM”。
+
 组合不会真实的去移动节点，从 JavaScript 的视角看 DOM 仍然是相同的。
 
 JavaScript 可以使用以下的方法访问插槽：
-- `slot.assignedNodes/Elements()` -- 返回插槽内的 节点/元素。
-- `node.assignedSlot` -- 相反的方法，返回一个节点的插槽。
+- `slot.assignedNodes/Elements()` - 返回插槽内的 节点/元素。
+- `node.assignedSlot` - 相反的方法，返回一个节点的插槽。
 
 如果我们想知道显示的内容，可以使用以下方法跟踪插槽位的内容：
-- `slotchange` 事件 —— 在插槽第一次填充时触发，并且在插槽元素的 添加/删除/替换 操作（而不是其子元素）时触发，插槽是 `event.target` 。
+- `slotchange` 事件 - 在插槽第一次填充时触发，并且在插槽元素的 添加/删除/替换 操作（而不是其子元素）时触发，插槽是 `event.target` 。
 - 使用 [MutationObserver](info:mutation-observer) 来深入了解插槽内容，并查看其中的更改。
 
 现在，在 shadow DOM 中有来自 light DOM 的元素时，让我们看看如何正确的设置样式。基本规则是 shadow 元素在内部设置样式，light 元素在外部设置样式，但是有一些例外。
