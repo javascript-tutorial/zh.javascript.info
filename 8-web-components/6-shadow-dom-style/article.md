@@ -57,7 +57,7 @@ custom-dialog {
 }
 </style>
 ```
-...那么 `<custom-dialog>` 将没有 padding。
+……那么 `<custom-dialog>` 将没有 padding。
 
 这是非常有利的，因为我们可以在其 `:host` 规则中设置 “默认” 组件样式，然后在文档中轻松地覆盖它们。
 
