@@ -113,7 +113,7 @@ alert( document.querySelector('user-card span').length ); // 2
 因此，扁平化 DOM 是通过插入插槽从 shadow DOM 派生出来的。浏览器渲染它并且用于样式继承、事件传播。但是 JavaScript 在展平前仍按原样看到文档。
 
 ````warn header="仅顶层子元素可以设置 slot=\"...\" 特性"
-`slot="..."` 属性仅仅对 shadow host 的直接子代 (在我们的例子中的 `<user-card>` 元素)  有效。对于嵌套元素它将被忽略。
+`slot="..."` 属性仅仅对 shadow host 的直接子代 (在我们的例子中的 `<user-card>` 元素) 有效。对于嵌套元素它将被忽略。
 
 例如，这里的第二个 `<span>` 被忽略了 (因为它不是 `<user-card>` 的顶层子元素)：
 ```html
