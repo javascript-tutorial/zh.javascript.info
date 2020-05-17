@@ -101,7 +101,7 @@ customElements.define('user-card', class extends HTMLElement {
 </user-card>
 ```
 
-……但是 "flattened" DOM 仅仅被创建用来渲染和事件处理。那就是他们怎么被展现出来。节点事实上并没有到处移动！
+……但是 "flattened" DOM 仅仅被创建用来渲染和事件处理，是“虚拟”的。虽然是渲染出来了，但文档中的节点事实上并没有到处移动！
 
 如果我们调用 `querySelector` 那就很容易验证：节点仍在它们的位置。
 
