@@ -291,7 +291,7 @@ customElements.define('user-card', class extends HTMLElement {
 </custom-menu>
 ```
 
-可能会注意到，在有效的 DOM 中，`<li>` 必须是 `<ul>` 的直接子代。但这是扁平化的 DOM ，它描述了组件的渲染方式，这样的事情在这里自然发生。
+可能会注意到，在有效的 DOM 中，`<li>` 必须是 `<ul>` 的直接子代。但这是扁平化的 DOM，它描述了组件的渲染方式，这样的事情在这里自然发生。
 
 我们只需要添加一个 `click` 事件处理程序来打开/关闭列表，并且 `<custom-menu>` 准备好了：
 
