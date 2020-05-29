@@ -27,7 +27,11 @@ alert(document.constructor.name); // HTMLDocument
 alert(HTMLDocument.prototype.constructor === HTMLDocument); // true
 ```
 
+<<<<<<< HEAD
 为了以字符串的形式获取一个类的 name，我们可以使用 `constructor.name`。让我们对整个 `document` 的原型链执行该操作，直到 class `Node`：
+=======
+To get a name of the class as a string, we can use `constructor.name`. Let's do it for the whole `document` prototype chain, till class `Node`:
+>>>>>>> cd2c7ce3c8f033e6f7861ed1b126552e41ba3e31
 
 ```js run
 alert(HTMLDocument.prototype.constructor.name); // HTMLDocument
@@ -35,6 +39,12 @@ alert(HTMLDocument.prototype.__proto__.constructor.name); // Document
 alert(HTMLDocument.prototype.__proto__.__proto__.constructor.name); // Node
 ```
 
+<<<<<<< HEAD
 这就是层次结构。
 
 我们还可以使用 `console.dir(document)` 来检查对象，并通过打开 `__proto__` 来查看这些名称。控制台将它们从 `constructor` 内部取出来。
+=======
+That's the hierarchy.
+
+We also could examine the object using `console.dir(document)` and see these names by opening `__proto__`. The console takes them from `constructor` internally.
+>>>>>>> cd2c7ce3c8f033e6f7861ed1b126552e41ba3e31

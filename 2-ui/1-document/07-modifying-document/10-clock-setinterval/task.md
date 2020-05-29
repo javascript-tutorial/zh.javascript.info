@@ -8,4 +8,8 @@ importance: 4
 
 [iframe src="solution" height=60]
 
+<<<<<<< HEAD
 使用 HTML/CSS 进行样式设计，JavaScript 仅用来更新元素中的时间。
+=======
+Use HTML/CSS for the styling, JavaScript only updates time in elements.
+>>>>>>> cd2c7ce3c8f033e6f7861ed1b126552e41ba3e31

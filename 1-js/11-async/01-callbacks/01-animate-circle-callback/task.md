@@ -1,15 +1,15 @@
 
-# 带回调的圆形动画
+# Animated circle with callback
 
-在 <info:task/animate-circle> 任务中，显示了一个逐渐变大的圆形动画。
+In the task <info:task/animate-circle> an animated growing circle is shown.
 
-现在假设我们不仅需要一个圆圈，还需要在其中显示一条消息。该消息应在动画完成后（圆已经完全长大了）**出现**，否则它看起来会很难看。
+Now let's say we need not just a circle, but to show a message inside it. The message should appear *after* the animation is complete (the circle is fully grown), otherwise it would look ugly.
 
-在此任务的解决方案中，`showCircle(cx, cy, radius)` 函数画了一个圆，但是无法跟踪圆形是否已经准备好。 
+In the solution of the task, the function `showCircle(cx, cy, radius)` draws the circle, but gives no way to track when it's ready.
 
-添加一个回调参数：当动画完成时，可以调用 `showCircle(cx, cy, radius, callback)`。`callback` 应该接受圆形的 `<div>` 作为参数。
+Add a callback argument: `showCircle(cx, cy, radius, callback)` to be called when the animation is complete. The `callback` should receive the circle `<div>` as an argument.
 
-这是示例：
+Here's the example:
 
 ```js
 showCircle(150, 150, 100, div => {
@@ -18,8 +18,8 @@ showCircle(150, 150, 100, div => {
 });
 ```
 
-Demo：
+Demo:
 
 [iframe src="solution" height=260]
 
-以 <info:task/animate-circle> 任务的答案作为解决本任务的基础。
+Take the solution of the task <info:task/animate-circle> as the base.
