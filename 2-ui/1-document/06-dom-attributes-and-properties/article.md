@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 # 特性和属性（Attributes and properties）
+=======
+When the browser loads the page, it "reads" (another word: "parses") the HTML and generates DOM objects from it. For element nodes, most standard HTML attributes automatically become properties of DOM objects.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 并从中生成 DOM 对象。对于元素节点，大多数标准的 HTML 特性（attributes）会自动变成 DOM 对象的属性（properties）。（译注：attribute 和 property 两词意思相近，为作区分，全文将 attribute 译为“特性”，property 译为“属性”，请读者注意区分。）
 
@@ -7,7 +11,11 @@
 
 但特性—属性映射并不是一一对应的！在本章，我们将带领你一起分清楚这两个概念，了解如何使用它们，了解它们何时相同何时不同。
 
+<<<<<<< HEAD
 ## DOM 属性
+=======
+We've already seen built-in DOM properties. There are a lot. But technically no one limits us, and if there aren't enough, we can add our own.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 我们已经见过了内建 DOM 属性。它们数量庞大。但是从技术上讲，没有人会限制我们，如果我们觉得这些 DOM 还不够，我们可以添加我们自己的。
 
@@ -52,7 +60,11 @@ document.body.sayHi(); // Hello, I'm BODY
 
 ## HTML 特性
 
+<<<<<<< HEAD
 在 HTML 中，标签可能拥有特性（attributes）。当浏览器解析 HTML 文本，并根据标签创建 DOM 对象时，浏览器会辨别 **标准的** 特性并以此创建 DOM 属性。
+=======
+In HTML, tags may have attributes. When the browser parses the HTML to create DOM objects for tags, it recognizes *standard* attributes and creates DOM properties from them.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 所以，当一个元素有 `id` 或其他 **标准的** 特性，那么就会生成对应的 DOM 属性。但是非 **标准的** 特性则不会。
 
@@ -84,9 +96,15 @@ document.body.sayHi(); // Hello, I'm BODY
 </body>
 ```
 
+<<<<<<< HEAD
 所以，如果一个特性不是标准的，那么就没有相对应的 DOM 属性。那我们有什么方法来访问这些特性吗？
 
 当然。所有特性都可以通过使用以下方法进行访问：
+=======
+So, if an attribute is non-standard, there won't be a DOM-property for it. Is there a way to access such attributes?
+
+Sure. All attributes are accessible by using the following methods:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 - `elem.hasAttribute(name)` — 检查特性是否存在。
 - `elem.getAttribute(name)` — 获取这个特性值。
@@ -125,7 +143,11 @@ HTML 特性有以下几个特征：
 
     elem.setAttribute('Test', 123); // (2) 写入
 
+<<<<<<< HEAD
     alert( elem.outerHTML ); // (3) 查看特性是否在 HTML 中（在）
+=======
+    alert( elem.outerHTML ); // (3), see if the attribute is in HTML (yes)
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
     for (let attr of elem.attributes) { // (4) 列出所有
       alert( `${attr.name} = ${attr.value}` );
@@ -136,10 +158,17 @@ HTML 特性有以下几个特征：
 
 请注意：
 
+<<<<<<< HEAD
 1. `getAttribute('About')` — 这里的第一个字母是大写的，但是在 HTML 中，它们都是小写的。但这没有影响：特性的名称是大小写不敏感的。
 2. 我们可以将任何东西赋值给特性，但是这些东西会变成字符串类型的。所以这里我们的值为 `"123"`。
 3. 所有特性，包括我们设置的那个特性，在 `outerHTML` 中都是可见的。
 4. `attributes` 集合是可迭代对象，该对象将所有元素的特性（标准和非标准的）作为 `name` 和 `value` 属性存储在对象中。
+=======
+1. `getAttribute('About')` -- the first letter is uppercase here, and in HTML it's all lowercase. But that doesn't matter: attribute names are case-insensitive.
+2. We can assign anything to an attribute, but it becomes a string. So here we have `"123"` as the value.
+3. All attributes including ones that we set are visible in `outerHTML`.
+4. The `attributes` collection is iterable and has all the attributes of the element (standard and non-standard) as objects with `name` and `value` properties.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ## 属性—特性同步
 
@@ -187,7 +216,11 @@ HTML 特性有以下几个特征：
 - 改变特性值 `value` 会更新属性。
 - 但是属性的更改不会影响特性。
 
+<<<<<<< HEAD
 这个“功能”在实际中会派上用场，因为用户行为可能会导致 `value` 的更改，然后在这些操作之后，如果我们想从 HTML 中恢复“原始”值，那么该值就在特性中。
+=======
+That "feature" may actually come in handy, because the user actions may lead to `value` changes, and then after them, if we want to recover the "original" value from HTML, it's in the attribute.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ## DOM 属性是多类型的
 
@@ -217,9 +250,15 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 </script>
 ```
 
+<<<<<<< HEAD
 尽管大多数 DOM 属性都是字符串类型的。
 
 有一种非常少见的情况，即使一个 DOM 属性是字符串类型的，但它可能和 HTML 特性也是不同的。例如，`href` DOM 属性一直是一个 **完整的** URL，即使该特性包含一个相对路径或者包含一个 `#hash`。
+=======
+Most properties are strings though.
+
+Quite rarely, even if a DOM property type is a string, it may differ from the attribute. For instance, the `href` DOM property is always a *full* URL, even if the attribute contains a relative URL or just a `#hash`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 这里有一个例子：
 
@@ -261,7 +300,11 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
   for(let div of document.querySelectorAll('[show-info]')) {
     // 在字段中插入相应的信息
     let field = div.getAttribute('show-info');
+<<<<<<< HEAD
     div.innerHTML = user[field]; // 首先 "name" 变为 Pete，然后 "age" 变为 25
+=======
+    div.innerHTML = user[field]; // first Pete into "name", then 25 into "age"
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
   }
 </script>
 ```
@@ -299,16 +342,26 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 </div>
 ```
 
+<<<<<<< HEAD
 为什么使用特性比使用 `.order-state-new`，`.order-state-pending`，`order-state-canceled` 这些样式类要好？
 
 因为特性值更容易管理。我们可以轻松地更改状态：
+=======
+Why would using an attribute be preferable to having classes like `.order-state-new`, `.order-state-pending`, `order-state-canceled`?
+
+Because an attribute is more convenient to manage. The state can be changed as easy as:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js
 // 比删除旧的或者添加一个新的类要简单一些
 div.setAttribute('order-state', 'canceled');
 ```
 
+<<<<<<< HEAD
 但是自定义的特性也存在问题。如果我们出于我们的目的使用了非标准的特性，之后它被引入到了标准中并有了其自己的用途，该怎么办？HTML 语言是在不断发展的，并且更多的特性出现在了标准中，以满足开发者的需求。在这种情况下，自定义的属性可能会产生意料不到的影响。
+=======
+But there may be a possible problem with custom attributes. What if we use a non-standard attribute for our purposes and later the standard introduces it and makes it do something? The HTML language is alive, it grows, and more attributes appear to suit the needs of developers. There may be unexpected effects in such case.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 为了避免冲突，存在 [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) 特性。
 
@@ -381,7 +434,11 @@ div.setAttribute('order-state', 'canceled');
 - `elem.removeAttribute(name)` — 移除这个特性。
 - `elem.attributes` — 所有特性的集合。
 
+<<<<<<< HEAD
 在大多数情况下，最好使用 DOM 属性。仅当 DOM 属性无法满足开发需求，并且我们真的需要特性时，才使用特性，例如：
+=======
+For most situations using DOM properties is preferable. We should refer to attributes only when DOM properties do not suit us, when we need exactly attributes, for instance:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 - 我们需要一个非标准的特性。但是如果它以 `data-` 开头，那么我们应该使用 `dataset`。
 - 我们想要读取 HTML 中“所写的”值。对应的 DOM 属性可能不同，例如 `href` 属性一直是一个 **完整的** URL，但是我们想要的是“原始的”值。

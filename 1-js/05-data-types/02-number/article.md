@@ -1,8 +1,18 @@
 # 数字类型
 
+<<<<<<< HEAD
 在现代 JavaScript 中，数字（number）有两种类型：
 
 1. JavaScript 中的常规数字以 64 位的格式 [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision) 存储，也被称为“双精度浮点数”。这是我们大多数时候所使用的数字，我们将在本章中学习它们。
+=======
+In modern JavaScript, there are two types of numbers:
+
+1. Regular numbers in JavaScript are stored in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), also known as "double precision floating point numbers". These are numbers that we're using most of the time, and we'll talk about them in this chapter.
+
+2. BigInt numbers, to represent integers of arbitrary length. They are sometimes needed, because a regular number can't exceed <code>2<sup>53</sup></code> or be less than <code>-2<sup>53</sup></code>. As bigints are used in few special areas, we devote them a special chapter <info:bigint>.
+
+So here we'll talk about regular numbers. Let's expand our knowledge of them.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 2. BigInt 数字，用于表示任意长度的整数。有时会需要它们，因为常规数字不能超过 <code>2<sup>53</sup></code> 或小于 <code>-2<sup>53</sup></code>。由于仅在少数特殊领域才会用到 BigInt，因此我们在特殊的章节 <info:bigint> 中对其进行了介绍。
 
@@ -16,7 +26,11 @@
 let billion = 1000000000;
 ```
 
+<<<<<<< HEAD
 但在现实生活中，我们通常避免写一长串零，因为它很容易打错。另外，我们很懒。我们通常会将 10 亿写成 `"1bn"`，或将 72 亿写成 `"7.3bn"`。对于大多数大的数字来说都是如此。
+=======
+But in real life, we usually avoid writing a long string of zeroes as it's easy to mistype. Also, we are lazy. We will usually write something like `"1bn"` for a billion or `"7.3bn"` for 7 billion 300 million. The same is true for most large numbers.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 在 JavaScript 中，我们通过在数字后附加字母 "e"，并指定零的数量来缩短数字：
 
@@ -33,16 +47,27 @@ alert( 7.3e9 );  // 73 亿（7,300,000,000）
 1.23e6 = 1.23 * 1000000
 ```
 
+<<<<<<< HEAD
 现在让我们写一些非常小的数字。例如，1 微秒（百万分之一秒）：
+=======
+Now let's write something very small. Say, 1 microsecond (one millionth of a second):
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js
 let ms = 0.000001;
 ```
 
+<<<<<<< HEAD
 就像以前一样，可以使用 `"e"` 来完成。如果我们想避免显式地写零，我们可以这样写：
 
 ```js
 let ms = 1e-6; // 1 的左边有 6 个 0
+=======
+Just like before, using `"e"` can help. If we'd like to avoid writing the zeroes explicitly, we could say the same as:
+
+```js
+let ms = 1e-6; // six zeroes to the left from 1
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 ```
 
 如果我们数一下 `0.000001` 中的 0 的个数，是 6 个。所以自然是 `1e-6`。
@@ -155,8 +180,13 @@ alert( num.toString(2) );   // 11111111
     alert( Math.floor(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
+<<<<<<< HEAD
 2. 函数 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将数字舍入到小数点后 `n` 位，并以字符串形式返回结果。
         
+=======
+2. The method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to `n` digits after the point and returns a string representation of the result.
+
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
     ```js run
     let num = 12.34;
     alert( num.toFixed(1) ); // "12.3"
@@ -173,14 +203,22 @@ alert( num.toString(2) );   // 11111111
 
     ```js run
     let num = 12.34;
+<<<<<<< HEAD
     alert( num.toFixed(5) ); // "12.34000"，在结尾添加了 0，以达到小数点后五位
+=======
+    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
     ```
 
     我们可以使用一元加号或 `Number()` 调用，将其转换为数字：`+ num.toFixed(5)`。
 
 ## 不精确的计算
 
+<<<<<<< HEAD
 在内部，数字是以 64 位格式 [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985) 表示的，所以正好有 64 位可以存储一个数字：其中 52 位被用于存储这些数字，其中 11 位用于存储小数点的位置（对于整数，它们为零），而 1 位用于符号。
+=======
+Internally, a number is represented in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), so there are exactly 64 bits to store a number: 52 of them are used to store the digits, 11 of them store the position of the decimal point (they are zero for integer numbers), and 1 bit is for the sign.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 如果一个数字太大，则会溢出 64 位存储，并可能会导致无穷大：
 
@@ -196,7 +234,11 @@ alert( 1e500 ); // Infinity
 alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 ```
 
+<<<<<<< HEAD
 没错，如果我们检查 `0.1` 和 `0.2` 的总和是否为 `0.3`，我们会得到 `false`。
+=======
+That's right, if we check whether the sum of `0.1` and `0.2` is `0.3`, we get `false`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 奇了怪了！如果不是 `0.3`，那能是啥？
 
@@ -204,19 +246,33 @@ alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 alert( 0.1 + 0.2 ); // 0.30000000000000004
 ```
 
+<<<<<<< HEAD
 哎哟！这个错误比不正确的比较的后果更严重。想象一下，你创建了一个电子购物网站，如果访问者将价格为 `¥ 0.10` 和 `¥ 0.20` 的商品放入了他的购物车。订单总额将是 `¥ 0.30000000000000004`。这会让任何人感到惊讶。
+=======
+Ouch! There are more consequences than an incorrect comparison here. Imagine you're making an e-shopping site and the visitor puts `$0.10` and `$0.20` goods into their cart. The order total will be `$0.30000000000000004`. That would surprise anyone.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 但为什么会这样呢？
 
+<<<<<<< HEAD
 一个数字以其二进制的形式存储在内存中，一个 1 和 0 的序列。但是在十进制数字系统中看起来很简单的 `0.1`，`0.2` 这样的小数，实际上在二进制形式中是无限循环小数。
 
 换句话说，什么是 `0.1`？`0.1` 就是 `1` 除以 `10`，`1/10`，即十分之一。在十进制数字系统中，这样的数字表示起来很容易。将其与三分之一进行比较：`1/3`。三分之一变成了无限循环小数 `0.33333(3)`。
+=======
+A number is stored in memory in its binary form, a sequence of bits - ones and zeroes. But fractions like `0.1`, `0.2` that look simple in the decimal numeric system are actually unending fractions in their binary form.
+
+In other words, what is `0.1`? It is one divided by ten `1/10`, one-tenth. In decimal numeral system such numbers are easily representable. Compare it to one-third: `1/3`. It becomes an endless fraction `0.33333(3)`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 在十进制数字系统中，可以保证以 `10` 的整数次幂作为除数能够正常工作，但是以 `3` 作为除数则不能。也是同样的原因，在二进制数字系统中，可以保证以 `2` 的整数次幂作为除数时能够正常工作，但 `1/10` 就变成了一个无限循环的二进制小数。
 
 使用二进制数字系统无法 **精确** 存储 *0.1* 或 *0.2*，就像没有办法将三分之一存储为十进制小数一样。
 
+<<<<<<< HEAD
 IEEE-754 数字格式通过将数字舍入到最接近的可能数字来解决此问题。这些舍入规则通常不允许我们看到“极小的精度损失”，但是它确实存在。
+=======
+The numeric format IEEE-754 solves this by rounding to the nearest possible number. These rounding rules normally don't allow us to see that "tiny precision loss", but it exists.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 我们可以看到：
 ```js run
@@ -230,40 +286,66 @@ alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 ```smart header="不仅仅是 JavaScript"
 许多其他编程语言也存在同样的问题。
 
+<<<<<<< HEAD
 PHP，Java，C，Perl，Ruby 给出的也是完全相同的结果，因为它们基于的是相同的数字格式。
 ```
 
 我们能解决这个问题吗？当然，最可靠的方法是借助方法 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 对结果进行舍入：
+=======
+PHP, Java, C, Perl, Ruby give exactly the same result, because they are based on the same numeric format.
+```
+
+Can we work around the problem? Sure, the most reliable method is to round the result with the help of a method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed):
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let sum = 0.1 + 0.2;
 alert( sum.toFixed(2) ); // 0.30
 ```
 
+<<<<<<< HEAD
 请注意，`toFixed` 总是返回一个字符串。它确保小数点后有 2 位数字。如果我们有一个电子购物网站，并需要显示 `¥ 0.30`，这实际上很方便。对于其他情况，我们可以使用一元加号将其强制转换为一个数字：
+=======
+Please note that `toFixed` always returns a string. It ensures that it has 2 digits after the decimal point. That's actually convenient if we have an e-shopping and need to show `$0.30`. For other cases, we can use the unary plus to coerce it into a number:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let sum = 0.1 + 0.2;
 alert( +sum.toFixed(2) ); // 0.3
 ```
 
+<<<<<<< HEAD
 我们可以将数字临时乘以 100（或更大的数字），将其转换为整数，进行数学运算，然后再除回。当我们使用整数进行数学运算时，误差会有所减少，但仍然可以在除法中得到：
+=======
+We also can temporarily multiply the numbers by 100 (or a bigger number) to turn them into integers, do the maths, and then divide back. Then, as we're doing maths with integers, the error somewhat decreases, but we still get it on division:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
 alert( (0.28 * 100 + 0.14 * 100) / 100); // 0.4200000000000001
 ```
 
+<<<<<<< HEAD
 因此，乘/除法可以减少误差，但不能完全消除误差。
 
 有时候我们可以尝试完全避免小数。例如，我们正在创建一个电子购物网站，那么我们可以用角而不是元来存储价格。但是，如果我们要打 30% 的折扣呢？实际上，完全避免小数处理几乎是不可能的。只需要在必要时剪掉其“尾巴”来对其进行舍入即可。
+=======
+So, multiply/divide approach reduces the error, but doesn't remove it totally.
+
+Sometimes we could try to evade fractions at all. Like if we're dealing with a shop, then we can store prices in cents instead of dollars. But what if we apply a discount of 30%? In practice, totally evading fractions is rarely possible. Just round them to cut "tails" when needed.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ````smart header="有趣的事儿"
 尝试运行下面这段代码：
 
 ```js run
+<<<<<<< HEAD
 // Hello！我是一个会自我增加的数字！
 alert( 9999999999999999 ); // 显示 10000000000000000
+=======
+// Hello! I'm a self-increasing number!
+alert( 9999999999999999 ); // shows 10000000000000000
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 ```
 
 出现了同样的问题：精度损失。有 64 位来表示该数字，其中 52 位可用于存储数字，但这还不够。所以最不重要的数字就消失了。
@@ -274,17 +356,30 @@ JavaScript 不会在此类事件中触发 error。它会尽最大努力使数字
 ```smart header="两个零"
 数字内部表示的另一个有趣结果是存在两个零：`0` 和 `-0`。
 
+<<<<<<< HEAD
 这是因为在存储时，使用一位来存储符号，因此对于包括零在内的任何数字，可以设置这一位或者不设置。
+=======
+That's because a sign is represented by a single bit, so it can be set or not set for any number including a zero.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 在大多数情况下，这种区别并不明显，因为运算符将它们视为相同的值。
 ```
 
+<<<<<<< HEAD
 ## 测试：isFinite 和 isNaN
 
 还记得这两个特殊的数值吗？
 
 - `Infinity`（和 `-Infinity`）是一个特殊的数值，比任何数值都大（小）。
 - `NaN` 代表一个 error。
+=======
+## Tests: isFinite and isNaN
+
+Remember these two special numeric values?
+
+- `Infinity` (and `-Infinity`) is a special numeric value that is greater (less) than anything.
+- `NaN` represents an error.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 它们属于 `number` 类型，但不是“普通”数字，因此，这里有用于检查它们的特殊函数：
 
@@ -324,12 +419,21 @@ alert( isFinite(num) );
 
 ```smart header="与 `Object.is` 进行比较"
 
+<<<<<<< HEAD
 有一个特殊的内建方法 [`Object.is`](mdn:js/Object/is)，它类似于 `===` 一样对值进行比较，但它对于两种边缘情况更可靠：
 
 1. 它适用于 `NaN`：`Object.is（NaN，NaN）=== true`，这是件好事。
 2. 值 `0` 和 `-0` 是不同的：`Object.is（0，-0）=== false`，从技术上讲这是对的，因为在内部，数字的符号位可能会不同，即使其他所有位均为零。
 
 在所有其他情况下，`Object.is(a，b)` 与 `a === b` 相同。
+=======
+There is a special built-in method [`Object.is`](mdn:js/Object/is) that compares values like `===`, but is more reliable for two edge cases:
+
+1. It works with `NaN`: `Object.is(NaN, NaN) === true`, that's a good thing.
+2. Values `0` and `-0` are different: `Object.is(0, -0) === false`, technically that's true, because internally the number has a sign bit that may be different even if all other bits are zeroes.
+
+In all other cases, `Object.is(a, b)` is the same as `a === b`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 这种比较方式经常被用在 JavaScript 规范中。当内部算法需要比较两个值是否完全相同时，它使用 `Object.is`（内部称为 [SameValue](https://tc39.github.io/ecma262/#sec-samevalue)）。
 ```
@@ -349,7 +453,11 @@ alert( +"100px" ); // NaN
 
 这就是 `parseInt` 和 `parseFloat` 的作用。
 
+<<<<<<< HEAD
 它们可以从字符串中“读取”数字，直到无法读取为止。如果发生 error，则返回收集到的数字。函数 `parseInt` 返回一个整数，而 `parseFloat` 返回一个浮点数：
+=======
+They "read" a number from a string until they can't. In case of an error, the gathered number is returned. The function `parseInt` returns an integer, whilst `parseFloat` will return a floating-point number:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 alert( parseInt('100px') ); // 100
@@ -406,20 +514,41 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
     alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
     ```
 
+<<<<<<< HEAD
 `Math` 对象中还有更多函数和常量，包括三角函数，你可以在 [Math 函数文档](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 中找到这些内容。
 
 ## 总结
+=======
+There are more functions and constants in `Math` object, including trigonometry, which you can find in the [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object.
+
+## Summary
+
+To write numbers with many zeroes:
+
+- Append `"e"` with the zeroes count to the number. Like: `123e6` is the same as `123` with 6 zeroes `123000000`.
+- A negative number after `"e"` causes the number to be divided by 1 with given zeroes. E.g. `123e-6` means `0.000123` (`123` millionths).
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 要写有很多零的数字：
 
+<<<<<<< HEAD
 - 将 `"e"` 和 0 的数量附加到数字后。就像：`123e6` 与 `123` 后面接 6 个 0 相同。
 - `"e"` 后面的负数将使数字除以 1 后面接着给定数量的零的数字。例如 `123e-6` 表示 `0.000123`（`123` 的百万分之一）。
+=======
+- Can write numbers directly in hex (`0x`), octal (`0o`) and binary (`0b`) systems.
+- `parseInt(str, base)` parses the string `str` into an integer in numeral system with given `base`, `2 ≤ base ≤ 36`.
+- `num.toString(base)` converts a number to a string in the numeral system with the given `base`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 对于不同的数字系统：
 
+<<<<<<< HEAD
 - 可以直接在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中写入数字。
 - `parseInt(str，base)` 将字符串 `str` 解析为在给定的 `base` 数字系统中的整数，`2 ≤ base ≤ 36`。
 - `num.toString(base)` 将数字转换为在给定的 `base` 数字系统中的字符串。
+=======
+- Use `parseInt/parseFloat` for the "soft" conversion, which reads a number from a string and then returns the value they could read before the error.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 要将 `12pt` 和 `100px` 之类的值转换为数字：
 
@@ -427,9 +556,13 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 小数：
 
+<<<<<<< HEAD
 - 使用 `Math.floor`，`Math.ceil`，`Math.trunc`，`Math.round` 或 `num.toFixed(precision)` 进行舍入。
 - 请确保记住使用小数时会损失精度。
 
 更多数学函数：
 
 - 需要时请查看 [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象。这个库很小，但是可以满足基本的需求。
+=======
+- See the [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object when you need them. The library is very small, but can cover basic needs.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74

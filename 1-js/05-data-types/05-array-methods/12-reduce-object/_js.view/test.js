@@ -8,13 +8,21 @@ describe("groupById", function() {
     ];
 
     assert.deepEqual(groupById(users), {
+<<<<<<< HEAD
       john: {id: 'john', name: "John Smith", age: 20}
+=======
+      john: {id: 'john', name: "John Smith", age: 20},
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
       ann: {id: 'ann', name: "Ann Smith", age: 24},
       pete: {id: 'pete', name: "Pete Peterson", age: 31},
     });
   });
 
   it("works with an empty array", function() {
+<<<<<<< HEAD
+=======
+    users = [];
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
     assert.deepEqual(groupById(users), {});
   });
 });

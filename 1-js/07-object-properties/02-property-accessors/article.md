@@ -1,31 +1,31 @@
 
-# 属性的 getter 和 setter
+# Property getters and setters
 
-有两种类型的属性。
+There are two kinds of object properties.
 
-第一种是 **数据属性**。我们已经知道如何使用它们了。到目前为止，我们使用过的所有属性都是数据属性。
+The first kind is *data properties*. We already know how to work with them. All properties that we've been using until now were data properties.
 
-第二种类型的属性是新东西。它是 **访问器属性（accessor properties）**。它们本质上是用于获取和设置值的函数，但从外部代码来看就像常规属性。
+The second type of properties is something new. It's *accessor properties*. They are essentially functions that execute on getting and setting a value, but look like regular properties to an external code.
 
-## Getter 和 setter
+## Getters and setters
 
-访问器属性由 "getter" 和 "setter" 方法表示。在对象字面量中，它们用 `get` 和 `set` 表示：
+Accessor properties are represented by "getter" and "setter" methods. In an object literal they are denoted by `get` and `set`:
 
 ```js
 let obj = {
   *!*get propName()*/!* {
-    // 当读取 obj.propName 时，getter 起作用
+    // getter, the code executed on getting obj.propName
   },
 
   *!*set propName(value)*/!* {
-    // 当执行 obj.propName = value 操作时，setter 起作用
+    // setter, the code executed on setting obj.propName = value
   }
 };
 ```
 
-当读取 `obj.propName` 时，getter 起作用，当 `obj.propName` 被赋值时，setter 起作用。
+The getter works when `obj.propName` is read, the setter -- when it is assigned.
 
-例如，我们有一个具有 `name` 和 `surname` 属性的对象 `user`：
+For instance, we have a `user` object with `name` and `surname`:
 
 ```js
 let user = {
@@ -34,7 +34,7 @@ let user = {
 };
 ```
 
-现在我们想添加一个 `fullName` 属性，该属性值应该为 `"John Smith"`。当然，我们不想复制粘贴已有的信息，因此我们可以使用访问器来实现：
+Now we want to add a `fullName` property, that should be `"John Smith"`. Of course, we don't want to copy-paste existing information, so we can implement it as an accessor:
 
 ```js run
 let user = {
@@ -53,9 +53,9 @@ alert(user.fullName); // John Smith
 */!*
 ```
 
-从外表看，访问器属性看起来就像一个普通属性。这就是访问器属性的设计思想。我们不以函数的方式 **调用** `user.fullName`，我们正常 **读取** 它：getter 在幕后运行。
+From the outside, an accessor property looks like a regular one. That's the idea of accessor properties. We don't *call* `user.fullName` as a function, we *read* it normally: the getter runs behind the scenes.
 
-截至目前，`fullName` 只有一个 getter。如果我们尝试赋值操作 `user.fullName=`，将会出现错误：
+As of now, `fullName` has only a getter. If we attempt to assign `user.fullName=`, there will be an error:
 
 ```js run
 let user = {
@@ -65,11 +65,11 @@ let user = {
 };
 
 *!*
-user.fullName = "Test"; // Error（属性只有一个 getter）
+user.fullName = "Test"; // Error (property has only a getter)
 */!*
 ```
 
-让我们通过为 `user.fullName` 添加一个 setter 来修复它：
+Let's fix it by adding a setter for `user.fullName`:
 
 ```js run
 let user = {
@@ -87,29 +87,29 @@ let user = {
 */!*
 };
 
-// set fullName 将以给定值执行
+// set fullName is executed with the given value.
 user.fullName = "Alice Cooper";
 
 alert(user.name); // Alice
 alert(user.surname); // Cooper
 ```
 
-现在，我们就有一个“虚拟”属性。它是可读且可写的。
+As the result, we have a "virtual" property `fullName`. It is readable and writable.
 
-## 访问器描述符
+## Accessor descriptors
 
-访问器属性的描述符与数据属性的不同。
+Descriptors for accessor properties are different from those for data properties.
 
-对于访问器属性，没有 `value` 和 `writable`，但是有 `get` 和 `set` 函数。
+For accessor properties, there is no `value` or `writable`, but instead there are `get` and `set` functions.
 
-所以访问器描述符可能有：
+That is, an accessor descriptor may have:
 
-- **`get`** —— 一个没有参数的函数，在读取属性时工作，
-- **`set`** —— 带有一个参数的函数，当属性被设置时调用，
-- **`enumerable`** —— 与数据属性的相同，
-- **`configurable`** —— 与数据属性的相同。
+- **`get`** -- a function without arguments, that works when a property is read,
+- **`set`** -- a function with one argument, that is called when the property is set,
+- **`enumerable`** -- same as for data properties,
+- **`configurable`** -- same as for data properties.
 
-例如，要使用 `defineProperty` 创建一个 `fullName` 访问器，我们可以使用 `get` 和 `set` 来传递描述符：
+For instance, to create an accessor `fullName` with `defineProperty`, we can pass a descriptor with `get` and `set`:
 
 ```js run
 let user = {
@@ -134,9 +134,9 @@ alert(user.fullName); // John Smith
 for(let key in user) alert(key); // name, surname
 ```
 
-请注意，一个属性要么是访问器（具有 `get/set` 方法），要么是数据属性（具有 `value`），但不能两者都是。
+Please note that a property can be either an accessor (has `get/set` methods) or a data property (has a `value`), not both.
 
-如果我们试图在同一个描述符中同时提供 `get` 和 `value`，则会出现错误：
+If we try to supply both `get` and `value` in the same descriptor, there will be an error:
 
 ```js run
 *!*
@@ -151,11 +151,11 @@ Object.defineProperty({}, 'prop', {
 });
 ```
 
-## 更聪明的 getter/setter
+## Smarter getters/setters
 
-Getter/setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
+Getters/setters can be used as wrappers over "real" property values to gain more control over operations with them.
 
-例如，如果我们想禁止太短的 `user` 的 name，我们可以创建一个 setter `name`，并将值存储在一个单独的属性 `_name` 中：
+For instance, if we want to forbid too short names for `user`, we can have a setter `name` and keep the value in a separate property `_name`:
 
 ```js run
 let user = {
@@ -175,19 +175,19 @@ let user = {
 user.name = "Pete";
 alert(user.name); // Pete
 
-user.name = ""; // Name 太短了……
+user.name = ""; // Name is too short...
 ```
 
-所以，name 被存储在 `_name` 属性中，并通过 getter 和 setter 进行访问。
+So, the name is stored in `_name` property, and the access is done via getter and setter.
 
-从技术上讲，外部代码可以使用 `user._name` 直接访问 name。但是，这儿有一个众所周知的约定，即以下划线 `"_"` 开头的属性是内部属性，不应该从对象外部进行访问。
+Technically, external code is able to access the name directly by using `user._name`. But there is a widely known convention that properties starting with an underscore `"_"` are internal and should not be touched from outside the object.
 
 
-## 兼容性
+## Using for compatibility
 
-访问器的一大用途是，它们允许随时通过使用 getter 和 setter 替换“正常的”数据属性，来控制和调整这些属性的行为。
+One of the great uses of accessors is that they allow to take control over a "regular" data property at any moment by replacing it with a getter and a setter and tweak its behavior.
 
-想象一下，我们开始使用数据属性 `name` 和 `age` 来实现 user 对象：
+Imagine we started implementing user objects using data properties `name` and `age`:
 
 ```js
 function User(name, age) {
@@ -200,7 +200,7 @@ let john = new User("John", 25);
 alert( john.age ); // 25
 ```
 
-……但迟早，情况可能会发生变化。我们可能会决定存储 `birthday`，而不是 `age`，因为它更精确，更方便：
+...But sooner or later, things may change. Instead of `age` we may decide to store `birthday`, because it's more precise and convenient:
 
 ```js
 function User(name, birthday) {
@@ -211,13 +211,13 @@ function User(name, birthday) {
 let john = new User("John", new Date(1992, 6, 1));
 ```
 
-现在应该如何处理仍使用 `age` 属性的旧代码呢？
+Now what to do with the old code that still uses `age` property?
 
-我们可以尝试找到所有这些地方并修改它们，但这会花费很多时间，而且如果其他很多人都在使用该代码，那么可能很难完成所有修改。而且，`user` 中有 `age` 是一件好事，对吧？
+We can try to find all such places and fix them, but that takes time and can be hard to do if that code is used by many other people. And besides, `age` is a nice thing to have in `user`, right?
 
-那我们就把它保留下来吧。
+Let's keep it.
 
-为 `age` 添加一个 getter 来解决这个问题：
+Adding a getter for `age` solves the problem:
 
 ```js run no-beautify
 function User(name, birthday) {
@@ -225,7 +225,7 @@ function User(name, birthday) {
   this.birthday = birthday;
 
 *!*
-  // 年龄是根据当前日期和生日计算得出的
+  // age is calculated from the current date and birthday
   Object.defineProperty(this, "age", {
     get() {
       let todayYear = new Date().getFullYear();
@@ -237,8 +237,8 @@ function User(name, birthday) {
 
 let john = new User("John", new Date(1992, 6, 1));
 
-alert( john.birthday ); // birthday 是可访问的
-alert( john.age );      // ……age 也是可访问的
+alert( john.birthday ); // birthday is available
+alert( john.age );      // ...as well as the age
 ```
 
-现在旧的代码也可以工作，而且我们还拥有了一个不错的附加属性。
+Now the old code works too and we've got a nice additional property.

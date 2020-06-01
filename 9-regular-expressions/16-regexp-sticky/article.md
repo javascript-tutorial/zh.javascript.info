@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 粘性标志 "y"，在位置处搜索
 
 `pattern:y` 标志允许在源字符串中的指定位置执行搜索。
@@ -28,11 +29,43 @@ regexps 的常见任务之一是＂词法分析＂：比如我们在程序设计
 因此，连续调用 `regexp.exec(str)` 会一个接一个地返回匹配。
 
 一个例子（用标志 `pattern:g` ）：
+=======
+# Sticky flag "y", searching at position
+
+The flag `pattern:y` allows to perform the search at the given position in the source string.
+
+To grasp the use case of `pattern:y` flag, and see how great it is, let's explore a practical use case.
+
+One of common tasks for regexps is "lexical analysis": we get a text, e.g. in a programming language, and analyze it for structural elements.
+
+For instance, HTML has tags and attributes, JavaScript code has functions, variables, and so on.
+
+Writing lexical analyzers is a special area, with its own tools and algorithms, so we don't go deep in there, but there's a common task: to read something at the given position.
+
+E.g. we have a code string `subject:let varName = "value"`, and we need to read the variable name from it, that starts at position `4`.
+
+We'll look for variable name using regexp `pattern:\w+`. Actually, JavaScript variable names need a bit more complex regexp for accurate matching, but here it doesn't matter.
+
+A call to `str.match(/\w+/)` will find only the first word in the line. Or all words with the flag `pattern:g`. But we need only one word at position `4`.
+
+To search from the given position, we can use method `regexp.exec(str)`.
+
+If the `regexp` doesn't have flags `pattern:g` or `pattern:y`, then this method looks for the first match in the string `str`, exactly like `str.match(regexp)`. Such simple no-flags case doesn't interest us here.
+
+If there's flag `pattern:g`, then it performs the search in the string `str`, starting from position stored in its `regexp.lastIndex` property. And, if it finds a match, then sets `regexp.lastIndex` to the index immediately after the match.
+
+When a regexp is created, its `lastIndex` is `0`.
+
+So, successive calls to `regexp.exec(str)` return matches one after another.
+
+An example (with flag `pattern:g`):
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let str = 'let varName';
 
 let regexp = /\w+/g;
+<<<<<<< HEAD
 alert(regexp.lastIndex); // 0（最初 lastIndex=0）
 
 let word1 = regexp.exec(str);
@@ -51,6 +84,26 @@ alert(regexp.lastIndex); // 0（搜索结束时重置）
 每个匹配都会以数组形式返回，包含分组和附加属性。
 
 我们可以在循环中得到所有的匹配。
+=======
+alert(regexp.lastIndex); // 0 (initially lastIndex=0)
+
+let word1 = regexp.exec(str);
+alert(word1[0]); // let (1st word)
+alert(regexp.lastIndex); // 3 (position after the match)
+
+let word2 = regexp.exec(str);
+alert(word2[0]); // varName (2nd word)
+alert(regexp.lastIndex); // 11 (position after the match)
+
+let word3 = regexp.exec(str);
+alert(word3); // null (no more matches)
+alert(regexp.lastIndex); // 0 (resets at search end)
+```
+
+Every match is returned as an array with groups and additional properties.
+
+We can get all matches in the loop:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let str = 'let varName';
@@ -59,6 +112,7 @@ let regexp = /\w+/g;
 let result;
 
 while (result = regexp.exec(str)) {
+<<<<<<< HEAD
   alert( `Found ${result[0]}} at position ${result.index}` );
   // 在位置 0 发现 let, 然后
   // 在位置 4 发现 varName
@@ -70,11 +124,28 @@ while (result = regexp.exec(str)) {
 与其他方法不同，我们可以设置自己的 `lastIndex`，从给定位置开始搜索。
 
 例如，让我们从位置 `4` 开始寻找一个单词。
+=======
+  alert( `Found ${result[0]} at position ${result.index}` );
+  // Found let at position 0, then
+  // Found varName at position 4
+}
+```
+
+Such use of `regexp.exec` is an alternative to method `str.matchAll`.
+
+Unlike other methods, we can set our own `lastIndex`, to start the search from the given position.
+
+For instance, let's find a word, starting from position `4`:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let str = 'let varName = "value"';
 
+<<<<<<< HEAD
 let regexp = /\w+/g; // 如果没有标志 "g"，属性 lastIndex 会被忽略
+=======
+let regexp = /\w+/g; // without flag "g", property lastIndex is ignored
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 *!*
 regexp.lastIndex = 4;
@@ -84,9 +155,15 @@ let word = regexp.exec(str);
 alert(word); // varName
 ```
 
+<<<<<<< HEAD
 我们从位置 `regexp.lastIndex = 4` 开始搜索 `pattern:w+`。
 
 请注意：搜索从位置 `lastIndex` 开始，然后再往前走。如果在 `lastIndex` 位置上没有词，但它在后面的某个地方，那么它就会被找到：
+=======
+We performed a search of `pattern:\w+`, starting from position `regexp.lastIndex = 4`.
+
+Please note: the search starts at position `lastIndex` and then goes further. If there's no word at position `lastIndex`, but it's somewhere after it, then it will be found:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let str = 'let varName = "value"';
@@ -102,11 +179,19 @@ alert(word[0]); // varName
 alert(word.index); // 4
 ```
 
+<<<<<<< HEAD
 ……所以，用标志 `pattern:g` 属性 `lastIndex` 设置搜索的起始位置。
 
 **标记 `pattern:y` 使 `regexp.exec` 正好在 `lastIndex` 位置，而不是在它之前，也不是在它之后。
 
 下面是使用标志 `pattern:y` 进行同样的搜索。
+=======
+...So, with flag `pattern:g` property `lastIndex` sets the starting position for the search.
+
+**Flag `pattern:y` makes `regexp.exec` to look exactly at position `lastIndex`, not before, not after it.**
+
+Here's the same search with flag `pattern:y`:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js run
 let str = 'let varName = "value"';
@@ -114,6 +199,7 @@ let str = 'let varName = "value"';
 let regexp = /\w+/y;
 
 regexp.lastIndex = 3;
+<<<<<<< HEAD
 alert( regexp.exec(str) ); // null（位置 3 有一个空格，不是单词）
 
 regexp.lastIndex = 4;
@@ -125,3 +211,16 @@ alert( regexp.exec(str) ); // varName（在位置 4 的单词）
 想象一下，我们有一个长的文本，而里面根本没有匹配。那么用标志 `pattern:g` 搜索将一直到文本的最后，这将比用标志 `pattern:y` 搜索要花费更多的时间。
 
 在像词法分析这样的任务中，通常在一个确切的位置会有很多搜索。使用标志 `pattern:y` 是获得良好性能的关键。
+=======
+alert( regexp.exec(str) ); // null (there's a space at position 3, not a word)
+
+regexp.lastIndex = 4;
+alert( regexp.exec(str) ); // varName (word at position 4)
+```
+
+As we can see, regexp `pattern:/\w+/y` doesn't match at position `3` (unlike the flag  `pattern:g`), but matches at position `4`.
+
+Imagine, we have a long text, and there are no matches in it, at all. Then searching with flag `pattern:g` will go till the end of the text, and this will take significantly more time than the search with flag `pattern:y`.
+
+In such tasks like lexical analysis, there are usually many searches at an exact position. Using flag `pattern:y` is the key for a good performance.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74

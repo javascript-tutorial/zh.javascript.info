@@ -1,12 +1,29 @@
 
+<<<<<<< HEAD
 本教程阅读免费。
 
 如果你想将本教程做其他用途，请联系获取本教程中文版负责人 [LeviDing](https://github.com/leviding)：imdingxuewen@gmail.com 和原版负责人 [Ilya Kantor](https://github.com/iliakan)：iliakan@javascript.ru 的许可。
 
 截至目前，我们已经按照开放许可的条款，向几乎所有人免费提供了本教程的许可。如果有任何问题，都可以随时联系我。
+=======
+The tutorial is free to read.
+
+If you'd like to do something else with it, please get a permission from Ilya Kantor, iliakan@javascript.info.
+
+As of now, we license the tutorial to almost everyone for free under the terms of an open license. Just please be so kind to contact me.
 
 ## License (Short)
 
+The license is basically [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/legalcode), revocable and exclusive.
+
+It gives the right to:
+- **Share** – copy and redistribute the tutorial in any medium or material.
+- **Adapt** – remix, transform, and build upon the material.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
+
+## License (Short)
+
+<<<<<<< HEAD
 本许可基于 [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/legalcode)，可撤销并保留专有权。
 
 本许可赋予以下权利：
@@ -17,6 +34,10 @@
 
 - **署名** — 你必须作出适当的署名，提供指向本许可协议的链接，并指出是否进行了修改。你可以用任何合理的方式进行署名，但是不得以任何方式暗示许可方为你或你的使用背书。
 - **非商业性使用** — 你不得将本作品作商业用途。
+=======
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+- **NonCommercial** — You may not use the material for commercial purposes.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ## License (Legal)
 

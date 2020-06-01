@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# 使用相同的构造函数创建一个对象
+# Create an object with the same constructor
 
-想象一下，我们有一个由构造函数创建的对象 `obj` —— 我们不知道使用的是哪个构造函数，但是我们想使用它创建一个新对象。
+Imagine, we have an arbitrary object `obj`, created by a constructor function -- we don't know which one, but we'd like to create a new object using it.
 
-我们可以这样做吗？
+Can we do it like that?
 
 ```js
 let obj2 = new obj.constructor();
 ```
 
-请给出一个可以使这样的代码正常工作的 `obj` 的构造函数的例子。再给出会导致这样的代码无法正确工作的例子。
+Give an example of a constructor function for `obj` which lets such code work right. And an example that makes it work wrong.

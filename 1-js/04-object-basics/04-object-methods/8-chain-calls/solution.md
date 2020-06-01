@@ -28,7 +28,7 @@ ladder.up().up().down().up().down().showStep(); // 1
 
 我们也可以每行一个调用。对于长链接它更具可读性：
 
-```js 
+```js
 ladder
   .up()
   .up()
@@ -37,4 +37,3 @@ ladder
   .down()
   .showStep(); // 1
 ```
-

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 [![Gitter](https://img.shields.io/badge/chat-Gitter-forest.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -5,9 +6,15 @@
 
 - 本教程为 [React 官方文档](https://reactjs.org/docs/getting-started.html#javascript-resources) 推荐教程，持续更新，永久免费，欢迎扫码关注微信公众号，加入读者群。
 - 如果你正在使用本教程学习，并且认为对你有很大帮助，也请你考虑扫码赞助本项目，请我读一本书 📚
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 <!--
 
+<<<<<<< HEAD
 | 微信扫码关注官方公众号，订阅更多精彩内容 | 赞助项目（支付宝）| 赞助项目（微信）|
 |-|-|-|
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="400px;" /> | <img src="https://user-images.githubusercontent.com/26959437/77983009-62264d80-7340-11ea-8af9-0690289599af.jpeg" width="200px;" /> | <img src="https://user-images.githubusercontent.com/26959437/77983315-496a6780-7341-11ea-9e44-c28a942feabe.jpeg" width="200px;" /> |
@@ -22,6 +29,21 @@
 
 - **微信群**：加微信 **`imleviding`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64596211-0fa63380-d3e6-11e9-983d-bd788ffe2370.jpg)，验证信息填写 **`JS 教程`**。
 - **QQ 群**：打开 QQ 搜索群号 **`576578767`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64609229-12f9e900-d3ff-11e9-96e8-147335f5e264.jpg)，验证信息填写 **`JS 教程`**。
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 
 本项目托管了现代 JavaScript 教程中文版的内容，该内容发布在 [https://zh.javascript.info](https://zh.javascript.info)
@@ -34,6 +56,7 @@
 
 -->
 
+<<<<<<< HEAD
 
 ## 目录
 
@@ -270,3 +293,10 @@ importance: 5
 - LeviDing [@leviding](https://github.com/leviding)
 - LycheeEng [@lycheeEng](https://github.com/lycheeEng)
 - Martin [@MartinsYong](https://github.com/MartinsYong)
+=======
+It's very easy to add something new.
+
+---
+♥  
+Ilya Kantor @iliakan
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
