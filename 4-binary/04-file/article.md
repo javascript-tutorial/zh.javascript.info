@@ -4,7 +4,7 @@
 
 有两种方式可以获取它。
 
-第一种，与 `Blob` 类似，有一个构造器:
+第一种，与 `Blob` 类似，有一个构造器：
 
 ```js
 new File(fileParts, fileName, [options])
@@ -42,7 +42,7 @@ function showFile(input) {
 
 ## FileReader
 
-[FileReader](https://www.w3.org/TR/FileAPI/#dfn-filereader) 是一个对象，器唯一目的是从 `Blob`（因此也从 `File`）对象中读取数据。
+[FileReader](https://www.w3.org/TR/FileAPI/#dfn-filereader) 是一个对象，其唯一目的是从 `Blob`（因此也从 `File`）对象中读取数据。
 
 它使用事件来传递数据，因为从磁盘读取数据可能比较费时间。
 
