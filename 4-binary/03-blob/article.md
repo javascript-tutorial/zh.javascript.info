@@ -195,7 +195,7 @@ canvas.toBlob(function(blob) {
   link.href = URL.createObjectURL(blob);
   link.click();
 
-  // 删除内部 blob 引用，这样浏览器可以从内存中将其清楚
+  // 删除内部 blob 引用，这样浏览器可以从内存中将其清除
   URL.revokeObjectURL(link.href);
 }, 'image/png');
 ```
@@ -233,7 +233,7 @@ fileReader.onload = function(event) {
 
 这样可以方便 `Blob` 用于在浏览器中非常常见的上传/下载操作。
 
-[XMLHttpRequest](info:xmlhttprequest)，[fetch](info:fetch-basics) 等进行 Web 请求的方法可以自然地使用 `Blob`，也可以使用其他类型的二进制数据。
+[XMLHttpRequest](info:xmlhttprequest)，[fetch](info:fetch) 等进行 Web 请求的方法可以自然地使用 `Blob`，也可以使用其他类型的二进制数据。
 
 我们可以轻松地在 `Blob` 和低级别的二进制数据类型之间进行转换：
 
