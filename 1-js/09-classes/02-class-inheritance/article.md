@@ -398,7 +398,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 
 当一个函数被定义为类或者对象方法时，它的 `[[HomeObject]]` 属性就成为了该对象。
 
-然后 `super` 使用它来解析（resolve）父原型和它自己的方法。
+然后 `super` 使用它来解析（resolve）父原型及其方法。
 
 让我们看看它是怎么工作的，首先，对于普通对象：
 
