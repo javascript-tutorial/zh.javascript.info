@@ -4,8 +4,13 @@ class Uploader {
     this.file = file;
     this.onProgress = onProgress;
 
+<<<<<<< HEAD
     // 创建唯一标识文件的 fileId
     // 我们还可以添加用户会话标识符（如果有的话），以使其更具唯一性
+=======
+    // create fileId that uniquely identifies the file
+    // we could also add user session identifier (if had one), to make it even more unique
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
     this.fileId = file.name + '-' + file.size + '-' + +file.lastModifiedDate;
   }
 
@@ -31,9 +36,15 @@ class Uploader {
     let xhr = this.xhr = new XMLHttpRequest();
     xhr.open("POST", "upload", true);
 
+<<<<<<< HEAD
     // 发送文件 id，以便服务器知道要恢复哪个文件
     xhr.setRequestHeader('X-File-Id', this.fileId);
     // 发送我们要从哪个字节开始恢复，因此服务器知道我们正在恢复
+=======
+    // send file id, so that the server knows which file to resume
+    xhr.setRequestHeader('X-File-Id', this.fileId);
+    // send the byte we're resuming from, so the server knows we're resuming
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
     xhr.setRequestHeader('X-Start-Byte', this.startByte);
 
     xhr.upload.onprogress = (e) => {
@@ -44,9 +55,15 @@ class Uploader {
     xhr.send(this.file.slice(this.startByte));
 
     // return
+<<<<<<< HEAD
     //   true —— 如果上传成功，
     //   false —— 如果被中止
     // 出现 error 时将其抛出
+=======
+    //   true if upload was successful,
+    //   false if aborted
+    // throw in case of an error
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
     return await new Promise((resolve, reject) => {
 
       xhr.onload = xhr.onerror = () => {
@@ -59,7 +76,11 @@ class Uploader {
         }
       };
 
+<<<<<<< HEAD
       // onabort 仅在 xhr.abort() 被调用时触发
+=======
+      // onabort triggers only when xhr.abort() is called
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
       xhr.onabort = () => resolve(false);
 
     });

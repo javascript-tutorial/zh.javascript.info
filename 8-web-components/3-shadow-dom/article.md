@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 影子 DOM（Shadow DOM）
 
 Shadow DOM 为封装而生。它可以让一个组件拥有自己的「影子」DOM 树，这个 DOM 树不能在主文档中被任意访问，可能拥有局部样式规则，还有其他特性。
@@ -7,11 +8,23 @@ Shadow DOM 为封装而生。它可以让一个组件拥有自己的「影子」
 你是否曾经思考过复杂的浏览器控件是如何被创建和添加样式的？
 
 比如 `<input type="range">`：
+=======
+# Shadow DOM
+
+Shadow DOM serves for encapsulation. It allows a component to have its very own "shadow" DOM tree, that can't be accidentally accessed from the main document, may have local style rules, and more.
+
+## Built-in shadow DOM
+
+Did you ever think how complex browser controls are created and styled?
+
+Such as `<input type="range">`:
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 
 <p>
 <input type="range">
 </p>
 
+<<<<<<< HEAD
 浏览器在内部使用 DOM/CSS 来绘制它们。这个 DOM 结构一般来说对我们是隐藏的，但我们可以在开发者工具里面看见它。比如，在 Chrome 里，我们需要打开「Show user agent shadow DOM」选项。
 
 然后 `<input type="range">` 看起来会像这样：
@@ -27,6 +40,23 @@ Shadow DOM 为封装而生。它可以让一个组件拥有自己的「影子」
 ```html run autorun
 <style>
 /* 让滑块轨道变红 */
+=======
+The browser uses DOM/CSS internally to draw them. That DOM structure is normally hidden from us, but we can see it in developer tools. E.g. in Chrome, we need to enable in Dev Tools "Show user agent shadow DOM" option.
+
+Then `<input type="range">` looks like this:
+
+![](shadow-dom-range.png)
+
+What you see under `#shadow-root` is called "shadow DOM".
+
+We can't get built-in shadow DOM elements by regular JavaScript calls or selectors. These are not regular children, but a powerful encapsulation technique.
+
+In the example above, we can see a useful attribute `pseudo`. It's non-standard, exists for historical reasons. We can use it style subelements with CSS, like this:
+
+```html run autorun
+<style>
+/* make the slider track red */
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 input::-webkit-slider-runnable-track {
   background: red;
 }
@@ -35,6 +65,7 @@ input::-webkit-slider-runnable-track {
 <input type="range">
 ```
 
+<<<<<<< HEAD
 重申一次，`pseudo` 是一个非标准的属性。按照时间顺序来说，浏览器首先实验了使用内部 DOM 结构来实现控件，然后，在一段时间之后，shadow DOM 才被标准化来让我们，开发者们，做类似的事。
 
 接下来，我们将要使用现代 shadow DOM 标准，它在 [DOM spec](https://dom.spec.whatwg.org/#shadow-trees) 和其他相关标准中可以被找到。
@@ -51,6 +82,24 @@ input::-webkit-slider-runnable-track {
 影子树可以在自定义元素中被使用，其作用是隐藏组件内部结构和添加只在组件内有效的样式。
 
 比如，这个 `<show-hello>` 元素将它的内部 DOM 隐藏在了影子里面：
+=======
+Once again, `pseudo` is a non-standard attribute. Chronologically, browsers first started to experiment with internal DOM structures to implement controls, and then, after time, shadow DOM was standardized to allow us, developers, to do the similar thing.
+
+Further on, we'll use the modern shadow DOM standard, covered by [DOM spec](https://dom.spec.whatwg.org/#shadow-trees) other related specifications.
+
+## Shadow tree
+
+A DOM element can have two types of DOM subtrees:
+
+1. Light tree -- a regular DOM subtree, made of HTML children. All subtrees that we've seen in previous chapters were "light".
+2. Shadow tree -- a hidden DOM subtree, not reflected in HTML, hidden from prying eyes.
+
+If an element has both, then the browser renders only the shadow tree. But we can setup a kind of composition between shadow and light trees as well. We'll see the details later in the chapter <info:slots-composition>.
+
+Shadow tree can be used in Custom Elements to hide component internals and apply component-local styles.
+
+For example, this `<show-hello>` element hides its internal DOM in shadow tree:
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 
 ```html run autorun height=60
 <script>
@@ -67,6 +116,7 @@ customElements.define('show-hello', class extends HTMLElement {
 <show-hello name="John"></show-hello>
 ```
 
+<<<<<<< HEAD
 这就是在 Chrome 开发者工具中看到的最终样子，所有的内容都在「#shadow-root」下：
 
 ![](shadow-dom-say-hello.png)
@@ -102,11 +152,52 @@ Shadow DOM 被非常明显地和主文档分开：
 2. Shadow DOM 有自己的样式。外部样式规则在 shadow DOM 中不产生作用。
 
 比如：
+=======
+That's how the resulting DOM looks in Chrome dev tools, all the content is under "#shadow-root":
+
+![](shadow-dom-say-hello.png)
+
+First, the call to `elem.attachShadow({mode: …})` creates a shadow tree.
+
+There are two limitations:
+1. We can create only one shadow root per element.
+2. The `elem` must be either a custom element, or one of: "article", "aside", "blockquote", "body", "div", "footer", "h1..h6", "header", "main" "nav", "p", "section", or "span". Other elements, like `<img>`, can't host shadow tree.
+
+The `mode` option sets the encapsulation level. It must have any of two values:
+- `"open"` -- the shadow root is available as `elem.shadowRoot`.
+
+    Any code is able to access the shadow tree of `elem`.   
+- `"closed"` -- `elem.shadowRoot` is always `null`.
+
+    We can only access the shadow DOM by the reference returned by `attachShadow` (and probably hidden inside a class). Browser-native shadow trees, such as  `<input type="range">`, are closed. There's no way to access them.
+
+The [shadow root](https://dom.spec.whatwg.org/#shadowroot), returned by `attachShadow`, is like an element: we can use `innerHTML` or DOM methods, such as `append`, to populate it.
+
+The element with a shadow root is called a "shadow tree host", and is available as the shadow root `host` property:
+
+```js
+// assuming {mode: "open"}, otherwise elem.shadowRoot is null
+alert(elem.shadowRoot.host === elem); // true
+```
+
+## Encapsulation
+
+Shadow DOM is strongly delimited from the main document:
+
+1. Shadow DOM elements are not visible to `querySelector` from the light DOM. In particular,  Shadow DOM elements may have ids that conflict with those in the light DOM. They must be unique only within the shadow tree.
+2. Shadow DOM has own stylesheets. Style rules from the outer DOM don't get applied.
+
+For example:
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 
 ```html run untrusted height=40
 <style>
 *!*
+<<<<<<< HEAD
   /* 文档样式对 #elem 内的 shadow tree 无作用 (1) */
+=======
+  /* document style won't apply to the shadow tree inside #elem (1) */
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 */!*
   p { color: red; }
 </style>
@@ -116,7 +207,11 @@ Shadow DOM 被非常明显地和主文档分开：
 <script>
   elem.attachShadow({mode: 'open'});
 *!*
+<<<<<<< HEAD
     // shadow tree 有自己的样式 (2)
+=======
+    // shadow tree has its own style (2)
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 */!*
   elem.shadowRoot.innerHTML = `
     <style> p { font-weight: bold; } </style>
@@ -124,13 +219,18 @@ Shadow DOM 被非常明显地和主文档分开：
   `;
 
 *!*
+<<<<<<< HEAD
   // <p> 只对 shadow tree 里面的查询可见 (3)
+=======
+  // <p> is only visible from queries inside the shadow tree (3)
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 */!*
   alert(document.querySelectorAll('p').length); // 0
   alert(elem.shadowRoot.querySelectorAll('p').length); // 1
 </script>  
 ```
 
+<<<<<<< HEAD
 1. 文档里面的样式对 shadow tree 没有任何效果。
 2. ……但是内部的样式是有效的。
 3. 为了获取 shadow tree 内部的元素，我们可以从树的内部查询。
@@ -155,3 +255,29 @@ Shadow DOM 元素：
 - 只使用 shadow tree 内部的样式，不使用主文档的样式。
 
 Shadow DOM，如果存在的话，会被浏览器渲染而不是所谓的 「light DOM」（普通子元素）。在 <info:slots-composition> 章节中我们将会看到如何组织它们。
+=======
+1. The style from the document does not affect the shadow tree.
+2. ...But the style from the inside works.
+3. To get elements in shadow tree, we must query from inside the tree.
+
+## References
+
+- DOM: <https://dom.spec.whatwg.org/#shadow-trees>
+- Compatibility: <https://caniuse.com/#feat=shadowdomv1>
+- Shadow DOM is mentioned in many other specifications, e.g. [DOM Parsing](https://w3c.github.io/DOM-Parsing/#the-innerhtml-mixin) specifies that shadow root has `innerHTML`.
+
+
+## Summary
+
+Shadow DOM is a way to create a component-local DOM.
+
+1. `shadowRoot = elem.attachShadow({mode: open|closed})` -- creates shadow DOM for `elem`. If `mode="open"`, then it's accessible as `elem.shadowRoot` property.
+2. We can populate `shadowRoot` using `innerHTML` or other DOM methods.
+
+Shadow DOM elements:
+- Have their own ids space,
+- Invisible to JavaScript selectors from the main document, such as `querySelector`,
+- Use styles only from the shadow tree, not from the main document.
+
+Shadow DOM, if exists, is rendered by the browser instead of so-called "light DOM" (regular children). In the chapter <info:slots-composition> we'll see how to compose them.
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8

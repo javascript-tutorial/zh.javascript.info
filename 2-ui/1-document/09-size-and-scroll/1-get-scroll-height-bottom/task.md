@@ -4,7 +4,11 @@ importance: 5
 
 # 相对于底部滚动了多少？
 
+<<<<<<< HEAD
 `elem.scrollTop` 属性是从顶部滚动出来的部分的大小。如何获得底部滚动的大小（我们称其为 `scrollBottom`）？
+=======
+The `elem.scrollTop` property is the size of the scrolled out part from the top. How to get the size of the bottom scroll (let's call it `scrollBottom`)?
+>>>>>>> d35baee32dcce127a69325c274799bb81db1afd8
 
 编写适用于任意 `elem` 的代码。
 

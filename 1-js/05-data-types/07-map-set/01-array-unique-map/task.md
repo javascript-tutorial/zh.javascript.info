@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# 过滤数组中的唯一元素
+# Filter unique array members
 
-定义 `arr` 为一个数组。
+Let `arr` be an array.
 
-创建一个函数 `unique(arr)`，该函数返回一个由 `arr` 中所有唯一元素所组成的数组。
+Create a function `unique(arr)` that should return an array with unique items of `arr`.
 
-例如：
+For instance:
 
 ```js
 function unique(arr) {
-  /* 你的代码 */
+  /* your code */
 }
 
 let values = ["Hare", "Krishna", "Hare", "Krishna",
@@ -22,6 +22,6 @@ let values = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(values) ); // Hare, Krishna, :-O
 ```
 
-P.S. 这里用到了 string 类型，但其实可以是任何类型的值。
+P.S. Here strings are used, but can be values of any type.
 
-P.S. 使用 `Set` 来存储唯一值。
+P.P.S. Use `Set` to store unique values.
