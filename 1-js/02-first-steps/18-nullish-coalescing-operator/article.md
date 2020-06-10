@@ -62,7 +62,7 @@ alert(height ?? 100); // 0
 
 ## 优先级
 
-`??` 运算符的优先级相当低: 在[MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table)中是 `7`
+`??` 运算符的优先级相当低: 在 [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 中是 `7`。
 
 这比大多数运算符低，比 `=` 和 `?` 高一点。
 
