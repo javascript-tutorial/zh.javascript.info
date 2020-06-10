@@ -34,7 +34,7 @@ alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 空位合并运算符和或操作符 `||` 非常相似。其实，我们可以把上面的代码中的 `??` 替换为 `||`，得到的结果是一样的。
 
 重要的区别是:
-- `||` 返回第一个 *truthy* 值。（ *truthy* 是指：用逻辑判断时会返回true的值）
+- `||` 返回第一个 *truthy* 值。（ *truthy* 是指：用逻辑判断时会返回 true 的值）
 - `??` 返回第一个 *defined* 值。（ *defined* 是指：不是 null 或 undefined的值）
 
 当我们想将 `null/undefined` 与 `0` 区别对待时，这一点非常重要。
