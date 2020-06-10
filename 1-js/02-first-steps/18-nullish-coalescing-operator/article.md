@@ -56,7 +56,7 @@ alert(height || 100); // 100
 alert(height ?? 100); // 0
 ```
 
-这个例子里，`height || 100` 将零高度与 `null` 、 `undefined` 或任何其他 falsy 值一样视为未设置值，以上结果取决于某些不正确的使用场景。（ *falsy* 是指：用逻辑判断时会返回false的值）
+这个例子里，`height || 100` 将零高度与 `null` 、`undefined` 或任何其他 falsy 值一样视为未设置值，以上结果取决于某些不正确的使用场景。（ *falsy* 是指：用逻辑判断时会返回 false 的值）
 
 `height ?? 100` 只有在 `height` 是 `null` 或 `undefined` 的情况下才返回 `100`.
 
