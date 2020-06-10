@@ -109,7 +109,7 @@ alert(x); // 2
     它用于为变量分配默认值：:
 
     ```js
-    // 当height是 null 或者 undefined 时，设置其默认值为100
+    // 当 height 是 null 或者 undefined 时，设置其默认值为 100
     height = height ?? 100;
     ```
 
