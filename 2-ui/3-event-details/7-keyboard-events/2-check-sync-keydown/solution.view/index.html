@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+  <p>将按键 "Q" 和 "W" 一起按下（在任何语言中都行）。</p>
+
+  <script>
+    function runOnKeys(func, ...codes) {
+      let pressed = new Set();
+
+      document.addEventListener('keydown', function(event) {
+        pressed.add(event.code);
+
+        for (let code of codes) { // 所有的按键都在集合中？
+          if (!pressed.has(code)) {
+            return;
+          }
+        }
+
+        // 是的
+
+<<<<<<< HEAD:2-ui/3-event-details/5-keyboard-events/2-check-sync-keydown/solution.view/index.html
+        // 在 alert 期间，如果访客松开了按键，
+        // JavaScript 就不会获得 "keyup" 事件
+        // 那么集合 pressed 会保持假设这些按键是被按下的状态
+        // 因此，为避免“粘滞”键，我们对状态进行了重置
+        // 如果用户想再次运行热键 —— 他们需要再次按下所有键
+=======
+        // during the alert, if the visitor releases the keys,
+        // JavaScript does not get the "keyup" event
+        // and pressed set will keep assuming that the key is pressed
+        // so, to evade "sticky" keys, we reset the status
+        // if the user wants to run the hotkey again - let them press all keys again
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6:2-ui/3-event-details/7-keyboard-events/2-check-sync-keydown/solution.view/index.html
+        pressed.clear();
+
+        func();
+      });
+
+      document.addEventListener('keyup', function(event) {
+        pressed.delete(event.code);
+      });
+
+    }
+
+    runOnKeys(
+      () => alert("Hello!"),
+      "KeyQ",
+      "KeyW"
+    );
+  </script>
+
+</body>
+
+</html>

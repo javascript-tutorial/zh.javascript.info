@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # Class 基本语法
 
 ```quote author="Wikipedia"
@@ -17,6 +18,26 @@
 ```js
 class MyClass {
   // class 方法
+=======
+# Class basic syntax
+
+```quote author="Wikipedia"
+In object-oriented programming, a *class* is an extensible program-code-template for creating objects, providing initial values for state (member variables) and implementations of behavior (member functions or methods).
+```
+
+In practice, we often need to create many objects of the same kind, like users, or goods or whatever.
+
+As we already know from the chapter <info:constructor-new>, `new function` can help with that.
+
+But in the modern JavaScript, there's a more advanced "class" construct, that introduces great new features which are useful for object-oriented programming.
+
+## The "class" syntax
+
+The basic syntax is:
+```js
+class MyClass {
+  // class methods
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
   constructor() { ... }
   method1() { ... }
   method2() { ... }
@@ -25,11 +46,19 @@ class MyClass {
 }
 ```
 
+<<<<<<< HEAD
 然后使用 `new MyClass()` 来创建具有上述列出的所有方法的新对象。
 
 `new` 会自动调用 `constructor()` 方法，因此我们可以在 `constructor()` 中初始化对象。
 
 例如：
+=======
+Then use `new MyClass()` to create a new object with all the listed methods.
+
+The `constructor()` method is called automatically by `new`, so we can initialize the object there.
+
+For example:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class User {
@@ -44,11 +73,16 @@ class User {
 
 }
 
+<<<<<<< HEAD
 // 用法：
+=======
+// Usage:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 let user = new User("John");
 user.sayHi();
 ```
 
+<<<<<<< HEAD
 当 `new User("John")` 被调用：
 1. 一个新对象被创建。
 2. `constructor` 使用给定的参数运行，并为其分配 `this.name`。
@@ -71,6 +105,30 @@ user.sayHi();
 在 JavaScript 中，类是一种函数。
 
 看看下面这段代码：
+=======
+When `new User("John")` is called:
+1. A new object is created.
+2. The `constructor` runs with the given argument and assigns `this.name` to it.
+
+...Then we can call object methods, such as `user.sayHi()`.
+
+
+```warn header="No comma between class methods"
+A common pitfall for novice developers is to put a comma between class methods, which would result in a syntax error.
+
+The notation here is not to be confused with object literals. Within the class, no commas are required.
+```
+
+## What is a class?
+
+So, what exactly is a `class`? That's not an entirely new language-level entity, as one might think.
+
+Let's unveil any magic and see what a class really is. That'll help in understanding many complex aspects.
+
+In JavaScript, a class is a kind of function.
+
+Here, take a look:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class User {
@@ -78,12 +136,17 @@ class User {
   sayHi() { alert(this.name); }
 }
 
+<<<<<<< HEAD
 // 佐证：User 是一个函数
+=======
+// proof: User is a function
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 *!*
 alert(typeof User); // function
 */!*
 ```
 
+<<<<<<< HEAD
 `class User {...}` 构造实际上做了如下的事儿：
 
 1. 创建一个名为 `User` 的函数，该函数成为类声明的结果。该函数的代码来自于 `constructor` 方法（如果我们不编写这种方法，那么它就被假定为空）。
@@ -96,6 +159,20 @@ alert(typeof User); // function
 ![](class-user.svg)
 
 下面这些代码很好地解释了它们：
+=======
+What `class User {...}` construct really does is:
+
+1. Creates a function named `User`, that becomes the result of the class declaration. The function code is taken from the `constructor` method (assumed empty if we don't write such method).
+2. Stores class methods, such as `sayHi`, in `User.prototype`.
+
+After `new User` object is created, when we call its method, it's taken from the prototype, just as described in the chapter <info:function-prototype>. So the object has access to class methods.
+
+We can illustrate the result of `class User` declaration as:
+
+![](class-user.svg)
+
+Here's the code to introspect it:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class User {
@@ -103,6 +180,7 @@ class User {
   sayHi() { alert(this.name); }
 }
 
+<<<<<<< HEAD
 // class 是函数 function
 alert(typeof User); // function
 
@@ -131,15 +209,50 @@ function User(name) {
 // 所以，我们不需要创建它
 
 // 2. 将方法添加到原型
+=======
+// class is a function
+alert(typeof User); // function
+
+// ...or, more precisely, the constructor method
+alert(User === User.prototype.constructor); // true
+
+// The methods are in User.prototype, e.g:
+alert(User.prototype.sayHi); // alert(this.name);
+
+// there are exactly two methods in the prototype
+alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
+```
+
+## Not just a syntactic sugar
+
+Sometimes people say that `class` is a "syntactic sugar" (syntax that is designed to make things easier to read, but doesn't introduce anything new), because we could actually declare the same without `class` keyword at all:
+
+```js run
+// rewriting class User in pure functions
+
+// 1. Create constructor function
+function User(name) {
+  this.name = name;
+}
+// a function prototype has "constructor" property by default,
+// so we don't need to create it
+
+// 2. Add the method to prototype
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 User.prototype.sayHi = function() {
   alert(this.name);
 };
 
+<<<<<<< HEAD
 // 用法：
+=======
+// Usage:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 let user = new User("John");
 user.sayHi();
 ```
 
+<<<<<<< HEAD
 这个定义的结果与使用类得到的结果基本相同。因此，这确实是将 `class` 视为一种定义构造器及其原型方法的语法糖的理由。
 
 尽管，它们之间存在着重大差异：
@@ -147,6 +260,15 @@ user.sayHi();
 1. 首先，通过 `class` 创建的函数具有特殊的内部属性标记 `[[FunctionKind]]:"classConstructor"`。因此，它与手动创建并不完全相同。
 
     不像普通函数，调用类构造器时必须要用 `new` 关键词：
+=======
+The result of this definition is about the same. So, there are indeed reasons why `class` can be considered a syntactic sugar to define a constructor together with its prototype methods.
+
+Still, there are important differences.
+
+1. First, a function created by `class` is labelled by a special internal property `[[FunctionKind]]:"classConstructor"`. So it's not entirely the same as creating it manually.
+
+    The language checks for that property in a variety of places. For example, unlike a regular function, it must be called with `new`:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
     ```js run
     class User {
@@ -157,7 +279,11 @@ user.sayHi();
     User(); // Error: Class constructor User cannot be invoked without 'new'
     ```
 
+<<<<<<< HEAD
     此外，大多数 JavaScript 引擎中的类构造器的字符串表示形式都以 "class..." 开头
+=======
+    Also, a string representation of a class constructor in most JavaScript engines starts with the "class..."
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
     ```js run
     class User {
@@ -166,6 +292,7 @@ user.sayHi();
 
     alert(User); // class User { ... }
     ```
+<<<<<<< HEAD
 
 2. 类方法不可枚举。
     类定义将 `"prototype"` 中的所有方法的 `enumerable` 标志设置为 `false`。
@@ -182,6 +309,25 @@ user.sayHi();
 就像函数一样，类可以在另外一个表达式中被定义，被传递，被返回，被赋值等。
 
 这是一个类表达式的例子：
+=======
+    There are other differences, we'll see them soon.
+
+2. Class methods are non-enumerable.
+    A class definition sets `enumerable` flag to `false` for all methods in the `"prototype"`.
+
+    That's good, because if we `for..in` over an object, we usually don't want its class methods.
+
+3. Classes always `use strict`.
+    All code inside the class construct is automatically in strict mode.
+
+Besides, `class` syntax brings many other features that we'll explore later.
+
+## Class Expression
+
+Just like functions, classes can be defined inside another expression, passed around, returned, assigned, etc.
+
+Here's an example of a class expression:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js
 let User = class {
@@ -191,6 +337,7 @@ let User = class {
 };
 ```
 
+<<<<<<< HEAD
 类似于命名函数表达式（Named Function Expressions），类表达式可能也应该有一个名字。
 
 如果类表达式有名字，那么该名字仅在类内部可见：
@@ -215,6 +362,31 @@ alert(MyClass); // error，MyClass 在外部不可见
 ```js run
 function makeClass(phrase) {
   // 声明一个类并返回它
+=======
+Similar to Named Function Expressions, class expressions may have a name.
+
+If a class expression has a name, it's visible inside the class only:
+
+```js run
+// "Named Class Expression"
+// (no such term in the spec, but that's similar to Named Function Expression)
+let User = class *!*MyClass*/!* {
+  sayHi() {
+    alert(MyClass); // MyClass name is visible only inside the class
+  }
+};
+
+new User().sayHi(); // works, shows MyClass definition
+
+alert(MyClass); // error, MyClass name isn't visible outside of the class
+```
+
+We can even make classes dynamically "on-demand", like this:
+
+```js run
+function makeClass(phrase) {
+  // declare a class and return it
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
   return class {
     sayHi() {
       alert(phrase);
@@ -222,24 +394,40 @@ function makeClass(phrase) {
   };
 }
 
+<<<<<<< HEAD
 // 创建一个新的类
+=======
+// Create a new class
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 let User = makeClass("Hello");
 
 new User().sayHi(); // Hello
 ```
 
 
+<<<<<<< HEAD
 ## Getters/setters 及其他速记
 
 就像对象字面量，类可能包括 getters/setters，计算属性（computed properties）等。
 
 这是一个使用 `get/set` 实现 `user.name` 的示例：
+=======
+## Getters/setters
+
+Just like literal objects, classes may include getters/setters, computed properties etc.
+
+Here's an example for `user.name` implemented using `get/set`:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class User {
 
   constructor(name) {
+<<<<<<< HEAD
     // 调用 setter
+=======
+    // invokes the setter
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
     this.name = name;
   }
 
@@ -267,6 +455,7 @@ alert(user.name); // John
 user = new User(""); // Name is too short.
 ```
 
+<<<<<<< HEAD
 类声明在 `User.prototype` 中创建 getters 和 setters，就像这样：
 
 ```js
@@ -283,6 +472,13 @@ Object.defineProperties(User.prototype, {
 ```
 
 这是一个 `[...]` 中有计算属性名称（computed property name）的例子：
+=======
+Technically, such class declaration works by creating getters and setters in `User.prototype`.
+
+## Computed names [...]
+
+Here's an example with a computed method name using brackets `[...]`:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class User {
@@ -298,6 +494,7 @@ class User {
 new User().sayHi();
 ```
 
+<<<<<<< HEAD
 ## Class 字段
 
 ```warn header="旧的浏览器可能需要 polyfill"
@@ -309,11 +506,30 @@ new User().sayHi();
 “类字段”是一种允许添加任何属性的语法。
 
 例如，让我们在 `class User` 中添加一个 `name` 属性：
+=======
+Such features are easy to remember, as they resemble that of literal objects.
+
+## Class fields
+
+```warn header="Old browsers may need a polyfill"
+Class fields are a recent addition to the language.
+```
+
+Previously, our classes only had methods.
+
+"Class fields" is a syntax that allows to add any properties.
+
+For instance, let's add `name` property to `class User`:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class User {
 *!*
+<<<<<<< HEAD
   name = "Anonymous";
+=======
+  name = "John";
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 */!*
 
   sayHi() {
@@ -321,6 +537,7 @@ class User {
   }
 }
 
+<<<<<<< HEAD
 new User().sayHi();
 
 alert(User.prototype.sayHi); // 被放在 User.prototype 中
@@ -338,6 +555,47 @@ alert(User.prototype.name); // undefined，没有被放在 User.prototype 中
 因此，如果一个对象方法被传递到某处，或者在另一个上下文中被调用，则 `this` 将不再是对其对象的引用。
 
 例如，此代码将显示 `undefined`：
+=======
+new User().sayHi(); // Hello, John!
+```
+
+So, we just write "<property name> = <value>" in the declaration, and that's it.
+
+The important difference of class fields is that they are set on individual objects, not `User.prototype`:
+
+```js run
+class User {
+*!*
+  name = "John";
+*/!*
+}
+
+let user = new User();
+alert(user.name); // John
+alert(User.prototype.name); // undefined
+```
+
+Technically, they are processed after the constructor has done it's job, and we can use for them complex expressions and function calls:
+
+```js run
+class User {
+*!*
+  name = prompt("Name, please?", "John");
+*/!*
+}
+
+let user = new User();
+alert(user.name); // John
+```
+
+### Making bound methods with class fields
+
+As demonstrated in the chapter <info:bind> functions in JavaScript have a dynamic `this`. It depends on the context of the call.
+
+So if an object method is passed around and called in another context, `this` won't be a reference to its object any more.
+
+For instance, this code will show `undefined`:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class Button {
@@ -357,12 +615,21 @@ setTimeout(button.click, 1000); // undefined
 */!*
 ```
 
+<<<<<<< HEAD
 这个问题被称为“丢失 `this`”。
 
 我们在 <info:bind> 一章中讲过，有两种可以修复它的方式：
 
 1. 传递一个包装函数，例如 `setTimeout(() => button.click(), 1000)`。
 2. 将方法绑定到对象，例如在 constructor 中：
+=======
+The problem is called "losing `this`".
+
+There are two approaches to fixing it, as discussed in the chapter <info:bind>:
+
+1. Pass a wrapper-function, such as `setTimeout(() => button.click(), 1000)`.
+2. Bind the method to object, e.g. in the constructor:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class Button {
@@ -385,7 +652,11 @@ setTimeout(button.click, 1000); // hello
 */!*
 ```
 
+<<<<<<< HEAD
 类字段为后一种解决方案提供了更优雅的语法：
+=======
+Class fields provide a more elegant syntax for the latter solution:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js run
 class Button {
@@ -404,6 +675,7 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
+<<<<<<< HEAD
 类字段 `click = () => {...}` 在每个 `Button` 对象上创建一个独立的函数，并将 `this` 绑定到该对象上。然后，我们可以将 `button.click` 传递到任何地方，并且它会被以正确的 `this` 进行调用。
 
 这在浏览器环境中，当我们需要将一个方法设置为事件监听器时尤其有用。
@@ -417,19 +689,47 @@ class MyClass {
   prop = value; // 属性
 
   constructor(...) { // 构造器
+=======
+The class field `click = () => {...}` creates an independent function on each `Button` object, with `this` bound to the object. Then we can pass `button.click` around anywhere, and it will be called with the right `this`.
+
+That's especially useful in browser environment, when we need to setup a method as an event listener.
+
+## Summary
+
+The basic class syntax looks like this:
+
+```js
+class MyClass {
+  prop = value; // property
+
+  constructor(...) { // constructor
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
     // ...
   }
 
   method(...) {} // method
 
+<<<<<<< HEAD
   get something(...) {} // getter 方法
   set something(...) {} // setter 方法 
 
   [Symbol.iterator]() {} // 有计算名称（computed name）的方法（此处为 symbol）
+=======
+  get something(...) {} // getter method
+  set something(...) {} // setter method
+
+  [Symbol.iterator]() {} // method with computed name (symbol here)
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
   // ...
 }
 ```
 
+<<<<<<< HEAD
 技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods、getters 和 settors 都被写入了 `MyClass.prototype`。
 
 在下一章，我们将会进一步学习类的相关知识，包括继承和其他功能。
+=======
+`MyClass` is technically a function (the one that we provide as `constructor`), while methods, getters and setters are written to `MyClass.prototype`.
+
+In the next chapters we'll learn more about classes, including inheritance and other features.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6

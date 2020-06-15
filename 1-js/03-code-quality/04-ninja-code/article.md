@@ -5,7 +5,11 @@
 学而不思则罔，思而不学则殆。
 ```
 
+<<<<<<< HEAD
 过去的程序员忍者使用这些技巧，来使代码维护者的头脑更加敏锐。
+=======
+Programmer ninjas of the past used these tricks to sharpen the mind of code maintainers.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 代码审查大师在测试任务中寻找它们。
 
@@ -32,9 +36,15 @@
 i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 ```
 
+<<<<<<< HEAD
 很酷，对吗？如果你这样写了，那些看到这一行代码并尝试去理解 `i` 的值是什么的开发者们，就会有一个“快活的”的时光了。然后会来找你寻求答案。
 
 告诉他短一点总是更好的。引导他进入忍者之路。
+=======
+Cool, right? If you write like that, a developer who comes across this line and tries to understand what is the value of `i` is going to have a merry time. Then come to you, seeking for an answer.
+
+Tell them that shorter is always better. Initiate them into the paths of ninja.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ## 一个字母的变量
 
@@ -42,12 +52,22 @@ i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 道隐无名。夫唯道善贷且成。
 ```
 
+<<<<<<< HEAD
 
 另一个提高编程速度的方法是，到处使用单字母的变量名。例如 `a`、`b` 或 `c`。
+=======
+Another way to code shorter is to use single-letter variable names everywhere. Like `a`, `b` or `c`.
+
+A short variable disappears in the code like a real ninja in the forest. No one will be able to find it using "search" of the editor. And even if someone does, they won't be able to "decipher" what the name `a` or `b` means.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 短变量就像森林中真正的忍者一样，一下就找不到了。没有人能够通过编辑器的“搜索”功能找到它。即使有人做到了，他也不能“破译”出变量名 `a` 或 `b` 到底是什么意思。
 
+<<<<<<< HEAD
 ……但是有一个例外情况。一个真正的忍者绝不会在 `"for"` 循环中使用 `i` 作为计数器。在任何地方都可以，但是这里不会用。你随便一找，就能找到很多不寻常的字母。例如 `x` 或 `y`。
+=======
+An exotic variable as a loop counter is especially cool if the loop body takes 1-2 pages (make it longer if you can). Then if someone looks deep inside the loop, they won't be able to quickly figure out that the variable named `x` is the loop counter.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 使用一个不寻常的变量多酷啊，尤其是在长达 1-2 页（如果可以的话，你可以写得更长）的循环体中使用的时候。如果某人要研究循环内部实现的时候，他就很难很快地找出变量 `x` 其实是循环计数器啦。
 
@@ -83,7 +103,11 @@ i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 
     尝试一下吧。新手可能会诧异 — 这些名字对于忍者来说真的有用吗？事实上，有用的！
 
+<<<<<<< HEAD
     一方面，变量名仍然有着一些含义。它说明了变量内是什么：一个字符串、一个数字或是其他的东西。但是当一个局外人试图理解代码时，他会惊讶地发现实际上没有任何有效信息！最终就无法修改你精心思考过的代码。
+=======
+    Sure, the variable name still means something. It says what's inside the variable: a string, a number or something else. But when an outsider tries to understand the code, they'll be surprised to see that there's actually no information at all! And will ultimately fail to alter your well-thought code.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
     我们可以通过代码调试，很容易地看出值的类型。但是变量名的含义呢？它存了哪一个字符串或数字？
 
@@ -137,7 +161,11 @@ i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 
 在一个函数中，尝试仅使用作为参数传递的变量。
 
+<<<<<<< HEAD
 这样就很难确定这个变量的值现在是什么了。也不知道它是从哪里来的。目的是提高阅读代码的人的直觉和记忆力。一个直觉较弱的人必须逐行分析代码，跟踪每个代码分支中的更改。
+=======
+That would make it really hard to identify what's exactly in the variable *now*. And also where it comes from. The purpose is to develop the intuition and memory of a person reading the code. A person with weak intuition would have to analyze the code line-by-line and track the changes through every code branch.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 **这个方法的一个进阶方案是，在循环或函数中偷偷地替换掉它的值。**
 
@@ -153,11 +181,17 @@ function ninjaFunction(elem) {
 }
 ```
 
+<<<<<<< HEAD
 想要在后半部分中使用 `elem` 的程序员会感到很诧异……只有在调试期间，检查代码之后，他才会发现他正在使用克隆过的变量！
 
 经常看到这样的代码，即使对经验丰富的忍者来说也是致命的。
 
 ## 下划线的乐趣
+=======
+A fellow programmer who wants to work with `elem` in the second half of the function will be surprised... Only during the debugging, after examining the code they will find out that they're working with a clone!
+
+Seen in code regularly. Deadly effective even against an experienced ninja.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 在变量名前加上下划线 `_` 和 `__`。例如 `_name` 和 `__value`。如果只有你知道他们的含义，那就非常棒了。或者，加这些下划线只是为了好玩儿，没有任何含义，那就更棒了！
 
@@ -171,6 +205,11 @@ function ninjaFunction(elem) {
 
 事实上，从一方面来说，看似写了一些东西：`super..`、`mega..`、`nice..`。但从另一方面来说 — 并没有提供任何细节。阅读代码的人可能需要耗费一到两个小时的带薪工作时间，冥思苦想来寻找一个隐藏的含义。
 
+<<<<<<< HEAD
+=======
+Indeed, from one hand, something is written: `super..`, `mega..`, `nice..` But from the other hand -- that brings no details. A reader may decide to look for a hidden meaning and meditate for an hour or two of their paid working time.
+
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ## 重叠外部变量
 
@@ -179,7 +218,11 @@ function ninjaFunction(elem) {
 处暗者能见明中区事。
 ```
 
+<<<<<<< HEAD
 对函数内部和外部的变量，使用相同的名称。很简单，不用费劲想新的名称。
+=======
+Use same names for variables inside and outside a function. As simple. No efforts to invent new names.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ```js
 let *!*user*/!* = authenticateUser();
@@ -196,7 +239,11 @@ function render() {
 
 在研究 `render` 内部代码的程序员可能不会注意到，有一个内部变量 `user` 屏蔽了外部的 `user` 变量。
 
+<<<<<<< HEAD
 然后他会假设 `user` 仍然是外部的变量然后使用它，`authenticateUser()` 的结果……陷阱出来啦！你好呀，调试器……
+=======
+Then they'll try to work with `user` assuming that it's the external variable, the result of `authenticateUser()`... The trap is sprung! Hello, debugger...
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 
 ## 无处不在的副作用！
@@ -205,7 +252,11 @@ function render() {
 
 **一个非常惊喜的技巧就是，除了主要任务之外，给它们添加一个“有用的”行为。**
 
+<<<<<<< HEAD
 当你的同事看到被命名为 `is..`、`check..` 或 `find...` 的函数改变了某些东西的时候，他脸上肯定是一脸懵逼的表情 — 这会扩大你的理性界限。
+=======
+An expression of dazed surprise on the face of your colleague when they see a function named `is..`, `check..` or `find...` changing something -- will definitely broaden your boundaries of reason.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 **另一个惊喜的方式是，返回非标准的结果。**
 
@@ -229,7 +280,11 @@ function render() {
 
 **将多个行为合并到一起，可以保护你的代码不被重用。**
 
+<<<<<<< HEAD
 想象一下，另一个开发者只想检查邮箱而不想输出任何信息。你的函数 `validateEmail(email)` 对他而言就不合适啦。所以他不会找你问关于这些函数的任何事而打断你的思考。
+=======
+Imagine, another developer wants only to check the email, and not output any message. Your function  `validateEmail(email)` that does both will not suit them. So they won't break your meditation by asking anything about it.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 
 ## 总结
 

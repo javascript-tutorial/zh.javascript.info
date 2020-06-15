@@ -1,95 +1,95 @@
-# 弹窗和 window 的方法
+# Popups and window methods
 
-弹窗（popup）是向用户显示其他文档的最古老的方法之一。
+A popup window is one of the oldest methods to show additional document to user.
 
-基本上，你只需要运行：
+Basically, you just run:
 ```js
 window.open('https://javascript.info/')
 ```
 
-……它将打开一个具有给定 URL 的新窗口。大多数现代浏览器都配置为打开新选项卡，而不是单独的窗口。
+...And it will open a new window with given URL. Most modern browsers are configured to open new tabs instead of separate windows.
 
-弹窗自古以来就存在。最初的想法是，在不关闭主窗口的情况下显示其他内容。目前为止，还有其他方式可以实现这一点：我们可以使用 [fetch](info:fetch) 动态加载内容，并将其显示在动态生成的 `<div>` 中。弹窗并不是我们每天都会使用的东西。
+Popups exist from really ancient times. The initial idea was to show another content without closing the main window. As of now, there are other ways to do that: we can load content dynamically with [fetch](info:fetch) and show it in a dynamically generated `<div>`. So, popups is not something we use everyday.
 
-并且，弹窗在移动设备上非常棘手，因为移动设备无法同时显示多个窗口。
+Also, popups are tricky on mobile devices, that don't show multiple windows simultaneously.
 
-但仍然有一些任务在使用弹窗，例如进行 OAuth 授权（使用 Google/Facebook/... 登陆），因为：
+Still, there are tasks where popups are still used, e.g. for OAuth authorization (login with Google/Facebook/...), because:
 
-1. 弹窗是一个独立的窗口，具有自己的独立 JavaScript 环境。因此，使用弹窗打开一个不信任的第三方网站是安全的。
-2. 打开弹窗非常容易。
-3. 弹窗可以导航（修改 URL），并将消息发送到 opener 窗口（译注：即打开弹窗的窗口）。
+1. A popup is a separate window with its own independent JavaScript environment. So opening a popup with a third-party non-trusted site is safe.
+2. It's very easy to open a popup.
+3. A popup can navigate (change URL) and send messages to the opener window.
 
-## 阻止弹窗
+## Popup blocking
 
-在过去，很多恶意网站经常滥用弹窗。一个不好的页面可能会打开大量带有广告的弹窗。因此，现在大多数浏览器都会通过阻止弹窗来保护用户。
+In the past, evil sites abused popups a lot. A bad page could open tons of popup windows with ads. So now most browsers try to block popups and protect the user.
 
-**如果弹窗是在用户触发的事件处理程序（如 `onclick`）之外调用的，大多数浏览器都会阻止此类弹窗。**
+**Most browsers block popups if they are called outside of user-triggered event handlers like `onclick`.**
 
-例如：
+For example:
 ```js
-// 弹窗被阻止
+// popup blocked
 window.open('https://javascript.info');
 
-// 弹窗被允许
+// popup allowed
 button.onclick = () => {
   window.open('https://javascript.info');
 };
 ```
 
-这种方式可以在某种程度上保护用户免受非必要的弹窗的影响，但是并没有完全阻止该功能。
+This way users are somewhat protected from unwanted popups, but the functionality is not disabled totally.
 
-如果弹窗是从 `onclick` 打开的，但是在 `setTimeout` 之后，该怎么办？这有点棘手。
+What if the popup opens from `onclick`, but after `setTimeout`? That's a bit tricky.
 
-试试运行一下这段代码：
+Try this code:
 
 ```js run
-// 3 秒后打开弹窗
+// open after 3 seconds
 setTimeout(() => window.open('http://google.com'), 3000);
 ```
 
-这个弹窗在 Chrome 中会被打开，但是在 Firefox 中会被阻止。
+The popup opens in Chrome, but gets blocked in Firefox.
 
-……如果我们减少延迟，则弹窗在 Firefox 中也会被打开：
+...If we decrease the delay, the popup works in Firefox too:
 
 ```js run
-// 1 秒后打开弹窗
+// open after 1 seconds
 setTimeout(() => window.open('http://google.com'), 1000);
 ```
 
-区别在于 Firefox 可以接受 2000ms 或更短的延迟，但是超过这个时间 —— 则移除“信任”。所以，第一个弹窗被阻止，而第二个却没有。
+The difference is that Firefox treats a timeout of 2000ms or less are acceptable, but after it -- removes the "trust", assuming that now it's "outside of the user action". So the first one is blocked, and the second one is not.
 
 ## window.open
 
-打开一个弹窗的语法是 `window.open(url, name, params)`：
+The syntax to open a popup is: `window.open(url, name, params)`:
 
 url
-: 要在新窗口中加载的 URL。
+: An URL to load into the new window.
 
 name
-: 新窗口的名称。每个窗口都有一个 `window.name`，在这里我们可以指定哪个窗口用于弹窗。如果已经有一个这样名字的窗口 —— 将在该窗口打开给定的 URL，否则会打开一个新窗口。
+: A name of the new window. Each window has a `window.name`, and here we can specify which window to use for the popup. If there's already a window with such name -- the given URL opens in it, otherwise a new window is opened.
 
 params
-: 新窗口的配置字符串。它包括设置，用逗号分隔。参数之间不能有空格，例如：`width:200,height=100`。
+: The configuration string for the new window. It contains settings, delimited by a comma. There must be no spaces in params, for instance: `width:200,height=100`.
 
-`params` 的设置项：
+Settings for `params`:
 
-- 位置:
-  - `left/top`（数字）—— 屏幕上窗口的左上角的坐标。这有一个限制：不能将新窗口置于屏幕外（offscreen）。
-  - `width/height`（数字）—— 新窗口的宽度和高度。宽度/高度的最小值是有限制的，因此不可能创建一个不可见的窗口。
-- 窗口功能：
-  - `menubar`（yes/no）—— 显示或隐藏新窗口的浏览器菜单。
-  - `toolbar`（yes/no）—— 显示或隐藏新窗口的浏览器导航栏（后退，前进，重新加载等）。
-  - `location`（yes/no）—— 显示或隐藏新窗口的 URL 字段。Firefox 和 IE 浏览器不允许默认隐藏它。
-  - `status`（yes/no）—— 显示或隐藏状态栏。同样，大多数浏览器都强制显示它。
-  - `resizable`（yes/no）—— 允许禁用新窗口大小调整。不建议使用。
-  - `scrollbars`（yes/no）—— 允许禁用新窗口的滚动条。不建议使用。
+- Position:
+  - `left/top` (numeric) -- coordinates of the window top-left corner on the screen. There is a limitation: a new window cannot be positioned offscreen.
+  - `width/height` (numeric) -- width and height of a new window. There is a limit on minimal width/height, so it's impossible to create an invisible window.
+- Window features:
+  - `menubar` (yes/no) -- shows or hides the browser menu on the new window.
+  - `toolbar` (yes/no) -- shows or hides the browser navigation bar (back, forward, reload etc) on the new window.
+  - `location` (yes/no) -- shows or hides the URL field in the new window. FF and IE don't allow to hide it by default.
+  - `status` (yes/no) -- shows or hides the status bar. Again, most browsers force it to show.
+  - `resizable` (yes/no) -- allows to disable the resize for the new window. Not recommended.
+  - `scrollbars` (yes/no) -- allows to disable the scrollbars for the new window. Not recommended.
 
 
-还有一些不太受支持的特定于浏览器的功能，通常不使用。通常不使用这些功能。更多示例请见 <a href="https://developer.mozilla.org/en/DOM/window.open">MDN 中的 window.open</a>。
+There is also a number of less supported browser-specific features, which are usually not used. Check <a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a> for examples.
 
-## 示例：一个最简窗口
+## Example: a minimalistic window   
 
-让我们打开一个包含最小功能集的新窗口，来看看哪些功能是浏览器允许禁用的：
+Let's open a window with minimal set of features just to see which of them browser allows to disable:
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -98,9 +98,9 @@ width=0,height=0,left=-1000,top=-1000`;
 open('/', 'test', params);
 ```
 
-在这里，大多数“窗口功能”都被禁用了，并且窗口位于屏幕外。运行它，看看会发生什么。大多数浏览器都会“修复”奇怪的东西，例如 `width/height` 为零以及脱离屏幕（offscreen）的 `left/top` 设置。例如，Chrome 打开了一个全 `width/height` 的窗口，使其占满整个屏幕。
+Here most "window features" are disabled and window is positioned offscreen. Run it and see what really happens. Most browsers "fix" odd things like zero `width/height` and offscreen `left/top`. For instance, Chrome open such a window with full width/height, so that it occupies the full screen.
 
-让我们添加正常的定位选项和合理的 `width`、`height`、`left` 和 `top` 坐标：
+Let's add normal positioning options and reasonable `width`, `height`, `left`, `top` coordinates:
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -109,20 +109,20 @@ width=600,height=300,left=100,top=100`;
 open('/', 'test', params);
 ```
 
-大多数浏览器会根据要求显示上面的示例。
+Most browsers show the example above as required.
 
-设置中的省略规则：
+Rules for omitted settings:
 
-- 如果 `open` 调用中没有第三个参数，或者它是空的，则使用默认的窗口参数。
-- 如果这里有一个参数字符串，但是某些 `yes/no` 功能被省略了，那么被省略的功能则被默认值为 `no`。因此，如果你指定参数，请确保将所有必需的功能明确设置为 `yes`。
-- 如果参数中没有 `left/top`，那么浏览器会尝试在最后打开的窗口附近打开一个新窗口。
-- 如果没有 `width/height`，那么新窗口的大小将与上次打开的窗口大小相同。
+- If there is no 3rd argument in the `open` call, or it is empty, then the default window parameters are used.
+- If there is a string of params, but some `yes/no` features are omitted, then the omitted features assumed to have `no` value. So if you specify params, make sure you explicitly set all required features to yes.
+- If there is no `left/top` in params, then the browser tries to open a new window near the last opened window.
+- If there is no `width/height`, then the new window will be the same size as the last opened.
 
-## 从窗口访问弹窗
+## Accessing popup from window
 
-`open` 调用会返回对新窗口的引用。它可以用来操纵弹窗的属性，更改位置，甚至更多操作。
+The `open` call returns a reference to the new window. It can be used to manipulate it's properties, change location and even more.
 
-在下面这个示例中，我们从 JavaScript 中生成弹窗：
+In this example, we generate popup content from JavaScript:
 
 ```js
 let newWin = window.open("about:blank", "hello", "width=200,height=200");
@@ -130,13 +130,13 @@ let newWin = window.open("about:blank", "hello", "width=200,height=200");
 newWin.document.write("Hello, world!");
 ```
 
-这里，我们在其加载完成后，修改其中的内容：
+And here we modify the contents after loading:
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300')
 newWindow.focus();
 
-alert(newWindow.location.href); // (*) about:blank，加载尚未开始
+alert(newWindow.location.href); // (*) about:blank, loading hasn't started yet
 
 newWindow.onload = function() {
   let html = `<div style="font-size:30px">Welcome!</div>`;
@@ -146,19 +146,19 @@ newWindow.onload = function() {
 };
 ```
 
-请注意：在刚刚进行了 `window.open` 的时候，新窗口还没有加载完成。我们可以通过 `(*)` 行中的 `alert` 证实这一点。因此，我们需要等待 `onload` 以对新窗口进行更改。我们也可以对 `newWin.document` 使用 `DOMContentLoaded` 处理程序。
+Please note: immediately after `window.open`, the new window isn't loaded yet. That's demonstrated by `alert` in line `(*)`. So we wait for `onload` to modify it. We could also use `DOMContentLoaded` handler for `newWin.document`.
 
-```warn header="同源策略"
-只有在窗口是同源的时，窗口才能自由访问彼此的内容（`相同的协议://domain:port`）。
+```warn header="Same origin policy"
+Windows may freely access content of each other only if they come from the same origin (the same protocol://domain:port).
 
-否则，例如，如果主窗口来自于 `site.com`，弹窗来自于 `gmail.com`，则处于安全性考虑，这两个窗口不能访问彼此的内容。有关详细信息，请参见 <info:cross-window-communication> 一章。
+Otherwise, e.g. if the main window is from `site.com`, and the popup from `gmail.com`, that's impossible for user safety reasons. For the details, see chapter <info:cross-window-communication>.
 ```
 
-## 从弹窗访问窗口
+## Accessing window from popup
 
-弹窗也可以使用 `window.opener` 来访问 opener 窗口。除了弹窗之外，对其他所有窗口来说，`window.opener` 均为 `null`。
+A popup may access the "opener" window as well using `window.opener` reference. It is `null` for all windows except popups.
 
-如果你运行下面这段代码，它将用 "Test" 替换 opener（也就是当前的）窗口的内容：
+If you run the code below, it replaces the opener (current) window content with "Test":
 
 ```js run
 let newWin = window.open("about:blank", "hello", "width=200,height=200");
@@ -168,19 +168,19 @@ newWin.document.write(
 );
 ```
 
-所以，窗口之间的连接是双向的：主窗口和弹窗之间相互引用。
+So the connection between the windows is bidirectional: the main window and the popup have a reference to each other.
 
-## 关闭弹窗
+## Closing a popup
 
-关闭一个窗口：`win.close()`。
+To close a window: `win.close()`.
 
-检查一个窗口是否被关闭：`win.closed`。
+To check if a window is closed: `win.closed`.
 
-从技术上讲，`close()` 方法可用于任何 `window`，但是如果 `window` 不是通过 `window.open()` 创建的，那么大多数浏览器都会忽略 `window.close()`。因此，`close()` 只对弹窗起作用。
+Technically, the `close()` method is available for any `window`, but `window.close()` is ignored by most browsers if `window` is not created with `window.open()`. So it'll only work on a popup.
 
-如果窗口被关闭了，那么 `closed` 属性则为 `true`。这对于检查弹窗（或主窗口）是否仍处于打开状态很有用。用户可以随时关闭它，我们的代码应该考虑到这种可能性。
+The `closed` property is `true` if the window is closed. That's useful to check if the popup (or the main window) is still open or not. A user can close it anytime, and our code should take that possibility into account.
 
-这段代码加载并关闭了窗口：
+This code loads and then closes the window:
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300');
@@ -192,85 +192,85 @@ newWindow.onload = function() {
 ```
 
 
-## 滚动和调整大小
+## Scrolling and resizing
 
-有一些方法可以移动一个窗口，或者调整一个窗口的大小：
+There are methods to move/resize a window:
 
 `win.moveBy(x,y)`
-: 将窗口相对于当前位置向右移动 `x` 像素，并向下移动 `y` 像素。允许负值（向上/向左移动）。
+: Move the window relative to current position `x` pixels to the right and `y` pixels down. Negative values are allowed (to move left/up).
 
 `win.moveTo(x,y)`
-: 将窗口移动到屏幕上的坐标 `(x,y)` 处。
+: Move the window to coordinates `(x,y)` on the screen.
 
 `win.resizeBy(width,height)`
-: 根据给定的相对于当前大小的 `width/height` 调整窗口大小。允许负值。
+: Resize the window by given `width/height` relative to the current size. Negative values are allowed.
 
 `win.resizeTo(width,height)`
-: 将窗口调整为给定的大小。
+: Resize the window to the given size.
 
-还有 `window.onresize` 事件。
+There's also `window.onresize` event.
 
-```warn header="仅对于弹窗"
-为了防止滥用，浏览器通常会阻止这些方法。它们仅在我们打开的，没有其他选项卡的弹窗中能够可靠地工作。
+```warn header="Only popups"
+To prevent abuse, the browser usually blocks these methods. They only work reliably on popups that we opened, that have no additional tabs.
 ```
 
-```warn header="没有最小化/最大化"
-JavaScript 无法最小化或者最大化一个窗口。这些操作系统级别的功能对于前端开发者而言是隐藏的。
+```warn header="No minification/maximization"
+JavaScript has no way to minify or maximize a window. These OS-level functions are hidden from Frontend-developers.
 
-移动或者调整大小的方法不适用于最小化/最大化的窗口。
+Move/resize methods do not work for maximized/minimized windows.
 ```
 
-## 滚动窗口
+## Scrolling a window
 
-我们已经在 <info:size-and-scroll-window> 一章中讨论过了滚动窗口。
+We already talked about scrolling a window in the chapter <info:size-and-scroll-window>.
 
 `win.scrollBy(x,y)`
-: 相对于当前位置，将窗口向右滚动 `x` 像素，并向下滚动 `y` 像素。允许负值。
+: Scroll the window `x` pixels right and `y` down relative the current scroll. Negative values are allowed.
 
 `win.scrollTo(x,y)`
-: 将窗口滚动到给定坐标 `(x,y)`。
+: Scroll the window to the given coordinates `(x,y)`.
 
 `elem.scrollIntoView(top = true)`
-: 滚动窗口，使 `elem` 显示在 `elem.scrollIntoView(false)` 的顶部（默认）或底部。
+: Scroll the window to make `elem` show up at the top (the default) or at the bottom for `elem.scrollIntoView(false)`.
 
-这里也有 `window.onscroll` 事件。
+There's also `window.onscroll` event.
 
-## 弹窗的聚焦/失焦
+## Focus/blur on a window
 
-从理论上讲，使用 `window.focus()` 和 `window.blur()` 方法可以使窗口获得或失去焦点。此外，这里还有 `focus/blur` 事件，可以聚焦窗口并捕获访问者切换到其他地方的瞬间。
+Theoretically, there are `window.focus()` and `window.blur()` methods to focus/unfocus on a window.  Also there are `focus/blur` events that allow to focus a window and catch the moment when the visitor switches elsewhere.
 
-在过去，恶意网站滥用了这些方法。例如，看这段代码:
+In the past evil pages abused those. For instance, look at this code:
 
 ```js run
 window.onblur = () => window.focus();
 ```
 
-当用户尝试从窗口切换出去（`blur`）时，这段代码又让窗口重新获得了焦点。目的是将用户“锁定”在 `window` 中。
+When a user attempts to switch out of the window (`blur`), it brings it back to focus. The intention is to "lock" the user within the `window`.
 
-因此，就有了禁用此类代码的措施。保护用户免受广告和恶意页面的侵害的限制有很多。这取决于浏览器。
+So, there are limitations that forbid the code like that. There are many limitations to protect the user from ads and evils pages. They depend on the browser.
 
-例如，移动端浏览器通常会完全忽略这种调用。并且，当弹窗是在单独的选项卡而不是新窗口中打开时，也无法进行聚焦。
+For instance, a mobile browser usually ignores that call completely. Also focusing doesn't work when a popup opens in a separate tab rather than a new window.
 
-尽管如此，还是有一些事情可以使用它们来完成。
+Still, there are some things that can be done.
 
-例如：
+For instance:
 
-- 当我们打开一个弹窗时，在它上面执行 `newWindow.focus()` 是个好主意。以防万一，对于某些操作系统/浏览器组合（combination），它可以确保用户现在位于新窗口中。
-- 如果我们想要跟踪访问者何时在实际使用我们的 Web 应用程序，我们可以跟踪 `window.onfocus/onblur`。这使我们可以暂停/恢复页面活动和动画等。但是请注意，`blur` 事件意味着访问者从窗口切换了出来，但他们仍然可以观察到它。窗口处在背景中，但可能仍然是可见的。
+- When we open a popup, it's might be a good idea to run a `newWindow.focus()` on it. Just in case, for some OS/browser combinations it ensures that the user is in the new window now.
+- If we want to track when a visitor actually uses our web-app, we can track `window.onfocus/onblur`. That allows us to suspend/resume in-page activities, animations etc. But please note that the `blur` event means that the visitor switched out from the window, but they still may observe it. The window is in the background, but still may be visible.
 
-## 总结   
+## Summary   
 
-弹窗很少使用，因为有其他选择：在页面内或在 iframe 中加载和显示信息。
+Popup windows are used rarely, as there are alternatives: loading and displaying information in-page, or in iframe.
 
-如果我们要打开一个弹窗，将其告知用户是一个好的实践。在链接或按钮附近的“打开窗口”图标可以让用户免受焦点转移的困扰，并使用户知道点击它会弹出一个新窗口。
+If we're going to open a popup, a good practice is to inform the user about it. An "opening window" icon near a link or button would allow the visitor to survive the focus shift and keep both windows in mind.
 
-- 可以通过 `open(url, name, params)` 调用打开一个弹窗。它会返回对新打开的窗口的引用。
-- 浏览器会阻止来自用户行为之外的代码中的 `open` 调用。通常会显示一条通知，以便用户可以允许它们。
-- 默认情况下，浏览器会打开一个新标签页，但如果提供了窗口大小，那么浏览器将打开一个弹窗。
-- 弹窗可以使用 `window.opener` 属性访问 opener 窗口（译注：即打开弹窗的窗口）。
-- 如果主窗口和弹窗同源，那么它们可以彼此自由地读取和修改。否则，它们可以更改彼此的地址（location），[交换消息](info:cross-window-communication)。
+- A popup can be opened by the `open(url, name, params)` call. It returns the reference to the newly opened window.
+- Browsers block `open` calls from the code outside of user actions. Usually a notification appears, so that a user may allow them.
+- Browsers open a new tab by default, but if sizes are provided, then it'll be a popup window.
+- The popup may access the opener window using the `window.opener` property.
+- The main window and the popup can freely read and modify each other if they have the same origin. Otherwise, they can change location of each other and [exchange messages](info:cross-window-communication).
 
-要关闭弹窗：使用 `close()` 调用。用户也可以关闭弹窗（就像任何其他窗口一样）。关闭之后，`window.closed` 为 `true`。
+To close the popup: use `close()` call. Also the user may close them (just like any other windows). The `window.closed` is `true` after that.
 
-- `focus()` 和 `blur()` 方法允许聚焦/失焦于窗口。但它们并不是一直都有效。
-- `focus `和 `blur` 事件允许跟踪窗口的切换。但是请注意，在 `blur` 之后，即使窗口在背景状态下，窗口仍有可能是可见的。
+- Methods `focus()` and `blur()` allow to focus/unfocus a window. But they don't work all the time.
+- Events `focus` and `blur` allow to track switching in and out of the window. But please note that a  window may still be visible even in the background state, after `blur`.

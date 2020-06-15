@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # Fetch：下载进度
 
 `fetch` 方法允许去跟踪 **下载** 进度。
@@ -19,6 +20,28 @@ const reader = response.body.getReader();
 while(true) {
   // 当最后一块下载完成时，done 值为 true
   // value 是块字节的 Uint8Array
+=======
+# Fetch: Download progress
+
+The `fetch` method allows to track *download* progress.
+
+Please note: there's currently no way for `fetch` to track *upload* progress. For that purpose, please use [XMLHttpRequest](info:xmlhttprequest), we'll cover it later.
+
+To track download progress, we can use `response.body` property. It's `ReadableStream` -- a special object that provides body chunk-by-chunk, as it comes. Readable streams are described in the [Streams API](https://streams.spec.whatwg.org/#rs-class) specification.
+
+Unlike `response.text()`, `response.json()` and other methods, `response.body` gives full control over the reading process, and we can count how much is consumed at any moment.
+
+Here's the sketch of code that reads the reponse from `response.body`:
+
+```js
+// instead of response.json() and other methods
+const reader = response.body.getReader();
+
+// infinite loop while the body is downloading
+while(true) {
+  // done is true for the last chunk
+  // value is Uint8Array of the chunk bytes
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
   const {done, value} = await reader.read();
 
   if (done) {
@@ -29,6 +52,7 @@ while(true) {
 }
 ```
 
+<<<<<<< HEAD
 `await reader.read()` 调用的结果是一个具有两个属性的对象：
 - **`done`** —— 当读取完成时为 `true`，否则为 `false`。
 - **`value`** —— 字节的类型化数组：`Uint8Array`。
@@ -45,16 +69,43 @@ Streams API 还描述了如果使用 `for await..of` 循环异步迭代 `Readabl
 
 ```js run async
 // Step 1：启动 fetch，并获得一个 reader
+=======
+The result of `await reader.read()` call is an object with two properties:
+- **`done`** -- `true` when the reading is complete, otherwise `false`.
+- **`value`** -- a typed array of bytes: `Uint8Array`.
+
+```smart
+Streams API also describes asynchronous iteration over `ReadableStream` with `for await..of` loop, but it's not yet widely supported (see [browser issues](https://github.com/whatwg/streams/issues/778#issuecomment-461341033)), so we use `while` loop.
+```
+
+We receive response chunks in the loop, until the loading finishes, that is: until `done` becomes `true`.
+
+To log the progress, we just need for every received fragment `value` to add its length to the counter.
+
+Here's the full working example that gets the response and logs the progress in console, more explanations to follow:
+
+```js run async
+// Step 1: start the fetch and obtain a reader
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits?per_page=100');
 
 const reader = response.body.getReader();
 
+<<<<<<< HEAD
 // Step 2：获得总长度（length）
 const contentLength = +response.headers.get('Content-Length');
 
 // Step 3：读取数据
 let receivedLength = 0; // 当前接收到了这么多字节
 let chunks = []; // 接收到的二进制块的数组（包括 body）
+=======
+// Step 2: get total length
+const contentLength = +response.headers.get('Content-Length');
+
+// Step 3: read the data
+let receivedLength = 0; // received that many bytes at the moment
+let chunks = []; // array of received binary chunks (comprises the body)
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 while(true) {
   const {done, value} = await reader.read();
 
@@ -68,7 +119,11 @@ while(true) {
   console.log(`Received ${receivedLength} of ${contentLength}`)
 }
 
+<<<<<<< HEAD
 // Step 4：将块连接到单个 Uint8Array
+=======
+// Step 4: concatenate chunks into single Uint8Array
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 let chunksAll = new Uint8Array(receivedLength); // (4.1)
 let position = 0;
 for(let chunk of chunks) {
@@ -76,14 +131,22 @@ for(let chunk of chunks) {
 	position += chunk.length;
 }
 
+<<<<<<< HEAD
 // Step 5：解码成字符串
 let result = new TextDecoder("utf-8").decode(chunksAll);
 
 // 我们完成啦！
+=======
+// Step 5: decode into a string
+let result = new TextDecoder("utf-8").decode(chunksAll);
+
+// We're done!
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
 let commits = JSON.parse(result);
 alert(commits[0].author.login);
 ```
 
+<<<<<<< HEAD
 让我们一步步解释下这个过程：
 
 1. 我们像往常一样执行 `fetch`，但不是调用 `response.json()`，而是获得了一个流读取器（stream reader）`response.body.getReader()`。
@@ -103,10 +166,37 @@ alert(commits[0].author.login);
     要创建一个字符串，我们需要解析这些字节。可以使用内建的 [TextDecoder](info:text-decoder) 对象完成。然后，我们可以 `JSON.parse` 它，如果有必要的话。
 
     如果我们需要的是二进制内容而不是字符串呢？这更简单。用下面这行代码替换掉第 4 和第 5 步，这行代码从所有块创建一个 `Blob`：
+=======
+Let's explain that step-by-step:
+
+1. We perform `fetch` as usual, but instead of calling `response.json()`, we obtain a stream reader `response.body.getReader()`.
+
+    Please note, we can't use both these methods to read the same response: either use a reader or a response method to get the result.
+2. Prior to reading, we can figure out the full response length from the `Content-Length` header.
+
+    It may be absent for cross-origin requests (see chapter <info:fetch-crossorigin>) and, well, technically a server doesn't have to set it. But usually it's at place.
+3. Call `await reader.read()` until it's done.
+
+    We gather response chunks in the array `chunks`. That's important, because after the response is consumed, we won't be able to "re-read" it using `response.json()` or another way (you can try, there'll be an error).
+4. At the end, we have `chunks` -- an array of `Uint8Array` byte chunks. We need to join them into a single result. Unfortunately, there's no single method that concatenates those, so there's some code to do that:
+    1. We create `chunksAll = new Uint8Array(receivedLength)` -- a same-typed array with the combined length.
+    2. Then use `.set(chunk, position)` method to copy each `chunk` one after another in it.
+5. We have the result in `chunksAll`. It's a byte array though, not a string.
+
+    To create a string, we need to interpret these bytes. The built-in [TextDecoder](info:text-decoder) does exactly that. Then we can `JSON.parse` it, if necessary.
+
+    What if we need binary content instead of a string? That's even simpler. Replace steps 4 and 5 with a single line that creates a `Blob` from all chunks:
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
     ```js
     let blob = new Blob(chunks);
     ```
 
+<<<<<<< HEAD
 最后，我们得到了结果（以字符串或 blob 的形式表示，什么方便就用什么），并在过程中对进度进行了跟踪。
 
 再强调一遍，这不能用于 **上传** 过程（现在无法通过 `fetch` 获取），仅用于 **下载** 过程。
+=======
+At the end we have the result (as a string or a blob, whatever is convenient), and progress-tracking in the process.
+
+Once again, please note, that's not for *upload* progress (no way now with `fetch`), only for *download* progress.
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6

@@ -24,9 +24,15 @@ document.addEventListener('mousedown', function(event) {
     moveAt(event.clientX, event.clientY);
   }
 
+<<<<<<< HEAD
   // 在拖动开始时：
   //   记住初始的移位
   //   将元素设置为 position:fixed，并将此元素移动到作为 body 的直接子元素
+=======
+  // on drag start:
+  //   remember the initial shift
+  //   move the element position:fixed and a direct child of body
+>>>>>>> b52aa942a8e9b75ba8a65124c22593171e273bb6
   function startDrag(element, clientX, clientY) {
     if(isDragging) {
       return;

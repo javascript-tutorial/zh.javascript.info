@@ -1,2 +1,2 @@
 
-# Promise，async/await
+# Promises, async/await
