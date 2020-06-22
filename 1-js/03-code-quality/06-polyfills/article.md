@@ -19,10 +19,15 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 
 实际上，Babel 包含了两部分：
 
+<<<<<<< HEAD
 1. 第一，用于重写代码的 transpiler 程序。开发者在自己的电脑上运行它。它以之前的语言标准对代码进行重写。然后将代码传到面向用户的网站。像 [webpack](http://webpack.github.io/) 这样的现代项目构建系统，提供了在每次代码改变时自动运行 transpiler 的方法，因此很容易集成在开发过程中。
+=======
+1. First, the transpiler program, which rewrites the code. The developer runs it on their own computer. It rewrites the code into the older standard. And then the code is delivered to the website for users. Modern project build systems like [webpack](http://webpack.github.io/) provide means to run transpiler automatically on every code change, so that it's very easy to integrate into development process.
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 2. 第二，polyfill。
 
+<<<<<<< HEAD
     新的语言特性可能包括新的内建函数和语法结构。
     transpiler 会重写代码，将语法结构转换为旧的结构。但是对于新的内建函数，需要我们去实现。JavaScript 是一个高度动态化的语言。脚本可以添加/修改任何函数，从而使它们的行为符合现代标准。
 
@@ -35,6 +40,20 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 所以，如果我们要使用现代语言功能，transpiler 和 polyfill 是必要的。
 
 ## 教程中的案例
+=======
+    New language features may include new built-in functions and syntax constructs.
+    The transpiler rewrites the code, transforming syntax constructs into older ones. But as for new built-in functions, we need to implement them. JavaScript is a highly dynamic language, scripts may add/modify any functions, so that they behave according to the modern standard.
+
+    A script that updates/adds new functions is called "polyfill". It "fills in" the gap and adds missing implementations.
+
+    Two interesting polyfills are:
+    - [core js](https://github.com/zloirock/core-js) that supports a lot, allows to include only needed features.
+    - [polyfill.io](http://polyfill.io) service that provides a script with polyfills, depending on the features and user's browser.
+
+So, if we're going to use modern language features, a transpiler and a polyfill are necessary.
+
+## Examples in the tutorial
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 
 ````online
@@ -48,7 +67,14 @@ alert('Press the "Play" button in the upper-right corner to run');
 ````
 
 ```offline
+<<<<<<< HEAD
 当你正在阅读离线版本时，在 PDF 中，示例是不可运行的。在 EPUB 格式中，部分例子可以运行。
 ```
 
 Google Chrome 通常是对新语言特性支持更新最快的，在没有任何 transpiler 的情况下，也能很好地运行前沿的演示，当然其他的现代浏览器也挺好。
+=======
+As you're reading the offline version, in PDF examples are not runnable. In EPUB some of them can run.
+```
+
+Google Chrome is usually the most up-to-date with language features, good to run bleeding-edge demos without any transpilers, but other modern browsers also work fine.
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa

@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 修复丢失了 "this" 的函数
+=======
+# Fix a function that loses "this"
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 下面代码中对 `askPassword()` 的调用将会检查 password，然后基于结果调用 `user.loginOk/loginFail`。
 

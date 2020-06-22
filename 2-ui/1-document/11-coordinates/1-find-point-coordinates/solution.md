@@ -1,6 +1,10 @@
 # 外角
 
+<<<<<<< HEAD
 外角就是我们从 [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect) 获取的。
+=======
+Outer corners are basically what we get from [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect).
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 `answer1` 为左上角的坐标，`answer2` 为右下角的坐标：
 

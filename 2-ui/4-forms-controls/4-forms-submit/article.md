@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 表单：事件和方法提交
+=======
+# Forms: event and method submit
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 提交表单时，会触发 `submit` 事件，它通常用于在将表单发送到服务器之前对表单进行校验，或者中止提交，并使用 JavaScript 来处理表单。
 

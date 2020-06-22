@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # File 和 FileReader
 
 [File](https://www.w3.org/TR/FileAPI/#dfn-file) 对象继承自 `Blob`，并扩展了与文件系统相关的功能。 
@@ -5,11 +6,21 @@
 有两种方式可以获取它。
 
 第一种，与 `Blob` 类似，有一个构造器：
+=======
+# File and FileReader
+
+A [File](https://www.w3.org/TR/FileAPI/#dfn-file) object inherits from `Blob` and is extended with filesystem-related capabilities.
+
+There are two ways to obtain it.
+
+First, there's a constructor, similar to `Blob`:
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 ```js
 new File(fileParts, fileName, [options])
 ```
 
+<<<<<<< HEAD
 - **`fileParts`** —— Blob/BufferSource/String 类型值的数组。
 - **`fileName`** —— 文件名字符串。
 - **`options`** —— 可选对象：
@@ -22,6 +33,20 @@ new File(fileParts, fileName, [options])
 - `lastModified` —— 最后一次修改的时间戳。
 
 这就是我们从 `<input type="file">` 中获取 `File` 对象的方式：
+=======
+- **`fileParts`** -- is an array of Blob/BufferSource/String values.
+- **`fileName`** -- file name string.
+- **`options`** -- optional object:
+    - **`lastModified`** -- the timestamp (integer date) of last modification.
+
+Second, more often we get a file from `<input type="file">` or drag'n'drop or other browser interfaces. In that case, the file gets this information from OS.
+
+As `File` inherits from `Blob`, `File` objects have the same properties, plus:
+- `name` -- the file name,
+- `lastModified` -- the timestamp of last modification.
+
+That's how we can get a `File` object from `<input type="file">`:
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 ```html run
 <input type="file" onchange="showFile(this)">
@@ -30,18 +55,28 @@ new File(fileParts, fileName, [options])
 function showFile(input) {
   let file = input.files[0];
 
+<<<<<<< HEAD
   alert(`File name: ${file.name}`); // 例如 my.png
   alert(`Last modified: ${file.lastModified}`); // 例如 1552830408824
+=======
+  alert(`File name: ${file.name}`); // e.g my.png
+  alert(`Last modified: ${file.lastModified}`); // e.g 1552830408824
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 }
 </script>
 ```
 
 ```smart
+<<<<<<< HEAD
 输入（input）可以选择多个文件，因此 `input.files` 是一个类数组对象。这里我们只有一个文件，所以我们只取 `input.files[0]`。
+=======
+The input may select multiple files, so `input.files` is an array-like object with them. Here we have only one file, so we just take `input.files[0]`.
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 ```
 
 ## FileReader
 
+<<<<<<< HEAD
 [FileReader](https://www.w3.org/TR/FileAPI/#dfn-filereader) 是一个对象，其唯一目的是从 `Blob`（因此也从 `File`）对象中读取数据。
 
 它使用事件来传递数据，因为从磁盘读取数据可能比较费时间。
@@ -80,6 +115,46 @@ let reader = new FileReader(); // 没有参数
 使用最广泛的事件无疑是 `load` 和 `error`。
 
 这是一个读取文件的示例：
+=======
+[FileReader](https://www.w3.org/TR/FileAPI/#dfn-filereader) is an object with the sole purpose of reading data from `Blob` (and hence `File` too) objects.
+
+It delivers the data using events, as reading from disk may take time.
+
+The constructor:
+
+```js
+let reader = new FileReader(); // no arguments
+```
+
+The main methods:
+
+- **`readAsArrayBuffer(blob)`** -- read the data in binary format `ArrayBuffer`.
+- **`readAsText(blob, [encoding])`** -- read the data as a text string with the given encoding (`utf-8` by default).
+- **`readAsDataURL(blob)`** -- read the binary data and encode it as base64 data url.
+- **`abort()`** -- cancel the operation.
+
+The choice of `read*` method depends on which format we prefer, how we're going to use the data.
+
+- `readAsArrayBuffer` -- for binary files, to do low-level binary operations. For high-level operations, like slicing, `File` inherits from `Blob`, so we can call them directly, without reading.
+- `readAsText` -- for text files, when we'd like to get a string.
+- `readAsDataURL` -- when we'd like to use this data in `src` for `img` or another tag. There's an alternative to reading a file for that, as discussed in chapter <info:blob>: `URL.createObjectURL(file)`.
+
+As the reading proceeds, there are events:
+- `loadstart` -- loading started.
+- `progress` -- occurs during reading.
+- `load` -- no errors, reading complete.
+- `abort` -- `abort()` called.
+- `error` -- error has occurred.
+- `loadend` -- reading finished with either success or failure.
+
+When the reading is finished, we can access the result as:
+- `reader.result` is the result (if successful)
+- `reader.error` is the error (if failed).
+
+The most widely used events are for sure `load` and `error`.
+
+Here's an example of reading a file:
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 ```html run
 <input type="file" onchange="readFile(this)">
@@ -104,6 +179,7 @@ function readFile(input) {
 </script>
 ```
 
+<<<<<<< HEAD
 ```smart header="`FileReader` 用于 blob"
 正如我们在 <info:blob> 一章中所提到的，`FileReader` 不仅可读取文件，还可读取任何 blob。
 
@@ -136,3 +212,37 @@ function readFile(input) {
 但是，在很多情况下，我们不必读取文件内容。就像我们处理 blob 一样，我们可以使用 `URL.createObjectURL(file)` 创建一个短的 url，并将其赋给 `<a>` 或 `<img>`。这样，文件便可以下载文件或者将其呈现为图像，作为 canvas 等的一部分。
 
 而且，如果我们要通过网络发送一个 `File`，那也很容易：像 `XMLHttpRequest` 或 `fetch` 等网络 API 本身就接受 `File` 对象。
+=======
+```smart header="`FileReader` for blobs"
+As mentioned in the chapter <info:blob>, `FileReader` can read not just files, but any blobs.
+
+We can use it to convert a blob to another format:
+- `readAsArrayBuffer(blob)` -- to `ArrayBuffer`,
+- `readAsText(blob, [encoding])` -- to string (an alternative to `TextDecoder`),
+- `readAsDataURL(blob)` -- to base64 data url.
+```
+
+
+```smart header="`FileReaderSync` is available inside Web Workers"
+For Web Workers, there also exists a synchronous variant of `FileReader`, called [FileReaderSync](https://www.w3.org/TR/FileAPI/#FileReaderSync).
+
+Its reading methods `read*` do not generate events, but rather return a result, as regular functions do.
+
+That's only inside a Web Worker though, because delays in synchronous calls, that are possible while reading from files, in Web Workers are less important. They do not affect the page.
+```
+
+## Summary
+
+`File` objects inherit from `Blob`.
+
+In addition to `Blob` methods and properties, `File` objects also have `name` and `lastModified` properties, plus the internal ability to read from filesystem. We usually get `File` objects from user input, like `<input>` or Drag'n'Drop events (`ondragend`).
+
+`FileReader` objects can read from a file or a blob, in one of three formats:
+- String (`readAsText`).
+- `ArrayBuffer` (`readAsArrayBuffer`).
+- Data url, base-64 encoded (`readAsDataURL`).
+
+In many cases though, we don't have to read the file contents. Just as we did with blobs, we can create a short url with `URL.createObjectURL(file)` and assign it to `<a>` or `<img>`. This way the file can be downloaded or shown up as an image, as a part of canvas etc.
+
+And if we're going to send a `File` over a network, that's also easy: network API like `XMLHttpRequest` or `fetch` natively accepts `File` objects.
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa

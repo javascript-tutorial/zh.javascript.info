@@ -1,12 +1,12 @@
-# Promise：then 对比 catch
+# Promise: then versus catch
 
-这两个代码片段是否相等？换句话说，对于任何处理程序（handler），它们在任何情况下的行为都相同吗？
+Are these code fragments equal? In other words, do they behave the same way in any circumstances, for any handler functions?
 
 ```js
 promise.then(f1).catch(f2);
 ```
 
-对比：
+Versus:
 
 ```js
 promise.then(f1, f2);

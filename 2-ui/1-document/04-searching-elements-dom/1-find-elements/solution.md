@@ -11,19 +11,29 @@ table.getElementsByTagName('label')
 // 或
 document.querySelectorAll('#age-table label')
 
+<<<<<<< HEAD
 // 3. 表格中的第一个 td（带有 "Age" 字段）
+=======
+// 3. The first td in that table (with the word "Age")
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 table.rows[0].cells[0]
 // 或
 table.getElementsByTagName('td')[0]
 // 或
 table.querySelector('td')
 
+<<<<<<< HEAD
 // 4. 带有 name="search" 的 form。
 // 假设文档中只有一个 name="search" 的元素
+=======
+// 4. The form with the name "search"
+// assuming there's only one element with name="search" in the document
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 let form = document.getElementsByName('search')[0]
 // 或者，专门对于 form
 document.querySelector('form[name="search"]')
 
+<<<<<<< HEAD
 // 5. 表单中的第一个 input
 form.getElementsByTagName('input')[0]
 // 或
@@ -32,4 +42,14 @@ form.querySelector('input')
 // 6. 表单中的最后一个 input
 let inputs = form.querySelectorAll('input') // 查找所有 input
 inputs[inputs.length-1] // 取出最后一个
+=======
+// 5. The first input in that form.
+form.getElementsByTagName('input')[0]
+// or
+form.querySelector('input')
+
+// 6. The last input in that form
+let inputs = form.querySelectorAll('input') // find all inputs
+inputs[inputs.length-1] // take the last one
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 ```

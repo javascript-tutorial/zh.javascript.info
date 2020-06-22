@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 创建滑动菜单
+=======
+# Create a sliding menu
+>>>>>>> e4e6a50b5762dd5dc4c0f0c58f870c64be39dcfa
 
 创建一个在点击时打开/折叠的菜单：
 
