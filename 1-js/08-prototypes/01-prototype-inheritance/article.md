@@ -31,7 +31,7 @@ rabbit.__proto__ = animal;
 */!*
 ```
 
-```smart header="`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter"
+```smart header="`__proto__` 是 `[[Prototype]]` 的getter/setter， 这是因历史原因而留下来"
 请注意，`__proto__` 与 `[[Prototype]]` **不一样**。`__proto__` 是 `[[Prototype]]` 的 getter/setter。
 
 `__proto__` 的存在是历史的原因。在现代编程语言中，将其替换为函数 `Object.getPrototypeOf/Object.setPrototypeOf` 也能 get/set 原型。我们稍后将学习造成这种情况的原因以及这些函数。
