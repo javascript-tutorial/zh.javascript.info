@@ -93,7 +93,7 @@ alert(many.length); // 2
 
 可以看到，余参不参与计数。
 
-属性 `length` 有时在操作其它函数的函数中，用来做[内省/运行时检查（introspection）](https://zh.wikipedia.org/wiki/内省_(计算机科学))。
+属性 `length` 有时在操作其它函数的函数中用于做 [内省/运行时检查（introspection）](https://zh.wikipedia.org/wiki/内省_(计算机科学))。
 
 比如，下面的代码中函数 `ask` 接受一个询问答案的参数 `question` 和可能包含任意数量 `handler` 的参数 `...handlers`。
 
