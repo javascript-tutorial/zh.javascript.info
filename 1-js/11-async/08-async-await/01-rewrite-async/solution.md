@@ -1,5 +1,5 @@
 
-解析在代码下面：
+The notes are below the code:
 
 ```js run
 async function loadJson(url) { // (1)
@@ -17,11 +17,11 @@ loadJson('no-such-user.json')
   .catch(alert); // Error: 404 (4)
 ```
 
-解析：
+Notes:
 
-1. 将函数 `loadJson` 变为 `async`。
-2. 将函数中所有的 `.then` 都替换为 `await`。
-3. 我们可以返回 `return response.json()` 而不用等待它，像这样:
+1. The function `loadJson` becomes `async`.
+2. All `.then` inside are replaced with `await`.
+3. We can `return response.json()` instead of awaiting for it, like this:
 
     ```js
     if (response.status == 200) {
@@ -29,5 +29,5 @@ loadJson('no-such-user.json')
     }
     ```
 
-    然后外部的代码就必须 `await` 这个 promise resolve。在本例中它无关紧要。
-4. `loadJson` 抛出的 error 被 `.catch` 处理了。在这儿我们我们不能使用 `await loadJson(…)`，因为我们不是在一个 `async` 函数中。
+    Then the outer code would have to `await` for that promise to resolve. In our case it doesn't matter.
+4. The error thrown from `loadJson` is handled by `.catch`. We can't use `await loadJson(…)` there, because we're not in an `async` function.

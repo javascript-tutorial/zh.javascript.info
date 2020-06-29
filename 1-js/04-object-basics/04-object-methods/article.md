@@ -15,7 +15,11 @@ let user = {
 
 ## 方法示例
 
+<<<<<<< HEAD
 刚开始，我们来教 `user` 说 hello：
+=======
+For a start, let's teach the `user` to say hello:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js run
 let user = {
@@ -60,10 +64,17 @@ user.sayHi = sayHi;
 user.sayHi(); // Hello!
 ```
 
+<<<<<<< HEAD
 ```smart header="面向对象编程"
 当我们在代码中用对象表示实体时，就是所谓的 [面向对象编程](https://en.wikipedia.org/wiki/Object-oriented_programming)，简称为 "OOP"。
 
 OOP 是一门大学问，本身就是一门有趣的科学。怎样选择合适的实体？如何组织它们之间的交互？这就是架构，有很多关于这方面的书，例如 E. Gamma、R. Helm、R. Johnson 和 J. Vissides 所著的《设计模式：可复用面向对象软件的基础》，G. Booch 所著的《面向对象分析与设计》等。
+=======
+```smart header="Object-oriented programming"
+When we write our code using objects to represent entities, that's called [object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), in short: "OOP".
+
+OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E. Gamma, R. Helm, R. Johnson, J. Vissides or "Object-Oriented Analysis and Design with Applications" by G. Booch, and more.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 ```
 ### 方法简写
 
@@ -78,8 +89,13 @@ user = {
   }
 };
 
+<<<<<<< HEAD
 // 方法简写看起来更好，对吧？
 let user = {
+=======
+// method shorthand looks better, right?
+user = {
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 *!*
   sayHi() { // 与 "sayHi: function()" 一样
 */!*
@@ -111,7 +127,11 @@ let user = {
 
   sayHi() {
 *!*
+<<<<<<< HEAD
     // "this" 指的是“当前的对象”
+=======
+    // "this" is the "current object"
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
     alert(this.name);
 */!*
   }
@@ -167,9 +187,15 @@ admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的 name 属性！报错！
 
 ## "this" 不受限制
 
+<<<<<<< HEAD
 在 JavaScript 中，`this` 关键字与其他大多数编程语言中的不同。JavaScript 中的 `this` 可以用于任何函数。
 
 下面这样的代码没有语法错误：
+=======
+In JavaScript, keyword `this` behaves unlike most other programming languages. It can be used in any function.
+
+There's no syntax error in the following example:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js
 function sayHi() {
@@ -177,9 +203,15 @@ function sayHi() {
 }
 ```
 
+<<<<<<< HEAD
 `this` 的值是在代码运行时计算出来的，它取决于代码上下文。
 
 例如，这里相同的函数被分配给两个不同的对象，在调用中有着不同的 "this" 值：
+=======
+The value of `this` is evaluated during the run-time, depending on the context.
+
+For instance, here the same function is assigned to two different objects and has different "this" in the calls:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js run
 let user = { name: "John" };
@@ -190,7 +222,11 @@ function sayHi() {
 }
 
 *!*
+<<<<<<< HEAD
 // 在两个对象中使用相同的函数
+=======
+// use the same function in two objects
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 user.f = sayHi;
 admin.f = sayHi;
 */!*
@@ -203,10 +239,17 @@ admin.f(); // Admin（this == admin）
 admin['f'](); // Admin（使用点符号或方括号语法来访问这个方法，都没有关系。）
 ```
 
+<<<<<<< HEAD
 这个规则很简单：如果 `obj.f()` 被调用了，则 `this` 在 `f` 函数调用期间是 `obj`。所以在上面的例子中 this 先是 `user`，之后是 `admin`。
 
 ````smart header="在没有对象的情况下调用：`this == undefined`"
 我们甚至可以在没有对象的情况下调用函数：
+=======
+The rule is simple: if `obj.f()` is called, then `this` is `obj` during the call of `f`. So it's either `user` or `admin` in the example above.
+
+````smart header="Calling without an object: `this == undefined`"
+We can even call the function without an object at all:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js run
 function sayHi() {
@@ -218,14 +261,21 @@ sayHi(); // undefined
 
 在这种情况下，严格模式下的 `this` 值为 `undefined`。如果我们尝试访问 `this.name`，将会报错。
 
+<<<<<<< HEAD
 在非严格模式的情况下，`this` 将会是 **全局对象**（浏览器中的 `window`，我们稍后会在 [](info:global-object) 一章中学习它）。这是一个历史行为，`"use strict"` 已经将其修复了。
 
 通常这种调用是程序出错了。如果在一个函数内部有 `this`，那么通常意味着它是在对象上下文环境中被调用的。
+=======
+In non-strict mode the value of `this` in such case will be the *global object* (`window` in a browser, we'll get to it later in the chapter [](info:global-object)). This is a historical behavior that `"use strict"` fixes.
+
+Usually such call is a programming error. If there's `this` inside a function, it expects to be called in an object context.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 ````
 
 ```smart header="解除 `this` 绑定的后果"
 如果你经常使用其他的编程语言，那么你可能已经习惯了“绑定 `this`”的概念，即在对象中定义的方法总是有指向该对象的 `this`。
 
+<<<<<<< HEAD
 在 JavaScript 中，`this` 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于方法声明的位置，而是取决于在“点符号前”的是什么对象。
 
 在运行时对 `this` 求值的这个概念既有优点也有缺点。一方面，函数可以被重用于不同的对象。另一方面，更大的灵活性造成了更大的出错的可能。
@@ -326,6 +376,16 @@ hi(); // 错误，因为 this 未定义
 因此，结果是，只有使用点符号 `obj.method()` 或方括号语法 `obj[method]()`（它们在这里作用相同）调用函数时，`this` 的值才被正确传递（这里的例子也一样）。在本教程的后面，我们将学习解决此问题的各种方法，例如 [func.bind()](/bind#solution-2-bind)。
 
 ## 箭头函数没有自己的 "this"
+=======
+In JavaScript `this` is "free", its value is evaluated at call-time and does not depend on where the method was declared, but rather on what object is "before the dot".
+
+The concept of run-time evaluated `this` has both pluses and minuses. On the one hand, a function can be reused for different objects. On the other hand, the greater flexibility creates more possibilities for mistakes.
+
+Here our position is not to judge whether this language design decision is good or bad. We'll understand how to work with it, how to get benefits and avoid problems.
+```
+
+## Arrow functions have no "this"
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 箭头函数有些特别：它们没有自己的 `this`。如果我们在这样的函数中引用 `this`，`this` 值取决于外部“正常的”函数。
 
@@ -352,9 +412,16 @@ user.sayHi(); // Ilya
 - 方法允许对象进行像 `object.doSomething()` 这样的“操作”。
 - 方法可以将对象引用为 `this`。
 
+<<<<<<< HEAD
 `this` 的值是在程序运行时得到的。
 - 一个函数在声明时，可能就使用了 `this`，但是这个 `this` 只有在函数被调用时才会有值。
 - 可以在对象之间复制函数。
 - 以“方法”的语法调用函数时：`object.method()`，调用过程中的 `this` 值是 `object`。
+=======
+The value of `this` is defined at run-time.
+- When a function is declared, it may use `this`, but that `this` has no value until the function is called.
+- A function can be copied between objects.
+- When a function is called in the "method" syntax: `object.method()`, the value of `this` during the call is `object`.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 请注意箭头函数有些特别：它们没有 `this`。在箭头函数内部访问到的 `this` 都是从外部获取的。

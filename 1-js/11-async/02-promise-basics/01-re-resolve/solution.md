@@ -1,3 +1,3 @@
-输出为：`1`。
+The output is: `1`.
 
-第二个对 `resolve` 的调用会被忽略，因为只有第一次对 `reject/resolve` 的调用才会被处理。进一步的调用都会被忽略。
+The second call to `resolve` is ignored, because only the first call of `reject/resolve` is taken into account. Further calls are ignored.

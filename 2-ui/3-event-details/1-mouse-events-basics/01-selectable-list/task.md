@@ -13,6 +13,12 @@ importance: 5
 
 [iframe border="1" src="solution" height=180]
 
+<<<<<<< HEAD
 P.S. 对于此任务，我们可以假设列表项是纯文本的。没有嵌套标签。
 
 P.P.S. 防止点击时浏览器原生的文本选择。
+=======
+P.S. For this task we can assume that list items are text-only. No nested tags.
+
+P.P.S. Prevent the native browser selection of the text on clicks.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8

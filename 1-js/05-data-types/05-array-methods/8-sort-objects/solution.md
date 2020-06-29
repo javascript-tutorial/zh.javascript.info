@@ -11,11 +11,16 @@ let arr = [ pete, john, mary ];
 
 sortByAge(arr);
 
+<<<<<<< HEAD
 // 排序后的数组为：[john, mary, pete]
+=======
+// now sorted is: [john, mary, pete]
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 alert(arr[0].name); // John
 alert(arr[1].name); // Mary
 alert(arr[2].name); // Pete
 ```
+<<<<<<< HEAD
 
 译注：解决方案的代码还可以更短一些
 
@@ -32,3 +37,5 @@ function sortByAge(arr) {
 - 如果 `compareFunction(a, b)` 大于 `0`，那么 `b` 会被排列到 `a` 之前。
 
 因此，升序排列的函数可以简写为：`(a, b) => a.age - b.age`。
+=======
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8

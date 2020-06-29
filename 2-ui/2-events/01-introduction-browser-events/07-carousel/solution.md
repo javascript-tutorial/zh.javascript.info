@@ -1,6 +1,10 @@
 图像带可以表示为图像 `<img>` 的 `ul/li` 列表。
 
+<<<<<<< HEAD
 通常，这样的图像带是很宽的，但我们在其周围放置了一个固定大小的 `<div>` 来“剪切”它，因此，只有图像带的一部分是可见的：
+=======
+Normally, such a ribbon is wide, but we put a fixed-size `<div>` around to "cut" it, so that only a part of the ribbon is visible:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ![](carousel1.svg)
 

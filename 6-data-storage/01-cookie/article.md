@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Cookie，document.cookie
 
 Cookie 是直接存储在浏览器中的一小串数据。它们是 HTTP 协议的一部分，由 [RFC 6265](https://tools.ietf.org/html/rfc6265) 规范定义。
@@ -27,10 +28,42 @@ Cookie 通常是由 Web 服务器使用响应 `Set-Cookie` HTTP-header 设置的
 ```js run
 // 在 javascript.info，我们使用谷歌分析来进行统计，
 // 所以应该存在一些 cookie
+=======
+# Cookies, document.cookie
+
+Cookies are small strings of data that are stored directly in the browser. They are a part of HTTP protocol, defined by [RFC 6265](https://tools.ietf.org/html/rfc6265) specification.
+
+Cookies are usually set by a web-server using response `Set-Cookie` HTTP-header. Then the browser automatically adds them to (almost) every request to the same domain using `Cookie` HTTP-header.
+
+One of the most widespread use cases is authentication:
+
+1. Upon sign in, the server uses `Set-Cookie` HTTP-header in the response to set a cookie with a unique "session identifier".
+2. Next time when the request is set to the same domain, the browser sends the cookie over the net using `Cookie` HTTP-header.
+3. So the server knows who made the request.
+
+We can also access cookies from the browser, using `document.cookie` property.
+
+There are many tricky things about cookies and their options. In this chapter we'll cover them in detail.
+
+## Reading from document.cookie
+
+```online
+Does your browser store any cookies from this site? Let's see:
+```
+
+```offline
+Assuming you're on a website, it's possible to see the cookies from it, like this:
+```
+
+```js run
+// At javascript.info, we use Google Analytics for statistics,
+// so there should be some cookies
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 ```
 
 
+<<<<<<< HEAD
 `document.cookie` 的值由 `name=value` 对组成，以 `; ` 分隔。每一个都是独立的 cookie。
 
 为了找到一个特定的 cookie，我们可以以 `; ` 作为分隔，将 `document.cookie` 分开，然后找到对应的名字。我们可以使用正则表达式或者数组函数来实现。
@@ -60,12 +93,44 @@ let name = "my name";
 let value = "John Smith"
 
 // 将 cookie 编码为 my%20name=John%20Smith
+=======
+The value of `document.cookie` consists of `name=value` pairs, delimited by `; `. Each one is a separate cookie.
+
+To find a particular cookie, we can split `document.cookie` by `; `, and then find the right name. We can use either a regular expression or array functions to do that.
+
+We leave it as an exercise for the reader. Also, at the end of the chapter you'll find helper functions to manipulate cookies.
+
+## Writing to document.cookie
+
+We can write to `document.cookie`. But it's not a data property, it's an accessor (getter/setter). An assignment to it is treated specially.
+
+**A write operation to `document.cookie` updates only cookies mentioned in it, but doesn't touch other cookies.**
+
+For instance, this call sets a cookie with the name `user` and value `John`:
+
+```js run
+document.cookie = "user=John"; // update only cookie named 'user'
+alert(document.cookie); // show all cookies
+```
+
+If you run it, then probably you'll see multiple cookies. That's because `document.cookie=` operation does not overwrite all cookies. It only sets the mentioned cookie `user`.
+
+Technically, name and value can have any characters, to keep the valid formatting they should be escaped using a built-in `encodeURIComponent` function:
+
+```js run
+// special characters (spaces), need encoding
+let name = "my name";
+let value = "John Smith"
+
+// encodes the cookie as my%20name=John%20Smith
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
 alert(document.cookie); // ...; my%20name=John%20Smith
 ```
 
 
+<<<<<<< HEAD
 ```warn header="限制"
 存在一些限制：
 - `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4kb。因此，我们不能在一个 cookie 中保存大的东西。
@@ -75,6 +140,17 @@ alert(document.cookie); // ...; my%20name=John%20Smith
 Cookie 有几个选项，其中很多都很重要，应该设置它。
 
 选项被列在 `key=value` 之后，以 `;` 分隔，像这样：
+=======
+```warn header="Limitations"
+There are few limitations:
+- The `name=value` pair, after `encodeURIComponent`, should not exceed 4kb. So we can't store anything huge in a cookie.
+- The total number of cookies per domain is limited to around 20+, the exact limit depends on a browser.
+```
+
+Cookies have several options, many of them are important and should be set.
+
+The options are listed after `key=value`, delimited by `;`, like this:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js run
 document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
@@ -84,16 +160,25 @@ document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 
 - **`path=/mypath`**
 
+<<<<<<< HEAD
 url 路径前缀，该路径下的页面可以访问该 cookie。必须是绝对路径。默认为当前路径。
 
 如果一个 cookie 带有 `path=/admin` 设置，那么该 cookie 在 `/admin` 和 `/admin/something` 下都是可见的，但是在 `/home` 或 `/adminpage` 下不可见。
 
 通常，我们应该将 `path` 设置为根目录：`path=/`，以使 cookie 对此网站的所有页面可见。
+=======
+The url path prefix, the cookie will be accessible for pages under that path. Must be absolute. By default, it's the current path.
+
+If a cookie is set with `path=/admin`, it's visible at pages `/admin` and `/admin/something`, but not at `/home` or `/adminpage`.
+
+Usually, we should set `path` to the root: `path=/` to make the cookie accessible from all website pages.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ## domain
 
 - **`domain=site.com`**
 
+<<<<<<< HEAD
 可访问 cookie 的域。但是在实际中，有一些限制。我们无法设置任何域。
 
 默认情况下，cookie 只有在设置的域下才能被访问到。所以，如果 cookie 设置在 `site.com` 下，我们在 `other.com` 下就无法获取它。
@@ -143,11 +228,63 @@ cookie 的到期日期，那时浏览器会自动删除它。
 
 ```js
 // 当前时间 +1 天
+=======
+A domain where the cookie is accessible. In practice though, there are limitations. We can't set any domain.
+
+By default, a cookie is accessible only at the domain that set it. So, if the cookie was set by `site.com`, we won't get it `other.com`.
+
+...But what's more tricky, we also won't get the cookie at a subdomain `forum.site.com`!
+
+```js
+// at site.com
+document.cookie = "user=John"
+
+// at forum.site.com
+alert(document.cookie); // no user
+```
+
+**There's no way to let a cookie be accessible from another 2nd-level domain, so `other.com` will never receive a cookie set at `site.com`.**
+
+It's a safety restriction, to allow us to store sensitive data in cookies, that should be available only on one site.
+
+...But if we'd like to allow subdomains like `forum.site.com` get a cookie, that's possible. When setting a cookie at `site.com`, we should explicitly set `domain` option to the root domain: `domain=site.com`:
+
+```js
+// at site.com
+// make the cookie accessible on any subdomain *.site.com:
+document.cookie = "user=John; domain=site.com"
+
+// later
+
+// at forum.site.com
+alert(document.cookie); // has cookie user=John
+```
+
+For historical reasons, `domain=.site.com` (a dot before `site.com`) also works the same way, allowing access to the cookie from subdomains. That's an old notation, should be used if we need to support very old browsers.
+
+So, `domain` option allows to make a cookie accessible at subdomains.
+
+## expires, max-age
+
+By default, if a cookie doesn't have one of these options, it disappears when the browser is closed. Such cookies are called "session cookies"
+
+To let cookies survive browser close, we can set either `expires` or `max-age` option.
+
+- **`expires=Tue, 19 Jan 2038 03:14:07 GMT`**
+
+Cookie expiration date, when the browser will delete it automatically.
+
+The date must be exactly in this format, in GMT timezone. We can use `date.toUTCString` to get it. For instance, we can set the cookie to expire in 1 day:
+
+```js
+// +1 day from now
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 let date = new Date(Date.now() + 86400e3);
 date = date.toUTCString();
 document.cookie = "user=John; expires=" + date;
 ```
 
+<<<<<<< HEAD
 如果我们将 `expires` 设置为过去的时间，则 cookie 会被删除。
 
 -  **`max-age=3600`**
@@ -163,11 +300,29 @@ document.cookie = "user=John; max-age=3600";
 // 删除 cookie（让它立即过期）
 document.cookie = "user=John; max-age=0";
 ``` 
+=======
+If we set `expires` to a date in the past, the cookie is deleted.
+
+-  **`max-age=3600`**
+
+An alternative to `expires`, specifies the cookie expiration in seconds from the current moment.
+
+If zero or negative, then the cookie is deleted:
+
+```js
+// cookie will die +1 hour from now
+document.cookie = "user=John; max-age=3600";
+
+// delete cookie (let it expire right now)
+document.cookie = "user=John; max-age=0";
+```
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ## secure
 
 - **`secure`**
 
+<<<<<<< HEAD
 Cookie 应只能被通过 HTTPS 传输。
 
 **默认情况下，如果我们在 `http://site.com` 上设置了 cookie，那么该 cookie 也会出现在 `https://site.com` 上，反之亦然。**
@@ -179,11 +334,25 @@ Cookie 应只能被通过 HTTPS 传输。
 ```js
 // 假设我们现在在 HTTPS 环境下
 // 设置 cookie secure（只在 HTTPS 环境下可访问）
+=======
+The cookie should be transferred only over HTTPS.
+
+**By default, if we set a cookie at `http://site.com`, then it also appears at `https://site.com` and vice versa.**
+
+That is, cookies are domain-based, they do not distinguish between the protocols.
+
+With this option, if a cookie is set by `https://site.com`, then it doesn't appear when the same site is accessed by HTTP, as `http://site.com`. So if a cookie has sensitive content that should never be sent over unencrypted HTTP, then the flag is the right thing.
+
+```js
+// assuming we're on https:// now
+// set the cookie secure (only accessible if over HTTPS)
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 document.cookie = "user=John; secure";
 ```  
 
 ## samesite
 
+<<<<<<< HEAD
 这是另外一个关于安全的特性。它旨在防止 XSRF（跨网站请求伪造）攻击。
 
 为了了解它是如何工作的，以及何时有用，让我们看一下 XSRF 攻击。
@@ -274,10 +443,103 @@ Web 服务器使用 `Set-Cookie` header 来设置 cookie。并且，它可以设
 这里有一组有关 cookie 操作的函数，比手动修改 `document.cookie` 方便得多。
 
 有很多这种 cookie 库，所以这些函数只用于演示。虽然它们都能正常使用。
+=======
+That's another security attribute `samesite`. It's designed to protect from so-called XSRF (cross-site request forgery) attacks.
+
+To understand how it works and when it's useful, let's take a look at XSRF attacks.
+
+### XSRF attack
+
+Imagine, you are logged into the site `bank.com`. That is: you have an authentication cookie from that site. Your browser sends it to `bank.com` with every request, so that it recognizes you and performs all sensitive financial operations.
+
+Now, while browsing the web in another window, you accidentally come to another site `evil.com`. That site has JavaScript code that submits a form `<form action="https://bank.com/pay">` to `bank.com` with fields that initiate a transaction to the hacker's account.
+
+The browser sends cookies every time you visit the site `bank.com`, even if the form was submitted from `evil.com`. So the bank recognizes you and actually performs the payment.
+
+![](cookie-xsrf.svg)
+
+That's called a "Cross-Site Request Forgery" (in short, XSRF) attack.
+
+Real banks are protected from it of course. All forms generated by `bank.com` have a special field, so called "XSRF protection token", that an evil page can't generate or extract from a remote page (it can submit a form there, but can't get the data back). And the site `bank.com` checks for such token in every form it receives.
+
+But such protection takes time to implement: we need to ensure that every form has the token field, and we must also check all requests.
+
+### Enter cookie samesite option
+
+The cookie `samesite` option provides another way to protect from such attacks, that (in theory) should not require "xsrf protection tokens".
+
+It has two possible values:
+
+- **`samesite=strict` (same as `samesite` without value)**
+
+A cookie with `samesite=strict` is never sent if the user comes from outside the same site.
+
+In other words, whether a user follows a link from their mail or submits a form from `evil.com`, or does any operation that originates from another domain, the cookie is not sent.
+
+If authentication cookies have `samesite` option, then XSRF attack has no chances to succeed, because a submission from `evil.com` comes without cookies. So `bank.com` will not recognize the user and will not proceed with the payment.
+
+The protection is quite reliable. Only operations that come from `bank.com` will send the `samesite` cookie, e.g. a form submission from another page at `bank.com`.
+
+Although, there's a small inconvenience.
+
+When a user follows a legitimate link to `bank.com`, like from their own notes, they'll be surprised that `bank.com` does not recognize them. Indeed, `samesite=strict` cookies are not sent in that case.
+
+We could work around that by using two cookies: one for "general recognition", only for the purposes of saying: "Hello, John", and the other one for data-changing operations with `samesite=strict`. Then a person coming from outside of the site will see a welcome, but payments must be initiated from the bank website, for the second cookie to be sent.
+
+- **`samesite=lax`**
+
+A more relaxed approach that also protects from XSRF and doesn't break user experience.
+
+Lax mode, just like `strict`, forbids the browser to send cookies when coming from outside the site, but adds an exception.
+
+A `samesite=lax` cookie is sent if both of these conditions are true:
+1. The HTTP method is "safe" (e.g. GET, but not POST).
+
+    The full list of safe HTTP methods is in the [RFC7231 specification](https://tools.ietf.org/html/rfc7231). Basically, these are the methods that should be used for reading, but not writing the data. They must not perform any data-changing operations. Following a link is always GET, the safe method.
+
+2. The operation performs top-level navigation (changes URL in the browser address bar).
+
+    That's usually true, but if the navigation is performed in an `<iframe>`, then it's not top-level. Also, JavaScript methods for network requests do not perform any navigation, hence they don't fit.
+
+So, what `samesite=lax` does is basically allows a most common "go to URL" operation to have cookies. E.g. opening a website link from notes satisfies these conditions.
+
+But anything more complicated, like a network request from another site or a form submission loses cookies.
+
+If that's fine for you, then adding `samesite=lax` will probably not break the user experience and add protection.
+
+Overall, `samesite` is a great option, but it has an important drawback:
+- `samesite` is ignored (not supported) by old browsers, year 2017 or so.
+
+**So if we solely rely on `samesite` to provide protection, then old browsers will be vulnerable.**
+
+But we surely can use `samesite` together with other protection measures, like xsrf tokens, to add an additional layer of defence and then, in the future, when old browsers die out, we'll probably be able to drop xsrf tokens.
+
+## httpOnly
+
+This option has nothing to do with JavaScript, but we have to mention it for completeness.
+
+The web-server uses `Set-Cookie` header to set a cookie. And it may set the `httpOnly` option.
+
+This option forbids any JavaScript access to the cookie. We can't see such cookie or manipulate it using `document.cookie`.
+
+That's used as a precaution measure, to protect from certain attacks when a hacker injects his own JavaScript code into a page and waits for a user to visit that page. That shouldn't be possible at all, a hacker should not be able to inject their code into our site, but there may be bugs that let hackers do it.
+
+
+Normally, if such thing happens, and a user visits a web-page with hacker's JavaScript code, then that code executes and gains access to `document.cookie` with user cookies containing authentication information. That's bad.
+
+But if a cookie is `httpOnly`, then `document.cookie` doesn't see it, so it is protected.
+
+## Appendix: Cookie functions
+
+Here's a small set of functions to work with cookies, more convenient than a manual modification of `document.cookie`.
+
+There exist many cookie libraries for that, so these are for demo purposes. Fully working though.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 
 ### getCookie(name)
 
+<<<<<<< HEAD
 获取 cookie 最简短的方式是使用 [正则表达式](info:regular-expressions)。
 
 `getCookie(name)` 函数返回具有给定 `name` 的 cookie：
@@ -285,6 +547,15 @@ Web 服务器使用 `Set-Cookie` header 来设置 cookie。并且，它可以设
 ```js
 // 返回具有给定 name 的 cookie，
 // 如果没找到，则返回 undefined
+=======
+The shortest way to access cookie is to use a [regular expression](info:regular-expressions).
+
+The function `getCookie(name)` returns the cookie with the given `name`:
+
+```js
+// returns the cookie with the given name,
+// or undefined if not found
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 function getCookie(name) {
   let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -293,6 +564,7 @@ function getCookie(name) {
 }
 ```
 
+<<<<<<< HEAD
 这里的 `new RegExp` 是动态生成的，以匹配 `; name=<value>`。
 
 请注意 cookie 的值是经过编码的，所以 `getCookie` 使用了内建方法 `decodeURIComponent` 函数对其进行解码。
@@ -300,13 +572,26 @@ function getCookie(name) {
 ### setCookie(name, value, options)
 
 将 cookie `name` 设置为具有默认值 `path=/`（可以修改以添加其他默认值）和给定值 `value`：
+=======
+Here `new RegExp` is generated dynamically, to match `; name=<value>`.
+
+Please note that a cookie value is encoded, so `getCookie` uses a built-in `decodeURIComponent` function to decode it.
+
+### setCookie(name, value, options)
+
+Sets the cookie `name` to the given `value` with `path=/` by default (can be modified to add other defaults):
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js run
 function setCookie(name, value, options = {}) {
 
   options = {
     path: '/',
+<<<<<<< HEAD
     // 如果需要，可以在这里添加其他默认值
+=======
+    // add other defaults here if necessary
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
     ...options
   };
 
@@ -327,13 +612,21 @@ function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
+<<<<<<< HEAD
 // 使用范例：
+=======
+// Example of use:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 setCookie('user', 'John', {secure: true, 'max-age': 3600});
 ```
 
 ### deleteCookie(name)
 
+<<<<<<< HEAD
 要删除一个 cookie，我们可以给它设置一个负的过期时间来调用它：
+=======
+To delete a cookie, we can call it with a negative expiration date:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
 ```js
 function deleteCookie(name) {
@@ -343,6 +636,7 @@ function deleteCookie(name) {
 }
 ```
 
+<<<<<<< HEAD
 ```warn header="更新或删除必须使用相同的路径和域"
 请注意：当我们更新或删除一个 cookie 时，我们应该使用和设置 cookie 时相同的路径和域选项。
 ```
@@ -365,10 +659,35 @@ function deleteCookie(name) {
     ![](cookie-third-party-2.svg)
 
 4. 更为重要的是，当用户从 `site.com` 网站跳转至另一个也带有 banner 的网站 `other.com` 时，`ads.com` 会获得该 cookie，因为它属于 `ads.com`，从而识别用户并在他在网站之间切换时对其进行跟踪：
+=======
+```warn header="Updating or deleting must use same path and domain"
+Please note: when we update or delete a cookie, we should use exactly the same path and domain options as when we set it.
+```
+
+Together: [cookie.js](cookie.js).
+
+
+## Appendix: Third-party cookies
+
+A cookie is called "third-party" if it's placed by domain other than the page user is visiting.
+
+For instance:
+1. A page at `site.com` loads a banner from another site: `<img src="https://ads.com/banner.png">`.
+2. Along with the banner, the remote server at `ads.com` may set `Set-Cookie` header with cookie like `id=1234`. Such cookie originates from `ads.com` domain, and will only be visible at `ads.com`:
+
+    ![](cookie-third-party.svg)
+
+3. Next time when `ads.com` is accessed, the remote server gets the `id` cookie and recognizes the user:
+
+    ![](cookie-third-party-2.svg)
+
+4. What's even more important, when the users moves from `site.com` to another site `other.com` that also has a banner, then `ads.com` gets the cookie, as it belongs to `ads.com`, thus recognizing the visitor and tracking him as he moves between sites:
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
 
     ![](cookie-third-party-3.svg)
 
 
+<<<<<<< HEAD
 由于它的性质，第三方 cookie 通常用于跟踪和广告服务。它们被绑定在原始域上，因此 `ads.com` 可以在不同网站之间跟踪同一用户，如果这些网站都可以访问 `ads.com` 的话。
 
 当然，有些人不喜欢被跟踪，因此浏览器允许禁止此类 cookie。
@@ -427,3 +746,63 @@ Cookie 选项：
 另外：
 - 浏览器可能会禁用第三方 cookie，例如 Safari 浏览器默认禁止所有第三方 cookie。
 - 在为欧盟公民设置跟踪 cookie 时，GDPR 要求必须得到用户明确许可。
+=======
+Third-party cookies are traditionally used for tracking and ads services, due to their nature. They are bound to the originating domain, so `ads.com` can track the same user between different sites, if they all access it.
+
+Naturally, some people don't like being tracked, so browsers allow to disable such cookies.
+
+Also, some modern browsers employ special policies for such cookies:
+- Safari does not allow third-party cookies at all.
+- Firefox comes with a "black list" of third-party domains where it blocks third-party cookies.
+
+
+```smart
+If we load a script from a third-party domain, like `<script src="https://google-analytics.com/analytics.js">`, and that script uses `document.cookie` to set a cookie, then such cookie is not third-party.
+
+If a script sets a cookie, then no matter where the script came from -- the cookie belongs to the domain of the current webpage.
+```
+
+## Appendix: GDPR
+
+This topic is not related to JavaScript at all, just something to keep in mind when setting cookies.
+
+There's a legislation in Europe called GDPR, that enforces a set of rules for websites to respect users' privacy. And one of such rules is to require an explicit permission for tracking cookies from a user.
+
+Please note, that's only about tracking/identifying/authorizing cookies.
+
+So, if we set a cookie that just saves some information, but neither tracks nor identifies the user, then we are free to do it.
+
+But if we are going to set a cookie with an authentication session or a tracking id, then a user must allow that.
+
+Websites generally have two variants of following GDPR. You must have seen them both already in the web:
+
+1. If a website wants to set tracking cookies only for authenticated users.
+
+    To do so, the registration form should have a checkbox like "accept the privacy policy" (that describes how cookies are used), the user must check it, and then the website is free to set auth cookies.
+
+2. If a website wants to set tracking cookies for everyone.
+
+    To do so legally, a website shows a modal "splash screen" for newcomers, and require them to agree for cookies. Then the website can set them and let people see the content. That can be disturbing for new visitors though. No one likes to see "must-click" modal splash screens instead of the content. But GDPR requires an explicit agreement.
+
+
+GDPR is not only about cookies, it's about other privacy-related issues too, but that's too much beyond our scope.
+
+
+## Summary
+
+`document.cookie` provides access to cookies
+- write operations modify only cookies mentioned in it.
+- name/value must be encoded.
+- one cookie up to 4kb, 20+ cookies per site (depends on a browser).
+
+Cookie options:
+- `path=/`, by default current path, makes the cookie visible only under that path.
+- `domain=site.com`, by default a cookie is visible on current domain only, if set explicitly to the domain, makes the cookie visible on subdomains.
+- `expires` or `max-age` sets cookie expiration time, without them the cookie dies when the browser is closed.
+- `secure` makes the cookie HTTPS-only.
+- `samesite` forbids the browser to send the cookie with requests coming from outside the site, helps to prevent XSRF attacks.
+
+Additionally:
+- Third-party cookies may be forbidden by the browser, e.g. Safari does that by default.
+- When setting a tracking cookie for EU citizens, GDPR requires to ask for permission.
+>>>>>>> 340ce4342100f36bb3c4e42dbe9ffa647d8716c8
