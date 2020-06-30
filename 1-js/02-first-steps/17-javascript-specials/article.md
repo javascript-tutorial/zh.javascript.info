@@ -1,4 +1,4 @@
-# JavasScript 特性
+# JavaScript 特性
 
 本章简要回顾我们到现在为止学到的 JavaScript 特性，并特别注意了一些细节。
 
