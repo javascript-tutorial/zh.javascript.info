@@ -90,10 +90,10 @@ result = value1 || value2 || value3;
 
 ```js run
 alert( 1 || 0 ); // 1（1 是真值）
-alert( true || 'no matter what' ); //（true 是真值）
 
 alert( null || 1 ); // 1（1 是第一个真值）
 alert( null || 0 || 1 ); // 1（第一个真值）
+
 alert( undefined || null || 0 ); // 0（所有的转化结果都是 false，返回最后一个值）
 ```
 
@@ -101,53 +101,40 @@ alert( undefined || null || 0 ); // 0（所有的转化结果都是 false，返�
 
 1. **获取变量列表或者表达式的第一个真值。**
 
-    假设我们有几个变量，它们可能包含某些数据或者是 `null/undefined`。我们需要选出第一个包含数据的变量。
+    For instance, we have `firstName`, `lastName` and `nickName` variables, all optional.
 
-    我们可以这样应用或运算 `||`：
+    Let's use OR `||` to choose the one that has the data and show it (or `anonymous` if nothing set):
 
     ```js run
-    let currentUser = null;
-    let defaultUser = "John";
+    let firstName = "";
+    let lastName = "";
+    let nickName = "SuperCoder";
 
     *!*
-    let name = currentUser || defaultUser || "unnamed";
+    alert( firstName || lastName || nickName || "Anonymous"); // SuperCoder
     */!*
-
-    alert( name ); // 选出了 “John” — 第一个真值
     ```
 
-    如果 `currentUser` 和 `defaultUser` 都是假值，那么结果就是 `"unnamed"`。
-2. **短路取值。**
+    If all variables were falsy, `Anonymous` would show up.
 
-    操作数不仅仅可以是值，还可以是任意表达式。或运算会从左到右计算并测试每个操作数。当找到第一个真值，计算就会停止，并返回这个值。这个过程就叫做“短路取值”，因为它尽可能地减少从左到右计算的次数。
-    
-    当表达式作为第二个参数并且有一定的副作用（side effects），比如变量赋值的时候，短路取值的情况就清楚可见。
+2. **Short-circuit evaluation.**
 
-    如果我们运行下面的例子，`x` 将不会被赋值：
+    Another feature of OR `||` operator is the so-called "short-circuit" evaluation.
+
+    It means that `||` processes its arguments until the first truthy value is reached, and then the value is returned immediately, without even touching the other argument.
+
+    That importance of this feature becomes obvious if an operand isn't just a value, but an expression with a side effect, such as a variable assignment or a function call.
+
+    In the example below, only the second message is printed:
 
     ```js run no-beautify
-    let x;
-
-    *!*true*/!* || (x = 1);
-
-    alert(x); // undefined，因为 (x = 1) 没有被执行
+    *!*true*/!* || alert("not printed");
+    *!*false*/!* || alert("printed");
     ```
 
-    如果第一个参数是 `false`，或运算将会继续，并计算第二个参数，也就会运行赋值操作。
+    In the first line, the OR `||` operator stops the evaluation immediately upon seeing `true`, so the `alert` isn't run.
 
-    ```js run no-beautify
-    let x;
-
-    *!*false*/!* || (x = 1);
-
-    alert(x); // 1
-    ```
-
-    赋值操作只是一个很简单的情况。可能有副作用，如果计算没有到达，副作用就不会发生。
-
-    正如我们所见，这种用法是“`if` 语句的简短方式”。第一个操作数被转化为布尔值，如果是假，那么第二个参数就会被执行。
-
-    大多数情况下，最好使用“常规的” `if` 语句，这样代码可读性更高，但是有时候这种方式会很简洁。
+    Sometimes, people use this feature to execute commands only if the condition on the left part is falsy.
 
 ## &&（与）
 
@@ -236,7 +223,8 @@ alert( 1 && 2 && 3 ); // 3，最后一个值
 所以代码 `a && b || c && d` 完全跟 `&&` 表达式加了括号一样：`(a && b) || (c && d)`。
 ````
 
-就像或运算一样，与运算 `&&` 有时候能够代替 `if`。
+````warn header="Don't replace `if` with || or &&"
+Sometimes, people use the AND `&&` operator as a "shorter to write `if`".
 
 例如：
 
@@ -253,14 +241,12 @@ let x = 1;
 ```js run
 let x = 1;
 
-if (x > 0) {
-  alert( 'Greater than zero!' );
-}
+if (x > 0) alert( 'Greater than zero!' );
 ```
 
-带 `&&` 的代码变体看上去更短。但是 `if` 的含义更明显，可读性也更高。
+Although, the variant with `&&` appears shorter, `if` is more obvious and tends to be a little bit more readable. So we recommend using every construct for its purpose: use `if` if we want if and use `&&` if we want AND.
+````
 
-所以建议是根据目的选择代码的结构。需要条件判断就用 `if`，需要与运算就用 `&&`。
 
 ## !（非）
 

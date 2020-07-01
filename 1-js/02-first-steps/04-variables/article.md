@@ -80,7 +80,6 @@ let user = 'John'
 
 技术上讲，这些变体都有一样的效果。所以，这是个个人品味和审美方面的问题。
 
-
 ````smart header="`var` 而不是 `let`"
 在较旧的脚本中，你也可能发现另一个关键字 `var`，而不是 `let`：
 
@@ -134,6 +133,20 @@ message = hello;
 alert(hello); // Hello world!
 alert(message); // Hello world!
 ```
+
+````warn header="声明两次会触发 error"
+一个变量应该只被声明一次。
+
+对同一个变量进行重复声明会触发 error：
+
+```js run
+let message = "This";
+
+// 重复 'let' 会导致 error
+let message = "That"; // SyntaxError: 'message' has already been declared
+```
+因此，我们对同一个变量应该只声明一次，之后在不使用 `let` 的情况下对其进行引用。
+````
 
 ```smart header="函数式语言"
 有趣的是，也存在禁止更改变量值的 [函数式](https://en.wikipedia.org/wiki/Functional_programming) 编程语言。比如 [Scala](http://www.scala-lang.org/) 或 [Erlang](http://www.erlang.org/)。
@@ -190,7 +203,7 @@ let имя = '...';
 let 我 = '...';
 ```
 
-技术上讲，完全没有错误，这样的命名是完全允许的，但是用英文进行变量命名是国际传统。哪怕我们正在写一个很小的脚本，它也有可能有很长的生命周期。某个时候，来自其他国家的人可能会阅读它。
+从技术上讲，这样没问题。这样的命名是完全允许的，但是用英文进行变量命名是国际惯例。哪怕我们正在写一个很小的脚本，它也有可能会被使用很久。某个时候，来自其他国家的人可能会需要阅读它。
 ````
 
 ````warn header="保留字"
@@ -316,7 +329,7 @@ const pageLoadTime = /* 网页加载所需的时间 */;
 
 额外声明一个变量绝对是利大于弊的。
 
-现代的 JavaScript 压缩器和浏览器都很够很好地对代码进行优化，所以不会产生性能问题。为不同的值使用不同的变量可以帮助引擎对代码进行优化。
+现代的 JavaScript 压缩器和浏览器都能够很好地对代码进行优化，所以不会产生性能问题。为不同的值使用不同的变量可以帮助引擎对代码进行优化。
 ```
 
 ## 总结

@@ -127,7 +127,7 @@ alert("number: xAF".match(regexp)); // xAF
 
 让我们再来考虑中文字符。
 
-有一个 unicode 属性 `Script` （一个书写系统），这个属性可以有一个值：`Cyrillic`，`Greek`，`Arabic`，`Han` （中文）等等，[这里是一个完整的列表]("https://en.wikipedia.org/wiki/Script_(Unicode)")。
+有一个 unicode 属性 `Script` （一个书写系统），这个属性可以有一个值：`Cyrillic`，`Greek`，`Arabic`，`Han` （中文）等等，[这里是一个完整的列表](https://en.wikipedia.org/wiki/Script_(Unicode))。
 
 为了实现查找一个给定的书写系统中的字符，我们需要使用 `pattern:Script=<value>`，例如对于西里尔字符：`pattern:\p{sc=Cyrillic}`, 中文字符：`pattern:\p{sc=Han}`，等等。
 

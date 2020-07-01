@@ -154,7 +154,7 @@ let sequence = [0, ...generateSequence()];
 alert(sequence); // 0, 1, 2, 3
 ```
 
-在上面这段代码中，`...generateSequence()` 将可迭代的 generator 对象转换为了一个数组（关于 spread 语法的更多细节请见 []info:rest-parameters-spread#spread-syntax)）。
+在上面这段代码中，`...generateSequence()` 将可迭代的 generator 对象转换为了一个数组（关于 spread 语法的更多细节请见 [](info:rest-parameters-spread#spread-syntax)）。
 
 ## 使用 generator 进行迭代
 

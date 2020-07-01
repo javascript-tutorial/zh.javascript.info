@@ -78,7 +78,7 @@ JavaScript 程序可以在 `<script>` 标签的帮助下插入到 HTML 文档的
 我们也可以提供一个完整的 URL 地址，例如：
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
 ```
 
 要附加多个脚本，请使用多个标签：
