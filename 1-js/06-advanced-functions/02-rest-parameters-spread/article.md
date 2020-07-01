@@ -225,11 +225,11 @@ alert( Array.from(str) ); // H,e,l,l,o
 因此，对于将一些“东西”转换为数组的任务，`Array.from` 往往更通用。
 
 
-## 获取一个 object/array 的副本
+## 获取一个 array/object 的副本
 
-还记得我们 [之前讲过的](https://zh.javascript.info/object#fu-zhi-he-he-bing-objectassign) `Object.assign()` 吗？
+还记得我们 [之前讲过的](info:object-copy#fu-zhi-he-he-bing-objectassign) `Object.assign()` 吗？
 
-使用 spread 操作符也可以做同样的事情。
+使用 spread 语法也可以做同样的事情。
 
 ```js run
 let arr = [1, 2, 3];

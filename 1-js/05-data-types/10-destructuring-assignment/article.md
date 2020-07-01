@@ -121,6 +121,25 @@ for (let [key, value] of user) {
 }
 ```
 ````
+
+```smart header="Swap variables trick"
+A well-known trick for swapping values of two variables:
+
+```js run
+let guest = "Jane";
+let admin = "Pete";
+
+// Swap values: make guest=Pete, admin=Jane
+[guest, admin] = [admin, guest];
+
+alert(`${guest} ${admin}`); // Pete Jane (successfully swapped!)
+```
+
+Here we create a temporary array of two variables and immediately destructure it in swapped order.
+
+We can swap more than two variables this way.
+
+
 ### 剩余的 '...'
 
 如果我们不只是要获得第一个值，还要将后续的所有元素都收集起来 — 我们可以使用三个点 `"..."` 来再加一个参数来接收“剩余的”元素：
