@@ -1,15 +1,21 @@
 # 值的比较
 
-我们知道，在数学中有很多用于比较大小的运算符：
+我们知道，在数学中有很多用于比较大小的运算符。
+
+在 JavaScript 中，它们的编写方式如下：
 
 - 大于 / 小于：<code>a &gt; b</code>，<code>a &lt; b</code>。
 - 大于等于 / 小于等于：<code>a &gt;= b</code>，<code>a &lt;= b</code>。
-- 检查两个值的相等：`a == b`（注意表达式中是两个等号 `=`，若写为单个等号 `a = b` 则表示赋值）。
-- 检查两个值不相等，在数学中使用 <code>&ne;</code> 符号，而在 JavaScript 中则通过在赋值符号前加叹号表示：<code>a != b</code>。
+- 检查两个值的相等：`a == b`，please note the double equality sign `=` means the equality test, while a single one `a = b` means an assignment.
+- 检查两个值不相等。Not equals. In maths the notation is <code>&ne;</code>, but in JavaScript it's written as <code>a != b</code>.
+
+In this article we'll learn more about different types of comparisons, how JavaScript makes them, including important peculiarities. 
+
+At the end you'll find a good recipe to avoid "javascript quirks"-related issues.
 
 ## 比较结果为 Boolean 类型
 
-和其他运算符一样，比较运算符也会有返回值，返回值为布尔值（Boolean）。
+All comparison operators return a boolean value:
 
 - `true` —— 表示“yes（是）”，“correct（正确）”或“the truth（真相）”。
 - `false` ——  表示“no（否）”，“wrong（错误）”或“not the truth（非真相）”。
@@ -192,13 +198,12 @@ alert( undefined == 0 ); // false (3)
 - `(1)` 和 `(2)` 都返回 `false` 是因为 `undefined` 在比较中被转换为了 `NaN`，而 `NaN` 是一个特殊的数值型值，它与任何值进行比较都会返回 `false`。
 - `(3)` 返回 `false` 是因为这是一个相等性检查，而 `undefined` 只与 `null` 相等，不会与其他值相等。
 
-### 规避错误
+### 避免问题
 
 我们为何要研究上述示例？我们需要时刻记得这些古怪的规则吗？不，其实不需要。虽然随着代码写得越来越多，我们对这些规则也都会烂熟于胸，但是我们需要更为可靠的方法来避免潜在的问题：
 
-除了严格相等 `===` 外，其他凡是有 `undefined/null` 参与的比较，我们都需要额外小心。
-
-除非你非常清楚自己在做什么，否则永远不要使用 `>= > < <=` 去比较一个可能为 `null/undefined` 的变量。对于取值可能是 `null/undefined` 的变量，请按需要分别检查它的取值情况。
+- 除了严格相等 `===` 外，其他但凡是有 `undefined/null` 参与的比较，我们都需要格外小心。
+- 除非你非常清楚自己在做什么，否则永远不要使用 `>= > < <=` 去比较一个可能为 `null/undefined` 的变量。对于取值可能是 `null/undefined` 的变量，请按需要分别检查它的取值情况。
 
 ## 总结
 
