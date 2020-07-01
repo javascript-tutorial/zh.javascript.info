@@ -1,20 +1,12 @@
 # 交互：alert、prompt 和 confirm
 
-本教程的这部分内容主要使用原生 JavaScript，你无需针对特定环境进行调整。
-
-但我们仍然会使用浏览器作为演示环境。所以我们至少应该知道一些用户界面函数。在这一节，我们一起来熟悉一下浏览器中 `alert`、`prompt` 和 `confirm` 函数的用法。
+As we'll be using the browser as our demo environment, let's see a couple of functions to interact with the user: `alert`, `prompt` and `confirm`.
 
 ## alert
 
-语法：
+This one we've seen already. It shows a message and waits for the user to presses "OK".
 
-```js
-alert(message);
-```
-
-运行这行代码，浏览器会弹出一个信息弹窗并暂停脚本，直到用户点击了“确定”。
-
-举个例子：
+例如：
 
 ```js run
 alert("Hello");
@@ -38,7 +30,11 @@ result = prompt(title, [default]);
 `default`
 : 可选的第二个参数，指定 input 框的初始值。
 
-用户可以在 prompt 对话框的 input 框内输入一些内容，然后点击确定。或者他们可以通过按“取消”按钮或按下键盘的 `key:Esc` 键，以取消输入。
+```smart header="The square brackets in syntax `[...]`"
+The square brackets around `default` in the syntax above denote that the parameter as optional, not required.
+```
+
+The visitor can type something in the prompt input field and press OK. Then we get that text in the `result`. Or they can cancel the input by pressing Cancel or hitting the `key:Esc` key, then we get `null` as the `result`.
 
 `prompt` 将返回用户在 `input` 框内输入的文本，如果用户取消了输入，则返回 `null`。
 
