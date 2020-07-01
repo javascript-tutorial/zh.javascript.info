@@ -9,7 +9,7 @@ arr.push(function() {
   alert( this );
 })
 
-arr[2](); // "a","b",function
+arr[2](); // a,b,function(){...}
 ```
 
 该数组有 3 项：最开始有两个，后来添加进来一个函数。
