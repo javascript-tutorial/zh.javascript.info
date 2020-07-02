@@ -264,7 +264,7 @@ try {
 throw <error object>
 ```
 
-技术上讲，我们可以将任何东西用作 error 对象。甚至可以时一个原始类型数据，例如数字或字符串，但最好使用对象，最好使用具有具有 `name` 和 `message` 属性的对象（某种程度上保持与内建 error 的兼容性）。
+技术上讲，我们可以将任何东西用作 error 对象。甚至可以是一个原始类型数据，例如数字或字符串，但最好使用对象，最好使用具有 `name` 和 `message` 属性的对象（某种程度上保持与内建 error 的兼容性）。
 
 JavaScript 中有很多内建的标准 error 的构造器：`Error`，`SyntaxError`，`ReferenceError`，`TypeError` 等。我们也可以使用它们来创建 error 对象。
 
