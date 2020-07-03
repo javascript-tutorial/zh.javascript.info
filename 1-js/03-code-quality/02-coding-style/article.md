@@ -285,7 +285,7 @@ function pow(x, n) {
 
 一些受欢迎的选择：
 
-- [Google JavaScript 风格指南](https://google.github.io/styleguide/javascriptguide.xml)
+- [Google JavaScript 风格指南](https://google.github.io/styleguide/jsguide.html)
 - [Airbnb JavaScript 风格指南](https://github.com/airbnb/javascript)
 - [Idiomatic.JS](https://github.com/rwaldron/idiomatic.js)
 - [StandardJS](https://standardjs.com/)

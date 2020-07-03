@@ -152,6 +152,9 @@ JavaScript 支持以下运算符：
 逻辑运算符
 : 逻辑与 `&&` 和或 `||` 执行短路运算，然后返回运算停止处的值（`true`/`false` 不是必须的）。逻辑非 `!` 将操作数转换为布尔值并返回其相反的值。
 
+Nullish coalescing operator
+: The `??` operator provides a way to choose a defined value from a list of variables. The result of `a ?? b` is `a` unless it's `null/undefined`, then `b`.
+
 比较运算符
 : 对不同类型的值进行相等检查时，运算符 `==` 会将不同类型的值转换为数字（除了 `null` 和 `undefined`，它们彼此相等而没有其他情况），所以下面的例子是相等的：
 
@@ -171,7 +174,7 @@ JavaScript 支持以下运算符：
 其他运算符
 : 还有很少一部分其他运算符，如逗号运算符。
 
-更多内容：<info:operators>，<info:comparison>，<info:logical-operators>。
+更多内容：<info:operators>，<info:comparison>，<info:logical-operators>，<info:nullish-coalescing-operator>。
 
 ## 循环
 
@@ -213,6 +216,7 @@ let age = prompt('Your age?', 18);
 switch (age) {
   case 18:
     alert("Won't work"); // prompt 的结果是一个字符串，而不是数字
+    break;
 
   case "18":
     alert("This works!");

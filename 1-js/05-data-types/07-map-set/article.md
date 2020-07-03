@@ -220,7 +220,7 @@ let obj = Object.fromEntries(map.entries()); // 创建一个普通对象（plain
 alert(obj.orange); // 2
 ```
 
-调用 `map.entries()` 将返回键/值对数组，这刚好是 `Object.fromEntries` 所需要的格式。
+调用 `map.entries()` 将返回一个可迭代的键/值对，这刚好是 `Object.fromEntries` 所需要的格式。
 
 我们可以把带 `(*)` 这一行写得更短：
 ```js

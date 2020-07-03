@@ -156,7 +156,7 @@ JavaScript 中的数组既可以用作队列，也可以用作栈。它们允许
 `shift`
 : 取出数组的第一个元素并返回它：
 
-    ```js
+    ```js run
     let fruits = ["Apple", "Orange", "Pear"];
 
     alert( fruits.shift() ); // 移除 Apple 然后 alert 显示出来
@@ -167,7 +167,7 @@ JavaScript 中的数组既可以用作队列，也可以用作栈。它们允许
 `unshift`
 : 在数组的首端添加元素：
 
-    ```js
+    ```js run
     let fruits = ["Orange", "Pear"];
 
     fruits.unshift('Apple');

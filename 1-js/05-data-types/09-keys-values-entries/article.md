@@ -74,7 +74,7 @@ for (let value of Object.values(user)) {
 
 对象缺少数组存在的许多方法，例如 `map` 和 `filter` 等。
 
-如果我们想应用它们，那么我们可以在 `Object.entries` 之后使用 `Object.fromEntries`：
+如果我们想应用它们，那么我们可以使用 `Object.entries`，然后使用 `Object.fromEntries`：
 
 1. 使用 `Object.entries(obj)` 从 `obj` 获取由键/值对组成的数组。
 2. 对该数组使用数组方法，例如 `map`。
