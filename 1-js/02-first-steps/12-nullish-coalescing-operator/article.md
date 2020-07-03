@@ -1,57 +1,58 @@
-# Nullish coalescing operator '??'
+# 空合并运算符 '??'
 
 [recent browser="new"]
 
-The nullish coalescing operator `??` provides a short syntax for selecting a first "defined" variable from the list.
+空合并运算符 `??` 提供了一种简短的语法用来获取列表中第一个已定义的变量。
 
-The result of `a ?? b` is:
-- `a` if it's not `null` or `undefined`,
-- `b`, otherwise.
+`a ?? b` 的结果是:
+- `a` 如果它不是 `null` 或 `undefined`,
+- `b`, 其它情况。
 
-So, `x = a ?? b` is a short equivalent to:
+所以, `x = a ?? b` 等同于
 
 ```js
 x = (a !== null && a !== undefined) ? a : b;
 ```
 
-Here's a longer example.
+下面是一个长一点的例子。
 
-Imagine, we have a user, and there are variables `firstName`, `lastName` or `nickName` for their first name, last name and the nick name. All of them may be undefined, if the user decided not to enter any value.
+假设我们有一个用户，用变量 `firstName`, `lastName` 和 `nickName` 代表他的名字，姓氏和昵称。如果用户决定不输入，这些变量可能都未定义。
 
-We'd like to display the user name: one of these three variables, or show "Anonymous" if nothing is set.
+我们希望显示用户的名字为以上三个变量之一，或者 "Anonymous" 如果没有定义任何一个变量。
 
-Let's use the `??` operator to select the first defined one:
-
+让我们使用 `??` 运算符选择第一个定义的变量：
+ 
 ```js run
 let firstName = null;
 let lastName = null;
 let nickName = "Supercoder";
 
-// show the first not-null/undefined value
+// 显示第一个 not-null/undefined 变量值
 *!*
 alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 */!*
 ```
 
-## Comparison with ||
+## 与 || 运算符比较
 
-The OR `||` operator can be used in the same way as `??`. Actually, we can replace `??` with `||` in the code above and get the same result, as it was described in the [previous chapter](info:logical-operators#or-finds-the-first-truthy-value).
+`||` 运算符可以与 `??` 运算符以同样的方式使用。实际上，我们可以用 `||` 替换上面示例中的 `??` 并得到相同的结果， 关于`||`运算符的介绍见 [前一章](info:logical-operators#or-finds-the-first-truthy-value).
 
-The important difference is that:
-- `||` returns the first *truthy* value.
-- `??` returns the first *defined* value.
+两者重要的区别是：
+- `||` 返回第一个 *真* 值。
 
-This matters a lot when we'd like to treat `null/undefined` differently from `0`.
+- `??` 返回第一个 *已定义的* 值。
 
-For example, consider this:
+在我们处理 `null/undefined` 和 `0` 时，这个区别至关重要。
+
+例如，观察下面的例子：
 
 ```js
 height = height ?? 100;
 ```
 
-This sets `height` to `100` if it's not defined.
+如果 `height` 未定义，则会把 `100` 赋值给 `height` 。
 
-Let's compare it with `||`:
+让我们与 `||` 进行比较：
 
 ```js run
 let height = 0;
@@ -60,71 +61,71 @@ alert(height || 100); // 100
 alert(height ?? 100); // 0
 ```
 
-Here, `height || 100` treats zero height as unset, same as `null`, `undefined` or any other falsy value. So the result is `100`.
+这里，`height || 100` 对 0 的处理等同于未定义，或任何取值为假的赋值。所以结果是 `100`。
 
-The `height ?? 100` returns `100` only if `height` is exactly `null` or `undefined`. So the `alert` shows the height value `0` "as is".
+`height ?? 100` 当且仅当 `height` 确实是 `null` 或 `undefined` 时返回 `100`。 所以 `alert` 按原样显示 height 的值为 `0`。
 
-Which behavior is better depends on a particular use case. When zero height is a valid value, then `??` is preferrable.
+哪种行为更恰当取决于具体的用例。当0是height的一个合理取值时， `??` 运算符更合适。
 
-## Precedence
+## 优先级
 
-The precedence of the `??` operator is rather low: `7` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table).
+`??` 运算符的优先级相当低： `7` 请参考 [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table)。
 
-So `??` is evaluated after most other operations, but before `=` and `?`.
+所以 `??` 运算符在大多数运算符之后被解释，但在 `=` 和 `?` 之前。
 
-If we need to choose a value with `??` in a complex expression, then consider adding parentheses:
+如果我们要用 `??` 在复合表达式中取值，需要考虑加括号：
 
 ```js run
 let height = null;
 let width = null;
 
-// important: use parentheses
+// 重要：使用括号
 let area = (height ?? 100) * (width ?? 50);
 
 alert(area); // 5000
 ```
 
-Otherwise, if we omit parentheses, `*` has the higher precedence than `??` and would run first.
+另外，如果我们忽略括号，因为 `*` 的优先级高于 `??` ，将优先执行。
 
-That would work be the same as:
+所以运算过程等同于：
 
 ```js
-// probably not correct
+// 或许不正确
 let area = height ?? (100 * width) ?? 50;
 ```
 
-There's also a related language-level limitation.
+这里还有一个语言级别的限制。
 
-**Due to safety reasons, it's forbidden to use `??` together with `&&` and `||` operators.**
+**出于安全因素，禁止将 `??` 与 `&&` 和 `||` 放在一起使用**
 
-The code below triggers a syntax error:
+下列代码将导致一个语法错误：
 
 ```js run
 let x = 1 && 2 ?? 3; // Syntax error
 ```
 
-The limitation is surely debatable, but it was added to the language specification with the purpose to avoid programming mistakes, as people start to switch to `??` from `||`.
+对这条限制存在争议，但它已经被加入语言规范用来避免编程错误，人们开始使用 `??` 替代 `||`。
 
-Use explicit parentheses to work around it:
+可明确使用括号绕开这条限制：
 
 ```js run
 *!*
-let x = (1 && 2) ?? 3; // Works
+let x = (1 && 2) ?? 3; // 起作用
 */!*
 
 alert(x); // 2
 ```
 
-## Summary
+## 总结
 
-- The nullish coalescing operator `??` provides a short way to choose a "defined" value from the list.
+- 空合并运算符 `??` 提供了简洁的方式获取列表中"已定义的"值。
 
-    It's used to assign default values to variables:
+    它被用来为变量赋默认值
 
     ```js
     // set height=100, if height is null or undefined
     height = height ?? 100;
     ```
 
-- The operator `??` has a very low precedence, a bit higher than `?` and `=`.
-- It's forbidden to use it with `||` or `&&` without explicit parentheses.
+- `??` 运算符的优先级非常低，只略高于 `?` 和 `=`。
+- 如不明确添加括号，不能与 `||` 或 `&&` 混用。
