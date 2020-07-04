@@ -1,8 +1,9 @@
-# Basic operators, maths
+# 基础运算符，数学
 
 我们从学校里了解到过很多运算符，比如说加号 `+`、乘号 `*`、减号 `-` 等。
 
 In this chapter, we’ll start with simple operators, then concentrate on JavaScript-specific aspects, not covered by school arithmetic.
+在本章中，我们将从简单的运算符开始，然后专门介绍 JavaScript 的特性，这些特性在学校算术中未涉及过。
 
 ## 术语：“一元运算符”，“二元运算符”，“运算元”
 
@@ -28,45 +29,46 @@ In this chapter, we’ll start with simple operators, then concentrate on JavaSc
 
     严格地说，在上面的示例中，我们使用一个相同的符号表征了两个不同的运算符：负号运算符，即反转符号的一元运算符，减法运算符，是从另一个数减去一个数的二进制运算符。
 
-## Maths
+## 数学
 
-The following math operations are supported:
+支持以下数学运算：
 
-- Addition `+`,
-- Subtraction `-`,
-- Multiplication `*`,
-- Division `/`,
-- Remainder `%`,
-- Exponentiation `**`.
+- 加法 `+`,
+- 减法 `-`,
+- 乘法 `*`,
+- 除法 `/`,
+- 余数 `%`,
+- 指数运算 `**`.
 
-The first four are straightforward, while `%` and `**` need a few words about them.
+前面四个都很简单，而 "%" 和 "**" 则需要说一说。
 
-### Remainder %
+## 取余
 
-The remainder operator `%`, despite its appearance, is not related to percents.
+余数运算符是 "%"，尽管它看起来很像百分数，但实际并无关联。
 
-The result of `a % b` is the [remainder](https://en.wikipedia.org/wiki/Remainder) of the integer division of `a` by `b`.
+`a % b` 的结果是 `a` 整除 `b` 的[余数](https://en.wikipedia.org/wiki/Remainder)。
 
-For instance:
+例如：
 
 ```js run
-alert( 5 % 2 ); // 1, a remainder of 5 divided by 2
-alert( 8 % 3 ); // 2, a remainder of 8 divided by 3
+alert( 5 % 2 ); // 1, 5 除以 2 的余数
+alert( 8 % 3 ); // 2, 8 除以 3 的余数
 ```
 
-### Exponentiation **
+### 指数 **
 
-The exponentiation operator `a ** b` multiplies `a` by itself `b` times.
+指数运算 `a ** b` 是 `a` 乘以自身 `b` 次。
 
-For instance:
+例如：
 
 ```js run
-alert( 2 ** 2 ); // 4  (2 multiplied by itself 2 times)
-alert( 2 ** 3 ); // 8  (2 * 2 * 2, 3 times)
-alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 4 times)
+alert( 2 ** 2 ); // 4  (2 * 2，自乘 2 次)
+alert( 2 ** 3 ); // 8  (2 * 2 * 2, 自乘 3 次)
+alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 自乘 4 次)
 ```
 
 Mathematically, the exponentiation is defined for non-integer numbers as well. For example, a square root is an exponentiation by `1/2`:
+在数学上，指数的定义也适用于非整数。例如，平方根是以 `1/2` 为单位的指数。
 
 ```js run
 alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root)
@@ -74,9 +76,9 @@ alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
 ```
 
 
-## String concatenation with binary +
+## 用二元运算符 + 连接字符串
 
-Let's meet features of JavaScript operators that are beyond school arithmetics.
+我们来看一些学校算术未涉及的 JavaScript 运算符的特性。
 
 通常，加号 `+` 用于求和。
 
@@ -96,23 +98,23 @@ alert( '1' + 2 ); // "12"
 alert( 2 + '1' ); // "21"
 ```
 
-See, it doesn't matter whether the first operand is a string or the second one.
+你看，第一个操作数和第二个操作符哪个是字符串并不重要。
 
-Here's a more complex example:
+下面是一个更复杂的例子：
 
 ```js run
-alert(2 + 2 + '1' ); // "41" and not "221"
+alert(2 + 2 + '1' ); // "41"，不是 "221"
 ```
 
-Here, operators work one after another. The first `+` sums two numbers, so it returns `4`, then the next `+` adds the string `1` to it, so it's like `4 + '1' = 41`.
+在这里，运算符是按顺序工作。第一个 `+` 将两个数字相加，所以返回 `4`，然后下一个 `+` 将字符串`1` 加入其中，所以就是 `4+'1'=41`。
 
-The binary `+` is the only operator that supports strings in such a way. Other arithmetic operators work only with numbers and always convert their operands to numbers.
+二进制`+`是唯一一个以这种方式支持字符串的运算符。其他算术运算符只对数字起作用，并且总是将其操作数转换为数字。
 
-Here's the demo for subtraction and division:
+下面是减法和除法的演示：
 
 ```js run
-alert( 6 - '2' ); // 4, converts '2' to a number
-alert( '6' / '2' ); // 3, converts both operands to numbers
+alert( 6 - '2' ); // 4, 将 '2' 转换为数字
+alert( '6' / '2' ); // 3, 将两个操作数都转换为数字
 ```
 
 ## 数字转化，一元运算符 +
@@ -187,7 +189,7 @@ alert( +apples + +oranges ); // 5
 | ... | ... | ... |
 | 17 | 一元加号 | `+` |
 | 17 | 一元负号 | `-` |
-| 16 | exponentiation | `**` |
+| 16 | 指数 | `**` |
 | 15 | 乘号 | `*` |
 | 15 | 除号 | `/` |
 | 13 | 加号 | `+` |
@@ -210,11 +212,11 @@ let x = 2 * 2 + 1;
 alert( x ); // 5
 ```
 
-### Assignment = returns a value
+### 赋值 = 返回一个值
 
-The fact of `=` being an operator, not a "magical" language construct has an interesting implication.
+`=` 是一个操作符，而不是一个”神奇“的语言结构，这个事实有一个有趣的含义。
 
-Most operators in JavaScript return a value. That's obvious for `+` and `-`, but also true for `=`.
+在 JavaScript 中，大多数运算符都会返回一个值，这对于 `+` 和 `-` 来说是显而易见的，但对于`=` 来说也是如此。
 
 语句 `x = value` 将值 `value` 写入 `x` **然后返回 x**。
 
@@ -234,13 +236,13 @@ alert( c ); // 0
 
 上面这个例子，`(a = b + 1)` 的结果是赋给 `a` 的值（也就是 `3`）。然后该值被用于进一步的运算。
 
-Funny code, isn't it? We should understand how it works, because sometimes we see it in JavaScript libraries.
+有趣的代码，不是吗？我们应该了解它的工作原理，因为有时我们会在 JavaScript 库中看到它。
 
-Although, please don't write the code like that. Such tricks definitely don't make code clearer or readable.
+不过，请不要这样写代码。这样的技巧绝对不会让代码变得更清晰或可读。
 
-### Chaining assignments
+### 链式赋值（Chained Assignment）
 
-Another interesting feature is the ability to chain assignments:
+另一个有趣的特性是链式赋值：
 
 ```js run
 let a, b, c;
@@ -254,22 +256,22 @@ alert( b ); // 4
 alert( c ); // 4
 ```
 
-Chained assignments evaluate from right to left. First, the rightmost expression `2 + 2` is evaluated and then assigned to the variables on the left: `c`, `b` and `a`. At the end, all the variables share a single value.
+链式赋值从右到左进行计算。首先，最右边的表达式 `2 + 2` 求值，然后赋给左边的变量：`c`、`b`和`a`。最后，所有的变量共享一个值。
 
-Once again, for the purposes of readability it's better to split such code into few lines:
+同样，为了便于阅读，最好将这种代码分成几行：
 
 ```js
 c = 2 + 2;
 b = c;
 a = c;
 ```
-That's easier to read, especially when eye-scanning the code fast.
+这样更容易读懂，尤其是快速浏览代码的时候。
 
-## Modify-in-place
+## 原地修改
 
-We often need to apply an operator to a variable and store the new result in that same variable.
+我们经常需要对一个变量做运算，并将新的结果存储在同一个变量中。
 
-For example:
+比如说：
 
 ```js
 let n = 2;
@@ -277,26 +279,26 @@ n = n + 5;
 n = n * 2;
 ```
 
-This notation can be shortened using the operators `+=` and `*=`:
+这种表达可以用运算符 `+=` 和 `*=` 来缩写。
 
 ```js run
 let n = 2;
-n += 5; // now n = 7 (same as n = n + 5)
-n *= 2; // now n = 14 (same as n = n * 2)
+n += 5; // 现在 n = 7（等同于 n = n + 5）
+n *= 2; // 现在 n = 14（等同于 n = n * 2）
 
 alert( n ); // 14
 ```
 
-Short "modify-and-assign" operators exist for all arithmetical and bitwise operators: `/=`, `-=`, etc.
+所有的算术和位运算符都有简短的”修改并赋值“运算符：`/=`、`-=`等。
 
-Such operators have the same precedence as a normal assignment, so they run after most other calculations:
+这类运算符的优先级与普通赋值相同，所以它们在大多数其他计算之后运行：
 
 ```js run
 let n = 2;
 
 n *= 3 + 5;
 
-alert( n ); // 16  (right part evaluated first, same as n *= 8)
+alert( n ); // 16 （右边部分先计算，等同于 n *= 8）
 ```
 
 ## 自增/自减
@@ -428,7 +430,7 @@ counter++;
 - 右移 ( `>>` )
 - 无符号右移 ( `>>>` )
 
-These operators are used very rarely, when we need to fiddle with numbers on the very lowest (bitwise) level. We won't need these operators any time soon, as web development has little use of them, but in some special areas, such as cryptography, they are useful. You can read the [Bitwise Operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) article on MDN when a need arises.
+这些运算符很少使用，一般是我们需要在最底层（位）上操作数字时才用。我们很快就不再需要这些运算符了，因为网络开发很少用到它们，但在一些特殊领域，比如密码学，它们还是有用的。需要了解的话可以阅读 MDN 上的 [Bitwise Operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators)文章。
 
 ## 逗号运算符
 
