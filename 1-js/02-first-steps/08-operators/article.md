@@ -38,7 +38,7 @@ In this chapter, we’ll start with simple operators, then concentrate on JavaSc
 - 乘法 `*`,
 - 除法 `/`,
 - 余数 `%`,
-- 指数运算 `**`.
+- 求幂 `**`.
 
 前面四个都很简单，而 "%" 和 "**" 则需要说一说。
 
@@ -55,9 +55,9 @@ alert( 5 % 2 ); // 1, 5 除以 2 的余数
 alert( 8 % 3 ); // 2, 8 除以 3 的余数
 ```
 
-### 指数 **
+### 求幂 **
 
-指数运算 `a ** b` 是 `a` 乘以自身 `b` 次。
+求幂运算 `a ** b` 是 `a` 乘以自身 `b` 次。
 
 例如：
 
@@ -68,7 +68,7 @@ alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 自乘 4 次)
 ```
 
 Mathematically, the exponentiation is defined for non-integer numbers as well. For example, a square root is an exponentiation by `1/2`:
-在数学上，指数的定义也适用于非整数。例如，平方根是以 `1/2` 为单位的指数。
+在数学上，求幂的定义也适用于非整数。例如，平方根是以 `1/2` 为单位的求幂。
 
 ```js run
 alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root)
@@ -189,7 +189,7 @@ alert( +apples + +oranges ); // 5
 | ... | ... | ... |
 | 17 | 一元加号 | `+` |
 | 17 | 一元负号 | `-` |
-| 16 | 指数 | `**` |
+| 16 | 求幂 | `**` |
 | 15 | 乘号 | `*` |
 | 15 | 除号 | `/` |
 | 13 | 加号 | `+` |
