@@ -214,36 +214,48 @@ function showMessage(from, text = anotherFunction()) {
 在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用时，`anotherFunction()` 就会被调用。
 ```
 
-````smart header="旧式默认参数"
-旧版本的 JavaScript 不支持默认参数。所以在大多数旧版本的脚本中，你能找到其他设置默认参数的方法。
+### Alternative default parameters
 
-例如，用于 `undefined` 的显式检查：
+Sometimes it makes sense to set default values for parameters not in the function declaration, but at a later stage, during its execution.
 
-```js
-function showMessage(from, text) {
+To check for an omitted parameter, we can compare it with `undefined`:
+
+```js run
+function showMessage(text) {
 *!*
   if (text === undefined) {
-    text = 'no text given';
+    text = 'empty message';
   }
 */!*
 
-  alert( from + ": " + text );
+  alert(text);
 }
+
+showMessage(); // empty message
 ```
 
-……或使用 `||` 运算符：
+...Or we could use the `||` operator:
 
 ```js
-function showMessage(from, text) {
-  // 如果 text 能转为 false，那么 text 会得到“默认”值
-  text = text || 'no text given';
+// if text parameter is omitted or "" is passed, set it to 'empty'
+function showMessage(text) {
+  text = text || 'empty';
   ...
 }
 ```
 
+Modern JavaScript engines support the [nullish coalescing operator](info:nullish-coalescing-operator) `??`, it's better when falsy values, such as `0`, are considered regular:
 
-````
+```js run
+// if there's no "count" parameter, show "unknown"
+function showCount(count) {
+  alert(count ?? "unknown");
+}
 
+showCount(0); // 0
+showCount(null); // unknown
+showCount(); // unknown
+```
 
 ## 返回值
 
