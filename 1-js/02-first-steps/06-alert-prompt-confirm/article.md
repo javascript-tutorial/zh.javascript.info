@@ -1,10 +1,10 @@
 # 交互：alert、prompt 和 confirm
 
-As we'll be using the browser as our demo environment, let's see a couple of functions to interact with the user: `alert`, `prompt` and `confirm`.
+由于我们将使用浏览器作为我们的演示环境，让我们看几个与用户交互的函数：`alert`，`prompt` 和`confirm`。
 
 ## alert
 
-This one we've seen already. It shows a message and waits for the user to presses "OK".
+这个我们前面已经看到过了。它会显示一条信息，并等待用户按下 "OK"。
 
 例如：
 
@@ -30,11 +30,11 @@ result = prompt(title, [default]);
 `default`
 : 可选的第二个参数，指定 input 框的初始值。
 
-```smart header="The square brackets in syntax `[...]`"
-The square brackets around `default` in the syntax above denote that the parameter as optional, not required.
+```smart header="方括号语法 `[...]`"
+上述语法中 `default` 周围的方括号表示该参数是可选的，不是必需的。
 ```
 
-The visitor can type something in the prompt input field and press OK. Then we get that text in the `result`. Or they can cancel the input by pressing Cancel or hitting the `key:Esc` key, then we get `null` as the `result`.
+访问者可以在提示输入栏中输入一些内容，然后按“确定”键。然后我们在 `result` 中获取该文本。或者他们可以按取消键或按 `key:Esc` 键取消输入，然后我们得到 `null` 作为 `result`。
 
 `prompt` 将返回用户在 `input` 框内输入的文本，如果用户取消了输入，则返回 `null`。
 
@@ -58,7 +58,7 @@ let test = prompt("Test");
 所以，为了 prompt 在 IE 中有好的效果，我们建议始终提供第二个参数：
 
 ```js run
-let test = prompt("Test", ''); // <-- for IE
+let test = prompt("Test", ''); // <-- 用于 IE 浏览器
 ```
 ````
 
