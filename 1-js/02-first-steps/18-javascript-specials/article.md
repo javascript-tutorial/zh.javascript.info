@@ -152,8 +152,8 @@ JavaScript 支持以下运算符：
 逻辑运算符
 : 逻辑与 `&&` 和或 `||` 执行短路运算，然后返回运算停止处的值（`true`/`false` 不是必须的）。逻辑非 `!` 将操作数转换为布尔值并返回其相反的值。
 
-Nullish coalescing operator
-: The `??` operator provides a way to choose a defined value from a list of variables. The result of `a ?? b` is `a` unless it's `null/undefined`, then `b`.
+空合并运算符
+: `??` 运算符从一列变量中选取值为确定值（defined value）的一个变量。`a ?? b` 的结果是 `a`，除非 `a` 为 `null/undefined`，这时结果是 `b`。
 
 比较运算符
 : 对不同类型的值进行相等检查时，运算符 `==` 会将不同类型的值转换为数字（除了 `null` 和 `undefined`，它们彼此相等而没有其他情况），所以下面的例子是相等的：

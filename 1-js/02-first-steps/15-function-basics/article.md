@@ -214,11 +214,11 @@ function showMessage(from, text = anotherFunction()) {
 在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用时，`anotherFunction()` 就会被调用。
 ```
 
-### Alternative default parameters
+### 后备的默认参数
 
-Sometimes it makes sense to set default values for parameters not in the function declaration, but at a later stage, during its execution.
+有些时候，将参数默认值的设置放在函数执行（相较更后期）而不是函数声明的时候，也能行得通。
 
-To check for an omitted parameter, we can compare it with `undefined`:
+为了判断参数是否被省略掉，我们可以拿它跟 `undefined` 做比较：
 
 ```js run
 function showMessage(text) {
@@ -234,20 +234,20 @@ function showMessage(text) {
 showMessage(); // empty message
 ```
 
-...Or we could use the `||` operator:
+……或者我们可以使用 `||` 运算符：
 
 ```js
-// if text parameter is omitted or "" is passed, set it to 'empty'
+// 如果 "text" 参数被省略或者被传入空字符串，则赋值为 'empty'
 function showMessage(text) {
   text = text || 'empty';
   ...
 }
 ```
 
-Modern JavaScript engines support the [nullish coalescing operator](info:nullish-coalescing-operator) `??`, it's better when falsy values, such as `0`, are considered regular:
+现代 JavaScript 引擎支持 [空合并运算符](info:nullish-coalescing-operator) `??`，当可能遇到其他假值时它更有优势，如 `0` 会被视为正常值不被合并：
 
 ```js run
-// if there's no "count" parameter, show "unknown"
+// 如果没有传入 "count" 参数，则显示 "unknown"
 function showCount(count) {
   alert(count ?? "unknown");
 }
