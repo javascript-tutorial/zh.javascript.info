@@ -1,6 +1,6 @@
 # 事件：change，input，cut，copy，paste
 
-让我们写少一下伴随数据更新的各种事件。
+让我们介绍一下伴随数据更新的各种事件。
 
 ## 事件：change
 
