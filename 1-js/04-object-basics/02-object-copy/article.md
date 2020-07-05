@@ -1,25 +1,25 @@
-# Object copying, references
+# 对象拷贝，引用
 
-One of the fundamental differences of objects vs primitives is that they are stored and copied "by reference".
+对象与原始类型其中一个基本的区别是：对象“通过索引的形式”被存储和拷贝。
 
-Primitive values: strings, numbers, booleans -- are assigned/copied "as a whole value".
+原始类型值：字符串、数字、布尔值，被“整体”赋值/拷贝。
 
-For instance:
+例如：
 
 ```js
 let message = "Hello!";
 let phrase = message;
 ```
 
-As a result we have two independent variables, each one is storing the string `"Hello!"`.
+结果我们就有了两个独立的变量，每个都存着字符串 `"Hello!"`。
 
 ![](variable-copy-value.svg)
 
-Objects are not like that.
+对象不是这样的。
 
-**A variable stores not the object itself, but its "address in memory", in other words "a reference" to it.**
+**变量存的不是对象自身，而是该对象的“内存地址”，换种说法就是一个对该对象的“引用”。**
 
-Here's the picture for the object:
+下面有张图片对应这个对象：
 
 ```js
 let user = {
@@ -29,23 +29,23 @@ let user = {
 
 ![](variable-contains-reference.svg)
 
-Here, the object is stored somewhere in memory. And the variable `user` has a "reference" to it.
+这里，该对象存在内存某处。而变量 `user` 存着对此处的“引用”。
 
-**When an object variable is copied -- the reference is copied, the object is not duplicated.**
+**当一个对象被拷贝 —— 引用则被拷贝，而该对象并没被复制。**
 
-For instance:
+例如：
 
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; // copy the reference
+let admin = user; // 拷贝引用
 ```
 
-Now we have two variables, each one with the reference to the same object:
+现在我们有两个变量，每个存这对同个对象的引用：
 
 ![](variable-copy-reference.svg)
 
-We can use any variable to access the object and modify its contents:
+我们可以用任何变量来访问该对象并修改它的内容：
 
 ```js run
 let user = { name: 'John' };
@@ -53,52 +53,52 @@ let user = { name: 'John' };
 let admin = user;
 
 *!*
-admin.name = 'Pete'; // changed by the "admin" reference
+admin.name = 'Pete'; // 通过 "admin" 引用来修改
 */!*
 
-alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
+alert(*!*user.name*/!*); // 'Pete'，修改能通过 "user" 的引用看到
 ```
 
-The example above demonstrates that there is only one object. As if we had a cabinet with two keys and used one of them (`admin`) to get into it. Then, if we later use another key (`user`) we can see changes.
+上面的例子说明这里只有一对象。就像我们有个带两把钥匙的锁柜，并使用其中一把钥匙（`admin`）来打开它。那么，我们如果之后用另外一把钥匙（`user`），就也能看到所作改变。
 
-## Comparison by reference
+## 通过引用来比较
 
-The equality `==` and strict equality `===` operators for objects work exactly the same.
+对于对象来说，普通相等 `==` 和严格相等 `===` 是两个作用结果完全一样的运算符。
 
-**Two objects are equal only if they are the same object.**
+**仅当为同一对象时，两者相等。**
 
-Here two variables reference the same object, thus they are equal:
+这里两个变量都引用同一个对象，所以它们相等：
 
 ```js run
 let a = {};
-let b = a; // copy the reference
+let b = a; // 拷贝引用
 
-alert( a == b ); // true, both variables reference the same object
+alert( a == b ); // true，都引用同一对象
 alert( a === b ); // true
 ```
 
-And here two independent objects are not equal, even though both are empty:
+而这里两个独立的对象则并不相等，即使它们都为空：
 
 ```js run
 let a = {};
-let b = {}; // two independent objects
+let b = {}; // 两个独立的对象
 
 alert( a == b ); // false
 ```
 
-For comparisons like `obj1 > obj2` or for a comparison against a primitive `obj == 5`, objects are converted to primitives. We'll study how object conversions work very soon, but to tell the truth, such comparisons occur very rarely, usually as a result of a coding mistake.
+对于类似 `obj1 > obj2` 的比较，或者跟一个原始类型值的比较 `obj == 5`，对象会被转换为原始值。我们将很快学到对象如何转换，但是说实话，类似的比较很少出现，通常是因为一个代码（书写）错误。
 
-## Cloning and merging, Object.assign
+## 克隆与拷贝，Object.assign
 
-So, copying an object variable creates one more reference to the same object.
+那么，拷贝一个对象变量会创建多一个对此对象的相同引用。
 
-But what if we need to duplicate an object? Create an independent copy, a clone?
+但如果我们要复制一个对象那该如何？创建一个独立的拷贝、克隆？
 
-That's also doable, but a little bit more difficult, because there's no built-in method for that in JavaScript. Actually, that's rarely needed. Copying by reference is good most of the time.
+那也是可行的，但相比之下有点困难，因为 JavaScript 没有提供内置的方法。当然也是很少需要用到的。拷贝引用在大部分时候都不错。
 
-But if we really want that, then we need to create a new object and replicate the structure of the existing one by iterating over its properties and copying them on the primitive level.
+但我们如果真的需要，那么就要创建一新对象，并通过遍历属性和拷贝属性值（在原始类型值的层面上）的方式，复制已有对象的结构。
 
-Like this:
+就像这样：
 
 ```js run
 let user = {
@@ -107,34 +107,34 @@ let user = {
 };
 
 *!*
-let clone = {}; // the new empty object
+let clone = {}; // 新的空对象
 
-// let's copy all user properties into it
+// 拷贝 user 所有的属性到里面
 for (let key in user) {
   clone[key] = user[key];
 }
 */!*
 
-// now clone is a fully independent object with the same content
-clone.name = "Pete"; // changed the data in it
+// 现在 clone 是带有内容的完全独立对象
+clone.name = "Pete"; // 改变数据
 
-alert( user.name ); // still John in the original object
+alert( user.name ); // 依然是原来的 John
 ```
 
-Also we can use the method [Object.assign](mdn:js/Object/assign) for that.
+我们也可以使用方法 [Object.assign](mdn:js/Object/assign) 来达成同样的效果。
 
-The syntax is:
+语法是：
 
 ```js
 Object.assign(dest, [src1, src2, src3...])
 ```
 
-- The first argument `dest` is a target object.
-- Further arguments `src1, ..., srcN` (can be as many as needed) are source objects.
-- It copies the properties of all source objects `src1, ..., srcN` into the target `dest`. In other words, properties of all arguments starting from the second are copied into the first object.
-- The call returns `dest`.
+- 第一个参数 `dest` 是指目标对象。
+- 更后面的参数 `src1, ..., srcN`（可按需传递多个参数） 是源对象。
+- 该方法拷贝所有源对象的属性到目标对象 `dest` 里。换句话说，从第二个开始的所有参数的属性都被拷贝到第一个参数的对象里。
+- 调用结果返回 `dest`。
 
-For instance, we can use it to merge several objects into one:
+例如，我们可以用它来合并多个对象：
 ```js
 let user = { name: "John" };
 
@@ -142,24 +142,24 @@ let permissions1 = { canView: true };
 let permissions2 = { canEdit: true };
 
 *!*
-// copies all properties from permissions1 and permissions2 into user
+// 从 permissions1 到 permissions2 拷贝所有属性到 user 中
 Object.assign(user, permissions1, permissions2);
 */!*
 
-// now user = { name: "John", canView: true, canEdit: true }
+// 现在 user = { name: "John", canView: true, canEdit: true }
 ```
 
-If the copied property name already exists, it gets overwritten:
+如果被拷贝属性的属性名已经存在，那么它会被覆盖：
 
 ```js run
 let user = { name: "John" };
 
 Object.assign(user, { name: "Pete" });
 
-alert(user.name); // now user = { name: "Pete" }
+alert(user.name); // 现在 user = { name: "Pete" }
 ```
 
-We also can use `Object.assign` to replace `for..in` loop for simple cloning:
+我们也可以用 `Object.assign` 代替 `for..in` 循环来进行简单克隆：
 
 ```js
 let user = {
@@ -172,13 +172,13 @@ let clone = Object.assign({}, user);
 */!*
 ```
 
-It copies all properties of `user` into the empty object and returns it.
+它拷贝了 `user` 所有的属性到一个空对象里并返回此新的对象。
 
-## Nested cloning
+## 深层克隆
 
-Until now we assumed that all properties of `user` are primitive. But properties can be references to other objects. What to do with them?
+直到现在为止，我们假设 `user` 所有属性值均为原始类型值。但属性可以是其他对象的引用。那应该怎样处理这些引用呢？
 
-Like this:
+例如：
 ```js run
 let user = {
   name: "John",
@@ -191,9 +191,9 @@ let user = {
 alert( user.sizes.height ); // 182
 ```
 
-Now it's not enough to copy `clone.sizes = user.sizes`, because the `user.sizes` is an object, it will be copied by reference. So `clone` and `user` will share the same sizes:
+现在这样拷贝 `clone.sizes = user.sizes` 已经不足够了，因为 `user.sizes` 是个对象，它会以引用形式被拷贝。因此 `clone` 和 `user` 会共用一个 sizes:
 
-Like this:
+就像这样：
 
 ```js run
 let user = {
@@ -206,23 +206,23 @@ let user = {
 
 let clone = Object.assign({}, user);
 
-alert( user.sizes === clone.sizes ); // true, same object
+alert( user.sizes === clone.sizes ); // true, 同一个对象
 
-// user and clone share sizes
-user.sizes.width++;       // change a property from one place
-alert(clone.sizes.width); // 51, see the result from the other one
+// user 和 clone 共用一个 sizes
+user.sizes.width++;       // 从其中一个改变属性值
+alert(clone.sizes.width); // 51，能从另外一个看到变更的结果
 ```
 
-To fix that, we should use the cloning loop that examines each value of `user[key]` and, if it's an object, then replicate its structure as well. That is called a "deep cloning".
+为了修复此问题，我们应该用检查每个 `user[key]` 值的循环，然后如果值是一个对象，那也要复制它的结构。这就叫“深克隆”。
 
-There's a standard algorithm for deep cloning that handles the case above and more complex cases, called the [Structured cloning algorithm](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data).
+这里有个标准的深克隆算法，不仅能处理上面的例子，还能应对更多复杂的情况，它被称为 [结构化克隆算法](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。
 
-We can use recursion to implement it. Or, not to reinvent the wheel, take an existing implementation, for instance [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) from the JavaScript library [lodash](https://lodash.com).
+我们可以用递归来实现。或者不自己造轮子，使用现成实现方法，例如来自一个 JavaScript 库 [lodash](https://lodash.com) 的 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) 方法。
 
-## Summary
+## 总结
 
-Objects are assigned and copied by reference. In other words, a variable stores not the "object value", but a "reference" (address in memory) for the value. So copying such a variable or passing it as a function argument copies that reference, not the object.
+对象通过引用来被赋值和拷贝。换句话说，一个变量不是存着“对象的值”，而是一个值的“引用”（内存地址）。因此对象被拷贝成变量或者作为函数参数来传递时，所复制的是引用而不是对象本身。
 
-All operations via copied references (like adding/removing properties) are performed on the same single object.
+所有通过被拷贝的引用的操作（如添加、删除属性）都作用在同一个对象上。
 
-To make a "real copy" (a clone) we can use `Object.assign` for the so-called "shallow copy" (nested objects are copied by reference) or a "deep cloning" function, such as [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+为了创建“真实的拷贝”（一个克隆体），我们可以使用 `Object.assign` 来做所谓的“浅拷贝”（嵌套对象被拷贝成引用）或者用“深克隆”函数，例如 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
