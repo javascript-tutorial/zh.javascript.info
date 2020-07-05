@@ -92,10 +92,10 @@ let user = {
 ```
 这叫做尾随（trailing）或悬挂（hanging）逗号。这样便于我们添加、删除和移动属性，因为所有的行都是相似的。
 
-````smart header="Object with const can be changed"
-Please note: an object declared as `const` *can* be modified.
+````smart header="const 对象是可变的"
+请注意：用 `const` 声明的对象 **能** 被修改。
 
-For instance:
+例如：
 
 ```js run
 const user = {
@@ -109,11 +109,11 @@ user.name = "Pete"; // (*)
 alert(user.name); // Pete
 ```
 
-It might seem that the line `(*)` would cause an error, but no. The `const` fixes the value of `user`, but not its contents.
+`(*)` 行似乎会触发一个错误，但实际并没有。`const` 声明仅固定了 `user` 的值，而不是值（该对象）里面的内容。
 
-The `const` would give an error only if we try to set `user=...` as a whole.
+`const` 会抛出错误仅当我们尝试从整体上赋值 `user=...`。
 
-There's another way to make constant object properties, we'll cover it later in the chapter <info:property-descriptors>.
+有其他的方法将对象属性值变为常量，我们会在之后的章节 <info:property-descriptors> 中了解到。
 ````
 
 ## 方括号
@@ -276,12 +276,12 @@ let user = {
 
 ## 属性名称限制
 
-As we already know, a variable cannot have a name equal to one of language-reserved words like "for", "let", "return" etc.
+我们已经知道，一个变量的变量名不能为其中一个语言保留字，如“for”、“let”、“return”等等……
 
-But for an object property, there's no such restriction:
+但对象的属性名并不受此限制：
 
 ```js run
-// these properties are all right
+// 这些属性都没问题
 let obj = {
   for: 1,
   let: 2,
@@ -291,23 +291,23 @@ let obj = {
 alert( obj.for + obj.let + obj.return );  // 6
 ```
 
-In short, there are no limitations on property names. They can be any strings or symbols (a special type for identifiers, to be covered later).
+简而言之，属性命名没有限制。属性名可以是任何字符串或者 symbol（一种特殊的标志符类型，将在后面介绍）。
 
-Other types are automatically converted to strings.
+其他类型会自动转换为字符串。
 
-For instance, a number `0` becomes a string `"0"` when used as a property key:
+例如当被用作为属性键时，数字 `0` 会变成一个字符串 `"0"`：
 
 ```js run
 let obj = {
-  0: "test" // same as "0": "test"
+  0: "test" // 相同于 "0": "test"
 };
 
-// both alerts access the same property (the number 0 is converted to string "0")
+// 都会输出相同的属性（数字 0 被转为字符串 "0"）
 alert( obj["0"] ); // test
-alert( obj[0] ); // test (same property)
+alert( obj[0] ); // test (一样的属性)
 ```
 
-There's a minor gotcha with a special property named `__proto__`. We can't set it to a non-object value:
+这里有个小陷阱：一个名为 `__proto__` 的属性。我们不能设它为一个非对象的值：
 
 ```js run
 let obj = {};
@@ -318,12 +318,13 @@ alert(obj.__proto__); // [object Object] — 值为对象，与预期结果不�
 我们从代码中可以看出来，把它赋值为 `5` 的操作被忽略了。
 
 We'll cover the special nature of `__proto__` in [subsequent chapters](info:prototype-inheritance), and suggest the [ways to fix](info:prototype-methods) such behavior.
+我们会在 [后续章节](info:prototype-inheritance) 中了解到 `__proto__` 的特殊性质，还有建议解决它行为表现的 [方法](info:prototype-methods)。
 
 ## 属性存在性测试，"in" 操作符
 
-A notable feature of objects in JavaScript, compared to many other languages, is that it's possible to access any property. There will be no error if the property doesn't exist!
+相比于其他语言，JavaScript 的对象有一个需要注意的特性：能够被访问任何属性。即使属性不存在也不会报错！
 
-Reading a non-existing property just returns `undefined`. So we can easily test whether the property exists:
+读取不存在的属性只会得到 `undefined`。所以我们可以轻易判断一个属性是否存在：
 
 ```js run
 let user = {};
@@ -349,7 +350,7 @@ alert( "blabla" in user ); // false，user.blabla 不存在。
 
 请注意，`in` 的左边必须是 **属性名**。通常是一个带引号的字符串。
 
-If we omit quotes, that means a variable, it should contain the actual name to be tested. For instance:
+如果我们把引号去掉，就意味着左边是个变量，它的值应该要被检查判断的属性名称。例如：
 
 ```js run
 let user = { age: 30 };
@@ -358,9 +359,9 @@ let key = "age";
 alert( *!*key*/!* in user ); // true，属性 "age" 存在
 ```
 
-Why does the `in` operator exist? Isn't it enough to compare against `undefined`?
+为何会有 `in` 运算符呢？直接判断比较 `undefined` 还不够吗？
 
-Well, most of the time the comparison with `undefined` works fine. But there's a special case when it fails, but `"in"` works correctly.
+确实，大部分情况下比对 `undefined` 不会有问题。但有一个特殊的例外情况，这种比对方式会有问题，`in` 运算符却还能使用。
 
 那就是属性存在，但是存储值为 `undefined` 的时候：
 
