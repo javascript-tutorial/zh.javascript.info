@@ -19,11 +19,19 @@
 
         // 是的
 
+<<<<<<< HEAD:2-ui/3-event-details/5-keyboard-events/2-check-sync-keydown/solution.view/index.html
         // 在 alert 期间，如果访客松开了按键，
         // JavaScript 就不会获得 "keyup" 事件
         // 那么集合 pressed 会保持假设这些按键是被按下的状态
         // 因此，为避免“粘滞”键，我们对状态进行了重置
         // 如果用户想再次运行热键 —— 他们需要再次按下所有键
+=======
+        // during the alert, if the visitor releases the keys,
+        // JavaScript does not get the "keyup" event
+        // and pressed set will keep assuming that the key is pressed
+        // so, to evade "sticky" keys, we reset the status
+        // if the user wants to run the hotkey again - let them press all keys again
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9:2-ui/3-event-details/7-keyboard-events/2-check-sync-keydown/solution.view/index.html
         pressed.clear();
 
         func();

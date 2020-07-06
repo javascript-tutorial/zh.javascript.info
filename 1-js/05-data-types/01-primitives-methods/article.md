@@ -1,20 +1,38 @@
 # 原始类型的方法
 
+<<<<<<< HEAD
 JavaScript 允许我们像使用对象一样使用原始类型（字符串，数字等）。JavaScript 还提供了这样的调用方法。我们很快就会学习它们，但是首先我们将了解它的工作原理，毕竟原始类型不是对象（在这里我们会分析地更加清楚）。
 
 我们来看看原始类型和对象之间的关键区别。
 
 一个原始值：
+=======
+JavaScript allows us to work with primitives (strings, numbers, etc.) as if they were objects. They also provide methods to call as such. We will study those soon, but first we'll see how it works because, of course, primitives are not objects (and here we will make it even clearer).
+
+Let's look at the key distinctions between primitives and objects.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 - 是原始类型中的一种值。
 - 在 JavaScript 中有 7 种原始类型：`string`，`number`，`bigint`，`boolean`，`symbol`，`null` 和 `undefined`。
 
+<<<<<<< HEAD
 一个对象：
 
 - 能够存储多个值作为属性。
 - 可以使用大括号 `{}` 创建对象，例如：`{name: "John", age: 30}`。JavaScript 中还有其他种类的对象，例如函数就是对象。
 
 关于对象的最好的事儿之一是，我们可以把一个函数作为对象的属性存储到对象中。
+=======
+- Is a value of a primitive type.
+- There are 7 primitive types: `string`, `number`, `bigint`, `boolean`, `symbol`, `null` and `undefined`.
+
+An object
+
+- Is capable of storing multiple values as properties.
+- Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript: functions, for example, are objects.
+
+One of the best things about objects is that we can store a function as one of its properties.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let john = {
@@ -29,11 +47,19 @@ john.sayHi(); // Hi buddy!
 
 所以我们在这里创建了一个包含 `sayHi` 方法的对象 `john`。
 
+<<<<<<< HEAD
 许多内建对象已经存在，例如那些处理日期、错误、HTML 元素等的内建对象。它们具有不同的属性和方法。
+=======
+Many built-in objects already exist, such as those that work with dates, errors, HTML elements, etc. They have different properties and methods.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 但是，这些特性（feature）都是有成本的！
 
+<<<<<<< HEAD
 对象比原始类型“更重”。它们需要额外的资源来支持运作。
+=======
+Objects are "heavier" than primitives. They require additional resources to support the internal machinery.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ## 当作对象的原始类型
 
@@ -44,13 +70,23 @@ john.sayHi(); // Hi buddy!
 
 而解决方案看起来多少有点尴尬，如下：
 
+<<<<<<< HEAD
 1. 原始类型仍然是原始的。与预期相同，提供单个值
 2. JavaScript 允许访问字符串，数字，布尔值和 symbol 的方法和属性。
 3. 为了使它们起作用，创建了提供额外功能的特殊“对象包装器”，使用后即被销毁。
+=======
+1. Primitives are still primitive. A single value, as desired.
+2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
+3. In order for that to work, a special "object wrapper" that provides the extra functionality is created, and then is destroyed.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 “对象包装器”对于每种原始类型都是不同的，它们被称为 `String`、`Number`、`Boolean` 和 `Symbol`。因此，它们提供了不同的方法。
 
+<<<<<<< HEAD
 例如，字符串方法 [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) 返回一个大写化处理的字符串。
+=======
+For instance, there exists a string method [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) that returns a capitalized `str`.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 用法演示如下：
 
@@ -81,8 +117,13 @@ alert( n.toFixed(2) ); // 1.23
 我们将在后面 <info:number> 和 <info:string> 章节中看到更多具体的方法。
 
 
+<<<<<<< HEAD
 ````warn header="构造器 `String/Number/Boolean` 仅供内部使用"
 像 Java 这样的一些语言允许我们使用 `new Number(1)` 或 `new Boolean(false)` 等语法，明确地为原始类型创建“对象包装器”。
+=======
+````warn header="Constructors `String/Number/Boolean` are for internal use only"
+Some languages like Java allow us to explicitly create "wrapper objects" for primitives using a syntax like `new Number(1)` or `new Boolean(false)`.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 在 JavaScript 中，由于历史原因，这也是可以的，但极其 **不推荐**。因为这样会出问题。
 
@@ -94,13 +135,22 @@ alert( typeof 0 ); // "number"
 alert( typeof new Number(0) ); // "object"!
 ```
 
+<<<<<<< HEAD
 对象在 `if` 中始终是 `true`，因此此处的 alert 将显示：
+=======
+Objects are always truthy in `if`, so here the alert will show up:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let zero = new Number(0);
 
+<<<<<<< HEAD
 if (zero) { // zero 为 true，因为它是一个对象
   alert( "zero is truthy?!?" );
+=======
+if (zero) { // zero is true, because it's an object
+  alert( "zero is truthy!?!" );
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 }
 ```
 

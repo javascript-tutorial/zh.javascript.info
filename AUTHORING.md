@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 贡献者须知
 
 这描述了有关编写本教程的新文章的重要内容。
@@ -6,16 +7,30 @@
 ## 内联链接
 
 所有教程链接应从根开始，不包括域。
+=======
+# Authoring
+
+This describes important stuff about authoring new articles of the tutorial.
+
+## Internal links
+
+All tutorial links should start from the root, not including the domain.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ✅ OK:
 
 ```md
+<<<<<<< HEAD
 我们将在 [关于函数](/function-basics) 章节学习它。
+=======
+We'll cover that in the chapter [about functions](/function-basics)
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 ```
 
 ❌ Not ok:
 
 ```md
+<<<<<<< HEAD
 我们将在 [关于函数](https://javascript.info/function-basics) 章节学习它。
 ```
 
@@ -36,3 +51,24 @@
 ## TODO
 
 更多细节，请咨询 @leviding 或 @iliakan。
+=======
+We'll cover that in the chapter [about functions](https://javascript.info/function-basics)
+```
+
+Also, to reference a chapter, there's a special "info:" scheme, like this:
+
+```md
+We'll cover that in the chapter <info:function-basics>.
+```
+
+Becomes:
+```html
+We'll cover that in the chapter <a href="/function-basics">Function basics</a>.
+```
+
+The title is auto-inserted from the referenced article. That has the benefit of keeping the right title if the article gets renamed.
+
+## TODO
+
+Ask @iliakan to for more details.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9

@@ -36,4 +36,8 @@ alert( unique(strings) ); // Hare, Krishna, :-O
 
 所以该解决方案仅适用于小型数组。
 
+<<<<<<< HEAD
 进一步，在后面的 <info:map-set> 一章中，我们将看到如何对该方法进行优化。
+=======
+Further in the chapter <info:map-set> we'll see how to optimize it.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9

@@ -1,15 +1,24 @@
 
 # FormData
 
+<<<<<<< HEAD
 这一章是关于发送 HTML 表单的：带有或不带文件，带有其他字段等。
 
 [FormData](https://xhr.spec.whatwg.org/#interface-formdata) 对象可以提供帮助。你可能已经猜到了，它是表示 HTML 表单数据的对象。
 
 构造函数是：
+=======
+This chapter is about sending HTML forms: with or without files, with additional fields and so on.
+
+[FormData](https://xhr.spec.whatwg.org/#interface-formdata) objects can help with that. As you might have guessed, it's the object to represent HTML form data.
+
+The constructor is:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 ```js
 let formData = new FormData([form]);
 ```
 
+<<<<<<< HEAD
 如果提供了 HTML `form` 元素，它会自动捕获 `form` 元素字段。
 
 `FormData` 的特殊之处在于网络方法（network methods），例如 `fetch` 可以接受一个 `FormData` 对象作为 body。它会被编码并发送出去，带有 `Content-Type: multipart/form-data`。
@@ -21,6 +30,19 @@ let formData = new FormData([form]);
 我们先来发送一个简单的表单。
 
 正如你所看到的，它几乎就是一行代码：
+=======
+If HTML `form` element is provided, it automatically captures its fields.
+
+The special thing about `FormData` is that network methods, such as `fetch`, can accept a `FormData` object as a body. It's encoded and sent out with `Content-Type: multipart/form-data`.
+
+From the server point of view, that looks like a usual form submission.
+
+## Sending a simple form
+
+Let's send a simple form first.
+
+As you can see, that's almost one-liner:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```html run autorun
 <form id="formElem">
@@ -47,6 +69,7 @@ let formData = new FormData([form]);
 </script>
 ```
 
+<<<<<<< HEAD
 在这个示例中，没有将服务器代码展示出来，因为它超出了我们当前的学习范围。服务器接受 POST 请求并回应 "User saved"。
 
 ## FormData 方法
@@ -67,12 +90,35 @@ let formData = new FormData([form]);
 - `formData.set(name, blob, fileName)`。
 
 我们也可以使用 `for..of` 循环迭代 formData 字段：
+=======
+In this example, the server code is not presented, as it's beyound our scope. The server accepts the POST request and replies "User saved".
+
+## FormData Methods
+
+We can modify fields in `FormData` with methods:
+
+- `formData.append(name, value)` - add a form field with the given `name` and `value`,
+- `formData.append(name, blob, fileName)` - add a field as if it were `<input type="file">`, the third argument `fileName` sets file name (not form field name), as it were a name of the file in user's filesystem,
+- `formData.delete(name)` - remove the field with the given `name`,
+- `formData.get(name)` - get the value of the field with the given `name`,
+- `formData.has(name)` - if there exists a field with the given `name`, returns `true`, otherwise `false`
+
+A form is technically allowed to have many fields with the same `name`, so multiple calls to `append` add more same-named fields.
+
+There's also method `set`, with the same syntax as `append`. The difference is that `.set` removes all fields with the given `name`, and then appends a new field. So it makes sure there's only one field with such `name`, the rest is just like `append`:
+
+- `formData.set(name, value)`,
+- `formData.set(name, blob, fileName)`.
+
+Also we can iterate over formData fields using `for..of` loop:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let formData = new FormData();
 formData.append('key1', 'value1');
 formData.append('key2', 'value2');
 
+<<<<<<< HEAD
 // 列出 key/value 对
 for(let [name, value] of formData) {
   alert(`${name} = ${value}`); // key1=value1，然后是 key2=value2
@@ -84,6 +130,19 @@ for(let [name, value] of formData) {
 表单始终以 `Content-Type: multipart/form-data` 来发送数据，这个编码允许发送文件。因此 `<input type="file">` 字段也能被发送，类似于普通的表单提交。
 
 这是具有这种形式的示例：
+=======
+// List key/value pairs
+for(let [name, value] of formData) {
+  alert(`${name} = ${value}`); // key1=value1, then key2=value2
+}
+```
+
+## Sending a form with a file
+
+The form is always sent as `Content-Type: multipart/form-data`, this encoding allows to send files. So, `<input type="file">` fields are sent also, similar to a usual form submission.
+
+Here's an example with such form:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```html run autorun
 <form id="formElem">
@@ -110,6 +169,7 @@ for(let [name, value] of formData) {
 </script>
 ```
 
+<<<<<<< HEAD
 ## 发送具有 Blob 数据的表单
 
 正如我们在 <info:fetch> 一章中所看到的，以 `Blob` 发送一个动态生成的二进制数据，例如图片，是很简单的。我们可以直接将其作为 `fetch` 参数的 `body`。
@@ -119,6 +179,17 @@ for(let [name, value] of formData) {
 并且，服务器通常更适合接收多部分编码的表单（multipart-encoded form），而不是原始的二进制数据。
 
 下面这个例子使用 `FormData` 将一个来自 `<canvas>` 的图片和一些其他字段一起作为一个表单提交：
+=======
+## Sending a form with Blob data
+
+As we've seen in the chapter <info:fetch>, it's easy to send dynamically generated binary data e.g. an image, as `Blob`. We can supply it directly as `fetch` parameter `body`.
+
+In practice though, it's often convenient to send an image not separately, but as a part of the form, with additional fields, such as "name" and other metadata.
+
+Also, servers are usually more suited to accept multipart-encoded forms, rather than raw binary data.
+
+This example submits an image from `<canvas>`, along with some other fields, as a form, using `FormData`:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```html run autorun height="90"
 <body style="margin:0">
@@ -154,12 +225,17 @@ for(let [name, value] of formData) {
 </body>
 ```
 
+<<<<<<< HEAD
 请注意图片 `Blob` 是如何添加的：
+=======
+Please note how the image `Blob` is added:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js
 formData.append("image", imageBlob, "image.png");
 ```
 
+<<<<<<< HEAD
 就像表单中有 `<input type="file" name="image">` 一样，用户从他们的文件系统中使用数据 `imageBlob`（第二个参数）提交了一个名为 `image.png`（第三个参数）的文件。
 
 服务器读取表单数据和文件，就好像它是常规的表单提交一样。
@@ -169,21 +245,45 @@ formData.append("image", imageBlob, "image.png");
 [FormData](https://xhr.spec.whatwg.org/#interface-formdata) 对象用于捕获 HTML 表单，并使用 `fetch` 或其他网络方法提交。
 
 我们可以从 HTML 表单创建 `new FormData(form)`，也可以创建一个完全没有表单的对象，然后使用以下方法附加字段：
+=======
+That's same as if there were `<input type="file" name="image">` in the form, and the visitor submitted a file named `"image.png"` (3rd argument) with the data `imageBlob` (2nd argument) from their filesystem.
+
+The server reads form data and the file, as if it were a regular form submission.
+
+## Summary
+
+[FormData](https://xhr.spec.whatwg.org/#interface-formdata) objects are used to capture HTML form and submit it using `fetch` or another network method.
+
+We can either create `new FormData(form)` from an HTML form, or create a object without a form at all, and then append fields with methods:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 - `formData.append(name, value)`
 - `formData.append(name, blob, fileName)`
 - `formData.set(name, value)`
 - `formData.set(name, blob, fileName)`
 
+<<<<<<< HEAD
 让我们在这里注意两个特点：
 
 1. `set` 方法会移除具有相同名称（name）的字段，而 `append` 不会。
 2. 要发送文件，需要使用三个参数的语法，最后一个参数是文件名，一般是通过 `<input type="file">` 从用户文件系统中获取的。
 
 其他方法是：
+=======
+Let's note two peculiarities here:
+
+1. The `set` method removes fields with the same name, `append` doesn't. That's the only difference between them.
+2. To send a file, 3-argument syntax is needed, the last argument is a file name, that normally is taken from user filesystem for `<input type="file">`.
+
+Other methods are:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 - `formData.delete(name)`
 - `formData.get(name)`
 - `formData.has(name)`
 
+<<<<<<< HEAD
 这就是它的全貌！
+=======
+That's it!
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9

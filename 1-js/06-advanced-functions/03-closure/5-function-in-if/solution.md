@@ -1,3 +1,3 @@
-答案：**error**。
+The result is **an error**.
 
-函数 `sayHi` 是在 `if` 内声明的，所以它只存在于 `if` 中。外部是没有 `sayHi` 的。
+The function `sayHi` is declared inside the `if`, so it only lives inside it. There is no `sayHi` outside.

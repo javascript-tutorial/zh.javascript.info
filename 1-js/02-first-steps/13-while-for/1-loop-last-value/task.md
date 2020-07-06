@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# 最后一次循环的值
+# Last loop value
 
-此代码最后一次 alert 值是多少？为什么？
+What is the last value alerted by this code? Why?
 
 ```js
 let i = 3;

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 搜索算法
+# Searching algorithm
 
-本题目有两个部分。
+The task has two parts.
 
-给定以下对象：
+Given the following objects:
 
 ```js
 let head = {
@@ -27,5 +27,5 @@ let pockets = {
 };
 ```
 
-1. 使用 `__proto__` 来分配原型，以使得任何属性的查找都遵循以下路径：`pockets` -> `bed` -> `table` -> `head`。例如，`pockets.pen` 应该是 `3`（在 `table` 中找到），`bed.glasses` 应该是 `1`（在 `head` 中找到）。
-2. 回答问题：通过 `pockets.glasses` 或 `head.glasses` 获取 `glasses`，哪个更快？必要时需要进行基准测试。
+1. Use `__proto__` to assign prototypes in a way that any property lookup will follow the path: `pockets` -> `bed` -> `table` -> `head`. For instance, `pockets.pen` should be `3` (found in `table`), and `bed.glasses` should be `1` (found in `head`).
+2. Answer the question: is it faster to get `glasses` as `pockets.glasses` or `head.glasses`? Benchmark if needed.

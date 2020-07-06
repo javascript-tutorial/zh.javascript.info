@@ -1,7 +1,11 @@
 
 # if 内的函数
 
+<<<<<<< HEAD:1-js/06-advanced-functions/03-closure/5-function-in-if/task.md
 看看下面这个代码。最后一行代码的执行结果是什么？
+=======
+Look at the code. What will be the result of the call at the last line?
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9:1-js/06-advanced-functions/03-closure/5-function-in-if/task.md
 
 ```js run
 let phrase = "Hello";

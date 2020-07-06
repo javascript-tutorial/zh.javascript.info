@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 原生的原型
 
 `"prototype"` 属性在 JavaScript 自身的核心部分中被广泛地应用。所有的内置构造函数都用到了它。
@@ -7,12 +8,24 @@
 ## Object.prototype
 
 假如我们输出一个空对象：
+=======
+# Native prototypes
+
+The `"prototype"` property is widely used by the core of JavaScript itself. All built-in constructor functions use it.
+
+First we'll see at the details, and then how to use it for adding new capabilities to built-in objects.
+
+## Object.prototype
+
+Let's say we output an empty object:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let obj = {};
 alert( obj ); // "[object Object]" ?
 ```
 
+<<<<<<< HEAD
 生成字符串 `"[object Object]"` 的代码在哪里？那就是一个内建的 `toString` 方法，但是它在哪里呢？`obj` 是空的！
 
 ……然而简短的表达式 `obj = {}` 和 `obj = new Object()` 是一个意思，其中 `Object` 就是一个内建的对象构造函数，其自身的 `prototype` 指向一个带有 `toString` 和其他方法的一个巨大的对象。
@@ -28,6 +41,23 @@ alert( obj ); // "[object Object]" ?
 所以，之后当 `obj.toString()` 被调用时，这个方法是从 `Object.prototype` 中获取的。
 
 我们可以这样验证它：
+=======
+Where's the code that generates the string `"[object Object]"`? That's a built-in `toString` method, but where is it? The `obj` is empty!
+
+...But the short notation `obj = {}` is the same as `obj = new Object()`, where `Object` is a built-in object constructor function, with its own `prototype` referencing a huge object with `toString` and other methods.
+
+Here's what's going on:
+
+![](object-prototype.svg)
+
+When `new Object()` is called (or a literal object `{...}` is created), the `[[Prototype]]` of it is set to `Object.prototype` according to the rule that we discussed in the previous chapter:
+
+![](object-prototype-1.svg)
+
+So then when `obj.toString()` is called the method is taken from `Object.prototype`.
+
+We can check it like this:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let obj = {};
@@ -36,12 +66,17 @@ alert(obj.__proto__ === Object.prototype); // true
 // obj.toString === obj.__proto__.toString == Object.prototype.toString
 ```
 
+<<<<<<< HEAD
 请注意在 `Object.prototype` 上方的链中没有更多的 `[[Prototype]]`：
+=======
+Please note that there is no more `[[Prototype]]` in the chain above `Object.prototype`:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 alert(Object.prototype.__proto__); // null
 ```
 
+<<<<<<< HEAD
 ## 其他内建原型
 
 其他内建对象，像 `Array`、`Date`、`Function` 及其他，都在 prototype 上挂载了方法。
@@ -55,10 +90,26 @@ alert(Object.prototype.__proto__); // null
 ![](native-prototypes-classes.svg)
 
 让我们手动验证原型：
+=======
+## Other built-in prototypes
+
+Other built-in objects such as `Array`, `Date`, `Function` and others also keep methods in prototypes.
+
+For instance, when we create an array `[1, 2, 3]`, the default `new Array()` constructor is used internally. So `Array.prototype` becomes its prototype and provides methods. That's very memory-efficient.
+
+By specification, all of the built-in prototypes have `Object.prototype` on the top. That's why some people say that "everything inherits from objects".
+
+Here's the overall picture (for 3 built-ins to fit):
+
+![](native-prototypes-classes.svg)
+
+Let's check the prototypes manually:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let arr = [1, 2, 3];
 
+<<<<<<< HEAD
 // 它继承自 Array.prototype？
 alert( arr.__proto__ === Array.prototype ); // true
 
@@ -77,16 +128,44 @@ alert(arr); // 1,2,3 <-- Array.prototype.toString 的结果
 ```
 
 正如我们之前看到的那样，`Object.prototype` 也有 `toString` 方法，但是 `Array.prototype` 在原型链上更近，所以数组对象原型上的方法会被使用。
+=======
+// it inherits from Array.prototype?
+alert( arr.__proto__ === Array.prototype ); // true
+
+// then from Object.prototype?
+alert( arr.__proto__.__proto__ === Object.prototype ); // true
+
+// and null on the top.
+alert( arr.__proto__.__proto__.__proto__ ); // null
+```
+
+Some methods in prototypes may overlap, for instance, `Array.prototype` has its own `toString` that lists comma-delimited elements:
+
+```js run
+let arr = [1, 2, 3]
+alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
+```
+
+As we've seen before, `Object.prototype` has `toString` as well, but `Array.prototype` is closer in the chain, so the array variant is used.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 
 ![](native-prototypes-array-tostring.svg)
 
 
+<<<<<<< HEAD
 浏览器内的工具，像 Chrome 开发者控制台也会显示继承性（可能需要对内置对象使用 `console.dir`）：
 
 ![](console_dir_array.png)
 
 其他内建对象也以同样的方式运行。即使是函数 —— 它们是内建构造器 `Function` 的对象，并且它们的方法（`call`/`apply` 及其他）都取自 `Function.prototype`。函数也有自己的 `toString` 方法。
+=======
+In-browser tools like Chrome developer console also show inheritance (`console.dir` may need to be used for built-in objects):
+
+![](console_dir_array.png)
+
+Other built-in objects also work the same way. Even functions -- they are objects of a built-in `Function` constructor, and their methods (`call`/`apply` and others) are taken from `Function.prototype`. Functions have their own `toString` too.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 function f() {}
@@ -95,6 +174,7 @@ alert(f.__proto__ == Function.prototype); // true
 alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 ```
 
+<<<<<<< HEAD
 ## 基本数据类型
 
 最复杂的事情发生在字符串、数字和布尔值上。
@@ -110,6 +190,23 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 ## 更改原生原型 [#native-prototype-change]
 
 原生的原型是可以被修改的。例如，我们向 `String.prototype` 中添加一个方法，这个方法将对所有的字符串都是可用的：
+=======
+## Primitives
+
+The most intricate thing happens with strings, numbers and booleans.
+
+As we remember, they are not objects. But if we try to access their properties, temporary wrapper objects are created using built-in constructors `String`, `Number` and `Boolean`. They provide the methods and disappear.
+
+These objects are created invisibly to us and most engines optimize them out, but the specification describes it exactly this way. Methods of these objects also reside in prototypes, available as `String.prototype`, `Number.prototype` and `Boolean.prototype`.
+
+```warn header="Values `null` and `undefined` have no object wrappers"
+Special values `null` and `undefined` stand apart. They have no object wrappers, so methods and properties are not available for them. And there are no corresponding prototypes either.
+```
+
+## Changing native prototypes [#native-prototype-change]
+
+Native prototypes can be modified. For instance, if we add a method to `String.prototype`,  it becomes available to all strings:
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 String.prototype.show = function() {
@@ -119,6 +216,7 @@ String.prototype.show = function() {
 "BOOM!".show(); // BOOM!
 ```
 
+<<<<<<< HEAD
 在开发的过程中，我们可能会想要一些新的内建方法，并且想把它们添加到原生原型中。但这通常是一个很不好的想法。
 
 ```warn
@@ -142,6 +240,34 @@ if (!String.prototype.repeat) { // 如果这儿没有这个方法
 
     // 实际上，实现代码比这个要复杂一些（完整的方法可以在规范中找到）
     // 但即使是不够完美的 polyfill 也常常被认为是足够好的
+=======
+During the process of development, we may have ideas for new built-in methods we'd like to have, and we may be tempted to add them to native prototypes. But that is generally a bad idea.
+
+```warn
+Prototypes are global, so it's easy to get a conflict. If two libraries add a method `String.prototype.show`, then one of them will be overwriting the method of the other.
+
+So, generally, modifying a native prototype is considered a bad idea.
+```
+
+**In modern programming, there is only one case where modifying native prototypes is approved. That's polyfilling.**
+
+Polyfilling is a term for making a substitute for a method that exists in the JavaScript specification, but is not yet supported by a particular JavaScript engine.
+
+We may then implement it manually and populate the built-in prototype with it.
+
+For instance:
+
+```js run
+if (!String.prototype.repeat) { // if there's no such method
+  // add it to the prototype
+
+  String.prototype.repeat = function(n) {
+    // repeat the string n times
+
+    // actually, the code should be a little bit more complex than that
+    // (the full algorithm is in the specification)
+    // but even an imperfect polyfill is often considered good enough
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
     return new Array(n + 1).join(this);
   };
 }
@@ -150,6 +276,7 @@ alert( "La".repeat(3) ); // LaLaLa
 ```
 
 
+<<<<<<< HEAD
 ## 从原型中借用
 
 在 <info:call-apply-decorators#method-borrowing> 一章中，我们讨论了方法借用。
@@ -161,6 +288,19 @@ alert( "La".repeat(3) ); // LaLaLa
 例如，如果我们要创建类数组对象，则可能需要向其中复制一些 `Array` 方法。
 
 例如：
+=======
+## Borrowing from prototypes
+
+In the chapter <info:call-apply-decorators#method-borrowing> we talked about method borrowing.
+
+That's when we take a method from one object and copy it into another.
+
+Some methods of native prototypes are often borrowed.
+
+For instance, if we're making an array-like object, we may want to copy some `Array` methods to it.
+
+E.g.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 ```js run
 let obj = {
@@ -176,6 +316,7 @@ obj.join = Array.prototype.join;
 alert( obj.join(',') ); // Hello,world!
 ```
 
+<<<<<<< HEAD
 上面这段代码有效，是因为内建的方法 `join` 的内部算法只关心正确的索引和 `length` 属性。它不会检查这个对象是否是真正的数组。许多内建方法就是这样。
 
 另一种方式是通过将 `obj.__proto__` 设置为 `Array.prototype`，这样 `Array` 中的所有方法都自动地可以在 `obj` 中使用了。
@@ -191,3 +332,20 @@ alert( obj.join(',') ); // Hello,world!
     - 对象本身只存储数据（数组元素、对象属性、日期）。
 - 原始数据类型也将方法存储在包装器对象的 prototype 中：`Number.prototype`、`String.prototype` 和 `Boolean.prototype`。只有 `undefined` 和 `null` 没有包装器对象。
 - 内建原型可以被修改或被用新的方法填充。但是不建议更改它们。唯一允许的情况可能是，当我们添加一个还没有被 JavaScript 引擎支持，但已经被加入 JavaScript 规范的新标准时，才可能允许这样做。
+=======
+It works because the internal algorithm of the built-in `join` method only cares about the correct indexes and the `length` property. It doesn't check if the object is indeed an array. Many built-in methods are like that.
+
+Another possibility is to inherit by setting `obj.__proto__` to `Array.prototype`, so all `Array` methods are automatically available in `obj`.
+
+But that's impossible if `obj` already inherits from another object. Remember, we only can inherit from one object at a time.
+
+Borrowing methods is flexible, it allows to mix functionalities from different objects if needed.
+
+## Summary
+
+- All built-in objects follow the same pattern:
+    - The methods are stored in the prototype (`Array.prototype`, `Object.prototype`, `Date.prototype`, etc.)
+    - The object itself stores only the data (array items, object properties, the date)
+- Primitives also store methods in prototypes of wrapper objects: `Number.prototype`, `String.prototype` and `Boolean.prototype`. Only `undefined` and `null` do not have wrapper objects
+- Built-in prototypes can be modified or populated with new methods. But it's not recommended to change them. The only allowable case is probably when we add-in a new standard, but it's not yet supported by the JavaScript engine
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9

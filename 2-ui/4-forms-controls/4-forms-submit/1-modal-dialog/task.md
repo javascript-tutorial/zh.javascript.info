@@ -6,8 +6,13 @@ importance: 5
 
 创建一个函数 `showPrompt(html, callback)`，该函数显示一个表单，里面有消息 `html`，一个 `input` 字段和 `OK/CANCEL` 按钮。
 
+<<<<<<< HEAD
 - 用户应该在文本字段中输入一些内容，然后按下 `key:Enter` 键或点击 OK 按钮，然后 `callback(value)` 就会被调用，参数为输入的值。
 - 否则，如果用户按下 `key:Esc` 键或点击 CANCEL 按钮，那么 `callback(null)` 就会被调用。
+=======
+- A user should type something into a text field and press `key:Enter` or the OK button, then `callback(value)` is called with the value they entered.
+- Otherwise if the user presses `key:Esc` or CANCEL, then `callback(null)` is called.
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
 
 在这两种情况下，输入过程都会结束，并移除表单。
 

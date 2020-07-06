@@ -25,7 +25,11 @@
   function logMouse(e) {
      let evt = e.type;
      while (evt.length < 11) evt += ' ';
+<<<<<<< HEAD
      showmesg(evt + " which=" + e.which, 'test')
+=======
+     showmesg(evt + " button=" + e.button, 'test')
+>>>>>>> 445bda39806050acd96f87166a7c97533a0c67e9
      return false;
   }
 

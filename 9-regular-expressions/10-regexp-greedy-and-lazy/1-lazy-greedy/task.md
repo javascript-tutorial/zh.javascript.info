@@ -1,6 +1,6 @@
-# 对于 /d+? d+?/ 的匹配
+# A match for /d+? d+?/
 
-以下匹配的结果是什么？
+What's the match here?
 
 ```js
 "123 456".match(/\d+? \d+?/g) ); // ?
