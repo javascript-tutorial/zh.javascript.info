@@ -116,7 +116,7 @@ Your email please: <input type="email" id="input">
 
 也就是说：如果我们有两个元素，第一个具有 `tabindex="1"`，第二个具有 `tabindex="2"`，然后当焦点在第一个元素的时候，按下 `key:Tab` 键，会使焦点移动到第二个元素身上。
 
-切换顺序为：从 `1` 开始的具有 `tabindex` 的元素排在第一位（按 `tabindex` 顺序），然后是不具有 `tabindex` 的元素（例如常规的 `<input>`）。
+切换顺序为：从 `1` 开始的具有 `tabindex` 的元素排在前面（按 `tabindex` 顺序），然后是不具有 `tabindex` 的元素（例如常规的 `<input>`）。
 
 具有 `tabindex` 的元素按文档源顺序（默认顺序）切换。
 

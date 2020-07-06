@@ -179,7 +179,7 @@ error 的详细信息可能因浏览器而异，但是原理是相同的：有�
 
 在我们的示例中没有任何跨源特性（attribute）。因此，跨源访问被禁止。让我们来添加它吧。
 
-我们可以在 `"anonymous"`（不会发送 cookie，需要一个服务器端的 header）和 `"use-credentials"`（会发送 cookie，需要两个服务器端的 header）。
+我们可以在 `"anonymous"`（不会发送 cookie，需要一个服务器端的 header）和 `"use-credentials"`（会发送 cookie，需要两个服务器端的 header）之间进行选择。
 
 如果我们不关心 cookie，那么可以选择 `"anonymous"`：
 
