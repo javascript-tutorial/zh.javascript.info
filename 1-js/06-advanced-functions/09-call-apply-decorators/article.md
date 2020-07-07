@@ -209,7 +209,7 @@ alert( worker.slow(2) ); // 工作正常，没有调用原始函数（使用的�
 2. 因此，当 `worker.slow(2)` 执行时，包装器将 `2` 作为参数，并且 `this=worker`（它是点符号 `.` 之前的对象）。
 3. 在包装器内部，假设结果尚未缓存，`func.call(this, x)` 将当前的 `this`（`=worker`）和当前的参数（`=2`）传递给原始方法。
 
-## 使用 "func.apply" 来传递多参数
+## 传递多个参数
 
 现在让我们把 `cachingDecorator` 写得更加通用。到现在为止，它只能用于单参数函数。
 
@@ -236,7 +236,7 @@ worker.slow = cachingDecorator(worker.slow);
 
 对于许多实际应用，第三种方式就足够了，所以我们就用这个吧。
 
-当然，我们需要将 `func.call(this, x)` 替换成 `func.call(this, ...arguments)`，以将所有参数传递给包装的函数调用，而不仅仅是只传递第一个参数。
+Also we need to pass not just `x`, but all arguments in `func.call`. Let's recall that in a `function()` we can get a pseudo-array of its arguments as `arguments`, so `func.call(this, x)` should be replaced with `func.call(this, ...arguments)`.
 
 这是一个更强大的 `cachingDecorator`：
 
@@ -284,6 +284,8 @@ alert( "Again " + worker.slow(3, 5) ); // same (cached)
 - 在 `(*)` 行中它调用 `hash` 来从 `arguments` 创建一个单独的键。这里我们使用一个简单的“连接”函数，将参数 `(3, 5)` 转换为键 `"3,5"`。更复杂的情况可能需要其他哈希函数。
 - 然后 `(**)` 行使用 `func.call(this, ...arguments)` 将包装器获得的上下文和所有参数（不仅仅是第一个参数）传递给原始函数。
 
+## func.apply
+
 我们可以使用 `func.apply(this, arguments)` 代替 `func.call(this, ...arguments)`。
 
 内建方法 [func.apply](mdn:js/Function/apply) 的语法是：
@@ -308,9 +310,9 @@ func.apply(context, args);   // 与使用 call 相同
 - Spread 语法 `...` 允许将 **可迭代对象** `args` 作为列表传递给 `call`。
 - `apply` 仅接受 **类数组对象** `args`。
 
-因此，这些调用可以相互补充。当我们期望可迭代对象时，使用 `call`，当我们期望类数组对象时，使用 `apply`。
+因此，当我们期望可迭代对象时，使用 `call`，当我们期望类数组对象时，使用 `apply`。
 
-对于即可迭代又是类数组的对象，例如一个真正的数组，从技术上讲我们使用 `call` 或 `apply` 都行，但是 `apply` 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。
+对于即可迭代又是类数组的对象，例如一个真正的数组，我们使用 `call` 或 `apply` 均可，但是 `apply` 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。
 
 将所有参数连同上下文一起传递给另一个函数被称为“呼叫转移（call forwarding）”。
 

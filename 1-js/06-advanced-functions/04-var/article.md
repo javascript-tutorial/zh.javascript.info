@@ -13,27 +13,18 @@
 2. `const`
 3. `var`
 
-`let` 和 `const` 在词法环境中的行为完全一样。
-
-但 `var` 却是一头完全不同的，源自非常古老的时代的怪兽。在现代脚本中一般不再使用它，但它仍然潜伏在旧脚本中。
-
-如果你不打算接触这样的脚本，你甚至可以跳过本章或推迟阅读本章，但是之后你很可能会踩到它的坑。
-
-乍一看，`var` 和 `let` 的行为相似，不就是声明变量嘛：
+The `var` declaration is similar to `let`. Most of the time we can replace `let` by `var` or vice-versa and expect things to work:
 
 ```js run
-function sayHi() {
-  var phrase = "Hello"; // 局部变量，使用 "var"，而不是 "let"
-
-  alert(phrase); // Hello
-}
-
-sayHi();
-
-alert(phrase); // Error, phrase is not defined
+var message = "Hi";
+alert(message); // Hi
 ```
 
-……但两者存在区别。
+But internally `var` is a very different beast, that originates from very old times. It's generally not used in modern scripts, but still lurks in the old ones.
+
+If you don't plan on meeting such scripts you may even skip this chapter or postpone it.
+
+On the other hand, it's important to understand differences when migrating old scripts from `var` to `let`, to avoid odd errors.
 
 ## "var" 没有块级作用域
 
@@ -94,7 +85,27 @@ alert(phrase); // Error: phrase is not defined (Check the Developer Console)
 
 可以看到，`var` 穿透了 `if`，`for` 和其它代码块。这是因为在早期的 JavaScript 中，块没有词法环境。而 `var` 就是这个时期的代表之一。
 
-## "var" 声明在函数开头就会被处理
+## "var" 允许重新声明
+
+If we declare the same variable with `let` twice in the same scope, that's an error:
+
+```js run
+let user;
+let user; // SyntaxError: 'user' has already been declared
+```
+
+With `var`, we can redeclare a variable any number of times. If we use `var` with an already-declared variable, it's just ignored:
+
+```js run
+var user = "Pete";
+
+var user = "John"; // this "var" does nothing (already declared)
+// ...it doesn't trigger an error
+
+alert(user); // John
+```
+
+## "var" variables can be declared below their use
 
 当函数开始的时候，就会处理 `var` 声明（脚本启动对应全局变量）。
 

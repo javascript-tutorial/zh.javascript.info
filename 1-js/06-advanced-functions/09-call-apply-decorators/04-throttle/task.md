@@ -4,9 +4,13 @@ importance: 5
 
 # 节流装饰者
 
-创建一个“节流”装饰者 `throttle(f, ms)` —— 返回一个包装器，最多每隔 `1ms` 将调用传递给 `f` 一次。那些属于“冷却”期的调用将被忽略。
+创建一个“节流”装饰者 `throttle(f, ms)` —— 返回一个包装器。
 
-**与 `debounce` 的区别 —— 如果被忽略的调用是冷却期间的最后一次，那么它会在延时结束时执行。**
+When it's called multiple times, it passes the call to `f` at maximum once per `ms` milliseconds.
+
+The difference with debounce is that it's completely different decorator:
+- `debounce` runs the function once after the "cooldown" period. Good for processing the final result.
+- `throttle` runs it not more often than given `ms` time. Good for regular updates that shouldn't be very often.
 
 让我们看看现实生活中的应用程序，以便更好地理解这个需求，并了解它的来源。
 
@@ -14,7 +18,7 @@ importance: 5
 
 在浏览器中，我们可以设置一个函数，使其在每次鼠标移动时运行，并获取鼠标移动时的指针位置。在使用鼠标的过程中，此函数通常会执行地非常频繁，大概每秒 100 次（每 10 毫秒）。
 
-**当鼠标指针移动时，我们想要更新网页上的某些信息。**
+**我们想要在鼠标指针移动时，更新网页上的某些信息。**
 
 ……但是更新函数 `update()` 太重了，无法在每个微小移动上都执行。高于每 100ms 更新一次的更新频次也没有意义。
 
