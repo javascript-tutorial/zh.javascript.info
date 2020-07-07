@@ -1,5 +1,5 @@
 ```js demo
-function throttle(f, ms) {
+function throttle(func, ms) {
 
   let isThrottled = false,
     savedArgs,
@@ -13,7 +13,7 @@ function throttle(f, ms) {
       return;
     }
 
-    f.apply(this, arguments); // (1)
+    func.apply(this, arguments); // (1)
 
     isThrottled = true;
 
@@ -30,9 +30,9 @@ function throttle(f, ms) {
 }
 ```
 
-调用 `throttle(f, ms)` 返回 `wrapper`。
+调用 `throttle(func, ms)` 返回 `wrapper`。
 
-1. 在第一次调用期间，`wrapper` 只运行 `f` 并设置冷却状态（`isThrottled = true`）。
+1. 在第一次调用期间，`wrapper` 只运行 `func` 并设置冷却状态（`isThrottled = true`）。
 2. 在这种状态下，所有调用都记忆在 `savedArgs/savedThis` 中。请注意，上下文和参数（arguments）同等重要，应该被记下来。我们同时需要他们以重现调用。
 3. ……然后经过 `ms` 毫秒后，触发 `setTimeout`。冷却状态被移除（`isThrottled = false`），如果我们忽略了调用，则将使用最后记忆的参数和上下文执行 `wrapper`。
 
