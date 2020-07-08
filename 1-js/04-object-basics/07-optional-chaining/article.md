@@ -1,57 +1,57 @@
 
-# Optional chaining '?.'
+# 可选链“?.”
 
 [recent browser="new"]
 
-The optional chaining `?.` is an error-proof way to access nested object properties, even if an intermediate property doesn't exist.
+可选链 `?.` 是一种访问嵌套对象属性的防错误方法。即使中间的属性不存在，也不会出现错误。
 
-## The problem
+## 问题
 
-If you've just started to read the tutorial and learn JavaScript, maybe the problem hasn't touched you yet, but it's quite common.
+如果你才刚开始读此教程并学习 JavaScript，那可能还没接触到这个问题，但它却相当常见。
 
-For example, some of our users have addresses, but few did not provide them. Then we can't safely read `user.address.street`:
+例如，我们有些用户会有地址信息，但有一少部分用户并没有提供相关信息。那么我们就不能安全地读取到 `user.address.street`：
 
 ```js run
-let user = {}; // the user happens to be without address
+let user = {}; // 这个 user 恰巧没有 address
 
 alert(user.address.street); // Error!
 ```
 
-Or, in the web development, we'd like to get an information about an element on the page, but it may not exist:
+或者，在 web 开发中，我们想获取页面上某个元素的信息，但它可能不存在：
 
 ```js run
-// Error if the result of querySelector(...) is null
+// querySelector(...) 结果为 null 时报错
 let html = document.querySelector('.my-element').innerHTML;
 ```
 
-Before `?.` appeared in the language, the `&&` operator was used to work around that.
+在这门语言（JavaScript）出现 `?.` 前，`&&` 运算符会被常常用来解决这个问题。
 
-For example:
+例如：
 
 ```js run
-let user = {}; // user has no address
+let user = {}; // user 没有 address
 
 alert( user && user.address && user.address.street ); // undefined (no error)
 ```
 
-AND'ing the whole path to the property ensures that all components exist, but is cumbersome to write.
+整条路径上都对属性使用与运算来确保所有节点是存在的，但这代码显得累赘。
 
-## Optional chaining
+## 可选链
 
-The optional chaining `?.` stops the evaluation and returns `undefined` if the part before `?.` is `undefined` or `null`.
+如果可选链 `?.` 前一部分是 `undefined` 或者 `null`，它会停止运算并返回 `undefined`。
 
-Further in this article, for brevity, we'll be saying that something "exists" if it's not `null` and not `undefined`.
+为了简明起见，在本文接下来的内容中，我们会说如果一个属性既不是 `null` 也不是 `undefined`，那么它就“存在”。
 
 
-Here's the safe way to access `user.address.street`:
+一种安全访问 `user.address.street` 的方式：
 
 ```js run
-let user = {}; // user has no address
+let user = {}; // user 没有 address
 
-alert( user?.address?.street ); // undefined (no error)
+alert( user?.address?.street ); // undefined （不报错）
 ```
 
-Reading the address with `user?.address` works even if `user` object doesn't exist:
+以 `user?.address` 来读取地址的方式是可行的，即使 `user` 对象不存在：
 
 ```js run
 let user = null;
@@ -62,50 +62,50 @@ alert( user?.address.street ); // undefined
 alert( user?.address.street.anything ); // undefined
 ```
 
-Please note: the `?.` syntax works exactly where it's placed, not any further.
+请注意：`?.` 语法正好会在它所在地方起作用，仅此而已，不会对后面起作用。
 
-In the last two lines the evaluation stops immediately after `user?.`, never accessing further properties. But if the `user` actually exists, then the further intermediate properties, such as `user.address` must exist.
+在最后两行里，运算立即在 `user?.` 后面停止，不会继续访问后面的属性。但如果 `user` 确实存在，那么后面的中间属性，如 `user.address`，就必须存在（才不会报错）。
 
-```warn header="Don't overuse the optional chaining"
-We should use `?.` only where it's ok that something doesn't exist.
+```warn header="不要过度使用可选链"
+我们应该只将 `?.` 使用在属性（对象）可以不存在的地方。
 
-For example, if according to our coding logic `user` object must be there, but `address` is optional, then `user.address?.street` would be better.
+例如，如果根据上面讨论的代码逻辑，`user` 对象必须存在，但 `address` 是可选的，那么 `user.address?.street` 会更好。
 
-So, if `user` happens to be undefined due to a mistake, we'll know about it and fix it. Otherwise, coding errors can be silenced where not appropriate, and become more difficult to debug.
+所以，如果 `user` 恰巧因为失误变为未定义的（undefined），我们会知道并修复这个失误。相反，代码失误在不恰当的地方被消除了，导致调试更加困难。
 ```
 
-````warn header="The variable before `?.` must exist"
-If there's no variable `user`, then `user?.anything` triggers an error:
+````warn header="`?.` 前的变量必须存在"
+如果没有了变量 `user`，那么 `user?.anything` 会触发一个错误：
 
 ```js run
 // ReferenceError: user is not defined
 user?.address;
 ```
-The optional chaining only tests for `null/undefined`, doesn't interfere with any other language mechanics.
+可选链只去检查 `null/undefined`，不干扰其他任何语言机制。
 ````
 
-## Short-circuiting
+## 短路效应
 
-As it was said before, the `?.` immediately stops ("short-circuits") the evaluation if the left part doesn't exist.
+正如之前所说，如果 `?.` 左边部分不存在，它就立即停止运算（“短路效应”）。
 
-So, if there are any further function calls or side effects, they don't occur:
+所以，如果后面有任何函数调用或者副作用，它们均不会执行：
 
 ```js run
 let user = null;
 let x = 0;
 
-user?.sayHi(x++); // nothing happens
+user?.sayHi(x++); // 没事发生
 
-alert(x); // 0, value not incremented
+alert(x); // 0，值没有增加
 ```
 
-## Other cases: ?.(), ?.[]
+## 其它情况：?.()、?.[]
 
-The optional chaining `?.` is not an operator, but a special syntax construct, that also works with functions and square brackets.
+可选链 `?.` 不是一个运算符，而是一个特殊的语法结构。它还可以与函数调用和方括号一起使用。
 
-For example, `?.()` is used to call a function that may not exist.
+例如，用 `?.()` 来调用一个不存在的函数。
 
-In the code below, some of our users have `admin` method, and some don't:
+在下面代码里，有些用户含有 `admin` 方法，而有些没有：
 
 ```js run
 let user1 = {
@@ -122,18 +122,18 @@ user2.admin?.();
 */!*
 ```
 
-Here, in both lines we first use the dot `.` to get `admin` property, because the user object must exist, so it's safe read from it.
+在这两行代码里，我们首先用点 `.` 来获取 `admin` 属性，因为用户对象一定存在，直接读取很安全。
 
-Then `?.()` checks the left part: if the admin function exists, then it runs (for `user1`). Otherwise (for `user2`) the evaluation stops without errors.
+然后 `?.()` 会检查它的左边：如果 admin 函数存在，那么就调用运行（对于 `user1`）。否则（对于 `user2`）运算停止，没有错误。
 
-The `?.[]` syntax also works, if we'd like to use brackets `[]` to access properties instead of dot `.`. Similar to previous cases, it allows to safely read a property from an object that may not exist.
+如果我们想用方括号 `[]` 而不是点 `.` 来访问属性，语法 `?.[]` 也能用。跟前面的例子相似，允许安全地从一个不存在的对象上读取属性。
 
 ```js run
 let user1 = {
   firstName: "John"
 };
 
-let user2 = null; // Imagine, we couldn't authorize the user
+let user2 = null; // 假设，我们不能授权此用户
 
 let key = "firstName";
 
@@ -143,34 +143,34 @@ alert( user2?.[key] ); // undefined
 alert( user1?.[key]?.something?.not?.existing); // undefined
 ```
 
-Also we can use `?.` with `delete`:
+还有，我们能将 `?.` 跟 `delete` 一起使用：
 
 ```js run
-delete user?.name; // delete user.name if user exists
+delete user?.name; // 删除 user.name 如果 user 存在
 ```
 
-```warn header="We can use `?.` for safe reading and deleting, but not writing"
-The optional chaining `?.` has no use at the left side of an assignment:
+```warn header="我们可以使用 `?.` 来安全地读取或者删除，但不能写入"
+可选链 `?.` 不能用在赋值语句的左侧：
 
 ```js run
-// the idea of the code below is to write user.name, if user exists
+// 下面代码的想法是要写入 user.name，如果 user 存在的话
 
-user?.name = "John"; // Error, doesn't work
+user?.name = "John"; // Error, 不起作用
 // because it evaluates to undefined = "John"
 ```
 
-## Summary
+## 总结
 
-The `?.` syntax has three forms:
+`?.` 语法有三种形式：
 
-1. `obj?.prop` -- returns `obj.prop` if `obj` exists, otherwise `undefined`.
-2. `obj?.[prop]` -- returns `obj[prop]` if `obj` exists, otherwise `undefined`.
-3. `obj?.method()` -- calls `obj.method()` if `obj` exists, otherwise returns `undefined`.
+1. `obj?.prop` -- 如果 `obj` 存在则返回 `obj.prop`，否则返回 `undefined`。
+2. `obj?.[prop]` -- 如果 `obj` 存在则返回 `obj[prop]`，否则返回 `undefined`。
+3. `obj?.method()` -- 如果 `obj` 存在则调用 `obj.method()`，否则返回 `undefined`。
 
-As we can see, all of them are straightforward and simple to use. The `?.` checks the left part for `null/undefined` and allows the evaluation to proceed if it's not so.
+如我们所见，这些语法形式用起来都是直接简单的。`?.` 检查左边部分是否为 `null/undefined`，如果不是则继续运算。
 
-A chain of `?.` allows to safely access nested properties.
+`?.` 链可以安全地访问嵌套属性。
 
-Still, we should apply `?.` carefully, only where it's ok that the left part doesn't to exist.
+但是，我们应该谨慎使用 `?.`，仅当左边部分不存在也没问题的情况下为宜。
 
-So that it won't hide programming errors from us, if they occur.
+以致于编程错误发生时，也不会对我们隐藏。
