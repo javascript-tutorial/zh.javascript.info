@@ -30,7 +30,7 @@ Rest 参数可以通过使用三个点 `...` 并在后面跟着包含剩余参�
 例如，我们需要把所有的参数都放到数组 `args` 中：
 
 ```js run
-function sumAll(...args) { // 数字名为 args
+function sumAll(...args) { // 数组名为 args
   let sum = 0;
 
   for (let arg of args) sum += arg;
