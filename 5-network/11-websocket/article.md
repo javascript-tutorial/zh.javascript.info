@@ -252,7 +252,7 @@ socket.onclose = event => {
 WebSocket 码有点像 HTTP 码，但它们是不同的。特别是，小于 `1000` 的码都是被保留的，如果我们尝试设置这样的码，将会出现错误。
 
 ```js
-// 再连接断开的情况下
+// 在连接断开的情况下
 socket.onclose = event => {
   // event.code === 1006
   // event.reason === ""
@@ -322,7 +322,7 @@ socket.onmessage = function(event) {
 
 1. 创建 `clients = new Set()` —— 一系列 socket。
 2. 对于每个被接受的 WebSocket，将其添加到 `clients.add(socket)`，并为其设置 `message` 事件侦听器以获取其消息。
-3. 当接收到消息：便利客户端，并将消息发送给所有人。
+3. 当接收到消息：遍历客户端，并将消息发送给所有人。
 4. 当连接被关闭：`clients.delete(socket)`。
 
 ```js

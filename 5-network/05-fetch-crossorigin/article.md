@@ -370,7 +370,7 @@ Access-Control-Allow-Credentials: true
 
 此外，要授予 JavaScript 访问除 `Cache-Control`，`Content-Language`，`Content-Type`，`Expires`，`Last-Modified` 或 `Pragma` 外的任何 response header 的权限，服务器应该在 header `Access-Control-Expose-Headers` 中列出允许的那些 header。
 
-**对于非简单请求，会在请求之前发出初步“预检”请求：
+**对于非简单请求，会在请求之前发出初步“预检”请求：**
 
 - → 浏览器将具有以下 header 的 `OPTIONS` 请求发送到相同的 URL：
     - `Access-Control-Request-Method` 有请求方法。
