@@ -120,7 +120,7 @@ function sayHiBye(firstName, lastName) {
 
 更有意思的是，可以返回一个嵌套函数：作为一个新对象的属性或作为结果返回。之后可以在其他地方使用。不论在哪里调用，它仍然可以访问相同的外部变量。
 
-下面的 `makeCounter` 创建来一个 "counter" 函数，该函数在每次调用时返回下一个数字：
+下面的 `makeCounter` 创建了一个 "counter" 函数，该函数在每次调用时返回下一个数字：
 
 ```js run
 function makeCounter() {
