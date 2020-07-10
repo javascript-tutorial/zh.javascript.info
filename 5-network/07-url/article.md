@@ -194,7 +194,7 @@ alert(url); // https://google.com/search?q=Rock&Roll
 
 我们可以看到，`encodeURI` 没有对 `&` 进行编码，因为它对于整个 URL 来说是合法的字符。
 
-但是，我们应该编码在搜索参数中的 `&` 字符，否则，我们将得到 `q=Rock&Roll` —— 实际上是 `q=Rock` 加上一些晦涩的参数 `Roll`。不符合预期。
+但是，我们应该编码在搜索参数中的 `&` 字符，否则，我们将得到 `q=Rock&Roll` —— 实际上是 `q=Rock` 加上某个晦涩的参数 `Roll`。不符合预期。
 
 因此，对于每个搜索参数，我们应该使用 `encodeURIComponent`，以将其正确地插入到 URL 字符串中。最安全的方式是对 name 和 value 都进行编码，除非我们能够绝对确保它只包含允许的字符。
 
