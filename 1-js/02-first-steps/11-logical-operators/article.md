@@ -117,7 +117,7 @@ alert( undefined || null || 0 ); // 0（所有的转化结果都是 false，返�
 
     如果所有变量都是 falsy，结果就是 `Anonymous`。
 
-2. **短路求值（Short-circuit evaluation）**。
+2. **短路求值（Short-circuit evaluation）。**
 
     OR `||` 运算符的另一个特点是所谓的”短路求值“。
 
@@ -224,7 +224,7 @@ alert( 1 && 2 && 3 ); // 3，最后一个值
 ````
 
 ````warn header="不要用 || 或 && 来取代 `if`"
-有时候，有人会用 AND `&&` 操作符来简化 "`if`"。
+有时候，有人会用 AND `&&` 操作符来“简化 `if`”。
 
 例如：
 
