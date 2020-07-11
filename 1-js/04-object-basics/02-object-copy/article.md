@@ -41,7 +41,7 @@ let user = { name: "John" };
 let admin = user; // 拷贝引用
 ```
 
-现在我们有两个变量，每个存这对同个对象的引用：
+现在我们有两个变量，分别是对同一个对象的引用：
 
 ![](variable-copy-reference.svg)
 
