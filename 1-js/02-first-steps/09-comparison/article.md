@@ -7,7 +7,7 @@
 - 大于 / 小于：<code>a &gt; b</code>，<code>a &lt; b</code>。
 - 大于等于 / 小于等于：<code>a &gt;= b</code>，<code>a &lt;= b</code>。
 - 检查两个值的相等：`a == b`，请注意双等号 `=` 表示相等性检查，而单等号 `a = b` 表示赋值。
-- 检查两个值不相等。不相等在数学中的符号是 <code>&ne;</code>，但在 JavaScript 中写成<code>a != b</code>。
+- 检查两个值不相等。不相等在数学中的符号是 <code>&ne;</code>，但在 JavaScript 中写成 <code>a != b</code>。
 
 在本文中，我们将进一步了解不同类型的比较，JavaScript 是如何进行比较的，包括一些重要的特殊性。
 
@@ -15,10 +15,10 @@
 
 ## 比较结果为 Boolean 类型
 
-所有的比较运算否返回布尔值：
+所有的比较运算符返回布尔值：
 
-- `true` —— 表示“yes（是）”，“correct（正确）”或“the truth（真相）”。
-- `false` ——  表示“no（否）”，“wrong（错误）”或“not the truth（非真相）”。
+- `true` —— 表示“yes（是）”，“correct（正确）”或“the truth（真）”。
+- `false` ——  表示“no（否）”，“wrong（错误）”或“not the truth（非真）”。
 
 示例：
 
