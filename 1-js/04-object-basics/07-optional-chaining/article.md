@@ -31,7 +31,7 @@ let html = document.querySelector('.my-element').innerHTML;
 ```js run
 let user = {}; // user 没有 address
 
-alert( user && user.address && user.address.street ); // undefined (no error)
+alert( user && user.address && user.address.street ); // undefined （不报错）
 ```
 
 整条路径上都对属性使用与运算来确保所有节点是存在的，但这代码显得累赘。
