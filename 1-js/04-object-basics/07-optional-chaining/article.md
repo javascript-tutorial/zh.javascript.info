@@ -164,7 +164,7 @@ user?.name = "John"; // Error, 不起作用
 `?.` 语法有三种形式：
 
 1. `obj?.prop` —— 如果 `obj` 存在则返回 `obj.prop`，否则返回 `undefined`。
-2. `obj?.[prop]` -- 如果 `obj` 存在则返回 `obj[prop]`，否则返回 `undefined`。
+2. `obj?.[prop]` —— 如果 `obj` 存在则返回 `obj[prop]`，否则返回 `undefined`。
 3. `obj?.method()` -- 如果 `obj` 存在则调用 `obj.method()`，否则返回 `undefined`。
 
 如我们所见，这些语法形式用起来都是直接简单的。`?.` 检查左边部分是否为 `null/undefined`，如果不是则继续运算。
