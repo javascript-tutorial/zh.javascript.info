@@ -24,7 +24,7 @@ alert(user.address.street); // Error!
 let html = document.querySelector('.my-element').innerHTML;
 ```
 
-在这门语言（JavaScript）出现 `?.` 前，`&&` 运算符会被常常用来解决这个问题。
+在这门语言（JavaScript）出现 `?.` 前，`&&` 运算符常被用来解决这个问题。
 
 例如：
 
