@@ -146,7 +146,7 @@ alert( user1?.[key]?.something?.not?.existing); // undefined
 还有，我们能将 `?.` 跟 `delete` 一起使用：
 
 ```js run
-delete user?.name; // 删除 user.name 如果 user 存在
+delete user?.name; // 如果 user 存在，则删除 user.name
 ```
 
 ```warn header="我们可以使用 `?.` 来安全地读取或者删除，但不能写入"
