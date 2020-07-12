@@ -31,7 +31,7 @@ let html = document.querySelector('.my-element').innerHTML;
 ```js run
 let user = {}; // user 没有 address
 
-alert( user && user.address && user.address.street ); // undefined （不报错）
+alert( user && user.address && user.address.street ); // undefined（不报错）
 ```
 
 依次对整条路径上的属性（使用与运算）进行判断，以确保所有节点是存在的，但这代码显得累赘。
@@ -51,7 +51,7 @@ let user = {}; // user 没有 address
 alert( user?.address?.street ); // undefined （不报错）
 ```
 
-以 `user?.address` 来读取地址的方式是可行的，即使 `user` 对象不存在：
+以 `user?.address` 的方式来读取 `address` 是可行的，即使对象 `user` 不存在：
 
 ```js run
 let user = null;
@@ -62,7 +62,7 @@ alert( user?.address.street ); // undefined
 alert( user?.address.street.anything ); // undefined
 ```
 
-请注意：`?.` 语法正好会在它所在地方起作用，仅此而已，不会对后面起作用。
+请注意：`?.` 语法恰好会在它所处的位置起作用，仅此而已，不会对后面起作用。
 
 在最后两行里，运算立即在 `user?.` 后面停止，不会继续访问后面的属性。但如果 `user` 确实存在，那么后面的中间属性，如 `user.address`，就必须存在（才不会报错）。
 
@@ -71,7 +71,7 @@ alert( user?.address.street.anything ); // undefined
 
 例如，如果根据上面讨论的代码逻辑，`user` 对象必须存在，但 `address` 是可选的，那么 `user.address?.street` 会更好。
 
-所以，如果 `user` 恰巧因为失误变为未定义的（undefined），我们会知道并修复这个失误。相反，代码失误在不恰当的地方被消除了，导致调试更加困难。
+所以，如果 `user` 恰巧因为失误变为 undefined，我们会知道并修复这个失误。相反，代码中的 error 在不恰当的地方被消除了，这会导致调试更加困难。
 ```
 
 ````warn header="`?.` 前的变量必须已声明"
@@ -81,7 +81,7 @@ alert( user?.address.street.anything ); // undefined
 // ReferenceError: user is not defined
 user?.address;
 ```
-可选链只会去检查 `null/undefined`，不干扰其他任何语言机制。
+可选链只会去检查 `null/undefined`，不会干扰任何其他语言机制。
 ````
 
 ## 短路效应
@@ -126,7 +126,7 @@ user2.admin?.();
 
 然后 `?.()` 会检查它的左边：如果 admin 函数存在，那么就调用运行（对于 `user1`）。否则（对于 `user2`）运算停止，没有错误。
 
-如果我们想用方括号 `[]` 而不是点 `.` 来访问属性，语法 `?.[]` 也能用。跟前面的例子相似，允许安全地从一个不存在的对象上读取属性。
+如果我们想用方括号 `[]` 而不是点 `.` 来访问属性，语法 `?.[]` 也能用。跟前面的例子类似，它允许从一个可能不存在的对象上安全地读取属性。
 
 ```js run
 let user1 = {
@@ -143,7 +143,7 @@ alert( user2?.[key] ); // undefined
 alert( user1?.[key]?.something?.not?.existing); // undefined
 ```
 
-还有，我们能将 `?.` 跟 `delete` 一起使用：
+此外，我们还可以将 `?.` 跟 `delete` 一起使用：
 
 ```js run
 delete user?.name; // 如果 user 存在，则删除 user.name
@@ -167,10 +167,10 @@ user?.name = "John"; // Error, 不起作用
 2. `obj?.[prop]` —— 如果 `obj` 存在则返回 `obj[prop]`，否则返回 `undefined`。
 3. `obj?.method()` —— 如果 `obj` 存在则调用 `obj.method()`，否则返回 `undefined`。
 
-如我们所见，这些语法形式用起来都是直接简单的。`?.` 检查左边部分是否为 `null/undefined`，如果不是则继续运算。
+如我们所见，这些语法形式用起来都很简单直接。`?.` 检查左边部分是否为 `null/undefined`，如果不是则继续运算。
 
 `?.` 链可以安全地访问嵌套属性。
 
-但是，我们应该谨慎使用 `?.`，仅当左边部分不存在也没问题的情况下为宜。
+但是，我们应该谨慎地使用 `?.`，仅在当左边部分不存在也没问题的情况下使用为宜。
 
-以致于编程错误发生时，也不会对我们隐藏。
+以保证在代码中有编程上的 error 出现时，也不会对我们隐藏。
