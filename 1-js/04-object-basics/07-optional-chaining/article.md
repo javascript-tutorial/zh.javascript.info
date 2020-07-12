@@ -17,7 +17,7 @@ let user = {}; // 这个 user 恰巧没有 address
 alert(user.address.street); // Error!
 ```
 
-或者，在 web 开发中，我们想获取页面上某个元素的信息，但它可能不存在：
+或者，在 Web 开发中，我们想获取页面上某个元素的信息，但它可能不存在：
 
 ```js run
 // querySelector(...) 结果为 null 时报错
@@ -74,14 +74,14 @@ alert( user?.address.street.anything ); // undefined
 所以，如果 `user` 恰巧因为失误变为未定义的（undefined），我们会知道并修复这个失误。相反，代码失误在不恰当的地方被消除了，导致调试更加困难。
 ```
 
-````warn header="`?.` 前的变量必须存在"
-如果没有了变量 `user`，那么 `user?.anything` 会触发一个错误：
+````warn header="`?.` 前的变量必须已声明"
+如果未声明变量 `user`，那么 `user?.anything` 会触发一个错误：
 
 ```js run
 // ReferenceError: user is not defined
 user?.address;
 ```
-可选链只去检查 `null/undefined`，不干扰其他任何语言机制。
+可选链只会去检查 `null/undefined`，不干扰其他任何语言机制。
 ````
 
 ## 短路效应
