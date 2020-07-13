@@ -2,7 +2,7 @@
 
 [recent browser="new"]
 
-空值合并操作符 `??` 提供了一种简短的语法，用于从列表中选择第一个不是 null 或 undefined 的变量。
+空值合并操作符 `??` 提供了一种简短的语法，用于从多个变量中选择第一个“定义了值”（译者注：即值不是 null 或 undefined ）的变量。
 
 `a ?? b` 的结果是:
 - 如果 `a` 不是 `null` 或 `undefined` ，则结果是 `a`
@@ -35,7 +35,7 @@ alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 
 ## 与 || 比较
 
-或操作符 `||` 的使用方式和 `??` 一样。事实上，我们可以把上面的代码中的 `??` 替换为 `||`，正如[上一章](info:logical-operators#or-finds-the-first-truthy-value)描述的那样，替换后我们能得到的相同的结果。
+或操作符 `||` 的使用方式和 `??` 一样。正如[上一章](info:logical-operators#or-finds-the-first-truthy-value)描述的，我们可以把上面代码中的 `??` 替换为 `||`，来获得相同的结果。
 
 重要的区别是:
 - `||` 返回第一个 *truthy* 值。（ *truthy* 是指：用逻辑判断时会返回 true 的值）
@@ -117,7 +117,7 @@ alert(x); // 2
 
 ## 总结
 
-- 空值合并操作符 `??` 提供了一种简短的语法，用于从列表中选择第一个不是 null 或 undefined 的变量。
+- 空值合并操作符 `??` 提供了一种简短的语法，用于从多个变量中选择第一个“定义了值”（译者注：即值不是 null 或 undefined ）的变量。
 
     它用于为变量分配默认值：
 
