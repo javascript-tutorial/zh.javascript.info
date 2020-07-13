@@ -1,47 +1,47 @@
-# 错误处理，"try..catch"
+# Error handling, "try..catch"
 
-不管你多么精通编程，有时我们的脚本总还是会出现错误。可能是因为我们的编写出错，或是与预期不同的用户输入，或是错误的服务端响应以及其他数千种原因。
+No matter how great we are at programming, sometimes our scripts have errors. They may occur because of our mistakes, an unexpected user input, an erroneous server response, and for a thousand other reasons.
 
-通常，如果发生错误，脚本就会“死亡”（立即停止），并在控制台将错误打印出来。
+Usually, a script "dies" (immediately stops) in case of an error, printing it to console.
 
-但是有一种语法结构 `try..catch`，它使我们可以“捕获（catch）”错误，因此脚本可以执行更合理的操作，而不是死掉。
+But there's a syntax construct `try..catch` that allows us to "catch" errors so the script can, instead of dying, do something more reasonable.
 
-## "try..catch" 语法
+## The "try..catch" syntax
 
-`try..catch` 结构由两部分组成：`try` 和 `catch`：
+The `try..catch` construct has two main blocks: `try`, and then `catch`:
 
 ```js
 try {
 
-  // 代码...
+  // code...
 
 } catch (err) {
 
-  // 错误捕获
+  // error handling
 
 }
 ```
 
-它按照以下步骤执行：
+It works like this:
 
-1. 首先，执行 `try {...}` 中的代码。
-2. 如果这里没有错误，则忽略 `catch(err)`：执行到 `try` 的末尾并跳过 `catch` 继续执行。
-3. 如果这里出现错误，则 `try` 执行停止，控制流转向 `catch(err)` 的开头。变量 `err`（我们可以使用任何名称）将包含一个 error 对象，该对象包含了所发生事件的详细信息。
+1. First, the code in `try {...}` is executed.
+2. If there were no errors, then `catch(err)` is ignored: the execution reaches the end of `try` and goes on, skipping `catch`.
+3. If an error occurs, then the `try` execution is stopped, and control flows to the beginning of `catch(err)`. The `err` variable (we can use any name for it) will contain an error object with details about what happened.
 
 ![](try-catch-flow.svg)
 
-所以，`try {…}` 块内的错误不会杀死脚本 — 我们有机会在 `catch` 中处理它。
+So, an error inside the `try {…}` block does not kill the script -- we have a chance to handle it in `catch`.
 
-让我们来看一些例子。
+Let's look at some examples.
 
-- 没有 error 的例子：显示 `alert` `(1)` 和 `(2)`：
+- An errorless example: shows `alert` `(1)` and `(2)`:
 
     ```js run
     try {
 
       alert('Start of try runs');  // *!*(1) <--*/!*
 
-      // ...这里没有 error
+      // ...no errors here
 
       alert('End of try runs');   // *!*(2) <--*/!*
 
@@ -51,7 +51,7 @@ try {
 
     }
     ```
-- 包含 error 的例子：显示 `(1)` 和 `(3)` 行的 `alert` 中的内容：
+- An example with an error: shows `(1)` and `(3)`:
 
     ```js run
     try {
@@ -59,7 +59,7 @@ try {
       alert('Start of try runs');  // *!*(1) <--*/!*
 
     *!*
-      lalala; // Error，变量未定义！
+      lalala; // error, variable is not defined!
     */!*
 
       alert('End of try (never reached)');  // (2)
@@ -72,10 +72,10 @@ try {
     ```
 
 
-````warn header="`try..catch` 仅对运行时的 error 有效"
-要使得 `try..catch` 能工作，代码必须是可执行的。换句话说，它必须是有效的 JavaScript 代码。
+````warn header="`try..catch` only works for runtime errors"
+For `try..catch` to work, the code must be runnable. In other words, it should be valid JavaScript.
 
-如果代码包含语法错误，那么 `try..catch` 将无法正常工作，例如含有不匹配的花括号：
+It won't work if the code is syntactically wrong, for instance it has unmatched curly braces:
 
 ```js run
 try {
@@ -85,32 +85,32 @@ try {
 }
 ```
 
-JavaScript 引擎首先会读取代码，然后运行它。在读取阶段发生的错误被称为“解析时间（parse-time）”错误，并且无法恢复（从该代码内部）。这是因为引擎无法理解该代码。
+The JavaScript engine first reads the code, and then runs it. The errors that occur on the reading phase are called "parse-time" errors and are unrecoverable (from inside that code). That's because the engine can't understand the code.
 
-所以，`try..catch` 只能处理有效代码中出现的错误。这类错误被称为“运行时的错误（runtime errors）”，有时被称为“异常（exceptions）”。
+So, `try..catch` can only handle errors that occur in valid code. Such errors are called "runtime errors" or, sometimes, "exceptions".
 ````
 
 
-````warn header="`try..catch` 同步工作"
-如果在“计划的（scheduled）”代码中发生异常，例如在 `setTimeout` 中，则 `try..catch` 不会捕获到异常：
+````warn header="`try..catch` works synchronously"
+If an exception happens in "scheduled" code, like in `setTimeout`, then `try..catch` won't catch it:
 
 ```js run
 try {
   setTimeout(function() {
-    noSuchVariable; // 脚本将在这里停止运行
+    noSuchVariable; // script will die here
   }, 1000);
 } catch (e) {
   alert( "won't work" );
 }
 ```
 
-因为 `try..catch` 包裹了计划要执行的函数，该函数本身要稍后才执行，这时引擎已经离开了 `try..catch` 结构。
+That's because the function itself is executed later, when the engine has already left the `try..catch` construct.
 
-为了捕获到计划的（scheduled）函数中的异常，那么 `try..catch` 必须在这个函数内：
+To catch an exception inside a scheduled function, `try..catch` must be inside that function:
 ```js run
 setTimeout(function() {
-  try {
-    noSuchVariable; // try..catch 处理 error 了！
+  try {    
+    noSuchVariable; // try..catch handles the error!
   } catch {
     alert( "error is caught here!" );
   }
@@ -118,32 +118,32 @@ setTimeout(function() {
 ```
 ````
 
-## Error 对象
+## Error object
 
-发生错误时，JavaScript 生成一个包含有关其详细信息的对象。然后将该对象作为参数传递给 `catch`：
+When an error occurs, JavaScript generates an object containing the details about it. The object is then passed as an argument to `catch`:
 
 ```js
 try {
   // ...
-} catch(err) { // <-- “error 对象”，也可以用其他参数名代替 err
+} catch(err) { // <-- the "error object", could use another word instead of err
   // ...
 }
 ```
 
-对于所有内建的 error，error 对象具有两个主要属性：
+For all built-in errors, the error object has two main properties:
 
 `name`
-: Error 名称。例如，对于一个未定义的变量，名称是 `"ReferenceError"`。
+: Error name. For instance, for an undefined variable that's `"ReferenceError"`.
 
 `message`
-: 关于 error 的详细文字描述。
+: Textual message about error details.
 
-还有其他非标准的属性在大多数环境中可用。其中被最广泛使用和支持的是：
+There are other non-standard properties available in most environments. One of most widely used and supported is:
 
 `stack`
-: 当前的调用栈：用于调试目的的一个字符串，其中包含有关导致 error 的嵌套调用序列的信息。
+: Current call stack: a string with information about the sequence of nested calls that led to the error. Used for debugging purposes.
 
-例如：
+For instance:
 
 ```js run untrusted
 try {
@@ -155,57 +155,57 @@ try {
   alert(err.message); // lalala is not defined
   alert(err.stack); // ReferenceError: lalala is not defined at (...call stack)
 
-  // 也可以将一个 error 作为整体显示出来as a whole
-  // Error 信息被转换为像 "name: message" 这样的字符串
+  // Can also show an error as a whole
+  // The error is converted to string as "name: message"
   alert(err); // ReferenceError: lalala is not defined
 }
 ```
 
-## 可选的 "catch" 绑定
+## Optional "catch" binding
 
 [recent browser=new]
 
-如果我们不需要 error 的详细信息，`catch` 也可以忽略它：
+If we don't need error details, `catch` may omit it:
 
 ```js
 try {
   // ...
-} catch { // <-- 没有 (err)
+} catch { // <-- without (err)
   // ...
 }
 ```
 
-## 使用 "try..catch"
+## Using "try..catch"
 
-让我们一起探究一下真实场景中 `try..catch` 的用例。
+Let's explore a real-life use case of `try..catch`.
 
-正如我们所知道的，JavaScript 支持 [JSON.parse(str)](mdn:js/JSON/parse) 方法来解析 JSON 编码的值。
+As we already know, JavaScript supports the [JSON.parse(str)](mdn:js/JSON/parse) method to read JSON-encoded values.
 
-通常，它被用来解析从网络，从服务器或是从其他来源接收到的数据。
+Usually it's used to decode data received over the network, from the server or another source.
 
-我们收到数据后，然后像下面这样调用 `JSON.parse`：
+We receive it and call `JSON.parse` like this:
 
 ```js run
-let json = '{"name":"John", "age": 30}'; // 来自服务器的数据
+let json = '{"name":"John", "age": 30}'; // data from the server
 
 *!*
-let user = JSON.parse(json); // 将文本表示转换成 JS 对象
+let user = JSON.parse(json); // convert the text representation to JS object
 */!*
 
-// 现在 user 是一个解析自 json 字符串的有自己属性的对象
+// now user is an object with properties from the string
 alert( user.name ); // John
 alert( user.age );  // 30
 ```
 
-你可以在 <info:json> 一章中找到更多关于 JSON 的详细内容。
+You can find more detailed information about JSON in the <info:json> chapter.
 
-**如果 `json` 格式错误，`JSON.parse` 就会生成一个 error，因此脚本就会“死亡”。**
+**If `json` is malformed, `JSON.parse` generates an error, so the script "dies".**
 
-我们对此满意吗？当然不！
+Should we be satisfied with that? Of course not!
 
-如果这样做，当拿到的数据出了问题，那么访问者永远都不会知道原因（除非他们打开开发者控制台）。代码执行失败却没有提示信息，这真的是很糟糕的用户体验。
+This way, if something's wrong with the data, the visitor will never know that (unless they open the developer console). And people really don't like when something "just dies" without any error message.
 
-让我们用 `try..catch` 来处理这个 error：
+Let's use `try..catch` to handle the error:
 
 ```js run
 let json = "{ bad json }";
@@ -213,13 +213,13 @@ let json = "{ bad json }";
 try {
 
 *!*
-  let user = JSON.parse(json); // <-- 当出现一个 error 时...
+  let user = JSON.parse(json); // <-- when an error occurs...
 */!*
-  alert( user.name ); // 不工作
+  alert( user.name ); // doesn't work
 
 } catch (e) {
 *!*
-  // ...执行会跳转到这里并继续执行
+  // ...the execution jumps here
   alert( "Our apologies, the data has errors, we'll try to request it one more time." );
   alert( e.name );
   alert( e.message );
@@ -227,22 +227,22 @@ try {
 }
 ```
 
-在这儿，我们将 `catch` 块仅仅用于显示信息，但是我们可以做更多的事儿：发送一个新的网络请求，向访问者建议一个替代方案，将有关错误的信息发送给记录日志的设备，……。所有这些都比代码“死掉”好得多。
+Here we use the `catch` block only to show the message, but we can do much more: send a new network request, suggest an alternative to the visitor, send information about the error to a logging facility, ... . All much better than just dying.
 
-## 抛出我们自定义的 error
+## Throwing our own errors
 
-如果这个 `json` 在语法上是正确的，但是没有所必须的 `name` 属性该怎么办？
+What if `json` is syntactically correct, but doesn't have a required `name` property?
 
-像这样：
+Like this:
 
 ```js run
-let json = '{ "age": 30 }'; // 不完整的数据
+let json = '{ "age": 30 }'; // incomplete data
 
 try {
 
-  let user = JSON.parse(json); // <-- 没有 error
+  let user = JSON.parse(json); // <-- no errors
 *!*
-  alert( user.name ); // 没有 name！
+  alert( user.name ); // no name!
 */!*
 
 } catch (e) {
@@ -250,37 +250,37 @@ try {
 }
 ```
 
-这里 `JSON.parse` 正常执行，但是缺少 `name` 属性对我们来说确实是个 error。
+Here `JSON.parse` runs normally, but the absence of `name` is actually an error for us.
 
-为了统一进行 error 处理，我们将使用 `throw` 操作符。
+To unify error handling, we'll use the `throw` operator.
 
-### "Throw" 操作符
+### "Throw" operator
 
-`throw` 操作符会生成一个 error 对象。
+The `throw` operator generates an error.
 
-语法如下：
+The syntax is:
 
 ```js
 throw <error object>
 ```
 
-技术上讲，我们可以将任何东西用作 error 对象。甚至可以是一个原始类型数据，例如数字或字符串，但最好使用对象，最好使用具有 `name` 和 `message` 属性的对象（某种程度上保持与内建 error 的兼容性）。
+Technically, we can use anything as an error object. That may be even a primitive, like a number or a string, but it's better to use objects, preferably with `name` and `message` properties (to stay somewhat compatible with built-in errors).
 
-JavaScript 中有很多内建的标准 error 的构造器：`Error`，`SyntaxError`，`ReferenceError`，`TypeError` 等。我们也可以使用它们来创建 error 对象。
+JavaScript has many built-in constructors for standard errors: `Error`, `SyntaxError`, `ReferenceError`, `TypeError` and others. We can use them to create error objects as well.
 
-它们的语法是：
+Their syntax is:
 
 ```js
 let error = new Error(message);
-// 或
+// or
 let error = new SyntaxError(message);
 let error = new ReferenceError(message);
 // ...
 ```
 
-对于内建的 error（不是对于其他任何对象，仅仅是对于 error），`name` 属性刚好就是构造器的名字。`message` 则来自于参数（argument）。
+For built-in errors (not for any objects, just for errors), the `name` property is exactly the name of the constructor. And `message` is taken from the argument.
 
-例如：
+For instance:
 
 ```js run
 let error = new Error("Things happen o_O");
@@ -289,7 +289,7 @@ alert(error.name); // Error
 alert(error.message); // Things happen o_O
 ```
 
-让我们来看看 `JSON.parse` 会生成什么样的 error：
+Let's see what kind of error `JSON.parse` generates:
 
 ```js run
 try {
@@ -302,18 +302,18 @@ try {
 }
 ```
 
-正如我们所看到的， 那是一个  `SyntaxError`。
+As we can see, that's a `SyntaxError`.
 
-在我们的示例中，缺少 `name` 属性就是一个 error，因为用户必须有一个 `name`。
+And in our case, the absence of `name` is an error, as users must have a `name`.
 
-所以，让我们抛出这个 error。
+So let's throw it:
 
 ```js run
-let json = '{ "age": 30 }'; // 不完整的数据
+let json = '{ "age": 30 }'; // incomplete data
 
 try {
 
-  let user = JSON.parse(json); // <-- 没有 error
+  let user = JSON.parse(json); // <-- no errors
 
   if (!user.name) {
 *!*
@@ -328,59 +328,63 @@ try {
 }
 ```
 
-在 `(*)` 标记的这一行，`throw` 操作符生成了包含着我们所给定的 `message` 的 `SyntaxError`，与 JavaScript 自己生成的方式相同。`try` 的执行立即停止，控制流转向 `catch` 块。
+In the line `(*)`, the `throw` operator generates a `SyntaxError` with the given `message`, the same way as JavaScript would generate it itself. The execution of `try` immediately stops and the control flow jumps into `catch`.
 
-现在，`catch` 成为了所有 error 处理的唯一场所：对于 `JSON.parse` 和其他情况都适用。
+Now `catch` became a single place for all error handling: both for `JSON.parse` and other cases.
 
-## 再次抛出（Rethrowing）
+## Rethrowing
 
-在上面的例子中，我们使用 `try..catch` 来处理不正确的数据。但是在 `try {...}` 块中是否可能发生 **另一个预料之外的 error**？例如编程错误（未定义变量）或其他错误，而不仅仅是这种“不正确的数据”。
+In the example above we use `try..catch` to handle incorrect data. But is it possible that *another unexpected error* occurs within the `try {...}` block? Like a programming error (variable is not defined) or something else, not just this "incorrect data" thing.
 
-例如：
+For example:
 
 ```js run
-let json = '{ "age": 30 }'; // 不完整的数据
+let json = '{ "age": 30 }'; // incomplete data
 
 try {
-  user = JSON.parse(json); // <-- 忘记在 user 前放置 "let"
+  user = JSON.parse(json); // <-- forgot to put "let" before user
 
   // ...
 } catch(err) {
   alert("JSON Error: " + err); // JSON Error: ReferenceError: user is not defined
-  // (实际上并没有 JSON Error)
+  // (no JSON Error actually)
 }
 ```
 
-当然，一切皆有可能！程序员也会犯错。即使是被数百万人使用了几十年的开源项目中 — 也可能突然被发现了一个漏洞，并导致可怕的黑客入侵。
+Of course, everything's possible! Programmers do make mistakes. Even in open-source utilities used by millions for decades -- suddenly a bug may be discovered that leads to terrible hacks.
 
-在我们的例子中，`try..catch` 旨在捕获“数据不正确”的 error。但是实际上，catch 会捕获到 **所有** 来自于 `try` 的 error。在这儿，它捕获到了一个预料之外的 error，但是仍然抛出的是同样的 `"JSON Error"` 信息。这是不正确的，并且也会使代码变得更难以调试。
+In our case, `try..catch` is placed to catch "incorrect data" errors. But by its nature, `catch` gets *all* errors from `try`. Here it gets an unexpected error, but still shows the same `"JSON Error"` message. That's wrong and also makes the code more difficult to debug.
 
-幸运的是，我们可以通过其他方式找出我们捕获的是什么 error，例如通过它的 `name` 属性：
+To avoid such problems, we can employ the "rethrowing" technique. The rule is simple:
+
+**Catch should only process errors that it knows and "rethrow" all others.**
+
+The "rethrowing" technique can be explained in more detail as:
+
+1. Catch gets all errors.
+2. In the `catch(err) {...}` block we analyze the error object `err`.
+2. If we don't know how to handle it, we do `throw err`.
+
+Usually, we can check the error type using the `instanceof` operator:
 
 ```js run
 try {
   user = { /*...*/ };
-} catch(e) {
+} catch(err) {
 *!*
-  alert(e.name); // "ReferenceError" for accessing an undefined variable
+  if (err instanceof ReferenceError) {
 */!*
+    alert('ReferenceError'); // "ReferenceError" for accessing an undefined variable
+  }
 }
 ```
 
-规则很简单：
+We can also get the error class name from `err.name` property. All native errors have it. Another option is to read `err.constructor.name`.
 
-**`catch` 应该只处理它知道的 error，并“抛出”所有其他 error。**
-
-“再次抛出（rethrowing）”技术可以被更详细地解释为：
-
-1. Catch 捕获所有 error。
-2. 在 `catch(err) {...}` 块中，我们对 error 对象 `err` 进行分析。
-3. 如果我们不知道如何处理它，那我们就 `throw err`。
-
-在下面的代码中，我们使用“再次抛出”，以达到在 `catch` 中只处理 `SyntaxError` 的目的：
+In the code below, we use rethrowing so that `catch` only handles `SyntaxError`:
 
 ```js run
-let json = '{ "age": 30 }'; // 不完整的数据
+let json = '{ "age": 30 }'; // incomplete data
 try {
 
   let user = JSON.parse(json);
@@ -390,7 +394,7 @@ try {
   }
 
 *!*
-  blabla(); // 预料之外的 error
+  blabla(); // unexpected error
 */!*
 
   alert( user.name );
@@ -398,21 +402,21 @@ try {
 } catch(e) {
 
 *!*
-  if (e.name == "SyntaxError") {
+  if (e instanceof SyntaxError) {
     alert( "JSON Error: " + e.message );
   } else {
-    throw e; // 再次抛出 (*)
+    throw e; // rethrow (*)
   }
 */!*
 
 }
 ```
 
-如果 `(*)` 标记的这行 `catch` 块中的 error 从 `try..catch` 中“掉了出来”，那么它也可以被外部的 `try..catch` 结构（如果存在）捕获到，如果外部不存在这种结构，那么脚本就会被杀死。
+The error throwing on line `(*)` from inside `catch` block "falls out" of `try..catch` and can be either caught by an outer `try..catch` construct (if it exists), or it kills the script.
 
-所以，`catch` 块实际上只处理它知道该如何处理的 error，并“跳过”所有其他的 error。
+So the `catch` block actually handles only errors that it knows how to deal with and "skips" all others.
 
-下面这个示例演示了这种类型的 error 是如何被另外一级 `try..catch` 捕获的：
+The example below demonstrates how such errors can be caught by one more level of `try..catch`:
 
 ```js run
 function readData() {
@@ -425,9 +429,9 @@ function readData() {
 */!*
   } catch (e) {
     // ...
-    if (e.name != 'SyntaxError') {
+    if (!(e instanceof SyntaxError)) {
 *!*
-      throw e; // 再次抛出（不知道如何处理它）
+      throw e; // rethrow (don't know how to deal with it)
 */!*
     }
   }
@@ -437,37 +441,37 @@ try {
   readData();
 } catch (e) {
 *!*
-  alert( "External catch got: " + e ); // 捕获了它！
+  alert( "External catch got: " + e ); // caught it!
 */!*
 }
 ```
 
-上面这个例子中的 `readData` 只知道如何处理 `SyntaxError`，而外部的 `try..catch` 知道如何处理任意的 error。
+Here `readData` only knows how to handle `SyntaxError`, while the outer `try..catch` knows how to handle everything.
 
 ## try..catch..finally
 
-等一下，以上并不是所有内容。
+Wait, that's not all.
 
-`try..catch` 结构可能还有一个代码子句（clause）：`finally`。
+The `try..catch` construct may have one more code clause: `finally`.
 
-如果它存在，它在所有情况下都会被执行：
+If it exists, it runs in all cases:
 
-- `try` 之后，如果没有 error，
-- `catch` 之后，如果没有 error。
+- after `try`, if there were no errors,
+- after `catch`, if there were errors.
 
-该扩展语法如下所示：
+The extended syntax looks like this:
 
 ```js
 *!*try*/!* {
-   ... 尝试执行的代码 ...
+   ... try to execute the code ...
 } *!*catch*/!*(e) {
-   ... 处理 error ...
+   ... handle errors ...
 } *!*finally*/!* {
-   ... 总是会执行的代码 ...
+   ... execute always ...
 }
 ```
 
-试试运行这段代码：
+Try running this code:
 
 ```js run
 try {
@@ -480,18 +484,18 @@ try {
 }
 ```
 
-这段代码有两种执行方式：
+The code has two ways of execution:
 
-1. 如果你对于 "Make an error?" 的回答是 "Yes"，那么执行 `try -> catch -> finally`。
-2. 如果你的回答是 "No"，那么执行 `try -> finally`。
+1. If you answer "Yes" to "Make an error?", then `try -> catch -> finally`.
+2. If you say "No", then `try -> finally`.
 
-`finally` 子句（clause）通常用在：当我们开始做某事的时候，希望无论出现什么情况都要完成完成某个任务。
+The `finally` clause is often used when we start doing something and want to finalize it in any case of outcome.
 
-例如，我们想要测量一个斐波那契数字函数 `fib(n)` 执行所需要花费的时间。通常，我们可以在运行它之前开始测量，并在运行完成时结束测量。但是，如果在该函数调用期间出现 error 该怎么办？特别是，下面这段 `fib(n)` 的实现代码在遇到负数或非整数数字时会返回一个 error。
+For instance, we want to measure the time that a Fibonacci numbers function `fib(n)` takes. Naturally, we can start measuring before it runs and finish afterwards. But what if there's an error during the function call? In particular, the implementation of `fib(n)` in the code below returns an error for negative or non-integer numbers.
 
-无论如何，`finally` 子句都是一个结束测量的好地方。
+The `finally` clause is a great place to finish the measurements no matter what.
 
-在这儿，`finally` 能够保证在两种情况下都能正确地测量时间 — 成功执行 `fib` 以及 `fib` 中出现 error 时：
+Here `finally` guarantees that the time will be measured correctly in both situations -- in case of a successful execution of `fib` and in case of an error in it:
 
 ```js run
 let num = +prompt("Enter a positive integer number?", 35)
@@ -522,21 +526,21 @@ alert(result || "error occurred");
 alert( `execution took ${diff}ms` );
 ```
 
-你可以通过运行上面这段代码并在 `prompt` 弹窗中输入 `35` 来进行检查 — 代码运行正常，先执行 `try` 然后是 `finally`。如果你输入的是 `-1` — 将立即出现 error，执行将只花费 `0ms`。以上两种情况下的时间测量都正确地完成了。
+You can check by running the code with entering `35` into `prompt` -- it executes normally, `finally` after `try`. And then enter `-1` -- there will be an immediate error, and the execution will take `0ms`. Both measurements are done correctly.
 
-换句话说，函数 `fib` 以 `return` 还是 `throw` 完成都无关紧要。在这两种情况下都会执行 `finally` 子句。
+In other words, the function may finish with `return` or `throw`, that doesn't matter. The `finally` clause executes in both cases.
 
 
-```smart header="变量和 `try..catch..finally` 中的局部变量"
-请注意，上面代码中的 `result` 和 `diff` 变量都是在 `try..catch` **之前** 声明的。
+```smart header="Variables are local inside `try..catch..finally`"
+Please note that `result` and `diff` variables in the code above are declared *before* `try..catch`.
 
-否则，如果我们使用 `let` 在 `try` 块中声明变量，那么该变量将只在 `try` 块中可见。
+Otherwise, if we declared `let` in `try` block, it would only be visible inside of it.
 ```
 
-````smart header="`finally` 和 `return`"
-`finally` 子句适用于 `try..catch` 的 **任何** 出口。这包括显式的 `return`。
+````smart header="`finally` and `return`"
+The `finally` clause works for *any* exit from `try..catch`. That includes an explicit `return`.
 
-在下面这个例子中，在 `try` 中有一个 `return`。在这种情况下，`finally` 会在控制转向外部代码前被执行。
+In the example below, there's a `return` in `try`. In this case, `finally` is executed just before the control returns to the outer code.
 
 ```js run
 function func() {
@@ -555,40 +559,40 @@ function func() {
   }
 }
 
-alert( func() ); // 先执行 finally 中的 alert，然后执行这个 alert
+alert( func() ); // first works alert from finally, and then this one
 ```
 ````
 
 ````smart header="`try..finally`"
 
-没有 `catch` 子句的 `try..finally` 结构也很有用。当我们不想在这儿处理 error（让它们 fall through），但是需要确保我们启动的处理需要被完成。
+The `try..finally` construct, without `catch` clause, is also useful. We apply it when we don't want to handle errors here (let them fall through), but want to be sure that processes that we started are finalized.
 
 ```js
 function func() {
-  // 开始执行需要被完成的操作（比如测量）
+  // start doing something that needs completion (like measurements)
   try {
     // ...
   } finally {
-    // 完成前面我们需要完成的那件事儿，即使 try 中的执行失败了
+    // complete that thing even if all dies
   }
 }
 ```
-上面的代码中，由于没有 `catch`，所以 `try` 中的 error 总是会使代码执行跳转至函数 `func()` 外。但是，在跳出之前需要执行 `finally` 中的代码。
+In the code above, an error inside `try` always falls out, because there's no `catch`. But `finally` works before the execution flow leaves the function.
 ````
 
-## 全局 catch
+## Global catch
 
-```warn header="环境特定"
-这个部分的内容并不是 JavaScript 核心的一部分。
+```warn header="Environment-specific"
+The information from this section is not a part of the core JavaScript.
 ```
 
-设想一下，在 `try..catch` 结构外有一个致命的 error，然后脚本死亡了。这个 error 就像编程错误或其他可怕的事儿那样。
+Let's imagine we've got a fatal error outside of `try..catch`, and the script died. Like a programming error or some other terrible thing.
 
-有什么办法可以用来应对这种情况吗？我们可能想要记录这个 error，并向用户显示某些内容（通常用户看不到错误信息）等。
+Is there a way to react on such occurrences? We may want to log the error, show something to the user (normally they don't see error messages), etc.
 
-规范中没有相关内容，但是代码的执行环境一般会提供这种机制，因为它确实很有用。例如，Node.JS 有 [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception)。在浏览器中，我们可以将将一个函数赋值给特殊的 [window.onerror](mdn:api/GlobalEventHandlers/onerror) 属性，该函数将在发生未捕获的 error 时执行。
+There is none in the specification, but environments usually provide it, because it's really useful. For instance, Node.js has [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception) for that. And in the browser we can assign a function to the special [window.onerror](mdn:api/GlobalEventHandlers/onerror) property, that will run in case of an uncaught error.
 
-语法如下：
+The syntax:
 
 ```js
 window.onerror = function(message, url, line, col, error) {
@@ -597,18 +601,18 @@ window.onerror = function(message, url, line, col, error) {
 ```
 
 `message`
-: Error 信息。
+: Error message.
 
 `url`
-: 发生 error 的脚本的 URL。
+: URL of the script where error happened.
 
-`line`，`col`
-: 发生 error 处的代码的行号和列号。
+`line`, `col`
+: Line and column numbers where error happened.
 
 `error`
-: Error 对象。
+: Error object.
 
-例如：
+For instance:
 
 ```html run untrusted refresh height=1
 <script>
@@ -619,53 +623,53 @@ window.onerror = function(message, url, line, col, error) {
 */!*
 
   function readData() {
-    badFunc(); // 啊，出问题了！
+    badFunc(); // Whoops, something went wrong!
   }
 
   readData();
 </script>
 ```
 
-全局错误处理程序 `window.onerror` 的作用通常不是恢复脚本的执行 — 如果发生编程错误，那这几乎是不可能的，它的作用是将错误信息发送给开发者。
+The role of the global handler `window.onerror` is usually not to recover the script execution -- that's probably impossible in case of programming errors, but to send the error message to developers.
 
-也有针对这种情况提供错误日志的 Web 服务，例如 <https://errorception.com> 或 <http://www.muscula.com>。
+There are also web-services that provide error-logging for such cases, like <https://errorception.com> or <http://www.muscula.com>.
 
-它们会像这样运行：
+They work like this:
 
-1. 我们注册该服务，并拿到一段 JS 代码（或脚本的 URL），然后插入到页面中。
-2. 该 JS 脚本设置了自定义的 `window.onerror` 函数。
-3. 当发生 error 时，它会发送一个此 error  相关的网络请求到服务提供方。
-4. 我们可以登录到服务方的 Web 界面来查看这些 error。
+1. We register at the service and get a piece of JS (or a script URL) from them to insert on pages.
+2. That JS script sets a custom `window.onerror` function.
+3. When an error occurs, it sends a network request about it to the service.
+4. We can log in to the service web interface and see errors.
 
-## 总结
+## Summary
 
-`try..catch` 结构允许我们处理执行过程中出现的 error。从字面上看，它允许“尝试”运行代码并“捕获”其中可能发生的错误。
+The `try..catch` construct allows to handle runtime errors. It literally allows to "try" running the code and "catch" errors that may occur in it.
 
-语法如下：
+The syntax is:
 
 ```js
 try {
-  // 执行此处代码
+  // run this code
 } catch(err) {
-  // 如果发生错误，跳转至此处
-  // err 是一个 error 对象
+  // if an error happened, then jump here
+  // err is the error object
 } finally {
-  // 无论怎样都会在 try/catch 之后执行
+  // do in any case after try/catch
 }
 ```
 
-这儿可能会没有 `catch` 部分或者没有 `finally`，所以 `try..catch` 或 `try..finally` 都是可用的。
+There may be no `catch` section or no `finally`, so shorter constructs `try..catch` and `try..finally` are also valid.
 
-Error 对象包含下列属性：
+Error objects have following properties:
 
-- `message` — 人类可读的 error 信息。
-- `name` — 具有 error 名称的字符串（Error 构造器的名称）。
-- `stack`（没有标准，但得到了很好的支持）— Error 发生时的调用栈。
+- `message` -- the human-readable error message.
+- `name` -- the string with error name (error constructor name).
+- `stack` (non-standard, but well-supported) -- the stack at the moment of error creation.
 
-如果我们不需要 error 对象，我们可以通过使用 `catch {` 而不是 `catch(err) {` 来省略它。
+If an error object is not needed, we can omit it by using `catch {` instead of `catch(err) {`.
 
-我们也可以使用 `throw` 操作符来生成自定义的 error。从技术上讲，`throw` 的参数可以是任何东西，但通常是继承自内建的 `Error` 类的 error 对象。下一章我们会详细介绍扩展 error。
+We can also generate our own errors using the `throw` operator. Technically, the argument of `throw` can be anything, but usually it's an error object inheriting from the built-in `Error` class. More on extending errors in the next chapter.
 
-再次抛出（rethrowing）是一种错误处理的重要模式：`catch` 块通常期望并知道如何处理特定的 error 类型，因此它应该再次抛出它不知道的 error。
+*Rethrowing* is a very important pattern of error handling: a `catch` block usually expects and knows how to handle the particular error type, so it should rethrow errors it doesn't know.
 
-即使我们没有 `try..catch`，大多数执行环境也允许我们设置“全局”错误处理程序来捕获“掉出（fall out）”的 error。在浏览器中，就是 `window.onerror`。
+Even if we don't have `try..catch`, most environments allow us to setup a "global" error handler to catch errors that "fall out". In-browser, that's `window.onerror`.

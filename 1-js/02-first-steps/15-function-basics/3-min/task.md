@@ -2,11 +2,11 @@ importance: 1
 
 ---
 
-# 函数 min(a, b)
+# Function min(a, b)
 
-写一个返回数字 `a` 和 `b` 中较小的那个数字的函数 `min(a,b)`。
+Write a function `min(a,b)` which returns the least of two numbers `a` and `b`.
 
-例如：
+For instance:
 
 ```js
 min(2, 5) == 2

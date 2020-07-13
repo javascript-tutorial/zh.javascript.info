@@ -27,7 +27,11 @@ alert(user.name); // Jack
 alert(user.isAdmin); // false
 ```
 
+<<<<<<< HEAD
 当一个函数被使用 `new` 操作符执行时，它按照以下步骤：
+=======
+When a function is executed with `new`, it does the following steps:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 1. 一个新的空对象被创建并分配给 `this`。
 2. 函数体执行。通常它会修改 `this`，为其添加新的属性。
@@ -51,7 +55,11 @@ function User(name) {
 }
 ```
 
+<<<<<<< HEAD
 所以 `new User("Jack")` 的结果是相同的对象：
+=======
+So `let user = new User("Jack")` gives the same result as:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 let user = {
@@ -83,7 +91,15 @@ let user = new function() {
 构造器不能被再次调用，因为它不保存在任何地方，只是被创建和调用。因此，这个技巧旨在封装构建单个对象的代码，而无需将来重用。
 ````
 
+<<<<<<< HEAD
 ## 构造器模式测试：new.target
+=======
+## Constructor mode test: new.target
+
+```smart header="Advanced stuff"
+The syntax from this section is rarely used, skip it unless you want to know everything.
+```
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```smart header="进阶内容"
 本节涉及的语法内容很少使用，除非你想了解所有内容，否则你可以直接跳过该语法。
@@ -98,20 +114,34 @@ function User() {
   alert(new.target);
 }
 
+<<<<<<< HEAD
 // 不带 "new"：
+=======
+// without "new":
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 *!*
 User(); // undefined
 */!*
 
+<<<<<<< HEAD
 // 带 "new"：
+=======
+// with "new":
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 *!*
 new User(); // function User { ... }
 */!*
 ```
 
+<<<<<<< HEAD
 它可以被用在函数内部，来判断该函数是被通过 `new` 调用的“构造器模式”，还是没被通过 `new` 调用的“常规模式”。
 
 我们也可以让 `new` 调用和常规调用做相同的工作，像这样：
+=======
+That can be used inside the function to know whether it was called with `new`, "in constructor mode", or without it, "in regular mode".
+
+We can also make both `new` and regular calls to do the same, like this:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function User(name) {
@@ -126,9 +156,15 @@ let john = User("John"); // 将调用重定向到新用户
 alert(john.name); // John
 ```
 
+<<<<<<< HEAD
 这种方法有时被用在库中以使语法更加灵活。这样人们在调用函数时，无论是否使用了 `new`，程序都能工作。
 
 不过，到处都使用它并不是一件好事，因为省略了 `new` 使得很难观察到代码中正在发生什么。而通过 `new` 我们都可以知道这创建了一个新对象。
+=======
+This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
+
+Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ## 构造器的 return
 
@@ -136,8 +172,13 @@ alert(john.name); // John
 
 但是，如果这有一个 `return` 语句，那么规则就简单了：
 
+<<<<<<< HEAD
 - 如果 `return` 返回的是一个对象，则返回这个对象，而不是 `this`。
 - 如果 `return` 返回的是一个原始类型，则忽略。
+=======
+- If `return` is called with an object, then the object is returned instead of `this`.
+- If `return` is called with a primitive, it's ignored.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 换句话说，带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
 
@@ -148,10 +189,17 @@ function BigUser() {
 
   this.name = "John";
 
+<<<<<<< HEAD
   return { name: "Godzilla" };  // <-- 返回这个对象
 }
 
 alert( new BigUser().name );  // Godzilla，得到了那个对象
+=======
+  return { name: "Godzilla" };  // <-- returns this object
+}
+
+alert( new BigUser().name );  // Godzilla, got that object
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 ```
 
 这里有一个 `return` 为空的例子（或者我们可以在它之后放置一个原始类型，没有什么影响）：
@@ -161,7 +209,11 @@ function SmallUser() {
 
   this.name = "John";
 
+<<<<<<< HEAD
   return; // <-- 返回 this
+=======
+  return; // <-- returns this
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 }
 
 alert( new SmallUser().name );  // John
@@ -212,9 +264,15 @@ john = {
 */
 ```
 
+<<<<<<< HEAD
 [类](info:classes) 是用于创建复杂对象的一个更高级的语法，我们稍后会讲到。
 
 ## 总结
+=======
+To create complex objects, there's a more advanced syntax, [classes](info:classes), that we'll cover later.
+
+## Summary
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 - 构造函数，或简称构造器，就是常规函数，但大家对于构造器有个共同的约定，就是其命名首字母要大写。
 - 构造函数只能使用 `new` 来调用。这样的调用意味着在开始时创建了空的 `this`，并在最后返回填充了值的 `this`。
@@ -226,5 +284,9 @@ JavaScript 为许多内置的对象提供了构造函数：比如日期 `Date`�
 ```smart header="对象，我们还会回来哒！"
 在本章中，我们只介绍了关于对象和构造器的基础知识。它们对于我们在下一章中，学习更多关于数据类型和函数的相关知识非常重要。
 
+<<<<<<< HEAD
 在我们学习了那些之后，我们将回到对象，在 <info:prototypes> 和 <info:classes> 章节中深入介绍它们。
+=======
+After we learn that, we return to objects and cover them in-depth in the chapters <info:prototypes> and <info:classes>.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 ```

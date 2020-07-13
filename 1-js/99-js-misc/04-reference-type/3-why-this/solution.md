@@ -3,7 +3,11 @@
 
 1. 它是一个常规的方法调用。
 
+<<<<<<< HEAD:1-js/04-object-basics/04-object-methods/3-why-this/solution.md
 2. 同样，括号没有改变执行的顺序，点符号总是先执行。
+=======
+2. The same, parentheses do not change the order of operations here, the dot is first anyway.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439:1-js/99-js-misc/04-reference-type/3-why-this/solution.md
 
 3. 这里我们有一个更复杂的 `(expression).method()` 调用。这个调用就像被分成了两行（代码）一样：
 

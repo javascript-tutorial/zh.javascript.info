@@ -4,13 +4,23 @@ importance: 5
 
 # 改进的工具提示行为
 
+<<<<<<< HEAD
 编写 JavaScript，在带有 `data-tooltip` 特性（attribute）的元素上显示一个工具提示。该特性的值应该成为工具提示的文本。
+=======
+Write JavaScript that shows a tooltip over an element with the attribute `data-tooltip`. The value of this attribute should become the tooltip text.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 与任务 <info:task/behavior-tooltip> 类似，但这里可以嵌套带有注解（annotated）的元素。并且显示的是嵌套最深的工具提示。
 
+<<<<<<< HEAD
 同一时间只能显示一个工具提示。
 
 例如：
+=======
+Only one tooltip may show up at the same time.
+
+For instance:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```html
 <div data-tooltip="Here – is the house interior" id="house">

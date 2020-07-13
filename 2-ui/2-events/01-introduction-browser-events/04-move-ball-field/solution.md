@@ -22,7 +22,11 @@
 }
 ```
 
+<<<<<<< HEAD
 接下来我们需要指定正确的 `ball.style.left/top`。它们现在包含相对于球场的坐标。
+=======
+Next we need to assign the correct `ball.style.left/top`. They contain field-relative coordinates now.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 这是示意图：
 
@@ -36,7 +40,11 @@
 let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
+<<<<<<< HEAD
 通常情况下，`ball.style.left` 表示“元素的左边缘”（球）。因此，如果我们将其指定为 `left`，那么球的边缘而非球的中心将位于鼠标光标下方。
+=======
+Normally, `ball.style.left` means the "left edge of the element" (the ball). So if we assign that `left`, then the ball edge, not center, would be under the mouse cursor.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 我们需要将球向左移动球宽度的一半，向上移动球高度的一半，以使其居中。
 

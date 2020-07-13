@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 后置运算符和前置运算符
+# The postfix and prefix forms
 
-以下代码中变量 `a`、`b`、`c`、`d` 的最终值分别是多少？
+What are the final values of all variables `a`, `b`, `c` and `d` after the code below?
 
 ```js
 let a = 1, b = 1;

@@ -1,7 +1,11 @@
 
 # 用箭头函数重写
 
+<<<<<<< HEAD:1-js/02-first-steps/17-arrow-functions-basics/1-rewrite-arrow/task.md
 用箭头函数重写下面的函数表达式：
+=======
+Replace Function Expressions with arrow functions in the code below:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439:1-js/02-first-steps/17-arrow-functions-basics/1-rewrite-arrow/task.md
 
 ```js run
 function ask(question, yes, no) {

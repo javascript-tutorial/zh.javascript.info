@@ -8,6 +8,7 @@
 
 文档（document）在 `<html>` 标签中被表示（被包含）为 `document.documentElement`。
 
+<<<<<<< HEAD
 我们可以通过 `document.documentElement.getBoundingClientRect()` 来获取整个文档相对于窗口的坐标。`bottom` 属性将是文档末端的相对于窗口的坐标。
 
 例如，如果整个 HTML 文档的高度是 `2000px`，那么：
@@ -15,6 +16,15 @@
 ```js
 // 当我们在页面顶端时
 // 相对于窗口 top = 0
+=======
+We can get window-relative coordinates of the whole document as `document.documentElement.getBoundingClientRect()`, the `bottom` property will be window-relative coordinate of the document bottom.
+
+For instance, if the height of the whole HTML document is `2000px`, then:
+
+```js
+// when we're on the top of the page
+// window-relative top = 0
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 document.documentElement.getBoundingClientRect().top = 0
 
 // 相对于窗口 bottom = 2000
@@ -35,6 +45,7 @@ document.documentElement.getBoundingClientRect().bottom = 1500
 
 
 ```js
+<<<<<<< HEAD
 // 文档顶端在窗口上方 -1400px
 document.documentElement.getBoundingClientRect().top = -1400
 // 文档末端相对于窗口坐标为 600px
@@ -46,6 +57,19 @@ document.documentElement.getBoundingClientRect().bottom = 600
 我们可以获得窗口的高度为 `document.documentElement.clientHeight`。
 
 对于本任务，我们需要知道何时文档末端距窗口底部不超过 `100px`（即，如果窗口高度为 `600px`，则为 `600-700px`）。
+=======
+// document top is above the window 1400px
+document.documentElement.getBoundingClientRect().top = -1400
+// document bottom is below the window 600px
+document.documentElement.getBoundingClientRect().bottom = 600
+```
+
+Please note that the `bottom` can't be `0`, because it never reaches the window top. The lowest limit of the `bottom` coordinate is the window height (we assumed it to be `600`), we can't scroll it any more up.
+
+We can obtain the window height as `document.documentElement.clientHeight`.
+
+For our task, we need to know when the document bottom is not no more than `100px` away from it (that is: `600-700px`, if the height is `600`).
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 所以，函数如下：
 
@@ -55,9 +79,15 @@ function populate() {
     // 文档末端
     let windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
+<<<<<<< HEAD
     // 如果用户将页面滚动了足够远（文档末端距窗口底部 <100px）
     if (windowRelativeBottom < document.documentElement.clientHeight + 100) {
       // 让我们添加更多数据
+=======
+    // if the user scrolled far enough (<100px to the end)
+    if (windowRelativeBottom < document.documentElement.clientHeight + 100) {
+      // let's add more data
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
       document.body.insertAdjacentHTML("beforeend", `<p>Date: ${new Date()}</p>`);
     }
   }

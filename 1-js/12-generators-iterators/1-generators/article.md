@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Generator
 
 常规函数只会返回一个单一值（或者不返回任何值）。
@@ -9,6 +10,19 @@
 要创建一个 generator，我们需要一个特殊的语法结构：`function*`，即所谓的 "generator function"。
 
 它看起来像这样：
+=======
+# Generators
+
+Regular functions return only one, single value (or nothing).
+
+Generators can return ("yield") multiple values, one after another, on-demand. They work great with [iterables](info:iterable), allowing to create data streams with ease.
+
+## Generator functions
+
+To create a generator, we need a special syntax construct: `function*`, so-called "generator function".
+
+It looks like this:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 function* generateSequence() {
@@ -18,9 +32,15 @@ function* generateSequence() {
 }
 ```
 
+<<<<<<< HEAD
 Generator 函数与常规函数的行为不同。在此类函数被调用时，它不会运行其代码。而是返回一个被称为 "generator object" 的特殊对象，来管理执行流程。
 
 我们来看一个例子：
+=======
+Generator functions behave differently from regular ones. When such function is called, it doesn't run its code. Instead it returns a special object, called "generator object", to manage the execution.
+
+Here, take a look:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence() {
@@ -29,13 +49,18 @@ function* generateSequence() {
   return 3;
 }
 
+<<<<<<< HEAD
 // "generator function" 创建了一个 "generator object"
+=======
+// "generator function" creates "generator object"
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 let generator = generateSequence();
 *!*
 alert(generator); // [object Generator]
 */!*
 ```
 
+<<<<<<< HEAD
 到目前为止，上面这段代码中的 **函数体** 代码还没有开始执行：
 
 ![](generateSequence-1.svg)
@@ -47,6 +72,19 @@ alert(generator); // [object Generator]
 - `done`: 如果 generator 函数已执行完成则为 `true`，否则为 `false`。
 
 例如，我们可以创建一个 generator 并获取其第一个产出的（yielded）值：
+=======
+The function code execution hasn't started yet:
+
+![](generateSequence-1.svg)
+
+The main method of a generator is `next()`. When called, it runs the execution until the nearest `yield <value>` statement (`value` can be omitted, then it's `undefined`). Then the function execution pauses, and the yielded `value` is returned to the outer code.
+
+The result of `next()` is always an object with two properties:
+- `value`: the yielded value.
+- `done`: `true` if the function code has finished, otherwise `false`.
+
+For instance, here we create the generator and get its first yielded value:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence() {
@@ -64,11 +102,19 @@ let one = generator.next();
 alert(JSON.stringify(one)); // {value: 1, done: false}
 ```
 
+<<<<<<< HEAD
 截至目前，我们只获得了第一个值，现在函数执行处在第二行：
 
 ![](generateSequence-2.svg)
 
 让我们再次调用 `generator.next()`。代码恢复执行并返回下一个 `yield` 的值：
+=======
+As of now, we got the first value only, and the function execution is on the second line:
+
+![](generateSequence-2.svg)
+
+Let's call `generator.next()` again. It resumes the code execution and returns the next `yield`:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 let two = generator.next();
@@ -78,7 +124,11 @@ alert(JSON.stringify(two)); // {value: 2, done: false}
 
 ![](generateSequence-3.svg)
 
+<<<<<<< HEAD
 如果我们第三次调用 `generator.next()`，代码将会执行到 `return` 语句，此时就完成这个函数的执行：
+=======
+And, if we call it a third time, the execution reaches the `return` statement that finishes the function:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 let three = generator.next();
@@ -88,6 +138,7 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 
 ![](generateSequence-4.svg)
 
+<<<<<<< HEAD
 现在 generator 执行完成。我们通过 `done:true` 可以看出来这一点，并且将 `value:3` 处理为最终结果。
 
 再对 `generator.next()` 进行新的调用不再有任何意义。如果我们这样做，它将返回相同的对象：`{done: true}`。
@@ -103,6 +154,23 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 当你看到 `next()` 方法，或许你已经猜到了 generator 是 [可迭代（iterable）](info:iterable)的。（译注：`next()` 是 iterator 的必要方法）
 
 我们可以使用 `for..of` 循环遍历它所有的值：
+=======
+Now the generator is done. We should see it from `done:true` and process `value:3` as the final result.
+
+New calls to `generator.next()` don't make sense any more. If we do them, they return the same object: `{done: true}`.
+
+```smart header="`function* f(…)` or `function *f(…)`?"
+Both syntaxes are correct.
+
+But usually the first syntax is preferred, as the star `*` denotes that it's a generator function, it describes the kind, not the name, so it should stick with the `function` keyword.
+```
+
+## Generators are iterable
+
+As you probably already guessed looking at the `next()` method, generators are [iterable](info:iterable).
+
+We can loop over their values using `for..of`:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence() {
@@ -114,6 +182,7 @@ function* generateSequence() {
 let generator = generateSequence();
 
 for(let value of generator) {
+<<<<<<< HEAD
   alert(value); // 1，然后是 2
 }
 ```
@@ -123,6 +192,17 @@ for(let value of generator) {
 ……但是请注意：上面这个例子会先显示 `1`，然后是 `2`，然后就没了。它不会显示 `3`！
 
 这是因为当 `done: true` 时，`for..of` 循环会忽略最后一个 `value`。因此，如果我们想要通过 `for..of` 循环显示所有的结果，我们必须使用 `yield` 返回它们：
+=======
+  alert(value); // 1, then 2
+}
+```
+
+Looks a lot nicer than calling `.next().value`, right?
+
+...But please note: the example above shows `1`, then `2`, and that's all. It doesn't show `3`!
+
+It's because `for..of` iteration ignores the last `value`, when `done: true`. So, if we want all results to be shown by `for..of`, we must return them with `yield`:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence() {
@@ -136,11 +216,19 @@ function* generateSequence() {
 let generator = generateSequence();
 
 for(let value of generator) {
+<<<<<<< HEAD
   alert(value); // 1，然后是 2，然后是 3
 }
 ```
 
 因为 generator 是可迭代的，我们可以使用 iterator 的所有相关功能，例如：spread 语法 `...`：
+=======
+  alert(value); // 1, then 2, then 3
+}
+```
+
+As generators are iterable, we can call all related functionality, e.g. the spread syntax `...`:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence() {
@@ -154,6 +242,7 @@ let sequence = [0, ...generateSequence()];
 alert(sequence); // 0, 1, 2, 3
 ```
 
+<<<<<<< HEAD
 在上面这段代码中，`...generateSequence()` 将可迭代的 generator 对象转换为了一个数组（关于 spread 语法的更多细节请见 [](info:rest-parameters-spread#spread-syntax)）。
 
 ## 使用 generator 进行迭代
@@ -161,23 +250,45 @@ alert(sequence); // 0, 1, 2, 3
 在前面的 [](info:iterable) 一章中，我们创建了一个可迭代的 `range` 对象，它返回 `from..to` 的值。
 
 现在，我们回忆一下代码：
+=======
+In the code above, `...generateSequence()` turns the iterable generator object into an array of items (read more about the spread syntax in the chapter [](info:rest-parameters-spread#spread-syntax))
+
+## Using generators for iterables
+
+Some time ago, in the chapter [](info:iterable) we created an iterable `range` object that returns values `from..to`.
+
+Here, let's remember the code:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
+<<<<<<< HEAD
   // for..of range 在一开始就调用一次这个方法
   [Symbol.iterator]() {
     // ...它返回 iterator object：
     // 后续的操作中，for..of 将只针对这个对象，并使用 next() 向它请求下一个值
+=======
+  // for..of range calls this method once in the very beginning
+  [Symbol.iterator]() {
+    // ...it returns the iterator object:
+    // onward, for..of works only with that object, asking it for next values
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
     return {
       current: this.from,
       last: this.to,
 
+<<<<<<< HEAD
       // for..of 循环在每次迭代时都会调用 next()
       next() {
         // 它应该以对象 {done:.., value :...} 的形式返回值
+=======
+      // next() is called on each iteration by the for..of loop
+      next() {
+        // it should return the value as an object {done:.., value :...}
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
         } else {
@@ -188,6 +299,7 @@ let range = {
   }
 };
 
+<<<<<<< HEAD
 // 迭代整个 range 对象，返回从 `range.from` 到 `range.to` 范围的所有数字
 alert([...range]); // 1,2,3,4,5
 ```
@@ -195,13 +307,26 @@ alert([...range]); // 1,2,3,4,5
 我们可以通过提供一个 generator 函数作为 `Symbol.iterator`，来使用 generator 进行迭代：
 
 下面是一个相同的 `range`，但紧凑得多：
+=======
+// iteration over range returns numbers from range.from to range.to
+alert([...range]); // 1,2,3,4,5
+```
+
+We can use a generator function for iteration by providing it as `Symbol.iterator`.
+
+Here's the same `range`, but much more compact:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
+<<<<<<< HEAD
   *[Symbol.iterator]() { // [Symbol.iterator]: function*() 的简写形式
+=======
+  *[Symbol.iterator]() { // a shorthand for [Symbol.iterator]: function*()
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
     for(let value = this.from; value <= this.to; value++) {
       yield value;
     }
@@ -211,6 +336,7 @@ let range = {
 alert( [...range] ); // 1,2,3,4,5
 ```
 
+<<<<<<< HEAD
 之所以代码正常工作，是因为 `range[Symbol.iterator]()` 现在返回一个 generator，而 generator 方法正是 `for..of` 所期望的：
 - 它具有 `.next()` 方法
 - 它以 `{value: ..., done: true/false}` 的形式返回值
@@ -230,6 +356,27 @@ alert( [...range] ); // 1,2,3,4,5
 Generator 组合（composition）是 generator 的一个特殊功能，它允许透明地（transparently）将 generator 彼此“嵌入（embed）”到一起。
 
 例如，我们有一个生成数字序列的函数：
+=======
+That works, because `range[Symbol.iterator]()` now returns a generator, and generator methods are exactly what `for..of` expects:
+- it has a `.next()` method
+- that returns values in the form `{value: ..., done: true/false}`
+
+That's not a coincidence, of course. Generators were added to JavaScript language with iterators in mind, to implement them easily.
+
+The variant with a generator is much more concise than the original iterable code of `range`, and keeps the same functionality.
+
+```smart header="Generators may generate values forever"
+In the examples above we generated finite sequences, but we can also make a generator that yields values forever. For instance, an unending sequence of pseudo-random numbers.
+
+That surely would require a `break` (or `return`) in `for..of` over such generator. Otherwise, the loop would repeat forever and hang.
+```
+
+## Generator composition
+
+Generator composition is a special feature of generators that allows to transparently "embed" generators in each other.
+
+For instance, we have a function that generates a sequence of numbers:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 function* generateSequence(start, end) {
@@ -237,6 +384,7 @@ function* generateSequence(start, end) {
 }
 ```
 
+<<<<<<< HEAD
 现在，我们想重用它来生成一个更复杂的序列：
 - 首先是数字 `0..9`（字符代码为 48..57），
 - 接下来是大写字母 `A..Z`（字符代码为 65..90）
@@ -249,6 +397,20 @@ function* generateSequence(start, end) {
 对于 generator 而言，我们可以使用 `yield*` 这个特殊的语法来将一个 generator “嵌入”（组合）到另一个 generator 中：
 
 组合的 generator 的例子：
+=======
+Now we'd like to reuse it to generate a more complex sequence:
+- first, digits `0..9` (with character codes 48..57),
+- followed by uppercase alphabet letters `A..Z` (character codes 65..90)
+- followed by lowercase alphabet letters `a..z` (character codes 97..122)
+
+We can use this sequence e.g. to create passwords by selecting characters from it (could add syntax characters as well), but let's generate it first.
+
+In a regular function, to combine results from multiple other functions, we call them, store the results, and then join at the end.
+
+For generators, there's a special `yield*` syntax to "embed" (compose) one generator into another.
+
+The composed generator:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence(start, end) {
@@ -279,9 +441,15 @@ for(let code of generatePasswordCodes()) {
 alert(str); // 0..9A..Za..z
 ```
 
+<<<<<<< HEAD
 `yield*` 指令将执行 **委托** 给另一个 generator。这个术语意味着 `yield* gen` 在 generator `gen` 上进行迭代，并将其产出（yield）的值透明地（transparently）转发到外部。就好像这些值就是由外部的 generator yield 的一样。
 
 执行结果与我们内联嵌套 generator 中的代码获得的结果相同：
+=======
+The `yield*` directive *delegates* the execution to another generator. This term means that `yield* gen` iterates over the generator `gen` and transparently forwards its yields outside. As if the values were yielded by the outer generator.
+
+The result is the same as if we inlined the code from nested generators:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* generateSequence(start, end) {
@@ -312,6 +480,7 @@ for(let code of generateAlphaNum()) {
 alert(str); // 0..9A..Za..z
 ```
 
+<<<<<<< HEAD
 Generator 组合（composition）是将一个 generator 流插入到另一个 generator 流的自然的方式。它不需要使用额外的内存来存储中间结果。
 
 ## "yield" 是一条双向路
@@ -323,11 +492,28 @@ Generator 组合（composition）是将一个 generator 流插入到另一个 ge
 调用 `generator.next(arg)`，我们就能将参数 `arg` 传递到 generator 内部。这个 `arg` 参数会变成 `yield` 的结果。
 
 我们来看一个例子：
+=======
+A generator composition is a natural way to insert a flow of one generator into another. It doesn't use extra memory to store intermediate results.
+
+## "yield" is a two-way street
+
+Until this moment, generators were similar to iterable objects, with a special syntax to generate values. But in fact they are much more powerful and flexible.
+
+That's because `yield` is a two-way street: it not only returns the result to the outside, but also can pass the value inside the generator.
+
+To do so, we should call `generator.next(arg)`, with an argument. That argument becomes the result of `yield`.
+
+Let's see an example:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* gen() {
 *!*
+<<<<<<< HEAD
   // 向外部代码传递一个问题并等待答案
+=======
+  // Pass a question to the outer code and wait for an answer
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
   let result = yield "2 + 2 = ?"; // (*)
 */!*
 
@@ -336,13 +522,20 @@ function* gen() {
 
 let generator = gen();
 
+<<<<<<< HEAD
 let question = generator.next().value; // <-- yield 返回的 value
 
 generator.next(4); // --> 将结果传递到 generator 中  
+=======
+let question = generator.next().value; // <-- yield returns the value
+
+generator.next(4); // --> pass the result into the generator  
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 ```
 
 ![](genYield2.svg)
 
+<<<<<<< HEAD
 1. 第一次调用 `generator.next()` 应该是不带参数的（如果带参数，那么该参数会被忽略）。它开始执行并返回第一个 `yield "2 + 2 = ?"` 的结果。此时，generator 执行暂停，而停留在 `(*)` 行上。
 2. 然后，正如上面图片中显示的那样，`yield` 的结果进入调用代码中的 `question` 变量。
 3. 在 `generator.next(4)`，generator 恢复执行，并获得了 `4` 作为结果：`let result = 4`。
@@ -359,6 +552,24 @@ setTimeout(() => generator.next(4), 1000);
 我们可以看到，与常规函数不同，generator 和调用 generator 的代码可以通过在 `next/yield` 中传递值来交换结果。
 
 为了讲得更浅显易懂，我们来看另一个例子，其中包含了许多调用：
+=======
+1. The first call `generator.next()` should be always made without an argument (the argument is ignored if passed). It starts the execution and returns the result of the first `yield "2+2=?"`. At this point the generator pauses the execution, while staying on the line `(*)`.
+2. Then, as shown at the picture above, the result of `yield` gets into the `question` variable in the calling code.
+3. On `generator.next(4)`, the generator resumes, and `4` gets in as the result: `let result = 4`.
+
+Please note, the outer code does not have to immediately call `next(4)`. It may take time. That's not a problem: the generator will wait.
+
+For instance:
+
+```js
+// resume the generator after some time
+setTimeout(() => generator.next(4), 1000);
+```
+
+As we can see, unlike regular functions, a generator and the calling code can exchange results by passing values in `next/yield`.
+
+To make things more obvious, here's another example, with more calls:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* gen() {
@@ -380,6 +591,7 @@ alert( generator.next(4).value ); // "3 * 3 = ?"
 alert( generator.next(9).done ); // true
 ```
 
+<<<<<<< HEAD
 执行图：
 
 ![](genYield2-2.svg)
@@ -401,6 +613,29 @@ alert( generator.next(9).done ); // true
 要向 `yield` 传递一个 error，我们应该调用 `generator.throw(err)`。在这种情况下，`err` 将被抛到对应的 `yield` 所在的那一行。
 
 例如，`"2 + 2?"` 的 yield 导致了一个 error：
+=======
+The execution picture:
+
+![](genYield2-2.svg)
+
+1. The first `.next()` starts the execution... It reaches the first `yield`.
+2. The result is returned to the outer code.
+3. The second `.next(4)` passes `4` back to the generator as the result of the first `yield`, and resumes the execution.
+4. ...It reaches the second `yield`, that becomes the result of the generator call.
+5. The third `next(9)` passes `9` into the generator as the result of the second `yield` and resumes the execution that reaches the end of the function, so `done: true`.
+
+It's like a "ping-pong" game. Each `next(value)` (excluding the first one) passes a value into the generator, that becomes the result of the current `yield`, and then gets back the result of the next `yield`.
+
+## generator.throw
+
+As we observed in the examples above, the outer code may pass a value into the generator, as the result of `yield`.
+
+...But it can also initiate (throw) an error there. That's natural, as an error is a kind of result.
+
+To pass an error into a `yield`, we should call `generator.throw(err)`. In that case, the `err` is thrown in the line with that `yield`.
+
+For instance, here the yield of `"2 + 2 = ?"` leads to an error:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function* gen() {
@@ -409,7 +644,11 @@ function* gen() {
 
     alert("The execution does not reach here, because the exception is thrown above");
   } catch(e) {
+<<<<<<< HEAD
     alert(e); // 显示这个 error
+=======
+    alert(e); // shows the error
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
   }
 }
 
@@ -422,6 +661,7 @@ generator.throw(new Error("The answer is not found in my database")); // (2)
 */!*
 ```
 
+<<<<<<< HEAD
 在 `(2)` 行引入到 generator 的 error 导致了在 `(1)` 行中的 `yield` 出现了一个异常。在上面这个例子中，`try..catch` 捕获并显示了这个 error。
 
 如果我们没有捕获它，那么就会像其他的异常一样，它将从 generator “掉出”到调用代码中。
@@ -431,6 +671,17 @@ generator.throw(new Error("The answer is not found in my database")); // (2)
 ```js run
 function* generate() {
   let result = yield "2 + 2 = ?"; // 这行出现 error
+=======
+The error, thrown into the generator at line `(2)` leads to an exception in line `(1)` with `yield`. In the example above, `try..catch` catches it and shows it.
+
+If we don't catch it, then just like any exception, it "falls out" the generator into the calling code.
+
+The current line of the calling code is the line with `generator.throw`, labelled as `(2)`. So we can catch it here, like this:
+
+```js run
+function* generate() {
+  let result = yield "2 + 2 = ?"; // Error in this line
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 }
 
 let generator = generate();
@@ -441,11 +692,16 @@ let question = generator.next().value;
 try {
   generator.throw(new Error("The answer is not found in my database"));
 } catch(e) {
+<<<<<<< HEAD
   alert(e); // 显示这个 error
+=======
+  alert(e); // shows the error
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 }
 */!*
 ```
 
+<<<<<<< HEAD
 如果我们没有在那里捕获这个 error，那么，通常，它会掉入外部调用代码（如果有），如果在外部也没有被捕获，则会杀死脚本。
 
 ## 总结
@@ -459,3 +715,18 @@ try {
 并且，在下一章我们将会学习 async generator，它们被用于在 `for await ... of` 循环中读取异步生成的数据流（例如，通过网络分页提取 (paginated fetches over a network)）。
 
 在 Web 编程中，我们经常使用数据流，因此这是另一个非常重要的使用场景。
+=======
+If we don't catch the error there, then, as usual, it falls through to the outer calling code (if any) and, if uncaught, kills the script.
+
+## Summary
+
+- Generators are created by generator functions `function* f(…) {…}`.
+- Inside generators (only) there exists a `yield` operator.
+- The outer code and the generator may exchange results via `next/yield` calls.
+
+In modern JavaScript, generators are rarely used. But sometimes they come in handy, because the ability of a function to exchange data with the calling code during the execution is quite unique. And, surely, they are great for making iterable objects.
+
+Also, in the next chapter we'll learn async generators, which are used to read streams of asynchronously generated data (e.g paginated fetches over a network) in `for await ... of` loops.
+
+In web-programming we often work with streamed data, so that's another very important use case.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439

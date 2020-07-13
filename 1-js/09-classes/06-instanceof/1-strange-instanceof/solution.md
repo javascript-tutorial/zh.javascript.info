@@ -1,7 +1,7 @@
-是的，看起来确实很奇怪。
+Yeah, looks strange indeed.
 
-`instanceof` 并不关心函数，而是关心函数的与原型链匹配的 `prototype`。
+But `instanceof` does not care about the function, but rather about its `prototype`, that it matches against the prototype chain.
 
-并且，这里 `a.__proto__ == B.prototype`，所以 `instanceof` 返回 `true`。
+And here `a.__proto__ == B.prototype`, so `instanceof` returns `true`.
 
-总之，根据 `instanceof` 的逻辑，真正决定类型的是 `prototype`，而不是构造函数。
+So, by the logic of `instanceof`, the `prototype` actually defines the type, not the constructor function.

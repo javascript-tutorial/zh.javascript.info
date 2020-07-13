@@ -1,7 +1,11 @@
 
 # 函数对象，NFE
 
+<<<<<<< HEAD
 我们已经知道，在 JavaScript 中，函数就是值。
+=======
+As we already know, a function in JavaScript is a value.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 JavaScript 中的每个值都有一种类型，那么函数是什么类型呢？
 
@@ -12,7 +16,11 @@ JavaScript 中的每个值都有一种类型，那么函数是什么类型呢？
 
 ## 属性 "name"
 
+<<<<<<< HEAD
 函数对象包含一些便于使用的属性。
+=======
+Function objects contain some useable properties.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 比如，一个函数的名字可以通过属性 "name" 来访问：
 
@@ -24,14 +32,22 @@ function sayHi() {
 alert(sayHi.name); // sayHi
 ```
 
+<<<<<<< HEAD
 更有趣的是，名称赋值的逻辑很智能。即使函数被创建时没有名字，名称赋值的逻辑也能给它赋予一个正确的名字，然后进行赋值：
+=======
+What's kind of funny, the name-assigning logic is smart. It also assigns the correct name to a function even if it's created without one, and then immediately assigned:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 let sayHi = function() {
   alert("Hi");
 };
 
+<<<<<<< HEAD
 alert(sayHi.name); // sayHi（有名字！）
+=======
+alert(sayHi.name); // sayHi (there's a name!)
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 ```
 
 当以默认值的方式完成了赋值时，它也有效：
@@ -65,10 +81,17 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
+<<<<<<< HEAD
 这没有什么神奇的。有时会出现无法推测名字的情况。此时，属性 `name` 会是空，像这样：
 
 ```js
 // 函数是在数组中创建的
+=======
+There's no magic though. There are cases when there's no way to figure out the right name. In that case, the name property is empty, like here:
+
+```js run
+// function created inside array
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 let arr = [function() {}];
 
 alert( arr[0].name ); // <空字符串>
@@ -93,7 +116,11 @@ alert(many.length); // 2
 
 可以看到，余参不参与计数。
 
+<<<<<<< HEAD
 属性 `length` 有时在操作其它函数的函数中用于做 [内省/运行时检查（introspection）](https://zh.wikipedia.org/wiki/内省_(计算机科学))。
+=======
+The `length` property is sometimes used for [introspection](https://en.wikipedia.org/wiki/Type_introspection) in functions that operate on other functions.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 比如，下面的代码中函数 `ask` 接受一个询问答案的参数 `question` 和可能包含任意数量 `handler` 的参数 `...handlers`。
 
@@ -102,9 +129,15 @@ alert(many.length); // 2
 - 一种是无参函数，它仅在用户回答给出积极的答案时被调用。
 - 一种是有参函数，它在两种情况都会被调用，并且返回一个答案。
 
+<<<<<<< HEAD
 为了正确地调用 `handler`，我们需要检查 `handler.length` 属性。
 
 我们的想法是，我们用一个简单的无参数的 `handler` 语法来处理积极的回答（最常见的变体），但也要能够提供通用的 handler：
+=======
+To call `handler` the right way, we examine the `handler.length` property.
+
+The idea is that we have a simple, no-arguments handler syntax for positive cases (most frequent variant), but are able to support universal handlers as well:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 function ask(question, ...handlers) {
@@ -153,7 +186,11 @@ alert( `Called ${sayHi.counter} times` ); // Called 2 times
 ```warn header="属性不是变量"
 被赋值给函数的属性，比如 `sayHi.counter = 0`，**不会** 在函数内定义一个局部变量 `counter`。换句话说，属性 `counter` 和变量 `let counter` 是毫不相关的两个东西。
 
+<<<<<<< HEAD
 我们可以把函数当作对象，在它里面存储属性，但是这对它的执行没有任何影响。变量不是函数属性，反之亦然。它们之间是平行的。
+=======
+We can treat a function as an object, store properties in it, but that has no effect on its execution. Variables are not function properties and vice versa. These are just parallel worlds.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 ```
 
 函数属性有时会用来替代闭包。例如，我们可以使用函数属性将 <info:closure> 章节中 counter 函数的例子进行重写：
@@ -241,7 +278,11 @@ let sayHi = function *!*func*/!*(who) {
 sayHi("John"); // Hello, John
 ```
 
+<<<<<<< HEAD
 关于名字 `func` 有两个特殊的地方，这就是添加它的原因：
+=======
+There are two special things about the name `func`, that are the reasons for it:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 1. 它允许函数在内部引用自己。
 2. 它在函数外是不可见的。
@@ -282,7 +323,11 @@ let sayHi = function(who) {
 };
 ```
 
+<<<<<<< HEAD
 上面这段代码的问题在于 `sayHi` 的值可能会被函数外部的代码改变。如果该函数被赋值给另外一个变量（译注：也就是原变量被修改），那么函数就会开始报错：
+=======
+The problem with that code is that `sayHi` may change in the outer code. If the function gets assigned to another variable instead, the code will start to give errors:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 let sayHi = function(who) {
@@ -328,8 +373,13 @@ welcome(); // Hello, Guest（嵌套调用有效）
 
 外部代码仍然有该函数的 `sayHi` 或 `welcome` 变量。而且 `func` 是一个“内部函数名”，可用于函数在自身内部进行自调用。
 
+<<<<<<< HEAD
 ```smart header="函数声明没有这个东西"
 这里所讲的“内部名”特性只针对函数表达式，而不是函数声明。对于函数声明，没有用来添加“内部”名的语法。
+=======
+```smart header="There's no such thing for Function Declaration"
+The "internal name" feature described here is only available for Function Expressions, not for Function Declarations. For Function Declarations, there is no syntax for adding an "internal" name.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 有时，当我们需要一个可靠的内部名时，这就成为了你把函数声明重写成函数表达式的理由了。
 ```
@@ -340,13 +390,23 @@ welcome(); // Hello, Guest（嵌套调用有效）
 
 我们介绍了它们的一些属性：
 
+<<<<<<< HEAD
 - `name` — 函数的名字。通常取自函数定义，但如果函数定义时没设定函数名，JavaScript 会尝试通过函数的上下文猜一个函数名（例如把赋值的变量名取为函数名）。
 - `length` — 函数定义时的入参的个数。Rest 参数不参与计数。
+=======
+- `name` -- the function name. Usually taken from the function definition, but if there's none, JavaScript tries to guess it from the context (e.g. an assignment).
+- `length` -- the number of arguments in the function definition. Rest parameters are not counted.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 如果函数是通过函数表达式的形式被声明的（不是在主代码流里），并且附带了名字，那么它被称为命名函数表达式（Named Function Expression）。这个名字可以用于在该函数内部进行自调用，例如递归调用等。
 
 此外，函数可以带有额外的属性。很多知名的 JavaScript 库都充分利用了这个功能。
 
+<<<<<<< HEAD
 它们创建一个“主”函数，然后给它附加很多其它“辅助”函数。例如，[jQuery](https://jquery.com) 库创建了一个名为 `$` 的函数。[lodash](https://lodash.com) 库创建一个 `_` 函数，然后为其添加了 `_.add`、`_.keyBy` 以及其它属性（欲了解详情，参见 [docs](https://lodash.com/docs)）。实际上，它们这么做是为了减少对全局空间的污染，这样一个库就只会有一个全局变量。这样就降低了命名冲突的可能性。
+=======
+They create a "main" function and attach many other "helper" functions to it. For instance, the [jQuery](https://jquery.com) library creates a function named `$`. The [lodash](https://lodash.com) library creates a function `_`, and then adds `_.clone`, `_.keyBy` and other properties to it (see the [docs](https://lodash.com/docs) when you want learn more about them). Actually, they do it to lessen their pollution of the global space, so that a single library gives only one global variable. That reduces the possibility of naming conflicts.
+
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 所以，一个函数本身可以完成一项有用的工作，还可以在自身的属性中附带许多其他功能。

@@ -6,9 +6,15 @@ JavaScript 在处理函数时提供了非凡的灵活性。它们可以被传递
 
 假设我们有一个 CPU 重负载的函数 `slow(x)`，但它的结果是稳定的。换句话说，对于相同的 `x`，它总是返回相同的结果。
 
+<<<<<<< HEAD
 如果经常调用该函数，我们可能希望将结果缓存（记住）下来，以避免在重新计算上花费额外的时间。
 
 但是我们不是将这个功能添加到 `slow()` 中，而是创建一个包装器（wrapper）函数，该函数增加了缓存功能。正如我们将要看到的，这样做有很多好处。
+=======
+If the function is called often, we may want to cache (remember) the results to avoid spending extra-time on recalculations.
+
+But instead of adding that functionality into `slow()` we'll create a wrapper function, that adds caching. As we'll see, there are many benefits of doing so.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 下面是代码和解释：
 
@@ -23,6 +29,7 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
+<<<<<<< HEAD
     if (cache.has(x)) {    // 如果缓存中有对应的结果
       return cache.get(x); // 从缓存中读取结果
     }
@@ -30,6 +37,15 @@ function cachingDecorator(func) {
     let result = func(x);  // 否则就调用 func
 
     cache.set(x, result);  // 然后将结果缓存（记住）下来
+=======
+    if (cache.has(x)) {    // if there's such key in cache
+      return cache.get(x); // read the result from it
+    }
+
+    let result = func(x);  // otherwise call func
+
+    cache.set(x, result);  // and cache (remember) the result
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
     return result;
   };
 }
@@ -49,6 +65,7 @@ alert( "Again: " + slow(2) ); // 和前面一行结果相同
 
 通过将缓存与主函数代码分开，我们还可以使主函数代码变得更简单。
 
+<<<<<<< HEAD
 `cachingDecorator(func)` 的结果是一个“包装器”：`function(x)` 将 `func(x)` 的调用“包装”到缓存逻辑中：
 
 ![](decorator-makecaching-wrapper.svg)
@@ -56,16 +73,35 @@ alert( "Again: " + slow(2) ); // 和前面一行结果相同
 从外部代码来看，包装的 `slow` 函数执行的仍然是与之前相同的操作。它只是在其行为上添加了缓存功能。
 
 总而言之，使用分离的 `cachingDecorator` 而不是改变 `slow` 本身的代码有几个好处：
+=======
+The result of `cachingDecorator(func)` is a "wrapper": `function(x)` that "wraps" the call of `func(x)` into caching logic:
+
+![](decorator-makecaching-wrapper.svg)
+
+From an outside code, the wrapped `slow` function still does the same. It just got a caching aspect added to its behavior.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 - `cachingDecorator` 是可重用的。我们可以将它应用于另一个函数。
 - 缓存逻辑是独立的，它没有增加 `slow` 本身的复杂性（如果有的话）。
 - 如果需要，我们可以组合多个装饰者（其他装饰者将遵循同样的逻辑）。
 
+<<<<<<< HEAD
 ## 使用 "func.call" 设定上下文
 
 上面提到的缓存装饰者不适用于对象方法。
 
 例如，在下面的代码中，`worker.slow()` 在装饰后停止工作：
+=======
+- The `cachingDecorator` is reusable. We can apply it to another function.
+- The caching logic is separate, it did not increase the complexity of `slow` itself (if there was any).
+- We can combine multiple decorators if needed (other decorators will follow).
+
+## Using "func.call" for the context
+
+The caching decorator mentioned above is not suited to work with object methods.
+
+For instance, in the code below `worker.slow()` stops working after the decoration:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 // 我们将对 worker.slow 的结果进行缓存
@@ -75,7 +111,11 @@ let worker = {
   },
 
   slow(x) {
+<<<<<<< HEAD
     // 可怕的 CPU 过载任务
+=======
+    // scary CPU-heavy task here  
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
     alert("Called with " + x);
     return x * this.someMethod(); // (*)
   }
@@ -148,7 +188,11 @@ function sayHi() {
 let user = { name: "John" };
 let admin = { name: "Admin" };
 
+<<<<<<< HEAD
 // 使用 call 将不同的对象传递为 "this"
+=======
+// use call to pass different objects as "this"
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 sayHi.call( user ); // John
 sayHi.call( admin ); // Admin
 ```
@@ -167,7 +211,11 @@ let user = { name: "John" };
 say.call( user, "Hello" ); // John: Hello
 ```
 
+<<<<<<< HEAD
 在我们的例子中，我们可以在包装器中使用 `call` 将上下文传递给原始函数：
+=======
+In our case, we can use `call` in the wrapper to pass the context to the original function:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 let worker = {
@@ -209,7 +257,11 @@ alert( worker.slow(2) ); // 工作正常，没有调用原始函数（使用的�
 2. 因此，当 `worker.slow(2)` 执行时，包装器将 `2` 作为参数，并且 `this=worker`（它是点符号 `.` 之前的对象）。
 3. 在包装器内部，假设结果尚未缓存，`func.call(this, x)` 将当前的 `this`（`=worker`）和当前的参数（`=2`）传递给原始方法。
 
+<<<<<<< HEAD
 ## 使用 "func.apply" 来传递多参数
+=======
+## Going multi-argument
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 现在让我们把 `cachingDecorator` 写得更加通用。到现在为止，它只能用于单参数函数。
 
@@ -226,6 +278,7 @@ let worker = {
 worker.slow = cachingDecorator(worker.slow);
 ```
 
+<<<<<<< HEAD
 之前，对于单个参数 `x`，我们可以只使用 `cache.set(x, result)` 来保存结果，并使用 `cache.get(x)` 来检索并获取结果。但是现在，我们需要记住 **参数组合** `(min,max)` 的结果。原生的 `Map` 仅将单个值作为键（key）。
 
 这儿有许多解决方案可以实现：
@@ -239,6 +292,21 @@ worker.slow = cachingDecorator(worker.slow);
 当然，我们需要将 `func.call(this, x)` 替换成 `func.call(this, ...arguments)`，以将所有参数传递给包装的函数调用，而不仅仅是只传递第一个参数。
 
 这是一个更强大的 `cachingDecorator`：
+=======
+Previously, for a single argument `x` we could just `cache.set(x, result)` to save the result and `cache.get(x)` to retrieve it. But now we need to remember the result for a *combination of arguments* `(min,max)`. The native `Map` takes single value only as the key.
+
+There are many solutions possible:
+
+1. Implement a new (or use a third-party) map-like data structure that is more versatile and allows multi-keys.
+2. Use nested maps: `cache.set(min)` will be a `Map` that stores the pair `(max, result)`. So we can get `result` as `cache.get(min).get(max)`.
+3. Join two values into one. In our particular case we can just use a string `"min,max"` as the `Map` key. For flexibility, we can allow to provide a *hashing function* for the decorator, that knows how to make one value from many.
+
+For many practical applications, the 3rd variant is good enough, so we'll stick to it.
+
+Also we need to pass not just `x`, but all arguments in `func.call`. Let's recall that in a `function()` we can get a pseudo-array of its arguments as `arguments`, so `func.call(this, x)` should be replaced with `func.call(this, ...arguments)`.
+
+Here's a more powerful `cachingDecorator`:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run
 let worker = {
@@ -277,14 +345,65 @@ alert( worker.slow(3, 5) ); // works
 alert( "Again " + worker.slow(3, 5) ); // same (cached)
 ```
 
+<<<<<<< HEAD
 现在这个包装器可以处理任意数量的参数了（尽管哈希函数还需要被进行调整以允许任意数量的参数。一种有趣的处理方法将在下面讲到）。
+=======
+Now it works with any number of arguments (though the hash function would also need to be adjusted to allow any number of arguments. An interesting way to handle this will be covered below).
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 这里有两个变化：
 
+<<<<<<< HEAD
 - 在 `(*)` 行中它调用 `hash` 来从 `arguments` 创建一个单独的键。这里我们使用一个简单的“连接”函数，将参数 `(3, 5)` 转换为键 `"3,5"`。更复杂的情况可能需要其他哈希函数。
 - 然后 `(**)` 行使用 `func.call(this, ...arguments)` 将包装器获得的上下文和所有参数（不仅仅是第一个参数）传递给原始函数。
 
 我们可以使用 `func.apply(this, arguments)` 代替 `func.call(this, ...arguments)`。
+=======
+- In the line `(*)` it calls `hash` to create a single key from `arguments`. Here we use a simple "joining" function that turns arguments `(3, 5)` into the key `"3,5"`. More complex cases may require other hashing functions.
+- Then `(**)` uses `func.call(this, ...arguments)` to pass both the context and all arguments the wrapper got (not just the first one) to the original function.
+
+## func.apply
+
+Instead of `func.call(this, ...arguments)` we could use `func.apply(this, arguments)`.
+
+The syntax of built-in method [func.apply](mdn:js/Function/apply) is:
+
+```js
+func.apply(context, args)
+```
+
+It runs the `func` setting `this=context` and using an array-like object `args` as the list of arguments.
+
+The only syntax difference between `call` and `apply` is that `call` expects a list of arguments, while `apply` takes an array-like object with them.
+
+So these two calls are almost equivalent:
+
+```js
+func.call(context, ...args); // pass an array as list with spread syntax
+func.apply(context, args);   // is same as using call
+```
+
+There's only a subtle difference:
+
+- The spread syntax `...` allows to pass *iterable* `args` as the list to `call`.
+- The `apply` accepts only *array-like* `args`.
+
+So, where we expect an iterable, `call` works, and where we expect an array-like, `apply` works.
+
+And for objects that are both iterable and array-like, like a real array, we can use any of them, but `apply` will probably be faster, because most JavaScript engines internally optimize it better.
+
+Passing all arguments along with the context to another function is called *call forwarding*.
+
+That's the simplest form of it:
+
+```js
+let wrapper = function() {
+  return func.apply(this, arguments);
+};
+```
+
+When an external code calls such `wrapper`, it is indistinguishable from the call of the original function `func`.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 内建方法 [func.apply](mdn:js/Function/apply) 的语法是：
 
@@ -344,7 +463,11 @@ function hash(args) {
 }
 ```
 
+<<<<<<< HEAD
 ……不幸的是，这不行。因为我们正在调用 `hash(arguments)`，`arguments` 对象既是可迭代对象又是类数组对象，但它并不是真正的数组。
+=======
+...Unfortunately, that won't work. Because we are calling `hash(arguments)`, and `arguments` object is both iterable and array-like, but not a real array.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 所以在它上面调用 `join` 会失败，我们可以在下面看到：
 
@@ -376,7 +499,11 @@ hash(1, 2);
 
 它为什么有效？
 
+<<<<<<< HEAD
 那是因为原生方法 `arr.join(glue)` 的内部算法非常简单。
+=======
+We take (borrow) a join method from a regular array (`[].join`) and use `[].join.call` to run it in the context of `arguments`.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 从规范中几乎“按原样”解释如下：
 
@@ -394,13 +521,31 @@ hash(1, 2);
 
 通常，用装饰的函数替换一个函数或一个方法是安全的，除了一件小东西。如果原始函数有属性，例如 `func.calledCount` 或其他，则装饰后的函数将不再提供这些属性。因为这是装饰者。因此，如果有人使用它们，那么就需要小心。
 
+<<<<<<< HEAD
 例如，在上面的示例中，如果 `slow` 函数具有任何属性，而 `cachingDecorator(slow)` 则是一个没有这些属性的包装器。
+=======
+## Decorators and function properties
+
+It is generally safe to replace a function or a method with a decorated one, except for one little thing. If the original function had properties on it, like `func.calledCount` or whatever, then the decorated one will not provide them. Because that is a wrapper. So one needs to be careful if one uses them.
+
+E.g. in the example above if `slow` function had any properties on it, then `cachingDecorator(slow)` is a wrapper without them.
+
+Some decorators may provide their own properties. E.g. a decorator may count how many times a function was invoked and how much time it took, and expose this information via wrapper properties.
+
+There exists a way to create decorators that keep access to function properties, but this requires using a special `Proxy` object to wrap a function. We'll discuss it later in the article <info:proxy#proxy-apply>.
+
+## Summary
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 一些包装器可能会提供自己的属性。例如，装饰者会计算一个函数被调用了多少次以及花费了多少时间，并通过包装器属性公开（expose）这些信息。
 
+<<<<<<< HEAD
 存在一种创建装饰者的方法，该装饰者可保留对函数属性的访问权限，但这需要使用特殊的 `Proxy` 对象来包装函数。我们将在后面的 <info:proxy#proxy-apply> 中学习它。
 
 ## 总结
+=======
+Decorators can be seen as "features" or "aspects" that can be added to a function. We can add one or add many. And all this without changing its code!
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 **装饰者** 是一个围绕改变函数行为的包装器。主要工作仍由该函数来完成。
 
@@ -419,6 +564,10 @@ let wrapper = function() {
 };
 ```
 
+<<<<<<< HEAD
 我们也可以看到一个 **方法借用（method borrowing）** 的例子，就是我们从一个对象中获取一个方法，并在另一个对象的上下文中“调用”它。采用数组方法并将它们应用于参数 `arguments` 是很常见的。另一种方法是使用 Rest 参数对象，该对象是一个真正的数组。
+=======
+We also saw an example of *method borrowing* when we take a method from an object and `call` it in the context of another object. It is quite common to take array methods and apply them to `arguments`. The alternative is to use rest parameters object that is a real array.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 在 JavaScript 领域里有很多装饰者（decorators）。通过解决本章的任务，来检查你掌握它们的程度吧。

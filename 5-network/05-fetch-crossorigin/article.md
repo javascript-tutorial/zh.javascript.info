@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 # Fetch：跨源请求
 
 如果我们向另一个网站发送 `fetch` 请求，则该请求可能会失败。
 
 例如，让我们尝试向 `http://example.com` 发送 `fetch` 请求：
+=======
+# Fetch: Cross-Origin Requests
+
+If we send a `fetch` request to another web-site, it will probably fail.
+
+For instance, let's try fetching `http://example.com`:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js run async
 try {
   await fetch('http://example.com');
 } catch(err) {
+<<<<<<< HEAD
   alert(err); // fetch 失败
 }
 ```
@@ -40,11 +49,49 @@ CORS 的存在是为了保护互联网免受黑客攻击。
 
 ```html
 <!-- 表单目标 -->
+=======
+  alert(err); // Failed to fetch
+}
+```
+
+Fetch fails, as expected.
+
+The core concept here is *origin* -- a domain/port/protocol triplet.
+
+Cross-origin requests -- those sent to another domain (even a subdomain) or protocol or port -- require special headers from the remote side.
+
+That policy is called "CORS": Cross-Origin Resource Sharing.
+
+## Why is CORS needed? A brief history
+
+CORS exists to protect the internet from evil hackers.
+
+Seriously. Let's make a very brief historical digression.
+
+**For many years a script from one site could not access the content of another site.**
+
+That simple, yet powerful rule was a foundation of the internet security. E.g. an evil script from website `hacker.com` could not access user's mailbox at website `gmail.com`. People felt safe.
+
+JavaScript also did not have any special methods to perform network requests at that time. It was a toy language to decorate a web page.
+
+But web developers demanded more power. A variety of tricks were invented to work around the limitation and make requests to other websites.
+
+### Using forms
+
+One way to communicate with another server was to submit a `<form>` there. People submitted it into `<iframe>`, just to stay on the current page, like this:
+
+```html
+<!-- form target -->
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 *!*
 <iframe name="iframe"></iframe>
 */!*
 
+<<<<<<< HEAD
 <!-- 表单可以由 JavaScript 动态生成并提交 -->
+=======
+<!-- a form could be dynamically generated and submited by JavaScript -->
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 *!*
 <form target="iframe" method="POST" action="http://another.com/…">
 */!*
@@ -52,6 +99,7 @@ CORS 的存在是为了保护互联网免受黑客攻击。
 </form>
 ```
 
+<<<<<<< HEAD
 因此，即使没有网络方法，也可以向其他网站发出 GET/POST 请求，因为表单可以将数据发送到任何地方。但是由于禁止从其他网站访问 `<iframe>` 中的内容，因此就无法读取响应。
 
 确切地说，实际上有一些技巧能够解决这个问题，这在 iframe 和页面中都需要添加特殊脚本。因此，与 iframe 的通信在技术上是可能的。现在我们没必要讲其细节内容，我们还是让这些古董代码不要再出现了吧。
@@ -75,20 +123,52 @@ CORS 的存在是为了保护互联网免受黑客攻击。
     }
     ``` 
 2. 然后我们创建一个特性（attribute）为 `src="http://another.com/weather.json?callback=gotWeather"` 的 `<script>` 标签，使用我们的函数名作为它的 `callback` URL-参数。
+=======
+So, it was possible to make a GET/POST request to another site, even without networking methods, as forms can send data anywhere. But as it's forbidden to access the content of an `<iframe>` from another site, it wasn't possible to read the response.
+
+To be precise, there were actually tricks for that, they required special scripts at both the iframe and the page. So the communication with the iframe was technically possible. Right now there's no point to go into details, let these dinosaurs rest in peace.
+
+### Using scripts
+
+Another trick was to use a `script` tag. A script could have any `src`, with any domain, like `<script src="http://another.com/…">`. It's possible to execute a script from any website.
+
+If a website, e.g. `another.com` intended to expose data for this kind of access, then a so-called "JSONP (JSON with padding)" protocol was used.
+
+Here's how it worked.
+
+Let's say we, at our site, need to get the data from `http://another.com`, such as the weather:
+
+1. First, in advance, we declare a global function to accept the data, e.g. `gotWeather`.
+
+    ```js
+    // 1. Declare the function to process the weather data
+    function gotWeather({ temperature, humidity }) {
+      alert(`temperature: ${temperature}, humidity: ${humidity}`);
+    }
+    ```
+2. Then we make a `<script>` tag with `src="http://another.com/weather.json?callback=gotWeather"`, using the name of our function as the `callback` URL-parameter.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
     ```js
     let script = document.createElement('script');
     script.src = `http://another.com/weather.json?callback=gotWeather`;
     document.body.append(script);
     ```
+<<<<<<< HEAD
 3. 远程服务器 `another.com` 动态生成一个脚本，该脚本调用 `gotWeather(...)`，发送它想让我们接收的数据。
     ```js
     // 我们期望来自服务器的回答看起来像这样：
+=======
+3. The remote server `another.com` dynamically generates a script that calls `gotWeather(...)` with the data it wants us to receive.
+    ```js
+    // The expected answer from the server looks like this:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
     gotWeather({
       temperature: 25,
       humidity: 78
     });
     ```
+<<<<<<< HEAD
 4. 当远程脚本加载并执行时，`gotWeather` 函数将运行，并且因为它是我们的函数，我们就有了需要的数据。
 
 这是可行的，并且不违反安全规定，因为双方都同意以这种方式传递数据。而且，既然双方都同意这种行为，那这肯定不是黑客攻击了。现在仍然有提供这种访问的服务，因为即使是非常旧的浏览器它依然适用。
@@ -134,6 +214,53 @@ CORS 的存在是为了保护互联网免受黑客攻击。
 如果一个请求是跨源的，浏览器始终会向其添加 `Origin` header。
 
 例如，如果我们从 `https://javascript.info/page` 请求 `https://anywhere.com/request`，请求的 header 将会如下：
+=======
+4. When the remote script loads and executes, `gotWeather` runs, and, as it's our function, we have the data.
+
+That works, and doesn't violate security, because both sides agreed to pass the data this way. And, when both sides agree, it's definitely not a hack. There are still services that provide such access, as it works even for very old browsers.
+
+After a while, networking methods appeared in browser JavaScript.
+
+At first, cross-origin requests were forbidden. But as a result of long discussions, cross-origin requests were allowed, but with any new capabilities requiring an explicit allowance by the server, expressed in special headers.
+
+## Simple requests
+
+There are two types of cross-origin requests:
+
+1. Simple requests.
+2. All the others.
+
+Simple Requests are, well, simpler to make, so let's start with them.
+
+A [simple request](http://www.w3.org/TR/cors/#terminology) is a request that satisfies two conditions:
+
+1. [Simple method](http://www.w3.org/TR/cors/#simple-method): GET, POST or HEAD
+2. [Simple headers](http://www.w3.org/TR/cors/#simple-header) -- the only allowed custom headers are:
+    - `Accept`,
+    - `Accept-Language`,
+    - `Content-Language`,
+    - `Content-Type` with the value `application/x-www-form-urlencoded`, `multipart/form-data` or `text/plain`.
+
+Any other request is considered "non-simple". For instance, a request with `PUT` method or with an `API-Key` HTTP-header does not fit the limitations.
+
+**The essential difference is that a "simple request" can be made with a `<form>` or a `<script>`, without any special methods.**
+
+So, even a very old server should be ready to accept a simple request.
+
+Contrary to that, requests with non-standard headers or e.g. method `DELETE` can't be created this way. For a long time JavaScript was unable to do such requests. So an old server may assume that such requests come from a privileged source, "because a webpage is unable to send them".
+
+When we try to make a non-simple request, the browser sends a special "preflight" request that asks the server -- does it agree to accept such cross-origin requests, or not?
+
+And, unless the server explicitly confirms that with headers, a non-simple request is not sent.
+
+Now we'll go into details.
+
+## CORS for simple requests
+
+If a request is cross-origin, the browser always adds `Origin` header to it.
+
+For instance, if we request `https://anywhere.com/request` from `https://javascript.info/page`, the headers will be like:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 GET /request
@@ -144,6 +271,7 @@ Origin: https://javascript.info
 ...
 ```
 
+<<<<<<< HEAD
 正如你所见，`Origin` 包含了确切的源（domain/protocol/port），没有路径。
 
 服务器可以检查 `Origin`，如果同意接受这样的请求，就会在响应中添加一个特殊的 header `Access-Control-Allow-Origin`。该 header 包含了允许的源（在我们的示例中是 `https://javascript.info`），或者一个星号 `*`。然后响应成功，否则报错。
@@ -155,6 +283,19 @@ Origin: https://javascript.info
 ![](xhr-another-domain.svg)
 
 这是一个带有服务器许可的响应示例：
+=======
+As you can see, `Origin` header contains exactly the origin (domain/protocol/port), without a path.
+
+The server can inspect the `Origin` and, if it agrees to accept such a request, adds a special header `Access-Control-Allow-Origin` to the response. That header should contain the allowed origin (in our case `https://javascript.info`), or a star `*`. Then the response is successful, otherwise an error.
+
+The browser plays the role of a trusted mediator here:
+1. It ensures that the correct `Origin` is sent with a cross-origin request.
+2. It checks for permitting `Access-Control-Allow-Origin` in the response, if it exists, then JavaScript is allowed to access the response, otherwise it fails with an error.
+
+![](xhr-another-domain.svg)
+
+Here's an example of a permissive server response:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 ```http
 200 OK
 Content-Type:text/html; charset=UTF-8
@@ -163,9 +304,15 @@ Access-Control-Allow-Origin: https://javascript.info
 */!*
 ```
 
+<<<<<<< HEAD
 ## Response header
 
 对于跨源请求，默认情况下，JavaScript 只能访问“简单” response header：
+=======
+## Response headers
+
+For cross-origin request, by default JavaScript may only access so-called "simple" response headers:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 - `Cache-Control`
 - `Content-Language`
@@ -174,6 +321,7 @@ Access-Control-Allow-Origin: https://javascript.info
 - `Last-Modified`
 - `Pragma`
 
+<<<<<<< HEAD
 访问任何其他 response header 都将导致 error。
 
 ```smart
@@ -185,6 +333,19 @@ Access-Control-Allow-Origin: https://javascript.info
 要授予 JavaScript 对任何其他 response header 的访问权限，服务器必须发送 `Access-Control-Expose-Headers` header。它包含一个以逗号分隔的应该被设置为可访问的非简单 header 名称列表。
 
 例如：
+=======
+Accessing any other response header causes an error.
+
+```smart
+There's no `Content-Length` header in the list!
+
+This header contains the full response length. So, if we're downloading something and would like to track the percentage of progress, then an additional permission is required to access that header (see below).
+```
+
+To grant JavaScript access to any other response header, the server must send  `Access-Control-Expose-Headers` header. It contains a comma-separated list of non-simple header names that should be made accessible.
+
+For example:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 200 OK
@@ -197,6 +358,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 */!*
 ```
 
+<<<<<<< HEAD
 有了这种 `Access-Control-Expose-Headers` header，此脚本就被允许读取响应的 `Content-Length` 和 `API-Key` header。
 
 ## “非简单”请求
@@ -221,6 +383,32 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 ![](xhr-preflight.svg)
 
 让我们用一个例子来一步步看一下它是怎么工作的，对于一个跨源的 `PATCH` 请求（此方法经常被用于更新数据）：
+=======
+With such `Access-Control-Expose-Headers` header, the script is allowed to read `Content-Length` and `API-Key` headers of the response.
+
+## "Non-simple" requests
+
+We can use any HTTP-method: not just `GET/POST`, but also `PATCH`, `DELETE` and others.
+
+Some time ago no one could even imagine that a webpage could make such requests. So there may still exist webservices that treat a non-standard method as a signal: "That's not a browser". They can take it into account when checking access rights.
+
+So, to avoid misunderstandings, any "non-simple" request -- that couldn't be done in the old times, the browser does not make such requests right away. Before it sends a preliminary, so-called "preflight" request, asking for permission.
+
+A preflight request uses method `OPTIONS`, no body and two headers:
+
+- `Access-Control-Request-Method` header has the method of the non-simple request.
+- `Access-Control-Request-Headers` header provides a comma-separated list of its non-simple HTTP-headers.
+
+If the server agrees to serve the requests, then it should respond with empty body, status 200 and headers:
+
+- `Access-Control-Allow-Methods` must have the allowed method.
+- `Access-Control-Allow-Headers` must have a list of allowed headers.
+- Additionally, the header `Access-Control-Max-Age` may specify a number of seconds to cache the permissions. So the browser won't have to send a preflight for subsequent requests that satisfy given permissions.
+
+![](xhr-preflight.svg)
+
+Let's see how it works step-by-step on example, for a cross-origin `PATCH` request (this method is often used to update data):
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 let response = await fetch('https://site.com/service.json', {
@@ -232,6 +420,7 @@ let response = await fetch('https://site.com/service.json', {
 });
 ```
 
+<<<<<<< HEAD
 这里有三个理由解释为什么它不是一个简单请求（其实一个就够了）：
 - 方法 `PATCH`
 - `Content-Type` 不是这三个中之一：`application/x-www-form-urlencoded`，`multipart/form-data`，`text/plain`。
@@ -240,6 +429,16 @@ let response = await fetch('https://site.com/service.json', {
 ### Step 1 预检请求（preflight request）
 
 在发送我们的请求前，浏览器会自己发送如下所示的预检请求：
+=======
+There are three reasons why the request is not simple (one is enough):
+- Method `PATCH`
+- `Content-Type` is not one of: `application/x-www-form-urlencoded`, `multipart/form-data`, `text/plain`.
+- "Non-simple" `API-Key` header.
+
+### Step 1 (preflight request)
+
+Prior to sending such request, the browser, on its own, sends a preflight request that looks like this:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 OPTIONS /service.json
@@ -249,6 +448,7 @@ Access-Control-Request-Method: PATCH
 Access-Control-Request-Headers: Content-Type,API-Key
 ```
 
+<<<<<<< HEAD
 - 方法：`OPTIONS`。
 - 路径 —— 与主请求完全相同：`/service.json`。
 - 特殊跨源头：
@@ -265,6 +465,24 @@ Access-Control-Request-Headers: Content-Type,API-Key
 这将允许后续通信，否则会触发错误。
 
 如果服务器将来期望其他方法和 header，则可以通过添加到列表中来预先允许它们：
+=======
+- Method: `OPTIONS`.
+- The path -- exactly the same as the main request: `/service.json`.
+- Cross-origin special headers:
+    - `Origin` -- the source origin.
+    - `Access-Control-Request-Method` -- requested method.
+    - `Access-Control-Request-Headers` -- a comma-separated list of "non-simple" headers.
+
+### Step 2 (preflight response)
+
+The server should respond with status 200 and headers:
+- `Access-Control-Allow-Methods: PATCH`
+- `Access-Control-Allow-Headers: Content-Type,API-Key`.
+
+That allows future communication, otherwise an error is triggered.
+
+If the server expects other methods and headers in the future, it makes sense to allow them in advance by adding to the list:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 200 OK
@@ -273,6 +491,7 @@ Access-Control-Allow-Headers: API-Key,Content-Type,If-Modified-Since,Cache-Contr
 Access-Control-Max-Age: 86400
 ```
 
+<<<<<<< HEAD
 现在，浏览器可以看到 `PATCH` 在 `Access-Control-Allow-Methods` 中，`Content-Type,API-Key` 在列表 `Access-Control-Allow-Headers` 中，因此它将发送主请求。
 
 此外，预检响应会缓存一段时间，该时间由 `Access-Control-Max-Age` header 指定（86400 秒，一天），因此，后续请求将不会导致预检。假设它们符合缓存的配额，则将直接发送它们。
@@ -282,6 +501,17 @@ Access-Control-Max-Age: 86400
 预检成功后，浏览器现在发出主请求。这里的算法与简单请求的算法相同。
 
 主请求具有 `Origin` header（因为它是跨源的）：
+=======
+Now the browser can see that `PATCH` is in `Access-Control-Allow-Methods` and `Content-Type,API-Key` are in the list `Access-Control-Allow-Headers`, so it sends out the main request.
+
+Besides, the preflight response is cached for time, specified by `Access-Control-Max-Age` header (86400 seconds, one day), so subsequent requests will not cause a preflight. Assuming that they fit the cached allowances, they will be sent directly.
+
+### Step 3 (actual request)
+
+When the preflight is successful, the browser now makes the main request. The algorithm here is the same as for simple requests.
+
+The main request has `Origin` header (because it's cross-origin):
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 PATCH /service.json
@@ -291,14 +521,21 @@ API-Key: secret
 Origin: https://javascript.info
 ```
 
+<<<<<<< HEAD
 ### Step 4 实际响应（actual response）
 
 服务器不应该忘记在主响应中添加 `Access-Control-Allow-Origin`。成功的预检并不能免除此要求：
+=======
+### Step 4 (actual response)
+
+The server should not forget to add `Access-Control-Allow-Origin` to the main response. A successful preflight does not relieve from that:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 Access-Control-Allow-Origin: https://javascript.info
 ```
 
+<<<<<<< HEAD
 然后，JavaScript 可以读取主服务器响应了。
 
 ```smart
@@ -322,6 +559,31 @@ JavaScript 仅获取对主请求的响应，如果没有服务器许可，则获
 服务器真的这么信任这种脚本吗？是的，它必须显式地带有允许请求的凭据和附加 header。
 
 要在 `fetch` 中发送凭据，我们需要添加 `credentials: "include"` 选项，像这样：
+=======
+Then JavaScript is able to read the main server response.
+
+```smart
+Preflight request occurs "behind the scenes", it's invisible to JavaScript.
+
+JavaScript only gets the response to the main request or an error if there's no server permission.
+```
+
+## Credentials
+
+A cross-origin request initiated by JavaScript code by default does not bring any credentials (cookies or HTTP authentication).
+
+That's uncommon for HTTP-requests. Usually, a request to `http://site.com` is accompanied by all cookies from that domain. But cross-origin requests made by JavaScript methods are an exception.
+
+For example, `fetch('http://another.com')` does not send any cookies, even those  (!) that belong to `another.com` domain.
+
+Why?
+
+That's because a request with credentials is much more powerful than without them. If allowed, it grants JavaScript the full power to act on behalf of the user and access sensitive information using their credentials.
+
+Does the server really trust the script that much? Then it must explicitly allow requests with credentials with an additional header.
+
+To send credentials in `fetch`, we need to add the option `credentials: "include"`, like this:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```js
 fetch('http://another.com', {
@@ -329,11 +591,19 @@ fetch('http://another.com', {
 });
 ```
 
+<<<<<<< HEAD
 现在，`fetch` 将把源自 `another.com` 的 cookie 和我们的请求发送到该网站。
 
 如果服务器同意接受 **带有凭据** 的请求，则除了 `Access-Control-Allow-Origin` 外，服务器还应该在响应中添加 header `Access-Control-Allow-Credentials: true`。
 
 例如：
+=======
+Now `fetch` sends cookies originating from `another.com` without request to that site.
+
+If the server agrees to accept the request *with credentials*, it should add a header `Access-Control-Allow-Credentials: true` to the response, in addition to `Access-Control-Allow-Origin`.
+
+For example:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```http
 200 OK
@@ -341,6 +611,7 @@ Access-Control-Allow-Origin: https://javascript.info
 Access-Control-Allow-Credentials: true
 ```
 
+<<<<<<< HEAD
 请注意：对于具有凭据的请求，禁止 `Access-Control-Allow-Origin` 使用星号 `*`。如上所示，它必须有一个确切的源。这是另一项安全措施，以确保服务器真的知道它信任的发出此请求的是谁。
 
 ## 总结
@@ -380,3 +651,44 @@ Access-Control-Allow-Credentials: true
     - `Access-Control-Allow-Headers` 带有允许的 header 的列表，
     - `Access-Control-Max-Age` 带有指定缓存权限的秒数。
 - 然后，发出实际请求，应用先前的“简单”方案。
+=======
+Please note: `Access-Control-Allow-Origin` is prohibited from using a star `*` for requests with credentials. Like shown above, it must provide the exact origin there. That's an additional safety measure, to ensure that the server really knows who it trusts to make such requests.
+
+## Summary
+
+From the browser point of view, there are two kinds of cross-origin requests: "simple" and all the others.
+
+[Simple requests](http://www.w3.org/TR/cors/#terminology) must satisfy the following conditions:
+- Method: GET, POST or HEAD.
+- Headers -- we can set only:
+    - `Accept`
+    - `Accept-Language`
+    - `Content-Language`
+    - `Content-Type` to the value `application/x-www-form-urlencoded`, `multipart/form-data` or `text/plain`.
+
+The essential difference is that simple requests were doable since ancient times using `<form>` or `<script>` tags, while non-simple were impossible for browsers for a long time.
+
+So, the practical difference is that simple requests are sent right away, with `Origin` header, while for the other ones the browser makes a preliminary "preflight" request, asking for permission.
+
+**For simple requests:**
+
+- → The browser sends `Origin` header with the origin.
+- ← For requests without credentials (not sent default), the server should set:
+    - `Access-Control-Allow-Origin` to `*` or same value as `Origin`
+- ← For requests with credentials, the server should set:
+    - `Access-Control-Allow-Origin` to same value as `Origin`
+    - `Access-Control-Allow-Credentials` to `true`
+
+Additionally, to grant JavaScript access to any response headers except `Cache-Control`,  `Content-Language`, `Content-Type`, `Expires`, `Last-Modified` or `Pragma`, the server should list the allowed ones in `Access-Control-Expose-Headers` header.
+
+**For non-simple requests, a preliminary "preflight" request is issued before the requested one:**
+
+- → The browser sends `OPTIONS` request to the same URL, with headers:
+    - `Access-Control-Request-Method` has requested method.
+    - `Access-Control-Request-Headers` lists non-simple requested headers.
+- ← The server should respond with status 200 and headers:
+    - `Access-Control-Allow-Methods` with a list of allowed methods,
+    - `Access-Control-Allow-Headers` with a list of allowed headers,
+    - `Access-Control-Max-Age` with a number of seconds to cache permissions.
+- Then the actual request is sent, the previous "simple" scheme is applied.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439

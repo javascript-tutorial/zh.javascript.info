@@ -10,7 +10,11 @@
 </div>
 ```
 
+<<<<<<< HEAD
 这是不是有点奇怪？如果实际上点击的是 `<em>`，为什么在 `<div>` 上的处理程序会运行？
+=======
+Isn't it a bit strange? Why does the handler on `<div>` run if the actual click was on `<em>`?
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ## 冒泡
 
@@ -18,7 +22,11 @@
 
 **当一个事件发生在一个元素上，它会首先运行在该元素上的处理程序，然后运行其父元素上的处理程序，然后一直向上到其他祖先上的处理程序。**
 
+<<<<<<< HEAD
 假设我们有 3 层嵌套 `FORM > DIV > P`，它们各自拥有一个处理程序：
+=======
+Let's say we have 3 nested elements `FORM > DIV > P` with a handler on each of them:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```html run autorun
 <style>
@@ -68,14 +76,23 @@
 
 在 `form.onclick` 处理程序中：
 
+<<<<<<< HEAD
 - `this`（=`event.currentTarget`）是 `<form>` 元素，因为处理程序在它上面运行。
 - `event.target` 是表单中实际被点击的元素。
+=======
+- `this` (=`event.currentTarget`) is the `<form>` element, because the handler runs on it.
+- `event.target` is the actual element inside the form that was clicked.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 一探究竟：
 
 [codetabs height=220 src="bubble-target"]
 
+<<<<<<< HEAD
 `event.target` 可能会等于 `this` —— 当点击事件发生在 `<form>` 元素上时，就会发生这种情况。
+=======
+It's possible that `event.target` could equal `this` -- it happens when the click is made directly on the `<form>` element.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ## 停止冒泡
 
@@ -101,16 +118,27 @@
 有一个 `event.stopImmediatePropagation()` 方法，可以用于停止冒泡，并阻止当前元素上的处理程序运行。使用该方法之后，其他处理程序就不会被执行。
 ```
 
+<<<<<<< HEAD
 ```warn header="不要在没有需要的情况下停止冒泡！"
 冒泡很方便。不要在没有真实需求时阻止它：除非是显而易见的，并且在架构上经过深思熟虑的。
+=======
+```warn header="Don't stop bubbling without a need!"
+Bubbling is convenient. Don't stop it without a real need: obvious and architecturally well thought out.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 有时 `event.stopPropagation()` 会产生隐藏的陷阱，以后可能会成为问题。
 
 例如：
 
+<<<<<<< HEAD
 1. 我们创建了一个嵌套菜单，每个子菜单各自处理对自己的元素的点击事件，并调用 `stopPropagation`，以便不会触发外部菜单。
 2. 之后，我们决定捕获在整个窗口上的点击，以追踪用户的行为（用户点击的位置）。有些分析系统会这样做。通常，代码会使用 `document.addEventListener('click'…)` 来捕获所有的点击。
 3. 我们的分析不适用于被 `stopPropagation` 所阻止点击的区域。太伤心了，我们有一个“死区”。
+=======
+1. We create a nested menu. Each submenu handles clicks on its elements and calls `stopPropagation` so that the outer menu won't trigger.
+2. Later we decide to catch clicks on the whole window, to track users' behavior (where people click). Some analytic systems do that. Usually the code uses `document.addEventListener('click'…)` to catch all clicks.
+3. Our analytic won't work over the area where clicks are stopped by `stopPropagation`. Sadly, we've got a "dead zone".
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 通常，没有真正的必要去阻止冒泡。一项看似需要阻止冒泡的任务，可以通过其他方法解决。其中之一就是使用自定义事件，稍后我们会介绍它们此外，我们还可以将我们的数据写入一个处理程序中的 `event` 对象，并在另一个处理程序中读取该数据，这样我们就可以向父处理程序传递有关下层处理程序的信息。
 ```
@@ -130,10 +158,15 @@
 
 ![](eventflow.svg)
 
+<<<<<<< HEAD
 也就是说：点击 `<td>`，事件首先通过祖先链向下到达元素（捕获阶段），然后到达目标（目标阶段），最后上升（冒泡阶段），在途中调用处理程序。
+=======
+That is: for a click on `<td>` the event first goes through the ancestors chain down to the element (capturing phase), then it reaches the target and triggers there (target phase), and then it goes up (bubbling phase), calling handlers on its way.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 **之前，我们只讨论了冒泡，因为捕获阶段很少被使用。通常我们看不到它。**
 
+<<<<<<< HEAD
 使用 `on<event>` 属性或使用 HTML 特性（attribute）或使用两个参数的 `addEventListener(event, handler)` 添加的处理程序，对捕获一无所知，它们仅在第二阶段和第三阶段运行。
 
 为了在捕获阶段捕获事件，我们需要将处理程序的 `capture` 选项设置为 `true`：
@@ -145,14 +178,33 @@ elem.addEventListener(..., true)
 ```
 
 `capture` 选项有两个可能的值：
+=======
+Handlers added using `on<event>`-property or using HTML attributes or using two-argument `addEventListener(event, handler)` don't know anything about capturing, they only run on the 2nd and 3rd phases.
+
+To catch an event on the capturing phase, we need to set the handler `capture` option to `true`:
+
+```js
+elem.addEventListener(..., {capture: true})
+// or, just "true" is an alias to {capture: true}
+elem.addEventListener(..., true)
+```
+
+There are two possible values of the `capture` option:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 - 如果为 `false`（默认值），则在冒泡阶段设置处理程序。
 - 如果为 `true`，则在捕获阶段设置处理程序。
 
 
+<<<<<<< HEAD
 请注意，虽然形式上有 3 个阶段，但第 2 阶段（“目标阶段”：事件到达元素）没有被单独处理：捕获阶段和冒泡阶段的处理程序都在该阶段被触发。
 
 让我们来看看捕获和冒泡：
+=======
+Note that while formally there are 3 phases, the 2nd phase ("target phase": the event reached the element) is not handled separately: handlers on both capturing and bubbling phases trigger at that phase.
+
+Let's see both capturing and bubbling in action:
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 ```html run autorun height=140 edit
 <style>
@@ -180,6 +232,7 @@ elem.addEventListener(..., true)
 
 如果你点击了 `<p>`，那么顺序是：
 
+<<<<<<< HEAD
 1. `HTML` -> `BODY` -> `FORM` -> `DIV`（捕获阶段第一个监听器）：
 2. `P`（目标阶段，触发两次，因为我们设置了两个监听器：捕获和冒泡）
 3. `DIV` -> `FORM` -> `BODY` -> `HTML`（冒泡阶段，第二个监听器）。
@@ -198,8 +251,14 @@ elem.addEventListener("click", e => alert(1)); // 会先被触发
 elem.addEventListener("click", e => alert(2));
 ```
 ````
+=======
+1. `HTML` -> `BODY` -> `FORM` -> `DIV` (capturing phase, the first listener):
+2. `P` (target phase, triggers two times, as we've set two listeners: capturing and bubbling)
+3. `DIV` -> `FORM` -> `BODY` -> `HTML` (bubbling phase, the second listener).
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 
+<<<<<<< HEAD
 ## 总结
 
 当一个事件发生时 —— 发生该事件的嵌套最深的元素被标记为“目标元素”（`event.target`）。
@@ -207,12 +266,41 @@ elem.addEventListener("click", e => alert(2));
 - 然后，事件从文档根节点向下移动到 `event.target`，并在途中调用分配了 `addEventListener(..., true)` 的处理程序（`true` 是 `{capture: true}` 的一个简写形式）。
 - 然后，在目标元素自身上调用处理程序。
 - 然后，事件从 `event.target` 向上移动到根，调用使用 `on<event>` 和没有第三个参数的，或者第三个参数为 `false/{capture:false}` 的 `addEventListener` 分配的处理程序。
+=======
+```smart header="To remove the handler, `removeEventListener` needs the same phase"
+If we `addEventListener(..., true)`, then we should mention the same phase in `removeEventListener(..., true)` to correctly remove the handler.
+```
+
+````smart header="Listeners on same element and same phase run in their set order"
+If we have multiple event handlers on the same phase, assigned to the same element with `addEventListener`, they run in the same order as they are created:
+
+```js
+elem.addEventListener("click", e => alert(1)); // guaranteed to trigger first
+elem.addEventListener("click", e => alert(2));
+```
+````
+
+
+## Summary
+
+When an event happens -- the most nested element where it happens gets labeled as the "target element" (`event.target`).
+
+- Then the event moves down from the document root to `event.target`, calling handlers assigned with `addEventListener(..., true)` on the way (`true` is a shorthand for `{capture: true}`).
+- Then handlers are called on the target element itself.
+- Then the event bubbles up from `event.target` up to the root, calling handlers assigned using `on<event>` and `addEventListener` without the 3rd argument or with the 3rd argument `false/{capture:false}`.
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 每个处理程序都可以访问 `event` 对象的属性：
 
+<<<<<<< HEAD
 - `event.target` —— 引发事件的层级最深的元素。
 - `event.currentTarget`（=`this`）—— 处理事件的当前元素（具有处理程序的元素）
 - `event.eventPhase` —— 当前阶段（capturing=1，target=2，bubbling=3）。
+=======
+- `event.target` -- the deepest element that originated the event.
+- `event.currentTarget` (=`this`) -- the current element that handles the event (the one that has the handler on it)
+- `event.eventPhase` -- the current phase (capturing=1, target=2, bubbling=3).
+>>>>>>> c3a11c85e54153ebb137b5541b1d1f751c804439
 
 任何事件处理程序都可以通过调用 `event.stopPropagation()` 来停止事件，但不建议这样做，因为我们不确定是否确实不需要冒泡上来的事件，也许是用于完全不同的事情。
 

@@ -2,22 +2,22 @@ importance: 4
 
 ---
 
-# 使用回调函数加载图片
+# Load images with a callback
 
-通常，图片在被创建时才会被加载。所以，当我们向页面中添加 `<img>` 时，用户不会立即看到图片。浏览器首先需要加载它。
+Normally, images are loaded when they are created. So when we add `<img>` to the page, the user does not see the picture immediately. The browser needs to load it first.
 
-为了立即显示一张图片，我们可以“提前”创建它，像这样：
+To show an image immediately, we can create it "in advance", like this:
 
 ```js
 let img = document.createElement('img');
 img.src = 'my.jpg';
 ```
 
-浏览器开始加载图片，并将其保存到缓存中。以后，当相同图片出现在文档中时（无论怎样），它都会立即显示。
+The browser starts loading the image and remembers it in the cache. Later, when the same image appears in the document (no matter how), it shows up immediately.
 
-**创建一个函数 `preloadImages(sources, callback)`，来加载来自数组 `source` 的所有图片，并在准备就绪时运行 `callback`。**
+**Create a function `preloadImages(sources, callback)` that loads all images from the array `sources` and, when ready, runs `callback`.**
 
-例如，这段代码将在图片加载完成后显示一个 `alert`：
+For instance, this will show an `alert` after the images are loaded:
 
 ```js
 function loaded() {
@@ -27,10 +27,10 @@ function loaded() {
 preloadImages(["1.jpg", "2.jpg", "3.jpg"], loaded);
 ```
 
-如果出现错误，函数应该仍假定图片已经“加载完成”。
+In case of an error, the function should still assume the picture "loaded".
 
-换句话说，当所有图片都已加载完成，或出现错误输出时，将执行 `callback`。
+In other words, the `callback` is executed when all images are either loaded or errored out.
 
-例如，当我们计划显示一个包含很多图片的可滚动图册，并希望确保所有图片都已加载完成时，这个函数很有用。
+The function is useful, for instance, when we plan to show a gallery with many scrollable images, and want to be sure that all images are loaded.
 
-在源文档中，你可以找到指向测试图片的链接，以及检查它们是否已加载完成的代码。它应该输出 `300`。
+In the source document you can find links to test images, and also the code to check whether they are loaded or not. It should output `300`.

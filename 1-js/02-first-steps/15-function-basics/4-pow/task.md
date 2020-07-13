@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# 函数 pow(x,n)
+# Function pow(x,n)
 
-写一个函数 `pow(x,n)`，返回 `x` 的 `n` 次方。换句话说，将 `x` 与自身相乘 `n` 次，返回最终结果。
+Write a function `pow(x,n)` that returns `x` in power `n`. Or, in other words, multiplies `x` by itself `n` times and returns the result.
 
 ```js
 pow(3, 2) = 3 * 3 = 9
 pow(3, 3) = 3 * 3 * 3 = 27
-pow(1, 100) = 1 * 1 * ...*1 = 1
+pow(1, 100) = 1 * 1 * ...* 1 = 1
 ```
 
-创建一个 web  页面，提示输入 `x` 和 `n`，然后返回 `pow(x,n)` 的运算结果。
+Create a web-page that prompts for `x` and `n`, and then shows the result of `pow(x,n)`.
 
 [demo]
 
-P.S. 在这个任务中，函数应该只支持自然数 `n`：从 `1` 开始的整数。
+P.S. In this task the function should support only natural values of `n`: integers up from `1`.
