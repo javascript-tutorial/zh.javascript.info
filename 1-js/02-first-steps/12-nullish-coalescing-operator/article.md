@@ -4,11 +4,11 @@
 
 空值合并操作符 `??` 提供了一种简短的语法，用于从多个变量中选择第一个“定义了值”（译者注：即值不是 null 或 undefined ）的变量。
 
-`a ?? b` 的结果是:
+`a ?? b` 的结果是：
 - 如果 `a` 不是 `null` 或 `undefined` ，则结果是 `a`
 - 否则结果是 `b`
 
-因此, `x = a ?? b` 是以下表达式的简写:
+因此, `x = a ?? b` 是以下表达式的简写：
 
 ```js
 x = (a !== null && a !== undefined) ? a : b;
@@ -37,13 +37,13 @@ alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 
 或操作符 `||` 的使用方式和 `??` 一样。正如[上一章](info:logical-operators#or-finds-the-first-truthy-value)描述的，我们可以把上面代码中的 `??` 替换为 `||`，来获得相同的结果。
 
-重要的区别是:
+重要的区别是：
 - `||` 返回第一个 *truthy* 值。（ *truthy* 是指：用逻辑判断时会返回 true 的值）
 - `??` 返回第一个 *defined* 值。（ *defined* 是指：不是 null 或 undefined 的值）
 
 当我们想将 `null/undefined` 与 `0` 区别对待时，这一点非常重要。
 
-举个例子，考虑下面这种情况:
+举个例子，考虑下面这种情况：
 
 ```js
 height = height ?? 100;
@@ -51,7 +51,7 @@ height = height ?? 100;
 
 代码中的 `height` 如果未定义，将其设置为 `100` 。
 
-让我们将其与 `||` 比较:
+让我们将其与 `||` 比较：
 
 ```js run
 let height = 0;
@@ -68,7 +68,7 @@ alert(height ?? 100); // 0
 
 ## 优先级
 
-`??` 运算符的优先级相当低: 在 [MDN table](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 中是 `7`。
+`??` 运算符的优先级相当低： 在 [MDN table](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 中是 `7`。
 
 因此 `??` 的优先级比大多数运算符低，比 `=` 和 `?` 高。
 
@@ -78,7 +78,7 @@ alert(height ?? 100); // 0
 let height = null;
 let width = null;
 
-// 重要: 使用括号
+// 重要：使用括号
 let area = (height ?? 100) * (width ?? 50);
 
 alert(area); // 5000
@@ -86,7 +86,7 @@ alert(area); // 5000
 
 否则，如果我们省略了括号，`*` 的优先级比 `??` 高，会优先执行。
 
-效果和下面的表达式一样:
+效果和下面的表达式一样：
 
 ```js
 // 可能不正确的
