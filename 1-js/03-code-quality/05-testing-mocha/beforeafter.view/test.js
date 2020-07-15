@@ -4,7 +4,7 @@ describe("test", function() {
   
   this.timeout(200000); // 这里设置此时长为 200,000 毫秒
 
-  // 这是因为 "alert" 函数，如果你一直不按（或者延后一段时间）"OK" 按钮测试就不会通过！
+  // 这是因为 "alert" 函数，如果你延后一段时间按 "OK" 按钮，测试就不会通过！
   
   before(() => alert("Testing started – before all tests"));
   after(() => alert("Testing finished – after all tests"));
