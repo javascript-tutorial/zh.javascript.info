@@ -30,7 +30,7 @@ result = prompt(title, [default]);
 `default`
 : 可选的第二个参数，指定 input 框的初始值。
 
-```smart header="方括号语法 `[...]`"
+```smart header="语法中的方括号 `[...]`"
 上述语法中 `default` 周围的方括号表示该参数是可选的，不是必需的。
 ```
 
