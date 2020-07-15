@@ -244,7 +244,7 @@ function showMessage(text) {
 }
 ```
 
-现代 JavaScript 引擎支持 [空合并运算符](info:nullish-coalescing-operator) `??`，当可能遇到其他假值时它更有优势，如 `0` 会被视为正常值不被合并：
+现代 JavaScript 引擎支持 [空值合并运算符](info:nullish-coalescing-operator) `??`，当可能遇到其他假值时它更有优势，如 `0` 会被视为正常值不被合并：
 
 ```js run
 // 如果没有传入 "count" 参数，则显示 "unknown"
