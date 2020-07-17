@@ -109,7 +109,7 @@ let user = {
 *!*
 let clone = {}; // 新的空对象
 
-// 拷贝 user 所有的属性到里面
+// 将 user 中所有的属性拷贝到其中
 for (let key in user) {
   clone[key] = user[key];
 }
