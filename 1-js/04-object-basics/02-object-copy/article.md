@@ -209,7 +209,7 @@ let clone = Object.assign({}, user);
 alert( user.sizes === clone.sizes ); // true，同一个对象
 
 // user 和 clone 分享同一个 sizes
-user.sizes.width++;       // 从其中一个改变属性值
+user.sizes.width++;       // 通过其中一个改变属性值
 alert(clone.sizes.width); // 51，能从另外一个看到变更的结果
 ```
 
