@@ -217,7 +217,7 @@ alert(clone.sizes.width); // 51，能从另外一个看到变更的结果
 
 这里有个标准的深克隆算法，不仅能处理上面的例子，还能应对更多复杂的情况，它被称为 [结构化克隆算法](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。
 
-我们可以用递归来实现。或者不自己造轮子，使用现成实现方法，例如来自一个 JavaScript 库 [lodash](https://lodash.com) 的 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) 方法。
+我们可以用递归来实现。或者不自己造轮子，使用现成的实现，例如 JavaScript 库 [lodash](https://lodash.com) 中的 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
 
 ## 总结
 
