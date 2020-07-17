@@ -206,7 +206,7 @@ let user = {
 
 let clone = Object.assign({}, user);
 
-alert( user.sizes === clone.sizes ); // true, 同一个对象
+alert( user.sizes === clone.sizes ); // true，同一个对象
 
 // user 和 clone 共用一个 sizes
 user.sizes.width++;       // 从其中一个改变属性值
