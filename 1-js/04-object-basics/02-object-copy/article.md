@@ -56,7 +56,7 @@ let admin = user;
 admin.name = 'Pete'; // 通过 "admin" 引用来修改
 */!*
 
-alert(*!*user.name*/!*); // 'Pete'，修改能通过 "user" 的引用看到
+alert(*!*user.name*/!*); // 'Pete'，修改能通过 "user" 引用看到
 ```
 
 上面的例子说明这里只有一个对象。就像我们有个带两把钥匙的锁柜，并使用其中一把钥匙（`admin`）来打开它。那么，我们如果之后用另外一把钥匙（`user`），就也能看到所作的改变。
