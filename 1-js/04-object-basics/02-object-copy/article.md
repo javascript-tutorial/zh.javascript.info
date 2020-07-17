@@ -213,7 +213,7 @@ user.sizes.width++;       // 从其中一个改变属性值
 alert(clone.sizes.width); // 51，能从另外一个看到变更的结果
 ```
 
-为了修复此问题，我们应该用检查每个 `user[key]` 值的循环，然后如果值是一个对象，那也要复制它的结构。这就叫“深克隆”。
+为了解决此问题，我们应该使用会检查每个 `user[key]` 的值的克隆循环，如果值是一个对象，那么也要复制它的结构。这就叫“深拷贝”。
 
 这里有一个标准的深拷贝算法，它不仅能处理上面的例子，还能应对更多复杂的情况，它被称为 [结构化拷贝算法](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。
 
