@@ -149,7 +149,7 @@ Object.assign(user, permissions1, permissions2);
 // 现在 user = { name: "John", canView: true, canEdit: true }
 ```
 
-如果被拷贝属性的属性名已经存在，那么它会被覆盖：
+如果被拷贝的属性的属性名已经存在，那么它会被覆盖：
 
 ```js run
 let user = { name: "John" };
