@@ -92,7 +92,7 @@ let user = {
 ```
 这叫做尾随（trailing）或悬挂（hanging）逗号。这样便于我们添加、删除和移动属性，因为所有的行都是相似的。
 
-````smart header="const 对象是可变的"
+````smart header="使用 const 声明的对象是可以被修改的"
 请注意：用 `const` 声明的对象 **能** 被修改。
 
 例如：
