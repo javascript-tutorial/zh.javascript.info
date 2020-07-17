@@ -215,7 +215,7 @@ alert(clone.sizes.width); // 51，能从另外一个看到变更的结果
 
 为了修复此问题，我们应该用检查每个 `user[key]` 值的循环，然后如果值是一个对象，那也要复制它的结构。这就叫“深克隆”。
 
-这里有个标准的深克隆算法，不仅能处理上面的例子，还能应对更多复杂的情况，它被称为 [结构化克隆算法](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。
+这里有一个标准的深拷贝算法，它不仅能处理上面的例子，还能应对更多复杂的情况，它被称为 [结构化拷贝算法](https://html.spec.whatwg.org/multipage/structured-data.html#safe-passing-of-structured-data)。
 
 我们可以用递归来实现。或者不自己造轮子，使用现成的实现，例如 JavaScript 库 [lodash](https://lodash.com) 中的 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
 
