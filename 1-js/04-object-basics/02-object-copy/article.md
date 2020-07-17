@@ -118,7 +118,7 @@ for (let key in user) {
 // 现在 clone 是带有相同内容的完全独立的对象
 clone.name = "Pete"; // 改变了其中的数据
 
-alert( user.name ); // 依然是原来的 John
+alert( user.name ); // 原来的对象中的 name 属性依然是 John
 ```
 
 我们也可以使用方法 [Object.assign](mdn:js/Object/assign) 来达成同样的效果。
