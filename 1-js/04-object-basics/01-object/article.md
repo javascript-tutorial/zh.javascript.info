@@ -299,7 +299,7 @@ alert( obj.for + obj.let + obj.return );  // 6
 
 ```js run
 let obj = {
-  0: "test" // 相同于 "0": "test"
+  0: "test" // 等同于 "0": "test"
 };
 
 // 都会输出相同的属性（数字 0 被转为字符串 "0"）
