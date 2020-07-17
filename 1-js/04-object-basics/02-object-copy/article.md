@@ -225,4 +225,4 @@ alert(clone.sizes.width); // 51，能从另外一个看到变更的结果
 
 所有通过被拷贝的引用的操作（如添加、删除属性）都作用在同一个对象上。
 
-为了创建“真实的拷贝”（一个克隆体），我们可以使用 `Object.assign` 来做所谓的“浅拷贝”（嵌套对象被拷贝成引用）或者用“深克隆”函数，例如 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
+为了创建“真正的拷贝”（一个克隆），我们可以使用 `Object.assign` 来做所谓的“浅拷贝”（嵌套对象被通过引用进行拷贝）或者使用“深拷贝”函数，例如 [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)。
