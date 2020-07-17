@@ -317,7 +317,7 @@ alert(obj.__proto__); // [object Object] — 值为对象，与预期结果不�
 
 我们从代码中可以看出来，把它赋值为 `5` 的操作被忽略了。
 
-我们会在 [后续章节](info:prototype-inheritance) 中了解到 `__proto__` 的特殊性质，还有建议解决它行为表现的 [方法](info:prototype-methods)。
+我们将在 [后续章节](info:prototype-inheritance) 中学习 `__proto__` 的特殊性质，并给出了 [解决此问题的方法](info:prototype-methods)。
 
 ## 属性存在性测试，"in" 操作符
 
