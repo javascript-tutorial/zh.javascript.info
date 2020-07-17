@@ -142,7 +142,7 @@ let permissions1 = { canView: true };
 let permissions2 = { canEdit: true };
 
 *!*
-// 从 permissions1 到 permissions2 拷贝所有属性到 user 中
+// 将 permissions1 和 permissions2 中的所有属性都拷贝到 user 中
 Object.assign(user, permissions1, permissions2);
 */!*
 
