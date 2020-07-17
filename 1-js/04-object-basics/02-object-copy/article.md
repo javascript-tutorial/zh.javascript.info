@@ -116,7 +116,7 @@ for (let key in user) {
 */!*
 
 // 现在 clone 是带有相同内容的完全独立的对象
-clone.name = "Pete"; // 改变数据
+clone.name = "Pete"; // 改变了其中的数据
 
 alert( user.name ); // 依然是原来的 John
 ```
