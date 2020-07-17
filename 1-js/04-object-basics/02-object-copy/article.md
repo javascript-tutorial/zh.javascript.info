@@ -11,7 +11,7 @@ let message = "Hello!";
 let phrase = message;
 ```
 
-结果我们就有了两个独立的变量，每个都存着字符串 `"Hello!"`。
+结果我们就有了两个独立的变量，每个都存储着字符串 `"Hello!"`。
 
 ![](variable-copy-value.svg)
 
