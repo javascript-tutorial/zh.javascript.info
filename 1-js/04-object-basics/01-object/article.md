@@ -113,7 +113,7 @@ alert(user.name); // Pete
 
 仅当我们尝试将 `user=...` 作为一个整体进行赋值时，`const` 会抛出错误。
 
-有其他的方法将对象属性值变为常量，我们会在之后的章节 <info:property-descriptors> 中了解到。
+有另一种将对象属性变为常量的方式，我们将在后面的 <info:property-descriptors> 一章中学习它。
 ````
 
 ## 方括号
