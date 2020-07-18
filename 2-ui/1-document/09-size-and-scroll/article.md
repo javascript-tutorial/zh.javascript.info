@@ -211,7 +211,7 @@ element.style.height = `${element.scrollHeight}px`;
 <div onclick="this.scrollTop+=10" style="cursor:pointer;border:1px solid black;width:100px;height:80px;overflow:auto">Click<br>Me<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
 ```
 
-将 `scrollTop` 设置为 `0` 或 `Infinity` 将会使元素滚动到顶部/底部。
+将 `scrollTop` 设置为 `0` 或一个大的值，例如 `1e9`，将会使元素滚动到顶部/底部。
 ````
 
 ## 不要从 CSS 中获取 width/height

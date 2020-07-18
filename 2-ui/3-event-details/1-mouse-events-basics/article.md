@@ -1,4 +1,4 @@
-# 鼠标事件基础
+# 鼠标事件
 
 在本章中，我们将详细介绍鼠标事件及其属性。
 
@@ -6,11 +6,7 @@
 
 ## 鼠标事件类型
 
-我们可以将鼠标事件分成两类：“简单”和“复杂”。
-
-### 简单事件
-
-最常用的简单事件有：
+我们已经见过了其中一些事件：
 
 `mousedown/mouseup`
 : 在元素上点击/释放鼠标按钮。
@@ -21,26 +17,22 @@
 `mousemove`
 : 鼠标在元素上的每个移动都会触发此事件。
 
-`contextmenu`
-: 尝试打开上下文菜单时触发。在最常见的情况下，此事件发生在鼠标右键被按下时。虽然，还有其他打开上下文菜单的方式，例如使用特殊的键盘键，所以它不完全是一个鼠标事件。
-
-……还有其他几种事件类型，我们稍后会讨论它们。
-
-### 复杂事件
-
 `click`
 : 如果使用的是鼠标左键，则在同一个元素上的 `mousedown` 及 `mouseup` 相继触发后，触发该事件。
 
 `dblclick`
-: 双击一个元素后触发。
+: 在短时间内双击同一元素后触发。如今已经很少使用了。
 
-复杂事件是由简单事件组成的，因此，从理论上讲，如果没有这些复杂事件，我们也能实现相应的功能。但它们的存在却给我们提供了极大的便利。
+`contextmenu`
+: 在鼠标右键被按下时触发。还有其他打开上下文菜单的方式，例如使用特殊的键盘按键，在这种情况下它也会被触发，因此它并不完全是鼠标事件。
 
-### 事件顺序
+……还有其他几种事件，我们稍后会学习它们。
 
-一个行为可能会触发多个事件。
+## 事件顺序
 
-比如，点击鼠标按钮，在按下鼠标按钮时，点击会首先触发 `mousedown`，然后释放鼠标按钮时，会触发 `mouseup` 和 `click`。
+从上面的列表中我们可以看到，一个用户操作可能会触发多个事件。
+
+例如，点击鼠标左键，在鼠标左键被按下时，会首先触发 `mousedown`，然后当鼠标左键被释放时，会触发 `mouseup` 和 `click`。
 
 在单个动作触发多个事件时，事件的顺序是固定的。也就是说，会遵循 `mousedown` -> `mouseup` -> `click` 的顺序调用处理程序。
 
@@ -49,26 +41,42 @@
 
 在测试台下面记录了所有的鼠标事件，如果它们之间的延迟时间超过 1 秒，那么它们会被水平分割线分开。
 
-我们还可以看出 `which` 属性允许检查鼠标按钮。
+我们还可以看出 `button` 属性允许检测鼠标按钮，演示示例如下。
 
 <input onmousedown="return logMouse(event)" onmouseup="return logMouse(event)" onclick="return logMouse(event)" oncontextmenu="return logMouse(event)" ondblclick="return logMouse(event)" value="Click me with the right or the left mouse button" type="button"> <input onclick="logClear('test')" value="Clear" type="button"> <form id="testform" name="testform"> <textarea style="font-size:12px;height:150px;width:360px;"></textarea></form>
 ```
 
-## 获取按钮：which
+## 鼠标按钮
 
-与点击相关的事件始终具有 `which` 属性，该属性允许获取确切的鼠标按钮。 
+与点击相关的事件始终具有 `button` 属性，该属性允许获取确切的鼠标按钮。 
 
-它不用于 `click` 和 `contextmenu` 事件，因为前者只在点击左键时发生，而后者只在点击右键时发生。
+We usually don't use it for `click` and `contextmenu` events, because the former happens only on left-click, and the latter -- only on right-click.
 
-但是，如果我们跟踪 `mousedown` 和 `mouseup`，那么我们就需要它，因为这些事件会在任何按钮上触发，所以 `which` 让我们能够区分 "right-mousedown" 和 "left-mousedown"。
+From the other hand, `mousedown` and `mouseup` handlers we may need `event.button`, because these events trigger on any button, so `button` allows to distinguish between "right-mousedown" and "left-mousedown".
 
-有三个可能的值：
+The possible values of `event.button` are:
 
-- `event.which == 1` —— 左按钮
-- `event.which == 2` —— 中间按钮
-- `event.which == 3` —— 右按钮
+| Button state | `event.button` |
+|--------------|----------------|
+| Left button (primary) | 0 |
+| Middle button (auxillary) | 1 |
+| Right button (secondary) | 2 |
+| X1 button (back) | 3 |
+| X2 button (forward) | 4 |
 
-中间按钮现在有些特殊，很少被使用了。
+Most mouse devices only have the left and right buttons, so possible values are `0` or `2`. Touch devices also generate similar events when one taps on them.
+
+Also there's `event.buttons` property that has all currently pressed buttons as an integer, one bit per button. In practice this property is very rarely used, you can find details at [MDN](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons) if you ever need it.
+
+```warn header="The outdated `event.which`"
+Old code may use `event.which` property that's an old non-standard way of getting a button, with possible values:
+
+- `event.which == 1` – left button,
+- `event.which == 2` – middle button,
+- `event.which == 3` – right button.
+
+As of now, `event.which` is deprecated, we shouldn't use it.
+```
 
 ## 组合键：shift，alt，ctrl，meta
 
@@ -116,17 +124,25 @@
 ```
 
 ```warn header="还有移动设备"
-键盘组合是工作流的一个补充。这样，如果访客使用键盘操作 —— 它就会起作用。而且，如果访客的设备没有键盘 —— 那么这里应该有另一种方法来做到这一点。
+键盘组合是工作流的一个补充。这样，如果访客使用键盘操作 —— 它们就会起作用。
+
+但是，如果访客的设备没有键盘 —— 那么这里应该有另一种不使用键盘也能做到这一点的方式。
 ```
 
 ## 坐标：clientX/Y，pageX/Y
 
-所有的鼠标事件都有两种形式的坐标：
+所有的鼠标事件都提供了两种形式的坐标：
 
 1. 相对于窗口的坐标：`clientX` 和 `clientY`。
 2. 相对于文档的坐标：`pageX` 和 `pageY`。
 
-比如，如果我们有一个大小为 500x500 的窗口，并且鼠标在左上角，那么 `clientX` 和 `clientY` 均为 `0`。如果鼠标位于中间，那么 `clientX` 和 `clientY` 均为 `250`。这与它在文档中的位置无关。它们类似于 `position:fixed`。
+We already covered the difference between them in the chapter <info:coordinates>.
+
+In short, document-relative coordinates `pageX/Y` are counted from the left-upper corner of the document, and do not change when the page is scrolled, while `clientX/Y` are counted from the current window left-upper corner. When the page is scrolled, they change.
+
+例如，如果我们有一个大小为 500x500 的窗口，并且鼠标在左上角，那么 `clientX` 和 `clientY` 均为 `0`，无论页面如何滚动。
+
+如果鼠标位于中间，那么 `clientX` 和 `clientY` 均为 `250`。这与它在文档中的位置无关。在这方面，它们类似于 `position:fixed`。
 
 ````online
 将鼠标移动到输入字段上，可以看到 `clientX/clientY`（此示例位于 `iframe` 中，因此坐标是相对于 `iframe` 的）：
@@ -136,9 +152,7 @@
 ```
 ````
 
-文档相对坐标 `pageX` 和 `pageY` 是从文档的左上角而不是窗口开始计算的。你可以在 <info:coordinates> 一章中阅读有关坐标的更多细节。
-
-## 禁用选择
+## 防止在鼠标按下时的选择
 
 双击鼠标会有副作用，在某些界面中可能会出现干扰：它会选择文本。
 
@@ -185,7 +199,7 @@ Before...
 
 鼠标事件有以下属性：
 
-- 按钮：`which`。
+- 按钮：`button`。
 - 组合键（如果被按下则为 `true`）：`altKey`，`ctrlKey`，`shiftKey` 和 `metaKey`（Mac）。
   - 如果你想处理 `key:Ctrl`，那么不要忘记 Mac 用户，他们通常使用的是 `key:Cmd`，所以最好检查 `if (e.metaKey || e.ctrlKey)`。
 

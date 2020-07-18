@@ -4,9 +4,9 @@
 
 在现代 HTML 标准中有一个 [关于拖放的部分](https://html.spec.whatwg.org/multipage/interaction.html#dnd)，其中包含了例如 `dragstart` 和 `dragend` 等特殊事件。
 
-这些事件很有用，因为它们使我们能够轻松地解决简单的任务。例如，使我们能够处理将“外部”文件拖放到浏览器中的操作，因此我们可以在 OS 文件管理器中获取文件，并将其拖放到浏览器窗口中，从而使 JavaScript 可以访问其内容。
+这些事件使我们能够支持特殊类型的拖放，例如处理从 OS 文件管理器中拖动文件，并将其拖放到浏览器窗口中。之后，JavaScript 便可以访问此类文件中的内容。
 
-但是，原生的拖放事件也有其局限性。例如，我们无法将拖放限制在某个区域内。并且，我们无法将拖放变成“水平”或“垂直”拖放。还有其他一些使用该 API 无法完成的拖放任务。此外，移动设备基本都不支持此事件。
+但是，原生的拖放事件也有其局限性。例如，我们无法阻止从特定区域的拖动。并且，我们无法将拖动变成“水平”或“竖直”的。还有很多其他使用它们无法完成的拖放任务。并且，移动设备对此类事件的支持非常有限。
 
 因此，在这里我们将看到，如何使用鼠标事件来实现拖放。
 
@@ -14,26 +14,23 @@
 
 基础的拖放算法如下所示：
 
-1. 在 `mousedown` 上 —— 根据需要准备要移动的元素（也许创建它的一个副本）。
-2. 然后在 `mousemove` 上，通过更改 `left/top` 和 `position:absolute` 来移动它。
+1. 在 `mousedown` 上 —— 根据需要准备要移动的元素（也许创建一个它的副本，向其中添加一个类或其他任何东西）。
+2. 然后在 `mousemove` 上，通过更改 `position:absolute` 情况下的 `left/top` 来移动它。
 3. 在 `mouseup` 上 —— 执行与完成的拖放相关的所有行为。
 
-这些是基础。稍后我们可以扩展它，例如，当鼠标悬停在元素上方时，高亮显示 "droppable"（可用于放置到）的元素。
+这些都是基础内容。稍后，我们将看到如何实现其他功能，例如当我们将一个东西拖动到一个元素上方时，高亮显示该元素。
 
-下面是拖放一个球的算法：
+下面是拖放一个球的实现代码：
 
 ```js
-ball.onmousedown = function(event) { // (1) 启动处理
-
-  // (2) 准备移动：确保 absolute，并通过设置 z-index 以确保球在顶部
+ball.onmousedown = function(event) {
+  // (1) 准备移动：确保 absolute，并通过设置 z-index 以确保球在顶部
   ball.style.position = 'absolute';
   ball.style.zIndex = 1000;
+
   // 将其从当前父元素中直接移动到 body 中
   // 以使其定位是相对于 body 的
   document.body.append(ball);  
-  // ...并将绝对定位的球放在鼠标指针下方
-
-  moveAt(event.pageX, event.pageY);
 
   // 现在球的中心在 (pageX, pageY) 坐标上
   function moveAt(pageX, pageY) {
@@ -41,14 +38,17 @@ ball.onmousedown = function(event) { // (1) 启动处理
     ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
   }
 
+  // 将我们绝对定位的球移到指针下方
+  moveAt(event.pageX, event.pageY);
+
   function onMouseMove(event) {
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) 在 mousemove 事件上移动球
+  // (2) 在 mousemove 事件上移动球
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) 放下球，并移除不需要的处理程序
+  // (3) 放下球，并移除不需要的处理程序
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -64,10 +64,10 @@ ball.onmousedown = function(event) { // (1) 启动处理
 
 [iframe src="ball" height=230]
 
-尝试拖放鼠标，你会看到这种奇怪的行为。
+尝试使用鼠标进行拖放，你会看到这种奇怪的行为。
 ```
 
-这是因为浏览器有自己的对图片和一些其他元素的拖放处理，会在我们拖放时自动运行，这与我们的拖放处理产生了冲突。
+这是因为浏览器有自己的对图片和一些其他元素的拖放处理。它会在我们进行拖放操作时自动运行，并与我们的拖放处理产生了冲突。
 
 禁用它：
 
