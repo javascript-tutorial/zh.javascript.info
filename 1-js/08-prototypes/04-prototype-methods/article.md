@@ -57,7 +57,6 @@ The descriptors are in the same format as described in the chapter <info:propert
 We can use `Object.create` to perform an object cloning more powerful than copying properties in `for..in`:
 
 ```js
-// fully identical shallow clone of obj
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
@@ -116,7 +115,7 @@ Unexpected things also may happen when assigning to `toString`, which is a funct
 
 How can we avoid this problem?
 
-First, we can just switch to using `Map`, then everything's fine.
+First, we can just switch to using `Map` for storage instead of plain objects, then everything's fine.
 
 But `Object` can also serve us well here, because language creators gave thought to that problem long ago.
 
@@ -128,7 +127,7 @@ So, if `obj.__proto__` is read or set, the corresponding getter/setter is called
 
 As it was said in the beginning of this tutorial section: `__proto__` is a way to access `[[Prototype]]`, it is not `[[Prototype]]` itself.
 
-Now, if we want to use an object as an associative array, we can do it with a little trick:
+Now, if we intend to use an object as an associative array and be free of such problems, we can do it with a little trick:
 
 ```js run
 *!*
