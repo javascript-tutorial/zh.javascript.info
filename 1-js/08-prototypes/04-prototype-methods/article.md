@@ -57,7 +57,6 @@ alert(rabbit.jumps); // true
 我们可以使用 `Object.create` 来实现比复制 `for..in` 循环中的属性更强大的对象克隆方式：
 
 ```js
-// 完全相同的对象 obj 的浅拷贝
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
@@ -116,7 +115,7 @@ alert(obj[key]); // [object Object]，并不是 "some value"！
 
 我们怎么避免这样的问题呢？
 
-首先，我们可以改用 `Map`，那么一切都迎刃而解。
+首先，我们可以改用 `Map` 来代替普通对象进行存储，这样一切都迎刃而解。
 
 但是 `Object` 在这里同样可以运行得很好，因为 JavaScript 语言的制造者很早就注意到了这个问题。
 
@@ -128,7 +127,7 @@ alert(obj[key]); // [object Object]，并不是 "some value"！
 
 就像在本部分教程的开头所说的那样：`__proto__` 是一种访问 `[[Prototype]]` 的方式，而不是 `[[prototype]]` 本身。
 
-现在，我们想要将一个对象用作关联数组，我们可以使用一些小技巧：
+现在，我们想要将一个对象用作关联数组，并且摆脱此类问题，我们可以使用一些小技巧：
 
 ```js run
 *!*
