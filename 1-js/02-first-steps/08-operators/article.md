@@ -318,7 +318,7 @@ alert( n ); // 16 （右边部分先计算，等同于 n *= 8）
 
     ```js run no-beautify
     let counter = 2;
-    counter--;        // 和 counter = counter - 1 效果一样，但是更简洁
+    counter--;      // 和 counter = counter - 1 效果一样，但是更简洁
     alert( counter ); // 1
     ```
 
