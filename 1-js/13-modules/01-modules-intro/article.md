@@ -1,13 +1,13 @@
 
 # 模块 (Module) 简介
 
-随着我们的应用越来越大，我们想要将其拆分成多个文件，即所谓的“模块（module）”。一个模块通常包含一个类或一个函数库。
+随着我们的应用越来越大，我们想要将其拆分成多个文件，即所谓的“模块（module）”。一个模块可以包含用于特定目的的类或函数库。
 
 很长一段时间，JavaScript 都没有语言级（language-level）的模块语法。这不是一个问题，因为最初的脚本又小又简单，所以没必要将其模块化。
 
 但是最终脚本变得越来越复杂，因此社区发明了许多种方法来将代码组织到模块中，使用特殊的库按需加载模块。
 
-例如：
+列举一些（出于历史原因）：
 
 - [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) — 最古老的模块系统之一，最初由 [require.js](http://requirejs.org/) 库实现。
 - [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) — 为 Node.js 服务器创建的模块系统。
@@ -15,11 +15,11 @@
 
 现在，所有他们都在慢慢成为历史的一部分，但我们仍然可以在旧脚本中找到它们。
 
-语言级的模块系统在 2015 年的时候出现在了标准（ES6）中，此后逐渐发展，现在已经得到了所有主流浏览器和 Node.js 的支持。因此，我们将从现在开始学习它们。
+语言级的模块系统在 2015 年的时候出现在了标准（ES6）中，此后逐渐发展，现在已经得到了所有主流浏览器和 Node.js 的支持。因此，我们将从现在开始学习现代 JavaScript 模块（module）。
 
 ## 什么是模块？
 
-一个模块（module）就是一个文件。一个脚本就是一个模块。
+一个模块（module）就是一个文件。一个脚本就是一个模块。就这么简单。
 
 模块可以相互加载，并可以使用特殊的指令 `export` 和 `import` 来交换功能，从另一个模块调用一个模块的函数：
 
@@ -56,6 +56,10 @@ sayHi('John'); // Hello, John!
 [codetabs src="say" height="140" current="index.html"]
 
 浏览器会自动获取并解析（evaluate）导入的模块（如果需要，还可以分析该模块的导入），然后运行该脚本。
+
+```warn header="Modules work only via HTTP(s), not in local files"
+If you try to open a web-page locally, via `file://` protocol, you'll find that `import/export` directives don't work. Use a local web-server, such as [static-server](https://www.npmjs.com/package/static-server#getting-started) or use the "live server" capability of your editor, such as VS Code [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to test modules.
+```
 
 ## 模块核心功能
 
