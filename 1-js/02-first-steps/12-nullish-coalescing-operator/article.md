@@ -49,7 +49,7 @@ alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 height = height ?? 100;
 ```
 
-如果 `height` 未定义，将其赋值为 `100`。
+如果 `height` 未定义，则将其赋值为 `100`。
 
 让我们将其与 `||` 进行比较：
 
