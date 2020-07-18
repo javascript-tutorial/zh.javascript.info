@@ -162,7 +162,7 @@ document.cookie = "user=John; max-age=3600";
 
 // 删除 cookie（让它立即过期）
 document.cookie = "user=John; max-age=0";
-``` 
+```
 
 ## secure
 
@@ -243,7 +243,7 @@ Cookie 的 `samesite` 选项提供了另一种防止此类攻击的方式，（�
 
 所以，`samesite=lax` 所做的是基本上允许最常见的“去往 URL”操作具有 cookie。例如，从笔记本中打开网站链接就满足这些条件。
 
-但是，任何更复杂的事儿，例如来自另一网站的网络请求或表单提交都会丢失 cookie。
+但是，任何更复杂的事儿，例如来自另一个网站的网络请求或表单提交都会丢失 cookie。
 
 如果这种情况适合你，那么添加 `samesite=lax` 将不会破坏用户体验并且可以增加保护。
 

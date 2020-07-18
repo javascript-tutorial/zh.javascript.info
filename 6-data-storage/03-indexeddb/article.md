@@ -5,12 +5,12 @@ libs:
 
 # IndexedDB
 
-IndexedDB 是一个内置的数据库，它比 `localStorage` 强大得多。
+IndexedDB is a database that is built into browser，它比 `localStorage` 强大得多。
 
-- 键/值 储存：值（几乎）可以是任何类型，键有多种类型。
+- Stores almost any kind of values by keys, multiple key types.
 - 支撑事务的可靠性。
 - 支持键范围查询、索引。
-- 和 `localStorage` 相比，它可以存储更多数据。
+- 和 `localStorage` 相比，它可以存储更大的数据量。
 
 对于传统的 客户端-服务器 应用，这些功能通常是没有必要的。IndexedDB 适用于离线应用，可与 ServiceWorkers 和其他技术相结合使用。
 
@@ -20,7 +20,7 @@ IndexedDB 是一个内置的数据库，它比 `localStorage` 强大得多。
 
 ## 打开数据库
 
-要想使用 IndexedDB，首先需要打开一个数据库。
+要想使用 IndexedDB，首先需要 `open`（连接）一个数据库。
 
 语法：
 
@@ -33,22 +33,22 @@ let openRequest = indexedDB.open(name, version);
 
 数据库可以有许多不同的名称，但是必须存在于当前的源（域/协议/端口）中。不同的网站不能相互访问对方的数据库。
 
-调用之后，需要监听 `openRequest` 对象上的事件：
+The call returns `openRequest` object, we should listen to events on it:
 - `success`：数据库准备就绪，`openRequest.result` 中有了一个数据库对象“Database Object”，使用它进行进一步的调用。
 - `error`：打开失败。
 - `upgradeneeded`：数据库已准备就绪，但其版本已过时（见下文）。
 
-
 **IndexedDB 具有内建的“模式（scheme）版本控制”机制，这在服务器端数据库中是不存在的。**
 
-与服务器端数据库不同，IndexedDB 存在于客户端，数据存储在浏览器中。因此开发人员不能直接访问它。但当新版本的应用程序发布之后，我们可能需要更新数据库。
+与服务器端数据库不同，IndexedDB 存在于客户端，数据存储在浏览器中。因此，开发人员无法访问它。因此，当我们发布了新版本的应用程序，用户访问我们的网页，我们可能需要更新该数据库。
 
 如果本地数据库版本低于 `open` 中指定的版本，会触发一个特殊事件 `upgradeneeded`。我们可以根据需要比较版本并升级数据结构。
 
-当数据库还不存在的时候，也会触发这个事件。因此，我们应该先执行初始化。
+当数据库还不存在时（从技术上讲，该版本为 `0`），也会触发 `upgradeneeded` 事件。因此，我们可以执行初始化。
 
+假设我们发布了应用程序的第一个版本。
 
-当我们第一次发布应用程序时，使用版本 `1` 打开它，并在 `upgradeneeded` 处理程序中执行初始化:
+Then we can open the database with version `1` and perform the initialization in `upgradeneeded` handler like this:
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
@@ -68,16 +68,17 @@ openRequest.onsuccess = function() {
 };
 ```
 
-当我们发布第二个版本时：
+Then, later, we publish the 2nd version.
+
+We can open it with version `2` and perform the upgrade like this:
 
 ```js
 let openRequest = indexedDB.open("store", *!*2*/!*);
 
-openRequest.onupgradeneeded = function() {
+openRequest.onupgradeneeded = function(event) {
   // 现有的数据库版本小于 2（或不存在）
   let db = openRequest.result;
-
-  switch(db.version) { // 现有的 db 版本
+  switch(event.oldVersion) { // 现有的 db 版本
     case 0:
       // 版本 0 表示客户端没有数据库
       // 执行初始化
@@ -88,9 +89,9 @@ openRequest.onupgradeneeded = function() {
 };
 ```
 
-因此，需要在 `openRequest.onupgradeneeded` 中更新数据库，很快我们就能知道运行结果。只有当程序处理完且不报错，才会触发 `openRequest.onsuccess`。
+Please note: as our current version is `2`, `onupgradeneeded` handler has a code branch for version `0`, suitable for users that come for the first time and have no database, and also for version `1`, for upgrades.
 
-在 `openRequest.onsuccess` 之后，`openRequest.result` 中有一个数据库对象，将用于我们的进一步操作。
+And then, only if `onupgradeneeded` handler finishes without errors, `openRequest.onsuccess` triggers, and the database is considered successfully opened.
 
 删除数据库：
 
@@ -99,29 +100,34 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 // deleteRequest.onsuccess/onerror 追踪（tracks）结果
 ```
 
-```warn header="我们可以打开旧版本吗？"
-如果我们想打开一个比当前版本更低的数据库，该怎么办？例如，现有的数据库版本是 3，但我们想打开版本 2 `open(...2)`。
+```warn header="We can't open an older version of the database"
+If the current user database has a higher version than in the `open` call, e.g. the existing DB version is `3`, and we try to `open(...2)`, then that's an error, `openRequest.onerror` triggers.
 
-报错，触发 `openRequest.onerror`。
+That's odd, but such thing may happen when a visitor loaded an outdated JavaScript code, e.g. from a proxy cache. So the code is old, but his database is new.
 
-当用户加载了旧代码（例如，代理缓存），可能会发生这种情况。这时我们应该检查 `db.version`，并建议用户重新加载页面。重新检查缓存标头，以确保用户永远不会获取旧代码。
+To protect from errors, we should check `db.version` and suggest him to reload the page. Use proper HTTP caching headers to avoid loading the old code, so that you'll never have such problem.
 ```
 
 ### 并行更新问题
 
 提到版本控制，有一个相关的小问题。
 
-一个用户在网页中打开了数据库为版本 1 的网站。
+Let's say:
+1. A visitor opened our site in a browser tab, with database version `1`.
+2. Then we rolled out an update, so our code is newer.
+3. And then the same visitor opens our site in another tab.
 
-这时网站更新到版本 2，这个用户在另一网页下打开了网站。这时两个网页都是我们的网站，但一个与数据库版本 1 有开放连接，而另一个试图在 `upgradeneeded` 处理程序中更新。
+So there's a tab with an open connection to DB version `1`, while the second tab one attempts to update it to version `2` in its `upgradeneeded` handler.
 
-问题是，这两个网页是同一个站点，同一个来源，共享同一个数据库。而数据库不能同时为版本 1 和版本 2。要执行版本 2 的更新，必须关闭版本 1 的所有连接。
+问题是，这两个网页是同一个站点，同一个来源，共享同一个数据库。而数据库不能同时为版本 `1` 和版本 `2`。要执行版本 `2` 的更新，必须关闭对版本 1 的所有连接，包括第一个标签页中的那个。
 
-为了完成这些，当尝试并行更新时，`versionchange` 事件会触发一个打开的数据库对象。我们应该监听这个对象，关闭数据库（还应该建议访问者重新加载页面，获取最新的代码）。
+In order to organize that, the `versionchange` event triggers in such case on the "outdated" database object. We should listen to it and close the old database connection (and probably suggest the visitor to reload the page, to load the updated code).
 
-如果旧连接不关闭，新连接会被 `blocked` 事件阻塞，而不是 `success`。
+If we don't listen to `versionchange` event and don't close the old connection, then the second, new connection won't be made. The `openRequest` object will emit the `blocked` event instead of `success`. So the second tab won't work.
 
-下面是执行此操作的代码:
+Here's the code to correctly handle the parallel upgrade.
+
+It installs `onversionchange` handler after the database is opened, that closes the old connection:
 
 ```js
 let openRequest = indexedDB.open("store", 2);
@@ -135,7 +141,6 @@ openRequest.onsuccess = function() {
   *!*
   db.onversionchange = function() {
     db.close();
-    // 数据库已过时，请重新加载页面
     alert("Database is outdated, please reload the page.")
   };
   */!*
@@ -145,7 +150,9 @@ openRequest.onsuccess = function() {
 
 *!*
 openRequest.onblocked = function() {
-  // 到同一数据库的另一个开放连接
+  // this event shouldn't trigger if we handle onversionchange correctly
+
+  // it means that there's another open connection to same database
   // 触发 db.onversionchange 后没有关闭 
 };
 */!*
