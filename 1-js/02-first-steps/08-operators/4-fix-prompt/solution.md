@@ -20,7 +20,7 @@ let b = +prompt("Second number?", 2);
 alert(a + b); // 3
 ```
 
-或在 `alert` 中:
+或在 `alert` 中：
 
 ```js run
 let a = prompt("First number?", 1);
