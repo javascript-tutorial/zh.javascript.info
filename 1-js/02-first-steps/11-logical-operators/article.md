@@ -2,7 +2,7 @@
 
 JavaScript 里有三个逻辑运算符：`||`（或），`&&`（与），`!`（非）。
 
-虽然他们被称为“逻辑”运算符，但这些运算符却可以被应用于任意类型的值，而不仅仅是布尔值。他们的结果也同样可以是任意类型。
+虽然它们被称为“逻辑”运算符，但这些运算符却可以被应用于任意类型的值，而不仅仅是布尔值。它们的结果也同样可以是任意类型。
 
 让我们来详细看一下。
 
@@ -84,7 +84,7 @@ result = value1 || value2 || value3;
 
 返回的值是操作数的初始形式，不会做布尔转换。
 
-也就是，一个或 `"||"` 运算的链，将返回第一个真值，如果不存在真值，就返回该链的最后一个值。
+也就是，一个或运算 `"||"` 的链，将返回第一个真值，如果不存在真值，就返回该链的最后一个值。
 
 例如：
 
@@ -101,9 +101,9 @@ alert( undefined || null || 0 ); // 0（所有的转化结果都是 false，返�
 
 1. **获取变量列表或者表达式的第一个真值。**
 
-    For instance, we have `firstName`, `lastName` and `nickName` variables, all optional.
+    例如，我们有 `firstName`、`lastName` 和 `nickName` 变量，都是可选的。
 
-    Let's use OR `||` to choose the one that has the data and show it (or `anonymous` if nothing set):
+    我们用或运算 `||` 来选择有值的那一个，并显示出来（如果没有设置，则用 `匿名（anonymous）`）：
 
     ```js run
     let firstName = "";
@@ -115,26 +115,26 @@ alert( undefined || null || 0 ); // 0（所有的转化结果都是 false，返�
     */!*
     ```
 
-    If all variables were falsy, `Anonymous` would show up.
+    如果所有变量都为假（falsy)，结果就是 `Anonymous`。
 
-2. **Short-circuit evaluation.**
+2. **短路求值（Short-circuit evaluation）。**
 
-    Another feature of OR `||` operator is the so-called "short-circuit" evaluation.
+    或运算符 `||` 的另一个特点是所谓的“短路求值”。
 
-    It means that `||` processes its arguments until the first truthy value is reached, and then the value is returned immediately, without even touching the other argument.
+    它的意思是，`||` 对其参数进行处理，直到达到第一个真值，然后立即返回该值，而无需处理其他参数。
 
-    That importance of this feature becomes obvious if an operand isn't just a value, but an expression with a side effect, such as a variable assignment or a function call.
+    如果操作数不仅仅是一个值，而是一个有副作用的表达式，例如变量赋值或函数调用，那么这一特性的重要性就变得显而易见了。
 
-    In the example below, only the second message is printed:
+    在下面这个例子中，只会打印第二条信息：
 
     ```js run no-beautify
     *!*true*/!* || alert("not printed");
     *!*false*/!* || alert("printed");
     ```
 
-    In the first line, the OR `||` operator stops the evaluation immediately upon seeing `true`, so the `alert` isn't run.
+    在第一行中，或运算符 `||` 在遇到 `true` 时立即停止运算，所以 `alert` 没有运行。
 
-    Sometimes, people use this feature to execute commands only if the condition on the left part is falsy.
+    有时，人们利用这个特性，只在左侧的条件为假时才执行命令。
 
 ## &&（与）
 
@@ -223,8 +223,8 @@ alert( 1 && 2 && 3 ); // 3，最后一个值
 所以代码 `a && b || c && d` 完全跟 `&&` 表达式加了括号一样：`(a && b) || (c && d)`。
 ````
 
-````warn header="Don't replace `if` with || or &&"
-Sometimes, people use the AND `&&` operator as a "shorter to write `if`".
+````warn header="不要用 || 或 && 来取代 `if`"
+有时候，有人会用与运算符 `&&` 来“简化 `if`”。
 
 例如：
 
@@ -244,7 +244,7 @@ let x = 1;
 if (x > 0) alert( 'Greater than zero!' );
 ```
 
-Although, the variant with `&&` appears shorter, `if` is more obvious and tends to be a little bit more readable. So we recommend using every construct for its purpose: use `if` if we want if and use `&&` if we want AND.
+虽然使用 `&&` 写出的变体看起来更短，但 `if` 更明显，并且往往更具可读性。因此，我们建议根据每个语法结构的用途来使用：如果我们想要 `if`，就使用 `if`；如果我们想要逻辑与，就使用 `&&`。
 ````
 
 
