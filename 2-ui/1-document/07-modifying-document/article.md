@@ -28,7 +28,7 @@ DOM 修改是创建“实时”页面的关键。
 */!*
 ```
 
-这是一个 HTML 示例。现在，让我们使用 JavaScript 创建一个相同的 `div`（假设样式在 HTML 或外部 CSS 文件中）。
+这是一个 HTML 示例。现在，让我们使用 JavaScript 创建一个相同的 `div`（假设样式已经在 HTML/CSS 文件中）。
 
 ## 创建一个元素
 
@@ -48,21 +48,28 @@ DOM 修改是创建“实时”页面的关键。
     let textNode = document.createTextNode('Here I am');
     ```
 
+Most of the time we need to create element nodes, such as the `div` for the message.
+
 ### 创建一条消息
 
-在我们的例子中，消息是一个带有 `alert` 类和 HTML 的 `div`：
+Creating the message div takes 3 steps:
 
 ```js
+// 1. Create <div> element
 let div = document.createElement('div');
+
+// 2. Set its class to "alert"
 div.className = "alert";
+
+// 3. Fill it with the content
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
-我们创建了元素，但到目前为止，它还只是在变量中。我们无法在页面上看到该元素，因为它还不是文档的一部分。
+我们已经创建了该元素。但到目前为止，它还只是在一个名为 `div` 的变量中，尚未在页面中。所以我们无法在页面上看到它。
 
 ## 插入方法
 
-为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，在 `document.body` 中。
+为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，into `<body>` element, referenced by `document.body`.
 
 对此有一个特殊的方法 `append`：`document.body.append(div)`。
 
@@ -90,13 +97,19 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 </script>
 ```
 
-下面这些方法提供了更多的插入方式：
+Here we called `append` on `document.body`, but we can call `append` method on any other element, to put another element into it. For instance, we can append something to `<div>` by calling `div.append(anotherElement)`.
 
-- `node.append(...nodes or strings)` — 在 `node` 末尾插入节点或字符串，
-- `node.prepend(...nodes or strings)` — 在 `node` 开头插入节点或字符串，
-- `node.before(...nodes or strings)` — 在 `node` 前面插入节点或字符串，
-- `node.after(...nodes or strings)` — 在 `node` 后面插入节点或字符串，
+Here are more insertion methods, they specify different places where to insert:
+
+- `node.append(...nodes or strings)` — 在 `node` **末尾** 插入节点或字符串，
+- `node.prepend(...nodes or strings)` — 在 `node` **开头** 插入节点或字符串，
+- `node.before(...nodes or strings)` — 在 `node` **前面** 插入节点或字符串，
+- `node.after(...nodes or strings)` — 在 `node` **后面** 插入节点或字符串，
 - `node.replaceWith(...nodes or strings)` — 将 `node` 替换为给定的节点或字符串。
+
+Arguments of these methods are an arbitrary list of DOM nodes to insert, or text strings (that become text nodes automatically).
+
+Let's see them in action.
 
 下面是使用这些方法将列表项添加到列表中，以及将文本添加到列表前面和后面的示例：
 
@@ -139,7 +152,7 @@ before
 after
 ```
 
-这些方法可以在单个调用中插入多个节点列表和文本片段。
+如上所述，这些方法可以在单个调用中插入多个节点列表和文本片段。
 
 例如，在这里插入了一个字符串和一个元素：
 
@@ -150,7 +163,7 @@ after
 </script>
 ```
 
-所有内容都被“作为文本”插入。
+Please note: the text is inserted "as text", not "as HTML", with proper escaping of characters such as `<`, `>`.
 
 所以，最终的 HTML 为：
 
@@ -166,7 +179,7 @@ after
 
 所以，这些方法只能用来插入 DOM 节点或文本片段。
 
-但是，如果我们想在所有标签和内容正常工作的情况下，将这些内容“作为 HTML” 插入到 HTML 中，就像 `elem.innerHTML` 方法一样，那有什么方法可以实现吗？
+But what if we'd like to insert an HTML string "as html", with all tags and stuff working, in the same manner as `elem.innerHTML` does it?
 
 ## insertAdjacentHTML/Text/Element
 

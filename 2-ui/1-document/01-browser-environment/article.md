@@ -2,7 +2,7 @@
 
 JavaScript 语言最初是为 Web 浏览器创建的。此后，它已经发展成为一种具有多种用途和平台的语言。
 
-平台可以是一个浏览器，一个 Web 服务器，或其他 **主机（host）**，甚至是咖啡机。它们每个都提供了特定于平台的功能。JavaScript 规范将其称为 **主机环境**。
+平台可以是一个浏览器，一个 Web 服务器，或其他 **主机（host）**，甚至可以是一个“智能”咖啡机，如果它能运行 JavaScript 的话。它们每个都提供了特定于平台的功能。JavaScript 规范将其称为 **主机环境**。
 
 主机环境提供了自己的对象和语言核心以外的函数。Web 浏览器提供了一种控制网页的方法。Node.JS 提供了服务器端功能，等等。
 
@@ -49,9 +49,7 @@ document.body.style.background = "red";
 setTimeout(() => document.body.style.background = "", 1000);
 ```
 
-在这里，我们使用了 `document.body.style`，但还有很多很多其他的东西。规范中有属性和方法的详细描述：
-
-- **DOM Living Standard**：<https://dom.spec.whatwg.org>
+在这里，我们使用了 `document.body.style`，但还有很多很多其他的东西。规范中有属性和方法的详细描述：[DOM Living Standard](https://dom.spec.whatwg.org)。
 
 ```smart header="DOM 不仅仅用于浏览器"
 DOM 规范解释了文档的结构，并提供了操作文档的对象。有的非浏览器设备也使用 DOM。
@@ -60,9 +58,9 @@ DOM 规范解释了文档的结构，并提供了操作文档的对象。有的�
 ```
 
 ```smart header="用于样式的 CSSOM"
-CSS 规则和样式表的结构与 HTML 不同。有一个单独的规范 [CSS Object Model (CSSOM)](https://www.w3.org/TR/cssom-1/)，它解释了如何将 CSS 表示为对象，以及如何读写它们。
+There's also a separate specification, [CSS Object Model (CSSOM)](https://www.w3.org/TR/cssom-1/) for CSS rules and stylesheets, that explains how they are represented as objects, and how to read and write them.
 
-当我们修改文档的样式规则时，CSSOM 与 DOM 是一起使用的。但实际上，很少需要 CSSOM，因为通常 CSS 规则是静态的。我们很少需要从 JavaScript 中添加/删除 CSS 规则，但你要知道这是可行的。
+当我们修改文档的样式规则时，CSSOM 与 DOM 是一起使用的。但实际上，很少需要 CSSOM，因为 we rarely need to modify CSS rules from JavaScript (usually we just add/remove CSS classes, not modify their CSS rules), but that's also possible.
 ```
 
 ## 浏览器对象模型（BOM）

@@ -11,12 +11,12 @@
 - `mousedown` / `mouseup` —— 当在元素上按下/释放鼠标按钮时。
 - `mousemove` —— 当鼠标移动时。
 
+**键盘事件**：
+- `keydown` and `keyup` -- when a keyboard key is pressed and released.
+
 **表单（form）元素事件**：
 - `submit` —— 当访问者提交了一个 `<form>` 时。
 - `focus` —— 当访问者聚焦于一个元素时，例如聚焦于一个 `<input>`。
-
-**键盘事件**：
-- `keydown` 和 `keyup` —— 当访问者按下然后松开按键时。
 
 **Document 事件**：
 - `DOMContentLoaded` —— 当 HTML 的加载和处理均完成，DOM 被完全构建完成时。
@@ -87,8 +87,6 @@ HTML 特性不是编写大量代码的好位置，因此我们最好创建一个
 
 因此，这种方法实际上与前一种方法相同。
 
-**处理程序总是在 DOM 属性中：HTML 特性只是初始化它的方法之一**。
-
 这两段代码工作相同：
 
 1. 只有 HTML：
@@ -109,6 +107,8 @@ HTML 特性不是编写大量代码的好位置，因此我们最好创建一个
     </script>
     ```
 
+In the first example, the HTML attribute is used to initialize the `button.onclick`, while in the second example -- the script, that's all the difference.
+
 **因为这里只有一个 `onclick` 属性，所以我们无法分配更多事件处理程序。**
 
 在下面这个示例中，我们使用 JavaScript 添加了一个处理程序，覆盖了现有的处理程序：
@@ -122,16 +122,6 @@ HTML 特性不是编写大量代码的好位置，因此我们最好创建一个
   };
 */!*
 </script>
-```
-
-顺便说一下，我们可以直接将现有的函数指定为处理程序：
-
-```js
-function sayThanks() {
-  alert('Thanks!');
-}
-
-elem.onclick = sayThanks;
 ```
 
 要移除一个处理程序 —— 赋值 `elem.onclick = null`。
@@ -150,7 +140,17 @@ elem.onclick = sayThanks;
 
 如果你刚开始写事件 —— 请注意一些细微之处。
 
-**函数应该被以 `sayThanks` 的形式进行非配，而不是 `sayThanks()`**。
+We can set an existing function as a handler:
+
+```js
+function sayThanks() {
+  alert('Thanks!');
+}
+
+elem.onclick = sayThanks;
+```
+
+But be careful: the function should be assigned as `sayThanks`, not `sayThanks()`.
 
 ```js
 // 正确
@@ -160,7 +160,7 @@ button.onclick = sayThanks;
 button.onclick = sayThanks();
 ```
 
-如果我们添加了括号 `sayThanks()` —— 这是一个函数调用。所以，最后一行代码实际上获得的是函数执行的 **结果**，即 `undefined`（因为这个函数没有返回值）。此代码不会工作。
+如果我们添加了括号，那么 `sayThanks()` 就变成了一个函数调用。所以，最后一行代码实际上获得的是函数执行的 **结果**，即 `undefined`（因为这个函数没有返回值）。此代码不会工作。
 
 ……但在标记（markup）中，我们确实需要括号：
 
@@ -168,20 +168,16 @@ button.onclick = sayThanks();
 <input type="button" id="button" onclick="sayThanks()">
 ```
 
-这个区别很容易解释。当浏览器读取 HTML 特性（attribute）时，浏览器将会使用 **特性中的内容** 创建一个处理程序：`sayThanks()`。
+这个区别很容易解释。当浏览器读取 HTML 特性（attribute）时，浏览器将会使用 **特性中的内容** 创建一个处理程序。
 
 所以，标记（markup）会生成下面这个属性：
 ```js
 button.onclick = function() {
 *!*
-  sayThanks(); // 特性中的内容
+  sayThanks(); // <-- 特性（attribute）中的内容变到了这里
 */!*
 };
 ```
-
-**使用函数，而不是字符串。**
-
-`elem.onclick = "alert(1)"` 也可以执行。它能执行是出于兼容性，但强烈建议不要使用这种方式。
 
 **不要对处理程序使用 `setAttribute`。**
 
@@ -201,7 +197,7 @@ document.body.setAttribute('onclick', function() { alert(1) });
 
 上述分配处理程序的方式的根本问题是 —— 我们不能为一个事件分配多个处理程序。
 
-例如，在我们点击了一个按钮时，我们代码中的一部分想要高亮显示这个按钮，另一部分则想要显示一条消息。
+假设，在我们点击了一个按钮时，我们代码中的一部分想要高亮显示这个按钮，另一部分则想要显示一条消息。
 
 我们想为此事件分配两个处理程序。但是，新的 DOM 属性将覆盖现有的 DOM 属性：
 
@@ -229,8 +225,7 @@ element.addEventListener(event, handler[, options]);
 : 具有以下属性的附加可选对象：
     - `once`：如果为 `true`，那么会在被触发后自动删除监听器。
     - `capture`：事件处理的阶段，我们稍后将在 <info:bubbling-and-capturing> 一章中介绍。由于历史原因，`options` 也可以是 `false/true`，它与 `{capture: false/true}` 相同。
-    - `passive`：如果为 `true`，那么处理程序将不会 `preventDefault()`，我们稍后将在 <info:default-browser-action> 一章中介绍。
-
+    - `passive`：如果为 `true`，那么处理程序将不会调用 `preventDefault()`，我们稍后将在 <info:default-browser-action> 一章中介绍。
 
 要移除处理程序，可以使用 `removeEventListener`：
 
@@ -249,7 +244,7 @@ elem.addEventListener( "click" , () => alert('Thanks!'));
 elem.removeEventListener( "click", () => alert('Thanks!'));
 ```
 
-处理程序不会被移除，因为 `removeEventListener` 获取了另一个函数 —— 使用相同的代码，但这并不起作用。
+处理程序不会被移除，因为 `removeEventListener` 获取了另一个函数 —— 使用相同的代码，但这并不起作用，因为它是一个不同的函数对象。
 
 下面是正确方法：
 
@@ -291,19 +286,21 @@ input.removeEventListener("click", handler);
 正如我们在上面这个例子中所看到的，我们可以 **同时** 使用 DOM 属性和 `addEventListener` 来设置处理程序。但通常我们只使用其中一种方式。
 
 ````warn header="对于某些事件，只能通过 `addEventListener` 设置处理程序"
-有些事件无法通过 DOM 属性进行分配。必须使用 `addEventListener`。
+有些事件无法通过 DOM 属性进行分配。只能使用 `addEventListener`。
 
 例如，`DOMContentLoaded` 事件，该事件在文档加载完成并且 DOM 构建完成时触发。
 
 ```js
+// 永远不会运行
 document.onDOMContentLoaded = function() {
-  alert("DOM built"); // 永远不会运行
+  alert("DOM built");
 };
 ```
 
 ```js
+// 这种方式可以运行
 document.addEventListener("DOMContentLoaded", function() {
-  alert("DOM built"); // 这种方式可以运行
+  alert("DOM built");
 });
 ```
 所以 `addEventListener` 更通用。虽然这样的事件是特例而不是规则。
@@ -311,11 +308,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 ## 事件对象
 
-为了正确处理事件，我们需要更深入地了解发生了什么。不仅仅是 "click" 或 "keypress"，还包括鼠标指针的坐标是什么？按下了哪个键？等等。
+为了正确处理事件，我们需要更深入地了解发生了什么。不仅仅是 "click" 或 "keydown"，还包括鼠标指针的坐标是什么？按下了哪个键？等等。
 
 当事件发生时，浏览器会创建一个 **`event` 对象**，将详细信息放入其中，并将其作为参数传递给处理程序。
 
-下面是一个从 `event` 对象获取鼠标坐标的示例：
+下面是一个从 `event` 对象获取鼠标指针的坐标的示例：
 
 ```html run
 <input type="button" value="Click me" id="elem">
@@ -338,11 +335,11 @@ document.addEventListener("DOMContentLoaded", function() {
 : 处理事件的元素。这与 `this` 相同，除非处理程序是一个箭头函数，或者它的 `this` 被绑定到了其他东西上，之后我们就可以从 `event.currentTarget` 获取元素了。
 
 `event.clientX / event.clientY`
-: 鼠标事件的指针的窗口相对坐标。
+: 指针事件（pointer event）的指针的窗口相对坐标。
 
-还有很多属性。它们取决于事件类型，因此，稍后我们将详细讨论不同事件，那时我们再对其进行详细研究。
+还有很多属性。其中很多都取决于事件类型：键盘事件具有一组属性，指针事件具有另一组属性，稍后我们将详细讨论不同事件，那时我们再对其进行详细研究。
 
-````smart header="也可以从 HTML 中访问 `event` 对象"
+````smart header="`event` 对象在 HTML 处理程序中也可用"
 如果我们在 HTML 中分配了一个处理程序，那么我们也可以使用 `event` 对象，像这样：
 
 ```html autorun height=60
@@ -364,15 +361,17 @@ document.addEventListener("DOMContentLoaded", function() {
 <button id="elem">Click me</button>
 
 <script>
-  elem.addEventListener('click', {
+  let obj = {
     handleEvent(event) {
       alert(event.type + " at " + event.currentTarget);
     }
-  });
+  };
+
+  elem.addEventListener('click', obj);
 </script>
 ```
 
-正如我们所看到的，当 `addEventListener` 接收一个对象作为处理程序时，在事件发生时，它就会调用 `object.handleEvent(event)` 来处理事件。
+正如我们所看到的，当 `addEventListener` 接收一个对象作为处理程序时，在事件发生时，它就会调用 `obj.handleEvent(event)` 来处理事件。
 
 我们也可以对此使用一个类：
 
