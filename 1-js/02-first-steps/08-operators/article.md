@@ -2,7 +2,6 @@
 
 我们从学校里了解到过很多运算符，比如说加号 `+`、乘号 `*`、减号 `-` 等。
 
-In this chapter, we’ll start with simple operators, then concentrate on JavaScript-specific aspects, not covered by school arithmetic.
 在本章中，我们将从简单的运算符开始，然后专门介绍 JavaScript 的特性，这些特性在学校算术中未涉及过。
 
 ## 术语：“一元运算符”，“二元运算符”，“运算元”
@@ -67,7 +66,6 @@ alert( 2 ** 3 ); // 8  (2 * 2 * 2, 自乘 3 次)
 alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 自乘 4 次)
 ```
 
-Mathematically, the exponentiation is defined for non-integer numbers as well. For example, a square root is an exponentiation by `1/2`:
 在数学上，求幂的定义也适用于非整数。例如，平方根是以 `1/2` 为单位的求幂。
 
 ```js run
@@ -108,7 +106,7 @@ alert(2 + 2 + '1' ); // "41"，不是 "221"
 
 在这里，运算符是按顺序工作。第一个 `+` 将两个数字相加，所以返回 `4`，然后下一个 `+` 将字符串`1` 加入其中，所以就是 `4 + '1' = 41`。
 
-二元运算符 `+` 是唯一一个以这种方式支持字符串的运算符。其他算术运算符只对数字起作用，并且总是将其操作数转换为数字。
+二进制 `+` 是唯一一个以这种方式支持字符串的运算符。其他算术运算符只对数字起作用，并且总是将其操作数转换为数字。
 
 下面是减法和除法的演示：
 
@@ -313,14 +311,14 @@ alert( n ); // 16 （右边部分先计算，等同于 n *= 8）
 
     ```js run no-beautify
     let counter = 2;
-    counter++;      // 和 counter = counter + 1 效果一样，但是更简洁
+    counter++;        // 和 counter = counter + 1 效果一样，但是更简洁
     alert( counter ); // 3
     ```
 - **自减** `--` 将变量与 1 相减：
 
     ```js run no-beautify
     let counter = 2;
-    counter--;      // 和 counter = counter - 1 效果一样，但是更简洁
+    counter--;        // 和 counter = counter - 1 效果一样，但是更简洁
     alert( counter ); // 1
     ```
 
