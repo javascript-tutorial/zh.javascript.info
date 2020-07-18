@@ -662,7 +662,7 @@ user.name = "Pete"; // 显示 "SET name=Pete"
 
 ### 代理一个 getter 
 
-让我们看一个示例，来说明为什么 `Reflect.get` 更好。此外，我们还将看到为什么 `get/set` 有第四个参数 `receiver`，而且我们之前从来没有使用过它。
+让我们看一个示例，来说明为什么 `Reflect.get` 更好。此外，我们还将看到为什么 `get/set` 有第三个参数 `receiver`，而且我们之前从来没有使用过它。
 
 我们有一个带有 `_name` 属性和 getter 的对象 `user`。
 
