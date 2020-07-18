@@ -211,13 +211,14 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
 
 ## 事件中的事件是同步的
 
-通常事件是被异步处理的。也就是说：如果浏览器正在处理 `onclick`，在此处理过程中发生了一个新的事件，那么它将等待，直到 `onclick` 处理完成。
+通常事件是在队列中处理的。也就是说：如果浏览器正在处理 `onclick`，这时发生了一个新的事件，例如鼠标移动了，那么它会被排入队列，相应的 `mousemove` 处理程序将在 `onclick` 事件处理完成后被调用。
 
-唯一的例外就是，一个事件是在另一个事件中发起的。
+值得注意的例外情况就是，一个事件是在另一个事件中发起的。例如 using `dispatchEvent`. Such events are processed immediately: the new event handlers are called, and then the current event handling is resumed.
 
-然后，程序执行的控制流会跳转到嵌套的事件的处理程序，执行完成后返回。
+For instance, in the code below the `menu-open` event is triggered during the `onclick`.
 
-例如，这里的嵌套事件 `menu-open` 在 `onclick` 期间被同步处理：
+It's processed immediately, without waiting for `onlick` handler to end:
+
 
 ```html run autorun
 <button id="menu">Menu (click me)</button>
@@ -226,7 +227,6 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
   menu.onclick = function() {
     alert(1);
 
-    // alert("nested")
     menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
     }));
@@ -234,17 +234,20 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
     alert(2);
   };
 
+  // triggers between 1 and 2
   document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```
 
 输出顺序为：1 -> nested -> 2。
 
-请注意，嵌套事件 `menu-open` 会完全冒泡，并在 `document` 上被处理。嵌套事件的传播（propagation）和处理必须完全完成，然后处理过程才会返回到外部代码（`onclick`）。
+请注意，嵌套事件 `menu-open` 会在 `document` 上被捕获。嵌套事件的传播（propagation）和处理先被完成，然后处理过程才会返回到外部代码（`onclick`）。
 
-这不仅与 `dispatchEvent` 有关，还有其他情况。事件处理程序中的 JavaScript 可以调用会引发其他事件的方法 —— 它们也是被同步处理的。
+这不只是与 `dispatchEvent` 有关，还有其他情况。If an event handler calls methods that trigger to other events -- they are too processed synchronously, in a nested fashion.
 
-如果我们不喜欢它，可以将 `dispatchEvent`（或者其他触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
+Let's say we don't like it. We'd want `onclick` to be fully processed first, independently from `menu-open` or any other nested events.
+
+然后，我们可以将 `dispatchEvent`（或另一个触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
 
 ```html run
 <button id="menu">Menu (click me)</button>
@@ -253,7 +256,6 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
   menu.onclick = function() {
     alert(1);
 
-    // alert(2)
     setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
     })));
