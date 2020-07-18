@@ -15,7 +15,7 @@
 
 ## 比较结果为 Boolean 类型
 
-所有的比较运算符返回布尔值：
+所有比较运算符均返回布尔值：
 
 - `true` —— 表示“yes（是）”，“correct（正确）”或“the truth（真）”。
 - `false` ——  表示“no（否）”，“wrong（错误）”或“not the truth（非真）”。
