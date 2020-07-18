@@ -103,7 +103,7 @@ alert( undefined || null || 0 ); // 0（所有的转化结果都是 false，返�
 
     例如，我们有 `firstName`、`lastName` 和 `nickName` 变量，都是可选的。
 
-    我们用 OR `||` 来选择有值的那一个，并显示出来（如果没有设置，则用 `匿名（anonymous）`）：
+    我们用或运算 `||` 来选择有值的那一个，并显示出来（如果没有设置，则用 `匿名（anonymous）`）：
 
     ```js run
     let firstName = "";
