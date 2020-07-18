@@ -7,7 +7,7 @@
 
 现代的方法有：
 
-- [Object.create(proto[, descriptors])](mdn:js/Object/create) —— 利用给定的 `proto` 作为 `[[Prototype]]` 和可选的属性描述来创建一个空对象。
+- [Object.create(proto, [descriptors])](mdn:js/Object/create) —— 利用给定的 `proto` 作为 `[[Prototype]]` 和可选的属性描述来创建一个空对象。
 - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`。
 - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`。
 
@@ -175,7 +175,7 @@ alert(Object.keys(chineseDictionary)); // hello,bye
 
 设置和直接访问原型的现代方法有：
 
-- [Object.create(proto[, descriptors])](mdn:js/Object/create) —— 利用给定的 `proto` 作为 `[[Prototype]]`（可以是 `null`）和可选的属性描述来创建一个空对象。
+- [Object.create(proto, [descriptors])](mdn:js/Object/create) —— 利用给定的 `proto` 作为 `[[Prototype]]`（可以是 `null`）和可选的属性描述来创建一个空对象。
 - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`（与 `__proto__` 的 getter 相同）。
 - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`（与 `__proto__` 的 setter 相同）。
 

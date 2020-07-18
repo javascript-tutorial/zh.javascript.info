@@ -190,7 +190,7 @@ alert( {}.toString.call(user) ); // [object User]
 
 ```js run
 // 特定于环境的对象和类的 toStringTag：
-alert( window[Symbol.toStringTag]); // window
+alert( window[Symbol.toStringTag]); // Window
 alert( XMLHttpRequest.prototype[Symbol.toStringTag] ); // XMLHttpRequest
 
 alert( {}.toString.call(window) ); // [object Window]

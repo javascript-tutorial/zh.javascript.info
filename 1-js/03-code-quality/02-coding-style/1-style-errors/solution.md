@@ -12,7 +12,7 @@ function pow(x,n)  // <- 参数之间没有空格
 
 let x=prompt("x?",''), n=prompt("n?",'') // <-- 从技术的角度来看是可以的，
 // 但是拆分成 2 行会更好，并且这里也缺了空格和分号 ;
-if (n<0)  // <- (n < 0) 里面没有空格，并且应该在本行上面加一个空行
+if (n<=0)  // <- (n <= 0) 里面没有空格，并且应该在本行上面加一个空行
 {   // <- 花括号独占了一行
   // 下面的一行代码太长了，可以将其拆分成 2 行以提高可读性
   alert(`Power ${n} is not supported, please enter an integer number greater than zero`);
@@ -39,7 +39,7 @@ function pow(x, n) {
 let x = prompt("x?", "");
 let n = prompt("n?", "");
 
-if (n < 0) {
+if (n <= 0) {
   alert(`Power ${n} is not supported,
     please enter an integer number greater than zero`);
 } else {
