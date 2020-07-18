@@ -428,7 +428,7 @@ counter++;
 - 右移 ( `>>` )
 - 无符号右移 ( `>>>` )
 
-这些运算符很少使用，一般是我们需要在最底层（位）上操作数字时才用。我们很快就不再需要这些运算符了，因为网络开发很少用到它们，但在一些特殊领域，比如密码学，它们还是有用的。需要了解的话可以阅读 MDN 上的 [Bitwise Operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) 文章。
+这些运算符很少使用，一般是我们需要在最低级别（位）上操作数字时才使用。我们不会很快用到这些运算符，因为 Web 开发很少使用它们，但在某些特殊领域，例如密码学，它们很有用。当你需要了解它们的时候，可以阅读 MDN 上的 [位操作符](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) 一文。
 
 ## 逗号运算符
 
