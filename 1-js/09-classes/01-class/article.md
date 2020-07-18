@@ -106,7 +106,7 @@ class User {
 // class 是函数 function
 alert(typeof User); // function
 
-// ...或者，更确切地说，是构造器方法
+// ...或者，更确切地说，是 constructor 方法
 alert(User === User.prototype.constructor); // true
 
 // 方法在 User.prototype 中，例如：
@@ -127,7 +127,7 @@ alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 function User(name) {
   this.name = name;
 }
-// 任何函数原型默认都具有构造器属性，
+// 函数的原型（prototype）默认具有 "constructor" 属性，
 // 所以，我们不需要创建它
 
 // 2. 将方法添加到原型
@@ -146,7 +146,7 @@ user.sayHi();
 
 1. 首先，通过 `class` 创建的函数具有特殊的内部属性标记 `[[FunctionKind]]:"classConstructor"`。因此，它与手动创建并不完全相同。
 
-    不像普通函数，调用类构造器时必须要用 `new` 关键词：
+    编程语言会在许多地方检查该属性。例如，与普通函数不同，必须使用 `new` 来调用它：
 
     ```js run
     class User {
@@ -166,6 +166,7 @@ user.sayHi();
 
     alert(User); // class User { ... }
     ```
+    还有其他的不同之处，我们很快就会看到。
 
 2. 类方法不可枚举。
     类定义将 `"prototype"` 中的所有方法的 `enumerable` 标志设置为 `false`。
@@ -209,7 +210,6 @@ new User().sayHi(); // 正常运行，显示 MyClass 中定义的内容
 alert(MyClass); // error，MyClass 在外部不可见
 ```
 
-
 我们甚至可以动态地“按需”创建类，就像这样：
 
 ```js run
@@ -229,7 +229,7 @@ new User().sayHi(); // Hello
 ```
 
 
-## Getters/setters 及其他速记
+## Getters/setters
 
 就像对象字面量，类可能包括 getters/setters，计算属性（computed properties）等。
 
@@ -267,22 +267,11 @@ alert(user.name); // John
 user = new User(""); // Name is too short.
 ```
 
-类声明在 `User.prototype` 中创建 getters 和 setters，就像这样：
+Technically, such class declaration works by creating getters and setters in `User.prototype`.
 
-```js
-Object.defineProperties(User.prototype, {
-  name: {
-    get() {
-      return this._name
-    },
-    set(name) {
-      // ...
-    }
-  }
-});
-```
+## Computed names [...]
 
-这是一个 `[...]` 中有计算属性名称（computed property name）的例子：
+Here's an example with a computed method name using brackets `[...]`:
 
 ```js run
 class User {
@@ -298,13 +287,15 @@ class User {
 new User().sayHi();
 ```
 
+Such features are easy to remember, as they resemble that of literal objects.
+
 ## Class 字段
 
 ```warn header="旧的浏览器可能需要 polyfill"
 类字段（field）是最近才添加到语言中的。
 ```
 
-之前，类仅具有方法。
+之前，我们的类仅具有方法。
 
 “类字段”是一种允许添加任何属性的语法。
 
@@ -313,7 +304,7 @@ new User().sayHi();
 ```js run
 class User {
 *!*
-  name = "Anonymous";
+  name = "John";
 */!*
 
   sayHi() {
@@ -321,15 +312,38 @@ class User {
   }
 }
 
-new User().sayHi();
-
-alert(User.prototype.sayHi); // 被放在 User.prototype 中
-alert(User.prototype.name); // undefined，没有被放在 User.prototype 中
+new User().sayHi(); // Hello, John!
 ```
 
-关于类字段的重要一点是，它们设置在单个对象上的，而不是设置在 `User.prototype` 上的。
+So, we just write "<property name> = <value>" in the declaration, and that's it.
 
-从技术上讲，它们是在 constructor 完成工作后被处理的。
+The important difference of class fields is that they are set on individual objects, not `User.prototype`:
+
+```js run
+class User {
+*!*
+  name = "John";
+*/!*
+}
+
+let user = new User();
+alert(user.name); // John
+alert(User.prototype.name); // undefined
+```
+
+We can also assign values using more complex expressions and function calls:
+
+```js run
+class User {
+*!*
+  name = prompt("Name, please?", "John");
+*/!*
+}
+
+let user = new User();
+alert(user.name); // John
+```
+
 
 ### 使用类字段制作绑定方法
 
@@ -362,30 +376,9 @@ setTimeout(button.click, 1000); // undefined
 我们在 <info:bind> 一章中讲过，有两种可以修复它的方式：
 
 1. 传递一个包装函数，例如 `setTimeout(() => button.click(), 1000)`。
-2. 将方法绑定到对象，例如在 constructor 中：
+2. 将方法绑定到对象，例如在 constructor 中。
 
-```js run
-class Button {
-  constructor(value) {
-    this.value = value;
-*!*
-    this.click = this.click.bind(this);
-*/!*
-  }
-
-  click() {
-    alert(this.value);
-  }
-}
-
-let button = new Button("hello");
-
-*!*
-setTimeout(button.click, 1000); // hello
-*/!*
-```
-
-类字段为后一种解决方案提供了更优雅的语法：
+类字段提供了另一种非常优雅的语法：
 
 ```js run
 class Button {
@@ -404,9 +397,9 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
-类字段 `click = () => {...}` 在每个 `Button` 对象上创建一个独立的函数，并将 `this` 绑定到该对象上。然后，我们可以将 `button.click` 传递到任何地方，并且它会被以正确的 `this` 进行调用。
+The class field `click = () => {...}` is created on a per-object basis, there's a separate function for each `Button` object, with `this` inside it referencing that object. We can pass `button.click` around anywhere, and the value of `this` will always be correct.
 
-这在浏览器环境中，当我们需要将一个方法设置为事件监听器时尤其有用。
+在浏览器环境中，它对于进行事件监听尤为有用。
 
 ## 总结
 

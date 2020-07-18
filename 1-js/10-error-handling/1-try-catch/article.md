@@ -355,19 +355,7 @@ try {
 
 在我们的例子中，`try..catch` 旨在捕获“数据不正确”的 error。但是实际上，catch 会捕获到 **所有** 来自于 `try` 的 error。在这儿，它捕获到了一个预料之外的 error，但是仍然抛出的是同样的 `"JSON Error"` 信息。这是不正确的，并且也会使代码变得更难以调试。
 
-幸运的是，我们可以通过其他方式找出我们捕获的是什么 error，例如通过它的 `name` 属性：
-
-```js run
-try {
-  user = { /*...*/ };
-} catch(e) {
-*!*
-  alert(e.name); // "ReferenceError" for accessing an undefined variable
-*/!*
-}
-```
-
-规则很简单：
+To avoid such problems, we can employ the "rethrowing" technique. The rule is simple:
 
 **`catch` 应该只处理它知道的 error，并“抛出”所有其他 error。**
 
@@ -376,6 +364,22 @@ try {
 1. Catch 捕获所有 error。
 2. 在 `catch(err) {...}` 块中，我们对 error 对象 `err` 进行分析。
 3. 如果我们不知道如何处理它，那我们就 `throw err`。
+
+Usually, we can check the error type using the `instanceof` operator:
+
+```js run
+try {
+  user = { /*...*/ };
+} catch(err) {
+*!*
+  if (err instanceof ReferenceError) {
+*/!*
+    alert('ReferenceError'); // "ReferenceError" for accessing an undefined variable
+  }
+}
+```
+
+We can also get the error class name from `err.name` property. All native errors have it. Another option is to read `err.constructor.name`.
 
 在下面的代码中，我们使用“再次抛出”，以达到在 `catch` 中只处理 `SyntaxError` 的目的：
 
@@ -398,7 +402,7 @@ try {
 } catch(e) {
 
 *!*
-  if (e.name == "SyntaxError") {
+  if (e instanceof SyntaxError) {
     alert( "JSON Error: " + e.message );
   } else {
     throw e; // 再次抛出 (*)
@@ -425,7 +429,7 @@ function readData() {
 */!*
   } catch (e) {
     // ...
-    if (e.name != 'SyntaxError') {
+    if (!(e instanceof SyntaxError)) {
 *!*
       throw e; // 再次抛出（不知道如何处理它）
 */!*

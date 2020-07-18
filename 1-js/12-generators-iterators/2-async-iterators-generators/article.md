@@ -301,7 +301,7 @@ async function* fetchCommits(repo) {
 
     // (3) 前往下一页的 URL 在 header 中，提取它
     let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
-    nextPage = nextPage && nextPage[1];
+    nextPage = nextPage?.[1];
 
     url = nextPage;
 
