@@ -202,7 +202,7 @@ for (let key in user) {
 }
 ```
 
-JavaScript 库还提供了方便批量绑定的函数，例如 lodash 中的 [_.bindAll(obj)](http://lodash.com/docs#bindAll)。
+JavaScript 库还提供了方便批量绑定的函数，例如 lodash 中的 [_.bindAll(object, methodNames)](http://lodash.com/docs#bindAll)。
 ````
 
 ## 偏函数（Partial functions）
