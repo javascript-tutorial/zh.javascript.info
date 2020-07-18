@@ -15,7 +15,7 @@ let socket = new WebSocket("*!*ws*/!*://javascript.info");
 同样也有一个加密的 `wss://` 协议。类似于 WebSocket 中的 HTTPS。
 
 ```smart header="始终使用 `wss://`"
-`wss://` 协议不仅能加密，而且更可靠。
+`wss://` 协议不仅是被加密的，而且更可靠。
 
 因为 `ws://` 数据不是加密的，对于任何中间人来说其数据都是可见的。并且，旧的代理服务器不了解 WebSocket，它们可能会因为看到“奇怪的” header 而中止连接。
 
