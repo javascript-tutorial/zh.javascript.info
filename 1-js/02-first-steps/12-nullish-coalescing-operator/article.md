@@ -68,7 +68,7 @@ alert(height ?? 100); // 0
 
 ## 优先级
 
-`??` 运算符的优先级相当低：在 [MDN table](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 中为 `7`。
+`??` 运算符的优先级相当低：在 [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 中为 `5`。
 
 因此，`??` 在大多数其他运算之后，但在 `=` 和 `?` 之前进行运算。
 

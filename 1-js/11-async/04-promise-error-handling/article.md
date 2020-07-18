@@ -122,7 +122,7 @@ new Promise((resolve, reject) => {
 在下面的例子中，我们可以看到 `.catch` 的另一种情况。`(*)` 行的处理程序（handler）捕获了 error，但无法处理它（例如，它只知道如何处理 `URIError`），所以它将其再次抛出：
 
 ```js run
-// 执行流：catch -> catch -> then
+// 执行流：catch -> catch
 new Promise((resolve, reject) => {
 
   throw new Error("Whoops!");

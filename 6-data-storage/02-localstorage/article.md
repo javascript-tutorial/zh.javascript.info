@@ -222,7 +222,7 @@ localStorage.setItem('now', Date.now());
 
 Web 存储对象 `localStorage` 和 `sessionStorage` 允许我们在浏览器中保存键/值对。
 - `key` 和 `value` 都必须为字符串。
-- 存储大小限制为 2MB+，具体取决于浏览器。
+- 存储大小限制为 5MB+，具体取决于浏览器。
 - 它们不会过期。
 - 数据绑定到源（域/端口/协议）。
 
