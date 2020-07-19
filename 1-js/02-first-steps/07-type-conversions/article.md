@@ -81,7 +81,7 @@ alert( Number(true) );        // 1
 alert( Number(false) );       // 0
 ```
 
-请注意 `null` 和 `undefined` 在这有点不同：`null` 变成数字 `0`，`undefined` 变成 `NaN`。（译注：此外，字符串转换为 number 类型时，除了 `undefined`、`null` 和 `boolean` 三种特殊情况，只有字符串是由空格和数字组成时，才能转换成功，否则会出现 error 返回 `NaN`。）
+请注意 `null` 和 `undefined` 在这有点不同：`null` 变成数字 `0`，`undefined` 变成 `NaN`。
 
 大多数数学运算符也执行这种转换，我们将在下一节中进行介绍。
 
@@ -111,7 +111,7 @@ alert( Boolean("") ); // false
 
 ```js run
 alert( Boolean("0") ); // true
-alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
+alert( Boolean(" ") ); // 空白，也是 true（任何非空字符串都是 true）
 ```
 ````
 
@@ -147,4 +147,4 @@ alert( Boolean(" ") ); // 空白, 也是 true (任何非空字符串是 true)
 - 对 `undefined` 进行数字型转换时，输出结果为 `NaN`，而非 `0`。
 - 对 `"0"` 和只有空格的字符串（比如：`"   "`）进行布尔型转换时，输出结果为 `true`。
 
-我们在本小结没有讲 object 类型的转换。在我们学习完更多关于 JavaScript 的基本知识后，我们会在专门介绍 object 的章节 <info:object-toprimitive> 中详细讲解 object 类型转换。
+我们在本小节没有讲 object 类型的转换。在我们学习完更多关于 JavaScript 的基础知识后，我们会在专门介绍 object 的章节 <info:object-toprimitive> 中详细讲解 object 类型转换。
