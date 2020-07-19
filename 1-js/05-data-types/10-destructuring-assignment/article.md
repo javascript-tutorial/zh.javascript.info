@@ -122,22 +122,22 @@ for (let [key, value] of user) {
 ```
 ````
 
-```smart header="Swap variables trick"
-A well-known trick for swapping values of two variables:
+```smart header="交换变量值的技巧"
+一个用于交换变量值的知名技巧：
 
 ```js run
 let guest = "Jane";
 let admin = "Pete";
 
-// Swap values: make guest=Pete, admin=Jane
+// 交换值：让 guest=Pete, admin=Jane
 [guest, admin] = [admin, guest];
 
-alert(`${guest} ${admin}`); // Pete Jane (successfully swapped!)
+alert(`${guest} ${admin}`); // Pete Jane（成功交换！）
 ```
 
-Here we create a temporary array of two variables and immediately destructure it in swapped order.
+这里我们创建了一个有两个变量的暂时数组，并且立即以与原先相反的顺序进行解构。
 
-We can swap more than two variables this way.
+我们可以用这种方式交换两个以上的变量。
 
 
 ### 剩余的 '...'
