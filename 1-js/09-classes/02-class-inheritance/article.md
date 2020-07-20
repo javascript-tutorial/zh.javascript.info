@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # 类继承
 
 类继承是一个类扩展另一个类的一种方式。
@@ -8,6 +9,17 @@
 ## "extends" 关键字
 
 假设我们有 class `Animal`：
+=======
+# Class inheritance
+
+Class inheritance is a way for one class to extend another class.
+
+So we can create new functionality on top of the existing.
+
+## The "extends" keyword
+
+Let's say we have class `Animal`:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js
 class Animal {
@@ -28,6 +40,7 @@ class Animal {
 let animal = new Animal("My animal");
 ```
 
+<<<<<<< HEAD
 这是我们对对象 `animal` 和 class `Animal` 的图形化表示：
 
 ![](rabbit-animal-independent-animal.svg)
@@ -39,6 +52,19 @@ let animal = new Animal("My animal");
 扩展另一个类的语法是：`class Child extends Parent`。
 
 让我们创建一个继承自 `Animal` 的 `class Rabbit`：
+=======
+Here's how we can represent `animal` object and `Animal` class graphically:
+
+![](rabbit-animal-independent-animal.svg)
+
+...And we would like to create another `class Rabbit`.
+
+As rabbits are animals, `Rabbit` class should be based on `Animal`, have access to animal methods, so that rabbits can do what "generic" animals can do.
+
+The syntax to extend another class is: `class Child extends Parent`.
+
+Let's create `class Rabbit` that inherits from `Animal`:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js
 *!*
@@ -55,6 +81,7 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.hide(); // White Rabbit hides!
 ```
 
+<<<<<<< HEAD
 Class `Rabbit` 的对象可以访问例如 `rabbit.hide()` 等 `Rabbit` 的方法，还可以访问例如 `rabbit.run()` 等 `Animal` 的方法。
 
 在内部，关键字 `extends` 使用了很好的旧的原型机制进行工作。它将 `Rabbit.prototype.[[Prototype]]` 设置为 `Animal.prototype`。所以，如果在 `Rabbit.prototype` 中找不到一个方法，JavaScript 就会从 `Animal.prototype` 中获取该方法。
@@ -72,6 +99,25 @@ Class `Rabbit` 的对象可以访问例如 `rabbit.hide()` 等 `Rabbit` 的方�
 类语法不仅允许指定一个类，在 `extends` 后可以指定任意表达式。
 
 例如，一个生成父类的函数调用：
+=======
+Object of `Rabbit` class have access to both `Rabbit` methods, such as `rabbit.hide()`, and also to `Animal` methods, such as `rabbit.run()`.
+
+Internally, `extends` keyword works using the good old prototype mechanics. It sets `Rabbit.prototype.[[Prototype]]` to `Animal.prototype`. So, if a method is not found in `Rabbit.prototype`, JavaScript takes it from `Animal.prototype`.
+
+![](animal-rabbit-extends.svg)
+
+For instance, to find `rabbit.run` method, the engine checks (bottom-up on the picture):
+1. The `rabbit` object (has no `run`).
+2. Its prototype, that is `Rabbit.prototype` (has `hide`, but not `run`).
+3. Its prototype, that is (due to `extends`) `Animal.prototype`, that finally has the `run` method.
+
+As we can recall from the chapter <info:native-prototypes>, JavaScript itself uses prototypal inheritance for built-in objects. E.g. `Date.prototype.[[Prototype]]` is `Object.prototype`. That's why dates have access to generic object methods.
+
+````smart header="Any expression is allowed after `extends`"
+Class syntax allows to specify not just a class, but any expression after `extends`.
+
+For instance, a function call that generates the parent class:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 function f(phrase) {
@@ -86,6 +132,7 @@ class User extends f("Hello") {}
 
 new User().sayHi(); // Hello
 ```
+<<<<<<< HEAD
 这里 `class User` 继承自 `f("Hello")` 的结果。
 
 这对于高级编程模式，例如当我们根据许多条件使用函数生成类，并继承它们时来说可能很有用。
@@ -96,16 +143,34 @@ new User().sayHi(); // Hello
 现在，让我们继续前行并尝试重写一个方法。默认情况下，所有未在 `class Rabbit` 中指定的方法均从 `class Animal` 中直接获取。
 
 但是如果我们在 `Rabbit` 中指定了我们自己的方法，例如 `stop()`，那么将会使用它：
+=======
+Here `class User` inherits from the result of `f("Hello")`.
+
+That may be useful for advanced programming patterns when we use functions to generate classes depending on many conditions and can inherit from them.
+````
+
+## Overriding a method
+
+Now let's move forward and override a method. By default, all methods that are not specified in `class Rabbit` are taken directly "as is" from `class Animal`.
+
+But if we specify our own method in `Rabbit`, such as `stop()` then it will be used instead:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js
 class Rabbit extends Animal {
   stop() {
+<<<<<<< HEAD
     // ……现在这个将会被用作 rabbit.stop()
     // 而不是来自于 class Animal 的 stop()
+=======
+    // ...now this will be used for rabbit.stop()
+    // instead of stop() from class Animal
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
   }
 }
 ```
 
+<<<<<<< HEAD
 但是通常来说，我们不希望完全替换父类的方法，而是希望在父类方法的基础上进行调整或扩展其功能。我们在我们的方法中做一些事儿，但是在它之前或之后或在过程中会调用父类方法。
 
 Class 为此提供了 `"super"` 关键字。
@@ -114,6 +179,16 @@ Class 为此提供了 `"super"` 关键字。
 - 执行 `super(...)` 来调用一个父类 constructor（只能在我们的 constructor 中）。
 
 例如，让我们的 rabbit 在停下来的时候自动 hide：
+=======
+Usually we don't want to totally replace a parent method, but rather to build on top of it to tweak or extend its functionality. We do something in our method, but call the parent method before/after it or in the process.
+
+Classes provide `"super"` keyword for that.
+
+- `super.method(...)` to call a parent method.
+- `super(...)` to call a parent constructor (inside our constructor only).
+
+For instance, let our rabbit autohide when stopped:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 class Animal {
@@ -142,14 +217,20 @@ class Rabbit extends Animal {
 
 *!*
   stop() {
+<<<<<<< HEAD
     super.stop(); // 调用父类的 stop
     this.hide(); // 然后 hide
+=======
+    super.stop(); // call parent stop
+    this.hide(); // and then hide
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
   }
 */!*
 }
 
 let rabbit = new Rabbit("White Rabbit");
 
+<<<<<<< HEAD
 rabbit.run(5); // White Rabbit 以速度 5 奔跑
 rabbit.stop(); // White Rabbit 停止了。White rabbit hide 了！
 ```
@@ -164,19 +245,43 @@ rabbit.stop(); // White Rabbit 停止了。White rabbit hide 了！
 class Rabbit extends Animal {
   stop() {
     setTimeout(() => super.stop(), 1000); // 1 秒后调用父类的 stop
+=======
+rabbit.run(5); // White Rabbit runs with speed 5.
+rabbit.stop(); // White Rabbit stands still. White rabbit hides!
+```
+
+Now `Rabbit` has the `stop` method that calls the parent `super.stop()` in the process.
+
+````smart header="Arrow functions have no `super`"
+As was mentioned in the chapter <info:arrow-functions>, arrow functions do not have `super`.
+
+If accessed, it's taken from the outer function. For instance:
+```js
+class Rabbit extends Animal {
+  stop() {
+    setTimeout(() => super.stop(), 1000); // call parent stop after 1sec
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
   }
 }
 ```
 
+<<<<<<< HEAD
 箭头函数中的 `super` 与 `stop()` 中的是一样的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
 
 ```js
 // 意料之外的 super
+=======
+The `super` in the arrow function is the same as in `stop()`, so it works as intended. If we specified a "regular" function here, there would be an error:
+
+```js
+// Unexpected super
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 setTimeout(function() { super.stop() }, 1000);
 ```
 ````
 
 
+<<<<<<< HEAD
 ## 重写 constructor
 
 对于重写 constructor 来说，则有点棘手。
@@ -188,6 +293,19 @@ setTimeout(function() { super.stop() }, 1000);
 ```js
 class Rabbit extends Animal {
   // 为没有自己的 constructor 的扩展类生成的
+=======
+## Overriding constructor
+
+With constructors it gets a little bit tricky.
+
+Until now, `Rabbit` did not have its own `constructor`.
+
+According to the [specification](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation), if a class extends another class and has no `constructor`, then the following "empty" `constructor` is generated:
+
+```js
+class Rabbit extends Animal {
+  // generated for extending classes without own constructors
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 *!*
   constructor(...args) {
     super(...args);
@@ -196,9 +314,15 @@ class Rabbit extends Animal {
 }
 ```
 
+<<<<<<< HEAD
 正如我们所看到的，它调用了父类的 `constructor`，并传递了所有的参数。如果我们没有写自己的 constructor，就会出现这种情况。
 
 现在，我们给 `Rabbit` 添加一个自定义的 constructor。除了 `name` 之外，它还会指定 `earLength`。
+=======
+As we can see, it basically calls the parent `constructor` passing it all the arguments. That happens if we don't write a constructor of our own.
+
+Now let's add a custom constructor to `Rabbit`. It will specify the `earLength` in addition to `name`:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 class Animal {
@@ -223,11 +347,16 @@ class Rabbit extends Animal {
 }
 
 *!*
+<<<<<<< HEAD
 // 不工作！
+=======
+// Doesn't work!
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 */!*
 ```
 
+<<<<<<< HEAD
 哎呦！我们得到了一个报错。现在我们没法新建 rabbit。是什么地方出错了？
 
 简短的解释是：
@@ -248,6 +377,28 @@ let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 因此，派生的 constructor 必须调用 `super` 才能执行其父类（base）的 constructor，否则 `this` 指向的那个对象将不会被创建。并且我们会收到一个报错。
 
 为了让 `Rabbit` 的 constructor 可以工作，它需要在使用 `this` 之前调用 `super()`，就像下面这样：
+=======
+Whoops! We've got an error. Now we can't create rabbits. What went wrong?
+
+The short answer is:
+
+- **Constructors in inheriting classes must call `super(...)`, and (!) do it before using `this`.**
+
+...But why? What's going on here? Indeed, the requirement seems strange.
+
+Of course, there's an explanation. Let's get into details, so you'll really understand what's going on.
+
+In JavaScript, there's a distinction between a constructor function of an inheriting class (so-called "derived constructor") and other functions. A derived constructor has a special internal property `[[ConstructorKind]]:"derived"`. That's a special internal label.
+
+That label affects its behavior with `new`.
+
+- When a regular function is executed with `new`, it creates an empty object and assigns it to `this`.
+- But when a derived constructor runs, it doesn't do this. It expects the parent constructor to do this job.
+
+So a derived constructor must call `super` in order to execute its parent (base) constructor, otherwise the object for `this` won't be created. And we'll get an error.
+
+For the `Rabbit` constructor to work, it needs to call `super()` before using `this`, like here:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 class Animal {
@@ -273,7 +424,11 @@ class Rabbit extends Animal {
 }
 
 *!*
+<<<<<<< HEAD
 // 现在可以了
+=======
+// now fine
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 let rabbit = new Rabbit("White Rabbit", 10);
 alert(rabbit.name); // White Rabbit
 alert(rabbit.earLength); // 10
@@ -377,6 +532,7 @@ Luckily, this behavior only reveals itself if an overridden field is used in the
 If it becomes a problem, one can fix it by using methods or getters/setters instead of fields.
 
 
+<<<<<<< HEAD
 ## 深入：内部探究和 [[HomeObject]]
 
 ```warn header="进阶内容"
@@ -398,6 +554,29 @@ If it becomes a problem, one can fix it by using methods or getters/setters inst
 如果你不想知道更多的细节知识，你可以跳过此部分，并转到下面的 `[[HomeObject]]` 小节。这没关系的。但如果你感兴趣，想学习更深入的知识，那就继续阅读吧。
 
 在下面的例子中，`rabbit.__proto__ = animal`。现在让我们尝试一下：在 `rabbit.eat()` 我们将会使用 `this.__proto__` 调用 `animal.eat()`：
+=======
+## Super: internals, [[HomeObject]]
+
+```warn header="Advanced information"
+If you're reading the tutorial for the first time - this section may be skipped.
+
+It's about the internal mechanisms behind inheritance and `super`.
+```
+
+Let's get a little deeper under the hood of `super`. We'll see some interesting things along the way.
+
+First to say, from all that we've learned till now, it's impossible for `super` to work at all!
+
+Yeah, indeed, let's ask ourselves, how it should technically work? When an object method runs, it gets the current object as `this`. If we call `super.method()` then, the engine needs to get the `method` from the prototype of the current object. But how?
+
+The task may seem simple, but it isn't. The engine knows the current object `this`, so it could get the parent `method` as `this.__proto__.method`. Unfortunately, such a "naive" solution won't work.
+
+Let's demonstrate the problem. Without classes, using plain objects for the sake of simplicity.
+
+You may skip this part and go below to the `[[HomeObject]]` subsection if you don't want to know the details. That won't harm. Or read on if you're interested in understanding things in-depth.
+
+In the example below, `rabbit.__proto__ = animal`. Now let's try: in `rabbit.eat()` we'll call `animal.eat()`, using `this.__proto__`:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 let animal = {
@@ -412,7 +591,11 @@ let rabbit = {
   name: "Rabbit",
   eat() {
 *!*
+<<<<<<< HEAD
     // 这就是 super.eat() 可以大概工作的方式
+=======
+    // that's how super.eat() could presumably work
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
     this.__proto__.eat.call(this); // (*)
 */!*
   }
@@ -421,11 +604,19 @@ let rabbit = {
 rabbit.eat(); // Rabbit eats.
 ```
 
+<<<<<<< HEAD
 在 `(*)` 这一行，我们从原型（`animal`）中获取 `eat`，并在当前对象的上下文中调用它。请注意，`.call(this)` 在这里非常重要，因为简单的调用 `this.__proto__.eat()` 将在原型的上下文中执行 `eat`，而非当前对象。
 
 在上面的代码中，它确实按照了期望运行：我们获得了正确的 `alert`。
 
 现在，让我们在原型链上再添加一个对象。我们将看到这件事是如何被打破的：
+=======
+At the line `(*)` we take `eat` from the prototype (`animal`) and call it in the context of the current object. Please note that `.call(this)` is important here, because a simple `this.__proto__.eat()` would execute parent `eat` in the context of the prototype, not the current object.
+
+And in the code above it actually works as intended: we have the correct `alert`.
+
+Now let's add one more object to the chain. We'll see how things break:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 let animal = {
@@ -456,6 +647,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 */!*
 ```
 
+<<<<<<< HEAD
 代码无法再运行了！我们可以看到，在试图调用 `longEar.eat()` 时抛出了错误。
 
 原因可能不那么明显，但是如果我们跟踪 `longEar.eat()` 调用，就可以发现原因。在 `(*)` 和 `(**)` 这两行中，`this` 的值都是当前对象（`longEar`）。这是至关重要的一点：所有的对象方法都将当前对象作为 `this`，而非原型或其他什么东西。
@@ -499,6 +691,51 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 然后 `super` 使用它来解析（resolve）父原型及其方法。
 
 让我们看看它是怎么工作的，首先，对于普通对象：
+=======
+The code doesn't work anymore! We can see the error trying to call `longEar.eat()`.
+
+It may be not that obvious, but if we trace `longEar.eat()` call, then we can see why. In both lines `(*)` and `(**)` the value of `this` is the current object (`longEar`). That's essential: all object methods get the current object as `this`, not a prototype or something.
+
+So, in both lines `(*)` and `(**)` the value of `this.__proto__` is exactly the same: `rabbit`. They both call `rabbit.eat` without going up the chain in the endless loop.
+
+Here's the picture of what happens:
+
+![](this-super-loop.svg)
+
+1. Inside `longEar.eat()`, the line `(**)` calls `rabbit.eat` providing it with `this=longEar`.
+    ```js
+    // inside longEar.eat() we have this = longEar
+    this.__proto__.eat.call(this) // (**)
+    // becomes
+    longEar.__proto__.eat.call(this)
+    // that is
+    rabbit.eat.call(this);
+    ```
+2. Then in the line `(*)` of `rabbit.eat`, we'd like to pass the call even higher in the chain, but `this=longEar`, so `this.__proto__.eat` is again `rabbit.eat`!
+
+    ```js
+    // inside rabbit.eat() we also have this = longEar
+    this.__proto__.eat.call(this) // (*)
+    // becomes
+    longEar.__proto__.eat.call(this)
+    // or (again)
+    rabbit.eat.call(this);
+    ```
+
+3. ...So `rabbit.eat` calls itself in the endless loop, because it can't ascend any further.
+
+The problem can't be solved by using `this` alone.
+
+### `[[HomeObject]]`
+
+To provide the solution, JavaScript adds one more special internal property for functions: `[[HomeObject]]`.
+
+When a function is specified as a class or object method, its `[[HomeObject]]` property becomes that object.
+
+Then `super` uses it to resolve the parent prototype and its methods.
+
+Let's see how it works, first with plain objects:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 let animal = {
@@ -525,11 +762,16 @@ let longEar = {
 };
 
 *!*
+<<<<<<< HEAD
 // 正确执行
+=======
+// works correctly
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 longEar.eat();  // Long Ear eats.
 */!*
 ```
 
+<<<<<<< HEAD
 它基于 `[[HomeObject]]` 运行机制按照预期执行。一个方法，例如 `longEar.eat`，知道其 `[[HomeObject]]` 并且从其原型中获取父方法。并没有使用 `this`。
 
 ### 方法并不是“自由”的
@@ -541,6 +783,19 @@ longEar.eat();  // Long Ear eats.
 在 JavaScript 语言中 `[[HomeObject]]` 仅被用于 `super`。所以，如果一个方法不使用 `super`，那么我们仍然可以视它为自由的并且可在对象之间复制。但是用了 `super` 再这样做可能就会出错。
 
 下面是复制后错误的 `super` 结果的示例：
+=======
+It works as intended, due to `[[HomeObject]]` mechanics. A method, such as `longEar.eat`, knows its `[[HomeObject]]` and takes the parent method from its prototype. Without any use of `this`.
+
+### Methods are not "free"
+
+As we've known before, generally functions are "free", not bound to objects in JavaScript. So they can be copied between objects and called with another `this`.
+
+The very existence of `[[HomeObject]]` violates that principle, because methods remember their objects. `[[HomeObject]]` can't be changed, so this bond is forever.
+
+The only place in the language where `[[HomeObject]]` is used -- is `super`. So, if a method does not use `super`, then we can still consider it free and copy between objects. But with `super` things may go wrong.
+
+Here's the demo of a wrong `super` result after copying:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 let animal = {
@@ -549,7 +804,11 @@ let animal = {
   }
 };
 
+<<<<<<< HEAD
 // rabbit 继承自 animal
+=======
+// rabbit inherits from animal
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 let rabbit = {
   __proto__: animal,
   sayHi() {
@@ -563,7 +822,11 @@ let plant = {
   }
 };
 
+<<<<<<< HEAD
 // tree 继承自 plant
+=======
+// tree inherits from plant
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 let tree = {
   __proto__: plant,
 *!*
@@ -576,6 +839,7 @@ tree.sayHi();  // I'm an animal (?!?)
 */!*
 ```
 
+<<<<<<< HEAD
 调用 `tree.sayHi()` 显示 "I'm an animal"。这绝对是错误的。
 
 原因很简单：
@@ -598,6 +862,30 @@ tree.sayHi();  // I'm an animal (?!?)
 ```js run
 let animal = {
   eat: function() { // 这里是故意这样写的，而不是 eat() {...
+=======
+A call to `tree.sayHi()` shows "I'm an animal". Definitely wrong.
+
+The reason is simple:
+- In the line `(*)`, the method `tree.sayHi` was copied from `rabbit`. Maybe we just wanted to avoid code duplication?
+- Its `[[HomeObject]]` is `rabbit`, as it was created in `rabbit`. There's no way to change `[[HomeObject]]`.
+- The code of `tree.sayHi()` has `super.sayHi()` inside. It goes up from `rabbit` and takes the method from `animal`.
+
+Here's the diagram of what happens:
+
+![](super-homeobject-wrong.svg)
+
+### Methods, not function properties
+
+`[[HomeObject]]` is defined for methods both in classes and in plain objects. But for objects, methods must be specified exactly as `method()`, not as `"method: function()"`.
+
+The difference may be non-essential for us, but it's important for JavaScript.
+
+In the example below a non-method syntax is used for comparison. `[[HomeObject]]` property is not set and the inheritance doesn't work:
+
+```js run
+let animal = {
+  eat: function() { // intentionally writing like this instead of eat() {...
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
     // ...
   }
 };
@@ -610,6 +898,7 @@ let rabbit = {
 };
 
 *!*
+<<<<<<< HEAD
 rabbit.eat();  // 错误调用 super（因为这里没有 [[HomeObject]]）
 */!*
 ```
@@ -628,3 +917,23 @@ rabbit.eat();  // 错误调用 super（因为这里没有 [[HomeObject]]）
 
 补充：
 - 箭头函数没有自己的 `this` 或 `super`，所以它们能融入到就近的上下文中，像透明似的。
+=======
+rabbit.eat();  // Error calling super (because there's no [[HomeObject]])
+*/!*
+```
+
+## Summary
+
+1. To extend a class: `class Child extends Parent`:
+    - That means `Child.prototype.__proto__` will be `Parent.prototype`, so methods are inherited.
+2. When overriding a constructor:
+    - We must call parent constructor as `super()` in `Child` constructor before using `this`.
+3. When overriding another method:
+    - We can use `super.method()` in a `Child` method to call `Parent` method.
+4. Internals:
+    - Methods remember their class/object in the internal `[[HomeObject]]` property. That's how `super` resolves parent methods.
+    - So it's not safe to copy a method with `super` from one object to another.
+
+Also:
+- Arrow functions don't have their own `this` or `super`, so they transparently fit into the surrounding context.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc

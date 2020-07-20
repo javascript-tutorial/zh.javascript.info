@@ -8,6 +8,10 @@ importance: 5
 
 文本区域（textarea）允许我们编辑 `<div>` 里的 HTML。
 
+<<<<<<< HEAD
 当用户按下 `key:Enter` 键，或者 `<textarea>` 失去焦点时，`<textarea>` 会变回 `<div>`，并且 `<textarea>` 中的内容会变成 `<div>` 中的 HTML。
+=======
+When the user presses `key:Enter` or it loses focus, the `<textarea>` turns back into `<div>`, and its content becomes HTML in `<div>`.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 [demo src="solution"]

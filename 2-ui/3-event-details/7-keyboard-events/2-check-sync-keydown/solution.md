@@ -1,6 +1,6 @@
 
-我们应该使用两个处理程序：`document.onkeydown` 和 `document.onkeyup`。
+We should use two handlers: `document.onkeydown` and `document.onkeyup`.
 
-让我们创建一个集合 `pressed = new Set()` 来保存当前被按下的键。
+Let's create a set `pressed = new Set()` to keep currently pressed keys.
 
-第一个处理程序把当前被按下的键添加到集合中，而第二个处理程序将被松开的按键从集合中移除。我们每次在 `keydown` 上检查我们是否按下了足够多的键，如果是，则运行函数 `func`。
+The first handler adds to it, while the second one removes from it. Every time on `keydown` we check if we have enough keys pressed, and run the function if it is so.

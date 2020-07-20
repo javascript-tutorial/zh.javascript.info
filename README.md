@@ -1,12 +1,19 @@
+<<<<<<< HEAD
 # 现代 JavaScript 教程中文版
 
 [![Gitter](https://img.shields.io/badge/chat-Gitter-forest.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/TheModernJavaScriptTutorial)
 
 本教程为 [React 官方文档](https://reactjs.org/docs/getting-started.html#javascript-resources) 与 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) 并列推荐的前端教程，持续更新，永久免费，欢迎扫码关注微信公众号，加入读者群。群内自由交流技术，群友帮忙答疑，共同进步！
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 <!--
 
+<<<<<<< HEAD
 - 如果你正在使用本教程学习，并且认为对你有很大帮助，也请你考虑扫码赞助本项目，请我读一本书 📚
 
 
@@ -16,6 +23,21 @@
 | <img src="https://user-images.githubusercontent.com/26959437/64488661-0e0d2c00-d27d-11e9-82cd-751f65346617.jpg" width="400px;" /> | <img src="https://user-images.githubusercontent.com/26959437/77983009-62264d80-7340-11ea-8af9-0690289599af.jpeg" width="200px;" /> | <img src="https://user-images.githubusercontent.com/26959437/77983315-496a6780-7341-11ea-9e44-c28a942feabe.jpeg" width="200px;" /> |
 
 -->
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 | 微信扫码关注官方公众号，订阅更多精彩内容 |
 |-|
@@ -31,6 +53,7 @@
 
 <!--
 
+<<<<<<< HEAD
 ## 赞助商
 
 <a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
@@ -273,3 +296,10 @@ importance: 5
 - LeviDing [@leviding](https://github.com/leviding)
 - LycheeEng [@lycheeEng](https://github.com/lycheeEng)
 - Martin [@MartinsYong](https://github.com/MartinsYong)
+=======
+It's very easy to add something new.
+
+---
+♥  
+Ilya Kantor @iliakan
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc

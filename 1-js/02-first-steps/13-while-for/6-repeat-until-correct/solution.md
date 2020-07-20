@@ -7,9 +7,9 @@ do {
 } while (num <= 100 && num);
 ```
 
-两个检查都为真时，继续执行 `do..while` 循环：
+The loop `do..while` repeats while both checks are truthy:
 
-1. 检查 `num <= 100` —— 即输入值仍然不大于 `100`。
-2. 当 `num` 为 `null` 或空字符串时，`&& num` 的结果为 false。那么 `while` 循环也会停止。
+1. The check for `num <= 100` -- that is, the entered value is still not greater than `100`.
+2. The check `&& num` is false when `num` is `null` or a empty string. Then the `while` loop stops too.
 
-P.S. 如果 `num` 为 `null`，那么 `num <= 100` 为 `true`。因此用户单击取消，如果没有第二次检查，循环就不会停止。两次检查都是必须的。
+P.S. If `num` is `null` then `num <= 100` is `true`, so without the 2nd check the loop wouldn't stop if the user clicks CANCEL. Both checks are required.

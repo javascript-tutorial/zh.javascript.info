@@ -1,12 +1,24 @@
+<<<<<<< HEAD
 # 鼠标事件
 
 在本章中，我们将详细介绍鼠标事件及其属性。
+=======
+# Mouse events
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 请注意：此类事件不仅可能来自于“鼠标设备”，还可能来自于对此类操作进行了模拟以实现兼容性的其他设备，例如手机和平板电脑。
 
+<<<<<<< HEAD
 ## 鼠标事件类型
 
 我们已经见过了其中一些事件：
+=======
+Please note: such events may come not only from "mouse devices", but are also from other devices, such as phones and tablets, where they are emulated for compatibility.
+
+## Mouse event types
+
+We've already seen some of these events:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 `mousedown/mouseup`
 : 在元素上点击/释放鼠标按钮。
@@ -15,6 +27,7 @@
 : 鼠标指针从一个元素上移入/移出。
 
 `mousemove`
+<<<<<<< HEAD
 : 鼠标在元素上的每个移动都会触发此事件。
 
 `click`
@@ -35,17 +48,46 @@
 例如，点击鼠标左键，在鼠标左键被按下时，会首先触发 `mousedown`，然后当鼠标左键被释放时，会触发 `mouseup` 和 `click`。
 
 在单个动作触发多个事件时，事件的顺序是固定的。也就是说，会遵循 `mousedown` -> `mouseup` -> `click` 的顺序调用处理程序。
+=======
+: Every mouse move over an element triggers that event.
+
+`click`
+: Triggers after `mousedown` and then `mouseup` over the same element if the left mouse button was used.
+
+`dblclick`
+: Triggers after two clicks on the same element within a short timeframe. Rarely used nowadays.
+
+`contextmenu`
+: Triggers when the right mouse button is pressed. There are other ways to open a context menu, e.g. using a special keyboard key, it triggers in that case also, so it's not exactly the mouse event.
+
+...There are several other events too, we'll cover them later.
+
+## Events order
+
+As you can see from the list above, a user action may trigger multiple events.
+
+For instance, a left-button click first triggers `mousedown`, when the button is pressed, then `mouseup` and `click` when it's released.
+
+In cases when a single action initiates multiple events, their order is fixed. That is, the handlers are called in the order `mousedown` -> `mouseup` -> `click`.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```online
 点击（译注：即单击）下面的按钮，你会看到事件。并尝试双击它。
 
+<<<<<<< HEAD
 在测试台下面记录了所有的鼠标事件，如果它们之间的延迟时间超过 1 秒，那么它们会被水平分割线分开。
 
 我们还可以看出 `button` 属性允许检测鼠标按钮，演示示例如下。
+=======
+On the teststand below all mouse events are logged, and if there is more than a 1 second delay between them they are separated by a horizontal ruler.
+
+Also we can see the `button` property that allows to detect the mouse button, it's explained below.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 <input onmousedown="return logMouse(event)" onmouseup="return logMouse(event)" onclick="return logMouse(event)" oncontextmenu="return logMouse(event)" ondblclick="return logMouse(event)" value="Click me with the right or the left mouse button" type="button"> <input onclick="logClear('test')" value="Clear" type="button"> <form id="testform" name="testform"> <textarea style="font-size:12px;height:150px;width:360px;"></textarea></form>
 ```
 
+<<<<<<< HEAD
 ## 鼠标按钮
 
 与点击相关的事件始终具有 `button` 属性，该属性允许获取确切的鼠标按钮。 
@@ -74,6 +116,39 @@ Old code may use `event.which` property that's an old non-standard way of gettin
 - `event.which == 1` – left button,
 - `event.which == 2` – middle button,
 - `event.which == 3` – right button.
+=======
+## Mouse button
+
+Click-related events always have the `button` property, which allows to get the exact mouse button.
+
+We usually don't use it for `click` and `contextmenu` events, because the former happens only on left-click, and the latter -- only on right-click.
+
+From the other hand, `mousedown` and `mouseup` handlers we may need `event.button`, because these events trigger on any button, so `button` allows to distinguish between "right-mousedown" and "left-mousedown".
+
+The possible values of `event.button` are:
+
+| Button state | `event.button` |
+|--------------|----------------|
+| Left button (primary) | 0 |
+| Middle button (auxillary) | 1 |
+| Right button (secondary) | 2 |
+| X1 button (back) | 3 |
+| X2 button (forward) | 4 |
+
+Most mouse devices only have the left and right buttons, so possible values are `0` or `2`. Touch devices also generate similar events when one taps on them.
+
+Also there's `event.buttons` property that has all currently pressed buttons as an integer, one bit per button. In practice this property is very rarely used, you can find details at [MDN](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons) if you ever need it.
+
+```warn header="The outdated `event.which`"
+Old code may use `event.which` property that's an old non-standard way of getting a button, with possible values:
+
+- `event.which == 1` – left button,
+- `event.which == 2` – middle button,
+- `event.which == 3` – right button.
+
+As of now, `event.which` is deprecated, we shouldn't use it.
+```
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 As of now, `event.which` is deprecated, we shouldn't use it.
 ```
@@ -84,12 +159,23 @@ As of now, `event.which` is deprecated, we shouldn't use it.
 
 事件属性：
 
+<<<<<<< HEAD
 - `shiftKey`：`key:Shift`
 - `altKey`：`key:Alt`（或对于 Mac 是 `key:Opt`）
 - `ctrlKey`：`key:Ctrl`
 - `metaKey`：对于 Mac 是 `key:Cmd`
 
 如果在事件期间按下了相应的键，则它们为 `true`。
+=======
+Event properties:
+
+- `shiftKey`: `key:Shift`
+- `altKey`: `key:Alt` (or `key:Opt` for Mac)
+- `ctrlKey`: `key:Ctrl`
+- `metaKey`: `key:Cmd` for Mac
+
+They are `true` if the corresponding key was pressed during the event.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 比如，下面这个按钮仅在 `key:Alt+Shift`+click 时才有效：
 
@@ -107,6 +193,7 @@ As of now, `event.which` is deprecated, we shouldn't use it.
 </script>
 ```
 
+<<<<<<< HEAD
 ```warn header="注意：在 Mac 上我们通常使用 `Cmd` 代替 `Ctrl`"
 在 Windows 和 Linux 上有 `key:Alt`，`key:Shift` 和 `key:Ctrl`。在 Mac 上还有：`key:Cmd`，它对应于属性 `metaKey`。
 
@@ -117,9 +204,24 @@ As of now, `event.which` is deprecated, we shouldn't use it.
 因此，如果我们想支持 `key:Ctrl`+click，那么对于 Mac 应该使用 `key:Cmd`+click。对于 Mac 用户而言，这更舒适。
 
 即使我们想强制 Mac 用户使用 `key:Ctrl`+click —— 这非常困难。问题是：在 MacOS 上左键单击和 `key:Ctrl` 一起使用会被解释为 **右键单击**，并且会生成 `contextmenu` 事件，而不是像 Windows/Linux 中的 `click` 事件。
+=======
+```warn header="Attention: on Mac it's usually `Cmd` instead of `Ctrl`"
+On Windows and Linux there are modifier keys `key:Alt`, `key:Shift` and `key:Ctrl`. On Mac there's one more: `key:Cmd`, corresponding to the property `metaKey`.
+
+In most applications, when Windows/Linux uses `key:Ctrl`, on Mac `key:Cmd` is used.
+
+That is: where a Windows user presses `key:Ctrl+Enter` or `key:Ctrl+A`, a Mac user would press `key:Cmd+Enter` or `key:Cmd+A`, and so on.
+
+So if we want to support combinations like `key:Ctrl`+click, then for Mac it makes sense to use `key:Cmd`+click. That's more comfortable for Mac users.
+
+Even if we'd like to force Mac users to `key:Ctrl`+click -- that's kind of difficult. The problem is: a left-click with `key:Ctrl` is interpreted as a *right-click* on MacOS, and it generates the `contextmenu` event, not `click` like Windows/Linux.
+
+So if we want users of all operating systems to feel comfortable, then together with `ctrlKey` we should check `metaKey`.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 因此，如果我们想让所有操作系统的用户都感到舒适，那么我们应该将 `ctrlKey` 与 `metaKey` 一起进行检查。
 
+<<<<<<< HEAD
 对于 JS 代码，这意味着我们应该检查 `if (event.ctrlKey || event.metaKey)`。
 ```
 
@@ -137,9 +239,44 @@ As of now, `event.which` is deprecated, we shouldn't use it.
 2. 相对于文档的坐标：`pageX` 和 `pageY`。
 
 We already covered the difference between them in the chapter <info:coordinates>.
+=======
+```warn header="There are also mobile devices"
+Keyboard combinations are good as an addition to the workflow. So that if the visitor uses a keyboard -- they work. 
+
+But if their device doesn't have it -- then there should be a way to live without modifier keys.
+```
+
+## Coordinates: clientX/Y, pageX/Y
+
+All mouse events provide coordinates in two flavours:
+
+1. Window-relative: `clientX` and `clientY`.
+2. Document-relative: `pageX` and `pageY`.
+
+We already covered the difference between them in the chapter <info:coordinates>.
 
 In short, document-relative coordinates `pageX/Y` are counted from the left-upper corner of the document, and do not change when the page is scrolled, while `clientX/Y` are counted from the current window left-upper corner. When the page is scrolled, they change.
 
+For instance, if we have a window of the size 500x500, and the mouse is in the left-upper corner, then `clientX` and `clientY` are `0`, no matter how the page is scrolled. 
+
+And if the mouse is in the center, then `clientX` and `clientY` are `250`, no matter what place in the document it is. They are similar to `position:fixed` in that aspect.
+
+````online
+Move the mouse over the input field to see `clientX/clientY` (the example is in the `iframe`, so coordinates are relative to that `iframe`):
+
+```html autorun height=50
+<input onmousemove="this.value=event.clientX+':'+event.clientY" value="Mouse over me">
+```
+````
+
+## Preventing selection on mousedown
+
+Double mouse click has a side-effect that may be disturbing in some interfaces: it selects text.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
+
+In short, document-relative coordinates `pageX/Y` are counted from the left-upper corner of the document, and do not change when the page is scrolled, while `clientX/Y` are counted from the current window left-upper corner. When the page is scrolled, they change.
+
+<<<<<<< HEAD
 例如，如果我们有一个大小为 500x500 的窗口，并且鼠标在左上角，那么 `clientX` 和 `clientY` 均为 `0`，无论页面如何滚动。
 
 如果鼠标位于中间，那么 `clientX` 和 `clientY` 均为 `250`。这与它在文档中的位置无关。在这方面，它们类似于 `position:fixed`。
@@ -149,19 +286,32 @@ In short, document-relative coordinates `pageX/Y` are counted from the left-uppe
 
 ```html autorun height=50
 <input onmousemove="this.value=event.clientX+':'+event.clientY" value="Mouse over me">
+=======
+```html autorun height=50
+<span ondblclick="alert('dblclick')">Double-click me</span>
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 ```
 ````
 
+<<<<<<< HEAD
 ## 防止在鼠标按下时的选择
 
 双击鼠标会有副作用，在某些界面中可能会出现干扰：它会选择文本。
 
 比如，双击下面的文本，除了我们的处理程序外，还会选择文本：
+=======
+If one presses the left mouse button and, without releasing it, moves the mouse, that also makes the selection, often unwanted.
+
+There are multiple ways to prevent the selection, that you can read in the chapter <info:selection-range>.
+
+In this particular case the most reasonable way is to prevent the browser action on `mousedown`. It prevents both these selections:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```html autorun height=50
 <span ondblclick="alert('dblclick')">Double-click me</span>
 ```
 
+<<<<<<< HEAD
 如果按下鼠标左键，并在不松开的情况下移动鼠标，这也常常会造成不必要的选择。
 
 有多种防止选择的方法，你可以在 <info:selection-range> 一章中详细阅读。
@@ -182,6 +332,14 @@ Before...
 
 ````smart header="防止复制"
 如果我们想禁用选择以保护我们页面的内容不被复制粘贴，那么我们可以使用另一个事件：`oncopy`。
+=======
+Now the bold element is not selected on double clicks, and pressing the left button on it won't start the selection.
+
+Please note: the text inside it is still selectable. However, the selection should start not on the text itself, but before or after it. Usually that's fine for users.
+
+````smart header="Preventing copying"
+If we want to disable selection to protect our page content from copy-pasting, then we can use another event: `oncopy`.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```html autorun height=80 no-beautify
 <div *!*oncopy="alert('Copying forbidden!');return false"*/!*>
@@ -192,20 +350,36 @@ Before...
 ```
 如果你试图在 `<div>` 中复制一段文本，这是行不通的，因为默认行为 `oncopy` 被阻止了。
 
+<<<<<<< HEAD
 当然，用户可以访问页面的 HTML 源码，并且可以从那里获取内容，但并不是每个人都知道如何做到这一点。
+=======
+Surely the user has access to HTML-source of the page, and can take the content from there, but not everyone knows how to do it.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 ````
 
 ## 总结
 
 鼠标事件有以下属性：
 
+<<<<<<< HEAD
 - 按钮：`button`。
 - 组合键（如果被按下则为 `true`）：`altKey`，`ctrlKey`，`shiftKey` 和 `metaKey`（Mac）。
   - 如果你想处理 `key:Ctrl`，那么不要忘记 Mac 用户，他们通常使用的是 `key:Cmd`，所以最好检查 `if (e.metaKey || e.ctrlKey)`。
+=======
+- Button: `button`.
+- Modifier keys (`true` if pressed): `altKey`, `ctrlKey`, `shiftKey` and `metaKey` (Mac).
+  - If you want to handle `key:Ctrl`, then don't forget Mac users, they usually use `key:Cmd`, so it's better to check `if (e.metaKey || e.ctrlKey)`.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 - 窗口相对坐标：`clientX/clientY`。
 - 文档相对坐标：`pageX/pageY`。
 
+<<<<<<< HEAD
 `mousedown` 的默认浏览器操作是文本选择，如果它对界面不利，则应避免它。
 
 在下一章中，我们将看到有关鼠标指针移动后的事件，以及如何跟踪其下元素变化的更多详细信息。
+=======
+The default browser action of `mousedown` is text selection, if it's not good for the interface, then it should be prevented.
+
+In the next chapter we'll see more details about events that follow pointer movement and how to track element changes under it.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc

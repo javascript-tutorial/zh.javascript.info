@@ -2,24 +2,24 @@ importance: 5
 
 ---
 
-# 创建一个可扩展的 calculator
+# Create an extendable calculator
 
-创建一个构造函数 `Calculator`，以创建“可扩展”的 calculator 对象。
+Create a constructor function `Calculator` that creates "extendable" calculator objects.
 
-该任务由两部分组成。
+The task consists of two parts.
 
-1. 首先，实现 `calculate(str)` 方法，该方法接受像 `"1 + 2"` 这样格式为“数字 运算符 数字”（以空格分隔）的字符串，并返回结果。该方法需要能够理解加号 `+` 和减号 `-`。
+1. First, implement the method `calculate(str)` that takes a string like `"1 + 2"` in the format "NUMBER operator NUMBER" (space-delimited) and returns the result. Should understand plus `+` and minus `-`.
 
-    用法示例：
+    Usage example:
 
     ```js
     let calc = new Calculator;
 
     alert( calc.calculate("3 + 7") ); // 10
     ```
-2. 然后添加方法 `addMethod(name, func)`，该方法教 calculator 进行新操作。它需要运算符 `name` 和实现它的双参数函数 `func(a,b)`。
+2. Then add the method `addMethod(name, func)` that teaches the calculator a new operation. It takes the operator `name` and the two-argument function `func(a,b)` that implements it.
 
-    例如，我们添加乘法 `*`，除法 `/` 和求幂 `**`：
+    For instance, let's add the multiplication `*`, division `/` and power `**`:
 
     ```js
     let powerCalc = new Calculator;
@@ -31,6 +31,6 @@ importance: 5
     alert( result ); // 8
     ```
 
-- 此任务中没有括号或复杂的表达式。
-- 数字和运算符之间只有一个空格。
-- 你可以自行选择是否添加错误处理功能。
+- No parentheses or complex expressions in this task.
+- The numbers and the operator are delimited with exactly one space.
+- There may be error handling if you'd like to add it.

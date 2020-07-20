@@ -1,4 +1,4 @@
-前两个检查为前两个 `case`，第三个检查分为两种情况：
+The first two checks turn into two `case`. The third check is split into two cases:
 
 ```js run
 let a = +prompt('a?', '');
@@ -21,7 +21,6 @@ switch (a) {
 }
 ```
 
-请注意：最后的 `break` 不是必须的。但是为了让代码可扩展我们要把它加上。
+Please note: the `break` at the bottom is not required. But we put it to make the code future-proof.
 
-有可能之后我们想要再添加一个 `case`，例如 `case 4`。如果我们忘记在它之前添加一个 break，那么在 case 3 执行结束后可能会出现错误。所以这是一种自我保险。
-
+In the future, there is a chance that we'd want to add one more `case`, for example `case 4`. And if we forget to add a break before it, at the end of `case 3`, there will be an error. So that's a kind of self-insurance.

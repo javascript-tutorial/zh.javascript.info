@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 扩展热键
+# Extended hotkeys
 
-创建一个 `runOnKeys(func, code1, code2, ... code_n)` 函数，在同时按下 `code1, code2, ... code_n` 键时运行函数 `func`。
+Create a function `runOnKeys(func, code1, code2, ... code_n)` that runs `func` on simultaneous pressing of keys with codes `code1`, `code2`, ..., `code_n`.
 
-例如，当按键 `"Q"` 和 `"W"` 被一起按下时（任何语言中，无论是否 CapsLock），下面的代码将显示 `alert`：
+For instance, the code below shows `alert` when `"Q"` and `"W"` are pressed together (in any language, with or without CapsLock)
 
 ```js no-beautify
 runOnKeys(
