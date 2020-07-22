@@ -732,7 +732,7 @@ alert(soldiers[1].age); // 23
   - `reduce(func, initial)` —— 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
 
 - 其他：
-  - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
+  - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
 
 请注意，`sort`，`reverse` 和 `splice` 方法修改的是数组本身。
 
