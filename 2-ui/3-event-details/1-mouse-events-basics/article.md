@@ -73,7 +73,7 @@ Old code may use `event.which` property that's an old non-standard way of gettin
 
 - `event.which == 1` – 鼠标左键，
 - `event.which == 2` – 鼠标中键，
-- `event.which == 3` – 鼠标右建。
+- `event.which == 3` – 鼠标右键。
 
 当下，`event.which` 已经被弃用了，不应当使用它。
 ```
