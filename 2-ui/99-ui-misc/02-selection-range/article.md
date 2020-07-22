@@ -196,7 +196,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 - `deleteContents()` —— 从文档中删除范围内容
 - `extractContents()` —— 从文档中删除范围内容，并将删除的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
-- `cloneContents()` —— 复制范围内容，并将删除的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
+- `cloneContents()` —— 复制范围内容，并将复制的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
 - `insertNode(node)` —— 在范围的起始处将 `node` 插入文档
 - `surroundContents(node)` —— 使用 `node` 将所选范围内容包裹起来。要使此操作有效，则该范围必须包含其中所有元素的开始和结束标签：不能像 `<i>abc` 这样的部分范围。
 
