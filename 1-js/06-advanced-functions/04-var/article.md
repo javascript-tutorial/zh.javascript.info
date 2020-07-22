@@ -126,7 +126,7 @@ function sayHi() {
 sayHi();
 ```
 
-……从技术上将，它与下面这种情况是一样的（`var phrase` 被上移至函数开头）：
+……从技术上讲，它与下面这种情况是一样的（`var phrase` 被上移至函数开头）：
 
 ```js run
 function sayHi() {
