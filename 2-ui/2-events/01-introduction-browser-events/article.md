@@ -12,7 +12,7 @@
 - `mousemove` —— 当鼠标移动时。
 
 **键盘事件**：
-- `keydown` and `keyup` -- when a keyboard key is pressed and released.
+- `keydown` 和 `keyup` -- 当按下和抬起一个按键时
 
 **表单（form）元素事件**：
 - `submit` —— 当访问者提交了一个 `<form>` 时。
@@ -107,7 +107,7 @@ HTML 特性不是编写大量代码的好位置，因此我们最好创建一个
     </script>
     ```
 
-In the first example, the HTML attribute is used to initialize the `button.onclick`, while in the second example -- the script, that's all the difference.
+在第一个例子中， `button.onclick` 是被 HTML 特征初始化的，而在第二个例子中是被脚本初始化的。这是他们唯一的不同之处。
 
 **因为这里只有一个 `onclick` 属性，所以我们无法分配更多事件处理程序。**
 
@@ -140,7 +140,7 @@ In the first example, the HTML attribute is used to initialize the `button.oncli
 
 如果你刚开始写事件 —— 请注意一些细微之处。
 
-We can set an existing function as a handler:
+我们可以把一个现存的函数作为处理程序：
 
 ```js
 function sayThanks() {
@@ -150,7 +150,7 @@ function sayThanks() {
 elem.onclick = sayThanks;
 ```
 
-But be careful: the function should be assigned as `sayThanks`, not `sayThanks()`.
+但要小心：应该用 `sayThanks` 来指代函数，而不是 `sayThanks()`。
 
 ```js
 // 正确

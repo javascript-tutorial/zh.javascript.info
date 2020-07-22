@@ -48,20 +48,20 @@ DOM 修改是创建“实时”页面的关键。
     let textNode = document.createTextNode('Here I am');
     ```
 
-Most of the time we need to create element nodes, such as the `div` for the message.
+大多数情况下，我们需要通过消息来创建像 `div` 这样的元素节点。
 
 ### 创建一条消息
 
-Creating the message div takes 3 steps:
+创建一个消息 `div` 分为 3 个步骤：
 
 ```js
-// 1. Create <div> element
+// 1. 创建 <div> 元素
 let div = document.createElement('div');
 
-// 2. Set its class to "alert"
+// 2. 将元素的类设置为 "alert"
 div.className = "alert";
 
-// 3. Fill it with the content
+// 3. 填充消息内容
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
@@ -97,9 +97,9 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 </script>
 ```
 
-Here we called `append` on `document.body`, but we can call `append` method on any other element, to put another element into it. For instance, we can append something to `<div>` by calling `div.append(anotherElement)`.
+在这个例子中，我们对 `document.body` 调用了 `append` 方法。不过理论上， `append` 方法可以在任何其他元素后面调用来填充元素。例如，通过调用 `div.append(anotherElement)`，我们便可以在 `<div>` 后面添加一些内容。
 
-Here are more insertion methods, they specify different places where to insert:
+这里是更多的元素插入方法，指明了不同的插入位置：
 
 - `node.append(...nodes or strings)` — 在 `node` **末尾** 插入节点或字符串，
 - `node.prepend(...nodes or strings)` — 在 `node` **开头** 插入节点或字符串，
@@ -107,9 +107,9 @@ Here are more insertion methods, they specify different places where to insert:
 - `node.after(...nodes or strings)` — 在 `node` **后面** 插入节点或字符串，
 - `node.replaceWith(...nodes or strings)` — 将 `node` 替换为给定的节点或字符串。
 
-Arguments of these methods are an arbitrary list of DOM nodes to insert, or text strings (that become text nodes automatically).
+这些方法的参数可以是一个任意的 DOM 节点列表，或者文本字符串（会被自动转换成文字节点）。
 
-Let's see them in action.
+我们在实际应用中看一看。
 
 下面是使用这些方法将列表项添加到列表中，以及将文本添加到列表前面和后面的示例：
 
@@ -163,7 +163,7 @@ after
 </script>
 ```
 
-Please note: the text is inserted "as text", not "as HTML", with proper escaping of characters such as `<`, `>`.
+请注意：这里的文字都被”作为文本“插入，而不是”作为 HTML 代码“。因此像 `<`, `>` 这样的符号都会被作转义处理来保证正确显示。
 
 所以，最终的 HTML 为：
 
@@ -179,7 +179,7 @@ Please note: the text is inserted "as text", not "as HTML", with proper escaping
 
 所以，这些方法只能用来插入 DOM 节点或文本片段。
 
-But what if we'd like to insert an HTML string "as html", with all tags and stuff working, in the same manner as `elem.innerHTML` does it?
+但如果我们想要将内容”作为 HTML 代码“插入，让内容中的所有标签都像 `elem.innerHTML` 一样正常显示应该怎么办呢？
 
 ## insertAdjacentHTML/Text/Element
 

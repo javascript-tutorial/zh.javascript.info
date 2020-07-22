@@ -213,11 +213,11 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
 
 通常事件是在队列中处理的。也就是说：如果浏览器正在处理 `onclick`，这时发生了一个新的事件，例如鼠标移动了，那么它会被排入队列，相应的 `mousemove` 处理程序将在 `onclick` 事件处理完成后被调用。
 
-值得注意的例外情况就是，一个事件是在另一个事件中发起的。例如 using `dispatchEvent`. Such events are processed immediately: the new event handlers are called, and then the current event handling is resumed.
+值得注意的例外情况就是，一个事件是在另一个事件中发起的。例如使用 `dispatchEvent`. 这类事件将会立即处理，即在新的事件处理程序调用之后，恢复到当前的事件处理程序。
 
-For instance, in the code below the `menu-open` event is triggered during the `onclick`.
+例如在下面的代码中，`menu-open` 事件是在 `onclick` 事件执行过程中被调用的。
 
-It's processed immediately, without waiting for `onlick` handler to end:
+它会被立即执行，而不必等待 `onclick` 处理程序结束。
 
 
 ```html run autorun
@@ -234,7 +234,7 @@ It's processed immediately, without waiting for `onlick` handler to end:
     alert(2);
   };
 
-  // triggers between 1 and 2
+  // 在 1 和 2 之间触发
   document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```
@@ -243,11 +243,11 @@ It's processed immediately, without waiting for `onlick` handler to end:
 
 请注意，嵌套事件 `menu-open` 会在 `document` 上被捕获。嵌套事件的传播（propagation）和处理先被完成，然后处理过程才会返回到外部代码（`onclick`）。
 
-这不只是与 `dispatchEvent` 有关，还有其他情况。If an event handler calls methods that trigger to other events -- they are too processed synchronously, in a nested fashion.
+这不只是与 `dispatchEvent` 有关，还有其他情况。如果一个事件触发的事件进一步触发了更多的事件，他们同样会以一种嵌套的方式同步地处理。
 
-Let's say we don't like it. We'd want `onclick` to be fully processed first, independently from `menu-open` or any other nested events.
+不过有时候，这不是我们期望的结果。例如有时候我们想要 `onclick` 不受 `menu-open` 和其他嵌套事件的影响，先自行执行完毕。
 
-然后，我们可以将 `dispatchEvent`（或另一个触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
+那我们就可以将 `dispatchEvent`（或另一个触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
 
 ```html run
 <button id="menu">Menu (click me)</button>
