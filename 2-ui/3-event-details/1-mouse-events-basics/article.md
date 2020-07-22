@@ -72,8 +72,8 @@
 Old code may use `event.which` property that's an old non-standard way of getting a button, with possible values:一些祖传代码可能会使用 `event.which` 来获得按下的按键。这是一个古老的非标准的方法，具有以下可能值：
 
 - `event.which == 1` – 鼠标左键，
-- `event.which == 2` – 鼠标右键，
-- `event.which == 3` – 鼠标中建。
+- `event.which == 2` – 鼠标中键，
+- `event.which == 3` – 鼠标右建。
 
 当下，`event.which` 已经被弃用了，不应当使用它。
 ```
