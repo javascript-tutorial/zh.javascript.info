@@ -1,10 +1,10 @@
 # 指针事件
 
-指针事件（Pointer Events）是一种现代化的处理来自多种输入的设备的方式，包括鼠标、触控笔、触摸屏幕等等。
+指针事件（Pointer Events）是一种处理来自多种输入的设备的输入信息的现代化解决方案，包括鼠标、触控笔、触摸屏幕等等。
 
 ## 一段简史
 
-我们先做一个概览，来让对指针事件在其他事件中的地位有一个粗略的认识。
+我们先做一个概览，来让你对指针事件相对于鼠标事件和触摸事件有一个粗略的认识。
 
 - 开始的开始，浏览器只用处理鼠标事件。
 
@@ -37,7 +37,7 @@
 | `gotpointercapture` | - |
 | `lostpointercapture` | - |
 
-不难发现，每一个 `mouse<event>` 都有与之相对应的 `pointer<event>`。同时还有 3 个指针事件独有的部分，我们稍后会详细解释它们。
+不难发现，每一个 `mouse<event>` 都有与之相对应的 `pointer<event>`。同时还有 3 个事件为指针事件所独有，我们会在稍后详细解释它们。
 
 ```smart header="在代码中用 `pointer<event>` 替换 `mouse<event>`"
 我们可以把代码中的 `mouse<event>` 都替换成 `pointer<event>`，程序仍然可以正常处理鼠标事件。
@@ -98,9 +98,9 @@
 
 我们之前提及过 `touch-action: none` 的重要性。略过它可能会在我们的交互中产生许多误操作。现在我们来解释一下原因。
 
-`pointercancel` 事件将会在一个正处于活跃状态的指针事件由于某些原因终止时触发。也就是在这个事件之后，该指针就不会继续触发更多事件了。
+`pointercancel` 事件将会在一个正处于活跃状态的指针事件由于某些原因中断时触发。也就是在这个事件之后，该指针就不会继续触发更多事件了。
 
-导致指针终止的可能原因如下：
+导致指针中断的可能原因如下：
 - 指针设备硬件被禁用
 - 设备方向旋转（例如给平板转了个方向）
 - 浏览器打算自行处理这一互动，比如将其看做是一个专门的鼠标手势、缩放操作等。
@@ -115,11 +115,11 @@
     - `pointerdown` 事件触发
 2) 用户开始拖动图像
     - `pointermove` 事件触发，可能触发多次
-3) 想不到吧！浏览器有原生的对图像拖放的实现，接管了之前的拖放过程，于是触发了 `pointercancel` 事件。
+3) 想不到吧！浏览器有自己原生的图像拖放操作，接管了之前的拖放过程，于是触发了 `pointercancel` 事件。
     - 现在拖放操作由浏览器自行实现。用户甚至可能会把图片拖出浏览器，放进他们的邮件程序或文件管理器。
     - 我们不会再得到 `pointermove` 事件了。
 
-这里的问题就在于浏览器”劫持“了这一个互动操作，触发了 `pointercancel` 事件，而 `pointermove` 事件不再触发。
+这里的问题就在于浏览器”劫持“了这一个互动操作，触发了 `pointercancel` 事件，而 `pointermove` 事件不再继续触发。
 
 ```online
 这里是一个指针事件的演示（只包含 `up/down`, `move` 和 `cancel），事件的触发被记录在了文本框中。
@@ -179,13 +179,13 @@
 
 指针捕捉提供了第二种解决方案：我们可以在 `pointerdown` 事件的处理程序中调用 `thumb.setPointerCapture(event.pointerId)`，这样的话接下来在 `pointerup` 之前发生的所有指针事件都会被重定向到 `thumb` 上。
 
-也就是说，`thumb` 上的事件处理程序会被调用，并且 `event.target` 始终会是 `thumb`，即便用户已经把指针移到了整个文档。所以我们可以让 `thumb` 继续侦听 `pointermove`，无论这些事件在何处发生。
+也就是说，`thumb` 上的事件处理程序会被调用，并且 `event.target` 始终会是 `thumb`，即便用户已经把指针移出了滑动条。所以我们可以让 `thumb` 继续侦听 `pointermove`，无论这些事件在何处发生。
 
-主要的代码如下：
+其中主要的代码如下：
 
 ```js
 thumb.onpointerdown = function(event) {
-  // 把所有指针事件（pointerup 之前）重定向到自己
+  // 把所有指针事件（pointerup 之前发生的）重定向到自己
   thumb.setPointerCapture(event.pointerId);
 };
 
@@ -210,7 +210,7 @@ thumb.onpointermove = function(event) {
 还有两个相关的指针捕捉事件:
 
 - `gotpointercapture` 会在一个元素使用 `setPointerCapture` 来启用捕捉后触发
-- `lostpointercapture` 会在捕捉释放后触发，这可能是由于 `releasePointerCapture` 被显式地调用，或者 `pointerup`/`pointercancel` 事件触发后自动调用。
+- `lostpointercapture` 会在捕捉释放后触发。其触发可能是由于 `releasePointerCapture` 的显式调用，或是 `pointerup`/`pointercancel` 事件触发后的自动调用。
 
 ## 总结
 

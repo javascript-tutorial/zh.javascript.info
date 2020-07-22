@@ -20,7 +20,7 @@
   thumb.onpointermove = function(event) {
     let newLeft = event.clientX - shiftX - slider.getBoundingClientRect().left;
 
-    // 如果指针移出了滑块 => 调整左边缘来防止其超出边界
+    // 如果指针移出了滑块 => 调整左侧来防止其超出边界
     if (newLeft < 0) {
       newLeft = 0;
     }
