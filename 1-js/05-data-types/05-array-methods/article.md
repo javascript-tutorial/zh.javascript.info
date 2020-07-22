@@ -6,10 +6,10 @@
 
 我们已经学了从数组的首端或尾端添加和删除元素的方法：
 
-- `arr.push(...items)` — 从尾端添加元素，
-- `arr.pop()` — 从尾端提取元素，
-- `arr.shift()` — 从首端提取元素，
-- `arr.unshift(...items)` — 从首端添加元素。
+- `arr.push(...items)` —— 从尾端添加元素，
+- `arr.pop()` —— 从尾端提取元素，
+- `arr.shift()` —— 从首端提取元素，
+- `arr.unshift(...items)` —— 从首端添加元素。
 
 这里还有其他几种方法。
 
@@ -148,7 +148,7 @@ alert( arr.slice(-2) ); // s,t（复制从位置 -2 到尾端的元素）
 arr.concat(arg1, arg2...)
 ```
 
-它接受任意数量的参数 — 数组或值都可以。
+它接受任意数量的参数 —— 数组或值都可以。
 
 结果是一个包含来自于 `arr`，然后是 `arg1`，`arg2` 的元素的新数组。
 
@@ -237,8 +237,8 @@ arr.forEach(function(item, index, array) {
 [arr.indexOf](mdn:js/Array/indexOf)、[arr.lastIndexOf](mdn:js/Array/lastIndexOf) 和 [arr.includes](mdn:js/Array/includes) 方法与字符串操作具有相同的语法，并且作用基本上也与字符串的方法相同，只不过这里是对数组元素而不是字符进行操作：
 
 - `arr.indexOf(item, from)` 从索引 `from` 开始搜索 `item`，如果找到则返回索引，否则返回 `-1`。
-- `arr.lastIndexOf(item, from)` — 和上面相同，只是从右向左搜索。
-- `arr.includes(item, from)` — 从索引 `from` 开始搜索 `item`，如果找到则返回 `true`（译注：如果没找到，则返回 `false`）。
+- `arr.lastIndexOf(item, from)` —— 和上面相同，只是从右向左搜索。
+- `arr.includes(item, from)` —— 从索引 `from` 开始搜索 `item`，如果找到则返回 `true`（译注：如果没找到，则返回 `false`）。
 
 例如：
 
@@ -421,7 +421,7 @@ alert(arr);  // *!*1, 2, 15*/!*
 
 `arr.sort(fn)` 方法实现了通用的排序算法。我们不需要关心它的内部工作原理（大多数情况下都是经过 [快速排序](https://en.wikipedia.org/wiki/Quicksort) 算法优化的）。它将遍历数组，使用提供的函数比较其元素并对其重新排序，我们所需要的就是提供执行比较的函数 `fn`。
 
-顺便说一句，如果我们想知道要比较哪些元素 — 那么什么都不会阻止 alert 它们：
+顺便说一句，如果我们想知道要比较哪些元素 —— 那么什么都不会阻止 alert 它们：
 
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
@@ -504,7 +504,7 @@ for (let name of arr) {
 }
 ```
 
-`split` 方法有一个可选的第二个数字参数 — 对数组长度的限制。如果提供了，那么额外的元素会被忽略。但实际上它很少使用：
+`split` 方法有一个可选的第二个数字参数 —— 对数组长度的限制。如果提供了，那么额外的元素会被忽略。但实际上它很少使用：
 
 ```js run
 let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
@@ -536,9 +536,9 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
-当我们需要遍历一个数组时 — 我们可以使用 `forEach`，`for` 或 `for..of`。
+当我们需要遍历一个数组时 —— 我们可以使用 `forEach`，`for` 或 `for..of`。
 
-当我们需要遍历并返回每个元素的数据时 — 我们可以使用 `map`。
+当我们需要遍历并返回每个元素的数据时 —— 我们可以使用 `map`。
 
 [arr.reduce](mdn:js/Array/reduce) 方法和 [arr.reduceRight](mdn:js/Array/reduceRight) 方法和上面的种类差不多，但稍微复杂一点。它们用于根据数组计算单个值。
 
@@ -554,10 +554,10 @@ let value = arr.reduce(function(accumulator, item, index, array) {
 
 参数：
 
-- `accumulator` - 是上一个函数调用的结果，第一次等于  `initial`（如果提供了 `initial` 的话）。
-- `item` — 当前的数组元素。
-- `index` — 当前索引。
-- `arr` — 数组本身。
+- `accumulator` —— 是上一个函数调用的结果，第一次等于  `initial`（如果提供了 `initial` 的话）。
+- `item` —— 当前的数组元素。
+- `index` —— 当前索引。
+- `arr` —— 数组本身。
 
 应用函数时，上一个函数调用的结果将作为第一个参数传递给下一个函数。
 
@@ -654,7 +654,7 @@ alert(Array.isArray([])); // true
 
 ## 大多数方法都支持 "thisArg"
 
-几乎所有调用函数的数组方法 - 比如 `find`，`filter`，`map`，除了 `sort` 是一个特例，都接受一个可选的附加参数 `thisArg`。
+几乎所有调用函数的数组方法 —— 比如 `find`，`filter`，`map`，除了 `sort` 是一个特例，都接受一个可选的附加参数 `thisArg`。
 
 上面的部分中没有解释该参数，因为该参数很少使用。但是为了完整性，我们需要讲讲它。
 
@@ -707,29 +707,29 @@ alert(soldiers[1].age); // 23
 数组方法备忘单：
 
 - 添加/删除元素：
-  - `push(...items)` — 向尾端添加元素，
-  - `pop()` — 从尾端提取一个元素，
-  - `shift()` — 从首端提取一个元素，
-  - `unshift(...items)` — 向首端添加元素，
-  - `splice(pos, deleteCount, ...items)` — 从 `index` 开始删除 `deleteCount` 个元素，并在当前位置插入 `items`。
-  - `slice(start, end)` — 创建一个新数组，将从位置 `start` 到位置 `end`（但不包括 `end`）的元素复制进去。
-  - `concat(...items)` — 返回一个新数组：复制当前数组的所有元素，并向其中添加 `items`。如果 `items` 中的任意一项是一个数组，那么就取其元素。
+  - `push(...items)` —— 向尾端添加元素，
+  - `pop()` —— 从尾端提取一个元素，
+  - `shift()` —— 从首端提取一个元素，
+  - `unshift(...items)` —— 向首端添加元素，
+  - `splice(pos, deleteCount, ...items)` —— 从 `index` 开始删除 `deleteCount` 个元素，并在当前位置插入 `items`。
+  - `slice(start, end)` —— 创建一个新数组，将从位置 `start` 到位置 `end`（但不包括 `end`）的元素复制进去。
+  - `concat(...items)` —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 `items`。如果 `items` 中的任意一项是一个数组，那么就取其元素。
 
 - 搜索元素：
-  - `indexOf/lastIndexOf(item, pos)` —  从位置 `pos` 开始搜索 `item`，搜索到则返回该项的索引，否则返回 `-1`。
-  - `includes(value)` — 如果数组有 `value`，则返回 `true`，否则返回 `false`。
-  - `find/filter(func)` — 通过 `func` 过滤元素，返回使 `func` 返回 `true` 的第一个值/所有值。 
+  - `indexOf/lastIndexOf(item, pos)` ——  从位置 `pos` 开始搜索 `item`，搜索到则返回该项的索引，否则返回 `-1`。
+  - `includes(value)` —— 如果数组有 `value`，则返回 `true`，否则返回 `false`。
+  - `find/filter(func)` —— 通过 `func` 过滤元素，返回使 `func` 返回 `true` 的第一个值/所有值。 
   - `findIndex` 和 `find` 类似，但返回索引而不是值。
 
 - 遍历元素：
-  - `forEach(func)` — 对每个元素都调用 `func`，不返回任何内容。
+  - `forEach(func)` —— 对每个元素都调用 `func`，不返回任何内容。
 
 - 转换数组：
-  - `map(func)` — 根据对每个元素调用 `func` 的结果创建一个新数组。
-  - `sort(func)` — 对数组进行原位（in-place）排序，然后返回它。
-  - `reverse()` — 原位（in-place）反转数组，然后返回它。
-  - `split/join` — 将字符串转换为数组并返回。
-  - `reduce(func, initial)` — 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
+  - `map(func)` —— 根据对每个元素调用 `func` 的结果创建一个新数组。
+  - `sort(func)` —— 对数组进行原位（in-place）排序，然后返回它。
+  - `reverse()` —— 原位（in-place）反转数组，然后返回它。
+  - `split/join` —— 将字符串转换为数组并返回。
+  - `reduce(func, initial)` —— 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
 
 - 其他：
   - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
@@ -742,9 +742,9 @@ alert(soldiers[1].age); // 23
 
   与 `map` 类似，对数组的每个元素调用函数 `fn`。如果任何/所有结果为 `true`，则返回 `true`，否则返回 `false`。
 
-- [arr.fill(value, start, end)](mdn:js/Array/fill) — 从索引 `start` 到 `end`，用重复的 `value` 填充数组。
+- [arr.fill(value, start, end)](mdn:js/Array/fill) —— 从索引 `start` 到 `end`，用重复的 `value` 填充数组。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) — 将从位置 `start` 到 `end` 的所有元素复制到 **自身** 的 `target` 位置（覆盖现有元素）。
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) —— 将从位置 `start` 到 `end` 的所有元素复制到 **自身** 的 `target` 位置（覆盖现有元素）。
 
 有关完整列表，请参阅 [手册](mdn:js/Array)。
 
