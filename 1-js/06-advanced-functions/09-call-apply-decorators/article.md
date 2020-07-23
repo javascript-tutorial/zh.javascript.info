@@ -236,7 +236,7 @@ worker.slow = cachingDecorator(worker.slow);
 
 对于许多实际应用，第三种方式就足够了，所以我们就用这个吧。
 
-而且我们需要传入的不仅是 `x`，而是 `func.call` 所有的参数。让我们回想一下，`function()` 中我们可以得到一个包含所有参数的伪数组 `arguments`，那么 `func.call(this, x)` 应该被替换为 `func.call(this, ...arguments)`。
+当然，我们需要传入的不仅是 `x`，还需要传入 `func.call` 的所有参数。让我们回想一下，在 `function()` 中我们可以得到一个包含所有参数的伪数组（pseudo-array）`arguments`，那么 `func.call(this, x)` 应该被替换为 `func.call(this, ...arguments)`。
 
 这是一个更强大的 `cachingDecorator`：
 
