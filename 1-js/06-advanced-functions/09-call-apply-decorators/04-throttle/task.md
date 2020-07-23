@@ -6,11 +6,11 @@ importance: 5
 
 创建一个“节流”装饰者 `throttle(f, ms)` —— 返回一个包装器。
 
-When it's called multiple times, it passes the call to `f` at maximum once per `ms` milliseconds.
+当被多次调用时，它会在每 `ms` 毫秒最多将调用传递给 `f` 一次。
 
-The difference with debounce is that it's completely different decorator:
-- `debounce` runs the function once after the "cooldown" period. Good for processing the final result.
-- `throttle` runs it not more often than given `ms` time. Good for regular updates that shouldn't be very often.
+与去抖的不同是，它是个完全不同的装饰器：
+- `debounce` 会在“冷却（cooldown）”期后运行函数一次。适用于处理最终结果。
+- `throttle` 运行函数的频率不会大于所给定的时间 `ms` 毫秒。适用于不应该经常进行的定期更新。
 
 让我们看看现实生活中的应用程序，以便更好地理解这个需求，并了解它的来源。
 

@@ -13,18 +13,18 @@
 2. `const`
 3. `var`
 
-The `var` declaration is similar to `let`. Most of the time we can replace `let` by `var` or vice-versa and expect things to work:
+`var` 声明与 `let` 相似。大部分情况下，我们可以用 `let` 代替 `var` 或者 `var` 代替 `let`，都能达到预期的效果：
 
 ```js run
 var message = "Hi";
 alert(message); // Hi
 ```
 
-But internally `var` is a very different beast, that originates from very old times. It's generally not used in modern scripts, but still lurks in the old ones.
+但实际上 `var` 却是一头非常不同的，源自远古时代的怪兽。在现代脚本中一般不再使用它，但它仍然潜伏在旧脚本中。
 
-If you don't plan on meeting such scripts you may even skip this chapter or postpone it.
+如果你不打算接触这样的脚本，你甚至可以跳过本章或推迟阅读本章。
 
-On the other hand, it's important to understand differences when migrating old scripts from `var` to `let`, to avoid odd errors.
+另一方面，了解将旧脚本从 `var` 迁移到 `let` 时的区别，以避免奇怪的错误，是很重要的。
 
 ## "var" 没有块级作用域
 
@@ -80,32 +80,32 @@ function sayHi() {
 }
 
 sayHi();
-alert(phrase); // Error: phrase is not defined (Check the Developer Console)
+alert(phrase); // Error: phrase is not defined（检查开发者控制台）
 ```
 
 可以看到，`var` 穿透了 `if`，`for` 和其它代码块。这是因为在早期的 JavaScript 中，块没有词法环境。而 `var` 就是这个时期的代表之一。
 
 ## "var" 允许重新声明
 
-If we declare the same variable with `let` twice in the same scope, that's an error:
+如果我们用 `let` 在同一作用域下将同一个变量声明两次，则会出现错误：
 
 ```js run
 let user;
 let user; // SyntaxError: 'user' has already been declared
 ```
 
-With `var`, we can redeclare a variable any number of times. If we use `var` with an already-declared variable, it's just ignored:
+使用 `var`，我们可以重复声明一个变量，不管多少次都行。如果我们对一个已经声明的变量使用 `var`，这条新的声明语句会被忽略：
 
 ```js run
 var user = "Pete";
 
-var user = "John"; // this "var" does nothing (already declared)
-// ...it doesn't trigger an error
+var user = "John"; // 这个 "var" 无效（因为变量已经声明过了）
+// ……不会触发错误
 
 alert(user); // John
 ```
 
-## "var" variables can be declared below their use
+## "var" 声明的变量，可以在其声明语句前被使用
 
 当函数开始的时候，就会处理 `var` 声明（脚本启动对应全局变量）。
 
@@ -126,7 +126,7 @@ function sayHi() {
 sayHi();
 ```
 
-……从技术上将，它与下面这种情况是一样的（`var phrase` 被上移至函数开头）：
+……从技术上讲，它与下面这种情况是一样的（`var phrase` 被上移至函数开头）：
 
 ```js run
 function sayHi() {
