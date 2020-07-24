@@ -349,7 +349,7 @@ let company = {
 
 
 ```js run
-let company = { // 是同一个对象，简介起见被压缩了
+let company = { // 是同一个对象，简洁起见被压缩了
   sales: [{name: 'John', salary: 1000}, {name: 'Alice', salary: 1600 }],
   development: {
     sites: [{name: 'Peter', salary: 2000}, {name: 'Alex', salary: 1800 }],
