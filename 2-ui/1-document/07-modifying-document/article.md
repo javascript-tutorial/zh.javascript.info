@@ -48,7 +48,7 @@ DOM 修改是创建“实时”页面的关键。
     let textNode = document.createTextNode('Here I am');
     ```
 
-大多数情况下，我们需要通过消息来创建像 `div` 这样的元素节点。
+大多数情况下，我们需要为此消息创建像 `div` 这样的元素节点。
 
 ### 创建一条消息
 
@@ -97,7 +97,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 </script>
 ```
 
-在这个例子中，我们对 `document.body` 调用了 `append` 方法。不过理论上， `append` 方法可以在任何其他元素后面调用来填充元素。例如，通过调用 `div.append(anotherElement)`，我们便可以在 `<div>` 后面添加一些内容。
+在这个例子中，我们对 `document.body` 调用了 `append` 方法。不过我们可以在其他任何元素上调用 `append` 方法，以将另外一个元素放入到里面。例如，通过调用 `div.append(anotherElement)`，我们便可以在 `<div>` 末尾添加一些内容。
 
 这里是更多的元素插入方法，指明了不同的插入位置：
 
@@ -109,7 +109,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 这些方法的参数可以是一个任意的 DOM 节点列表，或者文本字符串（会被自动转换成文字节点）。
 
-我们在实际应用中看一看。
+让我们在实际应用中看一看。
 
 下面是使用这些方法将列表项添加到列表中，以及将文本添加到列表前面和后面的示例：
 
@@ -163,7 +163,7 @@ after
 </script>
 ```
 
-请注意：这里的文字都被”作为文本“插入，而不是”作为 HTML 代码“。因此像 `<`, `>` 这样的符号都会被作转义处理来保证正确显示。
+请注意：这里的文字都被“作为文本”插入，而不是“作为 HTML 代码”。因此像 `<`、`>` 这样的符号都会被作转义处理来保证正确显示。
 
 所以，最终的 HTML 为：
 
