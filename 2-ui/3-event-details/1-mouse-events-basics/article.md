@@ -52,7 +52,7 @@
 
 通常我们不在 `click` 和 `contextmenu` 事件中使用这一属性，因为前者只在单击鼠标左键时触发，后者只在单击鼠标右键时触发。
 
-不过，在 `mousedown` 和 `mouseup` 事件中则可能需要用到 `event.button`，因为这些事件在任何按钮中都会触发，所以我们可以使用 `button` 属性来分别是左键单击还是右键单击。
+不过，在 `mousedown` 和 `mouseup` 事件中则可能需要用到 `event.button`，因为这两个事件在任何按键上都会触发，所以我们可以使用 `button` 属性来区分是左键单击还是右键单击。
 
 `event.button` 的所有可能值如下：
 
@@ -66,10 +66,10 @@
 
 大多数鼠标设备只有左键和右键，对应的值就是 `0` 和 `2`。触屏设备中的点按操作会触发同样的结果。
 
-另外，还有一个 `event.buttons` 属性，能够以一个整数的形式得到当前所有按下的鼠标按键。每个按键都作为整数中的一个比特位。在实际应用中这个属性非常少用，你可以在 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons) 找到更多细节。
+另外，还有一个 `event.buttons` 属性，能够以一个整数的形式得到当前所有按下的鼠标按键。每个按键都作为整数中的一个比特位。在实际应用中这个属性非常少用，如果有需要的话，你可以在 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons) 中找到更多细节。
 
 ```warn header="过时的 `event.which`"
-Old code may use `event.which` property that's an old non-standard way of getting a button, with possible values:一些祖传代码可能会使用 `event.which` 来获得按下的按键。这是一个古老的非标准的方法，具有以下可能值：
+一些老代码可能会使用 `event.which` 属性来获得按下的按键。这是一个古老的非标准的方法，具有以下可能值：
 
 - `event.which == 1` – 鼠标左键，
 - `event.which == 2` – 鼠标中键，
