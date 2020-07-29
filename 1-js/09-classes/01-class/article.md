@@ -103,7 +103,7 @@ class User {
   sayHi() { alert(this.name); }
 }
 
-// class 是函数 function
+// class 是一个函数
 alert(typeof User); // function
 
 // ...或者，更确切地说，是 constructor 方法
