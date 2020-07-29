@@ -99,51 +99,7 @@ map.set('1', 'str1')
 ````
 
 
-## Map 迭代
 
-如果要在 `map` 里使用循环，可以使用以下三个方法：
-
-- `map.keys()` —— 遍历并返回所有的键（returns an iterable for keys），
-- `map.values()` —— 遍历并返回所有的值（returns an iterable for values），
-- `map.entries()` —— 遍历并返回所有的实体（returns an iterable for entries）`[key, value]`，`for..of` 在默认情况下使用的就是这个。
-
-例如：
-
-```js run
-let recipeMap = new Map([
-  ['cucumber', 500],
-  ['tomatoes', 350],
-  ['onion',    50]
-]);
-
-// 遍历所有的键（vegetables）
-for (let vegetable of recipeMap.keys()) {
-  alert(vegetable); // cucumber, tomatoes, onion
-}
-
-// 遍历所有的值（amounts）
-for (let amount of recipeMap.values()) {
-  alert(amount); // 500, 350, 50
-}
-
-// 遍历所有的实体 [key, value]
-for (let entry of recipeMap) { // 与 recipeMap.entries() 相同
-  alert(entry); // cucumber,500 (and so on)
-}
-```
-
-```smart header="使用插入顺序"
-迭代的顺序与插入值的顺序相同。与普通的 `Object` 不同，`Map` 保留了此顺序。
-```
-
-除此之外，`Map` 有内置的 `forEach` 方法，与 `Array` 类似：
-
-```js
-// 对每个键值对 (key, value) 运行 forEach 函数
-recipeMap.forEach( (value, key, map) => {
-  alert(`${key}: ${value}`); // cucumber: 500 etc
-});
-```
 
 ## Object.entries：从对象创建 Map
 
@@ -228,6 +184,52 @@ let obj = Object.fromEntries(map); // 省掉 .entries()
 ```
 
 上面的代码作用也是一样的，因为 `Object.fromEntries` 期望得到一个可迭代对象作为参数，而不一定是数组。并且 `map` 的标准迭代会返回跟 `map.entries()` 一样的键/值对。因此，我们可以获得一个普通对象（plain object），其键/值对与 `map` 相同。
+
+## Map 迭代
+
+如果要在 `map` 里使用循环，可以使用以下三个方法：
+
+- `map.keys()` —— 遍历并返回所有的键（returns an iterable for keys），
+- `map.values()` —— 遍历并返回所有的值（returns an iterable for values），
+- `map.entries()` —— 遍历并返回所有的实体（returns an iterable for entries）`[key, value]`，`for..of` 在默认情况下使用的就是这个。
+
+例如：
+
+```js run
+let recipeMap = new Map([
+  ['cucumber', 500],
+  ['tomatoes', 350],
+  ['onion',    50]
+]);
+
+// 遍历所有的键（vegetables）
+for (let vegetable of recipeMap.keys()) {
+  alert(vegetable); // cucumber, tomatoes, onion
+}
+
+// 遍历所有的值（amounts）
+for (let amount of recipeMap.values()) {
+  alert(amount); // 500, 350, 50
+}
+
+// 遍历所有的实体 [key, value]
+for (let entry of recipeMap) { // 与 recipeMap.entries() 相同
+  alert(entry); // cucumber,500 (and so on)
+}
+```
+
+```smart header="使用插入顺序"
+迭代的顺序与插入值的顺序相同。与普通的 `Object` 不同，`Map` 保留了此顺序。
+```
+
+除此之外，`Map` 有内置的 `forEach` 方法，与 `Array` 类似：
+
+```js
+// 对每个键值对 (key, value) 运行 forEach 函数
+recipeMap.forEach( (value, key, map) => {
+  alert(`${key}: ${value}`); // cucumber: 500 etc
+});
+```
 
 ## Set
 
