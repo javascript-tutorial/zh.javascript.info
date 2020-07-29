@@ -711,7 +711,7 @@ alert(soldiers[1].age); // 23
   - `pop()` —— 从尾端提取一个元素，
   - `shift()` —— 从首端提取一个元素，
   - `unshift(...items)` —— 向首端添加元素，
-  - `splice(pos, deleteCount, ...items)` —— 从 `index` 开始删除 `deleteCount` 个元素，并在当前位置插入 `items`。
+  - `splice(index, deleteCount, ...items)` —— 从 `index` 开始删除 `deleteCount` 个元素，并在当前位置插入 `items`。
   - `slice(start, end)` —— 创建一个新数组，将从位置 `start` 到位置 `end`（但不包括 `end`）的元素复制进去。
   - `concat(...items)` —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 `items`。如果 `items` 中的任意一项是一个数组，那么就取其元素。
 
