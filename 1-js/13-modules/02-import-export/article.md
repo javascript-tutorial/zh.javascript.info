@@ -311,7 +311,7 @@ import func from '/path/to/func.js';
 
 ## 重新导出
 
-“重新导入（Re-export）”语法 `export ... from ...` 允许导入内容，并立即将其导出（可能是用的是其他的名字），就像这样：
+“重新导出（Re-export）”语法 `export ... from ...` 允许导入内容，并立即将其导出（可能是用的是其他的名字），就像这样：
 
 ```js
 export {sayHi} from './say.js'; // 重新导出 sayHi
