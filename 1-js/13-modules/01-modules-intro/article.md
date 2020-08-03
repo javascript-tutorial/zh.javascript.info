@@ -9,9 +9,9 @@
 
 列举一些（出于历史原因）：
 
-- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) — 最古老的模块系统之一，最初由 [require.js](http://requirejs.org/) 库实现。
-- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) — 为 Node.js 服务器创建的模块系统。
-- [UMD](https://github.com/umdjs/umd) — 另外一个模块系统，建议作为通用的模块系统，它与 AMD 和 CommonJS 都兼容。
+- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) —— 最古老的模块系统之一，最初由 [require.js](http://requirejs.org/) 库实现。
+- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) —— 为 Node.js 服务器创建的模块系统。
+- [UMD](https://github.com/umdjs/umd) —— 另外一个模块系统，建议作为通用的模块系统，它与 AMD 和 CommonJS 都兼容。
 
 现在，所有他们都在慢慢成为历史的一部分，但我们仍然可以在旧脚本中找到它们。
 
@@ -116,7 +116,7 @@ If you try to open a web-page locally, via `file://` protocol, you'll find that 
 
 这有很重要的影响。让我们通过示例来看一下：
 
-首先，如果执行一个模块中的代码会带来副作用（side-effect），例如显示一条消息，那么多次导入它只会触发一次显示 — 即第一次：
+首先，如果执行一个模块中的代码会带来副作用（side-effect），例如显示一条消息，那么多次导入它只会触发一次显示 —— 即第一次：
 
 ```js
 // 📁 alert.js
@@ -165,7 +165,7 @@ alert(admin.name); // Pete
 */!*
 ```
 
-所以，让我们重申一下 — 模块只被执行一次。生成导出，然后它被分享给所有对其的导入，所以如果某个地方修改了 `admin` 对象，其他的模块也能看到这个修改。
+所以，让我们重申一下 —— 模块只被执行一次。生成导出，然后它被分享给所有对其的导入，所以如果某个地方修改了 `admin` 对象，其他的模块也能看到这个修改。
 
 这种行为让我们可以在首次导入时 **设置** 模块。我们只需要设置其属性一次，然后在进一步的导入中就都可以直接使用了。
 
@@ -180,7 +180,7 @@ export function sayHi() {
 }
 ```
 
-在 `init.js` 中 — 我们 APP 的第一个脚本，设置了 `admin.name`。现在每个位置都能看到它，包括在 `admin.js` 内部的调用。
+在 `init.js` 中 —— 我们 APP 的第一个脚本，设置了 `admin.name`。现在每个位置都能看到它，包括在 `admin.js` 内部的调用。
 
 ```js
 // 📁 init.js
@@ -253,7 +253,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 *!*
   alert(typeof button); // object：脚本可以“看见”下面的 button
 */!*
-  // 因为模块是被延迟的（deferred0，所以模块脚本会在整个页面加载完成后才运行
+  // 因为模块是被延迟的（deferred，所以模块脚本会在整个页面加载完成后才运行
 </script>
 
 相较于下面这个常规脚本：
@@ -347,7 +347,7 @@ import {sayHi} from 'sayHi'; // Error，“裸”模块
 
 在实际开发中，浏览器模块很少被以“原始”形式进行使用。通常，我们会使用一些特殊工具，例如 [Webpack](https://webpack.js.org/)，将它们打包在一起，然后部署到生产环境的服务器。
 
-使用打包工具的一个好处是 — 它们可以更好地控制模块的解析方式，允许我们使用裸模块和更多的功能，例如 CSS/HTML 模块等。
+使用打包工具的一个好处是 —— 它们可以更好地控制模块的解析方式，允许我们使用裸模块和更多的功能，例如 CSS/HTML 模块等。
 
 构建工具做以下这些事儿：
 
