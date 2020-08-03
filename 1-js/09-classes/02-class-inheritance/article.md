@@ -282,19 +282,19 @@ alert(rabbit.earLength); // 10
 
 
 
-### Overriding class fields: a tricky note
+### 重写类属性: 一个棘手的提示
 
 ```warn header="Advanced note"
-This note assumes you have a certain experience with classes, maybe in other programming languages.
+这个提示假设你或许在其他编程语言中有一定的关于类的经验。
 
-It provides better insight into the language and also explains the behavior that might be a source of bugs (but not very often).
+这里提供了一个更好的视角来理解这门语言并且解释了它的行为为什么可能会是一种bug的来源(但是不是非常频繁)
 
-If you find it difficult to understand, just go on, continue reading, then return to it some time later.
+如果你发现这难以理解,什么都别管,继续往下阅读,之后再回到这里。
 ```
 
-We can override not only methods, but also class fields.
+我们可以重写的不仅是方法,还有类属性。
 
-Although, there's a tricky behavior when we access an overridden field in parent constructor, quite different from most other programming languages.
+不过,这儿有一个棘手的行为当我们访问在父类构造器中被重写的一个属性时,这与绝大多数其他编程语言截然不同。
 
 Consider this example:
 
@@ -317,19 +317,19 @@ new Rabbit(); // animal
 */!*
 ```
 
-Here, class `Rabbit` extends `Animal` and overrides `name` field with its own value.
+在这,`Rabbit`继承自 `Animal`并且用它自己的值重写了 `name`属性,
 
-There's no own constructor in `Rabbit`, so `Animal` constructor is called.
+因为`Rabbit`中没用自己的构造器,所以 `Animal`的构造器被调用了。
 
-What's interesting is that in both cases: `new Animal()` and `new Rabbit()`, the `alert` in the line `(*)` shows `animal`.
+有趣的是在两种情况下 `new Animal()` 和 `new Rabbit()`,在 `(*)`的`alert`都显示了 `animal`。
 
-**In other words, parent constructor always uses its own field value, not the overridden one.**
+**换句话说， 父类构造器总是使用它自己属性的值，而不是被重写的那一个。**
 
-What's odd about it?
+古怪的是什么呢?
 
-If it's not clear yet, please compare with methods.
+如果这还不清楚，那么请用方法来比较。
 
-Here's the same code, but instead of `this.name` field we call `this.showName()` method:
+这里是相同的代码,但是我们调用`this.showName()`方法而不是`this.name`属性:
 
 ```js run
 class Animal {
@@ -354,27 +354,27 @@ new Rabbit(); // rabbit
 */!*
 ```
 
-Please note: now the output is different.
+请注意,这时的输出是不同的。
 
-And that's what we naturally expect. When the parent constructor is called in the derived class, it uses the overridden method.
+这才是我们本来所期待的. 当父类构造器在被派生的类中调用时，它会使用被重写的方法。
 
-...But for class fields it's not so. As said, the parent constructor always uses the parent field.
+...但是对于类属性,并非如此。 正如前文所述,父类构造器总是使用父类的属性。
 
-Why is there the difference?
+那这里为什么会有区别呢?
 
-Well, the reason is in the field initialization order. The class field is initialized:
-- Before constructor for the base class (that doesn't extend anything),
-- Imediately after `super()` for the derived class.
+实际上,原因在于属性加载的顺序。类属性是如下加载的:
+- 在基类被构造前加载(不继承任何类的那种)。
+- 对于被派生类,在调用 `super()`后立刻加载。
 
-In our case, `Rabbit` is the derived class. There's no `constructor()` in it. As said previously, that's the same as if there was an empty constructor with only `super(...args)`.
+在我们这种情况下, `Rabbit`是被派生类,这里面没有 `constructor()`。正如先前所说,如果这里面只有一个空的构造器,里面只有`super(...args)`,那么这是相同的。
 
-So, `new Rabbit()` calls `super()`, thus executing the parent constructor, and (per the rule for derived classes) only after that its class fields are initialized. At the time of the parent constructor execution, there are no `Rabbit` class fields yet, that's why `Animal` fields are used.
+所以, `new Rabbit()`调用了 `super()`因此它执行了父类构造器,并且(根据类的派生规则)只有在此之后,他的类属性才被加载。在父类构造器被执行的时候,这是还没用类属性`Rabbit`,这就是为什么`Animal`属性被使用了。
 
-This subtle difference between fields and methods is specific to JavaScript
+这属性和方法之间微妙的区别只特定于JavaScript。
 
-Luckily, this behavior only reveals itself if an overridden field is used in the parent constructor. Then it may be difficult to understand what's going on, so we're explaining it here.
+幸运的是,这种行为仅在一个被重写的属性被父类构造器使用时显示出来。接下来它会发生什么就很难理解了,所以我们在这里解释它。
 
-If it becomes a problem, one can fix it by using methods or getters/setters instead of fields.
+如果它成为了一个问题,我们可以通过使用方法或者getter/setter而不是属性来修复它。
 
 
 ## 深入：内部探究和 [[HomeObject]]

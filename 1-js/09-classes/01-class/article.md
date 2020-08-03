@@ -267,11 +267,11 @@ alert(user.name); // John
 user = new User(""); // Name is too short.
 ```
 
-Technically, such class declaration works by creating getters and setters in `User.prototype`.
+从技术上来讲，这样的类声明可以通过在 `User.prototype`中创建getters和setters奏效.
 
-## Computed names [...]
+## 计算属性名称 [...]
 
-Here's an example with a computed method name using brackets `[...]`:
+这里有一个使用括号的计算方法名称示例 `[...]`:
 
 ```js run
 class User {
@@ -287,7 +287,7 @@ class User {
 new User().sayHi();
 ```
 
-Such features are easy to remember, as they resemble that of literal objects.
+这种特性容易记忆，因为他们与字面量对象相似.
 
 ## Class 字段
 
@@ -315,9 +315,9 @@ class User {
 new User().sayHi(); // Hello, John!
 ```
 
-So, we just write "<property name> = <value>" in the declaration, and that's it.
+这样，我们就只要在表达式中书写"<property name> = <value>" ，就这样。
 
-The important difference of class fields is that they are set on individual objects, not `User.prototype`:
+类属性的重要不同之处在于他们在单个对象中被设置，而不是`User.prototype`:
 
 ```js run
 class User {
@@ -331,7 +331,7 @@ alert(user.name); // John
 alert(User.prototype.name); // undefined
 ```
 
-We can also assign values using more complex expressions and function calls:
+我们也可以在赋值时使用更加复杂的表达式和函数调用:
 
 ```js run
 class User {
@@ -397,7 +397,7 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
-The class field `click = () => {...}` is created on a per-object basis, there's a separate function for each `Button` object, with `this` inside it referencing that object. We can pass `button.click` around anywhere, and the value of `this` will always be correct.
+类属性`click = () => {...}`是基于每一个对象被创建的，在这儿对于每一个 `Button`对象都有一个独立的方法，在内部有一个`this`指向那个对象。我们可以在任何地方传递`button.click`，并且`this`的值总是正确的。
 
 在浏览器环境中，它对于进行事件监听尤为有用。
 
