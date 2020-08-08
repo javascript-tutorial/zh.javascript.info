@@ -52,7 +52,7 @@
 - `pointerId` - 触发当前事件的指针唯一标识符
     
     可以用来处理多指针的情况，比如带有触控笔和多点触控功能（将在下文详述）的触摸屏。
-- `pointerType` - 指针的设备类型，为一个字符串。可以是："mouse", "pen" 或 "touch"。
+- `pointerType` - 指针的设备类型，为一个字符串。可以是："mouse"、"pen" 或 "touch"。
 
     我们可以使用这个属性来针对不同种类的指针输入做出不同响应。
 - `isPrimary` - 当指针为首要指针（多点触控时按下的第一根手指）时为 `true`。
@@ -122,7 +122,7 @@
 这里的问题就在于浏览器”劫持“了这一个互动操作，触发了 `pointercancel` 事件，而 `pointermove` 事件不再继续触发。
 
 ```online
-这里是一个指针事件的演示（只包含 `up/down`, `move` 和 `cancel），事件的触发被记录在了文本框中。
+这里是一个指针事件的演示（只包含 `up/down`、`move` 和 `cancel），事件的触发被记录在了文本框中。
 
 [iframe src="ball" height=240 edit]
 ```
@@ -137,7 +137,7 @@
     - 正如我们在 <info:mouse-drag-and-drop> 中描述的那样，可以通过设置 `ball.ondragstart = () => false` 来实现。
     - 这种方式适用于鼠标事件。
 2. 对于触屏设备，浏览器同样有和触摸相关的操作。这也是我们需要解决的问题。
-    - 我们可以通过在 CSS 中设置 `#ball { touch-action: none }` 来阻止他们。
+    - 我们可以通过在 CSS 中设置 `#ball { touch-action: none }` 来阻止它们。
     - 之后我们的代码便可以在触屏设备中正常工作。
 
 经过上述操作，事件将会按照我们预想的方式触发，浏览器也不会劫持拖放过程来产生一个 `pointercancel` 事件。
