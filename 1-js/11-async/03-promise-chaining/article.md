@@ -232,7 +232,7 @@ JavaScript 检查在 `(*)` 行中由 `.then` 处理程序（handler）返回的�
 let promise = fetch(url);
 ```
 
-执行这条语句，向 `url` 发出网络请求并返回一个 promise。当远程服务器返回 header（是在 **全部响应加载完成前**）时，该 promise 用使用一个 `response` 对象来进行 resolve。
+执行这条语句，向 `url` 发出网络请求并返回一个 promise。当远程服务器返回 header（是在 **全部响应加载完成前**）时，该 promise 使用一个 `response` 对象来进行 resolve。
 
 为了读取完整的响应，我们应该调用 `response.text()` 方法：当全部文字（full text）内容从远程服务器下载完成后，它会返回一个 promise，该 promise 以刚刚下载完成的这个文本作为 result 进行 resolve。
 
