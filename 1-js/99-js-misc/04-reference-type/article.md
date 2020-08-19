@@ -70,7 +70,7 @@ hi(); // 报错了，因为 this 的值是 undefined
 
 这里 `hi = user.hi` 把方法赋值给了一个变量，接下来在最后一行它是完全独立的，所以这里没有 `this`。
 
-**为确保 `user.hi()` 调用正常运行，JavaScript 玩了个把戏 —— 点 `'.'` 返回的不是不是一个函数，而是一个特殊的 [Reference Type](https://tc39.github.io/ecma262/#sec-reference-specification-type) 的值。**
+**为确保 `user.hi()` 调用正常运行，JavaScript 玩了个把戏 —— 点 `'.'` 返回的不是一个函数，而是一个特殊的 [Reference Type](https://tc39.github.io/ecma262/#sec-reference-specification-type) 的值。**
 
 Reference Type 是一个 ECMA 标准内部用于规范而使用的类型（specification type）。我们不能直接使用它，但它被 JavaScript 在执行引擎内部使用。（**注意：它并非我们通常所指的引用类型 —— reference type，而仅是 ECMA 标准中的一个命名，好比海燕与台风“海燕”之间并无直接联系**）
 
