@@ -22,7 +22,7 @@ user.hi(); // 可以工作
 
 // 此处我们基于 name 来选择调用 user.hi 或 user.bye
 *!*
-(user.name == "John" ? user.hi : user.bye)(); // 报错了
+(user.name == "John" ? user.hi : user.bye)(); // 报错了！
 */!*
 ```
 
