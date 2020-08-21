@@ -60,7 +60,7 @@ right:${r.right}
 
 ![](coordinates.svg)
 
-正如你所看到的，`x/y` 和 `width/height` 对举行进行了完整的描述。可以很容易地从它们计算出派生（derived）属性：
+正如你所看到的，`x/y` 和 `width/height` 对矩形进行了完整的描述。可以很容易地从它们计算出派生（derived）属性：
 
 - `left = x`
 - `top = y`
