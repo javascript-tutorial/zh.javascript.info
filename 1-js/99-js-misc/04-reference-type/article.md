@@ -111,4 +111,4 @@ Reference Type 是一个语言的内部类型。
 
 
 
-`.` 的结果实际上不是一个方法，而是一个Reference Type 的值，以传递关于 `obj` 的信息。
+`.` 的结果实际上不是一个方法，而是一个 Reference Type 的值，以传递关于 `obj` 的信息。
