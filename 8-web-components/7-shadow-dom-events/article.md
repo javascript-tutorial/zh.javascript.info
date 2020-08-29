@@ -187,6 +187,6 @@ inner.dispatchEvent(new CustomEvent('test', {
 
 这些事件仅能在同一 DOM 中的元素上捕获。
 
-如果我们发送一个 `CustomEvent`，那么我们应该显示设置 `composed: true`。
+如果我们发送一个 `CustomEvent`，那么我们应该显式地设置 `composed: true`。
 
 请注意，如果是嵌套组件，一个 shadow DOM 可能嵌套到另外一个 shadow DOM 中。在这种情况下合成事件冒泡到所有 shadow DOM 边界。因此，如果一个事件仅用于直接封闭组件，我们也可以在 shadow host 上发送它并设置 `composed: false`。这样它就不在组件 shadow DOM 中，也不会冒泡到更高级别的 DOM。
