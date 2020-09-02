@@ -42,7 +42,7 @@
 ```smart header="在代码中用 `pointer<event>` 替换 `mouse<event>`"
 我们可以把代码中的 `mouse<event>` 都替换成 `pointer<event>`，程序仍然正常兼容鼠标设备。
 
-替换之后，程序对触屏设备的支持会“魔法般”地提升。但你可能需要在 CSS 中添加 `touch-action: none` 一行。一行规则。我们会在下文 `pointercancel` 一节中描述这里面的细节。
+替换之后，程序对触屏设备的支持会“魔法般”地提升。但你可能需要在 CSS 中添加一行规则 `touch-action: none`。我们会在下文 `pointercancel` 一节中描述这里面的细节。
 ```
 
 ## 指针事件属性
