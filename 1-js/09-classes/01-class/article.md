@@ -331,7 +331,7 @@ alert(user.name); // John
 alert(User.prototype.name); // undefined
 ```
 
-我们也可以在赋值时使用更加复杂的表达式和函数调用:
+我们也可以在赋值时使用更加复杂的表达式和函数调用：
 
 ```js run
 class User {
