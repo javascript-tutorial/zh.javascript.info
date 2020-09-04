@@ -296,7 +296,7 @@ alert(rabbit.earLength); // 10
 
 不过,这儿有一个棘手的行为当我们访问在父类构造器中被重写的一个属性时,这与绝大多数其他编程语言截然不同。
 
-Consider this example:
+请思考此示例：
 
 ```js run
 class Animal {
