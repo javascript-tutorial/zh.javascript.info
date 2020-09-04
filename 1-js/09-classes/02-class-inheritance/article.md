@@ -282,7 +282,7 @@ alert(rabbit.earLength); // 10
 
 
 
-### 重写类属性: 一个棘手的提示
+### 重写类字段: 一个棘手的注意要点
 
 ```warn header="Advanced note"
 这个注意要点假设你或许在其他编程语言中有一定的关于类的经验。
