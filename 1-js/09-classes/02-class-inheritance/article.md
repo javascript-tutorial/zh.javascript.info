@@ -329,7 +329,7 @@ new Rabbit(); // animal
 
 如果这还不清楚，那么让我们用方法来比较。
 
-这里是相同的代码,但是我们调用`this.showName()`方法而不是`this.name`属性:
+这里是相同的代码，但是我们调用 `this.showName()` 方法而不是 `this.name` 字段：
 
 ```js run
 class Animal {
