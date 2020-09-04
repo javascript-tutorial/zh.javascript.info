@@ -397,7 +397,7 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
-类属性`click = () => {...}`是基于每一个对象被创建的，在这儿对于每一个 `Button`对象都有一个独立的方法，在内部有一个`this`指向那个对象。我们可以在任何地方传递`button.click`，并且`this`的值总是正确的。
+类字段 `click = () => {...}`是基于每一个对象被创建的，在这里对于每一个 `Button` 对象都有一个独立的方法，在内部有一个`this`指向此对象。我们可以在任何地方传递`button.click`，并且`this`的值总是正确的。
 
 在浏览器环境中，它对于进行事件监听尤为有用。
 
