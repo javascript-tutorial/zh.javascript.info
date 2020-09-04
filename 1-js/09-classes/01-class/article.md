@@ -267,7 +267,7 @@ alert(user.name); // John
 user = new User(""); // Name is too short.
 ```
 
-从技术上来讲，这样的类声明可以通过在 `User.prototype`中创建getters和setters奏效.
+从技术上来讲，这样的类声明可以通过在 `User.prototype` 中创建 getters 和 setters 奏效。
 
 ## 计算属性名称 [...]
 
