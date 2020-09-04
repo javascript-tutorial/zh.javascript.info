@@ -315,7 +315,7 @@ class User {
 new User().sayHi(); // Hello, John!
 ```
 
-这样，我们就只要在表达式中书写"<property name> = <value>" ，就这样。
+所以，我们就只需在表达式中书写 "<property name> = <value>" ，就这样。
 
 类字段的重要不同之处在于，他们会在每个独立对象中被设好，而不是设在了 `User.prototype`：
 
