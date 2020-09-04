@@ -319,7 +319,7 @@ new Rabbit(); // animal
 
 这里，`Rabbit` 继承自 `Animal` 并且用它自己的值重写了 `name` 字段。
 
-因为`Rabbit`中没用自己的构造器,所以 `Animal`的构造器被调用了。
+因为 `Rabbit` 中没用自己的构造器，所以 `Animal` 的构造器被调用了。
 
 有趣的是在两种情况下 `new Animal()` 和 `new Rabbit()`,在 `(*)`的`alert`都显示了 `animal`。
 
