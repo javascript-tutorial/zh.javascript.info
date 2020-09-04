@@ -321,7 +321,7 @@ new Rabbit(); // animal
 
 因为 `Rabbit` 中没用自己的构造器，所以 `Animal` 的构造器被调用了。
 
-有趣的是在两种情况下 `new Animal()` 和 `new Rabbit()`,在 `(*)`的`alert`都显示了 `animal`。
+有趣的是在两种情况下 `new Animal()` 和 `new Rabbit()`，在 `(*)` 的 `alert` 都打印了 `animal`。
 
 **换句话说， 父类构造器总是使用它自己属性的值，而不是被重写的那一个。**
 
