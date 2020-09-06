@@ -168,7 +168,7 @@ Rabbit.prototype = {
 ```js
 let user = {
   name: "John",
-  prototype: "Bla-bla" // 这里没有魔法了
+  prototype: "Bla-bla" // 这里只是普通的属性
 };
 ```
 
