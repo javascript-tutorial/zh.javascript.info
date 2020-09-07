@@ -100,7 +100,7 @@ alert( regexp.test(str) );
     (12345678)(9)!
     ```
 
-    引擎再次去尝试匹配 `pattern:$`，但是失败了，因为它遇到了 `subject:!` ：
+    引擎再次去尝试匹配 `pattern:$`，但是失败了，因为它遇到了 `subject:!`：
 
     ```
                  X
