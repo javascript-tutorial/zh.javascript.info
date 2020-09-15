@@ -179,7 +179,7 @@ after
 
 所以，这些方法只能用来插入 DOM 节点或文本片段。
 
-但如果我们想要将内容”作为 HTML 代码“插入，让内容中的所有标签都像 `elem.innerHTML` 一样正常显示应该怎么办呢？
+但如果我们想要将内容“作为 HTML 代码插入”，让内容中的所有标签和其他东西都像使用 `elem.innerHTML` 所表现的效果一样，那应该怎么办呢？
 
 ## insertAdjacentHTML/Text/Element
 
