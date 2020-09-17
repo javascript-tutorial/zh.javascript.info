@@ -60,7 +60,7 @@ alert(height || 100); // 100
 alert(height ?? 100); // 0
 ```
 
-在这个例子中，`height || 100` 将值为 `0` 的 `height` 视为未设置的（unset），与 `null`、`undefined` 以及任何其他假（falsy）值同等对待。因此得到的结果是 `100`。
+在这个例子中，`height || 100` 将值为 `0` 的 `height` 视为未设置的（unset），与 `null`、`undefined` 以及任何其他假（false）值同等对待。因此得到的结果是 `100`。
 
 `height ?? 100` 仅当 `height` 确实是 `null` 或 `undefined` 时才返回 `100`。因此，`alert` 按原样显示了 `height` 值 `0`。
 
