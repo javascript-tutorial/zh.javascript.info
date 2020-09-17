@@ -185,7 +185,7 @@ alert( from ); // Ann
 showMessage("Ann");
 ```
 
-那不是错误，这样调用将输出 `"Ann: undefined"`。这里没有参数 `text`，所以程序假定 `text === undefined`。
+那不是错误，这样调用将输出 `"*Ann*: undefined"`。这里没有参数 `text`，所以程序假定 `text === undefined`。
 
 如果我们想在本示例中设定“默认”的 `text`，那么我们可以在 `=` 之后指定它：
 
