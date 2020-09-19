@@ -101,13 +101,13 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 这里是更多的元素插入方法，指明了不同的插入位置：
 
-- `node.append(...nodes or strings)` — 在 `node` **末尾** 插入节点或字符串，
-- `node.prepend(...nodes or strings)` — 在 `node` **开头** 插入节点或字符串，
-- `node.before(...nodes or strings)` — 在 `node` **前面** 插入节点或字符串，
-- `node.after(...nodes or strings)` — 在 `node` **后面** 插入节点或字符串，
-- `node.replaceWith(...nodes or strings)` — 将 `node` 替换为给定的节点或字符串。
+- `node.append(...nodes or strings)` —— 在 `node` **末尾** 插入节点或字符串，
+- `node.prepend(...nodes or strings)` —— 在 `node` **开头** 插入节点或字符串，
+- `node.before(...nodes or strings)` —— 在 `node` **前面** 插入节点或字符串，
+- `node.after(...nodes or strings)` —— 在 `node` **后面** 插入节点或字符串，
+- `node.replaceWith(...nodes or strings)` —— 将 `node` 替换为给定的节点或字符串。
 
-这些方法的参数可以是一个任意的 DOM 节点列表，或者文本字符串（会被自动转换成文字节点）。
+这些方法的参数可以是一个要插入的任意的 DOM 节点列表，或者文本字符串（会被自动转换成文本节点）。
 
 让我们在实际应用中看一看。
 
