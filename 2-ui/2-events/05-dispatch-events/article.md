@@ -213,11 +213,11 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
 
 通常事件是在队列中处理的。也就是说：如果浏览器正在处理 `onclick`，这时发生了一个新的事件，例如鼠标移动了，那么它会被排入队列，相应的 `mousemove` 处理程序将在 `onclick` 事件处理完成后被调用。
 
-值得注意的例外情况就是，一个事件是在另一个事件中发起的。例如使用 `dispatchEvent`. 这类事件将会立即处理，即在新的事件处理程序调用之后，恢复到当前的事件处理程序。
+值得注意的例外情况就是，一个事件是在另一个事件中发起的。例如使用 `dispatchEvent`。这类事件将会被立即处理，即在新的事件处理程序被调用之后，恢复到当前的事件处理程序。
 
-例如在下面的代码中，`menu-open` 事件是在 `onclick` 事件执行过程中被调用的。
+例如，在下面的代码中，`menu-open` 事件是在 `onclick` 事件执行过程中被调用的。
 
-它会被立即执行，而不必等待 `onclick` 处理程序结束。
+它会被立即执行，而不必等待 `onclick` 处理程序结束：
 
 
 ```html run autorun
@@ -243,11 +243,11 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
 
 请注意，嵌套事件 `menu-open` 会在 `document` 上被捕获。嵌套事件的传播（propagation）和处理先被完成，然后处理过程才会返回到外部代码（`onclick`）。
 
-这不只是与 `dispatchEvent` 有关，还有其他情况。如果一个事件处理程序进一步触发了其它的事件——它们同样也会以嵌套的方式被同步处理。
+这不只是与 `dispatchEvent` 有关，还有其他情况。如果一个事件处理程序进一步触发了其它的事件 —— 它们同样也会被以嵌套的方式同步处理。
 
-不过有时候，这不是我们期望的结果。我们想令 `onclick` 不受 `menu-open` 或是其它嵌套事件的影响，优先被处理完毕。
+不过有时候，这并不是我们期望的结果。我们想让 `onclick` 不受 `menu-open` 或者其它嵌套事件的影响，优先被处理完毕。
 
-那我们就可以将 `dispatchEvent`（或另一个触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
+那么，我们就可以将 `dispatchEvent`（或另一个触发事件的调用）放在 `onclick` 末尾，或者最好将其包装到零延迟的 `setTimeout` 中：
 
 ```html run
 <button id="menu">Menu (click me)</button>
