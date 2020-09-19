@@ -402,7 +402,7 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 
 这些方法来自真正的远古时代。如今，没有理由再使用它们了，因为诸如 `append`，`prepend`，`before`，`after`，`remove`，`replaceWith` 这些现代方法更加灵活。
 
-我们在这儿列出这些方法的唯一原因是，你可能会在许多就脚本中遇到它们。
+我们在这儿列出这些方法的唯一原因是，你可能会在许多脚本中遇到它们。
 
 `parentElem.appendChild(node)`
 : 将 `node` 附加为 `parentElem` 的最后一个子元素。
