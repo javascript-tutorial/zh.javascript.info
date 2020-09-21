@@ -5,9 +5,9 @@ libs:
 
 # IndexedDB
 
-IndexedDB is a database that is built into browser，它比 `localStorage` 强大得多。
+IndexedDB 是一个浏览器内置的数据库，它比 `localStorage` 强大得多。
 
-- Stores almost any kind of values by keys, multiple key types.
+- 通过支持多种类型的键，来存储几乎可以是任何类型的值。
 - 支撑事务的可靠性。
 - 支持键范围查询、索引。
 - 和 `localStorage` 相比，它可以存储更大的数据量。
@@ -33,7 +33,7 @@ let openRequest = indexedDB.open(name, version);
 
 数据库可以有许多不同的名称，但是必须存在于当前的源（域/协议/端口）中。不同的网站不能相互访问对方的数据库。
 
-The call returns `openRequest` object, we should listen to events on it:
+调用之后会返回 `openRequest` 对象，我们需要监听该对象上的事件：
 - `success`：数据库准备就绪，`openRequest.result` 中有了一个数据库对象“Database Object”，使用它进行进一步的调用。
 - `error`：打开失败。
 - `upgradeneeded`：数据库已准备就绪，但其版本已过时（见下文）。
@@ -48,7 +48,7 @@ The call returns `openRequest` object, we should listen to events on it:
 
 假设我们发布了应用程序的第一个版本。
 
-Then we can open the database with version `1` and perform the initialization in `upgradeneeded` handler like this:
+接下来我们就可以打开版本 `1` 中的 IndexedDB 数据库，并在 `upgradeneeded` 处理程序中执行初始化，如下所示：
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
@@ -68,9 +68,9 @@ openRequest.onsuccess = function() {
 };
 ```
 
-Then, later, we publish the 2nd version.
+之后不久，我们发布了第二个版本。
 
-We can open it with version `2` and perform the upgrade like this:
+我们可以打开版本 `2` 中的 IndexedDB 数据库，并像这样进行升级：
 
 ```js
 let openRequest = indexedDB.open("store", *!*2*/!*);
@@ -89,9 +89,9 @@ openRequest.onupgradeneeded = function(event) {
 };
 ```
 
-Please note: as our current version is `2`, `onupgradeneeded` handler has a code branch for version `0`, suitable for users that come for the first time and have no database, and also for version `1`, for upgrades.
+请注意：虽然我们目前的版本是 `2`，`onupgradeneeded` 处理程序有针对版本 `0` 的代码分支（适用于初次访问，浏览器中没有数据库的用户）和针对版本 `1` 的代码分支（用于升级）。
 
-And then, only if `onupgradeneeded` handler finishes without errors, `openRequest.onsuccess` triggers, and the database is considered successfully opened.
+接下来，当且仅当 `onupgradeneeded` 处理程序没有错误地执行完成，`openRequest.onsuccess` 被触发，数据库才算是成功打开了。
 
 删除数据库：
 
@@ -100,34 +100,34 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 // deleteRequest.onsuccess/onerror 追踪（tracks）结果
 ```
 
-```warn header="We can't open an older version of the database"
-If the current user database has a higher version than in the `open` call, e.g. the existing DB version is `3`, and we try to `open(...2)`, then that's an error, `openRequest.onerror` triggers.
+```warn header="我们无法打开旧版本的数据库"
+如果当前用户的数据库版本比 `open` 调用的版本更高（比如当前的数据库版本为 `3`，我们却尝试运行 `open(...2)`，就会产生错误并触发 `openRequest.onerror`）。
 
-That's odd, but such thing may happen when a visitor loaded an outdated JavaScript code, e.g. from a proxy cache. So the code is old, but his database is new.
+这有些奇怪，但这样的事情可能会在用户加载了一个过时的 JavaScript 代码时发生（例如用户从一个代理缓存中加载 JS）。在这种情况下，代码是过时的，但数据库却是最新的。
 
-To protect from errors, we should check `db.version` and suggest him to reload the page. Use proper HTTP caching headers to avoid loading the old code, so that you'll never have such problem.
+为了防止这样的错误产生，我们应当检查 `db.version` 并建议用户刷新页面。使用正确的 HTTP 缓存头（headers）来防止之前缓存的旧代码被加载。
 ```
 
 ### 并行更新问题
 
 提到版本控制，有一个相关的小问题。
 
-Let's say:
-1. A visitor opened our site in a browser tab, with database version `1`.
-2. Then we rolled out an update, so our code is newer.
-3. And then the same visitor opens our site in another tab.
+举个例子：
+1. 一个用户在一个浏览器标签页中打开了数据库版本为 `1` 的我们的网站。
+2. 接下来我们发布了一个更新，使得代码更新了。
+3. 接下来同一个用户在另一个浏览器标签中打开了这个网站。
 
-So there's a tab with an open connection to DB version `1`, while the second tab one attempts to update it to version `2` in its `upgradeneeded` handler.
+这时，有一个标签页和版本为 `1` 的数据库建立了一个连接，而另一个标签页试图在其 `upgradeneeded` 处理程序中将数据库版本升级到 `2`。
 
-问题是，这两个网页是同一个站点，同一个来源，共享同一个数据库。而数据库不能同时为版本 `1` 和版本 `2`。要执行版本 `2` 的更新，必须关闭对版本 1 的所有连接，包括第一个标签页中的那个。
+问题是，这两个网页是同一个站点，同一个源，共享同一个数据库。而数据库不能同时为版本 `1` 和版本 `2`。要执行版本 `2` 的更新，必须关闭对版本 `1` 的所有连接，包括第一个标签页中的那个。
 
-In order to organize that, the `versionchange` event triggers in such case on the "outdated" database object. We should listen to it and close the old database connection (and probably suggest the visitor to reload the page, to load the updated code).
+为了解决这一问题，在这种情况下 `versionchange` 事件会在“过时的”数据库对象上触发。我们需要监听这个事件，关闭对旧版本数据库的连接（还应该建议访问者重新加载页面，以加载最新的代码）。
 
-If we don't listen to `versionchange` event and don't close the old connection, then the second, new connection won't be made. The `openRequest` object will emit the `blocked` event instead of `success`. So the second tab won't work.
+如果我们不监听 `versionchange` 事件，也不去关闭旧连接，那么新的连接就不会建立。`openRequest` 对象会产生 `blocked` 事件，而不是 `success` 事件。因此第二个标签页无法正常工作。
 
-Here's the code to correctly handle the parallel upgrade.
+下面是能够正确处理并行升级情况的代码。
 
-It installs `onversionchange` handler after the database is opened, that closes the old connection:
+它在数据库被打开后注入能够关闭旧连接的 `onversionchange` 处理程序：
 
 ```js
 let openRequest = indexedDB.open("store", 2);
@@ -150,10 +150,10 @@ openRequest.onsuccess = function() {
 
 *!*
 openRequest.onblocked = function() {
-  // this event shouldn't trigger if we handle onversionchange correctly
+  // 如果我们正确处理了 onversionchange 事件，这个事件就不应该触发
 
-  // it means that there's another open connection to same database
-  // 触发 db.onversionchange 后没有关闭 
+  // 这意味着还有另一个指向同一数据库的连接
+  // 并且在 db.onversionchange 被触发后，该连接没有被关闭
 };
 */!*
 ```
