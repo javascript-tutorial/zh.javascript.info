@@ -84,50 +84,50 @@
 
 和第一个触摸相关联的事件总有 `isPrimary=true`。
 
-利用 `pointerId`，我们可以追踪多根正在触摸屏幕的手指。当用户移动或抬起某根手指时。我们会得到和 `pointerdown` 事件具有相同 `pointerId` 的 `pointermove` 或 `pointerup` 事件。
+利用 `pointerId`，我们可以追踪多根正在触摸屏幕的手指。当用户移动或抬起某根手指时，我们会得到和 `pointerdown` 事件具有相同 `pointerId` 的 `pointermove` 或 `pointerup` 事件。
 
 ```online
 这是一个记录 `pointerdown` 和 `pointerup` 事件的演示:
 
 [iframe src="multitouch" edit height=200]
 
-请注意：你需要使用一个多点触控设备（如平板或手机）来看到区别。对于使用鼠标的单点触控设备，所有指针事件都会具有相同的 `pointerId` 和 `isPrimary=true` 属性。
+请注意：你使用的必须是一个多点触控设备（如平板或手机）才能看到区别。对于使用鼠标这样的单点触控设备，所有指针事件都会具有相同的 `pointerId` 和 `isPrimary=true` 属性。
 ```
 
 ## 事件：pointercancel
 
-我们之前提及过 `touch-action: none` 的重要性。略过它可能会在我们的交互中产生许多误操作。现在我们来解释一下原因。
+我们之前提及过 `touch-action: none` 的重要性。现在让我们来解释一下它，因为略过它可能会导致在我们的交互中产生许多误操作。
 
 `pointercancel` 事件将会在一个正处于活跃状态的指针交互由于某些原因被中断时触发。也就是在这个事件之后，该指针就不会继续触发更多事件了。
 
 导致指针中断的可能原因如下：
-- 指针设备硬件被禁用
-- 设备方向旋转（例如给平板转了个方向）
-- 浏览器打算自行处理这一互动，比如将其看做是一个专门的鼠标手势、缩放操作等。
+- 指针设备硬件被禁用。
+- 设备方向旋转（例如给平板转了个方向）。
+- 浏览器打算自行处理这一交互，比如将其看做是一个专门的鼠标手势或缩放操作等。
 
 我们会用一个实际例子来阐释 `pointercancel` 的影响。
 
-例如我们想要像在 <info:mouse-drag-and-drop> 的开头中提到的那样，实现对一个球的拖放操作。
+例如，我们想要实现一个像 <info:mouse-drag-and-drop> 的开头中提到的那样的一个对球的拖放操作。
 
-用户的操作流和触发的事件如下：
+用户的操作流和对应的事件如下：
 
-1) 用户在图像上按下鼠标，开始拖拽
+1) 用户在一张图片上按下鼠标，开始拖拽
     - `pointerdown` 事件触发
-2) 用户开始拖动图像
+2) 用户开始拖动图片
     - `pointermove` 事件触发，可能触发多次
-3) 想不到吧！浏览器有自己原生的图像拖放操作，接管了之前的拖放过程，于是触发了 `pointercancel` 事件。
+3) 想不到吧！浏览器有自己原生的图片拖放操作，接管了之前的拖放过程，于是触发了 `pointercancel` 事件。
     - 现在拖放图片的操作由浏览器自行实现。用户甚至可能会把图片拖出浏览器，放进他们的邮件程序或文件管理器。
     - 我们不会再得到 `pointermove` 事件了。
 
 这里的问题就在于浏览器”劫持“了这一个互动操作，触发了 `pointercancel` 事件，而 `pointermove` 事件不再继续触发。
 
 ```online
-这里是一个指针事件的演示（只包含 `up/down`、`move` 和 `cancel），事件的触发被记录在了文本框中。
+这里是一个指针事件的演示（只包含 `up/down`、`move` 和 `cancel），事件的触发被记录在了文本框中：
 
 [iframe src="ball" height=240 edit]
 ```
 
-我们想要实现自己的拖放操作，我们来看看应当怎样防止浏览器接管操作。
+我们想要实现自己的拖放操作，所以让我们来看看如何告诉浏览器不要接管拖放操作。
 
 **阻止浏览器的默认行为来防止 `pointercancel` 触发。**
 
@@ -135,49 +135,49 @@
 
 1. 阻止原生的拖放操作发生：
     - 正如我们在 <info:mouse-drag-and-drop> 中描述的那样，可以通过设置 `ball.ondragstart = () => false` 来实现。
-    - 这种方式适用于鼠标事件。
-2. 对于触屏设备，浏览器同样有和触摸相关的操作。这也是我们需要解决的问题。
+    - 这种方式也适用于鼠标事件。
+2. 对于触屏设备，浏览器同样有和触摸相关的行为。在这里我们也会遇到类似的问题。
     - 我们可以通过在 CSS 中设置 `#ball { touch-action: none }` 来阻止它们。
-    - 之后我们的代码便可以在触屏设备中正常工作。
+    - 之后我们的代码便可以在触屏设备中正常工作了。
 
-经过上述操作，事件将会按照我们预想的方式触发，浏览器也不会劫持拖放过程来产生一个 `pointercancel` 事件。
+经过上述操作，事件将会按照我们预期的方式触发，浏览器也不会劫持拖放过程来产生一个 `pointercancel` 事件。
 
 ```online
-这个演示增加了以下 2 行：
+这个演示增加了以下几行：
 
 [iframe src="ball-2" height=240 edit]
 
-可以看到，`pointercancel` 事件不再触发。
+可以看到，`pointercancel` 事件不再被触发。
 ```
 
-现在我们就可以添加让球的位置移动的代码了。这些代码对鼠标和触控设备都有效。
+现在我们就可以添加让球的位置移动的代码了，并且我们的代码对鼠标和触控设备都有效。
 
-## 指针捕捉
+## 指针捕获
 
-指针捕捉（Pointer capturing）是针对指针事件的一个特性。
+指针捕获（Pointer capturing）是针对指针事件的一个特性。
 
-这其中的主要思想是，我们可以使用 `pointerId` 来把一个指针事件中的所有事件绑定（bind）给一个元素。这样之后，随着这个 `pointerId` 之后发生的所有事件都会被重定向到同一个元素。也就是说，浏览器会把那个元素作为目标和相关处理程序的触发器，无论这些指针事件事实上是在何处发生的。
+这其中的主要思想是，我们可以通过一个特定的 `pointerId` 来把所有事件绑定（bind）给一个元素。这样之后，所有具有相同 `pointerId` 的后续事件都将被重定向到同一个元素。也就是说：浏览器会把那个元素作为目标和相关处理程序的触发器，无论这些指针事件实际上是在何处发生的。
 
 相关的方法有：
-- `elem.setPointerCapture(pointerId)` - 把给定的 `pointerId` 绑定到 `elem`。
-- `elem.releasePointerCapture(pointerId)` - 把给定的 `pointerId` 从 `elem` 取消绑定。
+- `elem.setPointerCapture(pointerId)` —— 把给定的 `pointerId` 绑定到 `elem`。
+- `elem.releasePointerCapture(pointerId)` —— 把给定的 `pointerId` 从 `elem` 取消绑定。
 
-这种绑定操作不会持续太长时间。在 `pointerup` 或 `pointercancel` 事件触发，或者目标元素 `elem` 被移除后，都会自动取消绑定。
+这种绑定操作不会持续太长时间。在 `pointerup` 或 `pointercancel` 事件触发，或者目标元素 `elem` 被移除后，这种绑定都会被自动取消。
 
-那么我们在什么情况下需要指针捕捉呢？
+我们在什么情况下需要指针捕获呢？
 
-**指针捕捉用于简化拖放类的操作。**
+**指针捕获被用于简化拖放类的操作。**
 
-让我们来回忆一下在 <info:mouse-drag-and-drop> 中提到的自定义滑动条的问题。
+让我们来回忆一下在 <info:mouse-drag-and-drop> 中提到的写一个自定义滑动条时所遇到的问题。
 
-1) 首先，用户按下滑块，触发 `pointerdown` 事件，开始拖动。
-2) ……但随着指针的移动，用户的指针可能离开滑动条，移动到滑动条之上或之下的位置。
+1) 首先，用户按下滑块，触发 `pointerdown` 事件，用户开始拖动滑块。
+2) ……但随着指针的移动，用户的指针可能会离开滑动条，移动到滑动条之上或之下的位置。
 
-但我们会想要继续追踪 `pointermove` 事件，移动滑块直到 `pointerup` 事件，即便指针已经不再位于滑块上了。
+但我们会想要继续追踪 `pointermove` 事件，移动滑块直到 `pointerup` 事件，即便指针已经不再位于滑动条上了。
 
-[之前的解决方案](info:mouse-drag-and-drop), 为了处理滑块之外的 `pointermove` 事件，我们侦听了整个 `document` 的 `pointermove` 事件。
+[之前的解决方案](info:mouse-drag-and-drop)，为了处理滑块之外的 `pointermove` 事件，我们监听了整个 `document` 的 `pointermove` 事件。
 
-指针捕捉提供了第二种解决方案：我们可以在 `pointerdown` 事件的处理程序中调用 `thumb.setPointerCapture(event.pointerId)`，这样的话接下来在 `pointerup` 之前发生的所有指针事件都会被重定向到 `thumb` 上。
+指针捕获提供了第二种解决方案：我们可以在 `pointerdown` 事件的处理程序中调用 `thumb.setPointerCapture(event.pointerId)`，这样的话接下来在 `pointerup` 之前发生的所有指针事件都会被重定向到 `thumb` 上。
 
 也就是说，`thumb` 上的事件处理程序会被调用，并且 `event.target` 始终会是 `thumb`，即便用户在文档任意地方移动指针。所以我们可以让 `thumb` 继续侦听 `pointermove`，无论这些事件在何处发生。
 
