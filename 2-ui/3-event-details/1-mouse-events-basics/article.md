@@ -50,32 +50,32 @@
 
 与点击相关的事件始终具有 `button` 属性，该属性允许获取确切的鼠标按钮。 
 
-We usually don't use it for `click` and `contextmenu` events, because the former happens only on left-click, and the latter -- only on right-click.
+通常我们不在 `click` 和 `contextmenu` 事件中使用这一属性，因为前者只在单击鼠标左键时触发，后者只在单击鼠标右键时触发。
 
-From the other hand, `mousedown` and `mouseup` handlers we may need `event.button`, because these events trigger on any button, so `button` allows to distinguish between "right-mousedown" and "left-mousedown".
+不过，在 `mousedown` 和 `mouseup` 事件中则可能需要用到 `event.button`，因为这两个事件在任何按键上都会触发，所以我们可以使用 `button` 属性来区分是左键单击还是右键单击。
 
-The possible values of `event.button` are:
+`event.button` 的所有可能值如下：
 
-| Button state | `event.button` |
+| 鼠标按键状态 | `event.button` |
 |--------------|----------------|
-| Left button (primary) | 0 |
-| Middle button (auxillary) | 1 |
-| Right button (secondary) | 2 |
-| X1 button (back) | 3 |
-| X2 button (forward) | 4 |
+| 左键 (主要按键) | 0 |
+| 中键 (辅助按键) | 1 |
+| 右键 (次要按键) | 2 |
+| X1 键 (后退按键) | 3 |
+| X2 键 (前进按键) | 4 |
 
-Most mouse devices only have the left and right buttons, so possible values are `0` or `2`. Touch devices also generate similar events when one taps on them.
+大多数鼠标设备只有左键和右键，对应的值就是 `0` 和 `2`。触屏设备中的点按操作也会触发类似的事件。
 
-Also there's `event.buttons` property that has all currently pressed buttons as an integer, one bit per button. In practice this property is very rarely used, you can find details at [MDN](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons) if you ever need it.
+另外，还有一个 `event.buttons` 属性，其中以整数的形式存储着当前所有按下的鼠标按键，每个按键一个比特位。在实际开发中，很少会用到这个属性，如果有需要的话，你可以在 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons) 中找到更多细节。
 
-```warn header="The outdated `event.which`"
-Old code may use `event.which` property that's an old non-standard way of getting a button, with possible values:
+```warn header="过时的 `event.which`"
+一些老代码可能会使用 `event.which` 属性来获得按下的按键。这是一个古老的非标准的方式，具有以下可能值：
 
-- `event.which == 1` – left button,
-- `event.which == 2` – middle button,
-- `event.which == 3` – right button.
+- `event.which == 1` —— 鼠标左键，
+- `event.which == 2` —— 鼠标中键，
+- `event.which == 3` —— 鼠标右键。
 
-As of now, `event.which` is deprecated, we shouldn't use it.
+现在，`event.which` 已经被弃用了，不应再使用它。
 ```
 
 ## 组合键：shift，alt，ctrl，meta
@@ -136,9 +136,9 @@ As of now, `event.which` is deprecated, we shouldn't use it.
 1. 相对于窗口的坐标：`clientX` 和 `clientY`。
 2. 相对于文档的坐标：`pageX` 和 `pageY`。
 
-We already covered the difference between them in the chapter <info:coordinates>.
+我们已经在 <info:coordinates> 中解释过它们之间的区别。
 
-In short, document-relative coordinates `pageX/Y` are counted from the left-upper corner of the document, and do not change when the page is scrolled, while `clientX/Y` are counted from the current window left-upper corner. When the page is scrolled, they change.
+简而言之，相对于文档的坐标 `pageX/Y` 以文档的左上角为参照物，并且同一位置的坐标不随页面的滚动而改变。相对于窗口的坐标 `clientX/Y` 以当前窗口的左上角为参照物，并且同一位置的坐标会随着页面的滚动而改变。
 
 例如，如果我们有一个大小为 500x500 的窗口，并且鼠标在左上角，那么 `clientX` 和 `clientY` 均为 `0`，无论页面如何滚动。
 

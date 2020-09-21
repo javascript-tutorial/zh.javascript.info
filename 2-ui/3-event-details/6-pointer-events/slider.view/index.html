@@ -10,7 +10,7 @@
   let shiftX;
 
   thumb.onpointerdown = function(event) {
-    event.preventDefault(); // prevent selection start (browser action)
+    event.preventDefault(); // 阻止开始选择（浏览器行为）
 
     shiftX = event.clientX - thumb.getBoundingClientRect().left;
 
@@ -20,7 +20,7 @@
   thumb.onpointermove = function(event) {
     let newLeft = event.clientX - shiftX - slider.getBoundingClientRect().left;
 
-    // if the pointer is out of slider => adjust left to be within the bounaries
+    // 如果指针移出了滑块 => 调整 left 来防止其超出边界
     if (newLeft < 0) {
       newLeft = 0;
     }
