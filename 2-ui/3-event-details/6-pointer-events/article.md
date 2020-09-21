@@ -205,9 +205,9 @@ thumb.onpointermove = function(event) {
 [iframe src="slider" height=100 edit]
 ```
 
-**言而总之：由于我们无需再在整个 `document` 上添加/移除处理程序，代码就变得整洁多了。这就是指针捕捉的意义所在。**
+**言而总之：由于我们无需再在整个 `document` 上添加/移除处理程序，代码就变得整洁多了。这就是指针捕获的意义所在。**
 
-还有两个相关的指针捕捉事件:
+还有两个相关的指针捕获事件:
 
 - `gotpointercapture` 会在一个元素使用 `setPointerCapture` 来启用捕获后触发。
 - `lostpointercapture` 会在捕获被释放后触发：其触发可能是由于 `releasePointerCapture` 的显式调用，或是 `pointerup`/`pointercancel` 事件触发后的自动调用。
@@ -224,6 +224,6 @@ thumb.onpointermove = function(event) {
 
 - 基于 `pointerId` 和 `isPrimary` 的多点触控支持。
 - 针对特定设备的属性，例如 `pressure` 和 `width/height` 等。
-- 指针捕捉：我们可以把 `pointerup`/`pointercancel` 之前的所有指针事件重定向到一个特定的元素。
+- 指针捕获：我们可以把 `pointerup`/`pointercancel` 之前的所有指针事件重定向到一个特定的元素。
 
 目前，指针事件已经被各大主流浏览器支持，所以如果不需要支持 IE10 和 Safari 12 以下的版本，我们可以放心地使用它们。不过即便是针对这些老式浏览器，也可以通过 polyfill 来让它们支持指针事件。
