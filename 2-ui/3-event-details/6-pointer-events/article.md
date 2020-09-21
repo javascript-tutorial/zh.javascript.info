@@ -103,11 +103,11 @@
 导致指针中断的可能原因如下：
 - 指针设备硬件被禁用。
 - 设备方向旋转（例如给平板转了个方向）。
-- 浏览器打算自行处理这一交互，比如将其看做是一个专门的鼠标手势或缩放操作等。
+- 浏览器打算自行处理这一交互，比如将其看作是一个专门的鼠标手势或缩放操作等。
 
 我们会用一个实际例子来阐释 `pointercancel` 的影响。
 
-例如，我们想要实现一个像 <info:mouse-drag-and-drop> 的开头中提到的那样的一个对球的拖放操作。
+例如，我们想要实现一个像 <info:mouse-drag-and-drop> 中开头提到的那样的一个对球的拖放操作。
 
 用户的操作流和对应的事件如下：
 
@@ -156,7 +156,7 @@
 
 指针捕获（Pointer capturing）是针对指针事件的一个特性。
 
-这其中的主要思想是，我们可以通过一个特定的 `pointerId` 来把所有事件绑定（bind）给一个元素。这样之后，所有具有相同 `pointerId` 的后续事件都将被重定向到同一个元素。也就是说：浏览器会把那个元素作为目标和相关处理程序的触发器，无论这些指针事件实际上是在何处发生的。
+这其中的主要思想是，我们可以通过一个特定的 `pointerId` 来把所有事件绑定（bind）到一个元素。这样之后，所有具有相同 `pointerId` 的后续事件都将被重定向到同一个元素。也就是说：浏览器会把那个元素作为目标和相关处理程序的触发器，无论这些指针事件实际上是在何处发生的。
 
 相关的方法有：
 - `elem.setPointerCapture(pointerId)` —— 把给定的 `pointerId` 绑定到 `elem`。
@@ -177,11 +177,11 @@
 
 [之前的解决方案](info:mouse-drag-and-drop)，为了处理滑块之外的 `pointermove` 事件，我们监听了整个 `document` 的 `pointermove` 事件。
 
-指针捕获提供了第二种解决方案：我们可以在 `pointerdown` 事件的处理程序中调用 `thumb.setPointerCapture(event.pointerId)`，这样的话接下来在 `pointerup` 之前发生的所有指针事件都会被重定向到 `thumb` 上。
+指针捕获提供了第二种解决方案：我们可以在 `pointerdown` 事件的处理程序中调用 `thumb.setPointerCapture(event.pointerId)`，这样接下来在 `pointerup` 之前发生的所有指针事件都会被重定向到 `thumb` 上。
 
-也就是说，`thumb` 上的事件处理程序会被调用，并且 `event.target` 始终会是 `thumb`，即便用户在文档任意地方移动指针。所以我们可以让 `thumb` 继续侦听 `pointermove`，无论这些事件在何处发生。
+也就是说，`thumb` 上的事件处理程序会被调用，并且 `event.target` 始终会是 `thumb`，即便用户在文档任意地方移动指针。所以，我们可以继续在 `thumb` 上监听 `pointermove`，无论其是在何处发生的。
 
-其中主要的代码如下：
+主要代码如下：
 
 ```js
 thumb.onpointerdown = function(event) {
@@ -190,40 +190,40 @@ thumb.onpointerdown = function(event) {
 };
 
 thumb.onpointermove = function(event) {
-  // 移动滑动条：在 thumb 上侦听即可，因为所有事件都被重定向到了 thumb
+  // 移动滑动条：在 thumb 上监听即可，因为所有事件都被重定向到了 thumb
   let newLeft = event.clientX - slider.getBoundingClientRect().left;
   thumb.style.left = newLeft + 'px';
 };
 
-// 注意：无需调用 thumb.releasePointerCapture, 
+// 注意：无需调用 thumb.releasePointerCapture，
 // 它会在 pointerup 时自动调用
 ```
 
 ```online
-完整演示：
+完整示例：
 
 [iframe src="slider" height=100 edit]
 ```
 
-**言而总之：由于我们无需再在整个 `document` 上添加/移除处理程序，代码就变得整洁多了。这就是指针捕捉的主要意义。**
+**言而总之：由于我们无需再在整个 `document` 上添加/移除处理程序，代码就变得整洁多了。这就是指针捕捉的意义所在。**
 
 还有两个相关的指针捕捉事件:
 
-- `gotpointercapture` 会在一个元素使用 `setPointerCapture` 来启用捕捉后触发
-- `lostpointercapture` 会在捕捉释放后触发。其触发可能是由于 `releasePointerCapture` 的显式调用，或是 `pointerup`/`pointercancel` 事件触发后的自动调用。
+- `gotpointercapture` 会在一个元素使用 `setPointerCapture` 来启用捕获后触发。
+- `lostpointercapture` 会在捕获被释放后触发：其触发可能是由于 `releasePointerCapture` 的显式调用，或是 `pointerup`/`pointercancel` 事件触发后的自动调用。
 
 ## 总结
 
 指针事件允许我们同时处理鼠标、触摸和触控笔事件。
 
-指针事件是鼠标事件的拓展。我们可以在事件名称中用 `pointer` 来替换 `mouse` 来让我们的代码既能继续支持鼠标，也能更好地支持其他类型的设备。
+指针事件是鼠标事件的拓展。我们可以在事件名称中用 `pointer` 替换 `mouse` 来让我们的代码既能继续支持鼠标，也能更好地支持其他类型的设备。
 
-记得在 CSS 中为涉及到的元素添加 `touch-events: none`。否则浏览器会劫持很多触摸互动，导致指针事件无法正常触发。
+记得在 CSS 中为涉及到的元素添加 `touch-events: none`。否则浏览器会劫持很多类型的触摸互动，导致指针事件无法正常触发。
 
 指针事件还额外具备以下能力：
 
 - 基于 `pointerId` 和 `isPrimary` 的多点触控支持。
-- 针对特定设备的属性，例如 `pressure`，`width/height` 等。
-- 指针捕捉: 我们可以把 `pointerup`/`pointercancel` 之前的所有指针事件重定向到一个特定的元素。
+- 针对特定设备的属性，例如 `pressure` 和 `width/height` 等。
+- 指针捕捉：我们可以把 `pointerup`/`pointercancel` 之前的所有指针事件重定向到一个特定的元素。
 
-目前，指针事件已经被各大主流浏览器支持，所以如果不需要支持 IE10 和 Safari 12 以下的版本，我们可以放心地使用它们。不过即便是针对这些老式浏览器，也可以使用 polyfill 来让它们支持指针事件。
+目前，指针事件已经被各大主流浏览器支持，所以如果不需要支持 IE10 和 Safari 12 以下的版本，我们可以放心地使用它们。不过即便是针对这些老式浏览器，也可以通过 polyfill 来让它们支持指针事件。
