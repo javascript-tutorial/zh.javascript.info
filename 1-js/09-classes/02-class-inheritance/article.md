@@ -282,21 +282,21 @@ alert(rabbit.earLength); // 10
 
 
 
-### Overriding class fields: a tricky note
+### 重写类字段: 一个棘手的注意要点
 
-```warn header="Advanced note"
-This note assumes you have a certain experience with classes, maybe in other programming languages.
+```warn header="高阶要点"
+这个要点假设你对类已经有了一定的经验，或许是在其他编程语言中。
 
-It provides better insight into the language and also explains the behavior that might be a source of bugs (but not very often).
+这里提供了一个更好的视角来窥探这门语言，且解释了它的行为为什么可能会是 bugs 的来源(但不是非常频繁)。
 
-If you find it difficult to understand, just go on, continue reading, then return to it some time later.
+如果你发现这难以理解，什么都别管，继续往下阅读，之后有机会再回来看。
 ```
 
-We can override not only methods, but also class fields.
+我们不仅可以重写方法，还可以重写类字段。
 
-Although, there's a tricky behavior when we access an overridden field in parent constructor, quite different from most other programming languages.
+不过，当我们访问在父类构造器中的一个被重写的字段时，这里会有一个诡异的行为，这与绝大多数其他编程语言都很不一样。
 
-Consider this example:
+请思考此示例：
 
 ```js run
 class Animal {
@@ -317,28 +317,28 @@ new Rabbit(); // animal
 */!*
 ```
 
-Here, class `Rabbit` extends `Animal` and overrides `name` field with its own value.
+这里，`Rabbit` 继承自 `Animal`，并且用它自己的值重写了 `name` 字段。
 
-There's no own constructor in `Rabbit`, so `Animal` constructor is called.
+因为 `Rabbit` 中没有自己的构造器，所以 `Animal` 的构造器被调用了。
 
-What's interesting is that in both cases: `new Animal()` and `new Rabbit()`, the `alert` in the line `(*)` shows `animal`.
+有趣的是在这两种情况下：`new Animal()` 和 `new Rabbit()`，在 `(*)` 行的 `alert` 都打印了 `animal`。
 
-**In other words, parent constructor always uses its own field value, not the overridden one.**
+**换句话说， 父类构造器总是会使用它自己字段的值，而不是被重写的那一个。**
 
-What's odd about it?
+古怪的是什么呢？
 
-If it's not clear yet, please compare with methods.
+如果这还不清楚，那么让我们用方法来进行比较。
 
-Here's the same code, but instead of `this.name` field we call `this.showName()` method:
+这里是相同的代码，但是我们调用 `this.showName()` 方法而不是 `this.name` 字段：
 
 ```js run
 class Animal {
-  showName() {  // instead of this.name = 'animal'
+  showName() {  // 而不是 this.name = 'animal'
     alert('animal');
   }
 
   constructor() {
-    this.showName(); // instead of alert(this.name);
+    this.showName(); // 而不是 alert(this.name);
   }
 }
 
@@ -354,27 +354,27 @@ new Rabbit(); // rabbit
 */!*
 ```
 
-Please note: now the output is different.
+请注意：这时的输出是不同的。
 
-And that's what we naturally expect. When the parent constructor is called in the derived class, it uses the overridden method.
+这才是我们本来所期待的结果。当父类构造器在派生的类中被调用时，它会使用被重写的方法。
 
-...But for class fields it's not so. As said, the parent constructor always uses the parent field.
+……但对于类字段并非如此。正如前文所述，父类构造器总是使用父类的字段。
 
-Why is there the difference?
+这里为什么会有这样的区别呢？
 
-Well, the reason is in the field initialization order. The class field is initialized:
-- Before constructor for the base class (that doesn't extend anything),
-- Imediately after `super()` for the derived class.
+实际上，原因在于字段初始化的顺序。类字段是这样初始化的：
+- 在基类（还未继承任何东西的那种）被构造前初始化。
+- 对于派生类，在 `super()` 后立刻初始化。
 
-In our case, `Rabbit` is the derived class. There's no `constructor()` in it. As said previously, that's the same as if there was an empty constructor with only `super(...args)`.
+在我们的例子中，`Rabbit` 是派生类，里面没有 `constructor()`。正如先前所说，这相当于一个里面只有 `super(...args)` 的空构造器。
 
-So, `new Rabbit()` calls `super()`, thus executing the parent constructor, and (per the rule for derived classes) only after that its class fields are initialized. At the time of the parent constructor execution, there are no `Rabbit` class fields yet, that's why `Animal` fields are used.
+所以，`new Rabbit()` 调用了 `super()`，因此它执行了父类构造器，并且（根据派生类规则）只有在此之后，它的类字段才被初始化。在父类构造器被执行的时候，`Rabbit` 还没有自己的类字段，这就是为什么 `Animal` 类字段被使用了。
 
-This subtle difference between fields and methods is specific to JavaScript
+这种字段与方法之间微妙的区别只特定于 JavaScript。
 
-Luckily, this behavior only reveals itself if an overridden field is used in the parent constructor. Then it may be difficult to understand what's going on, so we're explaining it here.
+幸运的是，这种行为仅在一个被重写的字段被父类构造器使用时才会显现出来。接下来它会发生的东西可能就比较难理解了，所以我们要在这里对此行为进行解释。
 
-If it becomes a problem, one can fix it by using methods or getters/setters instead of fields.
+如果出问题了，我们可以通过使用方法或者 getter/setter 替代类字段，来修复这个问题。
 
 
 ## 深入：内部探究和 [[HomeObject]]
