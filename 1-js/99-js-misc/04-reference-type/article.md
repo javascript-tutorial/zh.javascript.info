@@ -1,15 +1,15 @@
 
 # Reference Type
 
-```warn header="In-depth language feature"
-This article covers an advanced topic, to understand certain edge-cases better.
+```warn header="深入的语言特性"
+本文所讲的是一个高阶主题，能帮你更好地理解一些边缘情况。
 
-It's not important. Many experienced developers live fine without knowing it. Read on if you're  want to know how things work under the hood.
+这仅是锦上添花。许多经验丰富的的开发者不甚了了也过得不错。如果你想了解代码运行的本质，那就继续读下去吧。
 ```
 
-A dynamically evaluated method call can lose `this`.
+一个动态执行的方法调用可能会丢失 `this`。
 
-For instance:
+例如：
 
 ```js run
 let user = {
@@ -18,42 +18,42 @@ let user = {
   bye() { alert("Bye"); }
 };
 
-user.hi(); // works
+user.hi(); // 正常运行
 
-// now let's call user.hi or user.bye depending on the name
+// 现在让我们基于 name 来选择调用 user.hi 或 user.bye
 *!*
 (user.name == "John" ? user.hi : user.bye)(); // Error!
 */!*
 ```
 
-On the last line there is a conditional operator that chooses either `user.hi` or `user.bye`. In this case the result is `user.hi`.
+在最后一行有个在 `user.hi` 和 `user.bye` 中做选择的条件（三元）运算符。当前情形下的结果是 `user.hi`。
 
-Then the method is immediately called with parentheses `()`. But it doesn't work correctly!
+接着该方法被通过 `()` 立刻调用。但是并不能正常工作！
 
-As you can see, the call results in an error, because the value of `"this"` inside the call becomes `undefined`.
+如你所见，此处调用导致了一个错误，因为在该调用中 `"this"` 的值变成了 `undefined`。
 
-This works (object dot method):
+这样是能工作的（对象.方法）：
 ```js
 user.hi();
 ```
 
-This doesn't (evaluated method):
+这就无法工作了（被评估的方法）：
 ```js
 (user.name == "John" ? user.hi : user.bye)(); // Error!
 ```
 
-Why? If we want to understand why it happens, let's get under the hood of how `obj.method()` call works.
+为什么呢？欲知缘何，且让我们深入 `obj.method()` 调用运行的本质。
 
-## Reference type explained
+## Reference type 解读
 
-Looking closely, we may notice two operations in `obj.method()` statement:
+仔细看的话，我们可能注意到 `obj.method()` 语句中的两个操作：
 
-1. First, the dot `'.'` retrieves the property `obj.method`.
-2. Then parentheses `()` execute it.
+1. 首先，点 `'.'` 取了属性 `obj.method` 的值。
+2. 接着 `()` 执行了它。
 
-So, how does the information about `this` get passed from the first part to the second one?
+那么，`this` 的信息是怎么从第一部分传递到第二部分的呢？
 
-If we put these operations on separate lines, then `this` will be lost for sure:
+如果我们将这些操作放在不同的行，`this` 必定是会丢失的：
 
 ```js run
 let user = {
@@ -62,53 +62,47 @@ let user = {
 }
 
 *!*
-// split getting and calling the method in two lines
+// 把获取方法和调用方法拆成两行
 let hi = user.hi;
-hi(); // Error, because this is undefined
+hi(); // 报错了，因为 this 的值是 undefined
 */!*
 ```
 
-Here `hi = user.hi` puts the function into the variable, and then on the last line it is completely standalone, and so there's no `this`.
+这里 `hi = user.hi` 把函数赋值给了一个变量，接下来在最后一行它是完全独立的，所以这里没有 `this`。
 
-**To make `user.hi()` calls work, JavaScript uses a trick -- the dot `'.'` returns not a function, but a value of the special [Reference Type](https://tc39.github.io/ecma262/#sec-reference-specification-type).**
+**为确保 `user.hi()` 调用正常运行，JavaScript 玩了个小把戏 —— 点 `'.'` 返回的不是一个函数，而是一个特殊的 [Reference Type](https://tc39.github.io/ecma262/#sec-reference-specification-type) 的值。**
 
-The Reference Type is a "specification type". We can't explicitly use it, but it is used internally by the language.
+Reference Type 是 ECMA 中的一个“规范类型”。我们不能直接使用它，但它被用在 JavaScript 语言内部。
 
-The value of Reference Type is a three-value combination `(base, name, strict)`, where:
+Reference Type 的值是一个三个值的组合 `(base, name, strict)`，其中：
 
-- `base` is the object.
-- `name` is the property name.
-- `strict` is true if `use strict` is in effect.
+- `base` 是对象。
+- `name` 是属性名。
+- `strict` 在 `use strict` 模式下为 true。
 
-The result of a property access `user.hi` is not a function, but a value of Reference Type. For `user.hi` in strict mode it is:
+对属性 `user.hi` 访问的结果不是一个函数，而是一个 Reference Type 的值。对于 `user.hi`，在严格模式下是：
 
 ```js
-// Reference Type value
+// Reference Type 的值
 (user, "hi", true)
 ```
 
-When parentheses `()` are called on the Reference Type, they receive the full information about the object and its method, and can set the right `this` (`=user` in this case).
+当 `()` 被在 Reference Type 上调用时，它们会接收到关于对象和对象的方法的完整信息，然后可以设置正确的 `this`（在此处 `=user`）。
 
-Reference type is a special "intermediary" internal type, with the purpose to pass information from dot `.` to calling parentheses `()`.
+Reference Type 是一个特殊的“中间人”内部类型，目的是从 `.` 传递信息给 `()` 调用。
 
-Any other operation like assignment `hi = user.hi` discards the reference type as a whole, takes the value of `user.hi` (a function) and passes it on. So any further operation "loses" `this`.
+任何例如赋值 `hi = user.hi` 等其他的操作，都会将 Reference Type 作为一个整体丢弃掉，而会取 `user.hi`（一个函数）的值并继续传递。所以任何后续操作都“丢失”了 `this`。
 
-So, as the result, the value of `this` is only passed the right way if the function is called directly using a dot `obj.method()` or square brackets `obj['method']()` syntax (they do the same here). Later in this tutorial, we will learn various ways to solve this problem such as [func.bind()](/bind#solution-2-bind).
+因此，`this` 的值仅在函数直接被通过点符号 `obj.method()` 或方括号 `obj['method']()` 语法（此处它们作用相同）调用时才被正确传递。在本教程的后续章节，我们会学习多种解决这个问题的方式，例如 [func.bind()](/bind#solution-2-bind)。
 
-## Summary
+## 总结
 
-Reference Type is an internal type of the language.
+Reference Type 是语言内部的一个类型。
 
-Reading a property, such as with dot `.` in `obj.method()` returns not exactly the property value, but a special "reference type" value that stores both the property value and the object it was taken from.
+读取一个属性，例如在 `obj.method()` 中，`.` 返回的准确来说不是属性的值，而是一个特殊的 "Reference Type" 值，其中储存着属性的值和它的来源对象。
 
-That's for the subsequent method call `()` to get the object and set `this` to it.
+这是为了随后的方法调用 `()` 获取来源对象，然后将 `this` 设为它。
 
-For all other operations, the reference type automatically becomes the property value (a function in our case).
+对于所有其它操作，Reference Type 会自动变成属性的值（在我们这个情况下是一个函数）。
 
-The whole mechanics is hidden from our eyes. It only matters in subtle cases, such as when a method is obtained dynamically from the object, using an expression.
-
-
-
-
-
- result of dot `.` isn't actually a method, but a value of `` needs a way to pass the information about `obj`
+这整个机理对我们是不可见的。它仅在一些微妙的情形下才重要，例如一个方法是通过表达式从对象动态获取的。
