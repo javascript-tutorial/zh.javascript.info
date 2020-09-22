@@ -267,7 +267,7 @@ alert(user.name); // John
 user = new User(""); // Name is too short.
 ```
 
-从技术上来讲，这样的类声明可以通过在 `User.prototype` 中创建 getters 和 setters 奏效。
+从技术上来讲，这样的类声明可以通过在 `User.prototype` 中创建 getters 和 setters 来实现。
 
 ## 计算属性名称 [...]
 
@@ -287,7 +287,7 @@ class User {
 new User().sayHi();
 ```
 
-这种特性容易记忆，因为他们与字面量对象相似。
+这种特性很容易记住，因为它们和对象字面量类似。
 
 ## Class 字段
 
@@ -315,9 +315,9 @@ class User {
 new User().sayHi(); // Hello, John!
 ```
 
-所以，我们就只需在表达式中书写 "<property name> = <value>" ，就这样。
+所以，我们就只需在表达式中写 "<property name> = <value>"，就这样。
 
-类字段的重要不同之处在于，他们会在每个独立对象中被设好，而不是设在了 `User.prototype`：
+类字段重要的不同之处在于，它们会在每个独立对象中被设好，而不是设在 `User.prototype`：
 
 ```js run
 class User {
@@ -331,7 +331,7 @@ alert(user.name); // John
 alert(User.prototype.name); // undefined
 ```
 
-我们也可以在赋值时使用更加复杂的表达式和函数调用：
+我们也可以在赋值时使用更复杂的表达式和函数调用：
 
 ```js run
 class User {
@@ -397,7 +397,7 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
-类字段 `click = () => {...}`是基于每一个对象被创建的，在这里对于每一个 `Button` 对象都有一个独立的方法，在内部有一个`this`指向此对象。我们可以在任何地方传递`button.click`，并且`this`的值总是正确的。
+类字段 `click = () => {...}` 是基于每一个对象被创建的，在这里对于每一个 `Button` 对象都有一个独立的方法，在内部都有一个指向此对象的 `this`。我们可以把 `button.click` 传递到任何地方，而且 `this` 的值总是正确的。
 
 在浏览器环境中，它对于进行事件监听尤为有用。
 
