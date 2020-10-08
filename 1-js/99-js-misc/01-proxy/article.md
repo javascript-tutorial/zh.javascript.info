@@ -13,11 +13,11 @@ let proxy = new Proxy(target, handler)
 ```
 
 - `target` — 是要包装的对象，可以是任何东西，包括函数。
-- `handler` — 代理配置：带有“陷阱”（"traps"，即拦截操作的方法）的对象。比如 `get` 陷阱用于读取 `target` 的属性，`set` 陷阱用于写入 `target` 的属性，等等。
+- `handler` — 代理配置：带有“捕捉器”（"traps"，即拦截操作的方法）的对象。比如 `get` 捕捉器用于读取 `target` 的属性，`set` 捕捉器用于写入 `target` 的属性，等等。
 
-对 `proxy` 进行操作，如果在 `handler` 中存在相应的陷阱，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
+对 `proxy` 进行操作，如果在 `handler` 中存在相应的捕捉器，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
-首先，让我们创建一个没有任何陷阱的代理（proxy）：
+首先，让我们创建一个没有任何捕捉器的代理（proxy）：
 
 ```js run
 let target = {};
@@ -31,27 +31,27 @@ alert(proxy.test); // 5，我们也可以从 proxy 对象读取它 (2)
 for(let key in proxy) alert(key); // test，迭代也正常工作 (3)
 ```
 
-由于没有陷阱，所有对 `proxy` 的操作都直接转发给了 `target`。
+由于没有捕捉器，所有对 `proxy` 的操作都直接转发给了 `target`。
 
 1. 写入操作 `proxy.test=` 会将值写入 `target`。
 2. 读取操作 `proxy.test` 会从 `target` 返回对应的值。
 3. 迭代 `proxy` 会从 `target` 返回对应的值。
 
-我们可以看到，没有任何陷阱，`proxy` 是一个 `target` 的透明包装器（wrapper）.
+我们可以看到，没有任何捕捉器，`proxy` 是一个 `target` 的透明包装器（wrapper）.
 
-![](proxy.svg)  
+![](proxy.svg)
 
 `Proxy` 是一种特殊的“奇异对象（exotic object）”。它没有自己的属性。如果 `handler` 为空，则透明地将操作转发给 `target`。
 
-要激活更多功能，让我们添加陷阱。
+要激活更多功能，让我们添加捕捉器。
 
 我们可以用它们拦截什么？
 
 对于对象的大多数操作，JavaScript 规范中有一个所谓的“内部方法”，它描述了最底层的工作方式。例如 `[[Get]]`，用于读取属性的内部方法，`[[Set]]`，用于写入属性的内部方法，等等。这些方法仅在规范中使用，我们不能直接通过方法名调用它们。
 
-Proxy 陷阱会拦截这些方法的调用。它们在 [proxy 规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 和下表中被列出。
+Proxy 捕捉器会拦截这些方法的调用。它们在 [proxy 规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 和下表中被列出。
 
-对于每个内部方法，此表中都有一个陷阱：可用于添加到 `new Proxy` 的 `handler` 参数中以拦截操作的方法名称：
+对于每个内部方法，此表中都有一个捕捉器：可用于添加到 `new Proxy` 的 `handler` 参数中以拦截操作的方法名称：
 
 | 内部方法 | Handler 方法 | 何时触发 |
 |-----------------|----------------|-------------|
@@ -70,7 +70,7 @@ Proxy 陷阱会拦截这些方法的调用。它们在 [proxy 规范](https://tc
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
 ```warn header="不变量（Invariant）"
-JavaScript 强制执行某些不变量 — 内部方法和陷阱必须满足的条件。。
+JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足的条件。。
 
 其中大多数用于返回值：
 - `[[Set]]` 如果值已成功写入，则必须返回 `true`，否则返回 `false`。
@@ -80,16 +80,16 @@ JavaScript 强制执行某些不变量 — 内部方法和陷阱必须满足的�
 还有其他一些不变量，例如：
 - 应用于代理（proxy）对象的 `[[GetPrototypeOf]]`，必须返回与应用于被代理对象的 `[[GetPrototypeOf]]` 相同的值。换句话说，读取代理对象的原型必须始终返回被代理对象的原型。
 
-陷阱可以拦截这些操作，但是必须遵循下面这些规则。
+捕捉器可以拦截这些操作，但是必须遵循下面这些规则。
 
 不变量确保语言功能的正确和一致的行为。完整的不变量列表在 [规范](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 中。如果你不做奇怪的事情，你可能就不会违反它们。
 ```
 
 让我们来看看它们是如何在实际示例中工作的。
 
-## 带有 "get" 陷阱的默认值
+## 带有 "get" 捕捉器的默认值
 
-最常见的陷阱是用于读取/写入的属性。
+最常见的捕捉器是用于读取/写入的属性。
 
 要拦截读取操作，`handler` 应该有 `get(target, property, receiver)` 方法。
 
@@ -124,7 +124,7 @@ alert( numbers[123] ); // 0（没有这个数组项）
 */!*
 ```
 
-正如我们所看到的，使用 `get` 陷阱很容易实现。
+正如我们所看到的，使用 `get` 捕捉器很容易实现。
 
 我们可以用 `Proxy` 来实现“默认”值的任何逻辑。
 
@@ -181,20 +181,20 @@ dictionary = new Proxy(dictionary, ...);
 代理应该在所有地方都完全替代目标对象。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
 ````
 
-## 使用 "set" 陷阱进行验证
+## 使用 "set" 捕捉器进行验证
 
 假设我们想要一个专门用于数字的数组。如果添加了其他类型的值，则应该抛出一个错误。
 
-当写入属性时 `set` 陷阱被触发。
+当写入属性时 `set` 捕捉器被触发。
 
 `set(target, property, value, receiver)`：
 
 - `target` — 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
 - `property` — 目标属性名称，
 - `value` — 目标属性的值，
-- `receiver` — 与 `get` 陷阱类似，仅与 setter 访问器属性相关。
+- `receiver` — 与 `get` 捕捉器类似，仅与 setter 访问器属性相关。
 
-如果写入操作（setting）成功，`set` 陷阱应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
+如果写入操作（setting）成功，`set` 捕捉器应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
 
 让我们用它来验证新值：
 
@@ -241,7 +241,7 @@ alert("This line is never reached (error in the line above)");
 
 ## 使用 "ownKeys" 和 "getOwnPropertyDescriptor" 进行迭代
 
-`Object.keys`，`for..in` 循环和大多数其他遍历对象属性的方法都使用内部方法 `[[OwnPropertyKeys]]`（由 `ownKeys` 陷阱拦截) 来获取属性列表。
+`Object.keys`，`for..in` 循环和大多数其他遍历对象属性的方法都使用内部方法 `[[OwnPropertyKeys]]`（由 `ownKeys` 捕捉器拦截) 来获取属性列表。
 
 这些方法在细节上有所不同：
 - `Object.getOwnPropertyNames(obj)` 返回非 Symbol 键。
@@ -251,7 +251,7 @@ alert("This line is never reached (error in the line above)");
 
 ……但是所有这些都从该列表开始。
 
-在下面这个示例中，我们使用 `ownKeys` 陷阱拦截 `for..in` 对 `user` 的遍历，并使用 `Object.keys` 和 `Object.values` 来跳过以下划线 `_` 开头的属性：
+在下面这个示例中，我们使用 `ownKeys` 捕捉器拦截 `for..in` 对 `user` 的遍历，并使用 `Object.keys` 和 `Object.values` 来跳过以下划线 `_` 开头的属性：
 
 ```js run
 let user = {
@@ -296,7 +296,7 @@ alert( Object.keys(user) ); // <empty>
 
 为什么？原因很简单：`Object.keys` 仅返回带有 `enumerable` 标志的属性。为了检查它，该方法会对每个属性调用内部方法 `[[GetOwnProperty]]` 来获取 [它的描述符（descriptor）](info:property-descriptors)。在这里，由于没有属性，其描述符为空，没有 `enumerable` 标志，因此它被略过。
 
-为了让 `Object.keys` 返回一个属性，我们要么需要它要么存在于带有 `enumerable` 标志的对象，要么我们可以拦截对 `[[GetOwnProperty]]` 的调用（陷阱 `getOwnPropertyDescriptor` 可以做到这一点)，并返回带有 `enumerable: true` 的描述符。
+为了让 `Object.keys` 返回一个属性，我们要么需要它要么存在于带有 `enumerable` 标志的对象，要么我们可以拦截对 `[[GetOwnProperty]]` 的调用（捕捉器 `getOwnPropertyDescriptor` 可以做到这一点)，并返回带有 `enumerable: true` 的描述符。
 
 这是关于此的一个例子：
 
@@ -323,7 +323,7 @@ alert( Object.keys(user) ); // a, b, c
 
 让我们再次注意：如果该属性在对象中不存在，那么我们只需要拦截 `[[GetOwnProperty]]`。
 
-## 具有 "deleteProperty" 和其他陷阱的受保护属性
+## 具有 "deleteProperty" 和其他捕捉器的受保护属性
 
 有一个普遍的约定，即以下划线 `_` 开头的属性和方法是内部的。不应从对象外部访问它们。
 
@@ -335,12 +335,12 @@ let user = {
   _password: "secret"
 };
 
-alert(user._password); // secret  
+alert(user._password); // secret
 ```
 
 让我们使用代理来防止对以 `_` 开头的属性的任何访问。
 
-我们将需要以下陷阱：
+我们将需要以下捕捉器：
 - `get` 读取此类属性时抛出错误，
 - `set` 写入属性时抛出错误，
 - `deleteProperty` 删除属性时抛出错误，
@@ -376,7 +376,7 @@ user = new Proxy(user, {
   },
 *!*
   deleteProperty(target, prop) { // 拦截属性删除
-*/!*  
+*/!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
     } else {
@@ -410,7 +410,7 @@ try {
 for(let key in user) alert(key); // name
 ```
 
-请注意在 `(*)` 行中 `get` 陷阱的重要细节：
+请注意在 `(*)` 行中 `get` 捕捉器的重要细节：
 
 ```js
 get(target, prop) {
@@ -437,9 +437,9 @@ user = {
 ```
 
 
-对 `user.checkPassword()` 的调用会调用被代理的对象 `user` 作为 `this`（点符号之前的对象会成为 `this`），因此，当它尝试访问 `this._password` 时，`get` 陷阱将激活（在任何属性读取时，它都会被触发）并抛出错误。
+对 `user.checkPassword()` 的调用会调用被代理的对象 `user` 作为 `this`（点符号之前的对象会成为 `this`），因此，当它尝试访问 `this._password` 时，`get` 捕捉器将激活（在任何属性读取时，它都会被触发）并抛出错误。
 
-因此，我们在 `(*)` 行中将对象方法的上下文绑定到原始对象 `target`。然后，它们将来的调用将使用 `target` 作为 `this`，不会触发任何陷阱。
+因此，我们在 `(*)` 行中将对象方法的上下文绑定到原始对象 `target`。然后，它们将来的调用将使用 `target` 作为 `this`，不会触发任何捕捉器。
 
 该解决方案通常可行，但并不理想，因为一个方法可能会将未被代理的对象传递到其他地方，然后我们就会陷入困境：原始对象在哪里，被代理的对象在哪里？
 
@@ -453,7 +453,7 @@ user = {
 但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
 
-## 带有 "has" 陷阱 的 "in range"
+## 带有 "has" 捕捉器 的 "in range"
 
 让我们来看更多示例。
 
@@ -468,7 +468,7 @@ let range = {
 
 我们想使用 `in` 操作符来检查一个数字是否在 `range` 范围内。
 
-`has` 陷阱会拦截 `in` 调用。
+`has` 捕捉器会拦截 `in` 调用。
 
 `has(target, property)`
 
@@ -503,7 +503,7 @@ alert(50 in range); // false
 
 我们也可以将代理（proxy）包装在函数周围。
 
-`apply(target, thisArg, args)` 陷阱能使代理以函数的方式被调用：
+`apply(target, thisArg, args)` 捕捉器能使代理以函数的方式被调用：
 
 - `target` 是目标对象（在 JavaScript 中，函数就是一个对象），
 - `thisArg` 是 `this` 的值。
@@ -589,7 +589,7 @@ sayHi("John"); // Hello, John!（3 秒后）
 
 我们得到了一个“更丰富”的包装器。
 
-还存在其他陷阱：完整列表在本文的开头。它们的使用模式与上述类似。
+还存在其他捕捉器：完整列表在本文的开头。它们的使用模式与上述类似。
 
 ## Reflect
 
@@ -621,11 +621,11 @@ alert(user.name); // John
 
 尤其是，`Reflect` 允许我们将操作符（`new`，`delete`，……）作为函数（`Reflect.construct`，`Reflect.deleteProperty`，……）执行调用。这是一个有趣的功能，但是这里还有一点很重要。
 
-**对于每个可被 `Proxy` 捕获的内部方法，在 `Reflect` 中都有一个对应的方法，其名称和参数与 `Proxy` 陷阱相同。**
+**对于每个可被 `Proxy` 捕获的内部方法，在 `Reflect` 中都有一个对应的方法，其名称和参数与 `Proxy` 捕捉器相同。**
 
 所以，我们可以使用 `Reflect` 来将操作转发给原始对象。
 
-在下面这个示例中，陷阱 `get` 和 `set` 均透明地（好像它们都不存在一样）将读取/写入操作转发到对象，并显示一条消息：
+在下面这个示例中，捕捉器 `get` 和 `set` 均透明地（好像它们都不存在一样）将读取/写入操作转发到对象，并显示一条消息：
 
 ```js run
 let user = {
@@ -656,11 +656,11 @@ user.name = "Pete"; // 显示 "SET name=Pete"
 - `Reflect.get` 读取一个对象属性。
 - `Reflect.set` 写入一个对象属性，如果写入成功则返回 `true`，否则返回 `false`。
 
-这样，一切都很简单：如果一个陷阱想要将调用转发给对象，则只需使用相同的参数调用 `Reflect.<method>` 就足够了。
+这样，一切都很简单：如果一个捕捉器想要将调用转发给对象，则只需使用相同的参数调用 `Reflect.<method>` 就足够了。
 
 在大多数情况下，我们可以不使用 `Reflect` 完成相同的事情，例如，用于读取属性的 `Reflect.get(target, prop, receiver)` 可以被替换为 `target[prop]`。尽管有一些细微的差别。
 
-### 代理一个 getter 
+### 代理一个 getter
 
 让我们看一个示例，来说明为什么 `Reflect.get` 更好。此外，我们还将看到为什么 `get/set` 有第三个参数 `receiver`，而且我们之前从来没有使用过它。
 
@@ -687,7 +687,7 @@ let userProxy = new Proxy(user, {
 alert(userProxy.name); // Guest
 ```
 
-其 `get` 陷阱在这里是“透明的”，它返回原来的属性，不会做任何其他的事。这对于我们的示例而言就足够了。
+其 `get` 捕捉器在这里是“透明的”，它返回原来的属性，不会做任何其他的事。这对于我们的示例而言就足够了。
 
 一切似乎都很好。但是让我们将示例变得稍微复杂一点。
 
@@ -728,11 +728,11 @@ alert(admin.name); // 输出：Guest (?!?)
 
 1. 当我们读取 `admin.name` 时，由于 `admin` 对象自身没有对应的的属性，搜索将转到其原型。
 2. 原型是 `userProxy`。
-3. 从代理读取 `name` 属性时，`get` 陷阱会被触发，并从原始对象返回 `target[prop]` 属性，在 `(*)` 行。
+3. 从代理读取 `name` 属性时，`get` 捕捉器会被触发，并从原始对象返回 `target[prop]` 属性，在 `(*)` 行。
 
     当调用 `target[prop]` 时，若 `prop` 是一个 getter，它将在 `this=target` 上下文中运行其代码。因此，结果是来自原始对象 `target` 的 `this._name`，即来自 `user`。
 
-为了解决这种情况，我们需要 `get` 陷阱的第三个参数 `receiver`。它保证将正确的 `this` 传递给 getter。在我们的例子中是 `admin`。
+为了解决这种情况，我们需要 `get` 捕捉器的第三个参数 `receiver`。它保证将正确的 `this` 传递给 getter。在我们的例子中是 `admin`。
 
 如何把上下文传递给 getter？对于一个常规函数，我们可以使用 `call/apply`，但这是一个 getter，它不能“被调用”，只能被访问。
 
@@ -769,7 +769,7 @@ alert(admin.name); // Admin
 
 现在 `receiver` 保留了对正确 `this` 的引用（即 `admin`），该引用是在 `(*)` 行中被通过 `Reflect.get` 传递给 getter 的。
 
-我们可以把陷阱重写得更短： 
+我们可以把捕捉器重写得更短：
 
 ```js
 get(target, prop, receiver) {
@@ -778,7 +778,7 @@ get(target, prop, receiver) {
 ```
 
 
-`Reflect` 调用的命名与陷阱的命名完全相同，并且接受相同的参数。它们是以这种方式专门设计的。
+`Reflect` 调用的命名与捕捉器的命名完全相同，并且接受相同的参数。它们是以这种方式专门设计的。
 
 因此，`return Reflect...` 提供了一个安全的方式，可以轻松地转发操作，并确保我们不会忘记与此相关的任何内容。
 
@@ -828,9 +828,9 @@ proxy.set('test', 1);
 alert(proxy.get('test')); // 1（工作了！）
 ```
 
-现在它正常工作了，因为 `get` 陷阱将函数属性（例如 `map.set`）绑定到了目标对象（`map`）本身。
+现在它正常工作了，因为 `get` 捕捉器将函数属性（例如 `map.set`）绑定到了目标对象（`map`）本身。
 
-与前面的示例不同，`proxy.set(...)` 内部 `this` 的值并不是 `proxy`，而是原始的 `map`。因此，当`set` 陷阱的内部实现尝试访问 `this.[[MapData]]` 内部插槽时，它会成功。
+与前面的示例不同，`proxy.set(...)` 内部 `this` 的值并不是 `proxy`，而是原始的 `map`。因此，当`set` 捕捉器的内部实现尝试访问 `this.[[MapData]]` 内部插槽时，它会成功。
 
 ```smart header="`Array` 没有内部插槽"
 一个值得注意的例外：内建 `Array` 没有使用内部插槽。那是出于历史原因，因为它出现于很久以前。
@@ -934,7 +934,7 @@ Proxy 可以拦截许多操作符，例如 `new`（使用 `construct`），`in`�
 
 假设我们有一个资源，并且想随时关闭对该资源的访问。
 
-我们可以做的是将它包装成可一个撤销的代理，没有任何陷阱。这样的代理会将操作转发给对象，并且我们可以随时将其禁用。
+我们可以做的是将它包装成可一个撤销的代理，没有任何捕捉器。这样的代理会将操作转发给对象，并且我们可以随时将其禁用。
 
 语法为：
 
@@ -1010,19 +1010,19 @@ let proxy = new Proxy(target, {
 });
 ```
 
-……然后，我们应该在所有地方使用 `proxy` 而不是 `target`。代理没有自己的属性或方法。如果提供了陷阱（trap），它将捕获操作，否则会将其转发给 `target` 对象。
+……然后，我们应该在所有地方使用 `proxy` 而不是 `target`。代理没有自己的属性或方法。如果提供了捕捉器（trap），它将捕获操作，否则会将其转发给 `target` 对象。
 
 我们可以捕获：
 - 读取（`get`），写入（`set`），删除（`deleteProperty`）属性（甚至是不存在的属性）。
-- 函数调用（`apply` 陷阱）。
-- `new` 操作（`construct` 陷阱）。
+- 函数调用（`apply` 捕捉器）。
+- `new` 操作（`construct` 捕捉器）。
 - 许多其他操作（完整列表请见本文开头部分和 [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)）。
 
 这使我们能够创建“虚拟”属性和方法，实现默认值，可观察对象，函数装饰器等。
 
 我们还可以将对象多次包装在不同的代理中，并用多个各个方面的功能对其进行装饰。
 
-[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API 旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任意 `Proxy` 陷阱，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
+[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API 旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任意 `Proxy` 捕捉器，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
 
 Proxy 有一些局限性：
 
