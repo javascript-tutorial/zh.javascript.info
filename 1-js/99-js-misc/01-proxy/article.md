@@ -12,8 +12,8 @@ Proxy 被用于了许多库和某些浏览器框架。在本文中，我们将�
 let proxy = new Proxy(target, handler)
 ```
 
-- `target` — 是要包装的对象，可以是任何东西，包括函数。
-- `handler` — 代理配置：带有“捕捉器”（"traps"，即拦截操作的方法）的对象。比如 `get` 捕捉器用于读取 `target` 的属性，`set` 捕捉器用于写入 `target` 的属性，等等。
+- `target` —— 是要包装的对象，可以是任何东西，包括函数。
+- `handler` —— 代理配置：带有“捕捉器”（"traps"，即拦截操作的方法）的对象。比如 `get` 捕捉器用于读取 `target` 的属性，`set` 捕捉器用于写入 `target` 的属性，等等。
 
 对 `proxy` 进行操作，如果在 `handler` 中存在相应的捕捉器，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
@@ -37,7 +37,7 @@ for(let key in proxy) alert(key); // test，迭代也正常工作 (3)
 2. 读取操作 `proxy.test` 会从 `target` 返回对应的值。
 3. 迭代 `proxy` 会从 `target` 返回对应的值。
 
-我们可以看到，没有任何捕捉器，`proxy` 是一个 `target` 的透明包装器（wrapper）.
+我们可以看到，没有任何捕捉器，`proxy` 是一个 `target` 的透明包装器（wrapper）。
 
 ![](proxy.svg)
 
@@ -70,7 +70,7 @@ Proxy 捕捉器会拦截这些方法的调用。它们在 [proxy 规范](https:/
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
 ```warn header="不变量（Invariant）"
-JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足的条件。。
+JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足的条件。
 
 其中大多数用于返回值：
 - `[[Set]]` 如果值已成功写入，则必须返回 `true`，否则返回 `false`。
@@ -95,9 +95,9 @@ JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足�
 
 读取属性时触发该方法，参数如下：
 
-- `target` — 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
-- `property` — 目标属性名，
-- `receiver` — 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从 proxy 继承，则是从该 proxy 继承的对象）。现在我们不需要此参数，因此稍后我们将对其进行详细介绍。
+- `target` —— 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
+- `property` —— 目标属性名，
+- `receiver` —— 如果目标属性是一个 getter 访问器属性，则 `receiver` 就是本次读取属性所在的 `this` 对象。通常，这就是 `proxy` 对象本身（或者，如果我们从 proxy 继承，则是从该 proxy 继承的对象）。现在我们不需要此参数，因此稍后我们将对其进行详细介绍。
 
 让我们用 `get` 来实现一个对象的默认值。
 
@@ -189,10 +189,10 @@ dictionary = new Proxy(dictionary, ...);
 
 `set(target, property, value, receiver)`：
 
-- `target` — 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
-- `property` — 目标属性名称，
-- `value` — 目标属性的值，
-- `receiver` — 与 `get` 捕捉器类似，仅与 setter 访问器属性相关。
+- `target` —— 是目标对象，该对象被作为第一个参数传递给 `new Proxy`，
+- `property` —— 目标属性名称，
+- `value` —— 目标属性的值，
+- `receiver` —— 与 `get` 捕捉器类似，仅与 setter 访问器属性相关。
 
 如果写入操作（setting）成功，`set` 捕捉器应该返回 `true`，否则返回 `false`（触发 `TypeError`）。
 
@@ -245,7 +245,7 @@ alert("This line is never reached (error in the line above)");
 
 这些方法在细节上有所不同：
 - `Object.getOwnPropertyNames(obj)` 返回非 Symbol 键。
-- `Object.getOwnPropertySymbols(obj)` 返回 symbol 键。
+- `Object.getOwnPropertySymbols(obj)` 返回 Symbol 键。
 - `Object.keys/values()` 返回带有 `enumerable` 标志的非 Symbol 键/值（属性标志在 <info:property-descriptors> 一章有详细讲解)。
 - `for..in` 循环遍历所有带有 `enumerable` 标志的非 Symbol 键，以及原型对象的键。
 
@@ -448,7 +448,7 @@ user = {
 因此，在任何地方都不应使用这种代理。
 
 ```smart header="类的私有属性"
-现代 Javascript 引擎原生支持 class 中的私有属性，这些私有属性以 `#` 为前缀。它们在 <info:private-protected-properties-methods> 一章中有详细描述。无需代理（proxy）。
+现代 JavaScript 引擎原生支持 class 中的私有属性，这些私有属性以 `#` 为前缀。它们在 <info:private-protected-properties-methods> 一章中有详细描述。无需代理（proxy）。
 
 但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
@@ -472,8 +472,8 @@ let range = {
 
 `has(target, property)`
 
-- `target` — 是目标对象，被作为第一个参数传递给 `new Proxy`，
-- `property` — 属性名称
+- `target` —— 是目标对象，被作为第一个参数传递给 `new Proxy`，
+- `property` —— 属性名称。
 
 示例如下
 
@@ -866,7 +866,7 @@ alert(user.getName()); // Error
 
 在调用 `getName()` 时，`this` 的值是代理后的 `user`，它没有带有私有字段的插槽。
 
-再次，带有 bind 方法的解决方案使它恢复正常：
+再次，带有 `bind` 方法的解决方案使它恢复正常：
 
 ```js run
 class User {
