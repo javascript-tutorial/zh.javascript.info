@@ -17,7 +17,7 @@ let proxy = new Proxy(target, handler)
 
 对 `proxy` 进行操作，如果在 `handler` 中存在相应的捕捉器，则它将运行，并且 Proxy 有机会对其进行处理，否则将直接对 target 进行处理。
 
-首先，让我们创建一个没有任何捕捉器的代理（proxy）：
+首先，让我们创建一个没有任何捕捉器的代理（Proxy）：
 
 ```js run
 let target = {};
