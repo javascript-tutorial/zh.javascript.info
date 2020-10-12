@@ -418,9 +418,9 @@ export default class User {
 
 导入：
 
-- 模块中命名的导入：
+- 模块中命名的导出：
   - `import {x [as y], ...} from "module"`
-- 默认的导入：
+- 默认的导出：
   - `import x from "module"`
   - `import {default as x} from "module"`
 - 所有：
