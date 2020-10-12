@@ -7,7 +7,7 @@ Basically, you just run:
 window.open('https://javascript.info/')
 ```
 
-...And it will open a new window with given URL. Most modern browsers are configured to open new tabs instead of separate windows.
+...And it will open a new window with given URL. Most modern browsers are configured to open url in new tabs instead of separate windows.
 
 Popups exist from really ancient times. The initial idea was to show another content without closing the main window. As of now, there are other ways to do that: we can load content dynamically with [fetch](info:fetch) and show it in a dynamically generated `<div>`. So, popups is not something we use everyday.
 
@@ -15,7 +15,7 @@ Also, popups are tricky on mobile devices, that don't show multiple windows simu
 
 Still, there are tasks where popups are still used, e.g. for OAuth authorization (login with Google/Facebook/...), because:
 
-1. A popup is a separate window with its own independent JavaScript environment. So opening a popup with a third-party non-trusted site is safe.
+1. A popup is a separate window which has its own independent JavaScript environment. So opening a popup from a third-party, non-trusted site is safe.
 2. It's very easy to open a popup.
 3. A popup can navigate (change URL) and send messages to the opener window.
 
@@ -69,7 +69,7 @@ name
 : A name of the new window. Each window has a `window.name`, and here we can specify which window to use for the popup. If there's already a window with such name -- the given URL opens in it, otherwise a new window is opened.
 
 params
-: The configuration string for the new window. It contains settings, delimited by a comma. There must be no spaces in params, for instance: `width:200,height=100`.
+: The configuration string for the new window. It contains settings, delimited by a comma. There must be no spaces in params, for instance: `width=200,height=100`.
 
 Settings for `params`:
 
@@ -89,7 +89,7 @@ There is also a number of less supported browser-specific features, which are us
 
 ## Example: a minimalistic window   
 
-Let's open a window with minimal set of features just to see which of them browser allows to disable:
+Let's open a window with minimal set of features, just to see which of them browser allows to disable:
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -237,21 +237,23 @@ There's also `window.onscroll` event.
 
 ## Focus/blur on a window
 
-Theoretically, there are `window.focus()` and `window.blur()` methods to focus/unfocus on a window.  Also there are `focus/blur` events that allow to focus a window and catch the moment when the visitor switches elsewhere.
+Theoretically, there are `window.focus()` and `window.blur()` methods to focus/unfocus on a window. And there are also `focus/blur` events that allow to catch the moment when the visitor focuses on a window and switches elsewhere.
 
-In the past evil pages abused those. For instance, look at this code:
+Although, in practice they are severely limited, because in the past evil pages abused them. 
+
+For instance, look at this code:
 
 ```js run
 window.onblur = () => window.focus();
 ```
 
-When a user attempts to switch out of the window (`blur`), it brings it back to focus. The intention is to "lock" the user within the `window`.
+When a user attempts to switch out of the window (`window.onblur`), it brings the window back into focus. The intention is to "lock" the user within the `window`.
 
-So, there are limitations that forbid the code like that. There are many limitations to protect the user from ads and evils pages. They depend on the browser.
+So browsers had to introduce many limitations to forbid the code like that and protect the user from ads and evils pages. They depend on the browser.
 
-For instance, a mobile browser usually ignores that call completely. Also focusing doesn't work when a popup opens in a separate tab rather than a new window.
+For instance, a mobile browser usually ignores `window.focus()` completely. Also focusing doesn't work when a popup opens in a separate tab rather than a new window.
 
-Still, there are some things that can be done.
+Still, there are some use cases when such calls do work and can be useful.
 
 For instance:
 
