@@ -81,9 +81,12 @@ const bigInt = 1234567890123456789012345678901234567890n;
 
 由于很少需要 `BigInt` 类型的数字，我们在这没有对其进行讲解，我们在单独的章节 <info:bigint> 中专门对其进行了介绍。当你需要使用那样的大数字的时候，可以去阅读该章节。
 
+
 ```smart header="兼容性问题"
-目前 Firefox/Chrome/Edge 已经支持 `BigInt` 了，但 Safari/IE 还没有。
+目前 Firefox/Chrome/Edge/Safari 已经支持 `BigInt` 了，但 IE 还没有。
 ```
+
+你可以查看 [*MDN* BigInt 兼容性表](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#Browser_compatibility) 以了解哪些版本的浏览器已经支持 BigInt 了。
 
 ## String 类型
 
@@ -127,7 +130,7 @@ alert( "the result is ${1 + 2}" ); // the result is ${1 + 2}（使用双引号�
 ```smart header="JavaScript 中没有 *character* 类型。"
 在一些语言中，单个字符有一个特殊的 "character" 类型，在 C 语言和 Java 语言中被称为 "char"。
 
-在 JavaScript 中没有这种类型。只有一种 `string` 类型，一个字符串可以包含一个或多个字符。
+在 JavaScript 中没有这种类型。只有一种 `string` 类型，一个字符串可以包含零个（为空）、一个或多个字符。
 ```
 
 ## Boolean 类型（逻辑类型）
@@ -255,7 +258,7 @@ typeof alert // "function"  (3)
 
 JavaScript 中有八种基本的数据类型（译注：前七种为基本数据类型，也称为原始类型，而 `object` 为复杂数据类型）。
 
-- `number` 用于任何类型的数字：整数或浮点数，在 ±2<sup>53</sup> 范围内的整数。
+- `number` 用于任何类型的数字：整数或浮点数，在 <code>±(2<sup>53</sup>-1)</code> 范围内的整数。
 - `bigint` 用于任意长度的整数。
 - `string` 用于字符串：一个字符串可以包含 0 个或多个字符，所以没有单独的单字符类型。
 - `boolean` 用于 `true` 和 `false`。
