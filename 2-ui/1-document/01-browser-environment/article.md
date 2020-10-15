@@ -54,7 +54,7 @@ setTimeout(() => document.body.style.background = "", 1000);
 ```smart header="DOM 不仅仅用于浏览器"
 DOM 规范解释了文档的结构，并提供了操作文档的对象。有的非浏览器设备也使用 DOM。
 
-例如，下载 HTML 文件并对其进行处理的服务器端脚本也可以使用 DOM。但他们可能仅支持部分规范中的内容。
+例如，下载 HTML 文件并对其进行处理的服务器端脚本也可以使用 DOM。但它们可能仅支持部分规范中的内容。
 ```
 
 ```smart header="用于样式的 CSSOM"
