@@ -420,7 +420,7 @@ checkPermission(..) // 检查权限并返回 true/false
 
 一个单独的函数不仅更容易测试和调试 —— 它的存在本身就是一个很好的注释！
 
-例如，比较如下两个函数 `showPrimes(n)`。他们的功能都是输出到 `n` 的 [素数](https://en.wikipedia.org/wiki/Prime_number)。
+例如，比较如下两个函数 `showPrimes(n)`。它们的功能都是输出到 `n` 的 [素数](https://en.wikipedia.org/wiki/Prime_number)。
 
 第一个变体使用了一个标签：
 

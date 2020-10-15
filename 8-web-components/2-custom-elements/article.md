@@ -125,7 +125,7 @@ customElements.define("time-formatted", TimeFormatted); // (2)
 
 `:not(:defined)` CSS 选择器可以对这样「未定义」的元素加上样式。
 
-当 `customElement.define` 被调用的时候，他们被「升级」了：一个新的 `TimeFormatted` 元素为每一个标签创建了，并且 `connectedCallback` 被调用。 他们变成了 `:defined`。
+当 `customElement.define` 被调用的时候，它们被「升级」了：一个新的 `TimeFormatted` 元素为每一个标签创建了，并且 `connectedCallback` 被调用。它们变成了 `:defined`。
 
 我们可以通过这些方法来获取更多的自定义标签的信息：
 - `customElements.get(name)` —— 返回指定 custom element  `name` 的类。

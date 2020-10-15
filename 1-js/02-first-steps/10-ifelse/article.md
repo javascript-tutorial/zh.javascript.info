@@ -37,8 +37,8 @@ if (year == 2015) {
 
 让我们回顾一下 <info:type-conversions> 一章中的转换规则：
 
-- 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为他们被称为 “falsy” 值。
-- 其他值被转换为 `true`，所以它们被称为 “truthy”。
+- 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为它们被称为 "falsy" 值。
+- 其他值被转换为 `true`，所以它们被称为 "truthy"。
 
 所以，下面这个条件下的代码永远不会执行：
 
@@ -68,7 +68,7 @@ if (cond) {
 
 ## "else" 语句
 
-`if` 语句有时会包含一个可选的 “else” 块。如果判断条件不成立，就会执行它内部的代码。
+`if` 语句有时会包含一个可选的 "else" 块。如果判断条件不成立，就会执行它内部的代码。
 
 例如：
 ```js run
@@ -146,7 +146,7 @@ let accessAllowed = (age > 18) ? true : false;
 下面这个示例会执行和前面那个示例相同的操作：
 
 ```js
-// 比较运算符 “age > 18” 首先执行
+// 比较运算符 "age > 18" 首先执行
 //（不需要将其包含在括号中）
 let accessAllowed = age > 18 ? true : false;
 ```

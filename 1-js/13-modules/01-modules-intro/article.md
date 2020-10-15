@@ -13,7 +13,7 @@
 - [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) —— 为 Node.js 服务器创建的模块系统。
 - [UMD](https://github.com/umdjs/umd) —— 另外一个模块系统，建议作为通用的模块系统，它与 AMD 和 CommonJS 都兼容。
 
-现在，所有他们都在慢慢成为历史的一部分，但我们仍然可以在旧脚本中找到它们。
+现在，它们都在慢慢成为历史的一部分，但我们仍然可以在旧脚本中找到它们。
 
 语言级的模块系统在 2015 年的时候出现在了标准（ES6）中，此后逐渐发展，现在已经得到了所有主流浏览器和 Node.js 的支持。因此，我们将从现在开始学习现代 JavaScript 模块（module）。
 
