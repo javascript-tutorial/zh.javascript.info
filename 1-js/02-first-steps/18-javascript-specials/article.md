@@ -144,7 +144,7 @@ JavaScript 支持以下运算符：
 : 简单的赋值：`a = b` 和合并了其他操作的赋值：`a * = 2`。
 
 按位运算符
-: 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
+: 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise)。
 
 三元运算符
 : 唯一具有三个参数的操作：`cond ? resultA : resultB`。如果 `cond` 为真，则返回 `resultA`，否则返回 `resultB`。
