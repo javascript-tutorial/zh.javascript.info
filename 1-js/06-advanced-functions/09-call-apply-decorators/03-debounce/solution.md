@@ -9,5 +9,5 @@ function debounce(func, ms) {
 
 ```
 
-A call to `debounce` returns a wrapper. When called, it schedules the original function call after given `ms` and cancels the previous such timeout.
+调用 `debounce` 返回一个包装函数。 在它被调用的时候，它将设定一个 `ms` 的定时器，并清除过去的定时器，在时间结束后调用原始函数。
 

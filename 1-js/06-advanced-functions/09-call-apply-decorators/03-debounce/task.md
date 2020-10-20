@@ -2,50 +2,51 @@ importance: 5
 
 ---
 
-# Debounce decorator
+# 防抖装饰者
 
-The result of `debounce(f, ms)` decorator is a wrapper that suspends calls to `f` until there's `ms` milliseconds of inactivity (no calls, "cooldown period"), then invokes `f` once with the latest arguments.
+`debounce(f，ms)` 装饰者的结果是一个包装函数，其将对 `f` 的调用挂起直到经过 `ms` 毫秒的非活动状态(无函数调用，"冷静期")，然后携带最后一次请求的参数调用 `f`。
 
-For instance, we had a function `f` and replaced it with `f = debounce(f, 1000)`.
+换句话说，`debounce` 就像一个'接听电话'的秘书，并且等待 `ms` 毫秒的安静期。之后仅传递最后一次电话的内容给'老板' (调用真正的 `f`)。
 
-Then if the wrapped function is called at 0ms, 200ms and 500ms, and then there are no calls, then the actual `f` will be only called once, at 1500ms. That is: after the cooldown period of 1000ms from the last call.
+举个例子，我们将一个函数`f`替代为`f = debounce(f，1000)`。
+
+在 0ms，200ms 和 500ms 时调用这个包装函数，之后不在调用，那么真正的`f`将于 1500ms 时被调用一次。它是在 1000ms 冷静期中的最后一次调用。
 
 ![](debounce.svg)
 
-...And it will get the arguments of the very last call, other calls are ignored.
+...并且它会携带最后一次调用的所有请求，其他的请求将被忽略。
 
-Here's the code for it (uses the debounce decorator from the [Lodash library](https://lodash.com/docs/4.17.15#debounce):
+以下是它的代码 (使用 [Lodash library](https://lodash.com/docs/4.17.15#debounce) 的防抖装饰者):
 
 ```js
 let f = _.debounce(alert, 1000);
 
-f("a"); 
+f("a");
 setTimeout( () => f("b"), 200);
-setTimeout( () => f("c"), 500); 
-// debounced function waits 1000ms after the last call and then runs: alert("c")
+setTimeout( () => f("c"), 500);
+// 防抖函数从最后一次函数调用以后等待 1000ms，然后运行: alert("c")
 ```
 
 
-Now a practical example. Let's say, the user types something, and we'd like to send a request to the server when the input is finished.
+以下是一个实际的例子。假设用户输入了一些内容，当输入完成时，我们向服务器发送一个请求。
 
-There's no point in sending the request for every character typed. Instead we'd like to wait, and then process the whole result.
+没必要为了一个字符的输入发送请求。相反，我们可以稍等片刻，然后发送整个结果。
 
-In a web-browser, we can setup an event handler -- a function that's called on every change of an input field. Normally, an event handler is called very often, for every typed key. But if we `debounce` it by 1000ms, then it will be only called once, after 1000ms after the last input.
+在浏览器中，我们可以设置一个事件处理程序 -- 一个每次输入内容发送变化都会调用的函数。通常，监听所有键盘输入的事件处理程序会被调用的非常频繁。但是如果我们为这个程序做 1000ms 的 `debounce` 处理，它就只会被调用一次，发送 1000ms 内最后一次输入后的数据。
 
 ```online
 
-In this live example, the handler puts the result into a box below, try it:
+在这个实时实例中，处理程序将将结果放置下面的盒子中，试试看:
 
 [iframe border=1 src="debounce" height=200]
 
-See? The second input calls the debounced function, so its content is processed after 1000ms from the last input.
+看到了吗？第二个输入框调用了防抖函数，所以它的内容在最后一次输入的 1000ms 后被处理。
 ```
 
-So, `debounce` is a great way to process a sequence of events: be it a sequence of key presses, mouse movements or something else.
+因此，`debounce` 是一个处理一串事件的好方法: 无论是一串键盘输入，鼠标移动还是其他类似的东西。
 
+它在最后一次调用后等待给定的时间，然后运行其处理结果的函数。
 
-It waits the given time after the last call, and then runs its function, that can process the result.
+任务是实现一个 `debounce` 装饰者。
 
-The task is to implement `debounce` decorator.
-
-Hint: that's just a few lines if you think about it :)
+提示: 如果你仔细考虑，它仅仅需要几行内容 :)
