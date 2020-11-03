@@ -144,10 +144,10 @@ JavaScript 支持以下运算符：
 : 简单的赋值：`a = b` 和合并了其他操作的赋值：`a * = 2`。
 
 按位运算符
-: 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)。
+: 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise)。
 
 三元运算符
-: 唯一具有三个参数的操作：`cond ? resultA : resultB`。如果 `cond` 是真的，则返回 `resultA`，否则返回 `resultB`。
+: 唯一具有三个参数的操作：`cond ? resultA : resultB`。如果 `cond` 为真，则返回 `resultA`，否则返回 `resultB`。
 
 逻辑运算符
 : 逻辑与 `&&` 和或 `||` 执行短路运算，然后返回运算停止处的值（`true`/`false` 不是必须的）。逻辑非 `!` 将操作数转换为布尔值并返回其相反的值。

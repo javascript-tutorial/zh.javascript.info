@@ -167,7 +167,7 @@ sayHi(); // Hello, John!
 setTimeout(sayHi, 1000); // Hello, John!
 
 // 即使 user 的值在不到 1 秒内发生了改变
-// sayHi 还是会使用预先绑定（pre-bound）的值
+// sayHi 还是会使用预先绑定（pre-bound）的值，该值是对旧的 user 对象的引用
 user = {
   sayHi() { alert("Another user in setTimeout!"); }
 };

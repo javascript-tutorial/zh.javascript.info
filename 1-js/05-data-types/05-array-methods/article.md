@@ -36,15 +36,15 @@ alert( arr.length ); // 3
 
 所以应该使用特殊的方法。
 
-[arr.splice(str)](mdn:js/Array/splice) 方法可以说是处理数组的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
+[arr.splice](mdn:js/Array/splice) 方法可以说是处理数组的瑞士军刀。它可以做所有事情：添加，删除和插入元素。
 
 语法是：
 
 ```js
-arr.splice(index[, deleteCount, elem1, ..., elemN])
+arr.splice(start[, deleteCount, elem1, ..., elemN])
 ```
 
-从 `index` 开始：删除 `deleteCount` 个元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。
+它从索引 `start` 开始修改 `arr`：删除 `deleteCount` 个元素并在当前位置插入 `elem1, ..., elemN`。最后返回已被删除元素的数组。
 
 通过例子我们可以很容易地掌握这个方法。
 
@@ -419,13 +419,14 @@ alert(arr);  // *!*1, 2, 15*/!*
 
 我们思考一下这儿发生了什么。`arr` 可以是由任何内容组成的数组，对吗？它可能包含数字、字符串、对象或其他任何内容。我们有一组 **一些元素**。要对其进行排序，我们需要一个 **排序函数** 来确认如何比较这些元素。默认是按字符串进行排序的。
 
-`arr.sort(fn)` 方法实现了通用的排序算法。我们不需要关心它的内部工作原理（大多数情况下都是经过 [快速排序](https://en.wikipedia.org/wiki/Quicksort) 算法优化的）。它将遍历数组，使用提供的函数比较其元素并对其重新排序，我们所需要的就是提供执行比较的函数 `fn`。
+`arr.sort(fn)` 方法实现了通用的排序算法。我们不需要关心它的内部工作原理（大多数情况下都是经过 [快速排序](https://en.wikipedia.org/wiki/Quicksort) 或 [Timsort](https://en.wikipedia.org/wiki/Timsort) 算法优化的）。它将遍历数组，使用提供的函数比较其元素并对其重新排序，我们所需要的就是提供执行比较的函数 `fn`。
 
 顺便说一句，如果我们想知道要比较哪些元素 —— 那么什么都不会阻止 alert 它们：
 
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
   alert( a + " <> " + b );
+  return a - b;
 });
 ```
 
@@ -712,11 +713,11 @@ alert(soldiers[1].age); // 23
   - `shift()` —— 从首端提取一个元素，
   - `unshift(...items)` —— 向首端添加元素，
   - `splice(pos, deleteCount, ...items)` —— 从 `pos` 开始删除 `deleteCount` 个元素，并插入 `items`。
-  - `slice(start, end)` —— 创建一个新数组，将从位置 `start` 到位置 `end`（但不包括 `end`）的元素复制进去。
+  - `slice(start, end)` —— 创建一个新数组，将从索引 `start` 到索引 `end`（但不包括 `end`）的元素复制进去。
   - `concat(...items)` —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 `items`。如果 `items` 中的任意一项是一个数组，那么就取其元素。
 
 - 搜索元素：
-  - `indexOf/lastIndexOf(item, pos)` ——  从位置 `pos` 开始搜索 `item`，搜索到则返回该项的索引，否则返回 `-1`。
+  - `indexOf/lastIndexOf(item, pos)` ——  从索引 `pos` 开始搜索 `item`，搜索到则返回该项的索引，否则返回 `-1`。
   - `includes(value)` —— 如果数组有 `value`，则返回 `true`，否则返回 `false`。
   - `find/filter(func)` —— 通过 `func` 过滤元素，返回使 `func` 返回 `true` 的第一个值/所有值。 
   - `findIndex` 和 `find` 类似，但返回索引而不是值。
@@ -729,7 +730,7 @@ alert(soldiers[1].age); // 23
   - `sort(func)` —— 对数组进行原位（in-place）排序，然后返回它。
   - `reverse()` —— 原位（in-place）反转数组，然后返回它。
   - `split/join` —— 将字符串转换为数组并返回。
-  - `reduce(func, initial)` —— 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
+  - `reduce/reduceRight(func, initial)` —— 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
 
 - 其他：
   - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
@@ -742,9 +743,22 @@ alert(soldiers[1].age); // 23
 
   与 `map` 类似，对数组的每个元素调用函数 `fn`。如果任何/所有结果为 `true`，则返回 `true`，否则返回 `false`。
 
+  这两个方法的行为类似于 `||` 和 `&&` 运算符：如果 `fn` 返回一个真值，`arr.some()` 立即返回 `true` 并停止迭代其余数组项；如果 `fn`  返回一个假值，`arr.every()` 立即返回 `false` 并停止对其余数组项的迭代。
+
+  我们可以使用 `every` 来比较数组：
+  ```js run
+  function arraysEqual(arr1, arr2) {
+    return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+  }
+
+  alert( arraysEqual([1, 2], [1, 2])); // true
+  ```
+
 - [arr.fill(value, start, end)](mdn:js/Array/fill) —— 从索引 `start` 到 `end`，用重复的 `value` 填充数组。
 
 - [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) —— 将从位置 `start` 到 `end` 的所有元素复制到 **自身** 的 `target` 位置（覆盖现有元素）。
+
+- [arr.flat(depth)](mdn:js/Array/flat)/[arr.flatMap(fn)](mdn:js/Array/flatMap) 从多维数组创建一个新的扁平数组。
 
 有关完整列表，请参阅 [手册](mdn:js/Array)。
 

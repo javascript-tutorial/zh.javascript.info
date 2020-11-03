@@ -17,7 +17,7 @@ while (condition) {
 }
 ```
 
-当 `condition` 为 `true` 时，执行循环体的 `code`。
+当 `condition` 为真时，执行循环体的 `code`。
 
 例如，以下将循环输出当 `i < 3` 时的 `i` 值：
 
@@ -40,7 +40,7 @@ while (i < 3) { // 依次显示 0、1 和 2
 ```js run
 let i = 3;
 *!*
-while (i) { // 当 i 变成 0 时，条件为 false，循环终止
+while (i) { // 当 i 变成 0 时，条件为假，循环终止
 */!*
   alert( i );
   i--;

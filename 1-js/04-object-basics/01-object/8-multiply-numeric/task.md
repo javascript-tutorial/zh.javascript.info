@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# 数值属性都乘以 2
+# 将数值属性值都乘以 2
 
-创建一个 `multiplyNumeric(obj)` 函数，把 `obj` 所有的数值属性都乘以 `2`。
+创建一个 `multiplyNumeric(obj)` 函数，把 `obj` 所有的数值属性值都乘以 `2`。
 
 例如：
 
