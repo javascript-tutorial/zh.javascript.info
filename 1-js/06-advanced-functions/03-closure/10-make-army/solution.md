@@ -45,7 +45,7 @@
         let shooter = function() { // shooter 函数
           alert( i ); // 应该显示它自己的编号
         };
-        shooters.push(shooter); // add function to the array
+        shooters.push(shooter); // 将 shooter 函数添加到该数组中
           i++;
       }
       ...
