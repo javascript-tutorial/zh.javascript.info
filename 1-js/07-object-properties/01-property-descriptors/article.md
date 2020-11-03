@@ -227,32 +227,42 @@ Math.PI = 3; // Error
 3. 不能将 `writable: false` 修改为 `true`（反之亦然）。
 4. 不能修改访问者属性的 `get/set`（但是如果没有可以分配它们）。
 
-在这里，我们将 `user.name` 设置为“永久密封”的常量：
+**"configurable: false" 的用途是防止更改和删除属性标志，但是允许更改对象的值。**
+
+这里的 `user.name` 是不可配置的，但是我们仍然可以更改它，因为它是可写的：
 
 ```js run
-let user = { };
+let user = {
+  name: "John"
+};
 
 Object.defineProperty(user, "name", {
-  value: "John",
+  configurable: false
+});
+
+user.name = "Pete"; // 正常工作
+delete user.name; // Error
+```
+
+现在，我们将 `user.name` 设置为一个“永不可改”的常量：
+
+```js run
+let user = {
+  name: "John"
+};
+
+Object.defineProperty(user, "name", {
   writable: false,
   configurable: false
 });
 
-*!*
 // 不能修改 user.name 或它的标志
 // 下面的所有操作都不起作用：
-//   user.name = "Pete"
-//   delete user.name
-//   defineProperty(user, "name", { value: "Pete" })
-Object.defineProperty(user, "name", {writable: true}); // Error
-*/!*
+user.name = "Pete";
+delete user.name;
+Object.defineProperty(user, "name", { value: "Pete" });
 ```
 
-```smart header="\"Non-configurable\" 并不意味着 \"non-writable\""
-值得注意的例外情况：不可配置但可写的属性的值是可以被更改的。
-
-`configurable: false` 的思想是防止更改属性标志或删除属性标志，而不是更改它的值。
-```
 
 ## Object.defineProperties
 

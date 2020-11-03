@@ -67,7 +67,7 @@ f();
 
 这个函数在执行的时候，“暂停”在了 `(*)` 那一行，并在 promise settle 时，拿到 `result` 作为结果继续往下执行。所以上面这段代码在一秒后显示 "done!"。
 
-让我们强调一下：`await` 字面的意思就是让 JavaScript 引擎等待直到 promise settle，然后以 promise 的结果继续执行。这个行为不会耗费任何 CPU 资源，因为引擎可以同时处理其他任务：执行其他脚本，处理事件等。
+让我们强调一下：`await` 实际上会暂停函数的执行，直到 promise 状态变为 settled，然后以 promise 的结果继续执行。这个行为不会耗费任何 CPU 资源，因为 JavaScript 引擎可以同时处理其他任务：执行其他脚本，处理事件等。
 
 相比于 `promise.then`，它只是获取 promise 的结果的一个更优雅的语法，同时也更易于读写。
 
@@ -83,7 +83,7 @@ function f() {
 }
 ```
 
-如果函数前面没有 `async` 关键字，我们就会得到一个语法错误。就像前面说的，`await` 只在 `async 函数` 中有效。
+如果我们忘记在函数前面写 `async` 关键字，我们可能会得到一个这个错误。就像前面说的，`await` 只在 `async` 函数中有效。
 ````
 
 让我们拿 <info:promise-chaining> 那一章的 `showAvatar()` 例子，并将其改写成 `async/await` 的形式：
@@ -139,9 +139,8 @@ let user = await response.json();
   ...
 })();
 ```
-
-
 ````
+
 ````smart header="`await` 接受 \"thenables\""
 像 `promise.then` 那样，`await` 允许我们使用 thenable 对象（那些具有可调用的 `then` 方法的对象）。这里的想法是，第三方对象可能不是一个 promise，但却是 promise 兼容的：如果这些对象支持 `.then`，那么就可以对它们使用 `await`。
 

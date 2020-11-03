@@ -60,11 +60,13 @@ alert(test); // Error: test is not defined
 
 ```js
 for (var i = 0; i < 10; i++) {
+  var one = 1;
   // ...
 }
 
 *!*
-alert(i); // 10，"i" 在循环结束后仍可见，它是一个全局变量
+alert(i);   // 10，"i" 在循环结束后仍可见，它是一个全局变量
+alert(one); // 1，"one" 在循环结束后仍可见，它是一个全局变量
 */!*
 ```
 
@@ -83,7 +85,7 @@ sayHi();
 alert(phrase); // Error: phrase is not defined（检查开发者控制台）
 ```
 
-可以看到，`var` 穿透了 `if`，`for` 和其它代码块。这是因为在早期的 JavaScript 中，块没有词法环境。而 `var` 就是这个时期的代表之一。
+可以看到，`var` 穿透了 `if`，`for` 和其它代码块。这是因为在早期的 JavaScript 中，块没有词法环境，而 `var` 就是这个时期的代表之一。
 
 ## "var" 允许重新声明
 
@@ -203,9 +205,9 @@ sayHi();
 
 因为所有的 `var` 声明都是在函数开头处理的，我们可以在任何地方引用它们。但是在它们被赋值之前都是 undefined。
 
-上面两个例子中 `alert` 运行都不会报错，因为变量 `phrase` 是存在的。但是它还没有被赋值，所以显示 `undefiend`。
+上面两个例子中，`alert` 运行都不会报错，因为变量 `phrase` 是存在的。但是它还没有被赋值，所以显示 `undefiend`。
 
-### IIFE
+## IIFE
 
 在之前，JavaScript 中只有 `var` 这一种声明变量的方式，并且这种方式声明的变量没有块级作用域，程序员们就发明了一种模仿块级作用域的方法。这种方法被称为“立即调用函数表达式”（immediately-invoked function expressions，IIFE）。
 
@@ -216,22 +218,22 @@ IIFE 看起来像这样：
 ```js run
 (function() {
 
-  let message = "Hello";
+  var message = "Hello";
 
   alert(message); // Hello
 
 })();
 ```
 
-这里创建了一个函数表达式并立即调用。因此，代码立即执行并拥有了自己的私有变量。
+这里，创建了一个函数表达式并立即调用。因此，代码立即执行并拥有了自己的私有变量。
 
-函数表达式被括号 `(function {...})` 包裹起来，因为在 JavaScript 中，当主代码流遇到 `"function"` 时，它会把它当成一个函数声明的开始。但函数声明必须有一个函数名，所以这样的代码会导致错误：
+函数表达式被括号 `(function {...})` 包裹起来，因为当 JavaScript 引擎在主代码中遇到 `"function"` 时，它会把它当成一个函数声明的开始。但函数声明必须有一个函数名，所以这样的代码会导致错误：
 
 ```js run
 // 尝试声明并立即调用一个函数
 function() { // <-- Error: Function statements require a function name
 
-  let message = "Hello";
+  var message = "Hello";
 
   alert(message); // Hello
 
@@ -277,8 +279,8 @@ function go() {
 
 `var` 与 `let/const` 有两个主要的区别：
 
-1. `var` 声明的变量没有块级作用域，它们的最小作用域就是函数级作用域。
-2. `var`  变量声明在函数开头就会被处理（脚本启动对应全局变量）。
+1. `var` 声明的变量没有块级作用域，它们仅在当前函数内可见，或者全局可见（如果变量是在函数外声明的）。
+2. `var` 变量声明在函数开头就会被处理（脚本启动对应全局变量）。
 
 涉及全局对象时，还有一个非常小的差异，我们将在下一章中介绍。
 

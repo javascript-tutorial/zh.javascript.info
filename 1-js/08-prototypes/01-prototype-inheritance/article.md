@@ -197,6 +197,9 @@ alert(admin.fullName); // John Smith (*)
 
 // setter triggers!
 admin.fullName = "Alice Cooper"; // (**)
+
+alert(admin.fullName); // Alice Cooper，admin 的内容被修改了
+alert(user.fullName);  // John Smith，user 的内容被保护了
 ```
 
 在 `(*)` 行中，属性 `admin.fullName` 在原型 `user` 中有一个 getter，因此它会被调用。在 `(**)` 行中，属性在原型中有一个 setter，因此它会被调用。
