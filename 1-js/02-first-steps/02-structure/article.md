@@ -25,7 +25,7 @@ alert('World');
 
 ## 分号 [#semicolon]
 
-当存在分行符（line break）时，在大多数情况下可以省略分号。
+当存在换行符（line break）时，在大多数情况下可以省略分号。
 
 下面的代码也是可以运行的：
 
@@ -34,7 +34,7 @@ alert('Hello')
 alert('World')
 ```
 
-在这，JavaScript 将分行符理解成“隐式”的分号。这也被称为 [自动分号插入](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion)。
+在这，JavaScript 将换行符理解成“隐式”的分号。这也被称为 [自动分号插入](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion)。
 
 **在大多数情况下，换行意味着一个分号。但是“大多数情况”并不意味着“总是”！**
 

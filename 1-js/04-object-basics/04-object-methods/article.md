@@ -34,7 +34,7 @@ user.sayHi(); // Hello!
 
 这里我们使用函数表达式创建了一个函数，并将其指定给对象的 `user.sayHi` 属性。
 
-随后我们调用它。用户现在可以说话了！
+随后我们像这样 `user.sayHi()` 调用它。用户现在可以说话了！
 
 作为对象属性的函数被称为 **方法**。
 
@@ -160,14 +160,16 @@ let user = {
 let admin = user;
 user = null; // 重写让其更明显
 
-admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的 name 属性！报错！
+*!*
+admin.sayHi(); // TypeError: Cannot read property 'name' of null
+*/!*
 ```
 
 如果我们在 `alert` 中以 `this.name` 替换 `user.name`，那么代码就会正常运行。
 
 ## "this" 不受限制
 
-在 JavaScript 中，`this` 关键字与其他大多数编程语言中的不同。JavaScript 中的 `this` 可以用于任何函数。
+在 JavaScript 中，`this` 关键字与其他大多数编程语言中的不同。JavaScript 中的 `this` 可以用于任何函数，即使它不是对象的方法。
 
 下面这样的代码没有语法错误：
 

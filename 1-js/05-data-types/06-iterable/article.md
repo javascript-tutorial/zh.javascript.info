@@ -293,7 +293,7 @@ alert( str.slice(1, 3) ); // 乱码（两个不同 UTF-16 扩展字符碎片拼�
 可以应用 `for..of` 的对象被称为 **可迭代的**。
 
 - 技术上来说，可迭代对象必须实现 `Symbol.iterator` 方法。
-    - `obj[Symbol.iterator]` 的结果被称为 **迭代器（iterator）**。由它处理进一步的迭代过程。
+    - `obj[Symbol.iterator]()` 的结果被称为 **迭代器（iterator）**。由它处理进一步的迭代过程。
     - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}` 对象，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
 - `Symbol.iterator` 方法会被 `for..of` 自动调用，但我们也可以直接调用它。
 - 内置的可迭代对象例如字符串和数组，都实现了 `Symbol.iterator`。

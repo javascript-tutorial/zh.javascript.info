@@ -86,7 +86,7 @@ alert( firstMatch.index );  // 0
 alert( firstMatch.input );  // <h1>Hello, world!</h1>
 ```
 
-如果我们用 `for..of` 来循环 `matchAll` 的匹配项，那么我们就不需要 `Array.from` 了，разумеется，ненужен。
+如果我们用 `for..of` 来循环 `matchAll` 的匹配项，那么我们就不需要 `Array.from` 了。
 
 ## str.split(regexp|substr, limit)
 
@@ -203,9 +203,6 @@ alert(result); // Smith, John
 ```
 
 如果有许多组，用 rest 参数（...）可以很方便的访问：
-
-
-Если в регулярном выражении много скобочных групп, то бывает удобно использовать остаточные аргументы для обращения к ним:
 
 ```js run
 let str = "John Smith";

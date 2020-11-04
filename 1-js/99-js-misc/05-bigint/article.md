@@ -81,7 +81,7 @@ alert( 1 === 1n ); // false
 
 当在 `if` 或其他布尔运算中时，bigint 的行为类似于 number。
 
-例如，在 `if` 中，bigint `0n` 为 `false`，其他值为 `true`：
+例如，在 `if` 中，bigint `0n` 为假，其他值为 `true`：
 
 ```js run
 if (0n) {
@@ -92,9 +92,9 @@ if (0n) {
 布尔运算符，例如 `||`，`&&` 和其他运算符，处理 bigint 的方式也类似于 number：
 
 ```js run
-alert( 1n || 2 ); // 1（1n 被认为是 true）
+alert( 1n || 2 ); // 1（1n 被认为是真）
 
-alert( 0n || 2 ); // 2（0n 被认为是 false）
+alert( 0n || 2 ); // 2（0n 被认为是假）
 ```
 
 ## Polyfill

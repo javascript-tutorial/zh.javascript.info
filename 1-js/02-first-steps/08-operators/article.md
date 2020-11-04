@@ -180,7 +180,7 @@ alert( +apples + +oranges ); // 5
 
 在 JavaScript 中有众多运算符。每个运算符都有对应的优先级数字。数字越大，越先执行。如果优先级相同，则按照由左至右的顺序执行。
 
-这是一个摘抄自 Mozilla 的 [优先级表](https://developer.mozilla.org/en/JavaScript/Reference/operators/operator_precedence)（你没有必要把这全记住，但要记住一元运算符优先级高于二元运算符）：
+这是一个摘抄自 Mozilla 的 [优先级表](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)（你没有必要把这全记住，但要记住一元运算符优先级高于二元运算符）：
 
 | 优先级 | 名称 | 符号 |
 |------------|------|------|
@@ -428,7 +428,7 @@ counter++;
 - 右移 ( `>>` )
 - 无符号右移 ( `>>>` )
 
-这些运算符很少被使用，一般是我们需要在最低级别（位）上操作数字时才使用。我们不会很快用到这些运算符，因为在 Web 开发中很少使用它们，但在某些特殊领域中，例如密码学，它们很有用。当你需要了解它们的时候，可以阅读 MDN 上的 [位操作符](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) 一文。
+这些运算符很少被使用，一般是我们需要在最低级别（位）上操作数字时才使用。我们不会很快用到这些运算符，因为在 Web 开发中很少使用它们，但在某些特殊领域中，例如密码学，它们很有用。当你需要了解它们的时候，可以阅读 MDN 上的 [位操作符](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Bitwise) 章节。
 
 ## 逗号运算符
 

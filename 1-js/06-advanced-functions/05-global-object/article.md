@@ -5,7 +5,7 @@
 
 在浏览器中，它的名字是 "window"，对 Node.js 而言，它的名字是 "global"，其它环境可能用的是别的名字。
 
-最近，`globalThis` 被作为全局对象的标准名称加入到了 JavaScript 中，所有环境都应该支持该名称。在有些浏览器中，即 non-Chromium Edge，尚不支持 `globalThis`，但可以很容易地对其进行填充（polyfilled）。
+最近，`globalThis` 被作为全局对象的标准名称加入到了 JavaScript 中，所有环境都应该支持该名称。所有主流浏览器都支持它。
 
 假设我们的环境是浏览器，我们将在这儿使用 "window"。如果你的脚本可能会用来在其他环境中运行，则最好使用 `globalThis`。
 
@@ -81,7 +81,7 @@ if (!window.Promise) {
     其中包括 JavaScript 的内建方法，例如 "Array" 和环境特定（environment-specific）的值，例如 `window.innerHeight` — 浏览器中的窗口高度。
 - 全局对象有一个通用名称 `globalThis`。
 
-    ……但是更常见的是使用“老式”的环境特定（environment-specific）的名字，例如 `window`（浏览器）和 `global`（Node.js）。由于 `globalThis` 是最近的提议，因此在 non-Chromium Edge 中不受支持（但可以进行 polyfills）。
+    ……但是更常见的是使用“老式”的环境特定（environment-specific）的名字，例如 `window`（浏览器）和 `global`（Node.js）。
 - 仅当值对于我们的项目而言确实是全局的时，才应将其存储在全局对象中。并保持其数量最少。
 - 在浏览器中，除非我们使用 [modules](info:modules)，否则使用 `var` 声明的全局函数和变量会成为全局对象的属性。
 - 为了使我们的代码面向未来并更易于理解，我们应该使用直接的方式访问全局对象的属性，如 `window.x`。

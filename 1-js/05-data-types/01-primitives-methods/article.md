@@ -94,7 +94,7 @@ alert( typeof 0 ); // "number"
 alert( typeof new Number(0) ); // "object"!
 ```
 
-对象在 `if` 中始终是 `true`，因此此处的 alert 将显示：
+对象在 `if` 中始终为真，因此此处的 alert 将显示：
 
 ```js run
 let zero = new Number(0);
