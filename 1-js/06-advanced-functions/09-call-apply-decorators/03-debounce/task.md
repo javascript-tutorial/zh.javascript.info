@@ -14,9 +14,9 @@ importance: 5
 
 ![](debounce.svg)
 
-...并且它会携带最后一次调用的所有请求，其他的请求将被忽略。
+……并且它会获取到最后一次调用的所有参数，其他调用的参数将被忽略。
 
-以下是它的代码 (使用 [Lodash library](https://lodash.com/docs/4.17.15#debounce) 的防抖装饰者):
+以下是它的代码 (使用来自 [Lodash library](https://lodash.com/docs/4.17.15#debounce) 的防抖装饰者):
 
 ```js
 let f = _.debounce(alert, 1000);
