@@ -88,8 +88,8 @@ right:${r.right}
 但是实际上，`elem.getBoundingClientRect()` 总是返回正数的 width/height，这里我们提及负的 `width/height` 只是为了帮助你理解，为什么这些看起来重复的属性，实际上并不是重复的。
 ```
 
-```warn header="IE 和 Edge 浏览器不支持 `x/y`"
-由于历史原因，IE 和 Edge 浏览器不支持 `x/y` 属性。
+```warn header="IE 浏览器不支持 `x/y`"
+由于历史原因，IE 浏览器不支持 `x/y` 属性。
 
 因此，我们可以写一个 polyfill（在 `DomRect.prototype` 中添加一个 getter），或者仅使用 `top/left`，因为对于正值的 `width/height` 来说，它们和 `x/y` 一直是一样的，尤其是对于 `elem.getBoundingClientRect()` 的结果。
 ```
