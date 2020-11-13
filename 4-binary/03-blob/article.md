@@ -119,7 +119,7 @@ blob:https://javascript.info/1e67e00e-860d-40a5-89ae-6ab0cbee6273
 
 这种编码将二进制数据表示为一个由 0 到 64 的 ASCII 码组成的字符串，非常安全且“可读“。更重要的是 —— 我们可以在 "data-url" 中使用此编码。
 
-["data-url"](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) 的形式为 `data:[<mediatype>][;base64],<data>`。我们可以在任何地方使用这种 url，和使用“常规” url 一样。
+["data-url"](mdn:/http/Data_URIs) 的形式为 `data:[<mediatype>][;base64],<data>`。我们可以在任何地方使用这种 url，和使用“常规” url 一样。
 
 例如，这是一个笑脸：
 
@@ -166,8 +166,8 @@ reader.onload = function() {
 
 图像操作是通过 `<canvas>` 元素来实现的：
 
-1. 使用 [canvas.drawImage](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage) 在 canvas 上绘制图像（或图像的一部分）。
-2. 调用 canvas 方法 [.toBlob(callback, format, quality)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) 创建一个 `Blob`，并在创建完成后使用其运行 `callback`。
+1. 使用 [canvas.drawImage](mdn:/api/CanvasRenderingContext2D/drawImage) 在 canvas 上绘制图像（或图像的一部分）。
+2. 调用 canvas 方法 [.toBlob(callback, format, quality)](mdn:/api/HTMLCanvasElement/toBlob) 创建一个 `Blob`，并在创建完成后使用其运行 `callback`。
 
 在下面这个示例中，图像只是被复制了，不过我们可以在创建 blob 之前，从中裁剪图像，或者在 canvas 上对其进行转换：
 

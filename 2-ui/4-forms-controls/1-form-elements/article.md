@@ -205,7 +205,9 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 </script>
 ```
 
-和大多数其它控件不同，如果 `<select>` 具有 `multiple` 特性（attribute），则允许多选。这个功能很少使用。在这种情况下，我们需要使用第一种方式：从 `<option>` 的子元素中添加/移除 `selected` 属性。
+和大多数其它控件不同，如果 `<select>` 具有 `multiple` 特性（attribute），则允许多选。尽管这种功能可用，但很少被使用。
+
+如果必须使用的话，请使用第一种方式：在子元素 `<option>` 中添加/移除 `selected` 属性。
 
 我们可以通过 `select.options` 来获取它们的集合，例如：
 

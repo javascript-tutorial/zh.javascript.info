@@ -177,12 +177,12 @@ WebSocket 通信由 "frames"（即数据片段）组成，可以从任何一方�
 
 **当我们收到数据时，文本总是以字符串形式呈现。而对于二进制数据，我们可以在 `Blob` 和 `ArrayBuffer` 格式之间进行选择。**
 
-它是由 `socket.bufferType` 属性设置的，默认为 `"blob"`，因此二进制数据通常以 `Blob` 对象呈现。
+它是由 `socket.binaryType` 属性设置的，默认为 `"blob"`，因此二进制数据通常以 `Blob` 对象呈现。
 
 [Blob](info:blob) 是高级的二进制对象，它直接与 `<a>`，`<img>` 及其他标签集成在一起，因此，默认以 `Blob` 格式是一个明智的选择。但是对于二进制处理，要访问单个数据字节，我们可以将其改为 `"arraybuffer"`：
 
 ```js
-socket.bufferType = "arraybuffer";
+socket.binaryType = "arraybuffer";
 socket.onmessage = (event) => {
   // event.data 可以是文本（如果是文本），也可以是 arraybuffer（如果是二进制数据）
 };

@@ -145,10 +145,10 @@ URL 变长了，因为每个西里尔字母用 UTF-8 编码的两个字节表示
 
 下面是用于编码/解码 URL 的内建函数：
 
-- [encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI) —— 编码整个 URL。
-- [decodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI) —— 解码为编码前的状态。
-- [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) —— 编码 URL 组件，例如搜索参数，或者 hash，或者 pathname。
-- [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) —— 解码为编码前的状态。
+- [encodeURI](mdn:/JavaScript/Reference/Global_Objects/encodeURI) —— 编码整个 URL。
+- [decodeURI](mdn:/JavaScript/Reference/Global_Objects/decodeURI) —— 解码为编码前的状态。
+- [encodeURIComponent](mdn:/JavaScript/Reference/Global_Objects/encodeURIComponent) —— 编码 URL 组件，例如搜索参数，或者 hash，或者 pathname。
+- [decodeURIComponent](mdn:/JavaScript/Reference/Global_Objects/decodeURIComponent) —— 解码为编码前的状态。
 
 一个自然的问题：“`encodeURIComponent` 和 `encodeURI` 之间有什么区别？我们什么时候应该使用哪个？”
 

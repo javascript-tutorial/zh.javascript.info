@@ -41,8 +41,8 @@ document.head.append(script);
 
 *!*
 script.onload = function() {
-  // 该脚本创建了一个辅助函数 "_"
-  alert(_); // 该函数可用
+  // 该脚本创建了一个变量 "_"
+  alert( _.VERSION ); // 显示库的版本
 };
 */!*
 ```

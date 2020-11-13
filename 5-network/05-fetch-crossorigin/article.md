@@ -214,6 +214,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 如果服务器同意处理请求，那么它会进行响应，此响应的状态码应该为 200，没有 body，具有 header：
 
+- `Access-Control-Allow-Origin` 必须为 `*` 或进行请求的源（例如 `https://javascript.info`）才能允许此请求。
 - `Access-Control-Allow-Methods` 必须具有允许的方法。
 - `Access-Control-Allow-Headers` 必须具有一个允许的 header 列表。
 - 另外，header `Access-Control-Max-Age` 可以指定缓存此权限的秒数。因此，浏览器不是必须为满足给定权限的后续请求发送预检。
@@ -259,15 +260,19 @@ Access-Control-Request-Headers: Content-Type,API-Key
 ### Step 2 预检响应（preflight response）
 
 服务应响应状态 200 和 header：
+- `Access-Control-Allow-Origin: https://javascript.info`
 - `Access-Control-Allow-Methods: PATCH`
 - `Access-Control-Allow-Headers: Content-Type,API-Key`。
 
 这将允许后续通信，否则会触发错误。
 
-如果服务器将来期望其他方法和 header，则可以通过添加到列表中来预先允许它们：
+如果服务器将来期望其他方法和 header，则可以通过将这些方法和 header 添加到列表中来预先允许它们。
+
+例如，此响应还允许 `PUT`、`DELETE` 以及其他 header：
 
 ```http
 200 OK
+Access-Control-Allow-Origin: https://javascript.info
 Access-Control-Allow-Methods: PUT,PATCH,DELETE
 Access-Control-Allow-Headers: API-Key,Content-Type,If-Modified-Since,Cache-Control
 Access-Control-Max-Age: 86400
@@ -275,7 +280,7 @@ Access-Control-Max-Age: 86400
 
 现在，浏览器可以看到 `PATCH` 在 `Access-Control-Allow-Methods` 中，`Content-Type,API-Key` 在列表 `Access-Control-Allow-Headers` 中，因此它将发送主请求。
 
-此外，预检响应会缓存一段时间，该时间由 `Access-Control-Max-Age` header 指定（86400 秒，一天），因此，后续请求将不会导致预检。假设它们符合缓存的配额，则将直接发送它们。
+如果 `Access-Control-Max-Age` 带有一个表示秒的数字，则在给定的时间内，预检权限会被缓存。上面的响应将被缓存 86400 秒，也就是一天。在此时间范围内，后续请求将不会触发预检。假设它们符合缓存的配额，则将直接发送它们。
 
 ### Step 3 实际请求（actual request）
 

@@ -332,7 +332,7 @@ HTTP-header 有三种方法：
 
 ## POST，FormData
 
-要建立一个 POST 请求，我们可以使用内建的 [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) 对象。
+要建立一个 POST 请求，我们可以使用内建的 [FormData](mdn:api/FormData) 对象。
 
 语法为：
 
