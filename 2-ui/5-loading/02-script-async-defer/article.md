@@ -155,7 +155,7 @@ document.body.append(script); // (*)
 
 如果我们显式地设置了 `script.async=false`，则可以改变这个规则。然后脚本将按照脚本在文档中的顺序执行，就像 `defer` 那样。
 
-在这个例子中，`loadScript(src)` 函数添加了一个脚本，并将 `async` 设置为了 `false`。
+在下面这个例子中，`loadScript(src)` 函数添加了一个脚本，并将 `async` 设置为了 `false`。
 
 因此，`long.js` 总是会先执行（因为它是先被添加到文档的）：
 
