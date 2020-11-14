@@ -212,7 +212,7 @@ for(let value of range) {
 
 让我们再回到异步 generator，来使这个需求成为可能。
 
-## 异步 generator
+## 异步 generator (finally)
 
 对于大多数的实际应用程序，当我们想创建一个异步生成一系列值的对象时，我们都可以使用异步 generator。
 
