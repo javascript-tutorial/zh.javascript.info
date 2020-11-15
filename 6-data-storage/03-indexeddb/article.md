@@ -16,7 +16,7 @@ IndexedDB 是一个浏览器内置的数据库，它比 `localStorage` 强大得
 
 根据规范 <https://www.w3.org/TR/IndexedDB> 中的描述，IndexedDB 的本机接口是基于事件的。
 
-我们还可以在基于 promise 的包装器（wrapper），如 <https://github.com/jakearchibald/idb> 的帮助下使用 `async/await`。这要方便的多，但是包装器并不完美，它并不能替代所有情况下的事件。因此，我们先练习事件（events），在理解 IndexedDB 之后，我们将使用包装器。
+我们还可以在基于 promise 的包装器（wrapper），如 <https://github.com/jakearchibald/idb> 的帮助下使用 `async/await`。这要方便的多，但是包装器并不完美，它并不能替代所有情况下的事件。因此，我们先练习事件（events），在理解了 IndexedDB 之后，我们将使用包装器。
 
 ## 打开数据库
 
@@ -40,7 +40,7 @@ let openRequest = indexedDB.open(name, version);
 
 **IndexedDB 具有内建的“模式（scheme）版本控制”机制，这在服务器端数据库中是不存在的。**
 
-与服务器端数据库不同，IndexedDB 存在于客户端，数据存储在浏览器中。因此，开发人员无法访问它。因此，当我们发布了新版本的应用程序，用户访问我们的网页，我们可能需要更新该数据库。
+与服务器端数据库不同，IndexedDB 存在于客户端，数据存储在浏览器中。因此，开发人员无法随时都能访问它。因此，当我们发布了新版本的应用程序，用户访问我们的网页，我们可能需要更新该数据库。
 
 如果本地数据库版本低于 `open` 中指定的版本，会触发一个特殊事件 `upgradeneeded`。我们可以根据需要比较版本并升级数据结构。
 
@@ -48,7 +48,7 @@ let openRequest = indexedDB.open(name, version);
 
 假设我们发布了应用程序的第一个版本。
 
-接下来我们就可以打开版本 `1` 中的 IndexedDB 数据库，并在 `upgradeneeded` 处理程序中执行初始化，如下所示：
+接下来我们就可以打开版本 `1` 中的 IndexedDB 数据库，并在一个 `upgradeneeded` 的处理程序中执行初始化，如下所示：
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
@@ -103,9 +103,9 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 ```warn header="我们无法打开旧版本的数据库"
 如果当前用户的数据库版本比 `open` 调用的版本更高（比如当前的数据库版本为 `3`，我们却尝试运行 `open(...2)`，就会产生错误并触发 `openRequest.onerror`）。
 
-这有些奇怪，但这样的事情可能会在用户加载了一个过时的 JavaScript 代码时发生（例如用户从一个代理缓存中加载 JS）。在这种情况下，代码是过时的，但数据库却是最新的。
+这很罕见，但这样的事情可能会在用户加载了一个过时的 JavaScript 代码时发生（例如用户从一个代理缓存中加载 JS）。在这种情况下，代码是过时的，但数据库却是最新的。
 
-为了防止这样的错误产生，我们应当检查 `db.version` 并建议用户刷新页面。使用正确的 HTTP 缓存头（headers）来防止之前缓存的旧代码被加载。
+为了避免这样的错误产生，我们应当检查 `db.version` 并建议用户重新加载页面。使用正确的 HTTP 缓存头（header）来避免之前缓存的旧代码被加载，这样你就永远不会遇到此类问题。
 ```
 
 ### 并行更新问题
@@ -121,13 +121,13 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 
 问题是，这两个网页是同一个站点，同一个源，共享同一个数据库。而数据库不能同时为版本 `1` 和版本 `2`。要执行版本 `2` 的更新，必须关闭对版本 `1` 的所有连接，包括第一个标签页中的那个。
 
-为了解决这一问题，在这种情况下 `versionchange` 事件会在“过时的”数据库对象上触发。我们需要监听这个事件，关闭对旧版本数据库的连接（还应该建议访问者重新加载页面，以加载最新的代码）。
+为了解决这一问题，`versionchange` 事件会在“过时的”数据库对象上触发。我们需要监听这个事件，关闭对旧版本数据库的连接（还应该建议访问者重新加载页面，以加载最新的代码）。
 
 如果我们不监听 `versionchange` 事件，也不去关闭旧连接，那么新的连接就不会建立。`openRequest` 对象会产生 `blocked` 事件，而不是 `success` 事件。因此第二个标签页无法正常工作。
 
 下面是能够正确处理并行升级情况的代码。
 
-它在数据库被打开后注入能够关闭旧连接的 `onversionchange` 处理程序：
+在数据库被打开后，它将注入一个用于关闭旧连接的 `onversionchange` 处理程序：
 
 ```js
 let openRequest = indexedDB.open("store", 2);
@@ -157,18 +157,19 @@ openRequest.onblocked = function() {
 };
 */!*
 ```
+
 在这我们做两件事：
 
 1. 成功打开后添加 `db.onversionchange` 监听器，以得到尝试并行更新的消息。
 2. 添加 `openRequest.onblocked` 监听器来处理旧连接未关闭的情况。如果在 `db.onversionchange` 中关闭，就不会发生这种情况。
 
-还有其他方案。例如，我们可以在 `db.onversionchange` 中优雅地关闭一些东西，关闭连接之前提示用户保存数据。如果 `db.onversionchange` 完成但没有关闭，新的连接将立即阻塞。可以要求用户只保留新的网页，关闭旧网页，以此更新数据。
+还有其他方案。例如，我们可以在 `db.onversionchange` 中更优雅地关闭连接，关闭连接之前提示用户保存数据。如果 `db.onversionchange` 已完成但旧的连接没有被关闭，新的连接将被立即阻塞，那么我们可以在新的标签页中要求用户关闭其他标签页以更新数据。
 
-这种更新冲突很少发生，但我们至少应该处理一下。例如使用 `onblocked` 处理程序，以防程序卡死影响用户体验。
+这种更新冲突很少发生，但我们至少应该有一些对其进行处理的程序，例如 `onblocked` 处理程序，以防程序默默卡死而影响用户体验。
 
 ## 对象库（object store）
 
-要在 `IndexedDB` 中存储某些内容，我们需要一个**对象库**。
+要在 `IndexedDB` 中存储某些内容，我们需要一个 **对象库**。
 
 对象库是 IndexedDB 的核心概念，在其他数据库中对应的对象称为“表”或“集合”。它是储存数据的地方。一个数据库可能有多个存储区：一个用于存储用户数据，另一个用于商品，等等。
 
@@ -176,17 +177,18 @@ openRequest.onblocked = function() {
 
 **几乎可以存储任何值，包括复杂的对象。**
 
-IndexedDB 使用[标准序列化算法](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage)来克隆和存储对象。类似于 `JSON.stringify`，不过功能更加强大，能够存储更多的数据类型。
+IndexedDB 使用 [标准序列化算法](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) 来克隆和存储对象。类似于 `JSON.stringify`，不过功能更加强大，能够存储更多的数据类型。
 
 有一种对象不能被存储：循环引用的对象。此类对象不可序列化，也不能进行 `JSON.stringify`。
 
-**库中的每个值都必须有唯一的键 `key`**
+**库中的每个值都必须有唯一的键 `key`。**
 
-键的类型必须为数字、日期、字符串、二进制或数组。它是唯一的标识符：通过键来 搜索/删除/更新 值。
+键的类型必须为数字、日期、字符串、二进制或数组。它是唯一的标识符，所以我们可以通过键来搜索/删除/更新值。
+
 
 ![](indexeddb-structure.svg)
 
-类似于 `localStorage`，我们向存储区添加值时，可以提供一个键。但当我们存储对象时，IndexedDB 允许设置一个对象属性作为键，这就更加方便了。或者，我们可以自动生成键。
+类似于 `localStorage`，我们向存储区添加值时，可以提供一个键。但当我们存储对象时，IndexedDB 允许将一个对象属性设置为键，这就更加方便了。或者，我们可以自动生成键。
 
 但我们需要先创建一个对象库。
 
@@ -206,17 +208,15 @@ db.createObjectStore(name[, keyOptions]);
 如果我们不提供 `keyOptions`，那么以后需要在存储对象时，显式地提供一个键。
 
 例如，此对象库使用 `id` 属性作为键:
-
 ```js
 db.createObjectStore('books', {keyPath: 'id'});
 ```
 
 **在 `upgradeneeded` 处理程序中，只有在创建数据库版本时，对象库被才能被 创建/修改。**
 
-这是技术上的限制。在 upgradeneedHandler 之外，可以 添加/删除/更新数据，但是只能在版本更新期间 创建/删除/更改对象库。
+这是技术上的限制。在 upgradeneedHandler 之外，可以添加/删除/更新数据，但是只能在版本更新期间创建/删除/更改对象库。
 
-要执行数据库版本升级，主要有两种方法：
-
+要进行数据库版本升级，主要有两种方法：
 1. 我们实现每个版本的升级功能：从 1 到 2，从 2 到 3，从 3 到 4，等等。在 `upgradeneeded` 中，可以进行版本比较（例如，老版本是 2，需要升级到 4），并针对每个中间版本（2 到 3，然后 3 到 4）逐步运行每个版本的升级。
 2. 或者我们可以检查数据库：以 `db.objectStoreNames` 的形式获取现有对象库的列表。该对象是一个 [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) 提供 `contains(name)` 方法来检查 name 是否存在，再根据存在和不存在的内容进行更新。
 
@@ -261,7 +261,7 @@ db.deleteObjectStore('books')
 
 启动事务：
 
-```js run
+```js
 db.transaction(store[, type]);
 ```
 
@@ -272,10 +272,10 @@ db.transaction(store[, type]);
 
 还有 `versionchange` 事务类型：这种事务可以做任何事情，但不能被手动创建。IndexedDB 在打开数据库时，会自动为 `updateneeded` 处理程序创建 `versionchange` 事务。这就是它为什么可以更新数据库结构、创建/删除 对象库的原因。
 
-```smart header="为什么存在不同类型的事务？"
-性能是事务需要标记为 `只读（readonly）` 和 `读写（readwrite）` 的原因。
+```smart header="为什么会有不同类型的事务？"
+性能是事务需要标记为 `readonly` 和 `readwrite` 的原因。
 
-许多只读事务能够同时访问同一存储区，但读写事务不能。因为读写事务会“锁定”存储区进行写操作。下一个事务必须等待前一个事务完成，才能访问相同的存储区。
+许多 `readonly` 事务能够同时访问同一存储区，但 `readwrite` 事务不能。因为 `readwrite` 事务会“锁定”存储区进行写操作。下一个事务必须等待前一个事务完成，才能访问相同的存储区。
 ```
 
 创建事务后，我们可以将项目添加到库，就像这样：
@@ -299,7 +299,6 @@ let request = books.add(book); // (3)
 */!*
 
 request.onsuccess = function() { // (4)
-  // 书已添加到存储区
   console.log("Book added to the store", request.result);
 };
 
@@ -307,7 +306,9 @@ request.onerror = function() {
   console.log("Error", request.error);
 };
 ```
+
 基本有四个步骤：
+
 1. 创建一个事务，在（1）表明要访问的所有存储。
 2. 使用 `transaction.objectStore(name)`，在（2）中获取存储对象。
 3. 在（3）执行对对象库 `books.add(book)` 的请求。
@@ -322,12 +323,13 @@ request.onerror = function() {
     与 `put` 相同，但是如果已经有一个值具有相同的键，则请求失败，并生成一个名为 `"ConstraInterror"` 的错误。
 
 与打开数据库类似，我们可以发送一个请求：`books.add(book)`，然后等待 `success/error` 事件。
+
 - `add` 的 `request.result` 是新对象的键。
 - 错误在 `request.error`（如果有的话）中。
 
 ## 事务的自动提交
 
-在上面的示例中，我们启动了事务并发出了 `add` 请求。但正如前面提到的，一个事务可能有多个相关的请求，这些请求必须全部成功或全部失败。那么如何标记事务为已完成，并不再请求呢？
+在上面的示例中，我们启动了事务并发出了 `add` 请求。但正如前面提到的，一个事务可能有多个相关的请求，这些请求必须全部成功或全部失败。那么我们如何将事务标记为已完成，并不再请求呢？
 
 简短的回答是：没有。
 
@@ -391,6 +393,7 @@ transaction.oncomplete = function() {
 ```js
 transaction.abort();
 ```
+
 取消请求里所做的所有修改，并触发 `transaction.onabort` 事件。
 
 
@@ -548,7 +551,7 @@ openRequest.onupgradeneeded = function() {
   // 在 versionchange 事务中，我们必须在这里创建索引
   let books = db.createObjectStore('books', {keyPath: 'id'});
 *!*
-  let index = inventory.createIndex('price_idx', 'price');
+  let index = books.createIndex('price_idx', 'price');
 */!*
 };
 ```
@@ -674,6 +677,7 @@ request.onsuccess = function() {
   }
 };
 ```
+
 主要的光标方法有：
 
 - `advance(count)` —— 将光标向前移动 `count` 次，跳过值。
@@ -694,7 +698,7 @@ let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let key = cursor.primaryKey; // 下一个对象存储键（id 字段）
+    let primaryKey = cursor.primaryKey; // 下一个对象存储键（id 字段）
     let value = cursor.value; // 下一个对象存储对象（book 对象）
     let key = cursor.key; // 下一个索引键（price）
     console.log(key, value);
@@ -714,7 +718,7 @@ request.onsuccess = function() {
 然后，我们可以不使用 `onsuccess/onerror`，而是这样写：
 
 ```js
-let db = await idb.openDb('store', 1, db => {
+let db = await idb.openDB('store', 1, db => {
   if (db.oldVersion == 0) {
     // 执行初始化
     db.createObjectStore('books', {keyPath: 'id'});
@@ -757,7 +761,9 @@ window.addEventListener('unhandledrejection', event => {
 
 ### “非活跃事务”陷阱
 
-我们都知道，浏览器一旦执行完成当前的代码和**微任务**之后，事务就会自动提交。因此，如果我们在事务中间放置一个类似 `fetch` 的宏任务，事务只是会自动提交，而不会等待它执行完成。因此，下一个请求会失败。
+
+我们都知道，浏览器一旦执行完成当前的代码和 **微任务** 之后，事务就会自动提交。因此，如果我们在事务中间放置一个类似 `fetch` 的宏任务，事务只是会自动提交，而不会等待它执行完成。因此，下一个请求会失败。
+
 
 对于 promise 包装器和 `async/await`，情况是相同的。
 
@@ -777,7 +783,6 @@ await inventory.add({ id: 'js', price: 10, created: new Date() }); // 错误
 `fetch` `(*)` 后的下一个 `inventory.add` 失败，出现“非活动事务”错误，因为这时事务已经被提交并且关闭了。
 
 解决方法与使用本机 IndexedDB 时相同：进行新事务，或者将事情分开。
-
 1. 准备数据，先获取所有需要的信息。
 2. 然后保存在数据库中。
 
@@ -804,11 +809,11 @@ let result = await promise; // 如果仍然需要
 
 IndexedDB 可以被认为是“localStorage on steroids”。这是一个简单的键值对数据库，功能强大到足以支持离线应用，而且用起来比较简单。
 
-最好的指南是官方文档。[目前的版本](https://w3c.github.io/IndexedDB)是2.0，但是[3.0](https://w3c.github.io/IndexedDB/)版本中的一些方法（差别不大）也得到部分支持。
+最好的指南是官方文档。[目前的版本](https://w3c.github.io/IndexedDB) 是2.0，但是 [3.0](https://w3c.github.io/IndexedDB/) 版本中的一些方法（差别不大）也得到部分支持。
 
 基本用法可以用几个短语来描述：
 
-1. 获取一个 promise 包装器，比如 [idb](https://github.com/jakearchibald/idb).
+1. 获取一个 promise 包装器，比如 [idb](https://github.com/jakearchibald/idb)。
 2. 打开一个数据库：`idb.openDb(name, version, onupgradeneeded)`
     - 在 `onupgradeneeded` 处理程序中创建对象存储和索引，或者根据需要执行版本更新。
 3. 对于请求：

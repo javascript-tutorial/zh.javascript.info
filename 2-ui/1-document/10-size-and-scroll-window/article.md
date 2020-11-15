@@ -2,7 +2,7 @@
 
 我们如何找到浏览器窗口（window）的宽度和高度呢？我们如何获得文档（document）的包括滚动部分在内的完整宽度和高度呢？我们如何使用 JavaScript 滚动页面？
 
-对于大多数此类请求，我们可以使用与 `<html>` 标签相对应的根文档元素 `document.documentElement`。但是还有很多其他方法，这些方法和特性非常重要，值得我们考虑。
+对于此类信息，我们可以使用与 `<html>` 标签相对应的根文档元素 `document.documentElement`。但是还有其他方法和特性需要考虑。
 
 ## 窗口的 width/height
 
@@ -16,12 +16,12 @@
 <button onclick="alert(document.documentElement.clientHeight)">alert(document.documentElement.clientHeight)</button>
 ```
 
-````warn header="不是 `window.innerWidth/Height`"
-浏览器也支持 `window.innerWidth/innerHeight` 属性。它们看起来像我们想要的。那为什么不使用它们呢？
+````warn header="不是 `window.innerWidth/innerHeight`"
+浏览器也支持像 `window.innerWidth/innerHeight` 这样的属性。它们看起来像我们想要的，那为什么不使用它们呢？
 
 如果这里存在一个滚动条，并且滚动条占用了一些空间，那么 `clientWidth/clientHeight` 会提供没有滚动条（减去它）的 width/height。换句话说，它们返回的是可用于内容的文档的可见部分的 width/height。
 
-……而 `window.innerWidth/innerHeight` 包括了滚动条。
+`window.innerWidth/innerHeight` 包括了滚动条。
 
 如果这里有一个滚动条，它占用了一些空间，那么这两行代码会显示不同的值：
 ```js run
@@ -29,7 +29,7 @@ alert( window.innerWidth ); // 整个窗口的宽度
 alert( document.documentElement.clientWidth ); // 减去滚动条宽度后的窗口宽度
 ```
 
-在大多数情况下，我们需要 **可用** 的窗口宽度：以绘制或放置某些东西。也就是说：在滚动条内（如果有）。所以我们应该使用 `documentElement.clientHeight/Width`。
+在大多数情况下，我们需要 **可用** 的窗口宽度以绘制或放置某些东西。也就是说，在滚动条内（如果有）。所以，我们应该使用 `documentElement.clientHeight/clientWidth`。
 ````
 
 ```warn header="`DOCTYPE` 很重要"
@@ -42,7 +42,7 @@ alert( document.documentElement.clientWidth ); // 减去滚动条宽度后的窗
 
 从理论上讲，由于根文档元素是 `document.documentElement`，并且它包围了所有内容，因此我们可以通过使用 `documentElement.scrollWidth/scrollHeight` 来测量文档的完整大小。
 
-但是在该元素上，对于整个文档，这些属性均无法正常工作。在 Chrome/Safari/Opera 中，如果没有滚动条，`documentElement.scrollHeight` 甚至可能小于 `documentElement.clientHeight`！听起来像胡话，很奇怪，对吧？
+但是在该元素上，对于整个文档，这些属性均无法正常工作。在 Chrome/Safari/Opera 中，如果没有滚动条，`documentElement.scrollHeight` 甚至可能小于 `documentElement.clientHeight`！很奇怪，对吧？
 
 为了可靠地获得完整的文档高度，我们应该采用以下这些属性的最大值：
 
@@ -60,9 +60,9 @@ alert('Full document height, with scrolled out part: ' + scrollHeight);
 
 ## 获得当前滚动 [#page-scroll]
 
-DOM 元素的当前滚动状态在 `elem.scrollLeft/scrollTop` 中。
+DOM 元素的当前滚动状态在其 `scrollLeft/scrollTop` 属性中。
 
-对于文档滚动，在大多数浏览器中，我们可以使用 `document.documentElement.scrollLeft/Top`，但在较旧的基于 WebKit 的浏览器中则不行，例如在 Safari（bug [5991](https://bugs.webkit.org/show_bug.cgi?id=5991)）中，我们应该使用 `document.body` 而不是 `document.documentElement`。
+对于文档滚动，在大多数浏览器中，我们可以使用 `document.documentElement.scrollLeft/scrollTop`，但在较旧的基于 WebKit 的浏览器中则不行，例如在 Safari（bug [5991](https://bugs.webkit.org/show_bug.cgi?id=5991)）中，我们应该使用 `document.body` 而不是 `document.documentElement`。
 
 幸运的是，我们根本不必记住这些特性，因为滚动在 `window.pageXOffset/pageYOffset` 中可用：
 
@@ -76,14 +76,14 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 ## 滚动：scrollTo，scrollBy，scrollIntoView [#window-scroll]
 
 ```warn
-必须在 DOM 完全构建好之后才能通过 JavaScript 滚动页面
+必须在 DOM 完全构建好之后才能通过 JavaScript 滚动页面。
 
-例如，如果我们尝试从 `<head>` 中的脚本滚动页面，它将无法正常工作。
+例如，如果我们尝试通过 `<head>` 中的脚本滚动页面，它将无法正常工作。
 ```
 
 可以通过更改 `scrollTop/scrollLeft` 来滚动常规元素。
 
-我们可以使用 `document.documentElement.scrollTop/Left` 对页面进行相同的操作（Safari 除外，而应该使用 `document.body.scrollTop/Left` 代替）。
+我们可以使用 `document.documentElement.scrollTop/scrollLeft` 对页面进行相同的操作（Safari 除外，而应该使用 `document.body.scrollTop/Left` 代替）。
 
 或者，有一个更简单的通用解决方案：使用特殊方法 [window.scrollBy(x,y)](mdn:api/Window/scrollBy) 和 [window.scrollTo(pageX,pageY)](mdn:api/Window/scrollTo)。
 
@@ -110,15 +110,15 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 对 `elem.scrollIntoView(top)` 的调用将滚动页面以使 `elem` 可见。它有一个参数：
 
-- 如果 `top=true`（默认值），页面滚动，使 `elem` 出现在窗口顶部。元素的上边缘与窗口顶部对齐。
-- 如果 `top=false`，页面滚动，使 `elem` 出现在窗口底部。元素的底部边缘与窗口底部对齐。
+- 如果 `top=true`（默认值），页面滚动，使 `elem` 出现在窗口顶部。元素的上边缘将与窗口顶部对齐。
+- 如果 `top=false`，页面滚动，使 `elem` 出现在窗口底部。元素的底部边缘将与窗口底部对齐。
 
 ```online
-下面这个按钮会滚动页面，以使它自身显示在窗口顶部：
+下面这个按钮会滚动页面，以使其自身定位在窗口顶部：
 
 <button onclick="this.scrollIntoView()">this.scrollIntoView()</button>
 
-下面这个按钮会滚动页面，以使它自身显示在窗口底部：
+下面这个按钮会滚动页面，以使其自身定位在窗口底部：
 
 <button onclick="this.scrollIntoView(false)">this.scrollIntoView(false)</button>
 ```
@@ -127,7 +127,7 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 有时候我们需要使文档“不可滚动”。例如，当我们需要用一条需要立即引起注意的大消息来覆盖文档时，我们希望访问者与该消息而不是与文档进行交互。
 
-要使文档不可滚动，只需要设置 `document.body.style.overflow = "hidden"`。该页面将冻结在其当前滚动上。
+要使文档不可滚动，只需要设置 `document.body.style.overflow = "hidden"`。该页面将“冻结”在其当前滚动位置上。
 
 ```online
 试一试：
@@ -136,20 +136,20 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 <button onclick="document.body.style.overflow = ''">document.body.style.overflow = ''</button>
 
-第一个按钮冻结了滚动，第二个按钮则恢复了滚动。
+第一个按钮用于冻结滚动，第二个按钮则用于恢复滚动。
 ```
 
-我们还可以使用相同的技术来“冻结”其他元素的滚动，而不仅仅是 `document.body`。
+我们还可以使用相同的技术来冻结其他元素的滚动，而不仅仅是 `document.body`。
 
 这个方法的缺点是会使滚动条消失。如果滚动条占用了一些空间，它原本占用的空间就会空出来，那么内容就会“跳”进去以填充它。
 
-这看起来有点奇怪，但是我们可以对比冻结前后的 `clientWidth`，如果它增加了（滚动条消失后），那么我们可以在 `document.body` 中滚动条原来的位置处通过添加 `padding`，来替代滚动条，这样这个问题就解决了。保持了滚动条冻结前后文档内容宽度相同。
+这看起来有点奇怪，但是我们可以对比冻结前后的 `clientWidth`。如果它增加了（滚动条消失后），那么我们可以在 `document.body` 中滚动条原来的位置处通过添加 `padding`，来替代滚动条，这样这个问题就解决了。保持了滚动条冻结前后文档内容宽度相同。
 
 ## 总结
 
 几何：
 
-- 文档可见部分的 width/height（内容区域的 width/height）：`document.documentElement.clientWidth/Height`
+- 文档可见部分的 width/height（内容区域的 width/height）：`document.documentElement.clientWidth/clientHeight`
 - 整个文档的 width/height，其中包括滚动出去的部分：
 
     ```js

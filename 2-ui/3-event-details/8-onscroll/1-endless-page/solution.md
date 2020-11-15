@@ -55,11 +55,11 @@ function populate() {
     // 文档末端
     let windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
-    // 如果用户将页面滚动了足够远（文档末端距窗口底部 <100px）
-    if (windowRelativeBottom < document.documentElement.clientHeight + 100) {
-      // 让我们添加更多数据
-      document.body.insertAdjacentHTML("beforeend", `<p>Date: ${new Date()}</p>`);
-    }
+    // 如果用户将页面滚动的距离不够远（文档末端距窗口底部 >100px）
+    if (windowRelativeBottom > document.documentElement.clientHeight + 100) break;
+
+    // 让我们添加更多数据
+    document.body.insertAdjacentHTML("beforeend", `<p>Date: ${new Date()}</p>`);
   }
 }
 ```

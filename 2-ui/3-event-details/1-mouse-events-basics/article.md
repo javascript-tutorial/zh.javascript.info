@@ -66,7 +66,7 @@
 
 大多数鼠标设备只有左键和右键，对应的值就是 `0` 和 `2`。触屏设备中的点按操作也会触发类似的事件。
 
-另外，还有一个 `event.buttons` 属性，其中以整数的形式存储着当前所有按下的鼠标按键，每个按键一个比特位。在实际开发中，很少会用到这个属性，如果有需要的话，你可以在 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons) 中找到更多细节。
+另外，还有一个 `event.buttons` 属性，其中以整数的形式存储着当前所有按下的鼠标按键，每个按键一个比特位。在实际开发中，很少会用到这个属性，如果有需要的话，你可以在 [MDN](mdn:/api/MouseEvent/buttons) 中找到更多细节。
 
 ```warn header="过时的 `event.which`"
 一些老代码可能会使用 `event.which` 属性来获得按下的按键。这是一个古老的非标准的方式，具有以下可能值：

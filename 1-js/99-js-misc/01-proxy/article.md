@@ -61,13 +61,13 @@ Proxy 捕捉器会拦截这些方法的调用。它们在 [proxy 规范](https:/
 | `[[Delete]]` | `deleteProperty` | `delete` 操作符 |
 | `[[Call]]` | `apply` | 函数调用 |
 | `[[Construct]]` | `construct` | `new` 操作符 |
-| `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
-| `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
-| `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible) |
-| `[[PreventExtensions]]` | `preventExtensions` | [Object.preventExtensions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions) |
-| `[[DefineOwnProperty]]` | `defineProperty` | [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty), [Object.defineProperties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties) |
-| `[[GetOwnProperty]]` | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries` |
-| `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
+| `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](mdn:/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
+| `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](mdn:/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
+| `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](mdn:/JavaScript/Reference/Global_Objects/Object/isExtensible) |
+| `[[PreventExtensions]]` | `preventExtensions` | [Object.preventExtensions](mdn:/JavaScript/Reference/Global_Objects/Object/preventExtensions) |
+| `[[DefineOwnProperty]]` | `defineProperty` | [Object.defineProperty](mdn:/JavaScript/Reference/Global_Objects/Object/defineProperty), [Object.defineProperties](mdn:/JavaScript/Reference/Global_Objects/Object/defineProperties) |
+| `[[GetOwnProperty]]` | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries` |
+| `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
 ```warn header="不变量（Invariant）"
 JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足的条件。
@@ -994,7 +994,7 @@ alert(proxy.data); // Error（revoked）
 ## 参考资料
 
 - 规范：[Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)。
-- MDN：[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。
+- MDN：[Proxy](mdn:/JavaScript/Reference/Global_Objects/Proxy)。
 
 ## 总结
 
@@ -1016,13 +1016,13 @@ let proxy = new Proxy(target, {
 - 读取（`get`），写入（`set`），删除（`deleteProperty`）属性（甚至是不存在的属性）。
 - 函数调用（`apply` 捕捉器）。
 - `new` 操作（`construct` 捕捉器）。
-- 许多其他操作（完整列表请见本文开头部分和 [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)）。
+- 许多其他操作（完整列表请见本文开头部分和 [docs](mdn:/JavaScript/Reference/Global_Objects/Proxy)）。
 
 这使我们能够创建“虚拟”属性和方法，实现默认值，可观察对象，函数装饰器等。
 
 我们还可以将对象多次包装在不同的代理中，并用多个各个方面的功能对其进行装饰。
 
-[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API 旨在补充 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。对于任意 `Proxy` 捕捉器，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
+[Reflect](mdn:/JavaScript/Reference/Global_Objects/Reflect) API 旨在补充 [Proxy](mdn:/JavaScript/Reference/Global_Objects/Proxy)。对于任意 `Proxy` 捕捉器，都有一个带有相同参数的 `Reflect` 调用。我们应该使用它们将调用转发给目标对象。
 
 Proxy 有一些局限性：
 

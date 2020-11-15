@@ -1,7 +1,7 @@
 
 # DOM 变动观察器（Mutation observer）
 
-`MutationObserver` 是一个内建对象，它观察 DOM 元素，在其发生更改时触发回调。
+`MutationObserver` 是一个内建对象，它观察 DOM 元素，并在检测到更改时触发回调。
 
 我们将首先看一下语法，然后探究一个实际的用例，以了解它在什么地方有用。
 
@@ -128,16 +128,16 @@ mutationRecords = [{
 ...
 ```
 
-另外，我们还将在网站上使用 JavaScript 高亮显示库，例如 [Prism.js](https://prismjs.com/)。调用 `Prism.highlightElem(pre)` 会检查此类 `pre` 元素的内容，并在其中添加特殊标签（tag）和样式，以进行彩色语法高亮显示，类似于你在本文的示例中看到的那样。
+为了提高可读性，同时对其进行美化，我们将在我们的网站上使用 JavaScript 语法高亮显示库，例如 [Prism.js](https://prismjs.com/)。为了使用 Prism 对以上代码片段进行语法高亮显示，我们调用了 `Prism.highlightElem(pre)`，它会检查此类 `pre` 元素的内容，并为这些元素添加特殊的标签（tag）和样式，以进行彩色语法高亮显示，类似于你在本文的示例中看到的那样。
 
-那什么时候运行该高亮显示方法呢？我们可以在 `DOMContentLoaded` 事件中或者在页面尾部运行。到那时，我们的 DOM 已准备就绪，我们可以搜索元素 `pre[class*="language"]` 并对其调用 `Prism.highlightElem`：
+那么，我们应该在什么时候执行该高亮显示方法呢？我们可以在 `DOMContentLoaded` 事件中执行，或者将脚本放在页面的底部。DOM 就绪后，我们可以搜索元素 `pre[class*="language"]` 并对其调用 `Prism.highlightElem`：
 
 ```js
 // 高亮显示页面上的所有代码段
 document.querySelectorAll('pre[class*="language"]').forEach(Prism.highlightElem);
 ```
 
-到目前为止，一切都很简单，对吧？HTML 中有 `<pre>` 代码段，我们高亮显示它们。
+到目前为止，一切都很简单，对吧？我们找到 HTML 中的代码片段并高亮显示它们。
 
 现在让我们继续。假设我们要从服务器动态获取资料。我们将 [在本教程的后续章节](info:fetch) 中学习进行此操作的方法。目前，只需要关心我们从网络服务器获取 HTML 文章并按需显示：
 
@@ -162,13 +162,13 @@ snippets.forEach(Prism.highlightElem);
 */!*
 ```
 
-……但是，想象一下，代码中有很多地方可以加载内容：文章，测验，论坛帖子。我们是否需要在每个地方都附加一个高亮显示调用？那不太方便，也很容易忘记。
+……但是，想象一下，如果代码中有很多地方都是在加载内容：文章，测验和论坛帖子等。我们是否需要在每个地方都附加一个高亮显示调用，以在内容加载完成后，高亮内容中的代码。那很不方便。
 
 并且，如果内容是由第三方模块加载的，该怎么办？例如，我们有一个由其他人编写的论坛，该论坛可以动态加载内容，并且我们想为其添加语法高亮显示。没有人喜欢修补第三方脚本。
 
 幸运的是，还有另一种选择。
 
-我们可以使用 `MutationObserver` 来自动检测何时在页面中插入了代码段，并高亮显示之它们。
+我们可以使用 `MutationObserver` 来自动检测何时在页面中插入了代码段，并高亮显示它们。
 
 因此，我们在一个地方处理高亮显示功能，从而使我们无需集成它。
 
@@ -236,30 +236,36 @@ demoElem.innerHTML = `下面是一个代码段：
 
 - `observer.disconnect()` —— 停止观察。
 
-当我们停止观察时，观察器可能尚未处理某些更改。
+当我们停止观察时，观察器可能尚未处理某些更改。在种情况下，我们使用：
 
 - `observer.takeRecords()` —— 获取尚未处理的变动记录列表，表中记录的是已经发生，但回调暂未处理的变动。
 
 这些方法可以一起使用，如下所示：
 
 ```js
-// 我们想要停止跟踪变动
-observer.disconnect();
-
-// 处理未处理的变动
+// 如果你关心可能未处理的近期的变动
+// 那么，应该在 disconnect 前调用获取未处理的变动列表
 let mutationRecords = observer.takeRecords();
+
+// 停止跟踪变动
+observer.disconnect();
 ...
 ```
 
+
+```smart header="`observer.takeRecords()` 返回的记录被从处理队列中移除"
+回调函数不会被 `observer.takeRecords()` 返回的记录调用。
+```
+
 ```smart header="垃圾回收"
-观察器在内部对节点使用弱引用。也就是说：如果一个节点被从 DOM 中删除了，并且该节点变得不可访问，那么它就会被垃圾回收。
+观察器在内部对节点使用弱引用。也就是说，如果一个节点被从 DOM 中移除了，并且该节点变得不可访问，那么它就可以被垃圾回收。
 
 观察到 DOM 节点这一事实并不能阻止垃圾回收。
 ```
 
 ## 总结  
 
-`MutationObserver` 可以对 DOM 的变化作出反应：特性（attribute），添加/删除的元素，文本内容。
+`MutationObserver` 可以对 DOM 的变化作出反应 —— 特性（attribute），文本内容，添加/删除元素。
 
 我们可以用它来跟踪代码其他部分引入的更改，以及与第三方脚本集成。
 

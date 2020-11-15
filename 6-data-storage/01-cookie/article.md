@@ -68,7 +68,7 @@ alert(document.cookie); // ...; my%20name=John%20Smith
 
 ```warn header="限制"
 存在一些限制：
-- `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4kb。因此，我们不能在一个 cookie 中保存大的东西。
+- `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4KB。因此，我们不能在一个 cookie 中保存大的东西。
 - 每个域的 cookie 总数不得超过 20+ 左右，具体限制取决于浏览器。
 ```
 
@@ -415,7 +415,7 @@ GDPR 不仅涉及 cookie，还涉及其他与隐私相关的问题，但这超�
 `document.cookie` 提供了对 cookie 的访问
 - 写入操作只会修改其中提到的 cookie。
 - name/value 必须被编码。
-- 一个 cookie 最大为 4kb，每个网站最多有 20+ 个左右的 cookie（具体取决于浏览器）。
+- 一个 cookie 最大为 4KB，每个网站最多有 20+ 个左右的 cookie（具体取决于浏览器）。
 
 Cookie 选项：
 - `path=/`，默认为当前路径，使 cookie 仅在该路径下可见。

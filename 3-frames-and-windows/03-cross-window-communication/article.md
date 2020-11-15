@@ -263,7 +263,7 @@ if (window == top) { // 当前 window == window.top?
 参数：
 
 `data`
-: 要发送的数据。可以是任何对象，数据会被通过使用“结构化克隆算法”进行克隆。IE 浏览器只支持字符串，因此我们需要对复杂的对象调用 `JSON.stringify` 方法进行处理，以支持该浏览器。
+: 要发送的数据。可以是任何对象，数据会被通过使用“结构化序列化算法（structured serialization algorithm）”进行克隆。IE 浏览器只支持字符串，因此我们需要对复杂的对象调用 `JSON.stringify` 方法进行处理，以支持该浏览器。
 
 `targetOrigin`
 : 指定目标窗口的源，以便只有来自给定的源的窗口才能获得该消息。

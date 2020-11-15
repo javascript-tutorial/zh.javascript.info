@@ -259,7 +259,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 </script>
 ```
 
-还有比较范围的方法，但是很少使用。当你需要它们时，请参考 [规范](https://dom.spec.whatwg.org/#interface-range) 或 [MDN 手册](https://developer.mozilla.org/en-US/docs/Web/API/Range)。
+还有比较范围的方法，但是很少使用。当你需要它们时，请参考 [规范](https://dom.spec.whatwg.org/#interface-range) 或 [MDN 手册](mdn:/api/Range)。
 
 
 ## 选择
@@ -620,7 +620,7 @@ button.onclick = () => {
 最常用的方案一般是：
 
 1. 获取选择：
-    ```js run
+    ```js
     let selection = document.getSelection();
 
     let cloned = /* 要将所选的节点克隆到的元素 */;
@@ -632,7 +632,7 @@ button.onclick = () => {
     }
     ```
 2. 设置选择
-    ```js run
+    ```js
     let selection = document.getSelection();
 
     // 直接：
