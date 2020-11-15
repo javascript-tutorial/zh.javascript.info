@@ -97,7 +97,7 @@ try {
 
 ## AbortController 是可伸缩的
 
-`AbortController` 是可伸缩的，它允许一次取消多个 fetche。
+`AbortController` 是可伸缩的，它允许一次取消多个 fetch。
 
 这是一个代码草稿，该代码并行 fetch 很多 `urls`，并使用单个控制器将其全部中止：
 
