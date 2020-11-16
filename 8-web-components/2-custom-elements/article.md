@@ -44,7 +44,7 @@ class MyElement extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    // 当上面数组中的属性发上变化的时候，这个方法会被调用
+    // 当上面数组中的属性发生变化的时候，这个方法会被调用
   }
 
   adoptedCallback() {
