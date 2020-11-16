@@ -35,16 +35,16 @@ class MyElement extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // 在元素从文档移除到时候，浏览器会调用这个方法
+    // 在元素从文档移除的时候，浏览器会调用这个方法
     // （如果一个元素被反复添加到文档／移除文档，那么这个方法会被多次调用）
   }
 
   static get observedAttributes() {
-    return [/* 属性数组，这些属性的变化会被被监视 */];
+    return [/* 属性数组，这些属性的变化会被监视 */];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    // 当上面数组里面的属性变化的时候，这个方法会被调用
+    // 当上面数组中的属性发生变化的时候，这个方法会被调用
   }
 
   adoptedCallback() {
@@ -78,7 +78,7 @@ Custom element 名称必须包括一个短横线 `-`, 比如 `my-element` 和 `s
 让我们来创建一个可以展示适用于当前浏览器语言的时间格式的 `<time-formatted>` 元素：
 
 
-```html run height=50 autorun="no-epub"
+​```html run height=50 autorun="no-epub"
 <script>
 *!*
 class TimeFormatted extends HTMLElement { // (1)
@@ -153,7 +153,7 @@ customElements.define("time-formatted", TimeFormatted); // (2)
 
 以下是 `<time-formatted>` 的新版本，它会在属性变化的时候自动更新：
 
-```html run autorun="no-epub" height=50
+​```html run autorun="no-epub" height=50
 <script>
 class TimeFormatted extends HTMLElement {
 
