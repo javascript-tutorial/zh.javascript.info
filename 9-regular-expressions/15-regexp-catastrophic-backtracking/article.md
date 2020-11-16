@@ -1,22 +1,22 @@
-# Catastrophic backtracking
+# 灾难性回溯
 
-Some regular expressions are looking simple, but can execute veeeeeery long time, and even "hang" the JavaScript engine.
+有些正则表达式看上去很简单，但是执行起来耗时非常非常非常长，甚至会导致 JavaScript 引擎「挂起」。
 
-Sooner or later most developers occasionally face such behavior, because it's quite easy to create such a regexp.
+开发者们很容易一不小心就写出这类正则表达式，所以我们迟早会面对这种意外问题。
 
-The typical symptom -- a regular expression works fine sometimes, but for certain strings it "hangs", consuming 100% of CPU.
+典型的症状就是 —— 一个正则表达式有时能正常工作，但对于某些特定的字符串就会消耗 100% 的 CPU 算力，出现“挂起”现象。
 
-In such case a web-browser suggests to kill the script and reload the page. Not a good thing for sure.
+在这种情况下，Web 浏览器会建议杀死脚本并重新载入页面。这显然不是我们愿意看到的。
 
-For server-side JavaScript it may become a vulnerability if regular expressions process user data.
+在服务器端 JavaScript 中，在使用这种正则表达式处理用户数据时可能会引发程序漏洞。
 
-## Example
+## 例子
 
-Let's say we have a string, and we'd like to check if it consists of words  `pattern:\w+` with an optional space `pattern:\s?` after each.
+假设，我们现在有一个字符串，我们想检查其中是否包含一些单词 `pattern:\w+`，允许字符后跟着可选的空格符 `pattern:\s?`。
 
-We'll use a regexp `pattern:^(\w+\s?)*$`, it specifies 0 or more such words.
+我们使用一个这样的正则 `pattern:^(\w+\s?)*$`，它指定了 0 个或更多个此类的字符。
 
-In action:
+我们运行一下：
 
 ```js run
 let regexp = /^(\w+\s?)*$/;
@@ -25,27 +25,27 @@ alert( regexp.test("A good string") ); // true
 alert( regexp.test("Bad characters: $@#") ); // false
 ```
 
-It seems to work. The result is correct. Although, on certain strings it takes a lot of time. So long that JavaScript engine "hangs" with 100% CPU consumption.
+这似乎能正常工作。结果是正确的。但是在特定的字符串上，它会消耗很多时间。它耗时太久以至于让 CPU 会跑满 100% 负载，导致 JavaScript 引擎「挂起」。
 
-If you run the example below, you probably won't see anything, as JavaScript will just "hang". A web-browser will stop reacting on events, the UI will stop working. After some time it will suggest to reloaad the page. So be careful with this:
+如果你运行下面这个例子，由于 JavaScript 会进入「挂起」状态，因此你可能什么结果都看不到。此时浏览器会停止对事件的响应，UI 也会停止运作。一段时间之后浏览器会建议重新载入页面。所以请谨慎对待：
 
 ```js run
 let regexp = /^(\w+\s?)*$/;
 let str = "An input string that takes a long time or even makes this regexp to hang!";
 
-// will take a very long time
+// 会耗费大量时间
 alert( regexp.test(str) );
 ```
 
-Some regular expression engines can handle such search, but most of them can't.
+有些正则引擎能够处理好这种查询，但大多数引擎对此都无能为力。
 
-## Simplified example
+## 简化的例子
 
-What's the matter? Why the regular expression "hangs"?
+问题在哪？为何正则表达式会「挂起」？
 
-To understand that, let's simplify the example: remove spaces `pattern:\s?`. Then it becomes `pattern:^(\w+)*$`.
+为了理解它，我们来简化一下例子：移除空格符 `pattern:\s?`，使其成为 `pattern:^(\w+)*$`。
 
-And, to make things more obvious, let's replace `pattern:\w` with `pattern:\d`. The resulting regular expression still hangs, for instance:
+同时为了让问题更显著，再用 `pattern:\d` 替换掉 `pattern:\w`。这个新的正则表达式执行时仍然会挂起，比如：
 
 <!-- let str = `AnInputStringThatMakesItHang!`; -->
 
@@ -54,28 +54,28 @@ let regexp = /^(\d+)*$/;
 
 let str = "012345678901234567890123456789!";
 
-// will take a very long time
+// 会耗费大量时间
 alert( regexp.test(str) );
 ```
 
-So what's wrong with the regexp?
+所以正则到底哪里出了问题？
 
-First, one may notice that the regexp `pattern:(\d+)*` is a little bit strange. The quantifier `pattern:*` looks extraneous. If we want a number, we can use `pattern:\d+`.
+首先，有人可能发现了这个正则 `pattern:(\d+)*` 有点奇怪，量词 `pattern:*` 有点画蛇添足。如果我们要匹配数字，那我们可以使用 `pattern:\d+`。
 
-Indeed, the regexp is artificial. But the reason why it is slow is the same as those we saw above. So let's understand it, and then the previous example will become obvious.
+实际上，正则表达式是非常死板、机械化的。造成它运行缓慢的原因和上面我们看到的那样，所以让我们来理解它运作过程，然后问题的原因就会显而易见了。
 
-What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456789!` (shortened a bit for clarity), why does it take so long?
+在 `subject:123456789!` 这行中（这里简写了，看得更清晰一些）中查询 `pattern:^(\d+)*$` 时到底发生了什么，要耗时这么久呢？
 
-1. First, the regexp engine tries to find a number `pattern:\d+`. The plus `pattern:+` is greedy by default, so it consumes all digits:
+1. 首先，正则引擎尝试查一个数字 `pattern:\d+`。加号 `pattern:+` 默认为贪婪模式，所以它囊括/消耗（consume）了所有数字：
 
     ```
     \d+.......
     (123456789)z
     ```
 
-    Then it tries to apply the star quantifier, but there are no more digits, so it the star doesn't give anything.
+    然后它尝试应用星号量词，但是此时已经没有更多数字了，所以星号匹配不到任何东西。
 
-    The next in the pattern is the string end `pattern:$`, but in the text we have `subject:!`, so there's no match:
+    模式中接下来的 `pattern:$` 匹配字符串的结束，但是我们例子的文字中有 `subject:!`，所以匹配失败，没有匹配结果：
 
     ```
                X
@@ -83,16 +83,16 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     (123456789)!
     ```
 
-2. As there's no match, the greedy quantifier `pattern:+` decreases the count of repetitions, backtracks one character back.
+2. 由于没有匹配结果，贪婪量词 `pattern:+` 的重复匹配次数会减一，并往前回溯一个字符。
 
-    Now `pattern:\d+` takes all digits except the last one:
+    现在 `pattern:\d+` 会匹配除了最后一个数字之外的所有数字：
     ```
     \d+.......
     (12345678)9!
     ```
-3. Then the engine tries to continue the search from the new position (`9`).
+3. 然后引擎尝试从新位置 (`9`) 继续搜索。
 
-    The star `pattern:(\d+)*` can be applied -- it gives the number `match:9`:
+    星号 `pattern:(\d+)*` 可以成功应用 -- 它匹配到了数字 `match:9` ：
 
     ```
 
@@ -100,7 +100,7 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     (12345678)(9)!
     ```
 
-    The engine tries to match `pattern:$` again, but fails, because meets `subject:!`:
+    引擎再次去尝试匹配 `pattern:$`，但是失败了，因为它遇到了 `subject:!`：
 
     ```
                  X
@@ -109,11 +109,11 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     ```
 
 
-4. There's no match, so the engine will continue backtracking, decreasing the number of repetitions. Backtracking generally works like this: the last greedy quantifier decreases the number of repetitions until it can. Then the previous greedy quantifier decreases, and so on.
+4. 没有匹配结果，所以引擎继续回溯，减少重复匹配次数。回溯的运行过程基本上是这样的：最后一个贪婪量词逐渐减少重复匹配次数，然后前一个贪婪量词再减少重复匹配次数，以此类推。
 
-    All possible combinations are attempted. Here are their examples.
+    它会尝试所有可能的排列组合，这里是他们的例子：
 
-    The first number `pattern:\d+` has 7 digits, and then a number of 2 digits:
+    第一串数字 `pattern:\d+` 有 7 位数，后面跟着一串 2 位数的数字：
 
     ```
                  X
@@ -121,7 +121,7 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     (1234567)(89)!
     ```
 
-    The first number has 7 digits, and then two numbers of 1 digit each:
+    第一串数字有 7 位数，后面跟着两串数字，每串数字各有 1 位数：
 
     ```
                    X
@@ -129,7 +129,7 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     (1234567)(8)(9)!
     ```
 
-    The first number has 6 digits, and then a number of 3 digits:
+    第一串数字有 6 位数，后面跟着一串 3 位数的数字：
 
     ```
                  X
@@ -137,7 +137,7 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     (123456)(789)!
     ```
 
-    The first number has 6 digits, and then 2 numbers:
+    第一串数字有 6 位数，后面跟着两串数字：
 
     ```
                    X
@@ -145,26 +145,26 @@ What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456
     (123456)(78)(9)!
     ```
 
-    ...And so on.
+    ……以此类推。
 
 
-There are many ways to split a set of digits `123456789` into numbers. To be precise, there are <code>2<sup>n</sup>-1</code>, where `n` is the length of the set.
+像 `123456789` 这样一串数字，分割成多个数的话有好几种分割方式。准确的说，如果这数字长度是 `n` ，则共有 <code>2<sup>n</sup>-1</code> 种方式去分割它。
 
-For `n=20` there are about 1 million combinations, for `n=30` - a thousand times more. Trying each of them is exactly the reason why the search takes so long.
+假设 `n=20`，那么就有差不多一百万种排列组合，假设 `n=30`，那就得再乘上一千倍。正因为要尝试每种排列组合，所以才导致会消耗这么多时间。
 
-What to do?
+那我们该怎么办？
 
-Should we turn on the lazy mode?
+我们应转而使用懒惰模式吗？
 
-Unfortunately, that won't help: if we replace `pattern:\d+` with `pattern:\d+?`, the regexp will still hang. The order of combinations will change, but not their total count.
+不幸的是，这没用：如果我们用 `pattern:\d+?` 去替代 `pattern:\d+`，它还是会挂起。排列组合的顺序会变化，但是总数不变。
 
-Some regular expression engines have tricky tests and finite automations that allow to avoid going through all combinations or make it much faster, but not all engines, and not in all cases.
+有些正则表达式引擎应经过严密的测试，并自带一种能够避免遍历所有排列组合的有限自动机来优化速度。但并不是所有引擎能够做到，也不是在所有场合下都有效果。
 
-## Back to words and strings
+## 回到字符和字符串
 
-The similar thing happens in our first example, when we look words by pattern `pattern:^(\w+\s?)*$` in the string `subject:An input that hangs!`.
+在我们第一个例子中，当我们用 `pattern:^(\w+\s?)*$` 这种模式在字符串 `subject:An input that hangs!` 中查找字符时，也遇到了相同的问题。
 
-The reason is that a word can be represented as one `pattern:\w+` or many:
+原因是 `pattern:\w+` 可以用来表示一个或多个字符：
 
 ```
 (input)
@@ -174,19 +174,19 @@ The reason is that a word can be represented as one `pattern:\w+` or many:
 ...
 ```
 
-For a human, it's obvious that there may be no match, because the string ends with an exclamation sign `!`, but the regular expression expects a wordly character `pattern:\w` or a space `pattern:\s` at the end. But the engine doesn't know that.
+对于我们人类来说，很显然它们无法匹配成功，因为例子中的字符串以感叹号 `!` 结尾，然而正则表达式期望在末尾有一个词语式字符 `pattern:\w` 或者空格 `pattern:\s` 来结尾。正则引擎理解不了这种状况。
 
-It tries all combinations of how the regexp `pattern:(\w+\s?)*` can "consume" the string, including variants with spaces `pattern:(\w+\s)*` and without them `pattern:(\w+)*` (because spaces `pattern:\s?` are optional). As there are many such combinations, the search takes a lot of time.
+它尝试了所有 `pattern:(\w+\s?)*` 的排列组合试图去囊括整个字符串，包含了带空格 `pattern:(\w+\s)*` 的情形和不带空格 `pattern:(\w+)*` 的情形（因为 `pattern:\s?` 是可选的）。由于各种排列组合的数量太多了，所以耗费了大量时间去查询。
 
-## How to fix?
+## 如何解决问题？
 
-There are two main approaches to fixing the problem.
+主要有 2 种解决方法。
 
-The first is to lower the number of possible combinations.
+第一种去试着减少各种排列组合的数量。
 
-Let's rewrite the regular expression as `pattern:^(\w+\s)*\w*` - we'll look for any number of words followed by a space `pattern:(\w+\s)*`, and then (optionally) a word `pattern:\w*`.
+我们用把正则重写成 `pattern:^(\w+\s)*\w*` - 此处我们会查找后面跟着一个空格的、任意数量的单字字符 `pattern:(\w+\s)*`，然后跟着一个（可选的）单字字符 `pattern:\w*`。
 
-This regexp is equivalent to the previous one (matches the same) and works well:
+这个正则表达式在查询效果上等同于之前那个（查找的内容是相同的），运行起来也没问题：
 
 ```js run
 let regexp = /^(\w+\s)*\w*$/;
@@ -195,30 +195,30 @@ let str = "An input string that takes a long time or even makes this regex to ha
 alert( regexp.test(str) ); // false
 ```
 
-Why did the problem disappear?
+为什么问题消失了？
 
-Now the star `pattern:*` goes after `pattern:\w+\s` instead of `pattern:\w+\s?`. It became impossible to represent one word of the string with multiple successive `pattern:\w+`. The time needed to try such combinations is now saved.
+现在星号 `pattern:*` 跟在 `pattern:\w+\s` 后面，而不是 `pattern:\w+\s?` 后面。这意味着它无法匹配一个拥有多个连续单字字符串 `pattern:\w+` 的单词，也就省下了原本去尝试这些排列组合的时间。
 
-For example, the previous pattern `pattern:(\w+\s?)*` could match the word `subject:string` as two `pattern:\w+`:
+举个例子，之前那个模式 `pattern:(\w+\s?)*` 可能以两个 `pattern:\w+` 的方式来匹配单词 `subject:string`：
 
 ```js run
 \w+\w+
 string
 ```
 
-The previous pattern, due to the optional `pattern:\s` allowed variants `pattern:\w+`, `pattern:\w+\s`, `pattern:\w+\w+` and so on.
+之前那个模式，由于存在可选的 `pattern:\s`，它允许 `pattern:\w+`、`pattern:\w+\s` 和 `pattern:\w+\w+` 等等的变体形式。
 
-With the rewritten pattern `pattern:(\w+\s)*`, that's impossible: there may be  `pattern:\w+\s` or `pattern:\w+\s\w+\s`, but not `pattern:\w+\w+`. So the overall combinations count is greatly decreased.
+我们重写之后的 `pattern:(\w+\s)*` 就不存在这些情况：它可能会是 `pattern:\w+\s` 或者 `pattern:\w+\s\w+\s`，但不可能是 `pattern:\w+\w+`。所以总体上，排列组合的可能性大大减少了。
 
-## Preventing backtracking
+## 防止回溯
 
-It's not always convenient to rewrite a regexp. And it's not always obvious how to do it.
+有时候重写正则会比较麻烦，而且要推敲如何重写正则恐怕也并非易事。
 
-The alternative approach is to forbid backtracking for the quantifier.
+另一种思路是禁止量词的回溯。
 
-The regular expressions engine tries many combinations that are obviously wrong for a human.
+有些正则表达式我们人眼一看就知道无法匹配成功，但正则引擎还是会硬去尝试很多它的排列组合。
 
-E.g. in the regexp `pattern:(\d+)*$` it's obvious for a human, that `pattern:+` shouldn't backtrack. If we replace one `pattern:\d+` with two separate `pattern:\d+\d+`, nothing changes:
+比如，正则 `pattern:(\d+)*$` 中 `pattern:+` 对于我们人类来说很明显不应去回溯，就算我们用两个独立的 `pattern:\d+\d+` 去替换一个 `pattern:\d+`，也是根本没作用的：
 
 ```
 \d+........
@@ -228,48 +228,48 @@ E.g. in the regexp `pattern:(\d+)*$` it's obvious for a human, that `pattern:+` 
 (1234)(56789)!
 ```
 
-And in the original example `pattern:^(\w+\s?)*$` we may want to forbid backtracking in `pattern:\w+`. That is: `pattern:\w+` should match a whole word, with the maximal possible length. There's no need to lower the repetitions count in `pattern:\w+`, try to split it into two words `pattern:\w+\w+` and so on.
+原先的那个例子 `pattern:^(\w+\s?)*$` 中我们可能希望禁止在 `pattern:\w+` 这里去进行回溯。逻辑是： `pattern:\w+` 应当尽可能多地去匹配一个完整的单词。在 `pattern:\w+` 这里减少重复次数，然后将之进行分割，形成 `pattern:\w+\w+`，这类的做法没有任何意义。
 
-Modern regular expression engines support possessive quantifiers for that. They are like greedy ones, but don't backtrack (so they are actually simpler than regular quantifiers).
+为此，现代正则表达式引擎支持占有型量词（Possessive Quantifiers）。它们就像贪婪量词一样，但是不会进行回溯（所以比一般的正则量词更简单）。
 
-There are also so-called "atomic capturing groups" - a way to disable backtracking inside parentheses.
+它们也被成为“原子捕获分组（atomic capturing groups）” - 能够在括号内禁止回溯。
 
-Unfortunately, in JavaScript they are not supported. But there's another way.
+不幸的是，JavaScript 并不支持它，但是仍有其他办法。
 
-### Lookahead to the rescue!
+### 用前瞻视角解决问题
 
-We can prevent backtracking using lookahead.
+我们可以使用前瞻断言来防止回溯。
 
-The pattern to take as much repetitions of `pattern:\w` as possible without backtracking is: `pattern:(?=(\w+))\1`.
+在不进行回溯的前提下，我们用 `pattern:(?=(\w+))\1` 这个模式就可以尽可能多地重复匹配 `pattern:\w`：
 
-Let's decipher it:
-- Lookahead `pattern:?=` looks forward for the longest word `pattern:\w+` starting at the current position.
-- The contents of parentheses with `pattern:?=...` isn't memorized by the engine, so wrap `pattern:\w+` into parentheses. Then the engine will memorize their contents
-- ...And allow us to reference it in the pattern as `pattern:\1`.
+来解读一下：
+- 前瞻断言 `pattern:?=` 从当前位置开始，向前查找最长的单词 `pattern:\w+`。
+- 引擎默认不会去记录 `pattern:?=...` 括号中的内容。为了记录它们，所以我们把 `pattern:\w+` 放入括号中，这样引擎会记录括号中的内容了。
+- ……然后用 `pattern:\1` 来引用括号中的内容。
 
-That is: we look ahead - and if there's a word `pattern:\w+`, then match it as `pattern:\1`.
+它的逻辑是：我们先进行前瞻查找 - 如果有符合 `pattern:\w+` 的单词，我们就可以用 `pattern:\1` 来匹配。
 
-Why? That's because the lookahead finds a word `pattern:\w+` as a whole and we capture it into the pattern with `pattern:\1`. So we essentially implemented a possessive plus `pattern:+` quantifier. It captures only the whole word `pattern:\w+`, not a part of it.
+为什么？因为前瞻断言查找到一个单词 `pattern:\w+`，将其作为一个整体，然后进行捕获形成 `pattern:\1` 。所以我们最终实现了一种占有型加号 `pattern:+` 量词。它只将 `pattern:\w+` 作为一个整体来捕获，而不会只捕获它的某一部分。
 
-For instance, in the word `subject:JavaScript` it may not only match `match:Java`, but leave out `match:Script` to match the rest of the pattern.
+例如，在单词 `subject:JavaScript` 中不仅可以匹配 `match:Java`，而且可以忽略 `match:Script` ，匹配模式的其余部分。
 
-Here's the comparison of two patterns:
+下面是 2 个模式的对比：
 
 ```js run
 alert( "JavaScript".match(/\w+Script/)); // JavaScript
 alert( "JavaScript".match(/(?=(\w+))\1Script/)); // null
 ```
 
-1. In the first variant `pattern:\w+` first captures the whole word `subject:JavaScript` but then `pattern:+` backtracks character by character, to try to match the rest of the pattern, until it finally succeeds (when `pattern:\w+` matches `match:Java`).
-2. In the second variant `pattern:(?=(\w+))` looks ahead and finds the word  `subject:JavaScript`, that is included into the pattern as a whole by `pattern:\1`, so there remains no way to find `subject:Script` after it.
+1. 第一个变体 `pattern:\w+` 首先捕获整个 `subject:JavaScript` 单词，然而接下来 `pattern:+` 会一个字一个字地进行回溯，试图匹配整个模式的其余部分，直到 `pattern:\w+` 匹配到了 `match:Java` 时，它最终才匹配成功。
+2. 第二个变体 `pattern:(?=(\w+))` 前瞻查找并匹配整个单词 `subject:JavaScript`，然后把整个单词作为一个整体包含进 `pattern:\1` 中，所以在它后面就无法查找到 `subject:Script` 了。
 
-We can put a more complex regular expression into `pattern:(?=(\w+))\1` instead of `pattern:\w`, when we need to forbid backtracking for `pattern:+` after it.
+当我们需要禁止 `pattern:+` 进行回溯的话，我们只要把 `pattern:(?=(\w+))\1` 中的 `pattern:\w` 替换成更复杂的正则表达式就能实现了。
 
 ```smart
-There's more about the relation between possessive quantifiers and lookahead in articles [Regex: Emulate Atomic Grouping (and Possessive Quantifiers) with LookAhead](http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead) and [Mimicking Atomic Groups](http://blog.stevenlevithan.com/archives/mimic-atomic-groups).
+这些文章中有更多关于占有型量词和前瞻断言的的内容：[Regex: Emulate Atomic Grouping (and Possessive Quantifiers) with LookAhead](http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead) 和 [Mimicking Atomic Groups](http://blog.stevenlevithan.com/archives/mimic-atomic-groups)。
 ```
 
-Let's rewrite the first example using lookahead to prevent backtracking:
+我们现在用前瞻断言重写第一个例子中的正则来防止回溯吧：
 
 ```js run
 let regexp = /^((?=(\w+))\2\s?)*$/;
@@ -278,13 +278,13 @@ alert( regexp.test("A good string") ); // true
 
 let str = "An input string that takes a long time or even makes this regex to hang!";
 
-alert( regexp.test(str) ); // false, works and fast!
+alert( regexp.test(str) ); // false，执行得很快！
 ```
 
-Here `pattern:\2` is used instead of `pattern:\1`, because there are additional outer parentheses. To avoid messing up with the numbers, we can give the parentheses a name, e.g. `pattern:(?<word>\w+)`.
+这里我们用 `pattern:\2` 代替 `pattern:\1`，因为这里附加了额外的外部括号。为了防止数字产生混淆，我们可以给括号命名，例如 `pattern:(?<word>\w+)`。
 
 ```js run
-// parentheses are named ?<word>, referenced as \k<word>
+// 括号被命名为 ?<word>，使用 \k<word> 来引用
 let regexp = /^((?=(?<word>\w+))\k<word>\s?)*$/;
 
 let str = "An input string that takes a long time or even makes this regex to hang!";
@@ -294,8 +294,8 @@ alert( regexp.test(str) ); // false
 alert( regexp.test("A correct string") ); // true
 ```
 
-The problem described in this article is called "catastrophic backtracking".
+本文所描述的问题称作“灾难性回溯（catastrophic backtracking）”，又译作“回溯陷阱”。
 
-We covered two ways how to solve it:
-- Rewrite the regexp to lower the possible combinations count.
-- Prevent backtracking.
+我们有 2 种处理它的思路：
+- 重写正则表达式，尽可能减少其中排列组合的数量。
+- 防止回溯。
