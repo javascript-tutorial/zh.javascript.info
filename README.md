@@ -276,7 +276,8 @@ importance: 5
 本中文版教程的核心维护者 🚀
 
 - LeviDing [@leviding](https://github.com/leviding)
-- LycheeEng [@lycheeEng](https://github.com/lycheeEng)
 - Martin [@MartinsYong](https://github.com/MartinsYong)
+- Bemself [bemself](https://github.com/bemself)
+- LycheeEng [@lycheeEng](https://github.com/lycheeEng)
 
 我们希望与大家合作维护本教程。本教程的详细贡献者列表请见：<https://zh.javascript.info/about>。
