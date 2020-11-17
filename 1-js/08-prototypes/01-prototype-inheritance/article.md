@@ -12,7 +12,7 @@
 
 ![prototype](object-prototype-empty.svg)
 
-原型有点“神奇”。当我们想要从 `object` 中读取一个缺失的属性时，JavaScript 会自动从原型中获取该属性。在编程中，这种行为被称为“原型继承”。许多炫酷的语言特性和编程技巧都基于此。
+当我们从 `object` 中读取一个缺失的属性时，JavaScript 会自动从原型中获取该属性。在编程中，这种行为被称为“原型继承”。很快，我们将通过很多示例来学习此类继承，以及基于该继承的更炫酷的语言功能。
 
 属性 `[[Prototype]]` 是内部的而且是隐藏的，但是这儿有很多设置它的方式。
 
@@ -27,19 +27,11 @@ let rabbit = {
 };
 
 *!*
-rabbit.__proto__ = animal;
+rabbit.__proto__ = animal; // 设置 rabbit.[[Prototype]] = animal
 */!*
 ```
 
-```smart header="`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter"
-请注意，`__proto__` 与 `[[Prototype]]` **不一样**。`__proto__` 是 `[[Prototype]]` 的 getter/setter。
-
-`__proto__` 的存在是历史的原因。在现代编程语言中，将其替换为函数 `Object.getPrototypeOf/Object.setPrototypeOf` 也能 get/set 原型。我们稍后将学习造成这种情况的原因以及这些函数。
-
-根据规范，`__proto__` 必须仅在浏览器环境下才能得到支持，但实际上，包括服务端在内的所有环境都支持它。目前，由于 `__proto__` 标记在观感上更加明显，所以我们在后面的示例中将使用它。
-```
-
-如果我们在 `rabbit` 中查找一个缺失的属性，JavaScript 会自动从 `animal` 中获取它。
+现在，如果我们从 `rabbit` 中读取一个它没有的属性，JavaScript 会自动从 `animal` 中获取。
 
 例如：
 
@@ -130,12 +122,27 @@ alert(longEar.jumps); // true（从 rabbit）
 
 ![](proto-animal-rabbit-chain.svg)
 
+现在，如果我们从 `longEar` 中读取一些它不存在的内容，JavaScript 会先在 `rabbit` 中查找，然后在 `animal` 中查找。
+
 这里只有两个限制：
 
 1. 引用不能形成闭环。如果我们试图在一个闭环中分配 `__proto__`，JavaScript 会抛出错误。
 2. `__proto__` 的值可以是对象，也可以是 `null`。而其他的类型都会被忽略。
 
 当然，这可能很显而易见，但是仍然要强调：只能有一个 `[[Prototype]]`。一个对象不能从其他两个对象获得继承。
+
+
+```smart header="`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter"
+初学者常犯一个普遍的错误，就是不知道 `__proto__` 和 `[[Prototype]]` 的区别。
+
+请注意，`__proto__` 与内部的 `[[Prototype]]` **不一样**。`__proto__` 是 `[[Prototype]]` 的 getter/setter。稍后，我们将看到在什么情况下理解它们很重要，在建立对 JavaScript 语言的理解时，让我们牢记这一点。
+
+`__proto__` 属性有点过时了。它的存在是出于历史的原因，现代编程语言建议我们应该使用函数 `Object.getPrototypeOf/Object.setPrototypeOf` 来取代 `__proto__` 去 get/set 原型。稍后我们将介绍这些函数。
+
+根据规范，`__proto__` 必须仅受浏览器环境的支持。但实际上，包括服务端在内的所有环境都支持它，因此我们使用它是非常安全的。
+
+由于 `__proto__` 标记在观感上更加明显，所以我们在后面的示例中将使用它。
+```
 
 ## 写入不使用原型
 

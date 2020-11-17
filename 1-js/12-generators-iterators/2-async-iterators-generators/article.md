@@ -363,7 +363,7 @@ async function* fetchCommits(repo) {
     - 初始 URL 是 `https://api.github.com/repos/<repo>/commits`，并且下一页的 URL 将在响应的 `Link` header 中。
     - `fetch` 方法允许我们提供授权和其他 header，如果需要 —— 这里 GitHub 需要的是 `User-Agent`。
 2. commit 被以 JSON 的格式返回。
-3. 我们应该从响应（response）的 `Link` header 中获取前往下一页的 URL。它有一个特殊的格式，所以我们对它使用正则表达式
+3. 我们应该从响应（response）的 `Link` header 中获取前往下一页的 URL。它有一个特殊的格式，所以我们对它使用正则表达式（我们将在 [正则表达式](info:regular-expressions) 一章中学习它）。
     - 前往下一页的 URL 看起来可能就像这样 `https://api.github.com/repositories/93253246/commits?page=2`。这是由 GitHub 自己生成的。
 4. 然后，我们将接收到的所有 commit 一个一个地 yield 出来，当所有 commit 都 yield 完成时，将触发下一个 `while(url)` 迭代，并发出下一个请求。
 

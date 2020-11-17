@@ -206,7 +206,7 @@ elem.addEventListener("click", e => alert(2));
 
 - 然后，事件从文档根节点向下移动到 `event.target`，并在途中调用分配了 `addEventListener(..., true)` 的处理程序（`true` 是 `{capture: true}` 的一个简写形式）。
 - 然后，在目标元素自身上调用处理程序。
-- 然后，事件从 `event.target` 冒泡到根，调用使用 `on<event>` 和没有第三个参数的，或者第三个参数为 `false/{capture:false}` 的 `addEventListener` 分配的处理程序。
+- 然后，事件从 `event.target` 冒泡到根，调用使用 `on<event>`、HTML 特性（attribute）和没有第三个参数的，或者第三个参数为 `false/{capture:false}` 的 `addEventListener` 分配的处理程序。
 
 每个处理程序都可以访问 `event` 对象的属性：
 

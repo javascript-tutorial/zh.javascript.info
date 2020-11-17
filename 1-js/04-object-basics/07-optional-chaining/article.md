@@ -9,52 +9,90 @@
 
 如果你才刚开始读此教程并学习 JavaScript，那可能还没接触到这个问题，但它却相当常见。
 
-例如，让我们考虑存储用户数据的对象。我们大多数用户的地址信息都存储在 `user.address` 属性中，街道信息存储在 `user.address.street` 属性中，但有些用户没有提供这些信息。
+举个例子，假设我们有很多个 `user` 对象，其中存储了我们的用户数据。
 
-在这种情况下，当我们尝试获取 `user.address.street` 时，将会收到错误信息：
+我们大多数用户的地址都存储在 `user.address` 中，街道地址存储在 `user.address.street` 中，但有些用户没有提供这些信息。
+
+在这种情况下，当我们尝试获取 `user.address.street`，而该用户恰好没提供地址信息，我们则会收到一个错误：
 
 ```js run
-let user = {}; // 变量 user 没有 "address" 属性
+let user = {}; // 一个没有 "address" 属性的 user 对象
 
 alert(user.address.street); // Error!
 ```
 
-这是预期的结果，JavaScript 的工作原理就是这样的，但是在很多实际场景中，我们更希望得到的是 `undefined`（表示没有 `street` 属性）而不是一个错误。
+这是预期的结果。JavaScript 的工作原理就是这样的。因为 `user.address` 为 `undefined`，尝试读取 `user.address.street` 会失败，并收到一个错误。
 
-……还有另一个例子。在 Web 开发中，我们可能需要获取页面上某个元素的有关信息，但有时该信息可能不存在：
+但是在很多实际场景中，我们更希望得到的是 `undefined`（表示没有 `street` 属性）而不是一个错误。
 
-```js run
-// 如果 querySelector(...) 的结果为 null，则会报错
-let html = document.querySelector('.my-element').innerHTML;
-```
-
-在 JavaScript 这门语言中出现 `?.` 前，`&&` 运算符常被用来解决这个问题。
-
-例如：
+……还有另一个例子。在 Web 开发中，我们可以使用特殊的方法调用（例如 `document.querySelector('.elem')`）以对象的形式获取一个网页元素，如果没有这种对象，则返回 `null`。
 
 ```js run
-let user = {}; // user 没有 address
-
-alert( user && user.address && user.address.street ); // undefined（不报错）
+// 如果 document.querySelector('.elem') 的结果为 null，则这里不存在这个元素
+let html = document.querySelector('.elem').innerHTML; // 如果 document.querySelector('.elem') 的结果为 null，则会出现错误
 ```
 
-依次对整条路径上的属性使用与运算进行判断，以确保所有节点是存在的（如果不存在，则停止计算），但是写起来很麻烦。
+同样，如果该元素不存在，则访问 `null` 的 `.innerHTML` 时会出错。在某些情况下，当元素的缺失是没问题的时候，我们希望避免出现这种错误，而是接受 `html = null` 作为结果。
+
+我们如何实现这一点呢？
+
+可能最先想到的方案是在访问该值的属性之前，使用 `if` 或条件运算符 `?` 对该值进行检查，像这样：
+
+```js
+let user = {};
+
+alert(user.address ? user.address.street : undefined);
+```
+
+这样可以，这里就不会出现错误了……但是不够优雅。就像你所看到的，`"user.address"` 在代码中出现了两次。对于嵌套层次更深的属性就会出现更多次这样的重复，这就是问题了。
+
+例如，让我们尝试获取 `user.address.street.name`。
+
+我们既需要检查 `user.address`，又需要检查 `user.address.street`：
+
+```js
+let user = {}; // user 没有 address 属性
+
+alert(user.address ? user.address.street ? user.address.street.name : null : null);
+```
+
+这样就太扯淡了，并且这可能导致写出来的代码很难让别人理解。
+
+甚至我们可以先忽略这个问题，因为我们有一种更好的实现方式，就是使用 `&&` 运算符：
+
+```js run
+let user = {}; // user 没有 address 属性
+
+alert( user.address && user.address.street && user.address.street.name ); // undefined（不报错）
+```
+
+依次对整条路径上的属性使用与运算进行判断，以确保所有节点是存在的（如果不存在，则停止计算），但仍然不够优雅。
+
+就像你所看到的，在代码中我们仍然重复写了好几遍对象属性名。例如在上面的代码中，`user.address` 被重复写了三遍。
+
+这就是为什么可选链 `?.` 被加入到了 JavaScript 这门编程语言中。那就是彻底地解决以上所有问题！
 
 ## 可选链
 
-如果可选链 `?.` 前面部分是 `undefined` 或者 `null`，它会停止运算并返回 `undefined`。
+如果可选链 `?.` 前面的部分是 `undefined` 或者 `null`，它会停止运算并返回该部分。
 
 **为了简明起见，在本文接下来的内容中，我们会说如果一个属性既不是 `null` 也不是 `undefined`，那么它就“存在”。**
 
-下面这是一种安全地访问 `user.address.street` 的方式：
+换句话说，例如 `value?.prop`：
+- 如果 `value` 存在，则结果与 `value.prop` 相同，
+- 否则（当 `value` 为 `undefined/null` 时）则返回 `undefined`。
+
+下面这是一种使用 `?.` 安全地访问 `user.address.street` 的方式：
 
 ```js run
-let user = {}; // user 没有 address
+let user = {}; // user 没有 address 属性
 
-alert( user?.address?.street ); // undefined （不报错）
+alert( user?.address?.street ); // undefined（不报错）
 ```
 
-以 `user?.address` 的方式来读取 `address` 是可行的，即使对象 `user` 不存在：
+代码简洁明了，也不用重复写好几遍属性名。
+
+即使 对象 `user` 不存在，使用 `user?.address` 来读取地址也没问题：
 
 ```js run
 let user = null;
@@ -65,14 +103,12 @@ alert( user?.address.street ); // undefined
 
 请注意：`?.` 语法使其前面的值成为可选值，但不会对其后面的起作用。
 
-在上面的例子中，`user?.` 只允许 `user` 为 `null/undefined`。
-
-另一方面，如果 `user` 存在，那么它必须具有 `user.address` 属性，否则 `user?.address.street` 在第二个点符号处会报错。
+例如，在 `user?.address.street.name` 中，`?.` 允许 `user` 为 `null/undefined`，但仅此而已。更深层次的属性是通过常规方式访问的。如果我们希望它们中的一些也是可选的，那么我们需要使用更多的 `?.` 来替换 `.`。
 
 ```warn header="不要过度使用可选链"
 我们应该只将 `?.` 使用在一些东西可以不存在的地方。
 
-例如，如果根据我们的代码逻辑，`user` 对象必须存在，但 `address` 是可选的，那么 `user.address?.street` 会更好。
+例如，如果根据我们的代码逻辑，`user` 对象必须存在，但 `address` 是可选的，那么我们应该这样写 `user.address?.street`，而不是这样 `user?.address?.street`。
 
 所以，如果 `user` 恰巧因为失误变为 undefined，我们会看到一个编程错误并修复它。否则，代码中的错误在不恰当的地方被消除了，这会导致调试更加困难。
 ```
@@ -84,7 +120,7 @@ alert( user?.address.street ); // undefined
 // ReferenceError: user is not defined
 user?.address;
 ```
-`?.` 前的变量必须已声明（例如 `let/const/var user`）。可选链仅适用于已声明的变量。
+`?.` 前的变量必须已声明（例如 `let/const/var user` 或作为一个函数参数）。可选链仅适用于已声明的变量。
 ````
 
 ## 短路效应
@@ -113,17 +149,20 @@ alert(x); // 0，值没有增加
 在下面这段代码中，有些用户具有 `admin` 方法，而有些没有：
 
 ```js run
-let user1 = {
+let userAdmin = {
   admin() {
     alert("I am admin");
   }
-}
+};
 
-let user2 = {};
+let userGuest = {};
 
 *!*
-user1.admin?.(); // I am admin
-user2.admin?.();
+userAdmin.admin?.(); // I am admin
+*/!*
+
+*!*
+userGuest.admin?.(); // 啥都没有（没有这样的方法）
 */!*
 ```
 
@@ -165,7 +204,7 @@ user?.name = "John"; // Error，不起作用
 // 因为它在计算的是 undefined = "John"
 ```
 
-这不是那么聪明。
+这还不是那么智能。
 ````
 
 ## 总结

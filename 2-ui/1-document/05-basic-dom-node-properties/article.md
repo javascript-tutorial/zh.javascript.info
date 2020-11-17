@@ -198,7 +198,7 @@ tagName 和 nodeName 之间有什么不同吗？
 
 ## innerHTML：内容
 
-[innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) 属性允许将元素中的 HTML 获取为字符串形式。
+[innerHTML](https://w3c.github.io/DOM-Parsing/#the-innerhtml-mixin) 属性允许将元素中的 HTML 获取为字符串形式。
 
 我们也可以修改它。因此，它是更改页面最有效的方法之一。
 

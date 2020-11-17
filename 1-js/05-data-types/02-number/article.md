@@ -406,7 +406,7 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
     alert( Math.pow(2, 10) ); // 2 的 10 次幂 = 1024
     ```
 
-`Math` 对象中还有更多函数和常量，包括三角函数，你可以在 [Math 函数文档](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 中找到这些内容。
+`Math` 对象中还有更多函数和常量，包括三角函数，你可以在 [Math 对象文档](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) 中找到这些内容。
 
 ## 总结
 
