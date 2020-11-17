@@ -80,7 +80,7 @@ group.showList();
 
 箭头函数也没有 `arguments` 变量。
 
-当我们需要使用当前的 `this` 和 `arguments` 转发一个调用时，这对装饰者（decorators）来说非常有用。
+当我们需要使用当前的 `this` 和 `arguments` 转发一个调用时，这对装饰器（decorators）来说非常有用。
 
 例如，`defer(f, ms)` 获得了一个函数，并返回一个包装器，该包装器将调用延迟 `ms` 毫秒：
 

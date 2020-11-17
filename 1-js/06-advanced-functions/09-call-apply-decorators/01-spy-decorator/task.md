@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 间谍装饰者
+# 间谍装饰器
 
-创建一个装饰者 `spy(func)`，它应该返回一个包装器，该包装器将所有对函数的调用保存在其 `calls` 属性中。 
+创建一个装饰器 `spy(func)`，它应该返回一个包装器，该包装器将所有对函数的调用保存在其 `calls` 属性中。 
 
 每个调用都保存为一个参数数组。
 
@@ -27,4 +27,4 @@ for (let args of work.calls) {
 }
 ```
 
-P.S. 该装饰者有时对于单元测试很有用。它的高级形式是 [Sinon.JS](http://sinonjs.org/) 库中的 `sinon.spy`。
+P.S. 该装饰器有时对于单元测试很有用。它的高级形式是 [Sinon.JS](http://sinonjs.org/) 库中的 `sinon.spy`。
