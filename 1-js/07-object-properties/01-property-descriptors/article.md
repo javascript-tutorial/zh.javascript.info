@@ -224,7 +224,7 @@ Math.PI = 3; // Error
 确切地说，不可配置性对 `defineProperty` 施加了一些限制：
 1. 不能修改 `configurable` 标志。
 2. 不能修改 `enumerable` 标志。
-3. 不能将 `writable: false` 修改为 `true`（反之亦然）。
+3. 不能将 `writable: false` 修改为 `true`（反过来则可以）。
 4. 不能修改访问者属性的 `get/set`（但是如果没有可以分配它们）。
 
 **"configurable: false" 的用途是防止更改和删除属性标志，但是允许更改对象的值。**
