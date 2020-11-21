@@ -1,4 +1,3 @@
-
 # 特性和属性（Attributes and properties）
 
 当浏览器加载页面时，它会“读取”（或者称之为：“解析”）HTML 并从中生成 DOM 对象。对于元素节点，大多数标准的 HTML 特性（attributes）会自动变成 DOM 对象的属性（properties）。（译注：attribute 和 property 两词意思相近，为作区分，全文将 attribute 译为“特性”，property 译为“属性”，请读者注意区分。）
@@ -299,7 +298,7 @@ DOM 属性不总是字符串类型的。例如，`input.checked` 属性（对于
 </div>
 ```
 
-为什么使用特性比使用 `.order-state-new`，`.order-state-pending`，`order-state-canceled` 这些样式类要好？
+为什么使用特性比使用 `.order-state-new`，`.order-state-pending`，`.order-state-canceled` 这些样式类要好？
 
 因为特性值更容易管理。我们可以轻松地更改状态：
 

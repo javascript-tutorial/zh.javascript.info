@@ -363,7 +363,7 @@ document.getElementsByTagName('input')[0].value = 5;
 </tbody>
 </table>
 
-目前为止，最常用的是 `querySelector` 和 `querySelectorAll`，但是 `getElementBy*` 可能会偶尔有用，或者可以在旧脚本中找到。
+目前为止，最常用的是 `querySelector` 和 `querySelectorAll`，但是 `getElement(s)By*` 可能会偶尔有用，或者可以在旧脚本中找到。
 
 此外：
 

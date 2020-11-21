@@ -146,7 +146,7 @@ loadScript('/my/script.js', function(script) {
     });
 */!*
 
-  })
+  });
 
 });
 ```
@@ -223,7 +223,7 @@ loadScript('1.js', function(error, script) {
         });
 
       }
-    })
+    });
   }
 });
 ```
@@ -256,7 +256,7 @@ loadScript('1.js', function(error, script) {
           }
         });
       }
-    })
+    });
   }
 });
 -->
@@ -296,7 +296,7 @@ function step3(error, script) {
   } else {
     // ...加载完所有脚本后继续 (*)
   }
-};
+}
 ```
 
 看到了吗？它的作用相同，但是没有深层的嵌套了，因为我们将每个行为都编写成了一个独立的顶层函数。

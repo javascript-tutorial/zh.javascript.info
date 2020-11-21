@@ -76,8 +76,8 @@ Class `Rabbit` 的对象可以访问例如 `rabbit.hide()` 等 `Rabbit` 的方�
 ```js run
 function f(phrase) {
   return class {
-    sayHi() { alert(phrase) }
-  }
+    sayHi() { alert(phrase); }
+  };
 }
 
 *!*
@@ -300,7 +300,7 @@ alert(rabbit.earLength); // 10
 
 ```js run
 class Animal {
-  name = 'animal'
+  name = 'animal';
 
   constructor() {
     alert(this.name); // (*)

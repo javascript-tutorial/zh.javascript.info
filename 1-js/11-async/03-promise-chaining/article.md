@@ -265,7 +265,7 @@ fetch('/article/promise-chaining/user.json')
 
 现在，让我们用加载好的用户信息搞点事情。
 
-例如，我们可以多发一个到 GitHub 的请求，加载用户个人资料并显示头像：
+例如，我们可以再向 GitHub 发送一个请求，加载用户个人资料并显示头像：
 
 ```js run
 // 发送一个对 user.json 的请求

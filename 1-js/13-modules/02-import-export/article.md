@@ -321,7 +321,7 @@ export {default as User} from './user.js'; // 重新导出 default
 
 为什么要这样做？我们看一个实际开发中的用例。
 
-想象一下，我们正在编写一个 "package"：一个包含大量模块的文件夹，其中一些功能是导出到外部的（像 NPM 这样的工具允许我们发布和分发这样的 package），并且其中一些模块仅仅是供其他 package 中的模块内部使用的 "helpers"。
+想象一下，我们正在编写一个 "package"：一个包含大量模块的文件夹，其中一些功能是导出到外部的（像 NPM 这样的工具允许我们发布和分发这样的 package，但我们不是必须要去使用它们），并且其中一些模块仅仅是供其他 package 中的模块内部使用的 "helpers"。
 
 文件结构可能是这样的：
 ```
@@ -378,7 +378,7 @@ export {default as User} from './user.js';
 
 重新导出时，默认导出需要单独处理。
 
-假设我们有 `user.js`，我们想从中重新导出类 `User`：
+假设我们有一个 `user.js` 脚本，其中写了 `export default class User`，并且我们想重新导出类 `User`：
 
 ```js
 // 📁 user.js
@@ -387,7 +387,9 @@ export default class User {
 }
 ```
 
-1. `export User from './user.js'` 无效。什么出了问题？这实际上是一个语法错误。
+我们可能会遇到两个问题：
+
+1. `export User from './user.js'` 无效。这会导致一个语法错误。
 
     要重新导出默认导出，我们必须明确写出 `export {default as User}`，就像上面的例子中那样。
 
@@ -399,7 +401,7 @@ export default class User {
     export {default} from './user.js'; // 重新导出默认的导出
     ```
 
-重新导出默认的导出的这种奇怪现象是某些开发者不喜欢它们的原因之一。
+重新导出一个默认导出的这种奇怪现象，是某些开发者不喜欢默认导出，而是喜欢命名的导出的原因之一。
 
 ## 总结
 

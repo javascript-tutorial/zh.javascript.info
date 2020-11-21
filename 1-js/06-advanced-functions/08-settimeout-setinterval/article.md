@@ -281,7 +281,7 @@ setTimeout(function run() {
 
 这个限制来自“远古时代”，并且许多脚本都依赖于此，所以这个机制也就存在至今。
 
-对于服务端的 JavaScript，就没有这个限制，并且还有其他调度即时异步任务的方式。例如 Node.js 的 [setImmediate](https://nodejs.org/api/timers.html)。因此，这个提醒只是针对浏览器环境的。
+对于服务端的 JavaScript，就没有这个限制，并且还有其他调度即时异步任务的方式。例如 Node.js 的 [setImmediate](https://nodejs.org/api/timers.html#timers_setimmediate_callback_args)。因此，这个提醒只是针对浏览器环境的。
 ````
 
 ## 总结

@@ -1,7 +1,7 @@
 
 # 使用 async/await 重写 "rethrow"
 
-下面你可以看到来自 <info:promise-chaining> 一章的 "rethrow" 例子。让我们来用 `async/await` 重写它，而不是使用 `.then/catch`。
+下面你可以看到 "rethrow" 的例子。让我们来用 `async/await` 重写它，而不是使用 `.then/catch`。
 
 同时，我们可以在 `demoGithubUser` 中使用循环以摆脱递归：在 `async/await` 的帮助下很容易实现。
 
@@ -22,7 +22,7 @@ function loadJson(url) {
       } else {
         throw new HttpError(response);
       }
-    })
+    });
 }
 
 // 询问用户名，直到 github 返回一个合法的用户

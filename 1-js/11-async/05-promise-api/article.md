@@ -176,15 +176,14 @@ Promise.allSettled(urls.map(url => fetch(url)))
 如果浏览器不支持 `Promise.allSettled`，很容易进行 polyfill：
 
 ```js
-if(!Promise.allSettled) {
-  Promise.allSettled = function(promises) {
-    return Promise.all(promises.map(p => Promise.resolve(p).then(value => ({
-      status: 'fulfilled',
-      value
-    }), reason => ({
-      status: 'rejected',
-      reason
-    }))));
+if (!Promise.allSettled) {
+  const rejectHandler = reason => ({ status: 'rejected', reason });
+
+  const resolveHandler = value => ({ status: 'fulfilled', value });
+
+  Promise.allSettled = function (promises) {
+    const convertedPromises = promises.map(p => Promise.resolve(p).then(resolveHandler, rejectHandler));
+    return Promise.all(convertedPromises);
   };
 }
 ```

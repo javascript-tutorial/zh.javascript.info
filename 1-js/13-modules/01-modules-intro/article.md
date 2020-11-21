@@ -260,7 +260,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 <script>
 *!*
-  alert(typeof button); // Error: button is undefined，脚本看不到下面的元素
+  alert(typeof button); // button 为 undefined，脚本看不到下面的元素
 */!*
   // 常规脚本会立即运行，常规脚本的运行是在在处理页面的其余部分之前进行的
 </script>
