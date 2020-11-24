@@ -227,7 +227,7 @@ alert( Array.from(str) ); // H,e,l,l,o
 
 ## 获取一个 array/object 的副本
 
-还记得我们 [之前讲过的](info:object-copy#fu-zhi-he-he-bing-objectassign) `Object.assign()` 吗？
+还记得我们 [之前讲过的](info:object-copy#ke-long-yu-he-bing-objectassign) `Object.assign()` 吗？
 
 使用 spread 语法也可以做同样的事情。
 
