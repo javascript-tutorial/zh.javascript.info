@@ -78,7 +78,7 @@ Custom element 名称必须包括一个短横线 `-`, 比如 `my-element` 和 `s
 让我们来创建一个可以展示适用于当前浏览器语言的时间格式的 `<time-formatted>` 元素：
 
 
-​```html run height=50 autorun="no-epub"
+```html run height=50 autorun="no-epub"
 <script>
 *!*
 class TimeFormatted extends HTMLElement { // (1)
