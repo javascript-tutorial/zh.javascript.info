@@ -153,7 +153,7 @@ customElements.define("time-formatted", TimeFormatted); // (2)
 
 以下是 `<time-formatted>` 的新版本，它会在属性变化的时候自动更新：
 
-​```html run autorun="no-epub" height=50
+```html run autorun="no-epub" height=50
 <script>
 class TimeFormatted extends HTMLElement {
 
