@@ -322,7 +322,7 @@ for (let key in user) {
 : 禁止向对象添加新属性。
 
 [Object.seal(obj)](mdn:js/Object/seal)
-: 禁止添加/删除/修改属性。为所有现有的属性设置 `configurable: false`。
+: 禁止添加/删除属性。为所有现有的属性设置 `configurable: false`。
 
 [Object.freeze(obj)](mdn:js/Object/freeze)
 : 禁止添加/删除/更改属性。为所有现有的属性设置 `configurable: false, writable: false`。
