@@ -274,7 +274,7 @@ alert( arr.includes(NaN) );// true（这个结果是对的）
 ```js
 let result = arr.find(function(item, index, array) {
   // 如果返回 true，则返回 item 并停止迭代
-  // 对于 falsy 则返回 undefined
+  // 对于假值（falsy）的情况，则返回 undefined
 });
 ```
 
