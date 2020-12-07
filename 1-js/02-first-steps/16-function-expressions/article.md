@@ -241,7 +241,7 @@ let sayHi = function(name) {  // (*) no magic any more
 
 例如，想象一下我们需要依赖于在代码运行过程中获得的变量 `age` 声明一个函数 `welcome()`。并且我们计划在之后的某个时间使用它。
 
-如果我们使用函数声明，则以下代码不能如愿工作：
+如果我们使用函数声明，则以下代码无法像预期那样工作：
 
 ```js run
 let age = prompt("What is your age?", 18);
