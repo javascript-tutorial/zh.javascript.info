@@ -59,7 +59,7 @@ let regexp = /\w+/g;
 let result;
 
 while (result = regexp.exec(str)) {
-  alert( `Found ${result[0]}} at position ${result.index}` );
+  alert( `Found ${result[0]} at position ${result.index}` );
   // 在位置 0 发现 let, 然后
   // 在位置 4 发现 varName
 }
