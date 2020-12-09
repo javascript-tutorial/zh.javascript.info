@@ -247,7 +247,7 @@ option = new Option(text, value, defaultSelected, selected);
 - `defaultSelected` —— 如果为 `true`，那么 `selected` HTML-特性（attribute）就会被创建，
 - `selected` —— 如果为 `true`，那么这个 `<option>` 就会被选中。
 
-你可能会对 `defaultSelected` 和 `selected` 有一些疑惑。这很简单：`defaultSelected` 设置的是 HTML-特性（attribute），我们可以使用 `option.getAttribute('selected')` 来获得。而 `selected` —— 无论这个 `option` 是否被选则，它都很重要。通常，这两个值都设置为 `true`，或者都不设置（与设置为 `false` 是一样的）。
+你可能会对 `defaultSelected` 和 `selected` 有一些疑惑。这很简单：`defaultSelected` 设置的是 HTML-特性（attribute），我们可以使用 `option.getAttribute('selected')` 来获得。而 `selected` —— 无论这个 `option` 是否被选择，它都很重要。通常，这两个值都设置为 `true`，或者都不设置（与设置为 `false` 是一样的）。
 
 例如：
 
