@@ -78,7 +78,7 @@ function sayHi() {
     var phrase = "Hello";
   }
 
-  alert(phrase); // works
+  alert(phrase); // 能正常工作
 }
 
 sayHi();
