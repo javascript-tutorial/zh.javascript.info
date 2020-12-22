@@ -154,7 +154,7 @@ function hello(name) {
 <span class="devtools" style="background-position:-61px -74px"></span> —— 启用/禁用所有的断点。
 : 这个按钮不会影响程序的执行。只是一个批量操作断点的开/关。
 
-<span class="devtools" style="background-position:-264px -4px"></span> —— 启用/禁用出现错误时自动暂停脚本执行。
+<span class="devtools" style="background-position:-90px -146px"></span> —— 启用/禁用出现错误时自动暂停脚本执行。
 : 当启动此功能并且开发者工具是打开着的时候，任何一个脚本的错误都会导致该脚本执行自动暂停。然后我们可以分析变量来看一下什么出错了。因此如果我们的脚本因为错误挂掉的时候，我们可以打开调试器，启用这个选项然后重载页面，查看一下哪里导致它挂掉了和当时的上下文是什么。
 
 ```smart header="Continue to here"
