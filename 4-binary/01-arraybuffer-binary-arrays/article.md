@@ -200,7 +200,7 @@ alert(uint8array[1]); // 1
 
 还有两种其他方法：
 
-- `arr.set(fromArr, [offset])` 将 `fromArr` 中从 `offset`（默认为 0）开始的所有元素复制到 `arr`。
+- `arr.set(fromArr, [offset])` 从 `offset`（默认为 0）开始，将 `fromArr` 中所有元素复制到 `arr`。
 - `arr.subarray([begin, end])` 创建一个从 `begin` 到 `end`（不包括）相同类型的新视图。这类似于 `slice` 方法（同样也支持），但不复制任何内容 —— 只是创建一个新视图，以对给定片段的数据进行操作。
 
 有了这些方法，我们可以复制、混合类型化数组，从现有数组创建新数组，等。
