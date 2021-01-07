@@ -17,9 +17,10 @@
 
 -->
 
-| 微信扫码关注官方公众号，订阅更多精彩内容 |
+| 微信扫码关注官方订阅号，订阅更多精彩内容 |
 |-|
-| <img src="https://i.loli.net/2020/07/07/CbUGTm1sWD5V4HO.png" width="500px;" /> |
+| <img src="https://user-images.githubusercontent.com/26959437/103859492-184f6c80-50f5-11eb-8187-a94b4302403f.png" width="500px;" /> |
+| <img src="https://user-images.githubusercontent.com/26959437/103859917-d672f600-50f5-11eb-9cd5-fb059ec15eb8.png" width="500px;" /> |
 
 **加入读者交流群：**
 
