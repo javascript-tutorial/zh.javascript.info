@@ -160,7 +160,7 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-如果我们想从一个已有的普通对象（plain object）来创建一个 `Map`，那么我们可以使用内建方法 [Object.entries(obj)](mdn:js/Object/entries)，该返回对象的键/值对数组，该数组格式完全按照 `Map` 所需的格式。
+如果我们想从一个已有的普通对象（plain object）来创建一个 `Map`，那么我们可以使用内建方法 [Object.entries(obj)](mdn:js/Object/entries)，该方法返回对象的键/值对数组，该数组格式完全按照 `Map` 所需的格式。
 
 所以可以像下面这样从一个对象创建一个 Map：
 
