@@ -540,9 +540,9 @@ alert( str );
 
 调用 [str.localeCompare(str2)](mdn:js/String/localeCompare) 会根据语言规则返回一个整数，这个整数能表明 `str` 是否在 `str2` 前，后或者等于它：
 
-- 如果 `str` 小于 `str2` 则返回负数。
-- 如果 `str` 大于 `str2` 则返回正数。
-- 如果它们相等则返回 `0`。
+- 如果 `str` 在 `str2` 之前则返回负数。
+- 如果 `str` 在 `str2` 之后则返回正数。
+- 如果它们在相等位置则返回 `0`。
 
 例如：
 
