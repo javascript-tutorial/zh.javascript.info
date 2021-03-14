@@ -760,7 +760,7 @@ alert(soldiers[1].age); // 23
 
 - [arr.flat(depth)](mdn:js/Array/flat)/[arr.flatMap(fn)](mdn:js/Array/flatMap) 从多维数组创建一个新的扁平数组。
 
-- [arr.of(element0[, element1[, ...[, elementN]]])](mdn:js/Array/of) 基于可变数量的参数创建一个新的 `Array` 实例，而不需要考虑参数的数量或类型。
+- [Array.of(element0[, element1[, ...[, elementN]]])](mdn:js/Array/of) 基于可变数量的参数创建一个新的 `Array` 实例，而不需要考虑参数的数量或类型。
 
 有关完整列表，请参阅 [手册](mdn:js/Array)。
 
