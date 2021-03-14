@@ -220,7 +220,7 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 它看起来像这样：
 
-![](elks.svg)
+![](elk.svg)
 
 你可以看到 DOM，点击元素，查看它们的细节等。
 
