@@ -401,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 ```
 
-这里，同一个对象处理两个事件。请注意，我们需要使用 `addEventListener` 来显示设置事件，以指明要监听的事件。这里的 `menu` 对象只监听 `mousedown` 和 `mouseup`，而没有任何其他类型的事件。
+这里，同一个对象处理两个事件。请注意，我们需要使用 `addEventListener` 来显式设置事件，以指明要监听的事件。这里的 `menu` 对象只监听 `mousedown` 和 `mouseup`，而没有任何其他类型的事件。
 
 `handleEvent` 方法不必通过自身完成所有的工作。它可以调用其他特定于事件的方法，例如：
 
