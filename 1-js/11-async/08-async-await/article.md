@@ -139,6 +139,8 @@ let user = await response.json();
   ...
 })();
 ```
+
+P.S. 新特性：从 v8 引擎 8.9 版本开始，顶层 await 可以在 [模块](info:modules) 中工作。
 ````
 
 ````smart header="`await` 接受 \"thenables\""
@@ -184,7 +186,7 @@ class Waiter {
 
 new Waiter()
   .wait()
-  .then(alert); // 1
+  .then(alert); // 1 （ alert 等同于 result => alert(result) ）
 ```
 这里的含义是一样的：它确保了方法的返回值是一个 promise 并且可以在方法中使用 `await`。
 
