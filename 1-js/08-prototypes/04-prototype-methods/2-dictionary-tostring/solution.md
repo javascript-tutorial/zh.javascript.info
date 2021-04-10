@@ -8,7 +8,7 @@
 let dictionary = Object.create(null, {
   toString: { // 定义 toString 属性
     value() { // value 是一个 function
-      return Object.keys(this).join();
+      return Object.keys(this).join(",");
     }
   }
 });
