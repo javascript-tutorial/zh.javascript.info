@@ -471,7 +471,7 @@ ul.append(...getListContent()); // append + "..." operator = friends!
     </script>
     ```
 
-所有这些方法都会返回插入/删除的节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常我们不会使用返沪值，我们只是使用对应的方法。
+所有这些方法都会返回插入/删除的节点。换句话说，`parentElem.appendChild(node)` 返回 `node`。但是通常我们不会使用返回值，我们只是使用对应的方法。
 
 ## 聊一聊 "document.write"
 
