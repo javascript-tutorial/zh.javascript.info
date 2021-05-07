@@ -256,7 +256,7 @@ alert( getComputedStyle(elem).width ); // 显示 elem 的 CSS width
 
 带有文本的元素具有 `width:300px`。
 
-在桌面 Windows 操作系统上，Firefox、Chrome、Edgy 都为滚动条保留了空间。但 Firefox 显示的是 `300px`，而 Chrome 和 Edgy 显示较少。这是因为 Firefox 返回 CSS 宽度，其他浏览器返回“真实”宽度。
+在桌面 Windows 操作系统上，Firefox、Chrome、Edge 都为滚动条保留了空间。但 Firefox 显示的是 `300px`，而 Chrome 和 Edge 显示较少。这是因为 Firefox 返回 CSS 宽度，其他浏览器返回“真实”宽度。
 ```
 
 请注意，所描述的差异只是关于从 JavaScript 读取的 `getComputedStyle(...).width`，而视觉上看，一切都是正确的。
