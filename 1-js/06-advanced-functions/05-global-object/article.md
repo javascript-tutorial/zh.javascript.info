@@ -51,7 +51,7 @@ window.currentUser = {
 alert(currentUser.name);  // John
 
 // 或者，如果我们有一个名为 "currentUser" 的局部变量
-// 从 window 显示地获取它（这是安全的！）
+// 从 window 显式地获取它（这是安全的！）
 alert(window.currentUser.name); // John
 ```
 
