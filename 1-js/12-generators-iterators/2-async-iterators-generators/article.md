@@ -250,7 +250,7 @@ for(let value of range) {
 ````smart header="引擎盖下的差异"
 如果你还记得我们在前面章节中所讲的关于 generator 的细节知识，那你应该知道，从技术上讲，异步 generator 和常规的 generator 在内部是有区别的。
 
-对于异步 generator，`generatr.next()` 方法是异步的，它返回 promise。
+对于异步 generator，`generator.next()` 方法是异步的，它返回 promise。
 
 在一个常规的 generator 中，我们使用 `result = generator.next()` 来获得值。但在一个异步 generator 中，我们应该添加 `await` 关键字，像这样：
 
