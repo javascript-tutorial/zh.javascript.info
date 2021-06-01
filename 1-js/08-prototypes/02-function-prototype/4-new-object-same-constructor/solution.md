@@ -42,3 +42,4 @@ alert( user2.name ); // undefined
 3. `User.prototype` 的值是一个普通对象 `{}`，该对象的原型是 `Object.prototype`。并且 `Object.prototype.constructor == Object`。所以就用它了。
 
 最后，我们有 `let user2 = new Object('Pete')`。内建的 `Object` 构造函数会忽略参数，它总是创建一个类似于 `let user2 = {}` 的空对象，这就是最后我们在 `user2` 中拥有的东西。
+let user2 = new Object('Pete')返回一个String，而不是一个{}, user2 = String {"pete"}
