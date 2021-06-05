@@ -35,7 +35,7 @@
     // 显式转换
     let num = Number(obj);
 
-    // 数学运算（除了二进制加法）
+    // 数学运算（除了二元加法）
     let n = +obj; // 一元加法
     let delta = date1 - date2;
 
