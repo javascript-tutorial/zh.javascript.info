@@ -538,11 +538,11 @@ alert( str );
 
 它提供了一种特殊的方法来比较不同语言的字符串，遵循它们的规则。
 
-调用 [str.localeCompare(str2)](mdn:js/String/localeCompare) 会根据语言规则返回一个整数，这个整数能表明 `str` 是否在 `str2` 前，后或者等于它：
+调用 [str.localeCompare(str2)](mdn:js/String/localeCompare) 会根据语言规则返回一个整数，这个整数能指示字符串 `str` 在排序顺序中排在字符串 `str2` 前面、后面、还是相同：
 
-- 如果 `str` 小于 `str2` 则返回负数。
-- 如果 `str` 大于 `str2` 则返回正数。
-- 如果它们相等则返回 `0`。
+- 如果 `str` 排在 `str2` 前面，则返回负数。
+- 如果 `str` 排在 `str2` 后面，则返回正数。
+- 如果它们在相同位置，则返回 `0`。
 
 例如：
 
@@ -550,7 +550,7 @@ alert( str );
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```
 
-这个方法实际上在 [文档](mdn:js/String/localeCompare) 中指定了两个额外的参数，这两个参数允许它指定语言（默认语言从环境中获取，字符顺序视语言不同而不同）并设置诸如区别大小之类的附加规则，或应该将 `"a"` 和 `"á"` 看作相等情况等。
+这个方法实际上在 [文档](mdn:js/String/localeCompare) 中指定了两个额外的参数，这两个参数允许它指定语言（默认语言从环境中获取，字符顺序视语言不同而不同）并设置诸如区分大小写，或应该将 `"a"` 和 `"á"` 作相同处理等附加的规则。
 
 ## 内部，Unicode
 
