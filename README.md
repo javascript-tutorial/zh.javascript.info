@@ -17,8 +17,8 @@
 
 | 微信扫码关注官方订阅号，订阅更多精彩内容 |
 |-|
-| <img src="https://user-images.githubusercontent.com/26959437/103863030-125c8a00-50fb-11eb-8dcb-7ce7d179e81a.png" width="500px;" /> |
-| <img src="https://user-images.githubusercontent.com/26959437/103863019-0c66a900-50fb-11eb-88eb-e9b67c548754.png" width="500px;" /> |
+| <img src="https://user-images.githubusercontent.com/26959437/120764347-a3b91680-c54a-11eb-9a15-31bb2596b0db.png" width="500px;" /> |
+| <img src="https://user-images.githubusercontent.com/26959437/120764353-a61b7080-c54a-11eb-8a79-75177c342b45.png" width="500px;" /> |
 
 **加入读者交流群：**
 
