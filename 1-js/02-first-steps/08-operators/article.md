@@ -56,17 +56,21 @@ alert( 8 % 3 ); // 2, a remainder of 8 divided by 3
 
 ### Exponentiation **
 
-The exponentiation operator `a ** b` multiplies `a` by itself `b` times.
+The exponentiation operator `a ** b` raises `a` to the power of `b`.
+
+In school maths, we write that as a<sup>b</sup>.
 
 For instance:
 
 ```js run
-alert( 2 ** 2 ); // 4  (2 multiplied by itself 2 times)
-alert( 2 ** 3 ); // 8  (2 * 2 * 2, 3 times)
-alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 4 times)
+alert( 2 ** 2 ); // 2² = 4  
+alert( 2 ** 3 ); // 2³ = 8 
+alert( 2 ** 4 ); // 2⁴ = 16
 ```
 
-Mathematically, the exponentiation is defined for non-integer numbers as well. For example, a square root is an exponentiation by `1/2`:
+Just like in maths, the exponentiation operator is defined for non-integer numbers as well. 
+
+For example, a square root is an exponentiation by ½:
 
 ```js run
 alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root)
@@ -104,7 +108,12 @@ Here's a more complex example:
 alert(2 + 2 + '1' ); // "41" and not "221"
 ```
 
-Here, operators work one after another. The first `+` sums two numbers, so it returns `4`, then the next `+` adds the string `1` to it, so it's like `4 + '1' = 41`.
+Here, operators work one after another. The first `+` sums two numbers, so it returns `4`, then the next `+` adds the string `1` to it, so it's like `4 + '1' = '41'`.
+
+```js run
+alert('1' + 2 + 2); // "122" and not "14"
+```
+Here, the first operand is a string, the compiler treats the other two operands as strings too. The `2` gets concatenated to `'1'`, so it's like `'1' + 2 = "12"` and `"12" + 2 = "122"`.
 
 The binary `+` is the only operator that supports strings in such a way. Other arithmetic operators work only with numbers and always convert their operands to numbers.
 
@@ -214,7 +223,7 @@ alert( x ); // 5
 
 The fact of `=` being an operator, not a "magical" language construct has an interesting implication.
 
-Most operators in JavaScript return a value. That's obvious for `+` and `-`, but also true for `=`.
+All operators in JavaScript return a value. That's obvious for `+` and `-`, but also true for `=`.
 
 The call `x = value` writes the `value` into `x` *and then returns it*.
 

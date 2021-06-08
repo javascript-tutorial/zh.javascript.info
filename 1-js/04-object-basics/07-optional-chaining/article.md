@@ -9,7 +9,7 @@ The optional chaining `?.` is a safe way to access nested object properties, eve
 
 If you've just started to read the tutorial and learn JavaScript, maybe the problem hasn't touched you yet, but it's quite common.
 
-As an example, let's say we have `user` objects that hold the information about our users. 
+As an example, let's say we have `user` objects that hold the information about our users.
 
 Most of our users have addresses in `user.address` property, with the street `user.address.street`, but some did not provide them.
 
@@ -21,7 +21,7 @@ let user = {}; // a user without "address" property
 alert(user.address.street); // Error!
 ```
 
-That's the expected result. JavaScript works like this. As `user.address` is `undefined`, an attempt to get `user.address.street` fails with an error. 
+That's the expected result. JavaScript works like this. As `user.address` is `undefined`, an attempt to get `user.address.street` fails with an error.
 
 In many practical cases we'd prefer to get `undefined` instead of an error here (meaning "no street").
 
@@ -56,7 +56,7 @@ let user = {}; // user has no address
 alert(user.address ? user.address.street ? user.address.street.name : null : null);
 ```
 
-That's just awful, one may even have problems understanding such code. 
+That's just awful, one may even have problems understanding such code.
 
 Don't even care to, as there's a better way to write it, using the `&&` operator:
 
@@ -74,12 +74,12 @@ That's why the optional chaining `?.` was added to the language. To solve this p
 
 ## Optional chaining
 
-The optional chaining `?.` stops the evaluation if the part before `?.` is `undefined` or `null` and returns that part.
+The optional chaining `?.` stops the evaluation if the value before `?.` is `undefined` or `null` and returns `undefined`.
 
 **Further in this article, for brevity, we'll be saying that something "exists" if it's not `null` and not `undefined`.**
 
 In other words, `value?.prop`:
-- is the same as `value.prop` if `value` exists,
+- works as `value.prop`, if `value` exists,
 - otherwise (when `value` is `undefined/null`) it returns `undefined`.
 
 Here's the safe way to access `user.address.street` using `?.`:
@@ -103,7 +103,7 @@ alert( user?.address.street ); // undefined
 
 Please note: the `?.` syntax makes optional the value before it, but not any further.
 
-E.g. in `user?.address.street.name` the `?.` allows `user` to be `null/undefined`, but it's all it does. Further properties are accessed in a regular way. If we want some of them to be optional, then we'll need to replace more `.` with `?.`.
+E.g. in `user?.address.street.name` the `?.` allows `user` to safely be `null/undefined` (and returns `undefined` in that case), but that's only for `user`. Further properties are accessed in a regular way. If we want some of them to be optional, then we'll need to replace more `.` with `?.`.
 
 ```warn header="Don't overuse the optional chaining"
 We should use `?.` only where it's ok that something doesn't exist.
@@ -166,25 +166,23 @@ userGuest.admin?.(); // nothing (no such method)
 */!*
 ```
 
-Here, in both lines we first use the dot (`user1.admin`) to get `admin` property, because the user object must exist, so it's safe read from it.
+Here, in both lines we first use the dot (`userAdmin.admin`) to get `admin` property, because we assume that the user object exists, so it's safe read from it.
 
-Then `?.()` checks the left part: if the admin function exists, then it runs (that's so for `user1`). Otherwise (for `user2`) the evaluation stops without errors.
+Then `?.()` checks the left part: if the admin function exists, then it runs (that's so for `userAdmin`). Otherwise (for `userGuest`) the evaluation stops without errors.
 
 The `?.[]` syntax also works, if we'd like to use brackets `[]` to access properties instead of dot `.`. Similar to previous cases, it allows to safely read a property from an object that may not exist.
 
 ```js run
+let key = "firstName";
+
 let user1 = {
   firstName: "John"
 };
 
-let user2 = null; // Imagine, we couldn't authorize the user
-
-let key = "firstName";
+let user2 = null; 
 
 alert( user1?.[key] ); // John
 alert( user2?.[key] ); // undefined
-
-alert( user1?.[key]?.something?.not?.existing); // undefined
 ```
 
 Also we can use `?.` with `delete`:
@@ -219,4 +217,4 @@ As we can see, all of them are straightforward and simple to use. The `?.` check
 
 A chain of `?.` allows to safely access nested properties.
 
-Still, we should apply `?.` carefully, only where it's acceptable that the left part doesn't to exist. So that it won't hide programming errors from us, if they occur.
+Still, we should apply `?.` carefully, only where it's acceptable that the left part doesn't exist. So that it won't hide programming errors from us, if they occur.

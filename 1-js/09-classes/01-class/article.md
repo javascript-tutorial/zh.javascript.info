@@ -51,7 +51,7 @@ user.sayHi();
 
 When `new User("John")` is called:
 1. A new object is created.
-2. The `constructor` runs with the given argument and assigns `this.name` to it.
+2. The `constructor` runs with the given argument and assigns it to `this.name`.
 
 ...Then we can call object methods, such as `user.sayHi()`.
 
@@ -110,7 +110,7 @@ alert(typeof User); // function
 alert(User === User.prototype.constructor); // true
 
 // The methods are in User.prototype, e.g:
-alert(User.prototype.sayHi); // alert(this.name);
+alert(User.prototype.sayHi); // the code of the sayHi method
 
 // there are exactly two methods in the prototype
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
@@ -144,7 +144,7 @@ The result of this definition is about the same. So, there are indeed reasons wh
 
 Still, there are important differences.
 
-1. First, a function created by `class` is labelled by a special internal property `[[FunctionKind]]:"classConstructor"`. So it's not entirely the same as creating it manually.
+1. First, a function created by `class` is labelled by a special internal property `[[IsClassConstructor]]: true`. So it's not entirely the same as creating it manually.
 
     The language checks for that property in a variety of places. For example, unlike a regular function, it must be called with `new`:
 

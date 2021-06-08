@@ -318,7 +318,7 @@ alert('Done!');
 
 We need a way to stop the process if the user cancels the input.
 
-The ordinary `break` after `input` would only break the inner loop. That's not sufficient--labels, come to the rescue!
+The ordinary `break` after `input` would only break the inner loop. That's not sufficient -- labels, come to the rescue!
 
 A *label* is an identifier with a colon before a loop:
 ```js
@@ -363,12 +363,23 @@ Labels do not allow us to jump into an arbitrary place in the code.
 
 For example, it is impossible to do this:
 ```js
-break label; // doesn't jumps to the label below
+break label; // jump to the label below (doesn't work)
 
 label: for (...)
 ```
 
-A call to `break/continue` is only possible from inside a loop and the label must be somewhere above the directive.
+A `break` directive must be inside a code block. Technically, any labelled code block will do, e.g.:
+```js
+label: {
+  // ...
+  break label; // works
+  // ...
+}
+```
+
+...Although, 99.9% of the time `break` used is inside loops, as we've seen in the examples above.
+
+A `continue` is only possible from inside a loop.
 ````
 
 ## Summary
