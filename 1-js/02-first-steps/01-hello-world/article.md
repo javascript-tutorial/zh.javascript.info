@@ -9,7 +9,7 @@
 
 ## “script” 标签
 
-JavaScript 程序可以在 `<script>` 标签的帮助下插入到 HTML 文档的任何地方。
+我们几乎可以使用 `<script>` 标签将 JavaScript 程序插入到 HTML 文档的任何位置。
 
 比如：
 

@@ -17,16 +17,11 @@
 
 ## 手册
 
-- **MDN（Mozilla）JavaScript 索引** 是一个带有用例和其他信息的手册。它是一个获取关于个别语言函数、方法等深入信息的很好的来源。
+- **MDN（Mozilla）JavaScript 索引** 是一个带有用例和其他信息的主要手册。它是一个获取关于个别语言函数、方法等深入信息的很好的信息来源。
 
     你可以在 <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference> 阅读它。
 
-    虽然，利用互联网搜索通常是最好的选择。只需在查询时输入“MDN [关键字]”，例如 <https://google.com/search?q=MDN+parseInt> 搜索 `parseInt` 函数。
-
-
-- **MSDN** —— 一本微软的手册，它包含大量的信息，包括 JavaScript（在里面经常被写成 JScript）。如果有人需要关于 Internet Explorer 的规范细节，最好去看：<http://msdn.microsoft.com/>。
-
-    当然，我们还可以在使用互联网搜索中使用如 "RegExp MSDN" 或 "RegExp MSDN jscript" 这样的词条。
+虽然，利用互联网搜索通常是最好的选择。只需在查询时输入“MDN [关键字]”，例如 <https://google.com/search?q=MDN+parseInt> 搜索 `parseInt` 函数。
 
 ## 兼容性表
 
