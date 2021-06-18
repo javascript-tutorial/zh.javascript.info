@@ -312,15 +312,15 @@ document.getElementsByTagName('input')[0].value = 5;
 
 ## 总结
 
-有 6 种主要的方法，可以在 DOM 中搜素节点：
+有 6 种主要的方法，可以在 DOM 中搜索元素节点：
 
 <table>
 <thead>
 <tr>
-<td>Method</td>
-<td>Searches by...</td>
-<td>Can call on an element?</td>
-<td>Live?</td>
+<td>方法名</td>
+<td>搜索方式</td>
+<td>元素方法？</td>
+<td>实时同步？</td>
 </tr>
 </thead>
 <tbody>
