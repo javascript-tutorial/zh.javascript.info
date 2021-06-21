@@ -117,7 +117,7 @@ WebSocket 可能还有其他 header，`Sec-WebSocket-Extensions` 和 `Sec-WebSoc
 
 例如：
 
-- `Sec-WebSocket-Extensions: deflate-frame` 表示浏览器支持数据压缩。扩展与传输数据有关，扩展了 WebSocket 协议的功能。`Sec-WebSocket-Extensions` header 有浏览器自动发送，其中包含其支持的所有扩展的列表。
+- `Sec-WebSocket-Extensions: deflate-frame` 表示浏览器支持数据压缩。扩展与传输数据有关，扩展了 WebSocket 协议的功能。`Sec-WebSocket-Extensions` header 由浏览器自动发送，其中包含其支持的所有扩展的列表。
 
 - `Sec-WebSocket-Protocol: soap, wamp` 表示我们不仅要传输任何数据，还要传输 [SOAP](http://en.wikipedia.org/wiki/SOAP) 或 WAMP（"The WebSocket Application Messaging Protocol"）协议中的数据。WebSocket 子协议已经在 [IANA catalogue](http://www.iana.org/assignments/websocket/websocket.xml) 中注册。
 
