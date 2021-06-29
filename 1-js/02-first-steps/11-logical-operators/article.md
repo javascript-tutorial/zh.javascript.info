@@ -60,7 +60,7 @@ let hour = 12;
 let isWeekend = true;
 
 if (hour < 10 || hour > 18 || isWeekend) {
-  alert( 'The office is closed.' ); // 是周末
+  alert( 'The office is closed.' ); // 休息时间
 }
 ```
 
