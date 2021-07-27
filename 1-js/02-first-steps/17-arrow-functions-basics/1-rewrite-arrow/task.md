@@ -1,7 +1,7 @@
 
 # 用箭头函数重写
 
-用箭头函数重写下面的函数表达式：
+用箭头函数重写下面的函数声明：
 
 ```js run
 function ask(question, yes, no) {
