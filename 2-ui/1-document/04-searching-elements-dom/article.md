@@ -319,7 +319,7 @@ document.getElementsByTagName('input')[0].value = 5;
 <tr>
 <td>方法名</td>
 <td>搜索方式</td>
-<td>可以在一个元素上调用？</td>
+<td>可以在元素上调用？</td>
 <td>实时的？</td>
 </tr>
 </thead>
