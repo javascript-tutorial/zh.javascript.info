@@ -4,7 +4,7 @@ importance: 2
 
 # 两个函数 — 一个对象
 
-是否可以创建像 `new A()==new B()` 这样的函数 `A` 和 `B`？
+是否可以创建像 `new A() == new B()` 这样的函数 `A` 和 `B`？
 
 ```js no-beautify
 function A() { ... }

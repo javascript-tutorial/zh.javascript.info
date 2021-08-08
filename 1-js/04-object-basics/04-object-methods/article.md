@@ -81,7 +81,7 @@ user = {
 // 方法简写看起来更好，对吧？
 let user = {
 *!*
-  sayHi() { // 与 "sayHi: function()" 一样
+  sayHi() { // 与 "sayHi: function(){...}" 一样
 */!*
     alert("Hello");
   }

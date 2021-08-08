@@ -16,6 +16,11 @@ describe("calculator", function() {
       prompt.restore();
     });
 
+    it('the read get two values and saves them as object properties', function () {
+      assert.equal(calculator.a, 2);
+      assert.equal(calculator.b, 3);
+    });
+
     it("the sum is 5", function() {
       assert.equal(calculator.sum(), 5);
     });

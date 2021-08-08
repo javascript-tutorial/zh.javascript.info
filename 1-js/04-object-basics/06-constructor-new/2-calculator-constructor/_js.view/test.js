@@ -11,6 +11,11 @@ describe("calculator", function() {
     calculator.read();
   });
 
+  it("the read method asks for two values using prompt and remembers them in object properties", function() {
+    assert.equal(calculator.a, 2);
+    assert.equal(calculator.b, 3);
+  });
+
   it("when 2 and 3 are entered, the sum is 5", function() {
     assert.equal(calculator.sum(), 5);
   });
