@@ -122,7 +122,7 @@ document.addEventListener('keydown', function(event) {
 
 ## 默认行为
 
-默认行为各不相同，因为键盘可能会启动许多可能的东西。
+默认行为各不相同，因为键盘可能会触发很多可能的东西。
 
 例如：
 
@@ -139,11 +139,15 @@ document.addEventListener('keydown', function(event) {
 ```html autorun height=60 run
 <script>
 function checkPhoneKey(key) {
-  return (key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' || key == '-';
+  return (key >= '0' && key <= '9') || ['+','(',')','-'].includes(key);
 }
 </script>
-<input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="Phone, please" type="tel">
+<input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="请输入手机号" type="tel">
 ```
+
+这里 `onkeydown` 的处理程序使用 `checkPhoneKey` 来检查被按下的按键。如果它是有效的（`0..9` 或 `+-()` 之一），那么将返回 `true`，否则返回 `false`。
+
+我们都知道，像上面那样，从事件处理程序返回 `false` 会阻止事件的默认行为，所以如果按下的按键未通过案件检查，那么 `<input>` 中什么都不会出现（从事件处理程序返回 `true` 不会对任何行为产生影响，只有返回 `false` 会产生对应的影响）。
 
 请注意，像 `key:Backspace`，`key:Left`，`key:Right`，`key:Ctrl+V` 这样的特殊按键在输入中无效。这是严格过滤器 `checkPhoneKey` 的副作用。
 
@@ -153,8 +157,8 @@ function checkPhoneKey(key) {
 ```html autorun height=60 run
 <script>
 function checkPhoneKey(key) {
-  return (key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' || key == '-' ||
-    key == 'ArrowLeft' || key == 'ArrowRight' || key == 'Delete' || key == 'Backspace';
+  return (key >= '0' && key <= '9') ||
+    ['+','(',')','-','ArrowLeft','ArrowRight','Delete','Backspace'].includes(key);
 }
 </script>
 <input onkeydown="return checkPhoneKey(event.key)" placeholder="Phone, please" type="tel">

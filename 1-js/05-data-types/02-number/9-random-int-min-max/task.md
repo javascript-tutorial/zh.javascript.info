@@ -4,7 +4,7 @@ importance: 2
 
 # 从 min 到 max 的随机整数
 
-创建一个函数 `randomInteger(min，max)`，该函数会生成一个范围在 `min` 到 `max` 中的随机整数，包括 `min` 和 `max`。
+创建一个函数 `randomInteger(min, max)`，该函数会生成一个范围在 `min` 到 `max` 中的随机整数，包括 `min` 和 `max`。
 
 在 `min..max` 范围中的所有数字的出现概率必须相同。
 
