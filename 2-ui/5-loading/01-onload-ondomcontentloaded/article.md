@@ -2,7 +2,7 @@
 
 The lifecycle of an HTML page has three important events:
 
-- `DOMContentLoaded` -- the browser fully loaded HTML, and the DOM tree is built, but external resources like pictures `<img>` and stylesheets may not yet have loaded.  
+- `DOMContentLoaded` -- the browser fully loaded HTML, and the DOM tree is built, but external resources like pictures `<img>` and stylesheets may not yet have loaded.
 - `load` -- not only HTML is loaded, but also all the external resources: images, styles etc.
 - `beforeunload/unload` -- the user is leaving the page.
 
@@ -45,7 +45,7 @@ For instance:
 <img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
 ```
 
-In the example the `DOMContentLoaded` handler runs when the document is loaded, so it can see all the elements, including `<img>` below.
+In the example, the `DOMContentLoaded` handler runs when the document is loaded, so it can see all the elements, including `<img>` below.
 
 But it doesn't wait for the image to load. So `alert` shows zero sizes.
 
@@ -114,7 +114,7 @@ The example below correctly shows image sizes, because `window.onload` waits for
 
 ```html run height=200 refresh
 <script>
-  window.onload = function() { // same as window.addEventListener('load', (event) => {
+  window.onload = function() { // can also use window.addEventListener('load', (event) => {
     alert('Page loaded');
 
     // image is loaded at this time

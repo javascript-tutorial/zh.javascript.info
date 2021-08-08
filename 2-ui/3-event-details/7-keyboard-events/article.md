@@ -139,22 +139,25 @@ For instance, the `<input>` below expects a phone number, so it does not accept 
 ```html autorun height=60 run
 <script>
 function checkPhoneKey(key) {
-  return (key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' || key == '-';
+  return (key >= '0' && key <= '9') || ['+','(',')','-'].includes(key);
 }
 </script>
 <input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="Phone, please" type="tel">
 ```
 
-Please note that special keys, such as `key:Backspace`, `key:Left`, `key:Right`, `key:Ctrl+V`, do not work in the input. That's a side-effect of the strict filter `checkPhoneKey`.
+The `onkeydown` handler here uses `checkPhoneKey` to check for the key pressed. If it's valid (from `0..9` or one of `+-()`), then it returns `true`, otherwise `false`.
 
-Let's relax it a little bit:
+As we know, the `false` value returned from the event handler, assigned using a DOM property or an attribute, such as above, prevents the default action, so nothing appears in the `<input>` for keys that don't pass the test. (The `true` value returned doesn't affect anything, only returning `false` matters)
 
+Please note that special keys, such as `key:Backspace`, `key:Left`, `key:Right`, do not work in the input. That's a side-effect of the strict filter `checkPhoneKey`. These keys make it return `false`.
+
+Let's relax the filter a little bit by allowing arrow keys `key:Left`, `key:Right` and `key:Delete`, `key:Backspace`:
 
 ```html autorun height=60 run
 <script>
 function checkPhoneKey(key) {
-  return (key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' || key == '-' ||
-    key == 'ArrowLeft' || key == 'ArrowRight' || key == 'Delete' || key == 'Backspace';
+  return (key >= '0' && key <= '9') ||
+    ['+','(',')','-',*!*'ArrowLeft','ArrowRight','Delete','Backspace'*/!*].includes(key);
 }
 </script>
 <input onkeydown="return checkPhoneKey(event.key)" placeholder="Phone, please" type="tel">
@@ -162,7 +165,9 @@ function checkPhoneKey(key) {
 
 Now arrows and deletion works well.
 
-...But we still can enter anything by using a mouse and right-click + Paste. So the filter is not 100% reliable. We can just let it be like that, because most of time it works. Or an alternative approach would be to track the `input` event -- it triggers after any modification. There we can check the new value and highlight/modify it when it's invalid.
+Even though we have the key filter, one still can enter anything using a mouse and right-click + Paste. Mobile devices provide other means to enter values. So the filter is not 100% reliable.
+
+The alternative approach would be to track the `oninput` event -- it triggers *after* any modification. There we can check the new `input.value` and modify it/highlight the `<input>` when it's invalid. Or we can use both event handlers together.
 
 ## Legacy
 
