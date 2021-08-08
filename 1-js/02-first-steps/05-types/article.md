@@ -64,7 +64,7 @@ n = 12.345;
 
 我们将在 <info:number> 一节中学习数字的更多细节。
 
-## BigInt 类型
+## BigInt 类型 [#bigint-type]
 
 在 JavaScript 中，"number" 类型无法表示大于 <code>(2<sup>53</sup>-1)</code>（即 `9007199254740991`），或小于 <code>-(2<sup>53</sup>-1)</code> 的整数。这是其内部表示形式导致的技术限制。
 

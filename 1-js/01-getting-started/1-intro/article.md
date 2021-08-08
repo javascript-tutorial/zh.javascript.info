@@ -26,7 +26,7 @@ JavaScript 在刚诞生的时候，它的名字叫 "LiveScript"。但是因为�
 
 - [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) —— Chrome 和 Opera 中的 JavaScript 引擎。
 - [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) —— Firefox 中的 JavaScript 引擎。
-- ……还有其他一些代号，像 "Chakra" 用于 IE，"ChakraCore" 用于 Microsoft Edge，"Nitro" 和 "SquirrelFish" 用于 Safari，等等。
+- ……还有其他一些代号，像 "Chakra" 用于 IE，"JavaScriptCore"、"Nitro" 和 "SquirrelFish" 用于 Safari，等等。
 
 上面这些术语很容易记住，因为它们经常出现在开发者的文章中。我们也会用到这些术语。例如，如果“V8 支持某个功能”，那么我们可以认为这个功能大概能在 Chrome 和 Opera 中正常运行。
 
@@ -111,7 +111,7 @@ JavaScript 是将这三件事结合在一起的唯一的浏览器技术。
 - [Flow](http://flow.org/) 也添加了数据类型，但是以一种不同的方式。由 Facebook 开发。
 - [Dart](https://www.dartlang.org/) 是一门独立的语言。它拥有自己的引擎，该引擎可以在非浏览器环境中运行（例如手机应用），它也可以被编译成 JavaScript。由 Google 开发。
 - [Brython](https://brython.info/) 是一个 Python 到 JavaScript 的转译器，让我们可以在不使用 JavaScript 的情况下，以纯 Python 编写应用程序。
-- [Kotlin](https://kotlinlang.org/docs/reference/js-overview.html) is a modern, concise and safe programming language that can target the browser or Node.
+- [Kotlin](https://kotlinlang.org/docs/reference/js-overview.html) 是一个现代、简洁且安全的编程语言，编写出的应用程序可以在浏览器和 Node 环境中运行。
 
 这样的语言还有很多。当然，即使我们在使用此类编译语言，我们也需要了解 JavaScript。因为了解 JavaScript 才能让我们真正明白我们在做什么。
 

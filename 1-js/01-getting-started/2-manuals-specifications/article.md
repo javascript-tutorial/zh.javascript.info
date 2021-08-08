@@ -17,7 +17,7 @@
 
 ## 手册
 
-- **MDN（Mozilla）JavaScript 索引** 是一个带有用例和其他信息的主要手册。它是一个获取关于个别语言函数、方法等深入信息的很好的信息来源。
+- **MDN（Mozilla）JavaScript 索引** 是一个带有用例和其他信息的主要的手册。它是一个获取关于个别语言函数、方法等深入信息的很好的信息来源。
 
     你可以在 <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference> 阅读它。
 

@@ -2,14 +2,13 @@
 
 [recent browser="new"]
 
-在本文中，我们将值既不是 `null` 也不是 `undefined` 的表达式称为“已定义的（defined）”。
-
 空值合并运算符（nullish coalescing operator）的写法为两个问号 `??`。
+
+由于它对待 `null` 和 `undefined` 的方式类似，所以在本文中我们将使用一个特殊的术语对其进行表示。我们将值既不是 `null` 也不是 `undefined` 的表达式称为“已定义的（defined）”。
 
 `a ?? b` 的结果是：
 - 如果 `a` 是已定义的，则结果为 `a`，
 - 如果 `a` 不是已定义的，则结果为 `b`。
-
 
 换句话说，如果第一个参数不是 `null/undefined`，则 `??` 返回第一个参数。否则，返回第二个参数。
 
@@ -21,22 +20,24 @@
 result = (a !== null && a !== undefined) ? a : b;
 ```
 
+现在你应该清楚了 `??` 的作用。让我们来看看它的使用场景吧。
+
 通常 `??` 的使用场景是，为可能是未定义的变量提供一个默认值。
 
-例如，在这里，如果 `user` 是未定义的，我们则显示 `Anonymous`：
+例如，在这里，如果 `user` 是已定义的则显示 `user`，否则显示 `匿名`：
 
 ```js run
 let user;
 
-alert(user ?? "Anonymous"); // Anonymous
+alert(user ?? "匿名"); // 匿名（user 未定义）
 ```
 
-当然，如果 `user` 的值为除 `null/undefined` 外的任意值，那么我们看到的将是它：
+在下面这个例子中，我们将一个名字赋值给了 `user`：
 
 ```js run
 let user = "John";
 
-alert(user ?? "Anonymous"); // John
+alert(user ?? "匿名"); // John（user 已定义）
 ```
 
 我们还可以使用 `??` 序列从一系列的值中选择出第一个非 `null/undefined` 的值。
@@ -75,7 +76,7 @@ alert(firstName || lastName || nickName || "Anonymous"); // Supercoder
 */!*
 ```
 
-或 `||` 运算符自 JavaScript 诞生就存在，因此开发者长期将其用于这种目的。
+纵观 JavaScript 发展史，或 `||` 运算符先于 `??` 出现。它自 JavaScript 诞生就存在了，因此开发者长期将其用于这种目的。
 
 另一方面，空值合并运算符 `??` 是最近才被添加到 JavaScript 中的，它的出现是因为人们对 `||` 不太满意。
 
@@ -96,16 +97,18 @@ alert(height || 100); // 100
 alert(height ?? 100); // 0
 ```
 
-- `height || 100` 首先会检查 `height` 是否为一个假值，发现它确实是。
-    - 所以，结果为第二个参数，`100`。
+- `height || 100` 首先会检查 `height` 是否为一个假值，它是 `0`，确实是假值。
+    - 所以，`||` 运算的结果为第二个参数，`100`。
 - `height ?? 100` 首先会检查 `height` 是否为 `null/undefined`，发现它不是。
     - 所以，结果为 `height` 的原始值，`0`。
 
-如果高度 `0` 为有效值，则不应将其替换为默认值，所以 `??` 能够得出正确的结果。
+实际上，高度 `0` 通常是一个有效值，它不应该被替换为默认值。所以 `??` 运算得到的是正确的结果。
 
 ## 优先级
 
-`??` 运算符的优先级相当低：在 [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 中为 `5`。因此，`??` 在 `=` 和 `?` 之前计算，但在大多数其他运算符（例如，`+` 和 `*`）之后计算。
+`??` 运算符的优先级与 `||` 差不多，只是稍微低一点。`??` 运算符的优先级为 `5`，`||` 为 `6` ，详见：[MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) 。
+
+这意味着，就像 `||` 一样，空值合并运算符在 `=` 和 `?` 运算前计算，但在大多数其他运算（例如 `+` 和 `*`）之后计算。
 
 因此，如果我们需要在还有其他运算符的表达式中使用 `??` 进行取值，需要考虑加括号：
 
@@ -139,7 +142,7 @@ let area = height ?? (100 * width) ?? 50;
 let x = 1 && 2 ?? 3; // Syntax error
 ```
 
-这个限制无疑是值得商榷的，但它被添加到语言规范中是为了避免人们从 `||` 切换到 `??` 时的编程错误。
+这个限制无疑是值得商榷的，它被添加到语言规范中是为了避免人们从 `||` 切换到 `??` 时的编程错误。
 
 可以明确地使用括号来解决这个问题：
 

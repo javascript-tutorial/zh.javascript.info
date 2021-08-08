@@ -20,10 +20,10 @@ function showMessage() {
 }
 ```
 
-`function` 关键字首先出现，然后是 **函数名**，然后是括号之间的 **参数** 列表（用逗号分隔，在上述示例中为空），最后是花括号之间的代码（即“函数体”）。
+`function` 关键字首先出现，然后是 **函数名**，然后是括号之间的 **参数** 列表（用逗号分隔，在上述示例中为空，我们将在接下来的示例中看到），最后是花括号之间的代码（即“函数体”）。
 
 ```js
-function name(parameters) {
+function name(parameter1, parameter2, ... parameterN) {
   ...body...
 }
 ```
@@ -137,7 +137,7 @@ alert( userName ); // *!*John*/!*，未被更改，函数没有访问外部变�
 
 ## 参数
 
-我们可以使用参数（也称“函数参数”）来将任意数据传递给函数。
+我们可以通过参数将任意数据传递给函数。
 
 在如下示例中，函数有两个参数：`from` 和 `text`。
 
@@ -146,16 +146,13 @@ function showMessage(*!*from, text*/!*) { // 参数：from 和 text
   alert(from + ': ' + text);
 }
 
-*!*
-showMessage('Ann', 'Hello!'); // Ann: Hello! (*)
-showMessage('Ann', "What's up?"); // Ann: What's up? (**)
-*/!*
+*!*showMessage('Ann', 'Hello!');*/!* // Ann: Hello! (*)
+*!*showMessage('Ann', "What's up?");*/!* // Ann: What's up? (**)
 ```
 
 当函数在 `(*)` 和 `(**)` 行中被调用时，给定值被复制到了局部变量 `from` 和 `text`。然后函数使用它们进行计算。
 
 这里还有一个例子：我们有一个变量 `from`，并将它传递给函数。请注意：函数会修改 `from`，但在函数外部看不到更改，因为函数修改的是复制的变量值副本：
-
 
 ```js run
 function showMessage(from, text) {
@@ -175,19 +172,31 @@ showMessage(from, "Hello"); // *Ann*: Hello
 alert( from ); // Ann
 ```
 
+当一个值被作为函数参数（parameter）传递时，它也被称为 **参数（argument）**。
+
+换一种方式，我们把这些术语搞清楚：
+
+- 参数（parameter）是函数声明中括号内列出的变量（它是函数声明时的术语）。
+- 参数（argument）是调用函数时传递给函数的值（它是函数调用时的术语）。
+
+我们声明函数时列出它们的参数（parameters），然后调用它们传递参数（arguments）。
+
+在上面的例子中，我们可以说：“函数 `showMessage` 被声明，并且带有两个参数（parameters），随后它被调用，两个参数（arguments）分别为 `from` 和 `"Hello"`”。
+
+
 ## 默认值
 
-如果未提供参数，那么其默认值则是 `undefined`。
+如果一个函数被调用，但有参数（argument）未被提供，那么相应的值就会变成 `undefined`。
 
-例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个参数调用：
+例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个参数（argument）调用：
 
 ```js
 showMessage("Ann");
 ```
 
-那不是错误，这样调用将输出 `"*Ann*: undefined"`。这里没有参数 `text`，所以程序假定 `text === undefined`。
+那不是错误，这样调用将输出 `"*Ann*: undefined"`。因为参数 `text` 的值未被传递，所以变成了 `undefined`。
 
-如果我们想在本示例中设定“默认”的 `text`，那么我们可以在 `=` 之后指定它：
+我们可以使用 `=` 为函数声明中的参数指定所谓的“默认”（如果对应参数的值未被传递则使用）值：
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
@@ -211,19 +220,23 @@ function showMessage(from, text = anotherFunction()) {
 ```smart header="默认参数的计算"
 在 JavaScript 中，每次函数在没带个别参数的情况下被调用，默认参数会被计算出来。
 
-在上面的例子中，每次 `showMessage()` 不带 `text` 参数被调用时，`anotherFunction()` 就会被调用。
+在上面的例子中，如果传递了参数 `text`，那么 `anotherFunction()` 就不会被调用。
+
+如果没传递参数 `text`，那么 `anotherFunction()` 就会被调用。
 ```
 
 ### 后备的默认参数
 
-有些时候，将参数默认值的设置放在函数执行（相较更后期）而不是函数声明的时候，也能行得通。
+有些时候，将参数默认值的设置放在函数执行（相较更后期）而不是函数声明时，也行得通。
 
-为了判断参数是否被省略掉，我们可以拿它跟 `undefined` 做比较：
+我们可以通过将参数与 `undefined` 进行比较，来检查该参数是否在函数执行期间被传递进来：
 
 ```js run
 function showMessage(text) {
+  // ...
+
 *!*
-  if (text === undefined) {
+  if (text === undefined) { // 如果参数未被传递进来
     text = 'empty message';
   }
 */!*
@@ -237,18 +250,18 @@ showMessage(); // empty message
 ……或者我们可以使用 `||` 运算符：
 
 ```js
-// 如果 "text" 参数被省略或者被传入空字符串，则赋值为 'empty'
 function showMessage(text) {
+  // 如果 text 为 undefined 或者为假值，那么将其赋值为 'empty'
   text = text || 'empty';
   ...
 }
 ```
 
-现代 JavaScript 引擎支持 [空值合并运算符](info:nullish-coalescing-operator) `??`，当可能遇到其他假值时它更有优势，如 `0` 会被视为正常值不被合并：
+现代 JavaScript 引擎支持 [空值合并运算符](info:nullish-coalescing-operator) `??`，它在大多数假值（例如 `0`）应该被视为“正常值”时更具优势：
 
 ```js run
-// 如果没有传入 "count" 参数，则显示 "unknown"
 function showCount(count) {
+  // 如果 count 为 undefined 或 null，则提示 "unknown"
   alert(count ?? "unknown");
 }
 

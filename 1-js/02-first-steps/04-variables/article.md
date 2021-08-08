@@ -24,7 +24,7 @@ let message;
 let message;
 
 *!*
-message = 'Hello'; // 保存字符串
+message = 'Hello'; // 将字符串 'Hello' 保存在名为 message 的变量中
 */!*
 ```
 
