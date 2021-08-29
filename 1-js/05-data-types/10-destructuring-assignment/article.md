@@ -294,7 +294,7 @@ let {width = prompt("width?"), title = prompt("title?")} = options;
 */!*
 
 alert(title);  // Menu
-alert(width);  //（无论 prompt 的结果是什么）
+alert(width);  //（ prompt 的返回值）
 ```
 
 我们还可以将冒号和等号结合起来：
