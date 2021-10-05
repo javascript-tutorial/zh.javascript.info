@@ -8,7 +8,7 @@ importance: 5
 
 - `counter()` 应该返回下一个数字（与之前的逻辑相同）。
 - `counter.set(value)` 应该将 `count` 设置为 `value`。
-- `counter.decrease(value)` 应该把 `count` 减 1。
+- `counter.decrease()` 应该把 `count` 减 1。
 
 查看沙箱中的代码获取完整使用示例。
 
