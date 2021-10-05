@@ -272,7 +272,7 @@ alert(visitedSet.has(mary)); // false
 
 john = null;
 
-// visitedSet 将被自动清理
+// visitedSet 将被自动清理(即自动清除其中已失效的值 john)
 ```
 
 `WeakMap` 和 `WeakSet` 最明显的局限性就是不能迭代，并且无法获取所有当前内容。那样可能会造成不便，但是并不会阻止 `WeakMap/WeakSet` 完成其主要工作 — 成为在其它地方管理/存储“额外”的对象数据。
