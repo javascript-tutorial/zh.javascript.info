@@ -6,7 +6,7 @@
 
 JavaScript 允许将 `throw` 与任何参数一起使用，所以从技术上讲，我们自定义的 error 不需要从 `Error` 中继承。但是，如果我们继承，那么就可以使用 `obj instanceof Error` 来识别 error 对象。因此，最好继承它。
 
-随着虽开发的应用程序的增长，我们自己的 error 自然会形成形成一个层次结构（hierarchy）。例如，`HttpTimeoutError` 可能继承自 `HttpError`，等等。
+随着开发的应用程序的增长，我们自己的 error 自然会形成形成一个层次结构（hierarchy）。例如，`HttpTimeoutError` 可能继承自 `HttpError`，等等。
 
 ## 扩展 Error
 
