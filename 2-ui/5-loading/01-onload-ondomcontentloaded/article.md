@@ -187,7 +187,7 @@ window.onbeforeunload = function() {
 
 ## readyState
 
-如果我们将 `DOMContentLoaded` 事件处理程序设置在文档加载完成之后，会发生什么？
+如果我们在文档加载完成之后设置 `DOMContentLoaded` 事件处理程序，会发生什么？
 
 很自然地，它永远不会运行。
 

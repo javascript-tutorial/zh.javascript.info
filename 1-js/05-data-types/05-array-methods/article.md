@@ -60,17 +60,17 @@ arr.splice(1, 1); // 从索引 1 开始删除 1 个元素
 alert( arr ); // ["I", "JavaScript"]
 ```
 
-简单，对吧？从索引 `1` 开始删除 `1` 个元素。
+简单，对吧？从索引 `1` 开始删除 `1` 个元素。（译注：当只填写了 `splice` 的 `start` 参数时，将删除从索引 `start` 开始的所有数组项）
 
 在下一个例子中，我们删除了 3 个元素，并用另外两个元素替换它们：
 
 ```js run
 let arr = [*!*"I", "study", "JavaScript",*/!* "right", "now"];
 
-// remove 3 first elements and replace them with another
+// 删除数组的前三项，并使用其他内容代替它们
 arr.splice(0, 3, "Let's", "dance");
 
-alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
+alert( arr ) // 现在 [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
 在这里我们可以看到 `splice` 返回了已删除元素的数组：
