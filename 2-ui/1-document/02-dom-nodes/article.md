@@ -233,7 +233,7 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 ![](inspect.svg)
 
 在工具的右侧部分有以下子选项卡：
-- **Styles** — 我们可以看到按规则应用于当前元素的 CSS 规则，包括内置规则（灰色）。几乎所有内容都可以就地编辑，包括下面的方框的 dimension/margin/padding。
+- **Styles** — 我们可以看到按规则应用于当前元素的 CSS 规则，包括内建规则（灰色）。几乎所有内容都可以就地编辑，包括下面的方框的 dimension/margin/padding。
 - **Computed** — 按属性查看应用于元素的 CSS：对于每个属性，我们可以都可以看到赋予它的规则（包括 CSS 继承等）。
 - **Event Listeners** — 查看附加到 DOM 元素的事件侦听器（我们将在本教程的下一部分介绍它们）。
 - ……等。

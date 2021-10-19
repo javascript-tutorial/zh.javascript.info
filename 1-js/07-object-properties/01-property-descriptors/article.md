@@ -148,7 +148,7 @@ user.name = "Pete"; // Error
 
 现在让我们向 `user` 添加一个自定义的 `toString`。
 
-通常，对象的内置 `toString` 是不可枚举的，它不会显示在 `for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in` 中，如下所示：
+通常，对象的内建 `toString` 是不可枚举的，它不会显示在 `for..in` 中。但是如果我们添加我们自己的 `toString`，那么默认情况下它将显示在 `for..in` 中，如下所示：
 
 ```js run
 let user = {

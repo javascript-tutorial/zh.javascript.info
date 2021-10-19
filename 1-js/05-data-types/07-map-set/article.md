@@ -136,7 +136,7 @@ for (let entry of recipeMap) { // 与 recipeMap.entries() 相同
 迭代的顺序与插入值的顺序相同。与普通的 `Object` 不同，`Map` 保留了此顺序。
 ```
 
-除此之外，`Map` 有内置的 `forEach` 方法，与 `Array` 类似：
+除此之外，`Map` 有内建的 `forEach` 方法，与 `Array` 类似：
 
 ```js
 // 对每个键值对 (key, value) 运行 forEach 函数

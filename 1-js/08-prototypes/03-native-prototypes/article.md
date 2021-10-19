@@ -1,6 +1,6 @@
 # 原生的原型
 
-`"prototype"` 属性在 JavaScript 自身的核心部分中被广泛地应用。所有的内置构造函数都用到了它。
+`"prototype"` 属性在 JavaScript 自身的核心部分中被广泛地应用。所有的内建构造函数都用到了它。
 
 首先，我们将看看原生原型的详细信息，然后学习如何使用它为内建对象添加新功能。
 
@@ -84,7 +84,7 @@ alert(arr); // 1,2,3 <-- Array.prototype.toString 的结果
 ![](native-prototypes-array-tostring.svg)
 
 
-浏览器内的工具，像 Chrome 开发者控制台也会显示继承性（可能需要对内置对象使用 `console.dir`）：
+浏览器内的工具，像 Chrome 开发者控制台也会显示继承性（可能需要对内建对象使用 `console.dir`）：
 
 ![](console_dir_array.png)
 

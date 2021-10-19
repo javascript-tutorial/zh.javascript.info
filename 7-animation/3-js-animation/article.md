@@ -417,7 +417,7 @@ bounceEaseInOut = makeEaseInOut(bounce);
 
 ## 总结
 
-JavaScript 动画应该通过 `requestAnimationFrame` 实现。该内置方法允许设置回调函数，以便在浏览器准备重绘时运行。那通常很快，但确切的时间取决于浏览器。
+JavaScript 动画应该通过 `requestAnimationFrame` 实现。该内建方法允许设置回调函数，以便在浏览器准备重绘时运行。那通常很快，但确切的时间取决于浏览器。
 
 当页面在后台时，根本没有重绘，因此回调将不会运行：动画将被暂停并且不会消耗资源。那很棒。
 
