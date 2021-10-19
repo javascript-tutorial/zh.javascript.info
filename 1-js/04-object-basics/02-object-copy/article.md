@@ -133,7 +133,7 @@ clone.name = "Pete"; // 改变了其中的数据
 alert( user.name ); // 原来的对象中的 name 属性依然是 John
 ```
 
-我们也可以使用 [Object.assign](mdn:js/Object/assign) 方法来达成同样的效果。
+我们也可以使用 [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) 方法来达成同样的效果。
 
 语法是：
 

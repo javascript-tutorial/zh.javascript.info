@@ -301,11 +301,11 @@ function pow(x, n) {
 
 下面是一些最出名的代码检查工具：
 
-- [JSLint](http://www.jslint.com/) — 第一批检查器之一。
-- [JSHint](http://www.jshint.com/) — 比 JSLint 多了更多设置。
-- [ESLint](http://eslint.org/) — 应该是最新的一个。
+- [JSLint](https://www.jslint.com/) — 第一批检查器之一。
+- [JSHint](https://www.jshint.com/) — 比 JSLint 多了更多设置。
+- [ESLint](https://eslint.org/) — 应该是最新的一个。
 
-它们都能够做好代码检查。我使用的是 [ESLint](http://eslint.org/)。
+它们都能够做好代码检查。我使用的是 [ESLint](https://eslint.org/)。
 
 大多数检查器都可以与编辑器集成在一起：只需在编辑器中启用插件并配置代码风格即可。
 
@@ -335,7 +335,7 @@ function pow(x, n) {
 
 这里的 `"extends"` 指令表示我们是基于 "eslint:recommended" 的设置项而进行设置的。之后，我们制定我们自己的规则。
 
-你也可以从网上下载风格规则集并进行扩展。有关安装的更多详细信息，请参见 <http://eslint.org/docs/user-guide/getting-started>。
+你也可以从网上下载风格规则集并进行扩展。有关安装的更多详细信息，请参见 <https://eslint.org/docs/user-guide/getting-started>。
 
 此外，某些 IDE 有内置的检查器，这非常方便，但是不像 ESLint 那样可自定义。
 

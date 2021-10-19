@@ -70,6 +70,7 @@ let user = {
 如果我们有许多行用于创建单个复杂对象的代码，我们可以将它们封装在一个立即调用的构造函数中，像这样：
 
 ```js
+// 创建一个函数并立即使用 new 调用它
 let user = new function() {
   this.name = "John";
   this.isAdmin = false;
@@ -91,7 +92,7 @@ let user = new function() {
 
 在一个函数内部，我们可以使用 `new.target` 属性来检查它是否被使用 `new` 进行调用了。
 
-对于常规调用，它为空，对于使用 `new` 的调用，则等于该函数：
+对于常规调用，它为 undefined，对于使用 `new` 的调用，则等于该函数：
 
 ```js run
 function User() {

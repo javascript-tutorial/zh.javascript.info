@@ -24,11 +24,11 @@ JavaScript 在刚诞生的时候，它的名字叫 "LiveScript"。但是因为�
 
 不同的引擎有不同的“代号”，例如：
 
-- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) —— Chrome 和 Opera 中的 JavaScript 引擎。
+- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) —— Chrome、Opera 和 Edge 中的 JavaScript 引擎。
 - [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) —— Firefox 中的 JavaScript 引擎。
 - ……还有其他一些代号，像 "Chakra" 用于 IE，"JavaScriptCore"、"Nitro" 和 "SquirrelFish" 用于 Safari，等等。
 
-上面这些术语很容易记住，因为它们经常出现在开发者的文章中。我们也会用到这些术语。例如，如果“V8 支持某个功能”，那么我们可以认为这个功能大概能在 Chrome 和 Opera 中正常运行。
+上面这些术语很容易记住，因为它们经常出现在开发者的文章中。我们也会用到这些术语。例如，如果“V8 支持某个功能”，那么我们可以认为这个功能大概能在 Chrome、Opera 和 Edge 中正常运行。
 
 ```smart header="引擎是如何工作的？"
 
