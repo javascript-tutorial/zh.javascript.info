@@ -23,7 +23,7 @@
 **加入读者交流群：**
 
 - **微信群**：加微信 **`imleviding`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64596211-0fa63380-d3e6-11e9-983d-bd788ffe2370.jpg)，验证信息填写 **`JS 教程`**。
-- **QQ 群**：打开 QQ 搜索群号 **`866757202`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64609229-12f9e900-d3ff-11e9-96e8-147335f5e264.jpg)，验证信息填写 **`JS 教程`**。
+- **QQ 群**：打开 QQ 搜索群号 **`955916282`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/138594800-29700a46-0cb1-45bd-b614-4b6486cf0124.jpg)，验证信息填写 **`JS 教程`**。
 
 教程配套每日一题：https://github.com/leviding/one-note-a-day
 
