@@ -94,7 +94,7 @@ alert( "I love JavaScript".search(regexp));
 : 使用此修饰符后，搜索时会查找所有的匹配项，而不只是第一个（在下一章会讲到）。
 
 `m`
-: 多行模式（详见章节 <info:regexp-multiline>）。
+: 多行模式（详见章节 <info:regexp-multiline-mode>）。
 
 `u`
 : 开启完整的 unicode 支持。该修饰符能够修正对于代理对的处理。更详细的内容见章节 <info:regexp-unicode>。
