@@ -1,6 +1,6 @@
-A positive number with an optional decimal part is (per previous task): `pattern:\d+(\.\d+)?`.
+一个带有小数部分的正数的模式为： `pattern:\d+(\.\d+)?`。
 
-Let's add the optional `pattern:-` in the beginning:
+让我们在开头加上可选的 `pattern:-`：
 
 ```js run
 let regexp = /-?\d+(\.\d+)?/g;

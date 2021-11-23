@@ -1,23 +1,24 @@
-# Parse an expression
+# 解析表达式
 
-An arithmetical expression consists of 2 numbers and an operator between them, for instance:
+一个算术表达式包含两个数字和一个中间的操作符，比如：
 
 - `1 + 2`
 - `1.2 * 3.4`
 - `-3 / -6`
 - `-2 - 2`
 
-The operator is one of: `"+"`, `"-"`, `"*"` or `"/"`.
 
-There may be extra spaces at the beginning, at the end or between the parts.
+操作符是 `"+"`, `"-"`, `"*"`， `"/"` 其中之一。
 
-Create a function `parse(expr)` that takes an expression and returns an array of 3 items:
+在开头，中间或结尾可能包含额外的空格。
 
-1. The first number.
-2. The operator.
-3. The second number.
+创建一个函数 `parse(expr)`，以一个算术表达式作为参数，返回包含3项的数组：
 
-For example:
+1. 第一个数字
+2. 操作符
+3. 第二个数字
+
+用例：
 
 ```js
 let [a, op, b] = parse("1.2 * 3.4");

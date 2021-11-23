@@ -1,20 +1,21 @@
-# Check MAC-address
+# 检查 MAC 地址
 
-[MAC-address](https://en.wikipedia.org/wiki/MAC_address) of a network interface consists of 6 two-digit hex numbers separated by a colon.
+网络接口的 [MAC-address](https://en.wikipedia.org/wiki/MAC_address) 包含由冒号分隔的6个两位十六进制数字对。
 
-For instance: `subject:'01:32:54:67:89:AB'`.
+例如：`subject:'01:32:54:67:89:AB'`。
 
-Write a regexp that checks whether a string is MAC-address.
+创建一个正则表达式语句来检查给出的字符串是否为 MAC-address 。
 
-Usage:
+用例：
+
 ```js
 let regexp = /your regexp/;
 
 alert( regexp.test('01:32:54:67:89:AB') ); // true
 
-alert( regexp.test('0132546789AB') ); // false (no colons)
+alert( regexp.test('0132546789AB') ); // false (没有冒号)
 
-alert( regexp.test('01:32:54:67:89') ); // false (5 numbers, must be 6)
+alert( regexp.test('01:32:54:67:89') ); // false (只有5个数字对，应为6个)
 
-alert( regexp.test('01:32:54:67:89:ZZ') ) // false (ZZ ad the end)
+alert( regexp.test('01:32:54:67:89:ZZ') ) // false (最后的数字对为ZZ)
 ```

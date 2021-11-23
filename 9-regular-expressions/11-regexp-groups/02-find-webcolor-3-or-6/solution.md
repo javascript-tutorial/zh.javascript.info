@@ -1,12 +1,15 @@
-A regexp to search 3-digit color `#abc`: `pattern:/#[a-f0-9]{3}/i`.
+查找3位数字颜色 `#abc` 的正则表达式：`pattern:/#[a-f0-9]{3}/i`。
 
-We can add exactly 3 more optional hex digits. We don't need more or less. The color has either 3 or 6 digits.
 
-Let's use the quantifier `pattern:{1,2}` for that: we'll have `pattern:/#([a-f0-9]{3}){1,2}/i`.
+我们可以再添加3位可选的十六进制数字。这样刚好，因为要匹配的颜色编码由3位或6位组成。
 
-Here the pattern `pattern:[a-f0-9]{3}` is enclosed in parentheses to apply the quantifier `pattern:{1,2}`.
 
-In action:
+这里使用量词 `pattern:{1,2}`，所以正则表达式为 `pattern:/#([a-f0-9]{3}){1,2}/i`。
+
+
+这里将模式 `pattern:[a-f0-9]{3}` 包裹在字符串中以应用量词 `pattern:{1,2}`。
+
+实现：
 
 ```js run
 let regexp = /#([a-f0-9]{3}){1,2}/gi;
@@ -16,7 +19,7 @@ let str = "color: #3f3; background-color: #AA00ef; and: #abcd";
 alert( str.match(regexp) ); // #3f3 #AA00ef #abc
 ```
 
-There's a minor problem here: the pattern found `match:#abc` in `subject:#abcd`. To prevent that we can add `pattern:\b` to the end:
+这里存在一个小问题：上面的模式会匹配 `subject:#abcd` 中的 `match:#abc`。为避免这一问题我们可以在最后添加 `pattern:\b`。
 
 ```js run
 let regexp = /#([a-f0-9]{3}){1,2}\b/gi;
