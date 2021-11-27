@@ -386,7 +386,7 @@ return (
 showMessage(..)     // 显示信息
 getAge(..)          // 返回 age（gets it somehow）
 calcSum(..)         // 计算求和并返回结果
-createForm(..)      // 创建表格（通常会返回它）
+createForm(..)      // 创建表单（通常会返回它）
 checkPermission(..) // 检查权限并返回 true/false
 ```
 
