@@ -9,7 +9,7 @@
 - 很早以前，只存在鼠标事件。
 
     后来，触屏设备开始普及，尤其是手机和平板电脑。为了使现有的脚本仍能正常工作，它们生成（现在仍生成）鼠标事件。例如，轻触屏幕就会生成 `mousedown` 事件。因此，触摸设备可以很好地与网页配合使用。
-    
+
     但是，触摸设备比鼠标具有更多的功能。例如，我们可以同时触控多点（多点触控）。然而，鼠标事件并没有相关属性来处理这种多点触控。
 
 - 因此，引入了触摸事件，例如 `touchstart`、`touchend` 和 `touchmove`，它们具有特定于触摸的属性（这里不再赘述这些特性，因为指针事件更加完善）。
@@ -56,7 +56,7 @@
 指针事件具备和鼠标事件完全相同的属性，包括 `clientX/Y` 和 `target` 等，以及一些其他属性：
 
 - `pointerId` —— 触发当前事件的指针唯一标识符。
-    
+
     浏览器生成的。使我们能够处理多指针的情况，例如带有触控笔和多点触控功能的触摸屏（下文会有相关示例）。
 - `pointerType` —— 指针的设备类型。必须为字符串，可以是："mouse"、"pen" 或 "touch"。
 
@@ -172,29 +172,43 @@
 - 当 `elem` 被从文档中移除后，绑定会被自动地移除。
 - 当 `elem.releasePointerCapture(pointerId)` 被调用，绑定会被移除。
 
-**指针捕获可以被用于简化拖放类的操作。**
+那么，它有什么用？我们一起来看一个实际的例子吧。
 
-作为示例，让我们来回忆一下在 <info:mouse-drag-and-drop> 中所提到的，如何实现一个自定义滑动条。
+**指针捕获可以被用于简化拖放类的交互。**
 
-我们创建一个带有条形图的，并且在其内部有一个“滑块”（`thumb`）的滑动条元素。
+让我们来回忆一下在 <info:mouse-drag-and-drop> 中提到的，如何实现一个自定义滑动条。
 
-它的效果如下：
+我们可以创建一个带有条形图的、并且内部有一个“滑块”（`thumb`）的滑动条元素（`slider`）：
 
-1. 用户按下滑动条的滑块 `thumb` —— `pointerdown` 事件触发。
-2. 然后用户移动指针 —— `pointermove` 事件触发，然后我们随之移动 `thumb`。
-    - ……在指针的移动过程中，指针可能会离开滑动条的 `thumb`：移动到 `thumb` 之上或之下的位置。而 `thumb` 应该严格在水平方向上移动，并与指针保持对齐。
+```html
+<div class="slider">
+  <div class="thumb"></div>
+</div>
+```
 
-因此，要跟踪指针的所有移动，包括指针移动到 `thumb` 之上或之下的位置时，所以我们必须在整个文档 `document` 上分配 `pointermove` 事件处理程序。
+添加样式后的效果如下：
 
-这个解决方案看起来似乎有点“脏”。其中的一个问题就是，指针在文档周围的移动可能会引起副作用，触发其他事件处理程序，而这些事件处理程序与滑动条完全无关。
+[iframe src="slider-html" height=40 edit]
 
-指针捕获提供了一种将 `pointermove` 绑定到 `thumb` 并避免其他此类问题发生的方式：
+<p></p>
+
+用指针事件替换鼠标事件后的实现逻辑：
+
+1. 用户按下滑动条的滑块 `thumb` —— `pointerdown` 事件被触发。
+2. 然后用户移动指针 —— `pointermove` 事件被触发，我们让移动事件只作用在 `thumb` 上。
+    - ……在指针的移动过程中，指针可能会离开滑动条的 `thumb` 元素，移动到 `thumb` 之上或之下的位置。而 `thumb` 应该严格在水平方向上移动，并与指针保持对齐。
+
+在基于鼠标事件实现的方案中，要跟踪指针的所有移动，包括指针移动到 `thumb` 之上或之下的位置时，我们必须在整个文档 `document` 上分配 `mousemove` 事件处理程序。
+
+不过，这并不是一个没有副作用的解决方案。其中的一个问题就是，指针在文档周围的移动可能会引起副作用，在其他元素上触发事件处理程序（例如 `mouseover`）并调用其他元素上与滑动条不相关的功能，这不是我们预期的效果。
+
+这就是 `setPointerCapture` 适用的场景。
 
 - 我们可以在 `pointerdown` 事件的处理程序中调用 `thumb.setPointerCapture(event.pointerId)`，
 - 这样接下来在 `pointerup/cancel` 之前发生的所有指针事件都会被重定向到 `thumb` 上。
 - 当 `pointerup` 发生时（拖动完成），绑定会被自动移除，我们不需要关心它。
 
-因此，即使用户在整个文档上移动指针，事件处理程序也将仅在 `thumb` 上被调用。此外，事件对象的坐标属性，例如 `clientX/clientY` 仍将是正确的 —— 捕获仅影响 `target/currentTarget`。
+因此，即使用户在整个文档上移动指针，事件处理程序也将仅在 `thumb` 上被调用。尽管如此，事件对象的坐标属性，例如 `clientX/clientY` 仍将是正确的 —— 捕获仅影响 `target/currentTarget`。
 
 主要代码如下：
 
@@ -202,31 +216,49 @@
 thumb.onpointerdown = function(event) {
   // 把所有指针事件（pointerup 之前发生的）重定向到 thumb
   thumb.setPointerCapture(event.pointerId);
-};
 
-thumb.onpointermove = function(event) {
-  // 移动滑动条：在 thumb 上监听即可，因为所有指针事件都被重定向到了 thumb
-  let newLeft = event.clientX - slider.getBoundingClientRect().left;
-  thumb.style.left = newLeft + 'px';
+  // 开始跟踪指针的移动
+  thumb.onpointermove = function(event) {
+    // 移动滑动条：在 thumb 上监听即可，因为所有指针事件都被重定向到了 thumb
+    let newLeft = event.clientX - slider.getBoundingClientRect().left;
+    thumb.style.left = newLeft + 'px';
+  };
+
+  // 当结束(pointerup)时取消对指针移动的跟踪
+  thumb.onpointerup = function(event) {
+    thumb.onpointermove = null;
+    thumb.onpointerup = null;
+    // ...这里还可以处理“拖动结束”相关的逻辑
+  };
 };
 
 // 注意：无需调用 thumb.releasePointerCapture，
-// 它会在 pointerup 时自动调用
+// 它会在 pointerup 时被自动调用
 ```
 
 ```online
 完整示例：
 
 [iframe src="slider" height=100 edit]
+
+<p></p>
+
+在这个 demo 中还有一个元素，当它的 `onmouseover` 处理程序被触发时会显示当前的时间。
+
+请注意：当你拖动滑块的时候，鼠标可能会悬停在这个元素上，它的 `onmouseover` 处理程序**不会**被触发。
+
+借助于 `setPointerCapture`，现在拖动滑块不会再产生副作用了。
 ```
 
 言而总之，指针捕获为我们带来了两个好处：
 1. 代码变得更加简洁，我们不再需要在整个 `document` 上添加/移除处理程序。绑定会被自动释放。
-2. 如果文档中有任何 `pointermove` 处理程序，则在用户拖动滑动条时，它们不会因指针的移动被意外地触发。
+2. 如果文档中有其他指针事件处理程序，则在用户拖动滑动条时，它们不会因指针的移动被意外地触发。
 
 ### 指针捕获事件
 
-还有两个相关的指针捕获事件:
+完整起见，这里还需要提及一个知识点。
+
+还有两个与指针捕获相关的事件：
 
 - `gotpointercapture` 会在一个元素使用 `setPointerCapture` 来启用捕获后触发。
 - `lostpointercapture` 会在捕获被释放后触发：其触发可能是由于 `releasePointerCapture` 的显式调用，或是 `pointerup`/`pointercancel` 事件触发后的自动调用。

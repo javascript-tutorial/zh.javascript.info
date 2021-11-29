@@ -5,19 +5,30 @@
   <div class="thumb"></div>
 </div>
 
+<p style="border:1px solid gray" onmousemove="this.textContent = new Date()">Mouse over here to see the date</p>
+
 <script>
   let thumb = slider.querySelector('.thumb');
   let shiftX;
 
-  thumb.onpointerdown = function(event) {
+  function onThumbDown(event) {
     event.preventDefault(); // 阻止开始选择（浏览器行为）
 
     shiftX = event.clientX - thumb.getBoundingClientRect().left;
 
     thumb.setPointerCapture(event.pointerId);
+
+    thumb.onpointermove = onThumbMove;
+
+    thumb.onpointerup = event => {
+      // 拖动结束，不再需要跟踪指针
+      // ...这里还可以处理“拖动结束”相关的逻辑
+      thumb.onpointermove = null;
+      thumb.onpointerup = null;
+    }
   };
 
-  thumb.onpointermove = function(event) {
+  function onThumbMove(event) {
     let newLeft = event.clientX - shiftX - slider.getBoundingClientRect().left;
 
     // 如果指针移出了滑块 => 调整 left 来防止其超出边界
@@ -31,6 +42,8 @@
 
     thumb.style.left = newLeft + 'px';
   };
+
+  thumb.onpointerdown = onThumbDown;
 
   thumb.ondragstart = () => false;
 
