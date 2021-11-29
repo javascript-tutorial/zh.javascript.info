@@ -1,28 +1,23 @@
+正则中对于一个整数可以简单的表示为 `表达式:\d+`.
 
-The regexp for an integer number is `pattern:\d+`.
+我们可以通过在它前面加上否定的前瞻来排除不正确的情况: `表达式:(?<!-)\d+`.
 
-We can exclude negatives by prepending it with the negative lookahead: `pattern:(?<!-)\d+`.
-
-Although, if we try it now, we may notice one more "extra" result:
+尽管如此，例如我们现在尝试上面的表达式时，就会出现一个“例外”结果:
 
 ```js run
 let regexp = /(?<!-)\d+/g;
-
 let str = "0 12 -5 123 -18";
-
 console.log( str.match(regexp) ); // 0, 12, 123, *!*8*/!*
 ```
 
-As you can see, it matches `match:8`, from `subject:-18`. To exclude it, we need to ensure that the regexp starts matching a number not from the middle of another (non-matching) number.
+你会发现， 从 `-18`中配到了 `8`,要排除这种情况，我们需要确保我们的正则表达式要从合适的位置开始匹配一个数字，而不是从另一个（不匹配）数字的后面开始匹配。
 
-We can do it by specifying another negative lookbehind: `pattern:(?<!-)(?<!\d)\d+`. Now `pattern:(?<!\d)` ensures that a match does not start after another digit, just what we need.
+我们可以通过指定另一个负查找来实现: `表达式:(?<!-)(?<!\d)\d+`. 现在 `表达式:(?<!\d)` 确保匹配不会在另一个数字之后开始，这正是我们需要的。
 
-We can also join them into a single lookbehind here:
+还可以在此处将它们合并为一个单独的后瞻否定断言:
 
 ```js run
 let regexp = /(?<![-\d])\d+/g;
-
 let str = "0 12 -5 123 -18";
-
 alert( str.match(regexp) ); // 0, 12, 123
 ```

@@ -1,14 +1,12 @@
-# Find non-negative integers
+# 找到非负整数
 
-There's a string of integer numbers.
+这里有一个包含整数的字符串。
 
-Create a regexp that looks for only non-negative ones (zero is allowed).
+创建一个正则表达式来找出所有的非负整数 (0也是非负整数)。
 
-An example of use:
+一个例子:
 ```js
-let regexp = /your regexp/g;
-
+let regexp = /你的正则表达式/g;
 let str = "0 12 -5 123 -18";
-
 alert( str.match(regexp) ); // 0, 12, 123
 ```
