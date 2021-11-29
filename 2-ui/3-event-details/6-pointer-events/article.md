@@ -216,21 +216,24 @@
 thumb.onpointerdown = function(event) {
   // 把所有指针事件（pointerup 之前发生的）重定向到 thumb
   thumb.setPointerCapture(event.pointerId);
+
   // 开始跟踪指针的移动
   thumb.onpointermove = function(event) {
     // 移动滑动条：在 thumb 上监听即可，因为所有指针事件都被重定向到了 thumb
     let newLeft = event.clientX - slider.getBoundingClientRect().left;
     thumb.style.left = newLeft + 'px';
   };
-  // 当结束时取消对指针移动的跟踪
+
+  // 当结束(pointerup)时取消对指针移动的跟踪
   thumb.onpointerup = function(event) {
     thumb.onpointermove = null;
     thumb.onpointerup = null;
     // ...这里还可以处理“拖动结束”相关的逻辑
   };
 };
+
 // 注意：无需调用 thumb.releasePointerCapture，
-// 它会在 pointerup 时自动调用
+// 它会在 pointerup 时被自动调用
 ```
 
 ```online
@@ -239,20 +242,23 @@ thumb.onpointerdown = function(event) {
 [iframe src="slider" height=100 edit]
 
 <p></p>
+
 在这个 demo 中还有一个元素，当它的 `onmouseover` 处理程序被触发时会显示当前的时间。
 
-请注意：当你拖动滑块的时候你可以悬停在这个元素上，它的 `onmouseover` 处理程序不会被触发。
+请注意：当你拖动滑块的时候，鼠标可能会悬停在这个元素上，它的 `onmouseover` 处理程序**不会**被触发。
 
 借助于 `setPointerCapture`，现在拖动滑块不会再产生副作用了。
 ```
 
 言而总之，指针捕获为我们带来了两个好处：
 1. 代码变得更加简洁，我们不再需要在整个 `document` 上添加/移除处理程序。绑定会被自动释放。
-2. 如果文档中有任何 `pointermove` 处理程序，则在用户拖动滑动条时，它们不会因指针的移动被意外地触发。
+2. 如果文档中有其他指针事件处理程序，则在用户拖动滑动条时，它们不会因指针的移动被意外地触发。
 
 ### 指针捕获事件
 
-还有两个相关的指针捕获事件:
+完整起见，这里还需要提及一个知识点。
+
+还有两个与指针捕获相关的事件：
 
 - `gotpointercapture` 会在一个元素使用 `setPointerCapture` 来启用捕获后触发。
 - `lostpointercapture` 会在捕获被释放后触发：其触发可能是由于 `releasePointerCapture` 的显式调用，或是 `pointerup`/`pointercancel` 事件触发后的自动调用。
