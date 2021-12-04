@@ -26,7 +26,7 @@ let range = {
 // for(let num of range) ... num=1,2,3,4,5
 ```
 
-为了让 `range` 对象可迭代（也就让 `for..of` 可以运行）我们需要为对象添加一个名为 `Symbol.iterator` 的方法（一个专门用于使对象可迭代的内置 symbol）。
+为了让 `range` 对象可迭代（也就让 `for..of` 可以运行）我们需要为对象添加一个名为 `Symbol.iterator` 的方法（一个专门用于使对象可迭代的内建 symbol）。
 
 1. 当 `for..of` 循环启动时，它会调用这个方法（如果没找到，就会报错）。这个方法必须返回一个 **迭代器（iterator）** —— 一个有 `next` 方法的对象。
 2. 从此开始，`for..of` **仅适用于这个被返回的对象**。
@@ -296,7 +296,7 @@ alert( str.slice(1, 3) ); // 乱码（两个不同 UTF-16 扩展字符碎片拼�
     - `obj[Symbol.iterator]()` 的结果被称为 **迭代器（iterator）**。由它处理进一步的迭代过程。
     - 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}` 对象，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
 - `Symbol.iterator` 方法会被 `for..of` 自动调用，但我们也可以直接调用它。
-- 内置的可迭代对象例如字符串和数组，都实现了 `Symbol.iterator`。
+- 内建的可迭代对象例如字符串和数组，都实现了 `Symbol.iterator`。
 - 字符串迭代器能够识别代理对（surrogate pair）。（译注：代理对也就是 UTF-16 扩展字符。）
 
 

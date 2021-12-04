@@ -5,7 +5,7 @@ libs:
 
 # IndexedDB
 
-IndexedDB 是一个浏览器内置的数据库，它比 `localStorage` 强大得多。
+IndexedDB 是一个浏览器内建的数据库，它比 `localStorage` 强大得多。
 
 - 通过支持多种类型的键，来存储几乎可以是任何类型的值。
 - 支撑事务的可靠性。

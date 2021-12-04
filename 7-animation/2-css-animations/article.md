@@ -195,7 +195,7 @@ CSS：
 }
 ```
 
-CSS 提供几条内置的曲线：`linear`、`ease`、`ease-in`、`ease-out` 和 `ease-in-out`。
+CSS 提供几条内建的曲线：`linear`、`ease`、`ease-in`、`ease-out` 和 `ease-in-out`。
 
 `linear` 其实就是 `cubic-bezier(0, 0, 1, 1)` 的简写 —— 一条直线，刚刚我们已经看过了。 
 
