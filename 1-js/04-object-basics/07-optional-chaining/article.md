@@ -74,7 +74,7 @@ alert( user.address && user.address.street && user.address.street.name ); // und
 
 ## 可选链
 
-如果可选链 `?.` 前面的部分是 `undefined` 或者 `null`，它会停止运算并返回该部分。
+如果可选链 `?.` 前面的值为 `undefined` 或者 `null`，它会停止运算并返回 `undefined`。
 
 **为了简明起见，在本文接下来的内容中，我们会说如果一个属性既不是 `null` 也不是 `undefined`，那么它就“存在”。**
 
@@ -103,7 +103,7 @@ alert( user?.address.street ); // undefined
 
 请注意：`?.` 语法使其前面的值成为可选值，但不会对其后面的起作用。
 
-例如，在 `user?.address.street.name` 中，`?.` 允许 `user` 为 `null/undefined`，但仅此而已。更深层次的属性是通过常规方式访问的。如果我们希望它们中的一些也是可选的，那么我们需要使用更多的 `?.` 来替换 `.`。
+例如，在 `user?.address.street.name` 中，`?.` 允许 `user` 为 `null/undefined`（在这种情况下会返回 `undefined`）也不会报错，但这仅对于 `user`。更深层次的属性是通过常规方式访问的。如果我们希望它们中的一些也是可选的，那么我们需要使用更多的 `?.` 来替换 `.`。
 
 ```warn header="不要过度使用可选链"
 我们应该只将 `?.` 使用在一些东西可以不存在的地方。
@@ -166,25 +166,23 @@ userGuest.admin?.(); // 啥都没有（没有这样的方法）
 */!*
 ```
 
-在这两行代码中，我们首先使用点符号（`userAdmin.admin`）来获取 `admin` 属性，因为用户对象一定存在，因此可以安全地读取它。
+在这两行代码中，我们首先使用点符号（`userAdmin.admin`）来获取 `admin` 属性，因为我们假定对象 `userAdmain` 存在，因此可以安全地读取它。
 
-然后 `?.()` 会检查它左边的部分：如果 `admin` 函数存在，那么就调用运行它（对于 `userAdmin`）。否则（对于 `userGuest`）运算停止，没有错误。
+然后 `?.()` 会检查它左边的部分：如果 `admin` 函数存在，那么就调用运行它（对于 `userAdmin`）。否则（对于 `userGuest`）运算停止，没有报错。
 
 如果我们想使用方括号 `[]` 而不是点符号 `.` 来访问属性，语法 `?.[]` 也可以使用。跟前面的例子类似，它允许从一个可能不存在的对象上安全地读取属性。
 
 ```js run
+let key = "firstName";
+
 let user1 = {
   firstName: "John"
 };
 
-let user2 = null; // 假设，我们不能授权此用户
-
-let key = "firstName";
+let user2 = null;
 
 alert( user1?.[key] ); // John
 alert( user2?.[key] ); // undefined
-
-alert( user1?.[key]?.something?.not?.existing); // undefined
 ```
 
 此外，我们还可以将 `?.` 跟 `delete` 一起使用：

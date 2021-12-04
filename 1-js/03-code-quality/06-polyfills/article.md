@@ -46,7 +46,7 @@ height = (height !== undefined && height !== null) ? height : 100;
 
 ## 垫片（Polyfills）
 
-新的语言特性可能不仅包括语法结构和运算符，还可能包括内置函数。
+新的语言特性可能不仅包括语法结构和运算符，还可能包括内建函数。
 
 例如，`Math.trunc(n)` 是一个“截断”数字小数部分的函数，例如 `Math.trunc(1.23)` 返回 `1`。
 
@@ -69,7 +69,7 @@ if (!Math.trunc) { // 如果没有这个函数
 }
 ```
 
-JavaScript 是一种高度动态的语言，脚本可以添加/修改任何函数，甚至包括内置函数。
+JavaScript 是一种高度动态的语言，脚本可以添加/修改任何函数，甚至包括内建函数。
 
 两个有趣的 polyfill 库：
 - [core js](https://github.com/zloirock/core-js) 支持了很多特性，允许只包含需要的特性。

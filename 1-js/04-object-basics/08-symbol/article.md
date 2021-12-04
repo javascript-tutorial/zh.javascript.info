@@ -109,7 +109,7 @@ user[id] = "Their id value";
 
 ……但如果我们处于同样的目的，使用字符串 `"id"` 而不是用 symbol，那么 **就会** 出现冲突：
 
-```js run
+```js
 let user = { name: "John" };
 
 // 我们的脚本使用了 "id" 属性。
