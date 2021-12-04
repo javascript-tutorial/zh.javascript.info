@@ -58,29 +58,50 @@
 
 这些事件发生于剪切/拷贝/粘贴一个值的时候。
 
-它们属于 [ClipboardEvent](https://www.w3.org/TR/clipboard-apis/#clipboard-event-interfaces) 类，并提供了对拷贝/粘贴的数据的访问方法。
+它们属于 [ClipboardEvent](https://www.w3.org/TR/clipboard-apis/#clipboard-event-interfaces) 类，并提供了对剪切/拷贝/粘贴的数据的访问方法。
 
 我们也可以使用 `event.preventDefault()` 来中止行为，然后什么都不会被复制/粘贴。
 
-例如，下面的代码阻止了所有的这样的事件，并显示出了我们所尝试剪切/拷贝/粘贴的内容：
+例如，下面的代码阻止了剪切/拷贝/粘贴的事件，并显示出了我们所尝试剪切/拷贝/粘贴的内容：
 
 ```html autorun height=40 run
 <input type="text" id="input">
 <script>
-  input.oncut = input.oncopy = input.onpaste = function(event) {
-    alert(event.type + ' - ' + event.clipboardData.getData('text/plain'));
-    return false;
+  input.onpaste = function(event) {
+    alert("paste: " + event.clipboardData.getData('text/plain'));
+    event.preventDefault();
+  };
+
+  input.oncut = input.oncopy = function(event) {
+    alert(event.type + '-' + document.getSelection());
+    event.preventDefault();
   };
 </script>
 ```
 
-请注意，不仅可以复制/粘贴文本，还可以复制/粘贴所有内容。例如，我们可以在 OS 文件管理器中复制一个文件并粘贴它。
+请注意，在剪切/复制事件处理程序中调用 `event.clipboardData.getData(...)` 只会得到一个空字符串。从技术上讲，这是因为此时数据还未存入剪切板。如果我们使用 `event.preventDefault()`，则它根本不会被复制。
 
-[在规范中](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer) 有一系列方法，这些方法可用于不同的数据类型，包括文件，对剪贴板（clipboard）进行读/写。
+所以上面的例子中使用 `document.getSelection()` 来得到被选中的文本。你可以在 <info:selection-range> 中了解更多关于文本选择（document selection）的细节。
 
-但是请注意，剪贴板是“全局”操作系统级别的。安全起见，大多数浏览器仅在特定的用户行为下，才允许对剪贴板进行读/写，例如在 `onclick` 事件处理程序中。
+我们不仅可以复制/粘贴文本，也可以复制/粘贴其他各种内容。例如，我们可以在操作系统的文件管理器中复制一个文件并进行粘贴。
 
-并且，除火狐（Firefox）浏览器外，所有浏览器都禁止使用 `dispatchEvent` 生成“自定义”剪贴板事件。
+这是因为 `clipboardData` 实现了 `DataTransfer` 接口，通常用于拖放和复制/粘贴。这超出了本文所讨论的范围，但你可以在 [DataTransfer 规范](https://html.spec.whatwg.org/multipage/dnd.html#the-datatransfer-interface) 中进行详细了解。
+
+另外，还有一个可以访问剪切板的异步 API：`navigator.clipboard`，详见 [Clipboard API 和事件规范](https://www.w3.org/TR/clipboard-apis/)，[火狐浏览器（Firefox）尚未支持](https://caniuse.com/async-clipboard)。
+
+### 安全限制
+
+剪贴板是“全局”操作系统级别的东西。用户可能会在各种应用程序之间切换，复制/粘贴不同的内容，而浏览器页面不应该能访问这些内容。
+
+因此，大多数浏览器仅允许在某些用户操作范围内（例如复制/粘贴等）对剪切板进行无缝的读/写访问。
+
+除火狐（Firefox）浏览器外，所有浏览器都禁止使用 `dispatchEvent` 生成“自定义”剪贴板事件，即使我们设法调度此类事件。规范也明确声明了，合成（syntetic）事件不得提供对剪切板的访问权限。
+
+此外，如果有人想将 `event.clipboardData` 保存在事件处理程序中，然后稍后再访问它 —— 这也不会生效。
+
+重申，[event.clipboardData](https://www.w3.org/TR/clipboard-apis/#clipboardevent-clipboarddata) 仅在用户启动的事件处理程序的上下文中生效。
+
+另外, [navigator.clipboard](https://www.w3.org/TR/clipboard-apis/#h-navigator-clipboard) 是一个较新的 API，适用于任何上下文。如果需要，它会请求用户的许可。火狐（Firefox）浏览器尚未支持。
 
 ## 总结
 
@@ -90,4 +111,4 @@
 |---------|----------|-------------|
 | `change`| 值被改变。 | 对于文本输入，当失去焦点时触发。 |
 | `input` | 文本输入的每次更改。 | 立即触发，与 `change` 不同。 |
-| `cut/copy/paste` | 剪贴/拷贝/粘贴行为。 | 行为可以被阻止。`event.clipboardData` 属性可以用于读/写剪贴板。 |
+| `cut/copy/paste` | 剪贴/拷贝/粘贴行为。 | 行为可以被阻止。`event.clipboardData` 属性可以用于访问剪贴板。除了火狐（Firefox）之外的浏览器都支持 `navigator.clipboard`。 |
