@@ -3,16 +3,16 @@
 
 我们可以通过描述带有自己的方法、属性和事件等的类来创建自定义 HTML 元素。
 
-在 custom elements （自定义标签）定义完成之后，我们可以将其和 HTML 的内置标签一同使用。
+在 custom elements （自定义标签）定义完成之后，我们可以将其和 HTML 的内建标签一同使用。
 
-这是一件好事，因为虽然 HTML 有非常多的标签，但仍然是有穷尽的。如果我们需要像 `<easy-tabs>`、`<sliding-carousel>`、`<beautiful-upload>`…… 这样的标签，内置标签并不能满足我们。
+这是一件好事，因为虽然 HTML 有非常多的标签，但仍然是有穷尽的。如果我们需要像 `<easy-tabs>`、`<sliding-carousel>`、`<beautiful-upload>`…… 这样的标签，内建标签并不能满足我们。
 
 我们可以把上述的标签定义为特殊的类，然后使用它们，就好像它们本来就是 HTML 的一部分一样。
 
 Custom elements 有两种：
 
 1. **Autonomous custom elements （自主自定义标签）** —— "全新的" 元素, 继承自 `HTMLElement` 抽象类.
-2. **Customized built-in elements （自定义内置元素）** —— 继承内置的 HTML 元素，比如自定义 `HTMLButtonElement` 等。
+2. **Customized built-in elements （自定义内建元素）** —— 继承内建的 HTML 元素，比如自定义 `HTMLButtonElement` 等。
 
 我们将会先创建 autonomous 元素，然后再创建 customized built-in 元素。
 
@@ -68,7 +68,7 @@ customElements.define("my-element", MyElement);
 ```smart header="Custom element 名称必须包括一个短横线 `-`"
 Custom element 名称必须包括一个短横线 `-`, 比如 `my-element` 和 `super-button` 都是有效的元素名，但 `myelement` 并不是。
 
-这是为了确保 custom element 和内置 HTML 元素之间不会发生命名冲突。
+这是为了确保 custom element 和内建 HTML 元素之间不会发生命名冲突。
 ```
 
 ## 例子: "time-formatted"
@@ -115,7 +115,7 @@ customElements.define("time-formatted", TimeFormatted); // (2)
 ></time-formatted>
 ```
 
-1. 这个类只有一个方法 `connectedCallback()` —— 在 `<time-formatted>` 元素被添加到页面的时候，浏览器会调用这个方法（或者当 HTML 解析器检测到它的时候），它使用了内置的时间格式化工具 [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat)，这个工具可以非常好地展示格式化之后的时间，在各浏览器中兼容性都非常好。
+1. 这个类只有一个方法 `connectedCallback()` —— 在 `<time-formatted>` 元素被添加到页面的时候，浏览器会调用这个方法（或者当 HTML 解析器检测到它的时候），它使用了内建的时间格式化工具 [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat)，这个工具可以非常好地展示格式化之后的时间，在各浏览器中兼容性都非常好。
 2. 我们需要通过 `customElements.define(tag, class)` 来注册这个新元素。
 3. 接下来在任何地方我们都可以使用这个新元素了。
 
@@ -302,7 +302,7 @@ customElements.define('user-info', class extends HTMLElement {
 
 我们可以很明显地看到外层元素并没有等待内层元素。
 
-并没有任何内置的回调方法可以在嵌套元素渲染好之后通知我们。但我们可以自己实现这样的回调。比如，内层元素可以分派像 `initialized` 这样的事件，同时外层的元素监听这样的事件并做出响应。
+并没有任何内建的回调方法可以在嵌套元素渲染好之后通知我们。但我们可以自己实现这样的回调。比如，内层元素可以分派像 `initialized` 这样的事件，同时外层的元素监听这样的事件并做出响应。
 
 ## Customized built-in elements
 
@@ -310,7 +310,7 @@ customElements.define('user-info', class extends HTMLElement {
 
 但上述两点同样是非常重要的。比如，搜索引擎会对这些事情感兴趣，比如我们真的展示了时间。或者如果我们创建了一个特别的按钮，为什么不复用已有的 `<button>` 功能呢？
 
-我们可以通过继承内置元素的类来扩展和定制它们。
+我们可以通过继承内建元素的类来扩展和定制它们。
 
 比如，按钮是 `HTMLButtonElement` 的实例，让我们在这个基础上创建元素。
 
@@ -359,7 +359,7 @@ customElements.define('hello-button', HelloButton, {extends: 'button'});
 */!*
 ```
 
-我们新定义的按钮继承了内置按钮，所以它拥有和内置按钮相同的样式和标准特性，比如 `disabled` 属性。
+我们新定义的按钮继承了内建按钮，所以它拥有和内建按钮相同的样式和标准特性，比如 `disabled` 属性。
 
 ## 引用参考
 

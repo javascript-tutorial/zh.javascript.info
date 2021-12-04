@@ -79,7 +79,7 @@ alert( arr[0].name ); // <空字符串>
 
 ## 属性 "length"
 
-还有另一个内置属性 "length"，它返回函数入参的个数，比如：
+还有另一个内建属性 "length"，它返回函数入参的个数，比如：
 
 ```js run
 function f1(a) {}

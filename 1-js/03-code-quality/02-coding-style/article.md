@@ -337,7 +337,7 @@ function pow(x, n) {
 
 你也可以从网上下载风格规则集并进行扩展。有关安装的更多详细信息，请参见 <https://eslint.org/docs/user-guide/getting-started>。
 
-此外，某些 IDE 有内置的检查器，这非常方便，但是不像 ESLint 那样可自定义。
+此外，某些 IDE 有内建的检查器，这非常方便，但是不像 ESLint 那样可自定义。
 
 ## 总结
 

@@ -277,7 +277,6 @@ alert(groups.day); // 30
 
 要查找所有日期，我们可以添加标志 `pattern:g`。
 
-We'll also need `matchAll` to obtain full matches, together with groups:
 我们还需要 `matchAll` 获取完整的组匹配：
 
 ```js run

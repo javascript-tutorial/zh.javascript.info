@@ -427,7 +427,7 @@ for(let code in codes) {
 所以，"49" 是一个整数属性名，因为我们把它转换成整数，再转换回来，它还是一样的。但是 "+49" 和 "1.2" 就不行了：
 
 ```js run
-// Math.trunc 是内置的去除小数部分的方法。
+// Math.trunc 是内建的去除小数部分的方法。
 alert( String(Math.trunc(Number("49"))) ); // "49"，相同，整数属性
 alert( String(Math.trunc(Number("+49"))) ); // "49"，不同于 "+49" ⇒ 不是整数属性
 alert( String(Math.trunc(Number("1.2"))) ); // "1"，不同于 "1.2" ⇒ 不是整数属性

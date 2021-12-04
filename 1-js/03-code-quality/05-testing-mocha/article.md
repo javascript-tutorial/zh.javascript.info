@@ -87,7 +87,7 @@ describe("pow", function() {
 
 - [Mocha](http://mochajs.org/) —— 核心框架：提供了包括通用型测试函数 `describe` 和 `it`，以及用于运行测试的主函数。
 - [Chai](http://chaijs.com) —— 提供很多断言（assertion）支持的库。它提供了很多不同的断言，现在我们只需要用 `assert.equal`。
-- [Sinon](http://sinonjs.org/) —— 用于监视函数、模拟内置函数和其他函数的库，我们在后面才会用到它。
+- [Sinon](http://sinonjs.org/) —— 用于监视函数、模拟内建函数和其他函数的库，我们在后面才会用到它。
 
 这些库都既适用于浏览器端，也适用于服务器端。这里我们将使用浏览器端的变体。
 

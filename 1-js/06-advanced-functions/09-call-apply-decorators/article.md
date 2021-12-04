@@ -120,7 +120,7 @@ func(2);
 
 让我们来解决这个问题。
 
-有一个特殊的内置函数方法 [func.call(context, ...args)](mdn:js/Function/call)，它允许调用一个显式设置 `this` 的函数。
+有一个特殊的内建函数方法 [func.call(context, ...args)](mdn:js/Function/call)，它允许调用一个显式设置 `this` 的函数。
 
 语法如下：
 

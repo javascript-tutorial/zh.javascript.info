@@ -2,7 +2,7 @@
 
 正则表达式是搜索和替换字符串的一种强大方式。
 
-在 JavaScript 中，正则表达式通过内置的“RegExp”类的对象来实现，并与字符串集成。
+在 JavaScript 中，正则表达式通过内建的“RegExp”类的对象来实现，并与字符串集成。
 
 请注意，在各编程语言之间，正则表达式是有所不同的。在本教程中，我们只专注于 JavaScript。当然，它们有很多共同点，但在 Perl、Ruby 和 PHP 等语言下会有所不同。
 
@@ -94,7 +94,7 @@ alert( "I love JavaScript".search(regexp));
 : 使用此修饰符后，搜索时会查找所有的匹配项，而不只是第一个（在下一章会讲到）。
 
 `m`
-: 多行模式（详见章节 <info:regexp-multiline>）。
+: 多行模式（详见章节 <info:regexp-multiline-mode>）。
 
 `u`
 : 开启完整的 unicode 支持。该修饰符能够修正对于代理对的处理。更详细的内容见章节 <info:regexp-unicode>。

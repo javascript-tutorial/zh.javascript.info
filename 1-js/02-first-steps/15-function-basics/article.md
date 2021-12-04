@@ -6,7 +6,7 @@
 
 函数是程序的主要“构建模块”。函数使该段代码可以被调用很多次，而不需要写重复的代码。
 
-我们已经看到了内置函数的示例，如 `alert(message)`、`prompt(message, default)` 和 `confirm(question)`。但我们也可以创建自己的函数。
+我们已经看到了内建函数的示例，如 `alert(message)`、`prompt(message, default)` 和 `confirm(question)`。但我们也可以创建自己的函数。
 
 ## 函数声明
 
@@ -399,7 +399,7 @@ return (
 showMessage(..)     // 显示信息
 getAge(..)          // 返回 age（gets it somehow）
 calcSum(..)         // 计算求和并返回结果
-createForm(..)      // 创建表格（通常会返回它）
+createForm(..)      // 创建表单（通常会返回它）
 checkPermission(..) // 检查权限并返回 true/false
 ```
 
