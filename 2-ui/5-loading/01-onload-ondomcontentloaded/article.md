@@ -133,7 +133,7 @@ Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填充表单。
 
 假设我们收集有关页面使用情况的数据：鼠标点击，滚动，被查看的页面区域等。
 
-自然地，当用户要离开的时候，我们希望通过 `unload` 事件将数据保存到我们的服务器上。
+自然地，`unload`事件指的是用户离开页面这个行为，我们想把这个行为数据保存在我们的服务器上
 
 有一个特殊的 `navigator.sendBeacon(url, data)` 方法可以满足这种需求，详见规范 <https://w3c.github.io/beacon/>。
 
