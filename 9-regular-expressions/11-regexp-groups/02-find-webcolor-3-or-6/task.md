@@ -10,4 +10,4 @@ let str = "color: #3f3; background-color: #AA00ef; and: #abcd";
 alert( str.match(regexp) ); // #3f3 #AA00ef
 ```
 
-P.S. 必须是3位或6位十六进制数字。不应该匹配4位数字，比如 `#abcd`。
+P.S. 必须是 3 位或 6 位十六进制数字。不应该匹配 4 位数字，比如 `#abcd`。
