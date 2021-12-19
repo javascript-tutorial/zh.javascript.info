@@ -15,7 +15,7 @@ alert( regexp.test('01:32:54:67:89:AB') ); // true
 
 alert( regexp.test('0132546789AB') ); // false (没有冒号)
 
-alert( regexp.test('01:32:54:67:89') ); // false (只有5个数字对，应为6个)
+alert( regexp.test('01:32:54:67:89') ); // false（只有 5 个数字对，应为 6 个）
 
 alert( regexp.test('01:32:54:67:89:ZZ') ) // false（最后是字符 ZZ）
 ```
