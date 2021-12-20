@@ -7,7 +7,7 @@
 例如：
 
 ```js
-let regexp = /ваше регулярное выражение/;
+let regexp = /你的正则表达式/;
 let str = `
 <html>
   <body style="height: 200px">
