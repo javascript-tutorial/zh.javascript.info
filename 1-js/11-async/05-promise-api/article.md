@@ -16,7 +16,7 @@
 let promise = Promise.all([...promises...]);
 ```
 
-`Promise.all` 接受一个 promise 数组作为参数（从技术上讲，它可以是任何可迭代的，但通常是一个数组）并返回一个新的 promise。
+`Promise.all` 接受一个 promise 数组作为参数（从技术上讲，它可以是任何可迭代对象，但通常是一个数组）并返回一个新的 promise。
 
 当所有给定的 promise 都被 settled 时，新的 promise 才会 resolve，并且其结果数组将成为新的 promise 的结果。
 
