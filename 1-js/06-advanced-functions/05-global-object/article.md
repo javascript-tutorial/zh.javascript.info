@@ -17,7 +17,7 @@ alert("Hello");
 window.alert("Hello");
 ```
 
-在浏览器中，使用 `var`（而不是 `let/const`！）声明的全局函数和变量会成为全局对象的属性。
+在浏览器中，全局函数和使用 `var`（而不是 `let/const`！）声明的变量会成为全局对象的属性。
 
 ```js run untrusted refresh
 var gVar = 5;
@@ -25,7 +25,7 @@ var gVar = 5;
 alert(window.gVar); // 5（成为了全局对象的属性）
 ```
 
-具有与函数声明相同的效果（在主代码流中具有 `function` 关键字的语句，而不是函数表达式）。
+同样的效果还有函数声明（在主代码流中具有 `function` 关键字的语句，而不是函数表达式）。
 
 请不要依赖它！这种行为是出于兼容性而存在的。现代脚本通过使用 [JavaScript modules](info:modules) 来避免这种情况的发生。
 
