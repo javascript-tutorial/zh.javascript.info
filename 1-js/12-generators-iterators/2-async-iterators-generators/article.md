@@ -376,7 +376,7 @@ async function* fetchCommits(repo) {
 
   for await (const commit of fetchCommits('javascript-tutorial/en.javascript.info')) {
 
-    console.log(commit.author.name);
+    console.log(commit.author.login);
 
     if (++count == 100) { // 让我们在获取了 100 个 commit 时停止
       break;
