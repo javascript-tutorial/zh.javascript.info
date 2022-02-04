@@ -219,7 +219,7 @@ Promise.race([
 
 ## Promise.any
 
-与 `Promise.race` 类似，区别在于 `Promise.any` 只等待第一个 fulfilled 的 promise，并将这个 fulfilled 的 promise 返回。如果给出的 promise 都 rejected，那么则返回 rejected 的 promise 和 [`AggregateError`](mdn:js/AggregateError) —— 一个特殊的 error 对象，在其 `errors` 属性中存储着所有 promise error。
+与 `Promise.race` 类似，区别在于 `Promise.any` 只等待第一个 fulfilled 的 promise，并将这个 fulfilled 的 promise 返回。如果给出的 promise 都 rejected，那么则返回 rejected 的 promise 和 [`AggregateError`](mdn:js/AggregateError) 错误类型的 error 实例—— 一个特殊的 error 对象，在其 `errors` 属性中存储着所有 promise error。
 
 语法如下：
 
@@ -252,7 +252,7 @@ Promise.any([
 });
 ```
 
-正如你所看到的，我们在 `AggregateError` 对象的 `errors` 属性中可以访问到失败的 promise 的 error 对象。
+正如你所看到的，我们在 `AggregateError` 错误类型的 error 实例的 `errors` 属性中可以访问到失败的 promise 的 error 对象。
 
 ## Promise.resolve/reject
 
@@ -316,7 +316,7 @@ let promise = new Promise((resolve, reject) => reject(error));
     - `status`: `"fulfilled"` 或 `"rejected"`
     - `value`（如果 fulfilled）或 `reason`（如果 rejected）。
 3. `Promise.race(promises)` —— 等待第一个 settle 的 promise，并将其 result/error 作为结果返回。
-4. `Promise.any(promises)`（ES2021 新增方法）—— 等待第一个 fulfilled 的 promise，并将其结果作为结果返回。如果所有 promise 都 rejected，`Promise.any` 则会抛出 [`AggregateError`](mdn:js/AggregateError)。
+4. `Promise.any(promises)`（ES2021 新增方法）—— 等待第一个 fulfilled 的 promise，并将其结果作为结果返回。如果所有 promise 都 rejected，`Promise.any` 则会抛出 [`AggregateError`](mdn:js/AggregateError) 错误类型的 error 实例。
 5. `Promise.resolve(value)` —— 使用给定 value 创建一个 resolved 的 promise。
 6. `Promise.reject(error)` —— 使用给定 error 创建一个 rejected 的 promise。
 
