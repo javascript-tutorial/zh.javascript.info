@@ -1,6 +1,6 @@
 # Promise API
 
-在 `Promise` 类中，有 5 种静态方法。我们在这里简单介绍下它们的使用场景。
+在 `Promise` 类中，有 6 种静态方法。我们在这里简单介绍下它们的使用场景。
 
 ## Promise.all
 
@@ -18,9 +18,9 @@ let promise = Promise.all([...promises...]);
 
 `Promise.all` 接受一个 promise 数组作为参数（从技术上讲，它可以是任何可迭代对象，但通常是一个数组）并返回一个新的 promise。
 
-当所有给定的 promise 都被 settled 时，新的 promise 才会 resolve，并且其结果数组将成为新的 promise 的结果。
+当所有给定的 promise 都 resolve 时，新的 promise 才会 resolve，并且其结果数组将成为新 promise 的结果。
 
-例如，下面的 `Promise.all` 在 3 秒之后被 settled，然后它的结果就是一个 `[1, 2, 3]` 数组：
+例如，下面的 `Promise.all` 在 3 秒之后 settled，然后它的结果就是一个 `[1, 2, 3]` 数组：
 
 ```js run
 Promise.all([
@@ -217,6 +217,43 @@ Promise.race([
 这里第一个 promise 最快，所以它变成了结果。第一个 settled 的 promise “赢得了比赛”之后，所有进一步的 result/error 都会被忽略。
 
 
+## Promise.any
+
+与 `Promise.race` 类似，区别在于 `Promise.any` 只等待第一个 fulfilled 的 promise，并将这个 fulfilled 的 promise 返回。如果给出的 promise 都 rejected，那么则返回 rejected 的 promise 和 [`AggregateError`](mdn:js/AggregateError) 错误类型的 error 实例—— 一个特殊的 error 对象，在其 `errors` 属性中存储着所有 promise error。
+
+语法如下：
+
+```js
+let promise = Promise.any(iterable);
+```
+
+例如，这里的结果将是 `1`：
+
+```js run
+Promise.any([
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 2000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+]).then(alert); // 1
+```
+
+这里的第一个 promise 是最快的，但 rejected 了，所以第二个 promise 则成为了结果。在第一个 fulfilled 的 promise “赢得比赛”后，所有进一步的结果都将被忽略。
+
+这是一个所有 promise 都失败的例子：
+
+```js run
+Promise.any([
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("Ouch!")), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("Error!")), 2000))
+]).catch(error => {
+  console.log(error.constructor.name); // AggregateError
+  console.log(error.errors[0]); // Error: Ouch!
+  console.log(error.errors[1]); // Error: Error
+});
+```
+
+正如你所看到的，我们在 `AggregateError` 错误类型的 error 实例的 `errors` 属性中可以访问到失败的 promise 的 error 对象。
+
 ## Promise.resolve/reject
 
 在现代的代码中，很少需要使用 `Promise.resolve` 和 `Promise.reject` 方法，因为 `async/await` 语法（我们会在 [稍后](info:async-await) 讲到）使它们变得有些过时了。
@@ -272,14 +309,15 @@ let promise = new Promise((resolve, reject) => reject(error));
 
 ## 总结
 
-`Promise` 类有 5 种静态方法：
+`Promise` 类有 6 种静态方法：
 
 1. `Promise.all(promises)` —— 等待所有 promise 都 resolve 时，返回存放它们结果的数组。如果给定的任意一个 promise 为 reject，那么它就会变成 `Promise.all` 的 error，所有其他 promise 的结果都会被忽略。
 2. `Promise.allSettled(promises)`（ES2020 新增方法）—— 等待所有 promise 都 settle 时，并以包含以下内容的对象数组的形式返回它们的结果：
     - `status`: `"fulfilled"` 或 `"rejected"`
     - `value`（如果 fulfilled）或 `reason`（如果 rejected）。
-3. `Promise.race(promises)` —— 等待第一个 settle 的 promise，并将其 result/error 作为结果。
-4. `Promise.resolve(value)` —— 使用给定 value 创建一个 resolved 的 promise。
-5. `Promise.reject(error)` —— 使用给定 error 创建一个 rejected 的 promise。
+3. `Promise.race(promises)` —— 等待第一个 settle 的 promise，并将其 result/error 作为结果返回。
+4. `Promise.any(promises)`（ES2021 新增方法）—— 等待第一个 fulfilled 的 promise，并将其结果作为结果返回。如果所有 promise 都 rejected，`Promise.any` 则会抛出 [`AggregateError`](mdn:js/AggregateError) 错误类型的 error 实例。
+5. `Promise.resolve(value)` —— 使用给定 value 创建一个 resolved 的 promise。
+6. `Promise.reject(error)` —— 使用给定 error 创建一个 rejected 的 promise。
 
-这五个方法中，`Promise.all` 可能是在实战中使用最多的。
+以上所有方法，`Promise.all` 可能是在实战中使用最多的。
