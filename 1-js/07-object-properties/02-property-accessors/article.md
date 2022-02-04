@@ -7,7 +7,7 @@
 
 第二种类型的属性是新东西。它是 **访问器属性（accessor properties）**。它们本质上是用于获取和设置值的函数，但从外部代码来看就像常规属性。
 
-## Getter 和 setter
+## getter 和 setter
 
 访问器属性由 "getter" 和 "setter" 方法表示。在对象字面量中，它们用 `get` 和 `set` 表示：
 
@@ -153,7 +153,7 @@ Object.defineProperty({}, 'prop', {
 
 ## 更聪明的 getter/setter
 
-Getter/setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
+getter/setter 可以用作“真实”属性值的包装器，以便对它们进行更多的控制。
 
 例如，如果我们想禁止太短的 `user` 的 name，我们可以创建一个 setter `name`，并将值存储在一个单独的属性 `_name` 中：
 
