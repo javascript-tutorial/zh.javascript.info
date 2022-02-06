@@ -1,11 +1,11 @@
-# Find all numbers
+# 找出所有数字
 
-Write a regexp that looks for all decimal numbers including integer ones, with the floating point and negative ones.
+编写一个正则表达式，找出所有十进制数字，包括整数、浮点数和负数。
 
-An example of use:
+用例：
 
 ```js
-let regexp = /your regexp/g;
+let regexp = /你的正则表达式/g;
 
 let str = "-1.5 0 2 -123.4.";
 
