@@ -18,7 +18,7 @@ function f() {
   }
 }
 
-f(); // cleanup!
+f(); // result!
 ```
 
 ……或者当有 `throw` 时，如下所示：
@@ -41,7 +41,7 @@ function f() {
   }
 }
 
-f(); // cleanup!
+f(); // 
 ```
 
 正是这里的 `finally` 保证了 cleanup。如果我们只是将代码放在函数 `f` 的末尾，则在这些情况下它不会运行。
