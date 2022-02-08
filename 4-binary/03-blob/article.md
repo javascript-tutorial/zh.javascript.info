@@ -211,21 +211,47 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 
 `Blob` 构造器允许从几乎所有东西创建 blob，包括任何 `BufferSource`。
 
-但是，如果我们需要执行低级别的操作的话，则可以使用 `FileReader` 从 blob 中获取最低级别的 `ArrayBuffer`：
+但是，如果我们需要执行低级别的操作的话，则可以使用 `blob.arrayBuffer()` 从 blob 中获取最低级别的 `ArrayBuffer`：
 
 ```js
-// 从 blob 获取 arrayBuffer
-let fileReader = new FileReader();
 
-*!*
-fileReader.readAsArrayBuffer(blob);
-*/!*
+// 从 blob 获取 ArrayBuffer
+const bufferPromise = await blob.arrayBuffer();
 
-fileReader.onload = function(event) {
-  let arrayBuffer = fileReader.result;
-};
+// 或者
+blob.arrayBuffer().then(buffer => /* 处理 ArrayBuffer */);
 ```
 
+## Blob 转换为 Stream
+
+当我们读取和写入超过 `2 GB` 的 blob 时，将其转换为 `AarrayBuffer` 的使用对我们来说会更加占用内存。这种情况下，我们可以直接将 `Blob` 转换为 `stream` 进行处理。
+
+`stream`是一种特殊的对象，我们可以从它那里逐部分地读取（或写入）。它是一种数据的集合，对于适合逐个处理的数据，`stream` 可以很方便的进行处理。这块的知识点不在这篇文章的范围之内，但这里有一个例子，你可以在 <https://developer.mozilla.org/en-US/docs/Web/API/Streams_API> 了解更多。
+
+`Blob` 接口里的 `stream()` 方法返回一个 `ReadableStream`，在读取时可以返回 `Blob` 中包含的数据。 
+
+如下所示：
+
+```js
+
+// 从 blob 获取可读流
+const readableStream = blob.stream();
+const stream = readableStream.getReader();
+
+while (true) {
+  // 对于每次的迭代：data是下一个blob数据片段
+  let { done, data } = await stream.read();
+  if (done) {
+    // 读取完毕，stream里已经没有数据
+    console.log('all blob processed.');
+    break;
+  }
+
+  // 对刚从blob中读取的数据部分, 做一些处理
+  console.log(data);
+}
+
+```
 
 ## 总结
 
@@ -239,3 +265,5 @@ fileReader.onload = function(event) {
 
 - 我们可以使用 `new Blob(...)` 构造函数从一个类型化数组（typed array）创建 `Blob`。
 - 我们可以使用 `FileReader` 从 `Blob` 中取回 `ArrayBuffer`，然后在其上创建一个视图（view），用于低级别的二进制处理。
+
+当我们需要处理大型 `Blob` 时，将其转换 `stream` 非常有用。 你可以轻松地从 `Blob` 创建 `ReadableStream`。`Blob` 接口的 `stream()` 方法返回一个 `ReadableStream`，其在读取时返回 `Blob` 中包含的数据。
