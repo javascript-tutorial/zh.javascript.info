@@ -1,21 +1,21 @@
-A two-digit hex number is `pattern:[0-9a-f]{2}` (assuming the flag `pattern:i` is set).
+一个两位的十六进制数可以用 `pattern:[0-9a-f]{2}`（假设已设定修饰符 `pattern:i`）进行匹配。
 
-We need that number `NN`, and then `:NN` repeated 5 times (more numbers);
+我们需要匹配数字 `NN`，然后再重复 5 次 `:NN`（匹配更多数字）；
 
-The regexp is: `pattern:[0-9a-f]{2}(:[0-9a-f]{2}){5}`
+所以正则表达式为：`pattern:[0-9a-f]{2}(:[0-9a-f]{2}){5}`
 
-Now let's show that the match should capture all the text: start at the beginning and end at the end. That's done by wrapping the pattern in `pattern:^...$`.
+现在让我们验证一下此匹配规则可以捕获整个文本：从开头开始，在结尾结束。这是通过将模式（pattern）包装在 `pattern:^...$` 中实现的。
 
-Finally:
+最终：
 
 ```js run
-let regexp = /^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$/i;
+let regexp = /^[0-9a-f]{2}(:[0-9a-f]{2}){5}$/i;
 
 alert( regexp.test('01:32:54:67:89:AB') ); // true
 
-alert( regexp.test('0132546789AB') ); // false (no colons)
+alert( regexp.test('0132546789AB') ); // false (没有分号分隔)
 
-alert( regexp.test('01:32:54:67:89') ); // false (5 numbers, need 6)
+alert( regexp.test('01:32:54:67:89') ); // false (5 个数字，必须为 6 个)
 
-alert( regexp.test('01:32:54:67:89:ZZ') ) // false (ZZ in the end)
+alert( regexp.test('01:32:54:67:89:ZZ') ) // false (尾部为 ZZ)
 ```

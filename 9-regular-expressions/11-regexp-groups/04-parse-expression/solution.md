@@ -1,21 +1,21 @@
-A regexp for a number is: `pattern:-?\d+(\.\d+)?`. We created it in previous tasks.
+一个数字的正则表达式：`pattern:-?\d+(\.\d+)?`。我们在上一题中创建了这个表达式。
 
-An operator is `pattern:[-+*/]`. The hyphen `pattern:-` goes first in the square brackets, because in the middle it would mean a character range, while we just want a character `-`.
+我们可以使用 `pattern:[-+*/]` 匹配运算符。连字符 `pattern:-` 在方括号中的最前面，因为在中间它表示字符范围，而我们只想让其表示字符 `-`。
 
-The slash `/` should be escaped inside a JavaScript regexp `pattern:/.../`, we'll do that later.
+在 JavaScript 正则表达式 `pattern:/.../` 中，我们应该对 `/` 进行转义，稍后我们会对其进行处理。
 
-We need a number, an operator, and then another number. And optional spaces between them.
+我们需要一个数字、一个运算符以及另一个数字。其间可能会有空格。
 
-The full regular expression: `pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`.
+完整的正则表达式为：`pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`。
 
-It has 3 parts, with `pattern:\s*` between them:
-1. `pattern:-?\d+(\.\d+)?` - the first number,
-1. `pattern:[-+*/]` - the operator,
-1. `pattern:-?\d+(\.\d+)?` - the second number.
+它包含 3 个部分，以 `pattern:\s*` 分隔：
+1. `pattern:-?\d+(\.\d+)?` —— 第一个数字，
+2. `pattern:[-+*/]` —— 运算符，
+3. `pattern:-?\d+(\.\d+)?` —— 第二个数字。
 
-To make each of these parts a separate element of the result array, let's enclose them in parentheses: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
+为了使这里的每一部分成为结果数组中的单独元素，所以我们把它们括在括号里：`pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`。
 
-In action:
+使用示例：
 
 ```js run
 let regexp = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
@@ -23,22 +23,22 @@ let regexp = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
 alert( "1.2 + 12".match(regexp) );
 ```
 
-The result includes:
+结果包含：
 
-- `result[0] == "1.2 + 12"` (full match)
-- `result[1] == "1.2"` (first group `(-?\d+(\.\d+)?)` -- the first number, including the decimal part)
-- `result[2] == ".2"` (second group`(\.\d+)?` -- the first decimal part)
-- `result[3] == "+"` (third group `([-+*\/])` -- the operator)
-- `result[4] == "12"` (forth group `(-?\d+(\.\d+)?)` -- the second number)
-- `result[5] == undefined` (fifth group `(\.\d+)?` -- the last decimal part is absent, so it's undefined)
+- `result[0] == "1.2 + 12"` (完全匹配)
+- `result[1] == "1.2"` (第一组 `(-?\d+(\.\d+)?)` —— 第一个数字，包括小数部分)
+- `result[2] == ".2"` (第二组 `(\.\d+)?` —— 第一个数字的小数部分)
+- `result[3] == "+"` (第三组 `([-+*\/])` —— 运算符)
+- `result[4] == "12"` (第四组 `(-?\d+(\.\d+)?)` —— 第二个数字)
+- `result[5] == undefined`（第五组 `(\.\d+)?` —— 第二个数字的小数部分不存在，所以这里是 undefined）
 
-We only want the numbers and the operator, without the full match or the decimal parts, so let's "clean" the result a bit.
+我们只想要数字和运算符，不需要没有完全匹配的以及小数部分结果，所以让我们稍微“清理”一下结果。
 
-The full match (the arrays first item) can be removed by shifting the array `result.shift()`.
+我们可以使用数组的 `shift` 方法 `result.shift()` 来删去完全匹配的结果（数组的第一项）。
 
-Groups that contain decimal parts (number 2 and 4) `pattern:(.\d+)` can be excluded by adding  `pattern:?:` to the beginning: `pattern:(?:\.\d+)?`.
+可以通过在开头 `pattern:(?:\.\d+)?` 添加 `pattern:?:` 来排除包含小数部分的组（第 2 和第 4 个）`pattern:(.\d+)` 可以通过。
 
-The final solution:
+最终的解决方案：
 
 ```js run
 function parse(expr) {
