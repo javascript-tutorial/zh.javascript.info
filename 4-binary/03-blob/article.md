@@ -221,35 +221,33 @@ const bufferPromise = await blob.arrayBuffer();
 blob.arrayBuffer().then(buffer => /* 处理 arrayBuffer */);
 ```
 
-## blob 转换为 stream
+## Blob 转换为 stream
 
 当我们读取和写入超过 `2 GB` 的 blob 时，将其转换为 `arrayBuffer` 的使用对我们来说会更加占用内存。这种情况下，我们可以直接将 blob 转换为 stream 进行处理。
 
 stream 是一种特殊的对象，我们可以从它那里逐部分地读取（或写入）。这块的知识点不在本文的范围之内，但这里有一个例子，你可以在 <https://developer.mozilla.org/en-US/docs/Web/API/Streams_API> 了解更多相关内容。对于适合逐段处理的数据，使用 stream 是很方便的。
 
-`Blob` 接口里的 `stream()` 方法返回一个 `ReadableStream`，在读取时可以返回 `Blob` 中包含的数据。 
+`Blob` 接口里的 `stream()` 方法返回一个 `ReadableStream`，在被读取时可以返回 `Blob` 中包含的数据。 
 
 如下所示：
 
 ```js
-
-// 从 blob 获取可读流
+// 从 blob 获取可读流（readableStream）
 const readableStream = blob.stream();
 const stream = readableStream.getReader();
 
 while (true) {
-  // 对于每次的迭代：data是下一个blob数据片段
+  // 对于每次迭代：data 是下一个 blob 数据片段
   let { done, data } = await stream.read();
   if (done) {
-    // 读取完毕，stream里已经没有数据
+    // 读取完毕，stream 里已经没有数据了
     console.log('all blob processed.');
     break;
   }
 
-  // 对刚从blob中读取的数据部分, 做一些处理
+  // 对刚从 blob 中读取的数据片段做一些处理
   console.log(data);
 }
-
 ```
 
 ## 总结
@@ -265,4 +263,4 @@ while (true) {
 - 我们可以使用 `new Blob(...)` 构造函数从一个类型化数组（typed array）创建 `Blob`。
 - 我们可以使用 `FileReader` 从 `Blob` 中取回 `arrayBuffer`，然后在其上创建一个视图（view），用于低级别的二进制处理。
 
-当我们需要处理大型 `Blob` 时，将其转换 `stream` 非常有用。 你可以轻松地从 `Blob` 创建 `ReadableStream`。`Blob` 接口的 `stream()` 方法返回一个 `ReadableStream`，其在读取时返回 `Blob` 中包含的数据。
+当我们需要处理大型 blob 时，将其转换为 `stream` 非常有用。你可以轻松地从 blob 创建 `ReadableStream`。`Blob` 接口的 `stream()` 方法返回一个 `ReadableStream`，其在被读取时返回 blob 中包含的数据。
