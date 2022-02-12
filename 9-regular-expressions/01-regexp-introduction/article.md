@@ -97,7 +97,7 @@ alert( "I love JavaScript".search(regexp));
 : 多行模式（详见章节 <info:regexp-multiline-mode>）。
 
 `s`
-: dotall 模式，允许 . 匹配新的行 '\n'。
+: 启用 "dotall" 模式，允许点 `pattern:.` 匹配换行符 `\n`（在 <info:regexp-character-classes> 中有详细介绍）。
 
 `u`
 : 开启完整的 unicode 支持。该修饰符能够修正对于代理对的处理。更详细的内容见章节 <info:regexp-unicode>。
