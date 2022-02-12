@@ -46,13 +46,15 @@ n = 12.345;
     alert( "not a number" / 2 ); // NaN，这样的除法是错误的
     ```
 
-    `NaN` 是粘性的。任何对 `NaN` 的进一步操作都会返回 `NaN`：
+    `NaN` 是粘性的。任何对 `NaN` 的进一步数学运算都会返回 `NaN`：
 
     ```js run
-    alert( "not a number" / 2 + 5 ); // NaN
+    alert( NaN + 1 ); // NaN
+    alert( 3 * NaN ); // NaN
+    alert( "not a number" / 2 - 1 ); // NaN
     ```
 
-    所以，如果在数学表达式中有一个 `NaN`，会被传播到最终结果。
+    所以，如果在数学表达式中有一个 `NaN`，会被传播到最终结果（只有一个例外：`NaN ** 0` 结果为 `1`）。
 
 ```smart header="数学运算是安全的"
 在 JavaScript 中做数学运算是安全的。我们可以做任何事：除以 0，将非数字字符串视为数字，等等。
@@ -213,13 +215,6 @@ alert(age); // "undefined"
 
 `typeof` 运算符返回参数的类型。当我们想要分别处理不同类型值的时候，或者想快速进行数据类型检验时，非常有用。
 
-它支持两种语法形式：
-
-1. 作为运算符：`typeof x`。
-2. 函数形式：`typeof(x)`。
-
-换言之，有括号和没有括号，得到的结果是一样的。
-
 对 `typeof x` 的调用会以字符串的形式返回数据类型：
 
 ```js
@@ -251,8 +246,18 @@ typeof alert // "function"  (3)
 最后三行可能需要额外的说明：
 
 1. `Math` 是一个提供数学运算的内建 `object`。我们会在 <info:number> 一节中学习它。此处仅作为一个 `object` 的示例。
-2. `typeof null` 的结果是 `"object"`。这是官方承认的 `typeof` 的行为上的错误，这个问题来自于 JavaScript 语言的早期，并为了兼容性而保留了下来。`null` 绝对不是一个 `object`。`null` 有自己的类型，它是一个特殊值。
+2. `typeof null` 的结果为 `"object"`。这是官方承认的 `typeof` 的错误，这个问题来自于 JavaScript 语言的早期阶段，并为了兼容性而保留了下来。`null` 绝对不是一个 `object`。`null` 有自己的类型，它是一个特殊值。`typeof` 的行为在这里是错误的。
 3. `typeof alert` 的结果是 `"function"`，因为 `alert` 在 JavaScript 语言中是一个函数。我们会在下一章学习函数，那时我们会了解到，在 JavaScript 语言中没有一个特别的 "function" 类型。函数隶属于 `object` 类型。但是 `typeof` 会对函数区分对待，并返回 `"function"`。这也是来自于 JavaScript 语言早期的问题。从技术上讲，这种行为是不正确的，但在实际编程中却非常方便。
+
+```smart header="`typeof(x)` 语法"
+你可能还会遇到另一种语法：`typeof(x)`。它与 `typeof x` 相同。
+
+简单点说：`typeof` 是一个操作符，不是一个函数。这里的括号不是 `typeof` 的一部分。它是数学运算分组的括号。
+
+通常，这样的括号里包含的是一个数学表达式，例如 `(2 + 2)`，但这里它只包含一个参数 `(x)`。从语法上讲，它们允许在 `typeof` 运算符和其参数之间不打空格，有些人喜欢这样的风格。
+
+有些人更喜欢用 `typeof(x)`，尽管 `typeof x` 语法更为常见。
+```
 
 ## 总结
 
@@ -269,7 +274,7 @@ JavaScript 中有八种基本的数据类型（译注：前七种为基本数据
 
 我们可以通过 `typeof` 运算符查看存储在变量中的数据类型。
 
-- 两种形式：`typeof x` 或者 `typeof(x)`。
+- 通常用作 `typeof x`，但 `typeof(x)` 也可行。
 - 以字符串的形式返回类型名称，例如 `"string"`。
 - `typeof null` 会返回 `"object"` —— 这是 JavaScript 编程语言的一个错误，实际上它并不是一个 `object`。
 
