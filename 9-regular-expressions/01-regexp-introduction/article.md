@@ -85,7 +85,7 @@ alert( "I love JavaScript".search(regexp));
 
 正则表达式的修饰符可能会影响搜索结果。
 
-在 JavaScript 中，有 5 个修饰符：
+在 JavaScript 中，有 6 个修饰符：
 
 `i`
 : 使用此修饰符后，搜索时不区分大小写: `A` 和 `a` 没有区别（具体看下面的例子）。
@@ -95,6 +95,9 @@ alert( "I love JavaScript".search(regexp));
 
 `m`
 : 多行模式（详见章节 <info:regexp-multiline-mode>）。
+
+`s`
+: 启用 "dotall" 模式，允许点 `pattern:.` 匹配换行符 `\n`（在 <info:regexp-character-classes> 中有详细介绍）。
 
 `u`
 : 开启完整的 unicode 支持。该修饰符能够修正对于代理对的处理。更详细的内容见章节 <info:regexp-unicode>。
@@ -124,6 +127,6 @@ alert( str.search(/LOVE/i) ); // 2
 
 ## 总结
 
-- 一个正则表达式包含模式和可选修饰符：`g`、`i`、`m`、`u`、`y`。
+- 一个正则表达式包含模式和可选修饰符：`g`、`i`、`m`、`s`、`u`、`y`。
 - 如果不使用我们在后面将要学到的修饰符和特殊标志，正则表达式的搜索就等同于子字符串查找。
 - `str.search(regexp)` 方法返回的是找到的匹配项的索引位置，如果没找到则返回 `-1`。

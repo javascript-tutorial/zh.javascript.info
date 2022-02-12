@@ -1,6 +1,6 @@
 # Blob
 
-`ArrayBuffer` 和视图（view）都是 ECMA 标准的一部分，是 JavaScript 的一部分。
+`arrayBuffer` 和视图（view）都是 ECMA 标准的一部分，是 JavaScript 的一部分。
 
 在浏览器中，还有其他更高级的对象，特别是 `Blob`，在 [File API](https://www.w3.org/TR/FileAPI/) 中有相关描述。
 
@@ -207,29 +207,52 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 
 对于页面截屏，我们可以使用诸如 <https://github.com/niklasvh/html2canvas> 之类的库。它所做的只是扫一遍浏览器页面，并将其绘制在 `<canvas>` 上。然后，我们就可以像上面一样获取一个它的 `Blob`。
 
-## Blob 转换为 ArrayBuffer
+## Blob 转换为 arrayBuffer
 
 `Blob` 构造器允许从几乎所有东西创建 blob，包括任何 `BufferSource`。
 
-但是，如果我们需要执行低级别的操作的话，则可以使用 `FileReader` 从 blob 中获取最低级别的 `ArrayBuffer`：
+但是，如果我们需要执行低级别的操作的话，则可以使用 `blob.arrayBuffer()` 从 blob 中获取最低级别的 `arrayBuffer`：
 
 ```js
 // 从 blob 获取 arrayBuffer
-let fileReader = new FileReader();
+const bufferPromise = await blob.arrayBuffer();
 
-*!*
-fileReader.readAsArrayBuffer(blob);
-*/!*
-
-fileReader.onload = function(event) {
-  let arrayBuffer = fileReader.result;
-};
+// 或者
+blob.arrayBuffer().then(buffer => /* 处理 arrayBuffer */);
 ```
 
+## Blob 转换为 stream
+
+当我们读取和写入超过 `2 GB` 的 blob 时，将其转换为 `arrayBuffer` 的使用对我们来说会更加占用内存。这种情况下，我们可以直接将 blob 转换为 stream 进行处理。
+
+stream 是一种特殊的对象，我们可以从它那里逐部分地读取（或写入）。这块的知识点不在本文的范围之内，但这里有一个例子，你可以在 <https://developer.mozilla.org/en-US/docs/Web/API/Streams_API> 了解更多相关内容。对于适合逐段处理的数据，使用 stream 是很方便的。
+
+`Blob` 接口里的 `stream()` 方法返回一个 `ReadableStream`，在被读取时可以返回 `Blob` 中包含的数据。 
+
+如下所示：
+
+```js
+// 从 blob 获取可读流（readableStream）
+const readableStream = blob.stream();
+const stream = readableStream.getReader();
+
+while (true) {
+  // 对于每次迭代：data 是下一个 blob 数据片段
+  let { done, data } = await stream.read();
+  if (done) {
+    // 读取完毕，stream 里已经没有数据了
+    console.log('all blob processed.');
+    break;
+  }
+
+  // 对刚从 blob 中读取的数据片段做一些处理
+  console.log(data);
+}
+```
 
 ## 总结
 
-`ArrayBuffer`，`Uint8Array` 及其他 `BufferSource` 是“二进制数据”，而 [Blob](https://www.w3.org/TR/FileAPI/#dfn-Blob) 则表示“具有类型的二进制数据”。
+`arrayBuffer`，`Uint8Array` 及其他 `BufferSource` 是“二进制数据”，而 [Blob](https://www.w3.org/TR/FileAPI/#dfn-Blob) 则表示“具有类型的二进制数据”。
 
 这样可以方便 `Blob` 用于在浏览器中非常常见的上传/下载操作。
 
@@ -238,4 +261,6 @@ fileReader.onload = function(event) {
 我们可以轻松地在 `Blob` 和低级别的二进制数据类型之间进行转换：
 
 - 我们可以使用 `new Blob(...)` 构造函数从一个类型化数组（typed array）创建 `Blob`。
-- 我们可以使用 `FileReader` 从 `Blob` 中取回 `ArrayBuffer`，然后在其上创建一个视图（view），用于低级别的二进制处理。
+- 我们可以使用 `FileReader` 从 `Blob` 中取回 `arrayBuffer`，然后在其上创建一个视图（view），用于低级别的二进制处理。
+
+当我们需要处理大型 blob 时，将其转换为 `stream` 非常有用。你可以轻松地从 blob 创建 `ReadableStream`。`Blob` 接口的 `stream()` 方法返回一个 `ReadableStream`，其在被读取时返回 blob 中包含的数据。
