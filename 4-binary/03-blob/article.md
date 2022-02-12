@@ -214,7 +214,6 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 但是，如果我们需要执行低级别的操作的话，则可以使用 `blob.arrayBuffer()` 从 blob 中获取最低级别的 `ArrayBuffer`：
 
 ```js
-
 // 从 blob 获取 ArrayBuffer
 const bufferPromise = await blob.arrayBuffer();
 
