@@ -33,6 +33,14 @@ describe('Ladder', function() {
     assert.equal(ladder.down().up().up().up().step, 2);
   });
   
+  it('showStep() should return this', function() {
+    assert.equal(ladder.showStep(), ladder);
+  });
+
+  it('up().up().down().showStep().down().showStep()', function () {
+    assert.equal(ladder.up().up().down().showStep().down().showStep().step, 0)
+  });
+  
   after(function() {
     ladder.step = 0;
     alert.restore();

@@ -5,10 +5,10 @@
 它被称为“箭头函数”，因为它看起来像这样：
 
 ```js
-let func = (arg1, arg2, ..., argN) => expression
+let func = (arg1, arg2, ..., argN) => expression;
 ```
 
-……这里创建了一个函数 `func`，它接受参数 `arg1..argN`，然后使用参数对右侧的 `expression` 求值并返回其结果。
+这里创建了一个函数 `func`，它接受参数 `arg1..argN`，然后使用参数对右侧的 `expression` 求值并返回其结果。
 
 换句话说，它是下面这段代码的更短的版本：
 
@@ -86,7 +86,7 @@ welcome();
 let sum = (a, b) => {  // 花括号表示开始一个多行函数
   let result = a + b;
 *!*
-  return result; // 如果我们使用了花括号，那么我们需要一个显式的 “return” 
+  return result; // 如果我们使用了花括号，那么我们需要一个显式的 “return”
 */!*
 };
 

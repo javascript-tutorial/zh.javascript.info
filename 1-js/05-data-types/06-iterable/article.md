@@ -31,7 +31,7 @@ let range = {
 1. 当 `for..of` 循环启动时，它会调用这个方法（如果没找到，就会报错）。这个方法必须返回一个 **迭代器（iterator）** —— 一个有 `next` 方法的对象。
 2. 从此开始，`for..of` **仅适用于这个被返回的对象**。
 3. 当 `for..of` 循环希望取得下一个数值，它就调用这个对象的 `next()` 方法。
-4. `next()` 方法返回的结果的格式必须是 `{done: Boolean, value: any}`，当 `done=true` 时，表示迭代结束，否则 `value` 是下一个值。
+4. `next()` 方法返回的结果的格式必须是 `{done: Boolean, value: any}`，当 `done=true` 时，表示循环结束，否则 `value` 是下一个值。
 
 这是带有注释的 `range` 的完整实现：
 
@@ -45,10 +45,10 @@ let range = {
 range[Symbol.iterator] = function() {
 
   // ……它返回迭代器对象（iterator object）：
-  // 2. 接下来，for..of 仅与此迭代器一起工作，要求它提供下一个值
+  // 2. 接下来，for..of 仅与下面的迭代器对象一起工作，要求它提供下一个值
   return {
     current: this.from,
-    last: this.to,      
+    last: this.to,
 
     // 3. next() 在 for..of 的每一轮循环迭代中被调用
     next() {
@@ -165,12 +165,12 @@ while (true) {
 
 ## 可迭代（iterable）和类数组（array-like） [#array-like]
 
-有两个看起来很相似，但又有很大不同的正式术语。请你确保正确地掌握它们，以免造成混淆。
+这两个官方术语看起来差不多，但其实大不相同。请确保你能够充分理解它们的含义，以免造成混淆。
 
 - **Iterable** 如上所述，是实现了 `Symbol.iterator` 方法的对象。
 - **Array-like** 是有索引和 `length` 属性的对象，所以它们看起来很像数组。
 
-当我们将 JavaScript 用于编写在浏览器或其他环境中的实际任务时，我们可能会遇到可迭代对象或类数组对象，或两者兼有。
+当我们将 JavaScript 用于编写在浏览器或任何其他环境中的实际任务时，我们可能会遇到可迭代对象或类数组对象，或两者兼有。
 
 例如，字符串即是可迭代的（`for..of` 对它们有效），又是类数组的（它们有数值索引和 `length` 属性）。
 

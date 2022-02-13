@@ -28,12 +28,14 @@ ladder.up();
 ladder.up();
 ladder.down();
 ladder.showStep(); // 1
+ladder.down();
+ladder.showStep(); // 0
 ```
 
 修改 `up`，`down` 和 `showStep` 的代码，让调用可以链接，就像这样：
 
 ```js
-ladder.up().up().down().showStep(); // 1
+ladder.up().up().down().showStep().down().showStep(); // 展示 1，然后 0
 ```
 
 这种方法在 JavaScript 库中被广泛使用。
