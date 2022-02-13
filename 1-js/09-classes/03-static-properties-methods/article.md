@@ -125,7 +125,7 @@ alert( Article.publisher ); // Levi Ding
 Article.publisher = "Levi Ding";
 ```
 
-## 继承静态属性和方法
+## 继承静态属性和方法 [#statics-and-inheritance]
 
 静态属性和方法是可被继承的。
 

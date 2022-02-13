@@ -21,7 +21,7 @@ let json = `{ "name": "John", "age": 30 }`;
 
 我们的函数 `readUser(json)` 不仅会读取 JSON，还会检查（“验证”）数据。如果没有所必须的字段，或者（字段的）格式错误，那么就会出现一个 error。并且这些并不是 `SyntaxError`，因为这些数据在语法上是正确的，这些是另一种错误。我们称之为 `ValidationError`，并为之创建一个类。这种类型的错误也应该包含有关违规字段的信息。
 
-我们的 `ValidationError` 类应该继承自内建的 `Error` 类。
+我们的 `ValidationError` 类应该继承自 `Error` 类。
 
 `Error` 类是内建的，但这是其近似代码，所以我们可以了解我们要扩展的内容：
 
@@ -121,11 +121,11 @@ try {
 
 使用 `instanceof` 的版本要好得多，因为将来我们会对 `ValidationError` 进行扩展，创建它的子类型，例如 `PropertyRequiredError`。而 `instanceof` 检查对于新的继承类也适用。所以这是面向未来的做法。
 
-还有一点很重要，在 `catch` 遇到了未知的错误，它会在 `(**)` 行将该错误再次抛出。`catch` 块只知道如何处理 validation 错误和语法错误，而其他错误（由于代码中的错字或其他未知的错误）应该被扔出（fall through）。
+还有一点很重要，在 `catch` 遇到了未知的错误，它会在 `(**)` 行将该错误再次抛出。`catch` 块只知道如何处理 validation 错误和语法错误，而其他错误（由代码中的拼写错误或其他未知原因导致的）应该被扔出（fall through）。
 
 ## 深入继承
 
-`ValidationError` 类是非常通用的。很多东西都可能出错。对象的属性可能缺失或者属性可能有格式错误（例如 `age` 属性的值为一个字符串）。让我们针对缺少属性的错误来制作一个更具体的 `PropertyRequiredError` 类。它将携带有关缺少的属性的相关信息。
+`ValidationError` 类是非常通用的。很多东西都可能出错。对象的属性可能缺失或者属性可能有格式错误（例如 `age` 属性的值为一个字符串而不是数字）。让我们针对缺少属性的错误来制作一个更具体的 `PropertyRequiredError` 类。它将携带有关缺少的属性的相关信息。
 
 ```js run
 class ValidationError extends Error {

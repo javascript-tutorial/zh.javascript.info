@@ -150,8 +150,8 @@ class Rabbit extends Animal {
 
 let rabbit = new Rabbit("White Rabbit");
 
-rabbit.run(5); // White Rabbit 以速度 5 奔跑
-rabbit.stop(); // White Rabbit 停止了。White rabbit hide 了！
+rabbit.run(5); // White Rabbit runs with speed 5.
+rabbit.stop(); // White Rabbit stands still. White Rabbit hides!
 ```
 
 现在，`Rabbit` 在执行过程中调用父类的 `super.stop()` 方法，所以 `Rabbit` 也具有了 `stop` 方法。
@@ -323,7 +323,7 @@ new Rabbit(); // animal
 
 有趣的是在这两种情况下：`new Animal()` 和 `new Rabbit()`，在 `(*)` 行的 `alert` 都打印了 `animal`。
 
-**换句话说， 父类构造器总是会使用它自己字段的值，而不是被重写的那一个。**
+**换句话说，父类构造器总是会使用它自己字段的值，而不是被重写的那一个。**
 
 古怪的是什么呢？
 

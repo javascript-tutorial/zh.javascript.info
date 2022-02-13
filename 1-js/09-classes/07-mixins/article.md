@@ -69,7 +69,7 @@ let sayMixin = {
 };
 
 let sayHiMixin = {
-  __proto__: sayMixin, // (或者，我们可以在这儿使用 Object.create 来设置原型)
+  __proto__: sayMixin, // (或者，我们可以在这儿使用 Object.setPrototypeOf 来设置原型)
 
   sayHi() {
     *!*

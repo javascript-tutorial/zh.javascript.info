@@ -51,7 +51,7 @@ user.sayHi();
 
 当 `new User("John")` 被调用：
 1. 一个新对象被创建。
-2. `constructor` 使用给定的参数运行，并为其分配 `this.name`。
+2. `constructor` 使用给定的参数运行，并将其赋值给 `this.name`。
 
 ……然后我们就可以调用对象方法了，例如 `user.sayHi`。
 
@@ -110,7 +110,7 @@ alert(typeof User); // function
 alert(User === User.prototype.constructor); // true
 
 // 方法在 User.prototype 中，例如：
-alert(User.prototype.sayHi); // alert(this.name);
+alert(User.prototype.sayHi); // sayHi 方法的代码
 
 // 在原型中实际上有两个方法
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
@@ -118,7 +118,7 @@ alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 
 ## 不仅仅是语法糖
 
-人们常说 `class` 是一个语法糖（旨在使内容更易阅读，但不引入任何新内容的语法），因为我们实际上可以在没有 `class` 的情况下声明相同的内容：
+人们常说 `class` 是一个语法糖（旨在使内容更易阅读，但不引入任何新内容的语法），因为我们实际上可以在不使用 `class` 的情况下声明相同的内容：
 
 ```js run
 // 用纯函数重写 class User

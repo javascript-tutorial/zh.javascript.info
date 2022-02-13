@@ -19,7 +19,7 @@
 
 首先，让我们来看看如何获得这些标志。
 
-[Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的 **完整** 信息。
+[Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的 **完整** 信息。
 
 语法是：
 ```js
@@ -54,7 +54,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
-为了修改标志，我们可以使用 [Object.defineProperty](mdn:js/Object/defineProperty)。
+为了修改标志，我们可以使用 [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)。
 
 语法是：
 
@@ -194,7 +194,7 @@ alert(Object.keys(user)); // name
 
 不可配置标志（`configurable:false`）有时会预设在内建对象和属性中。
 
-不可配置的属性不能被删除。
+不可配置的属性不能被删除，它的特性（attribute）不能被修改。
 
 例如，`Math.PI` 是只读的、不可枚举和不可配置的：
 
@@ -214,20 +214,23 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 因此，开发人员无法修改 `Math.PI` 的值或覆盖它。
 
 ```js run
-Math.PI = 3; // Error
+Math.PI = 3; // Error，因为其 writable: false
 
 // 删除 Math.PI 也不会起作用
 ```
 
-使属性变成不可配置是一条单行道。我们无法使用 `defineProperty` 把它改回去。
+我们也无法将 `Math.PI` 改为 `writable`：
 
-确切地说，不可配置性对 `defineProperty` 施加了一些限制：
-1. 不能修改 `configurable` 标志。
-2. 不能修改 `enumerable` 标志。
-3. 不能将 `writable: false` 修改为 `true`（反过来则可以）。
-4. 不能修改访问者属性的 `get/set`（但是如果没有可以分配它们）。
+```js run
+// Error，因为 configurable: false
+Object.defineProperty(Math, "PI", { writable: true });
+```
 
-**"configurable: false" 的用途是防止更改和删除属性标志，但是允许更改对象的值。**
+我们对 `Math.PI` 什么也做不了。
+
+使属性变成不可配置是一条单行道。我们无法通过 `defineProperty` 再把它改回来。
+
+**请注意：`configurable: false` 防止更改和删除属性标志，但是允许更改对象的值。**
 
 这里的 `user.name` 是不可配置的，但是我们仍然可以更改它，因为它是可写的：
 
@@ -244,7 +247,7 @@ user.name = "Pete"; // 正常工作
 delete user.name; // Error
 ```
 
-现在，我们将 `user.name` 设置为一个“永不可改”的常量：
+现在，我们将 `user.name` 设置为一个“永不可改”的常量，就像内建的 `Math.PI`：
 
 ```js run
 let user = {
@@ -263,10 +266,15 @@ delete user.name;
 Object.defineProperty(user, "name", { value: "Pete" });
 ```
 
+```smart header="唯一可行的特性更改：writable true -> false"
+对于更改标志，有一个小例外。
+
+对于不可配置的属性，我们可以将 `writable: true` 更改为 `false`，从而防止其值被修改（以添加另一层保护）。但无法反向行之。
+```
 
 ## Object.defineProperties
 
-有一个方法 [Object.defineProperties(obj, descriptors)](mdn:js/Object/defineProperties)，允许一次定义多个属性。
+有一个方法 [Object.defineProperties(obj, descriptors)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties)，允许一次定义多个属性。
 
 语法是：
 
@@ -292,7 +300,7 @@ Object.defineProperties(user, {
 
 ## Object.getOwnPropertyDescriptors
 
-要一次获取所有属性描述符，我们可以使用 [Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors) 方法。
+要一次获取所有属性描述符，我们可以使用 [Object.getOwnPropertyDescriptors(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors) 方法。
 
 它与 `Object.defineProperties` 一起可以用作克隆对象的“标志感知”方式：
 
@@ -310,7 +318,7 @@ for (let key in user) {
 
 ……但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
 
-另一个区别是 `for..in` 会忽略 symbol 类型的属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbol 类型的属性在内的 **所有** 属性描述符。
+另一个区别是 `for..in` 会忽略 symbol 类型的和不可枚举的属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbol 类型的和不可枚举的属性在内的 **所有** 属性描述符。
 
 ## 设定一个全局的密封对象
 
@@ -318,24 +326,24 @@ for (let key in user) {
 
 还有一些限制访问 **整个** 对象的方法：
 
-[Object.preventExtensions(obj)](mdn:js/Object/preventExtensions)
+[Object.preventExtensions(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions)
 : 禁止向对象添加新属性。
 
-[Object.seal(obj)](mdn:js/Object/seal)
+[Object.seal(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal)
 : 禁止添加/删除属性。为所有现有的属性设置 `configurable: false`。
 
-[Object.freeze(obj)](mdn:js/Object/freeze)
+[Object.freeze(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
 : 禁止添加/删除/更改属性。为所有现有的属性设置 `configurable: false, writable: false`。
 
 还有针对它们的测试：
 
-[Object.isExtensible(obj)](mdn:js/Object/isExtensible)
+[Object.isExtensible(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible)
 : 如果添加属性被禁止，则返回 `false`，否则返回 `true`。
 
-[Object.isSealed(obj)](mdn:js/Object/isSealed)
+[Object.isSealed(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isSealed)
 : 如果添加/删除属性被禁止，并且所有现有的属性都具有 `configurable: false`则返回 `true`。
 
-[Object.isFrozen(obj)](mdn:js/Object/isFrozen)
+[Object.isFrozen(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isFrozen)
 : 如果添加/删除/更改属性被禁止，并且所有当前属性都是 `configurable: false, writable: false`，则返回 `true`。
 
 这些方法在实际中很少使用。

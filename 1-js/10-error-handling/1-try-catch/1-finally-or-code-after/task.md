@@ -11,7 +11,7 @@ importance: 5
     ```js
     try {
       work work
-    } catch (e) {
+    } catch (err) {
       handle errors
     } finally {
     *!*
@@ -19,12 +19,12 @@ importance: 5
     */!*
     }
     ```
-2. 第二个代码片段，将清空工作空间的代码放在了 `try..catch` 之后：
+2. 第二个代码片段，将清空工作空间的代码放在了 `try...catch` 之后：
 
     ```js
     try {
       work work
-    } catch (e) {
+    } catch (err) {
       handle errors
     }
 

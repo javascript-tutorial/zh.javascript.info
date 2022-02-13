@@ -1,10 +1,10 @@
 # Promise
 
-想象一下，你是一位顶尖歌手，粉丝没日没夜地询问你下个单曲什么时候发。
+想象一下，你是一位顶尖歌手，粉丝没日没夜地询问你下首歌什么时候发。
 
 为了从中解放，你承诺（promise）会在单曲发布的第一时间发给他们。你给了粉丝们一个列表。他们可以在上面填写他们的电子邮件地址，以便当歌曲发布后，让所有订阅了的人能够立即收到。即便遇到不测，例如录音室发生了火灾，以致你无法发布新歌，他们也能及时收到相关通知。
 
-每个人都很开心：你不会被任何人催促，粉丝们也不用担心错过单曲发行。
+每个人都很开心：你不会被任何人催促，粉丝们也不用担心错过歌曲发行。
 
 这是我们在编程中经常遇到的事儿与真实生活的类比：
 
@@ -28,15 +28,15 @@ let promise = new Promise(function(resolve, reject) {
 
 当 executor 获得了结果，无论是早还是晚都没关系，它应该调用以下回调之一：
 
-- `resolve(value)` — 如果任务成功完成并带有结果 `value`。
-- `reject(error)` — 如果出现了 error，`error` 即为 error 对象。
+- `resolve(value)` —— 如果任务成功完成并带有结果 `value`。
+- `reject(error)` —— 如果出现了 error，`error` 即为 error 对象。
 
 所以总结一下就是：executor 会自动运行并尝试执行一项工作。尝试结束后，如果成功则调用 `resolve`，如果出现 error 则调用 `reject`。
 
 由 `new Promise` 构造器返回的 `promise` 对象具有以下内部属性：
 
-- `state` — 最初是 `"pending"`，然后在 `resolve` 被调用时变为 `"fulfilled"`，或者在 `reject` 被调用时变为 `"rejected"`。
-- `result` — 最初是 `undefined`，然后在 `resolve(value)` 被调用时变为 `value`，或者在 `reject(error)` 被调用时变为 `error`。
+- `state` —— 最初是 `"pending"`，然后在 `resolve` 被调用时变为 `"fulfilled"`，或者在 `reject` 被调用时变为 `"rejected"`。
+- `result` —— 最初是 `undefined`，然后在 `resolve(value)` 被调用时变为 `value`，或者在 `reject(error)` 被调用时变为 `error`。
 
 所以，executor 最终将 `promise` 移至以下状态之一：
 

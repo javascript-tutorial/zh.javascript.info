@@ -38,7 +38,12 @@ alert( user2.name ); // undefined
 这是 `new user.constructor('Pete')` 的工作流程：
 
 1. 首先，它在 `user` 中寻找 `constructor`。没找到。
-2. 然后它追溯原型链。`user` 的原型是 `User.prototype`，它也什么都没有。
-3. `User.prototype` 的值是一个普通对象 `{}`，该对象的原型是 `Object.prototype`。并且 `Object.prototype.constructor == Object`。所以就用它了。
+2. 然后它追溯原型链。`user` 的原型是 `User.prototype`，它也没有 `constructor`（因为我们“忘记”在右侧设定它了）。
+3. 再向上追溯，`User.prototype` 是一个普通对象 `{}`，其原型是 `Object.prototype`。
+4. 最终，对于内建的 `Object.prototype`，有一个内建的 `Object.prototype.constructor == Object`。所以就用它了。
 
-最后，我们有 `let user2 = new Object('Pete')`。内建的 `Object` 构造函数会忽略参数，它总是创建一个类似于 `let user2 = {}` 的空对象，这就是最后我们在 `user2` 中拥有的东西。
+所以，最终我们得到了 `let user2 = new Object('Pete')`。
+
+可能这不是我们想要的。我们想创建 `new User` 而不是 `new Object`。这就是缺少 `constructor` 的结果。
+
+（以防你好奇，`new Object(...)` 调用会将其参数转换为对象。这是理论上的，在实际中没有人会调用 `new Object` 并传入一个值，通常我们也不会使用 `new Object` 来创建对象）。

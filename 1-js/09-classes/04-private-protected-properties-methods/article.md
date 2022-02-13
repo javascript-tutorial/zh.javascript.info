@@ -96,7 +96,9 @@ class CoffeeMachine {
   _waterAmount = 0;
 
   set waterAmount(value) {
-    if (value < 0) throw new Error("Negative water");
+    if (value < 0) {
+      value = 0;
+    }
     this._waterAmount = value;
   }
 
@@ -114,10 +116,10 @@ class CoffeeMachine {
 let coffeeMachine = new CoffeeMachine(100);
 
 // 加水
-coffeeMachine.waterAmount = -10; // Error: Negative water
+coffeeMachine.waterAmount = -10; // _waterAmount 将变为 0，而不是 -10
 ```
 
-现在访问已受到控制，因此将水量的值设置为小于零的数将会失败。
+现在访问已受到控制，因此将水量的值设置为小于零的数变得不可能。
 
 ## 只读的 "power"
 
@@ -159,7 +161,7 @@ class CoffeeMachine {
   _waterAmount = 0;
 
   *!*setWaterAmount(value)*/!* {
-    if (value < 0) throw new Error("Negative water");
+    if (value < 0) value = 0;
     this._waterAmount = value;
   }
 
@@ -190,7 +192,7 @@ new CoffeeMachine().setWaterAmount(100);
 
 私有属性和方法应该以 `#` 开头。它们只在类的内部可被访问。
 
-例如，这儿有一个私有属性 `#waterLimit` 和检查水量的私有方法 `#checkWater`：
+例如，这儿有一个私有属性 `#waterLimit` 和检查水量的私有方法 `#fixWaterAmount`：
 
 ```js run
 class CoffeeMachine {
@@ -199,19 +201,22 @@ class CoffeeMachine {
 */!*
 
 *!*
-  #checkWater(value) {
-    if (value < 0) throw new Error("Negative water");
-    if (value > this.#waterLimit) throw new Error("Too much water");
+  #fixWaterAmount(value) {
+    if (value < 0) return 0;
+    if (value > this.#waterLimit) return this.#waterLimit;
   }
 */!*
 
+  setWaterAmount(value) {
+    this.#waterLimit = this.#fixWaterAmount(value);
+  }
 }
 
 let coffeeMachine = new CoffeeMachine();
 
 *!*
 // 不能从类的外部访问类的私有属性和方法
-coffeeMachine.#checkWater(); // Error
+coffeeMachine.#fixWaterAmount(123); // Error
 coffeeMachine.#waterLimit = 1000; // Error
 */!*
 ```
@@ -232,7 +237,7 @@ class CoffeeMachine {
   }
 
   set waterAmount(value) {
-    if (value < 0) throw new Error("Negative water");
+    if (value < 0) value = 0;
     this.#waterAmount = value;
   }
 }
