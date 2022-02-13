@@ -77,7 +77,7 @@ for (let value of Object.values(user)) {
 如果我们想应用它们，那么我们可以使用 `Object.entries`，然后使用 `Object.fromEntries`：
 
 1. 使用 `Object.entries(obj)` 从 `obj` 获取由键/值对组成的数组。
-2. 对该数组使用数组方法，例如 `map`。
+2. 对该数组使用数组方法，例如 `map`，对这些键/值对进行转换。
 3. 对结果数组使用 `Object.fromEntries(array)` 方法，将结果转回成对象。
 
 例如，我们有一个带有价格的对象，并想将它们加倍：
@@ -91,12 +91,13 @@ let prices = {
 
 *!*
 let doublePrices = Object.fromEntries(
-  // 转换为数组，之后使用 map 方法，然后通过 fromEntries 再转回到对象
-  Object.entries(prices).map(([key, value]) => [key, value * 2])
+  // 将价格转换为数组，将每个键/值对映射为另一对
+  // 然后通过 fromEntries 再将结果转换为对象
+  Object.entries(prices).map(entry => [entry[0], entry[1] * 2])
 );
 */!*
 
 alert(doublePrices.meat); // 8
-```   
+```
 
-乍一看，可能看起来很困难，但是使用一次或两次后，就很容易理解了。我们可以通过这种方式建立强大的转换链。
+乍一看，可能感觉有点困难困难，但是使用一两次之后就很容易理解了。我们可以通过这种方式建立强大的转换链。

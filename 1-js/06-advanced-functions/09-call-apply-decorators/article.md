@@ -36,11 +36,11 @@ function cachingDecorator(func) {
 
 slow = cachingDecorator(slow);
 
-alert( slow(1) ); // slow(1) 被缓存下来了
-alert( "Again: " + slow(1) ); // 一样的
+alert( slow(1) ); // slow(1) 被缓存下来了，并返回结果
+alert( "Again: " + slow(1) ); // 返回缓存中的 slow(1) 的结果
 
-alert( slow(2) ); // slow(2) 被缓存下来了
-alert( "Again: " + slow(2) ); // 和前面一行结果相同
+alert( slow(2) ); // slow(2) 被缓存下来了，并返回结果
+alert( "Again: " + slow(2) ); // 返回缓存中的 slow(2) 的结果
 ```
 
 在上面的代码中，`cachingDecorator` 是一个 **装饰器（decorator）**：一个特殊的函数，它接受另一个函数并改变它的行为。
@@ -301,18 +301,18 @@ func.apply(context, args)
 因此，这两个调用几乎是等效的：
 
 ```js
-func.call(context, ...args); // 使用 spread 语法将数组作为列表传递
-func.apply(context, args);   // 与使用 call 相同
+func.call(context, ...args);
+func.apply(context, args);
 ```
 
-这里只有很小的区别：
+它们使用给定的上下文和参数执行相同的 `func` 调用。
+
+只有一个关于 `args` 的细微的差别：
 
 - Spread 语法 `...` 允许将 **可迭代对象** `args` 作为列表传递给 `call`。
-- `apply` 仅接受 **类数组对象** `args`。
+- `apply` 只接受 **类数组** `args`。
 
-因此，当我们期望可迭代对象时，使用 `call`，当我们期望类数组对象时，使用 `apply`。
-
-对于即可迭代又是类数组的对象，例如一个真正的数组，我们使用 `call` 或 `apply` 均可，但是 `apply` 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。
+……对于即可迭代又是类数组的对象，例如一个真正的数组，我们使用 `call` 或 `apply` 均可，但是 `apply` 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。
 
 将所有参数连同上下文一起传递给另一个函数被称为“呼叫转移（call forwarding）”。
 

@@ -27,7 +27,7 @@ alert(window.gVar); // 5（成为了全局对象的属性）
 
 具有与函数声明相同的效果（在主代码流中具有 `function` 关键字的语句，而不是函数表达式）。
 
-请不要依赖它！这种行为是出于兼容性而存在的。现代脚本通过使用 [JavaScript modules](info:modules) 来避免这种情况的发生。
+请不要依赖它！这种行为是出于兼容性而存在的。现代脚本使用 [JavaScript modules](info:modules) 所以不会发生这种事情。
 
 如果我们使用 `let`，就不会发生这种情况：
 

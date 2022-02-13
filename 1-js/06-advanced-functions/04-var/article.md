@@ -52,7 +52,7 @@ if (true) {
 }
 
 *!*
-alert(test); // Error: test is not defined
+alert(test); // ReferenceError: test is not defined
 */!*
 ```
 
@@ -82,7 +82,7 @@ function sayHi() {
 }
 
 sayHi();
-alert(phrase); // Error: phrase is not defined
+alert(phrase); // ReferenceError: phrase is not defined
 ```
 
 可以看到，`var` 穿透了 `if`，`for` 和其它代码块。这是因为在早期的 JavaScript 中，块没有词法环境，而 `var` 就是这个时期的代表之一。
@@ -231,7 +231,7 @@ IIFE 看起来像这样：
 
 ```js run
 // 尝试声明并立即调用一个函数
-function() { // <-- Error: Function statements require a function name
+function() { // <-- SyntaxError: Function statements require a function name
 
   var message = "Hello";
 
@@ -256,11 +256,11 @@ function go() {
 ```js run
 // 创建 IIFE 的方法
 
-(function() {
+*!*(*/!*function() {
   alert("Parentheses around the function");
 }*!*)*/!*();
 
-(function() {
+*!*(*/!*function() {
   alert("Parentheses around the whole thing");
 }()*!*)*/!*;
 

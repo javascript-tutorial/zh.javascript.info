@@ -348,7 +348,7 @@ let time1 = 0;
 let time2 = 0;
 
 *!*
-// 交替运行 bench(upperSlice) 和 bench(upperLoop) 各 10 次
+// 交替运行 bench(diffSubtract) 和 bench(diffGetTime) 各 10 次
 for (let i = 0; i < 10; i++) {
   time1 += bench(diffSubtract);
   time2 += bench(diffGetTime);

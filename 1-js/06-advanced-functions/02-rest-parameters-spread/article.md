@@ -225,7 +225,7 @@ alert( Array.from(str) ); // H,e,l,l,o
 因此，对于将一些“东西”转换为数组的任务，`Array.from` 往往更通用。
 
 
-## 获取一个 array/object 的副本
+## 复制 array/object
 
 还记得我们 [之前讲过的](info:object-copy#ke-long-yu-he-bing-objectassign) `Object.assign()` 吗？
 
@@ -233,8 +233,11 @@ alert( Array.from(str) ); // H,e,l,l,o
 
 ```js run
 let arr = [1, 2, 3];
+
+*!*
 let arrCopy = [...arr]; // 将数组 spread 到参数列表中
                         // 然后将结果放到一个新数组
+*/!*
 
 // 两个数组中的内容相同吗？
 alert(JSON.stringify(arr) === JSON.stringify(arrCopy)); // true
@@ -252,8 +255,11 @@ alert(arrCopy); // 1, 2, 3
 
 ```js run
 let obj = { a: 1, b: 2, c: 3 };
+
+*!*
 let objCopy = { ...obj }; // 将对象 spread 到参数列表中
                           // 然后将结果返回到一个新对象
+*/!*
 
 // 两个对象中的内容相同吗？
 alert(JSON.stringify(obj) === JSON.stringify(objCopy)); // true
@@ -267,7 +273,7 @@ alert(JSON.stringify(obj)); // {"a":1,"b":2,"c":3,"d":4}
 alert(JSON.stringify(objCopy)); // {"a":1,"b":2,"c":3}
 ```
 
-这种方式比使用 `let arrCopy = Object.assign([], arr);` 来复制数组，或使用 `let objCopy = Object.assign({}, obj);` 来复制对象写起来要短得多。因此，只要情况允许，我们更喜欢使用它。
+这种方式比使用 `let arrCopy = Object.assign([], arr)` 来复制数组，或使用 `let objCopy = Object.assign({}, obj)` 来复制对象写起来要短得多。因此，只要情况允许，我们更喜欢使用它。
 
 
 ## 总结

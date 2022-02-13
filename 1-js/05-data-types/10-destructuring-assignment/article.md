@@ -2,11 +2,14 @@
 
 JavaScript 中最常用的两种数据结构是 `Object` 和 `Array`。
 
-对象让我们能够创建通过键来存储数据项的单个实体，数组则让我们能够将数据收集到一个有序的集合中。
+- 对象让我们能够创建通过键来存储数据项的单个实体。
+- 数组则让我们能够将数据收集到一个有序的集合中。
 
-但是，当我们把它们传递给函数时，它可能不需要一个整体的对象/数组，而是需要单个块。
+但是，当我们把它们传递给函数时，函数可能不需要整个对象/数组。它可能只需要对象/数组的一部分。
 
-**解构赋值** 是一种特殊的语法，它使我们可以将数组或对象“拆包”为到一系列变量中，因为有时候使用变量更加方便。解构操作对那些具有很多参数和默认值等的函数也很奏效。
+**解构赋值** 是一种特殊的语法，它使我们可以将数组或对象“拆包”至一系列变量中，因为有时这样更方便。
+
+解构操作对那些具有很多参数和默认值等的函数也很奏效。我们马上会看到类似的例子。
 
 ## 数组解构
 
@@ -14,7 +17,7 @@ JavaScript 中最常用的两种数据结构是 `Object` 和 `Array`。
 
 ```js
 // 我们有一个存放了名字和姓氏的数组
-let arr = ["Ilya", "Kantor"]
+let arr = ["John", "Smith"]
 
 *!*
 // 解构赋值
@@ -23,17 +26,21 @@ let arr = ["Ilya", "Kantor"]
 let [firstName, surname] = arr;
 */!*
 
-alert(firstName); // Ilya
-alert(surname);  // Kantor
+alert(firstName); // John
+alert(surname);  // Smith
 ```
 
 现在我们就可以针对这些变量进行操作，而不是针对原来的数组元素。
 
 当与 `split` 函数（或其他返回值是数组的函数）结合使用时，看起来就更优雅了：
 
-```js
-let [firstName, surname] = "Ilya Kantor".split(' ');
+```js run
+let [firstName, surname] = "John Smith".split(' ');
+alert(firstName); // John
+alert(surname);  // Smith
 ```
+
+正如我们所看到的，语法很简单。但是有几个需要注意的细节。让我们通过更多的例子来加深理解。
 
 ````smart header="“解构”并不意味着“破坏”"
 这种语法叫做“解构赋值”，因为它通过将结构中的各元素复制到变量中来达到“解构”的目的。但数组本身是没有被修改的。
@@ -62,33 +69,29 @@ alert( title ); // Consul
 ````
 
 ````smart header="等号右侧可以是任何可迭代对象"
-
 ……实际上，我们可以将其与任何可迭代对象一起使用，而不仅限于数组：
 
 ```js
 let [a, b, c] = "abc"; // ["a", "b", "c"]
 let [one, two, three] = new Set([1, 2, 3]);
 ```
-
+这行得通，因为在内部，结构赋值是通过迭代右侧的值来完成工作的。这是一种用于对在 `=` 右侧的值上调用 `for..of` 并进行赋值的操作的语法糖。
 ````
 
-
 ````smart header="赋值给等号左侧的任何内容"
-
 我们可以在等号左侧使用任何“可以被赋值的”东西。
 
 例如，一个对象的属性：
 ```js run
 let user = {};
-[user.name, user.surname] = "Ilya Kantor".split(' ');
+[user.name, user.surname] = "John Smith".split(' ');
 
-alert(user.name); // Ilya
+alert(user.name); // John
+alert(user.surname); // Smith
 ```
-
 ````
 
 ````smart header="与 .entries() 方法进行循环操作"
-
 在前面的章节中我们已经见过了 [Object.entries(obj)](mdn:js/Object/entries) 方法。
 
 我们可以将 .entries() 方法与解构语法一同使用，来遍历一个对象的“键—值”对：
@@ -107,7 +110,7 @@ for (let [key, value] of Object.entries(user)) {
 }
 ```
 
-……对于 map 对象也类似：
+用于 `Map` 的类似的代码更简单，因为它是可迭代的：
 
 ```js run
 let user = new Map();
@@ -115,6 +118,7 @@ user.set("name", "John");
 user.set("age", "30");
 
 *!*
+// Map 是以 [key, value] 对的形式进行迭代的，非常便于解构
 for (let [key, value] of user) {
 */!*
   alert(`${key}:${value}`); // name:John, then age:30
@@ -123,14 +127,16 @@ for (let [key, value] of user) {
 ````
 
 ````smart header="交换变量值的技巧"
-一个用于交换变量值的典型技巧：
+有一个著名的使用结构赋值来交换两个变量的值的技巧：
 
 ```js run
 let guest = "Jane";
 let admin = "Pete";
 
-// 交换值：让 guest=Pete, admin=Jane
+// 让我们来交换变量的值：使得 guest = Pete，admin = Jane
+*!*
 [guest, admin] = [admin, guest];
+*/!*
 
 alert(`${guest} ${admin}`); // Pete Jane（成功交换！）
 ```
@@ -140,30 +146,45 @@ alert(`${guest} ${admin}`); // Pete Jane（成功交换！）
 我们可以用这种方式交换两个以上的变量。
 ````
 
+### 其余的 '...'
 
-### 剩余的 '...'
+通常，如果数组比左边的列表长，那么“其余”的数组项会被省略。
 
-如果我们不只是要获得第一个值，还要将后续的所有元素都收集起来 — 我们可以使用三个点 `"..."` 来再加一个参数来接收“剩余的”元素：
+例如，这里只取了两项，其余的就被忽略了：
+
+```js run
+let [name1, name2] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+
+alert(name1); // Julius
+alert(name2); // Caesar
+// 其余数组项未被分配到任何地方
+```
+
+如果我们还想收集其余的数组项 —— 我们可以使用三个点 `"..."` 来再加一个参数以获取“其余”数组项：
 
 ```js run
 let [name1, name2, *!*...rest*/!*] = ["Julius", "Caesar", *!*"Consul", "of the Roman Republic"*/!*];
 
-alert(name1); // Julius
-alert(name2); // Caesar
-
 *!*
-// 请注意，`rest` 的类型是数组
+// rest 是包含从第三项开始的其余数组项的数组
 alert(rest[0]); // Consul
 alert(rest[1]); // of the Roman Republic
 alert(rest.length); // 2
 */!*
 ```
 
-`rest` 的值就是数组中剩下的元素组成的数组。不一定要使用变量名 `rest`，我们也可以使用其他的变量名，只要确保它前面有三个点，并且在解构赋值的最后一个参数位置上就行了。
+`rest` 的值就是数组中剩下的元素组成的数组。
+
+不一定要使用变量名 `rest`，我们也可以使用任何其他的变量名，只要确保它前面有三个点，并且在解构赋值的最后一个参数位置上就行了。
+
+```js run
+let [name1, name2, *!*...titles*/!*] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+// 现在 titles = ["Consul", "of the Roman Republic"]
+```
 
 ### 默认值
 
-如果赋值语句中，变量的数量多于数组中实际元素的数量，赋值不会报错。未赋值的变量被认为是 `undefined`：
+如果数组比左边的变量列表短，这里也不会出现报错。缺少的值被认为是 `undefined`：
 
 ```js run
 *!*
@@ -188,7 +209,7 @@ alert(surname); // Anonymous（默认值被使用了）
 
 默认值可以是更加复杂的表达式甚至可以是函数调用，这些表达式或函数只会在这个变量未被赋值的时候才会被计算。
 
-举个例子，我们使用了 `prompt` 函数来提供两个默认值，但它只会在未被赋值的那个变量上进行调用：
+举个例子，我们使用了 `prompt` 函数来提供两个默认值：
 
 ```js run
 // 只会提示输入姓氏
@@ -198,7 +219,7 @@ alert(name);    // Julius（来自数组）
 alert(surname); // 你输入的值
 ```
 
-
+请注意：`prompt` 将仅针对缺失值（`surname`）运行。
 
 ## 对象解构
 
@@ -210,7 +231,7 @@ alert(surname); // 你输入的值
 let {var1, var2} = {var1:…, var2:…}
 ```
 
-在等号右侧有一个已经存在的对象，我们想把它拆开到变量中。等号左侧包含了对象相应属性的一个“模式（pattern）”。在简单的情况下，等号左侧的就是 `{...}` 中的变量名列表。
+在等号右侧应该有一个已经存在的对象，我们想把它拆分到变量中。等号左侧包含了对象相应属性的一个类对象“模式（pattern）”。在最简单的情况下，等号左侧的就是 `{...}` 中的变量名列表。
 
 举个例子：
 
@@ -230,7 +251,9 @@ alert(width);  // 100
 alert(height); // 200
 ```
 
-属性 `options.title`、`options.width` 和 `options.height` 值被赋给了对应的变量。变量的顺序并不重要，下面这个代码也奏效：
+属性 `options.title`、`options.width` 和 `options.height` 值被赋给了对应的变量。
+
+变量的顺序并不重要，下面这个代码也奏效：
 
 ```js
 // 改变 let {...} 中元素的顺序
@@ -239,7 +262,7 @@ let {height, width, title} = { title: "Menu", height: 200, width: 100 }
 
 等号左侧的模式（pattern）可以更加复杂，并且指定了属性和变量之间的映射关系。
 
-如果我们想把一个属性赋值给另一个名字的变量，比如把 `options.width` 属性赋值给变量 `w`，那么我们可以使用冒号来指定：
+如果我们想把一个属性赋值给另一个名字的变量，比如把 `options.width` 属性赋值给名为 `w` 的变量，那么我们可以使用冒号来设置变量名称：
 
 ```js run
 let options = {

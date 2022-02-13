@@ -187,8 +187,8 @@ let user = {
 
 let say = user.say.bind(user);
 
-say("Hello"); // Hello, John（参数 "Hello" 被传递给了 say）
-say("Bye"); // Bye, John（参数 "Bye" 被传递给了 say）
+say("Hello"); // Hello, John!（参数 "Hello" 被传递给了 say）
+say("Bye"); // Bye, John!（参数 "Bye" 被传递给了 say）
 ```
 
 ````smart header="便捷方法：`bindAll`"

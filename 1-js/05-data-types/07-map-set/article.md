@@ -1,10 +1,10 @@
 
 # Map and Set（映射和集合）
 
-我们已经了解了以下复杂的数据结构：
+学到现在，我们已经了解了以下复杂的数据结构：
 
-- 存储带键的数据（keyed）集合的对象。
-- 存储有序集合的数组。
+- 对象，存储带有键的数据的集合。
+- 数组，存储有序集合。
 
 但这还不足以应对现实情况。这就是为什么存在 `Map` 和 `Set`。
 
@@ -42,7 +42,7 @@ alert( map.size ); // 3
 如我们所见，与对象不同，键不会被转换成字符串。键可以是任何类型。
 
 ```smart header="`map[key]` 不是使用 `Map` 的正确方式"
-虽然 `map[key]` 也有效，例如我们可以设置 `map[key] = 2`，这样会将 `map` 视为 JavaScript 的 plain object，因此它暗含了所有相应的限制（没有对象键等）。
+虽然 `map[key]` 也有效，例如我们可以设置 `map[key] = 2`，这样会将 `map` 视为 JavaScript 的 plain object，因此它暗含了所有相应的限制（仅支持 string/symbol 键等）。
 
 所以我们应该使用 `map` 方法：`set` 和 `get` 等。
 ```
@@ -63,24 +63,26 @@ visitsCountMap.set(john, 123);
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-使用对象作为键是 `Map` 最值得注意和重要的功能之一。对于字符串键，`Object`（普通对象）也能正常使用，但对于对象键则不行。
+使用对象作为键是 `Map` 最值得注意和重要的功能之一。在 `Object` 中，我们则无法使用对象作为键。在 `Object` 中使用字符串作为键是可以的，但我们无法使用另一个 `Object` 作为 `Object` 中的键。
   
 我们来尝试一下：
 
 ```js run
 let john = { name: "John" };
+let ben = { name: "Ben" };
 
 let visitsCountObj = {}; // 尝试使用对象
 
-visitsCountObj[john] = 123; // 尝试将 john 对象作为键
+visitsCountObj[ben] = 234; // 尝试将对象 ben 用作键
+visitsCountObj[john] = 123; // 尝试将对象 john 用作键，但我们会发现使用对象 ben 作为键存下的值会被替换掉
 
 *!*
-// 是写成了这样!
+// 变成这样了！
 alert( visitsCountObj["[object Object]"] ); // 123
 */!*
 ```
 
-因为 `visitsCountObj` 是一个对象，它会将所有的键如 `john` 转换为字符串，所以我们得到字符串键 `"[object Object]"`。这显然不是我们想要的结果。
+因为 `visitsCountObj` 是一个对象，它会将所有 `Object` 键例如上面的 `john` 和 `ben` 转换为字符串 `"[object Object]"`。这显然不是我们想要的结果。
 
 ```smart header="`Map` 是怎么比较键的？"
 `Map` 使用 [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) 算法来比较键是否相等。它和严格等于 `===` 差不多，但区别是 `NaN` 被看成是等于 `NaN`。所以 `NaN` 也可以被用作键。
@@ -304,10 +306,10 @@ set.forEach((value, valueAgain, set) => {
 方法和属性如下：
 
 - `new Map([iterable])` —— 创建 map，可选择带有 `[key,value]` 对的 `iterable`（例如数组）来进行初始化。
-- `map.set(key, value)` —— 根据键存储值。
+- `map.set(key, value)` —— 根据键存储值，返回 map 自身。
 - `map.get(key)` —— 根据键来返回值，如果 `map` 中不存在对应的 `key`，则返回 `undefined`。
 - `map.has(key)` —— 如果 `key` 存在则返回 `true`，否则返回 `false`。
-- `map.delete(key)` —— 删除指定键的值。
+- `map.delete(key)` —— 删除指定键对应的值，如果在调用时 `key` 存在，则返回 `true`，否则返回 `false`。
 - `map.clear()` —— 清空 map 。
 - `map.size` —— 返回当前元素个数。
 
