@@ -23,7 +23,7 @@ alert("code finished"); // 这个 alert 先显示
 
 ## 微任务队列（Microtask queue）
 
-异步任务需要适当的管理。为此，ECMA 标准规定了一个内部队列 `PromiseJobs`，通常被称为“微任务队列（microtask queue）”（ES8 术语）。
+异步任务需要适当的管理。为此，ECMA 标准规定了一个内部队列 `PromiseJobs`，通常被称为“微任务队列（microtask queue）”（V8 术语）。
 
 如 [规范](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues) 中所述：
 
@@ -40,7 +40,7 @@ Promise 的处理程序（handler）总是会经过这个内部队列。
 
 如果有一个包含多个 `.then/catch/finally` 的链，那么它们中的每一个都是异步执行的。也就是说，它会首先进入队列，然后在当前代码执行完成并且先前排队的处理程序（handler）都完成时才会被执行。
 
-**如果执行顺序对我们很重要该怎么办？我们怎么才能让 `code finished` 在 `promise done` 之后运行呢？**
+**如果执行顺序对我们很重要该怎么办？我们怎么才能让 `code finished` 在 `promise done` 之后出现呢？**
 
 很简单，只需要像下面这样使用 `.then` 将其放入队列：
 
@@ -103,7 +103,7 @@ window.addEventListener('unhandledrejection', event => alert(event.reason));
 
 ## 总结
 
-Promise 处理始终是异步的，因为所有 promise 行为都会通过内部的 "promise jobs" 队列，也被称为“微任务队列”（ES8 术语）。
+Promise 处理始终是异步的，因为所有 promise 行为都会通过内部的 "promise jobs" 队列，也被称为“微任务队列”（V8 术语）。
 
 因此，`.then/catch/finally` 处理程序（handler）总是在当前代码完成后才会被调用。
 

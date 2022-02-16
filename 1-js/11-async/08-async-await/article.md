@@ -69,10 +69,10 @@ f();
 
 让我们强调一下：`await` 实际上会暂停函数的执行，直到 promise 状态变为 settled，然后以 promise 的结果继续执行。这个行为不会耗费任何 CPU 资源，因为 JavaScript 引擎可以同时处理其他任务：执行其他脚本，处理事件等。
 
-相比于 `promise.then`，它只是获取 promise 的结果的一个更优雅的语法，同时也更易于读写。
+相比于 `promise.then`，它只是获取 promise 的结果的一个更优雅的语法。并且也更易于读写。
 
 ````warn header="不能在普通函数中使用 `await`"
-如果我们尝试在非 async 函数中使用 `await` 的话，就会报语法错误：
+如果我们尝试在非 async 函数中使用 `await`，则会报语法错误：
 
 ```js run
 function f() {
@@ -121,16 +121,22 @@ showAvatar();
 
 简洁明了，是吧？比之前可强多了。
 
-````smart header="`await` 不能在顶层代码运行"
-刚开始使用 `await` 的人常常会忘记 `await` 不能用在顶层代码中。例如，下面这样就不行：
+````smart header="现代浏览器在 modules 里允许顶层的 `await`"
+在现代浏览器中，当我们处于一个 module 中时，那么在顶层使用 `await` 也是被允许的。我们将在 <info:modules-intro> 中详细学习 modules。
 
-```js run
-// 用在顶层代码中会报语法错误
+例如：
+
+```js run module
+// 我们假设此代码在 module 中的顶层运行
 let response = await fetch('/article/promise-chaining/user.json');
 let user = await response.json();
+
+console.log(user);
 ```
 
-但我们可以将其包裹在一个匿名 async 函数中，如下所示：
+如果我们没有使用 modules，或者必须兼容 [旧版本浏览器](https://caniuse.com/mdn-javascript_operators_await_top_level) ，那么这儿还有一个通用的方法：包装到匿名的异步函数中。
+
+像这样：
 
 ```js
 (async () => {
@@ -139,8 +145,6 @@ let user = await response.json();
   ...
 })();
 ```
-
-P.S. 新特性：从 V8 引擎 8.9+ 版本开始，顶层 await 可以在 [模块](info:modules) 中工作。
 ````
 
 ````smart header="`await` 接受 \"thenables\""
@@ -298,7 +302,7 @@ let results = await Promise.all([
 
 Promise 前的关键字 `await` 使 JavaScript 引擎等待该 promise settle，然后：
 
-1. 如果有 error，就会抛出异常 — 就像那里调用了 `throw error` 一样。
+1. 如果有 error，就会抛出异常 —— 就像那里调用了 `throw error` 一样。
 2. 否则，就返回结果。
 
 这两个关键字一起提供了一个很好的用来编写异步代码的框架，这种代码易于阅读也易于编写。

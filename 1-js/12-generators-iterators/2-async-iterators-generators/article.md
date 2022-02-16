@@ -384,6 +384,8 @@ async function* fetchCommits(repo) {
   }
 
 })();
+
+// 注意：如果你在外部沙箱中运行它，你需要把上面的 fetchCommits 函数粘贴到这儿。
 ```
 
 这就是我们想要的。

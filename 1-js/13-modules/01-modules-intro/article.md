@@ -39,7 +39,7 @@ export function sayHi(user) {
 
 ```js
 // 📁 main.js
-import {sayHi} from './sayHi.js';
+import { sayHi } from './sayHi.js';
 
 alert(sayHi); // function...
 sayHi('John'); // Hello, John!
@@ -57,7 +57,7 @@ sayHi('John'); // Hello, John!
 
 浏览器会自动获取并解析（evaluate）导入的模块（如果需要，还可以分析该模块的导入），然后运行该脚本。
 
-```warn header="模块只通过 HTTP(s) 工作，在本地文件则不行"
+```warn header="模块只通过 HTTP(s) 工作，而非本地"
 如果你尝试通过 `file://` 协议在本地打开一个网页，你会发现 `import/export` 指令不起作用。你可以使用本地 Web 服务器，例如 [static-server](https://www.npmjs.com/package/static-server#getting-started)，或者使用编辑器的“实时服务器”功能，例如 VS Code 的 [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) 来测试模块。
 ```
 
@@ -69,7 +69,7 @@ sayHi('John'); // Hello, John!
 
 ### 始终使用 "use strict"
 
-模块始终默认使用 `use strict`，例如，对一个未声明的变量赋值将产生错误（译注：在浏览器控制台可以看到 error 信息）。
+模块始终在严格模式下运行。例如，对一个未声明的变量赋值将产生错误（译注：在浏览器控制台可以看到 error 信息）。
 
 ```html run
 <script type="module">
@@ -81,19 +81,24 @@ sayHi('John'); // Hello, John!
 
 每个模块都有自己的顶级作用域（top-level scope）。换句话说，一个模块中的顶级作用域变量和函数在其他脚本中是不可见的。
 
-在下面这个例子中，我们导入了两个脚本，`hello.js` 尝试使用在 `user.js` 中声明的变量 `user`，失败了：
+在下面这个例子中，我们导入了两个脚本，`hello.js` 尝试使用在 `user.js` 中声明的变量 `user`。它失败了，因为它是一个单独的模块（你在控制台中可以看到报错）：
 
 [codetabs src="scopes" height="140" current="index.html"]
 
-模块期望 `export` 它们想要被外部访问的内容，并 `import` 它们所需要的内容。
+模块应该 `export` 它们想要被外部访问的内容，并 `import` 它们所需要的内容。
 
-所以，我们应该将 `user.js` 导入到 `hello.js` 中，并从中获取所需的功能，而不要依赖于全局变量。
+- `user.js` 应该到处 `user` 变量。
+- `hello.js` 应该从 `user.js` 模块中导入它。
+
+换句话说，对于模块，我们使用导入/导出而不是依赖全局变量。
 
 这是正确的变体：
 
 [codetabs src="scopes-working" height="140" current="hello.js"]
 
-在浏览器中，每个 `<script type="module">` 也存在独立的顶级作用域（译注：在浏览器控制台可以看到 error 信息）。
+在浏览器中，对于 HTML 页面，每个 `<script type="module">` 都存在独立的顶级作用域。
+
+下面是同一页面上的两个脚本，都是 `type="module"`。它们看不到彼此的顶级变量：
 
 ```html run
 <script type="module">
@@ -108,13 +113,21 @@ sayHi('John'); // Hello, John!
 </script>
 ```
 
-如果我们真的需要创建一个 window-level 的全局变量，我们可以将其明确地赋值给 `window`，并以 `window.user` 来访问它。但是这需要你有足够充分的理由，否则就不要这样做。
+```smart
+在浏览器中，我们可以通过将变量显式地分配给 `window` 的一个属性，使其成为窗口级别的全局变量。例如 `window.user = "John"`。
+
+这样所有脚本都会看到它，无论脚本是否带有 `type="module"`。
+
+也就是说，创建这种全局变量并不是一个好的方式。请尽量避免这样做。
+```
 
 ### 模块代码仅在第一次导入时被解析
 
-如果同一个模块被导入到多个其他位置，那么它的代码仅会在第一次导入时执行，然后将导出（export）的内容提供给所有的导入（importer）。
+如果同一个模块被导入到多个其他位置，那么它的代码只会执行一次，即在第一次被导入时。然后将其导出（export）的内容提供给进一步的导入（importer）。
 
-这有很重要的影响。让我们通过示例来看一下：
+只执行一次会产生很重要的影响，我们应该意识到这一点。
+
+让我们看几个例子。
 
 首先，如果执行一个模块中的代码会带来副作用（side-effect），例如显示一条消息，那么多次导入它只会触发一次显示 —— 即第一次：
 
@@ -133,9 +146,11 @@ import `./alert.js`; // Module is evaluated!
 import `./alert.js`; // (什么都不显示)
 ```
 
-在实际开发中，顶级模块代码主要用于初始化，内部数据结构的创建，并且如果我们希望某些东西可以重用 — 请导出它。
+第二次导入什么也没显示，因为模块已经执行过了。
 
-下面是一个高级点的例子。
+这里有一条规则：顶层模块代码应该用于初始化，创建模块特定的内部数据结构。如果我们需要多次调用某些东西 —— 我们应该将其以函数的形式导出，就像我们在上面使用 `sayHi` 那样。
+
+现在，让我们看一个更复杂的例子。
 
 我们假设一个模块导出了一个对象：
 
@@ -152,49 +167,60 @@ export let admin = {
 
 ```js
 // 📁 1.js
-import {admin} from './admin.js';
+import { admin } from './admin.js';
 admin.name = "Pete";
 
 // 📁 2.js
-import {admin} from './admin.js';
+import { admin } from './admin.js';
 alert(admin.name); // Pete
 
 *!*
-// 1.js 和 2.js 导入的是同一个对象
+// 1.js 和 2.js 引用的是同一个 admin 对象
 // 在 1.js 中对对象做的更改，在 2.js 中也是可见的
 */!*
 ```
 
-所以，让我们重申一下 —— 模块只被执行一次。生成导出，然后它被分享给所有对其的导入，所以如果某个地方修改了 `admin` 对象，其他的模块也能看到这个修改。
+正如你所看到的，当在 `1.js` 中修改了导入的 `admin` 中的 `name` 属性时，我们在 `2.js` 中可以看到新的 `admin.name`。
 
-这种行为让我们可以在首次导入时 **设置** 模块。我们只需要设置其属性一次，然后在进一步的导入中就都可以直接使用了。
+这正是因为该模块只执行了一次。生成导出，然后这些导出在导入之间共享，因此如果更改了 `admin` 对象，在其他导入中也会看到。
 
-例如，下面的 `admin.js` 模块可能提供了特定的功能，但是希望凭证（credential）从外部进入 `admin` 对象：
+**这种行为实际上非常方便，因为它允许我们“配置”模块。**
+
+换句话说，模块可以提供需要配置的通用功能。例如身份验证需要凭证。那么模块可以到处一个配置对象，期望外部代码可以对其进行赋值。
+
+这是经典的使用模式：
+1. 模块导出一些配置方法，例如一个配置对象。
+2. 在第一次导入时，我们对其进行初始化，写入其属性。可以在应用顶级脚本中进行此操作。
+3. 进一步地导入使用模块。
+
+例如，`admin.js` 模块可能提供了某些功能（例如身份验证），但希望凭证可以从模块之外赋值到 `config` 对象：
 
 ```js
 // 📁 admin.js
-export let admin = { };
+export let config = { };
 
 export function sayHi() {
-  alert(`Ready to serve, ${admin.name}!`);
+  alert(`Ready to serve, ${config.user}!`);
 }
 ```
 
-在 `init.js` 中 —— 我们 APP 的第一个脚本，设置了 `admin.name`。现在每个位置都能看到它，包括在 `admin.js` 内部的调用。
+这里，`admin.js` 导出了 `config` 对象（最初是空的，但也可能有默认属性）。
+
+然后，在 `init.js` 中，我们应用的第一个脚本，我们从 `init.js` 导入了 `config` 并设置了 设置了 `config.user`：
 
 ```js
 // 📁 init.js
-import {admin} from './admin.js';
-admin.name = "Pete";
+import { config } from './admin.js';
+config.user = "Pete";
 ```
 
-另一个模块也可以看到 `admin.name`：
+……现在模块 `admin.js` 已经是被配置过的了。
+
+其他导入可以调用它，它会正确显示当前用户：
 
 ```js
-// 📁 other.js
-import {admin, sayHi} from './admin.js';
-
-alert(admin.name); // *!*Pete*/!*
+// 📁 another.js
+import { sayHi } from './admin.js';
 
 sayHi(); // Ready to serve, *!*Pete*/!*!
 ```
@@ -207,7 +233,7 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 ```html run height=0
 <script type="module">
-  alert(import.meta.url); // 脚本的 URL（对于内嵌脚本来说，则是当前 HTML 页面的 URL）
+  alert(import.meta.url); // 脚本的 URL（对于内联脚本来说，则是当前 HTML 页面的 URL）
 </script>
 ```
 

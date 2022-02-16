@@ -32,19 +32,19 @@ new Promise(function(resolve, reject) {
 });
 ```
 
-它的理念是将 result 通过 `.then` 处理程序（handler）链进行传递。
+它的想法是通过 `.then` 处理程序（handler）链进行传递 result。
 
 运行流程如下：
-1. 初始 promise 在 1 秒后进行 resolve `(*)`，
-2. 然后 `.then` 处理程序（handler）被调用 `(**)`。
-2. 它返回的值被传入下一个 `.then` 处理程序（handler）`(***)`
+1. 初始 promise 在 1 秒后 resolve `(*)`，
+2. 然后 `.then` 处理程序（handler）被调用 `(**)`，它又创建了一个新的 promise（以 `2` 作为值 resolve）。
+3. 下一个 `then` `(***)` 得到了前一个 `then` 的值，对该值进行处理（*2）并将其传递给下一个处理程序（handler）。
 4. ……依此类推。
 
 随着 result 在处理程序（handler）链中传递，我们可以看到一系列的 `alert` 调用：`1` -> `2` -> `4`。
 
 ![](promise-then-chain.svg)
 
-之所以这么运行，是因为对 `promise.then` 的调用会返回了一个 promise，所以我们可以在其之上调用下一个 `.then`。
+这样之所以是可行的，是因为每个对 `.then` 的调用都会返回了一个新的 promise，因此我们可以在其之上调用下一个 `.then`。
 
 当处理程序（handler）返回一个值时，它将成为该 promise 的 result，所以将使用它调用下一个 `.then`。
 
@@ -332,8 +332,7 @@ function loadJson(url) {
 }
 
 function loadGithubUser(name) {
-  return fetch(`https://api.github.com/users/${name}`)
-    .then(response => response.json());
+  return loadJson(`https://api.github.com/users/${name}`);
 }
 
 function showAvatar(githubUser) {
