@@ -1,6 +1,6 @@
 # Promisification
 
-"Promisification" 是用于一个简单转换的一个长单词。它指将一个接受回调的函数转换为一个返回 promise 的函数。
+对于一个简单的转换来说"Promisification" 是一个长单词。它指将一个接受回调的函数转换为一个返回 promise 的函数。
 
 由于许多函数和库都是基于回调的，因此，在实际开发中经常会需要进行这种转换。因为使用 promise 更加方便，所以将基于回调的函数和库 promisify 是有意义的。（译注：promisify 即指 promise 化）
 
