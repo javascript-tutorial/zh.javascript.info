@@ -427,7 +427,7 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
 
 - 可以直接在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中写入数字。
 - `parseInt(str，base)` 将字符串 `str` 解析为在给定的 `base` 数字系统中的整数，`2 ≤ base ≤ 36`。
-- `num.toString(base)` 将数字转换为在给定的 `base` 数字系统中的字符串。
+- `num..toString(base)` 将数字转换为在给定的 `base` 数字系统中的字符串。
 
 要将 `12pt` 和 `100px` 之类的值转换为数字：
 
