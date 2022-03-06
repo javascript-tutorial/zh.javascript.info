@@ -590,7 +590,7 @@ function func() {
 
 有什么办法可以用来应对这种情况吗？我们可能想要记录这个 error，并向用户显示某些内容（通常用户看不到错误信息）等。
 
-规范中没有相关内容，但是代码的执行环境一般会提供这种机制，因为它确实很有用。例如，Node.JS 有 [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception)。在浏览器中，我们可以将将一个函数赋值给特殊的 [window.onerror](mdn:api/GlobalEventHandlers/onerror) 属性，该函数将在发生未捕获的 error 时执行。
+规范中没有相关内容，但是代码的执行环境一般会提供这种机制，因为它确实很有用。例如，Node.JS 有 [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception)。在浏览器中，我们可以将一个函数赋值给特殊的 [window.onerror](mdn:api/GlobalEventHandlers/onerror) 属性，该函数将在发生未捕获的 error 时执行。
 
 语法如下：
 
