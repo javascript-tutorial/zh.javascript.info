@@ -17,7 +17,7 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它已经发展�
 
 例如，在这里我们将它用作全局对象：
 
-```js run
+```js run global
 function sayHi() {
   alert("Hello");
 }

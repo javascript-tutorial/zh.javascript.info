@@ -25,7 +25,9 @@
     - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) — `<input>` 元素的类，
     - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) — `<body>` 元素的类，
     - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) — `<a>` 元素的类，
-    - ……等，每个标签都有自己的类，这些类可以提供特定的属性和方法。
+    - ……等。
+
+还有很多其他标签具有自己的类，可能还具有特定的属性和方法，而一些元素，如 `<span>`、`<section>`、`<article>` 等，没有任何特定的属性，所以它们是 `HTMLElement` 类的实例。
 
 因此，给定节点的全部属性和方法都是继承的结果。
 
@@ -128,7 +130,7 @@ interface HTMLInputElement: HTMLElement {
 
 ```html run
 <body>
-  <script>  
+  <script>
   let elem = document.body;
 
   // 让我们检查一下它是什么？

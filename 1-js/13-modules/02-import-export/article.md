@@ -337,13 +337,19 @@ auth/
         ...
 ```
 
-我们想通过单个入口，即“主文件” `auth/index.js` 来公开 package 的功能，进而可以像下面这样使用我们的 package：
+我们希望通过单个入口暴露包的功能。
+
+换句话说，想要使用我们的包的人，应该只从“主文件” `auth/index.js` 导入。
+
+像这样：
 
 ```js
 import {login, logout} from 'auth/index.js'
 ```
 
-我们的想法是，使用我们 package 的开发者，不应该干预其内部结构，不应该搜索我们 package 的文件夹中的文件。我们只在 `auth/index.js` 中导出必须的内容，并保持其他内容“不可见”。
+“主文件”，`auth/index.js` 导出了我们希望在包中提供的所有功能。
+
+这样做是因为，其他使用我们包的开发者不应该干预其内部结构，不应该搜索我们包的文件夹中的文件。我们只在 `auth/index.js` 中导出必要的部分，并保持其他内容“不可见”。
 
 由于实际导出的功能分散在 package 中，所以我们可以将它们导入到 `auth/index.js`，然后再从中导出它们：
 
@@ -366,13 +372,15 @@ export {User};
 
 ```js
 // 📁 auth/index.js
-// 导入 login/logout 然后立即导出它们
+// 重新导出 login/logout
 export {login, logout} from './helpers.js';
 
-// 将默认导出导入为 User，然后导出它
+// 将默认导出重新导出为 User
 export {default as User} from './user.js';
 ...
 ```
+
+`export ... from` 与 `import/export` 相比的显着区别是重新导出的模块在当前文件中不可用。所以在上面的 `auth/index.js` 示例中，我们不能使用重新导出的 `login/logout` 函数。
 
 ### 重新导出默认导出
 
@@ -420,14 +428,14 @@ export default class User {
 
 导入：
 
-- 模块中命名的导出：
+- 导入命名的导出：
   - `import {x [as y], ...} from "module"`
-- 默认的导出：
+- 导入默认的导出：
   - `import x from "module"`
   - `import {default as x} from "module"`
-- 所有：
+- 导入所有：
   - `import * as obj from "module"`
-- 导入模块（它的代码，并运行），但不要将其赋值给变量：
+- 导入模块（其代码，并运行），但不要将其任何导出赋值给变量：
   - `import "module"`
 
 我们把 `import/export` 语句放在脚本的顶部或底部，都没关系。

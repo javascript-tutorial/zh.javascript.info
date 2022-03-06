@@ -67,7 +67,7 @@ Proxy 捕捉器会拦截这些方法的调用。它们在 [proxy 规范](https:/
 | `[[PreventExtensions]]` | `preventExtensions` | [Object.preventExtensions](mdn:/JavaScript/Reference/Global_Objects/Object/preventExtensions) |
 | `[[DefineOwnProperty]]` | `defineProperty` | [Object.defineProperty](mdn:/JavaScript/Reference/Global_Objects/Object/defineProperty), [Object.defineProperties](mdn:/JavaScript/Reference/Global_Objects/Object/defineProperties) |
 | `[[GetOwnProperty]]` | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries` |
-| `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
+| `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object.keys/values/entries` |
 
 ```warn header="不变量（Invariant）"
 JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足的条件。
@@ -963,9 +963,13 @@ revoke();
 alert(proxy.data); // Error
 ```
 
-调用 `revoke()` 会从代理中删除对目标对象的所有内部引用，因此它们之间再无连接。之后可以对目标对象进行垃圾回收。
+对 `revoke()` 的调用会从代理中删除对目标对象的所有内部引用，因此它们之间再无连接。
 
-我们还可以将 `revoke` 存储在 `WeakMap` 中，以更便于通过代理对象轻松找到它：
+最初，`revoke` 与 `proxy` 是分开的，因此我们可以传递 `proxy`，同时将 `revoke` 留在当前范围内。
+
+我们也可以通过设置 `proxy.revoke = revoke` 来将 `revoke` 绑定到 `proxy`。
+
+另一种选择是创建一个 `WeakMap`，其中 `proxy` 作为键，相应的 `revoke` 作为值，这样可以轻松找到 `proxy` 所对应的 `revoke`：
 
 ```js run
 *!*
@@ -980,14 +984,12 @@ let {proxy, revoke} = Proxy.revocable(object, {});
 
 revokes.set(proxy, revoke);
 
-// ...稍后，在我们的代码中...
+// ...我们代码中的其他位置...
 revoke = revokes.get(proxy);
 revoke();
 
 alert(proxy.data); // Error（revoked）
 ```
-
-这种方法的好处是，我们不必再随身携带 `revoke`。我们可以在有需要时通过 `proxy` 从 map 上获取它。
 
 此处我们使用 `WeakMap` 而不是 `Map`，因为它不会阻止垃圾回收。如果一个代理对象变得“不可访问”（例如，没有变量再引用它），则 `WeakMap` 允许将其与它的 `revoke` 一起从内存中清除，因为我们不再需要它了。
 
