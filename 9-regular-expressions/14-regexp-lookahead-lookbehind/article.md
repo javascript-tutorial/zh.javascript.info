@@ -8,7 +8,7 @@
 
 ## 前瞻断言
 
-语法为：`pattern:x(?=y)`，它表示 “仅在后面是 `pattern:y` 的情况匹配 `pattern:x`”。
+语法为：`pattern:x(?=y)`，它表示“仅在后面是 `pattern:y` 的情况匹配 `pattern:x`”。
 
 那么对于一个后面跟着 `€` 的整数金额，它的正则表达式应该为：`pattern:\d+(?=€)`。
 
