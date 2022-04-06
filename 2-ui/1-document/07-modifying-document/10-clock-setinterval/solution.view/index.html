@@ -43,21 +43,24 @@
     }
 
     function clockStart() {
-      timerId = setInterval(update, 1000);
-      update(); // <--  start right now, don't wait 1 second till the first setInterval works
+      // 仅当时钟停止时 setInterval
+      // 否则我们会重写 timerID 所指向的正在执行的 interval，并且会导致无法再停止时钟
+      if (!timerId) {
+        timerId = setInterval(update, 1000);
+      }
+      update(); // <--  现在开始，不需要等一秒后 setInterval 首次起作用
     }
 
     function clockStop() {
       clearInterval(timerId);
+      timerId = null; // <-- 清空 timerID 以表示始终已被停止，这样我们就可以通过 clockStart() 再次启动时钟
     }
-
-    clockStart();
   </script>
 
-  <!-- click on this button calls clockStart() -->
+  <!-- 点击这个按钮会调用 clockStart() -->
   <input type="button" onclick="clockStart()" value="Start">
 
-  <!-- click on this button calls clockStop() -->
+  <!-- 点击这个按钮会调用 clockStop() -->
   <input type="button" onclick="clockStop()" value="Stop">
 
 </body>
