@@ -600,7 +600,7 @@ alert( '𝒳'.charCodeAt(0).toString(16) ); // d835，在 0xd800 和 0xdbff 之�
 alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, 在 0xdc00 和 0xdfff 之间
 ```
 
-本章节后面的 <info:iterable> 章节中，你可以找到更多处理代理对的方法。可能也专门的库，这里没有什么足够好的建议了。
+本章节后面的 <info:iterable> 章节中，你可以找到更多处理代理对的方法。可能有专门的库，这里没有什么足够好的建议了。
 
 ### 变音符号与规范化
 
