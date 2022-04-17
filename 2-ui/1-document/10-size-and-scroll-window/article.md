@@ -64,14 +64,20 @@ DOM 元素的当前滚动状态在其 `scrollLeft/scrollTop` 属性中。
 
 对于文档滚动，在大多数浏览器中，我们可以使用 `document.documentElement.scrollLeft/scrollTop`，但在较旧的基于 WebKit 的浏览器中则不行，例如在 Safari（bug [5991](https://bugs.webkit.org/show_bug.cgi?id=5991)）中，我们应该使用 `document.body` 而不是 `document.documentElement`。
 
-幸运的是，我们根本不必记住这些特性，因为滚动在 `window.pageXOffset/pageYOffset` 中可用：
+幸运的是，我们根本不必记住这些特性，因为我们可以从 `window.pageXOffset/pageYOffset` 中获取页面当前滚动信息：
 
 ```js run
-alert('Current scroll from the top: ' + window.pageYOffset);
-alert('Current scroll from the left: ' + window.pageXOffset);
+alert('当前已从顶部滚动：' + window.pageYOffset);
+alert('当前已从左侧滚动：' + window.pageXOffset);
 ```
 
 这些属性是只读的。
+
+```smart header="我们也可以从 `window` 的 `scrollX` 和 `scrollY` 属性中获取滚动信息"
+由于历史原因，存在了这两种属性，但它们是一样的：
+- `window.pageXOffset` 是 `window.scrollX` 的别名。
+- `window.pageYOffset` 是 `window.scrollY` 的别名。
+```
 
 ## 滚动：scrollTo，scrollBy，scrollIntoView [#window-scroll]
 
