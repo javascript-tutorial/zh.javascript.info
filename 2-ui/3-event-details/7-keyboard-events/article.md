@@ -149,16 +149,15 @@ function checkPhoneKey(key) {
 
 我们都知道，像上面那样，从事件处理程序返回 `false` 会阻止事件的默认行为，所以如果按下的按键未通过按键检查，那么 `<input>` 中什么都不会出现（从事件处理程序返回 `true` 不会对任何行为产生影响，只有返回 `false` 会产生对应的影响）。
 
-请注意，像 `key:Backspace`，`key:Left`，`key:Right`，`key:Ctrl+V` 这样的特殊按键在输入中无效。这是严格过滤器 `checkPhoneKey` 的副作用。
+请注意，像 `key:Backspace`、`key:Left`、`key:Right` 这样的特殊按键在 `<input>` 中无效。这是严格过滤器 `checkPhoneKey` 的副作用。这些按键会使 `checkPhoneKey` 返回 `false`。
 
-让我们将过滤条件放松一下：
-
+让我们将过滤条件放宽一点，允许 `key:Left`、`key:Right`、`key:Delete` 和 `key:Backspace` 按键：
 
 ```html autorun height=60 run
 <script>
 function checkPhoneKey(key) {
   return (key >= '0' && key <= '9') ||
-    ['+','(',')','-','ArrowLeft','ArrowRight','Delete','Backspace'].includes(key);
+    ['+','(',')','-',*!*'ArrowLeft','ArrowRight','Delete','Backspace'*/!*].includes(key);
 }
 </script>
 <input onkeydown="return checkPhoneKey(event.key)" placeholder="Phone, please" type="tel">
@@ -166,13 +165,21 @@ function checkPhoneKey(key) {
 
 现在方向键和删除键都能正常使用了。
 
-……但我们仍然可以使用鼠标右键单击 + 粘贴来输入任何内容。因此，这个过滤器并不是 100% 可靠。我们可以让它就这样吧，因为大多数情况下它是有效的。或者，另一种方式是跟踪 `input` 事件 —— 在任何修改后触发。这样我们就可以检查新值，并在其无效时高亮/修改它。
+……即使我们对按键进行了过滤，但仍然可以使用鼠标右键单击 + 粘贴来输入任何内容。移动端设备提供了其他输入内容的方式。因此，这个过滤器并不是 100% 可靠。
 
-## 遗存
+另一种方式是跟踪 `oninput` 事件 —— 在任何修改后都会触发此事件。这样我们就可以检查新的 `input.value`，并在其无效时修改它/高亮显示 `<input>`。或者我们可以同时使用这两个事件处理程序。
 
-过去曾经有一个 `keypress` 事件，还有事件对象的 `keyCode`、`charCode` 和 `which` 属性。
+## 历史遗留
+
+过去有一个 `keypress` 事件，还有事件对象的 `keyCode`、`charCode` 和 `which` 属性。
 
 大多数浏览器对它们都存在兼容性问题，以致使该规范的开发者不得不弃用它们并创建新的现代的事件（本文上面所讲的这些事件），除此之外别无选择。旧的代码仍然有效，因为浏览器还在支持它们，但现在完全没必要再使用它们。
+
+## 移动端键盘
+
+当使用虚拟/移动端键盘时，更正式一点的名字叫做 IME（Input-Method Editor），W3C 标准规定 KeyboardEvent 的 [`e.keyCode` 应该为 `229`](https://www.w3.org/TR/uievents/#determine-keydown-keyup-keyCode)，并且 [`e.key` 应该为 `"Unidentified"`](https://www.w3.org/TR/uievents-key/#key-attr-values)。
+
+当按下某些按键（例如箭头或退格键）时，虽然其中一些键盘可能仍然使用正确的值来表示 `e.key`、`e.code`、`e.keyCode`...，但并不能保证所有情况下都能对应正确的值。所以你的键盘逻辑可能并不能保证适用于移动设备。
 
 ## 总结
 

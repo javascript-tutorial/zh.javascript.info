@@ -8,11 +8,11 @@
 
 文档中的表单是特殊集合 `document.forms` 的成员。
 
-这就是所谓的“命名的集合”：既是被命名了的，也是有序的。我们既可以使用名字，也可以使用在文档中的编号来获取表单。
+这就是所谓的**“命名的集合”**：既是被命名了的，也是有序的。我们既可以使用名字，也可以使用在文档中的编号来获取表单。
 
 ```js no-beautify
-document.forms.my - name="my" 的表单
-document.forms[0] - 文档中的第一个表单
+document.forms.my; // name="my" 的表单
+document.forms[0]; // 文档中的第一个表单
 ```
 
 当我们有了一个表单时，其中的任何元素都可以通过命名的集合 `form.elements` 来获取到。
@@ -38,7 +38,7 @@ document.forms[0] - 文档中的第一个表单
 
 可能会有多个名字相同的元素，这种情况经常在处理单选按钮中出现。
 
-在这种情况下，`form.elements[name]` 将会是一个集合，例如：
+在这种情况下，`form.elements[name]` 将会是一个**集合**。例如：
 
 ```html run height=40
 <form>
@@ -177,18 +177,16 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 一个 `<select>` 元素有 3 个重要的属性：
 
 1. `select.options` —— `<option>` 的子元素的集合，
-2. `select.value` —— 当前所选择的 `<option>` 的 `value`，
-3. `select.selectedIndex` —— 当前所选择的 `<option>` 的编号。
+2. `select.value` —— 当前所选择的 `<option>` 的 **value**，
+3. `select.selectedIndex` —— 当前所选择的 `<option>` 的**编号**。
 
 它们提供了三种为 `<select>` 设置 `value` 的不同方式：
 
-1. 找到对应的 `<option>` 元素，并将 `option.selected` 设置为 `true`。
-2. 将 `select.value` 设置为对应的 `value`。
-3. 将 `select.selectedIndex` 设置为对应 `<option>` 的编号。
+1. 找到对应的 `<option>` 元素（例如在 `select.options` 中），并将其 `option.selected` 设置为 `true`。
+2. 如果我们知道新的值：将 `select.value` 设置为对应的新的值。
+3. 如果我们知道新的选项的索引：将 `select.selectedIndex` 设置为对应 `<option>` 的编号。
 
-第一个方式最明显，但是 `(2)` 和 `(3)` 通常来说会更方便。
-
-下面是一个例子：
+下面是这三种方式的示例：
 
 ```html run
 <select id="select">
@@ -198,18 +196,19 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 </select>
 
 <script>
-  // 所有这三行做的是同一件事
+  // 下面这三行做的都是同一件事
   select.options[2].selected = true;
   select.selectedIndex = 2;
   select.value = 'banana';
+  // 请注意：选项编号是从零开始的，所以编号 2 表示的是第三项
 </script>
 ```
 
-和大多数其它控件不同，如果 `<select>` 具有 `multiple` 特性（attribute），则允许多选。尽管这种功能可用，但很少被使用。
+和大多数其它控件不同，如果 `<select>` 具有 `multiple` 特性（attribute），则允许多选。尽管这个特性（attribute）很少被用到。
 
-如果必须使用的话，请使用第一种方式：在子元素 `<option>` 中添加/移除 `selected` 属性。
+对于多选的值，使用第一种设置值的方式：在 `<option>` 子元素中添加/移除 `selected` 属性。
 
-我们可以通过 `select.options` 来获取它们的集合，例如：
+这是一个如何从多选的 `<select>` 中获取选择的值的示例：
 
 ```html run
 <select id="select" *!*multiple*/!*>
@@ -232,31 +231,31 @@ input.checked = true; // 对于复选框（checkbox）或单选按钮（radio bu
 
 ### new Option
 
-这很少单独使用。但它仍然是一个有趣的东西。
-
-在 [规范](https://html.spec.whatwg.org/multipage/forms.html#the-option-element) 中，有一个很好的简短语法可以创建 `<option>` 元素：
+在 [规范](https://html.spec.whatwg.org/multipage/forms.html#the-option-element) 中，有一个很好的简短语法可以创建一个 `<option>` 元素：
 
 ```js
 option = new Option(text, value, defaultSelected, selected);
 ```
 
-参数：
+此语法是可选的。我们可以使用 `document.createElement('option')` 并手动设置特性（attribute）。不过，这种语法写起来可能会更短，其参数如下：
 
 - `text` —— `<option>` 中的文本，
 - `value` —— `<option>` 的 `value`，
 - `defaultSelected` —— 如果为 `true`，那么 `selected` HTML-特性（attribute）就会被创建，
 - `selected` —— 如果为 `true`，那么这个 `<option>` 就会被选中。
 
-你可能会对 `defaultSelected` 和 `selected` 有一些疑惑。这很简单：`defaultSelected` 设置的是 HTML-特性（attribute），我们可以使用 `option.getAttribute('selected')` 来获得。而 `selected` —— 无论这个 `option` 是否被选择，它都很重要。通常，这两个值都设置为 `true`，或者都不设置（与设置为 `false` 是一样的）。
+`defaultSelected` 和 `selected` 的区别是，`defaultSelected` 设置的是 HTML-特性（attribute），我们可以使用 `option.getAttribute('selected')` 来获得。而 `selected` 设置的是选项是否被选中。
 
-例如：
+在实际使用中，通常应该将**同时**将这两个值设置为 `true` 或 `false`。（或者，直接省略它们；两者都默认为 `false`。）
+
+例如，下面是一个新的**未被选中的**选项：
 
 ```js
 let option = new Option("Text", "value");
 // 创建 <option value="value">Text</option>
 ```
 
-选择相同的元素：
+相同的选项，但被选中了：
 
 ```js
 let option = new Option("Text", "value", true, true);
@@ -290,9 +289,9 @@ let option = new Option("Text", "value", true, true);
 `element.form`
 : 元素通过 `form` 属性来引用它们所属的表单。
 
-`value` 可以被通过 `input.value`，`textarea.value`，`select.value` 等来获取到，对于单选按钮和复选框来说可以使用 `input.checked`。
+`value` 可以被通过 `input.value`，`textarea.value`，`select.value` 等来获取到。（对于单选按钮（radio button）和复选框（checkbox），可以使用 `input.checked` 来确定是否选择了一个值。
 
-对于 `<select>` 元素，们可以通过索引 `select.selectedIndex` 来获取它的 `value`，也可以通过 `<option>` 集合 `select.options`。
+对于 `<select>`，我们可以通过索引 `select.selectedIndex` 来获取它的 `value`，也可以通过 `<option>` 集合 `select.options` 来获取它的 `value`。
 
 这些是开始使用表单的基础。我们将在本教程中进一步介绍更多示例。
 

@@ -118,7 +118,7 @@ Your email please: <input type="email" id="input">
 
 切换顺序为：从 `1` 开始的具有 `tabindex` 的元素排在前面（按 `tabindex` 顺序），然后是不具有 `tabindex` 的元素（例如常规的 `<input>`）。
 
-具有 `tabindex` 的元素按文档源顺序（默认顺序）切换。
+不具有 `tabindex` 的元素按文档源顺序（默认顺序）切换。
 
 这里有两个特殊的值：
 

@@ -17,5 +17,5 @@ importance: 5
 // initial: 总存款的初始值
 // interest: 例如 0.05 意味着每年涨幅 5% 
 // years: 要等待多少年
-let result = Math.round(initial * (1 + interest * years));
+let result = Math.round(initial * (1 + interest) ** years);
 ```
