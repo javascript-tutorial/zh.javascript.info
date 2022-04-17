@@ -114,7 +114,7 @@ Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填充表单。
 
 ```html run height=200 refresh
 <script>
-  window.onload = function() { // 与此相同 window.addEventListener('load', (event) => {
+  window.onload = function() { // 也可以用 window.addEventListener('load', (event) => {
     alert('Page loaded');
 
     // 此时图片已经加载完成
@@ -179,11 +179,31 @@ window.onbeforeunload = function() {
 
 ```js run
 window.onbeforeunload = function() {
-  return "There are unsaved changes. Leave now?";
+  return "有未保存的值。确认要离开吗？";
 };
 ```
 
 它的行为已经改变了，因为有些站长通过显示误导性和恶意信息滥用了此事件处理程序。所以，目前一些旧的浏览器可能仍将其显示为消息，但除此之外 —— 无法自定义显示给用户的消息。
+
+````warn header="`event.preventDefault()` 在 `beforeunload` 处理程序中不起作用"
+这听起来可能很奇怪，但大多数浏览器都会忽略 `event.preventDefault()`。
+
+这意味着，以下代码可能不起作用：
+```js run
+window.addEventListener("beforeunload", (event) => {
+  // 不起作用，所以这个事件处理程序没做任何事儿
+	event.preventDefault();
+});
+```
+
+相反，在这样的处理程序中，应该将 `event.returnValue` 设置为一个字符串，以获得类似于上面代码的结果：
+```js run
+window.addEventListener("beforeunload", (event) => {
+  // 起作用，与在 window.onbeforeunload 中 return 值的效果是一样的
+	event.returnValue = "有未保存的值。确认要离开吗？";
+});
+```
+````
 
 ## readyState
 

@@ -133,6 +133,10 @@
 <script async src="https://google-analytics.com/analytics.js"></script>
 ```
 
+```smart header="`async` 特性仅适用于外部脚步"
+就像 `defer` 一样，如果 `<script>` 标签没有 `src` 特性（attribute），那么 `async` 特性会被忽略。
+```
+
 ## 动态脚本
 
 此外，还有一种向页面添加脚本的重要的方式。
