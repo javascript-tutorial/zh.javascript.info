@@ -124,7 +124,7 @@ ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 
     ```js
     // onmousemove
-    // 球具有 position:absoute
+    // 球具有 position: absolute
     ball.style.left = event.pageX - *!*shiftX*/!* + 'px';
     ball.style.top = event.pageY - *!*shiftY*/!* + 'px';
     ```

@@ -80,7 +80,7 @@
 </div>
 ```
 
-如果我们在 `#parent` 上，然后将鼠标指针更深入地移入 `#child`，但是在 `#parent` 上会得到 `mouseout`！
+如果我们在 `#parent` 上，然后将鼠标指针更深入地移入 `#child`，在 `#parent` 上我们会得到 `mouseout`！
 
 ![](mouseover-to-child.svg)
 

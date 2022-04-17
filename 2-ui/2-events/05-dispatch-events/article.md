@@ -266,7 +266,7 @@ alert(event.clientX); // undefined，未知的属性被忽略了！
 </script>
 ```
 
-现在，`dispatchEvent` 在当前代码执行完成之后异步运行，包括 `mouse.onclick`，因此，事件处理程序是完全独立的。
+现在，`dispatchEvent` 在当前代码执行完成之后异步运行，包括 `menu.onclick`，因此，事件处理程序是完全独立的。
 
 输出顺序变成：1 -> 2 -> nested。
 

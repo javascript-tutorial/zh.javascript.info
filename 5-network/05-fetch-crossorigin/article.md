@@ -207,10 +207,11 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 因此，为了避免误解，任何“非标准”请求 —— 浏览器不会立即发出在过去无法完成的这类请求。即在它发送这类请求前，会先发送“预检（preflight）”请求来请求许可。
 
-预检请求使用 `OPTIONS` 方法，它没有 body，但是有两个 header：
+预检请求使用 `OPTIONS` 方法，它没有 body，但是有三个 header：
 
 - `Access-Control-Request-Method` header 带有非简单请求的方法。
 - `Access-Control-Request-Headers` header 提供一个以逗号分隔的非简单 HTTP-header 列表。
+- `Origin` header 告知了请求来自哪儿。（例如 `https://javascript.info`）
 
 如果服务器同意处理请求，那么它会进行响应，此响应的状态码应该为 200，没有 body，具有 header：
 
