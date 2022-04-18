@@ -268,7 +268,7 @@ while (result = regexp.exec(str)) {
 ```js run
 let str = 'Hello, world!';
 
-let regexp = /\w+/g; // 带有标记 "g"，lastIndex 属性被忽略
+let regexp = /\w+/g; // 不带标记 "g"，lastIndex 属性会被忽略
 regexp.lastIndex = 5; // 从第 5 个位置搜索（从逗号开始）
 
 alert( regexp.exec(str) ); // world
