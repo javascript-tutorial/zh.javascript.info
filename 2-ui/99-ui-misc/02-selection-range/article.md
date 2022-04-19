@@ -8,19 +8,17 @@ libs:
 
 在本章中，我们将介绍文档中的选择以及在表单字段（如 `<input>`）中的选择。
 
-JavaScript 可以获取现有选择，选择/取消全部或部分选择，从文档中删除所选部分，将其包装到一个标签（tag）中，等。
+JavaScript 可以访问现有的选择，选择/取消全部或部分 DOM 节点的选择，从文档中删除所选部分，将其包装到一个标签（tag）中，等。
 
-你可以在本文最后的“总结”部分中找到使用方法。但是，如果你阅读整篇内容，将会有更多收获。底层的（underlying）`Range` 和 `Selection` 对象很容易掌握，因此，你不需要任何诀窍便可以使用它们做你想要做的事儿。
+你可以在本章末尾的“总结”部分找到一些常见的使用方式。可能就已经满足了你当前的需求，但如果你阅读全文，将会有更多收获。
+
+底层的（underlying）`Range` 和 `Selection` 对象很容易掌握，因此，你不需要任何诀窍便可以使用它们做你想要做的事儿。
 
 ## 范围
 
 选择的基本概念是 [Range](https://dom.spec.whatwg.org/#ranges)：本质上是一对“边界点”：范围起点和范围终点。
 
-每个点都被表示为一个带有相对于起点的相对偏移（offset）的父 DOM 节点。如果父节点是元素节点，则偏移量是子节点的编号，对于文本节点，则是文本中的位置。下面举例说明。
-
-让我们选择一些东西。
-
-首先，我们可以创建一个范围（构造器没有参数）：
+在没有任何参数的情况下，创建一个 `Range` 对象：
 
 ```js
 let range = new Range();
@@ -28,13 +26,45 @@ let range = new Range();
 
 然后，我们可以使用 `range.setStart(node, offset)` 和 `range.setEnd(node, offset)` 来设置选择边界。
 
-例如，考虑以下 HTML 片段：
+正如你可能猜到的那样，我们将进一步使用 `Range` 对象进行选择，但首先让我们创建一些这样的对象。
 
-```html
+### 选择部分文本
+
+有趣的是，这两种方法中的第一个参数 `node` 都可以是文本节点或元素节点，而第二个参数的含义依赖于此。
+
+**如果 `node` 是一个文本节点，那么 `offset` 则必须是其文本中的位置。**
+
+例如，对于给定的 `<p>Hello</p>`，我们可以像下面这样创建一个包含字母 "ll" 的范围：
+
+```html run
+<p id="p">Hello</p>
+<script>
+  let range = new Range();
+  range.setStart(p.firstChild, 2);
+  range.setEnd(p.firstChild, 4);
+  
+  // 对 range 进行 toString 处理，range 则会把其包含的内容以文本的形式返回
+  console.log(range); // ll
+</script>
+```
+
+在这里，我们获取 `<p>` 的第一个子节点（即文本节点）并指定其中的文本位置：
+
+![](range-hello-1.svg)
+
+### 选择元素节点
+
+**或者，如果 `node` 是一个元素节点，那么 `offset` 则必须是子元素的编号。**
+
+这对于创建包含整个节点的范围很方便，而不是在其文本中的某处停止。
+
+例如，我们有一个更复杂的文档片段：
+
+```html autorun
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
 ```
 
-这是其 DOM 结构，请注意，这里的文本节点对我们很重要：
+这是它的 DOM 结构，包含元素和文本节点：
 
 <div class="select-p-domtree"></div>
 
@@ -72,9 +102,20 @@ let selectPDomtree = {
 drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 </script>
 
-让我们来选择 `"Example: <i>italic</i>"`。它是 `<p>` 的前两个子节点（文本节点也算在内）：
+让我们为 `"Example: <i>italic</i>"` 设置一个范围。
+
+正如我们所看到的，这个短语正好由 `<p>` 的索引为 `0` 和 `1` 的两个子元素组成。
 
 ![](range-example-p-0-1.svg)
+
+- 起点以 `<p>` 作为父节点 `node`，`0` 作为偏移量。
+
+    因此，我们可以将其设置为 `range.setStart(p, 0)`。
+- 重点也是以 `<p>` 作为父节点 `node`，但以 `2` 作为偏移量（它指定最大范围，但不包括 `offset`）。
+
+    因此，我们可以将其设置为 `range.setEnd(p, 2)`。
+
+示例如下，如果你运行它，你可以看到文本被选中：
 
 ```html run
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -87,18 +128,15 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
   range.setEnd(p, 2);
 */!*
 
-  // 范围的 toString 以文本形式返回其内容（不带标签）
-  alert(range); // Example: italic
+  // 范围的 toString 以文本形式返回其内容，不带标签
+  console.log(range); // Example: italic
 
-  // 将此范围应用于文档选择（后文有解释）
+  // 将此范围应用于文档选择，后文有解释
   document.getSelection().addRange(range);
 </script>
 ```
 
-- `range.setStart(p, 0)` —— 将起点设置为 `<p>` 的第 0 个子节点（即文本节点 `"Example: "`）。
-- `range.setEnd(p, 2)` —— 覆盖范围至（但不包括）`<p>` 的第 2 个子节点（即文本节点 `" and "`，但由于不包括末节点，所以最后选择的节点是 `<i>`）。
-
-这是一个更灵活的测试台，你可以在其中尝试更多不同的情况：
+这是一个更灵活的测试台，你可以在其中设置范围开始/结束编号，并探索各种情况：
 
 ```html run autorun
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -121,19 +159,21 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 </script>
 ```
 
-例如，从 `1` 到 `4` 选择得到的范围为 `<i>italic</i> and <b>bold</b>`。
+例如，在同一个 `<p>` 中从偏移量 `1` 到 `4` 选择得到的范围为 `<i>italic</i> and <b>bold</b>`：
 
 ![](range-example-p-1-3.svg)
 
-我们不必在 `setStart` 和 `setEnd` 中使用相同的节点。一个范围可能跨越许多不相关的节点。唯一要注意的是终点要在起点之后。
+```smart header="起始和结束的节点可以不同"
+我们不是必须在 `setStart` 和 `setEnd` 中使用相同的节点。一个范围可能会跨越很多不相关的节点。唯一要注意的是终点要在起点之后。
+```
 
-### 选择文本节点的一部分
+### 选择更大的片段
 
-让我们选择部分文本，像这样：
+让我们在示例中选择一个更大的片段，像这样：
 
 ![](range-example-p-2-b-3.svg)
 
-这也是可以做到的，我们只需要将起点和终点设置为文本节点中的相对偏移量即可。
+我们已经知道如何实现它了。我们只需要将起点和终点设置为文本节点中的相对偏移量即可。
 
 我们需要创建一个范围，它：
 - 从 `<p>` 的第一个子节点的位置 2 开始（选择 "Ex<b>ample:</b> " 中除前两个字母外的所有字母）
@@ -148,14 +188,20 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
   range.setStart(p.firstChild, 2);
   range.setEnd(p.querySelector('b').firstChild, 3);
 
-  alert(range); // ample: italic and bol
+  console.log(range); // ample: italic and bol
 
   // 使用此范围进行选择（后文有解释）
   window.getSelection().addRange(range);
 </script>
 ```
 
-`range` 对象具有以下属性：
+正如你所看到的，选择我们想要的范围其实很容易实现。
+
+如果我们想将节点作为一个整体，我们可以将元素传入 `setStart/setEnd`。否则，我们可以在文本层级上进行操作。
+
+## range 属性
+
+我们在上面的示例中创建的 `range` 对象具有以下属性：
 
 ![](range-example-p-2-b-3-range.svg)
 
@@ -168,9 +214,12 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 - `commonAncestorContainer` —— 在范围内的所有节点中最近的共同祖先节点，
   - 在上例中：`<p> `
 
-## Range 方法
+
+## 选择范围的方法
 
 有许多便利的方法可以操纵范围。
+
+我们已经见过了 `setStart` 和 `setEnd`，这还有其他类似的方法。
 
 设置范围的起点：
 
@@ -184,27 +233,31 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 - `setEndBefore(node)` 将终点设置为：`node` 前面
 - `setEndAfter(node)` 将终点设置为：`node` 后面
 
-**如前所述，`node` 既可以是文本节点，也可以是元素节点：对于文本节点，`offset` 偏移的是字符数，而对于元素节点则是子节点数。**
+从技术上讲，`setStart/setEnd` 可以做任何事，但是更多的方法提供了更多的便捷性。
 
-其他：
+在所有这些方法中，`node` 都可以是文本或者元素节点：对于文本节点，偏移量 `offset` 跨越的是很多字母，而对于元素节点则跨越的是很多子节点。
+
+更多创建范围的方法：
 - `selectNode(node)` 设置范围以选择整个 `node`
 - `selectNodeContents(node)` 设置范围以选择整个 `node` 的内容
 - `collapse(toStart)` 如果 `toStart=true` 则设置 end=start，否则设置 start=end，从而折叠范围
 - `cloneRange()` 创建一个具有相同起点/终点的新范围
 
-如要操纵范围内的内容：
+## 编辑范围的方法
 
-- `deleteContents()` —— 从文档中删除范围内容
-- `extractContents()` —— 从文档中删除范围内容，并将删除的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
-- `cloneContents()` —— 复制范围内容，并将复制的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
+创建范围后，我们可以使用以下方法操作其内容：
+
+- `deleteContents()` —— 从文档中删除范围中的内容
+- `extractContents()` —— 从文档中删除范围中的内容，并将删除的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
+- `cloneContents()` —— 复制范围中的内容，并将复制的内容作为 [DocumentFragment](info:modifying-document#document-fragment) 返回
 - `insertNode(node)` —— 在范围的起始处将 `node` 插入文档
-- `surroundContents(node)` —— 使用 `node` 将所选范围内容包裹起来。要使此操作有效，则该范围必须包含其中所有元素的开始和结束标签：不能像 `<i>abc` 这样的部分范围。
+- `surroundContents(node)` —— 使用 `node` 将所选范围中的内容包裹起来。要使此操作有效，则该范围必须包含其中所有元素的开始和结束标签：不能像 `<i>abc` 这样的部分范围。
 
 使用这些方法，我们基本上可以对选定的节点执行任何操作。
 
 这是在测试台上看到它们的实际效果：
 
-```html run autorun height=260
+```html run refresh autorun height=260
 点击按钮运行所选内容上的方法，点击 "resetExample" 进行重置。
 
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -237,7 +290,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
       let newNode = document.createElement('u');
       try {
         range.surroundContents(newNode);
-      } catch(e) { alert(e) }
+      } catch(e) { console.log(e) }
     },
     resetExample() {
       p.innerHTML = `Example: <i>italic</i> and <b>bold</b>`;
@@ -264,11 +317,11 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ## 选择
 
-`Range` 是用于管理选择范围的通用对象。我们可能会创建此类对象，并传递它们 —— 它们在视觉上不会自行选择任何内容。
+`Range` 是用于管理选择范围的通用对象。尽管创建一个 `Range` 并不意味着我们可以在屏幕上看到一个内容选择。
 
-文档选择是由 `Selection` 对象表示的，可通过 `window.getSelection()` 或 `document.getSelection()` 来获取。
+我们可以创建 `Range` 对象并传递它们 —— 但它们并不会在视觉上选择任何内容。
 
-一个选择可以包括零个或多个范围。至少，[Selection API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (Mac 上用 `key:Cmd+click`) 在文档中选择多个范围。
+文档选择是由 `Selection` 对象表示的，可通过 `window.getSelection()` 或 `document.getSelection()` 来获取。一个选择可以包括零个或多个范围。至少，[Selection API 规范](https://www.w3.org/TR/selection-api/) 是这么说的。不过实际上，只有 Firefox 允许使用 `key:Ctrl+click` (Mac 上用 `key:Cmd+click`) 在文档中选择多个范围。
 
 这是在 Firefox 中做的一个具有 3 个范围的选择的截图：
 
@@ -276,9 +329,19 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 其他浏览器最多支持 1 个范围。正如我们将看到的，某些 `Selection` 方法暗示可能有多个范围，但同样，在除 Firefox 之外的所有浏览器中，范围最多是 1。
 
+这是一个小例子，将当前的选择（选择一些内容然后点击按钮）以文本的形式显示出来：
+
+<button onclick="alert(document.getSelection())">alert(document.getSelection())</button>
+
 ## 选择属性
 
-与范围相似，选择的起点称为“锚点（anchor）”，终点称为“焦点（focus）”。
+如前所述，理论上一个选择可能包含多个范围。我们可以使用下面这个方法获取这些范围对象：
+
+- `getRangeAt(i)` —— 获取第 `i` 个范围，`i` 从 `0` 开始。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
+
+此外，还有更方便的属性。
+
+与范围类似，选择的起点被称为“锚点（anchor）”，终点被称为“焦点（focus）”。
 
 主要的选择属性有：
 
@@ -289,36 +352,39 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 - `isCollapsed` —— 如果未选择任何内容（空范围）或不存在，则为 `true` 。
 - `rangeCount` —— 选择中的范围数，除 Firefox 外，其他浏览器最多为 `1`。
 
-````smart header="在文档中，选择的终点可能在起点之前"
-有很多选择内容的方式，取决于用户的操作：鼠标，热键，手机上的点击等。
+```smart header="选择和范围的起点和终点对比"
 
-其中的某些方式，例如鼠标，允许从两个方向创建相同的选择：“从左到右”和“从右到左”。
+选择（selection）的锚点/焦点和 `Range` 的起点和终点有一个很重要的区别。
 
-如果在文档中，选择的起点（anchor）在终点（focus）之前，则称此选择具有 "forward" 方向。
+正如我们所知道的，`Range` 对象的起点必须在其终点之前。
+ 
+但对于选择，并不总是这样的。
+
+我们可以在两个方向上使用鼠标进行选择：“从左到右”或“从右到左”。
+
+换句话说，当按下鼠标按键，然后它在文档中向前移动时，它结束的位置（焦点）将在它开始的位置（锚点）之后。
 
 例如，如果用户使用鼠标从 "Example" 开始选择到 "italic"：
 
 ![](selection-direction-forward.svg)
 
-否则，如果是从 "italic" 的末尾开始选择到 "Example"，则所选内容将被定向为 "backward"，其焦点（focus）将在锚点（anchor）之前：
+但是，我们也可以从前向后进行相同的选择：从 "italic" 到 "Example"（从前向后），这样它结束的位置（焦点）将在它开始的位置（锚点）之前。
 
 ![](selection-direction-backward.svg)
-
-这与始终指向前方的 `Range` 对象不同：范围的起点不能在终点之后。
-````
+```
 
 ## 选择事件
 
 有一些事件可以跟踪选择：
 
-- `elem.onselectstart` —— 当选择从 `elem` 上开始时，例如，用户按下鼠标键并开始移动鼠标。
-    - 阻止默认行为会使选择无法开始。
-- `document.onselectionchange` —— 当选择变动时。
-    - 请注意：此处理程序只能在 `document` 上设置。
+- `elem.onselectstart` —— 当在元素 `elem` 上（或在其内部）**开始**选择时。例如，当用户在元素 `elem` 上按下鼠标按键并开始移动指针时。
+    - Preventing the default action cancels the selection start. 因此，从该元素开始选择变得不可能，但该元素仍然是可选择的。用户只需要从其他地方开始选择。
+- `document.onselectionchange` —— 当选择发生变化或开始时。
+    - 请注意：此处理程序只能在 `document` 上设置。它跟踪的是 `document` 中的所有选择。
 
 ### 选择跟踪演示
 
-下面是一个小型演示，它随更改动态显示选择边界：
+下面是一个小例子，它跟踪了 `document` 上当前的选择，并将选择边界显示出来：
 
 ```html run height=80
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -326,21 +392,25 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 From <input id="from" disabled> – To <input id="to" disabled>
 <script>
   document.onselectionchange = function() {
-    let {anchorNode, anchorOffset, focusNode, focusOffset} = document.getSelection();
+    let selection = document.getSelection();
 
-    from.value = `${anchorNode && anchorNode.data}:${anchorOffset}`;
-    to.value = `${focusNode && focusNode.data}:${focusOffset}`;
+    let {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
+
+    // anchorNode 和 focusNode 通常是文本节点
+    from.value = `${anchorNode?.data}, offset ${anchorOffset}`;
+    to.value = `${focusNode?.data}, offset ${focusOffset}`;
   };
 </script>
 ```
 
-### 选择获取演示
+### 选择复制演示
 
-要获取整个选择：
-- 作为文本：只需调用 `document.getSelection().toString()`。
-- 作为 DOM 节点：获取底层的（underlying）范围，并调用它们的 `cloneContents()` 方法（如果我们不支持 Firefox 多选的话，则仅取第一个范围）。 
+复制所选内容有两种方式：
 
-下面是将选择内容获取为文本和 DOM 节点的演示：
+1. 我们可以使用 `document.getSelection().toString()` 来获取其文本形式。
+2. 此外，想要复制整个 DOM 节点，例如，如果我们需要保持其格式不变，我们可以使用 `getRangesAt(...)` 获取底层的（underlying）范围。`Range` 对象还具有 `cloneContents()` 方法，该方法会拷贝范围中的内容并以 `DocumentFragment` 的形式返回，我们可以将这个返回值插入到其他位置。
+
+下面是将所选内容复制为文本和 DOM 节点的演示：
 
 ```html run height=100
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -368,7 +438,7 @@ As text: <span id="astext"></span>
 
 ## 选择方法
 
-添加/移除范围的选择方法：
+我们可以通过添加/移除范围来处理选择：
 
 - `getRangeAt(i)` —— 获取从 `0` 开始的第 i 个范围。在除 Firefox 之外的所有浏览器中，仅使用 `0`。
 - `addRange(range)` —— 将 `range` 添加到选择中。如果选择已有关联的范围，则除 Firefox 外的所有浏览器都将忽略该调用。
@@ -376,7 +446,7 @@ As text: <span id="astext"></span>
 - `removeAllRanges()` —— 删除所有范围。
 - `empty()` —— `removeAllRanges` 的别名。
 
-另外，还有一些方便的方法可以直接操作选择范围，而无需使用 `Range`：
+还有一些方便的方法可以直接操作选择范围，而无需中间的 `Range` 调用：
 
 - `collapse(node, offset)` —— 用一个新的范围替换选定的范围，该新范围从给定的 `node` 处开始，到偏移 `offset` 处结束。
 - `setPosition(node, offset)` —— `collapse` 的别名。
@@ -388,7 +458,7 @@ As text: <span id="astext"></span>
 - `deleteFromDocument()` —— 从文档中删除所选择的内容。
 - `containsNode(node, allowPartialContainment = false)` —— 检查选择中是否包含 `node`（特别是如果第二个参数是 `true` 的话）
 
-因此，对于许多任务，我们可以调用 `Selection` 方法，而无需访问底层的（underlying）`Range` 对象。
+对于大多数需求，这些方法就够了，无需访问底层的（underlying）`Range` 对象。
 
 例如，选择段落 `<p>` 的全部内容：
 
@@ -415,8 +485,8 @@ As text: <span id="astext"></span>
 </script>
 ```
 
-```smart header="如要选择，请先移除现有的选择"
-如果选择已存在，则首先使用 `removeAllRanges()` 将其清空。然后添加范围。否则，除 Firefox 外的所有浏览器都将忽略新范围。
+```smart header="如要选择一些内容，请先移除现有的选择"
+如果在文档中已存在选择，则首先使用 `removeAllRanges()` 将其清空。然后添加范围。否则，除 Firefox 外的所有浏览器都将忽略新范围。
 
 某些选择方法例外，它们会替换现有的选择，例如 `setBaseAndExtent`。
 ```
