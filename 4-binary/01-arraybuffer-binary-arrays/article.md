@@ -126,7 +126,7 @@ new TypedArray();
 
 我们可以直接创建一个 `TypedArray`，而无需提及 `ArrayBuffer`。但是，视图离不开底层的 `ArrayBuffer`，因此，除第一种情况（已提供 `ArrayBuffer`）外，其他所有情况都会自动创建 `ArrayBuffer`。
 
-如要访问 `ArrayBuffer`，可以用以下属性：
+如要访问底层的 `ArrayBuffer`，那么在 `TypedArray` 中有如下的属性：
 - `arr.buffer` —— 引用 `ArrayBuffer`。
 - `arr.byteLength` —— `ArrayBuffer` 的长度。
 
@@ -259,7 +259,7 @@ dataView.setUint32(0, 0); // 将 4 个字节的数字设为 0，即将所有字�
     - `Float32Array`，`Float64Array` —— 用于 32 位和 64 位的有符号浮点数。
 - 或 `DataView` —— 使用方法来指定格式的视图，例如，`getUint8(offset)`。
 
-在大多数情况下，我们直接对类型化数组进行创建和操作，而将 `ArrayBuffer` 作为“通用标识符（common discriminator）”隐藏起来。我们可以通过 `.buffer` 来访问它，并在需要时创建另一个视图。
+在大多数情况下，我们直接对类型化数组进行创建和操作，而将 `ArrayBuffer` 作为“共同之处（common denominator）”隐藏起来。我们可以通过 `.buffer` 来访问它，并在需要时创建另一个视图。
 
 还有另外两个术语，用于对二进制数据进行操作的方法的描述：
 - `ArrayBufferView` 是所有这些视图的总称。

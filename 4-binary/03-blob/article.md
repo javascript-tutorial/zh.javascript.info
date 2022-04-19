@@ -207,21 +207,26 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 
 对于页面截屏，我们可以使用诸如 <https://github.com/niklasvh/html2canvas> 之类的库。它所做的只是扫一遍浏览器页面，并将其绘制在 `<canvas>` 上。然后，我们就可以像上面一样获取一个它的 `Blob`。
 
-## Blob 转换为 arrayBuffer
+## Blob 转换为 ArrayBuffer
 
-`Blob` 构造器允许从几乎所有东西创建 blob，包括任何 `BufferSource`。
+`Blob` 构造器允许从几乎任何东西创建 blob，包括任何 `BufferSource`。
 
-但是，如果我们需要执行低级别的操作的话，则可以使用 `blob.arrayBuffer()` 从 blob 中获取最低级别的 `arrayBuffer`：
+但是，如果我们需要执行低级别的处理时，我们可以使用 `FileReader` 从中获取最低级别的 `ArrayBuffer`：
 
 ```js
-// 从 blob 获取 arrayBuffer
-const bufferPromise = await blob.arrayBuffer();
+// 从 bolb 获取 arrayBuffer
+let fileReader = new FileReader();
 
-// 或者
-blob.arrayBuffer().then(buffer => /* 处理 arrayBuffer */);
+*!*
+fileReader.readAsArrayBuffer(blob);
+*/!*
+
+fileReader.onload = function(event) {
+  let arrayBuffer = fileReader.result;
+};
 ```
 
-## Blob 转换为 stream
+## Blob 转换为 Stream
 
 当我们读取和写入超过 `2 GB` 的 blob 时，将其转换为 `arrayBuffer` 的使用对我们来说会更加占用内存。这种情况下，我们可以直接将 blob 转换为 stream 进行处理。
 

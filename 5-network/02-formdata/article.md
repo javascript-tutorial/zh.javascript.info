@@ -75,7 +75,7 @@ formData.append('key2', 'value2');
 
 // 列出 key/value 对
 for(let [name, value] of formData) {
-  alert(`${name} = ${value}`); // key1=value1，然后是 key2=value2
+  alert(`${name} = ${value}`); // key1 = value1，然后是 key2 = value2
 }
 ```
 
