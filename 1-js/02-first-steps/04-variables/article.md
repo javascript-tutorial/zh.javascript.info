@@ -160,7 +160,7 @@ let message = "That"; // SyntaxError: 'message' has already been declared
 
 JavaScript 的变量命名有两个限制：
 
-1. 变量名称必须仅包含字母，数字，符号 `$` 和 `_`。
+1. 变量名称必须仅包含字母、数字、符号 `$` 和 `_`。
 2. 首字符必须非数字。
 
 有效的命名，例如：
