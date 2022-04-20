@@ -97,43 +97,43 @@ CORS 的存在是为了保护互联网免受黑客攻击。
 
 起初，跨源请求是被禁止的。但是，经过长时间的讨论，跨源请求被允许了，但是任何新功能都需要服务器明确允许，以特殊的 header 表述。
 
-## 简单的请求
+## 安全请求
 
 有两种类型的跨源请求：
 
-1. 简单的请求。
+1. 安全请求。
 2. 所有其他请求。
 
-顾名思义，简单的请求很简单，所以我们先从它开始。
+安全请求很简单，所以我们先从它开始。
 
-一个 [简单的请求](http://www.w3.org/TR/cors/#terminology) 是指满足以下两个条件的请求：
+如果一个请求满足下面这两个条件，则该请求是安全的：
 
-1. [简单的方法](http://www.w3.org/TR/cors/#simple-method)：GET，POST 或 HEAD
-2. [简单的 header](http://www.w3.org/TR/cors/#simple-header) —— 仅允许自定义下列 header：
+1. [安全的方法](https://fetch.spec.whatwg.org/#cors-safelisted-method)：GET，POST 或 HEAD
+2. [安全的 header](https://fetch.spec.whatwg.org/#cors-safelisted-request-header) —— 仅允许自定义下列 header：
     - `Accept`，
     - `Accept-Language`，
     - `Content-Language`，
     - `Content-Type` 的值为 `application/x-www-form-urlencoded`，`multipart/form-data` 或 `text/plain`。
 
-任何其他请求都被认为是“非简单请求”。例如，具有 `PUT` 方法或 `API-Key` HTTP-header 的请求就不是简单请求。
+任何其他请求都被认为是“非安全”请求。例如，具有 `PUT` 方法或 `API-Key` HTTP-header 的请求就不是安全请求。
 
-**本质区别在于，可以使用 `<form>` 或 `<script>` 进行“简单请求”，而无需任何其他特殊方法。**
+**本质区别在于，可以使用 `<form>` 或 `<script>` 进行安全请求，而无需任何其他特殊方法。**
 
-因此，即使是非常旧的服务器也能很好地接收简单请求。
+因此，即使是非常旧的服务器也能很好地接收安全请求。
 
 与此相反，带有非标准 header 或者例如 `DELETE` 方法的请求，无法通过这种方式创建。在很长一段时间里，JavaScript 都不能进行这样的请求。所以，旧的服务器可能会认为此类请求来自具有特权的来源（privileged source），“因为网页无法发送它们”。
 
-当我们尝试发送一个非简单请求时，浏览器会发送一个特殊的“预检（preflight）”请求到服务器 —— 询问服务器，你接受此类跨源请求吗？
+当我们尝试发送一个非安全请求时，浏览器会发送一个特殊的“预检（preflight）”请求到服务器 —— 询问服务器，你接受此类跨源请求吗？
 
-并且，除非服务器明确通过 header 进行确认，否则非简单请求不会被发送。
+并且，除非服务器明确通过 header 进行确认，否则非安全请求不会被发送。
 
 现在，我们来详细介绍它们。
 
-## 用于简单请求的 CORS
+## 用于安全请求的 CORS
 
 如果一个请求是跨源的，浏览器始终会向其添加 `Origin` header。
 
-例如，如果我们从 `https://javascript.info/page` 请求 `https://anywhere.com/request`，请求的 header 将会如下：
+例如，如果我们从 `https://javascript.info/page` 请求 `https://anywhere.com/request`，请求的 header 将如下所示：
 
 ```http
 GET /request
@@ -144,7 +144,7 @@ Origin: https://javascript.info
 ...
 ```
 
-正如你所见，`Origin` 包含了确切的源（domain/protocol/port），没有路径。
+正如你所看到的，`Origin` 包含了确切的源（domain/protocol/port），没有路径（path）。
 
 服务器可以检查 `Origin`，如果同意接受这样的请求，就会在响应中添加一个特殊的 header `Access-Control-Allow-Origin`。该 header 包含了允许的源（在我们的示例中是 `https://javascript.info`），或者一个星号 `*`。然后响应成功，否则报错。
 
@@ -165,7 +165,7 @@ Access-Control-Allow-Origin: https://javascript.info
 
 ## Response header
 
-对于跨源请求，默认情况下，JavaScript 只能访问“简单” response header：
+对于跨源请求，默认情况下，JavaScript 只能访问“安全的” response header：
 
 - `Cache-Control`
 - `Content-Language`
@@ -182,7 +182,7 @@ Access-Control-Allow-Origin: https://javascript.info
 该 header 包含完整的响应长度。因此，如果我们正在下载某些内容，并希望跟踪进度百分比，则需要额外的权限才能访问该 header（请见下文）。
 ```
 
-要授予 JavaScript 对任何其他 response header 的访问权限，服务器必须发送 `Access-Control-Expose-Headers` header。它包含一个以逗号分隔的应该被设置为可访问的非简单 header 名称列表。
+要授予 JavaScript 对任何其他 response header 的访问权限，服务器必须发送 `Access-Control-Expose-Headers` header。它包含一个以逗号分隔的应该被设置为可访问的非安全 header 名称列表。
 
 例如：
 
@@ -199,19 +199,18 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 有了这种 `Access-Control-Expose-Headers` header，此脚本就被允许读取响应的 `Content-Length` 和 `API-Key` header。
 
-## “非简单”请求
+## “非安全”请求
 
 我们可以使用任何 HTTP 方法：不仅仅是 `GET/POST`，也可以是 `PATCH`，`DELETE` 及其他。
 
 之前，没有人能够设想网页能发出这样的请求。因此，可能仍然存在有些 Web 服务将非标准方法视为一个信号：“这不是浏览器”。它们可以在检查访问权限时将其考虑在内。
 
-因此，为了避免误解，任何“非标准”请求 —— 浏览器不会立即发出在过去无法完成的这类请求。即在它发送这类请求前，会先发送“预检（preflight）”请求来请求许可。
+因此，为了避免误解，任何“非安全”请求 —— 在过去无法完成的，浏览器不会立即发出此类请求。首先，它会先发送一个初步的、所谓的“预检（preflight）”请求，来请求许可。
 
 预检请求使用 `OPTIONS` 方法，它没有 body，但是有三个 header：
 
-- `Access-Control-Request-Method` header 带有非简单请求的方法。
-- `Access-Control-Request-Headers` header 提供一个以逗号分隔的非简单 HTTP-header 列表。
-- `Origin` header 告知了请求来自哪儿。（例如 `https://javascript.info`）
+- `Access-Control-Request-Method` header 带有非安全请求的方法。
+- `Access-Control-Request-Headers` header 提供一个以逗号分隔的非安全 HTTP-header 列表。
 
 如果服务器同意处理请求，那么它会进行响应，此响应的状态码应该为 200，没有 body，具有 header：
 
@@ -222,7 +221,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 ![](xhr-preflight.svg)
 
-让我们用一个例子来一步步看一下它是怎么工作的，对于一个跨源的 `PATCH` 请求（此方法经常被用于更新数据）：
+让我们在一个跨源 `PATCH` 请求的例子中一步一步地看它是如何工作的（此方法经常被用于更新数据）：
 
 ```js
 let response = await fetch('https://site.com/service.json', {
@@ -234,10 +233,10 @@ let response = await fetch('https://site.com/service.json', {
 });
 ```
 
-这里有三个理由解释为什么它不是一个简单请求（其实一个就够了）：
+这里有三个理由解释为什么它不是一个安全请求（其实一个就够了）：
 - 方法 `PATCH`
 - `Content-Type` 不是这三个中之一：`application/x-www-form-urlencoded`，`multipart/form-data`，`text/plain`。
-- “非简单” `API-Key` header。
+- “非安全” `API-Key` header。
 
 ### Step 1 预检请求（preflight request）
 
@@ -256,7 +255,7 @@ Access-Control-Request-Headers: Content-Type,API-Key
 - 特殊跨源头：
     - `Origin` —— 来源。
     - `Access-Control-Request-Method` —— 请求方法。
-    - `Access-Control-Request-Headers` —— 以逗号分隔的“非简单” header 列表。
+    - `Access-Control-Request-Headers` —— 以逗号分隔的“非安全” header 列表。
 
 ### Step 2 预检响应（preflight response）
 
@@ -267,7 +266,7 @@ Access-Control-Request-Headers: Content-Type,API-Key
 
 这将允许后续通信，否则会触发错误。
 
-如果服务器将来期望其他方法和 header，则可以通过将这些方法和 header 添加到列表中来预先允许它们。
+如果服务器将来需要其他方法和 header，则可以通过将这些方法和 header 添加到列表中来预先允许它们。
 
 例如，此响应还允许 `PUT`、`DELETE` 以及其他 header：
 
@@ -285,7 +284,7 @@ Access-Control-Max-Age: 86400
 
 ### Step 3 实际请求（actual request）
 
-预检成功后，浏览器现在发出主请求。这里的算法与简单请求的算法相同。
+预检成功后，浏览器现在发出主请求。这里的过程与安全请求的过程相同。
 
 主请求具有 `Origin` header（因为它是跨源的）：
 
@@ -351,9 +350,9 @@ Access-Control-Allow-Credentials: true
 
 ## 总结
 
-从浏览器角度来看，有两种跨源请求：“简单”请求和其他请求。
+从浏览器角度来看，有两种跨源请求：“安全”请求和其他请求。
 
-[简单请求](http://www.w3.org/TR/cors/#terminology) 必须满足下列条件：
+“安全”请求必须满足以下条件：
 - 方法：GET，POST 或 HEAD。
 - header —— 我们仅能设置：
     - `Accept`
@@ -361,11 +360,11 @@ Access-Control-Allow-Credentials: true
     - `Content-Language`
     - `Content-Type` 的值为 `application/x-www-form-urlencoded`，`multipart/form-data` 或 `text/plain`。
 
-简单请求和其他请求的本质区别在于，自古以来使用 `<form>` 或 `<script>` 标签进行简单请求就是可行的，而长期以来浏览器都不能进行非简单请求。
+安全请求和其他请求的本质区别在于，自古以来就可以使用 `<form>` 或 `<script>` 标签来实现安全请求，而对于浏览器来说，非安全请求在很长一段时间都是不可能的。
 
-所以，实际区别在于，简单请求会使用 `Origin` header 并立即发送，而对于其他请求，浏览器会发出初步的“预检”请求，以请求许可。
+所以，实际区别在于，安全请求会立即发送，并带有 `Origin` header，而对于其他请求，浏览器会发出初步的“预检”请求，以请求许可。
 
-**对于简单请求：**
+**对于安全请求：**
 
 - → 浏览器发送带有源的 `Origin` header。
 - ← 对于没有凭据的请求（默认不发送），服务器应该设置：
@@ -376,13 +375,13 @@ Access-Control-Allow-Credentials: true
 
 此外，要授予 JavaScript 访问除 `Cache-Control`，`Content-Language`，`Content-Type`，`Expires`，`Last-Modified` 或 `Pragma` 外的任何 response header 的权限，服务器应该在 header `Access-Control-Expose-Headers` 中列出允许的那些 header。
 
-**对于非简单请求，会在请求之前发出初步“预检”请求：**
+**对于非安全请求，会在请求之前发出初步“预检”请求：**
 
 - → 浏览器将具有以下 header 的 `OPTIONS` 请求发送到相同的 URL：
     - `Access-Control-Request-Method` 有请求方法。
-    - `Access-Control-Request-Headers` 以逗号分隔的“非简单” header 列表。
+    - `Access-Control-Request-Headers` 以逗号分隔的“非安全” header 列表。
 - ← 服务器应该响应状态码为 200 和 header：
     - `Access-Control-Allow-Methods` 带有允许的方法的列表，
     - `Access-Control-Allow-Headers` 带有允许的 header 的列表，
     - `Access-Control-Max-Age` 带有指定缓存权限的秒数。
-- 然后，发出实际请求，应用先前的“简单”方案。
+- 然后，发送实际的请求，并应用之前的“安全”方案。
