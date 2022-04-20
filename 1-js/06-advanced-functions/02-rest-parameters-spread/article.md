@@ -104,7 +104,7 @@ showName("Ilya");
 
 因此，当我们需要这些功能时，最好使用 rest 参数。
 
-````smart header="箭头函数是没有 `\"arguments\"`"
+````smart header="箭头函数没有 `\"arguments\"`"
 如果我们在箭头函数中访问 `arguments`，访问到的 `arguments` 并不属于箭头函数，而是属于箭头函数外部的“普通”函数。
 
 举个例子：
