@@ -24,7 +24,7 @@
 
 1. 首先，创建一个文件 id，以唯一地标识我们要上传的文件：
     ```js
-    let fileId = file.name + '-' + file.size + '-' + file.lastModifiedDate;
+    let fileId = file.name + '-' + file.size + '-' + file.lastModified;
     ```
     在恢复上传时需要用到它，以告诉服务器我们要恢复的内容。
 

@@ -202,7 +202,7 @@ alert( sessionStorage.getItem('test') ); // after refresh: 1
 
 ```js run
 // 在其他文档对同一存储进行更新时触发
-window.onstorage = event => { // 等同于 window.addEventListener('storage', () => {
+window.onstorage = event => { // 也可以使用 window.addEventListener('storage', event => {
   if (event.key != 'now') return;
   alert(event.key + ':' + event.newValue + " at " + event.url);
 };

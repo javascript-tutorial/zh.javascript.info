@@ -6,7 +6,7 @@ class Uploader {
 
     // 创建唯一标识文件的 fileId
     // 我们还可以添加用户会话标识符（如果有的话），以使其更具唯一性
-    this.fileId = file.name + '-' + file.size + '-' + +file.lastModifiedDate;
+    this.fileId = file.name + '-' + file.size + '-' + file.lastModified;
   }
 
   async getUploadedBytes() {

@@ -66,7 +66,7 @@ eventSource.onmessage = function(event) {
 
 ### 跨源请求
 
-`EventSource` 支持跨源请求，就像 `fetch` 任何其他网络方法。我们可以使用任何 URL：
+`EventSource` 支持跨源请求，就像 `fetch` 和任何其他网络方法。我们可以使用任何 URL：
 
 ```js
 let source = new EventSource("https://another-site.com/events");
@@ -215,7 +215,7 @@ eventSource.addEventListener('leave', event => {
 - 用于恢复事件的消息 id，重新连接后，最后接收到的标识符被在 `Last-Event-ID` header 中发送出去。
 - 当前状态位于 `readyState` 属性中。
 
-这使得 `EventSource` 成为 `WebSocket` 的一个可行的替代方案，因为 `WebSocket` 更低级（low-level），且缺乏这样的内建功能（尽管它们可以被实现）。
+这使得 `EventSource` 成为 `WebSocket` 的一个可行的替代方案，因为 `WebSocket` 更底层（low-level），且缺乏这样的内建功能（尽管它们可以被实现）。
 
 在很多实际应用中，`EventSource` 的功能就已经够用了。
 

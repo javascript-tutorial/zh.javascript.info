@@ -42,7 +42,7 @@ let promise = fetch(url, {
 
 在 <info:fetch-abort> 一章中介绍了 `signal` 选项。
 
-现在让我们学习其余的本领。
+现在让我们一起探索其余的功能。
 
 ## referrer，referrerPolicy
 
@@ -50,7 +50,7 @@ let promise = fetch(url, {
 
 通常来说，这个 header 是被自动设置的，并包含了发出请求的页面的 url。在大多数情况下，它一点也不重要，但有时出于安全考虑，删除或缩短它是有意义的。
 
-**`referer` 选项允许设置在当前域的任何 `Referer`，或者移除它。**
+**`referer` 选项允许设置任何 `Referer`（在当前域的），或者移除它。**
 
 要不发送 referer，可以将 `referer` 设置为空字符串：
 ```js
@@ -138,7 +138,7 @@ fetch('https://another.com/page', {
 
 - **`"cors"`** —— 默认值，允许跨源请求，如 <info:fetch-crossorigin> 一章所述，
 - **`"same-origin"`** —— 禁止跨源请求，
-- **`"no-cors"`** —— 只允许简单的跨源请求。
+- **`"no-cors"`** —— 只允许安全的跨源请求。
 
 当 `fetch` 的 URL 来自于第三方，并且我们想要一个“断电开关”来限制跨源能力时，此选项可能很有用。
 
@@ -147,7 +147,7 @@ fetch('https://another.com/page', {
 `credentials` 选项指定 `fetch` 是否应该随请求发送 cookie 和 HTTP-Authorization header。
 
 - **`"same-origin"`** —— 默认值，对于跨源请求不发送，
-- **`"include"`** —— 总是发送，需要来自跨源服务器的 `Accept-Control-Allow-Credentials`，才能使 JavaScript 能够访问响应，详细内容在 <info:fetch-crossorigin> 一章有详细介绍，
+- **`"include"`** —— 总是发送，需要来自跨源服务器的 `Access-Control-Allow-Credentials`，才能使 JavaScript 能够访问响应，详细内容在 <info:fetch-crossorigin> 一章有详细介绍，
 - **`"omit"`** —— 不发送，即使对于同源请求。
 
 ## cache
@@ -158,7 +158,7 @@ fetch('https://another.com/page', {
 
 - **`"default"`** —— `fetch` 使用标准的 HTTP 缓存规则和 header，
 - **`"no-store"`** —— 完全忽略 HTTP 缓存，如果我们设置 header `If-Modified-Since`，`If-None-Match`，`If-Unmodified-Since`，`If-Match`，或 `If-Range`，则此模式会成为默认模式，
-- **`"reload"`** —— 不从 HTTP 缓存中获取结果（如果有），而是使用响应填充缓存（如果 response header 允许），
+- **`"reload"`** —— 不从 HTTP 缓存中获取结果（如果有），而是使用响应填充缓存（如果 response header 允许此操作），
 - **`"no-cache"`** —— 如果有一个已缓存的响应，则创建一个有条件的请求，否则创建一个普通的请求。使用响应填充 HTTP 缓存，
 - **`"force-cache"`** —— 使用来自 HTTP 缓存的响应，即使该响应已过时（stale）。如果 HTTP 缓存中没有响应，则创建一个常规的 HTTP 请求，行为像正常那样，
 - **`"only-if-cached"`** —— 使用来自 HTTP 缓存的响应，即使该响应已过时（stale）。如果 HTTP 缓存中没有响应，则报错。只有当 `mode` 为 `same-origin` 时生效。
@@ -171,7 +171,7 @@ fetch('https://another.com/page', {
 
 - **`"follow"`** —— 默认值，遵循 HTTP 重定向，
 - **`"error"`** —— HTTP 重定向时报错，
-- **`"manual"`** —— 不遵循 HTTP 重定向，但 `response.url` 将是一个新的 URL，并且 `response redirectd` 将为 `true`，以便我们能够手动执行重定向到新的 URL（如果需要的话）。
+- **`"manual"`** —— 允许手动处理 HTTP 重定向。在重定向的情况下，我们将获得一个特殊的响应对象，其中包含 `response.type="opaqueredirect"` 和归零/空状态以及大多数其他属性。
 
 ## integrity
 
@@ -217,7 +217,7 @@ window.onunload = function() {
 
 它有一些限制：
 
-- 我们无法发送兆字节的数据：`keepalive` 请求的 body 限制为 64kb。
+- 我们无法发送兆字节的数据：`keepalive` 请求的 body 限制为 64KB。
     - 如果我们需要收集有关访问的大量统计信息，我们则应该将其定期以数据包的形式发送出去，这样就不会留下太多数据给最后的 `onunload` 请求了。
     - 此限制是被应用于当前所有 `keepalive` 请求的总和的。换句话说，我们可以并行执行多个 `keepalive` 请求，但它们的 body 长度之和不得超过 64KB。
 - 如果文档（document）已卸载（unloaded），我们就无法处理服务器响应。因此，在我们的示例中，因为 `keepalive`，所以 `fetch` 会成功，但是后续的函数将无法正常工作。
