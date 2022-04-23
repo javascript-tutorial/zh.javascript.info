@@ -196,9 +196,9 @@ So the single `callback` function is used both for reporting errors and passing 
 
 ## Pyramid of Doom
 
-From the first look, it's a viable way of asynchronous coding. And indeed it is. For one or maybe two nested calls it looks fine.
+At first glance, it looks like a viable approach to asynchronous coding. And indeed it is. For one or maybe two nested calls it looks fine.
 
-But for multiple asynchronous actions that follow one after another we'll have code like this:
+But for multiple asynchronous actions that follow one after another, we'll have code like this:
 
 ```js
 loadScript('1.js', function(error, script) {
@@ -229,8 +229,8 @@ loadScript('1.js', function(error, script) {
 ```
 
 In the code above:
-1. We load `1.js`, then if there's no error.
-2. We load `2.js`, then if there's no error.
+1. We load `1.js`, then if there's no error...
+2. We load `2.js`, then if there's no error...
 3. We load `3.js`, then if there's no error -- do something else `(*)`.
 
 As calls become more nested, the code becomes deeper and increasingly more difficult to manage, especially if we have real code instead of `...` that may include more loops, conditional statements and so on.
@@ -299,7 +299,7 @@ function step3(error, script) {
 }
 ```
 
-See? It does the same, and there's no deep nesting now because we made every action a separate top-level function.
+See? It does the same thing, and there's no deep nesting now because we made every action a separate top-level function.
 
 It works, but the code looks like a torn apart spreadsheet. It's difficult to read, and you probably noticed that one needs to eye-jump between pieces while reading it. That's inconvenient, especially if the reader is not familiar with the code and doesn't know where to eye-jump.
 
@@ -307,4 +307,4 @@ Also, the functions named `step*` are all of single use, they are created only t
 
 We'd like to have something better.
 
-Luckily, there are other ways to avoid such pyramids. One of the best ways is to use "promises," described in the next chapter.
+Luckily, there are other ways to avoid such pyramids. One of the best ways is to use "promises", described in the next chapter.
