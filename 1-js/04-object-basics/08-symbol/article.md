@@ -1,9 +1,16 @@
 
 # Symbol type
 
-By specification, object property keys may be either of string type, or of symbol type. Not numbers, not booleans, only strings or symbols, these two types.
+By specification, only two primitive types may serve as object property keys:
 
-Till now we've been using only strings. Now let's see the benefits that symbols can give us.
+- string type, or
+- symbol type.
+
+Otherwise, if one uses another type, such as number, it's autoconverted to string. So that `obj[1]` is the same as `obj["1"]`, and `obj[true]` is the same as `obj["true"]`.
+
+Till now we've been using only strings.
+
+Now let's explore symbols, see what they can do for us.
 
 ## Symbols
 
@@ -12,7 +19,6 @@ A "symbol" represents a unique identifier.
 A value of this type can be created using `Symbol()`:
 
 ```js
-// id is a new symbol
 let id = Symbol();
 ```
 
@@ -38,6 +44,8 @@ alert(id1 == id2); // false
 
 If you are familiar with Ruby or another language that also has some sort of "symbols" -- please don't be misguided. JavaScript symbols are different.
 
+So, to summarize, symbols are "primitive unique values" with optional description. Let's see where we can use them.
+
 ````warn header="Symbols don't auto-convert to a string"
 Most values in JavaScript support implicit conversion to a string. For instance, we can `alert` almost any value, and it will work. Symbols are special. They don't auto-convert.
 
@@ -53,6 +61,7 @@ alert(id); // TypeError: Cannot convert a Symbol value to a string
 That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not accidentally convert one into another.
 
 If we really want to show a symbol, we need to explicitly call `.toString()` on it, like here:
+
 ```js run
 let id = Symbol("id");
 *!*
@@ -61,6 +70,7 @@ alert(id.toString()); // Symbol(id), now it works
 ```
 
 Or get `symbol.description` property to show the description only:
+
 ```js run
 let id = Symbol("id");
 *!*
@@ -71,6 +81,7 @@ alert(id.description); // id
 ````
 
 ## "Hidden" properties
+
 
 Symbols allow us to create "hidden" properties of an object, that no other part of code can accidentally access or overwrite.
 
@@ -268,6 +279,7 @@ Symbols are always different values, even if they have the same name. If we want
 Symbols have two main use cases:
 
 1. "Hidden" object properties.
+
     If we want to add a property into an object that "belongs" to another script or a library, we can create a symbol and use it as a property key. A symbolic property does not appear in `for..in`, so it won't be accidentally processed together with other properties. Also it won't be accessed directly, because another script does not have our symbol. So the property will be protected from accidental use or overwrite.
 
     So we can "covertly" hide something into objects that we need, but others should not see, using symbolic properties.
