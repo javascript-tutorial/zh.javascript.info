@@ -7,7 +7,7 @@ Cookie 通常是由 Web 服务器使用响应 `Set-Cookie` HTTP-header 设置的
 最常见的用处之一就是身份验证：
 
 1. 登录后，服务器在响应中使用 `Set-Cookie` HTTP-header 来设置具有唯一“会话标识符（session identifier）”的 cookie。
-2. 下次如果请求是由相同域发起的，浏览器会使用 `Cookie` HTTP-header 通过网络发送 cookie。
+2. 下次当请求被发送到同一个域时，浏览器会使用 `Cookie` HTTP-header 通过网络发送 cookie。
 3. 所以服务器知道是谁发起了请求。
 
 我们还可以使用 `document.cookie` 属性从浏览器访问 cookie。
@@ -39,7 +39,7 @@ alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 
 ## 写入 document.cookie
 
-我们可以写入 `document.cookie`。但这不是一个数据属性，它是一个访问器（getter/setter）。对其的赋值操作会被特殊处理。
+我们可以写入 `document.cookie`。但这不是一个数据属性，它是一个 [访问器（getter/setter）](info:property-accessors)。对其的赋值操作会被特殊处理。
 
 **对 `document.cookie` 的写入操作只会更新其中提到的 cookie，而不会涉及其他 cookie。**
 
@@ -52,7 +52,7 @@ alert(document.cookie); // 展示所有 cookie
 
 如果你运行了上面这段代码，你会看到多个 cookie。这是因为 `document.cookie=` 操作不是重写整所有 cookie。它只设置代码中提到的 cookie `user`。
 
-从技术上讲，cookie 的名称和值可以是任何字符，为了保持有效的格式，它们应该使用内建的 `encodeURIComponent` 函数对其进行转义：
+从技术上讲，cookie 的名称和值可以是任何字符。为了保持有效的格式，它们应该使用内建的 `encodeURIComponent` 函数对其进行转义：
 
 ```js run
 // 特殊字符（空格），需要编码
@@ -84,7 +84,7 @@ document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 
 - **`path=/mypath`**
 
-url 路径前缀，该路径下的页面可以访问该 cookie。必须是绝对路径。默认为当前路径。
+url 路径前缀必须是绝对路径。它使得该路径下的页面可以访问该 cookie。默认为当前路径。
 
 如果一个 cookie 带有 `path=/admin` 设置，那么该 cookie 在 `/admin` 和 `/admin/something` 下都是可见的，但是在 `/home` 或 `/adminpage` 下不可见。
 
@@ -94,30 +94,34 @@ url 路径前缀，该路径下的页面可以访问该 cookie。必须是绝对
 
 - **`domain=site.com`**
 
-可访问 cookie 的域。但是在实际中，有一些限制。我们无法设置任何域。
+domain 控制了可访问 cookie 的域。但是在实际中，有一些限制。我们无法设置任何域。
 
-默认情况下，cookie 只有在设置的域下才能被访问到。所以，如果 cookie 设置在 `site.com` 下，我们在 `other.com` 下就无法获取它。
+**无法从另一个二级域访问 cookie，因此 `other.com` 永远不会收到在 `site.com` 设置的 cookie。**
 
-……但是棘手的是，我们在子域 `forum.site.com` 下也无法获取它！
+这是一项安全限制，为了允许我们将敏感数据存储在应该仅在一个站点上可用的 cookie 中。
+
+默认情况下，cookie 只有在设置的域下才能被访问到。
+
+请注意，默认情况下，cookie 也不会共享给子域，例如 `forum.site.com`。
 
 ```js
-// 在 site.com
+// 如果我们在 site.com 网站上设置了 cookie……
 document.cookie = "user=John"
 
-// 在 forum.site.com
+// ……在 forum.site.com 域下我们无法访问它
 alert(document.cookie); // 没有 user
 ```
 
-**无法使 cookie 可以被从另一个二级域访问，因此，`other.com` 将永远不会收到设置在 `site.com` 的 cookie。**
+……但这是可以设置的。如果我们想允许像 `forum.site.com` 这样的子域在 `site.com` 上设置 cookie，也是可以实现的。
 
-这是一项安全限制，为了允许我们可以将敏感信息保存在 cookie 中。
+为此，当在 `site.com` 设置 cookie 时，我们应该明确地将 `domain` 选项设置为根域：`domain=site.com`。那么，所有子域都可以访问到这样的 cookie。
 
-……但是，如果我们想要批准像 `forum.site.com` 这样的子域访问 cookie，这是可以做到的。当我们设置一个在 `site.com` 的 cookie 时，我们应该将 `domain` 选项显式地设置为根域：`domain=site.com`：
+例如：
 
 ```js
 // 在 site.com
 // 使 cookie 可以被在任何子域 *.site.com 访问：
-document.cookie = "user=John; domain=site.com"
+document.cookie = "user=John; *!*domain=site.com*/!*"
 
 // 之后
 
@@ -125,9 +129,9 @@ document.cookie = "user=John; domain=site.com"
 alert(document.cookie); // 有 cookie user=John
 ```
 
-出于历史原因，`domain=.site.com`（`site.com` 前面有一个点符号）也以相同的方式工作，允许从子域访问 cookie。这是一个旧的表示法，如果我们需要支持非常旧的浏览器，则应该使用它。
+出于历史原因，`domain=.site.com`（`site.com` 前面有一个点符号）也以相同的方式工作，允许从子域访问 cookie。这是一个旧的表示方式，如果我们需要支持非常旧的浏览器，那么应该使用它。
 
-所以，`domain` 选项允许设置一个可以在子域访问的 cookie。
+总结一下，通过 `domain` 选项的设置，可以实现允许在子域访问 cookie。
 
 ## expires，max-age
 
@@ -137,7 +141,7 @@ alert(document.cookie); // 有 cookie user=John
 
 - **`expires=Tue, 19 Jan 2038 03:14:07 GMT`**
 
-cookie 的到期日期，那时浏览器会自动删除它。
+cookie 的过期时间定义了浏览器会自动清除该 cookie 的时间。
 
 日期必须完全采用 GMT 时区的这种格式。我们可以使用 `date.toUTCString` 来获取它。例如，我们可以将 cookie 设置为 1 天后过期。
 
@@ -152,9 +156,9 @@ document.cookie = "user=John; expires=" + date;
 
 -  **`max-age=3600`**
 
-`expires` 的替代选项，具指明 cookie 的过期时间距离当前时间的秒数。
+它是 `expires` 的替代选项，指明了 cookie 的过期时间距离当前时间的秒数。
 
-如果为 0 或负数，则 cookie 会被删除：
+如果将其设置为 0 或负数，则 cookie 会被删除：
 
 ```js
 // cookie 会在一小时后失效
@@ -174,13 +178,13 @@ Cookie 应只能被通过 HTTPS 传输。
 
 也就是说，cookie 是基于域的，它们不区分协议。
 
-使用此选项，如果一个 cookie 是通过 `https://site.com` 设置的，那么它不会在相同域的 HTTP 环境下出现，例如 `http://site.com`。所以，如果一个 cookie 包含绝不应该通过未加密的 HTTP 协议发送的敏感内容，那么就应该设置这个选项。
+使用此选项，如果一个 cookie 是通过 `https://site.com` 设置的，那么它不会在相同域的 HTTP 环境下出现，例如 `http://site.com`。所以，如果一个 cookie 包含绝不应该通过未加密的 HTTP 协议发送的敏感内容，那么就应该设置 `secure` 标识。
 
 ```js
 // 假设我们现在在 HTTPS 环境下
 // 设置 cookie secure（只在 HTTPS 环境下可访问）
 document.cookie = "user=John; secure";
-```  
+```
 
 ## samesite
 
@@ -198,11 +202,11 @@ document.cookie = "user=John; secure";
 
 ![](cookie-xsrf.svg)
 
-这就是“跨网站请求伪造（Cross-Site Request Forgery，简称 XSRF）”攻击。
+这就是所谓的“跨网站请求伪造（Cross-Site Request Forgery，简称 XSRF）”攻击。
 
-当然，实际的银行会防止出现这种情况。所有由 `bank.com` 生成的表单都具有一个特殊的字段，即所谓的 “XSRF 保护 token”，恶意页面既不能生成，也不能从远程页面提取它（它可以在那里提交表单，但是无法获取数据）。并且，网站 `bank.com` 会对收到的每个表单都进行这种 token 的检查。
+当然，实际的银行会防止出现这种情况。所有由 `bank.com` 生成的表单都具有一个特殊的字段，即所谓的 “XSRF 保护 token”，恶意页面既不能生成，也不能从远程页面提取它。它可以在那里提交表单，但是无法获取数据。并且，网站 `bank.com` 会对收到的每个表单都进行这种 token 的检查。
 
-但是，实现这种防护需要花费时间：我们需要确保每个表单都具有 token 字段，并且还必须检查所有请求。
+但是，实现这种防护需要花费时间。我们需要确保每个表单都具有所需的 token 字段，并且我们还必须检查所有请求。
 
 ### 输入 cookie samesite 选项
 
@@ -247,7 +251,10 @@ Cookie 的 `samesite` 选项提供了另一种防止此类攻击的方式，（�
 
 如果这种情况适合你，那么添加 `samesite=lax` 将不会破坏用户体验并且可以增加保护。
 
-总体而言，`samesite` 是一个很好的选项，但是它有一个重要的缺点：
+总体而言，`samesite` 是一个很好的选项。
+
+但它有个缺点：
+
 - `samesite` 会被到 2017 年左右的旧版本浏览器忽略（不兼容）。
 
 **因此，如果我们仅依靠 `samesite` 提供保护，那么在旧版本的浏览器上将很容易受到攻击。**
@@ -299,7 +306,7 @@ function getCookie(name) {
 
 ### setCookie(name, value, options)
 
-将 cookie `name` 设置为具有默认值 `path=/`（可以修改以添加其他默认值）和给定值 `value`：
+将 cookie 的 `name` 设置为具有默认值 `path=/`（可以修改以添加其他默认值）和给定值 `value`：
 
 ```js run
 function setCookie(name, value, options = {}) {
@@ -404,7 +411,7 @@ function deleteCookie(name) {
 
 2. 如果一个网站想要为所有人设置跟踪的 cookie。
 
-    为了合法地这样做，网站为每个新用户显示一个模态“初始屏幕”，并要求他们同意设置 cookie。之后网站就可以设置 cookie，并可以让用户看到网站内容了。不过，这可能会使新用户感到反感。没有人喜欢看到“必须点击”的模态初始屏幕而不是网站内容。但是 GDPR 要求必须得到用户明确地准许。
+    为了合法地这样做，网站为每个新用户显示一个“初始屏幕”弹窗，并要求他们同意设置 cookie。之后网站就可以设置 cookie，并可以让用户看到网站内容了。不过，这可能会使新用户感到反感。没有人喜欢看到“必须点击”的初始屏幕弹窗而不是网站内容。但是 GDPR 要求必须得到用户明确地准许。
 
 
 GDPR 不仅涉及 cookie，还涉及其他与隐私相关的问题，但这超出了我们的讨论范围。
@@ -415,14 +422,14 @@ GDPR 不仅涉及 cookie，还涉及其他与隐私相关的问题，但这超�
 `document.cookie` 提供了对 cookie 的访问
 - 写入操作只会修改其中提到的 cookie。
 - name/value 必须被编码。
-- 一个 cookie 最大为 4KB，每个网站最多有 20+ 个左右的 cookie（具体取决于浏览器）。
+- 一个 cookie 最大不能超过 4KB。每个域下最多允许有 20+ 个左右的 cookie（具体取决于浏览器）。
 
 Cookie 选项：
 - `path=/`，默认为当前路径，使 cookie 仅在该路径下可见。
-- `domain=site.com`，默认 cookie 仅在当前域下可见，如果显式设置了域，可以使 cookie 在子域下也可见。
-- `expires` 或 `max-age` 设置 cookie 过期时间，如果没有设置，则当浏览器关闭时 cookie 就失效了。
+- `domain=site.com`，默认 cookie 仅在当前域下可见。如果显式地设置了域，可以使 cookie 在子域下也可见。
+- `expires` 或 `max-age` 设定了 cookie 过期时间。如果没有设置，则当浏览器关闭时 cookie 就会失效。
 - `secure` 使 cookie 仅在 HTTPS 下有效。
-- `samesite`，如果请求来自外部网站，禁止浏览器发送 cookie，这有助于防止 XSRF 攻击。
+- `samesite`，如果请求来自外部网站，禁止浏览器发送 cookie。这有助于防止 XSRF 攻击。
 
 另外：
 - 浏览器可能会禁用第三方 cookie，例如 Safari 浏览器默认禁止所有第三方 cookie。

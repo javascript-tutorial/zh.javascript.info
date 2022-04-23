@@ -64,6 +64,7 @@ delete localStorage.test;
 这是历史原因造成的，并且大多数情况下都可行，但通常不建议这样做，因为：
 
 1. 如果键是由用户生成的，那么它可以是任何内容，例如 `length` 或 `toString`，也可以是 `localStorage` 的另一种内建方法。在这种情况下，`getItem/setItem` 可以正常工作，而类对象访问的方式则会失败：
+
     ```js run
     let key = 'length';
     localStorage[key] = 5; // Error，无法对 length 进行赋值
@@ -119,7 +120,6 @@ for(let key of keys) {
 
 后者有效，因为 `Object.keys` 只返回属于对象的键，会忽略原型上的。
 
-
 ## 仅字符串
 
 请注意，键和值都必须是字符串。
@@ -147,7 +147,6 @@ alert( user.name ); // John
 // 为 JSON.stringify 增加了格式设置选项，以使对象看起来更美观
 alert( JSON.stringify(localStorage, null, 2) );
 ```
-
 
 ## sessionStorage
 
@@ -180,7 +179,7 @@ alert( sessionStorage.getItem('test') ); // after refresh: 1
 
 ## Storage 事件
 
-当 `localStorage` 或 `sessionStorage` 中的数据更新后，[storage](https://www.w3.org/TR/webstorage/#the-storage-event) 事件就会触发，它具有以下属性：
+当 `localStorage` 或 `sessionStorage` 中的数据更新后，[storage](https://html.spec.whatwg.org/multipage/webstorage.html#the-storageevent-interface) 事件就会触发，它具有以下属性：
 
 - `key` —— 发生更改的数据的 `key`（如果调用的是 `.clear()` 方法，则为 `null`）。
 - `oldValue` —— 旧值（如果是新增数据，则为 `null`）。
@@ -221,6 +220,7 @@ localStorage.setItem('now', Date.now());
 ## 总结
 
 Web 存储对象 `localStorage` 和 `sessionStorage` 允许我们在浏览器中保存键/值对。
+
 - `key` 和 `value` 都必须为字符串。
 - 存储大小限制为 5MB+，具体取决于浏览器。
 - 它们不会过期。

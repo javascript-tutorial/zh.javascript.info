@@ -151,7 +151,7 @@ xhr.open('GET', url); // https://google.com/search?q=test+me%21
 - `"text"` —— 响应格式为字符串，
 - `"arraybuffer"` —— 响应格式为 `ArrayBuffer`（对于二进制数据，请参见 <info:arraybuffer-binary-arrays>），
 - `"blob"` —— 响应格式为 `Blob`（对于二进制数据，请参见 <info:blob>），
-- `"document"` —— 响应格式为 XML document（可以使用 XPath 和其他 XML 方法），
+- `"document"` —— 响应格式为 XML document（可以使用 XPath 和其他 XML 方法）或 HTML document（基于接收数据的 MIME 类型）
 - `"json"` —— 响应格式为 JSON（自动解析）。
 
 例如，我们以 JSON 格式获取响应：
@@ -269,7 +269,7 @@ HTTP-header 有三种方法：
 
     ```warn header="Header 的限制"
     一些 header 是由浏览器专门管理的，例如 `Referer` 和 `Host`。
-    完整列表请见 [规范](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method)。
+    完整列表请见 [规范](https://xhr.spec.whatwg.org/#the-setrequestheader()-method)。
 
     为了用户安全和请求的正确性，`XMLHttpRequest` 不允许更改它们。
     ```
@@ -509,7 +509,7 @@ xhr.onerror = function() {
 };
 ```
 
-实际上还有很多事件，在 [现代规范](http://www.w3.org/TR/XMLHttpRequest/#events) 中有详细列表（按生命周期排序）：
+实际上还有很多事件，在 [现代规范](https://xhr.spec.whatwg.org/#events) 中有详细列表（按生命周期排序）：
 
 - `loadstart` —— 请求开始。
 - `progress` —— 一个响应数据包到达，此时整个 response body 都在 `response` 中。

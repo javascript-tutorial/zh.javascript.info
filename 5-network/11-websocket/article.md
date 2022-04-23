@@ -194,7 +194,7 @@ socket.onmessage = (event) => {
 
 我们可以反复地调用 `socket.send(data)`。但是数据将会缓冲（储存）在内存中，并且只能在网速允许的情况下尽快将数据发送出去。
 
-`socket.bufferedAmount` 属性储存目前已缓冲的字节数，等待通过网络发送。
+`socket.bufferedAmount` 属性储存了目前已缓冲的字节数，等待通过网络发送。
 
 我们可以检查它以查看 socket 是否真的可用于传输。
 
