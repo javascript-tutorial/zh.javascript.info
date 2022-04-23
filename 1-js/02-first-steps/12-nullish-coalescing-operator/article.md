@@ -4,7 +4,7 @@
 
 空值合并运算符（nullish coalescing operator）的写法为两个问号 `??`。
 
-由于它对待 `null` 和 `undefined` 的方式类似，所以在本文中我们将使用一个特殊的术语对其进行表示。我们将值既不是 `null` 也不是 `undefined` 的表达式称为“已定义的（defined）”。
+由于它对待 `null` 和 `undefined` 的方式类似，所以在本文中我们将使用一个特殊的术语对其进行表示。为简洁起见，当一个值既不是 `null` 也不是 `undefined` 时，我们将其称为“已定义的（defined）”。
 
 `a ?? b` 的结果是：
 - 如果 `a` 是已定义的，则结果为 `a`，
@@ -22,9 +22,9 @@ result = (a !== null && a !== undefined) ? a : b;
 
 现在你应该清楚了 `??` 的作用。让我们来看看它的使用场景吧。
 
-通常 `??` 的使用场景是，为可能是未定义的变量提供一个默认值。
+`??` 的常见使用场景是提供默认值。
 
-例如，在这里，如果 `user` 是已定义的则显示 `user`，否则显示 `匿名`：
+例如，在这里，如果 `user` 的值不为 `null/undefined` 则显示 `user`，否则显示 `匿名`：
 
 ```js run
 let user;
@@ -42,9 +42,9 @@ alert(user ?? "匿名"); // John（user 已定义）
 
 我们还可以使用 `??` 序列从一系列的值中选择出第一个非 `null/undefined` 的值。
 
-假设我们在变量 `firstName`、`lastName` 或 `nickName` 中存储着一个用户的数据。如果用户决定不输入值，则所有这些变量的值都可能是未定义的。
+假设我们在变量 `firstName`、`lastName` 或 `nickName` 中存储着一个用户的数据。如果用户决定不填写相应的值，则所有这些变量的值都可能是未定义的。
 
-我们想使用这些变量之一显示用户名，如果这些变量的值都是未定义的，则显示 "Anonymous"。
+我们想使用这些变量之一显示用户名，如果这些变量的值都是 `null/undefined`，则显示 "匿名"。
 
 让我们使用 `??` 运算符来实现这一需求：
 
@@ -55,7 +55,7 @@ let nickName = "Supercoder";
 
 // 显示第一个已定义的值：
 *!*
-alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
+alert(firstName ?? lastName ?? nickName ?? "匿名"); // Supercoder
 */!*
 ```
 
@@ -110,7 +110,7 @@ alert(height ?? 100); // 0
 
 这意味着，就像 `||` 一样，空值合并运算符在 `=` 和 `?` 运算前计算，但在大多数其他运算（例如 `+` 和 `*`）之后计算。
 
-因此，如果我们需要在还有其他运算符的表达式中使用 `??` 进行取值，需要考虑加括号：
+所以我们可能需要在这样的表达式中添加括号：
 
 ```js run
 let height = null;
@@ -128,7 +128,7 @@ alert(area); // 5000
 // 没有括号
 let area = height ?? 100 * width ?? 50;
 
-// ……与下面这行代码的计算方式相同（应该不是我们所期望的）：
+// ……将这样计算（不符合我们的期望）：
 let area = height ?? (100 * width) ?? 50;
 ```
 
