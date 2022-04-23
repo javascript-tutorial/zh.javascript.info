@@ -69,10 +69,10 @@ The function execution "pauses" at the line `(*)` and resumes when the promise s
 
 Let's emphasize: `await` literally suspends the function execution until the promise settles, and then resumes it with the promise result. That doesn't cost any CPU resources, because the JavaScript engine can do other jobs in the meantime: execute other scripts, handle events, etc.
 
-It's just a more elegant syntax of getting the promise result than `promise.then`, easier to read and write.
+It's just a more elegant syntax of getting the promise result than `promise.then`. And, it's easier to read and write.
 
 ````warn header="Can't use `await` in regular functions"
-If we try to use `await` in non-async function, there would be a syntax error:
+If we try to use `await` in a non-async function, there would be a syntax error:
 
 ```js run
 function f() {
@@ -83,7 +83,7 @@ function f() {
 }
 ```
 
-We may get this error if we forget to put `async` before a function. As said, `await` only works inside an `async` function.
+We may get this error if we forget to put `async` before a function. As stated earlier, `await` only works inside an `async` function.
 ````
 
 Let's take the `showAvatar()` example from the chapter <info:promise-chaining> and rewrite it using `async/await`:
@@ -121,16 +121,22 @@ showAvatar();
 
 Pretty clean and easy to read, right? Much better than before.
 
-````smart header="`await` won't work in the top-level code"
-People who are just starting to use `await` tend to forget the fact that we can't use `await` in top-level code. For example, this will not work:
+````smart header="Modern browsers allow top-level `await` in modules"
+In modern browsers, `await` on top level works just fine, when we're inside a module. We'll cover modules in article <info:modules-intro>.
 
-```js run
-// syntax error in top-level code
+For instance:
+
+```js run module
+// we assume this code runs at top level, inside a module
 let response = await fetch('/article/promise-chaining/user.json');
 let user = await response.json();
+
+console.log(user);
 ```
 
-But we can wrap it into an anonymous async function, like this:
+If we're not using modules, or [older browsers](https://caniuse.com/mdn-javascript_operators_await_top_level) must be supported, there's a universal recipe: wrapping into an anonymous async function.
+
+Like this:
 
 ```js
 (async () => {
@@ -139,6 +145,7 @@ But we can wrap it into an anonymous async function, like this:
   ...
 })();
 ```
+
 ````
 
 ````smart header="`await` accepts \"thenables\""
@@ -184,7 +191,7 @@ class Waiter {
 
 new Waiter()
   .wait()
-  .then(alert); // 1
+  .then(alert); // 1 (this is the same as (result => alert(result)))
 ```
 The meaning is the same: it ensures that the returned value is a promise and enables `await`.
 
@@ -296,7 +303,7 @@ The `async` keyword before a function has two effects:
 
 The `await` keyword before a promise makes JavaScript wait until that promise settles, and then:
 
-1. If it's an error, the exception is generated — same as if `throw error` were called at that very place.
+1. If it's an error, an exception is generated — same as if `throw error` were called at that very place.
 2. Otherwise, it returns the result.
 
 Together they provide a great framework to write asynchronous code that is easy to both read and write.

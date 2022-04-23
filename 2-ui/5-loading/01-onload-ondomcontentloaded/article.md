@@ -2,7 +2,7 @@
 
 The lifecycle of an HTML page has three important events:
 
-- `DOMContentLoaded` -- the browser fully loaded HTML, and the DOM tree is built, but external resources like pictures `<img>` and stylesheets may not yet have loaded.  
+- `DOMContentLoaded` -- the browser fully loaded HTML, and the DOM tree is built, but external resources like pictures `<img>` and stylesheets may not yet have loaded.
 - `load` -- not only HTML is loaded, but also all the external resources: images, styles etc.
 - `beforeunload/unload` -- the user is leaving the page.
 
@@ -45,7 +45,7 @@ For instance:
 <img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
 ```
 
-In the example the `DOMContentLoaded` handler runs when the document is loaded, so it can see all the elements, including `<img>` below.
+In the example, the `DOMContentLoaded` handler runs when the document is loaded, so it can see all the elements, including `<img>` below.
 
 But it doesn't wait for the image to load. So `alert` shows zero sizes.
 
@@ -114,7 +114,7 @@ The example below correctly shows image sizes, because `window.onload` waits for
 
 ```html run height=200 refresh
 <script>
-  window.onload = function() { // same as window.addEventListener('load', (event) => {
+  window.onload = function() { // can also use window.addEventListener('load', (event) => {
     alert('Page loaded');
 
     // image is loaded at this time
@@ -184,6 +184,26 @@ window.onbeforeunload = function() {
 ```
 
 The behavior was changed, because some webmasters abused this event handler by showing misleading and annoying messages. So right now old browsers still may show it as a message, but aside of that -- there's no way to customize the message shown to the user.
+
+````warn header="The `event.preventDefault()` doesn't work from a `beforeunload` handler"
+That may sound weird, but most browsers ignore `event.preventDefault()`.
+
+Which means, following code may not work:
+```js run
+window.addEventListener("beforeunload", (event) => {
+  // doesn't work, so this event handler doesn't do anything
+	event.preventDefault();
+});
+```
+
+Instead, in such handlers one should set `event.returnValue` to a string to get the result similar to the code above:
+```js run
+window.addEventListener("beforeunload", (event) => {
+  // works, same as returning from window.onbeforeunload
+	event.returnValue = "There are unsaved changes. Leave now?";
+});
+```
+````
 
 ## readyState
 

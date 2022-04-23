@@ -1,6 +1,6 @@
 # Logical operators
 
-There are three logical operators in JavaScript: `||` (OR), `&&` (AND), `!` (NOT).
+There are four logical operators in JavaScript: `||` (OR), `&&` (AND), `!` (NOT), `??` (Nullish Coalescing). Here we cover the first three, the `??` operator is in the next article.
 
 Although they are called "logical", they can be applied to values of any type, not only boolean. Their result can also be of any type.
 
@@ -64,7 +64,7 @@ if (hour < 10 || hour > 18 || isWeekend) {
 }
 ```
 
-## OR "||" finds the first truthy value
+## OR "||" finds the first truthy value [#or-finds-the-first-truthy-value]
 
 The logic described above is somewhat classical. Now, let's bring in the "extra" features of JavaScript.
 
@@ -123,7 +123,7 @@ This leads to some interesting usage compared to a "pure, classical, boolean-onl
 
     It means that `||` processes its arguments until the first truthy value is reached, and then the value is returned immediately, without even touching the other argument.
 
-    That importance of this feature becomes obvious if an operand isn't just a value, but an expression with a side effect, such as a variable assignment or a function call.
+    The importance of this feature becomes obvious if an operand isn't just a value, but an expression with a side effect, such as a variable assignment or a function call.
 
     In the example below, only the second message is printed:
 

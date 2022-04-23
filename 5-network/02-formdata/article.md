@@ -47,7 +47,7 @@ As you can see, that's almost one-liner:
 </script>
 ```
 
-In this example, the server code is not presented, as it's beyound our scope. The server accepts the POST request and replies "User saved".
+In this example, the server code is not presented, as it's beyond our scope. The server accepts the POST request and replies "User saved".
 
 ## FormData Methods
 
@@ -75,7 +75,7 @@ formData.append('key2', 'value2');
 
 // List key/value pairs
 for(let [name, value] of formData) {
-  alert(`${name} = ${value}`); // key1=value1, then key2=value2
+  alert(`${name} = ${value}`); // key1 = value1, then key2 = value2
 }
 ```
 
@@ -168,7 +168,7 @@ The server reads form data and the file, as if it were a regular form submission
 
 [FormData](https://xhr.spec.whatwg.org/#interface-formdata) objects are used to capture HTML form and submit it using `fetch` or another network method.
 
-We can either create `new FormData(form)` from an HTML form, or create a object without a form at all, and then append fields with methods:
+We can either create `new FormData(form)` from an HTML form, or create an object without a form at all, and then append fields with methods:
 
 - `formData.append(name, value)`
 - `formData.append(name, blob, fileName)`

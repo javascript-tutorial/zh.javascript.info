@@ -64,6 +64,7 @@ delete localStorage.test;
 That's allowed for historical reasons, and mostly works, but generally not recommended, because:
 
 1. If the key is user-generated, it can be anything, like `length` or `toString`, or another built-in method of `localStorage`. In that case `getItem/setItem` work fine, while object-like access fails:
+
     ```js run
     let key = 'length';
     localStorage[key] = 5; // Error, can't assign length
@@ -119,7 +120,6 @@ for(let key of keys) {
 
 The latter works, because `Object.keys` only returns the keys that belong to the object, ignoring the prototype.
 
-
 ## Strings only
 
 Please note that both key and value must be strings.
@@ -127,17 +127,17 @@ Please note that both key and value must be strings.
 If were any other type, like a number, or an object, it gets converted to string automatically:
 
 ```js run
-sessionStorage.user = {name: "John"};
-alert(sessionStorage.user); // [object Object]
+localStorage.user = {name: "John"};
+alert(localStorage.user); // [object Object]
 ```
 
 We can use `JSON` to store objects though:
 
 ```js run
-sessionStorage.user = JSON.stringify({name: "John"});
+localStorage.user = JSON.stringify({name: "John"});
 
 // sometime later
-let user = JSON.parse( sessionStorage.user );
+let user = JSON.parse( localStorage.user );
 alert( user.name ); // John
 ```
 
@@ -147,7 +147,6 @@ Also it is possible to stringify the whole storage object, e.g. for debugging pu
 // added formatting options to JSON.stringify to make the object look nicer
 alert( JSON.stringify(localStorage, null, 2) );
 ```
-
 
 ## sessionStorage
 
@@ -180,7 +179,7 @@ That's exactly because `sessionStorage` is bound not only to the origin, but als
 
 ## Storage event
 
-When the data gets updated in `localStorage` or `sessionStorage`, [storage](https://www.w3.org/TR/webstorage/#the-storage-event) event triggers, with properties:
+When the data gets updated in `localStorage` or `sessionStorage`, [storage](https://html.spec.whatwg.org/multipage/webstorage.html#the-storageevent-interface) event triggers, with properties:
 
 - `key` – the key that was changed (`null` if `.clear()` is called).
 - `oldValue` – the old value (`null` if the key is newly added).
@@ -202,7 +201,7 @@ If both windows are listening for `window.onstorage`, then each one will react o
 
 ```js run
 // triggers on updates made to the same storage from other documents
-window.onstorage = event => { // same as window.addEventListener('storage', () => {
+window.onstorage = event => { // can also use window.addEventListener('storage', event => {
   if (event.key != 'now') return;
   alert(event.key + ':' + event.newValue + " at " + event.url);
 };
@@ -221,6 +220,7 @@ Modern browsers also support [Broadcast channel API](mdn:/api/Broadcast_Channel_
 ## Summary
 
 Web storage objects `localStorage` and `sessionStorage` allow to store key/value in the browser.
+
 - Both `key` and `value` must be strings.
 - The limit is 5mb+, depends on the browser.
 - They do not expire.
