@@ -291,7 +291,7 @@ if (age < 18) {
   welcome();               // \   (运行)
 */!*
                            //  |
-  function welcome() {     //  |  
+  function welcome() {     //  |
     alert("Hello!");       //  |  函数声明在声明它的代码块内任意位置都可用
   }                        //  |  
                            //  |

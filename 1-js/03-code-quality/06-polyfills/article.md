@@ -42,7 +42,7 @@ height = (height !== undefined && height !== null) ? height : 100;
 
 说到名字，[Babel](https://babeljs.io) 是最著名的转译器之一。
 
-现代项目构建系统，例如 [webpack](http://webpack.github.io/)，提供了在每次代码更改时自动运行转译器的方法，因此很容易将代码转译集成到开发过程中。
+现代项目构建系统，例如 [webpack](https://webpack.js.org/)，提供了在每次代码更改时自动运行转译器的方法，因此很容易将代码转译集成到开发过程中。
 
 ## 垫片（Polyfills）
 
@@ -82,7 +82,7 @@ JavaScript 是一种高度动态的语言，脚本可以添加/修改任何函�
 
 只是不要忘记使用转译器（如果使用现代语法或运算符）和 polyfill（添加可能缺少的特性）。它们将确保代码能正常工作。
 
-例如，以后熟悉了 JavaScript，你就可以搭建一个基于 [webpack](http://webpack.github.io/) 和 [babel-loader](https://github.com/babel/babel-loader) 插件的代码构建系统。
+例如，以后熟悉了 JavaScript，你就可以搭建一个基于 [webpack](https://webpack.js.org/) 和 [babel-loader](https://github.com/babel/babel-loader) 插件的代码构建系统。
 
 展示对各种特征的当前支持情况的工具：
 - <https://kangax.github.io/compat-table/es6/> —— 对于原生 JavaScript。

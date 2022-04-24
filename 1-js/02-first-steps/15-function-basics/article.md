@@ -225,6 +225,38 @@ function showMessage(from, text = anotherFunction()) {
 如果没传递参数 `text`，那么 `anotherFunction()` 就会被调用。
 ```
 
+````smart header="在 JavaScript 老代码中的默认参数"
+几年前，JavaScript 不支持默认参数的语法。所以人们使用其他方式来设置默认参数。
+
+如今，我们会在旧代码中看到它们。
+
+例如，显式地检查 `undefined`：
+
+```js
+function showMessage(from, text) {
+*!*
+  if (text === undefined) {
+    text = 'no text given';
+  }
+*/!*
+
+  alert( from + ": " + text );
+}
+```
+
+……或者使用 `||` 运算符：
+
+```js
+function showMessage(from, text) {
+  // 如果 text 的值为假值，则分配默认值
+  // 这样赋值 text == "" 与 text 无值相同
+  text = text || 'no text given';
+  ...
+}
+```
+````
+
+
 ### 后备的默认参数
 
 有些时候，将参数默认值的设置放在函数执行（相较更后期）而不是函数声明时，也行得通。
