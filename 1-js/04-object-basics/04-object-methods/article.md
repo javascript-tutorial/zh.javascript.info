@@ -51,7 +51,7 @@ let user = {
 // 首先，声明函数
 function sayHi() {
   alert("Hello!");
-};
+}
 
 // 然后将其作为一个方法添加
 user.sayHi = sayHi;

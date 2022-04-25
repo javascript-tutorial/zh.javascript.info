@@ -32,7 +32,7 @@ alert(user.address.street); // Error!
 let html = document.querySelector('.elem').innerHTML; // 如果 document.querySelector('.elem') 的结果为 null，则会出现错误
 ```
 
-同样，如果该元素不存在，则访问 `null` 的 `.innerHTML` 时会出错。在某些情况下，当元素的缺失是没问题的时候，我们希望避免出现这种错误，而是接受 `html = null` 作为结果。
+同样，如果该元素不存在，则访问 `null` 的 `.innerHTML` 属性时会报错。在某些情况下，当元素的缺失是没问题的时候，我们希望避免出现这种错误，而是接受 `html = null` 作为结果。
 
 我们如何实现这一点呢？
 
@@ -44,11 +44,19 @@ let user = {};
 alert(user.address ? user.address.street : undefined);
 ```
 
-这样可以，这里就不会出现错误了……但是不够优雅。就像你所看到的，`"user.address"` 在代码中出现了两次。对于嵌套层次更深的属性就会出现更多次这样的重复，这就是问题了。
+这样可以，这里就不会出现错误了……但是不够优雅。就像你所看到的，`"user.address"` 在代码中出现了两次。
 
-例如，让我们尝试获取 `user.address.street.name`。
+我们看一个以相同方式获取 `document.querySelector` 的例子：
 
-我们既需要检查 `user.address`，又需要检查 `user.address.street`：
+```js run
+let html = document.querySelector('.elem') ? document.querySelector('.elem').innerHTML : null;
+```
+
+我们可以看到用于进行元素搜索的 `document.querySelector('.elem')` 在这里实际上被调用了两次。这样不优雅。
+
+对于嵌套层次更深的属性，代码会变得更丑，因为需要更多的重复。
+
+例如，让我们以相同的方式尝试获取 `user.address.street.name`。
 
 ```js
 let user = {}; // user 没有 address 属性
@@ -58,7 +66,7 @@ alert(user.address ? user.address.street ? user.address.street.name : null : nul
 
 这样就太扯淡了，并且这可能导致写出来的代码很难让别人理解。
 
-甚至我们可以先忽略这个问题，因为我们有一种更好的实现方式，就是使用 `&&` 运算符：
+这里有一种更好的实现方式，就是使用 `&&` 运算符：
 
 ```js run
 let user = {}; // user 没有 address 属性
@@ -92,6 +100,12 @@ alert( user?.address?.street ); // undefined（不报错）
 
 代码简洁明了，也不用重复写好几遍属性名。
 
+这里是一个结合 `document.querySelector` 使用的示例：
+
+```js run
+let html = document.querySelector('.elem')?.innerHTML; // 如果没有符合的元素，则为 undefined
+```
+
 即使 对象 `user` 不存在，使用 `user?.address` 来读取地址也没问题：
 
 ```js run
@@ -110,7 +124,7 @@ alert( user?.address.street ); // undefined
 
 例如，如果根据我们的代码逻辑，`user` 对象必须存在，但 `address` 是可选的，那么我们应该这样写 `user.address?.street`，而不是这样 `user?.address?.street`。
 
-所以，如果 `user` 恰巧因为失误变为 undefined，我们会看到一个编程错误并修复它。否则，代码中的错误在不恰当的地方被消除了，这会导致调试更加困难。
+那么，如果 `user` 恰巧为 undefined，我们会看到一个编程错误并修复它。否则，如果我们滥用 `?.`，会导致代码中的错误在不应该被消除的地方消除了，这会导致调试更加困难。
 ```
 
 ````warn header="`?.` 前的变量必须已声明"
@@ -127,7 +141,7 @@ user?.address;
 
 正如前面所说的，如果 `?.` 左边部分不存在，就会立即停止运算（“短路效应”）。
 
-所以，如果后面有任何函数调用或者副作用，它们均不会执行。
+因此，如果在 `?.` 的右侧有任何进一步的函数调用或操作，它们均不会执行。
 
 例如：
 
@@ -135,7 +149,7 @@ user?.address;
 let user = null;
 let x = 0;
 
-user?.sayHi(x++); // 没有 "sayHi"，因此代码执行没有触达 x++
+user?.sayHi(x++); // 没有 "user"，因此代码执行没有到达 sayHi 调用和 x++
 
 alert(x); // 0，值没有增加
 ```
@@ -162,7 +176,7 @@ userAdmin.admin?.(); // I am admin
 */!*
 
 *!*
-userGuest.admin?.(); // 啥都没有（没有这样的方法）
+userGuest.admin?.(); // 啥都没发生（没有这样的方法）
 */!*
 ```
 
@@ -199,10 +213,9 @@ delete user?.name; // 如果 user 存在，则删除 user.name
 let user = null;
 
 user?.name = "John"; // Error，不起作用
-// 因为它在计算的是 undefined = "John"
+// 因为它在计算的是：undefined = "John"
 ```
 
-这还不是那么智能。
 ````
 
 ## 总结
@@ -217,4 +230,4 @@ user?.name = "John"; // Error，不起作用
 
 `?.` 链使我们能够安全地访问嵌套属性。
 
-但是，我们应该谨慎地使用 `?.`，仅在当左边部分不存在也没问题的情况下使用为宜。以保证在代码中有编程上的错误出现时，也不会对我们隐藏。
+但是，我们应该谨慎地使用 `?.`，根据我们的代码逻辑，仅在当左侧部分不存在也可接受的情况下使用为宜。以保证在代码中有编程上的错误出现时，也不会对我们隐藏。
