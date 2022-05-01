@@ -195,7 +195,7 @@ let response = fetch(protectedUrl, {
 - **`method`** —— HTTP 方法，例如 `POST`，
 - **`body`** —— request body，其中之一：
   - 字符串（例如 JSON 编码的），
-  - `FormData` 对象，以 `form/multipart` 形式发送数据，
+  - `FormData` 对象，以 `multipart/form-data` 形式发送数据，
   - `Blob`/`BufferSource` 发送二进制数据，
   - [URLSearchParams](info:url)，以 `x-www-form-urlencoded` 编码形式发送数据，很少使用。
 
@@ -304,7 +304,7 @@ fetch(url, options)
 获取 response body 的方法：
 - **`response.text()`** —— 读取 response，并以文本形式返回 response，
 - **`response.json()`** —— 将 response 解析为 JSON 对象形式，
-- **`response.formData()`** —— 以 `FormData` 对象（form/multipart 编码，参见下一章）的形式返回 response，
+- **`response.formData()`** —— 以 `FormData` 对象（`multipart/form-data` 编码，参见下一章）的形式返回 response，
 - **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
 - **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（低级别的二进制数据）形式返回 response。
 

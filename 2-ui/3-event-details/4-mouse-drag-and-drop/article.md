@@ -30,7 +30,7 @@ ball.onmousedown = function(event) {
 
   // 将其从当前父元素中直接移动到 body 中
   // 以使其定位是相对于 body 的
-  document.body.append(ball);  
+  document.body.append(ball);
 
   // 现在球的中心在 (pageX, pageY) 坐标上
   function moveAt(pageX, pageY) {
@@ -219,7 +219,7 @@ In action (inside `<iframe>`):
 
 那么，该怎么办？
 
-有一个叫做 `document.elementFromPoint(clientX, clientY)` 的方法。它会返回在给定的窗口相对坐标处的嵌套的最深的元素（如果给定的坐标在窗口外，则返回 `null`）。
+有一个叫做 `document.elementFromPoint(clientX, clientY)` 的方法。它会返回在给定的窗口相对坐标处的嵌套的最深的元素（如果给定的坐标在窗口外，则返回 `null`）。如果同一坐标上有多个重叠的元素，则返回最上面的元素。
 
 我们可以在我们的任何鼠标事件处理程序中使用它，以检测鼠标指针下的潜在的 "droppable" 的元素，就像这样：
 

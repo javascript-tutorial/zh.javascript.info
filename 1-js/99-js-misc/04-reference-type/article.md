@@ -59,7 +59,7 @@ user.hi();
 let user = {
   name: "John",
   hi() { alert(this.name); }
-}
+};
 
 *!*
 // 把获取方法和调用方法拆成两行

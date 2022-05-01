@@ -155,7 +155,7 @@ alert(ageElems[0]); // [object HTMLInputElement]
 
 ### input 和 textarea
 
-我们可以通过 `input.value`（字符串）或 `input.checked`（布尔值）来访问复选框（checkbox）中的它们的 `value`。
+我们可以通过 `input.value`（字符串）或 `input.checked`（布尔值）来访问复选框（checkbox）和单选按钮（radio button）中的 `value`。
 
 像这样：
 
