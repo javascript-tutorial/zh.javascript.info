@@ -92,6 +92,38 @@ let fruits = [
 因为每一行都是相似的，所以这种以“逗号结尾”的方式使得插入/移除项变得更加简单。
 ````
 
+## 使用 "at" 获取最后一个元素
+
+[recent browser="new"]
+
+假设我们想要数组的最后一个元素。
+
+一些编程语言允许我们使用负数索引来实现这一点，例如 `fruits[-1]`。
+
+但在 JavaScript 中这行不通。结果将是 `undefined`，因为方括号中的索引是被按照其字面意思处理的。
+
+我们可以显式地计算最后一个元素的索引，然后访问它：`fruits[fruits.length - 1]`。
+
+```js run
+let fruits = ["Apple", "Orange", "Plum"];
+
+alert( fruits[fruits.length-1] ); // Plum
+```
+
+有点麻烦，不是吗？我们需要写两次变量名。
+
+幸运的是，这里有一个更简短的语法 `fruits.at(-1)`：
+
+```js run
+let fruits = ["Apple", "Orange", "Plum"];
+
+// 与 fruits[fruits.length-1] 相同
+alert( fruits.at(-1) ); // Plum
+```
+
+换句话说，`arr.at(i)`：
+- 如果 `i >= 0`，则与 `arr[i]` 完全相同。
+- 对于 `i` 为负数的情况，它则从数组的尾部向前数。
 
 ## pop/push, shift/unshift 方法
 
@@ -137,6 +169,8 @@ JavaScript 中的数组既可以用作队列，也可以用作栈。它们允许
 
     alert( fruits ); // Apple, Orange
     ```
+
+    `fruits.pop()` 和 `fruits.at(-1)` 都返回数组的最后一个元素，但 `fruits.pop()` 同时也删除了数组的最后一个元素，进而修改了原数组。
 
 `push`
 : 在数组末端添加元素：
@@ -439,7 +473,7 @@ JavaScript 中的数组与其它一些编程语言的不同，不应该使用 `=
 - 如果 `==` 左右两个参数之中有一个参数是对象，另一个参数是原始类型，那么该对象将会被转换为原始类型，转换规则如 <info:object-toprimitive> 一章所述。
 - ……`null` 和 `undefined` 相等 `==`，且各自不等于任何其他的值。
 
-严格比较 `===` 更简单，因为它不会进行类型转换。 
+严格比较 `===` 更简单，因为它不会进行类型转换。
 
 所以，如果我们使用 `==` 来比较数组，除非我们比较的是两个引用同一数组的变量，否则它们永远不相等。
 

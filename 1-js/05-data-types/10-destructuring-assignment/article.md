@@ -69,6 +69,7 @@ alert( title ); // Consul
 ````
 
 ````smart header="等号右侧可以是任何可迭代对象"
+
 ……实际上，我们可以将其与任何可迭代对象一起使用，而不仅限于数组：
 
 ```js
@@ -77,6 +78,7 @@ let [one, two, three] = new Set([1, 2, 3]);
 ```
 这行得通，因为在内部，解构赋值是通过迭代右侧的值来完成工作的。这是一种用于对在 `=` 右侧的值上调用 `for..of` 并进行赋值的操作的语法糖。
 ````
+
 
 ````smart header="赋值给等号左侧的任何内容"
 我们可以在等号左侧使用任何“可以被赋值的”东西。
@@ -89,6 +91,7 @@ let user = {};
 alert(user.name); // John
 alert(user.surname); // Smith
 ```
+
 ````
 
 ````smart header="与 .entries() 方法进行循环操作"
@@ -426,7 +429,7 @@ let options = {
     height: 200
   },
   items: ["Cake", "Donut"],
-  extra: true   
+  extra: true
 };
 
 // 为了清晰起见，解构赋值语句被写成多行的形式
