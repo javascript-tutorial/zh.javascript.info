@@ -211,19 +211,14 @@ let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'))
 
 `Blob` 构造器允许从几乎任何东西创建 blob，包括任何 `BufferSource`。
 
-但是，如果我们需要执行低级别的处理时，我们可以使用 `FileReader` 从中获取最低级别的 `ArrayBuffer`：
+但是，如果我们需要执行低级别的处理时，我们可以从 `blob.arrayBuffer()` 中获取最低级别的 `ArrayBuffer`：
 
 ```js
 // 从 bolb 获取 arrayBuffer
-let fileReader = new FileReader();
+const bufferPromise = await blob.arrayBuffer();
 
-*!*
-fileReader.readAsArrayBuffer(blob);
-*/!*
-
-fileReader.onload = function(event) {
-  let arrayBuffer = fileReader.result;
-};
+// 或
+blob.arrayBuffer().then(buffer => /* 处理 ArrayBuffer */);
 ```
 
 ## Blob 转换为 Stream

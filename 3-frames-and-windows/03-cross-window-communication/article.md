@@ -116,6 +116,13 @@ document.domain = 'site.com';
 
 这样就可以了。现在它们可以无限制地进行交互了。但是再强调一遍，这仅适用于具有相同二级域的页面。
 
+```warn header="已弃用，但仍有效"
+`document.domain` 属性正在被从 [规范](https://html.spec.whatwg.org/multipage/origin.html#relaxing-the-same-origin-restriction) 中删除。跨窗口通信（下面将很快解释到）是建议的替代方案。
+
+也就是说，到目前为止，所有浏览器都支持它。并且未来也将继续支持它，而不会导致使用了 `document.domain` 的旧代码出现问题。
+```
+
+
 ## Iframe：错误文档陷阱
 
 当一个 iframe 来自同一个源时，我们可能会访问其 `document`，但是这里有一个陷阱。它与跨源无关，但你一定要知道。
