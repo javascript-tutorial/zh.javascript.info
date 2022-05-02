@@ -1,50 +1,50 @@
-The console output is: 1 7 3 5 2 6 4.
+输出结果为：1 7 3 5 2 6 4。
 
-The task is quite simple, we just need to know how microtask and macrotask queues work.
+这道题其实很简单，我们只需要知道微任务和宏任务队列是如何工作的。
 
-Let's see what's going on, step by step.
+让我们一起一步一步地看看发生了什么。
 
 ```js
 console.log(1);
-// The first line executes immediately, it outputs `1`.
-// Macrotask and microtask queues are empty, as of now.
+// 第一行立即执行，它输出 `1`。
+// 到目前为止，宏任务队列和微任务队列都是空的。
 
 setTimeout(() => console.log(2));
-// `setTimeout` appends the callback to the macrotask queue.
-// - macrotask queue content:
+// `setTimeout` 将回调添加到宏任务队列。
+// - 宏任务队列中的内容：
 //   `console.log(2)`
 
 Promise.resolve().then(() => console.log(3));
-// The callback is appended to the microtask queue.
-// - microtask queue content:
+// 将回调添加到微任务队列。
+// - 微任务队列中的内容：
 //   `console.log(3)`
 
 Promise.resolve().then(() => setTimeout(() => console.log(4)));
-// The callback with `setTimeout(...4)` is appended to microtasks
-// - microtask queue content:
+// 带有 `setTimeout(...4)` 的回调被附加到微任务队列。
+// - 微任务队列中的内容：
 //   `console.log(3); setTimeout(...4)`
 
 Promise.resolve().then(() => console.log(5));
-// The callback is appended to the microtask queue
-// - microtask queue content:
+// 回调被添加到微任务队列
+// - 微任务队列中的内容：
 //   `console.log(3); setTimeout(...4); console.log(5)`
 
 setTimeout(() => console.log(6));
-// `setTimeout` appends the callback to macrotasks
-// - macrotask queue content:
+// `setTimeout` 将回调添加到宏任务队列
+// - 宏任务队列中的内容：
 //   `console.log(2); console.log(6)`
 
 console.log(7);
-// Outputs 7 immediately.
+// 立即输出 7
 ```
 
-To summarize,
+总结一下：
 
-1. Numbers `1` и `7` show up immediately, because simple `console.log` calls don't use any queues.
-2. Then, after the main code flow is finished, the microtask queue runs.
-    - It has commands: `console.log(3); setTimeout(...4); console.log(5)`.
-    - Numbers `3` и `5` show up, while `setTimeout(() => console.log(4))` adds the `console.log(4)` call to the end of the macrotask queue.
-    - The macrotask queue is now: `console.log(2); console.log(6); console.log(4)`.
-3. After the microtask queue becomes empty, the macrotask queue executes. It outputs `2`, `6`, `4`.
+1. 立即输出数字 `1` 和 `7`，因为简单的 `console.log` 调用没有使用任何队列。
+2. 然后，主代码流程执行完成后，开始执行微任务队列。
+    - 其中有命令行：`console.log(3); setTimeout(...4); console.log(5)`。
+    - 输出数字 `3` 和 `5`，`setTimeout(() => console.log(4))` 将 `console.log(4)` 调用添加到了宏任务队列的尾部。
+    - 现在宏任务队列中有：`console.log(2); console.log(6); console.log(4)`。
+3. 当微任务队列为空后，开始执行宏任务队列。并输出 `2`、`6` 和 `4`。
 
-Finally, we have the output: `1 7 3 5 2 6 4`.
+最终，我们的到的输出结果为：`1 7 3 5 2 6 4`。
