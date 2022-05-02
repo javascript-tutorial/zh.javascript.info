@@ -23,14 +23,14 @@ These are the basics. Later we'll see how to other features, such as highlightin
 Here's the implementation of dragging a ball:
 
 ```js
-ball.onmousedown = function(event) { 
+ball.onmousedown = function(event) {
   // (1) prepare to moving: make absolute and on top by z-index
   ball.style.position = 'absolute';
   ball.style.zIndex = 1000;
 
   // move it out of any current parents directly into body
   // to make it positioned relative to the body
-  document.body.append(ball);  
+  document.body.append(ball);
 
   // centers the ball at (pageX, pageY) coordinates
   function moveAt(pageX, pageY) {
@@ -93,7 +93,7 @@ So we should listen on `document` to catch it.
 
 ## Correct positioning
 
-In the examples above the ball is always moved so, that it's center is under the pointer:
+In the examples above the ball is always moved so that its center is under the pointer:
 
 ```js
 ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
@@ -219,7 +219,7 @@ That's why the initial idea to put handlers on potential droppables doesn't work
 
 So, what to do?
 
-There's a method called `document.elementFromPoint(clientX, clientY)`. It returns the most nested element on given window-relative coordinates (or `null` if given coordinates are out of the window).
+There's a method called `document.elementFromPoint(clientX, clientY)`. It returns the most nested element on given window-relative coordinates (or `null` if given coordinates are out of the window). If there are multiple overlapping elements on the same coordinates, then the topmost one is returned.
 
 We can use it in any of our mouse event handlers to detect the potential droppable under the pointer, like this:
 

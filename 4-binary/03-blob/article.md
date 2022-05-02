@@ -211,21 +211,44 @@ For screenshotting a page, we can use a library such as <https://github.com/nikl
 
 The `Blob` constructor allows to create a blob from almost anything, including any `BufferSource`.
 
-But if we need to perform low-level processing, we can get the lowest-level `ArrayBuffer` from it using `FileReader`:
+But if we need to perform low-level processing, we can get the lowest-level `ArrayBuffer` from `blob.arrayBuffer()`:
 
 ```js
 // get arrayBuffer from blob
-let fileReader = new FileReader();
+const bufferPromise = await blob.arrayBuffer();
 
-*!*
-fileReader.readAsArrayBuffer(blob);
-*/!*
-
-fileReader.onload = function(event) {
-  let arrayBuffer = fileReader.result;
-};
+// or
+blob.arrayBuffer().then(buffer => /* process the ArrayBuffer */);
 ```
 
+## From Blob to stream
+
+When we read and write to a blob of more than `2 GB`, the use of `arrayBuffer` becomes more memory intensive for us. At this point, we can directly convert the blob to a stream.
+
+A stream is a special object that allows to read from it (or write into it) portion by portion. It's outside of our scope here, but here's an example, and you can read more at <https://developer.mozilla.org/en-US/docs/Web/API/Streams_API>. Streams are convenient for data that is suitable for processing piece-by-piece.
+
+The `Blob` interface's `stream()` method returns a `ReadableStream` which upon reading returns the data contained within the `Blob`.
+
+Then we can read from it, like this:
+
+```js
+// get readableStream from blob
+const readableStream = blob.stream();
+const stream = readableStream.getReader();
+
+while (true) {
+  // for each iteration: data is the next blob fragment
+  let { done, data } = await stream.read();
+  if (done) {
+    // no more data in the stream
+    console.log('all blob processed.');
+    break;
+  }
+
+   // do something with the data portion we've just read from the blob
+  console.log(data);
+}
+```
 
 ## Summary
 
@@ -237,5 +260,7 @@ Methods that perform web-requests, such as [XMLHttpRequest](info:xmlhttprequest)
 
 We can easily convert between `Blob` and low-level binary data types:
 
-- We can make a Blob from a typed array using `new Blob(...)` constructor.
-- We can get back `ArrayBuffer` from a Blob using `FileReader`, and then create a view over it for low-level binary processing.
+- We can make a `Blob` from a typed array using `new Blob(...)` constructor.
+- We can get back `ArrayBuffer` from a Blob using `blob.arrayBuffer()`, and then create a view over it for low-level binary processing.
+
+Conversion streams are very useful when we need to handle large blob. You can easily create a `ReadableStream` from a blob. The `Blob` interface's `stream()` method returns a `ReadableStream` which upon reading returns the data contained within the blob.
