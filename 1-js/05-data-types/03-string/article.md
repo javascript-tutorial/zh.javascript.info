@@ -48,7 +48,7 @@ let guestList = "Guests: // Error: Unexpected token ILLEGAL
   * John";
 ```
 
-Single and double quotes come from ancient times of language creation when the need for multiline strings was not taken into account. Backticks appeared much later and thus are more versatile.
+Single and double quotes come from ancient times of language creation, when the need for multiline strings was not taken into account. Backticks appeared much later and thus are more versatile.
 
 Backticks also allow us to specify a "template function" before the first backtick. The syntax is: <code>func&#96;string&#96;</code>. The function `func` is called automatically, receives the string and embedded expressions and can process them. This is called "tagged templates". This feature makes it easier to implement custom templating, but is rarely used in practice. You can read more about it in the [manual](mdn:/JavaScript/Reference/Template_literals#Tagged_templates).
 
@@ -214,7 +214,7 @@ alert( 'Interface'.toLowerCase() ); // interface
 
 Or, if we want a single character lowercased:
 
-```js
+```js run
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
@@ -371,8 +371,8 @@ alert( "Widget".includes("id", 3) ); // false, from position 3 there is no "id"
 The methods [str.startsWith](mdn:js/String/startsWith) and [str.endsWith](mdn:js/String/endsWith) do exactly what they say:
 
 ```js run
-alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
-alert( "Widget".endsWith("get") ); // true, "Widget" ends with "get"
+alert( "*!*Wid*/!*get".startsWith("Wid") ); // true, "Widget" starts with "Wid"
+alert( "Wid*!*get*/!*".endsWith("get") ); // true, "Widget" ends with "get"
 ```
 
 ## Getting a substring
@@ -604,7 +604,7 @@ You will find more ways to deal with surrogate pairs later in the chapter <info:
 
 ### Diacritical marks and normalization
 
-In many languages there are symbols that are composed of the base character with a mark above/under it.
+In many languages, there are symbols that are composed of the base character with a mark above/under it.
 
 For instance, the letter `a` can be the base character for: `àáâäãåā`. Most common "composite" character have their own code in the UTF-16 table. But not all of them, because there are too many possible combinations.
 

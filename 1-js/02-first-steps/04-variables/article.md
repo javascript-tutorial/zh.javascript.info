@@ -192,7 +192,7 @@ let my-name; // hyphens '-' aren't allowed in the name
 ```
 
 ```smart header="Case matters"
-Variables named `apple` and `AppLE` are two different variables.
+Variables named `apple` and `APPLE` are two different variables.
 ```
 
 ````smart header="Non-Latin letters are allowed, but not recommended"
@@ -297,7 +297,7 @@ const pageLoadTime = /* time taken by a webpage to load */;
 
 The value of `pageLoadTime` is not known prior to the page load, so it's named normally. But it's still a constant because it doesn't change after assignment.
 
-In other words, capital-named constants are only used as aliases for "hard-coded" values.  
+In other words, capital-named constants are only used as aliases for "hard-coded" values.
 
 ## Name things right
 
