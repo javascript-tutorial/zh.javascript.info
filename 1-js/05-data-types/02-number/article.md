@@ -373,7 +373,7 @@ alert( parseFloat('12.3.4') ); // 12.3，在第二个点出停止了读取
 alert( parseInt('a123') ); // NaN，第一个符号停止了读取
 ```
 
-````smart header="parseInt(str, radix)` 的第二个参数"
+````smart header="parseInt(str, radix) 的第二个参数"
 `parseInt()` 函数具有可选的第二个参数。它指定了数字系统的基数，因此 `parseInt` 还可以解析十六进制数字、二进制数字等的字符串：
 
 ```js run
