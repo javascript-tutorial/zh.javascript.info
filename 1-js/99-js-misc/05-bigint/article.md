@@ -126,5 +126,5 @@ Polyfilling bigint 比较棘手。原因是许多 JavaScript 运算符，比如 
 
 ## 参考
 
-- [MDN 文档对 BigInt 的介绍](mdn:/Web/JavaScript/Reference/Global_Objects/BigInt)。
+- [MDN 文档对 BigInt 的介绍](mdn:/JavaScript/Reference/Global_Objects/BigInt)。
 - [ECMA262 规范](https://tc39.es/ecma262/#sec-bigint-objects)。
