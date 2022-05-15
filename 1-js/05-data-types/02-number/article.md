@@ -311,7 +311,7 @@ JavaScript 不会在此类事件中触发 error。它会尽最大努力使数字
     alert( NaN === NaN ); // false
     ```
 
-- `isFinite(value)` 将其参数转换为数字，如果是常规数字，则返回 `true`，而不是 `NaN/Infinity/-Infinity`：
+- `isFinite(value)` 将其参数转换为数字，如果是常规数字而不是 `NaN/Infinity/-Infinity`，则返回 `true`：
 
     ```js run
     alert( isFinite("15") ); // true
