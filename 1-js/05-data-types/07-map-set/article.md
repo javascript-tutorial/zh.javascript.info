@@ -295,9 +295,9 @@ set.forEach((value, valueAgain, set) => {
 
 `Map` 中用于迭代的方法在 `Set` 中也同样支持：
 
-- `set.keys()` —— 遍历并返回所有的值（returns an iterable object for values），
+- `set.keys()` —— 遍历并返回一个包含所有值的可迭代对象，
 - `set.values()` —— 与 `set.keys()` 作用相同，这是为了兼容 `Map`，
-- `set.entries()` —— 遍历并返回所有的实体（returns an iterable object for entries）`[value, value]`，它的存在也是为了兼容 `Map`。
+- `set.entries()` —— 遍历并返回一个包含所有的实体 `[value, value]` 的可迭代对象，它的存在也是为了兼容 `Map`。
 
 ## 总结
 
