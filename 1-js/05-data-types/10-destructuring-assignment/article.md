@@ -21,8 +21,8 @@ let arr = ["John", "Smith"]
 
 *!*
 // 解构赋值
-// sets firstName = arr[0]
-// and surname = arr[1]
+// 设置 firstName = arr[0]
+// 以及 surname = arr[1]
 let [firstName, surname] = arr;
 */!*
 
