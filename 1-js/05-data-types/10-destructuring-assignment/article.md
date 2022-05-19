@@ -256,7 +256,7 @@ alert(height); // 200
 
 属性 `options.title`、`options.width` 和 `options.height` 值被赋给了对应的变量。
 
-变量的顺序并不重要，下面这个代码和上面的效果一致：
+变量的顺序并不重要，下面这个代码也是等价的：
 
 ```js
 // 改变 let {...} 中元素的顺序
