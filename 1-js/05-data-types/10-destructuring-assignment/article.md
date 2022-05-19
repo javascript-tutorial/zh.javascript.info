@@ -113,7 +113,7 @@ for (let [key, value] of Object.entries(user)) {
 }
 ```
 
-用于 `Map` 的类似代码更简单，因为Map是可迭代的：
+用于 `Map` 的类似代码更简单，因为 Map 是可迭代的：
 
 ```js run
 let user = new Map();
