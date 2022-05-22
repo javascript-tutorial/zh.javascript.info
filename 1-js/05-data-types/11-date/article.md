@@ -312,7 +312,7 @@ alert( 'Time of diffSubtract: ' + bench(diffSubtract) + 'ms' );
 alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
 ```
 
-看起来使用 `getTime()` 这种方式快得多，这是因为它没有进行类型转化，对引擎优化来说更加简单。
+看起来使用 `getTime()` 这种方式快得多，这是因为它没有进行类型转换，对引擎优化来说更加简单。
 
 我们得到了结论，但是这并不是一个很好的度量的例子。
 
