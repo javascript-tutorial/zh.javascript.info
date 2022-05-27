@@ -10,7 +10,7 @@
 
 提交表单主要有两种方式：
 
-1. 第一种 —— 点击 `<input type="submit">` 或 `<input type="image">`。
+1. 第一种 —— 点击 `<input type="submit">` 或 `<input type="image">` 或 `<button type="submit"></button>`。
 2. 第二种 —— 在 `input` 字段中按下 `key:Enter` 键。
 
 这两个行为都会触发表单的 `submit` 事件。处理程序可以检查数据，如果有错误，就显示出来，并调用 `event.preventDefault()`，这样表单就不会被发送到服务器了。
