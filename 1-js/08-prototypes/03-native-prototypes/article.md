@@ -94,7 +94,7 @@ alert(arr); // 1,2,3 <-- Array.prototype.toString 的结果
 function f() {}
 
 alert(f.__proto__ == Function.prototype); // true
-alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
+alert(f.__proto__.__proto__ == Object.prototype); // true，继承自 Object
 ```
 
 ## 基本数据类型
