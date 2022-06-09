@@ -138,7 +138,7 @@ let meetup = {
 };
 
 alert( JSON.stringify(meetup) );
-/* 整个解构都被字符串化了
+/* 整个结构都被字符串化了
 {
   "title":"Conference",
   "room":{"number":23,"participants":["john","ann"]},

@@ -7,7 +7,7 @@
 
 2. `false`。
 
-    对象通过引用被赋值。来自 `Rabbit.prototype` 的对象并没有被复制，它仍然是被 `Rabbit.prototype` 和 `rabbit` 的 `[[Prototype]]` 引用的单个对象。
+    对象通过引用被赋值。来自 `Rabbit.prototype` 的对象并没有被赋值，它仍然是被 `Rabbit.prototype` 和 `rabbit` 的 `[[Prototype]]` 引用的单个对象。
 
     所以当我们通过一个引用更改其内容时，它对其他引用也是可见的。
 
