@@ -206,7 +206,7 @@ export function sayHi() {
 
 这里，`admin.js` 导出了 `config` 对象（最初是空的，但也可能有默认属性）。
 
-然后，在 `init.js` 中，我们应用的第一个脚本，我们从 `init.js` 导入了 `config` 并设置了 设置了 `config.user`：
+然后，在 `init.js` 中，我们应用的第一个脚本，我们从 `init.js` 导入了 `config` 并设置了 `config.user`：
 
 ```js
 // 📁 init.js
