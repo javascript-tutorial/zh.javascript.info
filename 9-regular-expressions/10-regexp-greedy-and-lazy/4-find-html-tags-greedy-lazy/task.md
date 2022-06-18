@@ -12,4 +12,4 @@ let str = '<> <a href="/"> <input type="radio" checked> <b>';
 alert( str.match(reg) ); // '<a href="/">', '<input type="radio" checked>', '<b>'
 ```
 
-这里我们假设标签属性中不会包含 `<` 和 `>`（也包括引号），这将会简单许多。
+假设标签属性中不会包含 `<` 和 `>`（包括被引号包裹的内容），这样就简单许多。
