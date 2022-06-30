@@ -364,8 +364,8 @@ alert( "Hello".includes("Bye") ); // false
 `str.includes` 的第二个可选参数是开始搜索的起始位置：
 
 ```js run
-alert( "Midget".includes("id") ); // true
-alert( "Midget".includes("id", 3) ); // false, 从位置 3 开始没有 "id"
+alert( "Widget".includes("id") ); // true
+alert( "Widget".includes("id", 3) ); // false, 从位置 3 开始没有 "id"
 ```
 
 方法 [str.startsWith](mdn:js/String/startsWith) 和 [str.endsWith](mdn:js/String/endsWith) 的功能与其名称所表示的意思相同：
