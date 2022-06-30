@@ -111,7 +111,7 @@ alert( Boolean("") ); // false
 
 ```js run
 alert( Boolean("0") ); // true
-alert( Boolean(" ") ); // 空白，也是 true（任何非空字符串都是 true）
+alert( Boolean(" ") ); // 空格，也是 true（任何非空字符串都是 true）
 ```
 ````
 
@@ -130,7 +130,7 @@ alert( Boolean(" ") ); // 空白，也是 true（任何非空字符串都是 tru
 | `undefined` | `NaN` |
 | `null` | `0` |
 | <code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
-| `string` | “按原样读取”字符串，两端的空白会被忽略。空字符串变成 `0`。转换出错则输出 `NaN`。 |
+| `string` | “按原样读取”字符串，两端的空格会被忽略。空字符串变成 `0`。转换出错则输出 `NaN`。 |
 
 **布尔型转换** —— 转换发生在进行逻辑操作时，也可以通过 `Boolean(value)` 进行显式转换。
 
