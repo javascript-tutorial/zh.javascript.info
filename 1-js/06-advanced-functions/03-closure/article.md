@@ -303,7 +303,7 @@ let counter = makeCounter();
 ```smart header="闭包"
 开发者通常应该都知道“闭包”这个通用的编程术语。
 
-[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming)) 一个记住其外部变量并可以访问这些变量的函数。在某些编程语言中，这是不可能的，或者应该以一种特殊的方式编写函数来实现。但是如上所述，在 JavaScript 中，所有函数都是天生闭包的（只有一个例外，将在 <info:new-function> 中讲到）。
+[闭包](https://en.wikipedia.org/wiki/Closure_(computer_programming)) 是一个记住其外部变量并可以访问这些变量的函数。在某些编程语言中，这是不可能的，或者应该以一种特殊的方式编写函数来实现。但是如上所述，在 JavaScript 中，所有函数都是天生闭包的（只有一个例外，将在 <info:new-function> 中讲到）。
 
 也就是说：JavaScript 中的函数会自动通过隐藏的 `[[Environment]]` 属性记住创建它们的位置，所以它们都可以访问外部变量。
 
