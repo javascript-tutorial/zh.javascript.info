@@ -364,8 +364,8 @@ alert( "Hello".includes("Bye") ); // false
 `str.includes` 的第二个可选参数是开始搜索的起始位置：
 
 ```js run
-alert( "Midget".includes("id") ); // true
-alert( "Midget".includes("id", 3) ); // false, 从位置 3 开始没有 "id"
+alert( "Widget".includes("id") ); // true
+alert( "Widget".includes("id", 3) ); // false, 从位置 3 开始没有 "id"
 ```
 
 方法 [str.startsWith](mdn:js/String/startsWith) 和 [str.endsWith](mdn:js/String/endsWith) 的功能与其名称所表示的意思相同：
@@ -454,7 +454,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 | `substr(start, length)` | 从 `start` 开始获取长为 `length` 的字符串 | 允许 `start` 为负数 |
 
 ```smart header="使用哪一个？"
-它们可以完成这项工作。形式上，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中，它涵盖了主要由于历史原因而存在的仅浏览器特性。因此，非浏览器环境可能无法支持它。但实际上它在任何地方都有效。
+它们都可用于获取子字符串。正式一点来讲，`substr` 有一个小缺点：它不是在 JavaScript 核心规范中描述的，而是在附录 B 中。附录 B 的内容主要是描述因历史原因而遗留下来的仅浏览器特性。因此，理论上非浏览器环境可能无法支持 `substr`，但实际上它在别的地方也都能用。
 
 相较于其他两个变体，`slice` 稍微灵活一些，它允许以负值作为参数并且写法更简短。因此仅仅记住这三种方法中的 `slice` 就足够了。
 ```
