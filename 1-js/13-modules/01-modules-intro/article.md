@@ -394,7 +394,7 @@ import {sayHi} from 'sayHi'; // Error，“裸”模块
 <script src="bundle.js"></script>
 ```
 
-也就是说，原生模块也是可以使用的。所以，我们在这儿将不会使用 Webpack：你可以稍后再配置它。
+关于构建工具说了这么多，但其实原生模块也是可以用的。所以，我们在这儿将不会使用 Webpack：你可以稍后再配置它。
 
 ## 总结
 
