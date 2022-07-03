@@ -175,7 +175,7 @@ export *!*default*/!* class User { // 只需要添加 "default" 即可
 }
 ```
 
-每个文件只能有一个 `export default`：
+每个文件应该只有一个 `export default`：
 
 ……然后将其导入而不需要花括号：
 
