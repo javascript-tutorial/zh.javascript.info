@@ -69,7 +69,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 ## 插入方法
 
-为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，插入到 `<body>` 元素里, 用 `document.body` 来操作这个元素。
+为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，插入到 `<body>` 元素里。
 
 对此有一个特殊的方法 `append`：`document.body.append(div)`。
 
