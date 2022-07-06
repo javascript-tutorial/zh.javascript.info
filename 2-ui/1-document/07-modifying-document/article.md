@@ -187,7 +187,7 @@ after
 
 该方法的第一个参数是代码字（code word），指定相对于 `elem` 的插入位置。必须为以下之一：
 
-- `"beforebegin"` — 将 `html` 插入到 `elem` 正上方，
+- `"beforebegin"` — 将 `html` 插入到 `elem` 之前，
 - `"afterbegin"` — 将 `html` 插入到 `elem` 开头，
 - `"beforeend"` — 将 `html` 插入到 `elem` 末尾，
 - `"afterend"` — 将 `html` 插入到 `elem` 正下方。
