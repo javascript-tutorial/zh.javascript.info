@@ -190,7 +190,7 @@ after
 - `"beforebegin"` — 将 `html` 插入到 `elem` 之前，
 - `"afterbegin"` — 将 `html` 插入到 `elem` 开头，
 - `"beforeend"` — 将 `html` 插入到 `elem` 末尾，
-- `"afterend"` — 将 `html` 插入到 `elem` 正下方。
+- `"afterend"` — 将 `html` 插入到 `elem` 之后。
 
 第二个参数是 HTML 字符串，该字符串会被“作为 HTML” 插入。
 
