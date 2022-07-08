@@ -387,7 +387,7 @@ function getListContent() {
 }
 
 *!*
-ul.append(...getListContent()); // append + "..." 是我们的好朋友!
+ul.append(...getListContent()); // append + "..." operator = friends!
 */!*
 </script>
 ```
