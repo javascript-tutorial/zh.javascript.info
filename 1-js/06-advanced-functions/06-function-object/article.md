@@ -1,11 +1,11 @@
 
 # 函数对象，NFE
 
-我们已经知道，在 JavaScript 中，函数就是值。
+我们已经知道，在 JavaScript 中，函数也是一个值。
 
-JavaScript 中的每个值都有一种类型，那么函数是什么类型呢？
+而 JavaScript 中的每个值都有一种类型，那么函数是什么类型呢？
 
-在 JavaScript 中，函数就是对象。
+在 JavaScript 中，函数的类型是对象。
 
 一个容易理解的方式是把函数想象成可被调用的“行为对象（action object）”。我们不仅可以调用它们，还能把它们当作对象来处理：增/删属性，按引用传递等。
 
@@ -99,7 +99,7 @@ alert(many.length); // 2
 
 当用户提供了自己的答案后，函数会调用那些 `handlers`。我们可以传入两种 `handlers`：
 
-- 一种是无参函数，它仅在用户回答给出积极的答案时被调用。
+- 一种是无参函数，它仅在用户给出肯定回答时被调用。
 - 一种是有参函数，它在两种情况都会被调用，并且返回一个答案。
 
 为了正确地调用 `handler`，我们需要检查 `handler.length` 属性。
@@ -120,12 +120,12 @@ function ask(question, ...handlers) {
 
 }
 
-// 对于积极的回答，两个 handler 都会被调用
-// 对于负面的回答，只有第二个 handler 被调用
+// 对于肯定的回答，两个 handler 都会被调用
+// 对于否定的回答，只有第二个 handler 被调用
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
-这种特别的情况就是所谓的 [多态性](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) —— 根据参数的类型，或者根据在我们的具体情景下的 `length` 来做不同的处理。这种思想在 JavaScript 的库里有应用。
+这就是所谓的 [多态性](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) 的一个例子 —— 根据参数的类型，或者根据在我们的具体情景下的 `length` 来做不同的处理。这种思想在 JavaScript 的库里有应用。
 
 ## 自定义属性
 
@@ -181,7 +181,7 @@ alert( counter() ); // 1
 
 那么它和闭包谁好谁赖？
 
-两者最大的不同就是如果 `count` 的值位于外层（函数）变量中，那么外部的代码无法访问到它，只有嵌套的函数可以修改它。而如果它是绑定到函数的，那么就很容易：
+两者最大的不同就是如果 `count` 的值位于外层（函数）变量中，那么外部的代码无法访问到它，只有嵌套的那些函数可以修改它。而如果它是绑定到函数的，那么就可以这样：
 
 ```js run
 function makeCounter() {
@@ -336,7 +336,7 @@ welcome(); // Hello, Guest（嵌套调用有效）
 
 ## 总结
 
-函数就是对象。
+函数的类型是对象。
 
 我们介绍了它们的一些属性：
 
