@@ -69,7 +69,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 ## 插入方法
 
-为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，into `<body>` element, referenced by `document.body`.
+为了让 `div` 显示出来，我们需要将其插入到 `document` 中的某处。例如，通过 `document.body` 将其插入到 `<body>` 元素里。
 
 对此有一个特殊的方法 `append`：`document.body.append(div)`。
 
@@ -187,10 +187,10 @@ after
 
 该方法的第一个参数是代码字（code word），指定相对于 `elem` 的插入位置。必须为以下之一：
 
-- `"beforebegin"` — 将 `html` 插入到 `elem` 前插入，
+- `"beforebegin"` — 将 `html` 插入到 `elem` 之前，
 - `"afterbegin"` — 将 `html` 插入到 `elem` 开头，
 - `"beforeend"` — 将 `html` 插入到 `elem` 末尾，
-- `"afterend"` — 将 `html` 插入到 `elem` 后。
+- `"afterend"` — 将 `html` 插入到 `elem` 之后。
 
 第二个参数是 HTML 字符串，该字符串会被“作为 HTML” 插入。
 
