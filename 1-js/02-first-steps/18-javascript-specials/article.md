@@ -55,7 +55,7 @@ for(;;) {
 
 该指令必须位于 JavaScript 脚本的顶部或函数体的开头。
 
-如果没有 `"use strict"`，所有东西仍可以正常工作，但是某些特性的表现方式与旧式「兼容」方式相同。我们通常更喜欢现代的方式。
+如果没有 `"use strict"`，所有东西仍可以正常工作，但某些功能将以老式的“兼容”方式运行。我们通常更喜欢现代的方式。
 
 语言的一些现代特征（比如我们将来要学习的类）会隐式地启用严格模式。
 
@@ -144,7 +144,7 @@ JavaScript 支持以下运算符：
 : 简单的赋值：`a = b` 和合并了其他操作的赋值：`a * = 2`。
 
 按位运算符
-: 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise)。
+: 按位运算符在最低位级上操作 32 位的整数：详见 [文档](mdn:/JavaScript/Guide/Expressions_and_Operators#bitwise_operators)。
 
 三元运算符
 : 唯一具有三个参数的操作：`cond ? resultA : resultB`。如果 `cond` 为真，则返回 `resultA`，否则返回 `resultB`。
