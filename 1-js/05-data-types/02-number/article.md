@@ -4,7 +4,7 @@
 
 1. JavaScript 中的常规数字以 64 位的格式 [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision) 存储，也被称为“双精度浮点数”。这是我们大多数时候所使用的数字，我们将在本章中学习它们。
 
-2. BigInt 数字，用于表示任意长度的整数。有时会需要它们，因为常规数字不能安全地超过 <code>2<sup>53</sup></code> 或小于 <code>-2<sup>53</sup></code>。由于仅在少数特殊领域才会用到 BigInt，因此我们在特殊的章节 <info:bigint> 中对其进行了介绍。
+2. BigInt 用于表示任意长度的整数。有时会需要它们，因为常规数字不能安全地超过 <code>2<sup>53</sup></code> 或小于 <code>-2<sup>53</sup></code>。由于仅在少数特殊领域才会用到 BigInt，因此我们在特殊的章节 <info:bigint> 中对其进行了介绍。
 
 所以，在这里我们将讨论常规数字类型。现在让我们开始学习吧。
 
@@ -63,6 +63,9 @@ let mcs = 1e-6; // 1 的左边有 6 个 0
 
 // -6 除以 1 后面跟着 6 个 0 的数字
 1.23e-6 === 1.23 / 1000000; // 0.00000123
+
+// 一个更大一点的数字的示例
+1234e-2 === 1234 / 100; // 12.34，小数点移动两次
 ```
 
 ### 十六进制，二进制和八进制数字
@@ -253,7 +256,7 @@ alert( sum.toFixed(2) ); // 0.30
 
 ```js run
 let sum = 0.1 + 0.2;
-alert( +sum.toFixed(2) ); // 0.3
+alert( +sum.toFixed(2) ); // "0.30"
 ```
 
 我们可以将数字临时乘以 100（或更大的数字），将其转换为整数，进行数学运算，然后再除回。当我们使用整数进行数学运算时，误差会有所减少，但仍然可以在除法中得到：
@@ -305,7 +308,7 @@ JavaScript 不会在此类事件中触发 error。它会尽最大努力使数字
     alert( isNaN("str") ); // true
     ```
 
-    但是我们需要这个函数吗？我们不能只使用 `=== NaN` 比较吗？不好意思，这不行。值 "NaN" 是独一无二的，它不等于任何东西，包括它自身：
+    但是我们需要这个函数吗？我们不能只使用 `=== NaN` 比较吗？很不幸，这不行。值 "NaN" 是独一无二的，它不等于任何东西，包括它自身：
 
     ```js run
     alert( NaN === NaN ); // false
@@ -399,8 +402,8 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
     alert( Math.random() ); // ... (任何随机数)
     ```
 
-`Math.max(a, b, c...)` / `Math.min(a, b, c...)`
-: 从任意数量的参数中返回最大/最小值。
+`Math.max(a, b, c...)` 和 `Math.min(a, b, c...)`
+: 从任意数量的参数中返回最大值和最小值。
 
     ```js run
     alert( Math.max(3, 5, -10, 0, 1) ); // 5
@@ -428,6 +431,11 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
 - 可以直接在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中写入数字。
 - `parseInt(str，base)` 将字符串 `str` 解析为在给定的 `base` 数字系统中的整数，`2 ≤ base ≤ 36`。
 - `num.toString(base)` 将数字转换为在给定的 `base` 数字系统中的字符串。
+
+对于常规数字检测：
+
+- `isNaN(value)` 将其参数转换为数字，然后检测它是否为 `NaN`
+- `isFinite(value)` 将其参数转换为数字，如果它是常规数字，则返回 `true`，而不是 `NaN/Infinity/-Infinity`
 
 要将 `12pt` 和 `100px` 之类的值转换为数字：
 
