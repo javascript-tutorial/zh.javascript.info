@@ -45,7 +45,7 @@ alert( sumAll(1, 2, 3) ); // 6
 
 我们也可以选择将第一个参数获取为变量，并将剩余的参数收集起来。
 
-下面这个函数声明了两个参数，并把剩余的参数收集到 `titles` 数组中：
+下面的例子把前两个参数获取为变量，并把剩余的参数收集到 `titles` 数组中：
 
 ```js run
 function showName(firstName, lastName, ...titles) {
