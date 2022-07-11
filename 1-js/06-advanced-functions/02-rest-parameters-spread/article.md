@@ -217,7 +217,7 @@ alert( Array.from(str) ); // H,e,l,l,o
 
 运行结果与 `[...str]` 相同。
 
-注意 `Array.from(obj)` 和 `[...obj]` 存在一个细微的差别：
+不过 `Array.from(obj)` 和 `[...obj]` 存在一个细微的差别：
 
 - `Array.from` 适用于类数组对象也适用于可迭代对象。
 - Spread 语法只适用于可迭代对象。
