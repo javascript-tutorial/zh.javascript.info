@@ -96,7 +96,7 @@ showName("Julius", "Caesar");
 showName("Ilya");
 ```
 
-在过去，JavaScript 中不支持 rest 参数语法，而使用 `arguments` 是获取函数所有参数的唯一方法。为了支持以前的代码，这种写法仍然有效。
+在过去，JavaScript 中不支持 rest 参数语法，而使用 `arguments` 是获取函数所有参数的唯一方法。现在它仍然有效，我们可以在一些老代码里找到它。
 
 这种写法有其缺点。尽管 `arguments` 是一个类数组，也是可迭代对象，但它终究不是数组。它不支持数组方法，因此我们不能调用 `arguments.map(...)` 等方法。
 
