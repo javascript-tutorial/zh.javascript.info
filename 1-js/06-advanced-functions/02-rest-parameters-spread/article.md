@@ -169,7 +169,7 @@ let arr2 = [8, 3, -8, 1];
 alert( Math.max(...arr1, ...arr2) ); // 8
 ```
 
-我们甚至还可以将 spread 语法与常规参数结合使用：
+我们甚至还可以将 spread 语法与常规值结合使用：
 
 
 ```js run
