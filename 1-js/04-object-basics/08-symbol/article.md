@@ -103,11 +103,11 @@ alert( user[id] ); // 我们可以使用 symbol 作为键来访问数据
 
 使用 `Symbol("id")` 作为键，比起用字符串 `"id"` 来有什么好处呢？
 
-因为 `user` 对象属于其他的代码，那些代码也会使用这个对象，所以我们不应该在它上面直接添加任何字段，这样很不安全。但是你添加的 symbol 属性不会被意外访问到，第三方代码根本不会看到它，所以使用 symbol 基本上不会有问题。
+由于 `user` 对象属于另一个代码库，所以向它们添加字段是不安全的，因为我们可能会影响代码库中的其他预定义行为。但 symbol 属性不会被意外访问到。第三方代码不会知道新定义的 symbol，因此将 symbol 添加到 `user` 对象是安全的。
 
-另外，假设另一个脚本希望在 `user` 中有自己的标识符，以实现自己的目的。这可能是另一个 JavaScript 库，因此脚本之间完全不了解彼此。
+另外，假设另一个脚本希望在 `user` 中有自己的标识符，以实现自己的目的。
 
-然后该脚本可以创建自己的 `Symbol("id")`，像这样：
+那么，该脚本可以创建自己的 `Symbol("id")`，像这样：
 
 ```js
 // ...
@@ -169,7 +169,7 @@ for (let key in user) alert(key); // name, age（没有 symbol）
 */!*
 
 // 使用 symbol 任务直接访问
-alert( "Direct: " + user[id] );
+alert("Direct: " + user[id]); // Direct: 123
 ```
 
 [Object.keys(user)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) 也会忽略它们。这是一般“隐藏符号属性”原则的一部分。如果另一个脚本或库遍历我们的对象，它不会意外地访问到符号属性。
@@ -222,7 +222,7 @@ alert( id === idAgain ); // true
 
 ### Symbol.keyFor
 
-对于全局 symbol，不仅有 `Symbol.for(key)` 按名字返回一个 symbol，还有一个反向调用：`Symbol.keyFor(sym)`，它的作用完全反过来：通过全局 symbol 返回一个名字。
+我们已经看到，对于全局 symbol，`Symbol.for(key)` 按名字返回一个 symbol。相反，通过全局 symbol 返回一个名字，我们可以使用 `Symbol.keyFor(sym)`：
 
 例如：
 
@@ -238,7 +238,7 @@ alert( Symbol.keyFor(sym2) ); // id
 
 `Symbol.keyFor` 内部使用全局 symbol 注册表来查找 symbol 的键。所以它不适用于非全局 symbol。如果 symbol 不是全局的，它将无法找到它并返回 `undefined`。
 
-也就是说，任何 symbol 都具有 `description` 属性。
+也就是说，所有 symbol 都具有 `description` 属性。
 
 例如：
 
@@ -286,4 +286,4 @@ symbol 有两个主要的使用场景：
 
 2. JavaScript 使用了许多系统 symbol，这些 symbol 可以作为 `Symbol.*` 访问。我们可以使用它们来改变一些内建行为。例如，在本教程的后面部分，我们将使用 `Symbol.iterator` 来进行 [迭代](info:iterable) 操作，使用 `Symbol.toPrimitive` 来设置 [对象原始值的转换](info:object-toprimitive) 等等。
 
-从技术上说，symbol 不是 100% 隐藏的。有一个内建方法 [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) 允许我们获取所有的 symbol。还有一个名为 [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 的方法可以返回一个对象的 **所有** 键，包括 symbol。所以它们并不是真正的隐藏。但是大多数库、内建方法和语法结构都没有使用这些方法。
+从技术上说，symbol 不是 100% 隐藏的。有一个内建方法 [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) 允许我们获取所有的 symbol。还有一个名为 [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) 的方法可以返回一个对象的 **所有** 键，包括 symbol。但大多数库、内建方法和语法结构都没有使用这些方法。
