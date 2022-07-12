@@ -128,7 +128,7 @@ setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 
 如果我们将 `style.display` 设置为空字符串，那么浏览器通常会应用 CSS 类以及内建样式，就好像根本没有这样的 `style.display` 属性一样。
 
-Also there is a special method for that, `elem.style.removeProperty('style property')`. So, We can remove a property like this:
+还有一个特殊的方法 `elem.style.removeProperty('style property')`。所以，我们可以像这样删除一个属性：
 
 ```js run
 document.body.style.background = 'red'; //将 background 设置为红色
