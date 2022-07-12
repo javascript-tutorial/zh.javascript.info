@@ -282,7 +282,6 @@ Web 服务器使用 `Set-Cookie` header 来设置 cookie。并且，它可以设
 
 有很多这种 cookie 库，所以这些函数只用于演示。虽然它们都能正常使用。
 
-
 ### getCookie(name)
 
 获取 cookie 最简短的方式是使用 [正则表达式](info:regular-expressions)。

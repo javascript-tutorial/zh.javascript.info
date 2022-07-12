@@ -191,10 +191,9 @@ IndexedDB 使用 [标准序列化算法](https://www.w3.org/TR/html53/infrastruc
 
 键的类型必须为数字、日期、字符串、二进制或数组。它是唯一的标识符，所以我们可以通过键来搜索/删除/更新值。
 
-
 ![](indexeddb-structure.svg)
 
-类似于 `localStorage`，我们向存储区添加值时，可以提供一个键。但当我们存储对象时，IndexedDB 允许将一个对象属性设置为键，这就更加方便了。或者，我们可以自动生成键。
+正如我们很快就会看到的，类似于 `localStorage`，我们向存储区添加值时，可以提供一个键。但当我们存储对象时，IndexedDB 允许将一个对象属性设置为键，这就更加方便了。或者，我们可以自动生成键。
 
 但我们需要先创建一个对象库。
 
@@ -213,7 +212,8 @@ db.createObjectStore(name[, keyOptions]);
 
 如果我们不提供 `keyOptions`，那么以后需要在存储对象时，显式地提供一个键。
 
-例如，此对象库使用 `id` 属性作为键:
+例如，此对象库使用 `id` 属性作为键：
+
 ```js
 db.createObjectStore('books', {keyPath: 'id'});
 ```
@@ -223,6 +223,7 @@ db.createObjectStore('books', {keyPath: 'id'});
 这是技术上的限制。在 upgradeneedHandler 之外，可以添加/删除/更新数据，但是只能在版本更新期间创建/删除/更改对象库。
 
 要进行数据库版本升级，主要有两种方法：
+
 1. 我们实现每个版本的升级功能：从 1 到 2，从 2 到 3，从 3 到 4，等等。在 `upgradeneeded` 中，可以进行版本比较（例如，老版本是 2，需要升级到 4），并针对每个中间版本（2 到 3，然后 3 到 4）逐步运行每个版本的升级。
 2. 或者我们可以检查数据库：以 `db.objectStoreNames` 的形式获取现有对象库的列表。该对象是一个 [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) 提供 `contains(name)` 方法来检查 name 是否存在，再根据存在和不存在的内容进行更新。
 
@@ -242,7 +243,6 @@ openRequest.onupgradeneeded = function() {
 };
 ```
 
-
 删除对象库：
 
 ```js
@@ -256,6 +256,7 @@ db.deleteObjectStore('books')
 事务是一组操作，要么全部成功，要么全部失败。
 
 例如，当一个人买东西时，我们需要：
+
 1. 从他们的账户中扣除这笔钱。
 2. 将该项目添加到他们的清单中。
 
@@ -276,7 +277,7 @@ db.transaction(store[, type]);
   - `readonly` —— 只读，默认值。
   - `readwrite` —— 只能读取和写入数据，而不能 创建/删除/更改 对象库。
 
-还有 `versionchange` 事务类型：这种事务可以做任何事情，但不能被手动创建。IndexedDB 在打开数据库时，会自动为 `updateneeded` 处理程序创建 `versionchange` 事务。这就是它为什么可以更新数据库结构、创建/删除 对象库的原因。
+还有 `versionchange` 事务类型：这种事务可以做任何事情，但不能被手动创建。IndexedDB 在打开数据库时，会自动为 `upgradeneeded` 处理程序创建 `versionchange` 事务。这就是它为什么可以更新数据库结构、创建/删除 对象库的原因。
 
 ```smart header="为什么会有不同类型的事务？"
 性能是事务需要标记为 `readonly` 和 `readwrite` 的原因。
@@ -597,6 +598,7 @@ request.onsuccess = function() {
   }
 };
 ```
+
 我们还可以使用 `IDBKeyRange` 创建范围，并查找 便宜/贵 的书：
 
 ```js
@@ -613,6 +615,7 @@ let request = priceIndex.getAll(IDBKeyRange.upperBound(5));
 - **`delete(query)`** —— 通过查询删除匹配的值。
 
 例如：
+
 ```js
 // 删除 id='js' 的书
 books.delete('js');
@@ -631,6 +634,7 @@ request.onsuccess = function() {
 ```
 
 删除所有内容：
+
 ```js
 books.clear(); // 清除存储。
 ```
@@ -649,7 +653,7 @@ books.clear(); // 清除存储。
 
 由于对象库是按键在内部排序的，因此光标按键顺序（默认为升序）遍历存储。
 
-语法:
+语法：
 
 ```js
 // 类似于 getAll，但带有光标：
@@ -748,7 +752,6 @@ try {
 } catch(err) {
   console.log('error', err.message);
 }
-
 ```
 
 现在我们有了可爱的“简单异步代码”和「try..catch」捕获的东西。
@@ -771,9 +774,7 @@ window.addEventListener('unhandledrejection', event => {
 
 ### “非活跃事务”陷阱
 
-
 我们都知道，浏览器一旦执行完成当前的代码和 **微任务** 之后，事务就会自动提交。因此，如果我们在事务中间放置一个类似 `fetch` 的宏任务，事务只是会自动提交，而不会等待它执行完成。因此，下一个请求会失败。
-
 
 对于 promise 包装器和 `async/await`，情况是相同的。
 
@@ -793,6 +794,7 @@ await inventory.add({ id: 'js', price: 10, created: new Date() }); // 错误
 `fetch` `(*)` 后的下一个 `inventory.add` 失败，出现“非活动事务”错误，因为这时事务已经被提交并且关闭了。
 
 解决方法与使用本机 IndexedDB 时相同：进行新事务，或者将事情分开。
+
 1. 准备数据，先获取所有需要的信息。
 2. 然后保存在数据库中。
 

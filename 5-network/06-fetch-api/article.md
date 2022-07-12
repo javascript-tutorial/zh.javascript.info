@@ -50,9 +50,9 @@ let promise = fetch(url, {
 
 通常来说，这个 header 是被自动设置的，并包含了发出请求的页面的 url。在大多数情况下，它一点也不重要，但有时出于安全考虑，删除或缩短它是有意义的。
 
-**`referer` 选项允许设置任何 `Referer`（在当前域的），或者移除它。**
+**`referrer` 选项允许设置任何 `Referer`（在当前域的），或者移除它。**
 
-要不发送 referer，可以将 `referer` 设置为空字符串：
+要不发送 referrer，可以将 `referrer` 设置为空字符串：
 ```js
 fetch('/page', {
 *!*

@@ -1,6 +1,6 @@
 # WebSocket
 
-在 [RFC 6455](https://datatracker.ietf.org/doc/html/rfc6455) 规范中描述的 `WebSocket` 协议提供了一种在浏览器和服务器之间建立持久连接来交换数据的方法。数据可以作为“数据包”在两个方向上传递，而不会断开连接和其他 HTTP 请求。
+在 [RFC 6455](https://datatracker.ietf.org/doc/html/rfc6455) 规范中描述的 `WebSocket` 协议，提供了一种在浏览器和服务器之间建立持久连接来交换数据的方法。数据可以作为“数据包”在两个方向上传递，而无需中段连接也无需额外的 HTTP 请求。
 
 对于需要连续数据交换的服务，例如网络游戏，实时交易系统等，WebSocket 尤其有用。
 
@@ -88,7 +88,7 @@ Sec-WebSocket-Key: Iv8io/9s+lYFgZWcXczP8Q==
 Sec-WebSocket-Version: 13
 ```
 
-- `Origin` —— 客户端页面的源，例如 `https://javascript.info`。WebSocket 对象是原生支持跨源的。没有特殊的 header 或其他限制。旧的服务器无法处理 WebSocket，因此不存在兼容性问题。但是 `Origin` header 很重要，因为它允许服务器决定是否使用 WebSocket 与该网站通信。
+- `Origin` —— 客户端页面的源，例如 `https://javascript.info`。WebSocket 对象是原生支持跨源的。没有特殊的 header 或其他限制。旧的服务器无法处理 WebSocket，因此不存在兼容性问题。但 `Origin` header 很重要，因为它允许服务器决定是否使用 WebSocket 与该网站通信。
 - `Connection: Upgrade` —— 表示客户端想要更改协议。
 - `Upgrade: websocket` —— 请求的协议是 "websocket"。
 - `Sec-WebSocket-Key` —— 浏览器随机生成的安全密钥。
@@ -109,7 +109,7 @@ Sec-WebSocket-Accept: hsBlbuDTkk24srzEOTBUlZAlC2g=
 
 这里 `Sec-WebSocket-Accept` 是 `Sec-WebSocket-Key`，是使用特殊的算法重新编码的。浏览器使用它来确保响应与请求相对应。
 
-然后，就使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它根本不是 HTTP。
+然后，使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它根本不是 HTTP。
 
 ### 扩展和子协议
 
@@ -119,7 +119,7 @@ WebSocket 可能还有其他 header，`Sec-WebSocket-Extensions` 和 `Sec-WebSoc
 
 - `Sec-WebSocket-Extensions: deflate-frame` 表示浏览器支持数据压缩。扩展与传输数据有关，扩展了 WebSocket 协议的功能。`Sec-WebSocket-Extensions` header 由浏览器自动发送，其中包含其支持的所有扩展的列表。
 
-- `Sec-WebSocket-Protocol: soap, wamp` 表示我们不仅要传输任何数据，还要传输 [SOAP](http://en.wikipedia.org/wiki/SOAP) 或 WAMP（"The WebSocket Application Messaging Protocol"）协议中的数据。WebSocket 子协议已经在 [IANA catalogue](http://www.iana.org/assignments/websocket/websocket.xml) 中注册。
+- `Sec-WebSocket-Protocol: soap, wamp` 表示我们不仅要传输任何数据，还要传输 [SOAP](https://en.wikipedia.org/wiki/SOAP) 或 WAMP（"The WebSocket Application Messaging Protocol"）协议中的数据。WebSocket 子协议已经在 [IANA catalogue](https://www.iana.org/assignments/websocket/websocket.xml) 中注册。因此，此 header 描述了我们将要使用的数据格式。
 
     这个可选的 header 是使用 `new WebSocket` 的第二个参数设置的。它是子协议数组，例如，如果我们想使用 SOAP 或 WAMP：
 

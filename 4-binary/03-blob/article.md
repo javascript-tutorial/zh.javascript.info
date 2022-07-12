@@ -237,8 +237,8 @@ const readableStream = blob.stream();
 const stream = readableStream.getReader();
 
 while (true) {
-  // 对于每次迭代：data 是下一个 blob 数据片段
-  let { done, data } = await stream.read();
+  // 对于每次迭代：value 是下一个 blob 数据片段
+  let { done, value } = await stream.read();
   if (done) {
     // 读取完毕，stream 里已经没有数据了
     console.log('all blob processed.');
@@ -246,7 +246,7 @@ while (true) {
   }
 
   // 对刚从 blob 中读取的数据片段做一些处理
-  console.log(data);
+  console.log(value);
 }
 ```
 

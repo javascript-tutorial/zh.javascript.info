@@ -22,6 +22,6 @@ importance: 1
   alert(table); // 表格，就是它应有的样子
 
   table.remove();
-  // 为什么 aaa 还存在于文档中？
+  // 为什么 "aaa" 还存在于文档中？
 </script>
 ```
