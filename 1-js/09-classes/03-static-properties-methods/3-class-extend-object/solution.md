@@ -21,14 +21,14 @@ alert( rabbit.hasOwnProperty('name') ); // true
 
 但这还不是全部原因。
 
-即便修复了它，`"class Rabbit extends Object"` 和 `class Rabbit` 之间仍存在着重要差异。
+即便修复了它，`"class Rabbit extends Object"` 和 `class Rabbit` 之间仍存在着一个重要的差异。
 
 我们知道，"extends" 语法会设置两个原型：
 
 1. 在构造函数的 `"prototype"` 之间设置原型（为了获取实例方法）。
 2. 在构造函数之间会设置原型（为了获取静态方法）。
 
-在我们的例子里，对于 `class Rabbit extends Object`，它意味着：
+在 `class Rabbit extends Object` 的例子中，意味着：
 
 ```js run
 class Rabbit extends Object {}
@@ -67,7 +67,7 @@ alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // Error
 
 所以，在这种情况下，`Rabbit` 没有提供对 `Object` 的静态方法的访问。
 
-顺便说一下，`Function.prototype` 有一些“通用”函数方法，例如 `call` 和 `bind` 等。在上述的两种情况下它们都是可用的，因为对于内建的 `Object` 构造函数而言，`Object.__proto__ === Function.prototype`。
+顺便说一下，`Function.prototype` 也有一些“通用”函数方法，例如 `call` 和 `bind` 等。在上述的两种情况下它们都是可用的，因为对于内建的 `Object` 构造函数而言，`Object.__proto__ === Function.prototype`。
 
 我们用一张图来解释：
 

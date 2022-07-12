@@ -77,6 +77,8 @@ function loadScript(src, *!*callback*/!*) {
 }
 ```
 
+`onload` 事件在 <info:onload-onerror#loading-a-script> 一文中有描述，它通常会在脚本加载和执行完成后执行一个函数。
+
 现在，如果我们想调用该脚本中的新函数，我们应该将其写在回调函数中：
 
 ```js
@@ -102,7 +104,7 @@ function loadScript(src, callback) {
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
   alert(`Cool, the script ${script.src} is loaded`);
-  alert( _ ); // 所加载的脚本中声明的函数
+  alert( _ ); // _ 是所加载的脚本中声明的一个函数
 });
 */!*
 ```

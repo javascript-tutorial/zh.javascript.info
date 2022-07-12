@@ -225,6 +225,7 @@ import { sayHi } from './admin.js';
 sayHi(); // Ready to serve, *!*Pete*/!*!
 ```
 
+
 ### import.meta
 
 `import.meta` 对象包含关于当前模块的信息。
@@ -233,7 +234,8 @@ sayHi(); // Ready to serve, *!*Pete*/!*!
 
 ```html run height=0
 <script type="module">
-  alert(import.meta.url); // 脚本的 URL（对于内联脚本来说，则是当前 HTML 页面的 URL）
+  alert(import.meta.url); // 脚本的 URL
+  // 对于内联脚本来说，则是当前 HTML 页面的 URL
 </script>
 ```
 
