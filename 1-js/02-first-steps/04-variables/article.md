@@ -64,6 +64,7 @@ let message = 'Hello';
 ```
 
 Some people also define multiple variables in this multiline style:
+
 ```js no-beautify
 let user = 'John',
   age = 25,
@@ -103,6 +104,7 @@ For instance, the variable `message` can be imagined as a box labeled `"message"
 We can put any value in the box.
 
 We can also change it as many times as we want:
+
 ```js run
 let message;
 
@@ -192,7 +194,7 @@ let my-name; // hyphens '-' aren't allowed in the name
 ```
 
 ```smart header="Case matters"
-Variables named `apple` and `AppLE` are two different variables.
+Variables named `apple` and `APPLE` are two different variables.
 ```
 
 ````smart header="Non-Latin letters are allowed, but not recommended"
@@ -260,7 +262,6 @@ myBirthday = '01.01.2001'; // error, can't reassign the constant!
 
 When a programmer is sure that a variable will never change, they can declare it with `const` to guarantee and clearly communicate that fact to everyone.
 
-
 ### Uppercase constants
 
 There is a widespread practice to use constants as aliases for difficult-to-remember values that are known prior to execution.
@@ -291,13 +292,14 @@ When should we use capitals for a constant and when should we name it normally? 
 Being a "constant" just means that a variable's value never changes. But there are constants that are known prior to execution (like a hexadecimal value for red) and there are constants that are *calculated* in run-time, during the execution, but do not change after their initial assignment.
 
 For instance:
+
 ```js
 const pageLoadTime = /* time taken by a webpage to load */;
 ```
 
 The value of `pageLoadTime` is not known prior to the page load, so it's named normally. But it's still a constant because it doesn't change after assignment.
 
-In other words, capital-named constants are only used as aliases for "hard-coded" values.  
+In other words, capital-named constants are only used as aliases for "hard-coded" values.
 
 ## Name things right
 

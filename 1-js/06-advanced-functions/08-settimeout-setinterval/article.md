@@ -232,7 +232,7 @@ setTimeout(function() {...}, 100);
 
 For `setInterval` the function stays in memory until `clearInterval` is called.
 
-There's a side-effect. A function references the outer lexical environment, so, while it lives, outer variables live too. They may take much more memory than the function itself. So when we don't need the scheduled function anymore, it's better to cancel it, even if it's very small.
+There's a side effect. A function references the outer lexical environment, so, while it lives, outer variables live too. They may take much more memory than the function itself. So when we don't need the scheduled function anymore, it's better to cancel it, even if it's very small.
 ````
 
 ## Zero delay setTimeout
@@ -297,6 +297,6 @@ Please note that all scheduling methods do not *guarantee* the exact delay.
 For example, the in-browser timer may slow down for a lot of reasons:
 - The CPU is overloaded.
 - The browser tab is in the background mode.
-- The laptop is on battery.
+- The laptop is on battery saving mode.
 
 All that may increase the minimal timer resolution (the minimal delay) to 300ms or even 1000ms depending on the browser and OS-level performance settings.
