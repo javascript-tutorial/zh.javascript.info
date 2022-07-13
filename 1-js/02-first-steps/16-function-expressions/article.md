@@ -36,7 +36,7 @@ let sayHi = function() {
 
 重申一次：无论函数是如何创建的，函数都是一个值。上面的两个示例都在 `sayHi` 变量中存储了一个函数。
 
-我们还可以用 `alert` 打印这个变量的值：
+我们还可以用 `alert` 显示这个变量的值：
 
 ```js run
 function sayHi() {
