@@ -106,7 +106,7 @@ class Rabbit extends Animal {
 }
 ```
 
-但是通常来说，我们不希望完全替换父类的方法，而是希望在父类方法的基础上进行调整或扩展其功能。我们在我们的方法中做一些事儿，但是在它之前或之后或在过程中会调用父类方法。
+然而通常，我们不希望完全替换父类的方法，而是希望在父类方法的基础上进行调整或扩展其功能。我们在我们的方法中做一些事儿，但是在它之前或之后或在过程中会调用父类方法。
 
 Class 为此提供了 `"super"` 关键字。
 
@@ -160,6 +160,7 @@ rabbit.stop(); // White Rabbit stands still. White Rabbit hides!
 正如我们在 <info:arrow-functions> 一章中所提到的，箭头函数没有 `super`。
 
 如果被访问，它会从外部函数获取。例如：
+
 ```js
 class Rabbit extends Animal {
   stop() {
@@ -175,7 +176,6 @@ class Rabbit extends Animal {
 setTimeout(function() { super.stop() }, 1000);
 ```
 ````
-
 
 ## 重写 constructor
 
@@ -280,8 +280,6 @@ alert(rabbit.earLength); // 10
 */!*
 ```
 
-
-
 ### 重写类字段: 一个棘手的注意要点
 
 ```warn header="高阶要点"
@@ -375,7 +373,6 @@ new Rabbit(); // rabbit
 幸运的是，这种行为仅在一个被重写的字段被父类构造器使用时才会显现出来。接下来它会发生的东西可能就比较难理解了，所以我们要在这里对此行为进行解释。
 
 如果出问题了，我们可以通过使用方法或者 getter/setter 替代类字段，来修复这个问题。
-
 
 ## 深入：内部探究和 [[HomeObject]]
 

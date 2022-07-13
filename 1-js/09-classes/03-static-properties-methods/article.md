@@ -109,6 +109,17 @@ alert( article.title ); // Today's digest
 Article.remove({id: 12345});
 ```
 
+````warn header="静态方法不适用于单个对象"
+静态方法可以在类上调用，而不是在单个对象上。
+
+例如，这样的代码无法正常工作：
+
+```js
+// ...
+article.createTodays(); /// Error: article.createTodays is not a function
+```
+````
+
 ## 静态属性
 
 [recent browser=Chrome]

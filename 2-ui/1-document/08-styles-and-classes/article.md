@@ -126,7 +126,15 @@ document.body.style.display = "none"; // 隐藏
 setTimeout(() => document.body.style.display = "", 1000); // 恢复正常
 ```
 
-如果我们将 `display` 设置为空字符串，那么浏览器通常会应用 CSS 类以及内建样式，就好像根本没有这样的 `style` 属性一样。
+如果我们将 `style.display` 设置为空字符串，那么浏览器通常会应用 CSS 类以及内建样式，就好像根本没有这样的 `style.display` 属性一样。
+
+还有一个特殊的方法 `elem.style.removeProperty('style property')`。所以，我们可以像这样删除一个属性：
+
+```js run
+document.body.style.background = 'red'; //将 background 设置为红色
+
+setTimeout(() => document.body.style.removeProperty('background'), 1000); // 1 秒后移除 background
+```
 
 ````smart header="用 `style.cssText` 进行完全的重写"
 通常，我们使用 `style.*` 来对各个样式属性进行赋值。我们不能像这样的 `div.style="color: red; width: 100px"` 设置完整的属性，因为 `div.style` 是一个对象，并且它是只读的。

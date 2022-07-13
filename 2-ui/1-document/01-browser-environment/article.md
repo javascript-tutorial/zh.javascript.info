@@ -1,6 +1,6 @@
 # 浏览器环境，规格
 
-JavaScript 语言最初是为 Web 浏览器创建的。此后，它已经发展成为一种具有多种用途和平台的语言。
+JavaScript 语言最初是为 Web 浏览器创建的。此后，它已经演变成了一种具有多种用途和平台的语言。
 
 平台可以是一个浏览器，一个 Web 服务器，或其他 **主机（host）**，甚至可以是一个“智能”咖啡机，如果它能运行 JavaScript 的话。它们每个都提供了特定于平台的功能。JavaScript 规范将其称为 **主机环境**。
 
@@ -15,7 +15,7 @@ JavaScript 语言最初是为 Web 浏览器创建的。此后，它已经发展�
 1. 首先，它是 JavaScript 代码的全局对象，如 <info:global-object> 一章所述。
 2. 其次，它代表“浏览器窗口”，并提供了控制它的方法。
 
-例如，在这里我们将它用作全局对象：
+例如，我们可以将它用作全局对象：
 
 ```js run global
 function sayHi() {
@@ -26,13 +26,13 @@ function sayHi() {
 window.sayHi();
 ```
 
-在这里，我们将它用作浏览器窗口，以查看窗口高度：
+并且我们可以将它用作浏览器窗口，以查看窗口高度：
 
 ```js run
 alert(window.innerHeight); // 内部窗口高度
 ```
 
-还有更多窗口特定的方法和属性，我们稍后会介绍它们。
+还有更多窗口特定的方法和属性，我们稍后会介绍。
 
 ## 文档对象模型（DOM）
 
@@ -69,7 +69,7 @@ DOM 规范解释了文档的结构，并提供了操作文档的对象。有的�
 
 例如：
 
-- [navigator](mdn:api/Window/navigator) 对象提供了有关浏览器和操作系统的背景信息。navigator 有许多属性，但是最广为人知的两个属性是：`navigator.userAgent` — 关于当前浏览器，`navigator.platform` — 关于平台（可以帮助区分 Windows/Linux/Mac 等）。
+- [navigator](mdn:api/Window/navigator) 对象提供了有关浏览器和操作系统的背景信息。navigator 有许多属性，但是最广为人知的两个属性是：`navigator.userAgent` — 关于当前浏览器，`navigator.platform` — 关于平台（有助于区分 Windows/Linux/Mac 等）。
 - [location](mdn:api/Window/location) 对象允许我们读取当前 URL，并且可以将浏览器重定向到新的 URL。
 
 这是我们可以如何使用 `location` 对象的方法：
@@ -106,7 +106,7 @@ HTML 规范
 
 请注意这些链接，因为要学的东西太多了，所以不可能涵盖并记住所有内容。
 
-当你想要了解某个属性或方法时，Mozilla 手册 <https://developer.mozilla.org/en-US/search> 是一个很好的资源，但对应的规范可能会更好：它更复杂，且阅读起来需要更长的时间，但是会使你的基本知识更加全面，更加完整。
+当你想要了解某个属性或方法时，Mozilla 手册 <https://developer.mozilla.org/en-US/> 是一个很好的资源，但对应的规范可能会更好：它更复杂，且阅读起来需要更长的时间，但是会使你的基本知识更加全面，更加完整。
 
 要查找某些内容时，你通常可以使用互联网搜索 "WHATWG [term]" 或 "MDN [term]"，例如 <https://google.com?q=whatwg+localstorage>，<https://google.com?q=mdn+localstorage>。
 

@@ -101,7 +101,7 @@
 
 重申，[event.clipboardData](https://www.w3.org/TR/clipboard-apis/#clipboardevent-clipboarddata) 仅在用户启动的事件处理程序的上下文中生效。
 
-另外, [navigator.clipboard](https://www.w3.org/TR/clipboard-apis/#h-navigator-clipboard) 是一个较新的 API，适用于任何上下文。如果需要，它会请求用户的许可。火狐（Firefox）浏览器尚未支持。
+另外, [navigator.clipboard](https://www.w3.org/TR/clipboard-apis/#h-navigator-clipboard) 是一个较新的 API，适用于任何上下文。如果需要，它会请求用户的许可。
 
 ## 总结
 

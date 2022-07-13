@@ -131,7 +131,6 @@ alert(longEar.jumps); // true（从 rabbit）
 
 当然，这可能很显而易见，但是仍然要强调：只能有一个 `[[Prototype]]`。一个对象不能从其他两个对象获得继承。
 
-
 ```smart header="`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter"
 初学者常犯一个普遍的错误，就是不知道 `__proto__` 和 `[[Prototype]]` 的区别。
 

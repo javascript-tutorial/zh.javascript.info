@@ -48,7 +48,7 @@ let guestList = "Guests: // Error: Unexpected token ILLEGAL
   * John";
 ```
 
-当不考虑多行字符串的需要时，单引号和双引号来自语言创建的古时代。反引号出现较晚，因此更通用。
+单引号和双引号来自语言创建的的古老时代，当时没有考虑到多行字符串的需要。反引号出现较晚，因此更通用。
 
 反引号还允许我们在第一个反引号之前指定一个“模版函数”。语法是：<code>func&#96;string&#96;</code>。函数 `func` 被自动调用，接收字符串和嵌入式表达式，并处理它们。你可以在 [docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) 中阅读更多关于它们的信息。这叫做 "tagged templates"。此功能可以更轻松地将字符串包装到自定义模版或其他函数中，但这很少使用。
 
@@ -214,7 +214,7 @@ alert( 'Interface'.toLowerCase() ); // interface
 
 或者我们想要使一个字符变成小写：
 
-```js
+```js run
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
@@ -371,8 +371,8 @@ alert( "Widget".includes("id", 3) ); // false, 从位置 3 开始没有 "id"
 方法 [str.startsWith](mdn:js/String/startsWith) 和 [str.endsWith](mdn:js/String/endsWith) 的功能与其名称所表示的意思相同：
 
 ```js run
-alert( "Widget".startsWith("Wid") ); // true，"Widget" 以 "Wid" 开始
-alert( "Widget".endsWith("get") ); // true，"Widget" 以 "get" 结束
+alert( "*!*Wid*/!*get".startsWith("Wid") ); // true，"Widget" 以 "Wid" 开始
+alert( "Wid*!*get*/!*".endsWith("get") ); // true，"Widget" 以 "get" 结束
 ```
 
 ## 获取子字符串

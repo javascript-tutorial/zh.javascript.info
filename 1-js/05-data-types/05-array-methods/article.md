@@ -234,11 +234,12 @@ arr.forEach(function(item, index, array) {
 
 ### indexOf/lastIndexOf 和 includes
 
-[arr.indexOf](mdn:js/Array/indexOf)、[arr.lastIndexOf](mdn:js/Array/lastIndexOf) 和 [arr.includes](mdn:js/Array/includes) 方法与字符串操作具有相同的语法，并且作用基本上也与字符串的方法相同，只不过这里是对数组元素而不是字符进行操作：
+[arr.indexOf](mdn:js/Array/indexOf) 和 [arr.includes](mdn:js/Array/includes) 方法语法相似，并且作用基本上也与字符串的方法相同，只不过这里是对数组元素而不是字符进行操作：
 
 - `arr.indexOf(item, from)` 从索引 `from` 开始搜索 `item`，如果找到则返回索引，否则返回 `-1`。
-- `arr.lastIndexOf(item, from)` —— 和上面相同，只是从右向左搜索。
 - `arr.includes(item, from)` —— 从索引 `from` 开始搜索 `item`，如果找到则返回 `true`（译注：如果没找到，则返回 `false`）。
+
+通常使用这些方法时只会传入一个参数：传入 `item` 开始搜索。默认情况下，搜索是从头开始的。
 
 例如：
 
@@ -252,19 +253,31 @@ alert( arr.indexOf(null) ); // -1
 alert( arr.includes(1) ); // true
 ```
 
-请注意，这些方法使用的是严格相等 `===` 比较。所以如果我们搜索 `false`，会精确到的确是 `false` 而不是数字 `0`。
+请注意，`indexOf` 使用严格相等 `===` 进行比较。所以，如果我们搜索 `false`，它会准确找到 `false` 而不是数字 `0`。
 
-如果我们想检查是否包含某个元素，并且不想知道确切的索引，那么 `arr.includes` 是首选。
+如果我们想检查数组中是否包含元素 `item`，并且不需要知道其确切的索引，那么 `arr.includes` 是首选。
 
-此外，`includes` 的一个非常小的差别是它能正确处理`NaN`，而不像 `indexOf/lastIndexOf`：
+方法 [arr.lastIndexOf](mdn:js/Array/lastIndexOf) 与 `indexOf` 相同，但从右向左查找。
+
+```js run
+let fruits = ['Apple', 'Orange', 'Apple'];
+
+alert( arr.indexOf('Apple') ); // 0（第一个 Apple）
+alert( arr.lastIndexOf('Apple') ); // 2（最后一个 Apple）
+```
+
+````smart header="方法 `includes` 可以正确的处理 `NaN`"
+方法 `includes` 的一个次要但值得注意的特性是，它可以正确处理 `NaN`，这与 `indexOf` 不同：
 
 ```js run
 const arr = [NaN];
-alert( arr.indexOf(NaN) ); // -1（应该为 0，但是严格相等 === equality 对 NaN 无效）
-alert( arr.includes(NaN) );// true（这个结果是对的）
+alert( arr.indexOf(NaN) ); // -1（错，应该为 0）
+alert( arr.includes(NaN) );// true（正确）
 ```
+这是因为 `includes` 是在比较晚的时候才被添加到 JavaScript 中的，并且在内部使用了更新了的比较算法。
+````
 
-### find 和 findIndex
+### find 和 findIndex/findLastIndex
 
 想象一下，我们有一个对象数组。我们如何找到具有特定条件的对象？
 
@@ -304,7 +317,28 @@ alert(user.name); // John
 
 注意在这个例子中，我们传给了 `find` 一个单参数函数 `item => item.id == 1`。这很典型，并且 `find` 方法的其他参数很少使用。
 
-[arr.findIndex](mdn:js/Array/findIndex) 方法（与 `arr.find` 方法）基本上是一样的，但它返回找到元素的索引，而不是元素本身。并且在未找到任何内容时返回 `-1`。
+[arr.findIndex](mdn:js/Array/findIndex) 方法（与 `arr.find`）具有相同的语法，但它返回找到的元素的索引，而不是元素本身。如果没找到，则返回 `-1`。
+
+[arr.findLastIndex](mdn:js/Array/findLastIndex) 方法类似于 `findIndex`，但从右向左搜索，类似于 `lastIndexOf`。
+
+这是一个例子：
+
+```js run
+let users = [
+  {id: 1, name: "John"},
+  {id: 2, name: "Pete"},
+  {id: 3, name: "Mary"},
+  {id: 4, name: "John"}
+];
+
+// 寻找第一个 John 的索引
+alert(users.findIndex(user => user.name == 'John')); // 0
+
+// 寻找最后一个 John 的索引
+alert(users.findLastIndex(user => user.name == 'John')); // 3
+```
+
+
 
 ### filter
 
@@ -389,6 +423,7 @@ alert( arr );  // *!*1, 15, 2*/!*
 要使用我们自己的排序顺序，我们需要提供一个函数作为 `arr.sort()` 的参数。
 
 该函数应该比较两个任意值并返回：
+
 ```js
 function compare(a, b) {
   if (a > b) return 1; // 如果第一个值比第二个值大
@@ -633,7 +668,6 @@ arr.reduce((sum, current) => sum + current);
 
 [arr.reduceRight](mdn:js/Array/reduceRight) 和 [arr.reduce](mdn:js/Array/reduce) 方法的功能一样，只是遍历为从右到左。
 
-
 ## Array.isArray
 
 数组是基于对象的，不构成单独的语言类型。
@@ -642,7 +676,7 @@ arr.reduce((sum, current) => sum + current);
 
 ```js run
 alert(typeof {}); // object
-alert(typeof []); // same
+alert(typeof []); // object（相同）
 ```
 
 ……但是数组经常被使用，因此有一种特殊的方法用于判断：[Array.isArray(value)](mdn:js/Array/isArray)。如果 `value` 是一个数组，则返回 `true`；否则返回 `false`。
@@ -733,7 +767,7 @@ alert(soldiers[1].age); // 23
   - `reduce/reduceRight(func, initial)` —— 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
 
 - 其他：
-  - `Array.isArray(arr)` 检查 `arr` 是否是一个数组。
+  - `Array.isArray(value)` 检查 `value` 是否是一个数组，如果是则返回 `true`，否则返回 `false`。
 
 请注意，`sort`，`reverse` 和 `splice` 方法修改的是数组本身。
 
@@ -746,6 +780,7 @@ alert(soldiers[1].age); // 23
   这两个方法的行为类似于 `||` 和 `&&` 运算符：如果 `fn` 返回一个真值，`arr.some()` 立即返回 `true` 并停止迭代其余数组项；如果 `fn` 返回一个假值，`arr.every()` 立即返回 `false` 并停止对其余数组项的迭代。
 
   我们可以使用 `every` 来比较数组：
+
   ```js run
   function arraysEqual(arr1, arr2) {
     return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
