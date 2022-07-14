@@ -182,9 +182,9 @@ for (let i = 0; i < 5; i++) {
 ## 总结
 
 我们可以看到，这里有 3 种方式来暂停一个脚本：
-1. 一个断点。
+1. 断点。
 2. `debugger` 语句。
-3. 一个错误（如果开发者工具是打开状态，并且按钮 <span class="devtools" style="background-position:-90px -146px"></span> 是开启的状态）。
+3. error（如果开发者工具是打开状态，并且按钮 <span class="devtools" style="background-position:-90px -146px"></span> 是开启的状态）。
 
 当脚本执行暂停时，我们就可以进行调试：检查变量，跟踪代码来查看执行出错的位置。
 
