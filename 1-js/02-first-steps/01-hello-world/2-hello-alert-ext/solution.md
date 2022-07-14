@@ -1,4 +1,4 @@
-HTML 代码:
+HTML 代码：
 
 [html src="index.html"]
 
