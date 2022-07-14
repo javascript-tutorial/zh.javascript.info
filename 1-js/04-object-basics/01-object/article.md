@@ -20,7 +20,7 @@ let user = {};  // “字面量” 的语法
 
 ![](object-user-empty.svg)
 
-通常，我们用花括号。这种方式我们叫做**字面量**。
+通常，我们用花括号。这种方式我们叫做 **字面量**。
 
 ## 文本和属性
 
@@ -288,7 +288,7 @@ alert( obj[0] ); // test (相同的属性)
 ```js run
 let obj = {};
 obj.__proto__ = 5; // 分配一个数字
-alert(obj.__proto__); // [object Object] — 值为对象，与预期结果不同
+alert(obj.__proto__); // [object Object] —— 值为对象，与预期结果不同
 ```
 
 我们从代码中可以看出来，把它赋值为 `5` 的操作被忽略了。
