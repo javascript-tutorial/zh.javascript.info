@@ -450,7 +450,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
 | 方法 | 选择方式…… | 负值参数 |
 |--------|-----------|-----------|
 | `slice(start, end)` | 从 `start` 到 `end`（不含 `end`）| 允许 |
-| `substring(start, end)` | `start` 与 `end` 之间（包括 `start`，但不包括 `end`） | 负值代表 `0` |
+| `substring(start, end)` | 从 `start` 到 `end`（不含 `end`） | 负值被视为 `0` |
 | `substr(start, length)` | 从 `start` 开始获取长为 `length` 的字符串 | 允许 `start` 为负数 |
 
 ```smart header="使用哪一个？"
