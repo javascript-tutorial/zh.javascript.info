@@ -25,7 +25,7 @@ let controller = new AbortController();
 - `controller.signal.aborted` 属性变为 `true`。
 
 通常，我们需要处理两部分：
-1. 一部分是通过给 `controller.signal` 上添加一个监听器，来执行可取消操作。
+1. 一部分是通过在 `controller.signal` 上添加一个监听器，来执行可取消操作。
 2. 另一部分是触发取消：在需要的时候调用 `controller.abort()`。
 
 这是完整的示例（目前还没有 `fetch`）：
