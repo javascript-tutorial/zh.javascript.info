@@ -407,7 +407,7 @@ JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `sl
     ```
 
 `str.substring(start [, end])`
-: 返回字符串在 `start` 和 `end` **之间** 的部分。
+: 返回字符串从 `start` 到（但不包括）`end` 的部分。
 
     这与 `slice` 几乎相同，但它允许 `start` 大于 `end`。
 
