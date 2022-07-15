@@ -34,7 +34,7 @@ let controller = new AbortController();
 let controller = new AbortController();
 let signal = controller.signal;
 
-// 执行可取消操作
+// 执行可取消操作部分
 // 获取 "signal" 对象，
 // 并将监听器设置为在 controller.abort() 被调用时触发
 signal.addEventListener('abort', () => alert("abort!"));
