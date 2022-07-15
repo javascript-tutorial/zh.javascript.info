@@ -1,7 +1,7 @@
 
 # Fetch：中止（Abort）
 
-正如我们所知道的，`fetch` 返回一个 promise。JavaScript 通常并没有“中止” promise 的概念。那么我们怎样才能取消一个正在执行的 `fetch` 呢？例如，如果用户在我们网站上的操作表明不再需要 `fetch`。
+正如我们所知道的，`fetch` 返回一个 promise。JavaScript 通常并没有“中止” promise 的概念。那么我们怎样才能取消一个正在执行的 `fetch` 呢？例如，如果用户在我们网站上的操作表明不再需要某个执行中的 `fetch`。
 
 为此有一个特殊的内建对象：`AbortController`。它不仅可以中止 `fetch`，还可以中止其他异步任务。
 
@@ -24,9 +24,9 @@ let controller = new AbortController();
 - `controller.signal` 就会触发 `abort` 事件。
 - `controller.signal.aborted` 属性变为 `true`。
 
-通常，处理分为两部分：
-1. 一部分是一个可取消的操作，它在 `controller.signal` 上设置一个监听器。
-2. 另一部分是取消：在需要的时候调用 `controller.abort()`。
+通常，我们需要处理两部分：
+1. 一部分是通过在 `controller.signal` 上添加一个监听器，来执行可取消操作。
+2. 另一部分是触发取消：在需要的时候调用 `controller.abort()`。
 
 这是完整的示例（目前还没有 `fetch`）：
 
@@ -34,7 +34,7 @@ let controller = new AbortController();
 let controller = new AbortController();
 let signal = controller.signal;
 
-// 可取消的操作这一部分
+// 执行可取消操作部分
 // 获取 "signal" 对象，
 // 并将监听器设置为在 controller.abort() 被调用时触发
 signal.addEventListener('abort', () => alert("abort!"));
