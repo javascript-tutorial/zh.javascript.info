@@ -44,7 +44,7 @@ alert( arr.length ); // 3
 arr.splice(start[, deleteCount, elem1, ..., elemN])
 ```
 
-它从索引 `start` 开始修改 `arr`：删除 `deleteCount` 个元素并在当前位置插入 `elem1, ..., elemN`。最后返回已被删除元素的数组。
+它从索引 `start` 开始修改 `arr`：删除 `deleteCount` 个元素并在当前位置插入 `elem1, ..., elemN`。最后返回被删除的元素所组成的数组。
 
 通过例子我们可以很容易地掌握这个方法。
 
@@ -73,7 +73,7 @@ arr.splice(0, 3, "Let's", "dance");
 alert( arr ) // 现在 [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
-在这里我们可以看到 `splice` 返回了已删除元素的数组：
+在这里我们可以看到 `splice` 返回了被删除的元素所组成的数组：
 
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
