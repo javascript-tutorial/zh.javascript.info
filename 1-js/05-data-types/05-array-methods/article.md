@@ -236,7 +236,7 @@ arr.forEach(function(item, index, array) {
 
 [arr.indexOf](mdn:js/Array/indexOf) 和 [arr.includes](mdn:js/Array/includes) 方法语法相似，并且作用基本上也与字符串的方法相同，只不过这里是对数组元素而不是字符进行操作：
 
-- `arr.indexOf(item, from)` 从索引 `from` 开始搜索 `item`，如果找到则返回索引，否则返回 `-1`。
+- `arr.indexOf(item, from)` —— 从索引 `from` 开始搜索 `item`，如果找到则返回索引，否则返回 `-1`。
 - `arr.includes(item, from)` —— 从索引 `from` 开始搜索 `item`，如果找到则返回 `true`（译注：如果没找到，则返回 `false`）。
 
 通常使用这些方法时只会传入一个参数：传入 `item` 开始搜索。默认情况下，搜索是从头开始的。
@@ -253,7 +253,7 @@ alert( arr.indexOf(null) ); // -1
 alert( arr.includes(1) ); // true
 ```
 
-请注意，`indexOf` 使用严格相等 `===` 进行比较。所以，如果我们搜索 `false`，它会准确找到 `false` 而不是数字 `0`。
+请注意，`indexOf` 和 `includes` 使用严格相等 `===` 进行比较。所以，如果我们搜索 `false`，它会准确找到 `false` 而不是数字 `0`。
 
 如果我们想检查数组中是否包含元素 `item`，并且不需要知道其确切的索引，那么 `arr.includes` 是首选。
 
