@@ -159,13 +159,13 @@ arr.concat(arg1, arg2...)
 ```js run
 let arr = [1, 2];
 
-// create an array from: arr and [3,4]
+// 从 arr 和 [3,4] 创建一个新数组
 alert( arr.concat([3, 4]) ); // 1,2,3,4
 
-// create an array from: arr and [3,4] and [5,6]
+// 从 arr、[3,4] 和 [5,6] 创建一个新数组
 alert( arr.concat([3, 4], [5, 6]) ); // 1,2,3,4,5,6
 
-// create an array from: arr and [3,4], then add values 5 and 6
+// 从 arr、[3,4]、5 和 6 创建一个新数组
 alert( arr.concat([3, 4], 5, 6) ); // 1,2,3,4,5,6
 ```
 
