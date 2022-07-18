@@ -19,10 +19,10 @@ function makeWorker() {
 
 let name = "John";
 
-// create a function
+// 创建一个函数
 let work = makeWorker();
 
-// call it
+// 调用它
 work(); // 会显示什么？
 ```
 
