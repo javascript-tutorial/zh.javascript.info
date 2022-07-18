@@ -177,7 +177,7 @@ let timerId = setTimeout(function request() {
 
 并且，如果我们调度的函数占用大量的 CPU，那么我们可以测量执行所需要花费的时间，并安排下次调用是应该提前还是推迟。
 
-**嵌套的 `setTimeout` 能够精确地设置两次执行之间的延时，而 `setInterval` 却不能。**
+**嵌套的 `setTimeout` 相较于 `setInterval` 能够更精确地设置两次执行之间的延时。**
 
 下面来比较这两个代码片段。第一个使用的是 `setInterval`：
 
