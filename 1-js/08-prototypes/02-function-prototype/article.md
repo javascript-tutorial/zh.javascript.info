@@ -162,7 +162,7 @@ Rabbit.prototype = {
 
 - `F.prototype` 属性（不要把它与 `[[Prototype]]` 弄混了）在 `new F` 被调用时为新对象的 `[[Prototype]]` 赋值。
 - `F.prototype` 的值要么是一个对象，要么就是 `null`：其他值都不起作用。
-- `"prototype"` 属性仅在设置了一个构造函数（constructor function），并通过 `new` 调用时，才具有这种特殊的影响。
+- `"prototype"` 属性仅当设置在一个构造函数上，并通过 `new` 调用时，才具有这种特殊的影响。
 
 在常规对象上，`prototype` 没什么特别的：
 ```js
