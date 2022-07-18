@@ -62,7 +62,7 @@ if (response.ok) { // 如果 HTTP 状态码为 200-299
 `Response` 提供了多种基于 promise 的方法，来以不同的格式访问 body：
 
 - **`response.text()`** —— 读取 response，并以文本形式返回 response，
-- **`response.json()`** —— 将 response 解析为 JSON，
+- **`response.json()`** —— 将 response 解析为 JSON 格式，
 - **`response.formData()`** —— 以 `FormData` 对象（在 [下一章](info:formdata) 有解释）的形式返回 response，
 - **`response.blob()`** —— 以 [Blob](info:blob)（具有类型的二进制数据）形式返回 response，
 - **`response.arrayBuffer()`** —— 以 [ArrayBuffer](info:arraybuffer-binary-arrays)（低级别的二进制数据）形式返回 response，
@@ -75,7 +75,7 @@ let url = 'https://api.github.com/repos/javascript-tutorial/en.javascript.info/c
 let response = await fetch(url);
 
 *!*
-let commits = await response.json(); // 读取 response body，并将其解析为 JSON
+let commits = await response.json(); // 读取 response body，并将其解析为 JSON 格式
 */!*
 
 alert(commits[0].author.login);
