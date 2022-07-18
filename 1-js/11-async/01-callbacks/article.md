@@ -133,7 +133,7 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-在外部 `loadScript` 执行完成时，内部回调就会被回调。
+在外部 `loadScript` 执行完成时，回调就会发起内部的 `loadScript`。
 
 如果我们还想要一个脚本呢？
 
