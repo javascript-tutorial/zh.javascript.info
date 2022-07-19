@@ -20,7 +20,7 @@ alert( rabbit.eats ); // true
 ```
 
 
-1. 我们增加了一个字符串（强调）。现在 `alert` 会显示什么？
+1. 我们增加了一行代码（已高亮）。现在 `alert` 会显示什么？
 
     ```js
     function Rabbit() {}
