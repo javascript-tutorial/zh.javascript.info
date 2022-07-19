@@ -10,7 +10,7 @@
 - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`。
 - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`。
 
-`__proto__` 的不被反对的唯一的用法是在创建新对象时，将其用作属性：`{ __proto__: ... }`。
+`__proto__` 不被反对的唯一的用法是在创建新对象时，将其用作属性：`{ __proto__: ... }`。
 
 虽然，也有一种特殊的方法：
 
