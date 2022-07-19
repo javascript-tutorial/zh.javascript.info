@@ -57,7 +57,7 @@ alert( rabbit.eats ); // true
 ```js
 function Rabbit() {}
 
-/* default prototype
+/* 默认的 prototype
 Rabbit.prototype = { constructor: Rabbit };
 */
 ```
@@ -68,7 +68,7 @@ Rabbit.prototype = { constructor: Rabbit };
 
 ```js run
 function Rabbit() {}
-// by default:
+// 默认：
 // Rabbit.prototype = { constructor: Rabbit }
 
 alert( Rabbit.prototype.constructor == Rabbit ); // true
@@ -78,10 +78,10 @@ alert( Rabbit.prototype.constructor == Rabbit ); // true
 
 ```js run
 function Rabbit() {}
-// by default:
+// 默认：
 // Rabbit.prototype = { constructor: Rabbit }
 
-let rabbit = new Rabbit(); // inherits from {constructor: Rabbit}
+let rabbit = new Rabbit(); // 继承自 {constructor: Rabbit}
 
 alert(rabbit.constructor == Rabbit); // true (from prototype)
 ```
