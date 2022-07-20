@@ -37,7 +37,7 @@ if (year == 2015) {
 
 让我们回顾一下 <info:type-conversions> 一章中的转换规则：
 
-- 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为它们被称为“假值（falsy）”值。
+- 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为它们被称为“假值（falsy）”。
 - 其他值被转换为 `true`，所以它们被称为“真值（truthy）”。
 
 所以，下面这个条件下的代码永远不会执行：
