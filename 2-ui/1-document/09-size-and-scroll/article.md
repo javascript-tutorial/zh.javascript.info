@@ -154,7 +154,7 @@ function isHidden(elem) {
 
 在上图中，我们首先考虑 `clientHeight`。
 
-这里没有水平滚动条，所以它恰好是 border 内的总和：CSS-width `200px` 加上顶部和底部的 padding（`2 * 20px`），总计 `240px`。
+这里没有水平滚动条，所以它恰好是 border 内的总和：CSS-height `200px` 加上顶部和底部的 padding（`2 * 20px`），总计 `240px`。
 
 现在 `clientWidth` — 这里的 "content width" 不是 `300px`，而是 `284px`，因为被滚动条占用了 `16px`。所以加起来就是 `284px` 加上左侧和右侧的 padding，总计 `324px`。
 
