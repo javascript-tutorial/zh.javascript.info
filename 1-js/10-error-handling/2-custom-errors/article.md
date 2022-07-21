@@ -180,7 +180,7 @@ try {
 
 这个新的类 `PropertyRequiredError` 使用起来很简单：我们只需要传递属性名：`new PropertyRequiredError(property)`。人类可读的 `message` 是由 constructor 生成的。
 
-请注意，在 `PropertyRequiredError` constructor 中的 `this.name` 是通过手动重新赋值的。这可能会变得有些乏味 — 在每个自定义 error 类中都要进行 `this.name = <class name>` 赋值操作。我们可以通过创建自己的“基础错误（basic error）”类来避免这种情况，该类进行了 `this.name = this.constructor.name` 赋值。然后让所有我们自定义的 error 都从这个“基础错误”类进行继承。
+请注意，在 `PropertyRequiredError` constructor 中的 `this.name` 是通过手动重新赋值的。这可能会变得有些乏味 —— 在每个自定义 error 类中都要进行 `this.name = <class name>` 赋值操作。我们可以通过创建自己的“基础错误（basic error）”类来避免这种情况，该类进行了 `this.name = this.constructor.name` 赋值。然后让所有我们自定义的 error 都从这个“基础错误”类进行继承。
 
 让我们称之为 `MyError`。
 
@@ -239,7 +239,7 @@ try {
 
 如果 `readUser` 函数会产生多种 error，那么我们应该问问自己：我们是否真的想每次都一一检查所有的 error 类型？
 
-通常答案是 "No"：我们希望能够“比它高一个级别”。我们只想知道这里是否是“数据读取异常” — 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果我们有一种方法能够获取 error 的详细信息那就更好了，但前提是我们需要。
+通常答案是 "No"：我们希望能够“比它高一个级别”。我们只想知道这里是否是“数据读取异常” —— 为什么发生了这样的 error 通常是无关紧要的（error 信息描述了它）。或者，如果我们有一种方式能够获取 error 的详细信息那就更好了，但前提是我们需要。
 
 我们所描述的这项技术被称为“包装异常”。
 
@@ -317,7 +317,7 @@ try {
 }
 ```
 
-在上面的代码中，`readUser` 正如所描述的那样正常工作 — 捕获语法和验证（validation）错误，并抛出 `ReadError`（对于未知错误将照常再次抛出）。
+在上面的代码中，`readUser` 正如所描述的那样正常工作 —— 捕获语法和验证（validation）错误，并抛出 `ReadError`（对于未知错误将照常再次抛出）。
 
 所以外部代码检查 `instanceof ReadError`，并且它的确是。不必列出所有可能的 error 类型。
 
