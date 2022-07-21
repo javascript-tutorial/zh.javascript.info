@@ -78,5 +78,5 @@ alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // Error
 
 | class Rabbit | class Rabbit extends Object  |
 |--------------|------------------------------|
-| --             | needs to call `super()` in constructor |
+| --             | 需要在 constructor 中调用 `super()` |
 | `Rabbit.__proto__ === Function.prototype` | `Rabbit.__proto__ === Object` |
