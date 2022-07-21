@@ -10,12 +10,12 @@ importance: 5
 
     ```js
     try {
-      work work
+      // 工作
     } catch (err) {
-      handle errors
+      // 处理 error
     } finally {
     *!*
-      cleanup the working space
+      // 清理工作空间
     */!*
     }
     ```
@@ -23,16 +23,16 @@ importance: 5
 
     ```js
     try {
-      work work
+      // 工作
     } catch (err) {
-      handle errors
+      // 处理 error
     }
 
     *!*
-    cleanup the working space
+    // 清理工作空间
     */!*
     ```
 
 我们肯定需要在工作后进行清理，无论工作过程中是否有 error 都不影响。
 
-在这儿使用 `finally` 更有优势，还是说两个代码片段效果一样？如果在这儿有这样的优势，如果需要，请举例说明。
+在这儿使用 `finally` 更有优势，还是说两个代码片段效果一样？如果在这有这样的优势，如果需要，请举例说明。
