@@ -151,7 +151,7 @@ alert(`Power is: ${coffeeMachine.power}W`); // 功率是：100W
 coffeeMachine.power = 25; // Error（没有 setter）
 ```
 
-````smart header="Getter/setter 函数"
+````smart header="getter/setter 函数"
 这里我们使用了 getter/setter 语法。
 
 但大多数时候首选 `get.../set...` 函数，像这样：
