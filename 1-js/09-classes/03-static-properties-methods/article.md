@@ -221,7 +221,7 @@ alert(Rabbit.prototype.__proto__ === Animal.prototype); // true
 
 举个例子， 一个用于进行比较的方法 `Article.compare(article1, article2)` 或一个工厂（factory）方法 `Article.createTodays()`。
 
-在类生命中，它们都被用关键字 `static` 进行了标记。
+在类声明中，它们都被用关键字 `static` 进行了标记。
 
 静态属性被用于当我们想要存储类级别的数据时，而不是绑定到实例。
 
