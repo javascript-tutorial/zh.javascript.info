@@ -27,7 +27,7 @@ alert( rabbit.hasOwnProperty('name') ); // true
 
 不同之处在哪里？
 
-下面是此类的示例代码（它无法正常运行 — 为什么？修复它？）：
+下面是此类的示例代码（它无法正常运行 —— 为什么？修复它？）：
 
 ```js
 class Rabbit extends Object {
