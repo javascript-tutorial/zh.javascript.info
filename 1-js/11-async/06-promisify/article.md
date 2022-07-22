@@ -2,7 +2,7 @@
 
 对于一个简单的转换来说 “Promisification” 是一个长单词。它指将一个接受回调的函数转换为一个返回 promise 的函数。
 
-由于许多函数和库都是基于回调的，因此，在实际开发中经常会需要进行这种转换。因为使用 promise 更加方便，所以将基于回调的函数和库 promisify 是有意义的。（译注：promisify 即指 promise 化）
+由于许多函数和库都是基于回调的，因此，在实际开发中经常会需要进行这种转换。因为使用 promise 更加方便，所以将基于回调的函数和库 promise 化是有意义的。
 
 为了更好地理解，让我们来看一个例子。
 
@@ -25,7 +25,7 @@ function loadScript(src, callback) {
 
 该函数通过给定的 `src` 加载脚本，然后在出现错误时调用 `callback(err)`，或者在加载成功时调用 `callback(null, script)`。这是大家对于使用回调函数的共识，我们之前也学习过。
 
-现在，让我们将其 promisify 吧。
+现在，让我们将其 promise 化吧。
 
 我们将创建一个新的函数 `loadScriptPromise(src)`，与上面的函数作用相同（加载脚本），只是我们创建的这个函数会返回一个 promise 而不是使用回调。
 
@@ -50,9 +50,9 @@ let loadScriptPromise = function(src) {
 
 现在 `loadScriptPromise` 非常适用于基于 promise 的代码了。如果我们相比于回调函数，更喜欢 promise（稍后我们将看到更多喜欢 promise 的原因），那么我们将改用它。
 
-在实际开发中，我们可能需要 promisify 很多函数，所以使用一个 helper（辅助函数）很有意义。
+在实际开发中，我们可能需要 promise 化很多函数，所以使用一个 helper（辅助函数）很有意义。
 
-我们将其称为 `promisify(f)`：它接受一个需要被 promisify 的函数 `f`，并返回一个包装（wrapper）函数。
+我们将其称为 `promisify(f)`：它接受一个需要被 promise 化的函数 `f`，并返回一个包装（wrapper）函数。
 
 ```js
 function promisify(f) {
@@ -78,7 +78,7 @@ let loadScriptPromise = promisify(loadScript);
 loadScriptPromise(...).then(...);
 ```
 
-代码看起来可能有些复杂，但其本质与我们在上面写的那个是一样的，就是将 `loadScript` 函数 promisify。
+代码看起来可能有些复杂，但其本质与我们在上面写的那个是一样的，就是将 `loadScript` 函数 promise 化。
 
 调用 `promisify(f)` 会返回一个 `f` `(*)` 的包装器。该包装器返回一个 promise，并将调用转发给原始的 `f`，并在我们自定义的回调 `(**)` 中跟踪结果。
 
@@ -119,9 +119,9 @@ f(...).then(arrayOfResults => ..., err => ...);
 
 正如你所看到的，它与上面那个实现基本相同，只是根据 `manyArgs` 是否为真来决定仅使用一个还是所有参数调用 `resolve`。
 
-对于一些更奇特的回调格式，例如根本没有 `err` 的格式：`callback(result)`，我们可以手动 promisify 这样的函数，而不使用 helper。
+对于一些更奇特的回调格式，例如根本没有 `err` 的格式：`callback(result)`，我们可以手动 promise 化这样的函数，而不使用 helper。
 
-也有一些具有更灵活一点的 promisification 函数的模块（module），例如 [es6-promisify](https://github.com/digitaldesignlabs/es6-promisify)。在 Node.js 中，有一个内建的 promisify 函数 `util.promisify`。
+也有一些具有更灵活一点的 promisification 函数的模块（module），例如 [es6-promisify](https://github.com/digitaldesignlabs/es6-promisify)。在 Node.js 中，有一个内建的 promise 化函数 `util.promisify`。
 
 ```smart
 Promisification 是一种很好的方法，特别是在你使用 `async/await` 的时候（请看下一章），但不是回调的完全替代。
