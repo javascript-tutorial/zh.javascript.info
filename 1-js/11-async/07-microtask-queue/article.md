@@ -1,9 +1,9 @@
 
 # 微任务（Microtask）
 
-Promise 的处理程序（handlers）`.then`、`.catch` 和 `.finally` 都是异步的。
+promise 的处理程序 `.then`、`.catch` 和 `.finally` 都是异步的。
 
-即便一个 promise 立即被 resolve，`.then`、`.catch` 和 `.finally` **下面** 的代码也会在这些处理程序（handler）之前被执行。
+即便一个 promise 立即被 resolve，`.then`、`.catch` 和 `.finally` **下面** 的代码也会在这些处理程序之前被执行。
 
 示例代码如下：
 
@@ -30,15 +30,15 @@ alert("code finished"); // 这个 alert 先显示
 - 队列（queue）是先进先出的：首先进入队列的任务会首先运行。
 - 只有在 JavaScript 引擎中没有其它任务在运行时，才开始执行任务队列中的任务。
 
-或者，简单地说，当一个 promise 准备就绪时，它的 `.then/catch/finally` 处理程序（handler）就会被放入队列中：但是它们不会立即被执行。当 JavaScript 引擎执行完当前的代码，它会从队列中获取任务并执行它。
+或者，简单地说，当一个 promise 准备就绪时，它的 `.then/catch/finally` 处理程序就会被放入队列中：但是它们不会立即被执行。当 JavaScript 引擎执行完当前的代码，它会从队列中获取任务并执行它。
 
 这就是为什么在上面那个示例中 "code finished" 会先显示。
 
 ![](promiseQueue.svg)
 
-Promise 的处理程序（handler）总是会经过这个内部队列。
+promise 的处理程序总是会经过这个内部队列。
 
-如果有一个包含多个 `.then/catch/finally` 的链，那么它们中的每一个都是异步执行的。也就是说，它会首先进入队列，然后在当前代码执行完成并且先前排队的处理程序（handler）都完成时才会被执行。
+如果有一个包含多个 `.then/catch/finally` 的链，那么它们中的每一个都是异步执行的。也就是说，它会首先进入队列，然后在当前代码执行完成并且先前排队的处理程序都完成时才会被执行。
 
 **如果执行顺序对我们很重要该怎么办？我们怎么才能让 `code finished` 在 `promise done` 之后出现呢？**
 
@@ -95,7 +95,7 @@ window.addEventListener('unhandledrejection', event => alert(event.reason));
 
 现在，如果我们运行上面这段代码，我们会先看到 `Promise Failed!`，然后才是 `caught`。
 
-如果我们并不了解微任务队列，我们可能会想：“为什么 `unhandledrejection` 处理程序（handler）会运行？我们已经捕获（catch）并处理了 error！”
+如果我们并不了解微任务队列，我们可能会想：“为什么 `unhandledrejection` 处理程序会运行？我们已经捕获（catch）并处理了 error！”
 
 但是现在我们知道了，当微任务队列中的任务都完成时，才会生成 `unhandledrejection`：引擎会检查 promise，如果 promise 中的任意一个出现 "rejected" 状态，`unhandledrejection` 事件就会被触发。
 
@@ -105,7 +105,7 @@ window.addEventListener('unhandledrejection', event => alert(event.reason));
 
 Promise 处理始终是异步的，因为所有 promise 行为都会通过内部的 "promise jobs" 队列，也被称为“微任务队列”（V8 术语）。
 
-因此，`.then/catch/finally` 处理程序（handler）总是在当前代码完成后才会被调用。
+因此，`.then/catch/finally` 处理程序总是在当前代码完成后才会被调用。
 
 如果我们需要确保一段代码在 `.then/catch/finally` 之后被执行，我们可以将它添加到链式调用的 `.then` 中。
 
