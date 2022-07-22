@@ -28,7 +28,7 @@ function loadScript(src) {
 }
 ```
 
-它使用给定的 `src` 将一个新的、动态创建的标签 `<script src="…">` 插入到文档中。浏览器将自动开始加载它，并在加载完成后执行它。
+它将一个新的、带有给定 `src` 的、动态创建的标签 `<script src="…">` 插入到文档中。浏览器将自动开始加载它，并在加载完成后执行它。
 
 我们可以像这样使用这个函数：
 
@@ -103,7 +103,7 @@ function loadScript(src, callback) {
 
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
-  alert(`Cool, the script ${script.src} is loaded`);
+  alert(`酷，脚本 ${script.src} 加载完成`);
   alert( _ ); // _ 是所加载的脚本中声明的一个函数
 });
 */!*
@@ -122,11 +122,11 @@ loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', s
 ```js
 loadScript('/my/script.js', function(script) {
 
-  alert(`Cool, the ${script.src} is loaded, let's load one more`);
+  alert(`酷，脚本 ${script.src} 加载完成，让我们继续加载另一个吧`);
 
 *!*
   loadScript('/my/script2.js', function(script) {
-    alert(`Cool, the second script is loaded`);
+    alert(`酷，第二个脚本加载完成`);
   });
 */!*
 
