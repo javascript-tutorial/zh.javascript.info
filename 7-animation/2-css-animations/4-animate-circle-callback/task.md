@@ -1,5 +1,5 @@
 
-# Animated circle with callback
+# 带回调的圆圈动画
 
 In the task <info:task/animate-circle> an animated growing circle is shown.
 
