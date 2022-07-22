@@ -99,7 +99,7 @@ Promise.all([
 `Promise.all` 没有采取任何措施来取消它们，因为 promise 中没有“取消”的概念。在 [另一个章节](info:fetch-abort) 中，我们将介绍可以帮助我们解决这个问题（译注：指的是“取消” promise）的 `AbortController`，但它不是 Promise API 的一部分。
 ```
 
-````smart header="`Promise.all(iterable)` 允许在 `iterable` 中使用 non-promise 的“常规”值"
+````smart header="`Promise.all(iterable)` 允许在 `iterable` 中使用非 promise 的“常规”值"
 通常，`Promise.all(...)` 接受含有 promise 项的可迭代对象（大多数情况下是数组）作为参数。但是，如果这些对象中的任何一个不是 promise，那么它将被“按原样”传递给结果数组。
 
 例如，这里的结果是 `[1, 2, 3]`：
@@ -188,9 +188,9 @@ if (!Promise.allSettled) {
 }
 ```
 
-在这段代码中，`promises.map` 获取输入值，并通过 `p => Promise.resolve(p)` 将输入值转换为 promise（以防传递了 non-promise），然后向每一个 promise 都添加 `.then` 处理程序（handler）。
+在这段代码中，`promises.map` 获取输入值，并通过 `p => Promise.resolve(p)` 将输入值转换为 promise（以防传递了非 promise 值），然后向每一个 promise 都添加 `.then` 处理程序。
 
-这个处理程序（handler）将成功的结果 `value` 转换为 `{status:'fulfilled', value}`，将 error `reason` 转换为 `{status:'rejected', reason}`。这正是 `Promise.allSettled` 的格式。
+这个处理程序将成功的结果 `value` 转换为 `{status:'fulfilled', value}`，将 error `reason` 转换为 `{status:'rejected', reason}`。这正是 `Promise.allSettled` 的格式。
 
 然后我们就可以使用 `Promise.allSettled` 来获取 **所有** 给定的 promise 的结果，即使其中一些被 reject。
 
@@ -219,7 +219,7 @@ Promise.race([
 
 ## Promise.any
 
-与 `Promise.race` 类似，区别在于 `Promise.any` 只等待第一个 fulfilled 的 promise，并将这个 fulfilled 的 promise 返回。如果给出的 promise 都 rejected，那么则返回 rejected 的 promise 和 [`AggregateError`](mdn:js/AggregateError) 错误类型的 error 实例—— 一个特殊的 error 对象，在其 `errors` 属性中存储着所有 promise error。
+与 `Promise.race` 类似，区别在于 `Promise.any` 只等待第一个 fulfilled 的 promise，并将这个 fulfilled 的 promise 返回。如果给出的 promise 都 rejected，那么返回的 promise 会带有 [`AggregateError`](mdn:js/AggregateError) —— 一个特殊的 error 对象，在其 `errors` 属性中存储着所有 promise error。
 
 语法如下：
 
