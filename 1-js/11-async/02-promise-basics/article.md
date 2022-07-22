@@ -66,7 +66,7 @@ let promise = new Promise(function(resolve, reject) {
 
 这是一个成功完成任务的例子，一个“成功实现了的诺言”。
 
-现在的则是一个 executor 以 error 拒绝 promise 的示例：
+下面则是一个 executor 以 error 拒绝 promise 的示例：
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -83,7 +83,7 @@ let promise = new Promise(function(resolve, reject) {
 
 与最初的 "pending" promise 相反，一个 resolved 或 rejected 的 promise 都会被称为 "settled"。
 
-````smart header="这儿只能有一个结果或一个 error"
+````smart header="这只能有一个结果或一个 error"
 executor 只能调用一个 `resolve` 或一个 `reject`。任何状态的更改都是最终的。
 
 所有其他的再对 `resolve` 和 `reject` 的调用都会被忽略：
@@ -99,16 +99,16 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-这儿的宗旨是，一个被 executor 完成的工作只能有一个结果或一个 error。
+这的宗旨是，一个被 executor 完成的工作只能有一个结果或一个 error。
 
 并且，`resolve/reject` 只需要一个参数（或不包含任何参数），并且将忽略额外的参数。
 ````
 
 ```smart header="以 `Error` 对象 reject"
-如果什么东西出了问题， executor 应该调用 `reject`。这可以使用任何类型的参数来完成（就像 `resolve` 一样）。但是建议使用 `Error` 对象（或继承自 `Error` 的对象）。这样做的理由很快就会显而易见。
+如果什么东西出了问题，executor 应该调用 `reject`。这可以使用任何类型的参数来完成（就像 `resolve` 一样）。但建议使用 `Error` 对象（或继承自 `Error` 的对象）。这样做的理由很快就会显而易见。
 ```
 
-````smart header="Resolve/reject 可以立即进行"
+````smart header="resolve/reject 可以立即进行"
 实际上，executor 通常是异步执行某些操作，并在一段时间后调用 `resolve/reject`，但这不是必须的。我们还可以立即调用 `resolve` 或 `reject`，就像这样：
 
 ```js
@@ -228,7 +228,7 @@ promise.catch(alert); // 1 秒后显示 "Error: Whoops!"
 
 ```js
 new Promise((resolve, reject) => {
-  /* 做一些需要时间的事儿，之后调用可能会 resolve 也可能会 reject */
+  /* 做一些需要时间的事，之后调用可能会 resolve 也可能会 reject */
 })
 *!*
   // 在 promise 为 settled 时运行，无论成功与否
@@ -245,9 +245,9 @@ new Promise((resolve, reject) => {
 1. `finally` 处理程序（handler）没有参数。在 `finally` 中，我们不知道 promise 是否成功。没关系，因为我们的任务通常是执行“常规”的完成程序（finalizing procedures）。
 
     请看上面的例子：如你所见，`finally` 处理程序没有参数，promise 的结果由下一个处理程序处理。
-2. `finally` 处理程序将结果或 errir “传递”给下一个合适的处理程序。
+2. `finally` 处理程序将结果或 error “传递”给下一个合适的处理程序。
 
-    例如，在这儿结果被从 `finally` 传递给了 `then`：
+    例如，在这结果被从 `finally` 传递给了 `then`：
 
     ```js run
     new Promise((resolve, reject) => {
@@ -324,7 +324,7 @@ function loadScript(src, callback) {
 
 让我们用 promise 重写它。
 
-新函数 `loadScript` 将不需要回调。取而代之的是，它将创建并返回一个在加载完成时解析（resolve）的 promise 对象。外部代码可以使用 `.then` 向其添加处理程序（订阅函数）：
+新函数 `loadScript` 将不需要回调。取而代之的是，它将创建并返回一个在加载完成时 resolve 的 promise 对象。外部代码可以使用 `.then` 向其添加处理程序（订阅函数）：
 
 ```js run
 function loadScript(src) {
@@ -355,10 +355,10 @@ promise.then(script => alert('Another handler...'));
 
 我们立刻就能发现 promise 相较于基于回调的模式的一些好处：
 
-| Promises | Callbacks |
+| promise | callback |
 |----------|-----------|
-| Promises 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，我们必须有一个 `callback` 函数可供使用。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
-| 我们可以根据需要，在 promise 上多次调用 `.then`。每次调用，我们都会在“订阅列表”中添加一个新的“分析”，一个新的订阅函数。在下一章将对此内容进行详细介绍：[](info:promise-chaining)。 | 只能有一个回调。|
+| promise 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，我们必须有一个 `callback` 函数可供使用。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
+| 我们可以根据需要，在 promise 上多次调用 `.then`。每次调用，我们都会在“订阅列表”中添加一个新的“粉丝”，一个新的订阅函数。在下一章将对此内容进行详细介绍：[](info:promise-chaining)。 | 只能有一个回调。|
 
 
 因此，promise 为我们提供了更好的代码流和灵活性。但其实还有更多相关内容。我们将在下一章看到。
