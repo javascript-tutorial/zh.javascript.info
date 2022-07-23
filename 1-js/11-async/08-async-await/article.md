@@ -1,8 +1,8 @@
-# Async/await
+# async/await
 
-Async/await 是以更舒适的方式使用 promise 的一种特殊语法，同时它也非常易于理解和使用。
+async/await 是以更舒适的方式使用 promise 的一种特殊语法，同时它也非常易于理解和使用。
 
-## Async function
+## async function
 
 让我们以 `async` 这个关键字开始。它可以被放置在一个函数前面，如下所示：
 
@@ -36,7 +36,7 @@ f().then(alert); // 1
 
 所以说，`async` 确保了函数返回一个 promise，也会将非 promise 的值包装进去。很简单，对吧？但不仅仅这些。还有另外一个叫 `await` 的关键词，它只在 `async` 函数内工作，也非常酷。
 
-## Await
+## await
 
 语法如下：
 
