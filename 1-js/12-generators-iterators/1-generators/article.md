@@ -1,10 +1,10 @@
-# Generator
+# generator
 
 常规函数只会返回一个单一值（或者不返回任何值）。
 
-而 Generator 可以按需一个接一个地返回（"yield"）多个值。它们可与 [iterable](info:iterable) 完美配合使用，从而可以轻松地创建数据流。
+而 generator 可以按需一个接一个地返回（"yield"）多个值。它们可与 [iterable](info:iterable) 完美配合使用，从而可以轻松地创建数据流。
 
-## Generator 函数
+## generator 函数
 
 要创建一个 generator，我们需要一个特殊的语法结构：`function*`，即所谓的 "generator function"。
 
@@ -18,7 +18,7 @@ function* generateSequence() {
 }
 ```
 
-Generator 函数与常规函数的行为不同。在此类函数被调用时，它不会运行其代码。而是返回一个被称为 "generator object" 的特殊对象，来管理执行流程。
+generator 函数与常规函数的行为不同。在此类函数被调用时，它不会运行其代码。而是返回一个被称为 "generator object" 的特殊对象，来管理执行流程。
 
 我们来看一个例子：
 
@@ -98,9 +98,9 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 但是通常更倾向于第一种语法，因为星号 `*` 表示它是一个 generator 函数，它描述的是函数种类而不是名称，因此 `*` 应该和 `function` 关键字紧贴一起。
 ```
 
-## Generator 是可迭代的
+## generator 是可迭代的
 
-当你看到 `next()` 方法，或许你已经猜到了 generator 是 [可迭代（iterable）](info:iterable)的。（译注：`next()` 是 iterator 的必要方法）
+当你看到 `next()` 方法，或许你已经猜到了 generator 是 [可迭代（iterable）](info:iterable)的。
 
 我们可以使用 `for..of` 循环遍历它所有的值：
 
@@ -215,19 +215,19 @@ alert( [...range] ); // 1,2,3,4,5
 - 它具有 `.next()` 方法
 - 它以 `{value: ..., done: true/false}` 的形式返回值
 
-当然，这不是巧合。Generator 被添加到 JavaScript 语言中是有对 iterator 的考量的，以便更容易地实现 iterator。
+当然，这不是巧合。generator 被添加到 JavaScript 语言中是有对 iterator 的考量的，以便更容易地实现 iterator。
 
 带有 generator 的变体比原来的 `range` 迭代代码简洁得多，并且保持了相同的功能。
 
-```smart header="Generator 可以永远产出（yield）值"
+```smart header="generator 可以永远产出（yield）值"
 在上面的示例中，我们生成了有限序列，但是我们也可以创建一个生成无限序列的 generator，它可以一直产出（yield）值。例如，无序的伪随机数序列。
 
 这种情况下肯定需要在 generator 的 `for..of` 循环中添加一个 `break`（或者 `return`）。否则循环将永远重复下去并挂起。
 ```
 
-## Generator 组合
+## generator 组合
 
-Generator 组合（composition）是 generator 的一个特殊功能，它允许透明地（transparently）将 generator 彼此“嵌入（embed）”到一起。
+generator 组合（composition）是 generator 的一个特殊功能，它允许透明地（transparently）将 generator 彼此“嵌入（embed）”到一起。
 
 例如，我们有一个生成数字序列的函数：
 
@@ -312,7 +312,7 @@ for(let code of generateAlphaNum()) {
 alert(str); // 0..9A..Za..z
 ```
 
-Generator 组合（composition）是将一个 generator 流插入到另一个 generator 流的自然的方式。它不需要使用额外的内存来存储中间结果。
+generator 组合（composition）是将一个 generator 流插入到另一个 generator 流的自然的方式。它不需要使用额外的内存来存储中间结果。
 
 ## "yield" 是一条双向路
 
@@ -472,7 +472,7 @@ g.next();        // { value: undefined, done: true }
 
 ## 总结
 
-- Generator 是通过 generator 函数 `function* f(…) {…}` 创建的。
+- generator 是通过 generator 函数 `function* f(…) {…}` 创建的。
 - 在 generator（仅在）内部，存在 `yield` 操作。
 - 外部代码和 generator 可能会通过 `next/yield` 调用交换结果。
 
