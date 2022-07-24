@@ -70,7 +70,7 @@ Proxy 捕捉器会拦截这些方法的调用。它们在 [proxy 规范](https:/
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object.keys/values/entries` |
 
 ```warn header="不变量（Invariant）"
-JavaScript 强制执行某些不变量 — 内部方法和捕捉器必须满足的条件。
+JavaScript 强制执行某些不变量 —— 内部方法和捕捉器必须满足的条件。
 
 其中大多数用于返回值：
 - `[[Set]]` 如果值已成功写入，则必须返回 `true`，否则返回 `false`。
