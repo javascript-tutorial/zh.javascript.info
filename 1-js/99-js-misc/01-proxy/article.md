@@ -244,10 +244,10 @@ alert("This line is never reached (error in the line above)");
 `Object.keys`，`for..in` 循环和大多数其他遍历对象属性的方法都使用内部方法 `[[OwnPropertyKeys]]`（由 `ownKeys` 捕捉器拦截) 来获取属性列表。
 
 这些方法在细节上有所不同：
-- `Object.getOwnPropertyNames(obj)` 返回非 Symbol 键。
-- `Object.getOwnPropertySymbols(obj)` 返回 Symbol 键。
-- `Object.keys/values()` 返回带有 `enumerable` 标志的非 Symbol 键/值（属性标志在 <info:property-descriptors> 一章有详细讲解)。
-- `for..in` 循环遍历所有带有 `enumerable` 标志的非 Symbol 键，以及原型对象的键。
+- `Object.getOwnPropertyNames(obj)` 返回非 symbol 键。
+- `Object.getOwnPropertySymbols(obj)` 返回 symbol 键。
+- `Object.keys/values()` 返回带有 `enumerable` 标志的非 symbol 键/值（属性标志在 <info:property-descriptors> 一章有详细讲解)。
+- `for..in` 循环遍历所有带有 `enumerable` 标志的非 symbol 键，以及原型对象的键。
 
 ……但是所有这些都从该列表开始。
 
@@ -453,7 +453,7 @@ user = {
 但是，此类属性有其自身的问题。特别是，它们是不可继承的。
 ```
 
-## 带有 "has" 捕捉器 的 "in range"
+## 带有 "has" 捕捉器的 "in range"
 
 让我们来看更多示例。
 
@@ -666,7 +666,7 @@ user.name = "Pete"; // 显示 "SET name=Pete"
 
 我们有一个带有 `_name` 属性和 getter 的对象 `user`。
 
-这是对 `user` 对象对一个代理（proxy）：
+这是对 `user` 对象的一个代理：
 
 ```js run
 let user = {
@@ -810,7 +810,7 @@ proxy.set('test', 1); // Error
 
 在内部，一个 `Map` 将所有数据存储在其 `[[MapData]]` 内部插槽中。代理对象没有这样的插槽。[内建方法 `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) 方法试图访问内部属性 `this.[[MapData]]`，但由于 `this=proxy`，在 `proxy` 中无法找到它，只能失败。
 
-幸运的是，这儿有一种解决方法：
+幸运的是，这有一种解决方法：
 
 ```js run
 let map = new Map();
@@ -842,7 +842,7 @@ alert(proxy.get('test')); // 1（工作了！）
 
 类的私有字段也会发生类似的情况。
 
-例如，`getName()` 方法访问私有的 `#name` 属性，并在代理后中断（break）：
+例如，`getName()` 方法访问私有的 `#name` 属性，并在代理后中断：
 
 ```js run
 class User {
