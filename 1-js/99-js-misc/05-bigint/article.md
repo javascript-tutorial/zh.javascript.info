@@ -122,7 +122,7 @@ Polyfilling bigint 比较棘手。原因是许多 JavaScript 运算符，比如 
 
 换句话说，这个方法建议我们在写代码时使用 JSBI 替代原生的 bigint。但是 JSBI 在内部像使用 bigint 一样使用 number，并最大程度按照规范进行模拟，所以代码已经是准备好转换成 bigint 的了（bigint-ready）。
 
-对于不支持 bigint 的引擎，我们可以“按原样”使用此类 JSBI 代码，对于那些支持 bigint 的引擎 — polyfill 会将调用转换为原生的 bigint。
+对于不支持 bigint 的引擎，我们可以“按原样”使用此类 JSBI 代码，对于那些支持 bigint 的引擎 —— polyfill 会将调用转换为原生的 bigint。
 
 ## 参考
 
