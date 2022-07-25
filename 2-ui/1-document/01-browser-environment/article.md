@@ -69,7 +69,7 @@ DOM 规范解释了文档的结构，并提供了操作文档的对象。有的�
 
 例如：
 
-- [navigator](mdn:api/Window/navigator) 对象提供了有关浏览器和操作系统的背景信息。navigator 有许多属性，但是最广为人知的两个属性是：`navigator.userAgent` — 关于当前浏览器，`navigator.platform` — 关于平台（有助于区分 Windows/Linux/Mac 等）。
+- [navigator](mdn:api/Window/navigator) 对象提供了有关浏览器和操作系统的背景信息。navigator 有许多属性，但是最广为人知的两个属性是：`navigator.userAgent` —— 关于当前浏览器，`navigator.platform` —— 关于平台（有助于区分 Windows/Linux/Mac 等）。
 - [location](mdn:api/Window/location) 对象允许我们读取当前 URL，并且可以将浏览器重定向到新的 URL。
 
 这是我们可以如何使用 `location` 对象的方法：
