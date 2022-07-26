@@ -56,11 +56,11 @@
 
 它获取属性和方法，并将其作为下列类（按继承顺序列出）的叠加：
 
-- `HTMLInputElement` — 该类提供特定于输入的属性，
-- `HTMLElement` — 它提供了通用（common）的 HTML 元素方法（以及 getter 和 setter）
-- `Element` — 提供通用（generic）元素方法，
-- `Node` — 提供通用 DOM 节点属性，
-- `EventTarget` — 为事件（包括事件本身）提供支持，
+- `HTMLInputElement` —— 该类提供特定于输入的属性，
+- `HTMLElement` —— 它提供了通用（common）的 HTML 元素方法（以及 getter 和 setter）
+- `Element` —— 提供通用（generic）元素方法，
+- `Node` —— 提供通用 DOM 节点属性，
+- `EventTarget` —— 为事件（包括事件本身）提供支持，
 - ……最后，它继承自 `Object`，因为像 `hasOwnProperty` 这样的“普通对象”方法也是可用的。
 
 我们可以通过回调来查看 DOM 节点类名，因为对象通常都具有 `constructor` 属性。它引用类的 constructor，`constructor.name` 就是它的名称：
@@ -211,7 +211,7 @@ tagName 和 nodeName 之间有什么不同吗？
 如果我们只处理元素，那么 `tagName` 和 `nodeName` 这两种方法，我们都可以使用，没有区别。
 
 ```smart header="标签名称始终是大写的，除非是在 XML 模式下"
-浏览器有两种处理文档（document）的模式：HTML 和 XML。通常，HTML 模式用于网页。只有在浏览器接收到带有 header `Content-Type: application/xml+xhtml` 的 XML-document 时，XML 模式才会被启用。
+浏览器有两种处理文档（document）的模式：HTML 和 XML。通常，HTML 模式用于网页。只有在浏览器接收到带有 `Content-Type: application/xml+xhtml` header 的 XML-document 时，XML 模式才会被启用。
 
 在 HTML 模式下，`tagName/nodeName` 始终是大写的：它是 `BODY`，而不是 `<body>` 或 `<BoDy>`。
 
@@ -254,7 +254,7 @@ tagName 和 nodeName 之间有什么不同吗？
 ```
 
 ```smart header="脚本不会执行"
-如果 `innerHTML` 将一个 `<script>` 标签插入到 document 中 — 它会成为 HTML 的一部分，但是不会执行。
+如果 `innerHTML` 将一个 `<script>` 标签插入到 document 中 —— 它会成为 HTML 的一部分，但是不会执行。
 ```
 
 ### 小心："innerHTML+=" 会进行完全重写
@@ -467,9 +467,9 @@ elem.innerHTML = elem.innerHTML + "..."
 
 DOM 元素还有其他属性，特别是那些依赖于 class 的属性：
 
-- `value` — `<input>`，`<select>` 和 `<textarea>`（`HTMLInputElement`，`HTMLSelectElement`……）的 value。
-- `href` — `<a href="...">`（`HTMLAnchorElement`）的 href。
-- `id` — 所有元素（`HTMLElement`）的 "id" 特性（attribute）的值。
+- `value` —— `<input>`，`<select>` 和 `<textarea>`（`HTMLInputElement`，`HTMLSelectElement`……）的 value。
+- `href` —— `<a href="...">`（`HTMLAnchorElement`）的 href。
+- `id` —— 所有元素（`HTMLElement`）的 "id" 特性（attribute）的值。
 - ……以及更多其他内容……
 
 例如：
