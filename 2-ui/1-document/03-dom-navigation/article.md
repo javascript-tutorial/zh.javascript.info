@@ -25,7 +25,7 @@ DOM 让我们可以对元素和它们中的内容做任何事，但是首先我�
 : 最顶层的 document 节点是 `document.documentElement`。这是对应 `<html>` 标签的 DOM 节点。
 
 `<body>` = `document.body`
-: 另一个被广泛使用的 DOM 节点是 `<body>` 元素 — `document.body`。
+: 另一个被广泛使用的 DOM 节点是 `<body>` 元素 —— `document.body`。
 
 `<head>` = `document.head`
 : `<head>` 标签可以通过 `document.head` 访问。
@@ -67,8 +67,8 @@ DOM 让我们可以对元素和它们中的内容做任何事，但是首先我�
 
 从现在开始，我们将使用下面这两个术语：
 
-- **子节点（或者叫作子）** — 对应的是直系的子元素。换句话说，它们被完全嵌套在给定的元素中。例如，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
-- **子孙元素** — 嵌套在给定元素中的所有元素，包括子元素，以及子元素的子元素等。
+- **子节点（或者叫作子）** —— 对应的是直系的子元素。换句话说，它们被完全嵌套在给定的元素中。例如，`<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
+- **子孙元素** —— 嵌套在给定元素中的所有元素，包括子元素，以及子元素的子元素等。
 
 例如，这里 `<body>` 有子元素 `<div>` 和 `<ul>`（以及一些空白的文本节点）：
 
@@ -129,7 +129,7 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 
 ### DOM 集合
 
-正如我们看到的那样，`childNodes` 看起来就像一个数组。但实际上它并不是一个数组，而是一个 **集合** — 一个类数组的可迭代对象。
+正如我们看到的那样，`childNodes` 看起来就像一个数组。但实际上它并不是一个数组，而是一个 **集合** —— 一个类数组的可迭代对象。
 
 这个性质会导致两个重要的结果：
 
@@ -224,10 +224,10 @@ alert( document.body.previousSibling ); // HTMLHeadElement
 
 这些链接和我们在上面提到过的类似，只是在词中间加了 `Element`：
 
-- `children` — 仅那些作为元素节点的子代的节点。
-- `firstElementChild`，`lastElementChild` — 第一个和最后一个子元素。
-- `previousElementSibling`，`nextElementSibling` — 兄弟元素。
-- `parentElement` — 父元素。
+- `children` —— 仅那些作为元素节点的子代的节点。
+- `firstElementChild`，`lastElementChild` —— 第一个和最后一个子元素。
+- `previousElementSibling`，`nextElementSibling` —— 兄弟元素。
+- `parentElement` —— 父元素。
 
 ````smart header="为什么是 `parentElement`? 父节点可以不是一个元素吗？"
 `parentElement` 属性返回的是“元素类型”的父节点，而 `parentNode` 返回的是“任何类型”的父节点。这些属性通常来说是一样的：它们都是用于获取父节点。
@@ -282,21 +282,21 @@ while(elem = elem.parentElement) { // 向上，直到 <html>
 
 表格（Table）是一个很好的例子，它代表了一个特别重要的情况：
 
-**`<table>`** 元素支持 (除了上面给出的，之外) 以下这些属性:
-- `table.rows` — `<tr>` 元素的集合。
-- `table.caption/tHead/tFoot` — 引用元素 `<caption>`，`<thead>`，`<tfoot>`。
-- `table.tBodies` — `<tbody>` 元素的集合（根据标准还有很多元素，但是这里至少会有一个 — 即使没有被写在 HTML 源文件中，浏览器也会将其放入 DOM 中）。
+**`<table>`** 元素支持 (除了上面给出的，之外) 以下属性:
+- `table.rows` —— `<tr>` 元素的集合。
+- `table.caption/tHead/tFoot` —— 引用元素 `<caption>`，`<thead>`，`<tfoot>`。
+- `table.tBodies` —— `<tbody>` 元素的集合（根据标准还有很多元素，但是这里至少会有一个 —— 即使没有被写在 HTML 源文件中，浏览器也会将其放入 DOM 中）。
 
 **`<thead>`，`<tfoot>`，`<tbody>`** 元素提供了 `rows` 属性：
-- `tbody.rows` — 表格内部 `<tr>` 元素的集合。
+- `tbody.rows` —— 表格内部 `<tr>` 元素的集合。
 
 **`<tr>`：**
-- `tr.cells` — 在给定 `<tr>` 中的 `<td>` 和 `<th>` 单元格的集合。
-- `tr.sectionRowIndex` — 给定的 `<tr>` 在封闭的 `<thead>/<tbody>/<tfoot>` 中的位置（索引）。
-- `tr.rowIndex` — 在整个表格中 `<tr>` 的编号（包括表格的所有行）。
+- `tr.cells` —— 在给定 `<tr>` 中的 `<td>` 和 `<th>` 单元格的集合。
+- `tr.sectionRowIndex` —— 给定的 `<tr>` 在封闭的 `<thead>/<tbody>/<tfoot>` 中的位置（索引）。
+- `tr.rowIndex` —— 在整个表格中 `<tr>` 的编号（包括表格的所有行）。
 
 **`<td>` 和 `<th>`：**
-- `td.cellIndex` — 在封闭的 `<tr>` 中单元格的编号。
+- `td.cellIndex` —— 在封闭的 `<tr>` 中单元格的编号。
 
 用法示例：
 
