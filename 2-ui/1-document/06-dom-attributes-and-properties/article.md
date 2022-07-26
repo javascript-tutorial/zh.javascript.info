@@ -87,10 +87,10 @@ document.body.sayHi(); // Hello, I'm BODY
 
 当然。所有特性都可以通过使用以下方法进行访问：
 
-- `elem.hasAttribute(name)` — 检查特性是否存在。
-- `elem.getAttribute(name)` — 获取这个特性值。
-- `elem.setAttribute(name, value)` — 设置这个特性值。
-- `elem.removeAttribute(name)` — 移除这个特性。
+- `elem.hasAttribute(name)` —— 检查特性是否存在。
+- `elem.getAttribute(name)` —— 获取这个特性值。
+- `elem.setAttribute(name, value)` —— 设置这个特性值。
+- `elem.removeAttribute(name)` —— 移除这个特性。
 
 这些方法操作的实际上是 HTML 中的内容。
 
@@ -135,7 +135,7 @@ HTML 特性有以下几个特征：
 
 请注意：
 
-1. `getAttribute('About')` — 这里的第一个字母是大写的，但是在 HTML 中，它们都是小写的。但这没有影响：特性的名称是大小写不敏感的。
+1. `getAttribute('About')` —— 这里的第一个字母是大写的，但是在 HTML 中，它们都是小写的。但这没有影响：特性的名称是大小写不敏感的。
 2. 我们可以将任何东西赋值给特性，但是这些东西会变成字符串类型的。所以这里我们的值为 `"123"`。
 3. 所有特性，包括我们设置的那个特性，在 `outerHTML` 中都是可见的。
 4. `attributes` 集合是可迭代对象，该对象将所有元素的特性（标准和非标准的）作为 `name` 和 `value` 属性存储在对象中。
@@ -362,8 +362,8 @@ div.setAttribute('order-state', 'canceled');
 
 ## 总结
 
-- 特性（attribute）— 写在 HTML 中的内容。
-- 属性（property）— DOM 对象中的内容。
+- 特性（attribute）—— 写在 HTML 中的内容。
+- 属性（property）—— DOM 对象中的内容。
 
 简略的对比：
 
@@ -374,11 +374,11 @@ div.setAttribute('order-state', 'canceled');
 
 操作特性的方法：
 
-- `elem.hasAttribute(name)` — 检查是否存在这个特性。
-- `elem.getAttribute(name)` — 获取这个特性值。
-- `elem.setAttribute(name, value)` — 设置这个特性值。
-- `elem.removeAttribute(name)` — 移除这个特性。
-- `elem.attributes` — 所有特性的集合。
+- `elem.hasAttribute(name)` —— 检查是否存在这个特性。
+- `elem.getAttribute(name)` —— 获取这个特性值。
+- `elem.setAttribute(name, value)` —— 设置这个特性值。
+- `elem.removeAttribute(name)` —— 移除这个特性。
+- `elem.attributes` —— 所有特性的集合。
 
 在大多数情况下，最好使用 DOM 属性。仅当 DOM 属性无法满足开发需求，并且我们真的需要特性时，才使用特性，例如：
 
