@@ -1,6 +1,6 @@
 # 样式和类
 
-在我们讨论 JavaScript 处理样式和类的方法之前 — 有一个重要的规则。希望它足够明显，但是我们仍然必须提到它。
+在我们讨论 JavaScript 处理样式和类的方法之前 —— 有一个重要的规则。希望它足够明显，但是我们仍然必须提到它。
 
 通常有两种设置元素样式的方式：
 
@@ -21,7 +21,7 @@ elem.style.left = left; // 例如 '123px'，在运行时计算出的
 elem.style.top = top; // 例如 '456px'
 ```
 
-对于其他情况，例如将文本设为红色，添加一个背景图标 — 可以在 CSS 中对这些样式进行描述，然后添加类（JavaScript 可以做到）。这样更灵活，更易于支持。
+对于其他情况，例如将文本设为红色，添加一个背景图标 —— 可以在 CSS 中对这些样式进行描述，然后添加类（JavaScript 可以做到）。这样更灵活，更易于支持。
 
 ## className 和 classList
 
@@ -66,9 +66,9 @@ elem.style.top = top; // 例如 '456px'
 
 `classList` 的方法：
 
-- `elem.classList.add/remove(class)` — 添加/移除类。
-- `elem.classList.toggle(class)` — 如果类不存在就添加类，存在就移除它。
-- `elem.classList.contains(class)` — 检查给定类，返回 `true/false`。
+- `elem.classList.add/remove(class)` —— 添加/移除类。
+- `elem.classList.toggle(class)` —— 如果类不存在就添加类，存在就移除它。
+- `elem.classList.contains(class)` —— 检查给定类，返回 `true/false`。
 
 此外，`classList` 是可迭代的，因此，我们可以像下面这样列出所有类：
 
@@ -176,7 +176,7 @@ setTimeout(() => document.body.style.removeProperty('background'), 1000); // 1 �
     alert(document.body.style.margin); // ''（空字符串，赋值被忽略了）
   */!*
 
-    // 现在添加了 CSS 单位（px）— 生效了
+    // 现在添加了 CSS 单位（px）—— 生效了
     document.body.style.margin = '20px';
     alert(document.body.style.margin); // 20px
 
@@ -258,7 +258,7 @@ pseudo
 在 [CSS](https://drafts.csswg.org/cssom/#resolved-values) 中有两个概念：
 
 1. **计算 (computed)** 样式值是所有 CSS 规则和 CSS 继承都应用后的值，这是 CSS 级联（cascade）的结果。它看起来像 `height:1em` 或 `font-size:125%`。
-2. **解析 (resolved)** 样式值是最终应用于元素的样式值值。诸如 `1em` 或 `125%` 这样的值是相对的。浏览器将使用计算（computed）值，并使所有单位均为固定的，且为绝对单位，例如：`height:20px` 或 `font-size:16px`。对于几何属性，解析（resolved）值可能具有浮点，例如：`width:50.5px`。
+2. **解析 (resolved)** 样式值是最终应用于元素的样式值。诸如 `1em` 或 `125%` 这样的值是相对的。浏览器将使用计算（computed）值，并使所有单位均为固定的，且为绝对单位，例如：`height:20px` 或 `font-size:16px`。对于几何属性，解析（resolved）值可能具有浮点，例如：`width:50.5px`。
 
 很久以前，创建了 `getComputedStyle` 来获取计算（computed）值，但事实证明，解析（resolved）值要方便得多，标准也因此发生了变化。
 
@@ -290,19 +290,19 @@ pseudo
 
 但 `getComputedStyle` 没有给出访问该颜色的方式，因为如果允许的话，任意页面都可以通过在页面上创建它，并通过检查样式来确定用户是否访问了某链接。
 
-JavaScript 看不到 `:visited` 所应用的样式。此外，CSS 中也有一个限制，即禁止在 `:visited` 中应用更改几何形状的样式。这是为了确保一个不好的页面无法测试链接是否被访问，进而窥探隐私。
+JavaScript 看不到 `:visited` 所应用的样式。此外，CSS 中也有一个限制，即禁止在 `:visited` 中应用更改几何形状的样式。这是为了确保一个不好的页面无法检测链接是否被访问，进而窥探隐私。
 ```
 
 ## 总结
 
 要管理 class，有两个 DOM 属性：
 
-- `className` — 字符串值，可以很好地管理整个类的集合。
-- `classList` — 具有 `add/remove/toggle/contains` 方法的对象，可以很好地支持单个类。
+- `className` —— 字符串值，可以很好地管理整个类的集合。
+- `classList` —— 具有 `add/remove/toggle/contains` 方法的对象，可以很好地支持单个类。
 
 要改变样式：
 
-- `style` 属性是具有驼峰（camelCased）样式的对象。对其进行读取和修改与修改 `"style"` 特性（attribute）中的各个属性具有相同的效果。要了解如何应用 `important` 和其他特殊内容 — 在 [MDN](mdn:api/CSSStyleDeclaration) 中有一个方法列表。
+- `style` 属性是具有驼峰（camelCased）样式的对象。对其进行读取和修改与修改 `"style"` 特性（attribute）中的各个属性具有相同的效果。要了解如何应用 `important` 和其他特殊内容 —— 在 [MDN](mdn:api/CSSStyleDeclaration) 中有一个方法列表。
 
 - `style.cssText` 属性对应于整个 `"style"` 特性（attribute），即完整的样式字符串。
 
