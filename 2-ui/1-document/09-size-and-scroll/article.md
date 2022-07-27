@@ -98,8 +98,8 @@ JavaScript 中有许多属性可让我们读取有关元素宽度、高度和其
 
 对于我们的示例元素：
 
-- `offsetWidth = 390` — 外部宽度（width），可以计算为内部 CSS-width（`300px`）加上 padding（`2 * 20px`）和 border（`2 * 25px`）。
-- `offsetHeight = 290` — 外部高度（height）。
+- `offsetWidth = 390` —— 外部宽度（width），可以计算为内部 CSS-width（`300px`）加上 padding（`2 * 20px`）和 border（`2 * 25px`）。
+- `offsetHeight = 290` —— 外部高度（height）。
 
 ````smart header="对于未显示的元素，几何属性为 0/null"
 仅针对显示的元素计算几何属性。
@@ -127,12 +127,12 @@ function isHidden(elem) {
 
 在我们的例子中：
 
-- `clientLeft = 25` — 左边框宽度
-- `clientTop = 25` — 上边框宽度
+- `clientLeft = 25` —— 左边框宽度
+- `clientTop = 25` —— 上边框宽度
 
 ![](metric-client-left-top.svg)
 
-……但准确地说 — 这些属性不是边框的 width/height，而是内侧与外侧的相对坐标。
+……但准确地说 —— 这些属性不是边框的 width/height，而是内侧与外侧的相对坐标。
 
 有什么区别？
 
@@ -156,7 +156,7 @@ function isHidden(elem) {
 
 这里没有水平滚动条，所以它恰好是 border 内的总和：CSS-height `200px` 加上顶部和底部的 padding（`2 * 20px`），总计 `240px`。
 
-现在 `clientWidth` — 这里的 "content width" 不是 `300px`，而是 `284px`，因为被滚动条占用了 `16px`。所以加起来就是 `284px` 加上左侧和右侧的 padding，总计 `324px`。
+现在 `clientWidth` —— 这里的 "content width" 不是 `300px`，而是 `284px`，因为被滚动条占用了 `16px`。所以加起来就是 `284px` 加上左侧和右侧的 padding，总计 `324px`。
 
 **如果这里没有 padding，那么 `clientWidth/Height` 代表的就是内容区域，即 border 和 scrollbar（如果有）内的区域。**
 
@@ -172,8 +172,8 @@ function isHidden(elem) {
 
 在上图中：
 
-- `scrollHeight = 723` — 是内容区域的完整内部高度，包括滚动出的部分。
-- `scrollWidth = 324` — 是完整的内部宽度，这里我们没有水平滚动，因此它等于 `clientWidth`。
+- `scrollHeight = 723` —— 是内容区域的完整内部高度，包括滚动出的部分。
+- `scrollWidth = 324` —— 是完整的内部宽度，这里我们没有水平滚动，因此它等于 `clientWidth`。
 
 我们可以使用这些属性将元素展开（expand）到整个 width/height。
 
@@ -265,12 +265,12 @@ alert( getComputedStyle(elem).width ); // 显示 elem 的 CSS width
 
 元素具有以下几何属性：
 
-- `offsetParent` — 是最接近的 CSS 定位的祖先，或者是 `td`，`th`，`table`，`body`。
-- `offsetLeft/offsetTop` — 是相对于 `offsetParent` 的左上角边缘的坐标。
-- `offsetWidth/offsetHeight` — 元素的“外部” width/height，边框（border）尺寸计算在内。
-- `clientLeft/clientTop` — 从元素左上角外角到左上角内角的距离。对于从左到右显示内容的操作系统来说，它们始终是左侧/顶部 border 的宽度。而对于从右到左显示内容的操作系统来说，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
-- `clientWidth/clientHeight` — 内容的 width/height，包括 padding，但不包括滚动条（scrollbar）。
-- `scrollWidth/scrollHeight` — 内容的 width/height，就像 `clientWidth/clientHeight` 一样，但还包括元素的滚动出的不可见的部分。
-- `scrollLeft/scrollTop` — 从元素的左上角开始，滚动出元素的上半部分的 width/height。
+- `offsetParent` —— 是最接近的 CSS 定位的祖先，或者是 `td`，`th`，`table`，`body`。
+- `offsetLeft/offsetTop` —— 是相对于 `offsetParent` 的左上角边缘的坐标。
+- `offsetWidth/offsetHeight` —— 元素的“外部” width/height，边框（border）尺寸计算在内。
+- `clientLeft/clientTop` —— 从元素左上角外角到左上角内角的距离。对于从左到右显示内容的操作系统来说，它们始终是左侧/顶部 border 的宽度。而对于从右到左显示内容的操作系统来说，垂直滚动条在左边，所以 `clientLeft` 也包括滚动条的宽度。
+- `clientWidth/clientHeight` —— 内容的 width/height，包括 padding，但不包括滚动条（scrollbar）。
+- `scrollWidth/scrollHeight` —— 内容的 width/height，就像 `clientWidth/clientHeight` 一样，但还包括元素的滚动出的不可见的部分。
+- `scrollLeft/scrollTop` —— 从元素的左上角开始，滚动出元素的上半部分的 width/height。
 
 除了 `scrollLeft/scrollTop` 外，所有属性都是只读的。如果我们修改 `scrollLeft/scrollTop`，浏览器会滚动对应的元素。
