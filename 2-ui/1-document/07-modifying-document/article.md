@@ -187,10 +187,10 @@ after
 
 该方法的第一个参数是代码字（code word），指定相对于 `elem` 的插入位置。必须为以下之一：
 
-- `"beforebegin"` — 将 `html` 插入到 `elem` 之前，
-- `"afterbegin"` — 将 `html` 插入到 `elem` 开头，
-- `"beforeend"` — 将 `html` 插入到 `elem` 末尾，
-- `"afterend"` — 将 `html` 插入到 `elem` 之后。
+- `"beforebegin"` —— 将 `html` 插入到 `elem` 之前，
+- `"afterbegin"` —— 将 `html` 插入到 `elem` 开头，
+- `"beforeend"` —— 将 `html` 插入到 `elem` 末尾，
+- `"afterend"` —— 将 `html` 插入到 `elem` 之后。
 
 第二个参数是 HTML 字符串，该字符串会被“作为 HTML” 插入。
 
@@ -222,10 +222,10 @@ after
 
 这个方法有两个兄弟：
 
-- `elem.insertAdjacentText(where, text)` — 语法一样，但是将 `text` 字符串“作为文本”插入而不是作为 HTML，
-- `elem.insertAdjacentElement(where, elem)` — 语法一样，但是插入的是一个元素。
+- `elem.insertAdjacentText(where, text)` —— 语法一样，但是将 `text` 字符串“作为文本”插入而不是作为 HTML，
+- `elem.insertAdjacentElement(where, elem)` —— 语法一样，但是插入的是一个元素。
 
-它们的存在主要是为了使语法“统一”。实际上，大多数时候只使用 `insertAdjacentHTML`。因为对于元素和文本，我们有 `append/prepend/before/after` 方法 — 它们也可以用于插入节点/文本片段，但写起来更短。
+它们的存在主要是为了使语法“统一”。实际上，大多数时候只使用 `insertAdjacentHTML`。因为对于元素和文本，我们有 `append/prepend/before/after` 方法 —— 它们也可以用于插入节点/文本片段，但写起来更短。
 
 所以，下面是显示一条消息的另一种变体：
 
@@ -299,7 +299,7 @@ after
 
 当我们有一个很大的元素时，克隆的方式可能更快更简单。
 
-调用 `elem.cloneNode(true)` 来创建元素的一个“深”克隆 — 具有所有特性（attribute）和子元素。如果我们调用 `elem.cloneNode(false)`，那克隆就不包括子元素。
+调用 `elem.cloneNode(true)` 来创建元素的一个“深”克隆 —— 具有所有特性（attribute）和子元素。如果我们调用 `elem.cloneNode(false)`，那克隆就不包括子元素。
 
 一个拷贝消息的示例：
 
@@ -525,17 +525,17 @@ ul.append(...getListContent()); // append + "..." operator = friends!
 ## 总结
 
 - 创建新节点的方法：
-    - `document.createElement(tag)` — 用给定的标签创建一个元素节点，
-    - `document.createTextNode(value)` — 创建一个文本节点（很少使用），
-    - `elem.cloneNode(deep)` — 克隆元素，如果 `deep==true` 则与其后代一起克隆。
+    - `document.createElement(tag)` —— 用给定的标签创建一个元素节点，
+    - `document.createTextNode(value)` —— 创建一个文本节点（很少使用），
+    - `elem.cloneNode(deep)` —— 克隆元素，如果 `deep==true` 则与其后代一起克隆。
 
 - 插入和移除节点的方法：
-    - `node.append(...nodes or strings)` — 在 `node` 末尾插入，
-    - `node.prepend(...nodes or strings)` — 在 `node` 开头插入，
-    - `node.before(...nodes or strings)` — 在 `node` 之前插入，
-    - `node.after(...nodes or strings)` — 在 `node` 之后插入，
-    - `node.replaceWith(...nodes or strings)` — 替换 `node`。
-    - `node.remove()` — 移除 `node`。
+    - `node.append(...nodes or strings)` —— 在 `node` 末尾插入，
+    - `node.prepend(...nodes or strings)` —— 在 `node` 开头插入，
+    - `node.before(...nodes or strings)` —— 在 `node` 之前插入，
+    - `node.after(...nodes or strings)` —— 在 `node` 之后插入，
+    - `node.replaceWith(...nodes or strings)` —— 替换 `node`。
+    - `node.remove()` —— 移除 `node`。
 
     文本字符串被“作为文本”插入。
 
@@ -548,10 +548,10 @@ ul.append(...getListContent()); // append + "..." operator = friends!
     这些方法都返回 `node`。
 
 - 在 `html` 中给定一些 HTML，`elem.insertAdjacentHTML(where, html)` 会根据 `where` 的值来插入它：
-    - `"beforebegin"` — 将 `html` 插入到 `elem` 前面，
-    - `"afterbegin"` — 将 `html` 插入到 `elem` 的开头，
-    - `"beforeend"` — 将 `html` 插入到 `elem` 的末尾，
-    - `"afterend"` — 将 `html` 插入到 `elem` 后面。
+    - `"beforebegin"` —— 将 `html` 插入到 `elem` 前面，
+    - `"afterbegin"` —— 将 `html` 插入到 `elem` 的开头，
+    - `"beforeend"` —— 将 `html` 插入到 `elem` 的末尾，
+    - `"afterend"` —— 将 `html` 插入到 `elem` 后面。
 
 另外，还有类似的方法，`elem.insertAdjacentText` 和 `elem.insertAdjacentElement`，它们会插入文本字符串和元素，但很少使用。
 
