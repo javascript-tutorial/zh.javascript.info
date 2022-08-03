@@ -57,7 +57,7 @@
       alert(e); // Security Error（另一个源）
     }
 
-    // 并且，我们也无法 **读取** iframe 中页面的 URL
+    // 并且，我们也无法读取 iframe 中页面的 URL
     try {
       // 无法从 location 对象中读取 URL
 *!*
@@ -67,7 +67,7 @@
       alert(e); // Security Error
     }
 
-    // ...我们可以 **写入** location（所以，在 iframe 中加载了其他内容）！
+    // ...我们可以写入 location（所以，在 iframe 中加载了其他内容）！
 *!*
     iframe.contentWindow.location = '/'; // OK
 */!*
