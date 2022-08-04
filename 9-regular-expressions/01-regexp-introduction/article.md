@@ -1,16 +1,14 @@
 # 模式（Patterns）和修饰符（flags）
 
-正则表达式是搜索和替换字符串的一种强大方式。
+正则表达式是提供了一种在文本中进行搜索和替换的强大的方式的模式。
 
-在 JavaScript 中，正则表达式通过内建的“RegExp”类的对象来实现，并与字符串集成。
-
-请注意，在各编程语言之间，正则表达式是有所不同的。在本教程中，我们只专注于 JavaScript。当然，它们有很多共同点，但在 Perl、Ruby 和 PHP 等语言下会有所不同。
+在 JavaScript 中，我们可以通过 [RegExp](mdn:js/RegExp) 对象使用它们，也可以与字符串方法结合使用。
 
 ## 正则表达式
 
-正则表达式（可叫作“regexp”或者“reg”）包含 **模式** 和可选的 **修饰符**。
+正则表达式（可叫作 "regexp"，或 "reg"）包扩 **模式** 和可选的 **修饰符**。
 
-创建一个正则表达式对象有两种语法。
+有两种创建正则表达式对象的语法。
 
 较长一点的语法：
 
@@ -18,115 +16,162 @@
 regexp = new RegExp("pattern", "flags");
 ```
 
-...较短一点的语法，使用斜杠 `"/"`：
+较短一点的语法，使用斜线 `"/"`：
 
 ```js
 regexp = /pattern/; // 没有修饰符
-regexp = /pattern/gmi; // 伴随修饰符 g、m 和 i（后面会讲到）
+regexp = /pattern/gmi; // 带有修饰符 g、m 和 i（后面会讲到）
 ```
 
-斜杠 `"/"` 会告诉 JavaScript 我们正在创建一个正则表达式。它的作用类似于字符串的引号。
+斜线 `pattern:/.../` 告诉 JavaScript 我们正在创建一个正则表达式。它的作用与字符串引号的作用相同。
 
-## 用法
+在这两种情况下，`regexp` 都会成为内建类 `RegExp` 的一个实例。
 
-如果要在字符串中进行搜索，可以使用 [search](mdn:js/String/search) 方法。
+这两种语法之间的主要区别在于，使用斜线 `/.../` 的模式不允许插入表达式（如带有 `${...}` 的字符串模板）。它是完全静态的。
 
-下面是示例：
+在我们写代码时就知道正则表达式时则会使用斜线的方式 —— 这是最常见的情况。当我们需要从动态生成的字符串“动态”创建正则表达式时，更经常使用 `new RegExp`。例如：
 
-```js run
-let str = "I love JavaScript!"; // 将在这里搜索
-
-let regexp = /love/;
-alert( str.search(regexp) ); // 2
+```js
+let tag = prompt("What tag do you want to find?", "h2");
+​
+let regexp = new RegExp(`<${tag}>`); // 如果在上方输入到 prompt 中的答案是 "h2"，则与 /<h2>/ 相同
 ```
-
-`str.search` 方法会查找模式 `pattern:/love/`，然后返回匹配项在字符串中的位置。我们可以猜到，`pattern:/love/` 是最简单的模式。它所做的就是简单的子字符串的查找。
-
-上面的代码等同于：
-
-```js run
-let str = "I love JavaScript!"; // 将在这里搜索
-
-let substr = 'love';
-alert( str.search(substr) ); // 2
-```
-
-所以搜索 `pattern:/love/` 与搜索 `"love"` 是等价的。
-
-但这只是暂时的。很快我们就会接触更复杂的正则表达式，其搜索功能将更强大。
-
-```smart header="配色"
-本文中的配色方案如下：
-
-- regexp -- `pattern:red`
-- string（我们要搜索的）-- `subject:blue`
-- result -- `match:green`
-```
-
-
-````smart header="什么时候使用 `new RegExp`?"
-通常我们使用的都是简短语法 `/.../`。但是它不接受任何变量插入，所以我们必须在写代码的时候就知道确切的 regexp。
-
-另一方面，`new RegExp` 允许从字符串中动态地构造模式。
-
-所以我们可以找出需要搜索的字段，然后根据搜索字段创建 `new RegExp`：
-
-```js run
-let search = prompt("What you want to search?", "love");
-let regexp = new RegExp(search);
-
-// 找到用户想要的任何东西
-alert( "I love JavaScript".search(regexp));
-```
-````
-
 
 ## 修饰符
 
-正则表达式的修饰符可能会影响搜索结果。
+正则表达式可能会有的会影响搜索结果的修饰符。
 
 在 JavaScript 中，有 6 个修饰符：
 
-`i`
-: 使用此修饰符后，搜索时不区分大小写: `A` 和 `a` 没有区别（具体看下面的例子）。
+`pattern:i`
+: 使用此修饰符后，搜索时不区分大小写：`A` 和 `a` 之间没有区别（请参见下面的示例）。
 
-`g`
-: 使用此修饰符后，搜索时会查找所有的匹配项，而不只是第一个（在下一章会讲到）。
+`pattern:g`
+: 使用此修饰符后，搜索时会寻找所有的匹配项 —— 没有它，则仅返回第一个匹配项。
 
-`m`
-: 多行模式（详见章节 <info:regexp-multiline-mode>）。
+`pattern:m`
+: 多行模式（详见 <info:regexp-multiline-mode>）。
 
-`s`
+`pattern:s`
 : 启用 "dotall" 模式，允许点 `pattern:.` 匹配换行符 `\n`（在 <info:regexp-character-classes> 中有详细介绍）。
 
-`u`
-: 开启完整的 unicode 支持。该修饰符能够修正对于代理对的处理。更详细的内容见章节 <info:regexp-unicode>。
+`pattern:u`
+: 开启完整的 Unicode 支持。该修饰符能够正确处理代理对。详见 <info:regexp-unicode>。
 
-`y`
-: 粘滞模式（详见 [下一章节](info:regexp-methods#y-flag)）
+`pattern:y`
+: 粘滞模式，在文本中的确切位置搜索（详见 <info:regexp-sticky>）
 
 
-## “i”修饰符
+```smart header="颜色"
+接下来，各部分的颜色如下：
+​
+- 正则表达式 —— `pattern:red`
+- 字符串（我们搜索的地方）—— `subject:blue`
+- 结果 —— `match:green`
 
-最简单的修饰符就是 `i` 了。
+## 搜索：str.match
 
-示例代码如下：
+正如前面所提到的，将正则表达式和字符串方法结合一起使用。
+
+`str.match(regexp)` 方法在字符串 `str` 中寻找 `regexp` 的所有匹配项。
+
+它有 3 种工作模式：
+
+1. 如果正则表达式具有修饰符 `pattern:g`，它返回一个由所有匹配项所构成的数组：
+    ```js run
+    let str = "We will, we will rock you";
+
+    alert( str.match(/we/gi) ); // We,we（由两个匹配的子字符串构成的数组）
+    ```
+    请注意，`match:We` 和 `match:we` 都被找到了，因为修饰符 `pattern:i` 使得正则表达式在进行搜索时不区分大小写。
+
+2. 如果没有这样的修饰符，它则会以数组形式返回第一个匹配项，索引 `0` 处保存着完整的匹配项，返回的结果的属性中还有一些其他详细信息：
+    ```js run
+    let str = "We will, we will rock you";
+
+    let result = str.match(/we/i); // 没有修饰符 g
+
+    alert( result[0] );     // We（第一个匹配项）
+    alert( result.length ); // 1
+
+    // 详细信息：
+    alert( result.index );  // 0（匹配项的位置）
+    alert( result.input );  // We will, we will rock you（源字符串）
+    ```
+    The array may have other indexes, besides `0` if a part of the regular expression is enclosed in parentheses. We'll cover that in the chapter  <info:regexp-groups>.
+
+3. 最后，如果没有匹配项，则返回 `null`（无论是否有修饰符 `pattern:g`）。
+
+    这是一个非常重要的细微差别。如果没有匹配项，我们不会收到一个空数组，而是会收到 `null`。忘了这一点可能会导致错误，例如：
+
+    ```js run
+    let matches = "JavaScript".match(/HTML/); // = null
+
+    if (!matches.length) { // Error: Cannot read property 'length' of null
+      alert("Error in the line above");
+    }
+    ```
+
+    如果我们希望结果始终是一个数组，我们可以这样写：
+
+    ```js run
+    let matches = "JavaScript".match(/HTML/)*!* || []*/!*;
+
+    if (!matches.length) {
+      alert("No matches"); // 现在可以了
+    }
+    ```
+
+## 替换：str.replace
+
+`str.replace(regexp, replacement)` 方法使用 `replacement` 替换在字符串 `str` 中找到的 `regexp` 的匹配项（如果带有修饰符 `pattern:g` 则替换所有匹配项，否则只替换第一个）。
+
+例如：
 
 ```js run
-let str = "I love JavaScript!";
+// 没有修饰符 g
+alert( "We will, we will".replace(/we/i, "I") ); // I will, we will
 
-alert( str.search(/LOVE/) ); // -1（没找到）
-alert( str.search(/LOVE/i) ); // 2
+// 带有修饰符 g
+alert( "We will, we will".replace(/we/ig, "I") ); // I will, I will
 ```
 
-1. 第一个搜索返回的是 `-1`（也就是没找到），因为搜索默认是区分大小写的。
-2. 使用修饰符 `pattern:/LOVE/i`，在字符串的第 2 个位置上搜索到了 `match:love`。
+第二个参数是字符串 `replacement`。我们可以在其中使用特殊的字符组合来对匹配项进行插入：
 
-相比与简单的子字符串查找，`i` 修饰符已经让正则表达式变得更加强大了。但是这还不够。我们会在下一章节讲述其它修饰符和特性。
+| Symbols | Action in the replacement string |
+|--------|--------|
+|`$&`|inserts the whole match|
+|<code>$&#096;</code>|inserts a part of the string before the match|
+|`$'`|inserts a part of the string after the match|
+|`$n`|if `n` is a 1-2 digit number, then it inserts the contents of n-th parentheses, more about it in the chapter <info:regexp-groups>|
+|`$<name>`|inserts the contents of the parentheses with the given `name`, more about it in the chapter <info:regexp-groups>|
+| `$$` | 插入字符 `$` |
 
+带有 `pattern:$&` 的一个示例：
+
+```js run
+alert( "I love HTML".replace(/HTML/, "$& and JavaScript") ); // I love HTML and JavaScript
+```
+
+## 测试：regexp.test
+
+`regexp.test(str)` 方法寻找至少一个匹配项，如果找到了，则返回 `true`，否则返回 `false`。
+
+```js run
+let str = "I love JavaScript";
+let regexp = /LOVE/i;
+
+alert( regexp.test(str) ); // true
+```
+
+在后面的章节中，我们会学习更多正则表达式，通过更多的例子，也会遇到其他的方法。
+
+关于这些方法的完整信息请见 <info:regexp-methods>。
 
 ## 总结
 
-- 一个正则表达式包含模式和可选修饰符：`g`、`i`、`m`、`s`、`u`、`y`。
-- 如果不使用我们在后面将要学到的修饰符和特殊标志，正则表达式的搜索就等同于子字符串查找。
-- `str.search(regexp)` 方法返回的是找到的匹配项的索引位置，如果没找到则返回 `-1`。
+- 正则表达式由模式和可选择修饰符构成：`pattern:g`、`pattern:i`、`pattern:m`、`pattern:u`、`pattern:s` 和 `pattern:y`。
+- 没有修饰符和特殊符号（稍后我们会学到），那么正则表达式的搜索和子字符串的搜索相同。
+- `str.match(regexp)` 方法寻找匹配项：如果带有修饰符 `pattern:g`，则会返回所有匹配项，否则只会返回第一个匹配项。
+- `str.replace(regexp, replacement)` 方法使用 `replacement` 替换 `regexp` 的匹配项：如果带有修饰符 `pattern:g`，则会替换所有匹配项，否则只会替换第一个匹配项。
+- `regexp.test(str)` 方法用于测试，如果找到至少一个匹配项则返回 `true`，否则返回 `false`。
