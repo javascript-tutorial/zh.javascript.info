@@ -1,9 +1,9 @@
 
-Solution:
+答案：
 
 ```js run
-let reg = /\.{3,}/g;
-alert( "Hello!... How goes?.....".match(reg) ); // ..., .....
+let regexp = /\.{3,}/g;
+alert( "Hello!... How goes?.....".match(regexp) ); // ..., .....
 ```
 
-需要注意的是，点号（.）是一个特殊字符，因此我们需要将其转义并作为 `\.` 插入语句。
+请注意，点（.）是一个特殊字符，所以我们必须对其进行转义，即将其插入为 `\.`。

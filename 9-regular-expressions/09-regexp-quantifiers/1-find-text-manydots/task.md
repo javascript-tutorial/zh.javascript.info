@@ -9,6 +9,6 @@ importance: 5
 例如：
 
 ```js
-let reg = /你的正则表达式/g;
-alert( "Hello!... How goes?.....".match(reg) ); // ..., .....
+let regexp = /你的正则表达式/g;
+alert( "Hello!... How goes?.....".match(regexp) ); // ..., .....
 ```
