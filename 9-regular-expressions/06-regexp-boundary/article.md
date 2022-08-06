@@ -21,13 +21,13 @@ alert( "Hello, JavaScript!".match(/\bJava\b/) ); // null
 
 ![](hello-java-boundaries.svg)
 
-因此，它与正则表达式 `pattern:\bHello\b` 相匹配，因为：
+因此，它与模式 `pattern:\bHello\b` 相匹配，因为：
 
 1. 字符串的开头符合第一个检查 `pattern:\b`。
 2. 然后匹配了单词 `pattern:Hello`。
 3. 然后与 `pattern:\b` 再次匹配，因为我们在 `subject:o` 和逗号之间。
 
-所以正则表达式 `pattern:\bHello\b` 会匹配，但 `pattern:\bHell\b` 不会匹配（因为在 `l` 之后没有单词边界），`Java!\b` 也不会匹配（因为感叹号不是单词字符 `pattern:\w`，所以其后没有词边界）。
+所以模式 `pattern:\bHello\b` 会匹配，但 `pattern:\bHell\b` 不会匹配（因为在 `l` 之后没有单词边界），`Java!\b` 也不会匹配（因为感叹号不是单词字符 `pattern:\w`，所以其后没有词边界）。
 
 ```js run
 alert( "Hello, Java!".match(/\bHello\b/) ); // Hello
@@ -38,7 +38,7 @@ alert( "Hello, Java!".match(/\bJava!\b/) ); // null（无匹配项）
 
 `pattern:\b` 既可以用于单词，也可以用于数字。
 
-例如，正则表达式 `pattern:\b\d\d\b` 查找独立的两位数。换句话说，它查找的是两位数，其周围是与 `pattern:\w` 不同的字符，例如空格或标点符号（或文本开头/结尾）。
+例如，模式 `pattern:\b\d\d\b` 查找独立的两位数。换句话说，它查找的是两位数，其周围是与 `pattern:\w` 不同的字符，例如空格或标点符号（或文本开头/结尾）。
 
 ```js run
 alert( "1 23 456 78".match(/\b\d\d\b/g) ); // 23,78
