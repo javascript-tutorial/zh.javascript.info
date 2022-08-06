@@ -1,4 +1,4 @@
-# Unicode：修饰符 "u" 和 class \p{...}
+# Unicode：修饰符 "u" 和类 \p{...}
 
 JavaScript 对字符串使用 [Unicode 编码](https://en.wikipedia.org/wiki/Unicode)。大多数字符使用 2 个字节编码，但这种方式只能编码最多 65536 个字符。
 
