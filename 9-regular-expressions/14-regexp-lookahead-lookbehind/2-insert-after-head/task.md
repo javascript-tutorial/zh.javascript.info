@@ -21,6 +21,7 @@ str = str.replace(regexp, `<h1>Hello</h1>`);
 ```
 
 之后，`str` 的值应该为：
+
 ```html
 <html>
   <body style="height: 200px"><h1>Hello</h1>
