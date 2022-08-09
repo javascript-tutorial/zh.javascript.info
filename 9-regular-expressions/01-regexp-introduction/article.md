@@ -98,7 +98,7 @@ let regexp = new RegExp(`<${tag}>`); // 如果在上方输入到 prompt 中的�
     alert( result.index );  // 0（匹配项的位置）
     alert( result.input );  // We will, we will rock you（源字符串）
     ```
-    The array may have other indexes, besides `0` if a part of the regular expression is enclosed in parentheses. We'll cover that in the chapter  <info:regexp-groups>.
+    如果正则表达式中有一部分内容被包在括号里，那么返回的数组可能会有 `0` 以外的索引。我们将在 <info:regexp-groups> 中学习这部分相关内容。
 
 3. 最后，如果没有匹配项，则返回 `null`（无论是否有修饰符 `pattern:g`）。
 
@@ -138,13 +138,13 @@ alert( "We will, we will".replace(/we/ig, "I") ); // I will, I will
 
 第二个参数是字符串 `replacement`。我们可以在其中使用特殊的字符组合来对匹配项进行插入：
 
-| Symbols | Action in the replacement string |
+| 符号 | 在替换字符串中的行为 |
 |--------|--------|
-|`$&`|inserts the whole match|
-|<code>$&#096;</code>|inserts a part of the string before the match|
-|`$'`|inserts a part of the string after the match|
-|`$n`|if `n` is a 1-2 digit number, then it inserts the contents of n-th parentheses, more about it in the chapter <info:regexp-groups>|
-|`$<name>`|inserts the contents of the parentheses with the given `name`, more about it in the chapter <info:regexp-groups>|
+|`$&`|插入全部匹配项的内容|
+|<code>$&#096;</code>|插入匹配项前面的一段字符串|
+|`$'`|插入匹配项后面的一段字符串|
+|`$n`|如果 `n` 是一个 1-2 位数，则会插入第 n 个括号中的内容，详见 <info:regexp-groups>|
+|`$<name>`|插入名称为 `name` 的括号中的内容，详见 <info:regexp-groups>|
 | `$$` | 插入字符 `$` |
 
 带有 `pattern:$&` 的一个示例：
