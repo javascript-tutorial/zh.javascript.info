@@ -262,8 +262,8 @@ alert( arr.includes(1) ); // true
 ```js run
 let fruits = ['Apple', 'Orange', 'Apple'];
 
-alert( arr.indexOf('Apple') ); // 0（第一个 Apple）
-alert( arr.lastIndexOf('Apple') ); // 2（最后一个 Apple）
+alert( fruits.indexOf('Apple') ); // 0（第一个 Apple）
+alert( fruits.lastIndexOf('Apple') ); // 2（最后一个 Apple）
 ```
 
 ````smart header="方法 `includes` 可以正确的处理 `NaN`"
