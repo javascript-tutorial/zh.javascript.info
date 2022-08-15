@@ -55,7 +55,7 @@ export function bye() {
 }
 ```
 
-……那么，可以想像下面这样进行动态导入：
+……那么，可以像下面这样进行动态导入：
 
 ```js
 let {hi, bye} = await import('./say.js');
