@@ -252,7 +252,7 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-从 `fetch` 返回的 `response` 对象还包含 `response.json()` 方法，该方法可以读取远程数据并将其解析为 JSON。在我们的例子中，这更加方便，所以我们用这个方法把。
+从 `fetch` 返回的 `response` 对象还包含 `response.json()` 方法，该方法可以读取远程数据并将其解析为 JSON。在我们的例子中，这更加方便，所以我们用这个方法吧。
 
 为了简洁，我们还将使用箭头函数：
 
