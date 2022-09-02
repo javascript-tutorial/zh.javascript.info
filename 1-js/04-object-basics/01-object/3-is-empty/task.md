@@ -11,9 +11,9 @@ importance: 5
 ```js
 let schedule = {};
 
-alert( isEmpty(schedule) ); // true
+alert( isEmpty(schedule) ); // false
 
 schedule["8:30"] = "get up";
 
-alert( isEmpty(schedule) ); // false
+alert( isEmpty(schedule) ); // true
 ```
