@@ -117,9 +117,9 @@ JavaScript 是将这三件事结合在一起的唯一的浏览器技术。
 
 ## Mock 工具
 
-<a href="https://datayi.cn/w/nRbOawVP" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/189130319-846e1e33-3b47-4cbc-8fe1-0fa87db5362f.svg" width="300px;" target="_blank"/></a>
+<a href="https://datayi.cn/w/QReKB8No" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/189130319-846e1e33-3b47-4cbc-8fe1-0fa87db5362f.svg" width="300px;" target="_blank"/></a>
 
-一个好用的开源接口 Mock 工具：[https://github.com/eolinker/eoapi](https://datayi.cn/w/nRbOawVP)
+一个好用的开源接口 Mock 工具：[https://github.com/eolinker/eoapi](https://datayi.cn/w/QReKB8No)
 
 除了 Mock 功能，还集合了 API 管理和测试功能，还可以通过插件广场帮助你将 API 发布到各个应用平台，比如发布到网关上完成 API 上线，或者和低代码平台结合，将 API 快速变成低代码平台中可使用的组件等。
 
