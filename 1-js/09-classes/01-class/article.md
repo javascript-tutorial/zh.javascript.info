@@ -423,6 +423,6 @@ class MyClass {
 }
 ```
 
-技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods、getters 和 settors 都被写入了 `MyClass.prototype`。
+技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods、getters 和 setters 都被写入了 `MyClass.prototype`。
 
 在下一章，我们将会进一步学习类的相关知识，包括继承和其他功能。
