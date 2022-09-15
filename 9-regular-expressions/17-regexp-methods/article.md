@@ -24,7 +24,7 @@
     alert( result.input );  // I love JavaScript（源字符串）
     ```
 
-2. 如果 `regexp` 带有修饰符 `pattern:g`，则它将所有匹配项的数组以字符串的形式返回，而不包含捕获组和其它详细信息。
+2. 如果 `regexp` 带有修饰符 `pattern:g`，则它将返回一个包含所有匹配项的数组，但不包含捕获组和其它详细信息。
     ```js run
     let str = "I love JavaScript";
 
