@@ -87,25 +87,43 @@ alert(phrase); // ReferenceError: phrase is not defined
 
 可以看到，`var` 穿透了 `if`，`for` 和其它代码块。这是因为在早期的 JavaScript 中，块没有词法环境，而 `var` 就是这个时期的代表之一。
 
-## "var" 允许重新声明
+## "var" 允许重复声明
 
-如果我们用 `let` 在同一作用域下将同一个变量声明两次，则会出现错误：
-
-```js run
-let user;
-let user; // SyntaxError: 'user' has already been declared
-```
-
-使用 `var`，我们可以重复声明一个变量，不管多少次都行。如果我们对一个已经声明的变量使用 `var`，这条新的声明语句会被忽略：
+`var` 允许我们在同一个作用域下，重复声明一个变量。
 
 ```js run
 var user = "Pete";
 
-var user = "John"; // 这个 "var" 无效（因为变量已经声明过了）
-// ……不会触发错误
+var user = "John";
 
-alert(user); // John
+var user = "Locke"; // 最后一次声明生效。
+
+alert(user); // Locke
 ```
+
+结合变量提升，上面的代码可以被看成下面的代码：
+
+```js run
+var user; // 变量提升，默认值为 undefined
+
+user = "Pete";
+
+user = "John";
+
+user = "Locke";
+
+alert(user); // Locke
+```
+
+`let` 与 `var` 一样，也可以重复声明，但 `const` 不可以。
+
+```js run
+const user = "Pete";
+
+user = "John"; // 报错，TypeError: Assignment to constant variable.
+```
+
+`const` 表示常量，值一旦确定，就不允许再改变。
 
 ## "var" 声明的变量，可以在其声明语句前被使用
 
