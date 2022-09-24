@@ -188,11 +188,11 @@ new CoffeeMachine().setWaterAmount(100);
 
 [recent browser=none]
 
-这儿有一个马上就会被加到规范中的已完成的 Javascript 提案，它为私有属性和方法提供语言级支持。
+有一个马上就会被加到规范中的已完成的 Javascript 提案，它为私有属性和方法提供语言级支持。
 
 私有属性和方法应该以 `#` 开头。它们只在类的内部可被访问。
 
-例如，这儿有一个私有属性 `#waterLimit` 和检查水量的私有方法 `#fixWaterAmount`：
+例如，有一个私有属性 `#waterLimit` 和检查水量的私有方法 `#fixWaterAmount`：
 
 ```js run
 class CoffeeMachine {
