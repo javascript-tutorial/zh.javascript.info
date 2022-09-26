@@ -9,7 +9,7 @@
 
 添加一个回调函数： `showCircle(cx, cy, radius, callback)` 在动画完成时调用。 `callback` 应该接收圆 `div` 作为参数。
 
-这是样例：
+下面是一个例子：
 
 ```js
 showCircle(150, 150, 100, div => {
