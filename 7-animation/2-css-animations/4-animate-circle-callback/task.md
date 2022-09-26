@@ -7,7 +7,7 @@
 
 在该练习的解决方案中, 函数 `showCircle(cx, cy, radius)` 画了一个不断变大的圆, 但无法知道它何时结束。
 
-添加一个回调函数作为参数： `showCircle(cx, cy, radius, callback)` 在动画完成时调用。 `callback` 应该接收圆`div`作为一个参数。
+添加一个回调函数： `showCircle(cx, cy, radius, callback)` 在动画完成时调用。 `callback` 应该接收圆 `div` 作为参数。
 
 这是样例：
 
