@@ -337,10 +337,10 @@ alert( isFinite(num) );
 ```smart header="与 `Object.is` 进行比较"
 有一个特殊的内建方法 `Object.is`，它类似于 `===` 一样对值进行比较，但它对于两种边缘情况更可靠：
 
-1. 它适用于 `NaN`：`Object.is(NaN，NaN) === true`，这是件好事。
-2. 值 `0` 和 `-0` 是不同的：`Object.is(0，-0) === false`，从技术上讲这是对的，因为在内部，数字的符号位可能会不同，即使其他所有位均为零。
+1. 它适用于 `NaN`：`Object.is(NaN, NaN) === true`，这是件好事。
+2. 值 `0` 和 `-0` 是不同的：`Object.is(0, -0) === false`，从技术上讲这是对的，因为在内部，数字的符号位可能会不同，即使其他所有位均为零。
 
-在所有其他情况下，`Object.is(a，b)` 与 `a === b` 相同。
+在所有其他情况下，`Object.is(a, b)` 与 `a === b` 相同。
 
 这种比较方式经常被用在 JavaScript 规范中。当内部算法需要比较两个值是否完全相同时，它使用 `Object.is`（内部称为 [SameValue](https://tc39.github.io/ecma262/#sec-samevalue)）。
 ```
@@ -429,7 +429,7 @@ JavaScript 有一个内建的 [Math](https://developer.mozilla.org/en/docs/Web/J
 对于不同的数字系统：
 
 - 可以直接在十六进制（`0x`），八进制（`0o`）和二进制（`0b`）系统中写入数字。
-- `parseInt(str，base)` 将字符串 `str` 解析为在给定的 `base` 数字系统中的整数，`2 ≤ base ≤ 36`。
+- `parseInt(str, base)` 将字符串 `str` 解析为在给定的 `base` 数字系统中的整数，`2 ≤ base ≤ 36`。
 - `num.toString(base)` 将数字转换为在给定的 `base` 数字系统中的字符串。
 
 对于常规数字检测：
