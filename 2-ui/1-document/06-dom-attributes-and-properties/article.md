@@ -102,7 +102,7 @@ document.body.sayHi(); // Hello, I'm BODY
 <body something="non-standard">
   <script>
 *!*
-    alert(document.body.getAttribute('something')); // 非标准的
+    alert(document.body.getAttribute('something')); // non-standard
 */!*
   </script>
 </body>
