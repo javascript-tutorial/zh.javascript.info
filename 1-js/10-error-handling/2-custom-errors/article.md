@@ -173,7 +173,7 @@ try {
   } else if (err instanceof SyntaxError) {
     alert("JSON Syntax Error: " + err.message);
   } else {
-    throw err; // 为止 error，将其再次抛出
+    throw err; // 未知 error，将其再次抛出
   }
 }
 ```
