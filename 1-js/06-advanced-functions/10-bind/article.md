@@ -205,7 +205,7 @@ for (let key in user) {
 JavaScript 库还提供了方便批量绑定的函数，例如 lodash 中的 [_.bindAll(object, methodNames)](http://lodash.com/docs#bindAll)。
 ````
 
-## 偏函数（Partial functions）
+## 部分应用函数（Partial functions）
 
 到现在为止，我们只在谈论绑定 `this`。让我们再深入一步。
 
@@ -217,7 +217,7 @@ JavaScript 库还提供了方便批量绑定的函数，例如 lodash 中的 [_.
 let bound = func.bind(context, [arg1], [arg2], ...);
 ```
 
-它允许将上下文绑定为 `this`，以及绑定函数的起始参数。
+它允许将上下文绑定为 `this`，以及绑定函数的部分参数。
 
 例如，我们有一个乘法函数 `mul(a, b)`：
 
@@ -245,7 +245,7 @@ alert( double(5) ); // = mul(2, 5) = 10
 
 对 `mul.bind(null, 2)` 的调用创建了一个新函数 `double`，它将调用传递到 `mul`，将 `null` 绑定为上下文，并将 `2` 绑定为第一个参数。并且，参数（arguments）均被“原样”传递。
 
-它被称为 [偏函数应用程序（partial function application）](https://en.wikipedia.org/wiki/Partial_application) —— 我们通过绑定先有函数的一些参数来创建一个新函数。
+它被称为 [部分应用（partial function application）](https://en.wikipedia.org/wiki/Partial_application) —— 我们通过绑定先有函数的一些参数来创建一个新函数。
 
 请注意，这里我们实际上没有用到 `this`。但是 `bind` 需要它，所以我们必须传入 `null` 之类的东西。
 
@@ -265,13 +265,13 @@ alert( triple(4) ); // = mul(3, 4) = 12
 alert( triple(5) ); // = mul(3, 5) = 15
 ```
 
-为什么我们通常会创建一个偏函数？
+为什么我们通常会创建一个部分应用函数？
 
 好处是我们可以创建一个具有可读性高的名字（`double`，`triple`）的独立函数。我们可以使用它，并且不必每次都提供一个参数，因为参数是被绑定了的。
 
-另一方面，当我们有一个非常通用的函数，并希望有一个通用型更低的该函数的变体时，偏函数会非常有用。
+另一方面，当我们有一个非常通用的函数，并希望有一个通用型更低的该函数的变体时，部分应用函数会非常有用。
 
-例如，我们有一个函数 `send(from, to, text)`。然后，在一个 `user` 对象的内部，我们可能希望对它使用 `send` 的偏函数变体：从当前 user 发送 `sendTo(to, text)`。
+例如，我们有一个函数 `send(from, to, text)`。然后，在一个 `user` 对象的内部，我们可能希望对它使用 `send` 的部分应用函数变体：从当前 user 发送 `sendTo(to, text)`。
 
 ## 在没有上下文情况下的 partial
 
