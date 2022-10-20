@@ -126,7 +126,7 @@ alert(longEar.jumps); // true（从 rabbit）
 
 这里只有两个限制：
 
-1. 引用不能形成闭环。如果我们试图在一个闭环中分配 `__proto__`，JavaScript 会抛出错误。
+1. 引用不能形成闭环。如果我们试图给`__proto__`赋值形成闭环，JavaScript 会抛出错误。
 2. `__proto__` 的值可以是对象，也可以是 `null`。而其他的类型都会被忽略。
 
 当然，这可能很显而易见，但是仍然要强调：只能有一个 `[[Prototype]]`。一个对象不能从其他两个对象获得继承。
@@ -149,7 +149,7 @@ alert(longEar.jumps); // true（从 rabbit）
 
 对于写入/删除操作可以直接在对象上进行。
 
-在下面的示例中，我们将为 `rabbit` 分配自己的 `walk`：
+在下面的示例中，我们将为 `rabbit` 的 `walk`属性赋值：
 
 ```js run
 let animal = {
@@ -176,7 +176,7 @@ rabbit.walk(); // Rabbit! Bounce-bounce!
 
 ![](proto-animal-rabbit-walk-2.svg)
 
-访问器（accessor）属性是一个例外，因为分配（assignment）操作是由 setter 函数处理的。因此，写入此类属性实际上与调用函数相同。
+访问器（accessor）属性是一个例外，因为赋值（assignment）操作是由 setter 函数处理的。因此，写入此类属性实际上与调用函数相同。
 
 也就是这个原因，所以下面这段代码中的 `admin.fullName` 能够正常运行：
 
