@@ -59,7 +59,7 @@ JavaScript 中有许多属性可让我们读取有关元素宽度、高度和其
 
 最近的祖先为下列之一：
 
-1. CSS 定位的（`position` 为 `absolute`，`relative` 或 `fixed`），
+1. CSS 定位的（`position` 为 `absolute`、`relative`、`fixed` 或 `sticky`），
 2. 或 `<td>`，`<th>`，`<table>`，
 3. 或 `<body>`。
 
