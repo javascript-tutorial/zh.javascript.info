@@ -52,7 +52,7 @@ let promise = fetch(url, {
 
 **`referrer` 选项允许设置任何 `Referer`（在当前域的），或者移除它。**
 
-要不发送 referrer，可以将 `referrer` 设置为空字符串：
+如果不想发送 referrer，可以将 `referrer` 设置为空字符串：
 ```js
 fetch('/page', {
 *!*
