@@ -456,7 +456,7 @@ As text: <span id="astext"></span>
 - `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` —— 用给定的起点 `anchorNode/anchorOffset` 和终点 `focusNode/focusOffset` 来替换选择范围。选中它们之间的所有内容。
 - `selectAllChildren(node)` —— 选择 `node` 的所有子节点。
 - `deleteFromDocument()` —— 从文档中删除所选择的内容。
-- `containsNode(node, allowPartialContainment = false)` —— 检查选择中是否包含 `node`（若第二个参数是 `true` 的话只需部分包含 `node`）
+- `containsNode(node, allowPartialContainment = false)` —— 检查选择中是否包含 `node`（若第二个参数是 `true`，则只需包含 `node` 的部分内容即可）
 
 对于大多数需求，这些方法就够了，无需访问底层的（underlying）`Range` 对象。
 
