@@ -12,7 +12,7 @@ let decoder = new TextDecoder([label], [options]);
 - **`label`** —— 编码格式，默认为 `utf-8`，但同时也支持 `big5`，`windows-1251` 等许多其他编码格式。
 - **`options`** —— 可选对象：
   - **`fatal`** —— 布尔值，如果为 `true` 则为无效（不可解码）字符抛出异常，否则（默认）用字符 `\uFFFD` 替换无效字符。
-  - **`ignoreBOM`** —— 布尔值，如果为 `true` 则 BOM（可选的字节顺序 Unicode 标记），很少需要使用。
+  - **`ignoreBOM`** —— 布尔值，如果为 `true` 则忽略 BOM（可选的字节顺序 Unicode 标记），很少需要使用。
 
 ……然后解码：
 

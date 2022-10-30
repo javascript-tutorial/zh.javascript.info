@@ -111,7 +111,7 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 - 起点以 `<p>` 作为父节点 `node`，`0` 作为偏移量。
 
     因此，我们可以将其设置为 `range.setStart(p, 0)`。
-- 重点也是以 `<p>` 作为父节点 `node`，但以 `2` 作为偏移量（它指定最大范围，但不包括 `offset`）。
+- 终点也是以 `<p>` 作为父节点 `node`，但以 `2` 作为偏移量（它指定最大范围，但不包括 `offset`）。
 
     因此，我们可以将其设置为 `range.setEnd(p, 2)`。
 
@@ -378,7 +378,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 有一些事件可以跟踪选择：
 
 - `elem.onselectstart` —— 当在元素 `elem` 上（或在其内部）**开始**选择时。例如，当用户在元素 `elem` 上按下鼠标按键并开始移动指针时。
-    - Preventing the default action cancels the selection start. 因此，从该元素开始选择变得不可能，但该元素仍然是可选择的。用户只需要从其他地方开始选择。
+    - 阻止默认行为取消了选择的开始。因此，从该元素开始选择变得不可能，但该元素仍然是可选择的。用户只需要从其他地方开始选择。
 - `document.onselectionchange` —— 当选择发生变化或开始时。
     - 请注意：此处理程序只能在 `document` 上设置。它跟踪的是 `document` 中的所有选择。
 
@@ -408,7 +408,7 @@ From <input id="from" disabled> – To <input id="to" disabled>
 复制所选内容有两种方式：
 
 1. 我们可以使用 `document.getSelection().toString()` 来获取其文本形式。
-2. 此外，想要复制整个 DOM 节点，例如，如果我们需要保持其格式不变，我们可以使用 `getRangesAt(...)` 获取底层的（underlying）范围。`Range` 对象还具有 `cloneContents()` 方法，该方法会拷贝范围中的内容并以 `DocumentFragment` 的形式返回，我们可以将这个返回值插入到其他位置。
+2. 此外，想要复制整个 DOM 节点，例如，如果我们需要保持其格式不变，我们可以使用 `getRangeAt(...)` 获取底层的（underlying）范围。`Range` 对象还具有 `cloneContents()` 方法，该方法会拷贝范围中的内容并以 `DocumentFragment` 的形式返回，我们可以将这个返回值插入到其他位置。
 
 下面是将所选内容复制为文本和 DOM 节点的演示：
 
@@ -456,7 +456,7 @@ As text: <span id="astext"></span>
 - `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` —— 用给定的起点 `anchorNode/anchorOffset` 和终点 `focusNode/focusOffset` 来替换选择范围。选中它们之间的所有内容。
 - `selectAllChildren(node)` —— 选择 `node` 的所有子节点。
 - `deleteFromDocument()` —— 从文档中删除所选择的内容。
-- `containsNode(node, allowPartialContainment = false)` —— 检查选择中是否包含 `node`（特别是如果第二个参数是 `true` 的话）
+- `containsNode(node, allowPartialContainment = false)` —— 检查选择中是否包含 `node`（若第二个参数是 `true`，则只需包含 `node` 的部分内容即可）
 
 对于大多数需求，这些方法就够了，无需访问底层的（underlying）`Range` 对象。
 
@@ -541,7 +541,7 @@ From <input id="from" disabled> – To <input id="to" disabled>
 
 请注意：
 - `onselect` 是在某项被选择时触发，而在选择被删除时不触发。
-- 根据 [规范](https://w3c.github.io/selection-api/#dfn-selectionchange)，发表单控件内的选择不应该触发 `document.onselectionchange` 事件，因为它与 `document` 选择和范围不相关。一些浏览器会生成它，但我们不应该依赖它。
+- 根据 [规范](https://w3c.github.io/selection-api/#dfn-selectionchange)，表单控件内的选择不应该触发 `document.onselectionchange` 事件，因为它与 `document` 选择和范围不相关。一些浏览器会生成它，但我们不应该依赖它。
 
 
 ### 示例：移动光标
