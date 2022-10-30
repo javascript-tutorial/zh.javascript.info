@@ -146,7 +146,7 @@ elem.style.background = ''; // Error!
 
 ## 用于 "fixed" 定位
 
-大多数时候，我们需要使用坐标来确定某些东西的位置。
+大多数时候，我们需要使用坐标来确定某些内容的位置。
 
 为了在一个元素附近展示些什么，我们可以使用 `getBoundingClientRect` 来获取这个元素的坐标，然后使用 CSS `position` 以及 `left/top`（或 `right/bottom`）。
 
