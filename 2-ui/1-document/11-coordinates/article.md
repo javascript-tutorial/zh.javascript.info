@@ -146,7 +146,9 @@ elem.style.background = ''; // Error!
 
 ## 用于 "fixed" 定位
 
-为了显示元素附近的东西，我们可以使用 `getBoundingClientRect` 来获取其坐标，然后使用 CSS `position` 以及 `left/top`（或 `right/bottom`）。
+大多数时候，我们需要使用坐标来确定某些内容的位置。
+
+想要在某元素附近展示内容，我们可以使用 `getBoundingClientRect` 来获取这个元素的坐标，然后使用 CSS `position` 以及 `left/top`（或 `right/bottom`）。
 
 例如，下面的函数 `createMessageUnder(elem, html)` 在 `elem` 下显示了消息：
 
