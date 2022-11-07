@@ -5,7 +5,7 @@
 
 使用 `obj.__proto__` 设置或读取原型被认为已经过时且不推荐使用（deprecated）了（已经被移至 JavaScript 规范的附录 B，意味着仅适用于浏览器）。
 
-现代的获取/设置原形的方法有：
+现代的获取/设置原型的方法有：
 
 - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`。
 - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`。
@@ -120,7 +120,7 @@ alert(obj[key]); // [object Object]，并不是 "some value"！
 
 但我们不是 **打算** 实现这种行为，对吧？我们想要存储键值对，然而键名为 `"__proto__"` 的键值对没有被正确存储。所以这是一个 bug。
 
-这里的后果并没有很严重。但在其他情况下，我们可能会在 `obj` 中存储对象而不是字符串，则原形确实会被改变。结果，执行将以完全意想不到的方式出错。
+这里的后果并没有很严重。但在其他情况下，我们可能会在 `obj` 中存储对象而不是字符串，则原型确实会被改变。结果，执行将以完全意想不到的方式出错。
 
 最可怕的是 —— 通常开发者完全不会考虑到这一点。这让此类 bug 很难被发现，甚至变成漏洞，尤其是在 JavaScript 被用在服务端的时候。
 
