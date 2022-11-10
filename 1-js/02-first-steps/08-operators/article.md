@@ -45,7 +45,7 @@
 
 取余运算符是 `%`，尽管它看起来很像百分数，但实际并无关联。
 
-`a % b` 的结果是 `a` 整除 `b` 的 [余数](https://zh.wikipedia.org/zh-hans/%E4%BD%99%E6%95%B0))。
+`a % b` 的结果是 `a` 整除 `b` 的 [余数](https://zh.wikipedia.org/zh-hans/%E4%BD%99%E6%95%B0)。
 
 例如：
 
