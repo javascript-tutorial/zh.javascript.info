@@ -33,8 +33,8 @@
     // 有值则进行计算，没值则在 100ms 后再次获取并判断，时间长短可自行设定
     const updateBallPosition = () => {
       if (field.clientWidth && ball.offsetWidth) {
-        ball.style.left = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
-        ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'px';
+        ball.style.left = Math.round(field.clientWidth / 2) + 'px';
+        ball.style.top = Math.round(field.clientHeight / 2) + 'px';
       } else {
         setTimeout(updateBallPosition, 100);
       }
