@@ -29,10 +29,10 @@
     const ball = document.getElementById('ball');
     const field = document.getElementById('field');
 
-    // 因为在图片加载完成前，ball.offsetWidth = 0，所以先判断获取到的 field 和 ball 宽度是否有值
+    // 因为在页面渲染（包括样式计算）完成前，field.clientWidth = 0，所以先判断获取到的 field 宽/高是否有值
     // 有值则进行计算，没值则在 100ms 后再次获取并判断，时间长短可自行设定
     const updateBallPosition = () => {
-      if (field.clientWidth && ball.offsetWidth) {
+      if (field.clientWidth && field.clientHeight) {
         ball.style.left = Math.round(field.clientWidth / 2) + 'px';
         ball.style.top = Math.round(field.clientHeight / 2) + 'px';
       } else {
