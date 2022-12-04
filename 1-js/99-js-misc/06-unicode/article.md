@@ -86,7 +86,7 @@ alert( '𝒳'[1] ); // ...代理对的片段
 
 alert( '𝒳'.charCodeAt(0).toString(16) ); // d835
 
-// codePointAt 会注意到代理对的存在
+// codePointAt 会正确处理代理对
 alert( '𝒳'.codePointAt(0).toString(16) ); // 1d4b3, 读取到了完整的代理对
 ```
 
