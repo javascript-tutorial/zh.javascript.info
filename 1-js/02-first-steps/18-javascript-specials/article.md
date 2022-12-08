@@ -110,7 +110,7 @@ typeof function(){} == "function" // 函数被特殊对待
 : 提出一个问题 `question`，并建议用户在“确定”和“取消”之间进行选择。选择结果以 `true/false` 形式返回。
 
 [`alert(message)`](mdn:api/Window/alert)
-: 输出一个 `message`。
+: 输出一个消息 `message`。
 
 这些函数都会产生 **模态框**，它们会暂停代码执行并阻止访问者与页面的其他部分进行交互，直到用户做出回答为止。
 
