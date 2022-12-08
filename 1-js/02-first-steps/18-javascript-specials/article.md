@@ -107,7 +107,7 @@ typeof function(){} == "function" // 函数被特殊对待
 : 提出一个问题 `question`，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
 
 [`confirm(question)`](mdn:api/Window/confirm)
-: 提出一个 `question`，并建议用户在“确定”和“取消”之间进行选择。选择结果以 `true/false` 形式返回。
+: 提出一个问题 `question`，并建议用户在“确定”和“取消”之间进行选择。选择结果以 `true/false` 形式返回。
 
 [`alert(message)`](mdn:api/Window/alert)
 : 输出一个 `message`。
