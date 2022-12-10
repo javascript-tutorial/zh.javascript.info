@@ -104,13 +104,13 @@ typeof function(){} == "function" // 函数被特殊对待
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 
 [`prompt(question[, default])`](mdn:api/Window/prompt)
-: 提出一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
+: 提出一个问题 `question`，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
 
 [`confirm(question)`](mdn:api/Window/confirm)
-: 提出一个问题，并建议用户在“确定”和“取消”之间进行选择。选择结果以 `true/false` 形式返回。
+: 提出一个问题 `question`，并建议用户在“确定”和“取消”之间进行选择。选择结果以 `true/false` 形式返回。
 
 [`alert(message)`](mdn:api/Window/alert)
-: 输出一个 `消息`。
+: 输出一个消息 `message`。
 
 这些函数都会产生 **模态框**，它们会暂停代码执行并阻止访问者与页面的其他部分进行交互，直到用户做出回答为止。
 
