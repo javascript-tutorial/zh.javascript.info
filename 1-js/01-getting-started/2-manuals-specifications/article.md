@@ -21,7 +21,7 @@
 
     你可以在 <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference> 阅读它。
 
-虽然，利用互联网搜索通常是最好的选择。只需在查询时输入“MDN [关键字]”，例如 <https://google.com/search?q=MDN+parseInt> 搜索 `parseInt` 函数。
+不过，利用互联网搜索通常是最好的选择。只需在查询时输入“MDN [关键字]”，例如 <https://google.com/search?q=MDN+parseInt> 搜索 `parseInt` 函数。
 
 ## 兼容性表
 
