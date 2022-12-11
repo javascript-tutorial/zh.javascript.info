@@ -128,12 +128,12 @@ function hello(name) {
 
     执行恢复了，执行到 `say()` 函数中的另外一个断点后暂停在了那里。看一下右边的 "Call stack"。它已经增加了一个调用信息。我们现在在 `say()` 里面。
 
-<span class="devtools" style="background-position:-200px -190px"></span> —— “下一步（Step）”：运行下一条指令，快捷键 `key:F9`。
+<span class="devtools" style="background-position:-200px -190px"></span> —— “下一步（Step）”：运行下一条（即当前行）指令，快捷键 `key:F9`。
 : 运行下一条语句。如果我们现在点击它，`alert` 会被显示出来。
 
     一次接一次地点击此按钮，整个脚本的所有语句会被逐个执行。
 
-<span class="devtools" style="background-position:-62px -192px"></span> —— “跨步（Step over）”：运行下一条指令，但 **不会进入到一个函数中**，快捷键 `key:F10`。
+<span class="devtools" style="background-position:-62px -192px"></span> —— “跨步（Step over）”：运行下一条（即当前行）指令，但 **不会进入到一个函数中**，快捷键 `key:F10`。
 : 跟上一条命令“下一步（Step）”类似，但如果下一条语句是函数调用则表现不同。这里的函数指的是：不是内建的如 `alert` 函数等，而是我们自己写的函数。
 
     如果我们对比一下，“下一步（Step）”命令会进入嵌套函数调用并在其第一行暂停执行，而“跨步（Step over）”对我们不可见地执行嵌套函数调用，跳过了函数内部。
@@ -148,7 +148,7 @@ function hello(name) {
     至于之后，只需要记住“下一步（Step）”命令会忽略异步行为，例如 `setTimeout`（计划的函数调用），它会过一段时间再执行。而“步入（Step into）”会进入到代码中并等待（如果需要）。详见 [DevTools 手册](https://developers.google.com/web/updates/2018/01/devtools#async)。
 
 <span class="devtools" style="background-position:-32px -194px"></span> —— “步出（Step out）”：继续执行到当前函数的末尾，快捷键 `key:Shift+F11`。
-: 继续执行代码并停止在当前函数的最后一行。当我们使用 <span class="devtools" style="background-position:-200px -190px"></span> 偶然地进入到一个嵌套调用，但是我们又对这个函数不感兴趣时，我们想要尽可能的继续执行到最后的时候是非常方便的。
+: 继续执行当前函数内的剩余代码，并暂停在调用当前函数的下一行代码处。当我们使用 <span class="devtools" style="background-position:-200px -190px"></span> 偶然地进入到一个嵌套调用，但是我们又对这个函数不感兴趣时，我们想要尽可能的继续执行到最后的时候是非常方便的。
 
 <span class="devtools" style="background-position:-61px -74px"></span> —— 启用/禁用所有的断点。
 : 这个按钮不会影响程序的执行。只是一个批量操作断点的开/关。
