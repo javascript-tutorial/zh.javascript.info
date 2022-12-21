@@ -153,7 +153,7 @@ alert( s1 == s2 ); // 这两个字符在我们眼里看起来是相同的，却�
 
 “Unicode 规范化”算法可以解决问题，该算法将每个字符串转换为单一的“正常”形式。
 
-[str.normalize()](mdn:js/String/normalize) 实现了该算法。
+可以借助 [str.normalize()](mdn:js/String/normalize) 实现这一点。
 
 ```js run
 alert( "S\u0307\u0323".normalize() == "S\u0323\u0307".normalize() ); // true
