@@ -5,7 +5,7 @@
 本节将更深入地介绍字符串的内部原理。如果你打算处理表情符号（emoji）、罕见的数学或象形文字字符，或其他罕见字符，这些知识将对你很有用。
 ```
 
-正如我们所知，JavaScript 的字符串是基于 [Unicode](https://en.wikipedia.org/wiki/Unicode) 的。同时，每一个字符是用 1-4 字节长度的字节序列表示的。
+正如我们所知，JavaScript 的字符串是基于 [Unicode](https://en.wikipedia.org/wiki/Unicode) 的：每个字符由 1-4 个字节的字节序列表示。
 
 JavaScript 允许我们通过下述三种表示方式之一将一个字符以其十六进制 Unicode 编码的方式插入到字符串中：
 
