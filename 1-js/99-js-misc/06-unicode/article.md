@@ -167,6 +167,6 @@ alert( "S\u0307\u0323".normalize().length ); // 1
 alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 ```
 
-但实际并非总是如此。 原因是符号 `Ṩ` 是“足够常见的”，因此 Unicode 创建者将其包含在主表里，并为其提供了代码。
+但实际并非总是如此。出现这种情况的原因是符号 `Ṩ` 是“足够常见的”，所以 Unicode 创建者将其囊括在了 Unicode 主表中，并为其提供了对应的编码。
 
 如果您想了解更多关于 Unicode 规范化规则和变体的信息，可以参阅 Unicode 标准的附录：[Unicode 规范化形式](https://www.unicode.org/reports/tr15/)。但就实用而言，本节中的信息就已经足够了。
