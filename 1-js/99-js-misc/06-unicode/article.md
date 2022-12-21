@@ -7,7 +7,7 @@
 
 正如我们所知，JavaScript 的字符串是基于 [Unicode](https://en.wikipedia.org/wiki/Unicode) 的。同时，每一个字符是用 1-4 字节长度的字节序列表示的。
 
-JavaScript 允许我们使用下述三种方式将一个 Unicode 字符以十六进制表示插入到字符串中。
+JavaScript 允许我们通过下述三种表示方式之一将一个字符以其十六进制 Unicode 编码的方式插入到字符串中：
 
 - `\xXX`
 
