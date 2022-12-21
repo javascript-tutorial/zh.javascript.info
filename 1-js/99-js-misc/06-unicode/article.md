@@ -159,7 +159,7 @@ alert( s1 == s2 ); // 这两个字符在我们眼里看起来是相同的，却�
 alert( "S\u0307\u0323".normalize() == "S\u0323\u0307".normalize() ); // true
 ```
 
-有意思的是，`normalize()` 将 3 个字符的序列组合在了一起：`\u1e68`（带有上下两个点的 S）。
+有意思的是，在我们这个例子中，`normalize()` 将 3 个字符的序列合并为了一个字符：`\u1e68`（带有上下两个点的 S）。
 
 ```js run
 alert( "S\u0307\u0323".normalize().length ); // 1
