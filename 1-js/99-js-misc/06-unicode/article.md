@@ -87,7 +87,7 @@ alert( '𝒳'[1] ); // ...代理对的片段
 alert( '𝒳'.charCodeAt(0).toString(16) ); // d835
 
 // codePointAt 可以正确处理代理对
-alert( '𝒳'.codePointAt(0).toString(16) ); // 1d4b3, 读取到了完整的代理对
+alert( '𝒳'.codePointAt(0).toString(16) ); // 1d4b3，读取到了完整的代理对
 ```
 
 也就是说，如果我们从 `𝒳` 的位置 1 开始获取对应的编码（这么做是不对的），那么这两个方法都只会返回此代理对的后半部分：
