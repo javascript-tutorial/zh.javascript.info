@@ -75,7 +75,7 @@ alert( '𝒳'[1] ); // ...代理对的片段
 
 从技术上讲，可以通过代理对的编码来检测代理对：如果一个字符的编码在 `0xd800..0xdbff` 这个范围中，那么它就是代理对的前一个部分。下一个字符（第二部分）的编码必须在 `0xdc00..0xdfff` 范围中。这两个范围中的编码是规范中专为代理对预留的。
 
-所以，方法 [String.fromCodePoint](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint) 和 [str.codePointAt](https://developer. mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt) 被添加到 JavaScript，以处理代理对。
+基于此，JavaScript 新增了 [String.fromCodePoint](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint) 和 [str.codePointAt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt) 这两个方法来处理代理对。
 
 它们本质上与 [String.fromCharCode](mdn:js/String/fromCharCode) 和 [str.charCodeAt](mdn:js/String/charCodeAt) 相同，但它们可以正确地处理代理对。
 
