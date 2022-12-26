@@ -19,7 +19,7 @@ JavaScript 允许我们通过下述三种表示方式之一将一个字符以其
 
     ```js run
     alert( "\x7A" ); // z
-    alert( "\xA9" ); // © （版权符号）
+    alert( "\xA9" ); // © (版权符号)
     ```
 
 - `\uXXXX`
