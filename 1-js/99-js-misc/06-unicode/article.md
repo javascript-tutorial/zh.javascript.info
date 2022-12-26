@@ -73,7 +73,7 @@ alert( '𝒳'[1] ); // ...代理对的片段
 
 代理对的片段失去彼此就没有意义。所以上面示例中 `alert()` 打印出的内容其实就是没有任何意义的垃圾信息。
 
-从技术层面上讲，可以通过代码来检测到代理对的存在：如果一个字符的代码在 `0xd800..0xdbff` 这个区间内，那么它就是代理对的前一部分。 下一个字符（第二部分）的代码必须在区间 `0xdc00..0xdfff` 内。 这些区间是标准专门为代理对预留的，
+从技术上讲，可以通过代理对的编码来检测代理对：如果一个字符的编码在 `0xd800..0xdbff` 这个范围中，那么它就是代理对的前一个部分。下一个字符（第二部分）的编码必须在 `0xdc00..0xdfff` 范围中。这两个范围中的编码是规范中专为代理对预留的。
 
 所以，方法 [String.fromCodePoint](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint) 和 [str.codePointAt](https://developer. mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt) 被添加到 JavaScript，以处理代理对。
 
