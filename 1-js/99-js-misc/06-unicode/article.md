@@ -82,7 +82,7 @@ alert( '𝒳'[1] ); // ...代理对的片段
 在这里可以看出它们的区别：
 
 ```js run
-// charCodeAt 不会考虑代理对, 所以返回了 𝒳 前半部分的代码:
+// charCodeAt 不会考虑代理对，所以返回了 𝒳 前半部分的编码:
 
 alert( '𝒳'.charCodeAt(0).toString(16) ); // d835
 
