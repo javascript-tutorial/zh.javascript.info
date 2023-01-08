@@ -29,7 +29,7 @@ For example, here we show `user` if its value isn't `null/undefined`, otherwise 
 ```js run
 let user;
 
-alert(user ?? "Anonymous"); // Anonymous (user not defined)
+alert(user ?? "Anonymous"); // Anonymous (user is undefined)
 ```
 
 Here's the example with `user` assigned to a name:
@@ -37,7 +37,7 @@ Here's the example with `user` assigned to a name:
 ```js run
 let user = "John";
 
-alert(user ?? "Anonymous"); // John (user defined)
+alert(user ?? "Anonymous"); // John (user is not null/undefined)
 ```
 
 We can also use a sequence of `??` to select the first value from a list that isn't `null/undefined`.
@@ -106,7 +106,7 @@ In practice, the zero height is often a valid value, that shouldn't be replaced 
 
 ## Precedence
 
-The precedence of the `??` operator is the same as `||`. They both equal `4` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table).
+The precedence of the `??` operator is the same as `||`. They both equal `3` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table).
 
 That means that, just like `||`, the nullish coalescing operator `??` is evaluated before `=` and `?`, but after most other operations, such as `+`, `*`.
 
