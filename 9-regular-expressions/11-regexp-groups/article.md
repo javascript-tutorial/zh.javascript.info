@@ -18,7 +18,7 @@
 括号将字符组合，所以 `pattern:(go)+` 匹配 `match:go`，`match:gogo`，`match:gogogo`等。
 
 ```js run
-alert( 'Gogogo now!'.match(/(go)+/i) ); // "Gogogo"
+alert( 'Gogogo now!'.match(/(go)+/ig) ); // "Gogogo"
 ```
 
 ### 示例：域名
