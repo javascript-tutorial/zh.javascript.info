@@ -270,19 +270,6 @@ pseudo
 
 例如，如果有 `paddingLeft/paddingTop` 属性，那么对于 `getComputedStyle(elem).padding`，我们会得到什么？什么都没有，或者是从已知的 padding 中“生成”的值？这里没有标准的规则。
 
-还有其他不一致的地方。例如，在下面这个例子中，某些浏览器（Chrome）会显示 `10px`，而某些浏览器（Firefox）则没有：
-
-```html run
-<style>
-  body {
-    margin: 10px;
-  }
-</style>
-<script>
-  let style = getComputedStyle(document.body);
-  alert(style.margin); // 在 Firefox 中是空字符串
-</script>
-```
 ````
 
 ```smart header="应用于 `:visited` 链接的样式被隐藏了！"
