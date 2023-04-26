@@ -108,7 +108,7 @@ Your email please: <input type="email" id="input">
 
 默认情况下，很多元素不支持聚焦。
 
-列表（list）在不同的浏览器表现不同，但有一件事总是正确的：`focus/blur` 保证支持那些用户可以交互的元素：`<button>`，`<input>`，`<select>`，`<a>` 等。
+虽然这个范围因浏览器而异，但有一件事总是正确的：用户可以交互的元素：`<button>`，`<input>`，`<select>`，`<a>` 等，都支持 `focus/blur`。
 
 另一方面，为了格式化某些东西而存在的元素像 `<div>`，`<span>` 和 `<table>` —— 默认是不能被聚焦的。`elem.focus()` 方法不适用于它们，并且 `focus/blur` 事件也绝不会被触发。
 
