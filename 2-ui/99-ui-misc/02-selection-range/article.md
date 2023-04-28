@@ -452,7 +452,7 @@ As text: <span id="astext"></span>
 - `setPosition(node, offset)` —— `collapse` 的别名。
 - `collapseToStart()` —— 折叠（替换为空范围）到选择起点，
 - `collapseToEnd()` —— 折叠到选择终点，
-- `extend(node, offset)` —— 将选择的焦点（focus）移到给定的 `node`，位置偏移 `oofset`，
+- `extend(node, offset)` —— 将选择的焦点（focus）移到给定的 `node`，位置偏移 `offset`，
 - `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` —— 用给定的起点 `anchorNode/anchorOffset` 和终点 `focusNode/focusOffset` 来替换选择范围。选中它们之间的所有内容。
 - `selectAllChildren(node)` —— 选择 `node` 的所有子节点。
 - `deleteFromDocument()` —— 从文档中删除所选择的内容。
