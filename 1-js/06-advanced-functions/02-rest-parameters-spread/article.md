@@ -227,7 +227,7 @@ alert( Array.from(str) ); // H,e,l,l,o
 
 ## 复制 array/object
 
-还记得我们 [之前讲过的](info:object-copy#ke-long-yu-he-bing-objectassign) `Object.assign()` 吗？
+还记得我们 [之前讲过的](info:object-copy#cloning-and-merging-object-assign) `Object.assign()` 吗？
 
 使用 spread 语法也可以做同样的事情（译注：也就是进行浅拷贝）。
 
