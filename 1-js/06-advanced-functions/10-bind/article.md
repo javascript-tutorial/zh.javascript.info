@@ -275,7 +275,7 @@ alert( triple(5) ); // = mul(3, 5) = 15
 
 ## 在没有上下文情况下的 partial
 
-当我们想绑定一些参数（arguments），但是这里没有上下文 `this`，应该怎么办？例如，对于一个对象方法。
+当我们想绑定一些参数（arguments），但是不想绑定上下文 `this`，应该怎么办？例如，对于一个对象方法。
 
 原生的 `bind` 不允许这种情况。我们不可以省略上下文直接跳到参数（arguments）。
 
@@ -319,7 +319,7 @@ user.sayNow("Hello");
 
 ## 总结
 
-方法 `func.bind(context, ...args)` 返回函数 `func` 的“绑定的（bound）变体”，它绑定了上下文 `this` 和第一个参数（如果给定了）。
+方法 `func.bind(context, ...args)` 返回函数 `func` 的“绑定的（bound）变体”，它绑定了上下文 `this` 和 `...args` 参数。
 
 通常我们应用 `bind` 来绑定对象方法的 `this`，这样我们就可以把它们传递到其他地方使用。例如，传递给 `setTimeout`。
 

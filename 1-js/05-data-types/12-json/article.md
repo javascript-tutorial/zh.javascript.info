@@ -246,7 +246,7 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 
 该函数会为每个 `(key,value)` 对调用并返回“已替换”的值，该值将替换原有的值。如果值被跳过了，则为 `undefined`。
 
-在我们的例子中，我们可以为 `occupiedBy` 以外的所有内容按原样返回 `value`。为了 `occupiedBy`，下面的代码返回 `undefined`：
+在我们的例子中，我们可以为 `occupiedBy` 以外的所有内容按原样返回 `value`。对于 `occupiedBy`，下面的代码返回 `undefined`：
 
 ```js run
 let room = {
