@@ -35,4 +35,4 @@ function throttle(func, ms) {
 2. 在冷却状态下，所有调用都被保存在 `savedArgs/savedThis` 中。请注意，上下文（this）和参数（arguments）都很重要，应该被保存下来。我们需要它们来重现调用。
 3. 经过 `ms` 毫秒后，`setTimeout`中的函数被触发。冷却状态被移除（`isThrottled = false`），如果存在被忽略的调用，将使用最后一次调用保存的参数和上下文运行 `wrapper`。
 
-第 3 步运行的不是 `func`，而是 `wrapper`，因为我们不仅需要运行 `func`，还需要再次进入冷却状态并设置`setTimeout`以重置节流。
+第 3 步运行的不是 `func`，而是 `wrapper`，因为我们不仅需要执行 `func`，还需要再次进入冷却状态并设置 `setTimeout` 以重置节流。
