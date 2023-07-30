@@ -69,7 +69,7 @@ Some pointer devices measure contact area and pressure, e.g. for a finger on the
 - `height` - the height of the area where the pointer touches the device. Where unsupported, it's always `1`.
 - `pressure` - the pressure of the pointer tip, in range from 0 to 1. For devices that don't support pressure must be either `0.5` (pressed) or `0`.
 - `tangentialPressure` - the normalized tangential pressure.
-- `tiltX`, `tiltY`, `twist` - pen-specific properties that describe how the pen is positioned relative the surface.
+- `tiltX`, `tiltY`, `twist` - pen-specific properties that describe how the pen is positioned relative to the surface.
 
 These properties aren't supported by most devices, so they are rarely used. You can find the details about them in the [specification](https://w3c.github.io/pointerevents/#pointerevent-interface) if needed.
 
@@ -111,7 +111,7 @@ Such causes are:
 
 We'll demonstrate `pointercancel` on a practical example to see how it affects us.
 
-Let's say we're impelementing drag'n'drop for a ball, just as in the beginning of the article <info:mouse-drag-and-drop>.
+Let's say we're implementing drag'n'drop for a ball, just as in the beginning of the article <info:mouse-drag-and-drop>.
 
 Here is the flow of user actions and the corresponding events:
 
