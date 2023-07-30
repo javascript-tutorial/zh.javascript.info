@@ -413,7 +413,7 @@ hash(1, 2);
 - [func.call(context, arg1, arg2...)](mdn:js/Function/call) —— 用给定的上下文和参数调用 `func`。
 - [func.apply(context, args)](mdn:js/Function/apply) —— 调用 `func` 将 `context` 作为 `this` 和类数组的 `args` 传递给参数列表。
 
-通用的 **呼叫转移（call forwarding）** 通常是使用 `apply` 完成的：
+通用的 **调用传递（call forwarding）** 通常是使用 `apply` 完成的：
 
 ```js
 let wrapper = function() {
