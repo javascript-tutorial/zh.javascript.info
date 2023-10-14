@@ -238,7 +238,7 @@ alert( Symbol.keyFor(sym2) ); // id
 
 `Symbol.keyFor` 内部使用全局 symbol 注册表来查找 symbol 的键。所以它不适用于非全局 symbol。如果 symbol 不是全局的，它将无法找到它并返回 `undefined`。
 
-也就是说，所有 symbol 都具有 `description` 属性。
+但是，所有 symbol 都具有 `description` 属性。
 
 例如：
 
