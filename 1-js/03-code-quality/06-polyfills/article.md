@@ -7,7 +7,7 @@ JavaScript 引擎背后的团队关于首先要实现什么有着他们自己想
 
 因此，一个 JavaScript 引擎只能实现标准中的一部分是很常见的情况。
 
-查看语言特性的当前支持状态的一个很好的页面是 <https://kangax.github.io/compat-table/es6/>（它很大，我们现在还有很多东西要学）。
+查看语言特性的当前支持状态的一个很好的页面是 <https://compat-table.github.io/compat-table/es6/>（它很大，我们现在还有很多东西要学）。
 
 作为程序员，我们希望使用最新的特性。好东西越多越好！
 
