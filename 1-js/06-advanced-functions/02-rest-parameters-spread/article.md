@@ -229,7 +229,7 @@ alert( Array.from(str) ); // H,e,l,l,o
 
 还记得我们 [之前讲过的](info:object-copy#cloning-and-merging-object-assign) `Object.assign()` 吗？
 
-使用 spread 语法也可以做同样的事情（译注：也就是进行浅拷贝）。
+使用 spread 语法也可以做同样的事情（译注：也就是进行深拷贝）。
 
 ```js run
 let arr = [1, 2, 3];
