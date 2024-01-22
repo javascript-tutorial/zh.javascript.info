@@ -344,7 +344,7 @@ alert(user._password); // secret
 - `get` 读取此类属性时抛出错误，
 - `set` 写入属性时抛出错误，
 - `deleteProperty` 删除属性时抛出错误，
-- `ownKeys` 在使用 `for..in` 和像 `Object.keys` 这样的的方法时排除以 `_` 开头的属性。
+- `ownKeys` 在使用 `for..in` 和像 `Object.keys` 这样的方法时排除以 `_` 开头的属性。
 
 代码如下：
 
@@ -726,7 +726,7 @@ alert(admin.name); // 输出：Guest (?!?)
 
 问题实际上出在代理中，在 `(*)` 行。
 
-1. 当我们读取 `admin.name` 时，由于 `admin` 对象自身没有对应的的属性，搜索将转到其原型。
+1. 当我们读取 `admin.name` 时，由于 `admin` 对象自身没有对应的属性，搜索将转到其原型。
 2. 原型是 `userProxy`。
 3. 从代理读取 `name` 属性时，`get` 捕捉器会被触发，并从原始对象返回 `target[prop]` 属性，在 `(*)` 行。
 
