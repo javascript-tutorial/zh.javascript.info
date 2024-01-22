@@ -214,7 +214,7 @@ alert(Object.keys(chineseDictionary)); // hello,bye
   - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) —— 返回对象 `obj` 的 `[[Prototype]]`（与 `__proto__` 的 getter 相同）。
   - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) —— 将对象 `obj` 的 `[[Prototype]]` 设置为 `proto`（与 `__proto__` 的 setter 相同）。
 
-- 不推荐使用内建的的 `__proto__` getter/setter 获取/设置原型，它现在在 ECMA 规范的附录 B 中。
+- 不推荐使用内建的 `__proto__` getter/setter 获取/设置原型，它现在在 ECMA 规范的附录 B 中。
 
 - 我们还介绍了使用 `Object.create(null)` 或 `{__proto__: null}` 创建的无原型的对象。
 

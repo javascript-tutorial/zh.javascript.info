@@ -106,7 +106,7 @@ alert(height ?? 100); // 0
 
 ## 优先级
 
-`??` 运算符的优先级与 `||` 相同，它们的的优先级都为 `4`，详见：[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table)。
+`??` 运算符的优先级与 `||` 相同，它们的优先级都为 `4`，详见：[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table)。
 
 这意味着，就像 `||` 一样，空值合并运算符在 `=` 和 `?` 运算前计算，但在大多数其他运算（例如 `+` 和 `*`）之后计算。
 

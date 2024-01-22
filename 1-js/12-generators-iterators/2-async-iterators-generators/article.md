@@ -394,7 +394,7 @@ async function* fetchCommits(repo) {
 
 ## 总结
 
-常规的 iterator 和 generator 可以很好地处理那些不需要花费时间来生成的的数据。
+常规的 iterator 和 generator 可以很好地处理那些不需要花费时间来生成的数据。
 
 当我们期望异步地，有延迟地获取数据时，可以使用它们的异步版本，并且使用 `for await..of` 替代 `for..of`。
 
