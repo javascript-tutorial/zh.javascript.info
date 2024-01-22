@@ -188,7 +188,7 @@ replacer
 : 要编码的属性数组或映射函数 `function(key, value)`。
 
 space
-: 用于格式化的空格数量
+: 用于格式化的空格数量。
 
 大部分情况，`JSON.stringify` 仅与第一个参数一起使用。但是，如果我们需要微调替换过程，比如过滤掉循环引用，我们可以使用 `JSON.stringify` 的第二个参数。
 

@@ -158,21 +158,21 @@
 ```
 
 ```md
-`ReadableStream` objects 允許一个个资料块（chunk）地读取资料。
+`ReadableStream` objects 允许一个个资料块（chunk）地读取资料。
 ```
 
 
 ### 标点符号
 
 - 本教程标点符号格式采用 [此份指南](https://github.com/sparanoid/chinese-copywriting-guidelines)。
-- 资料链接、**增強**，都须 [留下空白](https://github.com/sparanoid/chinese-copywriting-guidelines#%E9%8F%88%E6%8E%A5%E4%B9%8B%E9%96%93%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC)。
+- 资料链接、**粗体**，都须 [留下空白](https://github.com/sparanoid/chinese-copywriting-guidelines#%E9%8F%88%E6%8E%A5%E4%B9%8B%E9%96%93%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC)。
 - 中文无斜体形式，英文的斜体翻译至中文改为 **加粗**。
 
 - 斜线号 `/` 较为特殊，若用于分隔两同类型词条时，请维持半形斜线且两侧不加空白，**但在词汇们整体的前后要留一空白做分隔：**
     - `Increment/decrement can only be applied to variables.`：`递增/递减 只能被套用在变量上。`
     - `If the result of increment/decrement is not used, ...`：`如果 递增/递减 的結果没被使用，...`
 
-- 语一句话只能有一个逗号，但中文无此限制，可依据语气通顺程度将一些英文句点转为逗号。
+- 英文一句话只能有一个逗号，但中文无此限制，可依据语气通顺程度将一些英文句点转为逗号。
 
 - 列举项目后的文字需加句号。<- 像这样
 
