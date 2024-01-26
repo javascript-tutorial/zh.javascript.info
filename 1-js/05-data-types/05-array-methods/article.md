@@ -763,7 +763,7 @@ alert(soldiers[1].age); // 23
   - `map(func)` —— 根据对每个元素调用 `func` 的结果创建一个新数组。
   - `sort(func)` —— 对数组进行原位（in-place）排序，然后返回它。
   - `reverse()` —— 原位（in-place）反转数组，然后返回它。
-  - `split/join` —— 将字符串转换为数组并返回。
+  - `split/join` —— 将字符串拆分为数组并返回/将数组项组合成字符串并返回。
   - `reduce/reduceRight(func, initial)` —— 通过对每个元素调用 `func` 计算数组上的单个值，并在调用之间传递中间结果。
 
 - 其他：
