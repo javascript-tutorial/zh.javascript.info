@@ -236,7 +236,7 @@ alert("This line is never reached (error in the line above)");
 
 对于 `set` 操作，它必须在成功写入时返回 `true`。
 
-如果我们忘记这样做，或返回任何假（falsy）值，则该操作将触发 `TypeError`。
+如果我们忘记这样做，或返回任何假（false）值，则该操作将触发 `TypeError`。
 ```
 
 ## 使用 "ownKeys" 和 "getOwnPropertyDescriptor" 进行迭代
