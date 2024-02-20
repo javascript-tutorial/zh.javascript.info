@@ -291,14 +291,17 @@ function* generateSequence(start, end) {
 function* generateAlphaNum() {
 
 *!*
+  // 0..9
   // yield* generateSequence(48, 57);
-  for (let i = 48; i <= 57; i++) yield i;
+  for(const value of  generateSequence(48, 57)) yield  value;
 
+  // A..Z
   // yield* generateSequence(65, 90);
-  for (let i = 65; i <= 90; i++) yield i;
+  for(const value of  generateSequence(65, 90)) yield  value;
 
+  // a..z
   // yield* generateSequence(97, 122);
-  for (let i = 97; i <= 122; i++) yield i;
+  for(const value of  generateSequence(97, 122)) yield  value;
 */!*
 
 }
