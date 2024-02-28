@@ -318,7 +318,7 @@ JavaScript 仅获取对主请求的响应，如果没有服务器许可，则获
 
 这对于 HTTP 请求来说并不常见。通常，对 `http://site.com` 的请求附带有该域的所有 cookie。但是由 JavaScript 方法发出的跨源请求是个例外。
 
-例如，`fetch('http://another.com')` 不会发送任何 cookie，即使那些 (!) 属于 `another.com` 域的 cookie。
+例如，`fetch('http://another.com')` 不会发送任何 cookie，即使那些不属于 `another.com` 域的 cookie。
 
 为什么？
 
