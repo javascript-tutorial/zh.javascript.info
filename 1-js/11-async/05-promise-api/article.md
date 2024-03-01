@@ -133,8 +133,8 @@ Promise.all([
 
 `Promise.allSettled` 等待所有的 promise 都被 settle，无论结果如何。结果数组会是这样的：
 
-- 若响应成功，为 `{status:"fulfilled", value:result}`，
-- 若出现 error，为 `{status:"rejected", reason:error}`。
+- 对成功的响应，结果数组对应元素的内容为 `{status:"fulfilled", value:result}`，
+- 对出现 error 的响应，结果数组对应元素的内容为 `{status:"rejected", reason:error}`。
 
 例如，我们想要获取（fetch）多个用户的信息。即使其中一个请求失败，我们仍然对其他的感兴趣。
 
