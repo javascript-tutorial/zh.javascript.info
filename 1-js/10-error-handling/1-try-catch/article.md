@@ -489,7 +489,7 @@ try {
 1. 如果你对于 "Make an error?" 的回答是 "Yes"，那么执行 `try -> catch -> finally`。
 2. 如果你的回答是 "No"，那么执行 `try -> finally`。
 
-`finally` 子句（clause）通常用在：当我们开始做某事的时候，希望无论出现什么情况都要完成完成某个任务。
+`finally` 子句（clause）通常用在：当我们开始做某事的时候，希望无论出现什么情况都要完成某个任务。
 
 例如，我们想要测量一个斐波那契数字函数 `fib(n)` 执行所需要花费的时间。通常，我们可以在运行它之前开始测量，并在运行完成时结束测量。但是，如果在该函数调用期间出现 error 该怎么办？特别是，下面这段 `fib(n)` 的实现代码在遇到负数或非整数数字时会返回一个 error。
 
@@ -565,7 +565,7 @@ alert( func() ); // 先执行 finally 中的 alert，然后执行这个 alert
 
 ````smart header="`try...finally`"
 
-没有 `catch` 子句的 `try...finally` 结构也很有用。当我们不想在这儿处理 error（让它们 fall through），但是需要确保我们启动的处理需要被完成。
+没有 `catch` 子句的 `try...finally` 结构也很有用。当我们不想在原地处理 error（让它们掉出去吧），但是需要确保我们启动的处理需要被完成时，我们应当使用它。
 
 ```js
 function func() {
@@ -662,7 +662,7 @@ try {
 
 Error 对象包含下列属性：
 
-- `message` _ 人类可读的 error 信息。
+- `message` —— 人类可读的 error 信息。
 - `name` —— 具有 error 名称的字符串（Error 构造器的名称）。
 - `stack`（没有标准，但得到了很好的支持）—— Error 发生时的调用栈。
 
