@@ -23,7 +23,7 @@ let json = `{ "name": "John", "age": 30 }`;
 
 我们的 `ValidationError` 类应该继承自 `Error` 类。
 
-`Error` 类是内建的，但这是其近似代码，所以我们可以了解我们要扩展的内容：
+`Error` 类是内建的，但我们可以通过下面这段近似代码理解我们要扩展的内容：
 
 ```js
 // JavaScript 自身定义的内建的 Error 类的“伪代码”
@@ -36,7 +36,7 @@ class Error {
 }
 ```
 
-现在让我们从其中继承 `ValidationError`，并尝试进行运行：
+现在让我们从其中继承 `ValidationError` 试一试：
 
 ```js run untrusted
 *!*
