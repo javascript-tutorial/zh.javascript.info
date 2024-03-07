@@ -48,7 +48,7 @@ alert( rabbit.eats ); // true
 
 ##  默认的 F.prototype，构造器属性
 
-每个函数都有 `"prototype"` 属性，即使我们没有提供它。
+每个构造函数都有 `"prototype"` 属性，即使我们没有提供它。
 
 默认的 `"prototype"` 是一个只有属性 `constructor` 的对象，属性 `constructor` 指向函数自身。
 
