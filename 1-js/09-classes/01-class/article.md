@@ -7,7 +7,7 @@
 
 在日常开发中，我们经常需要创建许多相同类型的对象，例如用户（users）、商品（goods）或者任何其他东西。
 
-正如我们在 <info:constructor-new> 一章中已经学到的，`new function` 可以帮助我们实现这种需求。
+正如我们在 <info:constructor-new> 一章中已经学到的，`new Function` 可以帮助我们实现这种需求。
 
 但在现代 JavaScript 中，还有一个更高级的“类（class）”构造方式，它引入许多非常棒的新功能，这些功能对于面向对象编程很有用。
 
