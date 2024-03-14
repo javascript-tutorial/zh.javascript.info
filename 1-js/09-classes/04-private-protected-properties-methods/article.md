@@ -198,19 +198,25 @@ new CoffeeMachine().setWaterAmount(100);
 class CoffeeMachine {
 *!*
   #waterLimit = 200;
+  #waterAmount = 0;
 */!*
 
 *!*
   #fixWaterAmount(value) {
     if (value < 0) return 0;
     if (value > this.#waterLimit) return this.#waterLimit;
+    return value; // 在范围内的值直接返回
   }
 */!*
 
   setWaterAmount(value) {
-    this.#waterLimit = this.#fixWaterAmount(value);
+    this.#waterAmount = this.#fixWaterAmount(value);
   }
 }
+
+  getWaterAmount() {
+    return this.#waterAmount;
+  }
 
 let coffeeMachine = new CoffeeMachine();
 
