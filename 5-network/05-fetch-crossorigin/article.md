@@ -211,6 +211,7 @@ Access-Control-Expose-Headers: Content-Length,API-Key
 
 - `Access-Control-Request-Method` header 带有非安全请求的方法。
 - `Access-Control-Request-Headers` header 提供一个以逗号分隔的非安全 HTTP-header 列表。
+- `Origin` header 说明请求来自哪里。(如 https://javascript.info）
 
 如果服务器同意处理请求，那么它会进行响应，此响应的状态码应该为 200，没有 body，具有 header：
 
