@@ -47,7 +47,7 @@ Object.assign(User.prototype, sayHiMixin);
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
-这里没有继承，只有一个简单的方法拷贝。因此，我们可以让 `User` 在继承另一个类的同时，使用 mixin 来 "mix-in" （混合）其它方法，就像这样：
+这里没有继承，只有一个简单的方法拷贝。因此，我们可以让 `User` 在继承另一个类的同时，使用 mixin 来 "mix-in"（混合）其它方法，就像这样：
 
 ```js
 class User extends Person {
