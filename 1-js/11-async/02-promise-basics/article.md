@@ -357,7 +357,7 @@ promise.then(script => alert('Another handler...'));
 
 | promise | callback |
 |----------|-----------|
-| promise 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript`，之后（then），用 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，我们必须有一个 `callback` 函数可供使用。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
+| promise 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript`，之后，用 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，我们必须有一个 `callback` 函数可供使用。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
 | 我们可以根据需要，在 promise 上多次调用 `.then`。每次调用，我们都会在“订阅列表”中添加一个新的“粉丝”，一个新的订阅函数。在下一章将对此内容进行详细介绍：[](info:promise-chaining)。 | 只能有一个回调。|
 
 
