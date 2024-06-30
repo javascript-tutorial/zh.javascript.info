@@ -348,7 +348,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 - `anchorNode` —— 选择的起始节点，
 - `anchorOffset` —— 选择开始的 `anchorNode` 中的偏移量，
 - `focusNode` —— 选择的结束节点，
-- `focusOffset` —— 选择开始处 `focusNode` 的偏移量，
+- `focusOffset` —— 选择结束处 `focusNode` 的偏移量，
 - `isCollapsed` —— 如果未选择任何内容（空范围）或不存在，则为 `true` 。
 - `rangeCount` —— 选择中的范围数，除 Firefox 外，其他浏览器最多为 `1`。
 
