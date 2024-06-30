@@ -317,7 +317,7 @@ new User().sayHi(); // Hello, John!
 
 所以，我们就只需在表达式中写 "<property name> = <value>"，就这样。
 
-类字段重要的不同之处在于，它们会在每个独立对象中被设好，而不是设在 `User.prototype`：
+类字段的重要区别在于，它们会被挂在实例对象上，而非 `User.prototype` 上：
 
 ```js run
 class User {
