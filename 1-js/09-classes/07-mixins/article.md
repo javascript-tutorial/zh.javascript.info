@@ -2,13 +2,13 @@
 
 在 JavaScript 中，我们只能继承单个对象。每个对象只能有一个 `[[Prototype]]`。并且每个类只可以扩展另外一个类。
 
-但是有些时候这种设定（译注：单继承）会让人感到受限制。例如，我有一个 `StreetSweeper` 类和一个 `Bicycle` 类，现在想要一个它们的 mixin：`StreetSweepingBicycle` 类。
+但是有些时候这种设定（译注：单继承）会让人感到受限制。例如，我有一个 `StreetSweeper` 类和一个 `Bicycle` 类，现在想要一个它们的混合体：`StreetSweepingBicycle` 类。
 
 或者，我们有一个 `User` 类和一个 `EventEmitter` 类来实现事件生成（event generation），并且我们想将 `EventEmitter` 的功能添加到 `User` 中，以便我们的用户可以触发事件（emit event）。
 
-有一个概念可以帮助我们，叫做 "mixins"。
+有一个概念可以帮助我们，叫做 "mixin"。
 
-根据维基百科的定义，[mixin](https://en.wikipedia.org/wiki/Mixin) 是一个包含可被其他类使用而无需继承的方法的类。
+根据维基百科的定义，[mixin](https://en.wikipedia.org/wiki/Mixin) 是一个类，其方法可被其他类使用，而无需继承。
 
 换句话说，*mixin* 提供了实现特定行为的方法，但是我们不单独使用它，而是使用它来将这些行为添加到其他类中。
 
@@ -47,7 +47,7 @@ Object.assign(User.prototype, sayHiMixin);
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
-这里没有继承，只有一个简单的方法拷贝。所以 `User` 可以从另一个类继承，还可以包括 mixin 来 "mix-in“ 其它方法，就像这样：
+这里没有继承，只有一个简单的方法拷贝。因此，我们可以让 `User` 在继承另一个类的同时，使用 mixin 来 "mix-in"（混合）其它方法，就像这样：
 
 ```js
 class User extends Person {

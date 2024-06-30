@@ -83,7 +83,7 @@ let promise = new Promise(function(resolve, reject) {
 
 与最初的 "pending" promise 相反，一个 resolved 或 rejected 的 promise 都会被称为 "settled"。
 
-````smart header="这只能有一个结果或一个 error"
+````smart header="只有一个结果或一个 error"
 executor 只能调用一个 `resolve` 或一个 `reject`。任何状态的更改都是最终的。
 
 所有其他的再对 `resolve` 和 `reject` 的调用都会被忽略：
@@ -99,7 +99,7 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-这的宗旨是，一个被 executor 完成的工作只能有一个结果或一个 error。
+关键就在于，一个由 executor 完成的工作只能有一个结果或一个 error。
 
 并且，`resolve/reject` 只需要一个参数（或不包含任何参数），并且将忽略额外的参数。
 ````
@@ -118,7 +118,7 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-例如，当我们开始做一个任务时，但随后看到一切都已经完成并已被缓存时，可能就会发生这种情况。
+例如，当我们开始做一个任务，随后发现一切都已经完成并已被缓存时，可能就会发生这种情况。
 
 这挺好。我们立即就有了一个 resolved 的 promise。
 ````
@@ -294,7 +294,7 @@ new Promise((resolve, reject) => {
 // 下面这 promise 在被创建后立即变为 resolved 状态
 let promise = new Promise(resolve => resolve("done!"));
 
-promise.then(alert); // done!（现在显示）
+promise.then(alert); // done!（立刻显示）
 ```
 
 请注意这使得 promise 比现实生活中的“订阅列表”方案强大得多。如果歌手已经发布了他们的单曲，然后某个人在订阅列表上进行了注册，则他们很可能不会收到该单曲。实际生活中的订阅必须在活动开始之前进行。
@@ -357,7 +357,7 @@ promise.then(script => alert('Another handler...'));
 
 | promise | callback |
 |----------|-----------|
-| promise 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript` 和 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，我们必须有一个 `callback` 函数可供使用。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
+| promise 允许我们按照自然顺序进行编码。首先，我们运行 `loadScript`，之后，用 `.then` 来处理结果。| 在调用 `loadScript(script, callback)` 时，我们必须有一个 `callback` 函数可供使用。换句话说，在调用 `loadScript` **之前**，我们必须知道如何处理结果。|
 | 我们可以根据需要，在 promise 上多次调用 `.then`。每次调用，我们都会在“订阅列表”中添加一个新的“粉丝”，一个新的订阅函数。在下一章将对此内容进行详细介绍：[](info:promise-chaining)。 | 只能有一个回调。|
 
 
