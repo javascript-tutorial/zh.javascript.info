@@ -14,7 +14,7 @@
 如果你阅读本文是为了寻找其他类型的循环，那么：
 
 - 用于遍历对象属性的 `for..in` 循环请见：[for..in](info:object#forin)。
-- 用于遍历数组和可迭代对象的循环分别请见：[for..of](info:array#loops) 和 [iterables](info:iterable)。
+- 用于遍历数组和可迭代对象的循环分别请见：[for..of](info:array#xun-huan) 和 [iterables](info:iterable)。
 
 否则，请继续阅读。
 ```
