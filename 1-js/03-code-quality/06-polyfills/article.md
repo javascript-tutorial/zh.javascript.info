@@ -73,7 +73,6 @@ JavaScript 是一种高度动态的语言。脚本可以添加/修改任何函�
 
 两个有趣的 polyfill 库：
 - [core js](https://github.com/zloirock/core-js) 支持了很多特性，允许只包含需要的特性。
-- [polyfill.io](http://polyfill.io) 提供带有 polyfill 的脚本的服务，具体取决于特性和用户的浏览器。
 
 
 ## 总结
