@@ -218,7 +218,7 @@ db.createObjectStore(name[, keyOptions]);
 db.createObjectStore('books', {keyPath: 'id'});
 ```
 
-**在 `upgradeneeded` 处理程序中，只有在创建数据库版本时，对象库被才能被 创建/修改。**
+**只有当数据库升级时，我们才能在`onupgradeneeded`事件的回调函数中创建或修改对象库。**
 
 这是技术上的限制。在 upgradeneedHandler 之外，可以添加/删除/更新数据，但是只能在版本更新期间创建/删除/更改对象库。
 
