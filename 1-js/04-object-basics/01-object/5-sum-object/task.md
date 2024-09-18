@@ -10,7 +10,7 @@ importance: 5
 let salaries = {
   John: 100,
   Ann: 160,
-  Pete: 130
+  Pete: 130,
 }
 ```
 
