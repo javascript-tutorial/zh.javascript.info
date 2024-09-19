@@ -72,7 +72,7 @@ socket.onerror = function(error) {
 
 当 `new WebSocket(url)` 被创建后，它将立即开始连接。
 
-在连接期间，浏览器（使用 header）问服务器：“你支持 WebSocket 吗？”如果服务器回复说“我支持”，那么通信就以 WebSocket 协议继续进行，该协议根本不是 HTTP。
+在连接期间，浏览器（使用 header）问服务器：“你支持 WebSocket 吗？”如果服务器回复说“我支持”，那么通信就以 WebSocket 协议继续进行，该协议完全不是 HTTP。
 
 ![](websocket-handshake.svg)
 
@@ -109,7 +109,7 @@ Sec-WebSocket-Accept: hsBlbuDTkk24srzEOTBUlZAlC2g=
 
 这里 `Sec-WebSocket-Accept` 是 `Sec-WebSocket-Key`，是使用特殊的算法重新编码的。浏览器使用它来确保响应与请求相对应。
 
-然后，使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它根本不是 HTTP。
+然后，使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它完全不是 HTTP。
 
 ### 扩展和子协议
 
