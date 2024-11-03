@@ -92,7 +92,7 @@ let regexp = new RegExp(regStr);
 alert( "Chapter 5.1".match(regexp) ); // 5.1
 ```
 
-## Summary
+## 总结
 
 - 要在字面意义上搜索特殊字符 `pattern:[ \ ^ $ . | ? * + ( )`，我们需要在它们前面加上一个反斜杠 `\`（“转义它们”）。
 - 如果在 `pattern:/.../` 内（但不在 `new RegExp` 内），我们还需要转义 `/`。
