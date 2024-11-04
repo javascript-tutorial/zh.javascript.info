@@ -321,7 +321,7 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // a, b, c
 ```
 
-让我们再次注意：如果该属性在对象中不存在，那么我们只需要拦截 `[[GetOwnProperty]]`。
+让我们再次注意：只有当该属性在对象中不存在时，我们才需要拦截 `[[GetOwnProperty]]`。
 
 ## 具有 "deleteProperty" 和其他捕捉器的受保护属性
 
