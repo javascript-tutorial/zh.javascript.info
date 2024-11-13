@@ -18,33 +18,13 @@
 | 微信扫码关注官方订阅号，订阅更多精彩内容 |
 |-|
 | <img src="https://user-images.githubusercontent.com/26959437/120764347-a3b91680-c54a-11eb-9a15-31bb2596b0db.png" width="500px;" /> |
-| <img src="https://user-images.githubusercontent.com/26959437/120764353-a61b7080-c54a-11eb-8a79-75177c342b45.png" width="500px;" /> |
 
 **加入读者交流群：**
 
 - **微信群**：加微信 **`imleviding`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/64596211-0fa63380-d3e6-11e9-983d-bd788ffe2370.jpg)，验证信息填写 **`JS 教程`**。
 - **QQ 群**：打开 QQ 搜索群号 **`955916282`** 或 [扫二维码](https://user-images.githubusercontent.com/26959437/138594800-29700a46-0cb1-45bd-b614-4b6486cf0124.jpg)，验证信息填写 **`JS 教程`**。
 
-教程配套每日一题：https://github.com/leviding/one-note-a-day
-
 本项目托管了现代 JavaScript 教程中文版的内容，此内容发布在 [https://zh.javascript.info](https://zh.javascript.info)
-
-## Mock 工具
-
-<a href="https://datayi.cn/w/nRbOawVP" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/189130319-846e1e33-3b47-4cbc-8fe1-0fa87db5362f.svg" width="300px;" target="_blank"/></a>
-
-分享一个好用的开源接口 Mock 工具：[https://github.com/eolinker/eoapi](https://datayi.cn/w/nRbOawVP)
-
-除了 Mock 功能，还集合了 API 管理和测试功能，还可以通过插件广场帮助你将 API 发布到各个应用平台，比如发布到网关上完成 API 上线，或者和低代码平台结合，将 API 快速变成低代码平台中可使用的组件等。
-
-<!--
-
-## 赞助商
-
-<a href="https://coding.net/?utm_source=javascript-tutorial-zh&utm_medium=banner&utm_campaign=march2019" target="_blank"><img src="https://user-images.githubusercontent.com/26959437/56273145-c56aa000-612e-11e9-9137-a1388ef18cf2.png" width="300px;" target="_blank"/></a>
-
--->
-
 
 ## 目录
 
