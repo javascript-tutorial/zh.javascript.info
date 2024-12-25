@@ -172,31 +172,31 @@ showMessage(from, "Hello"); // *Ann*: Hello
 alert( from ); // Ann
 ```
 
-当一个值被作为函数参数（parameter）传递时，它也被称为 **参数（argument）**。
+当一个值被传递给函数时，它被称为**实参（argument）**，而在函数定义中接收这些值的变量被称为**形参（parameter）**。
 
 换一种方式，我们把这些术语搞清楚：
 
-- 参数（parameter）是函数声明中括号内列出的变量（它是函数声明时的术语）。
-- 参数（argument）是调用函数时传递给函数的值（它是函数调用时的术语）。
+- 形参（parameter）：是函数声明中括号内列出的变量（它是函数声明时的术语）。
+- 实参（argument）：是调用函数时传递给函数的值（它是函数调用时的术语）。
 
-我们声明函数时列出它们的参数（parameters），然后调用它们传递参数（arguments）。
+我们声明函数时列出它们的形参（parameters），然后调用它们传递实参（arguments）。
 
-在上面的例子中，我们可以说：“函数 `showMessage` 被声明，并且带有两个参数（parameters），随后它被调用，两个参数（arguments）分别为 `from` 和 `"Hello"`”。
+在上面的例子中，我们可以说：“函数 `showMessage` 被声明，并且带有两个形参（parameters），随后它被调用，两个实参（arguments）分别为 `from` 和 `"Hello"`”。
 
 
 ## 默认值
 
-如果一个函数被调用，但有参数（argument）未被提供，那么相应的值就会变成 `undefined`。
+如果一个函数被调用，但有实参（argument）未被提供，那么相应的值就会变成 `undefined`。
 
-例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个参数（argument）调用：
+例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个实参（argument）调用：
 
 ```js
 showMessage("Ann");
 ```
 
-那不是错误，这样调用将输出 `"*Ann*: undefined"`。因为参数 `text` 的值未被传递，所以变成了 `undefined`。
+那不是错误，这样调用将输出 `"*Ann*: undefined"`。因为形参 `text` 的值未被传递，所以变成了 `undefined`。
 
-我们可以使用 `=` 为函数声明中的参数指定所谓的“默认”（如果对应参数的值未被传递则使用）值：
+我们可以使用 `=` 为函数声明中的形参指定所谓的“默认”（如果没有传递对应的实参则使用）值：
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
@@ -206,9 +206,9 @@ function showMessage(from, *!*text = "no text given"*/!*) {
 showMessage("Ann"); // Ann: no text given
 ```
 
-现在如果 `text` 参数未被传递，它将会得到值 `"no text given"`。
+现在如果 `text` 实参未被传递，它将会得到值 `"no text given"`。
 
-这里 `"no text given"` 是一个字符串，但它可以是更复杂的表达式，并且只会在缺少参数时才会被计算和分配。所以，这也是可能的：
+这里 `"no text given"` 是一个字符串，但它可以是更复杂的表达式，并且只会在缺少实参时才会被计算和分配。所以，这也是可能的：
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
@@ -217,16 +217,16 @@ function showMessage(from, text = anotherFunction()) {
 }
 ```
 
-```smart header="默认参数的计算"
-在 JavaScript 中，每次函数在没带个别参数的情况下被调用，默认参数会被计算出来。
+```smart header="形参的默认值机制"
+在 JavaScript 中，如果调用函数时没有提供相应的实参，那么对应的形参会被赋予默认值。
 
-在上面的例子中，如果传递了参数 `text`，那么 `anotherFunction()` 就不会被调用。
+在上面的例子中，如果传递了 `text` 的实参，那么 `anotherFunction()` 就不会被调用。
 
-如果没传递参数 `text`，那么 `anotherFunction()` 就会被调用。
+如果没传递 `text` 的实参，那么 `anotherFunction()` 就会被调用。
 ```
 
-````smart header="在 JavaScript 老代码中的默认参数"
-几年前，JavaScript 不支持默认参数的语法。所以人们使用其他方式来设置默认参数。
+````smart header="在 JavaScript 老代码中的默认实参"
+几年前，JavaScript 不支持默认实参的语法。所以人们使用其他方式来设置默认实参。
 
 如今，我们会在旧代码中看到它们。
 
@@ -257,18 +257,18 @@ function showMessage(from, text) {
 ````
 
 
-### 后备的默认参数
+### 备选实参
 
-有些时候，将参数默认值的设置放在函数执行（相较更后期）而不是函数声明时，也行得通。
+有些时候，将形参的默认值的设置放在函数执行时（而不是在函数声明时），也行得通。
 
-我们可以通过将参数与 `undefined` 进行比较，来检查该参数是否在函数执行期间被传递进来：
+我们可以通过将形参与 `undefined` 进行比较，来检查对应的实参是否在函数执行期间被传递进来：
 
 ```js run
 function showMessage(text) {
   // ...
 
 *!*
-  if (text === undefined) { // 如果参数未被传递进来
+  if (text === undefined) { // 如果实参未被传递进来
     text = 'empty message';
   }
 */!*
@@ -516,13 +516,13 @@ function name(parameters, delimited, by, comma) {
 }
 ```
 
-- 作为参数传递给函数的值，会被复制到函数的局部变量。
+- 作为实参传递给函数的值，会被复制到函数的形参对应的局部变量中。
 - 函数可以访问外部变量。但它只能从内到外起作用。函数外部的代码看不到函数内的局部变量。
 - 函数可以返回值。如果没有返回值，则其返回的结果是 `undefined`。
 
-为了使代码简洁易懂，建议在函数中主要使用局部变量和参数，而不是外部变量。
+为了提高代码的简洁性和易读性，建议在函数内部主要使用局部变量和形参，而不是依赖外部变量。
 
-与不获取参数但将修改外部变量作为副作用的函数相比，获取参数、使用参数并返回结果的函数更容易理解。
+相比于那些不依赖于实参而是通过修改外部变量产生副作用的函数，那些依赖于实参、使用这些实参并返回结果的函数更容易理解。。
 
 函数命名：
 
