@@ -319,7 +319,7 @@ func.apply(context, args);
 这是它的最简形式：
 
 ```js
-let wrapper = function() {
+let wrapper = function(func) {
   return func.apply(this, arguments);
 };
 ```
