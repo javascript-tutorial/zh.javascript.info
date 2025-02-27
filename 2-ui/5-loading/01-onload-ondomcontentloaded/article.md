@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", ready);
 
 Firefox，Chrome 和 Opera 都会在 `DOMContentLoaded` 中自动填充表单。
 
-例如，如果页面有一个带有登录名和密码的表单，并且浏览器记住了这些值，那么在 `DOMContentLoaded` 上，浏览器会尝试自动填充它们（如果得到了用户允许）。
+例如，如果页面有一个带有登录名和密码的表单，并且浏览器记住了这些值，那么当 `DOMContentLoaded` 时，浏览器会尝试自动填充它们（如果得到了用户允许）。
 
 因此，如果 `DOMContentLoaded` 被需要加载很长时间的脚本延迟触发，那么自动填充也会等待。你可能在某些网站上看到过（如果你使用浏览器自动填充）—— 登录名/密码字段不会立即自动填充，而是在页面被完全加载前会延迟填充。这实际上是 `DOMContentLoaded` 事件之前的延迟。
 

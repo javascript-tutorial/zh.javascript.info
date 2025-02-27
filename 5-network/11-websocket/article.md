@@ -72,7 +72,7 @@ socket.onerror = function(error) {
 
 当 `new WebSocket(url)` 被创建后，它将立即开始连接。
 
-在连接期间，浏览器（使用 header）问服务器：“你支持 WebSocket 吗？”如果服务器回复说“我支持”，那么通信就以 WebSocket 协议继续进行，该协议根本不是 HTTP。
+在连接期间，浏览器（使用 header）问服务器：“你支持 WebSocket 吗？”如果服务器回复说“我支持”，那么通信就以 WebSocket 协议继续进行，该协议完全不是 HTTP。
 
 ![](websocket-handshake.svg)
 
@@ -109,7 +109,7 @@ Sec-WebSocket-Accept: hsBlbuDTkk24srzEOTBUlZAlC2g=
 
 这里 `Sec-WebSocket-Accept` 是 `Sec-WebSocket-Key`，是使用特殊的算法重新编码的。浏览器使用它来确保响应与请求相对应。
 
-然后，使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它根本不是 HTTP。
+然后，使用 WebSocket 协议传输数据，我们很快就会看到它的结构（"frames"）。它完全不是 HTTP。
 
 ### 扩展和子协议
 
@@ -119,7 +119,7 @@ WebSocket 可能还有其他 header，`Sec-WebSocket-Extensions` 和 `Sec-WebSoc
 
 - `Sec-WebSocket-Extensions: deflate-frame` 表示浏览器支持数据压缩。扩展与传输数据有关，扩展了 WebSocket 协议的功能。`Sec-WebSocket-Extensions` header 由浏览器自动发送，其中包含其支持的所有扩展的列表。
 
-- `Sec-WebSocket-Protocol: soap, wamp` 表示我们不仅要传输任何数据，还要传输 [SOAP](https://en.wikipedia.org/wiki/SOAP) 或 WAMP（"The WebSocket Application Messaging Protocol"）协议中的数据。WebSocket 子协议已经在 [IANA catalogue](https://www.iana.org/assignments/websocket/websocket.xml) 中注册。因此，此 header 描述了我们将要使用的数据格式。
+- `Sec-WebSocket-Protocol: soap, wamp` 表示我们要传输的数据不是随意的，而是 [SOAP](https://en.wikipedia.org/wiki/SOAP) 或 WAMP（"The WebSocket Application Messaging Protocol"）协议数据。WebSocket 子协议已经在 [IANA catalogue](https://www.iana.org/assignments/websocket/websocket.xml) 中注册。因此，此 header 描述了我们将要使用的数据格式。
 
     这个可选的 header 是使用 `new WebSocket` 的第二个参数设置的。它是子协议数组，例如，如果我们想使用 SOAP 或 WAMP：
 
