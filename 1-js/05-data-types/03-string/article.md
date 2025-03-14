@@ -186,7 +186,7 @@ for (let char of "Hello") {
 let str = 'Hi';
 
 str[0] = 'h'; // error
-alert( str[0] ); // 无法运行
+alert( str[0] ); // 没成功
 ```
 
 通常的解决方法是创建一个新的字符串，并将其分配给 `str` 而不是以前的字符串。
