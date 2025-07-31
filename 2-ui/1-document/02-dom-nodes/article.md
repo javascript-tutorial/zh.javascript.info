@@ -216,7 +216,7 @@ drawHtmlTree(node6, 'div.domtree', 690, 500);
 
 探索 DOM 的另一种方式是使用浏览器开发工具。实际上，这就是我们在开发中所使用的。
 
-你可以打开这个网页 [elks.html](elks.html)，然后打开浏览器开发工具，并切换到元素（Elements）选项卡。
+你可以打开这个网页 [elk.html](elk.html)，然后打开浏览器开发工具，并切换到元素（Elements）选项卡。
 
 它看起来像这样：
 
