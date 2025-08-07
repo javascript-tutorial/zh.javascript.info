@@ -307,4 +307,4 @@ Promise 前的关键字 `await` 使 JavaScript 引擎等待该 promise settle，
 
 这两个关键字一起提供了一个很好的用来编写异步代码的框架，这种代码易于阅读也易于编写。
 
-有了 `async/await` 之后，我们就几乎不需要使用 `promise.then/catch`，但是不要忘了它们是基于 promise 的，因为有些时候（例如在最外层作用域）我们不得不使用这些方法。并且，当我们需要同时等待需要任务时，`Promise.all` 是很好用的。
+有了 `async/await` 之后，我们就几乎不需要使用 `promise.then/catch`，但是不要忘了它们是基于 promise 的，因为有些时候（例如在最外层作用域）我们不得不使用这些方法。并且，当我们需要同时等待多个任务时，`Promise.all` 是很好用的。
