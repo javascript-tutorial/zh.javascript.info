@@ -251,16 +251,16 @@ importance: 5
 
 **Admin:**
 
-- LeviDing [@leviding](https://github.com/leviding)
+- [@leviding](https://github.com/leviding)
 
 **当前活跃维护者:**
 
-- LeviDing [@leviding](https://github.com/leviding)
+- [@leviding](https://github.com/leviding)
 
 **历史核心维护者:**
 
-- Martin [@MartinsYong](https://github.com/MartinsYong)
-- Bemself [bemself](https://github.com/bemself)
-- LycheeEng [@lycheeEng](https://github.com/lycheeEng)
+- [@MartinsYong](https://github.com/MartinsYong)
+- [bemself](https://github.com/bemself)
+- [@lycheeEng](https://github.com/lycheeEng)
 
 我们希望与大家合作维护本教程。本教程的详细贡献者列表请见：<https://zh.javascript.info/about>。
