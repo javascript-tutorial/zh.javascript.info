@@ -6,8 +6,8 @@
 本教程为 [React 官方文档](https://reactjs.org/docs/getting-started.html#javascript-resources) 与 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) 共同推荐的前端教程，持续更新，永久免费，欢迎扫码关注微信公众号，加入读者群。
 
 | 微信扫码关注公众号，加微信好友进群 |
-|--------------------------------------|
-| <img src="https://github.com/user-attachments/assets/7a818138-1c6c-4abe-bf6e-a76648d98b4d" width="240px;" /> |
+|:----------------------------:|
+| <img src="https://github.com/user-attachments/assets/7a818138-1c6c-4abe-bf6e-a76648d98b4d" width="310px;" /> |
 | 加好友请备注 `JS`，不备注不通过 |
 
 本项目托管了现代 JavaScript 教程中文版的内容，此内容发布在 [https://zh.javascript.info](https://zh.javascript.info)
