@@ -13,7 +13,7 @@ IDE 加载项目（通常包含很多文件），并且允许在不同文件之�
 如果你还没考虑好选哪一款 IDE，可以考虑下面两个：
 
 - [Visual Studio Code](https://code.visualstudio.com/)（跨平台，免费）。
-- [WebStorm](https://www.jetbrains.com/webstorm/)（跨平台，收费）。
+- [WebStorm](https://www.jetbrains.com/webstorm/)（跨平台，非商用免费）。
 
 对于 Windows 系统来说，也有个叫 "Visual Studio" 的 IDE，请不要跟 "Visual Studio Code" 混淆。"Visual Studio" 是一个收费的、强大的 Windows 专用编辑器，它十分适合于 .NET 开发。用它进行 JavaScript 开发也不错。"Visual Studio" 有个免费的版本 [Visual Studio Community](https://www.visualstudio.com/vs/community/)。
 
