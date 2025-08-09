@@ -120,7 +120,3 @@ JavaScript 是将这三件事结合在一起的唯一的浏览器技术。
 - JavaScript 最开始是专门为浏览器设计的一门语言，但是现在也被用于很多其他的环境。
 - JavaScript 作为被应用最广泛的浏览器语言，且与 HTML/CSS 完全集成，具有独特的地位。
 - 有很多其他的语言可以被“编译”成 JavaScript，这些语言还提供了更多的功能。建议最好了解一下这些语言，至少在掌握了 JavaScript 之后大致的了解一下。
-
----
-
-![XPACK | 全球首个开源 MCP 交易计费平台，搭建您专属的 MCP 商城](https://github.com/user-attachments/assets/66b14bce-b020-449e-93b3-e21a43523efb)
