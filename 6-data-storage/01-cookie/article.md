@@ -135,7 +135,7 @@ alert(document.cookie); // 有 cookie user=John
 
 ## expires，max-age
 
-默认情况下，如果一个 cookie 没有设置这两个参数中的任何一个，那么在关闭浏览器之后，它就会消失。此类 cookie 被称为 "session cookie”。
+默认情况下，如果一个 cookie 这两个参数都没有设置，那么在关闭浏览器之后，它就会消失。此类 cookie 被称为 "session cookie”。
 
 为了让 cookie 在浏览器关闭后仍然存在，我们可以设置 `expires` 或 `max-age` 选项中的一个。
 
