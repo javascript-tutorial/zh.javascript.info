@@ -151,7 +151,7 @@ newWindow.onload = function() {
 ```warn header="同源策略"
 只有在窗口是同源的时，窗口才能自由访问彼此的内容（`相同的协议://domain:port`）。
 
-否则，例如，如果主窗口来自于 `site.com`，弹窗来自于 `gmail.com`，则处于安全性考虑，这两个窗口不能访问彼此的内容。有关详细信息，请参见 <info:cross-window-communication> 一章。
+否则，例如，如果主窗口来自于 `site.com`，弹窗来自于 `gmail.com`，则出于安全性考虑，这两个窗口不能访问彼此的内容。有关详细信息，请参见 <info:cross-window-communication> 一章。
 ```
 
 ## 从弹窗访问窗口
