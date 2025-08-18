@@ -111,7 +111,7 @@ let sayHi = function() {
 
 让我们多举几个例子，看看如何将函数作为值来传递以及如何使用函数表达式。
 
-我们写一个包含三个参数的函数 `ask(question, yes, no)`：
+我们写一个包含三个形参的函数 `ask(question, yes, no)`：
 
 `question`
 : 关于问题的文本
@@ -140,13 +140,13 @@ function showCancel() {
   alert( "You canceled the execution." );
 }
 
-// 用法：函数 showOk 和 showCancel 被作为参数传入到 ask
+// 用法：函数 showOk 和 showCancel 被作为实参传入到 ask
 ask("Do you agree?", showOk, showCancel);
 ```
 
 在实际开发中，这样的函数是非常有用的。实际开发与上述示例最大的区别是，实际开发中的函数会通过更加复杂的方式与用户进行交互，而不是通过简单的 `confirm`。在浏览器中，这样的函数通常会绘制一个漂亮的提问窗口。但这是另外一件事了。
 
-`ask` 的两个参数值 `showOk` 和 `showCancel` 可以被称为 **回调函数** 或简称 **回调**。
+`ask` 的两个实参 `showOk` 和 `showCancel` 可以被称为 **回调函数** 或简称 **回调**。
 
 主要思想是我们传递一个函数，并期望在稍后必要时将其“回调”。在我们的例子中，`showOk` 是回答 "yes" 的回调，`showCancel` 是回答 "no" 的回调。
 
