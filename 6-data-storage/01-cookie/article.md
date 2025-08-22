@@ -68,6 +68,7 @@ alert(document.cookie); // ...; my%20name=John%20Smith
 
 ```warn header="限制"
 存在一些限制：
+- 使用 `document.cookie` setter，一次只能 新建/更新 一个 cookie。
 - `encodeURIComponent` 编码后的 `name=value` 对，大小不能超过 4KB。因此，我们不能在一个 cookie 中保存大的东西。
 - 每个域的 cookie 总数不得超过 20+ 左右，具体限制取决于浏览器。
 ```
