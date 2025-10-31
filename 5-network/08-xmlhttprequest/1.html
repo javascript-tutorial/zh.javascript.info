@@ -1,0 +1,35 @@
+
+<script>
+
+// 1. 创建一个 new XMLHttpRequest 对象
+let xhr = new XMLHttpRequest();
+
+// 2. 配置它：从 URL /article/.../load GET-request
+xhr.open('GET', 'https://zh.javascript.info/article/xmlhttprequest/example/load');
+
+// 3. 通过网络发送请求
+xhr.send();
+
+// 4. 当接收到响应后，将调用此函数
+xhr.onload = function() {
+  if (xhr.status != 200) { // 分析响应的 HTTP 状态
+    console.log(`Error ${xhr.status}: ${xhr.statusText}`); // 例如 404: Not Found
+  } else { // 显示结果
+    console.log(`Done, got ${xhr.response.length} bytes`); // response 是服务器响应
+  }
+};
+
+xhr.onprogress = function(event) {
+  if (event.lengthComputable) {
+    console.log(`Received ${event.loaded} of ${event.total} bytes`);
+  } else {
+    console.log(`Received ${event.loaded} bytes`); // 没有 Content-Length
+  }
+
+};
+
+xhr.onerror = function() {
+  console.log("Request failed");
+};
+
+</script>

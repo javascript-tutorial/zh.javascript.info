@@ -1,0 +1,27 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo Hello ${file}"
+        },
+        {
+            "label": "replace ALERT",
+            "type": "shell",
+            "command": "d:\\git\\usr\\bin\\sed -i 's/alert/console.log/g' ${file}"
+        },
+        {
+            "label": "gvim",
+            "type": "shell",
+            "command": "D:/Vim/vim91/gvim.exe ${file}"
+        }
+        {
+            "label": "git add",
+            "type": "shell",
+            "command": "D:/Git/mingw64/libexec/git-core/git.exe add ${file}"
+        }
+    ]
+}

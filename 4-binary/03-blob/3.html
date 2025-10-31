@@ -1,0 +1,17 @@
+
+<script>
+
+let link = document.createElement('a');
+link.download = 'hello.txt';
+
+let blob = new Blob(['Hello, world!'], {type: 'text/plain'});
+
+let reader = new FileReader();
+reader.readAsDataURL(blob); // 将 Blob 转换为 base64 并调用 onload
+
+reader.onload = function() {
+  link.href = reader.result; // data url
+  link.click();
+};
+
+</script>
