@@ -1,0 +1,14 @@
+
+<!-- download 特性（attribute）强制浏览器下载而不是导航 -->
+<a download="hello.txt" href='#' id="link">Download</a>
+
+<script>
+let blob = new Blob(["Hello, world!"], {type: 'text/plain'});
+
+link.href = URL.createObjectURL(blob);
+
+// what if revoke here?
+// URL.revokeObjectURL(blob);
+// also can download...
+
+</script>

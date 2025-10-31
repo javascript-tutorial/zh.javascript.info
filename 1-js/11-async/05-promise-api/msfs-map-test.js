@@ -1,0 +1,106 @@
+
+
+async function translate(src){
+    const url = 'https://transmart.qq.com/api/imt';
+    let body= `{
+          "header": {
+            "fn": "auto_translation_block",
+            "client_key": "tencent_transmart_crx_TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3Lj"
+          },
+          "source": {
+            "lang": "en",
+            "text_block": "${src}"
+          },
+          "target": {
+            "lang": "zh"
+          }
+      }`;
+      // console.log("body ", body); return;
+  
+    let resp = await fetch(url, {
+      method: 'POST',
+      body
+    });
+    let json = await resp.json();
+    // console.log("json ", json);
+    let trans = json.auto_translation;
+    console.log("trans ", trans);
+    return trans;
+  }
+
+
+  (async function () {
+    await translate('About');
+  })(); 
+
+
+
+let pages = 
+{
+    "22109205": {
+        "pageid": 22109205,
+        "ns": 0,
+        "title": "IRT Powerhouse",
+        "index": -1,
+        "extract": "The <b>IRT Powerhouse</b>, also known as the <b>Interborough Rapid Transit Company Powerhouse</b>...",
+        "thumbnail": {
+            "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/W58th_St_IRT_power_jeh.JPG/400px-W58th_St_IRT_power_jeh.JPG",
+            "width": 400,
+            "height": 338
+        },
+        "pageimage": "W58th_St_IRT_power_jeh.JPG",
+        "coordinates": [
+            {
+                "lat": 40.77194444,
+                "lon": -73.99222222,
+                "primary": "",
+                "globe": "earth"
+            }
+        ]
+    },
+
+    "37321190": {
+        "pageid": 37321190,
+        "ns": 0,
+        "title": "VIA 57 West",
+        "index": 0,
+        "extract": "<p class=\"mw-empty-elt\">\n</p><p><b>VIA 57 West</b> (marketed as <b>VIΛ 57WEST</b>) is a residential building at 625 West 57th Street...",
+        "thumbnail": {
+            "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/VIA_57_West_-_exterior.jpg/400px-VIA_57_West_-_exterior.jpg",
+            "width": 400,
+            "height": 335
+        },
+        "pageimage": "VIA_57_West_-_exterior.jpg",
+        "coordinates": [
+            {
+                "lat": 40.77138889,
+                "lon": -73.99305556,
+                "primary": "",
+                "globe": "earth"
+            }
+        ]
+    }
+}
+;
+
+
+
+async function transAll(){
+    for (let pg of Object.values(pages)) {
+        console.log("tt ", pg.title);
+        console.log("ex ", pg.extract);
+
+        pg.title = await translate(pg.title);
+        pg.extract = await translate(pg.extract);
+        console.log("new pg ", pg);
+    }
+}
+
+// transAll()
+// .then(console.log("final ", pages))
+// ;
+
+( async function(){
+    await transAll();
+    console.log("final ", pages);
+})();
