@@ -77,7 +77,7 @@
 例如，如果控制点是 `(0,0)`、`(0.5, 1)` 和 `(1, 0)`，则方程式为：
 
 - <code>x = (1−t)<sup>2</sup> * 0 + 2(1−t)t * 0.5 + t<sup>2</sup> * 1 = (1-t)t + t<sup>2</sup> = t</code>
-- <code>y = (1−t)<sup>2</sup> * 0 + 2(1−t)t * 1 + t<sup>2</sup> * 0 = 2(1-t)t = –t<sup>2</sup> + 2t</code>
+- <code>y = (1−t)<sup>2</sup> * 0 + 2(1−t)t * 1 + t<sup>2</sup> * 0 = 2(1-t)t = –2t<sup>2</sup> + 2t</code>
 
 现在随着 `t` 从 `0` 到 `1` 变化，每个 `t` 对应的 `(x,y)` 集合可以构成曲线。
 
