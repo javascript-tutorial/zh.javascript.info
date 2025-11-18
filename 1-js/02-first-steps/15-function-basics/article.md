@@ -454,7 +454,7 @@ checkPermission(..) // 检查权限并返回 true/false
 ```smart header="非常短的函数命名"
 常用的函数有时会有**非常短**的名字。
 
-例如，[jQuery](http://jquery.com) 框架用 `$` 定义一个函数。[LoDash](http://lodash.com/) 库的核心函数用 `_` 命名。
+例如，[jQuery](http://jquery.com) 框架用 `$` 定义一个函数。[lodash](http://lodash.com/) 库的核心函数用 `_` 命名。
 
 这些都是例外，一般而言，函数名应简明扼要且具有描述性。
 ```
