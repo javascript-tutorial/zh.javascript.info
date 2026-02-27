@@ -238,7 +238,7 @@ customElements.define('user-card', class extends HTMLElement {
 }
 ```
 
-此外，`::sloated` 只能在 CSS 中使用，不能在 `querySelector` 中使用。
+此外，`::slotted` 只能在 CSS 中使用，不能在 `querySelector` 中使用。
 
 ## 用自定义 CSS 属性作为勾子
 
