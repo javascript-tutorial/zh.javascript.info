@@ -1,7 +1,9 @@
 # 现代 JavaScript 教程中文版
 
+<!--
 [![Gitter](https://img.shields.io/badge/chat-Gitter-forest.svg)](https://gitter.im/zh-javascript-info/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/TheModernJavaScriptTutorial)
+-->
 
 本教程为 [React 官方文档](https://reactjs.org/docs/getting-started.html#javascript-resources) 与 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) 共同推荐的前端教程，持续更新，永久免费，欢迎扫码关注微信公众号，加入读者群。
 
