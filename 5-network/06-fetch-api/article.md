@@ -24,7 +24,7 @@ let promise = fetch(url, {
   body: undefined // string，FormData，Blob，BufferSource，或 URLSearchParams
   referrer: "about:client", // 或 "" 以不发送 Referer header，
   // 或者是当前源的 url
-  referrerPolicy: "no-referrer-when-downgrade", // no-referrer，origin，same-origin...
+  referrerPolicy: "strict-origin-when-cross-origin", // no-referrer-when-downgrade, no-referrer，origin，same-origin...
   mode: "cors", // same-origin，no-cors
   credentials: "same-origin", // omit，include
   cache: "default", // no-store，reload，no-cache，force-cache，或 only-if-cached
@@ -85,13 +85,13 @@ fetch('/page', {
 
 可能的值在 [Referrer Policy 规范](https://w3c.github.io/webappsec-referrer-policy/)中有详细描述：
 
-- **`"no-referrer-when-downgrade"`** —— 默认值：除非我们从 HTTPS 发送请求到 HTTP（到安全性较低的协议），否则始终会发送完整的 `Referer`。
+- **`"strict-origin-when-cross-origin"`** —— 默认值：对于同源情况下则发送完整的 `Referer`，对于跨源情况下，则只发送域，如果是 HTTPS→HTTP 请求，则什么都不发送。
+- **`"no-referrer-when-downgrade"`** —— 除非我们从 HTTPS 发送请求到 HTTP（到安全性较低的协议），否则始终会发送完整的 `Referer`。
 - **`"no-referrer"`** —— 从不发送 `Referer`。
 - **`"origin"`** —— 只发送在 `Referer` 中的域，而不是完整的页面 URL，例如，只发送 `http://site.com` 而不是 `http://site.com/path`。
 - **`"origin-when-cross-origin"`** —— 发送完整的 `Referer` 到相同的源，但对于跨源请求，只发送域部分（同上）。
 - **`"same-origin"`** —— 发送完整的 `Referer` 到相同的源，但对于跨源请求，不发送 `Referer`。
 - **`"strict-origin"`** —— 只发送域，对于 HTTPS→HTTP 请求，则不发送 `Referer`。
-- **`"strict-origin-when-cross-origin"`** —— 对于同源情况下则发送完整的 `Referer`，对于跨源情况下，则只发送域，如果是 HTTPS→HTTP 请求，则什么都不发送。
 - **`"unsafe-url"`** —— 在 `Referer` 中始终发送完整的 url，即使是 HTTPS→HTTP 请求。
 
 这是一个包含所有组合的表格：
@@ -99,12 +99,12 @@ fetch('/page', {
 | 值 | 同源 | 跨源 | HTTPS→HTTP |
 |-------|----------------|-------------------|------------|
 | `"no-referrer"` | - | - | - |
-| `"no-referrer-when-downgrade"` 或 `""`（默认） | 完整的 url | 完整的 url | - |
+| `"no-referrer-when-downgrade"` | 完整的 url | 完整的 url | - |
 | `"origin"` | 仅域 | 仅域 | 仅域 |
 | `"origin-when-cross-origin"` | 完整的 url | 仅域 | 仅域 |
 | `"same-origin"` | 完整的 url | - | - |
 | `"strict-origin"` | 仅域 | 仅域 | - |
-| `"strict-origin-when-cross-origin"` | 完整的 url | 仅域 | - |
+| `"strict-origin-when-cross-origin"` 或 `""`（默认） | 完整的 url | 仅域 | - |
 | `"unsafe-url"` | 完整的 url | 完整的 url | 完整的 url |
 
 假如我们有一个带有 URL 结构的管理区域（admin zone），它不应该被从网站外看到。
