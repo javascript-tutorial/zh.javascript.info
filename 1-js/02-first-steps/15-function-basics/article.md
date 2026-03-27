@@ -172,23 +172,23 @@ showMessage(from, "Hello"); // *Ann*: Hello
 alert( from ); // Ann
 ```
 
-当一个值被作为函数参数（parameter）传递时，它也被称为 **参数（argument）**。
+当一个值被作为函数参数（parameter）传递时，它也被称为 **实参（argument）**。
 
 换一种方式，我们把这些术语搞清楚：
 
-- 参数（parameter）是函数声明中括号内列出的变量（它是函数声明时的术语）。
-- 参数（argument）是调用函数时传递给函数的值（它是函数调用时的术语）。
+- 形参（parameter）是函数声明中括号内列出的变量（它是函数声明时的术语）。
+- 实参（argument）是调用函数时传递给函数的值（它是函数调用时的术语）。
 
-我们声明函数时列出它们的参数（parameters），然后调用它们传递参数（arguments）。
+我们声明函数时列出它们的形参（argument），然后调用它们传递实参（argument）。
 
-在上面的例子中，我们可以说：“函数 `showMessage` 被声明，并且带有两个参数（parameters），随后它被调用，两个参数（arguments）分别为 `from` 和 `"Hello"`”。
+在上面的例子中，我们可以说：“函数 `showMessage` 被声明，并且带有两个形参（parameters），随后它被调用，两个实参（arguments）分别为 `from` 和 `"Hello"`”。
 
 
 ## 默认值
 
-如果一个函数被调用，但有参数（argument）未被提供，那么相应的值就会变成 `undefined`。
+如果一个函数被调用，但有实参（argument）未被提供，那么相应的值就会变成 `undefined`。
 
-例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个参数（argument）调用：
+例如，之前提到的函数 `showMessage(from, text)` 可以只使用一个实参（argument）调用：
 
 ```js
 showMessage("Ann");
