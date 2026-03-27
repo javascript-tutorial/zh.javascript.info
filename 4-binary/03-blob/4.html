@@ -1,0 +1,44 @@
+
+<!-- <img src="blob.svg" height="100%" width="100%" /> -->
+<!-- must have size info to work -->
+
+<img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" height="100%" width="100%" />
+
+
+<script>
+
+// 获取任何图像
+let img = document.querySelector('img');
+console.log(img);
+
+// 生成同尺寸的 <canvas>
+let canvas = document.createElement('canvas');
+canvas.width = img.clientWidth;
+canvas.height = img.clientHeight;
+
+console.log(canvas);
+
+let context = canvas.getContext('2d');
+
+// 向其中复制图像（此方法允许剪裁图像）
+context.drawImage(img, 0, 0);
+// 我们 context.rotate()，并在 canvas 上做很多其他事情
+
+// toBlob 是异步操作，结束后会调用 callback
+canvas.toBlob(function(blob) {
+  // blob 创建完成，下载它
+  console.log(blob);
+
+  let link = document.createElement('a');
+  link.download = 'example.png';
+
+  link.href = URL.createObjectURL(blob);
+  link.click();
+
+  // FIXME: image is blank
+
+  // 删除内部 blob 引用，这样浏览器可以从内存中将其清除
+  URL.revokeObjectURL(link.href);
+}, 'image/png');
+
+</script>

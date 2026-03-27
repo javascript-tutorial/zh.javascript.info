@@ -4,7 +4,7 @@ form.onclick = function(event) {
 
   // chrome needs some time to paint yellow
   setTimeout(() => {
-    alert("target = " + event.target.tagName + ", this=" + this.tagName);
+    console.log("target = " + event.target.tagName + ", this=" + this.tagName);
     event.target.style.backgroundColor = ''
   }, 0);
 };

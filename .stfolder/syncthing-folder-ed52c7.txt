@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: zh.javascript.info
+created: 2024-09-17T00:54:09+08:00

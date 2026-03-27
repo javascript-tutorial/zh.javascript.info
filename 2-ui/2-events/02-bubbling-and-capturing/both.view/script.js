@@ -7,6 +7,6 @@ for (let i = 0; i < elems.length; i++) {
 
 function highlightThis() {
   this.style.backgroundColor = 'yellow';
-  alert(this.tagName);
+  console.log(this.tagName);
   this.style.backgroundColor = '';
 }
