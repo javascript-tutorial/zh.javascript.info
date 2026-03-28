@@ -367,7 +367,7 @@ alert( parseInt('100px') ); // 100
 alert( parseFloat('12.5em') ); // 12.5
 
 alert( parseInt('12.3') ); // 12，只有整数部分被返回了
-alert( parseFloat('12.3.4') ); // 12.3，在第二个点出停止了读取
+alert( parseFloat('12.3.4') ); // 12.3，在第二个点处停止了读取
 ```
 
 某些情况下，`parseInt/parseFloat` 会返回 `NaN`。当没有数字可读时会发生这种情况：
