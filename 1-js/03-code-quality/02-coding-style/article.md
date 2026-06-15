@@ -339,6 +339,14 @@ function pow(x, n) {
 
 此外，某些 IDE 有内建的检查器，这非常方便，但是不像 ESLint 那样可自定义。
 
+```warn header="注意：此配置在现代 ESLint 中已过时"
+本文档中的示例使用的是旧版（Legacy）配置格式。在 **ESLint v9.0.0 及更高版本（如 v10+）** 中：
+1. **样式规则被废弃**：`indent` 等代码格式化规则自 `v8.53.0` 起已被官方废弃并冻结。
+2. **配置架构重构**：旧版的 `.eslintrc` 格式、`extends` 和 `env` 字段已被彻底移除，新版强制使用扁平配置（Flat Config）架构（即 `eslint.config.js`）。
+
+详情及迁移方案请参阅官方公告：[Deprecating Formatting Rules](https://eslint.org/blog/2023/10/deprecating-formatting-rules/) 以及 [Flat Config 迁移指南](https://eslint.org/docs/latest/use/configure/migration-guide)。
+```
+
 ## 总结
 
 本章描述的（和提到的代码风格指南中的）所有语法规则，都旨在帮助你提高代码可读性。它们都是值得商榷的。
