@@ -81,7 +81,7 @@ let promise = new Promise(function(resolve, reject) {
 
 总而言之，executor 应该执行一项工作（通常是需要花费一些时间的事儿），然后调用 `resolve` 或 `reject` 来改变对应的 promise 对象的状态。
 
-与最初的 "pending" promise 相反，一个 resolved 或 rejected 的 promise 都会被称为 "settled"。
+与最初的 "pending" promise 相反，一个 fulfilled 或 rejected 的 promise 都会被称为 "settled"。
 
 ````smart header="只有一个结果或一个 error"
 executor 只能调用一个 `resolve` 或一个 `reject`。任何状态的更改都是最终的。
