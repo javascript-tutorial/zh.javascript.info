@@ -163,6 +163,7 @@ class CoffeeMachine {
   *!*setWaterAmount(value)*/!* {
     if (value < 0) value = 0;
     this._waterAmount = value;
+    return this;
   }
 
   *!*getWaterAmount()*/!* {
