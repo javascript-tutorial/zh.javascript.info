@@ -57,7 +57,7 @@
 - 在 [该 issue](https://github.com/javascript-tutorial/zh.javascript.info/issues/324) 中添加以文章标题为内容的评论，如 `An Introduction to JavaScript`。
     - 我们的 bot 会在 [列表](https://github.com/javascript-tutorial/zh.javascript.info/issues/324#issue-433691990) 中勾选上对应的文章，这样其他人就知道你正在翻译该文章了。
     - 不要在该评论中添加其他说明。
-    - 如果你发现有些文章索然已经被勾选，但是勾选人在认领任务后 15 天内未提交译文，此时你仍可以发表以该文章标题为内容的评论（并 @leviding），如 `An Introduction to JavaScript @leviding`。
+    - 如果你发现有些文章虽然已经被勾选，但是勾选人在认领任务后 15 天内未提交译文，此时你仍可以发表以该文章标题为内容的评论（并 @leviding），如 `An Introduction to JavaScript @leviding`。
 - Fork 此仓库并开始翻译。完成翻译后，请提交一个 PR（请在认领翻译后的 15 天内提交）。
     - PR 应以文章标题命名。Bot 会自动补充更多信息。
 
